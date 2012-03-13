@@ -239,7 +239,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
             programRequirementInfo.setState(newState);
 
             // The write the requirement back to the program service
-         // TODO KSCM programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
+         // TODO KSCM-393 programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
 
         }
     }
