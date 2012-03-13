@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
-
+// TODO KSCM Bug was log in Jira KSCM-430 RefStatementRelationInfo: Not tested against the data dictionary
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RefStatementRelationInfo", propOrder = {"id", "typeKey", "stateKey", "refObjectTypeKey", "refObjectId", "statementId", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class RefStatementRelationInfo extends RelationshipInfo implements RefStatementRelation, Serializable {
