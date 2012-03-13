@@ -92,7 +92,7 @@ public class TestStatementDictionary {
 		assertEquals(0, validationResults.size());
 
   ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo ();
-  fieldInfo.setType ("kuali.reqComponent.field.type.gradeType.id");
+  fieldInfo.setTypeKey ("kuali.reqComponent.field.type.gradeType.id");
   fieldInfo.setValue ("kuali.resultComponent.grade.letter");
   info.setReqCompFields (Arrays.asList (fieldInfo));
   validationResults = val.validateObject(info,	os, contextInfo);
@@ -104,7 +104,7 @@ public class TestStatementDictionary {
 		assertEquals(0, validationResults.size());
 
   fieldInfo = new ReqCompFieldInfo ();
-  fieldInfo.setType ("kuali.reqComponent.field.type.gradeType.id");
+  fieldInfo.setTypeKey ("kuali.reqComponent.field.type.gradeType.id");
   fieldInfo.setValue ("bad with an embedded space in value");
   info.setReqCompFields (Arrays.asList (fieldInfo));
   validationResults = val.validateObject(info,	os, contextInfo);
