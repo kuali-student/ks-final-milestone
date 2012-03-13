@@ -127,11 +127,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 	protected CourseProposalConfigurer cfg;
 	
-	private WorkQueue modelRequestQueue;
+	protected WorkQueue modelRequestQueue;
 
     protected WorkflowUtilities workflowUtil;
 
-	private boolean initialized = false;
+	protected boolean initialized = false;
 	protected boolean isNew = false;
 
 	private static final String UPDATED_KEY = "metaInfo/updateTime";
@@ -246,10 +246,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
      * @param callback
      * @param workCompleteCallback
      */
-    private void populateModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
+    protected void populateModel(final ModelRequestCallback<DataModel> callback, Callback<Boolean> workCompleteCallback){
     	if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
             getCluProposalFromWorkflowId(callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID || getViewContext().getIdType() == IdType.OBJECT_ID){
+        	// Admin Retire goes here
             getCluProposalFromProposalId(getViewContext().getId(), callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){
         	if(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))||
@@ -533,7 +534,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     }
 
-    private void getCluProposalFromWorkflowId(@SuppressWarnings("rawtypes") final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+    protected void getCluProposalFromWorkflowId(@SuppressWarnings("rawtypes") final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         KSBlockingProgressIndicator.addTask(loadDataTask);
         workflowUtil.getDataIdFromWorkflowId(getViewContext().getId(), new KSAsyncCallback<String>(){
 			@Override
@@ -643,8 +644,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
         callback.onModelReady(cluProposalModel);
         workCompleteCallback.exec(true);
     }
-
-    private void createModifyCluProposalModel(String versionComment, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+    
+    protected void createModifyCluProposalModel(String versionComment, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         Data data = new Data();
         cluProposalModel.setRoot(data);        
         
@@ -691,7 +692,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     @SuppressWarnings("unchecked")
-    private void createCopyCourseModel(String originalCluId, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+	protected void createCopyCourseModel(String originalCluId, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
 
     	cluProposalRpcServiceAsync.createCopyCourse(originalCluId, new AsyncCallback<DataSaveResult>() {
 			public void onSuccess(DataSaveResult result) {
@@ -721,7 +722,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
     
     @SuppressWarnings("unchecked")
-    private void createCopyCourseProposalModel(String originalProposalId, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+	protected void createCopyCourseProposalModel(String originalProposalId, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
 
     	cluProposalRpcServiceAsync.createCopyCourseProposal(originalProposalId, new AsyncCallback<DataSaveResult>() {
 			public void onSuccess(DataSaveResult result) {
@@ -1059,14 +1060,19 @@ public class CourseProposalController extends MenuEditableSectionController impl
     		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
     			//Id provided, and not a copy id, so opening an existing proposal
     			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);
-    		} else{
-    			//Copy id provided, so creating a proposal for modification
-    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
-    		}
-    	} else{
-    		//No id in view context, so creating new empty proposal
-			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);    		
-    	}    	
+    		} 
+			//Copy id provided, so creating a proposal for modification or retire    		
+    		else if (currentDocType.equals(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY)){    			
+    		      	attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
+    			   } 
+    			   else if (currentDocType.equals(LUConstants.PROPOSAL_TYPE_COURSE_RETIRE)){
+    			    attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
+    		       } 
+    	             else{
+    		          //No id in view context, so creating new empty proposal
+			         attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);    		
+    	             }
+    	}
 	}
 	
 	@Override
@@ -1368,6 +1374,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
      * 
      * @return the course rpc service to use
      */
+    
     protected  BaseDataOrchestrationRpcServiceAsync getCourseProposalRpcService(){
     	return cluProposalRpcServiceAsync;
     }

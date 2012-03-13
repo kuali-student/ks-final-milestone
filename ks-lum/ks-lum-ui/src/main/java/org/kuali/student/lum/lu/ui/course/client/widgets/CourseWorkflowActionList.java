@@ -58,6 +58,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	private KSMenuItemData inactivateCourseActionItem;
 	private KSMenuItemData retireCourseActionItem;
 	private KSMenuItemData copyCourseActionItem;
+	// private KSMenuItemData retireProposalCourseActionItem;
 	
 	private final KSLightBox activateDialog = new KSLightBox();
 	private VerticalSection activateSection = new VerticalSection();
@@ -118,6 +119,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
 				}
 			});
 
+	    	// This is likely not being used anymore, as we no longer have an approved state
+	    	// so this should be removed at some point.
 	    	activateCourseActionItem = new KSMenuItemData(this.getMessage("cluActivateItem"), new ClickHandler(){
 	
 				@Override
@@ -140,12 +143,16 @@ public class CourseWorkflowActionList extends StylishDropDown {
 				public void onClick(ClickEvent event) {
 			    	if(hasCourseId(viewContext)){
 						viewContext.setId(courseId);
-						viewContext.setIdType(IdType.OBJECT_ID);
+						viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+						viewContext.getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
+											
 			        }
-					
-			    	Application.navigate(AppLocations.Locations.COURSE_RETIRE.getLocation(), viewContext);			    	
+			    	// KSCM-983 setup lightbox for Admins to pick proper retire screen
+			    	// non admins will automatically goto course_retire_by_proposoal
+			    	setupRetireCourseDialog(viewContext, AppLocations.Locations.COURSE_RETIRE_BY_PROPOSAL.getLocation(), model);
+
 				}
-			});
+			});	
 		}
 		
 		this.isInitialized = true;
@@ -160,6 +167,18 @@ public class CourseWorkflowActionList extends StylishDropDown {
 
 		HistoryManager.navigate(modifyPath, viewContext);
     }
+   
+    private void doRetireActionItem(ViewContext viewContext, String retirePath, DataModel model){
+    	if(hasCourseId(viewContext)){
+			viewContext.setId(getCourseVersionIndId(model));
+			viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
+        }
+
+		HistoryManager.navigate(retirePath, viewContext);
+    }
+   
+        
     
 	private void showStateDialog(String newState) {
     	if (newState.equals(DtoConstants.STATE_RETIRED)) {
@@ -291,6 +310,72 @@ public class CourseWorkflowActionList extends StylishDropDown {
         modifyDialog.setWidget(layout);
         modifyDialog.show();
     }
+    /**
+     * Build Admin Retire Choice Widget
+     *       
+     * @param viewContext
+     * @param retirePath
+     * @param model
+     */
+    private void buildRetireDialog(final ViewContext viewContext, final String retirePath, final DataModel model){
+    	final KSLightBox retireDialog = new KSLightBox((getMessage("retireCourseWidgetTitle")), KSLightBox.Size.SMALL);
+       	
+    	retireDialog.setTitle((getMessage("retireCourse")));
+
+        final VerticalPanel layout = new VerticalPanel();
+        layout.addStyleName("ks-form-module-fields");
+                
+        final KSButton continueButton = new KSButton(getMessage("continue"));
+        
+        retireDialog.addButton(continueButton);
+        Anchor cancelLink = new Anchor("Cancel");
+        cancelLink.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				retireDialog.hide();
+			}
+        });
+        retireDialog.addButton(cancelLink);
+        
+        HorizontalPanel titlePanel = new HorizontalPanel();
+        KSLabel titleLabel = new KSLabel(getMessage("retireCourseSubTitle"));
+        titleLabel.addStyleName("bold");
+        titlePanel.add(titleLabel);
+        layout.add(titlePanel);
+        
+        final KSRadioButton radioOptionAdminRetire = new KSRadioButton("retireCourseButtonGroup", getMessage("retireCourseAdmin"));
+        final KSRadioButton radioOptionRetireByProposal = new KSRadioButton("retireCourseButtonGroup", getMessage("retireCourseByProposal"));
+    
+
+        radioOptionAdminRetire.setValue(true);
+   
+        continueButton.addClickHandler(new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent event) {
+				if (radioOptionAdminRetire.getValue()){
+					viewContext.setId(courseId);
+					viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+					Application.navigate(AppLocations.Locations.COURSE_RETIRE_BY_PROPOSAL.getLocation(), viewContext);
+				} else if (radioOptionRetireByProposal.getValue()){
+					 checkLatestVersionRetire(viewContext, retirePath, model);										    			    
+				}
+		    	retireDialog.hide();
+			}        	
+        });
+              
+        layout.add(radioOptionAdminRetire);
+    	layout.add(radioOptionRetireByProposal);
+    	//FIXME isCurrentVersion is becoming corrupted or something when Modify course proposal is clicked once.
+    	// Put this back in after troubleshooting.
+    	
+   /*     if(isCurrentVersion){
+        	layout.add(radioOptionRetireByProposal);
+        }
+        */
+        
+        retireDialog.setWidget(layout);
+        retireDialog.show();
+    }
+    
     
     /**
      * Do a latest version check, if successful, call the modify action else display an error message that the current
@@ -330,6 +415,32 @@ public class CourseWorkflowActionList extends StylishDropDown {
                     doUpdateCourseActionItems(model);
                     KSNotifier.add(new KSNotification("Error creating new version for course, this course is currently under modification.", false, 5000));
                 }
+            }
+        });
+    }
+    
+    
+    /**
+     * Do a latest version check, if successful, call the modify action else display an error message that the current
+     * version of the selected course is under modification. 
+     * 
+     * @param viewContext
+     * @param modifyPath
+     * @param model
+     * @param reviewOption
+     */
+    private void checkLatestVersionRetire(final ViewContext viewContext, final String retirePath, final DataModel model){
+        String courseVerIndId = getCourseVersionIndId(model);
+        Long courseVersionSequence = getCourseVersionSequenceNumber(model);
+    
+        courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, new AsyncCallback<Boolean>(){
+        
+            public void onFailure(Throwable caught) {
+                KSNotifier.add(new KSNotification("Error determining latest version of course", false, 5000));
+            }
+        
+            public void onSuccess(Boolean result) {
+                doRetireActionItem(viewContext, retirePath, model);
             }
         });
     }
@@ -428,12 +539,15 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	}
 	
 	private List<KSMenuItemData> getNonAdminItems(String cluState){
-	    if (cluState.equals(DtoConstants.STATE_APPROVED)) {
+	    if (cluState.equals(DtoConstants.STATE_APPROVED)) {   // this state is no longer used
             items.add(modifyCourseActionItem);
             items.add(activateCourseActionItem);
+            if (isCurrentVersion)
+                items.add(retireCourseActionItem);
         } else if (cluState.equals(DtoConstants.STATE_ACTIVE)) {
             items.add(modifyCourseActionItem);
 //            items.add(inactivateCourseActionItem);
+            items.add(retireCourseActionItem);
         } else if (cluState.equals(DtoConstants.STATE_SUSPENDED)) {
             items.add(activateCourseActionItem);
         } else if (cluState.equals(DtoConstants.STATE_RETIRED)){
@@ -449,7 +563,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     }
 	
 	private List<KSMenuItemData> getAdminItems(String cluState){
-	    if (cluState.equals(DtoConstants.STATE_APPROVED)) {
+	    if (cluState.equals(DtoConstants.STATE_APPROVED)) {    // this state is no longer used
             items.add(modifyCourseActionItem);
             items.add(activateCourseActionItem);
             if (isCurrentVersion){
@@ -530,6 +644,29 @@ public class CourseWorkflowActionList extends StylishDropDown {
 			            }
 
 
+					}
+				});
+	}
+    
+    // KSCM-983 Setup the Retire lightbox from the drop-down
+    // For Admins only.  Non-Admins will be directly sent to 
+    private void setupRetireCourseDialog(final ViewContext viewContext, final String retirePath, final DataModel model) {
+    	// FIXME change this to the new permission once created. 
+    	Application.getApplicationContext().getSecurityContext().checkScreenPermission("cluRetireItem",
+				new Callback<Boolean>() {
+					@Override
+					public void exec(Boolean result) {
+						hasAdminAccess = result;
+   	            	    if (hasAdminAccess){
+					    	//Admin users have the option to retire a course administratively or to retire
+			            	//a course by proposal. Clicking on the "Retire Course" item will present the user with
+			            	//a Retire dialog to allow them to choose the method of Retirement.	 			    	
+   	 			         	buildRetireDialog(viewContext, retirePath, model);
+			            } else {
+			            	//Non-admin users are only allowed to retire via proposal.
+			            	//Clicking the "Retire Course" item will simply navigate user directly to modify course by proposal screen.
+			            	checkLatestVersionRetire(viewContext, retirePath, model);
+			            }
 					}
 				});
 	}

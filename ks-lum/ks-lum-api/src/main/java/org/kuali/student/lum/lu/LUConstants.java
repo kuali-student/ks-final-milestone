@@ -30,6 +30,7 @@ public class LUConstants {
     public final static String COURSE_GROUP_NAME = "course";
     public final static String PROPOSAL_TYPE_COURSE_CREATE = "kuali.proposal.type.course.create";
     public final static String PROPOSAL_TYPE_COURSE_MODIFY = "kuali.proposal.type.course.modify";
+    public final static String PROPOSAL_TYPE_COURSE_RETIRE = "kuali.proposal.type.course.retire";    
     public final static String PROPOSAL_TYPE_COURSE_CREATE_ADMIN = "kuali.proposal.type.course.create.admin";    
     public final static String PROPOSAL_TYPE_COURSE_MODIFY_ADMIN = "kuali.proposal.type.course.modify.admin";  
     public final static String CLU_TYPE_CREDIT_COURSE = "kuali.lu.type.CreditCourse";
