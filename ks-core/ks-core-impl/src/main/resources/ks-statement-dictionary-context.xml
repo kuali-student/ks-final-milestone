@@ -78,7 +78,7 @@
   <property name="name" value="org.kuali.student.r2.core.statement.dto.ReqComponentInfo"/>
   <property name="attributes">
    <list>
-    <ref bean="reqComponentInfo.descr"/>
+<!-- TODO KSCM COnfirm it's not used doesn t exist on java class    <ref bean="reqComponentInfo.descr"/> -->
     <ref bean="reqComponentInfo.effectiveDate"/>
     <ref bean="reqComponentInfo.expirationDate"/>
     <ref bean="reqComponentInfo.id"/>
@@ -92,11 +92,11 @@
  </bean>
  <bean id="org.kuali.student.r2.core.statement.dto.ReqComponentInfo" parent="org.kuali.student.r2.core.statement.dto.ReqComponentInfo-parent"/>
 
- <bean id="reqComponentInfo.descr-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
- </bean>
- <bean id="reqComponentInfo.descr" parent="reqComponentInfo.descr-parent"/>
+<!--  <bean id="reqComponentInfo.descr-parent" abstract="true" parent="baseComplex"> -->
+<!--   <property name="name" value="descr"/> -->
+<!--   <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/> -->
+<!--  </bean> -->
+<!--  <bean id="reqComponentInfo.descr" parent="reqComponentInfo.descr-parent"/> -->
 
  <bean id="reqComponentInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate"/>

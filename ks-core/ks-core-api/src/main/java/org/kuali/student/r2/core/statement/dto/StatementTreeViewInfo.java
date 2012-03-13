@@ -104,16 +104,16 @@ public class StatementTreeViewInfo extends IdEntityInfo implements StatementTree
         return "StatementTreeViewInfo[id=" + getId() + "]";
     }
 
-    @Deprecated
-	public RichTextInfo getDesc() {
-		return this.getDescr();
-	}
-
-    @Deprecated
-	public void setDesc(RichTextInfo desc) {
-		this.setDescr(desc);
-		
-	}
+//    @Deprecated
+//	public RichTextInfo getDesc() {
+//		return this.getDescr();
+//	}
+//
+//    @Deprecated
+//	public void setDesc(RichTextInfo desc) {
+//		this.setDescr(desc);
+//		
+//	}
     
     //TODO KSCM-392
 	public void setOperator(StatementOperatorTypeKey and) {

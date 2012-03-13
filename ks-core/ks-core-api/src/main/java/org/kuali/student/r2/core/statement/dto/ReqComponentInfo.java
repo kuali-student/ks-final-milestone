@@ -110,17 +110,4 @@ public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqCompone
         this.naturalLanguageTranslation = naturalLanguageTranslation;
     }
 
-    //TODO KSCM-392
-    @Deprecated
-	public org.kuali.student.r1.common.dto.RichTextInfo getDesc() {
-		
-		return null;
-	}
-
-  //TODO KSCM-392
-	public void setDesc(org.kuali.student.r1.common.dto.RichTextInfo desc) {
-		
-		
-	}
-
 }
