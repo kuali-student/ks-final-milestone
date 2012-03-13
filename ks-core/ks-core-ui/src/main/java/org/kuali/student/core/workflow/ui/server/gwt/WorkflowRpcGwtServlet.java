@@ -410,7 +410,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             String fyiAnnotation = "";
             String approveAnnotation = "";
             String ackAnnotation = "";
-//TODO KSCM: Entire commented section
+//TODO KSCM-370: Entire commented section
 //            if (ActionRequestType.FYI.equals(requestType)) {
 //                StandardResponse stdResp = getSimpleDocService().requestAdHocFyiToPrincipal(workflowId,recipientPrincipalId, username, fyiAnnotation);
 //                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
