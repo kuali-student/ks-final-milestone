@@ -183,13 +183,15 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 		Long startSeq = new Long(1);
 
 		if (!isSelectedVersionCurrent) {
-			// TODO KSCM 			startSeq = currentVersion.getVersionInfo().getSequenceNumber() + 1;
+						
+			startSeq = currentVersion.getVersionInfo().getSequenceNumber() + 1;
 		}
 
 		for (VersionDisplayInfo versionInfo : versions) {
 			boolean isVersionNewerThanCurrentVersion = versionInfo.getSequenceNumber() >= startSeq;
 			boolean isVersionSelectedVersion = false;
-			// TODO KSCM isSelectedVersionCurrent = versionInfo.getSequenceNumber().equals(selectedVersion.getVersionInfo().getSequenceNumber());  
+
+			isSelectedVersionCurrent = versionInfo.getSequenceNumber().equals(selectedVersion.getVersionInfo().getSequenceNumber());  
 			boolean updateState = isVersionNewerThanCurrentVersion && !isVersionSelectedVersion;
 			if (updateState) {
 				MajorDisciplineInfo otherProgram = programService.getMajorDiscipline(versionInfo.getId(),ContextUtils.getContextInfo());
@@ -244,7 +246,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     	//Set the end terms on the major discipline
     	majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
         majorDisciplineInfo.setEndTerm(endEnrollTerm);
-        //TODO KSCM
+        //TODO KSCM-388
         //majorDisciplineInfo.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
         
         //Check if there are variations to process
@@ -281,7 +283,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    			variation.setEndTerm(endEnrollTerm);
 	    		}
 	    		//compare dates to get the older of the two end terms
-	    		//TODO KSCM HASHMAPS versus LIST
+	    		//TODO KSCM-388 HASHMAPS versus LIST
 	    		//if(variation.getAttributes().get("endInstAdmitTerm") != null){
 	    		//	AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributes().get("endInstAdmitTerm"));
 	    		//	Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();
