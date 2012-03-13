@@ -112,8 +112,8 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
 		// higher than previous active program
 
 		List<VersionDisplayInfo> versions = null;
-		// TODO KSCM versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
-		// TODO KSCM 		selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
+		// TODO KSCM-393 versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
+		// TODO KSCM-393 		selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
 		Long startSeq = new Long(1);
 
 		if (!isSelectedVersionCurrent) {
@@ -147,8 +147,8 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
 
 		// Get id of current version of program given the version independent id
 		VersionDisplayInfo curVerDisplayInfo = null;
-		// TODO KSCM curVerDisplayInfo = programService.getCurrentVersion(
-		// TODO KSCM 		ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
+		// TODO KSCM-393 curVerDisplayInfo = programService.getCurrentVersion(
+		// TODO KSCM-393 		ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
@@ -188,7 +188,7 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
         
         // Update program
         credentialProgramInfo.setState(newState);
-        // TODO KSCM programService.updateCredentialProgram(credentialProgramInfo,ContextUtils.getContextInfo());
+        programService.updateCredentialProgram(credentialProgramInfo,ContextUtils.getContextInfo());
     }
 
     /**
@@ -224,7 +224,7 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
 
             // Get program requirement from the program service
             ProgramRequirementInfo programRequirementInfo = null;
-            // TODO KSCM programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null,ContextUtils.getContextInfo());
+            programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null,ContextUtils.getContextInfo());
 
             // Look in the requirement for the statement tree
             StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();
@@ -236,7 +236,7 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
             programRequirementInfo.setState(newState);
 
             // The write the requirement back to the program service
-            // TODO KSCM programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
+            programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
 
         }
     }

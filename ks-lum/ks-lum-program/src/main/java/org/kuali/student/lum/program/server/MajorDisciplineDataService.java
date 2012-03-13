@@ -61,7 +61,7 @@ public class MajorDisciplineDataService extends AbstractDataService {
             } else if (mdInfo.getId() == null){
                 mdInfo = programService.createMajorDiscipline(mdInfo.getId(), mdInfo, ContextUtils.getContextInfo());
             } else {
-                // TODO KSCM mdInfo = programService.updateMajorDiscipline(mdInfo, ContextUtils.getContextInfo());
+            	mdInfo = programService.updateMajorDiscipline(mdInfo, ContextUtils.getContextInfo());
             }
             return mdInfo;
         } else {
