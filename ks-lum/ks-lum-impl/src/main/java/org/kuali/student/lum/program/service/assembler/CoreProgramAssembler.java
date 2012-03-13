@@ -72,7 +72,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) cpInfo, contextInfo);
-        	cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));
+        	/* TODO KSCM-429 cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
         }
         
         return cpInfo;
@@ -129,15 +129,15 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
     }
 
     private void disassembleLearningObjectives(CoreProgramInfo core, NodeOperation operation, BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> result) throws AssemblyException {
-        try {
-            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(core.getId(), core.getState(),  (List<LoDisplayInfo>) core.getLearningObjectives() , operation,new ContextInfo());
+    	/* TODO KSCM-429try {
+        	     List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(core.getId(), core.getState(),  (List<LoDisplayInfo>) core.getLearningObjectives() , operation,new ContextInfo());
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
             }
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling los", e);
-        }
+        }*/
     }
     
     // Spring setter
