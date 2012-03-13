@@ -105,7 +105,8 @@ public class RulesEvaluationUtil {
 
         
         List<ResultEvent> events = null;
-        // TODO KSCM events = results.getResultsOfType(ResultEvent.PROPOSITION_EVALUATED);
+        // TODO KSCM-429 
+        //events = results.getResultsOfType(ResultEvent.PROPOSITION_EVALUATED);
         for (ResultEvent e : events) {
             if (!e.getResult()) {
                 Proposition prop = (Proposition) e.getSource();
