@@ -130,7 +130,7 @@ public class ProgramStateChangeServiceImpl {
          
         // Update major discipline
         majorDisciplineInfo.setState(newState);
-     // TODO KSCM programService.updateMajorDiscipline(majorDisciplineInfo,ContextUtils.getContextInfo());
+     // TODO KSCM-393 programService.updateMajorDiscipline(majorDisciplineInfo,ContextUtils.getContextInfo());
     }
 
     /**
