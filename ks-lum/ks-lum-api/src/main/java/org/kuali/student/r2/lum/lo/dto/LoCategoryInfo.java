@@ -114,13 +114,13 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
 
     @Deprecated
 	public String getLoRepository() {
-		// TODO KSCM not sure what it should be replaced with NINA
+		// TODO KSCM-392 not sure what it should be replaced with NINA
 		return null;
 	}
 
     @Deprecated
 	public void setLoRepository(String loRepository) {
-		// TODO  KSCM not sure what it should be replaced with NINA
+		// TODO  KSCM-392 not sure what it should be replaced with NINA
 		
 	}
 
