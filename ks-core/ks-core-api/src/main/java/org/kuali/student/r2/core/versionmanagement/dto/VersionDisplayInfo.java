@@ -134,7 +134,7 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
         this.versionComment = versionComment;
     }
 
-    // TODO KSCM
+    // TODO KSCM-392
     @Deprecated
 	public String getId() {
 		return null;
