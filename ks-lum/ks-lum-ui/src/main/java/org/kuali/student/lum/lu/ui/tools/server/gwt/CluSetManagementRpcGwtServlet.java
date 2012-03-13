@@ -186,7 +186,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                         List<CluResultInfo> cluResultInfos = cluService.getCluResultByClu(versionInfo.getId(), contextInfo);
                         if (cluResultInfos != null) {
                             for (CluResultInfo cluResultInfo : cluResultInfos) {
-                                String cluType = cluResultInfo.getType();
+                                String cluType = cluResultInfo.getTypeKey();
 
                                 //ignore non-credit results
                                 if ((cluType == null) || (!cluType.equals("kuali.resultType.creditCourseResult"))) {
@@ -237,9 +237,9 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                             cluInformation.setCredits(credits);
                         }
                         
-                        cluInformation.setType(cluInfo.getType());
+                        cluInformation.setType(cluInfo.getTypeKey());
                         //If the clu type is variation, get the parent clu id. 
-                        if ("kuali.lu.type.Variation".equals(cluInfo.getType())){
+                        if ("kuali.lu.type.Variation".equals(cluInfo.getTypeKey())){
                             //TODO KSCM-390 - Correct ContextInfo parameter?
                             List<String> clus = cluService.getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", contextInfo);
                             if (clus == null || clus.size() == 0){ 
