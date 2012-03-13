@@ -100,7 +100,7 @@ public class StatementInfo extends IdEntityInfo implements Statement, Serializab
 
     @Deprecated
 	public void setOperator(StatementOperatorTypeKey op) {
-		// TODO KSCM how to replace
+		// TODO KSCM-392 how to replace
 		
 	}
 
