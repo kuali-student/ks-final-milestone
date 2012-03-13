@@ -18,7 +18,7 @@ public class CollaboratorsEditConfiguration extends AbstractSectionConfiguration
         this.setConfigurer(configurer);
         rootSection = GWT.create(CollaboratorSectionView.class);
         CollaboratorSectionView view = (CollaboratorSectionView)rootSection;
-// TODO KSCM wait for ks-core-ui/paul        view.init(ProgramSections.COLLABORATORS_EDIT, getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_COLLABORATORS),ProgramConstants.PROGRAM_MODEL_ID);
+// TODO KSCM-425 wait for ks-core-ui/paul        view.init(ProgramSections.COLLABORATORS_EDIT, getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_COLLABORATORS),ProgramConstants.PROGRAM_MODEL_ID);
     	//rootSection = new CollaboratorSectionView(ProgramSections.COLLABORATORS_EDIT, getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_COLLABORATORS),ProgramConstants.PROGRAM_MODEL_ID);
     }
 

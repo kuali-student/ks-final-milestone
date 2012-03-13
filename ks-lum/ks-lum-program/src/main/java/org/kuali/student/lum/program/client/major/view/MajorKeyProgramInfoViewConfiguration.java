@@ -132,9 +132,9 @@ public class MajorKeyProgramInfoViewConfiguration extends AbstractSectionConfigu
         controller.requestModel(new ModelRequestCallback<DataModel>(){
 			public void onModelReady(final DataModel model) {
 				//Add previous end dates and update cross constraints
-				// TODO KSCM wait for ks-core-ui/paul				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM)), model);
-				// TODO KSCM wait for ks-core-ui/paul				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENROLLTERM)), model);
-				// TODO KSCM wait for ks-core-ui/paul				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_INST_ADMIN_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM)), model);
+				// TODO KSCM-425 wait for ks-core-ui/paul				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM)), model);
+				// TODO KSCM-425 wait for ks-core-ui/paul				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENROLLTERM)), model);
+				// TODO KSCM-425 wait for ks-core-ui/paul				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_INST_ADMIN_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM)), model);
 			}
 			public void onRequestFail(Throwable cause) {
 			}

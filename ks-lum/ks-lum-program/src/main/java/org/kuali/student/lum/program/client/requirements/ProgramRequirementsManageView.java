@@ -297,9 +297,9 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                         } else {
                         	// TODO KSCM rule.getReqComponents().add(reqComp);
                             //set default operator between req. components of the rule
-                         // TODO KSCM wait for ks-core-ui/paul                            if (rule.getOperator() == null) {
-                         // TODO KSCM wait for ks-core-ui/paul                                rule.setOperator(StatementOperatorTypeKey.AND);
-                         // TODO KSCM wait for ks-core-ui/paul                            }
+                         // TODO KSCM-425 wait for ks-core-ui/paul                            if (rule.getOperator() == null) {
+                         // TODO KSCM-425 wait for ks-core-ui/paul                                rule.setOperator(StatementOperatorTypeKey.AND);
+                         // TODO KSCM-425 wait for ks-core-ui/paul                            }
                         }
                     } else {    //update req. component
                         editedReqCompInfo.setNaturalLanguageTranslation(reqComp.getNaturalLanguageTranslation());
