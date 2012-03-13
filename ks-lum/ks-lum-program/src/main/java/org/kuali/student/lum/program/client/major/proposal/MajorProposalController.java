@@ -124,7 +124,7 @@ public class MajorProposalController extends MajorController implements Workflow
         cancelButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_CANCEL), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
         
         proposalPath = configurer.getProposalPath();
-        //TODO KSCM
+        //TODO KSCM-426
         //workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions",
    		//		ProgramSections.WF_APPROVE_DIALOG,"Required Fields", ProgramConstants.PROGRAM_MODEL_ID,ContextUtils.getContextInfo());
 
