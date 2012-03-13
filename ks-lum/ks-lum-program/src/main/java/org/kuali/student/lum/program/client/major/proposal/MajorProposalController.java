@@ -433,7 +433,7 @@ public class MajorProposalController extends MajorController implements Workflow
 			@Override
 			public void onEvent(ModelLoadedEvent event) {
 				if (workflowUtil != null){
-					//TODO KSCM
+					//TODO KSCM-426
 					//workflowUtil.requestAndSetupModel(NO_OP_CALLBACK);
 					
 				}
@@ -910,7 +910,7 @@ public class MajorProposalController extends MajorController implements Workflow
 
         if (modelProposalId != null && !modelProposalId.isEmpty()) {
             String workflowId = programModel.get(QueryPath.parse(proposalPath + "/workflowId"));
-            //TODO KSCM 
+            //TODO KSCM-426 
 //            proposalServiceAsync.getProposalByWorkflowId(workflowId, new KSAsyncCallback<ProposalInfo>() {
 //                @Override
 //                public void handleFailure(Throwable caught) {

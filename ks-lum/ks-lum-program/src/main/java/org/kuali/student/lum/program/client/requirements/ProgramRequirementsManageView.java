@@ -114,8 +114,9 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
     private void setupHandlers() {
         editReqCompWidget.setReqCompConfirmButtonClickCallback(actionButtonClickedReqCompCallback);
-    //TODO KSCM     editReqCompWidget.setNewReqCompSelectedCallbackCallback(newReqCompSelectedCallbackCallback);
-        //TODO KSCM       editReqCompWidget.setRetrieveCompositionTemplateCallback(retrieveCompositionTemplateCallback);
+    // 
+        editReqCompWidget.setNewReqCompSelectedCallbackCallback(newReqCompSelectedCallbackCallback);
+        //TODO KSCM        editReqCompWidget.setRetrieveCompositionTemplateCallback(retrieveCompositionTemplateCallback);
         editReqCompWidget.setRetrieveFieldsMetadataCallback(retrieveFieldsMetadataCallback);
         editReqCompWidget.setRetrieveCustomWidgetCallback(retrieveCustomWidgetCallback);
         ruleManageWidget.setReqCompEditButtonClickCallback(editReqCompCallback);
@@ -160,10 +161,10 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     @Override
                     public void exec(View preview) {
                         //update rules data model and summary view
-                    	   /*TODO KSCM        if ((result == ButtonEnumerations.SaveCancelEnum.SAVE) && isDirty()) {
+                    	         if ((result == ButtonEnumerations.SaveCancelEnum.SAVE) && isDirty()) {
                             ProgramRequirementInfo affectedRule = ((ProgramRequirementsSummaryView) preview).getRules().updateRules(getRuleTree(), internalProgReqID, isNewRule());
                             ((ProgramRequirementsSummaryView) preview).updateRequirementWidgets(affectedRule);                            
-                        }*/
+                        }
                         isDirty = false;
                         parentController.showView(ProgramRequirementsViewController.ProgramRequirementsViews.PREVIEW);
                     }
@@ -209,7 +210,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     protected Callback<ReqComponentInfo> editReqCompCallback = new Callback<ReqComponentInfo>(){
         public void exec(ReqComponentInfo reqComp) {
             setEnabled(false);
-    //TODO KSCM        editReqCompWidget.setupExistingReqComp(reqComp);
+       
+            editReqCompWidget.setupExistingReqComp(reqComp);
             editedReqCompInfo = reqComp;
         }
     };
@@ -303,7 +305,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                         }
                     } else {    //update req. component
                         editedReqCompInfo.setNaturalLanguageTranslation(reqComp.getNaturalLanguageTranslation());
-                        //TODO KSCM                        editedReqCompInfo.setReqCompFields(reqComp.getReqCompFields());
+                                                
+                        editedReqCompInfo.setReqCompFields(reqComp.getReqCompFields());
                         editedReqCompInfo.setType(reqComp.getType());
                         editedReqCompInfo = null;  //de-reference from existing req. component
                     }
@@ -323,23 +326,23 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     };
 
     private void retrieveAndSetupReqCompTypes() {
-
-   /*TODO KSCM     statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
-            public void handleFailure(Throwable cause) {
-            	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
-            	Window.alert("Failed to get req. component types for statement of type:" + rule.getType());
-            }
-
-            public void onSuccess(final List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
-                if (reqComponentTypeInfoList == null || reqComponentTypeInfoList.size() == 0) {
-                    GWT.log("Missing Requirement Component Types", null);
-                    Window.alert("Missing Requirement Component Types");
-                    return;
-                }
-                editReqCompWidget.setReqCompList(reqComponentTypeInfoList);
-                editReqCompWidget.setCustomWidgets(getCustomWidgets(reqComponentTypeInfoList));                
-            }
-        },ContextUtils.getContextInfo()); */
+    	//TODO KSCM-420
+//       statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
+//            public void handleFailure(Throwable cause) {
+//            	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
+//            	Window.alert("Failed to get req. component types for statement of type:" + rule.getType());
+//            }
+//
+//            public void onSuccess(final List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
+//                if (reqComponentTypeInfoList == null || reqComponentTypeInfoList.size() == 0) {
+//                    GWT.log("Missing Requirement Component Types", null);
+//                    Window.alert("Missing Requirement Component Types");
+//                    return;
+//                }
+//                editReqCompWidget.setReqCompList(reqComponentTypeInfoList);
+//                editReqCompWidget.setCustomWidgets(getCustomWidgets(reqComponentTypeInfoList));                
+//            }
+//        },ContextUtils.getContextInfo());
     }
 
     private Map<String, Widget> getCustomWidgets(List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
@@ -429,20 +432,22 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     }
 
     //called when user selects a rule type in the rule editor
-    /* TODO KSCM protected Callback<ReqComponentInfo> retrieveCompositionTemplateCallback = new Callback<ReqComponentInfo>(){
+     protected Callback<ReqComponentInfo> retrieveCompositionTemplateCallback = new Callback<ReqComponentInfo>(){
        public void exec(final ReqComponentInfo reqComp) {
-       statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
-                public void handleFailure(Throwable caught) {
-                    Window.alert(caught.getMessage());
-                    GWT.log("translateReqComponentToNL failed for req. comp. type: '" + reqComp.getType() + "'",caught);
-                }
-
-                public void onSuccess(final String compositionTemplate) {
-                    editReqCompWidget.displayFieldsStart(compositionTemplate);
-                }
-            },ContextUtils.getContextInfo());
+    	   
+    	   //TODO KSCM-420
+//    	   statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+//                public void handleFailure(Throwable caught) {
+//                    Window.alert(caught.getMessage());
+//                    GWT.log("translateReqComponentToNL failed for req. comp. type: '" + reqComp.getType() + "'",caught);
+//                }
+//
+//                public void onSuccess(final String compositionTemplate) {
+//                    editReqCompWidget.displayFieldsStart(compositionTemplate);
+//                }
+//            },ContextUtils.getContextInfo());
         }
-    };*/
+    };
 
     protected Callback<List<String>> retrieveFieldsMetadataCallback = new Callback<List<String>>(){
         public void exec(final List<String> fieldTypes) {
