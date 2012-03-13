@@ -58,7 +58,7 @@ public class CourseServiceUtils {
 		}
 		
 		//Clear result component ids
-		//TODO KSCM r2 returns List<String>
+		//TODO KSCM-421 r2 returns List<String>
 //		for(ResultComponentInfo result:course.getCreditOptions()){
 //			result.setId(null);
 //		}
@@ -128,16 +128,16 @@ public class CourseServiceUtils {
 				   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
 				   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
 					try {
-						CluSetInfo cluSet = null; // TODO KSCM //cluService.getCluSetInfo(field.getValue(),contextInfo);
-						cluSet.setId(null);
-						cluSet.setState(newState);
-						//Clear clu ids if membership info exists, they will be re-added based on membership info 
-						if (cluSet.getMembershipQuery() != null){
-							cluSet.getCluIds().clear();
-							cluSet.getCluSetIds().clear();
-						}
-						cluSet = cluService.createCluSet(cluSet.getType(), cluSet,contextInfo);
-						field.setValue(cluSet.getId());
+						//TODO KSCM-421 						cluService.getCluSetInfo(field.getValue(),contextInfo);
+//						cluSet.setId(null);
+//						cluSet.setState(newState);
+//						//Clear clu ids if membership info exists, they will be re-added based on membership info 
+//						if (cluSet.getMembershipQuery() != null){
+//							cluSet.getCluIds().clear();
+//							cluSet.getCluSetIds().clear();
+//						}
+//						cluSet = cluService.createCluSet(cluSet.getType(), cluSet,contextInfo);
+//						field.setValue(cluSet.getId());
 					} catch (Exception e) {
 						throw new OperationFailedException("Error copying clusets.", e);
 					}
