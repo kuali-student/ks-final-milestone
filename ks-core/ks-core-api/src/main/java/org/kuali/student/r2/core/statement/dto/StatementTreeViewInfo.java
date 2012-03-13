@@ -114,9 +114,10 @@ public class StatementTreeViewInfo extends IdEntityInfo implements StatementTree
 		this.setDescr(desc);
 		
 	}
-
+    
+    //TODO KSCM-392
 	public void setOperator(StatementOperatorTypeKey and) {
-		// TODO KSCM
+		
 		
 	}
 }
