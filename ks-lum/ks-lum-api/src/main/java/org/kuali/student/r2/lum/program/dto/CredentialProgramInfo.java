@@ -156,7 +156,7 @@ public class CredentialProgramInfo extends CommonWithCredentialProgramInfo imple
 
     @Deprecated
 	public VersionDisplayInfo getVersionInfo(ContextInfo contextInfo) {
-		// TODO TODO KSCM what to repalce with
+		// TODO KSCM-392 what to repalce with
 		return null;
 	}
     
