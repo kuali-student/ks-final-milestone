@@ -211,7 +211,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         //iterate and display rules for each Program Requirement type e.g. Entrance Requirements, Completion Requirements
         Boolean firstRequirement = true;
         perProgramRequirementTypePanel.clear();
-      /* TODO KSCM  for (StatementTypeInfo stmtTypeInfo : rules.getStmtTypes()) {
+      /* TODO KSCM-420  for (StatementTypeInfo stmtTypeInfo : rules.getStmtTypes()) {
 
             //create and display one type of program requirement section
             SpanPanel requirementsPanel = new SpanPanel();
