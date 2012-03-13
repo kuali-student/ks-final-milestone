@@ -28,7 +28,7 @@ public class ActivityTypeValidator extends DefaultValidatorImpl {
 
 		if (o instanceof ActivityInfo && o != null) {
 			ActivityInfo activity = (ActivityInfo)o;
-			//TODO KSCM 
+ 
 			if (hasActivityData(activity)) { // && !hasText(activity.getActivityType())){
 				ValidationResultInfo vr = new ValidationResultInfo();
 				String elementPath = getElementXpath(elementStack) + "/activityType";
