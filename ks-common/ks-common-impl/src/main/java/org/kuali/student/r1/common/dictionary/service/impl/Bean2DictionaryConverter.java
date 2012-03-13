@@ -11,7 +11,8 @@ import java.util.List;
 import org.kuali.student.r1.common.dictionary.dto.DataType;
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.Meta;
 
 
 @Deprecated
@@ -55,7 +56,9 @@ public class Bean2DictionaryConverter
  {
   for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors ())
   {
-    if (MetaInfo.class.equals (pd.getPropertyType ()))
+	  System.out.println(pd.getName());
+//    if (MetaInfo.class.equals (pd.getPropertyType ()))
+    if (Meta.class.equals (pd.getPropertyType ()))
     {
       return true;
     }

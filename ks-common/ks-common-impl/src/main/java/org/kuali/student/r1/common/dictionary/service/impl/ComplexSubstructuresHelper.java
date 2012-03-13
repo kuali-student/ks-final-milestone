@@ -4,7 +4,9 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -43,16 +45,26 @@ public class ComplexSubstructuresHelper {
 		} catch (IntrospectionException ex) {
 			throw new RuntimeException(ex);
 		}
+		
+		// Get all the fields including inherited fields...
+		ArrayList<Field> fields = new ArrayList<Field>();
+	    fields = this.getAllFields(fields, clazz);
+	    
 		for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
-			System.out.println(pd.getName());
+			String propertyName = pd.getName();
+			System.out.println(propertyName);
 			Class<?> subClass = pd.getPropertyType();
 			if (List.class.equals(subClass)) {
 				try {
-					subClass = (Class<?>) ((ParameterizedType) clazz
-							.getDeclaredField(pd.getName()).getGenericType())
+//					Field propertyField = clazz
+//							.getDeclaredField(propertyName);
+					
+					Field propertyField = findField(propertyName, fields);
+					ParameterizedType propertyGenericDataType = (ParameterizedType) propertyField.getGenericType();
+					subClass = (Class<?>) propertyGenericDataType
 							.getActualTypeArguments()[0];
-				} catch (NoSuchFieldException ex) {
-					throw new RuntimeException(ex);
+//				} catch (NoSuchFieldException ex) {
+//					throw new RuntimeException(ex);
 				} catch (SecurityException ex) {
 					throw new RuntimeException(ex);
 				}
@@ -77,12 +89,34 @@ public class ComplexSubstructuresHelper {
 					&& !Double.class.equals(subClass)
 					&& !Float.class.equals(subClass)
 					&& !Date.class.equals(subClass)
-					&& !DictionaryConstants.ATTRIBUTES.equals(pd.getName())
+					&& !DictionaryConstants.ATTRIBUTES.equals(propertyName)
 					&& !Enum.class.isAssignableFrom(subClass)
 					&& !Object.class.equals(subClass)) {
 				loadComplexStructures(subClass.getName(), complexStructures);
 			}
 		}
+	}
+	
+	
+	public ArrayList<Field> getAllFields(ArrayList<Field> fields, Class<?> type) {
+	    for (Field field: type.getDeclaredFields()) {
+	        fields.add(field);
+	    }
+
+	    if (type.getSuperclass() != null) {
+	        fields = getAllFields(fields, type.getSuperclass());
+	    }
+
+	    return fields;
+	}
+	
+	public Field findField(String fieldName, ArrayList<Field> fields) {
+		for (Field field : fields) {
+			if (field.getName().equals(fieldName)) {
+				return field;
+			}
+		}
+		return null;
 	}
 
 }
