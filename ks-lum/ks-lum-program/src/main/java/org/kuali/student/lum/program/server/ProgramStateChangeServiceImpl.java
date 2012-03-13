@@ -164,7 +164,7 @@ public class ProgramStateChangeServiceImpl {
     private MajorDisciplineInfo findPreviousVersion(MajorDisciplineInfo majorDisciplineInfo) throws Exception {
         // Find all previous versions using the version independent indicator
         List<VersionDisplayInfo> versions = null;
-     // TODO KSCM versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId(),ContextUtils.getContextInfo());
+     // TODO KSCM-393 versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId(),ContextUtils.getContextInfo());
 
         // Take the sequence number for this version
         Long sequenceNumber = null;
