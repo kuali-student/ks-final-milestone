@@ -38,7 +38,7 @@ public class StatementDataService implements StatementRpcService{
     public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
     
         List<StatementTypeInfo> allStatementTypes = new ArrayList<StatementTypeInfo>();
-        //TODO KSCM List Types does not match, I commented this out and did  initialize the List as ArrayList
+        //TODO KSCM-420 List Types does not match, I commented this out and did  initialize the List as ArrayList
         //      List<String> topStatementTypes = statementService.getStatementTypesForStatementType(statementTypeKey,ContextUtils.getContextInfo());
         List<String> topStatementTypes = new ArrayList<String>() ;
         
@@ -106,7 +106,7 @@ public class StatementDataService implements StatementRpcService{
     public List<String> translateReqComponentToNLs(ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys, String language) throws Exception {
     	List<String> nls = new ArrayList<String>(nlUsageTypeKeys.length);
     	for (String typeKey : nlUsageTypeKeys) {
-    		// TODO KSCM nls.add(statementService.translateReqComponentToNL(reqComponentInfo, typeKey, language,contextInfo));
+    		// TODO KSCM-420: nls.add(statementService.translateReqComponentToNL(reqComponentInfo, typeKey, language,contextInfo));
     	}
     	return nls;
     }
