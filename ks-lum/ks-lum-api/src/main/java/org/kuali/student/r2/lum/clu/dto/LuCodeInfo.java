@@ -106,7 +106,6 @@ public class LuCodeInfo extends HasAttributesAndMetaInfo implements LuCode, Seri
         this.typeKey = typeKey;
     }
 
-    @Override
     @Deprecated
     public String getType() {
         return typeKey;
