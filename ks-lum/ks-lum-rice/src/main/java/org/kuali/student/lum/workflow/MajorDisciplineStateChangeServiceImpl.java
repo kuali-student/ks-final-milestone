@@ -143,7 +143,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
         VersionDisplayInfo currentVersion = null;
-        // TODO KSCM currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersion().getVersionIndId(), contextInfo);
+        currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersion().getVersionIndId(), contextInfo);
 
         // If this is not the current version, then make it current
         if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersion().getSequenceNumber())) {
@@ -177,8 +177,8 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 		// higher than previous active program
 
 		List<VersionDisplayInfo> versions = null;
-		// TODO KSCM versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
-		// TODO KSCM 		selectedVersion.getVersion().getVersionIndId(), contextInfo);
+		versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, selectedVersion.getVersion().getVersionIndId(), contextInfo);
+	
 		Long startSeq = new Long(1);
 
 		if (!isSelectedVersionCurrent) {
@@ -188,7 +188,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 		for (VersionDisplayInfo versionInfo : versions) {
 			if (versionInfo.getSequenceNumber() >= startSeq  && versionInfo.getSequenceNumber() != selectedVersion.getVersion().getSequenceNumber()) {
 				MajorDisciplineInfo otherProgram = null; 
-				// TODO KSCM		otherProgram = programService.getMajorDiscipline(versionInfo.getId(), contextInfo);
+				otherProgram = programService.getMajorDiscipline(versionInfo.getId(), contextInfo);
 				if (otherProgram.getState().equals(DtoConstants.STATE_APPROVED) ||
 					otherProgram.getState().equals(DtoConstants.STATE_ACTIVE)){
 			        updateMajorDisciplineInfoState(otherProgram, DtoConstants.STATE_SUPERSEDED, contextInfo);
@@ -211,8 +211,8 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 
 		// Get id of current version of program given the version independent id
 		VersionDisplayInfo curVerDisplayInfo = null; 
-		// TODO KSCM		curVerDisplayInfo =		programService.getCurrentVersion(
-		// TODO KSCM		ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId, contextInfo);
+		curVerDisplayInfo =		programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId, contextInfo);
+	
 		String curVerId = null;
 		// TODO KSCM		curVerId = curVerDisplayInfo.getId();
 
