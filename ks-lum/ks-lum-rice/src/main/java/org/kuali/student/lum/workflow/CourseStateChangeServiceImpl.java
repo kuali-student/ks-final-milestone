@@ -121,8 +121,8 @@ public class CourseStateChangeServiceImpl {
 
 		// Get id of current version of course given the versionindependen id
 		VersionDisplayInfo curVerDisplayInfo = null; 
-		// TODO KSCM		courseService.getCurrentVersion(
-		// TODO KSCM		CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId,contextInfo);
+		// TODO KSCM-423		courseService.getCurrentVersion(
+		// TODO KSCM-423		CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId,contextInfo);
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
@@ -199,9 +199,9 @@ public class CourseStateChangeServiceImpl {
 				&& thisVerNewState.equals(DtoConstants.STATE_ACTIVE)) {
 
 			List<VersionDisplayInfo> versions = null;
-			// TODO KSCM courseService.getVersions(
-			// TODO KSCM 		CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
-			// TODO KSCM 				.getVersionInfo().getVersionIndId(),contextInfo);
+			// TODO KSCM-423  courseService.getVersions(
+			// TODO KSCM-423 		CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
+			// TODO KSCM-423 				.getVersionInfo().getVersionIndId(),contextInfo);
 			Long startSeq = new Long(1);
 
 			if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {

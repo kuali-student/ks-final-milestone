@@ -143,7 +143,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
 	            statementTreeViewInfoStateSetter(courseInfo.getState(), statementTreeViewInfos.iterator());
 	            
 	            for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
-                    //TODO KSCM
+
 	        		courseService.updateCourseStatement(courseInfo.getId(), courseState, it.next(), contextInfo);
             }
         }

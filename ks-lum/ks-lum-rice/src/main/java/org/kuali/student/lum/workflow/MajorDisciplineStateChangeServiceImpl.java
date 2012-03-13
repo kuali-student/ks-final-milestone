@@ -214,7 +214,8 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 		curVerDisplayInfo =		programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId, contextInfo);
 	
 		String curVerId = null;
-		// TODO KSCM		curVerId = curVerDisplayInfo.getId();
+		// TODO KSCM		
+		curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
 		MajorDisciplineInfo currentVersion = programService.getMajorDiscipline(curVerId, contextInfo);
