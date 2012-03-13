@@ -109,7 +109,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 		// We should only need to evaluated versions with sequence number
 		// higher than previous active program
 
-    	//TODO KSCM : Added a parameter to make it compile 
+
 		List<VersionDisplayInfo> versions = null;
 		// TODO KSCM-393 versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
 		// TODO KSCM-393 versions selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(), ContextUtils.getContextInfo());
@@ -230,7 +230,8 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 
             // Look in the requirement for the statement tree
             StatementTreeViewInfo statementTree = null;
-         // TODO KSCM statementTree = programRequirementInfo.getStatement();
+ 
+             statementTree = programRequirementInfo.getStatement();
 
             // And recursively update the entire tree with the new state
             StatementUtil.updateStatementTreeViewInfoState(newState, statementTree);

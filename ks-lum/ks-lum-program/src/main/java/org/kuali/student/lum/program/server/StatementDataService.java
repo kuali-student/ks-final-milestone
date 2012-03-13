@@ -44,13 +44,13 @@ public class StatementDataService implements StatementRpcService{
         
         // loop through top statement types like enrollment eligibility and credit constraints
         for (String topStatementType : topStatementTypes) {           
-            // TODO KSCM allStatementTypes.add(statementService.getStatementType(topStatementType));
-            //TODO KSCM List<> types differ, I did not initialized the string 
+            //TODO KSCM-392 allStatementTypes.add(statementService.getStatementType(topStatementType));
+            //TODO KSCM-392 List<> types differ, I did not initialized the string 
             //List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(topStatementType,ContextUtils.getContextInfo());
             List<String> subStatementTypeNames = new ArrayList<String>();
             // loop through statement types belonging to the top statement types
             for (String subStatementTypeName : subStatementTypeNames) {
-                // TOOD KSCM allStatementTypes.add(statementService.getStatementType(subStatementTypeName));
+                // TODO KSCM-392 allStatementTypes.add(statementService.getStatementType(subStatementTypeName));
             }
         }
         

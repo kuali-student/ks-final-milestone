@@ -87,11 +87,11 @@ public class CredentialProgramDataService extends AbstractDataService {
         this.cluService = cluService;
     }
 
-    //TODO KSCM : Need to add logic here
+    //TODO KSCM-392 : Need to add logic here
 	@Override
 	public List<ValidationResultInfo> validateData(Data data,
 			ContextInfo contextInfo) throws OperationFailedException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 }

@@ -112,7 +112,7 @@ public class ProgramStateChangeServiceImpl {
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm) {
         majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
         majorDisciplineInfo.setEndTerm(endEnrollTerm);
-        //TODO KSCM : HASMAPs versus LISTs
+        // TODO KSCM-421: HASMAPs versus LISTs
         //majorDisciplineInfo.getAttributes().put(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm);
     }
 
@@ -168,7 +168,8 @@ public class ProgramStateChangeServiceImpl {
 
         // Take the sequence number for this version
         Long sequenceNumber = null;
-     // TODO KSCM sequenceNumber = majorDisciplineInfo.getVersionInfo().getSequenceNumber();
+ 
+        sequenceNumber = majorDisciplineInfo.getVersionInfo().getSequenceNumber();
 
         // And subtract 1 from the sequence number to get the previous version
         sequenceNumber -= 1;

@@ -170,7 +170,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     protected void updateRequirementWidgets(ProgramRequirementInfo programReqInfo) {
-    /* TODO KSCM if (programReqInfo != null) {
+    /* TODO KSCM-420 if (programReqInfo != null) {
             StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(programReqInfo.getStatement().getType());
             SpanPanel reqPanel = perProgramRequirementTypePanel.get(affectedStatementTypeInfo.getId());
 

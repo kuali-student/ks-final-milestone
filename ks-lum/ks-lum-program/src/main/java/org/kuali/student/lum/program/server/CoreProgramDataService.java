@@ -130,11 +130,11 @@ public class CoreProgramDataService extends AbstractDataService {
     }
 
     
-    //TODO KSCM : added this via automatic generation ... it needs logic 
+    //TODO KSCM-392 : added this via automatic generation ... it needs logic 
 	@Override
 	public List<ValidationResultInfo> validateData(Data data,
 			ContextInfo contextInfo) throws OperationFailedException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 }

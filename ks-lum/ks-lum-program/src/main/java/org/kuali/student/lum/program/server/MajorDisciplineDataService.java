@@ -56,7 +56,8 @@ public class MajorDisciplineDataService extends AbstractDataService {
             MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;
             if (mdInfo.getId() == null && mdInfo.getVersionInfo() != null) {
             	String majorVersionIndId = null;
-            	// TODO KSCM majorVersionIndId = mdInfo.getVersionInfo().getVersionIndId();
+            	
+            	majorVersionIndId = mdInfo.getVersionInfo().getVersionIndId();
             	mdInfo = programService.createNewMajorDisciplineVersion(majorVersionIndId, "New major discipline version",ContextUtils.getContextInfo());
             } else if (mdInfo.getId() == null){
                 mdInfo = programService.createMajorDiscipline(mdInfo.getId(), mdInfo, ContextUtils.getContextInfo());

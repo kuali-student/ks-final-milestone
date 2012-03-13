@@ -85,9 +85,9 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
 				String startTerm = latestStartAtp.getId();
 		    	String endTerm = mdInfo.getEndTerm();
 		    	String endProgramEntryTerm = mdInfo.getEndProgramEntryTerm();
-		    	//TODO KSCM : I commented this line below out since the get was originally done on a hashmap not a List
+		    	//TODO KSCM-388 : I commented this line below out since the get was originally done on a hashmap not a List
 		    	//String endInstAdmitTerm = mdInfo.getAttributes().get(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
-		    	String endInstAdmitTerm = ""; //TODO KSCM : I added this just so that the code below might work.
+		    	String endInstAdmitTerm = ""; //TODO KSCM-388 : I added this just so that the code below might work.
 		    	Map<String,String> proposalAttributes = new HashMap<String,String>();
 		    	if(startTerm!=null)
 		    		proposalAttributes.put("prevStartTerm",startTerm);
@@ -145,13 +145,13 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
 		this.atpService = atpService;
 	}
 
-	//TODO KSCM : need to add the logic to these methods ...
+	//TODO KSCM-392 : need to add the logic to these methods ...
 	@Override
 	protected boolean checkDocumentLevelPermissions() {
 		// TODO Auto-generated method stub
 		return  true;
 	}
-
+	//TODO KSCM-392
 	@Override
 	public List<ValidationResultInfo> validateData(Data data,
 			ContextInfo contextInfo) throws OperationFailedException {

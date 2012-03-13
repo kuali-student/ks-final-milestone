@@ -116,7 +116,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         editReqCompWidget.setReqCompConfirmButtonClickCallback(actionButtonClickedReqCompCallback);
     // 
         editReqCompWidget.setNewReqCompSelectedCallbackCallback(newReqCompSelectedCallbackCallback);
-        //TODO KSCM        editReqCompWidget.setRetrieveCompositionTemplateCallback(retrieveCompositionTemplateCallback);
+
+        editReqCompWidget.setRetrieveCompositionTemplateCallback(retrieveCompositionTemplateCallback);
         editReqCompWidget.setRetrieveFieldsMetadataCallback(retrieveFieldsMetadataCallback);
         editReqCompWidget.setRetrieveCustomWidgetCallback(retrieveCustomWidgetCallback);
         ruleManageWidget.setReqCompEditButtonClickCallback(editReqCompCallback);
@@ -294,10 +295,10 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                             StatementTreeViewInfo newStatementTreeViewInfo = new StatementTreeViewInfo();
                             newStatementTreeViewInfo.setId(ProgramRequirementsSummaryView.NEW_STMT_TREE_ID + Integer.toString(ProgramRequirementsSummaryView.tempStmtTreeID++));
                             newStatementTreeViewInfo.setOperator(rule.getStatements().get(0).getOperator());
-                         // TODO KSCM newStatementTreeViewInfo.getReqComponents().add(reqComp);
+                         // TODO KSCM-420 newStatementTreeViewInfo.getReqComponents().add(reqComp);
                             rule.getStatements().add(newStatementTreeViewInfo);
                         } else {
-                        	// TODO KSCM rule.getReqComponents().add(reqComp);
+                        	// TODO KSCM-420 rule.getReqComponents().add(reqComp);
                             //set default operator between req. components of the rule
                          // TODO KSCM-425 wait for ks-core-ui/paul                            if (rule.getOperator() == null) {
                          // TODO KSCM-425 wait for ks-core-ui/paul                                rule.setOperator(StatementOperatorTypeKey.AND);
