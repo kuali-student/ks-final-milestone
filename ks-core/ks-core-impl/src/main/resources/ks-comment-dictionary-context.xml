@@ -14,8 +14,8 @@
     <ref bean="commentInfo.id"/>
     <ref bean="commentInfo.referenceId"/>
     <ref bean="commentInfo.referenceTypeKey"/>
-    <ref bean="commentInfo.state"/>
-    <ref bean="commentInfo.type"/>
+    <ref bean="commentInfo.stateKey"/>
+    <ref bean="commentInfo.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -53,15 +53,15 @@
  </bean>
  <bean id="commentInfo.referenceTypeKey" parent="commentInfo.referenceTypeKey-parent"/>
 
- <bean id="commentInfo.state-parent" abstract="true" parent="baseKualiStateRequired">
-  <property name="name" value="state"/>
+ <bean id="commentInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="commentInfo.state" parent="commentInfo.state-parent"/>
+ <bean id="commentInfo.stateKey" parent="commentInfo.stateKey-parent"/>
 
- <bean id="commentInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-  <property name="name" value="type"/>
+ <bean id="commentInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="commentInfo.type" parent="commentInfo.type-parent"/>
+ <bean id="commentInfo.typeKey" parent="commentInfo.typeKey-parent"/>
 
 
  <!-- TagInfo-->
@@ -76,8 +76,8 @@
     <ref bean="tagInfo.predicate"/>
     <ref bean="tagInfo.referenceId"/>
     <ref bean="tagInfo.referenceTypeKey"/>
-    <ref bean="tagInfo.state"/>
-    <ref bean="tagInfo.type"/>
+    <ref bean="tagInfo.stateKey"/>
+    <ref bean="tagInfo.typeKey"/>
     <ref bean="tagInfo.value"/>
    </list>
   </property>
@@ -120,15 +120,15 @@
  </bean>
  <bean id="tagInfo.referenceTypeKey" parent="tagInfo.referenceTypeKey-parent"/>
 
- <bean id="tagInfo.state-parent" abstract="true" parent="baseKualiStateRequired">
-  <property name="name" value="state"/>
+ <bean id="tagInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="tagInfo.state" parent="tagInfo.state-parent"/>
+ <bean id="tagInfo.stateKey" parent="tagInfo.stateKey-parent"/>
 
- <bean id="tagInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-  <property name="name" value="type"/>
+ <bean id="tagInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="tagInfo.type" parent="tagInfo.type-parent"/>
+ <bean id="tagInfo.typeKey" parent="tagInfo.typeKey-parent"/>
 
  <bean id="tagInfo.value-parent" abstract="true" parent="baseString">
   <property name="name" value="value"/>
