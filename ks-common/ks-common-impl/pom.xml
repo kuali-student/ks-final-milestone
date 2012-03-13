@@ -32,13 +32,6 @@
 
     </dependency>
     <dependency>
-      <groupId>org.kuali.student.core</groupId>
-      <artifactId>ks-core-impl</artifactId>
-              <version>${ks.service.version}</version>
-<!--       <version>${project.version}</version> -->
-
-    </dependency>
-    <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
               <version>${ks.service.version}</version>
