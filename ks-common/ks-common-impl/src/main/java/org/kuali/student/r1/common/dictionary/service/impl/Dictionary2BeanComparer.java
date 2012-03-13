@@ -81,7 +81,7 @@ public class Dictionary2BeanComparer
   {
    FieldDefinition fdDict = findField (fdBean.getName (), osDict);
    System.out.println(fdBean.getName());
-   if (fdDict == null)	{// TODO KSCM ignoring meta as it's interface 
+   if (fdDict == null)	{ 
    if (!fdBean.getName().equals("meta") 
 		   && !fdBean.getName().equals("state")
 		   && !fdBean.getName().equals("type")) {

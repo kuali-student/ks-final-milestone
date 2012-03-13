@@ -27,7 +27,7 @@ import org.junit.Test;
 //import org.kuali.student.common.validator.old.ServerDateParser;
 //import org.kuali.student.common.validator.old.Validator;
 
-// TODO KSCM 
+// TODO KSCM-428 
 public class DictionaryValidatorTest {
 //
 //	DictionaryService sampleDict = new DictionaryServiceSpringImpl("classpath:mockaddr-dictionary-config.xml");

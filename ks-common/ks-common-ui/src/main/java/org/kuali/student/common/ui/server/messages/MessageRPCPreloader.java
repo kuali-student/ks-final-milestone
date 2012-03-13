@@ -32,6 +32,7 @@ import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.r1.common.messages.dto.MessageList;
 import org.kuali.student.r2.common.messages.service.MessageService;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 import com.google.gwt.user.server.rpc.RPC;
 
@@ -71,7 +72,8 @@ public class MessageRPCPreloader {
             
          // TODO KSCM-266
             MessageList messageList = null; 
-       		// TODO KSCM           messagelist = getMessageService().getMessagesByGroups(locale,messageGroupKeyList, ContextUtils.getContextInfo());
+       		// TODO KSCM           
+            messagelist = getMessageService().getMessagesByGroups(locale,messageGroupKeyList, ContextUtils.getContextInfo());
 
             Map<Class<?>, Boolean> whitelist = new HashMap<Class<?>, Boolean>();
             whitelist.put(MessageService.class, true);
