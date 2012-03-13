@@ -185,7 +185,7 @@ public class LuServiceImpl implements CluService {
      * SETUP OPERATION *
      **************************************************************************/
 
-    /* TODO KSCM
+    /* TODO KSCM-422
     @Override
     public List<DeliveryMethodTypeInfo> getDeliveryMethodTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	return LuServiceAssembler.toDeliveryMethodTypeInfos(luDao
@@ -269,7 +269,7 @@ public class LuServiceImpl implements CluService {
                 relatedLuTypeKey);
     }
 
-    /* TODO KSCM
+    /* TODO KSCM-422
     @Override
     public List<LuPublicationTypeInfo> getLuPublicationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	return LuServiceAssembler.toLuPublicationTypeInfos(luDao
@@ -291,7 +291,7 @@ public class LuServiceImpl implements CluService {
         throw new UnsupportedOperationException("getLuPublicationTypesForLuType");
     }
 
-    /* TODO KSCM
+    /* TODO KSCM-422
     @Override
     public List<CluResultTypeInfo> getCluResultTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	return LuServiceAssembler.toCluResultTypeInfos(luDao
@@ -344,7 +344,7 @@ public class LuServiceImpl implements CluService {
                 .getAllowedResultComponentTypesForResultUsageType(resultUsageTypeKey);
     }
 
-    /* TODO KSCM
+    /* TODO KSCM-422
     @Override
     public CluLoRelationTypeInfo getCluLoRelationType(String cluLoRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	checkForMissingParameter(cluLoRelationTypeKey, "cluLoRelationTypeKey");
@@ -354,7 +354,7 @@ public class LuServiceImpl implements CluService {
     	return LuServiceAssembler.toCluLoRelationTypeInfo(cluLoRelationType);
     }*/
 
-    /* TODO KSCM
+    /* TODO KSCM-422
     @Override
     public List<CluLoRelationTypeInfo> getCluLoRelationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	return LuServiceAssembler.toCluLoRelationTypeInfos(luDao
@@ -371,14 +371,14 @@ public class LuServiceImpl implements CluService {
         return luDao.getAllowedCluLoRelationTypesForLuType(luTypeKey);
     }
 
-    /* TODO KSCM
+    /* TODO KSCM-422
     @Override
     public List<CluSetTypeInfo> getCluSetTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	return LuServiceAssembler.toCluSetTypeInfos(luDao
     			.find(CluSetType.class));
     }*/
 
-    /* TODO KSCM
+    /* TODO KSCM-422
     @Override
     public CluSetTypeInfo getCluSetType(String cluSetTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	checkForMissingParameter(cluSetTypeKey, "cluSetTypeKey");
@@ -1001,8 +1001,7 @@ public class LuServiceImpl implements CluService {
             CluInstructor primaryInstructor = new CluInstructor();
             BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),
                     primaryInstructor, new String[]{"attributes"});
-            // TODO KSCM dozer mapping needs to be done for CluInfo between r1 and r2
-            // note that in r1 cluInfo.getPrimaryInstructor().getAttributes() returns a Map and in r2 a List
+
             primaryInstructor.setAttributes(LuServiceAssembler
             		.toGenericAttributes(CluInstructorAttribute.class, R1R2ConverterUtil.convert(cluInfo, org.kuali.student.r1.lum.lu.dto.CluInfo.class)
             				.getPrimaryInstructor().getAttributes(),
@@ -1018,8 +1017,7 @@ public class LuServiceImpl implements CluService {
             CluInstructor instructor = new CluInstructor();
             BeanUtils.copyProperties(instructorInfo, instructor,
                     new String[]{"attributes"});
-            // TODO KSCM dozer mapping needs to be done for CluInstructorInfo between r1 and r2
-            // note that in r1 instructorInfo.getAttributes() returns a Map and in r2 a List
+
             instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
             		CluInstructorAttribute.class, R1R2ConverterUtil.convert(instructorInfo, org.kuali.student.r1.lum.lu.dto.CluInstructorInfo.class)
             				.getAttributes(), instructor, luDao));
@@ -1539,11 +1537,10 @@ public class LuServiceImpl implements CluService {
         }
 
         // Validate CluCluRelationInfo
-        /* TODO KSCM 
         List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         Clu clu = luDao.fetch(Clu.class, cluId);
         Clu relatedClu = luDao.fetch(Clu.class, relatedCluId);
@@ -1583,11 +1580,11 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
         // Validate CluCluRelationInfo
-        /* TODO KSCM
+
         List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         final CluCluRelation cluCluRelation = luDao.fetch(CluCluRelation.class,
                 cluCluRelationId);
@@ -1658,7 +1655,6 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
 
         // Validate CLU
-        /* TODO KSCM
         List<ValidationResultInfo> val;
         try {
         	val = validateCluPublication("SYSTEM", cluPublicationInfo);
@@ -1667,7 +1663,7 @@ public class LuServiceImpl implements CluService {
         	}
         } catch (DoesNotExistException e) {
         	throw new OperationFailedException("Error creating clu",e);
-        } */
+        }
 
         CluPublication cluPub = new CluPublication();
         Clu clu;
@@ -1710,7 +1706,6 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
 
         // Validate CLU
-        /* TODO KSCM
         List<ValidationResultInfo> val;
         try {
         	val = validateCluPublication("SYSTEM", cluPublicationInfo);
@@ -1719,7 +1714,7 @@ public class LuServiceImpl implements CluService {
         	}
         } catch (DoesNotExistException e) {
         	throw new OperationFailedException("Error creating clu",e);
-        }*/
+        }
 
         CluPublication cluPub = luDao.fetch(CluPublication.class, cluPublicationId);
 
@@ -1833,11 +1828,10 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
         // Validate CluResult
-        /* TODO KSCM
         List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo);
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         cluResultInfo.setType(cluResultTypeKey);
         cluResultInfo.setCluId(cluId);
@@ -1888,11 +1882,10 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
         // Validate CluResult
-        /* TODO KSCM
         List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo);
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         CluResult result = luDao.fetch(CluResult.class, cluResultId);
         if (!String.valueOf(result.getVersionNumber()).equals(
@@ -1997,10 +1990,10 @@ public class LuServiceImpl implements CluService {
         checkForEmptyList(cluLoRelationInfo, "cluLoRelationInfo");
 
         // Validate CluLoRelation
-        // TODO KSCM List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
-        //if(null != val && val.size() > 0) {
-        //	throw new DataValidationErrorException("Validation error!", val);
-        //}
+        List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
+        if(null != val && val.size() > 0) {
+        	throw new DataValidationErrorException("Validation error!", val);
+        }
 
         Clu clu = luDao.fetch(Clu.class, cluId);
         if (clu == null) {
@@ -2048,10 +2041,10 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluLoRelationInfo, "cluLoRelationInfo");
 
         // Validate CluLoRelation
-        // TODO KSCM List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
-        //if(null != val && val.size() > 0) {
-        //	throw new DataValidationErrorException("Validation error!", val);
-        //}
+        List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
+        if(null != val && val.size() > 0) {
+        	throw new DataValidationErrorException("Validation error!", val);
+        }
 
         CluLoRelation reltn = luDao.fetch(CluLoRelation.class, cluLoRelationId);
 
@@ -2153,7 +2146,6 @@ public class LuServiceImpl implements CluService {
         validateCluSet(cluSetInfo);
 
         // Validate CluSet
-        /* TODO KSCM
         List<ValidationResultInfo> val;
         try {
         	val = validateCluSet("SYSTEM", cluSetInfo);
@@ -2162,7 +2154,7 @@ public class LuServiceImpl implements CluService {
         }
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         List<String> cluIdList = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
 
@@ -2243,11 +2235,10 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
         // Validate CluSet
-        /* TODO KSCM
-        List<ValidationResultInfo> val = validateCluSet("SYSTEM", cluSetInfo);
+         List<ValidationResultInfo> val = validateCluSet("SYSTEM", cluSetInfo);
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         cluSetInfo.setId(cluSetId);
 
@@ -2300,7 +2291,7 @@ public class LuServiceImpl implements CluService {
             List<CluSetInfo> origSubCSs = null;
             List<String> origSubCSIds = originalCluSet.getCluSetIds();
             if (origSubCSIds != null && !origSubCSIds.isEmpty()) {
-                // TODO KSCM origSubCSs = getCluSetInfoByIdList(origSubCSIds);
+            	origSubCSs = getCluSetInfoByIdList(origSubCSIds);
             }
             if (origSubCSs != null) {
                 for (CluSetInfo origSubCS : origSubCSs) {
@@ -3542,12 +3533,12 @@ public class LuServiceImpl implements CluService {
         Clu latestClu;
         Clu currentClu;
         try {
-            latestClu = luDao.getLatestCluVersion(null); // TODO KSCM versionIndCluId
+            latestClu = luDao.getLatestCluVersion(null); // TODO KSCM-423 versionIndCluId
         } catch (NoResultException e) {
             throw new DoesNotExistException("There are no matching versions of this clu", e);
         }
         try {
-            currentClu = luDao.getCurrentCluVersion(null); // TODO KSCM versionIndCluId
+            currentClu = luDao.getCurrentCluVersion(null); // TODO KSCM-423 versionIndCluId
         } catch (NoResultException e) {
             throw new DoesNotExistException(
                     "There is no current version of this clu. Only current clus can be versioned. Use setCurrentCluVersion to make a clu current.",
@@ -3567,7 +3558,8 @@ public class LuServiceImpl implements CluService {
             //Set the Version data
             Version version = new Version();
             version.setSequenceNumber(latestClu.getVersion().getSequenceNumber() + 1);
-            // TODO KSCM version.setVersionIndId(versionIndCluId);
+            
+            version.setVersionIndId(versionIndCluId);
             version.setCurrentVersionStart(null);
             version.setCurrentVersionEnd(null);
             version.setVersionComment(versionComment);
@@ -3669,7 +3661,6 @@ public class LuServiceImpl implements CluService {
         }
 
         //Get any clus that are set to become current in the future, and clear their current dates
-        // TODO KSCM 
         List<VersionDisplayInfo> versionsInFuture = R1R2ConverterUtil.convertLists(luDao.getVersionsInDateRange(versionIndId, null, currentDbDate, null), VersionDisplayInfo.class);
         		for(VersionDisplayInfo versionInFuture:versionsInFuture){
         			if(oldClu==null || !versionInFuture.getId().equals(oldClu.getId())){
@@ -3703,7 +3694,6 @@ public class LuServiceImpl implements CluService {
         VersionDisplayInfo versionInfo = null;
         if (CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)) {
             try {
-                // TODO KSCM 
                 versionInfo = R1R2ConverterUtil.convert(luDao.getLatestVersion(refObjectId, refObjectUri), VersionDisplayInfo.class);
             } catch (NoResultException e) {
                 throw new DoesNotExistException();
@@ -3722,7 +3712,7 @@ public class LuServiceImpl implements CluService {
         VersionDisplayInfo versionInfo = null;
         if (CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)) {
             try {
-                // TODO KSCM 
+ 
                 versionInfo = R1R2ConverterUtil.convert(luDao.getCurrentCluVersionInfo(refObjectId, refObjectUri), VersionDisplayInfo.class);
             } catch (NoResultException e) {
                 throw new DoesNotExistException();
@@ -3741,7 +3731,6 @@ public class LuServiceImpl implements CluService {
         VersionDisplayInfo versionInfo = null;
         if (CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)) {
             try {
-                // TODO KSCM 
                 versionInfo = R1R2ConverterUtil.convert(luDao.getCurrentVersionOnDate(refObjectId, refObjectUri, date), VersionDisplayInfo.class);
             } catch (NoResultException e) {
                 throw new DoesNotExistException();
@@ -3759,8 +3748,7 @@ public class LuServiceImpl implements CluService {
             OperationFailedException, PermissionDeniedException {
         VersionDisplayInfo versionInfo = null;
         if (CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)) {
-            try {
-                // TODO KSCM 
+            try { 
                 versionInfo = R1R2ConverterUtil.convert(luDao.getFirstVersion(refObjectId, refObjectUri), VersionDisplayInfo.class);
             } catch (NoResultException e) {
                 throw new DoesNotExistException();
@@ -3779,7 +3767,6 @@ public class LuServiceImpl implements CluService {
         VersionDisplayInfo versionInfo = null;
         if (CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)) {
             try {
-                // TODO KSCM 
                 versionInfo = R1R2ConverterUtil.convert(luDao.getVersionBySequenceNumber(refObjectId, refObjectUri, sequence), VersionDisplayInfo.class);
             } catch (NoResultException e) {
                 throw new DoesNotExistException();
@@ -3797,7 +3784,6 @@ public class LuServiceImpl implements CluService {
             OperationFailedException, PermissionDeniedException {
         List<VersionDisplayInfo> versionInfos = null;
         if (CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)) {
-            // TODO KSCM 
             versionInfos = R1R2ConverterUtil.convertLists(luDao.getVersions(refObjectId, refObjectUri), VersionDisplayInfo.class);
             if (versionInfos == null) {
                 versionInfos = Collections.<VersionDisplayInfo> emptyList();
@@ -3815,7 +3801,6 @@ public class LuServiceImpl implements CluService {
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<VersionDisplayInfo> versionInfos = null;
         if (CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)) {
-            // TODO KSCM 
             if (versionInfos == null) {
                 versionInfos = Collections.<VersionDisplayInfo> emptyList();
             }
@@ -3833,14 +3818,14 @@ public class LuServiceImpl implements CluService {
     @Override
     public List<TypeInfo> getCluCluRelationTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<TypeInfo> getDeliveryMethodTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
@@ -3848,14 +3833,14 @@ public class LuServiceImpl implements CluService {
     public TypeInfo getDeliveryMethodType(String deliveryMethodTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<TypeInfo> getInstructionalFormatTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
@@ -3863,35 +3848,35 @@ public class LuServiceImpl implements CluService {
     public TypeInfo getInstructionalFormatType(String instructionalFormatTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<TypeInfo> getLuTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public TypeInfo getLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<TypeInfo> getLuCodeTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public TypeInfo getLuCodeType(String luCodeTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
@@ -3899,14 +3884,14 @@ public class LuServiceImpl implements CluService {
     public TypeInfo getLuLuRelationType(String cluCluRelationTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<TypeInfo> getLuPublicationTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
@@ -3914,21 +3899,21 @@ public class LuServiceImpl implements CluService {
     public TypeInfo getLuPublicationType(String luPublicationTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<TypeInfo> getCluResultTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public TypeInfo getCluResultType(String cluResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
@@ -3936,14 +3921,14 @@ public class LuServiceImpl implements CluService {
     public List<TypeInfo> getCluResultTypesForLuType(String luTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<TypeInfo> getResultUsageTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
@@ -3951,14 +3936,14 @@ public class LuServiceImpl implements CluService {
     public TypeInfo getResultUsageType(String resultUsageTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<TypeInfo> getCluLoRelationTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
@@ -3966,76 +3951,76 @@ public class LuServiceImpl implements CluService {
     public TypeInfo getCluLoRelationType(String cluLoRelationTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<TypeInfo> getCluSetTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public TypeInfo getCluSetType(String cluSetTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<TypeInfo> getLuLuRelationTypes(ContextInfo contextInfo) throws OperationFailedException,
             UnsupportedOperationException {
-        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     //    @Override
     //    public TypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+    //        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
     //        return null;
     //    }
     //
     //    @Override
     //    public List<TypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+    //        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
     //        return null;
     //    }
     //
     //    @Override
     //    public TypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+    //        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
     //        return null;
     //    }
     //
     //    @Override
     //    public List<TypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+    //        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
     //        return null;
     //    }
     //
     //    @Override
     //    public TypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+    //        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
     //        return null;
     //    }
     //
     //    @Override
     //    public List<TypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+    //        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
     //        return null;
     //    }
     //
     //    @Override
     //    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+    //        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
     //        return null;
     //    }
     //
     //    @Override
     //    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM - THIS METHOD NEEDS JAVADOCS
+    //        // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
     //        return null;
     //    }
 }
