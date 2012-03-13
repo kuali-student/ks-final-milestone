@@ -505,7 +505,7 @@ public class ProgramAssemblerUtils {
             resultTypes.add(ProgramAssemblerConstants.DEGREE_RESULTS);
             resultTypes.add(ProgramAssemblerConstants.CERTIFICATE_RESULTS);
 
-            resultOptions = cluAssemblerUtils.assembleCluResults(resultTypes, cluResults);
+            /* TODO KSCM-429 resultOptions = cluAssemblerUtils.assembleCluResults(resultTypes, cluResults);*/
 
         } catch (DoesNotExistException e){
         } catch (Exception e) {
