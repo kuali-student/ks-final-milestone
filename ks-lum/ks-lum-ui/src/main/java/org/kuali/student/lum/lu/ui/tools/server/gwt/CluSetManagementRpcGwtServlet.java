@@ -177,15 +177,13 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                     //TODO KSCM-390 - Correct ContextInfo parameter?
                 	VersionDisplayInfo versionInfo = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluId, contextInfo);
                 	//TODO KSCM-390 - Correct ContextInfo parameter?
-                	CluInfo cluInfo = null;
-                	//TODO KSCM Version cluService.getClu(versionInfo.getId(), contextInfo);
+                	CluInfo cluInfo = cluService.getClu(versionInfo.getId(), contextInfo);
                     if (cluInfo != null) {
 
                         //retrieve credits
                         String credits = "";
                         //TODO KSCM-390 - Correct ContextInfo parameter?
-                        List<CluResultInfo> cluResultInfos = null;
-                      //TODO KSCM Version cluREsultInfos = cluService.getCluResultByClu(versionInfo.getId(), contextInfo);
+                        List<CluResultInfo> cluResultInfos = cluService.getCluResultByClu(versionInfo.getId(), contextInfo);
                         if (cluResultInfos != null) {
                             for (CluResultInfo cluResultInfo : cluResultInfos) {
                                 String cluType = cluResultInfo.getType();
