@@ -1062,7 +1062,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loLoRelationId, "loLoRelationId");
-	  //TODO KSCM :return LearningObjectiveServiceAssembler.toLoLoRelationInfo(loDao.fetch(LoLoRelation.class, loLoRelationId));
+	  //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoLoRelationInfo(loDao.fetch(LoLoRelation.class, loLoRelationId));
 	    return null;
 	}
 
@@ -1072,7 +1072,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		List<LoLoRelation> llRelations = loDao.getLoLoRelationsByLoId(loId);
-		//TODO KSCM :return LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations);
+		//TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations);
 		return null;
 	}
 
@@ -1083,7 +1083,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<Lo> relatedLos = loDao.getLosByRelatedLoId(relatedLoId, loLoRelationType);
-		//TODO KSCM :return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
+		//TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
 		return null;
 	}
 
@@ -1095,7 +1095,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loId, "loId");
 	    checkForMissingParameter(loLoRelationTypeKey, "loLoRelationTypeKey");
 	    List<Lo> relatedLos = loDao.getRelatedLosByLoId(loId, loLoRelationTypeKey);
-	  //TODO KSCM :return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
+	  //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
 	    return null;
 	}
 
@@ -1187,7 +1187,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
 	    List<Lo> los = loDao.getLosByRepository(loRepositoryKey);
-	  //TODO KSCM :return LearningObjectiveServiceAssembler.toLoInfos(los);
+	  //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoInfos(los);
 	    return null;
 	}
 
