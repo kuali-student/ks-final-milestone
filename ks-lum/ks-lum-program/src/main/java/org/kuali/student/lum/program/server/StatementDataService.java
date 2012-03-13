@@ -61,14 +61,16 @@ public class StatementDataService implements StatementRpcService{
     @Transactional(readOnly=true)
     public List<StatementTypeInfo> getStatementTypesForStatementType(String statementTypeKey) throws Exception {
     	
-    	//TODO KSCM : Need to rewire this logic to fit the new List types
-//        List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey,ContextUtils.getContextInfo());
-//        List<StatementTypeInfo> statementTypes = new ArrayList<StatementTypeInfo>();
-//        for (String statementTypeName : statementTypeNames) {
-//            statementTypes.add(statementService.getStatementType(statementTypeName));
-//        }
-//        return statementTypes;
-    	return null;
+    	//TODO KSCM-420: Need to rewire this logic to fit the new List types
+        //List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey,ContextUtils.getContextInfo());
+    	// I have instantiated statenames as null
+    	List<String> statementTypeNames = null;
+        List<StatementTypeInfo> statementTypes = new ArrayList<StatementTypeInfo>();
+        for (String statementTypeName : statementTypeNames) {
+            statementTypes.add(statementService.getStatementType(statementTypeName));
+        }
+        return statementTypes;
+    	
     }
     @Override
     @Transactional(readOnly=true)
@@ -76,9 +78,9 @@ public class StatementDataService implements StatementRpcService{
 
         List<ReqComponentTypeInfo> reqComponentTypeInfoList;
         try { 
-        	//TODO KSCM : Paul en Nina, I have instantiated the list to make it compile 
-            //reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
-        	reqComponentTypeInfoList = new ArrayList<ReqComponentTypeInfo>();
+
+        	reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
+  
         } catch (Exception ex) {
             LOG.error(ex);
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);
@@ -118,8 +120,9 @@ public class StatementDataService implements StatementRpcService{
     @Override
     @Transactional(readOnly=true)
     public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) throws Exception {
-        // TODO KSCM return cluService.getCurrentVersion(refObjectTypeURI, refObjectId, ContextUtils.getContextInfo());
-    	return null;
+
+    	return cluService.getCurrentVersion(refObjectTypeURI, refObjectId, ContextUtils.getContextInfo());
+
     }
 
     public void setStatementService(StatementService statementService) {
