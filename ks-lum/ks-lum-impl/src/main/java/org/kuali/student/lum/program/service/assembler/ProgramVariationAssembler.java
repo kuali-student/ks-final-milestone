@@ -118,7 +118,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         }
         
         if (businessDTO.getResultOptions() != null) {
-            disassembleResultOptions(businessDTO, operation, result);
+            disassembleResultOptions(businessDTO, operation, result, contextInfo);
         }
 
         if (businessDTO.getLearningObjectives() != null) {
@@ -154,9 +154,8 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         }
     }
 
-    private void disassembleResultOptions(ProgramVariationInfo variation, NodeOperation operation, BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result) throws AssemblyException {
-        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
-        		variation.getId(), variation.getState(), variation.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
+    private void disassembleResultOptions(ProgramVariationInfo variation, NodeOperation operation, BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
+        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(variation.getId(), variation.getState(), variation.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option", contextInfo);
         if (resultOptions != null) {
             result.getChildNodes().add(resultOptions);           
         }

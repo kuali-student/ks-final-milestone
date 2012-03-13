@@ -107,7 +107,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         }
 
         if (businessDTO.getResultOptions() != null) {
-            disassembleResultOptions(businessDTO, operation, result);
+            disassembleResultOptions(businessDTO, operation, result, contextInfo);
         }
 
         if (businessDTO.getLearningObjectives() != null) {
@@ -130,9 +130,8 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         return result;
     }
 
-    private void disassembleResultOptions(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result) throws AssemblyException {
-        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
-                credential.getId(), credential.getState(), credential.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
+    private void disassembleResultOptions(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
+        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(credential.getId(), credential.getState(), credential.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option", contextInfo);
         if (resultOptions != null) {
             result.getChildNodes().add(resultOptions);
         }

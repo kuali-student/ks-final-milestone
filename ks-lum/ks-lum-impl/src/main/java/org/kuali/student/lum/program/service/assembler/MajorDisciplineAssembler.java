@@ -188,7 +188,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
             disassembleCredentialProgram(businessDTO, operation, result, contextInfo);
         }
         if (businessDTO.getResultOptions() != null) {
-            disassembleResultOptions(businessDTO, operation, result);
+            disassembleResultOptions(businessDTO, operation, result, contextInfo);
         }
         if (businessDTO.getLearningObjectives() != null) {
             disassembleLearningObjectives(businessDTO, operation, result,contextInfo);
@@ -230,11 +230,10 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         }
     }
 
-    private void disassembleResultOptions(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result) throws AssemblyException {
+    private void disassembleResultOptions(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
         //TODO Check for ProgramAssemblerConstants.CERTIFICATE_RESULTS too
         
-        BaseDTOAssemblyNode<?, ?> degreeResults = cluAssemblerUtils.disassembleCluResults(
-                major.getId(), major.getState(), major.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
+        BaseDTOAssemblyNode<?, ?> degreeResults = cluAssemblerUtils.disassembleCluResults(major.getId(), major.getState(), major.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option", contextInfo);
         if (degreeResults != null) {
             result.getChildNodes().add(degreeResults);
         }
