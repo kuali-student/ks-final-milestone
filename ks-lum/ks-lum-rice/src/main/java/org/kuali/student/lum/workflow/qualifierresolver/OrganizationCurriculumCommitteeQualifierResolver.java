@@ -87,7 +87,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
     protected OrgInfo getOrganization(String orgId) throws Exception {
 //        try {
         	OrgInfo orgInfo = null;
-        	// TODO KSCM orgInfo = getOrganizationService().getOrganization(orgId, null);	// TODO KSCM-267
+        	// TODO KSCM-424 orgInfo = getOrganizationService().getOrganization(orgId, null);	// TODO KSCM-267
             return orgInfo;
 //        } catch (DoesNotExistException e) {
 //            LOG.error("No valid organization found for id '" + orgId + "'", e);

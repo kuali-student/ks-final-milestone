@@ -112,7 +112,7 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
         List<String> ids = getOrganizationService().getAllAncestors(inputOrgId, orgHierarchy, contextInfo);
         if (ids.size() > 0) {
             List<OrgInfo> orgs = null;
-            // TODO KSCM orgs = getOrganizationService().getOrganizationsByIdList(ids, contextInfo);
+            // TODO KSCM-424 orgs = getOrganizationService().getOrganizationsByIdList(ids, contextInfo);
             for (OrgInfo orgInfo : orgs) {
                 Map<String, String> attrs = new LinkedHashMap<String,String>();
                 attrs.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, orgInfo.getId());

@@ -53,7 +53,7 @@ public class OrgSearchAttribute extends KualiXmlSearchableAttributeImpl {
 						orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
 					}
 					OrgInfo orgInfo = null;
-					// TODO KSCM orgInfo = orgService.getOrganization(orgId, null);	// TODO KSCM-267
+					// TODO KSCM-424 orgInfo = orgService.getOrganization(orgId, null);	// TODO KSCM-267
             //        TODO: RICE-M7 UPGRADE I think this is correct but I'm not sure
 					((SearchableAttributeValue)value).setupAttributeValue(orgInfo.getShortName());
 //				} catch (DoesNotExistException e) {
