@@ -48,7 +48,7 @@ public class CourseStateChangeServiceImpl {
 				if(courseInfo.isPilotCourse()){
 					//Pilot courses get Retired
 					//Add required fields for Retired State
-                    //TODO KSCM :
+                    //TODO KSCM-388
 					//courseInfo.getAttributes().put("retirementRationale", "Pilot Course");
 					//courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
 					courseInfo.setState(DtoConstants.STATE_ACTIVE);

@@ -109,7 +109,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         return metadata;
     }
 
-    // TODO KSCM COnfirm this is working as it's different from CM-1.2
+    // TODO KSCM-427 COnfirm this is working as it's different from CM-1.2
     protected void applyPermissionsToMetadata(Metadata metadata, String idType, String id){
         Boolean authorized = null;
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
@@ -221,7 +221,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
      * 
      * @return the qualifications in at AttributeSet
      */
-    // TODO KSCM COnfirm this is correct, changed the return type
+    // TODO KSCM-427 COnfirm this is correct, changed the return type
     protected abstract Map<String,String> getQualification(String idType, String id);
     
     public void setPermissionService(PermissionService permissionService) {
