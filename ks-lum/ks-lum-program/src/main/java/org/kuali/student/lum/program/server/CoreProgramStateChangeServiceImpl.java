@@ -111,7 +111,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 
     	//TODO KSCM : Added a parameter to make it compile 
 		List<VersionDisplayInfo> versions = null;
-		// TODO KSCM versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
+		// TODO KSCM-392 versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
 		// TODO KSCM 				selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(), ContextUtils.getContextInfo());
 		Long startSeq = new Long(1);
 
