@@ -146,8 +146,8 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 
 		// Get id of current version of program given the version independent id
 		VersionDisplayInfo curVerDisplayInfo = null;
-		// TODO KSCM curVerDisplayInfo = programService.getCurrentVersion(
-		// TODO KSCM 				ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
+		// TODO KSCM-393 curVerDisplayInfo = programService.getCurrentVersion(
+		// TODO KSCM-393 				ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
@@ -202,10 +202,11 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
         VersionDisplayInfo currentVersion = null;
-     // TODO KSCM currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
+     // TODO KSCM- currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
 
         // If this is not the current version, then make it current
-        if (!currentVersion.getSequenceNumber().equals(coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber())) {
+        if (
+        		!currentVersion.getSequenceNumber().equals(coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber())) {
             programService.setCurrentCoreProgramVersion(coreProgramInfo.getId(), null,ContextUtils.getContextInfo());
         }
     }
