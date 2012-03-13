@@ -169,11 +169,11 @@ public class CourseServiceUtils {
 		//Default the newState to the existing course state if no state was set.
 		//State should never be null
 		if(newState==null){
-			newState = originalCourse.getState();
+			newState = originalCourse.getStateKey();
 		}
 		
 		originalCourse.setId(newCluId);
-		originalCourse.setState(newState);
+		originalCourse.setStateKey(newState);
 		
 		if(ignoreProperties!=null){
 			for(String property:ignoreProperties){

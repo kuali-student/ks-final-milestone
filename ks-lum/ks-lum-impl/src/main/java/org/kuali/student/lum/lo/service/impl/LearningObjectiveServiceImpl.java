@@ -314,7 +314,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 
        
 	   loInfo.setLoRepositoryKey(repositoryId);
-	   loInfo.setType(loType);
+	   loInfo.setTypeKey(loType);
 
 	    Lo lo = null;
 	    try {
@@ -669,14 +669,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         }
         
         // if state is changing from "active"
-        if (loCategory.getState().equals("active") && ( ! loCategoryInfo.getState().equals("active") )) {
+        if (loCategory.getState().equals("active") && ( ! loCategoryInfo.getStateKey().equals("active") )) {
     		// N.B. - ability to 'retire' LoCategory's that are still associated w/ active
     		// LO's is configured and enforced on the client
         	List<LoInfo> loInfos = getLosByLoCategory(loCategoryId,contextInfo);
     		if (null != loInfos) {
 				// remove associations of this LoCategory from active LO's
     			for (LoInfo info : loInfos) {
-    				if (info.getState().equals("active"))  {
+    				if (info.getStateKey().equals("active"))  {
 	    				try {
 							removeLoCategoryFromLo(loCategoryId, info.getId(),contextInfo);
 						} catch (UnsupportedActionException uaee) {
@@ -688,7 +688,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         }
         	
         // if type is changing
-        if ( ! loCategory.getLoCategoryType().getId().equals(loCategoryInfo.getType()) ) {
+        if ( ! loCategory.getLoCategoryType().getId().equals(loCategoryInfo.getTypeKey()) ) {
         	loCategory = cloneLoCategory(loCategory, loCategoryInfo,contextInfo);
         } else {
         	//TODO KSCM : loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
@@ -706,7 +706,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     	LoCategoryType catType = null;
     	
     	try {
-        	catType = loDao.fetch(LoCategoryType.class, loCategoryInfo.getType());
+        	catType = loDao.fetch(LoCategoryType.class, loCategoryInfo.getTypeKey());
     	} catch (DoesNotExistException dnee) {
     		throw new DoesNotExistException("Attempt to set LoCategory's type to nonexistent LoCategoryType", dnee);
     	}
@@ -714,7 +714,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     	// clone the existing LO
     	//TODO KSCM-419 :LoCategoryInfo newLoCategoryInfo = LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
     	LoCategoryInfo newLoCategoryInfo = new LoCategoryInfo(); // Remove this line if the TODO is done above
-    	newLoCategoryInfo.setType(catType.getId());
+    	newLoCategoryInfo.setTypeKey(catType.getId());
     	newLoCategoryInfo.setName(loCategoryInfo.getName());
     	LoCategory newLoCategory = new LoCategory(); //TODO KSCM : loDao.create(LearningObjectiveServiceAssembler.toLoCategory(newLoCategoryInfo, loDao));
         	
@@ -867,11 +867,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		searchParams.add(qpv2);
 		SearchParam qpv3 = new SearchParam();
 		qpv3.setKey("lo.queryParam.loCategoryType");
-		qpv3.setValue(loCategoryInfo.getType());
+		qpv3.setValue(loCategoryInfo.getTypeKey());
 		searchParams.add(qpv3);
 		SearchParam qpv4 = new SearchParam();
 		qpv4.setKey("lo.queryParam.loCategoryState");
-		qpv4.setValue(loCategoryInfo.getState());
+		qpv4.setValue(loCategoryInfo.getStateKey());
 		searchParams.add(qpv4);
 		
 		request.setParams(searchParams);
@@ -1000,7 +1000,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	public LoLoRelationInfo  createLoLoRelation ( String loLoRelationTypeKey,  LoLoRelationInfo loLoRelationInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 	    checkForMissingParameter(loLoRelationInfo.getLoId(), "loId");
 	    checkForMissingParameter(loLoRelationInfo.getRelatedLoId(), "relatedLoId");
-	    checkForMissingParameter(loLoRelationInfo.getType(), "loLoRelationType");
+	    checkForMissingParameter(loLoRelationInfo.getTypeKey(), "loLoRelationType");
 	    checkForMissingParameter(loLoRelationInfo, "loLoRelationInfo");
 	    
 		// Validate LoLoRelation
@@ -1013,8 +1013,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throw new DataValidationErrorException("Validation error!");
 		}
 	    
-	    if (null == loLoRelationInfo.getState()) {
-	    	loLoRelationInfo.setState(DtoConstants.STATE_DRAFT);
+	    if (null == loLoRelationInfo.getStateKey()) {
+	    	loLoRelationInfo.setStateKey(DtoConstants.STATE_DRAFT);
 	    }
 	    Lo lo = loDao.fetch(Lo.class, loLoRelationInfo.getLoId());
 	    Lo relatedLo = loDao.fetch(Lo.class, loLoRelationInfo.getRelatedLoId());
@@ -1023,7 +1023,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    loLoRelationInfo.setRelatedLoId(loLoRelationInfo.getRelatedLoId());
         //TODO KSCM figure out what really needs to be passed here
 	    //loLoRelationInfo.setType(loLoRelationType);
-        loLoRelationInfo.setType(loLoRelationInfo.getType());
+        loLoRelationInfo.setTypeKey(loLoRelationInfo.getTypeKey());
 	    
 	    LoLoRelation relation = null;
 	  //TODO KSCM :

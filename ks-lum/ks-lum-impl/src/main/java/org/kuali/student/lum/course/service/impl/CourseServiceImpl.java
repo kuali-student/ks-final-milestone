@@ -261,7 +261,7 @@ public class CourseServiceImpl implements CourseService {
         checkForMissingParameter(courseId, "courseId");
 
         CluInfo clu = cluService.getClu(courseId, contextInfo);
-        if (!CourseAssemblerConstants.COURSE_TYPE.equals(clu.getType())) {
+        if (!CourseAssemblerConstants.COURSE_TYPE.equals(clu.getTypeKey())) {
             throw new DoesNotExistException("Specified CLU is not a Course");
         }
         List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef(
@@ -314,8 +314,8 @@ public class CourseServiceImpl implements CourseService {
             relation.setRefObjectId(courseId);
             relation.setRefObjectTypeKey(CourseAssemblerConstants.COURSE_TYPE);
             relation.setStatementId(tree.getId());
-            relation.setType(CourseAssemblerConstants.COURSE_REFERENCE_TYPE);
-            relation.setState(CourseAssemblerConstants.ACTIVE);
+            relation.setTypeKey(CourseAssemblerConstants.COURSE_REFERENCE_TYPE);
+            relation.setStateKey(CourseAssemblerConstants.ACTIVE);
             statementService.createRefStatementRelation(relation.getRefObjectId(), relation.getStatementId(),
                     relation.getRefObjectTypeKey(), relation, contextInfo);
         } catch (Exception e) {

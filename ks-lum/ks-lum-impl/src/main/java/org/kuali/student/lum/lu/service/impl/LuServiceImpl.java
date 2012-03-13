@@ -671,8 +671,8 @@ public class LuServiceImpl implements CluService {
         cluSetTreeViewInfo.setIsReferenceable(cluSetInfo.getIsReferenceable());
         cluSetTreeViewInfo.setMeta(cluSetInfo.getMeta());
         cluSetTreeViewInfo.setAttributes(cluSetInfo.getAttributes());
-        cluSetTreeViewInfo.setType(cluSetInfo.getType());
-        cluSetTreeViewInfo.setState(cluSetInfo.getState());
+        cluSetTreeViewInfo.setTypeKey(cluSetInfo.getTypeKey());
+        cluSetTreeViewInfo.setStateKey(cluSetInfo.getStateKey());
         cluSetTreeViewInfo.setId(cluSetInfo.getId());
 
         if (!cluSetInfo.getCluSetIds().isEmpty()) {
@@ -697,7 +697,7 @@ public class LuServiceImpl implements CluService {
                 Clu clu = luDao.getCurrentCluVersion(cluId);
                 CluInfo cluInfo = new CluInfo();
                 cluInfo.setId(clu.getId());
-                cluInfo.setType(clu.getLuType().getId());
+                cluInfo.setTypeKey(clu.getLuType().getId());
                 cluInfo.setOfficialIdentifier(R1R2ConverterUtil.convert(LuServiceAssembler.toCluIdentifierInfo(clu.getOfficialIdentifier()), CluIdentifierInfo.class));
                 clus.add(cluInfo);
             }
@@ -1148,7 +1148,7 @@ public class LuServiceImpl implements CluService {
                     "Clu to be updated is not the current version");
         }
 
-        LuType luType = luDao.fetch(LuType.class, cluInfo.getType());
+        LuType luType = luDao.fetch(LuType.class, cluInfo.getTypeKey());
         clu.setLuType(luType);
 
         if (cluInfo.getOfficialIdentifier() != null) {
@@ -1605,7 +1605,7 @@ public class LuServiceImpl implements CluService {
         				.getAttributes(), cluCluRelation, luDao));
 
         cluCluRelation.setLuLuRelationType(luDao.fetch(LuLuRelationType.class,
-                cluCluRelationInfo.getType()));
+                cluCluRelationInfo.getTypeKey()));
 
         final CluCluRelation update = luDao.update(cluCluRelation);
 
@@ -1686,7 +1686,7 @@ public class LuServiceImpl implements CluService {
         cluPub.setStartCycle(cluPublicationInfo.getStartCycle());
         cluPub.setEffectiveDate(cluPublicationInfo.getEffectiveDate());
         cluPub.setExpirationDate(cluPublicationInfo.getExpirationDate());
-        cluPub.setState(cluPublicationInfo.getState());
+        cluPub.setState(cluPublicationInfo.getStateKey());
         cluPub.setType(type);
         cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, R1R2ConverterUtil.convert(cluPublicationInfo,  org.kuali.student.r1.lum.lu.dto.CluPublicationInfo.class).getAttributes(), cluPub, luDao));
         cluPub.setVariants(LuServiceAssembler.toCluPublicationVariants(R1R2ConverterUtil.convertLists(cluPublicationInfo.getVariants(), org.kuali.student.r1.lum.lu.dto.FieldInfo.class), cluPub, luDao));
@@ -1733,10 +1733,10 @@ public class LuServiceImpl implements CluService {
 
         CluPublicationType type;
         try {
-            type = luDao.fetch(CluPublicationType.class, cluPublicationInfo.getType());
+            type = luDao.fetch(CluPublicationType.class, cluPublicationInfo.getTypeKey());
         } catch (DoesNotExistException e) {
             throw new InvalidParameterException("CluPublication Type does not exist for id:"
-                    + cluPublicationInfo.getType());
+                    + cluPublicationInfo.getTypeKey());
         }
 
         // Update the list of variants
@@ -1777,7 +1777,7 @@ public class LuServiceImpl implements CluService {
         cluPub.setStartCycle(cluPublicationInfo.getStartCycle());
         cluPub.setEffectiveDate(cluPublicationInfo.getEffectiveDate());
         cluPub.setExpirationDate(cluPublicationInfo.getExpirationDate());
-        cluPub.setState(cluPublicationInfo.getState());
+        cluPub.setState(cluPublicationInfo.getStateKey());
         cluPub.setType(type);
         cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, R1R2ConverterUtil.convert(cluPublicationInfo, org.kuali.student.r1.lum.lu.dto.CluPublicationInfo.class).getAttributes(), cluPub, luDao));
 
@@ -1833,7 +1833,7 @@ public class LuServiceImpl implements CluService {
         	throw new DataValidationErrorException("Validation error!", val);
         }
 
-        cluResultInfo.setType(cluResultTypeKey);
+        cluResultInfo.setTypeKey(cluResultTypeKey);
         cluResultInfo.setCluId(cluId);
 
         List<ResultOption> resOptList = new ArrayList<ResultOption>();
@@ -1938,7 +1938,7 @@ public class LuServiceImpl implements CluService {
                 "desc", "resultOptions"});
  
         result.setDesc(LuServiceAssembler.toRichText(LuRichText.class, R1R2ConverterUtil.convert(cluResultInfo, org.kuali.student.r1.lum.lu.dto.CluResultInfo.class).getDesc()));
-        CluResultType type = luDao.fetch(CluResultType.class, cluResultInfo.getType());
+        CluResultType type = luDao.fetch(CluResultType.class, cluResultInfo.getTypeKey());
         result.setCluResultType(type);
 
         CluResult updated = luDao.update(result);
@@ -2063,7 +2063,7 @@ public class LuServiceImpl implements CluService {
         CluLoRelationType cluLoRelationTypeEntity = luDao.fetch(CluLoRelationType.class, cluLoRelationInfo.getType());
         if (cluLoRelationTypeEntity == null) {
             throw new DoesNotExistException("CluLoRelationType does not exist for id: "
-                    + cluLoRelationInfo.getType());
+                    + cluLoRelationInfo.getTypeKey());
         }
 
         BeanUtils.copyProperties(cluLoRelationInfo, reltn, new String[]{
@@ -2211,7 +2211,7 @@ public class LuServiceImpl implements CluService {
     private void validateCluSet(CluSetInfo cluSetInfo) throws UnsupportedActionException {
         MembershipQueryInfo mqInfo = cluSetInfo.getMembershipQuery();
 
-        if (cluSetInfo.getType() == null) {
+        if (cluSetInfo.getTypeKey() == null) {
             throw new UnsupportedActionException("CluSet type cannot be null. CluSet id=" + cluSetInfo.getId());
         } else if (mqInfo != null && mqInfo.getSearchTypeKey() != null && !mqInfo.getSearchTypeKey().isEmpty() &&
                 (cluSetInfo.getCluIds().size() > 0 || cluSetInfo.getCluSetIds().size() > 0)) {
@@ -2248,7 +2248,7 @@ public class LuServiceImpl implements CluService {
 
         CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
-        if (!cluSetInfo.getType().equals(cluSet.getType())) {
+        if (!cluSetInfo.getTypeKey().equals(cluSet.getType())) {
             throw new UnsupportedActionException(
                     "CluSet type is set at creation time and cannot be updated. CluSet id=" + cluSetId);
         }
