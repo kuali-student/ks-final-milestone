@@ -588,16 +588,16 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			
 			try{
 				try {
-// TODO KSCM NEED CONTEXTINFO
+// TODO KSCM-390 NEED CONTEXTINFO
 
  rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED));
 				} catch (DoesNotExistException e) {}
 				try {
-					// TODO KSCM NEED CONTEXTINFO
+					// TODO KSCM-390 NEED CONTEXTINFO
 					 rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE));
 				} catch (DoesNotExistException e) {}
 				try {
-					// TODO KSCM NEED CONTEXTINFO
+					// TODO KSCM-390 NEED CONTEXTINFO
 					 rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE));
 				} catch (DoesNotExistException e) {}
 
@@ -783,10 +783,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					try {
 					    if(resultOption.getResultComponentId()!=null){
                             ResultComponentInfo resultComponent = null;
-    // TODO KSCM						lrcService.getResultComponent(resultOption.getResultComponentId());
+                            lrcService.getResultComponent(resultOption.getResultComponentId());
     						results.add(resultComponent);
 					    }
-// TODO KSCM					} catch (DoesNotExistException e) {
+					    } catch (DoesNotExistException e) {
 						LOG.warn("Course Credit option:"+resultOption.getId()+" refers to non-existant ResultComponentInfo "+resultOption.getResultComponentId());
 					} catch (Exception e) {
 						throw new AssemblyException("Error getting result components",e);
@@ -999,7 +999,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				List<CluCluRelationInfo> formatRelationships = R1R2ConverterUtil.convertLists(cluService
 						.getCluCluRelationsByClu(course.getId(),contextInfo), CluCluRelationInfo.class);
 				
-				//formatRelationships = (null == formatRelationships) ? new ArrayList<CluCluRelationInfo>() : formatRelationships;
+			    formatRelationships = (null == formatRelationships) ? new ArrayList<CluCluRelationInfo>() : formatRelationships;
 				
 				for (CluCluRelationInfo formatRelation : formatRelationships) {
 					if (CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE
@@ -1247,6 +1247,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		return results;
 	}
 	
+	// TODO KSCM-392	
 //	public void setLuService(LuService luService) {
 //		this.luService = luService;
 //	}
