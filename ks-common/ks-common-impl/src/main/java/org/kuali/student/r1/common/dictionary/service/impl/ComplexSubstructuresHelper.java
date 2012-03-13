@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
 
 @Deprecated
 public class ComplexSubstructuresHelper {
@@ -62,8 +63,10 @@ public class ComplexSubstructuresHelper {
 			}
 			//
 			if (!MetaInfo.class.equals(subClass)
-					&& !Meta.class.equals(subClass)
+					&& !Meta.class.equals(subClass)		// KSCM added coz it's a interface object
+					&& !RichText.class.equals(subClass)		// KSCM added coz it's a interface object					
 					&& !Class.class.equals(subClass)
+					
 					&& !String.class.equals(subClass)
 					&& !Integer.class.equals(subClass)
 					&& !Long.class.equals(subClass)
