@@ -217,7 +217,7 @@ public class MajorProposalController extends MajorController implements Workflow
         if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
             if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
                 
-           //TODO KSCM     viewContext.setPermissionType(PermissionType.OPEN);
+           //TODO KSCM-427     viewContext.setPermissionType(PermissionType.OPEN);
             } else{
                 // Since we are making a copy and we are in the proposal controller we know
                 // we are submitting a new proposal.  We need to reset the model so that
@@ -225,11 +225,11 @@ public class MajorProposalController extends MajorController implements Workflow
                 // by the history stack. 
                 resetModel();
                 //they are trying to make a modification
-          //TODO KSCM      viewContext.setPermissionType(PermissionType.INITIATE);
+          //TODO KSCM-427     viewContext.setPermissionType(PermissionType.INITIATE);
             }
         }
         else{
-            //TODO KSCM viewContext.setPermissionType(PermissionType.INITIATE);
+            //TODO KSCM-427 viewContext.setPermissionType(PermissionType.INITIATE);
         }
     }
 
@@ -933,8 +933,7 @@ public class MajorProposalController extends MajorController implements Workflow
         return reqDataModelComp;
     }
 
-    //TODO KSCM I commented out @override
-	//@Override
+
 	public void getMetadataForFinalState(final KSAsyncCallback<Metadata> callback) {
 		//Setup View Context
 		String idType = null;

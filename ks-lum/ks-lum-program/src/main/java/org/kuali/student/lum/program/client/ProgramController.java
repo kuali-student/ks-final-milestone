@@ -375,9 +375,9 @@ public abstract class ProgramController extends MenuSectionController {
     public void setViewContext(ViewContext viewContext) {
         super.setViewContext(viewContext);
         if (viewContext.getId() != null && !viewContext.getId().isEmpty()) {
-       //TODO KSCM      viewContext.setPermissionType(PermissionType.OPEN);
+       //TODO KSCM-427      viewContext.setPermissionType(PermissionType.OPEN);
         } else {
-        	//TODO KSCM      viewContext.setPermissionType(PermissionType.INITIATE);
+        	//TODO KSCM-427     viewContext.setPermissionType(PermissionType.INITIATE);
         }
     }
 
