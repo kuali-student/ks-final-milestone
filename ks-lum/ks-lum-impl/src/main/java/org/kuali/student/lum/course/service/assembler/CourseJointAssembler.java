@@ -62,10 +62,11 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu = null;
 		try {
-			// TODO KSCM clu = cluService.getClu(cluRel.getRelatedCluId() , contextInfo);
+			// TODO KSCM-421 			clu = cluService.getClu(cluRel.getRelatedCluId() , contextInfo);
 
 			joint.setCourseId(clu.getId());
-			// TODO KSCM joint.setType(clu.getType());//FIXME is this ever used?
+
+			joint.setType(clu.getType());//FIXME is this ever used?
 			joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 			joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
 			joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
@@ -88,12 +89,13 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu = null;
 		try {
-			// TODO KSCM clu = cluService.getClu(cluId , contextInfo);
+			// TODO KSCM-421 clu = cluService.getClu(cluId , contextInfo);
 			
 			if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
 				clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) {
 				joint.setCourseId(clu.getId());
-				// TODO KSCM				joint.setType(clu.getType());//FIXME is this ever used?
+								
+				joint.setType(clu.getType());
 				joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 				joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
 				joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
@@ -124,7 +126,8 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 		CluCluRelationInfo cluRel = new CluCluRelationInfo();
 		cluRel.setId(UUIDHelper.genStringUUID(joint.getRelationId()));
 		cluRel.setRelatedCluId(joint.getCourseId());
-		// TODO KSCM		cluRel.setType(CourseAssemblerConstants.JOINT_RELATION_TYPE);
+				
+		cluRel.setType(CourseAssemblerConstants.JOINT_RELATION_TYPE);
 		result.setNodeData(cluRel);
 		// The caller is required to set the CluId on the cluCluRelation
 		
