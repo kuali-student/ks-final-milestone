@@ -202,7 +202,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
         VersionDisplayInfo currentVersion = null;
-     // TODO KSCM- currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
+     // TODO KSCM-393 currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
 
         // If this is not the current version, then make it current
         if (
