@@ -79,9 +79,9 @@ public class CourseDataService extends AbstractDataService {
 	            	
 	            	//Get the currentCourse from the service
 	            	VersionDisplayInfo versionInfo = null;
-	            	// TODO KSCM Versions versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseIndId, contextInfo);
+	            	// TODO KSCM-423 Versions versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseIndId, contextInfo);
 	            	CourseInfo originalCourseInfo = null;
-	            	// TODO KSCM Versions originalCourseInfo = courseService.getCourse(versionInfo.getId(), contextInfo);
+	            	// TODO KSCM-423 Versions originalCourseInfo = courseService.getCourse(versionInfo.getId(), contextInfo);
 	            	
 			    	//Save the start and end terms from the old version and put into filter properties
 			    	String startTerm = originalCourseInfo.getStartTerm();

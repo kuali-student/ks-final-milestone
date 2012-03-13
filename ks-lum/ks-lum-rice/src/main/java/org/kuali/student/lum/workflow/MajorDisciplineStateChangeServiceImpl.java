@@ -214,7 +214,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 		curVerDisplayInfo =		programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId, contextInfo);
 	
 		String curVerId = null;
-		// TODO KSCM		
+				
 		curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
@@ -240,9 +240,9 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
 
     	//Set the end terms on the major discipline
-    	//TODO KSCM majorDisciplineInfo.setEndProgramEntryTermId(endEntryTerm);
-    	//TODO KSCM majorDisciplineInfo.setEndTermId(endEnrollTerm);
-        //TODO KSCM
+    	//TODO KSCM-388 majorDisciplineInfo.setEndProgramEntryTermId(endEntryTerm);
+    	//TODO KSCM-388 majorDisciplineInfo.setEndTermId(endEnrollTerm);
+        //TODO KSCM-388
         //majorDisciplineInfo.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
 
         //Check if there are variations to process
@@ -279,7 +279,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    			variation.setEndTerm(endEnrollTerm);
 	    		}
 	    		//compare dates to get the older of the two end terms
-                // TODO KSCM
+                // TODO KSCM-388
 	    		/*if(variation.getAttributes().get("endInstAdmitTerm") != null){
 	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributes().get("endInstAdmitTerm"));
 	    			Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();

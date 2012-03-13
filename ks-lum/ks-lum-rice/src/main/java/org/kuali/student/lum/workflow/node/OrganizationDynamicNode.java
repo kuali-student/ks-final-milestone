@@ -83,7 +83,7 @@ public class OrganizationDynamicNode implements DynamicNode {
         this.organizationService = organizationService;
     }
 
-    // TODO KSCM @Override
+  
     public DynamicResult transitioningInto(RouteContext context, RouteNodeInstance dynamicNodeInstance, RouteHelper helper, ContextInfo contextInfo) throws Exception {
         LOG.debug("Entering transitioningInto");
         DocumentType docType = setUpDocumentType(context.getDocument().getDocumentType(), dynamicNodeInstance);
@@ -203,7 +203,7 @@ public class OrganizationDynamicNode implements DynamicNode {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    // TODO KSCM @Override
+  
     public DynamicResult transitioningOutOf(RouteContext context, RouteHelper helper, ContextInfo contextInfo) throws Exception {
         LOG.debug("Variables for transitioningOutOf");
         RouteNodeInstance processInstance = context.getNodeInstance().getProcess();

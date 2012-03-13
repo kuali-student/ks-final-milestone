@@ -30,7 +30,7 @@ import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
  *
  */
 
-//TODO KSCM Hopefully this interface isn't here after refactoring, a equivelent with Contextinfo
+//TODO KSCM-421 Hopefully this interface isn't here after refactoring, a equivelent with Contextinfo
 //class has been created in R2 packages with upgraded metods/parameters
 
 @Deprecated

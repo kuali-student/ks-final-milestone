@@ -204,7 +204,7 @@ public class ValidationResultInfo
         this.message = message;
     }
 
-    // TODO KSCM compare with R1 and decide how to implement nina
+    // TODO KSCM-421 compare with R1 and decide how to implement nina
 	public static boolean hasValidationErrors(
 			List<ValidationResultInfo> results, ErrorLevel warn,
 			List<String> ignoreFields) {

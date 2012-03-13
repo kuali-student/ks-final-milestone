@@ -58,9 +58,9 @@ public class Dictionary2BeanComparer
 }
   compareAddDiscrepancy (discrepancies, "Java class name", osDict.getName (), osBean.getName ());
   System.out.println(osDict.getName());
-//  if (!osDict.getClass().equals(RichTextInfo.class)) {	// TODO KSCM NINA ????
+  if (!osDict.getClass().equals(RichTextInfo.class)) {	
   compareAddDiscrepancy (discrepancies, "Has meta data?" + osDict.getName() + " vs " + osBean.getName(), osDict.isHasMetaData (), osBean.isHasMetaData ());
-//  }
+  }
   compareAddDiscrepancy (discrepancies, "Business object class", osDict.getBusinessObjectClass (), osBean.getBusinessObjectClass ());
   for (FieldDefinition fdDict : osDict.getAttributes ())
   {

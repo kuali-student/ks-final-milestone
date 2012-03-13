@@ -92,11 +92,11 @@ public class LoCategoryDataService extends AbstractDataService {
         this.loService = loService;
     }
 
-    // TODO KSCM
+    // TODO KSCM-392
 	@Override
 	public List<ValidationResultInfo> validateData(Data data,
 			ContextInfo contextInfo) throws OperationFailedException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
