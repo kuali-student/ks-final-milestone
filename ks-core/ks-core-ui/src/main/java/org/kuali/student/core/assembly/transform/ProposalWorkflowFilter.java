@@ -35,8 +35,9 @@ import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
 import org.kuali.student.r1.common.assembly.transform.TransformFilter;
 import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r1.core.proposal.service.ProposalService;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -144,20 +145,21 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
                 }
                 
                 Map<String,String> proposalAttributes = (Map<String, String>) properties.get(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES);
-                if(proposalAttributes!=null){
+                //TODO KSCM-388 
+                /*if(proposalAttributes!=null){
                 	proposalInfo.getAttributes().putAll(proposalAttributes);
-                }
+                }*/
                 
                 proposalInfo.setState("Saved");
                                 
-                proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);            
+                proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo, ContextUtils.getContextInfo());            
             } 
                 
             //Update the workflow process for this proposal
             proposalInfo = updateWorkflow(proposalInfo, data, properties);
     
             //Update the propsal service with new proposal info
-            proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
+            proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo, ContextUtils.getContextInfo());
 
             //Place updated info in properties in case other filters wish to make use of it
             properties.put(PROPOSAL_INFO, proposalInfo);
@@ -237,7 +239,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
             proposalInfo.setWorkflowId(workflowId);
             
             //Set the node attribute on the proposal to preroute as an initial value
-            proposalInfo.getAttributes().put("workflowNode", "PreRoute");
+            //TODO KSCM-388 
+            //proposalInfo.getAttributes().put("workflowNode", "PreRoute");
             
             //Lookup the workflow document detail to see if create was successful
             try {

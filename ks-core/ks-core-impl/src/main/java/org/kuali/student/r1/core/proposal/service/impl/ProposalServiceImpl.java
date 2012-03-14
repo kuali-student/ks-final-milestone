@@ -289,7 +289,7 @@ public class ProposalServiceImpl implements ProposalService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(ProposalInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(proposalInfo, objStructure);
+        List<ValidationResultInfo> validationResults = R1R2ConverterUtil.convertLists(defaultValidator.validateObject(proposalInfo, objStructure), org.kuali.student.r2.common.dto.ValidationResultInfo.class);
         return validationResults;         
     }
 
