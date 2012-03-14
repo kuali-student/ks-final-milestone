@@ -46,13 +46,33 @@ public class TestDTOEqualXMLBeanDefinition {
 
 	}
 	
+	
+	//@Test
+	public void testATPDTOsAgainstDataDictionary() {
+		System.out.println("testing statement dictionary");
+
+		Set<String> startingClasses = new LinkedHashSet();
+	
+		startingClasses.add(AtpInfo.class.getName());
+		String contextFile = "ks-atp-dictionary-context";
+		String outFile = "target/" + contextFile + ".txt";
+		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
+				outFile, startingClasses, contextFile + ".xml", false);
+		helper.setPrintDescrepenciesOnly(true);
+		List<String> errors = helper.doTest();
+		if (errors.size() > 0) {
+			fail("failed dictionary validation:\n" + formatAsString(errors));
+		}
+
+	}
+	
 	@Test
 	public void testCommentDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 
 		Set<String> startingClasses = new LinkedHashSet();
-		startingClasses.add(CommentInfo.class.getName());
 		startingClasses.add(TagInfo.class.getName());
+		startingClasses.add(CommentInfo.class.getName());
 		String contextFile = "ks-comment-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(

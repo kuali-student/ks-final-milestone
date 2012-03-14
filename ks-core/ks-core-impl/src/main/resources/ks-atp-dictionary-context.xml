@@ -8,12 +8,12 @@
   <property name="name" value="org.kuali.student.r2.core.atp.dto.AtpInfo"/>
   <property name="attributes">
    <list>
-    <ref bean="atpInfo.desc"/>
+    <ref bean="atpInfo.descr"/>
     <ref bean="atpInfo.endDate"/>
     <ref bean="atpInfo.id"/>
     <ref bean="atpInfo.name"/>
     <ref bean="atpInfo.startDate"/>
-    <ref bean="atpInfo.state"/>
+    <ref bean="atpInfo.stateKey"/>
     <ref bean="atpInfo.type"/>
    </list>
   </property>
@@ -21,11 +21,11 @@
  </bean>
  <bean id="org.kuali.student.r2.core.atp.dto.AtpInfo" parent="org.kuali.student.r2.core.atp.dto.AtpInfo-parent"/>
 
- <bean id="atpInfo.desc-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="desc"/>
+ <bean id="atpInfo.descr-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="descr"/>
   <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
- <bean id="atpInfo.desc" parent="atpInfo.desc-parent"/>
+ <bean id="atpInfo.descr" parent="atpInfo.descr-parent"/>
 
  <bean id="atpInfo.endDate-parent" abstract="true" parent="baseDate">
   <property name="name" value="endDate"/>
@@ -47,10 +47,10 @@
  </bean>
  <bean id="atpInfo.startDate" parent="atpInfo.startDate-parent"/>
 
- <bean id="atpInfo.state-parent" abstract="true" parent="baseKualiStateRequired">
-  <property name="name" value="state"/>
+ <bean id="atpInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="atpInfo.state" parent="atpInfo.state-parent"/>
+ <bean id="atpInfo.stateKey" parent="atpInfo.stateKey-parent"/>
 
  <bean id="atpInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
   <property name="name" value="type"/>
