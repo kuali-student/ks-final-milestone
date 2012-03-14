@@ -295,12 +295,12 @@ public class RegistrationController extends UifControllerBase {
     }
 
     protected List<RegistrationGroupInfo> getRegistrationGroupInfos(String coId, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        return getCourseOfferingService().getRegGroupsForCourseOffering(coId, context);
+        return getCourseOfferingService().getRegistrationGroupsForCourseOffering(coId, context);
     }
 
     protected List<ActivityOfferingWrapper> getActivityOfferingInfos(RegistrationGroup regGroup, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        // TODO right now getOfferingsByIdList throws a not supported exception
-//        return getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context);
+        // TODO right now getOfferingsByIds throws a not supported exception
+//        return getCourseOfferingService().getActivityOfferingsByIds(regGroup.getActivityOfferingIds(), context);
         List<ActivityOfferingWrapper> activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>(regGroup.getActivityOfferingIds().size());
         for (String activityId : regGroup.getActivityOfferingIds()) {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(activityId, context);
@@ -331,7 +331,9 @@ public class RegistrationController extends UifControllerBase {
 
     protected List<MeetingScheduleWrapper> setupMeetingScheduleInfos(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo) {
         List<MeetingScheduleWrapper> wrappers = new ArrayList<MeetingScheduleWrapper>();
-        for (MeetingScheduleInfo meetingScheduleInfo : activityOfferingInfo.getMeetingSchedules()) {
+        // TODO: fix this to get the meeting schedule from the schedule Id and the schedule service
+        List<MeetingScheduleInfo> list = new ArrayList<MeetingScheduleInfo> ();        
+        for (MeetingScheduleInfo meetingScheduleInfo : list) {
             MeetingScheduleWrapper wrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
             wrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
             wrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
