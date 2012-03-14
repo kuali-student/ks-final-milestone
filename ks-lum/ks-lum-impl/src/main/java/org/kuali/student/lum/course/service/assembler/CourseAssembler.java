@@ -81,7 +81,7 @@ import org.springframework.util.StringUtils;
  * 
  */
 
-// TODO KSCM replaced
+// TODO KSCM-429 replaced
 // xyz.setTypeKey(...) - > xyz.setType(...);
 // xyz.setStateKey(...) -> xyz.setState();
 // xyz.getTypeKey(...) -> xyz.getType(...)
