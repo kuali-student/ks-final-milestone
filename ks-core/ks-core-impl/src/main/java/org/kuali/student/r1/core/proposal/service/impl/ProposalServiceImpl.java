@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
@@ -320,11 +321,25 @@ public class ProposalServiceImpl implements ProposalService {
         }
     }
 
-    public ProposalDao getProposalDao() {
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     */
+    @Deprecated
+    public ProposalDao getProposalDao() throws UnsupportedException {
         return proposalDao;
     }
 
-    public void setProposalDao(ProposalDao dao) {
+    /**
+     * 
+     * This method ...
+     * 
+     * @param dao
+     */
+    @Deprecated
+    public void setProposalDao(ProposalDao dao) throws UnsupportedException {
         this.proposalDao = dao;
     }
 
