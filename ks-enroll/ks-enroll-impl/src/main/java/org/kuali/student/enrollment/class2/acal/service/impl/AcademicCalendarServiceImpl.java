@@ -1,16 +1,5 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 import javax.jws.WebParam;
 
 import org.apache.commons.lang.StringUtils;
@@ -59,6 +48,17 @@ import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AcademicCalendarServiceImpl implements AcademicCalendarService {
@@ -515,10 +515,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<TermInfo> getTermsByIds(List<String> termIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<TermInfo> getTermsByIds(List<String> termIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        List<AtpInfo> results = atpService.getAtpsByIds(termIdList, context);
+        List<AtpInfo> results = atpService.getAtpsByIds(termIds, context);
 
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
 
@@ -916,7 +916,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<KeyDateInfo> getKeyDatesByIds(List<String> keyDateIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<KeyDateInfo> getKeyDatesByIds(List<String> keyDateIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return new ArrayList<KeyDateInfo>();
     }
@@ -1002,7 +1002,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             keyInfo.setStateKey(milestoneInfo.getStateKey());
             keyInfo.setTypeKey(milestoneInfo.getTypeKey());
             keyInfo.setIsRelativeToKeyDate(milestoneInfo.getIsRelative());
-            keyInfo.setRelativeAnchirKeyDateId(milestoneInfo.getRelativeAnchorMilestoneId());
+            keyInfo.setRelativeAnchorKeyDateId(milestoneInfo.getRelativeAnchorMilestoneId());
 
             return keyInfo;
         } else
@@ -1613,6 +1613,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<String> getKeyDateIdsByType(String keyDateTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> getKeyDateIdsByTypeForTerm(String keyDateTypeKey, String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO
         return null;
     }
 

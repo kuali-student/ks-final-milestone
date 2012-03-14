@@ -349,7 +349,7 @@ public class TestAcademicCalendarServiceImpl {
         List<String> expectedIds = new ArrayList<String>();
         expectedIds.add("termRelationTestingTerm1");
 
-        // check that all the expected ids came back
+        // check that all the expected Ids came back
         for (TermInfo info : results) {
             expectedIds.remove(info.getId());
         }
@@ -367,7 +367,7 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testGetTermIdsByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testGetTermIdsByType() throws Exception {
         String expectedTermType = "kuali.atp.type.HalfFall1";
 
         List<String> termIds = acalService.getTermIdsByType(expectedTermType, callContext);
@@ -395,7 +395,7 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(terms);
         assertEquals(termIds.size(), terms.size());
 
-        // check that all the expected ids came back
+        // check that all the expected Ids came back
         for (TermInfo info : terms) {
             termIds.remove(info.getId());
         }
@@ -425,7 +425,7 @@ public class TestAcademicCalendarServiceImpl {
         List<String> expectedIds = new ArrayList<String>();
         expectedIds.add("termRelationTestingTerm1");
 
-        // check that all the expected ids came back
+        // check that all the expected Ids came back
         for (TermInfo info : results) {
             expectedIds.remove(info.getId());
         }
@@ -452,7 +452,7 @@ public class TestAcademicCalendarServiceImpl {
         List<String> expectedIds = new ArrayList<String>();
         expectedIds.add("termRelationTestingTerm2");
 
-        // check that all the expected ids came back
+        // check that all the expected Ids came back
         for (TermInfo info : results) {
             expectedIds.remove(info.getId());
         }
@@ -514,7 +514,7 @@ public class TestAcademicCalendarServiceImpl {
         List<String> expectedIds = new ArrayList<String>();
         expectedIds.addAll(Arrays.asList(AtpServiceConstants.ATP_DRAFT_STATE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY));
 
-        // ensure we have all the expected ids in our list
+        // ensure we have all the expected Ids in our list
         assertEquals(expectedIds.size(), result.size());
 
         for (StateInfo state : result) {
@@ -556,7 +556,7 @@ public class TestAcademicCalendarServiceImpl {
         List<String> expectedIds = new ArrayList<String>(2);
         expectedIds.addAll(Arrays.asList("kuali.atp.type.Fall", "kuali.atp.type.Spring"));
 
-        // check that all the expected ids came back
+        // check that all the expected Ids came back
         for (TypeInfo info : results) {
             expectedIds.remove(info.getKey());
         }
@@ -582,7 +582,7 @@ public class TestAcademicCalendarServiceImpl {
         List<String> expectedIds = new ArrayList<String>(2);
         expectedIds.addAll(Arrays.asList(AtpServiceConstants.ATP_HALF_SPRING_1_TYPE_KEY, AtpServiceConstants.ATP_HALF_SPRING_2_TYPE_KEY, AtpServiceConstants.ATP_SPRING_BREAK_TYPE_KEY));
 
-        // check that all the expected ids came back
+        // check that all the expected Ids came back
         for (TypeInfo info : results) {
             expectedIds.remove(info.getKey());
         }

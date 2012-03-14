@@ -15,19 +15,16 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -297,7 +294,7 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public List<String> getTermIdsByType(String termTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getTermIdsByType(String termTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return (getNextDecorator().getTermIdsByType(termTypeKey, contextInfo));
     }
 
@@ -425,9 +422,14 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public List<String> getKeyDateIdsByType(String keyDateTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> getKeyDateIdsByType(String keyDateTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return (getNextDecorator().getKeyDateIdsByType(keyDateTypeKey, contextInfo));
+    }
+
+    @Override
+    public List<String> getKeyDateIdsByTypeForTerm(String keyDateTypeKey, String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return (getNextDecorator().getKeyDateIdsByTypeForTerm(keyDateTypeKey, termId, contextInfo));
     }
 
     @Override
@@ -637,7 +639,7 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public List<String> getHolidayIdsByType(String holidayTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> getHolidayIdsByType(String holidayTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return (getNextDecorator().getHolidayIdsByType(holidayTypeKey, contextInfo));
     }

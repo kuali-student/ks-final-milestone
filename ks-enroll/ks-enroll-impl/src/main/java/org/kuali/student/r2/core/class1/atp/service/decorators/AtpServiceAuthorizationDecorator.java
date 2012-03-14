@@ -47,7 +47,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
    
     @Override
-    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context)
+    public List<AtpInfo> getAtpsByIds(List<String> atpIds, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException, 
     PermissionDeniedException {
@@ -56,7 +56,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByKeyList", null)) {
-        	return getNextDecorator().getAtpsByIds(atpIdList, context);
+        	return getNextDecorator().getAtpsByIds(atpIds, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -202,7 +202,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIdList, ContextInfo context)
+    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIds, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
@@ -211,7 +211,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesByIds", null)) {
-        	return getNextDecorator().getMilestonesByIds(milestoneIdList, context);
+        	return getNextDecorator().getMilestonesByIds(milestoneIds, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -516,7 +516,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(List<String> atpAtpRelationIdList, ContextInfo context)
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(List<String> atpAtpRelationIds, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
@@ -525,7 +525,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByIdList", null)) {
-        	return getNextDecorator().getAtpAtpRelationsByIds(atpAtpRelationIdList, context);
+        	return getNextDecorator().getAtpAtpRelationsByIds(atpAtpRelationIds, context);
         }
         else {
            throw new PermissionDeniedException();

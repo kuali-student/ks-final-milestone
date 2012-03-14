@@ -1,14 +1,11 @@
 package org.kuali.student.enrollment.class1.lrr.model;
 
-import org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity;
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.infc.LearningResultRecord;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.lum.lrc.infc.ResultValue;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,13 +22,11 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
     @JoinColumn(name = "RT_DESCR_ID")
     private LrrRichTextEntity descr;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "TYPE_ID")
-    private LrrTypeEntity lrrType;
+    @Column(name = "LRR_TYPE")
+    private String lrrType;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "STATE_ID")
-    private StateEntity lrrState;
+    @Column(name = "LRR_STATE")
+    private String lrrState;
 
     @Column(name = "LPR_ID")
     private String lprId;
@@ -57,7 +52,8 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
         this.setName(dto.getName());
         this.setLprId(dto.getLprId());
         this.setResultValueId(dto.getResultValueKey());
-
+        this.setLrrState(dto.getStateKey());
+        this.setLrrType(dto.getTypeKey());
         if(dto.getDescr() != null){
 	        this.setDescr(new LrrRichTextEntity(dto.getDescr()));
         }
@@ -86,19 +82,19 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
         this.descr = descr;
     }
 
-    public LrrTypeEntity getLrrType() {
+    public String getLrrType() {
         return lrrType;
     }
 
-    public void setLrrType(LrrTypeEntity lrrType) {
+    public void setLrrType(String lrrType) {
         this.lrrType = lrrType;
     }
 
-    public StateEntity getLrrState() {
+    public String getLrrState() {
         return lrrState;
     }
 
-    public void setLrrState(StateEntity lrrState) {
+    public void setLrrState(String lrrState) {
         this.lrrState = lrrState;
     }
 
@@ -156,14 +152,14 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
         for(ResultSourceEntity resultSourceEntity : getResultSourceList()){
             resSource.add(resultSourceEntity.getId());
         }
-        info.setResultSourceIdList(resSource);
+        info.setResultSourceIds(resSource);
 
         if (getLrrState() != null){
-            info.setStateKey(getLrrState().getId());
+            info.setStateKey(getLrrState());
         }
 
         if (getLrrType() != null){
-            info.setTypeKey(getLrrType().getId());
+            info.setTypeKey(getLrrType());
         }
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();

@@ -10,7 +10,7 @@ import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
+import org.kuali.student.r2.core.class1.type.model.TypeEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 public class AtpDataGenerator {
@@ -46,10 +46,9 @@ public class AtpDataGenerator {
         return attributes;
     }
 
-    private AtpTypeEntity createType() {
-        AtpTypeEntity atpType = new AtpTypeEntity();
+    private TypeEntity createType() {
+        TypeEntity atpType = new TypeEntity(null);
         atpType.setName("type1");
-        atpType.setDescr("type1 descr");
         return atpType;
     }
 
@@ -59,5 +58,6 @@ public class AtpDataGenerator {
         atpState.setDescription("state1 descr");
         return atpState;
     }
+
 
 }

@@ -97,9 +97,6 @@
     
     <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
 	  	<property name="luiDao" ref="luiDao"/>
-	  	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
-	  	<property name="luiTypeDao" ref="luiTypeDao"/>
-	  	<property name="luiRichTextDao" ref="luiRichTextDao"/>
 	  	<property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
 	  	<property name="stateService" ref="stateService"/>
 	  	<property name="atpService" ref="atpServiceAuthorization"/>
@@ -123,14 +120,6 @@
     	<property name="em" ref="entityManager"/>
     </bean>   
     
-    <bean id="luiRichTextDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao">
-    	<property name="em" ref="entityManager"/>
-    </bean>   
-    
-    <bean id="luiTypeDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao">
-    	<property name="em" ref="entityManager"/>
-    </bean>  
- 
     <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
     	<property name="em" ref="entityManager"/>
     </bean>   

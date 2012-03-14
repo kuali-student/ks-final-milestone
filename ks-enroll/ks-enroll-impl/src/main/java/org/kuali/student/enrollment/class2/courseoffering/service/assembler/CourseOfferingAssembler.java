@@ -18,7 +18,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,11 +87,10 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
              * After the above issue is fixed, we can revisit about   co.setExpenditure(lui.getExpenditure());
              */
 //			co.setExpenditure(lui.getExpenditure());
-			co.setFormatIds(lui.getCluCluRelationIds());
-			
+
 			assembleIdentifier(lui, co);
 			
-			//TODO: lui.getResultOptionIds() -- co.setCreditOptions & co.setGradingOptionKeys --- call LRCService.getResultValuesByIdList
+			//TODO: lui.getResultOptionIds() -- co.setCreditOptions & co.setGradingOptionKeys --- call LRCService.getResultValuesByIds
 			
 			//instructors
 			assembleInstructors(co, lui.getId(), context);
@@ -215,7 +214,6 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			//lui.setWaitlistTypeKey(co.getWaitlistTypeKey());
 			
 			lui.setCluId(co.getCourseId());
-			lui.setCluCluRelationIds(co.getFormatIds());
 			lui.setAtpId(co.getTermId());
 			lui.setUnitsContentOwner(co.getUnitsContentOwner());
 			lui.setUnitsDeployment(co.getUnitsDeployment());

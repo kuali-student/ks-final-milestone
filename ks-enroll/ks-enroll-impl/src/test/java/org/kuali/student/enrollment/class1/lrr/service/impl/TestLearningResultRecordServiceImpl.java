@@ -51,7 +51,7 @@ public class TestLearningResultRecordServiceImpl {
     }
 
     @Test
-    public void testGetLearningResultRecordsForLprIdList() throws Exception {
+    public void testGetLearningResultRecordsForLprIds() throws Exception {
         List<String> lprIds = new ArrayList<String>();
         lprIds.add("student1");
         lprIds.add("student2");
@@ -62,14 +62,14 @@ public class TestLearningResultRecordServiceImpl {
         lrrIdsToLprIds.put("student1-grade-interim-lecture", "student1");
         lrrIdsToLprIds.put("student2-grade-interim-lecture", "student2");
 
-        List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
+        List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIds(lprIds, context);
         assertNotNull("Null list returned.", lrrs);
         assertEquals("Unexpected number of results.", lrrIdsToLprIds.size(), lrrs.size());
         for (LearningResultRecordInfo lrr : lrrs) {
             assertNotNull("Result has no LPR ID.", lrr.getLprId());
             assertNotNull("Result has no ID.", lrr.getId());
-            assertNotNull("Result has no Result Source ID List.", lrr.getResultSourceIdList());
-            assertFalse("Result has populated Result Source ID List.", lrr.getResultSourceIdList().size() > 0); // TODO change when added.
+            assertNotNull("Result has no Result Source ID List.", lrr.getResultSourceIds());
+            assertFalse("Result has populated Result Source ID List.", lrr.getResultSourceIds().size() > 0); // TODO change when added.
             assertNotNull("Result has no Result Value Key.", lrr.getResultValueKey());
             assertNotNull("Result has no Name.", lrr.getName());
             assertNotNull("Result has no State Key.", lrr.getStateKey());
@@ -117,7 +117,7 @@ public class TestLearningResultRecordServiceImpl {
 
     @Ignore("Method not implemented.") // TODO implement method
     @Test
-    public void testGetResultSourcesByIdList() throws Exception {
+    public void testGetResultSourcesByIds() throws Exception {
 
     }
 

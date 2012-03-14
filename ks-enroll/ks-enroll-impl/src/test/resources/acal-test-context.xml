@@ -176,7 +176,7 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
+  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceImpl"/>
 
   <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
     <property name="em" ref="entityManager" />

@@ -9,13 +9,10 @@
   <persistence-unit name="Acal" transaction-type="JTA">
     <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity</class>
-    <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationTypeEntity</class>
     <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationAttributeEntity</class>
 
     <class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
     <class>org.kuali.student.r2.core.class1.atp.model.AtpStateEntity</class>
-    <class>org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity</class>
-    <class>org.kuali.student.r2.core.class1.type.entity.AtpTypeAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity</class>
     <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity</class>
@@ -28,9 +25,10 @@
     <class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
     <class>org.kuali.student.r2.core.class1.state.model.StateLifecycleRelationEntity</class>
-    <class>org.kuali.student.r2.core.class1.type.entity.TypeEntity</class>
-    <class>org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationEntity</class>
-    <class>org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationAttributeEntity</class>
+    <class>org.kuali.student.r2.core.class1.type.model.TypeEntity</class>
+    <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
+    <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity</class>
+    <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationAttributeEntity</class>
 
     <!-- Statement Persistence -->
     <class>org.kuali.student.core.statement.entity.RefStatementRelation</class>
@@ -61,8 +59,6 @@
 
     <class>org.kuali.student.enrollment.class1.hold.model.RestrictionEntity</class>
     <class>org.kuali.student.enrollment.class1.hold.model.RestrictionAttributeEntity</class>
-    <class>org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity</class>
-    <class>org.kuali.student.enrollment.class1.hold.model.HoldTypeAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
     <class>org.kuali.student.enrollment.class1.hold.model.IssueEntity</class>
     <class>org.kuali.student.enrollment.class1.hold.model.IssueAttributeEntity</class>
@@ -72,9 +68,6 @@
     <class>org.kuali.student.enrollment.class1.lui.model.LuiEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiInstructorEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiTypeAttributeEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiTypeEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>
@@ -82,7 +75,22 @@
     <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupRelationEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleAttributeEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiCapacityEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiCapacityRelationEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiFeeEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiFeeAttributeEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiExpenditureEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiExpenditureAttributeEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiRevenueEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiRevenueAttributeEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsContentOwnerEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiCluCluRelationEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgAttributeEntity</class>
+    
     <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntity</class>
     <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity</class>
@@ -103,16 +111,13 @@
     <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
     <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupRichTextEntity</class>
-    <class>org.kuali.student.enrollment.class1.lrc.model.LrcTypeEntity</class>
 
     <class>org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity</class>
     <class>org.kuali.student.enrollment.class1.lrr.model.LrrAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lrr.model.LrrRichTextEntity</class>
-    <class>org.kuali.student.enrollment.class1.lrr.model.LrrTypeEntity</class>
     <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceEntity</class>
     <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceRichTextEntity</class>
-    <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceTypeEntity</class>
 
     <!--class>org.kuali.student.r2.core.class1.process.model.CheckAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.CheckEntity</class>
@@ -130,7 +135,7 @@
     <class>org.kuali.student.r2.core.class1.process.model.ProcessTypeAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.ProcessTypeEntity</class>
 
-    <class>org.kuali.student.r2.core.population.model.PopulationEntity</class-->
+    <class>org.kuali.student.r2.core.class1.population.model.PopulationEntity</class-->
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

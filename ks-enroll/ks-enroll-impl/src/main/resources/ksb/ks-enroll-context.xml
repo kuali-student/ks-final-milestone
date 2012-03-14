@@ -147,7 +147,7 @@
     <property name="sprDao" ref="stateProcessRelationDao" />
   </bean>
 
-  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
+  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceImpl"/>
 
   <bean id="ks.exp.typeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">

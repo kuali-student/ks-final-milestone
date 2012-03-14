@@ -8,7 +8,6 @@ import org.kuali.student.enrollment.class1.lrr.dao.LrrDao;
 import org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity;
 import org.kuali.student.enrollment.class1.lrr.model.LrrAttributeEntity;
 import org.kuali.student.enrollment.class1.lrr.model.LrrRichTextEntity;
-import org.kuali.student.enrollment.class1.lrr.model.LrrTypeEntity;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
 
 import java.util.ArrayList;
@@ -36,9 +35,6 @@ public class TestLrrDao extends AbstractTransactionalDaoTest {
         assertNotNull(lrr.getLrrType());
         assertNotNull(lrr.getId());
 
-        // Create
-        StateEntity lrrState = lrr.getLrrState();
-        LrrTypeEntity lrrType = lrr.getLrrType();
         lrr = new LearningResultRecordEntity();
 
         String id = "new-lrr";
@@ -56,8 +52,6 @@ public class TestLrrDao extends AbstractTransactionalDaoTest {
         lrr.setLprId(lprId);
         lrr.setAttributes(attributes);
         lrr.setDescr(descr);
-        lrr.setLrrState(lrrState);
-        lrr.setLrrType(lrrType);
         lrr.setResultValueId(resultValueId);
 
         dao.persist(lrr);
@@ -69,8 +63,6 @@ public class TestLrrDao extends AbstractTransactionalDaoTest {
         assertEquals("LPR ID does not match after create.", lprId, lrr.getLprId());
         assertEquals("Attributes does not match after create.", attributes, lrr.getAttributes());
         assertEquals("Descr does not match after create.", descr, lrr.getDescr());
-        assertEquals("LRR State does not match after create.", lrrState, lrr.getLrrState());
-        assertEquals("LRR Type does not match after create.", lrrType, lrr.getLrrType());
         assertEquals("Result Value Key does not match after create.", resultValueId, lrr.getResultValueId());
         
         // Update
@@ -86,7 +78,7 @@ public class TestLrrDao extends AbstractTransactionalDaoTest {
     }
 
     @Test
-    public void testGetLearningResultRecordsForLprIdList() {
+    public void testGetLearningResultRecordsForLprIds() {
         List<String> lprIds = new ArrayList<String>();
         lprIds.add("student1");
         lprIds.add("student2");
@@ -97,7 +89,7 @@ public class TestLrrDao extends AbstractTransactionalDaoTest {
         expected.add(dao.find("student1-grade-interim-lecture"));
         expected.add(dao.find("student2-grade-interim-lecture"));
 
-        List<LearningResultRecordEntity> lrrs = dao.getLearningResultRecordsForLprIdList(lprIds);
+        List<LearningResultRecordEntity> lrrs = dao.getLearningResultRecordsForLprIds(lprIds);
         assertNotNull("Null list returned.", lrrs);
         assertEquals("Number of results not as expected.", expected.size(), lrrs.size());
         assertTrue("Expected LRRs not returned.", lrrs.containsAll(expected));

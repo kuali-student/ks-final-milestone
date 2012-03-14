@@ -80,7 +80,7 @@ public class TestLuiPersonRelationServiceImpl {
     // LPR Roster Constants
     private final static String ATP_DURATION_KEY = "semester1";
     private final static String LPR_TRANSACTION_NAME = "NEW TRANSACTION TEST";
-    private final static int TIME_QTY = 1;
+    private final static String TIME_QTY = "1";
     private final static String LPR_ROSTER_NAME = "LPR_ROSTER_TEST";
     private final static String LPR_ROSTER_DESC = "LPR ROSTER DESC";
     private final static String ATTRIBUTE_KEY = "Key";
@@ -186,11 +186,11 @@ public class TestLuiPersonRelationServiceImpl {
         lprInfo.setTypeKey(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);
         lprInfo.setStateKey(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY);
 
-        List<String> luiIdList = Arrays.asList("Lui-1", "Lui-2", "Lui-3");
+        List<String> luiIds = Arrays.asList("Lui-1", "Lui-2", "Lui-3");
 
         try {
             List<String> createResults = lprServiceValidationDecorator.createBulkRelationshipsForPerson(
-                    PERSONID1, luiIdList, lprInfo.getStateKey(), lprInfo.getTypeKey(), lprInfo, callContext);
+                    PERSONID1, luiIds, lprInfo.getStateKey(), lprInfo.getTypeKey(), lprInfo, callContext);
             assertNotNull(createResults);
             assertEquals(3, createResults.size());
 
@@ -201,7 +201,7 @@ public class TestLuiPersonRelationServiceImpl {
                 assertEquals(PERSONID1, lprInfo2.getPersonId());
                 assertEquals(lprInfo.getTypeKey(), lprInfo2.getTypeKey());
                 assertEquals(lprInfo.getStateKey(), lprInfo2.getStateKey());
-                assertTrue(luiIdList.contains(lprInfo2.getLuiId()));
+                assertTrue(luiIds.contains(lprInfo2.getLuiId()));
             }
         }
         catch(Exception x) {
@@ -229,7 +229,7 @@ public class TestLuiPersonRelationServiceImpl {
     @Test
     public void testGetLuiPersonRelations() throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelationInfo> lprList = lprServiceValidationDecorator.getLprsByLuiAndPerson(PERSONID1, LUIID1, callContext);
+        List<LuiPersonRelationInfo> lprList = lprServiceValidationDecorator.getLprsByPersonAndLui(PERSONID1, LUIID1, callContext);
         assertNotNull(lprList);
         assertEquals(1, lprList.size());
         // TODO add asserts
@@ -304,7 +304,7 @@ public class TestLuiPersonRelationServiceImpl {
         assertEquals(info.getStateKey(), STATE_KEY);
         assertEquals(info.getDescr().getPlain(), LPR_ROSTER_DESC);
         assertEquals(info.getCheckInFrequency().getAtpDurationTypeKey(), ATP_DURATION_KEY);
-        assertEquals(info.getCheckInFrequency().getTimeQuantity().intValue(), TIME_QTY);
+        assertEquals(info.getCheckInFrequency().getTimeQuantity(), TIME_QTY);
         assertEquals(info.getName(), LPR_ROSTER_NAME);
         assertEquals(info.getAssociatedLuiIds().size(), 1);
         assertEquals(info.getAssociatedLuiIds().get(0), LUI_ID);
@@ -340,7 +340,7 @@ public class TestLuiPersonRelationServiceImpl {
         try {
             LprRosterInfo lprRosterInfo = createLprRosterInfo();
             String lprRosterId = lprServiceValidationDecorator.createLprRoster(lprRosterInfo, callContext);
-            infoList = lprServiceValidationDecorator.getLprRostersByLuiAndRosterType(LUI_ID, TYPE_KEY, callContext);
+            infoList = lprServiceValidationDecorator.getLprRostersByLuiAndType(LUI_ID, TYPE_KEY, callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -415,7 +415,8 @@ public class TestLuiPersonRelationServiceImpl {
     public void testCreateLprTransaction() {
         LprTransactionInfo lprTransactionInfo = createLprTransaction();
         try {
-            lprTransactionInfo = lprServiceValidationDecorator.createLprTransaction(lprTransactionInfo, callContext);
+            lprTransactionInfo = lprServiceValidationDecorator.createLprTransaction(lprTransactionInfo.getTypeKey(), 
+                    lprTransactionInfo, callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -430,7 +431,7 @@ public class TestLuiPersonRelationServiceImpl {
     public void testGetLprIdsByLuiAndPerson() {
         List<String> lprIds = null;
         try {
-            lprIds = lprServiceValidationDecorator.getLprIdsByLuiAndPerson("testPersonId1", "testLuiId1", callContext);
+            lprIds = lprServiceValidationDecorator.getLprIdsByPersonAndLui("testPersonId1", "testLuiId1", callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -443,7 +444,8 @@ public class TestLuiPersonRelationServiceImpl {
         String updateName = "NEW TRANSACTION TEST 1";
         LprTransactionInfo lprTransactionInfo = createLprTransaction();
         try {
-            lprTransactionInfo = lprServiceValidationDecorator.createLprTransaction(lprTransactionInfo, callContext);
+            lprTransactionInfo = lprServiceValidationDecorator.createLprTransaction(lprTransactionInfo.getTypeKey(), 
+                    lprTransactionInfo, callContext);
             lprTransactionInfo = lprServiceValidationDecorator.getLprTransaction(lprTransactionInfo.getId(), callContext);
             lprTransactionInfo.setName(updateName);
             lprTransactionInfo.setStateKey(LuiPersonRelationServiceConstants.ACTIVE_STATE_KEY);
@@ -488,7 +490,7 @@ public class TestLuiPersonRelationServiceImpl {
         LprRosterEntryInfo info = new LprRosterEntryInfo();
         info.setLprId(lprId);
         info.setLprRosterId(lprRosterId);
-        info.setPosition("1");
+        info.setPosition(1);
 
         Date effectiveDate = new Date();
         Date expiryDate = DateUtils.addYears(new Date(), 20);
@@ -497,7 +499,7 @@ public class TestLuiPersonRelationServiceImpl {
 
         String lprEntryId = lprServiceValidationDecorator.createLprRosterEntry(info, callContext);
 
-        List<LprRosterEntryInfo> entryInfoList = lprServiceValidationDecorator.getEntriesForLprRoster(lprRosterId, callContext);
+        List<LprRosterEntryInfo> entryInfoList = lprServiceValidationDecorator.getLprRosterEntriesForRoster(lprRosterId, callContext);
 
         assertEquals(1, entryInfoList.size());
         assertEquals(entryInfoList.get(0).getLprId(), lprId);
@@ -535,7 +537,7 @@ public class TestLuiPersonRelationServiceImpl {
         LprRosterEntryInfo info = new LprRosterEntryInfo();
         info.setLprId(lprId);
         info.setLprRosterId(lprRosterId);
-        info.setPosition("1");
+        info.setPosition(1);
 
         String lprEntryId = lprServiceValidationDecorator.createLprRosterEntry(info, callContext);
 
@@ -544,7 +546,7 @@ public class TestLuiPersonRelationServiceImpl {
         assertEquals(status.getIsSuccess(), true);
 
         // Make sure it's really deleted
-        List<LprRosterEntryInfo> entries = lprServiceValidationDecorator.getEntriesForLprRoster(lprRosterId, callContext);
+        List<LprRosterEntryInfo> entries = lprServiceValidationDecorator.getLprRosterEntriesForRoster(lprRosterId, callContext);
         assertEquals(0, entries.size());
 
     }
@@ -561,7 +563,7 @@ public class TestLuiPersonRelationServiceImpl {
         lprTransactionItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         lprTransactionItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
 
-        lprTransactionItem.setResultOptionKeys(RESULT_OPTION_IDS);
+        lprTransactionItem.setResultValuesGroupKeys(RESULT_OPTION_IDS);
         List<LprTransactionItemInfo> lprTransItemList = new ArrayList<LprTransactionItemInfo>();
         lprTransItemList.add(lprTransactionItem);
         lprTransactionInfo.setLprTransactionItems(lprTransItemList);

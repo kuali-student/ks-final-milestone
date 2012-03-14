@@ -21,7 +21,6 @@ import java.util.List;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -34,7 +33,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
-import org.kuali.student.r2.core.service.util.ValidationUtils;
+import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
 public class GradingServiceValidationDecorator extends GradingServiceDecorator  implements HoldsValidator, HoldsDataDictionaryService{
 	private DataDictionaryValidator validator;

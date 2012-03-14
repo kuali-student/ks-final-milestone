@@ -25,8 +25,8 @@ public class TestIssueDao extends AbstractTransactionalDaoTest {
         IssueEntity obj = dao.find("Hold-Issue-1");
         assertNotNull(obj);
         assertEquals("Issue one", obj.getName());
-        assertEquals(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY, obj.getIssueState().getId());
-        assertEquals(HoldServiceConstants.RESIDENCY_ISSUE_TYPE_KEY, obj.getIssueType().getId());
+        assertEquals(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY, obj.getIssueState());
+        assertEquals(HoldServiceConstants.RESIDENCY_ISSUE_TYPE_KEY, obj.getIssueType());
         assertEquals("Issue Desc 101", obj.getDescr().getPlain());
     }
 

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,9 +20,9 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_LUI_IDENT")
-public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<LuiIdentifierAttributeEntity>{
-	    
-   @Column(name = "CD")
+public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<LuiIdentifierAttributeEntity> {
+
+    @Column(name = "LUI_CD")
     private String code;
 
     @Column(name = "SHRT_NAME")
@@ -38,138 +40,150 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
     @Column(name = "SUFX_CD")
     private String suffixCode;
 
-    @Column(name = "TYPE")
+    @Column(name = "LUI_ID_TYPE")
     private String type;
 
-    @Column(name = "ST")
+    @Column(name = "LUI_ID_STATE")
     private String state;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "LUI_ID")
+    private LuiEntity lui;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiIdentifierAttributeEntity> attributes;
-    
-    public LuiIdentifierEntity(){}
-    
-    public LuiIdentifierEntity(LuiIdentifier luiIdentifier){
-    	super(luiIdentifier);
-    	try{
-    		this.setId(luiIdentifier.getId());
-    		this.setCode(luiIdentifier.getCode());
-    		this.setDivision(luiIdentifier.getDivision());
-    		this.setLongName(luiIdentifier.getLongName());
-    		this.setShortName(luiIdentifier.getShortName());
-    		this.setState(luiIdentifier.getStateKey());
-    		this.setSuffixCode(luiIdentifier.getSuffixCode());
-    		this.setType(luiIdentifier.getTypeKey());
-    		this.setVariation(luiIdentifier.getVariation());
-    		
-	        this.setAttributes(new ArrayList<LuiIdentifierAttributeEntity>());
-	        if (null != luiIdentifier.getAttributes()) {
-	            for (Attribute att : luiIdentifier.getAttributes()) {
-	            	LuiIdentifierAttributeEntity attEntity = new LuiIdentifierAttributeEntity(att);
-	                this.getAttributes().add(attEntity);
-	            }
-	        }
-    	} catch (Exception e){
+
+    public LuiIdentifierEntity() {}
+
+    public LuiIdentifierEntity(LuiIdentifier luiIdentifier) {
+        super(luiIdentifier);
+        try {
+            this.setId(luiIdentifier.getId());
+            this.setCode(luiIdentifier.getCode());
+            this.setDivision(luiIdentifier.getDivision());
+            this.setLongName(luiIdentifier.getLongName());
+            this.setShortName(luiIdentifier.getShortName());
+            this.setState(luiIdentifier.getStateKey());
+            this.setSuffixCode(luiIdentifier.getSuffixCode());
+            this.setType(luiIdentifier.getTypeKey());
+            this.setVariation(luiIdentifier.getVariation());
+
+            this.setAttributes(new ArrayList<LuiIdentifierAttributeEntity>());
+            if (null != luiIdentifier.getAttributes()) {
+                for (Attribute att : luiIdentifier.getAttributes()) {
+                    LuiIdentifierAttributeEntity attEntity = new LuiIdentifierAttributeEntity(att);
+                    this.getAttributes().add(attEntity);
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public LuiIdentifierInfo toDto() {
-    	LuiIdentifierInfo obj = new LuiIdentifierInfo();
-    	obj.setId(getId());
-    	obj.setCode(code);
-    	obj.setDivision(division);
-    	obj.setLongName(longName);
-		obj.setShortName(shortName);
-		obj.setStateKey(state);
-		obj.setSuffixCode(suffixCode);
-		obj.setTypeKey(type);
-		obj.setVariation(variation);
+        LuiIdentifierInfo obj = new LuiIdentifierInfo();
+        obj.setId(getId());
+        obj.setCode(code);
+        obj.setDivision(division);
+        obj.setLongName(longName);
+        obj.setShortName(shortName);
+        obj.setStateKey(state);
+        obj.setSuffixCode(suffixCode);
+        obj.setTypeKey(type);
+        obj.setVariation(variation);
         obj.setMeta(super.toDTO());
-        
+
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuiIdentifierAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }
         obj.setAttributes(atts);
-        
+
         return obj;
     }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public String getShortName() {
-		return shortName;
-	}
+    public String getShortName() {
+        return shortName;
+    }
 
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
-	}
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
 
-	public String getLongName() {
-		return longName;
-	}
+    public String getLongName() {
+        return longName;
+    }
 
-	public void setLongName(String longName) {
-		this.longName = longName;
-	}
+    public void setLongName(String longName) {
+        this.longName = longName;
+    }
 
-	public String getDivision() {
-		return division;
-	}
+    public String getDivision() {
+        return division;
+    }
 
-	public void setDivision(String division) {
-		this.division = division;
-	}
+    public void setDivision(String division) {
+        this.division = division;
+    }
 
-	public String getVariation() {
-		return variation;
-	}
+    public String getVariation() {
+        return variation;
+    }
 
-	public void setVariation(String variation) {
-		this.variation = variation;
-	}
+    public void setVariation(String variation) {
+        this.variation = variation;
+    }
 
-	public String getSuffixCode() {
-		return suffixCode;
-	}
+    public String getSuffixCode() {
+        return suffixCode;
+    }
 
-	public void setSuffixCode(String suffixCode) {
-		this.suffixCode = suffixCode;
-	}
+    public void setSuffixCode(String suffixCode) {
+        this.suffixCode = suffixCode;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public void setState(String state) {
+        this.state = state;
+    }
 
-	@Override
-	public void setAttributes(List<LuiIdentifierAttributeEntity> attributes) {
-		this.attributes = attributes;
-		
-	}
+    @Override
+    public void setAttributes(List<LuiIdentifierAttributeEntity> attributes) {
+        this.attributes = attributes;
 
-	@Override
-	public List<LuiIdentifierAttributeEntity> getAttributes() {
-		return attributes;
-	}
+    }
+
+    @Override
+    public List<LuiIdentifierAttributeEntity> getAttributes() {
+        return attributes;
+    }
+
+    public LuiEntity getLui() {
+        return lui;
+    }
+
+    public void setLui(LuiEntity lui) {
+        this.lui = lui;
+    }
 
 }

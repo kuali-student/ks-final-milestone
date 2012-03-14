@@ -23,8 +23,8 @@ public class TestHoldDao extends AbstractTransactionalDaoTest{
 			HoldEntity obj = dao.find("Hold-1");
 			assertNotNull(obj);
 	        assertEquals("Hold one", obj.getName()); 
-	        assertEquals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY, obj.getHoldState().getId()); 
-	        assertEquals(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY, obj.getHoldType().getId()); 
+	        assertEquals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY, obj.getHoldState());
+	        assertEquals(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY, obj.getHoldType()); 
 	        assertEquals("Hold Desc student", obj.getDescr().getPlain());  
 		}catch (Exception ex){
 			ex.printStackTrace();
@@ -47,8 +47,8 @@ public class TestHoldDao extends AbstractTransactionalDaoTest{
 	        HoldEntity obj2 = dao.find(obj.getId());
 	        assertEquals("Hold Test", obj2.getName());         
 	        assertEquals("plain", obj2.getDescr().getPlain()); 
-	        assertEquals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY, obj2.getHoldState().getId()); 
-	        assertEquals(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY, obj2.getHoldType().getId()); 
+	        assertEquals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY, obj2.getHoldState());
+	        assertEquals(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY, obj2.getHoldType()); 
 	        assertEquals("Hold-Issue-1", obj2.getIssue().getId()); 
 		}catch (Exception ex){
 			ex.printStackTrace();

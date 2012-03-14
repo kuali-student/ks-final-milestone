@@ -14,23 +14,28 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.infc.LuiLuiRelation;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
+import org.kuali.student.r2.common.infc.RichText;
 
 @Entity
 @Table(name = "KSEN_LUILUI_RELTN")
 public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<LuiLuiRelationAttributeEntity>{
+    
     @Column(name = "NAME")
     private String name;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private LuiRichTextEntity descr;   
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String formatted;
+
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String plain;
     
 	@ManyToOne
 	@JoinColumn(name = "LUI_ID")
@@ -40,20 +45,18 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 	@JoinColumn(name = "RELATED_LUI_ID")
 	private LuiEntity relatedLui;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "TYPE_ID")
-    private LuiTypeEntity luiLuiRelationType;
+    @Column(name = "LUILUI_RELTN_TYPE")
+    private String luiLuiRelationType;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "STATE_ID")
-    private StateEntity luiLuiRelationState;
+    @Column(name = "LUILUI_RELTN_STATE")
+    private String luiLuiRelationState;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXP_DT")
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
@@ -65,6 +68,14 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
         this.setId(luiLuiRelation.getId());
         this.setEffectiveDate(luiLuiRelation.getEffectiveDate());
         this.setExpirationDate(luiLuiRelation.getExpirationDate());
+        this.setLuiLuiRelationState(luiLuiRelation.getStateKey());
+        this.setLuiLuiRelationType(luiLuiRelation.getTypeKey());
+
+        if (luiLuiRelation.getDescr() != null) {
+            RichText rt = luiLuiRelation.getDescr();
+            this.setDescrFormatted(rt.getFormatted());
+            this.setDescrPlain(rt.getPlain());
+        }
         
         this.setAttributes(new ArrayList<LuiLuiRelationAttributeEntity>());
         if (null != luiLuiRelation.getAttributes()) {
@@ -77,13 +88,22 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
     public LuiLuiRelationInfo toDto() {
     	LuiLuiRelationInfo obj = new LuiLuiRelationInfo();
     	obj.setId(getId());
-    	obj.setLuiId(lui.getId());
-    	obj.setRelatedLuiId(relatedLui.getId());
+        if(lui!=null)
+    	    obj.setLuiId(lui.getId());
+        if(relatedLui!=null)
+    	    obj.setRelatedLuiId(relatedLui.getId());
         obj.setEffectiveDate(effectiveDate);
         obj.setExpirationDate(expirationDate);
-        obj.setStateKey(luiLuiRelationState.getId());
-        obj.setTypeKey(luiLuiRelationType.getId());
+        obj.setStateKey(luiLuiRelationState);
+        obj.setTypeKey(luiLuiRelationType);
         obj.setMeta(super.toDTO());
+        
+        if (getDescrPlain() != null) {
+            RichTextInfo rti = new RichTextInfo();
+            rti.setPlain(getDescrPlain());
+            rti.setFormatted(getDescrFormatted());
+            obj.setDescr(rti);
+        }
         
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuiLuiRelationAttributeEntity att : getAttributes()) {
@@ -103,13 +123,21 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 		this.name = name;
 	}
 
-	public LuiRichTextEntity getDescr() {
-		return descr;
-	}
+	public String getDescrFormatted() {
+        return formatted;
+    }
 
-	public void setDescr(LuiRichTextEntity descr) {
-		this.descr = descr;
-	}
+    public void setDescrFormatted(String formatted) {
+        this.formatted = formatted;
+    }
+
+    public String getDescrPlain() {
+        return plain;
+    }
+
+    public void setDescrPlain(String plain) {
+        this.plain = plain;
+    }
 
 	public LuiEntity getLui() {
 		return lui;
@@ -127,19 +155,19 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 		this.relatedLui = relatedLui;
 	}
 
-	public LuiTypeEntity getLuiLuiRelationType() {
+	public String getLuiLuiRelationType() {
 		return luiLuiRelationType;
 	}
 
-	public void setLuiLuiRelationType(LuiTypeEntity luiLuiRelationType) {
+	public void setLuiLuiRelationType(String luiLuiRelationType) {
 		this.luiLuiRelationType = luiLuiRelationType;
 	}
 
-	public StateEntity getLuiLuiRelationState() {
+	public String getLuiLuiRelationState() {
 		return luiLuiRelationState;
 	}
 
-	public void setLuiLuiRelationState(StateEntity luiLuiRelationState) {
+	public void setLuiLuiRelationState(String luiLuiRelationState) {
 		this.luiLuiRelationState = luiLuiRelationState;
 	}
 
