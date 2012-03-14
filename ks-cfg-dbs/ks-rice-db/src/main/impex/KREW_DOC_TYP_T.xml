@@ -300,7 +300,7 @@
         LBL="Kuali Student Credit Course Parent Document"
         OBJ_ID="E22D34F5-7AAC-C11D-CA40-1E46C5FF19CD" PARNT_ID="3057"
         PREV_DOC_TYP_VER_NBR="3001" RTE_VER_NBR="2" VER_NBR="10"/>
-    <KREW_DOC_TYP_T ACTV_IND="0" CUR_IND="0"
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="0"
         DOC_TYP_DESC="Credit Course Retirement" DOC_TYP_ID="3048"
         DOC_TYP_NM="kuali.proposal.type.course.retire"
         DOC_TYP_VER_NBR="1" LBL="Credit Course Retirement"
@@ -366,7 +366,7 @@
         LBL="Kuali Student Credit Course Parent Document"
         OBJ_ID="B6258FC8-F914-F25C-BBD1-0189C44EA5A4" PARNT_ID="3066"
         PREV_DOC_TYP_VER_NBR="3047" RTE_VER_NBR="2" VER_NBR="10"/>
-    <KREW_DOC_TYP_T ACTV_IND="0" CUR_IND="0"
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="0"
         DOC_TYP_DESC="Credit Course Retirement" DOC_TYP_ID="3059"
         DOC_TYP_NM="kuali.proposal.type.course.retire"
         DOC_TYP_VER_NBR="2" LBL="Credit Course Retirement"
@@ -432,7 +432,7 @@
         LBL="Kuali Student Credit Course Parent Document"
         OBJ_ID="B74C332B-25EF-951C-7E52-BFFF305EB1D4" PARNT_ID="3091"
         PREV_DOC_TYP_VER_NBR="3058" RTE_VER_NBR="2" VER_NBR="11"/>
-    <KREW_DOC_TYP_T ACTV_IND="0" CUR_IND="0"
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="0"
         DOC_TYP_DESC="Credit Course Retirement" DOC_TYP_ID="3068"
         DOC_TYP_NM="kuali.proposal.type.course.retire"
         DOC_TYP_VER_NBR="3" LBL="Credit Course Retirement"
@@ -514,7 +514,7 @@
         LBL="Kuali Student Major Discipline Parent Document"
         OBJ_ID="866429A5-586D-487D-FFFD-238902835BD8" PARNT_ID="3101"
         RTE_VER_NBR="2" VER_NBR="5"/>
-    <KREW_DOC_TYP_T ACTV_IND="0" CUR_IND="0"
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="0"
         DOC_TYP_DESC="Credit Course Retirement" DOC_TYP_ID="3094"
         DOC_TYP_NM="kuali.proposal.type.course.retire"
         DOC_TYP_VER_NBR="4" LBL="Credit Course Retirement"
@@ -594,7 +594,7 @@
         LBL="Kuali Student Major Discipline Parent Document"
         OBJ_ID="D4235FCD-DF9A-AE89-B5B1-A063786050D2" PARNT_ID="3102"
         PREV_DOC_TYP_VER_NBR="3093" RTE_VER_NBR="2" VER_NBR="3"/>
-    <KREW_DOC_TYP_T ACTV_IND="0" CUR_IND="1"
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
         DOC_TYP_DESC="Credit Course Retirement" DOC_TYP_ID="3105"
         DOC_TYP_NM="kuali.proposal.type.course.retire"
         DOC_TYP_VER_NBR="5" LBL="Credit Course Retirement"

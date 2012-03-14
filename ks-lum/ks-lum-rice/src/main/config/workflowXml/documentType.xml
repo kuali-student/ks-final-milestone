@@ -97,7 +97,7 @@
       <description>Credit Course Retirement</description>
       <label>Credit Course Retirement</label>
       <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
-      <active>false</active>
+      <active>true</active>
       <routePaths>
         <routePath>
           <start name="PreRoute" nextNode="Department Review" />
