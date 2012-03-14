@@ -457,7 +457,7 @@ public class LrcServiceImpl implements LRCService {
 	@Override
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 			throws OperationFailedException {
-		// TODO KSCM return searchManager.getSearchCriteriaTypes();
+		// TODO KSCM-267 return searchManager.getSearchCriteriaTypes();
 		return null;
 	}
 
@@ -682,7 +682,7 @@ public class LrcServiceImpl implements LRCService {
 		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
 	}
 
-	//TODO KSCM 
+	//TODO KSCM-267 
 	@Override
 	public SearchResult search(SearchRequest searchRequest)
 			throws MissingParameterException {

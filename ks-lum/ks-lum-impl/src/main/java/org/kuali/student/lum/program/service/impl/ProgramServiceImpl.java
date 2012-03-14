@@ -392,7 +392,7 @@ public class ProgramServiceImpl implements ProgramService{
 	    	variation.getAttributes().remove("endInstAdmitTerm");
 	    	
 			//Create new variation version
-			//TODO KSCM :String variationVersionIndId = variation.getVersionInfo().getVersionIndId();
+			//TODO KSCM-423 :String variationVersionIndId = variation.getVersionInfo().getVersionIndId();
 	    	String variationVersionIndId = variation.getVersion().getVersionIndId();
 			CluInfo newVariationClu = cluService.createNewCluVersion(variationVersionIndId, "Variation version for MajorDiscipline version " + majorDiscipline.getVersionInfo().getSequenceNumber(),contextInfo);
 			
@@ -549,7 +549,7 @@ public class ProgramServiceImpl implements ProgramService{
 		for (ProgramVariationInfo variationInfo:variationList){
 			String variationId = variationInfo.getId();
 			//If null set to current (non-null value means version is first and is already current)
-			//TODO KSCM :if (variationInfo.getVersionInfo().getCurrentVersionStart() == null){
+			//TODO KSCM-423 :if (variationInfo.getVersionInfo().getCurrentVersionStart() == null){
 			if (variationInfo.getVersion().getCurrentVersionStart() == null){
 				cluService.setCurrentCluVersion(variationId, currentVersionStart,contextInfo);
 			}
@@ -1354,9 +1354,7 @@ public class ProgramServiceImpl implements ProgramService{
 		CluInfo newVersionClu = cluService.createNewCluVersion(credentialProgramId, versionComment,contextInfo);
 
 		try {
-			 // TODO KSCM - Review this code and instruction set  
-			//  Always specify R1 object in the BaseDTOAssemblyNode, do not use R2 objects
-			//
+
 	        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.CredentialProgramInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
@@ -1509,10 +1507,10 @@ public class ProgramServiceImpl implements ProgramService{
 
 	private void validateMajorDisciplineAtps(MajorDisciplineInfo majorDisciplineInfo, List<ValidationResultInfo> validationResults,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		String startTerm = majorDisciplineInfo.getStartTerm();
-        //TODO KSCM : note used method toGenericMap
-		//TODO KSCM		if(!isEmpty(majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"))){
-		//TODO KSCM			compareAtps(startTerm, majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term", "endInstAdmitTerm",contextInfo);
-		//TODO KSCM		}
+        //TODO KSCM-429 : note used method toGenericMap
+		//TODO KSCM-429		if(!isEmpty(majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"))){
+		//TODO KSCM-429			compareAtps(startTerm, majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term", "endInstAdmitTerm",contextInfo);
+		//TODO KSCM-429		}
 		if(!isEmpty(majorDisciplineInfo.getEndProgramEntryTerm())){
 			compareAtps(startTerm, majorDisciplineInfo.getEndProgramEntryTermId(), validationResults, "End Program Entry Term", "endProgramEntryTerm",contextInfo);
 		}
@@ -1536,10 +1534,10 @@ public class ProgramServiceImpl implements ProgramService{
 		
 		String startTerm = programVariationInfo.getStartTerm();
 
-        //TODO KSCM : note used method toGenericMap
-// TODO KSCM 		if(!isEmpty(programVariationInfo.getAttributes().get("endInstAdmitTerm"))){
-		// TODO KSCM 			compareAtps(startTerm, programVariationInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term",  "variations/" + idx + "/endInstAdmitTerm",contextInfo);
-		// TODO KSCM 		}
+        //TODO KSCM-429 : note used method toGenericMap
+// TODO KSCM-429 		if(!isEmpty(programVariationInfo.getAttributes().get("endInstAdmitTerm"))){
+		// TODO KSCM-429 			compareAtps(startTerm, programVariationInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term",  "variations/" + idx + "/endInstAdmitTerm",contextInfo);
+		// TODO KSCM-429 		}
 	
 		if(!isEmpty(programVariationInfo.getEndProgramEntryTerm())){
 			compareAtps(startTerm, programVariationInfo.getEndProgramEntryTerm(), validationResults, "End Program Entry Term", "variations/" + idx + "/endProgramEntryTerm",contextInfo);

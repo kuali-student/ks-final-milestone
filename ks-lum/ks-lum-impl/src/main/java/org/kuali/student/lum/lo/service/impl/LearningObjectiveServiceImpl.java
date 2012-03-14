@@ -691,7 +691,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         if ( ! loCategory.getLoCategoryType().getId().equals(loCategoryInfo.getTypeKey()) ) {
         	loCategory = cloneLoCategory(loCategory, loCategoryInfo,contextInfo);
         } else {
-        	//TODO KSCM : loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
+        	//TODO KSCM-419 : loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
         	
 	        loDao.update(loCategory);
         }
@@ -716,7 +716,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     	LoCategoryInfo newLoCategoryInfo = new LoCategoryInfo(); // Remove this line if the TODO is done above
     	newLoCategoryInfo.setTypeKey(catType.getId());
     	newLoCategoryInfo.setName(loCategoryInfo.getName());
-    	LoCategory newLoCategory = new LoCategory(); //TODO KSCM : loDao.create(LearningObjectiveServiceAssembler.toLoCategory(newLoCategoryInfo, loDao));
+    	LoCategory newLoCategory = new LoCategory(); //TODO KSCM-419 : loDao.create(LearningObjectiveServiceAssembler.toLoCategory(newLoCategoryInfo, loDao));
         	
     	// clone Lo-LoCategory relations
     	List<Lo> catsLos = loDao.getLosByLoCategory(loCategory.getId());         	
@@ -757,9 +757,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			//do not checkForEmptyString
 		}
 	    
-	  //TODO KSCM :ObjectStructureDefinition objStructure = this.getObjectStructure(LoInfo.class.getName(),contextInfo);
+	  //TODO KSCM-429 :ObjectStructureDefinition objStructure = this.getObjectStructure(LoInfo.class.getName(),contextInfo);
 	    Validator validator = validatorFactory.getValidator();
-	    //TODO KSCM : return validator.validateObject(loInfo, objStructure,contextInfo);
+	    //TODO KSCM-428 : return validator.validateObject(loInfo, objStructure,contextInfo);
 	    return null;
 	}
 
@@ -782,9 +782,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 //			//do not checkForEmptyString
 //		}
 
-	  //TODO KSCM :   ObjectStructureDefinition objStructure = this.getObjectStructure(LoCategoryInfo.class.getName(),contextInfo);
+	  //TODO KSCM-429 :   ObjectStructureDefinition objStructure = this.getObjectStructure(LoCategoryInfo.class.getName(),contextInfo);
         Validator validator = validatorFactory.getValidator();
-        //TODO KSCM : return validator.validateObject(loCategoryInfo, objStructure,contextInfo);
+        //TODO KSCM-428 : return validator.validateObject(loCategoryInfo, objStructure,contextInfo);
         return null; 
 	}
 
@@ -794,9 +794,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 
-		//TODO KSCM : ObjectStructureDefinition objStructure = this.getObjectStructure(LoLoRelationInfo.class.getName(),contextInfo);
+		//TODO KSCM-429 : ObjectStructureDefinition objStructure = this.getObjectStructure(LoLoRelationInfo.class.getName(),contextInfo);
         Validator validator = validatorFactory.getValidator();
-        //TODO KSCM : return validator.validateObject(loLoRelationInfo, objStructure,contextInfo);
+        //TODO KSCM-428 : return validator.validateObject(loLoRelationInfo, objStructure,contextInfo);
         return null;
 	}
 
@@ -1009,7 +1009,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			for (ValidationResultInfo result : val) {
 				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
 			}
-			//TODO KSCM :throw new DataValidationErrorException("Validation error!", val);
+			//TODO KSCM-428 :throw new DataValidationErrorException("Validation error!", val);
 			throw new DataValidationErrorException("Validation error!");
 		}
 	    
@@ -1021,14 +1021,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    LoLoRelationType type = loDao.fetch(LoLoRelationType.class, loLoRelationTypeKey);
 	    loLoRelationInfo.setLoId(loLoRelationInfo.getLoId());
 	    loLoRelationInfo.setRelatedLoId(loLoRelationInfo.getRelatedLoId());
-        //TODO KSCM figure out what really needs to be passed here
+        //TODO KSCM-429 figure out what really needs to be passed here
 	    //loLoRelationInfo.setType(loLoRelationType);
         loLoRelationInfo.setTypeKey(loLoRelationInfo.getTypeKey());
 	    
 	    LoLoRelation relation = null;
-	  //TODO KSCM :
+	  //TODO KSCM-419 :
 //	    try {
-//	    	//TODO KSCM :   relation = LearningObjectiveServiceAssembler.toLoLoRelation(false, loLoRelationInfo, loDao);
+//	    	//KSCM-419 :   relation = LearningObjectiveServiceAssembler.toLoLoRelation(false, loLoRelationInfo, loDao);
 //	    } catch (VersionMismatchException vme) {
 //	    	// should never happen in a create call, but
 //	    	throw new OperationFailedException("VersionMismatchException caught during LoLoRelation creation");
@@ -1153,7 +1153,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 
       //TODO KSCM-419 : LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(loCategoryInfo, loDao);
 	    LoCategoryType loCatType = loDao.fetch(LoCategoryType.class, loCategoryTypeKey);
-	  //TODO KSCM : category.setLoCategoryType(loCatType);
+	  //TODO KSCM-419 : category.setLoCategoryType(loCatType);
 	    LoRepository loRepository = loDao.fetch(LoRepository.class, loCategoryInfo.getLoRepositoryKey() );
 	  //TODO KSCM-419 :category.setLoRepository(loRepository);
 	  //TODO KSCM-419 :loDao.create(category);

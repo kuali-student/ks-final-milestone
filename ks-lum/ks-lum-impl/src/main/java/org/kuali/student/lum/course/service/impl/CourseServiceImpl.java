@@ -151,9 +151,9 @@ public class CourseServiceImpl implements CourseService {
 
         try {
             return processCourseInfo(courseInfo, NodeOperation.CREATE, contextInfo);
-            //TODO KSCM        } catch (AssemblyException e) {
-            //TODO KSCM             LOG.error("Error disassembling course", e);
-            //TODO KSCM             throw new OperationFailedException("Error disassembling course");
+                   } catch (AssemblyException e) {
+                       LOG.error("Error disassembling course", e);
+                       throw new OperationFailedException("Error disassembling course");
         } catch (Exception e) {
             LOG.error("Error disassembling course", e);
             throw new OperationFailedException("Error disassembling course");
