@@ -219,9 +219,9 @@ public class SubrulePreviewWidget extends FlowPanel {
 
     private String getPreviewNaturalLanguageForReqComponent(ReqComponentInfo reqComp) {
         String nl = null;
-     // TODO KSCM if (reqComp instanceof ReqComponentInfoUi) {
-        	// TODO KSCM nl = ((ReqComponentInfoUi)reqComp).getPreviewNaturalLanguageTranslation();
-     // TODO KSCM }
+     // TODO KSCM-429 if (reqComp instanceof ReqComponentInfoUi) {
+        	// TODO KSCM-429 nl = ((ReqComponentInfoUi)reqComp).getPreviewNaturalLanguageTranslation();
+     // TODO KSCM-429 }
         if ( nl == null) {
             nl = reqComp.getNaturalLanguageTranslation();
         }
