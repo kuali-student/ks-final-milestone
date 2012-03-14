@@ -21,6 +21,7 @@ import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
 import org.apache.log4j.Logger;
+import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
@@ -435,7 +436,21 @@ public class CommentServiceImpl implements CommentService {
         return validationResults;         
     }
 
-    private List<ValidationResultInfo> validateTag(String validationType, TagInfo tagInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    /**
+     * 
+     * This method ...
+     * 
+     * @param validationType
+     * @param tagInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    private List<ValidationResultInfo> validateTag(String validationType, TagInfo tagInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(tagInfo, "tagInfo");
 
@@ -448,14 +463,16 @@ public class CommentServiceImpl implements CommentService {
     /**
      * @return the commentDao
      */
-    public CommentDao getCommentDao() {
+    @Deprecated
+    public CommentDao getCommentDao() throws UnsupportedException {
         return commentDao;
     }
 
     /**
      * @param commentDao the commentDao to set
      */
-    public void setCommentDao(CommentDao commentDao) {
+    @Deprecated
+    public void setCommentDao(CommentDao commentDao) throws UnsupportedException {
         this.commentDao = commentDao;
     }
 
@@ -466,8 +483,9 @@ public class CommentServiceImpl implements CommentService {
      * @param parameter name
      * @throws MissingParameterException
      */
+    @Deprecated
     private void checkForMissingParameter(Object param, String paramName)
-            throws MissingParameterException {
+            throws MissingParameterException, UnsupportedException {
         if (param == null) {
             throw new MissingParameterException(paramName + " can not be null");
         }
@@ -476,28 +494,32 @@ public class CommentServiceImpl implements CommentService {
 	/**
 	 * @return the dictionaryServiceDelegate
 	 */
-	public DictionaryService getDictionaryServiceDelegate() {
+    @Deprecated
+	public DictionaryService getDictionaryServiceDelegate() throws UnsupportedException {
 		return dictionaryServiceDelegate;
 	}
 
 	/**
 	 * @param dictionaryServiceDelegate the dictionaryServiceDelegate to set
 	 */
+    @Deprecated
 	public void setDictionaryServiceDelegate(
-			DictionaryService dictionaryServiceDelegate) {
+			DictionaryService dictionaryServiceDelegate) throws UnsupportedException {
 		this.dictionaryServiceDelegate = dictionaryServiceDelegate;
 	}
     /**
 	 * @return the searchManager
 	 */
-	public SearchManager getSearchManager() {
+    @Deprecated
+	public SearchManager getSearchManager() throws UnsupportedException {
 		return searchManager;
 	}
 
 	/**
 	 * @param searchManager the searchManager to set
 	 */
-	public void setSearchManager(SearchManager searchManager) {
+    @Deprecated
+	public void setSearchManager(SearchManager searchManager) throws UnsupportedException {
 		this.searchManager = searchManager;
 	}
 
@@ -513,14 +535,16 @@ public class CommentServiceImpl implements CommentService {
     /**
      * @return the validatorFactory
      */
-    public ValidatorFactory getValidatorFactory() {
+	@Deprecated
+    public ValidatorFactory getValidatorFactory() throws UnsupportedException {
         return validatorFactory;
     }
 
     /**
      * @param validatorFactory the validatorFactory to set
      */
-    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+	@Deprecated
+    public void setValidatorFactory(ValidatorFactory validatorFactory) throws UnsupportedException {
         this.validatorFactory = validatorFactory;
     }
 }

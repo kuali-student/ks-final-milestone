@@ -461,28 +461,32 @@ public class ProposalServiceImpl implements ProposalService {
 	/**
      * @return the validatorFactory
      */
-    public ValidatorFactory getValidatorFactory() {
+    @Deprecated
+    public ValidatorFactory getValidatorFactory() throws UnsupportedException {
         return validatorFactory;
     }
 
     /**
      * @param validatorFactory the validatorFactory to set
      */
-    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+    @Deprecated
+    public void setValidatorFactory(ValidatorFactory validatorFactory) throws UnsupportedException {
         this.validatorFactory = validatorFactory;
     }
 
     /**
      * @return the searchManager
      */
-    public SearchManager getSearchManager() {
+    @Deprecated
+    public SearchManager getSearchManager() throws UnsupportedException {
         return searchManager;
     }
 
     /**
      * @return the dictionaryServiceDelegate
      */
-    public DictionaryService getDictionaryServiceDelegate() {
+    @Deprecated
+    public DictionaryService getDictionaryServiceDelegate() throws UnsupportedException {
         return dictionaryServiceDelegate;
     }
 

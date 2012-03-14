@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
@@ -392,35 +393,99 @@ public class DocumentServiceImpl implements DocumentService {
         return dictionaryServiceDelegate.getObjectTypes();
     }
     
-    public DictionaryService getDictionaryServiceDelegate() {
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public DictionaryService getDictionaryServiceDelegate() throws UnsupportedException {
         return dictionaryServiceDelegate;
     }
 
-    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
+    /**
+     * 
+     * This method ...
+     * 
+     * @param dictionaryServiceDelegate
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) throws UnsupportedException {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
-	public DocumentDao getDao() {
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     * @throws UnsupportedException
+     */
+    @Deprecated
+	public DocumentDao getDao() throws UnsupportedException {
 		return dao;
 	}
 
-	public void setDao(DocumentDao dao) {
+    /**
+     * 
+     * This method ...
+     * 
+     * @param dao
+     * @throws UnsupportedException
+     */
+    @Deprecated
+	public void setDao(DocumentDao dao) throws UnsupportedException {
 		this.dao = dao;
 	}
 
-	public SearchManager getSearchManager() {
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     * @throws UnsupportedException
+     */
+    @Deprecated
+	public SearchManager getSearchManager() throws UnsupportedException {
 		return searchManager;
 	}
 
-	public void setSearchManager(SearchManager searchManager) {
+    /**
+     * 
+     * This method ...
+     * 
+     * @param searchManager
+     * @throws UnsupportedException
+     */
+    @Deprecated
+	public void setSearchManager(SearchManager searchManager) throws UnsupportedException {
 		this.searchManager = searchManager;
 	}
 
-    public ValidatorFactory getValidatorFactory() {
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public ValidatorFactory getValidatorFactory() throws UnsupportedException {
         return validatorFactory;
     }
 
-    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+    /**
+     * 
+     * This method ...
+     * 
+     * @param validatorFactory
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public void setValidatorFactory(ValidatorFactory validatorFactory) throws UnsupportedException {
         this.validatorFactory = validatorFactory;
     }	
 }

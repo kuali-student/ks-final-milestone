@@ -22,6 +22,7 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -278,11 +279,27 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 		}
 	}
 
-	public void setSearchManager(SearchManager searchManager) {
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @param searchManager
+	 * @throws UnsupportedException
+	 */
+	@Deprecated
+	public void setSearchManager(SearchManager searchManager) throws UnsupportedException {
 		this.searchManager = searchManager;
 	}
 
-	public void setEnumDAO(EnumerationManagementDAO enumDAO) {
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @param enumDAO
+	 * @throws UnsupportedException
+	 */
+	@Deprecated
+	public void setEnumDAO(EnumerationManagementDAO enumDAO) throws UnsupportedException {
 		this.enumDAO = enumDAO;
 	}
 

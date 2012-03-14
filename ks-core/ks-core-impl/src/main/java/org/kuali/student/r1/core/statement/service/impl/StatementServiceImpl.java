@@ -25,6 +25,7 @@ import java.util.Set;
 
 import javax.jws.WebService;
 
+import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
@@ -1281,7 +1282,15 @@ public class StatementServiceImpl implements StatementService {
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
-	public void setValidatorFactory(ValidatorFactory validatorFactory) {
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @param validatorFactory
+	 * @throws UnsupportedException
+	 */
+	@Deprecated
+	public void setValidatorFactory(ValidatorFactory validatorFactory) throws UnsupportedException {
 		this.validatorFactory = validatorFactory;
 	}
 }

@@ -23,6 +23,7 @@ import java.util.Map;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
+import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -158,12 +159,27 @@ public class PersonSearchServiceImpl implements SearchService {
         throw new RuntimeException("Not implemented yet");
     }
 
-    //
-
-    public IdentityService getIdentityService() {
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public IdentityService getIdentityService() throws UnsupportedException {
         return identityService;
     }
-    public void setIdentityService(IdentityService identityService) {
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @param identityService
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public void setIdentityService(IdentityService identityService) throws UnsupportedException {
         this.identityService = identityService;
     }
 

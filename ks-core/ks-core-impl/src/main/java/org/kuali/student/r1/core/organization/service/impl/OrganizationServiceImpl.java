@@ -18,6 +18,7 @@ import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
 import org.apache.log4j.Logger;
+import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
@@ -788,27 +789,75 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
     }
 
-    public SearchManager getSearchManager() {
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public SearchManager getSearchManager() throws UnsupportedException {
         return searchManager;
     }
 
-    public void setSearchManager(SearchManager searchManager) {
+    /**
+     * 
+     * This method ...
+     * 
+     * @param searchManager
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public void setSearchManager(SearchManager searchManager) throws UnsupportedException {
         this.searchManager = searchManager;
     }
 
-    public DictionaryService getDictionaryServiceDelegate() {
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public DictionaryService getDictionaryServiceDelegate() throws UnsupportedException {
         return dictionaryServiceDelegate;
     }
 
-    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
+    /**
+     * 
+     * This method ...
+     * 
+     * @param dictionaryServiceDelegate
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) throws UnsupportedException {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
-    public Validator getValidator() {
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public Validator getValidator() throws UnsupportedException {
         return validator;
     }
 
-    public void setValidator(Validator validator) {
+    /**
+     * 
+     * This method ...
+     * 
+     * @param validator
+     * @throws UnsupportedException
+     */
+    @Deprecated
+    public void setValidator(Validator validator) throws UnsupportedException {
         this.validator = validator;
     }
 
