@@ -26,6 +26,8 @@ import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 
 //import org.kuali.student.r1.core.statement.dto.StatementInfo;
 
@@ -100,9 +102,9 @@ public class TestDTOEqualXMLBeanDefinition {
 		System.out.println("testing statement dictionary");
 
 		Set<String> startingClasses = new LinkedHashSet();
-		startingClasses.add(ProposalDocRelationInfo.class.getName());
-		//startingClasses.add(ProposalInfo.class.getName());
-		String contextFile = "ks-proposalInfo-dictionary-context";
+		startingClasses.add(VersionDisplayInfo.class.getName());
+		startingClasses.add(VersionInfo.class.getName());
+		String contextFile = "ks-base-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
 				outFile, startingClasses, contextFile + ".xml", false);
