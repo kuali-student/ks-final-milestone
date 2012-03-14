@@ -1373,7 +1373,7 @@
       parent="org.kuali.student.lum.lrc.dto.ResultComponentInfo-parent">
  <property name="attributes">
   <list>
-   <ref bean="resultComponentInfo.desc" />
+   <ref bean="resultComponentInfo.descr" />
    <ref bean="resultComponentInfo.effectiveDate" />
    <ref bean="resultComponentInfo.expirationDate" />
    <ref bean="resultComponentInfo.id" />

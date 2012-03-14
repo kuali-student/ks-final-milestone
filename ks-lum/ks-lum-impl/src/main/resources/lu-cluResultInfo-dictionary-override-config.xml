@@ -40,7 +40,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="kuali.resultType.creditCourseResult" id="type.cluResultInfo.CreditCourseResults.abstract" abstract="true">
 	<dict:name>Credit Course Results</dict:name>
-	<dict:desc>The results of a credit course</dict:desc>
+	<dict:descr>The results of a credit course</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.cluResultInfo.CreditCourseResults.active"/>
 		<dict:stateRef bean="state.cluResultInfo.CreditCourseResults.inactive"/>
@@ -52,7 +52,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ************************************************************* -->
 
 <dict:state key="*" id="state.cluResultInfo.CreditCourseResults.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.final.results.desc"/>
+	<dict:fieldRef bean="dict.course.final.results.descr"/>
 	<dict:fieldRef bean="dict.course.final.results.cluId"/>
 	<dict:fieldRef bean="dict.course.final.results.options"/>
 	<dict:fieldRef bean="dict.course.final.results.effectiveDate"/>
@@ -83,49 +83,49 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 
 <!-- ************************************************************************************ -->
-<!-- object structure for object.field.cluResultInfo.desc.Credit Course Results.(default) -->
+<!-- object structure for object.field.cluResultInfo.descr.Credit Course Results.(default) -->
 <!-- ************************************************************************************ -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.desc.CreditCourseResults.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluResultInfo.desc.CreditCourseResults"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.descr.CreditCourseResults.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluResultInfo.descr.CreditCourseResults"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.desc.CreditCourseResults" parent="object.field.cluResultInfo.desc.CreditCourseResults.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.descr.CreditCourseResults" parent="object.field.cluResultInfo.descr.CreditCourseResults.abstract"/>
 
-<dict:type key="*" id="type.field.cluResultInfo.desc.CreditCourseResults.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluResultInfo.descr.CreditCourseResults.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
+	<dict:descr>Default</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluResultInfo.desc.CreditCourseResults"/>
+		<dict:stateRef bean="state.field.cluResultInfo.descr.CreditCourseResults"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluResultInfo.desc.CreditCourseResults" parent="type.field.cluResultInfo.desc.CreditCourseResults.abstract"/>
+<dict:type key="*" id="type.field.cluResultInfo.descr.CreditCourseResults" parent="type.field.cluResultInfo.descr.CreditCourseResults.abstract"/>
 
 <!-- ******************************************************************************************** -->
-<!-- State for state.field.cluResultInfo.desc.Credit Course Results.(default).(default).(default) -->
+<!-- State for state.field.cluResultInfo.descr.Credit Course Results.(default).(default).(default) -->
 <!-- ******************************************************************************************** -->
 
-<dict:state key="*" id="state.field.cluResultInfo.desc.CreditCourseResults.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.final.results.desc.plain"/>
-	<dict:fieldRef bean="dict.course.final.results.desc.formatted"/>
+<dict:state key="*" id="state.field.cluResultInfo.descr.CreditCourseResults.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.final.results.descr.plain"/>
+	<dict:fieldRef bean="dict.course.final.results.descr.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluResultInfo.desc.CreditCourseResults" parent="state.field.cluResultInfo.desc.CreditCourseResults.abstract"/>
+<dict:state key="*" id="state.field.cluResultInfo.descr.CreditCourseResults" parent="state.field.cluResultInfo.descr.CreditCourseResults.abstract"/>
 
 
 <!-- ************************************ -->
-<!-- dict.course.final.results.desc.plain -->
+<!-- dict.course.final.results.descr.plain -->
 <!-- ************************************ -->
-<dict:field key="plain" id="dict.course.final.results.desc.plain.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.desc.plain.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.desc.plain.cd"/>
+<dict:field key="plain" id="dict.course.final.results.descr.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.descr.plain.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.descr.plain.cd"/>
 </dict:field>
-<dict:field key="plain" id="dict.course.final.results.desc.plain" parent="dict.course.final.results.desc.plain.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.desc.plain.fd.abstract" abstract="true">
-	<dict:name>course.final.results.desc.plain</dict:name>
-	<dict:desc>course.final.results.desc.plain</dict:desc>
+<dict:field key="plain" id="dict.course.final.results.descr.plain" parent="dict.course.final.results.descr.plain.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.descr.plain.fd.abstract" abstract="true">
+	<dict:name>course.final.results.descr.plain</dict:name>
+	<dict:descr>course.final.results.descr.plain</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.desc.plain.fd" parent="dict.course.final.results.desc.plain.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.desc.plain.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.descr.plain.fd" parent="dict.course.final.results.descr.plain.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.descr.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.multi.line.text"/>
@@ -135,23 +135,23 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="dict.course.final.results.desc.plain.cd" parent="dict.course.final.results.desc.plain.cd.abstract"/>
+<dict:constraintDescriptor key="plain" id="dict.course.final.results.descr.plain.cd" parent="dict.course.final.results.descr.plain.cd.abstract"/>
 
 <!-- **************************************** -->
-<!-- dict.course.final.results.desc.formatted -->
+<!-- dict.course.final.results.descr.formatted -->
 <!-- **************************************** -->
-<dict:field key="formatted" id="dict.course.final.results.desc.formatted.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.desc.formatted.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.desc.formatted.cd"/>
+<dict:field key="formatted" id="dict.course.final.results.descr.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.descr.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.descr.formatted.cd"/>
 </dict:field>
-<dict:field key="formatted" id="dict.course.final.results.desc.formatted" parent="dict.course.final.results.desc.formatted.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.desc.formatted.fd.abstract" abstract="true">
-	<dict:name>course.final.results.desc.formatted</dict:name>
-	<dict:desc>course.final.results.desc.formatted</dict:desc>
+<dict:field key="formatted" id="dict.course.final.results.descr.formatted" parent="dict.course.final.results.descr.formatted.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.descr.formatted.fd.abstract" abstract="true">
+	<dict:name>course.final.results.descr.formatted</dict:name>
+	<dict:descr>course.final.results.descr.formatted</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.desc.formatted.fd" parent="dict.course.final.results.desc.formatted.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.desc.formatted.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.descr.formatted.fd" parent="dict.course.final.results.descr.formatted.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.descr.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.rich.text"/>
@@ -159,7 +159,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="dict.course.final.results.desc.formatted.cd" parent="dict.course.final.results.desc.formatted.cd.abstract"/>
+<dict:constraintDescriptor key="formatted" id="dict.course.final.results.descr.formatted.cd" parent="dict.course.final.results.descr.formatted.cd.abstract"/>
 
 <!-- ********************************************************************************************* -->
 <!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default) -->
@@ -174,7 +174,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="Kuali.resultUsageType.CreditAwarded" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.CreditAwarded.abstract" abstract="true">
 	<dict:name>Credit Awarded</dict:name>
-	<dict:desc>The amount of credit to be awarded if student passes the course</dict:desc>
+	<dict:descr>The amount of credit to be awarded if student passes the course</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.CreditAwarded.active"/>
 		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.CreditAwarded.inactive"/>
@@ -184,7 +184,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- TO DO: add to Simples -->
 <dict:type key="kuali.resultUsageType.FinalGradeAwarded" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.FinalGradeAwarded.abstract" abstract="true">
 	<dict:name>Final Grade Awarded</dict:name>
-	<dict:desc>The final grade to be awarded to a student</dict:desc>
+	<dict:descr>The final grade to be awarded to a student</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.FinalGradeAwarded.active"/>
 		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.FinalGradeAwarded.inactive"/>
@@ -194,7 +194,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- TO DO: add to Simples -->
 <dict:type key="kuali.resultUsageType.QualitativeAssess" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.QualitativeAssessment.abstract" abstract="true">
 	<dict:name>Qualitative Assessment</dict:name>
-	<dict:desc>The final qualitative assessment to be given to a student</dict:desc>
+	<dict:descr>The final qualitative assessment to be given to a student</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.QualitativeAssessment.active"/>
 		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.QualitativeAssessment.inactive"/>
@@ -206,7 +206,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ********************************************************************************************************** -->
 
 <dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.CreditAwarded.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.final.results.credit.award.option.desc"/>
+	<dict:fieldRef bean="dict.course.final.results.credit.award.option.descr"/>
 	<dict:fieldRef bean="dict.course.final.results.credit.award.option.resultUsageTypeKey"/>
 	<dict:fieldRef bean="dict.course.final.results.credit.award.option.resultComponentId"/>
 	<dict:fieldRef bean="dict.course.final.results.credit.award.option.effectiveDate"/>
@@ -239,7 +239,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- *************************************************************************************************************** -->
 
 <dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.FinalGradeAwarded.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.final.results.final.grade.award.option.desc"/>
+	<dict:fieldRef bean="dict.course.final.results.final.grade.award.option.descr"/>
 	<dict:fieldRef bean="dict.course.final.results.final.grade.award.option.resultUsageTypeKey"/>
 	<dict:fieldRef bean="dict.course.final.results.final.grade.award.option.resultComponentId"/>
 	<dict:fieldRef bean="dict.course.final.results.final.grade.award.option.effectiveDate"/>
@@ -272,7 +272,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ****************************************************************************************************************** -->
 
 <dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.QualitativeAssessment.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.final.results.qualitative.option.desc"/>
+	<dict:fieldRef bean="dict.course.final.results.qualitative.option.descr"/>
 	<dict:fieldRef bean="dict.course.final.results.qualitative.option.resultUsageTypeKey"/>
 	<dict:fieldRef bean="dict.course.final.results.qualitative.option.resultComponentId"/>
 	<dict:fieldRef bean="dict.course.final.results.qualitative.option.effectiveDate"/>
@@ -302,49 +302,49 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 
 <!-- *************************************************************************************************************************** -->
-<!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).desc.Credit Awarded.(default) -->
+<!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).descr.Credit Awarded.(default) -->
 <!-- *************************************************************************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded.abstract"/>
 
-<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
+	<dict:descr>Default</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded"/>
+		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded" parent="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded.abstract"/>
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded" parent="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded.abstract"/>
 
 <!-- *********************************************************************************************************************************** -->
-<!-- State for state.field.cluResultInfo.resultOptions.Credit Course Results.(default).desc.Credit Awarded.(default).(default).(default) -->
+<!-- State for state.field.cluResultInfo.resultOptions.Credit Course Results.(default).descr.Credit Awarded.(default).(default).(default) -->
 <!-- *********************************************************************************************************************************** -->
 
-<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.final.results.credit.award.option.desc.plain"/>
-	<dict:fieldRef bean="dict.course.final.results.credit.award.option.desc.formatted"/>
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.final.results.credit.award.option.descr.plain"/>
+	<dict:fieldRef bean="dict.course.final.results.credit.award.option.descr.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded" parent="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded.abstract"/>
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded" parent="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded.abstract"/>
 
 
 <!-- ******************************************************** -->
-<!-- dict.course.final.results.credit.award.option.desc.plain -->
+<!-- dict.course.final.results.credit.award.option.descr.plain -->
 <!-- ******************************************************** -->
-<dict:field key="plain" id="dict.course.final.results.credit.award.option.desc.plain.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.credit.award.option.desc.plain.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.credit.award.option.desc.plain.cd"/>
+<dict:field key="plain" id="dict.course.final.results.credit.award.option.descr.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.credit.award.option.descr.plain.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.credit.award.option.descr.plain.cd"/>
 </dict:field>
-<dict:field key="plain" id="dict.course.final.results.credit.award.option.desc.plain" parent="dict.course.final.results.credit.award.option.desc.plain.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.desc.plain.fd.abstract" abstract="true">
-	<dict:name>course.final.results.credit.award.option.desc.plain</dict:name>
-	<dict:desc>course.final.results.credit.award.option.desc.plain</dict:desc>
+<dict:field key="plain" id="dict.course.final.results.credit.award.option.descr.plain" parent="dict.course.final.results.credit.award.option.descr.plain.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.descr.plain.fd.abstract" abstract="true">
+	<dict:name>course.final.results.credit.award.option.descr.plain</dict:name>
+	<dict:descr>course.final.results.credit.award.option.descr.plain</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.desc.plain.fd" parent="dict.course.final.results.credit.award.option.desc.plain.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.credit.award.option.desc.plain.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.descr.plain.fd" parent="dict.course.final.results.credit.award.option.descr.plain.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.credit.award.option.descr.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.multi.line.text"/>
@@ -354,23 +354,23 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="dict.course.final.results.credit.award.option.desc.plain.cd" parent="dict.course.final.results.credit.award.option.desc.plain.cd.abstract"/>
+<dict:constraintDescriptor key="plain" id="dict.course.final.results.credit.award.option.descr.plain.cd" parent="dict.course.final.results.credit.award.option.descr.plain.cd.abstract"/>
 
 <!-- ************************************************************ -->
-<!-- dict.course.final.results.credit.award.option.desc.formatted -->
+<!-- dict.course.final.results.credit.award.option.descr.formatted -->
 <!-- ************************************************************ -->
-<dict:field key="formatted" id="dict.course.final.results.credit.award.option.desc.formatted.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.credit.award.option.desc.formatted.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.credit.award.option.desc.formatted.cd"/>
+<dict:field key="formatted" id="dict.course.final.results.credit.award.option.descr.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.credit.award.option.descr.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.credit.award.option.descr.formatted.cd"/>
 </dict:field>
-<dict:field key="formatted" id="dict.course.final.results.credit.award.option.desc.formatted" parent="dict.course.final.results.credit.award.option.desc.formatted.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.desc.formatted.fd.abstract" abstract="true">
-	<dict:name>course.final.results.credit.award.option.desc.formatted</dict:name>
-	<dict:desc>course.final.results.credit.award.option.desc.formatted</dict:desc>
+<dict:field key="formatted" id="dict.course.final.results.credit.award.option.descr.formatted" parent="dict.course.final.results.credit.award.option.descr.formatted.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.descr.formatted.fd.abstract" abstract="true">
+	<dict:name>course.final.results.credit.award.option.descr.formatted</dict:name>
+	<dict:descr>course.final.results.credit.award.option.descr.formatted</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.desc.formatted.fd" parent="dict.course.final.results.credit.award.option.desc.formatted.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.credit.award.option.desc.formatted.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.descr.formatted.fd" parent="dict.course.final.results.credit.award.option.descr.formatted.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.credit.award.option.descr.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.rich.text"/>
@@ -378,7 +378,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="dict.course.final.results.credit.award.option.desc.formatted.cd" parent="dict.course.final.results.credit.award.option.desc.formatted.cd.abstract"/>
+<dict:constraintDescriptor key="formatted" id="dict.course.final.results.credit.award.option.descr.formatted.cd" parent="dict.course.final.results.credit.award.option.descr.formatted.cd.abstract"/>
 
 <!-- ******************************************************************************************************************************* -->
 <!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).metaInfo.Credit Awarded.(default) -->
@@ -391,7 +391,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
+	<dict:descr>Default</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded"/>
 </dict:type>
@@ -421,7 +421,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="versionInd" id="dict.course.final.results.credit.award.option.meta.versionInd" parent="dict.course.final.results.credit.award.option.meta.versionInd.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>credit award  meta versionInd</dict:name>
-	<dict:desc>credit award  meta versionInd</dict:desc>
+	<dict:descr>credit award  meta versionInd</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -445,7 +445,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createTime" id="dict.course.final.results.credit.award.option.meta.createTime" parent="dict.course.final.results.credit.award.option.meta.createTime.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>credit award  meta createTime</dict:name>
-	<dict:desc>credit award  meta createTime</dict:desc>
+	<dict:descr>credit award  meta createTime</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.meta.createTime.fd" parent="dict.course.final.results.credit.award.option.meta.createTime.fd.abstract"/>
@@ -467,7 +467,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createId" id="dict.course.final.results.credit.award.option.meta.createId" parent="dict.course.final.results.credit.award.option.meta.createId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.meta.createId.fd.abstract" abstract="true">
 	<dict:name>credit award  meta createId</dict:name>
-	<dict:desc>credit award  meta createId</dict:desc>
+	<dict:descr>credit award  meta createId</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -490,7 +490,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateTime" id="dict.course.final.results.credit.award.option.meta.updateTime" parent="dict.course.final.results.credit.award.option.meta.updateTime.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>credit award  meta updateTime</dict:name>
-	<dict:desc>credit award  meta updateTime</dict:desc>
+	<dict:descr>credit award  meta updateTime</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.meta.updateTime.fd" parent="dict.course.final.results.credit.award.option.meta.updateTime.fd.abstract"/>
@@ -512,7 +512,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateId" id="dict.course.final.results.credit.award.option.meta.updateId" parent="dict.course.final.results.credit.award.option.meta.updateId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>credit award  meta updateId</dict:name>
-	<dict:desc>credit award  meta updateId</dict:desc>
+	<dict:descr>credit award  meta updateId</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -527,49 +527,49 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 
 <!-- ******************************************************************************************************************************** -->
-<!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).desc.Final Grade Awarded.(default) -->
+<!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).descr.Final Grade Awarded.(default) -->
 <!-- ******************************************************************************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded.abstract"/>
 
-<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
+	<dict:descr>Default</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded"/>
+		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded" parent="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded.abstract"/>
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded" parent="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded.abstract"/>
 
 <!-- **************************************************************************************************************************************** -->
-<!-- State for state.field.cluResultInfo.resultOptions.Credit Course Results.(default).desc.Final Grade Awarded.(default).(default).(default) -->
+<!-- State for state.field.cluResultInfo.resultOptions.Credit Course Results.(default).descr.Final Grade Awarded.(default).(default).(default) -->
 <!-- **************************************************************************************************************************************** -->
 
-<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.final.results.final.grade.award.option.desc.plain"/>
-	<dict:fieldRef bean="dict.course.final.results.final.grade.award.option.desc.formatted"/>
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.final.results.final.grade.award.option.descr.plain"/>
+	<dict:fieldRef bean="dict.course.final.results.final.grade.award.option.descr.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded" parent="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded.abstract"/>
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded" parent="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded.abstract"/>
 
 
 <!-- ************************************************************* -->
-<!-- dict.course.final.results.final.grade.award.option.desc.plain -->
+<!-- dict.course.final.results.final.grade.award.option.descr.plain -->
 <!-- ************************************************************* -->
-<dict:field key="plain" id="dict.course.final.results.final.grade.award.option.desc.plain.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.final.grade.award.option.desc.plain.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.final.grade.award.option.desc.plain.cd"/>
+<dict:field key="plain" id="dict.course.final.results.final.grade.award.option.descr.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.final.grade.award.option.descr.plain.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.final.grade.award.option.descr.plain.cd"/>
 </dict:field>
-<dict:field key="plain" id="dict.course.final.results.final.grade.award.option.desc.plain" parent="dict.course.final.results.final.grade.award.option.desc.plain.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.desc.plain.fd.abstract" abstract="true">
-	<dict:name>course.final.results.final.grade.award.option.desc.plain</dict:name>
-	<dict:desc>course.final.results.final.grade.award.option.desc.plain</dict:desc>
+<dict:field key="plain" id="dict.course.final.results.final.grade.award.option.descr.plain" parent="dict.course.final.results.final.grade.award.option.descr.plain.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.descr.plain.fd.abstract" abstract="true">
+	<dict:name>course.final.results.final.grade.award.option.descr.plain</dict:name>
+	<dict:descr>course.final.results.final.grade.award.option.descr.plain</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.desc.plain.fd" parent="dict.course.final.results.final.grade.award.option.desc.plain.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.final.grade.award.option.desc.plain.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.descr.plain.fd" parent="dict.course.final.results.final.grade.award.option.descr.plain.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.final.grade.award.option.descr.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.multi.line.text"/>
@@ -579,23 +579,23 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="dict.course.final.results.final.grade.award.option.desc.plain.cd" parent="dict.course.final.results.final.grade.award.option.desc.plain.cd.abstract"/>
+<dict:constraintDescriptor key="plain" id="dict.course.final.results.final.grade.award.option.descr.plain.cd" parent="dict.course.final.results.final.grade.award.option.descr.plain.cd.abstract"/>
 
 <!-- ***************************************************************** -->
-<!-- dict.course.final.results.final.grade.award.option.desc.formatted -->
+<!-- dict.course.final.results.final.grade.award.option.descr.formatted -->
 <!-- ***************************************************************** -->
-<dict:field key="formatted" id="dict.course.final.results.final.grade.award.option.desc.formatted.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.final.grade.award.option.desc.formatted.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.final.grade.award.option.desc.formatted.cd"/>
+<dict:field key="formatted" id="dict.course.final.results.final.grade.award.option.descr.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.final.grade.award.option.descr.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.final.grade.award.option.descr.formatted.cd"/>
 </dict:field>
-<dict:field key="formatted" id="dict.course.final.results.final.grade.award.option.desc.formatted" parent="dict.course.final.results.final.grade.award.option.desc.formatted.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.desc.formatted.fd.abstract" abstract="true">
-	<dict:name>course.final.results.final.grade.award.option.desc.formatted</dict:name>
-	<dict:desc>course.final.results.final.grade.award.option.desc.formatted</dict:desc>
+<dict:field key="formatted" id="dict.course.final.results.final.grade.award.option.descr.formatted" parent="dict.course.final.results.final.grade.award.option.descr.formatted.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.descr.formatted.fd.abstract" abstract="true">
+	<dict:name>course.final.results.final.grade.award.option.descr.formatted</dict:name>
+	<dict:descr>course.final.results.final.grade.award.option.descr.formatted</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.desc.formatted.fd" parent="dict.course.final.results.final.grade.award.option.desc.formatted.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.final.grade.award.option.desc.formatted.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.descr.formatted.fd" parent="dict.course.final.results.final.grade.award.option.descr.formatted.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.final.grade.award.option.descr.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.rich.text"/>
@@ -603,7 +603,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="dict.course.final.results.final.grade.award.option.desc.formatted.cd" parent="dict.course.final.results.final.grade.award.option.desc.formatted.cd.abstract"/>
+<dict:constraintDescriptor key="formatted" id="dict.course.final.results.final.grade.award.option.descr.formatted.cd" parent="dict.course.final.results.final.grade.award.option.descr.formatted.cd.abstract"/>
 
 <!-- ************************************************************************************************************************************ -->
 <!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).metaInfo.Final Grade Awarded.(default) -->
@@ -616,7 +616,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
+	<dict:descr>Default</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded"/>
 </dict:type>
@@ -646,7 +646,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="versionInd" id="dict.course.final.results.final.grade.award.option.meta.versionInd" parent="dict.course.final.results.final.grade.award.option.meta.versionInd.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>final grade award  meta versionInd</dict:name>
-	<dict:desc>final grade award  meta versionInd</dict:desc>
+	<dict:descr>final grade award  meta versionInd</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -670,7 +670,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createTime" id="dict.course.final.results.final.grade.award.option.meta.createTime" parent="dict.course.final.results.final.grade.award.option.meta.createTime.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>final grade award  meta createTime</dict:name>
-	<dict:desc>final grade award  meta createTime</dict:desc>
+	<dict:descr>final grade award  meta createTime</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.meta.createTime.fd" parent="dict.course.final.results.final.grade.award.option.meta.createTime.fd.abstract"/>
@@ -692,7 +692,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createId" id="dict.course.final.results.final.grade.award.option.meta.createId" parent="dict.course.final.results.final.grade.award.option.meta.createId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.meta.createId.fd.abstract" abstract="true">
 	<dict:name>final grade award  meta createId</dict:name>
-	<dict:desc>final grade award  meta createId</dict:desc>
+	<dict:descr>final grade award  meta createId</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -715,7 +715,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateTime" id="dict.course.final.results.final.grade.award.option.meta.updateTime" parent="dict.course.final.results.final.grade.award.option.meta.updateTime.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>final grade award  meta updateTime</dict:name>
-	<dict:desc>final grade award  meta updateTime</dict:desc>
+	<dict:descr>final grade award  meta updateTime</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.meta.updateTime.fd" parent="dict.course.final.results.final.grade.award.option.meta.updateTime.fd.abstract"/>
@@ -737,7 +737,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateId" id="dict.course.final.results.final.grade.award.option.meta.updateId" parent="dict.course.final.results.final.grade.award.option.meta.updateId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>final grade award  meta updateId</dict:name>
-	<dict:desc>final grade award  meta updateId</dict:desc>
+	<dict:descr>final grade award  meta updateId</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -752,49 +752,49 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 
 <!-- *********************************************************************************************************************************** -->
-<!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).desc.Qualitative Assessment.(default) -->
+<!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).descr.Qualitative Assessment.(default) -->
 <!-- *********************************************************************************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment" parent="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment.abstract"/>
 
-<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
+	<dict:descr>Default</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment"/>
+		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment" parent="type.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment.abstract"/>
+<dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment" parent="type.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment.abstract"/>
 
 <!-- ******************************************************************************************************************************************* -->
-<!-- State for state.field.cluResultInfo.resultOptions.Credit Course Results.(default).desc.Qualitative Assessment.(default).(default).(default) -->
+<!-- State for state.field.cluResultInfo.resultOptions.Credit Course Results.(default).descr.Qualitative Assessment.(default).(default).(default) -->
 <!-- ******************************************************************************************************************************************* -->
 
-<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment.abstract" abstract="true">
-	<dict:fieldRef bean="dict.course.final.results.qualitative.option.desc.plain"/>
-	<dict:fieldRef bean="dict.course.final.results.qualitative.option.desc.formatted"/>
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment.abstract" abstract="true">
+	<dict:fieldRef bean="dict.course.final.results.qualitative.option.descr.plain"/>
+	<dict:fieldRef bean="dict.course.final.results.qualitative.option.descr.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment" parent="state.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment.abstract"/>
+<dict:state key="*" id="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment" parent="state.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment.abstract"/>
 
 
 <!-- ******************************************************* -->
-<!-- dict.course.final.results.qualitative.option.desc.plain -->
+<!-- dict.course.final.results.qualitative.option.descr.plain -->
 <!-- ******************************************************* -->
-<dict:field key="plain" id="dict.course.final.results.qualitative.option.desc.plain.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.qualitative.option.desc.plain.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.qualitative.option.desc.plain.cd"/>
+<dict:field key="plain" id="dict.course.final.results.qualitative.option.descr.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.qualitative.option.descr.plain.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.qualitative.option.descr.plain.cd"/>
 </dict:field>
-<dict:field key="plain" id="dict.course.final.results.qualitative.option.desc.plain" parent="dict.course.final.results.qualitative.option.desc.plain.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.desc.plain.fd.abstract" abstract="true">
-	<dict:name>course.final.results.qualitative.option.desc.plain</dict:name>
-	<dict:desc>course.final.results.qualitative.option.desc.plain</dict:desc>
+<dict:field key="plain" id="dict.course.final.results.qualitative.option.descr.plain" parent="dict.course.final.results.qualitative.option.descr.plain.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.descr.plain.fd.abstract" abstract="true">
+	<dict:name>course.final.results.qualitative.option.descr.plain</dict:name>
+	<dict:descr>course.final.results.qualitative.option.descr.plain</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.desc.plain.fd" parent="dict.course.final.results.qualitative.option.desc.plain.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.qualitative.option.desc.plain.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.descr.plain.fd" parent="dict.course.final.results.qualitative.option.descr.plain.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.qualitative.option.descr.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.multi.line.text"/>
@@ -804,23 +804,23 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="dict.course.final.results.qualitative.option.desc.plain.cd" parent="dict.course.final.results.qualitative.option.desc.plain.cd.abstract"/>
+<dict:constraintDescriptor key="plain" id="dict.course.final.results.qualitative.option.descr.plain.cd" parent="dict.course.final.results.qualitative.option.descr.plain.cd.abstract"/>
 
 <!-- *********************************************************** -->
-<!-- dict.course.final.results.qualitative.option.desc.formatted -->
+<!-- dict.course.final.results.qualitative.option.descr.formatted -->
 <!-- *********************************************************** -->
-<dict:field key="formatted" id="dict.course.final.results.qualitative.option.desc.formatted.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.qualitative.option.desc.formatted.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.qualitative.option.desc.formatted.cd"/>
+<dict:field key="formatted" id="dict.course.final.results.qualitative.option.descr.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.qualitative.option.descr.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.qualitative.option.descr.formatted.cd"/>
 </dict:field>
-<dict:field key="formatted" id="dict.course.final.results.qualitative.option.desc.formatted" parent="dict.course.final.results.qualitative.option.desc.formatted.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.desc.formatted.fd.abstract" abstract="true">
-	<dict:name>course.final.results.qualitative.option.desc.formatted</dict:name>
-	<dict:desc>course.final.results.qualitative.option.desc.formatted</dict:desc>
+<dict:field key="formatted" id="dict.course.final.results.qualitative.option.descr.formatted" parent="dict.course.final.results.qualitative.option.descr.formatted.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.descr.formatted.fd.abstract" abstract="true">
+	<dict:name>course.final.results.qualitative.option.descr.formatted</dict:name>
+	<dict:descr>course.final.results.qualitative.option.descr.formatted</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.desc.formatted.fd" parent="dict.course.final.results.qualitative.option.desc.formatted.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.qualitative.option.desc.formatted.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.descr.formatted.fd" parent="dict.course.final.results.qualitative.option.descr.formatted.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.qualitative.option.descr.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.rich.text"/>
@@ -828,7 +828,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="dict.course.final.results.qualitative.option.desc.formatted.cd" parent="dict.course.final.results.qualitative.option.desc.formatted.cd.abstract"/>
+<dict:constraintDescriptor key="formatted" id="dict.course.final.results.qualitative.option.descr.formatted.cd" parent="dict.course.final.results.qualitative.option.descr.formatted.cd.abstract"/>
 
 <!-- *************************************************************************************************************************************** -->
 <!-- object structure for object.field.cluResultInfo.resultOptions.Credit Course Results.(default).metaInfo.Qualitative Assessment.(default) -->
@@ -841,7 +841,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
+	<dict:descr>Default</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment"/>
 </dict:type>
@@ -871,7 +871,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="versionInd" id="dict.course.final.results.qualitative.option.meta.versionInd" parent="dict.course.final.results.qualitative.option.meta.versionInd.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>qualitative  meta versionInd</dict:name>
-	<dict:desc>qualitative  meta versionInd</dict:desc>
+	<dict:descr>qualitative  meta versionInd</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -895,7 +895,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createTime" id="dict.course.final.results.qualitative.option.meta.createTime" parent="dict.course.final.results.qualitative.option.meta.createTime.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>qualitative  meta createTime</dict:name>
-	<dict:desc>qualitative  meta createTime</dict:desc>
+	<dict:descr>qualitative  meta createTime</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.meta.createTime.fd" parent="dict.course.final.results.qualitative.option.meta.createTime.fd.abstract"/>
@@ -917,7 +917,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createId" id="dict.course.final.results.qualitative.option.meta.createId" parent="dict.course.final.results.qualitative.option.meta.createId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.meta.createId.fd.abstract" abstract="true">
 	<dict:name>qualitative  meta createId</dict:name>
-	<dict:desc>qualitative  meta createId</dict:desc>
+	<dict:descr>qualitative  meta createId</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -940,7 +940,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateTime" id="dict.course.final.results.qualitative.option.meta.updateTime" parent="dict.course.final.results.qualitative.option.meta.updateTime.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>qualitative  meta updateTime</dict:name>
-	<dict:desc>qualitative  meta updateTime</dict:desc>
+	<dict:descr>qualitative  meta updateTime</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.meta.updateTime.fd" parent="dict.course.final.results.qualitative.option.meta.updateTime.fd.abstract"/>
@@ -962,7 +962,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateId" id="dict.course.final.results.qualitative.option.meta.updateId" parent="dict.course.final.results.qualitative.option.meta.updateId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>qualitative  meta updateId</dict:name>
-	<dict:desc>qualitative  meta updateId</dict:desc>
+	<dict:descr>qualitative  meta updateId</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -976,25 +976,25 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor key="updateId" id="dict.course.final.results.qualitative.option.meta.updateId.cd" parent="dict.course.final.results.qualitative.option.meta.updateId.cd.abstract"/>
 
 <!-- ************************************************** -->
-<!-- dict.course.final.results.credit.award.option.desc -->
+<!-- dict.course.final.results.credit.award.option.descr -->
 <!-- ************************************************** -->
-<dict:field key="desc" id="dict.course.final.results.credit.award.option.desc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.credit.award.option.desc.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.credit.award.option.desc.cd"/>
+<dict:field key="descr" id="dict.course.final.results.credit.award.option.descr.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.credit.award.option.descr.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.credit.award.option.descr.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.course.final.results.credit.award.option.desc" parent="dict.course.final.results.credit.award.option.desc.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.desc.fd.abstract" abstract="true">
-	<dict:name>course final results credit award option desc</dict:name>
-	<dict:desc>course final results credit award option desc</dict:desc>
+<dict:field key="descr" id="dict.course.final.results.credit.award.option.descr" parent="dict.course.final.results.credit.award.option.descr.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.descr.fd.abstract" abstract="true">
+	<dict:name>course final results credit award option descr</dict:name>
+	<dict:descr>course final results credit award option descr</dict:descr>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.CreditAwarded"/>
+	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.CreditAwarded"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.desc.fd" parent="dict.course.final.results.credit.award.option.desc.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.credit.award.option.desc.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.credit.award.option.descr.fd" parent="dict.course.final.results.credit.award.option.descr.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.credit.award.option.descr.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.course.final.results.credit.award.option.desc.cd" parent="dict.course.final.results.credit.award.option.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.course.final.results.credit.award.option.descr.cd" parent="dict.course.final.results.credit.award.option.descr.cd.abstract"/>
 
 <!-- **************************************************************** -->
 <!-- dict.course.final.results.credit.award.option.resultUsageTypeKey -->
@@ -1006,7 +1006,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="resultUsageTypeKey" id="dict.course.final.results.credit.award.option.resultUsageTypeKey" parent="dict.course.final.results.credit.award.option.resultUsageTypeKey.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.resultUsageTypeKey.fd.abstract" abstract="true">
 	<dict:name>course final results credit award option result usage type key</dict:name>
-	<dict:desc>the type of result option for this course final results</dict:desc>
+	<dict:descr>the type of result option for this course final results</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.resultUsageTypeKey.fd" parent="dict.course.final.results.credit.award.option.resultUsageTypeKey.fd.abstract"/>
@@ -1028,7 +1028,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="resultComponentId" id="dict.course.final.results.credit.award.option.resultComponentId" parent="dict.course.final.results.credit.award.option.resultComponentId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.resultComponentId.fd.abstract" abstract="true">
 	<dict:name>course final results credit award option resultComponent Id</dict:name>
-	<dict:desc>the internal identifier for the course final results credit award option</dict:desc>
+	<dict:descr>the internal identifier for the course final results credit award option</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.resultComponentId.fd" parent="dict.course.final.results.credit.award.option.resultComponentId.fd.abstract"/>
@@ -1050,7 +1050,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="dict.course.final.results.credit.award.option.effectiveDate" parent="dict.course.final.results.credit.award.option.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>course final results credit award option effective date</dict:name>
-	<dict:desc>course final results credit award option effective date</dict:desc>
+	<dict:descr>course final results credit award option effective date</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.effectiveDate.fd" parent="dict.course.final.results.credit.award.option.effectiveDate.fd.abstract"/>
@@ -1071,7 +1071,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="dict.course.final.results.credit.award.option.expirationDate" parent="dict.course.final.results.credit.award.option.expirationDate.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.expirationDate.fd.abstract" abstract="true">
 	<dict:name>course final results credit award option expiration date</dict:name>
-	<dict:desc>course final results credit award option expiration date</dict:desc>
+	<dict:descr>course final results credit award option expiration date</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.expirationDate.fd" parent="dict.course.final.results.credit.award.option.expirationDate.fd.abstract"/>
@@ -1093,7 +1093,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="metaInfo" id="dict.course.final.results.credit.award.option.metaInfo" parent="dict.course.final.results.credit.award.option.metaInfo.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.metaInfo.fd.abstract" abstract="true">
 	<dict:name>course final results credit award option state</dict:name>
-	<dict:desc>course final results credit award option state</dict:desc>
+	<dict:descr>course final results credit award option state</dict:descr>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.CreditAwarded"/>
 	<dict:readOnly>true</dict:readOnly>
@@ -1118,7 +1118,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="state" id="dict.course.final.results.credit.award.option.state" parent="dict.course.final.results.credit.award.option.state.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.state.fd.abstract" abstract="true">
 	<dict:name>course final results credit award option effective date</dict:name>
-	<dict:desc>course final results credit award option effective date</dict:desc>
+	<dict:descr>course final results credit award option effective date</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.state.fd" parent="dict.course.final.results.credit.award.option.state.fd.abstract"/>
@@ -1139,7 +1139,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="dict.course.final.results.credit.award.option.internal.id" parent="dict.course.final.results.credit.award.option.internal.id.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.credit.award.option.internal.id.fd.abstract" abstract="true">
 	<dict:name>course final results credit award option internal id</dict:name>
-	<dict:desc>the internal id of the credit award option for the course final results</dict:desc>
+	<dict:descr>the internal id of the credit award option for the course final results</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1153,25 +1153,25 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor key="id" id="dict.course.final.results.credit.award.option.internal.id.cd" parent="dict.course.final.results.credit.award.option.internal.id.cd.abstract"/>
 
 <!-- ******************************************************* -->
-<!-- dict.course.final.results.final.grade.award.option.desc -->
+<!-- dict.course.final.results.final.grade.award.option.descr -->
 <!-- ******************************************************* -->
-<dict:field key="desc" id="dict.course.final.results.final.grade.award.option.desc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.final.grade.award.option.desc.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.final.grade.award.option.desc.cd"/>
+<dict:field key="descr" id="dict.course.final.results.final.grade.award.option.descr.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.final.grade.award.option.descr.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.final.grade.award.option.descr.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.course.final.results.final.grade.award.option.desc" parent="dict.course.final.results.final.grade.award.option.desc.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.desc.fd.abstract" abstract="true">
-	<dict:name>course final results final grade award option desc</dict:name>
-	<dict:desc>course final results final grade award option desc</dict:desc>
+<dict:field key="descr" id="dict.course.final.results.final.grade.award.option.descr" parent="dict.course.final.results.final.grade.award.option.descr.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.descr.fd.abstract" abstract="true">
+	<dict:name>course final results final grade award option descr</dict:name>
+	<dict:descr>course final results final grade award option descr</dict:descr>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.FinalGradeAwarded"/>
+	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.FinalGradeAwarded"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.desc.fd" parent="dict.course.final.results.final.grade.award.option.desc.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.final.grade.award.option.desc.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.descr.fd" parent="dict.course.final.results.final.grade.award.option.descr.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.final.grade.award.option.descr.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.course.final.results.final.grade.award.option.desc.cd" parent="dict.course.final.results.final.grade.award.option.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.course.final.results.final.grade.award.option.descr.cd" parent="dict.course.final.results.final.grade.award.option.descr.cd.abstract"/>
 
 <!-- ********************************************************************* -->
 <!-- dict.course.final.results.final.grade.award.option.resultUsageTypeKey -->
@@ -1183,7 +1183,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="resultUsageTypeKey" id="dict.course.final.results.final.grade.award.option.resultUsageTypeKey" parent="dict.course.final.results.final.grade.award.option.resultUsageTypeKey.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.resultUsageTypeKey.fd.abstract" abstract="true">
 	<dict:name>course final results final grade award option result usage type key</dict:name>
-	<dict:desc>the type of result option for this course final results</dict:desc>
+	<dict:descr>the type of result option for this course final results</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.resultUsageTypeKey.fd" parent="dict.course.final.results.final.grade.award.option.resultUsageTypeKey.fd.abstract"/>
@@ -1205,7 +1205,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="resultComponentId" id="dict.course.final.results.final.grade.award.option.resultComponentId" parent="dict.course.final.results.final.grade.award.option.resultComponentId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.resultComponentId.fd.abstract" abstract="true">
 	<dict:name>course final results final grade award option resultComponent Id</dict:name>
-	<dict:desc>the internal identifier for the course final results final grade award option</dict:desc>
+	<dict:descr>the internal identifier for the course final results final grade award option</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.resultComponentId.fd" parent="dict.course.final.results.final.grade.award.option.resultComponentId.fd.abstract"/>
@@ -1227,7 +1227,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="dict.course.final.results.final.grade.award.option.effectiveDate" parent="dict.course.final.results.final.grade.award.option.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>course final results final grade award option effective date</dict:name>
-	<dict:desc>course final results final grade award option effective date</dict:desc>
+	<dict:descr>course final results final grade award option effective date</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.effectiveDate.fd" parent="dict.course.final.results.final.grade.award.option.effectiveDate.fd.abstract"/>
@@ -1248,7 +1248,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="dict.course.final.results.final.grade.award.option.expirationDate" parent="dict.course.final.results.final.grade.award.option.expirationDate.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.expirationDate.fd.abstract" abstract="true">
 	<dict:name>course final results final grade award option expiration date</dict:name>
-	<dict:desc>course final results final grade award option expiration date</dict:desc>
+	<dict:descr>course final results final grade award option expiration date</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.expirationDate.fd" parent="dict.course.final.results.final.grade.award.option.expirationDate.fd.abstract"/>
@@ -1270,7 +1270,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="metaInfo" id="dict.course.final.results.final.grade.award.option.metaInfo" parent="dict.course.final.results.final.grade.award.option.metaInfo.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.metaInfo.fd.abstract" abstract="true">
 	<dict:name>course final results final grade award option meta-info</dict:name>
-	<dict:desc>course final results final grade award option meta-info</dict:desc>
+	<dict:descr>course final results final grade award option meta-info</dict:descr>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.FinalGradeAwarded"/>
 	<dict:readOnly>true</dict:readOnly>
@@ -1295,7 +1295,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="state" id="dict.course.final.results.final.grade.award.option.state" parent="dict.course.final.results.final.grade.award.option.state.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.state.fd.abstract" abstract="true">
 	<dict:name>course final results final grade award option state</dict:name>
-	<dict:desc>course final results final grade award option state</dict:desc>
+	<dict:descr>course final results final grade award option state</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.state.fd" parent="dict.course.final.results.final.grade.award.option.state.fd.abstract"/>
@@ -1316,7 +1316,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="dict.course.final.results.final.grade.award.option.internal.id" parent="dict.course.final.results.final.grade.award.option.internal.id.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.final.grade.award.option.internal.id.fd.abstract" abstract="true">
 	<dict:name>course final results final grade award option internal id</dict:name>
-	<dict:desc>the internal id of the final grade award option for the course final results</dict:desc>
+	<dict:descr>the internal id of the final grade award option for the course final results</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1330,25 +1330,25 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor key="id" id="dict.course.final.results.final.grade.award.option.internal.id.cd" parent="dict.course.final.results.final.grade.award.option.internal.id.cd.abstract"/>
 
 <!-- ************************************************* -->
-<!-- dict.course.final.results.qualitative.option.desc -->
+<!-- dict.course.final.results.qualitative.option.descr -->
 <!-- ************************************************* -->
-<dict:field key="desc" id="dict.course.final.results.qualitative.option.desc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.qualitative.option.desc.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.qualitative.option.desc.cd"/>
+<dict:field key="descr" id="dict.course.final.results.qualitative.option.descr.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.qualitative.option.descr.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.qualitative.option.descr.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.course.final.results.qualitative.option.desc" parent="dict.course.final.results.qualitative.option.desc.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.desc.fd.abstract" abstract="true">
-	<dict:name>course final results qualitative option desc</dict:name>
-	<dict:desc>course final results qualitative option desc</dict:desc>
+<dict:field key="descr" id="dict.course.final.results.qualitative.option.descr" parent="dict.course.final.results.qualitative.option.descr.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.descr.fd.abstract" abstract="true">
+	<dict:name>course final results qualitative option descr</dict:name>
+	<dict:descr>course final results qualitative option descr</dict:descr>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.desc.QualitativeAssessment"/>
+	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.descr.QualitativeAssessment"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.desc.fd" parent="dict.course.final.results.qualitative.option.desc.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.qualitative.option.desc.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.qualitative.option.descr.fd" parent="dict.course.final.results.qualitative.option.descr.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.qualitative.option.descr.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.course.final.results.qualitative.option.desc.cd" parent="dict.course.final.results.qualitative.option.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.course.final.results.qualitative.option.descr.cd" parent="dict.course.final.results.qualitative.option.descr.cd.abstract"/>
 
 <!-- *************************************************************** -->
 <!-- dict.course.final.results.qualitative.option.resultUsageTypeKey -->
@@ -1360,7 +1360,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="resultUsageTypeKey" id="dict.course.final.results.qualitative.option.resultUsageTypeKey" parent="dict.course.final.results.qualitative.option.resultUsageTypeKey.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.resultUsageTypeKey.fd.abstract" abstract="true">
 	<dict:name>course final results qualitative option result usage type key</dict:name>
-	<dict:desc>the type of result option for this course final results</dict:desc>
+	<dict:descr>the type of result option for this course final results</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.resultUsageTypeKey.fd" parent="dict.course.final.results.qualitative.option.resultUsageTypeKey.fd.abstract"/>
@@ -1382,7 +1382,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="resultComponentId" id="dict.course.final.results.qualitative.option.resultComponentId" parent="dict.course.final.results.qualitative.option.resultComponentId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.resultComponentId.fd.abstract" abstract="true">
 	<dict:name>course final results qualitative option resultComponent Id</dict:name>
-	<dict:desc>the internal identifier for the course final results qualitative option</dict:desc>
+	<dict:descr>the internal identifier for the course final results qualitative option</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.resultComponentId.fd" parent="dict.course.final.results.qualitative.option.resultComponentId.fd.abstract"/>
@@ -1404,7 +1404,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="dict.course.final.results.qualitative.option.effectiveDate" parent="dict.course.final.results.qualitative.option.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>course final results qualitative option effective date</dict:name>
-	<dict:desc>course final results qualitative option effective date</dict:desc>
+	<dict:descr>course final results qualitative option effective date</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.effectiveDate.fd" parent="dict.course.final.results.qualitative.option.effectiveDate.fd.abstract"/>
@@ -1425,7 +1425,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="dict.course.final.results.qualitative.option.expirationDate" parent="dict.course.final.results.qualitative.option.expirationDate.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.expirationDate.fd.abstract" abstract="true">
 	<dict:name>course final results qualitative option expiration date</dict:name>
-	<dict:desc>course final results qualitative option expiration date</dict:desc>
+	<dict:descr>course final results qualitative option expiration date</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.expirationDate.fd" parent="dict.course.final.results.qualitative.option.expirationDate.fd.abstract"/>
@@ -1447,7 +1447,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="metaInfo" id="dict.course.final.results.qualitative.option.metaInfo" parent="dict.course.final.results.qualitative.option.metaInfo.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.metaInfo.fd.abstract" abstract="true">
 	<dict:name>course final results qualitative option state</dict:name>
-	<dict:desc>course final results qualitative option state</dict:desc>
+	<dict:descr>course final results qualitative option state</dict:descr>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults.metaInfo.QualitativeAssessment"/>
 	<dict:readOnly>true</dict:readOnly>
@@ -1472,7 +1472,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="state" id="dict.course.final.results.qualitative.option.state" parent="dict.course.final.results.qualitative.option.state.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.state.fd.abstract" abstract="true">
 	<dict:name>course final results qualitative option effective date</dict:name>
-	<dict:desc>course final results qualitative option effective date</dict:desc>
+	<dict:descr>course final results qualitative option effective date</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.state.fd" parent="dict.course.final.results.qualitative.option.state.fd.abstract"/>
@@ -1493,7 +1493,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="dict.course.final.results.qualitative.option.internal.id" parent="dict.course.final.results.qualitative.option.internal.id.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.qualitative.option.internal.id.fd.abstract" abstract="true">
 	<dict:name>course final results qualitative option internal id</dict:name>
-	<dict:desc>the internal id of the qualitative option for the course final results</dict:desc>
+	<dict:descr>the internal id of the qualitative option for the course final results</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1517,7 +1517,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluResultInfo.metaInfo.CreditCourseResults.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
+	<dict:descr>Default</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluResultInfo.metaInfo.CreditCourseResults"/>
 </dict:type>
@@ -1547,7 +1547,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="versionInd" id="dict.course.final.results.meta.versionInd" parent="dict.course.final.results.meta.versionInd.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>course final results meta versionInd</dict:name>
-	<dict:desc>course final results meta versionInd</dict:desc>
+	<dict:descr>course final results meta versionInd</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1571,7 +1571,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createTime" id="dict.course.final.results.meta.createTime" parent="dict.course.final.results.meta.createTime.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>course final results meta createTime</dict:name>
-	<dict:desc>course final results meta createTime</dict:desc>
+	<dict:descr>course final results meta createTime</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.meta.createTime.fd" parent="dict.course.final.results.meta.createTime.fd.abstract"/>
@@ -1593,7 +1593,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createId" id="dict.course.final.results.meta.createId" parent="dict.course.final.results.meta.createId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.meta.createId.fd.abstract" abstract="true">
 	<dict:name>course final results meta createId</dict:name>
-	<dict:desc>course final results meta createId</dict:desc>
+	<dict:descr>course final results meta createId</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1616,7 +1616,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateTime" id="dict.course.final.results.meta.updateTime" parent="dict.course.final.results.meta.updateTime.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>course final results meta updateTime</dict:name>
-	<dict:desc>course final results meta updateTime</dict:desc>
+	<dict:descr>course final results meta updateTime</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.meta.updateTime.fd" parent="dict.course.final.results.meta.updateTime.fd.abstract"/>
@@ -1638,7 +1638,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateId" id="dict.course.final.results.meta.updateId" parent="dict.course.final.results.meta.updateId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>course final results meta updateId</dict:name>
-	<dict:desc>course final results meta updateId</dict:desc>
+	<dict:descr>course final results meta updateId</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1652,25 +1652,25 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor key="updateId" id="dict.course.final.results.meta.updateId.cd" parent="dict.course.final.results.meta.updateId.cd.abstract"/>
 
 <!-- ****************************** -->
-<!-- dict.course.final.results.desc -->
+<!-- dict.course.final.results.descr -->
 <!-- ****************************** -->
-<dict:field key="desc" id="dict.course.final.results.desc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.course.final.results.desc.fd"/>
-	<dict:constraintDescriptorRef bean="dict.course.final.results.desc.cd"/>
+<dict:field key="descr" id="dict.course.final.results.descr.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.course.final.results.descr.fd"/>
+	<dict:constraintDescriptorRef bean="dict.course.final.results.descr.cd"/>
 </dict:field>
-<dict:field key="desc" id="dict.course.final.results.desc" parent="dict.course.final.results.desc.abstract"/>
-<dict:fieldDescriptor id="dict.course.final.results.desc.fd.abstract" abstract="true">
-	<dict:name>course final results desc</dict:name>
-	<dict:desc>course final results desc</dict:desc>
+<dict:field key="descr" id="dict.course.final.results.descr" parent="dict.course.final.results.descr.abstract"/>
+<dict:fieldDescriptor id="dict.course.final.results.descr.fd.abstract" abstract="true">
+	<dict:name>course final results descr</dict:name>
+	<dict:descr>course final results descr</dict:descr>
 	<dict:dataType>Complex</dict:dataType>
-	<dict:objectStructureRef bean="object.field.cluResultInfo.desc.CreditCourseResults"/>
+	<dict:objectStructureRef bean="object.field.cluResultInfo.descr.CreditCourseResults"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.course.final.results.desc.fd" parent="dict.course.final.results.desc.fd.abstract"/>
-<dict:constraintDescriptor id="dict.course.final.results.desc.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.course.final.results.descr.fd" parent="dict.course.final.results.descr.fd.abstract"/>
+<dict:constraintDescriptor id="dict.course.final.results.descr.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="dict.course.final.results.desc.cd" parent="dict.course.final.results.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="dict.course.final.results.descr.cd" parent="dict.course.final.results.descr.cd.abstract"/>
 
 <!-- ******************************* -->
 <!-- dict.course.final.results.cluId -->
@@ -1682,7 +1682,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="cluId" id="dict.course.final.results.cluId" parent="dict.course.final.results.cluId.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.cluId.fd.abstract" abstract="true">
 	<dict:name>course final results CluId</dict:name>
-	<dict:desc>the interanl Id of the course that this course final results is for</dict:desc>
+	<dict:descr>the interanl Id of the course that this course final results is for</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.cluId.fd" parent="dict.course.final.results.cluId.fd.abstract"/>
@@ -1703,7 +1703,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="resultOptions" id="dict.course.final.results.options" parent="dict.course.final.results.options.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.options.fd.abstract" abstract="true">
 	<dict:name>course final results options</dict:name>
-	<dict:desc>The possible results associated with a course</dict:desc>
+	<dict:descr>The possible results associated with a course</dict:descr>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluResultInfo.resultOptions.CreditCourseResults"/>
 </dict:fieldDescriptor>
@@ -1725,7 +1725,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="dict.course.final.results.effectiveDate" parent="dict.course.final.results.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>course final results effective date</dict:name>
-	<dict:desc>course final results effective date</dict:desc>
+	<dict:descr>course final results effective date</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.effectiveDate.fd" parent="dict.course.final.results.effectiveDate.fd.abstract"/>
@@ -1746,7 +1746,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="dict.course.final.results.expirationDate" parent="dict.course.final.results.expirationDate.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.expirationDate.fd.abstract" abstract="true">
 	<dict:name>course final results expiration date</dict:name>
-	<dict:desc>course final results expiration date</dict:desc>
+	<dict:descr>course final results expiration date</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.expirationDate.fd" parent="dict.course.final.results.expirationDate.fd.abstract"/>
@@ -1768,7 +1768,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="metaInfo" id="dict.course.final.results.metaInfo" parent="dict.course.final.results.metaInfo.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.metaInfo.fd.abstract" abstract="true">
 	<dict:name>course final results meta-info</dict:name>
-	<dict:desc>course final results meta-info</dict:desc>
+	<dict:descr>course final results meta-info</dict:descr>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluResultInfo.metaInfo.CreditCourseResults"/>
 	<dict:readOnly>true</dict:readOnly>
@@ -1793,7 +1793,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="state" id="dict.course.final.results.state" parent="dict.course.final.results.state.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.state.fd.abstract" abstract="true">
 	<dict:name>course final results state</dict:name>
-	<dict:desc>course final results state</dict:desc>
+	<dict:descr>course final results state</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.state.fd" parent="dict.course.final.results.state.fd.abstract"/>
@@ -1814,7 +1814,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="type" id="dict.course.final.results.type" parent="dict.course.final.results.type.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.type.fd.abstract" abstract="true">
 	<dict:name>course final results type</dict:name>
-	<dict:desc>course final results type</dict:desc>
+	<dict:descr>course final results type</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.course.final.results.type.fd" parent="dict.course.final.results.type.fd.abstract"/>
@@ -1836,7 +1836,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="dict.course.final.results.internal.id" parent="dict.course.final.results.internal.id.abstract"/>
 <dict:fieldDescriptor id="dict.course.final.results.internal.id.fd.abstract" abstract="true">
 	<dict:name>course final results internal id</dict:name>
-	<dict:desc>The internal id of the course final results</dict:desc>
+	<dict:descr>The internal id of the course final results</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>

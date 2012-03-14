@@ -8,7 +8,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
   <property name="name" value="org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo"/>
   <property name="attributes">
    <list>
-    <ref bean="resultComponentInfo.desc"/>
+    <ref bean="resultComponentInfo.descr"/>
     <ref bean="resultComponentInfo.effectiveDate"/>
     <ref bean="resultComponentInfo.expirationDate"/>
     <ref bean="resultComponentInfo.id"/>
@@ -22,11 +22,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  </bean>
  <bean id="org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo" parent="org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo-parent"/>
 
- <bean id="resultComponentInfo.desc-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="desc"/>
+ <bean id="resultComponentInfo.descr-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="descr"/>
   <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
- <bean id="resultComponentInfo.desc" parent="resultComponentInfo.desc-parent"/>
+ <bean id="resultComponentInfo.descr" parent="resultComponentInfo.descr-parent"/>
 
  <bean id="resultComponentInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate"/>
@@ -70,7 +70,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
   <property name="name" value="org.kuali.student.r1.lum.lrc.dto.CredentialInfo"/>
   <property name="attributes">
    <list>
-    <ref bean="credentialInfo.desc"/>
+    <ref bean="credentialInfo.descr"/>
     <ref bean="credentialInfo.effectiveDate"/>
     <ref bean="credentialInfo.expirationDate"/>
     <ref bean="credentialInfo.id"/>
@@ -82,11 +82,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  </bean>
  <bean id="org.kuali.student.r1.lum.lrc.dto.CredentialInfo" parent="org.kuali.student.r1.lum.lrc.dto.CredentialInfo-parent"/>
 
- <bean id="credentialInfo.desc-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="desc"/>
+ <bean id="credentialInfo.descr-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="descr"/>
   <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
- <bean id="credentialInfo.desc" parent="credentialInfo.desc-parent"/>
+ <bean id="credentialInfo.descr" parent="credentialInfo.descr-parent"/>
 
  <bean id="credentialInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate"/>
@@ -123,7 +123,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
   <property name="name" value="org.kuali.student.r1.lum.lrc.dto.CreditInfo"/>
   <property name="attributes">
    <list>
-    <ref bean="creditInfo.desc"/>
+    <ref bean="creditInfo.descr"/>
     <ref bean="creditInfo.effectiveDate"/>
     <ref bean="creditInfo.expirationDate"/>
     <ref bean="creditInfo.id"/>
@@ -135,11 +135,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  </bean>
  <bean id="org.kuali.student.r1.lum.lrc.dto.CreditInfo" parent="org.kuali.student.r1.lum.lrc.dto.CreditInfo-parent"/>
 
- <bean id="creditInfo.desc-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="desc"/>
+ <bean id="creditInfo.descr-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="descr"/>
   <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
- <bean id="creditInfo.desc" parent="creditInfo.desc-parent"/>
+ <bean id="creditInfo.descr" parent="creditInfo.descr-parent"/>
 
  <bean id="creditInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate"/>
@@ -234,7 +234,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
   <property name="name" value="org.kuali.student.r1.lum.lrc.dto.ScaleInfo"/>
   <property name="attributes">
    <list>
-    <ref bean="scaleInfo.desc"/>
+    <ref bean="scaleInfo.descr"/>
     <ref bean="scaleInfo.effectiveDate"/>
     <ref bean="scaleInfo.expirationDate"/>
     <ref bean="scaleInfo.id"/>
@@ -244,11 +244,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  </bean>
  <bean id="org.kuali.student.r1.lum.lrc.dto.ScaleInfo" parent="org.kuali.student.r1.lum.lrc.dto.ScaleInfo-parent"/>
 
- <bean id="scaleInfo.desc-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="desc"/>
+ <bean id="scaleInfo.descr-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="descr"/>
   <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
- <bean id="scaleInfo.desc" parent="scaleInfo.desc-parent"/>
+ <bean id="scaleInfo.descr" parent="scaleInfo.descr-parent"/>
 
  <bean id="scaleInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate"/>

@@ -40,7 +40,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="kuali.lu.lo.relation.type.includes" id="type.cluLoRelationInfo.includes.abstract" abstract="true">
 	<dict:name>includes</dict:name>
-	<dict:desc>Indicates that the content of the clu includes the learning objectives</dict:desc>
+	<dict:descr>Indicates that the content of the clu includes the learning objectives</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.cluLoRelationInfo.includes.draft"/>
 		<dict:stateRef bean="state.cluLoRelationInfo.includes.active"/>
@@ -102,7 +102,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluLoRelationInfo.metaInfo.includes.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
+	<dict:descr>Default</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluLoRelationInfo.metaInfo.includes"/>
 </dict:type>
@@ -132,7 +132,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="versionInd" id="dict.includes.luLoRelation.meta.versionInd" parent="dict.includes.luLoRelation.meta.versionInd.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>includes relationship meta versionInd</dict:name>
-	<dict:desc>includes relationship meta versionInd</dict:desc>
+	<dict:descr>includes relationship meta versionInd</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -156,7 +156,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createTime" id="dict.includes.luLoRelation.meta.createTime" parent="dict.includes.luLoRelation.meta.createTime.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>includes relationship meta createTime</dict:name>
-	<dict:desc>includes relationship meta createTime</dict:desc>
+	<dict:descr>includes relationship meta createTime</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.meta.createTime.fd" parent="dict.includes.luLoRelation.meta.createTime.fd.abstract"/>
@@ -178,7 +178,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createId" id="dict.includes.luLoRelation.meta.createId" parent="dict.includes.luLoRelation.meta.createId.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.meta.createId.fd.abstract" abstract="true">
 	<dict:name>includes relationship meta createId</dict:name>
-	<dict:desc>includes relationship meta createId</dict:desc>
+	<dict:descr>includes relationship meta createId</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -201,7 +201,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateTime" id="dict.includes.luLoRelation.meta.updateTime" parent="dict.includes.luLoRelation.meta.updateTime.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>includes relationship meta updateTime</dict:name>
-	<dict:desc>includes relationship meta updateTime</dict:desc>
+	<dict:descr>includes relationship meta updateTime</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.meta.updateTime.fd" parent="dict.includes.luLoRelation.meta.updateTime.fd.abstract"/>
@@ -223,7 +223,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateId" id="dict.includes.luLoRelation.meta.updateId" parent="dict.includes.luLoRelation.meta.updateId.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>includes relationship meta updateId</dict:name>
-	<dict:desc>includes relationship meta updateId</dict:desc>
+	<dict:descr>includes relationship meta updateId</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -246,7 +246,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="cluId" id="dict.includes.luLoRelation.cluId" parent="dict.includes.luLoRelation.cluId.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.cluId.fd.abstract" abstract="true">
 	<dict:name>includes relation clu id</dict:name>
-	<dict:desc>the associated lo id</dict:desc>
+	<dict:descr>the associated lo id</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.cluId.fd" parent="dict.includes.luLoRelation.cluId.fd.abstract"/>
@@ -266,7 +266,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="loId" id="dict.includes.luLoRelation.loId" parent="dict.includes.luLoRelation.loId.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.loId.fd.abstract" abstract="true">
 	<dict:name>includes relation LO id</dict:name>
-	<dict:desc>the clu id</dict:desc>
+	<dict:descr>the clu id</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.loId.fd" parent="dict.includes.luLoRelation.loId.fd.abstract"/>
@@ -286,7 +286,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="dict.includes.luLoRelation.effectiveDate" parent="dict.includes.luLoRelation.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>includes relation effective date</dict:name>
-	<dict:desc>the effective date of the lo reation</dict:desc>
+	<dict:descr>the effective date of the lo reation</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.effectiveDate.fd" parent="dict.includes.luLoRelation.effectiveDate.fd.abstract"/>
@@ -307,7 +307,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="dict.includes.luLoRelation.expirationDate" parent="dict.includes.luLoRelation.expirationDate.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.expirationDate.fd.abstract" abstract="true">
 	<dict:name>includes relation expiration date</dict:name>
-	<dict:desc>the expiration date of the relation</dict:desc>
+	<dict:descr>the expiration date of the relation</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.expirationDate.fd" parent="dict.includes.luLoRelation.expirationDate.fd.abstract"/>
@@ -329,7 +329,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="metaInfo" id="dict.includes.luLoRelation.metaInfo" parent="dict.includes.luLoRelation.metaInfo.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.metaInfo.fd.abstract" abstract="true">
 	<dict:name>includes relation meta info</dict:name>
-	<dict:desc>meta info</dict:desc>
+	<dict:descr>meta info</dict:descr>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluLoRelationInfo.metaInfo.includes"/>
 	<dict:readOnly>true</dict:readOnly>
@@ -353,7 +353,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="type" id="dict.includes.luLoRelation.type" parent="dict.includes.luLoRelation.type.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.type.fd.abstract" abstract="true">
 	<dict:name>includes relation type</dict:name>
-	<dict:desc>the type of the relation</dict:desc>
+	<dict:descr>the type of the relation</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -379,7 +379,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="state" id="dict.includes.luLoRelation.state" parent="dict.includes.luLoRelation.state.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.state.fd.abstract" abstract="true">
 	<dict:name>includes relation state</dict:name>
-	<dict:desc>the state of the relation</dict:desc>
+	<dict:descr>the state of the relation</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.state.fd" parent="dict.includes.luLoRelation.state.fd.abstract"/>
@@ -400,7 +400,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="dict.includes.luLoRelation.internal.id" parent="dict.includes.luLoRelation.internal.id.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.internal.id.fd.abstract" abstract="true">
 	<dict:name>includes relation internal id</dict:name>
-	<dict:desc>the internal id of the lo-lo relation</dict:desc>
+	<dict:descr>the internal id of the lo-lo relation</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>

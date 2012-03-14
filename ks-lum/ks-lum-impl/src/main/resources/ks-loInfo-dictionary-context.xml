@@ -49,7 +49,7 @@
   <property name="name" value="org.kuali.student.r2.lum.lo.dto.LoInfo" />
   <property name="attributes">
    <list>
-    <ref bean="loInfo.desc" />
+    <ref bean="loInfo.descr" />
     <ref bean="loInfo.effectiveDate" />
     <ref bean="loInfo.expirationDate" />
     <ref bean="loInfo.id" />
@@ -89,7 +89,7 @@
   <property name="name" value="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" />
   <property name="attributes">
    <list>
-    <ref bean="loCategoryInfo.desc" />
+    <ref bean="loCategoryInfo.descr" />
     <ref bean="loCategoryInfo.effectiveDate" />
     <ref bean="loCategoryInfo.expirationDate" />
     <ref bean="loCategoryInfo.id" />
@@ -103,34 +103,34 @@
  </bean>
  <bean id="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" parent="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo-parent" />
 
- <bean id="loCategoryInfo.desc-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="desc" />
-  <property name="dataObjectStructure" ref="loCategoryInfo.desc.RichTextInfo" />
+ <bean id="loCategoryInfo.descr-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="descr" />
+  <property name="dataObjectStructure" ref="loCategoryInfo.descr.RichTextInfo" />
  </bean>
- <bean id="loCategoryInfo.desc" parent="loCategoryInfo.desc-parent" />
+ <bean id="loCategoryInfo.descr" parent="loCategoryInfo.descr-parent" />
 
- <bean id="loCategoryInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent">
+ <bean id="loCategoryInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
-    <ref bean="loCategoryInfo.desc.formatted" />
-    <ref bean="loCategoryInfo.desc.plain" />
+    <ref bean="loCategoryInfo.descr.formatted" />
+    <ref bean="loCategoryInfo.descr.plain" />
    </list>
   </property>
  </bean>
- <bean id="loCategoryInfo.desc.RichTextInfo" parent="loCategoryInfo.desc.RichTextInfo-parent" />
+ <bean id="loCategoryInfo.descr.RichTextInfo" parent="loCategoryInfo.descr.RichTextInfo-parent" />
 
- <bean id="loCategoryInfo.desc.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
+ <bean id="loCategoryInfo.descr.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
   <property name="name" value="formatted" />
   <property name="maxLength" value="250" />
  </bean>
- <bean id="loCategoryInfo.desc.formatted" parent="loCategoryInfo.desc.formatted-parent" />
+ <bean id="loCategoryInfo.descr.formatted" parent="loCategoryInfo.descr.formatted-parent" />
 
- <bean id="loCategoryInfo.desc.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
+ <bean id="loCategoryInfo.descr.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
   <property name="name" value="plain" />
   <property name="maxLength" value="250" />
   <property name="minOccurs" value="0" />
  </bean>
- <bean id="loCategoryInfo.desc.plain" parent="loCategoryInfo.desc.plain-parent" />
+ <bean id="loCategoryInfo.descr.plain" parent="loCategoryInfo.descr.plain-parent" />
 
  <bean id="loCategoryInfo.effectiveDate-parent" abstract="true"
        parent="baseKualiEffectiveDate">
@@ -176,7 +176,7 @@
   <property name="name" value="org.kuali.student.r2.lum.lo.dto.LoInfo" />
   <property name="attributes">
    <list>
-    <ref bean="loInfo.desc" />
+    <ref bean="loInfo.descr" />
     <ref bean="loInfo.effectiveDate" />
     <ref bean="loInfo.expirationDate" />
     <ref bean="loInfo.id" />
@@ -192,36 +192,36 @@
  </bean>
  <bean id="org.kuali.student.r2.lum.lo.dto.LoInfo" parent="org.kuali.student.r2.lum.lo.dto.LoInfo-parent" />
 
- <bean id="loInfo.desc-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="desc" />
+ <bean id="loInfo.descr-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="descr" />
   <property name="minOccurs" value="1" />
-  <property name="dataObjectStructure" ref="loInfo.desc.RichTextInfo" />
+  <property name="dataObjectStructure" ref="loInfo.descr.RichTextInfo" />
  </bean>
- <bean id="loInfo.desc" parent="loInfo.desc-parent" />
+ <bean id="loInfo.descr" parent="loInfo.descr-parent" />
 
- <bean id="loInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent">
+ <bean id="loInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent">
   <property name="name" value="org.kuali.student.lo.dto.RichTextInfo" />
   <property name="attributes">
    <list>
-    <ref bean="loInfo.desc.formatted" />
-    <ref bean="loInfo.desc.plain" />
+    <ref bean="loInfo.descr.formatted" />
+    <ref bean="loInfo.descr.plain" />
    </list>
   </property>
  </bean>
- <bean id="loInfo.desc.RichTextInfo" parent="loInfo.desc.RichTextInfo-parent" />
+ <bean id="loInfo.descr.RichTextInfo" parent="loInfo.descr.RichTextInfo-parent" />
 
- <bean id="loInfo.desc.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
+ <bean id="loInfo.descr.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
   <property name="name" value="formatted" />
   <property name="maxLength" value="500" />
  </bean>
- <bean id="loInfo.desc.formatted" parent="loInfo.desc.formatted-parent" />
+ <bean id="loInfo.descr.formatted" parent="loInfo.descr.formatted-parent" />
 
- <bean id="loInfo.desc.plain-parent" abstract="true" parent="richTextInfo.plain-parent">
+ <bean id="loInfo.descr.plain-parent" abstract="true" parent="richTextInfo.plain-parent">
   <property name="name" value="plain" />
   <property name="maxLength" value="500" />
   <property name="minOccurs" value="1" />
  </bean>
- <bean id="loInfo.desc.plain" parent="loInfo.desc.plain-parent" />
+ <bean id="loInfo.descr.plain" parent="loInfo.descr.plain-parent" />
 
 
  <bean id="loInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">

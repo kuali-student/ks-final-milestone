@@ -39,7 +39,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.cluCluRelationInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
+	<dict:descr>Default</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.cluCluRelationInfo"/>
 </dict:type>
@@ -70,7 +70,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="cluId" id="field.cluCluRelationInfo.cluId" parent="field.cluCluRelationInfo.cluId.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.cluId.fd.abstract" abstract="true">
 	<dict:name>CLU Identifier</dict:name>
-	<dict:desc>Unique identifier for a Canonical Learning Unit (CLU). This is the &quot;From&quot; or &quot;Parent&quot; in the relation.</dict:desc>
+	<dict:descr>Unique identifier for a Canonical Learning Unit (CLU). This is the &quot;From&quot; or &quot;Parent&quot; in the relation.</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.cluId.fd" parent="field.cluCluRelationInfo.cluId.fd.abstract"/>
@@ -89,7 +89,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="relatedCluId" id="field.cluCluRelationInfo.relatedCluId" parent="field.cluCluRelationInfo.relatedCluId.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.relatedCluId.fd.abstract" abstract="true">
 	<dict:name>Related CLU Identifier</dict:name>
-	<dict:desc>Unique identifier for a Canonical Learning Unit (CLU). This is the &quot;To&quot; or &quot;Child&quot; of the relation.</dict:desc>
+	<dict:descr>Unique identifier for a Canonical Learning Unit (CLU). This is the &quot;To&quot; or &quot;Child&quot; of the relation.</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.relatedCluId.fd" parent="field.cluCluRelationInfo.relatedCluId.fd.abstract"/>
@@ -108,7 +108,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="isCluRelationRequired" id="field.cluCluRelationInfo.isCluRelationRequired" parent="field.cluCluRelationInfo.isCluRelationRequired.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.isCluRelationRequired.fd.abstract" abstract="true">
 	<dict:name>Is CLU Relation Required</dict:name>
-	<dict:desc>Indicates if the relation is required upon instantiation of a LUI. Default is &quot;true&quot;.</dict:desc>
+	<dict:descr>Indicates if the relation is required upon instantiation of a LUI. Default is &quot;true&quot;.</dict:descr>
 	<dict:dataType>boolean</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.isCluRelationRequired.fd" parent="field.cluCluRelationInfo.isCluRelationRequired.fd.abstract"/>
@@ -127,7 +127,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="field.cluCluRelationInfo.effectiveDate" parent="field.cluCluRelationInfo.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>Effective Date</dict:name>
-	<dict:desc>Date and time that this CLU to CLU relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:descr>Date and time that this CLU to CLU relationship became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.effectiveDate.fd" parent="field.cluCluRelationInfo.effectiveDate.fd.abstract"/>
@@ -147,7 +147,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="field.cluCluRelationInfo.expirationDate" parent="field.cluCluRelationInfo.expirationDate.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.expirationDate.fd.abstract" abstract="true">
 	<dict:name>Expiration Date</dict:name>
-	<dict:desc>Date and time that this CLU to CLU relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:descr>Date and time that this CLU to CLU relationship expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.expirationDate.fd" parent="field.cluCluRelationInfo.expirationDate.fd.abstract"/>
@@ -167,7 +167,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="metaInfo" id="field.cluCluRelationInfo.metaInfo" parent="field.cluCluRelationInfo.metaInfo.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.fd.abstract" abstract="true">
 	<dict:name>Create/Update meta info</dict:name>
-	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:descr>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:descr>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluCluRelationInfo.metaInfo"/>
 	<dict:readOnly>true</dict:readOnly>
@@ -193,7 +193,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:desc>Default</dict:desc>
+	<dict:descr>Default</dict:descr>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluCluRelationInfo.metaInfo"/>
 </dict:type>
@@ -220,7 +220,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="versionInd" id="field.cluCluRelationInfo.metaInfo.versionInd" parent="field.cluCluRelationInfo.metaInfo.versionInd.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>Version Indicator</dict:name>
-	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:descr>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -241,7 +241,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createTime" id="field.cluCluRelationInfo.metaInfo.createTime" parent="field.cluCluRelationInfo.metaInfo.createTime.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Created</dict:name>
-	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:descr>The date and time the thing being described with this meta information was created</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.createTime.fd" parent="field.cluCluRelationInfo.metaInfo.createTime.fd.abstract"/>
@@ -261,7 +261,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createId" id="field.cluCluRelationInfo.metaInfo.createId" parent="field.cluCluRelationInfo.metaInfo.createId.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.createId.fd.abstract" abstract="true">
 	<dict:name>Created By Identifier</dict:name>
-	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:descr>The principal who created the thing being described with this meta information</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -282,7 +282,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateTime" id="field.cluCluRelationInfo.metaInfo.updateTime" parent="field.cluCluRelationInfo.metaInfo.updateTime.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Last Updated</dict:name>
-	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:descr>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:descr>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.updateTime.fd" parent="field.cluCluRelationInfo.metaInfo.updateTime.fd.abstract"/>
@@ -302,7 +302,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateId" id="field.cluCluRelationInfo.metaInfo.updateId" parent="field.cluCluRelationInfo.metaInfo.updateId.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>Updated By Identifier</dict:name>
-	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:descr>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -323,7 +323,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="type" id="field.cluCluRelationInfo.type" parent="field.cluCluRelationInfo.type.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.type.fd.abstract" abstract="true">
 	<dict:name>LU to LU Relation Type</dict:name>
-	<dict:desc>Unique identifier for the LU to LU relation type.</dict:desc>
+	<dict:descr>Unique identifier for the LU to LU relation type.</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.type.fd" parent="field.cluCluRelationInfo.type.fd.abstract"/>
@@ -344,7 +344,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="state" id="field.cluCluRelationInfo.state" parent="field.cluCluRelationInfo.state.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.state.fd.abstract" abstract="true">
 	<dict:name>LU to LU Relation State</dict:name>
-	<dict:desc>Identifier for the current status of a CLU to CLU relationship. The values for this field are constrained to those in the luLuRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:descr>Identifier for the current status of a CLU to CLU relationship. The values for this field are constrained to those in the luLuRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.state.fd" parent="field.cluCluRelationInfo.state.fd.abstract"/>
@@ -363,7 +363,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="field.cluCluRelationInfo.id" parent="field.cluCluRelationInfo.id.abstract"/>
 <dict:fieldDescriptor id="field.cluCluRelationInfo.id.fd.abstract" abstract="true">
 	<dict:name>CLU to CLU Relation Identifier</dict:name>
-	<dict:desc>Unique identifier for a CLU to CLU relationship. This is optional, due to the identifier being set at the time of creation. Once the relation has been created, this should be seen as required.</dict:desc>
+	<dict:descr>Unique identifier for a CLU to CLU relationship. This is optional, due to the identifier being set at the time of creation. Once the relation has been created, this should be seen as required.</dict:descr>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
