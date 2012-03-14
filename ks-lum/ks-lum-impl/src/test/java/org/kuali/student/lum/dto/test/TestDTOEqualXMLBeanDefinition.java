@@ -8,11 +8,13 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo;
 
 import r1.org.kuali.student.core.dictionary.service.DictionaryDiscrepencyTesterHelper;
 
@@ -41,16 +43,13 @@ public class TestDTOEqualXMLBeanDefinition {
 		}
 	}
 
-//	@Test
-	public void testStatementDTOsAgainstDataDictionary() {
+	@Test
+	public void testCluDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 
 		Set<String> startingClasses = new LinkedHashSet();
-		startingClasses.add(StatementInfo.class.getName());
-		startingClasses.add(ReqComponentInfo.class.getName());
-		startingClasses.add(ReqCompFieldInfo.class.getName());
-		startingClasses.add(StatementTreeViewInfo.class.getName());
-		String contextFile = "ks-statement-dictionary-context";
+		startingClasses.add(AcademicSubjectOrgInfo.class.getName());
+		String contextFile = "ks-cluInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
 				outFile, startingClasses, contextFile + ".xml", false);
