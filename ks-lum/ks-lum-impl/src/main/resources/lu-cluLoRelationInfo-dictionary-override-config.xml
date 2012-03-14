@@ -59,7 +59,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.includes.luLoRelation.expirationDate"/>
 	<dict:fieldRef bean="dict.includes.luLoRelation.metaInfo"/>
 	<dict:fieldRef bean="dict.includes.luLoRelation.type"/>
-	<dict:fieldRef bean="dict.includes.luLoRelation.state"/>
+	<dict:fieldRef bean="dict.includes.luLoRelation.stateKey"/>
 	<dict:fieldRef bean="dict.includes.luLoRelation.internal.id"/>
 </dict:state>
 

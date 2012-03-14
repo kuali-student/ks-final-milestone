@@ -59,7 +59,7 @@
     <ref bean="majorDisciplineInfo.unitsFinancialControl"/>
 
     <ref bean="majorDisciplineInfo.type"/>
-    <ref bean="majorDisciplineInfo.state"/>
+    <ref bean="majorDisciplineInfo.stateKey"/>
     <ref bean="majorDisciplineInfo.id"/>
 
     <ref bean="majorDisciplineInfo.versionInfo"/>
@@ -115,7 +115,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -166,7 +166,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -203,7 +203,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -250,7 +250,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -314,7 +314,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -370,7 +370,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -412,7 +412,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -447,7 +447,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -481,7 +481,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -527,7 +527,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -589,7 +589,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -625,7 +625,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -665,7 +665,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -708,7 +708,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -739,7 +739,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -773,7 +773,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -807,7 +807,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -840,7 +840,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -873,7 +873,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -905,7 +905,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -937,7 +937,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -969,7 +969,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -1001,7 +1001,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="state" />
+			<property name="fieldPath" value="stateKey" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -1032,10 +1032,10 @@
  </bean>
  <bean id="majorDisciplineInfo.type" parent="majorDisciplineInfo.type-parent"/>
 
- <bean id="majorDisciplineInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
-  <property name="name" value="state"/>
+ <bean id="majorDisciplineInfo.stateKey-parent" abstract="true" parent="cluInfo.stateKey-parent">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="majorDisciplineInfo.state" parent="majorDisciplineInfo.state-parent"/>
+ <bean id="majorDisciplineInfo.stateKey" parent="majorDisciplineInfo.stateKey-parent"/>
 
  <bean id="majorDisciplineInfo.id-parent" abstract="true" parent="cluInfo.id-parent">
   <property name="name" value="id"/>
@@ -1082,7 +1082,7 @@
     <ref bean="programVariationInfo.selectiveEnrollmentCode"/>
     <ref bean="programVariationInfo.shortTitle"/>
     <ref bean="programVariationInfo.startTerm"/>
-    <ref bean="programVariationInfo.state"/>
+    <ref bean="programVariationInfo.stateKey"/>
     <ref bean="programVariationInfo.transcriptTitle"/>
     <ref bean="programVariationInfo.type"/>
     <ref bean="programVariationInfo.unitsContentOwner"/>
@@ -1401,10 +1401,10 @@
  </bean>
  <bean id="programVariationInfo.stdDuration" parent="programVariationInfo.stdDuration-parent"/>
 
- <bean id="programVariationInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
-  <property name="name" value="state"/>
+ <bean id="programVariationInfo.stateKey-parent" abstract="true" parent="cluInfo.stateKey-parent">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="programVariationInfo.state" parent="programVariationInfo.state-parent"/>
+ <bean id="programVariationInfo.stateKey" parent="programVariationInfo.stateKey-parent"/>
 
  <bean id="programVariationInfo.transcriptTitle-parent" abstract="true"
        parent="majorDisciplineInfo.transcriptTitle-parent">
@@ -1478,7 +1478,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="state"/>
+    <property name="fieldPath" value="stateKey"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -1591,7 +1591,7 @@
     <ref bean="coreProgramInfo.referenceURL"/>
     <ref bean="coreProgramInfo.shortTitle"/>
     <ref bean="coreProgramInfo.startTerm"/>
-    <ref bean="coreProgramInfo.state"/>
+    <ref bean="coreProgramInfo.stateKey"/>
     <ref bean="coreProgramInfo.transcriptTitle"/>
     <ref bean="coreProgramInfo.type"/>
     <ref bean="coreProgramInfo.unitsContentOwner"/>
@@ -1692,10 +1692,10 @@
  </bean>
  <bean id="coreProgramInfo.startTerm" parent="coreProgramInfo.startTerm-parent"/>
 
- <bean id="coreProgramInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
-  <property name="name" value="state"/>
+ <bean id="coreProgramInfo.stateKey-parent" abstract="true" parent="cluInfo.stateKey-parent">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="coreProgramInfo.state" parent="coreProgramInfo.state-parent"/>
+ <bean id="coreProgramInfo.stateKey" parent="coreProgramInfo.stateKey-parent"/>
 
  <bean id="coreProgramInfo.transcriptTitle-parent" abstract="true"
        parent="majorDisciplineInfo.transcriptTitle-parent">
@@ -1753,7 +1753,7 @@
     <ref bean="credentialProgramInfo.resultOptions"/>
     <ref bean="credentialProgramInfo.shortTitle"/>
     <ref bean="credentialProgramInfo.startTerm"/>
-    <ref bean="credentialProgramInfo.state"/>
+    <ref bean="credentialProgramInfo.stateKey"/>
     <ref bean="credentialProgramInfo.transcriptTitle"/>
     <ref bean="credentialProgramInfo.unitsContentOwner"/>
     <ref bean="credentialProgramInfo.unitsStudentOversight"/>
@@ -1866,10 +1866,10 @@
  </bean>
  <bean id="credentialProgramInfo.startTerm" parent="credentialProgramInfo.startTerm-parent"/>
 
- <bean id="credentialProgramInfo.state-parent" abstract="true" parent="cluInfo.state">
-  <property name="name" value="state"/>
+ <bean id="credentialProgramInfo.stateKey-parent" abstract="true" parent="cluInfo.stateKey">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="credentialProgramInfo.state" parent="credentialProgramInfo.state-parent"/>
+ <bean id="credentialProgramInfo.stateKey" parent="credentialProgramInfo.stateKey-parent"/>
 
  <bean id="credentialProgramInfo.transcriptTitle-parent" abstract="true"
        parent="majorDisciplineInfo.transcriptTitle-parent">
@@ -1910,7 +1910,7 @@
     <ref bean="minorDisciplineInfo.credentialProgramId"/>
     <ref bean="minorDisciplineInfo.id"/>
     <ref bean="minorDisciplineInfo.programRequirements"/>
-    <ref bean="minorDisciplineInfo.state"/>
+    <ref bean="minorDisciplineInfo.stateKey"/>
     <ref bean="minorDisciplineInfo.type"/>
    </list>
   </property>
@@ -1935,10 +1935,10 @@
  </bean>
  <bean id="minorDisciplineInfo.programRequirements" parent="minorDisciplineInfo.programRequirements-parent"/>
 
- <bean id="minorDisciplineInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
-  <property name="name" value="state"/>
+ <bean id="minorDisciplineInfo.stateKey-parent" abstract="true" parent="cluInfo.stateKey-parent">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="minorDisciplineInfo.state" parent="minorDisciplineInfo.state-parent"/>
+ <bean id="minorDisciplineInfo.stateKey" parent="minorDisciplineInfo.stateKey-parent"/>
 
  <bean id="minorDisciplineInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
   <property name="name" value="type"/>
@@ -1956,7 +1956,7 @@
     <ref bean="programRequirementInfo.learningObjectives"/>
     <ref bean="programRequirementInfo.longTitle"/>
     <ref bean="programRequirementInfo.shortTitle"/>
-    <ref bean="programRequirementInfo.state"/>
+    <ref bean="programRequirementInfo.stateKey"/>
     <ref bean="programRequirementInfo.statement"/>
     <ref bean="programRequirementInfo.type"/>
     <ref bean="programRequirementInfo.minCredits"/>
@@ -1974,7 +1974,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="state"/>
+    <property name="fieldPath" value="stateKey"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -2020,7 +2020,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="state"/>
+    <property name="fieldPath" value="stateKey"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -2082,10 +2082,10 @@
   <property name="maxLength" value="5"/>
  </bean>
  <bean id="programRequirementInfo.maxCredits" parent="programRequirementInfo.maxCredits-parent"/>
- <bean id="programRequirementInfo.state-parent" abstract="true" parent="cluInfo.state-parent">
-  <property name="name" value="state"/>
+ <bean id="programRequirementInfo.stateKey-parent" abstract="true" parent="cluInfo.stateKey-parent">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="programRequirementInfo.state" parent="programRequirementInfo.state-parent"/>
+ <bean id="programRequirementInfo.stateKey" parent="programRequirementInfo.stateKey-parent"/>
 
  <bean id="programRequirementInfo.statement-parent" abstract="true" parent="baseComplex">
   <property name="name" value="statement"/>

@@ -351,9 +351,9 @@
 		<property name="specialValidator"
 			value="org.kuali.student.common.validation.KualiMetaDataValidator" />
 	</bean>
-	<bean id="constraint.kuali.state" parent="constraint">
-		<property name="id" value="kuali.state" />
-		<!--<property name="messageId" value="kuali.msg.validation.kuali.state" />-->
+	<bean id="constraint.kuali.stateKey" parent="constraint">
+		<property name="id" value="kuali.stateKey" />
+		<!--<property name="messageId" value="kuali.msg.validation.kuali.stateKey" />-->
 		<property name="descr" value="Kuali STATE" />
 		<property name="serverSide" value="true" />
 		<property name="minLength" value="1" />

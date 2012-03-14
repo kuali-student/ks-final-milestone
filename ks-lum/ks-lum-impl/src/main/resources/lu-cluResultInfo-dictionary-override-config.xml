@@ -58,7 +58,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.course.final.results.effectiveDate"/>
 	<dict:fieldRef bean="dict.course.final.results.expirationDate"/>
 	<dict:fieldRef bean="dict.course.final.results.metaInfo"/>
-	<dict:fieldRef bean="dict.course.final.results.state"/>
+	<dict:fieldRef bean="dict.course.final.results.stateKey"/>
 	<dict:fieldRef bean="dict.course.final.results.type"/>
 	<dict:fieldRef bean="dict.course.final.results.internal.id"/>
 </dict:state>

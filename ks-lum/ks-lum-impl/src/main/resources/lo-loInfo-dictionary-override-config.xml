@@ -61,7 +61,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.singleUse.lo.sequence"/>
 	<dict:fieldRef bean="dict.singleUse.lo.metaInfo"/>
 	<dict:fieldRef bean="dict.singleUse.lo.type"/>
-	<dict:fieldRef bean="dict.singleUse.lo.state"/>
+	<dict:fieldRef bean="dict.singleUse.lo.stateKey"/>
 	<dict:fieldRef bean="dict.singleUse.lo.internal.id"/>
 </dict:state>
 
@@ -495,24 +495,24 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- *********************** -->
 <!-- dict.singleUse.lo.state -->
 <!-- *********************** -->
-<dict:field key="state" id="dict.singleUse.lo.state.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.singleUse.lo.state.fd"/>
-	<dict:constraintDescriptorRef bean="dict.singleUse.lo.state.cd"/>
+<dict:field key="stateKey" id="dict.singleUse.lo.stateKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.singleUse.lo.stateKey.fd"/>
+	<dict:constraintDescriptorRef bean="dict.singleUse.lo.stateKey.cd"/>
 <dict:selector>true</dict:selector>
 </dict:field>
-<dict:field key="state" id="dict.singleUse.lo.state" parent="dict.singleUse.lo.state.abstract"/>
-<dict:fieldDescriptor id="dict.singleUse.lo.state.fd.abstract" abstract="true">
+<dict:field key="stateKey" id="dict.singleUse.lo.stateKey" parent="dict.singleUse.lo.stateKey.abstract"/>
+<dict:fieldDescriptor id="dict.singleUse.lo.stateKey.fd.abstract" abstract="true">
 	<dict:name>informal lo.state</dict:name>
 	<dict:descr>the state of the lo</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.singleUse.lo.state.fd" parent="dict.singleUse.lo.state.fd.abstract"/>
-<dict:constraintDescriptor id="dict.singleUse.lo.state.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.singleUse.lo.stateKey.fd" parent="dict.singleUse.lo.stateKey.fd.abstract"/>
+<dict:constraintDescriptor id="dict.singleUse.lo.stateKey.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="state" id="dict.singleUse.lo.state.cd" parent="dict.singleUse.lo.state.cd.abstract"/>
+<dict:constraintDescriptor key="stateKey" id="dict.singleUse.lo.stateKey.cd" parent="dict.singleUse.lo.stateKey.cd.abstract"/>
 
 <!-- ***************************** -->
 <!-- dict.singleUse.lo.internal.id -->

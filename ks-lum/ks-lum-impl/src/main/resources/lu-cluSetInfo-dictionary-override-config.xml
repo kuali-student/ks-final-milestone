@@ -61,7 +61,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.credit.course.set.credit.course.ids"/>
 	<dict:fieldRef bean="dict.credit.course.set.metaInfo"/>
 	<dict:fieldRef bean="dict.credit.course.set.type"/>
-	<dict:fieldRef bean="dict.credit.course.set.state"/>
+	<dict:fieldRef bean="dict.credit.course.set.stateKey"/>
 	<dict:fieldRef bean="dict.credit.course.set.id"/>
 </dict:state>
 

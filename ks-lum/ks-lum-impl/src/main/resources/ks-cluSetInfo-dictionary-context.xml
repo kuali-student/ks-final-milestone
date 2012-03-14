@@ -19,7 +19,7 @@
     <ref bean="cluSetInfo.isReusable"/>
     <ref bean="cluSetInfo.membershipQuery"/>
     <ref bean="cluSetInfo.name"/>
-    <ref bean="cluSetInfo.state"/>
+    <ref bean="cluSetInfo.stateKey"/>
     <ref bean="cluSetInfo.type"/>
    </list>
   </property>
@@ -86,11 +86,11 @@
  </bean>
  <bean id="cluSetInfo.name" parent="cluSetInfo.name-parent"/>
 
- <bean id="cluSetInfo.state-parent" abstract="true" parent="baseKualiState">
-  <property name="name" value="state"/>
+ <bean id="cluSetInfo.stateKey-parent" abstract="true" parent="baseKualiState">
+  <property name="name" value="stateKey"/>
   <property name="minOccurs" value="1"/>
  </bean>
- <bean id="cluSetInfo.state" parent="cluSetInfo.state-parent"/>
+ <bean id="cluSetInfo.stateKey" parent="cluSetInfo.stateKey-parent"/>
 
  <bean id="cluSetInfo.type-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="type"/>

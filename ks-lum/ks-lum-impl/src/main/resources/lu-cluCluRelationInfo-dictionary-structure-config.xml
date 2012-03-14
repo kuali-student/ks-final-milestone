@@ -57,7 +57,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluCluRelationInfo.expirationDate"/>
 	<dict:fieldRef bean="field.cluCluRelationInfo.metaInfo"/>
 	<dict:fieldRef bean="field.cluCluRelationInfo.type"/>
-	<dict:fieldRef bean="field.cluCluRelationInfo.state"/>
+	<dict:fieldRef bean="field.cluCluRelationInfo.stateKey"/>
 	<dict:fieldRef bean="field.cluCluRelationInfo.id"/>
 </dict:state>
 <dict:state key="*" id="state.cluCluRelationInfo" parent="state.cluCluRelationInfo.abstract"/>

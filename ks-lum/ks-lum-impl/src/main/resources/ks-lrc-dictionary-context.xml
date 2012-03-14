@@ -14,7 +14,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
     <ref bean="resultComponentInfo.id"/>
     <ref bean="resultComponentInfo.name"/>
     <ref bean="resultComponentInfo.resultValues"/>
-    <ref bean="resultComponentInfo.state"/>
+    <ref bean="resultComponentInfo.stateKey"/>
     <ref bean="resultComponentInfo.type"/>
    </list>
   </property>
@@ -55,10 +55,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  </bean>
  <bean id="resultComponentInfo.resultValues" parent="resultComponentInfo.resultValues-parent"/>
 
- <bean id="resultComponentInfo.state-parent" abstract="true" parent="baseKualiStateRequired">
-  <property name="name" value="state"/>
+ <bean id="resultComponentInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="resultComponentInfo.state" parent="resultComponentInfo.state-parent"/>
+ <bean id="resultComponentInfo.stateKey" parent="resultComponentInfo.stateKey-parent"/>
 
  <bean id="resultComponentInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
   <property name="name" value="type"/>

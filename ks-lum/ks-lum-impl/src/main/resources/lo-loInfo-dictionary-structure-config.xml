@@ -57,7 +57,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.loInfo.expirationDate"/>
 	<dict:fieldRef bean="field.loInfo.metaInfo"/>
 	<dict:fieldRef bean="field.loInfo.type"/>
-	<dict:fieldRef bean="field.loInfo.state"/>
+	<dict:fieldRef bean="field.loInfo.stateKey"/>
 	<dict:fieldRef bean="field.loInfo.id"/>
 </dict:state>
 <dict:state key="*" id="state.loInfo" parent="state.loInfo.abstract"/>
@@ -407,25 +407,25 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="type" id="field.loInfo.type.cd" parent="field.loInfo.type.cd.abstract"/>
 
-<dict:field key="state" id="field.loInfo.state.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.loInfo.state.fd"/>
-	<dict:constraintDescriptorRef bean="field.loInfo.state.cd"/>
+<dict:field key="stateKey" id="field.loInfo.stateKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loInfo.stateKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.loInfo.stateKey.cd"/>
 <dict:selector>true</dict:selector>
 </dict:field>
-<dict:field key="state" id="field.loInfo.state" parent="field.loInfo.state.abstract"/>
-<dict:fieldDescriptor id="field.loInfo.state.fd.abstract" abstract="true">
+<dict:field key="stateKey" id="field.loInfo.stateKey" parent="field.loInfo.stateKey.abstract"/>
+<dict:fieldDescriptor id="field.loInfo.stateKey.fd.abstract" abstract="true">
 	<dict:name>Learning Objective State</dict:name>
 	<dict:descr>The current status of the learning objective. The values for this field are constrained to those in the loState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:descr>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.loInfo.state.fd" parent="field.loInfo.state.fd.abstract"/>
+<dict:fieldDescriptor id="field.loInfo.stateKey.fd" parent="field.loInfo.stateKey.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali STATE -->
-<dict:constraintDescriptor id="field.loInfo.state.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.loInfo.stateKey.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="state" id="field.loInfo.state.cd" parent="field.loInfo.state.cd.abstract"/>
+<dict:constraintDescriptor key="stateKey" id="field.loInfo.stateKey.cd" parent="field.loInfo.stateKey.cd.abstract"/>
 
 <dict:field key="id" id="field.loInfo.id.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="field.loInfo.id.fd"/>

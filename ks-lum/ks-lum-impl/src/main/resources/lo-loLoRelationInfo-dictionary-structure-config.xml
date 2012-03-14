@@ -56,7 +56,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.loLoRelationInfo.expirationDate"/>
 	<dict:fieldRef bean="field.loLoRelationInfo.metaInfo"/>
 	<dict:fieldRef bean="field.loLoRelationInfo.type"/>
-	<dict:fieldRef bean="field.loLoRelationInfo.state"/>
+	<dict:fieldRef bean="field.loLoRelationInfo.stateKey"/>
 	<dict:fieldRef bean="field.loLoRelationInfo.id"/>
 </dict:state>
 <dict:state key="*" id="state.loLoRelationInfo" parent="state.loLoRelationInfo.abstract"/>

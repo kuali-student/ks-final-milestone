@@ -36,7 +36,7 @@
                 <ref bean="cluInfo.officialIdentifier"/>
                 <ref bean="cluInfo.primaryInstructor"/>
                 <ref bean="cluInfo.referenceURL"/>
-                <ref bean="cluInfo.state"/>
+                <ref bean="cluInfo.stateKey"/>
                 <ref bean="cluInfo.stdDuration"/>
                 <ref bean="cluInfo.studySubjectArea"/>
                 <ref bean="cluInfo.type"/>
@@ -244,10 +244,10 @@
     </bean>
     <bean id="cluInfo.referenceURL" parent="cluInfo.referenceURL-parent"/>
 
-    <bean id="cluInfo.state-parent" abstract="true" parent="baseKualiStateRequired">
-        <property name="name" value="state"/>
+    <bean id="cluInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
+        <property name="name" value="stateKey"/>
     </bean>
-    <bean id="cluInfo.state" parent="cluInfo.state-parent"/>
+    <bean id="cluInfo.stateKey" parent="cluInfo.stateKey-parent"/>
 
     <bean id="cluInfo.stdDuration-parent" abstract="true" parent="baseComplex">
         <property name="name" value="stdDuration"/>
@@ -551,7 +551,7 @@
                 <ref bean="cluIdentifierInfo.longName"/>
                 <ref bean="cluIdentifierInfo.orgId"/>
                 <ref bean="cluIdentifierInfo.shortName"/>
-                <ref bean="cluIdentifierInfo.state"/>
+                <ref bean="cluIdentifierInfo.stateKey"/>
                 <ref bean="cluIdentifierInfo.suffixCode"/>
                 <ref bean="cluIdentifierInfo.type"/>
                 <ref bean="cluIdentifierInfo.variation"/>
@@ -596,10 +596,10 @@
     </bean>
     <bean id="cluIdentifierInfo.shortName" parent="cluIdentifierInfo.shortName-parent"/>
 
-    <bean id="cluIdentifierInfo.state-parent" abstract="true" parent="baseKualiStateRequired">
-        <property name="name" value="state"/>
+    <bean id="cluIdentifierInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
+        <property name="name" value="stateKey"/>
     </bean>
-    <bean id="cluIdentifierInfo.state" parent="cluIdentifierInfo.state-parent"/>
+    <bean id="cluIdentifierInfo.stateKey" parent="cluIdentifierInfo.stateKey-parent"/>
 
     <bean id="cluIdentifierInfo.suffixCode-parent" abstract="true" parent="baseKualiCode">
         <property name="name" value="suffixCode"/>
