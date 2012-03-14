@@ -23,6 +23,10 @@ import org.kuali.rice.krad.datadictionary.validation.capability.Constrainable;
 
 public class MockAttributeValueReader implements AttributeValueReader
 {
+    @Override
+    public boolean isReadable(){
+        return true;
+    }
 
     @Override
     public String getAttributeName() {
@@ -89,5 +93,8 @@ public class MockAttributeValueReader implements AttributeValueReader
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-
+    @Override
+    public AttributeValueReader clone() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

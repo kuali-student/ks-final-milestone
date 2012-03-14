@@ -17,9 +17,10 @@ public class ActivityOfferingTransformer {
         ao.setAttributes(lui.getAttributes());
         ao.setActivityId(lui.getCluId());
         ao.setTermId(lui.getAtpId());
+        ao.setMeetingSchedules(lui.getMeetingSchedules());
 
         // TODO: ao.setGradingOptionIds --- lui.getResultOptionIds() call
-        // LRCService.getResultValuesByIds
+        // LRCService.getResultValuesByIdList
 
         // rest fields no mapping doc
 
@@ -38,6 +39,7 @@ public class ActivityOfferingTransformer {
         lui.setAttributes(ao.getAttributes());
         lui.setCluId(ao.getActivityId());
         lui.setAtpId(ao.getTermId());
+        lui.setMeetingSchedules(ao.getMeetingSchedules());
         return lui;
 
     }

@@ -8,7 +8,7 @@ import org.kuali.rice.krms.framework.engine.BasicAgenda;
 import org.kuali.rice.krms.framework.engine.BasicAgendaTree;
 import org.kuali.rice.krms.framework.engine.BasicAgendaTreeEntry;
 import org.kuali.rice.krms.framework.engine.BasicRule;
-import org.kuali.rice.krms.framework.engine.ComparisonOperator;
+import org.kuali.rice.krms.framework.engine.expression.ComparisonOperator;
 import org.kuali.rice.krms.framework.engine.CompoundProposition;
 import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.rice.krms.framework.engine.Rule;

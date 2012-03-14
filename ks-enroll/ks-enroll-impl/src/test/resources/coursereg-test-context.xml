@@ -108,6 +108,7 @@
     <property name="luiDao" ref="luiDao" />
     <property name="lprStateDao" ref="lprStateDao" />
     <property name="lprTransDao" ref="lprTransDao" />
+    <property name="lprTypeDao" ref="typeDao" />
     <property name="lprRosterDao" ref="lprRosterDao" />
     <property name="stateService" ref="stateService" />
     <property name="lprTransItemDao" ref="lprTransItemDao"/>
@@ -137,12 +138,29 @@
     <property name="em" ref="entityManager" />
   </bean>
 
+  <bean id="typeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao">
+    <property name="em" ref="entityManager" />
+  </bean>
+
+  <bean id="lprStateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
+    <property name="em" ref="entityManager" />
+  </bean>
 
   <bean id="lprRosterEntryDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao">
     <property name="em" ref="entityManager" />
   </bean>
 
+  <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
+    <property name="em" ref="entityManager" />
+  </bean>
 
+  <bean id="stateProcessDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
+    <property name="em" ref="entityManager" />
+  </bean>
+
+  <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
+    <property name="em" ref="entityManager" />
+  </bean>
 
   <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
     <property name="em" ref="entityManager"/>
@@ -164,9 +182,11 @@
 
   <bean id="lrrService" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
     <property name="lrrDao" ref="lrrDao"/>
+    <property name="lrrTypeDao" ref="lrrTypeDao"/>
   </bean>
 
   <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao"/>
+  <bean id="lrrTypeDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrTypeDao"/>
 
   <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
     <property name="lprService" ref="lprService"/>

@@ -14,11 +14,17 @@
  */
 package org.kuali.student.enrollment.class2.acal.form;
 
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+
 import org.kuali.rice.krad.web.form.UifFormBase;
 
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 
 /**
  * This class //TODO ...
@@ -30,29 +36,27 @@ public class AcademicCalendarForm extends UifFormBase {
     private static final long serialVersionUID = 4898118410378641665L;
 
     private AcademicCalendarInfo academicCalendarInfo;
-/*
-    private Date startDate;
+    private String adminOrgName;
+    private String updateTimeString;
 
-    private Date endDate;
+    private List<AcalEventWrapper> events;
+    private List<HolidayCalendarInfo> holidayCalendarList;
+    private List<AcademicTermWrapper> termWrapperList;
 
-    public Date getEndDate() {
-        return endDate;
-    }
+    //used by copy for creating a new
+    private String newCalendarName;
+    private Date newCalendarStartDate;
+    private Date newCalendarEndDate;
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+    //used by copying
+    private boolean official;
+    private boolean delete;
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-*/
     public AcademicCalendarForm() {
         super();
+        termWrapperList = new ArrayList<AcademicTermWrapper>();
+        events = new ArrayList<AcalEventWrapper>();
+        holidayCalendarList = new ArrayList<HolidayCalendarInfo>();
     }
 
     public AcademicCalendarInfo getAcademicCalendarInfo() {
@@ -62,4 +66,91 @@ public class AcademicCalendarForm extends UifFormBase {
     public void setAcademicCalendarInfo(AcademicCalendarInfo academicCalendarInfo) {
         this.academicCalendarInfo = academicCalendarInfo;
     }
+
+    public String getAdminOrgName() {
+        return adminOrgName;
+    }
+
+    public void setAdminOrgName(String adminOrgName) {
+        this.adminOrgName = adminOrgName;
+    }
+
+    public void setHolidayCalendarList(List<HolidayCalendarInfo> holidayCalendarList) {
+        this.holidayCalendarList = holidayCalendarList;
+    }
+
+    public List<HolidayCalendarInfo> getHolidayCalendarList() {
+        return holidayCalendarList;
+    }
+
+    public void setTermWrapperList(List<AcademicTermWrapper> termWrapperList) {
+        this.termWrapperList = termWrapperList;
+    }
+
+    public List<AcademicTermWrapper> getTermWrapperList() {
+        return termWrapperList;
+    }
+
+    public String getUpdateTimeString(){
+        updateTimeString = new String("");
+        if (getAcademicCalendarInfo() == null){
+            return updateTimeString;
+        }
+        else {
+            Date updateTime = academicCalendarInfo.getMeta().getUpdateTime();
+            if (updateTime != null){
+                updateTimeString = "Last saved at "+new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(updateTime);
+            }
+            return updateTimeString;
+        }
+    }
+
+    public List<AcalEventWrapper> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<AcalEventWrapper> events) {
+        this.events = events;
+    }
+
+    public String getNewCalendarName() {
+        return newCalendarName;
+    }
+
+    public void setNewCalendarName(String newCalendarName) {
+        this.newCalendarName = newCalendarName;
+    }
+
+    public Date getNewCalendarStartDate() {
+        return newCalendarStartDate;
+    }
+
+    public void setNewCalendarStartDate(Date newCalendarStartDate) {
+        this.newCalendarStartDate = newCalendarStartDate;
+    }
+
+    public Date getNewCalendarEndDate() {
+        return newCalendarEndDate;
+    }
+
+    public void setNewCalendarEndDate(Date newCalendarEndDate) {
+        this.newCalendarEndDate = newCalendarEndDate;
+    }
+
+    public boolean isOfficial() {
+        return official;
+    }
+
+    public void setOfficial(boolean official) {
+        this.official = official;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
+    
 }

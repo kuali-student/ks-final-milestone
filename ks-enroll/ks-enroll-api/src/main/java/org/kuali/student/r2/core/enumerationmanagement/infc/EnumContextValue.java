@@ -15,13 +15,15 @@
 
 package org.kuali.student.r2.core.enumerationmanagement.infc;
 
+import org.kuali.student.r2.common.infc.HasMeta;
+
 /**
  * Provides information about a supported type/value pair for a context.
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface EnumContextValue {
+public interface EnumContextValue extends HasMeta {
     /**
      * Identifier for the context modifier for an enumeration.
      *

@@ -15,6 +15,9 @@
 
 package org.kuali.student.r2.core.enumerationmanagement.dto;
 
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.HasMeta;
+import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
 import org.kuali.student.r2.core.enumerationmanagement.infc.EnumeratedValue;
 
@@ -34,7 +37,8 @@ import java.util.List;
  * Value associated with a particular enumeration.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "EnumeratedValueInfo", propOrder = {"code", "abbrevValue", "value", "sortKey", "contexts", "enumerationKey", "effectiveDate", "expirationDate", "_futureElements"})
+@XmlType(name = "EnumeratedValueInfo", propOrder = {"code", "abbrevValue", "value", "sortKey", "contexts", "enumerationKey", 
+        "effectiveDate", "expirationDate", "meta", "_futureElements"})
 public class EnumeratedValueInfo implements EnumeratedValue, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,6 +59,10 @@ public class EnumeratedValueInfo implements EnumeratedValue, Serializable {
     private Date effectiveDate;
     @XmlElement
     private Date expirationDate;
+   
+    @XmlElement
+    private MetaInfo meta;
+    
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -63,6 +71,7 @@ public class EnumeratedValueInfo implements EnumeratedValue, Serializable {
 
     public EnumeratedValueInfo(EnumeratedValue enumeratedValue) {
         if (null != enumeratedValue) {
+            this.meta = new MetaInfo(enumeratedValue.getMeta());
             this.code = enumeratedValue.getCode();
             this.abbrevValue = enumeratedValue.getAbbrevValue();
             this.value = enumeratedValue.getValue();
@@ -151,5 +160,13 @@ public class EnumeratedValueInfo implements EnumeratedValue, Serializable {
         this.enumerationKey = enumerationKey;
     }
 
+    @Override
+    public Meta getMeta() {
+        return meta;
+    } 
+    
+    public void setMeta(MetaInfo meta) {
+        this.meta = meta;
+    }
 
 }

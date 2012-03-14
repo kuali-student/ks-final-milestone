@@ -15,6 +15,8 @@
 
 package org.kuali.student.r2.core.enumerationmanagement.dto;
 
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
 
 import javax.xml.bind.Element;
@@ -28,7 +30,7 @@ import java.util.List;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "EnumContextValueInfo", propOrder = {"key", "value", "_futureElements"})
+@XmlType(name = "EnumContextValueInfo", propOrder = {"key", "value","meta", "_futureElements"})
 public class EnumContextValueInfo implements EnumContextValue, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,6 +39,8 @@ public class EnumContextValueInfo implements EnumContextValue, Serializable {
     private String key;
     @XmlElement
     private String value;
+    @XmlElement
+    private MetaInfo meta;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -45,6 +49,7 @@ public class EnumContextValueInfo implements EnumContextValue, Serializable {
 
     public EnumContextValueInfo(EnumContextValue enumContextValue) {
         if (null != enumContextValue) {
+            this.meta = new MetaInfo(enumContextValue.getMeta());
             this.key = enumContextValue.getKey();
             this.value = enumContextValue.getValue();
         }
@@ -67,4 +72,14 @@ public class EnumContextValueInfo implements EnumContextValue, Serializable {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public Meta getMeta() {
+        return meta;
+    }
+    
+    public void setMeta(MetaInfo meta) {
+        this.meta = meta;
+    }
+    
 }

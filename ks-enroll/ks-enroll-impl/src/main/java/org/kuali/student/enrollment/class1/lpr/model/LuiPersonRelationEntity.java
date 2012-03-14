@@ -4,16 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -22,6 +13,8 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
+import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 
 /**
  * @author Igor
@@ -42,11 +35,13 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @Column(name = "RELATION_TYPE_ID")
-    private String personRelationType;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "RELATION_TYPE_ID")
+    private LuiPersonRelationTypeEntity personRelationType;
 
-    @Column(name = "RELATION_STATE_ID")
-    private String personRelationState;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "RELATION_STATE_ID")
+    private StateEntity personRelationState;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "KSEN_LPR_RV_GRP_RELTN", joinColumns = @JoinColumn(name = "LPR_ID"), inverseJoinColumns = @JoinColumn(name = "RV_GRP_ID"))
@@ -72,8 +67,6 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.setCommitmentPercent(dto.getCommitmentPercent());
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
-        this.setPersonRelationType(dto.getTypeKey());
-        this.setPersonRelationState(dto.getStateKey());
         // TODO - need to retrieve the LuiPersonRelationState based on the
         // return of dto.getState()?
         // this.setPersonRelationState(new
@@ -129,19 +122,19 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.expirationDate = expirationDate;
     }
 
-    public String getPersonRelationType() {
+    public LuiPersonRelationTypeEntity getPersonRelationType() {
         return personRelationType;
     }
 
-    public void setPersonRelationType(String personRelationType) {
+    public void setPersonRelationType(LuiPersonRelationTypeEntity personRelationType) {
         this.personRelationType = personRelationType;
     }
 
-    public String getPersonRelationState() {
+    public StateEntity getPersonRelationState() {
         return personRelationState;
     }
 
-    public void setPersonRelationState(String personRelationState) {
+    public void setPersonRelationState(StateEntity personRelationState) {
         this.personRelationState = personRelationState;
     }
 
@@ -171,12 +164,15 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         lprInfo.setPersonId(personId);
         lprInfo.setEffectiveDate(effectiveDate);
         lprInfo.setExpirationDate(expirationDate);
-        lprInfo.setTypeKey(personRelationType);
-        lprInfo.setStateKey(personRelationState);
+        if (personRelationType != null)
+            lprInfo.setTypeKey(personRelationType.getId());
+
+        if (personRelationState != null)
+            lprInfo.setStateKey(personRelationState.getId());
 
         List<String> rvGroupIds = new ArrayList();
         if (null != getResultValuesGroups()) {
-            for (ResultValuesGroupEntity rvGroup : getResultValuesGroups()) {
+            for (ResultValuesGroupEntity rvGroup : getResultValuesGroups()){
                 rvGroupIds.add(rvGroup.getId());
             }
         }

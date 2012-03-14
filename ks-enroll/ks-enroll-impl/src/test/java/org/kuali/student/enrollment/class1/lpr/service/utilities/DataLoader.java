@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 
 import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationAttributeEntity;
 import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
+import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationTypeEntity;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +40,8 @@ public class DataLoader {
         personRelation.setPersonId(PERSON_ID1);
         personRelation.setEffectiveDate(Calendar.getInstance().getTime());
         personRelation.setExpirationDate(Calendar.getInstance().getTime());
-        personRelation.setPersonRelationState(TEST_VALUE_1);
-        personRelation.setPersonRelationType(TEST_VALUE_1);
+        personRelation.setPersonRelationState(createPersonRelationState());
+        personRelation.setPersonRelationType(createPersonRelationType());
         personRelation.setAttributes(createAttributes());
         return personRelation;
     }
@@ -52,7 +53,20 @@ public class DataLoader {
         return attributes;
     }
 
-   
+    private LuiPersonRelationTypeEntity createPersonRelationType() {
+        LuiPersonRelationTypeEntity personRelationType = new LuiPersonRelationTypeEntity();
+        personRelationType.setName(TEST_VALUE_1);
+        personRelationType.setDescr(TEST_VALUE_2);
+        return personRelationType;
+    }
+
+    private StateEntity createPersonRelationState() {
+        StateEntity personRelationState = new StateEntity();
+        personRelationState.setName(TEST_VALUE_1);
+        personRelationState.setDescription(TEST_VALUE_2);
+        return personRelationState;
+    }
+
     public void setEm(EntityManager em) {
         this.em = em;
     }

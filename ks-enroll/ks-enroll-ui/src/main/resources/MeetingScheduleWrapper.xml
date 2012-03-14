@@ -46,7 +46,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
         </property>
         <property name="controlField">
-              <bean parent="TextControl" p:size="40"/>
+              <bean parent="Uif-TextControl" p:size="40"/>
         </property>
     </bean>
 

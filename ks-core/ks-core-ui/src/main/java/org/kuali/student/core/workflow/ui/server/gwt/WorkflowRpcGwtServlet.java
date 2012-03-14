@@ -3,6 +3,7 @@ package org.kuali.student.core.workflow.ui.server.gwt;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kew.api.action.ReturnPoint;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
@@ -189,42 +190,32 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
     		//Build up a string of actions requested from the attribute set.  The actions can be R,W,S,F,A,C,K. examples are "A" "AF" "FCK" "SCA"
             LOG.debug("Calling action requested with user:"+principalId+" and workflowId:" + workflowId);
 
-            Map<String,String> results = new HashMap<String,String>();
-            Map<String,String> kewActionsRequested = getWorkflowDocumentService().getActionsRequested(principalId, workflowId);
-            for (String key : kewActionsRequested.keySet()) {
-            	if (StringUtils.equalsIgnoreCase("true", kewActionsRequested.get(key))) {
-            		results.put(key,"true");
-            	}
-            }
+            Set<ActionRequestType> actionRequestTypes = getWorkflowDocumentActionsService().determineRequestedActions(workflowId, principalId).getRequestedActions();            
 
             //Use StringBuilder to avoid using string concatenations in the for loop.
             StringBuilder actionsRequestedBuffer = new StringBuilder();
 
             DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(workflowId);
 
-            for(Map.Entry<String,String> entry:results.entrySet()){
+            for(ActionRequestType actionRequestType : actionRequestTypes){
             	// if saved or initiated status... must show only 'complete' button
             	if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, docDetail.getDocument().getStatus().getCode()) || StringUtils.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD, docDetail.getDocument().getStatus().getCode())) {
             		// show only complete button if complete or approve code in this doc status
-            		if ( (StringUtils.equals(KewApiConstants.ACTION_REQUEST_COMPLETE_REQ, entry.getKey()) || StringUtils.equals(KewApiConstants.ACTION_REQUEST_APPROVE_REQ, entry.getKey())) && (StringUtils.equals("true", entry.getValue())) ) {
+            		if ( actionRequestType.equals(ActionRequestType.COMPLETE) || actionRequestType.equals(ActionRequestType.APPROVE) ) {
             			actionsRequestedBuffer.append("S");
                         actionsRequestedBuffer.append("C");
             		}
             		// if not Complete or Approve code then show the standard buttons
             		else {
-    	            	if(StringUtils.equals("true", entry.getValue())){
-    	            		actionsRequestedBuffer.append(entry.getKey());
-    	            	}
+                        actionsRequestedBuffer.append(actionRequestType.getCode());
             		}
             	}
             	else {
-                	if("true".equals(entry.getValue())){
-                		actionsRequestedBuffer.append(entry.getKey());
-                        // show the return to previous button if there is a COMPLETE or APPROVE action request
-                        if ( (StringUtils.equals(KewApiConstants.ACTION_REQUEST_COMPLETE_REQ, entry.getKey()) || StringUtils.equals(KewApiConstants.ACTION_REQUEST_APPROVE_REQ, entry.getKey())) && (StringUtils.equals("true", entry.getValue())) ) {
-                            actionsRequestedBuffer.append("R");
-                        }
-                	}
+                    actionsRequestedBuffer.append(actionRequestType.getCode());
+                    // show the return to previous button if there is a COMPLETE or APPROVE action request
+                    if ( actionRequestType.equals(ActionRequestType.COMPLETE) || actionRequestType.equals(ActionRequestType.APPROVE) ) {
+                        actionsRequestedBuffer.append("R");
+                    }
             	}
             }
             String docTypeName = getWorkflowDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId()).getName();
@@ -234,11 +225,11 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             permDetails.put(StudentIdentityConstants.ROUTE_STATUS_CODE,docDetail.getDocument().getStatus().getCode());
             Map<String,String> workflowDetails = new LinkedHashMap<String,String> ();
             workflowDetails.put (StudentIdentityConstants.DOCUMENT_NUMBER,workflowId);
-            if (getPermissionService().isAuthorizedByTemplateName(principalId, 
-            		PermissionType.WITHDRAW.getPermissionNamespace(), 
-            		PermissionType.WITHDRAW.getPermissionTemplateName(), 
-                        permDetails, 
-            		workflowDetails)) {
+            if (getPermissionService().isAuthorizedByTemplate(principalId,
+                    PermissionType.WITHDRAW.getPermissionNamespace(),
+                    PermissionType.WITHDRAW.getPermissionTemplateName(),
+                    permDetails,
+                    workflowDetails)) {
             	LOG.info("User '" + principalId + "' is allowed to Withdraw the Document");
             	actionsRequestedBuffer.append("W");
             }
@@ -249,9 +240,9 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             // first check permission with no node name
             Map<String,String> qualifiers = new LinkedHashMap ();
             qualifiers.put (StudentIdentityConstants.DOCUMENT_NUMBER,workflowId);
-            boolean canBlanketApprove = getPermissionService().isAuthorizedByTemplateName(principalId, 
-                    PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
-                    PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), new LinkedHashMap<String,String>(permDetails2), 
+            boolean canBlanketApprove = getPermissionService().isAuthorizedByTemplate(principalId,
+                    PermissionType.BLANKET_APPROVE.getPermissionNamespace(),
+                    PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), new LinkedHashMap<String, String>(permDetails2),
                     qualifiers);
             for (String nodeName : getCurrentActiveNodeNames(docDetail.getDocument().getStatus().getCode())) {
                 if (canBlanketApprove) {
@@ -261,9 +252,9 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 newSet.put(StudentIdentityConstants.ROUTE_NODE_NAME, nodeName);
                 qualifiers = new LinkedHashMap ();
                 qualifiers.put (StudentIdentityConstants.DOCUMENT_NUMBER,workflowId);
-                canBlanketApprove = getPermissionService().isAuthorizedByTemplateName(principalId, 
-                        PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
-                        PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), newSet, 
+                canBlanketApprove = getPermissionService().isAuthorizedByTemplate(principalId,
+                        PermissionType.BLANKET_APPROVE.getPermissionNamespace(),
+                        PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), newSet,
                         qualifiers);
             }
             if (canBlanketApprove) {
@@ -294,7 +285,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 			throws OperationFailedException {
 		if (workflowId != null && !workflowId.isEmpty()){
 			try {
-				return workflowDocumentService.getDocumentStatus(workflowId);
+				return workflowDocumentService.getDocumentStatus(workflowId).getCode();
 			} catch (Exception e) {
 				throw new OperationFailedException("Error getting document status. " + e.getMessage());
 			}
@@ -363,8 +354,8 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
 			Map<String,String> roleQuals = new LinkedHashMap<String,String>();
 			roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
-					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
+			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(),
+                    PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
 		}
 		return Boolean.FALSE;
     }
@@ -378,7 +369,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 permissionDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
                 Map<String,String> roleQuals = new LinkedHashMap<String,String>();
                 roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-                boolean returnValue = getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionNamespace(), 
+                boolean returnValue = getPermissionService().isAuthorizedByTemplate(SecurityUtils.getCurrentUserId(), PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionNamespace(),
                         PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionTemplateName(), permissionDetails, roleQuals);
                 return Boolean.valueOf(returnValue);
             }

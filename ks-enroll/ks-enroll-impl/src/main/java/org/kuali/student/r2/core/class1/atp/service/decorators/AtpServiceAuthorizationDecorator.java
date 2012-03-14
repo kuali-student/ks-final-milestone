@@ -38,7 +38,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtp", null)) {
 	        return getNextDecorator().getAtp(atpId, context);
         }
         else {
@@ -47,7 +47,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
    
     @Override
-    public List<AtpInfo> getAtpsByIds(List<String> atpIds, ContextInfo context)
+    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException, 
     PermissionDeniedException {
@@ -55,8 +55,8 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByKeyList", null, null)) {
-        	return getNextDecorator().getAtpsByIds(atpIds, context);
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByKeyList", null)) {
+        	return getNextDecorator().getAtpsByIds(atpIdList, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -72,7 +72,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpIdsByType", null)) {
         	return getNextDecorator().getAtpIdsByType(atpTypeKey, context);
         }
         else {
@@ -89,7 +89,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDate", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDate", null)) {
         	return getNextDecorator().getAtpsByDate(searchDate, context);
         }
         else {
@@ -106,7 +106,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDateAndType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDateAndType", null)) {
         	return getNextDecorator().getAtpsByDateAndType(searchDate, searchTypeKey, context);
         }
         else {
@@ -123,7 +123,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDates", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDates", null)) {
         	return getNextDecorator().getAtpsByDates(startDate, endDate, context);
         }
         else {
@@ -140,7 +140,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDatesAndType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDatesAndType", null)) {
         	return getNextDecorator().getAtpsByDatesAndType(startDate, endDate, searchTypeKey, context);
         }
         else {
@@ -157,7 +157,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByStartDateRange", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByStartDateRange", null)) {
         	return getNextDecorator().getAtpsByStartDateRange(searchDateRangeStart, searchDateRangeEnd, context);
         }
         else {
@@ -174,7 +174,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByStartDateRangeAndType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByStartDateRangeAndType", null)) {
         	return getNextDecorator().getAtpsByStartDateRangeAndType(searchDateRangeStart, searchDateRangeEnd, searchTypeKey, context);
         }
         else {
@@ -192,7 +192,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestone", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestone", null)) {
         	return getNextDecorator().getMilestone(milestoneId, context);
         }
         else {
@@ -202,7 +202,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIds, ContextInfo context)
+    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIdList, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
@@ -210,8 +210,8 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesByIds", null, null)) {
-        	return getNextDecorator().getMilestonesByIds(milestoneIds, context);
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesByIds", null)) {
+        	return getNextDecorator().getMilestonesByIds(milestoneIdList, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -226,7 +226,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestoneIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestoneIdsByType", null)) {
         	return getNextDecorator().getMilestoneIdsByType(milestoneTypeKey, context);
         }
         else {
@@ -243,7 +243,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesForAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesForAtp", null)) {
         	return getNextDecorator().getMilestonesForAtp(atpId, context);
         }
         else {
@@ -260,7 +260,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesByDates", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesByDates", null)) {
         	return getNextDecorator().getMilestonesByDates(startDate, endDate, context);
         }
         else {
@@ -277,7 +277,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpIds", null)) {
         	return getNextDecorator().searchForAtpIds(criteria, context);
         }
         else {
@@ -294,7 +294,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtps", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtps", null)) {
         	return getNextDecorator().searchForAtps(criteria, context);
         }
         else {
@@ -311,7 +311,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateAtp", null)) {
         	return getNextDecorator().validateAtp(validationType, atpTypeKey, atpInfo, context);
         }
         else {
@@ -329,7 +329,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAtp", null)) {
         	return getNextDecorator().createAtp(atpInfo, context);
         }
         else {
@@ -348,7 +348,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateAtp", null)) {
             try {
                 return getNextDecorator().updateAtp(atpId, atpInfo, context);
             } catch (ReadOnlyException e) {
@@ -370,7 +370,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteAtp", null)) {
         	return getNextDecorator().deleteAtp(atpId, context);
         }
         else {
@@ -387,7 +387,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForMilestoneIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForMilestoneIds", null)) {
         	return getNextDecorator().searchForMilestoneIds(criteria, context);
         }
         else {
@@ -404,7 +404,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForMilestones", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForMilestones", null)) {
         	return getNextDecorator().searchForMilestones(criteria, context);
         }
         else {
@@ -421,7 +421,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateMilestone", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateMilestone", null)) {
             try {
                 return getNextDecorator().validateMilestone(validationType, milestoneInfo, context);
             } catch (PermissionDeniedException e) {
@@ -443,7 +443,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createMilestone", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createMilestone", null)) {
             try {
                 return getNextDecorator().createMilestone(milestoneInfo, context);
             } catch (ReadOnlyException e) {
@@ -466,7 +466,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateMilestone", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateMilestone", null)) {
             try {
                 return getNextDecorator().updateMilestone(milestoneId, milestoneInfo, context);
             } catch (ReadOnlyException e) {
@@ -488,7 +488,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteMilestone", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteMilestone", null)) {
         	return getNextDecorator().deleteMilestone(milestoneId, context);
         }
         else {
@@ -506,7 +506,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelation", null)) {
         	return getNextDecorator().getAtpAtpRelation(atpAtpRelationId, context);
         }
         else {
@@ -516,7 +516,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(List<String> atpAtpRelationIds, ContextInfo context)
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(List<String> atpAtpRelationIdList, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
@@ -524,8 +524,8 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByIds", null, null)) {
-        	return getNextDecorator().getAtpAtpRelationsByIds(atpAtpRelationIds, context);
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByIdList", null)) {
+        	return getNextDecorator().getAtpAtpRelationsByIds(atpAtpRelationIdList, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -541,7 +541,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationIdsByType", null)) {
         	return getNextDecorator().getAtpAtpRelationIdsByType(atpAtpRelationTypeKey, context);
         }
         else {
@@ -559,7 +559,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByAtp", null)) {
         	return getNextDecorator().getAtpAtpRelationsByAtp(atpId, context);
         }
         else {
@@ -576,7 +576,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpAtpRelationIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpAtpRelationIds", null)) {
         	return getNextDecorator().searchForAtpAtpRelationIds(criteria, context);
         }
         else {
@@ -593,7 +593,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpAtpRelations", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpAtpRelations", null)) {
         	return getNextDecorator().searchForAtpAtpRelations(criteria, context);
         }
         else {
@@ -611,7 +611,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateAtpAtpRelation", null, null)) {
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateAtpAtpRelation", null)) {
         	return getNextDecorator().validateAtpAtpRelation(validationTypeKey, atpId, atpPeerKey, atpAtpRelationTypeKey, atpAtpRelationInfo, contextInfo);
         }
         else {
@@ -630,7 +630,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAtpAtpRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAtpAtpRelation", null)) {
         	 return getNextDecorator().createAtpAtpRelation(atpId, atpPeerKey, atpAtpRelationInfo, context);
         }
         else {
@@ -649,7 +649,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateAtpAtpRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateAtpAtpRelation", null)) {
             try {
                 return getNextDecorator().updateAtpAtpRelation(atpAtpRelationId, atpAtpRelationInfo, context);
             } catch (ReadOnlyException e) {
@@ -671,7 +671,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteAtpAtpRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteAtpAtpRelation", null)) {
         	return getNextDecorator().deleteAtpAtpRelation(atpAtpRelationId, context);
         }
         else {
@@ -689,7 +689,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByTypeAndAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByTypeAndAtp", null)) {
         	return getNextDecorator().getAtpAtpRelationsByTypeAndAtp(atpId, relationType, context);
         }
         else {

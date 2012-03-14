@@ -20,6 +20,7 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 
 @Entity
 @Table(name = "KSEN_LPR_ROSTER")
@@ -42,11 +43,13 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
     @Column(name = "CHECK_IN_REQ")
     private boolean checkInRequired;
 
-    @Column(name = "LPR_ROSTER_TYPE")
-    private String lprRosterType;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "TYPE_ID")
+    private LuiPersonRelationTypeEntity lprRosterType;
 
-    @Column(name = "STATE_ID")
-    private String lprRosterState;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "STATE_ID")
+    private StateEntity lprRosterState;
 
     @Column(name = "ATP_DUR_TYP_KEY")
     private String atpDurationTypeKey;
@@ -66,13 +69,9 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         this.setCheckInRequired(dto.getCheckInRequired());
         this.setMaximumCapacity(dto.getMaximumCapacity());
         this.setId(dto.getId());
-        if (dto.getStateKey() != null) {
-            this.setLprRosterState(dto.getStateKey());
-        }
-
         if (dto.getCheckInFrequency() != null) {
             this.setAtpDurationTypeKey(dto.getCheckInFrequency().getAtpDurationTypeKey());
-            this.setTimeQuantity(Integer.parseInt(dto.getCheckInFrequency().getTimeQuantity()));
+            this.setTimeQuantity(dto.getCheckInFrequency().getTimeQuantity());
         }
         this.setName(dto.getName());
         if (dto.getDescr() != null) {
@@ -117,19 +116,19 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         this.checkInRequired = checkInRequired;
     }
 
-    public String getLprRosterType() {
+    public LuiPersonRelationTypeEntity getLprRosterType() {
         return lprRosterType;
     }
 
-    public void setLprRosterType(String lprRosterType) {
+    public void setLprRosterType(LuiPersonRelationTypeEntity lprRosterType) {
         this.lprRosterType = lprRosterType;
     }
 
-    public String getLprRosterState() {
+    public StateEntity getLprRosterState() {
         return lprRosterState;
     }
 
-    public void setLprRosterState(String lprRosterState) {
+    public void setLprRosterState(StateEntity lprRosterState) {
         this.lprRosterState = lprRosterState;
     }
 
@@ -180,13 +179,13 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         info.setId(this.getId());
         TimeAmountInfo timeAmountInfo = new TimeAmountInfo();
         timeAmountInfo.setAtpDurationTypeKey(this.getAtpDurationTypeKey());
-        timeAmountInfo.setTimeQuantity("" + this.getTimeQuantity());
+        timeAmountInfo.setTimeQuantity(this.getTimeQuantity());
         info.setCheckInFrequency(timeAmountInfo);
         info.setCheckInRequired(this.getCheckInRequired());
         info.setMaximumCapacity(this.getMaximumCapacity());
         info.setName(this.getName());
-        info.setStateKey(getLprRosterState());
-        info.setTypeKey(getLprRosterType());
+        info.setStateKey(getLprRosterState().getId());
+        info.setTypeKey(getLprRosterType().getId());
         if (getAssociatedLuis() != null) {
             List<String> associatedLuiIds = new ArrayList();
             for (LuiEntity luiEntity : getAssociatedLuis()) {

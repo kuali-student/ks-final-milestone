@@ -68,8 +68,5 @@
     <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-embedded-dev/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-embedded-dev/kew/ActionList.do</param>
 
-    <param name="css.files" override="true">${css.files},ks-enroll/css/enroll.css,ks-enroll/css/registration.css,ks-enroll/css/schedule.css</param>
-    <param name="javascript.files" override="true">${javascript.files},ks-enroll/scripts/schedule-plugin.js,ks-enroll/scripts/enroll.js</param>
-
     <param name="rice.struts.message.resources" override="true">${rice.struts.message.resources},org.kuali.student.enrollment.KSEnroll-ApplicationResources</param>
 </config>

@@ -79,3 +79,7 @@ Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('Academ
 
 Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('Spring2011',null,0,'<p>2011 Spring Term</p>','2011 Spring Term')
 /
+Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTEXT-hc-1',null,0,'<p>2012 Labor Day</p>','2012 Labor Day')
+/
+Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTEXT-hc-2',null,0,'<p>2012 Fall Break</p>','2012 Fall Break')
+/

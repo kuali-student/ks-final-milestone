@@ -16,9 +16,10 @@ package org.kuali.student.enrollment.class2.acal.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,27 +32,96 @@ public class HolidayCalendarForm  extends UifFormBase {
     private static final long serialVersionUID = 7526472595622776147L;
 
     private HolidayCalendarInfo holidayCalendarInfo;
-    private List<HolidayInfo> holidays;
+    private List<HolidayWrapper> holidays;
+    private String stateName;
+    private String adminOrgName;
+    private String newCalendarName;
+    private Date newCalendarStartDate;
+    private Date newCalendarEndDate;
+    private String hcId;
+    private boolean official;
+    private boolean delete;
 
     public HolidayCalendarForm() {
         super();
         holidayCalendarInfo = new HolidayCalendarInfo();
-        holidays = new ArrayList<HolidayInfo>();
+        holidays = new ArrayList<HolidayWrapper>();
+        official = false;
+        delete = false;
     }
 
     public HolidayCalendarInfo getHolidayCalendarInfo() {
         return holidayCalendarInfo;
     }
-
     public void setHolidayCalendarInfo(HolidayCalendarInfo holidayCalendarInfo) {
         this.holidayCalendarInfo = holidayCalendarInfo;
     }
 
-    public List<HolidayInfo> getHolidays() {
+    public List<HolidayWrapper> getHolidays() {
         return holidays;
     }
 
-    public void setHolidays(List<HolidayInfo> holidays) {
+    public void setHolidays(List<HolidayWrapper> holidays) {
         this.holidays = holidays;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
+    public String getAdminOrgName() {
+        return adminOrgName;
+    }
+    public void setAdminOrgName(String adminOrgName) {
+        this.adminOrgName = adminOrgName;
+    }
+
+    public String getNewCalendarName() {
+        return newCalendarName;
+    }
+    public void setNewCalendarName(String newCalendarName) {
+        this.newCalendarName = newCalendarName;
+    }
+
+    public Date getNewCalendarStartDate() {
+        return newCalendarStartDate;
+    }
+    public void setNewCalendarStartDate(Date newCalendarStartDate) {
+        this.newCalendarStartDate = newCalendarStartDate;
+    }
+
+    public Date getNewCalendarEndDate() {
+        return newCalendarEndDate;
+    }
+    public void setNewCalendarEndDate(Date newCalendarEndDate) {
+        this.newCalendarEndDate = newCalendarEndDate;
+    }
+
+    public String getHcId() {
+        return hcId;
+    }
+
+    public void setHcId(String hcId) {
+        this.hcId = hcId;
+    }
+
+    public boolean isOfficial() {
+        return official;
+    }
+
+    public void setOfficial(boolean official) {
+        this.official = official;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }

@@ -82,7 +82,7 @@ public class TestHoldServiceImpl {
     }
     
     @Test
-    public void testGetIssuesByIds() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public void testGetIssuesByIdList() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         List<String> issueKeys = new ArrayList<String>();
         issueKeys.addAll(Arrays.asList("Hold-Issue-1", "Hold-Issue-2"));
         
@@ -91,7 +91,7 @@ public class TestHoldServiceImpl {
         assertNotNull(issues);
         assertEquals(issueKeys.size(), issues.size());
         
-        // check that all the expected Ids came back
+        // check that all the expected ids came back
         for(IssueInfo info : issues) {
             issueKeys.remove(info.getKey());
         }
@@ -123,7 +123,7 @@ public class TestHoldServiceImpl {
         List<String> issueKeys = new ArrayList<String>();
         issueKeys.addAll(Arrays.asList("Hold-Issue-1", "Hold-Issue-2"));
         
-        // check that all the expected Ids came back
+        // check that all the expected ids came back
         for(IssueInfo info : issues) {
             issueKeys.remove(info.getKey());
         }

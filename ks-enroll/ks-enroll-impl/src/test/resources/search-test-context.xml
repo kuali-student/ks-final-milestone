@@ -19,19 +19,7 @@
 
     <context:annotation-config/>
 
-	<!-- Academic Calender Service - Criteria Lookup Service -->
-    <bean id="acalCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-    	<property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
-    	<property name="predicateTransforms">
-    		<list>
-    			<ref bean="attributeTransform"/>
-    			<ref bean="atpTypeTransform"/>
-    			<ref bean="acalRenameTransform"/>
-    		</list>
-    	</property>
-  	</bean>
-  	
-  	<bean id="acalRenameTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+	<bean id="acalRenameTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
   		<constructor-arg>
     		<map>
     			<entry key="isAllDay" value="allDay"/>
@@ -50,13 +38,17 @@
     	<property name="entityManager" ref="entityManager"/>
   	</bean>
   	
-  	<!-- Atp Service - Criteria Lookup Service -->
-  	<bean id="atpCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+  	<bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
     	<property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+  	</bean>
+  	
+  	<!-- Atp Service - Criteria Lookup Service -->
+  	<bean id="atpCriteriaLookupService" parent="criteriaLookupService">
     	<property name="predicateTransforms">
     		<list>
     			<ref bean="attributeTransform"/>
     			<ref bean="atpTypeTransform"/>
+    			<ref bean="acalRenameTransform"/>
     		</list>
     	</property>
   	</bean>

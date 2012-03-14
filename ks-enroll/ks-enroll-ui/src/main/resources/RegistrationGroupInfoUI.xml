@@ -61,7 +61,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="NumericValidationPattern" />
         </property>
         <property name="controlField">
-            <bean parent="TextControl" p:size="10"/>
+            <bean parent="Uif-TextControl" p:size="10"/>
         </property>
     </bean>
 

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 
+//This code is for core slice
 public class TermWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

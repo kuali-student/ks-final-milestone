@@ -21,7 +21,7 @@ import java.util.Map;
 public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
     public final static String CREDENTIAL_PROGRAM_TYPE_KEY = "academicCalendarInfo.credentialProgramTypeKey";
     public final static String ACADEMIC_CALENDAR_NAME = "academicCalendarInfo.name";
-    public final static String ACADEMIC_CALENDAR_WRAPPER_KEY = "key";
+    public final static String ACADEMIC_CALENDAR_WRAPPER_KEY = "id";
  	private transient AcademicCalendarService academicCalendarService;
  	
 

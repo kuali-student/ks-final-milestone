@@ -116,7 +116,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
                 lprIds.add(lpr.getId());
             }
 
-            List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIds(lprIds, context);
+            List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
 
             results = new ArrayList<String>();
 

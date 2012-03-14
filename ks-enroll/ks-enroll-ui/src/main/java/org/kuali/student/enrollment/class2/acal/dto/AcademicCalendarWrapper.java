@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 
+//This code is for core slice
 public class AcademicCalendarWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -53,5 +54,5 @@ public class AcademicCalendarWrapper implements Serializable {
 	public void setTermWrapperList(List<TermWrapper> termWrapperList) {
 		this.termWrapperList = termWrapperList;
 	}
-	
+
 }

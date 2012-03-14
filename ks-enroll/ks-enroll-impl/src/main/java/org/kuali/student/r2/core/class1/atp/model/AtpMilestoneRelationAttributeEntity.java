@@ -16,13 +16,12 @@ public class AtpMilestoneRelationAttributeEntity extends BaseAttributeEntity<Atp
     @JoinColumn(name = "OWNER")
     private AtpMilestoneRelationEntity owner;
 
-    public AtpMilestoneRelationAttributeEntity() {
-    }
-    
+    public AtpMilestoneRelationAttributeEntity() {}
+
     public AtpMilestoneRelationAttributeEntity(Attribute attribute) {
         super(attribute);
     }
-    
+
     public AtpMilestoneRelationAttributeEntity(String name, String value) {
         super(name, value);
     }

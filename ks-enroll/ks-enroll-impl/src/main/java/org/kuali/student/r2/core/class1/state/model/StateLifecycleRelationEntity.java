@@ -9,43 +9,47 @@ import javax.persistence.Table;
 
 import org.kuali.student.r2.common.entity.MetaEntity;
 
+
 @Entity
 @Table(name = "KSEN_STATEPROCESS_RELTN")
-@NamedQueries({@NamedQuery(name = "StateProcess.getInitialValidStates", query = "select spr.nextState from StateLifecycleRelationEntity spr where spr.priorState.id is null and spr.process.id=:processKey"), @NamedQuery(name = "StateProcess.getNextHappyState", query = "select spr.nextState from StateLifecycleRelationEntity spr where spr.priorState.id=:stateKey and spr.process.id=:processKey"), @NamedQuery(name = "StateProcess.getStateLifecycleRelationsByState", query = "select spr from StateLifecycleRelationEntity spr where spr.priorState.id=:stateKey or spr.nextState.id=:stateKey"), @NamedQuery(name = "StateProcess.getStateLifecycleRelationsByLifecycle", query = "select spr from StateLifecycleRelationEntity spr where spr.process.id=:lifecycleKey")})
+@NamedQueries({
+	@NamedQuery(name="StateProcess.getInitialValidStates", query="select spr.nextState from StateLifecycleRelationEntity spr where spr.priorState.id is null and spr.process.id=:processKey"),
+	@NamedQuery(name="StateProcess.getNextHappyState", query="select spr.nextState from StateLifecycleRelationEntity spr where spr.priorState.id=:stateKey and spr.process.id=:processKey")
+})
 public class StateLifecycleRelationEntity extends MetaEntity {
-    @ManyToOne
-    @JoinColumn(name = "PROCESS_KEY")
+	@ManyToOne
+    @JoinColumn(name="PROCESS_KEY")
     private LifecycleEntity process;
-
-    @ManyToOne
-    @JoinColumn(name = "PRIOR_STATEKEY")
+    
+	@ManyToOne
+    @JoinColumn(name="PRIOR_STATEKEY")
     private StateEntity priorState;
 
-    @ManyToOne
-    @JoinColumn(name = "NEXT_STATEKEY")
+	@ManyToOne
+    @JoinColumn(name="NEXT_STATEKEY")
     private StateEntity nextState;
 
-    public StateEntity getPriorState() {
-        return priorState;
-    }
+	public StateEntity getPriorState() {
+		return priorState;
+	}
 
-    public void setPriorState(StateEntity priorState) {
-        this.priorState = priorState;
-    }
+	public void setPriorState(StateEntity priorState) {
+		this.priorState = priorState;
+	}
 
-    public LifecycleEntity getProcess() {
-        return process;
-    }
+	public LifecycleEntity getProcess() {
+		return process;
+	}
 
-    public void setProcess(LifecycleEntity process) {
-        this.process = process;
-    }
+	public void setProcess(LifecycleEntity process) {
+		this.process = process;
+	}
 
-    public StateEntity getNextState() {
-        return nextState;
-    }
+	public StateEntity getNextState() {
+		return nextState;
+	}
 
-    public void setNextState(StateEntity nextState) {
-        this.nextState = nextState;
-    }
+	public void setNextState(StateEntity nextState) {
+		this.nextState = nextState;
+	}	
 }

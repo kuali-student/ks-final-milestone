@@ -23,19 +23,12 @@
         *****
         The following files are required for this file to load:
         *****
-        org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml
         ks-base-dictionary-validchars.xml
-        org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
-        org/kuali/rice/krad/uif/UifMiscDefinitions.xml"/>
+        ks-base-dictionary-controls.xml
     -->
     <import resource="classpath:ks-base-dictionary-validchars.xml"/>
     <import resource="classpath:ks-base-dictionary-controls.xml"/>
-    <import resource="classpath:org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
-    <import resource="classpath:org/kuali/rice/krad/uif/UifWidgetDefinitions.xml"/>
-    <import resource="classpath:org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
-    <import resource="classpath:org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
-<!--    <import resource="org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml" />-->
-    
+
     <bean id="BaseKuali.readOnlyAttributeSecurity" parent="AttributeSecurity">
         <property name="readOnly" value="true" />      
     </bean>
@@ -46,9 +39,6 @@
         <property name="minLength" value="1" />
         <property name="maxLength" value="255" />
         <property name="forceUppercase" value="false"/>
-        <property name="controlField">
-            <bean parent="TextControl" p:size="30"/>
-        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="30"/>
         </property>
@@ -58,10 +48,6 @@
     <bean id="BaseKuali.complex" abstract="true" parent="AttributeDefinition">
 <!--        <property name="dataType" value="COMPLEX" />-->
         <property name="required" value="false"/>
-<!--        TODO: remove this dummy control once https://jira.kuali.org/browse/KULRICE-5481 is fixed-->
-        <property name="controlField">
-            <bean parent="TextControl" p:size="30"/>
-        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="30"/>
         </property>
@@ -70,12 +56,6 @@
     <bean id="BaseKuali.stringLong" abstract="true" parent="BaseKuali.string">
         <property name="minLength" value="1" />
         <property name="maxLength" value="1999" />
-        <property name="controlField">
-            <bean parent="TextAreaControl">
-                <property name="rows" value="3"/>
-                <property name="cols" value="40"/> 
-            </bean>
-        </property>
         <property name="control">
             <bean parent="TextareaControlDefinition">
                 <property name="rows" value="3"/>
@@ -99,9 +79,6 @@
         <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
-        <property name="controlField">
-            <bean parent="TextControl" p:size="10"/>
-        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
@@ -116,9 +93,6 @@
         <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
-        <property name="controlField">
-            <bean parent="TextControl" p:size="10"/>
-        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
@@ -131,9 +105,6 @@
         <property name="required" value="false"/>
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
-        <property name="controlField">
-            <bean parent="CurrencyControl"/>
-        </property>
         <property name="control">
             <bean parent="CurrencyControlDefinition"/>
         </property>
@@ -145,9 +116,6 @@
         <property name="required" value="false"/>
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
-        <property name="controlField">
-            <bean parent="CurrencyControl"/>
-        </property>
         <property name="control">
             <bean parent="CurrencyControlDefinition"/>
         </property>
@@ -159,9 +127,6 @@
         <property name="required" value="false"/>
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
-        <property name="controlField">
-            <bean parent="CurrencyControl"/>
-        </property>
         <property name="control">
             <bean parent="CurrencyControlDefinition"/>
         </property>
@@ -174,9 +139,6 @@
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
         <property name="maxOccurs" value="1"> /-->
-        <property name="controlField">
-            <bean parent="CheckboxControl"/>
-        </property>
         <property name="control">
             <bean parent="CheckboxControlDefinition"/>
         </property>
@@ -189,9 +151,6 @@
         <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="10" />
         <property name="maxLength" value="10" />
-        <property name="controlField">
-            <bean parent="DateControl" />
-        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
@@ -204,9 +163,6 @@
         <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="19" />
         <property name="maxLength" value="19" />
-        <property name="controlField">
-            <bean parent="DateControl" />
-        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
@@ -220,9 +176,6 @@
         <property name="minLength" value="1" />
         <property name="maxLength" value="255" />
         <property name="forceUppercase" value="false"/>
-        <property name="controlField">
-            <bean parent="TextControl" p:size="30"/>
-        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="30"/>
         </property>

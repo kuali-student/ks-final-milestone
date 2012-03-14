@@ -92,10 +92,10 @@ public class GradingServiceAuthorizationDecorator extends GradingServiceDecorato
     }
 
     @Override
-    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIds,
+    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIdList,
             String rosterTypeKey, ContextInfo context) throws AlreadyExistsException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().buildInterimGradeRosterByType(courseOfferingId, activityOfferingIds,
+        return getNextDecorator().buildInterimGradeRosterByType(courseOfferingId, activityOfferingIdList,
                 rosterTypeKey, context);
     }
 
@@ -135,10 +135,10 @@ public class GradingServiceAuthorizationDecorator extends GradingServiceDecorato
     }
 
     @Override
-    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIds(List<String> gradeRosterEntryIds,
+    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIdList(List<String> gradeRosterEntryIdList,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getGradeRosterEntriesByIds(gradeRosterEntryIds, context);
+        return getNextDecorator().getGradeRosterEntriesByIdList(gradeRosterEntryIdList, context);
     }
 
     @Override

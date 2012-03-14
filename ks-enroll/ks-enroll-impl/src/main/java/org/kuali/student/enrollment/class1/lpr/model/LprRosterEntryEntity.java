@@ -1,23 +1,16 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "KSEN_LPR_ROSTER_ENTRY")
@@ -30,7 +23,7 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
     private String lprId;
 
     @Column(name = "POSITION")
-    private Integer position;
+    private String position;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date effectiveDate;
@@ -38,16 +31,18 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @Column(name = "RELATION_TYPE_ID")
-    private String lprEntryRelationType;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "RELATION_TYPE_ID")
+    private LuiPersonRelationTypeEntity lprEntryRelationType;
 
-    @Column(name = "RELATION_STATE_ID")
-    private String lprEntryRelationState;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "RELATION_STATE_ID")
+    private StateEntity lprEntryRelationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private List<LprRosterEntryAttributeEntity> attributes;
 
-    public LprRosterEntryEntity() {}
+    public LprRosterEntryEntity(){}
 
     public LprRosterEntryEntity(LprRosterEntryInfo dto) {
         if (dto != null) {
@@ -57,9 +52,7 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
             this.setExpirationDate(dto.getExpirationDate());
             this.setEffectiveDate(dto.getEffectiveDate());
             this.setPosition(dto.getPosition());
-            if (dto.getStateKey() != null) {
-                this.setLprEntryRelationState(dto.getStateKey());
-            }
+
             this.setAttributes(new ArrayList<LprRosterEntryAttributeEntity>());
             if (null != dto.getAttributes()) {
                 for (Attribute att : dto.getAttributes()) {
@@ -102,11 +95,11 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
         this.lprRosterId = lprRosterId;
     }
 
-    public Integer getPosition() {
+    public String getPosition() {
         return position;
     }
 
-    public void setPosition(Integer position) {
+    public void setPosition(String position) {
         this.position = position;
     }
 
@@ -120,19 +113,19 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
         this.attributes = attributes;
     }
 
-    public String getLprEntryRelationState() {
+    public StateEntity getLprEntryRelationState() {
         return lprEntryRelationState;
     }
 
-    public void setLprEntryRelationState(String lprEntryRelationState) {
+    public void setLprEntryRelationState(StateEntity lprEntryRelationState) {
         this.lprEntryRelationState = lprEntryRelationState;
     }
 
-    public String getLprEntryRelationType() {
+    public LuiPersonRelationTypeEntity getLprEntryRelationType() {
         return lprEntryRelationType;
     }
 
-    public void setLprEntryRelationType(String lprEntryRelationType) {
+    public void setLprEntryRelationType(LuiPersonRelationTypeEntity lprEntryRelationType) {
         this.lprEntryRelationType = lprEntryRelationType;
     }
 
@@ -145,11 +138,11 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
         info.setLprRosterId(getLprRosterId());
         info.setPosition(getPosition());
 
-        if (getLprEntryRelationState() != null) {
-            info.setStateKey(getLprEntryRelationState());
+        if (getLprEntryRelationState() != null){
+            info.setStateKey(getLprEntryRelationState().getId());
         }
-        if (getLprEntryRelationType() != null) {
-            info.setTypeKey(getLprEntryRelationType());
+        if (getLprEntryRelationType() != null){
+            info.setTypeKey(getLprEntryRelationType().getId());
         }
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();

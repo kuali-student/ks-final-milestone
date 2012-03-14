@@ -11,30 +11,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
-import org.kuali.student.r2.lum.clu.infc.LuCode;
+import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.lu.infc.LuCode;
 
 @Entity
-@Table(name = "KSEN_LUI_LU_CD")
+@Table(name = "KSEN_LUI_LUCD")
 public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAttributeEntity>{
-	
-    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
-    private String formatted;
-
-    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
-    private String plain; 
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "RT_DESCR_ID")
+	private LuiRichTextEntity descr;   
 
 	@Column(name = "VALUE")
 	private String value;
 
-	@Column(name = "LUI_LUCD_TYPE")
+	@Column(name = "TYPE")
 	private String type;
 
 	@ManyToOne
@@ -52,11 +46,8 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
     		this.setId(luCode.getId());
     		this.setValue(luCode.getValue());
     		this.setType(luCode.getTypeKey());
-    		if (luCode.getDescr() != null) {
-                RichText rt = luCode.getDescr();
-                this.setDescrFormatted(rt.getFormatted());
-                this.setDescrPlain(rt.getPlain());
-            }
+    		if(luCode.getDescr() != null)
+    			this.setDescr(new LuiRichTextEntity(luCode.getDescr()));
     		
 	        this.setAttributes(new ArrayList<LuCodeAttributeEntity>());
 	        if (null != luCode.getAttributes()) {
@@ -75,13 +66,9 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
     	obj.setId(getId());
     	obj.setTypeKey(type);
     	obj.setValue(value);
-    	if (getDescrPlain() != null) {
-            RichTextInfo rti = new RichTextInfo();
-            rti.setPlain(getDescrPlain());
-            rti.setFormatted(getDescrFormatted());
-            obj.setDescr(rti);
-        }
-    	obj.setMeta(super.toDTO());
+        if(descr != null)
+            obj.setDescr(descr.toDto());
+        
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuCodeAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
@@ -92,21 +79,13 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
         return obj;
     }
 
-    public String getDescrFormatted() {
-        return formatted;
-    }
+	public LuiRichTextEntity getDescr() {
+		return descr;
+	}
 
-    public void setDescrFormatted(String formatted) {
-        this.formatted = formatted;
-    }
-
-    public String getDescrPlain() {
-        return plain;
-    }
-
-    public void setDescrPlain(String plain) {
-        this.plain = plain;
-    }
+	public void setDescr(LuiRichTextEntity descr) {
+		this.descr = descr;
+	}
 
 	public String getValue() {
 		return value;

@@ -14,10 +14,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.infc.Milestone;
 
@@ -28,35 +31,40 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     @Column(name = "NAME")
     private String name;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "RT_DESCR_ID")
-    private AtpRichTextEntity descr;
-
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "START_DT")
+    @Column(name = "START_DT", nullable = false)
     private Date startDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "END_DT")
+    @Column(name = "END_DT", nullable = true)
     private Date endDate;
 
-    @Column(name = "MILESTONE_TYPE")
-    private String milestoneType;
+    @Column(name = "MSTONE_TYPE", nullable = false)
+    private String atpType;
 
-    @Column(name = "MILESTONE_STATE")
-    private String milestoneState;
+    @Column(name = "MSTONE_STATE", nullable = false)
+    private String atpState;
 
-    @Column(name = "IS_ALL_DAY")
+    @Column(name = "IS_ALL_DAY", nullable = false)
     private boolean isAllDay;
 
-    @Column(name = "IS_DATE_RANGE")
+    @Column(name = "IS_INSTRCT_DAY", nullable = false)
+    private boolean isInstructionalDay;
+
+    @Column(name = "IS_DATE_RANGE", nullable = false)
     private boolean isDateRange;
 
-    @Column(name = "IS_RELATIVE")
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String formatted;
+
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
+    private String plain;
+
+    @Column(name = "IS_RELATIVE", nullable = false)
     private boolean isRelative;
 
     @ManyToOne
-    @JoinColumn(name = "RELATIVE_MILESTONE_ID")
+    @JoinColumn(name = "RELATIVE_ANCHOR_MSTONE_ID")
     private MilestoneEntity relativeAnchorMilestone;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
@@ -67,13 +75,20 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     public MilestoneEntity(Milestone milestone) {
         super(milestone);
         this.setId(milestone.getId());
-        this.setAllDay(milestone.getIsAllDay());
-        this.setDateRange(milestone.getIsDateRange());
-        this.setDescr(new AtpRichTextEntity(milestone.getDescr()));
-        this.setMilestoneState(milestone.getStateKey());
-        this.setMilestoneType(milestone.getTypeKey());
+        this.setAllDay( null != milestone.getIsAllDay() ? milestone.getIsAllDay() : false);
+        this.setIsInstructionalDay(null != milestone.getIsInstructionalDay() ? milestone.getIsInstructionalDay() : false);
+        this.setDateRange(null != milestone.getIsDateRange() ? milestone.getIsDateRange() : false);
+        this.setAtpState(milestone.getStateKey());
+        this.setAtpType(milestone.getTypeKey());
         this.name = milestone.getName();
-        this.descr = null != milestone.getDescr() ? new AtpRichTextEntity(milestone.getDescr()) : null;
+        if (milestone.getDescr() != null) {
+            RichText rt = milestone.getDescr();
+            this.setDescrFormatted(rt.getFormatted());
+            this.setDescrPlain(rt.getPlain());
+        } else {
+            this.setDescrFormatted(new String());
+            this.setDescrPlain(new String());
+        }
         this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
         this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
         this.isRelative = (null != milestone.getIsRelative()) ? milestone.getIsRelative() : false;
@@ -94,14 +109,6 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         this.name = name;
     }
 
-    public AtpRichTextEntity getDescr() {
-        return descr;
-    }
-
-    public void setDescr(AtpRichTextEntity descr) {
-        this.descr = descr;
-    }
-
     public Date getStartDate() {
         return startDate;
     }
@@ -118,20 +125,20 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         this.endDate = endDate;
     }
 
-    public String getMilestoneType() {
-        return milestoneType;
+    public String getAtpType() {
+        return atpType;
     }
 
-    public void setMilestoneType(String milestoneType) {
-        this.milestoneType = milestoneType;
+    public void setAtpType(String atpType) {
+        this.atpType = atpType;
     }
 
-    public String getMilestoneState() {
-        return milestoneState;
+    public String getAtpState() {
+        return atpState;
     }
 
-    public void setMilestoneState(String milestoneState) {
-        this.milestoneState = milestoneState;
+    public void setAtpState(String atpState) {
+        this.atpState = atpState;
     }
 
     public boolean isAllDay() {
@@ -182,16 +189,24 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
 
         info.setId(getId());
         info.setName(getName());
-        info.setTypeKey(milestoneType);
-        info.setStateKey(milestoneState);
+        info.setTypeKey(null != atpType ? atpType : null);
+        info.setStateKey(null != atpState ? atpState : null);
         info.setStartDate(getStartDate());
         info.setEndDate(getEndDate());
         info.setIsAllDay(isAllDay());
         info.setIsDateRange(isDateRange());
+        info.setIsInstructionalDay(getIsInstructionalDay());
         info.setIsRelative(isRelative);
         info.setRelativeAnchorMilestoneId(null != relativeAnchorMilestone ? relativeAnchorMilestone.getId() : null);
         info.setMeta(super.toDTO());
-        info.setDescr((getDescr() != null) ? getDescr().toDto() : null);
+        if (getDescrPlain() != null) {
+            RichTextInfo rti = new RichTextInfo();
+            rti.setPlain(getDescrPlain());
+            rti.setFormatted(getDescrFormatted());
+            info.setDescr(rti);
+        } else {
+            info.setDescr(null);
+        }
 
         if (getAttributes() != null) {
             List<AttributeInfo> atts = new ArrayList<AttributeInfo>(getAttributes().size());
@@ -204,6 +219,30 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         }
 
         return info;
+    }
+
+    public String getDescrFormatted() {
+        return formatted;
+    }
+
+    public void setDescrFormatted(String formatted) {
+        this.formatted = formatted;
+    }
+
+    public String getDescrPlain() {
+        return plain;
+    }
+
+    public void setDescrPlain(String plain) {
+        this.plain = plain;
+    }
+
+    public boolean getIsInstructionalDay() {
+        return isInstructionalDay;
+    }
+
+    public void setIsInstructionalDay(boolean isInstructionalDay) {
+        this.isInstructionalDay = isInstructionalDay;
     }
 
 }

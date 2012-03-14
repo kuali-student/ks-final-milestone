@@ -1,4 +1,3 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -8,7 +7,7 @@
     <parent>
         <groupId>org.kuali.student.enroll</groupId>
         <artifactId>ks-enroll</artifactId>
-        <version>1.3.0-services-SNAPSHOT</version>
+        <version>2.0.0-M1-SNAPSHOT</version>
     </parent>
     <dependencies>
         <dependency>
@@ -39,11 +38,17 @@
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
             <version>${kuali.rice.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.security</groupId>
+                    <artifactId>spring-security-cas-client</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-api</artifactId>
-            <version>1.3.0-services-SNAPSHOT</version>
+            <version>1.3.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
@@ -102,6 +107,12 @@
                         <groupId>org.kuali.rice</groupId>
                         <artifactId>rice-impl</artifactId>
                         <version>${kuali.rice.version}</version>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>org.springframework.security</groupId>
+                                <artifactId>spring-security-cas-client</artifactId>
+                            </exclusion>
+                        </exclusions>
                     </dependency>                            
                 </dependencies>
             </plugin>

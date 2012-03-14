@@ -51,8 +51,9 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
     @Column(name = "ORG_ID")
     private String organizationId;
     
-    @Column(name = "TYPE_ID")
-    private String issueType;
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "TYPE_ID")
+    private HoldTypeEntity issueType;
     
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "RT_DESCR_ID")
@@ -61,8 +62,9 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<IssueAttributeEntity> attributes;
     
-    @Column(name = "STATE_ID")
-    private String issueState;
+    @ManyToOne
+    @JoinColumn(name = "STATE_ID")
+    private StateEntity issueState;
     
     public IssueEntity() {
     }
@@ -71,10 +73,11 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
         super(issue);
         setName(issue.getName());
         setOrganizationId(issue.getOrganizationId());
-        setIssueType(issue.getTypeKey());
-      
-        setIssueState(issue.getStateKey());
-
+        setIssueType(new HoldTypeEntity());
+        issueType.setId(issue.getTypeKey());
+        setIssueState(new StateEntity());
+        issueState.setId(issue.getStateKey());
+        
         setDescr(new HoldRichTextEntity(issue.getDescr()));
     }
     
@@ -104,19 +107,19 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
         this.organizationId = organizationId;
     }
 
-    public String getIssueType() {
+    public HoldTypeEntity getIssueType() {
         return issueType;
     }
 
-    public void setIssueType(String issueType) {
+    public void setIssueType(HoldTypeEntity issueType) {
         this.issueType = issueType;
     }
 
-    public String getIssueState() {
+    public StateEntity getIssueState() {
         return issueState;
     }
 
-    public void setIssueState(String issueState) {
+    public void setIssueState(StateEntity issueState) {
         this.issueState = issueState;
     }
 
@@ -133,8 +136,8 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
         
         info.setKey(getId());
         info.setName(getName());
-        info.setTypeKey(getIssueType());
-        info.setStateKey(getIssueState());
+        info.setTypeKey(getIssueType().getId());
+        info.setStateKey(getIssueState().getId());
         info.setOrganizationId(getOrganizationId());
         info.setMeta(super.toDTO());
         

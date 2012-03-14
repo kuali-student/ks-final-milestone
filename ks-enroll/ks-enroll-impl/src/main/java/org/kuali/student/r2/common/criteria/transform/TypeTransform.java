@@ -20,7 +20,7 @@ public class TypeTransform extends BaseTransform{
         if (input instanceof PropertyPathPredicate) {
             String pp = ((PropertyPathPredicate) input).getPropertyPath();
             if (TYPE_DESC.equalsIgnoreCase(pp)) {
-                return this.createPredicate(input, typeAttribute + "." + TYPE_PROPERTY);
+                return this.createPredicate(input, typeAttribute);
             }
         }
 

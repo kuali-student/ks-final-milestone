@@ -21,7 +21,7 @@ public class KeyDateAssembler implements DTOAssembler<KeyDateInfo, MilestoneInfo
         keyDateInfo.setIsRelativeToKeyDate(baseDTO.getIsRelative());
         keyDateInfo.setMeta(baseDTO.getMeta());
         keyDateInfo.setName(baseDTO.getName());
-        keyDateInfo.setRelativeAnchorKeyDateId (baseDTO.getRelativeAnchorMilestoneId());
+        keyDateInfo.setRelativeAnchirKeyDateId (baseDTO.getRelativeAnchorMilestoneId());
         keyDateInfo.setStartDate(baseDTO.getStartDate());
         keyDateInfo.setStateKey(baseDTO.getStateKey());
         keyDateInfo.setTypeKey(baseDTO.getTypeKey());

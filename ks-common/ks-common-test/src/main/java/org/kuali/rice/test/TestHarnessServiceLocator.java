@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 import javax.transaction.UserTransaction;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.impl.resourceloader.SpringResourceLoader;
+import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.transaction.jta.JtaTransactionManager;
 

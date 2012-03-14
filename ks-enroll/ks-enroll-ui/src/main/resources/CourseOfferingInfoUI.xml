@@ -69,7 +69,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="NoWhitespacePatternConstraint" />
         </property>
         <property name="controlField">
-            <bean parent="TextControl" p:size="60"/>
+            <bean parent="Uif-TextControl" p:size="60"/>
         </property> 
     </bean>    
 
@@ -81,7 +81,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="NoWhitespacePatternConstraint" />
         </property>
         <property name="controlField">
-            <bean parent="TextControl" p:size="60"/>
+            <bean parent="Uif-TextControl" p:size="60"/>
         </property> 
     </bean>
 
@@ -93,7 +93,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="NoWhitespacePatternConstraint" />
         </property>
         <property name="controlField">
-            <bean parent="TextControl" p:size="16"/>
+            <bean parent="Uif-TextControl" p:size="16"/>
         </property>
     </bean>
 
@@ -105,7 +105,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="NoWhitespacePatternConstraint" />
         </property>
         <property name="controlField">
-            <bean parent="SelectControl"/>
+            <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="optionsFinder">
             <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
@@ -117,7 +117,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="required" value="false"/>
         <property name="summary" value=""/>
         <property name="controlField">
-            <bean parent="TextControl" p:size="60"/>
+            <bean parent="Uif-TextControl" p:size="60"/>
         </property>
     </bean>
 
@@ -134,15 +134,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaInputField" p:propertyName="key" />
-        <bean parent="LookupCriteriaInputField" p:propertyName="typeKey"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="key" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="InputField" p:propertyName="key" />
-        <bean parent="InputField" p:propertyName="termId" />
-        <bean parent="InputField" p:propertyName="courseId" />
+		<bean parent="Uif-InputField" p:propertyName="key" />
+        <bean parent="Uif-InputField" p:propertyName="termId" />
+        <bean parent="Uif-InputField" p:propertyName="courseId" />
       </list>
     </property>
   </bean>
@@ -158,21 +158,25 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <!--<list merge="true">-->
             <!-- remove merge="true" would not inherit Document Overview section -->
             <list>
-                <bean parent="MaintenanceGroupSectionGridLayout">
+                <bean parent="Uif-MaintenanceGridSection">
                     <property name="title" value="Create a New Course Offering"/>
                     <property name="items">
                         <list>
-                            <bean parent="InputField" p:propertyName="termId">
+                            <bean parent="Uif-InputField" p:propertyName="termId">
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-                                <property name="fieldLookup.fieldConversions" value="key:termId"/>
+                                <property name="fieldLookup.fieldConversions">
+                                    <map>
+                                        <entry key="code" value="id"/>
+                                    </map>
+                                </property>
                                 <property name="control">
-              			            <bean parent="SelectControl"/>
+              			            <bean parent="Uif-DropdownControl"/>
             		            </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
                                 </property>
                              </bean>
-                            <bean parent="InputField" p:propertyName="courseOfferingCode">
+                            <bean parent="Uif-InputField" p:propertyName="courseOfferingCode">
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo"/>
                                 <property name="fieldLookup.fieldConversions">
                                     <map>
@@ -180,18 +184,18 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                     </map>
                                 </property> 
                             </bean>
-                            <bean parent="InputField" p:propertyName="maximumEnrollment" />
+                            <bean parent="Uif-InputField" p:propertyName="maximumEnrollment" />
                         </list>
                     </property>             
                 </bean>
           
-                <bean parent="MaintenanceCollectionGroupSection">
+                <bean parent="Uif-MaintenanceStackedCollectionSection">
                     <property name="title" value="Instructors"/>  
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
                     <property name="propertyName" value="instructors"/>
                     <property name="items">
                         <list>
-                            <bean parent="InputField" p:propertyName="personId" p:label="Instructor ID">
+                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="Instructor ID">
                                 <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> -->
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="fieldLookup.fieldConversions">
@@ -223,7 +227,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingInfoMaintainableImpl"/>
         <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.validation.impl.CourseOfferingRule" />
         <property name="documentTypeName" value="CourseOfferingInfoMaintenanceDocument"/>
-        <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
         <property name="lockingKeys">
             <list>
                 <value>id</value>

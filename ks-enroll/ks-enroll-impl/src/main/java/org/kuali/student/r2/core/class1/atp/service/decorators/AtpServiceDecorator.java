@@ -40,10 +40,10 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public List<AtpInfo> getAtpsByIds(List<String> atpIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        return getNextDecorator().getAtpsByIds(atpIds, context);
+        return getNextDecorator().getAtpsByIds(atpIdList, context);
     }
 
     @Override
@@ -106,10 +106,10 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        return getNextDecorator().getMilestonesByIds(milestoneIds, context);
+        return getNextDecorator().getMilestonesByIds(milestoneIdList, context);
     }
 
     @Override

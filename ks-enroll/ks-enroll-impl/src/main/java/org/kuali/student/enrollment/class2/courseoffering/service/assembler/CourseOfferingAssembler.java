@@ -18,7 +18,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,10 +87,11 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
              * After the above issue is fixed, we can revisit about   co.setExpenditure(lui.getExpenditure());
              */
 //			co.setExpenditure(lui.getExpenditure());
-
+			co.setFormatIds(lui.getCluCluRelationIds());
+			
 			assembleIdentifier(lui, co);
 			
-			//TODO: lui.getResultOptionIds() -- co.setCreditOptions & co.setGradingOptionKeys --- call LRCService.getResultValuesByIds
+			//TODO: lui.getResultOptionIds() -- co.setCreditOptions & co.setGradingOptionKeys --- call LRCService.getResultValuesByIdList
 			
 			//instructors
 			assembleInstructors(co, lui.getId(), context);
@@ -214,6 +215,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			//lui.setWaitlistTypeKey(co.getWaitlistTypeKey());
 			
 			lui.setCluId(co.getCourseId());
+			lui.setCluCluRelationIds(co.getFormatIds());
 			lui.setAtpId(co.getTermId());
 			lui.setUnitsContentOwner(co.getUnitsContentOwner());
 			lui.setUnitsDeployment(co.getUnitsDeployment());
@@ -241,13 +243,18 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 
 	private void disassembleLuiCodes(CourseOfferingInfo co, LuiInfo lui){
 		lui.setLuiCodes(new ArrayList<LuCodeInfo>());
-		
-        LuCodeInfo code = new LuCodeInfo();
-        code.setTypeKey("kuali.lu.code.honorsOffering");
-        code.setValue(co.getIsHonorsOffering().toString());
-        code.setAttributes(new ArrayList<AttributeInfo>());
-        lui.getLuiCodes().add(code);
-				
+
+        Boolean isHonorsOffering = co.getIsHonorsOffering();
+
+        //TODO needs review: when creating a new CO from a CLU the honorsOffering is never set so we get
+        //                  NPEs when getting value.  Should we be setting the value to false on null?
+        if (isHonorsOffering != null) {
+            LuCodeInfo code = new LuCodeInfo();
+            code.setTypeKey("kuali.lu.code.honorsOffering");
+            code.setValue(co.getIsHonorsOffering().toString());
+            code.setAttributes(new ArrayList<AttributeInfo>());
+            lui.getLuiCodes().add(code);
+        }
 	}
 	
 	private void disassembleIdentifier(CourseOfferingInfo co, LuiInfo lui){

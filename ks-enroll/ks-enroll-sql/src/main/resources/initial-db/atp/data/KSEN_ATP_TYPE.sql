@@ -109,3 +109,21 @@ Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAM
 
 Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.relation.uses',null,0,'Indicates the ATP uses the specified milestone',null,null,'Uses','http:--student.kuali.org/wsdl/atp/AtpMilestoneRelationInfo')
 /
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.LaborDay',null,0,'Labor Day',null,null,'Labor Day','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.FallBreak',null,0,'Fall Break',null,null,'Fall Break','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.ThanksgivingBreak',null,0,'Thanksgiving Break',null,null,'Thanksgiving Break','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.FamilyWeekend',null,0,'Family Weekend',null,null,'Family Weekend','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.Homecoming',null,0,'Homecoming',null,null,'Homecoming','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.GraduationApplicationDeadline',null,0,'Deadline to apply for Graduation',null,null,'Graduation Application Deadline','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.AlumniDay',null,0,'Alumni Day',null,null,'Alumni Day','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.Baccalaureate',null,0,'Baccalaureate',null,null,'Baccalaureate','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.Commencement',null,0,'Commencement',null,null,'Commencement','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/

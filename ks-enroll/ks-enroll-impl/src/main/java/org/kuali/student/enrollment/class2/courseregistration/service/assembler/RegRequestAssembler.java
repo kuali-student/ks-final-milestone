@@ -60,9 +60,9 @@ public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTran
 
         // TODO - sambit . Post Core Slice, move this logic out of assembler and handle exception properly
         try {
-            if (baseDTO.getResultValuesGroupKeys() != null) {
+            if (baseDTO.getResultOptionKeys() != null) {
 
-                for (String key : baseDTO.getResultValuesGroupKeys()) {
+                for (String key : baseDTO.getResultOptionKeys()) {
                     ResultValueInfo resultValue = lrcService.getResultValue(key, context);
                     if (resultValue.getTypeKey().equals(GradingServiceConstants.RESULT_VALUE_LETTER_GRADE_TYPE)
                             || resultValue.getTypeKey().equals(GradingServiceConstants.RESULT_VALUE_NUMBER_GRADE_TYPE)) {

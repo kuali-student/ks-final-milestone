@@ -25,12 +25,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.r2.common.entity.BaseVersionEntity;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumContextValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
 
 @Entity
 @Table(name="KSEM_CTX_T", uniqueConstraints={@UniqueConstraint(columnNames={"CTX_KEY", "CTX_VAL"})})
-public class EnumContextValueEntity extends BaseVersionEntity {
+public class EnumContextValueEntity extends MetaEntity {
 
     @Column(name="CTX_KEY")
     String contextKey;
@@ -45,10 +46,9 @@ public class EnumContextValueEntity extends BaseVersionEntity {
     }
 
     public EnumContextValueEntity(EnumContextValue enumContextValue) {
-        //super(enumContextValue);
+        super(enumContextValue);
         this.setContextKey(enumContextValue.getKey());
         this.setContextValue(enumContextValue.getValue());
-        //this.setEnumeratedValueList(enumContextValue)
     }
     
     public String getContextKey() {
@@ -74,5 +74,13 @@ public class EnumContextValueEntity extends BaseVersionEntity {
 			List<EnumeratedValueEntity> enumeratedValueList) {
 		this.enumeratedValueList = enumeratedValueList;
 	}
+
+    public EnumContextValueInfo toDto() {
+        EnumContextValueInfo context = new EnumContextValueInfo();
+        context.setMeta(super.toDTO());
+        context.setKey(this.getContextKey());
+        context.setValue(this.getContextValue());
+        return context;
+    }
     
 }

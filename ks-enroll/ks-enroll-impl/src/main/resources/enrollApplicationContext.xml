@@ -42,9 +42,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     <property name="atpDao" ref="atpEnrDao" />
-    <property name="atpTypeDao" ref="atpTypeDao" />
-    <property name="atpStateDao" ref="atpStateDao" />
-    <property name="atpRichTextDao" ref="atpRichTextDao" />
     <property name="atpRelDao" ref="atpAtpRelationDao" />
     <!-- <property name="atpRelTypeDao" ref="atpAtpRelationTypeDao"/> -->
     <property name="milestoneDao" ref="milestoneDao" />
@@ -60,7 +57,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="sprDao" ref="stateProcessRelationDao" />
   </bean>
 
-  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceImpl"/>
+  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
 
 
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">

@@ -11,7 +11,7 @@ import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.class1.util.ValidationUtils;
+import org.kuali.student.r2.core.service.util.ValidationUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -50,12 +50,12 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public List<AtpInfo> getAtpsByIds(List<String> atpIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        if (null == atpIds || atpIds.size() == 0) {
+        if (null == atpIdList || atpIdList.size() == 0) {
             throw new DoesNotExistException("Null parameter in the input:atpId");
         }
-        return getNextDecorator().getAtpsByIds(atpIds, context);
+        return getNextDecorator().getAtpsByIds(atpIdList, context);
     }
 
     @Override
