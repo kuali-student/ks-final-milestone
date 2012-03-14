@@ -120,7 +120,7 @@ public class ProgramAssemblerUtils {
         clu.setId(UUIDHelper.genStringUUID(program.getId()));
         
         // Default 
-        //TODO KSCM determine if getState and getStateKey will be the same ?
+        //TODO KSCM-429 determine if getState and getStateKey will be the same ?
         clu.setState(program.getState());
         clu.setMetaInfo(program.getMetaInfo());
         clu.setAttributes(program.getAttributes());

@@ -63,7 +63,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         try {
 			programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) cpInfo, contextInfo);
 		} catch (PermissionDeniedException e) {
-			// TODO KSCM could not add this to BoAssembler interface, since it is r2 exception and not a R1
+			// TODO KSCM-421 could not add this to BoAssembler interface, since it is r2 exception and not a R1
 			e.printStackTrace();
 		}
 

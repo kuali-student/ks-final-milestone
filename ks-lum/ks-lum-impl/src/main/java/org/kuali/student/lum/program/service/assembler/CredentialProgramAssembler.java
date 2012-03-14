@@ -86,7 +86,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
 
         CluInfo clu;
         try {
-            //TODO KSCM clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
+            //TODO KSCM-421 clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
         	clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId()) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);

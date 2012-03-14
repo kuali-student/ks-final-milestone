@@ -92,7 +92,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
             try {
 				programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) mdInfo, contextInfo);
 			} catch (PermissionDeniedException e) {
-				// TODO KSCM - Could not add it to BO assembler
+				// TODO KSCM-421 - Could not add it to BO assembler
 				e.printStackTrace();
 			}
         }
@@ -105,7 +105,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     private CoreProgramInfo assembleCoreProgram(String cluId, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
         CoreProgramInfo coreProgramInfo = null;
         try {
-            //TODO KSCM remove line below and replace it with this one :List<CluInfo> corePrograms = luService.getRelatedClusByCluId(cluId, ProgramAssemblerConstants.HAS_CORE_PROGRAM);
+            //TODO KSCM-421 remove line below and replace it with this one :List<CluInfo> corePrograms = luService.getRelatedClusByCluId(cluId, ProgramAssemblerConstants.HAS_CORE_PROGRAM);
         	List<CluInfo> corePrograms = new ArrayList<CluInfo>();
             // TODO - is it an error if there's more than one core program?                                                                           on
             if (corePrograms.size() == 1) {
@@ -128,7 +128,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         	
         	if(currentRelations != null && !currentRelations.isEmpty()){
         		for (String variationId : currentRelations.keySet()) {
-        			//TODO KSCM remove line below and replace it with this one :CluInfo variationClu = luService.getClu(variationId, contextInfo);
+        			//TODO KSCM-421 remove line below and replace it with this one :CluInfo variationClu = luService.getClu(variationId, contextInfo);
         			CluInfo variationClu = new CluInfo();
         			variations.add(programVariationAssembler.assemble(variationClu, null, shallowBuild, contextInfo));
         		}
@@ -153,7 +153,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 		
 		CluInfo clu;
 		try {
-			//TODO KSCM remove line belowe and  fix this line : clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
+			//TODO KSCM-429 remove line belowe and  fix this line : clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
 			clu = new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during major update", e);
@@ -296,7 +296,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     	for (String variationId : currentRelations.keySet()) {
 			CluInfo variationClu;
 			try {
-				//TODO KSCM : Converstion R1 to R2 remove line below and replace it with this one : variationClu = luService.getClu(variationId,contextInfo);
+				//TODO KSCM-421 : Converstion R1 to R2 remove line below and replace it with this one : variationClu = luService.getClu(variationId,contextInfo);
 				variationClu = new CluInfo();
 				ProgramVariationInfo delVariation = programVariationAssembler.assemble(variationClu, null, true, contextInfo);
 				delVariation.setState(DtoConstants.STATE_SUSPENDED);
