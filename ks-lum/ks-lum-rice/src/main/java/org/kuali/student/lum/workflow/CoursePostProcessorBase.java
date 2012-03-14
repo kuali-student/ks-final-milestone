@@ -23,6 +23,7 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.lu.LUConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -58,7 +59,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         String courseId = getCourseId(proposalInfo);
         String prevEndTermAtpId = proposalInfo.getAttributes().get("prevEndTerm");
         CourseInfo courseInfo = getCourseService().getCourse(courseId);
-        String courseState = getCluStateForRouteStatus(courseInfo.getState(), statusChangeEvent.getNewRouteStatus());
+        String courseState = getCluStateForRouteStatus(courseInfo.getState(), statusChangeEvent.getNewRouteStatus(), proposalInfo.getType());
         //Use the state change service to update to active and update preceding versions  
         if(DtoConstants.STATE_ACTIVE.equals(courseState)){
         	//Change the state using the effective date as the version start date
@@ -82,7 +83,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      * @param newWorkflowStatusCode - the new route status code that is getting set on the workflow document
      * @return the CLU state to set or null if the CLU does not need it's state changed
      */
-    protected String getCluStateForRouteStatus(String currentCluState, String newWorkflowStatusCode) {
+    protected String getCluStateForRouteStatus(String currentCluState, String newWorkflowStatusCode, String docType) {
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
@@ -95,7 +96,11 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
              */
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_NOT_APPROVED);
         } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_ACTIVE);
+        	if (LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(docType)){
+        		return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_RETIRED);
+        	} else {
+        		return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_ACTIVE);
+        	}
         } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else {
