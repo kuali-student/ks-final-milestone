@@ -39,7 +39,7 @@ import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lu.LUConstants;
-//TODO KSCM import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
+//TODO KSCM-429 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
@@ -131,18 +131,18 @@ public class CopyCourseServiceImpl {
 			}
 		}
 		//Clear result component ids
-		// TODO KSCM 
-		// TODO KSCM for(ResultComponentInfo result:course.getCreditOptions()){
-		// TODO KSCM 	result.setId(null);
-		// TODO KSCM }
+		// TODO KSCM-429 
+		// TODO KSCM-429 for(ResultComponentInfo result:course.getCreditOptions()){
+		// TODO KSCM-429 	result.setId(null);
+		// TODO KSCM-429 }
 		//Clear cross listing ids
 		for(CourseCrossListingInfo crossListing:course.getCrossListings()){
 			crossListing.setId(null);
 		}
 		//Clear Expenditures
-		// TODO KSCM for(AffiliatedOrgInfo orgInfo:course.getExpenditure().getAffiliatedOrgs()){
-		// TODO KSCM 	orgInfo.setId(null);
-		// TODO KSCM }
+		// TODO KSCM-429 for(AffiliatedOrgInfo orgInfo:course.getExpenditure().getAffiliatedOrgs()){
+		// TODO KSCM-429 	orgInfo.setId(null);
+		// TODO KSCM-429 }
 		//Clear Fees
 		for(CourseFeeInfo fee:course.getFees()){
 			fee.setId(null);
@@ -153,9 +153,9 @@ public class CopyCourseServiceImpl {
 		//Clear revenue
 		for(CourseRevenueInfo revenue:course.getRevenues()){
 			revenue.setId(null);
-			// TODO KSCM for(AffiliatedOrgInfo orgInfo:revenue.getAffiliatedOrgs()){
-			// TODO KSCM 	orgInfo.setId(null);
-			// TODO KSCM }
+			// TODO KSCM-429 for(AffiliatedOrgInfo orgInfo:revenue.getAffiliatedOrgs()){
+			// TODO KSCM-429 	orgInfo.setId(null);
+			// TODO KSCM-429 }
 		}
 		//Clear variation ids
 		for(CourseVariationInfo variation:course.getVariations()){
