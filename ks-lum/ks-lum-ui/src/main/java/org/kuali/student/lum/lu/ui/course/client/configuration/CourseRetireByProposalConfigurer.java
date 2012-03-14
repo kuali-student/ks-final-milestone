@@ -1,27 +1,33 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.KSCharCount;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
+import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.KeyListModelWigetBinding;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminRetireController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseRetireByProposalController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
 
 
 /**
- * Configurer for Retire by Proposal
+ * Shell of Configurer for Retire by Proposal
  * 
- * @author Val
+ * @author mike
  *
  */
 public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
-
-    protected CourseRequirementsViewController requisitesSection;
 
     /**
      * Sets up all the views and sections of {@link CourseAdminRetireController}. This
@@ -33,8 +39,8 @@ public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
     @Override
     public void configure(final CourseProposalController layout) {
         type = "course";
-        state = DtoConstants.STATE_DRAFT;
-    //    nextState = DtoConstants.STATE_RETIRED;
+        state = DtoConstants.STATE_RETIRED;
+        nextState = DtoConstants.STATE_RETIRED;
 
         groupName = LUUIConstants.COURSE_GROUP_NAME;
 
@@ -45,67 +51,34 @@ public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
             courseStatusLabel.setText(getLabel("courseStatusLabel") + ": Unknown");
         layout.addContentWidget(courseStatusLabel);
 
-        layout.addView(generateCourseAdminView((CourseRetireByProposalController) layout));
-    }
-
-    /**
-     * Configuration for the course admin screens
-     * 
-     * @return view
-     */
-    protected View generateCourseAdminView(final CourseRetireByProposalController layout) {
-        VerticalSectionView view =
-                new VerticalSectionView(CourseSections.COURSE_INFO, getLabel(LUUIConstants.RETIREMENT_LABEL_KEY),
-                        COURSE_PROPOSAL_MODEL, false);
-        view.addStyleName(LUUIConstants.STYLE_SECTION);
-
-        // Create course admin sections
-        Section activeDatesSection = generateActiveDatesSection(initSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY));
-        Section retirementSection = generateRetirementSection(initSection(LUUIConstants.RETIREMENT_LABEL_KEY));
-
-        //Add course admin sections to view
-        view.addSection(activeDatesSection);
-        view.addSection(retirementSection);
-
-        //Add menu items for sections
+    	addCluStartSection(layout);
         String sections = getLabel(LUUIConstants.COURSE_SECTIONS);
+
         layout.addMenu(sections);
-//        layout.addMenuItemSection(sections, getLabel(LUUIConstants.ACTIVE_DATES_LABEL_KEY),
-//                LUUIConstants.ACTIVE_DATES_LABEL_KEY, activeDatesSection.getLayout());
-//        layout.addMenuItemSection(sections, getLabel(LUUIConstants.RETIREMENT_LABEL_KEY),
-//                LUUIConstants.RETIREMENT_LABEL_KEY, retirementSection.getLayout());
+                
+        //Retirement Info
+        layout.addMenuItem(sections, (SectionView)generateRetirementInfoSection(initSectionView(CourseSections.COURSE_INFO, getLabel(LUUIConstants.RETIREMENT_LABEL_KEY))));
 
-        //Add buttons to top and bottom of view
-        layout.addButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
-        layout.addButtonForView(CourseSections.COURSE_INFO, layout.getCancelButton());
-        layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
-        layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getCancelButton());
+        //Collaborators
+        layout.addMenuItem(sections, new CollaboratorSectionView(CourseSections.PEOPLE_PERMISSONS, getLabel(LUUIConstants.SECTION_AUTHORS_AND_COLLABORATORS), COURSE_PROPOSAL_MODEL));
 
-        return view;
+        //Documents
+        documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
+        documentTool.setModelDefinition((DataModelDefinition)modelDefinition);
+        layout.addMenuItem(sections, documentTool);
+
     }
-
-    protected Section generateActiveDatesSection(Section section) {
-        addReadOnlyField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
-        addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
-
-        return section;
-    }
-
-    protected Section generateRetirementSection(Section section) {
+    
+    protected Section generateRetirementInfoSection(Section section) {
+        addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUUIConstants.PROPOSAL_TITLE_LABEL_KEY));
         addField(section, COURSE + "/" + RETIREMENT_RATIONALE,
                 generateMessageInfo(LUUIConstants.RETIREMENT_RATIONALE_LABEL_KEY));
-        addField(section, COURSE + "/" + LAST_TERM_OFFERED,
-                generateMessageInfo(LUUIConstants.LAST_TERM_OFFERED_LABEL_KEY));
-        addField(section, COURSE + "/" + LAST_PUBLICATION_YEAR,
-                generateMessageInfo(LUUIConstants.LAST_PUBLICATION_YEAR_LABEL_KEY));
-        addField(section, COURSE + "/" + SPECIAL_CIRCUMSTANCES,
-                generateMessageInfo(LUUIConstants.SPECIAL_CIRCUMSTANCES_LABEL_KEY));
+        addReadOnlyField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
+        addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
+//        addField(section, COURSE + "/" + OTHER_COMMENTS,
+//                generateMessageInfo(LUUIConstants.OTHER_COMMENTS_LABEL_KEY));  // Should be different one ???????!!!!!!!!!!!
 
         return section;
-    }
-
-    protected Section initSection(String labelKey) {
-        return initSection(SectionTitle.generateH2Title(getLabel(labelKey)), NO_DIVIDER);
     }
 
 }
