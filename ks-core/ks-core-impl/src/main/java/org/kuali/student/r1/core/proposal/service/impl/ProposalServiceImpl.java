@@ -40,11 +40,11 @@ import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validator.Validator;
 import org.kuali.student.r1.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.proposal.dao.ProposalDao;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.r1.core.proposal.entity.Proposal;
 import org.kuali.student.r1.core.proposal.entity.ProposalReference;
@@ -52,6 +52,7 @@ import org.kuali.student.r1.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.r1.core.proposal.entity.ProposalType;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 
 /**
  * Implementation of the Proposal Service
@@ -61,7 +62,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Proposal+Service">ProposalService</>
  */
 @Deprecated
-@WebService(endpointInterface = "org.kuali.student.core.proposal.service.ProposalService", serviceName = "ProposalService", portName = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal")
+@WebService(endpointInterface = "org.kuali.student.r1.core.proposal.service.ProposalService", serviceName = "ProposalService", portName = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal")
 public class ProposalServiceImpl implements ProposalService {
     private ProposalDao proposalDao;
 
@@ -88,10 +89,8 @@ public class ProposalServiceImpl implements ProposalService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
-        if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+        if (null != validationResults && validationResults.size() > 0) {        	
+            throw new DataValidationErrorException("Validation error!", validationResults);
         }
         
         
@@ -99,10 +98,10 @@ public class ProposalServiceImpl implements ProposalService {
             throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
         }
        try {
-           Proposal proposal = ProposalAssembler.toProposal(proposalTypeKey, proposalInfo, proposalDao);
+           Proposal proposal = ProposalAssembler.toProposal(proposalTypeKey, R1R2ConverterUtil.convert(proposalInfo, org.kuali.student.r1.core.proposal.dto.ProposalInfo.class), proposalDao);
            proposalDao.create(proposal);
 
-           return ProposalAssembler.toProposalInfo(proposal);
+           return R1R2ConverterUtil.convert(ProposalAssembler.toProposalInfo(proposal), org.kuali.student.r2.core.proposal.dto.ProposalInfo.class);
        } catch (VersionMismatchException e) {
            throw new InvalidParameterException(e.getMessage());
        }
@@ -136,7 +135,7 @@ public class ProposalServiceImpl implements ProposalService {
     public ProposalInfo getProposal(String proposalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalId, "proposalId");
         Proposal entity = proposalDao.fetch(Proposal.class, proposalId);
-        return ProposalAssembler.toProposalInfo(entity);
+        return R1R2ConverterUtil.convert(ProposalAssembler.toProposalInfo(entity), org.kuali.student.r2.core.proposal.dto.ProposalInfo.class);
     }
 
     /**
@@ -188,7 +187,7 @@ public class ProposalServiceImpl implements ProposalService {
         if (proposals.size() != proposalIdList.size()) {
             throw new DoesNotExistException();
         }
-        return ProposalAssembler.toProposalInfos(proposals);
+        return R1R2ConverterUtil.convertLists(ProposalAssembler.toProposalInfos(proposals), org.kuali.student.r2.core.proposal.dto.ProposalInfo.class);
     }
 
     /**
@@ -200,7 +199,7 @@ public class ProposalServiceImpl implements ProposalService {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
 
         List<Proposal> proposals = proposalDao.getProposalsByProposalType(proposalTypeKey);
-        return ProposalAssembler.toProposalInfos(proposals);
+        return R1R2ConverterUtil.convertLists(ProposalAssembler.toProposalInfos(proposals), org.kuali.student.r2.core.proposal.dto.ProposalInfo.class);
     }
 
     /**
@@ -213,7 +212,7 @@ public class ProposalServiceImpl implements ProposalService {
         checkForMissingParameter(referenceId, "referenceId");
 
         List<Proposal> proposals = proposalDao.getProposalsByReference(referenceTypeKey, referenceId);
-        return ProposalAssembler.toProposalInfos(proposals);
+        return R1R2ConverterUtil.convertLists(ProposalAssembler.toProposalInfos(proposals), org.kuali.student.r2.core.proposal.dto.ProposalInfo.class);
     }
 
     /**
@@ -226,7 +225,7 @@ public class ProposalServiceImpl implements ProposalService {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
 
         List<Proposal> proposals = proposalDao.getProposalsByState(proposalState, proposalTypeKey);
-        return ProposalAssembler.toProposalInfos(proposals);
+        return R1R2ConverterUtil.convertLists(ProposalAssembler.toProposalInfos(proposals), org.kuali.student.r2.core.proposal.dto.ProposalInfo.class);
     }
 
     /**
@@ -240,7 +239,7 @@ public class ProposalServiceImpl implements ProposalService {
 		checkForMissingParameter(workflowId, "workflowId");
 		
         Proposal entity = proposalDao.getProposalByWorkflowId(workflowId);
-        return ProposalAssembler.toProposalInfo(entity);
+        return R1R2ConverterUtil.convert(ProposalAssembler.toProposalInfo(entity), org.kuali.student.r2.core.proposal.dto.ProposalInfo.class);
 	}
 
     /**
@@ -265,9 +264,7 @@ public class ProposalServiceImpl implements ProposalService {
         // Validate
         List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+            throw new DataValidationErrorException("Validation error!", validationResults);
         }
         
         
@@ -276,10 +273,10 @@ public class ProposalServiceImpl implements ProposalService {
             throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
         }
 
-        Proposal proposal = ProposalAssembler.toProposal(proposalInfo.getType(), proposalInfo, proposalDao);
+        Proposal proposal = ProposalAssembler.toProposal(proposalInfo.getType(), R1R2ConverterUtil.convert(proposalInfo, org.kuali.student.r1.core.proposal.dto.ProposalInfo.class), proposalDao);
         Proposal updated = proposalDao.update(proposal);
 
-        return ProposalAssembler.toProposalInfo(updated);
+        return R1R2ConverterUtil.convert(ProposalAssembler.toProposalInfo(updated), org.kuali.student.r2.core.proposal.dto.ProposalInfo.class);
     }
 
     /**

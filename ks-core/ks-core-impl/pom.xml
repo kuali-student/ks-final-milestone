@@ -67,6 +67,17 @@
       <version>2.0.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>org.kuali.student</groupId>
+    	<artifactId>ks-conversion</artifactId>
+    	<version>0.0.6-SNAPSHOT</version>
+    	<exclusions>
+    		<exclusion>
+    			<groupId>org.kuali.student.core</groupId>
+  				<artifactId>ks-core-api</artifactId>
+  			</exclusion>
+    	</exclusions>
+    </dependency>
   </dependencies>
   <profiles>
     <profile>
@@ -116,7 +127,7 @@
           <artifactId>ks-metro</artifactId>
           <type>pom</type>
           <scope>test</scope>
-        </dependency>
+        </dependency>        
       </dependencies>
     </profile>
   </profiles>
