@@ -72,7 +72,7 @@ public class MessageRPCPreloader {
             
          // TODO KSCM-266
             MessageList messageList = null; 
-       		// TODO KSCM             messagelist = getMessageService().getMessagesByGroups(locale,messageGroupKeyList, ContextUtils.getContextInfo());
+       		// TODO KSCM-429             messagelist = getMessageService().getMessagesByGroups(locale,messageGroupKeyList, ContextUtils.getContextInfo());
 
             Map<Class<?>, Boolean> whitelist = new HashMap<Class<?>, Boolean>();
             whitelist.put(MessageService.class, true);
