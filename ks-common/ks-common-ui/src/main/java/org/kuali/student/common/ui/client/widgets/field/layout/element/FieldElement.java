@@ -351,7 +351,9 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	if(instructionText != null && !instructionText.trim().equals("")){
     		instructions.setHTML(text);
     		instructions.setVisible(true);
-    	}
+    	} else {
+    		instructions.setVisible(false);
+        }
     }
     
     public void setExamples(String examplesText) {
@@ -361,8 +363,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
             instructions.setVisible(true);
             examplesButton.setHoverHTML(examplesText);
             examplesButton.getHoverPopup().addStyleName("ks-example-popup");
-        }
-        else {
+        } else {
             examplesButton.setVisible(false);
         }
     }
@@ -371,6 +372,8 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     	if(text != null && !text.trim().equals("")){
     		constraints.setHTML(text);
     		constraints.setVisible(true);
+    	}else{
+    		constraints.setVisible(false);
     	}
     }
 

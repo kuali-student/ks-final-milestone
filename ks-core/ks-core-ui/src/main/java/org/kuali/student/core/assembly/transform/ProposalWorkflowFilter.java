@@ -134,11 +134,9 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 				
                 // TODO: this needs to be defined as a constant where all references will resolve
                 if ("kuali.proposal.type.course.modify".equals(proposalInfo.getType())||
-              		"kuali.proposal.type.course.modify.admin".equals(proposalInfo.getType())) {
-                    proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
-                }
-                // TODO: this needs to be defined as a constant where all references will resolve
-                if ("kuali.proposal.type.majorDiscipline.modify".equals(proposalInfo.getType())) {
+              		"kuali.proposal.type.course.modify.admin".equals(proposalInfo.getType())||
+              		"kuali.proposal.type.course.retire".equals(proposalInfo.getType())||
+              		"kuali.proposal.type.majorDiscipline.modify".equals(proposalInfo.getType())) {
                     proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
                 }
                 

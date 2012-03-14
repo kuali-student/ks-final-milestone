@@ -37,12 +37,10 @@ import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
 import org.springframework.util.StringUtils;
 
 public class CourseDataService extends AbstractDataService {
 
-	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CourseDataService.class);
 
 	private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
@@ -65,7 +63,17 @@ public class CourseDataService extends AbstractDataService {
 
 	@Override
 	protected Object save(Object dto, Map<String, Object> properties) throws Exception {
+		
 		CourseInfo courseInfo = (CourseInfo)dto;
+		
+		//For retire course we don't want to actually save anything
+		if(LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))){
+			if(courseInfo.getVersionInfo()==null){
+				return get(courseInfo.getId());
+			}else{
+				return courseInfo;
+			}
+		}
 		
 		//Set derived course fields before saving/updating
 		courseInfo = calculateCourseDerivedFields(courseInfo);

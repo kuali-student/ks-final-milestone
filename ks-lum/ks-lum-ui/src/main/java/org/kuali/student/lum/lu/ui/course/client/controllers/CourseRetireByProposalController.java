@@ -3,46 +3,30 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.event.ActionEvent;
-import org.kuali.student.common.ui.client.event.ContentDirtyEvent;
-import org.kuali.student.common.ui.client.event.ContentDirtyEventHandler;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.event.SaveActionHandler;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.WorkQueue;
-import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminRetireConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRetireByProposalConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
+import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseRetireProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
 import com.google.gwt.core.client.GWT;
@@ -64,7 +48,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
 	 */
 	@Override
 	protected void initializeController() {
-   		
+		cluProposalRpcServiceAsync = GWT.create(CreditCourseRetireProposalRpcService.class);   		
 		super.cfg = GWT.create(CourseRetireByProposalConfigurer.class);	
 		proposalPath = cfg.getProposalPath();
    		cfg.setState(DtoConstants.STATE_DRAFT);   		
@@ -87,28 +71,25 @@ public class CourseRetireByProposalController extends CourseProposalController {
         } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){        	
         	 if (LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME)))
         	    { // Retire By Proposal
-        		createRetireCluProposalModel(getViewContext().getId(), callback, workCompleteCallback);
+        		createRetireCluProposalModel(callback, workCompleteCallback);
         	}
       }
 	}
 	
-	protected void createRetireCluProposalModel(String versionComment, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+	protected void createRetireCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         Data data = new Data();
         cluProposalModel.setRoot(data);        
         
      //   this.currentDocType = getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
        
         Data proposalData = new Data();
-        proposalData.set(new Data.StringKey("type"), LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
+        proposalData.set(new Data.StringKey("type"), LUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
         data.set(new Data.StringKey("proposal"), proposalData);
         if (cfg.getNextState() == null && cfg.getNextState().isEmpty()){
         	proposalData.set(new Data.StringKey("workflowNode"), "PreRoute");
         }
                 
-        Data versionData = new Data();
-        versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
-        versionData.set(new Data.StringKey("versionComment"), versionComment);
-        data.set(new Data.StringKey("versionInfo"), versionData);
+        data.set(new Data.StringKey("id"), getViewContext().getId());
         
         cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>() {
 			public void onSuccess(DataSaveResult result) {
@@ -123,12 +104,14 @@ public class CourseRetireByProposalController extends CourseProposalController {
 		        //RecentlyViewedHelper.addDocument(getProposalTitle(), 
 		        //	HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
 		        //		+ "/SUMMARY");
-		        getCourseComparisonModelAndReqs(callback, workCompleteCallback);
+		        //getCourseComparisonModelAndReqs(callback, workCompleteCallback);
 		        
 		        // We need to update the current view context so that if the user clicks the back button it doesn't 
 		        // create a duplicate course proposal. 
 		        getViewContext().setIdType(docContext.getIdType());
 		        getViewContext().setId(docContext.getId());
+		        callback.onModelReady(cluProposalModel);
+		        workCompleteCallback.exec(true);
 		        
 			}
 			

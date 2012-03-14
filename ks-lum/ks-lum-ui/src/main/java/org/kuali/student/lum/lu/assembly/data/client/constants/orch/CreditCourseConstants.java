@@ -29,6 +29,7 @@ public interface CreditCourseConstants
 	public static final String FINAL_EXAM_RATIONALE = "finalExamRationale";
 	public static final String TRANSCRIPT_TITLE = "transcriptTitle";
 	public static final String COURSE_TITLE = "courseTitle";
+	public static final String COURSE_CODE = "code";
 	public static final String DESCRIPTION = "descr";
 	public static final String PROPOSAL_DESCRIPTION = "descr";
 	public static final String DEPARTMENT = "department";
@@ -41,6 +42,7 @@ public interface CreditCourseConstants
 	public static final String PREV_END_TERM = "prevEndTerm";
 	public static final String PILOT_COURSE = "pilotCourse";
 	public static final String CROSS_LISTINGS = "crossListings";
+	public static final String CROSSLISTED_AND_JOINTS = "crossListedAndJoints";
 	public static final String VERSIONS = "variations";
 	public static final String GRADING_OPTIONS = "gradingOptions";
 	public static final String CREDIT_OPTIONS = "creditOptions";

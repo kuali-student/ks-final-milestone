@@ -56,6 +56,8 @@
                         value-ref="LoCategoryRpcGwtServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseProposalRpcService"
                         value-ref="CourseProposalRpcGwtServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/CreditCourseRetireProposalRpcService"
+                        value-ref="CourseProposalRetireRpcGwtServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/SecurityRpcService"
                         value-ref="SecurityRpcGwtServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/ServerPropertiesRpcService"
@@ -116,6 +118,12 @@
         <property name="servletInstance" ref="CourseProposalRpcGwtServlet"/>
     </bean>
 
+    <bean id="CourseProposalRetireRpcGwtServletController"
+          class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="CourseProposalRetireRpcGwtServlet"/>
+        <property name="servletInstance" ref="CourseProposalRetireRpcGwtServlet"/>
+    </bean>
+    
     <bean id="majorDisciplineRpcServletController"
           class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="majorDisciplineRpcServlet"/>
@@ -285,6 +293,12 @@
         <property name="dataService" ref="CourseProposalDataService"/>
         <property name="copyCourseService" ref="CopyCourseService"/>
     </bean>
+        <bean id="CourseProposalRetireRpcGwtServlet"
+          class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseRetireProposalRpcGwtServlet">
+        <property name="dataService" ref="CourseRetireProposalDataService"/>
+        <property name="copyCourseService" ref="CopyCourseService"/>
+    </bean>
+    
     
     <bean id="CopyCourseService" class="org.kuali.student.lum.lu.ui.course.server.gwt.CopyCourseServiceImpl">
     	<property name="courseService" ref="courseClient"/>
@@ -335,6 +349,18 @@
         <property name="transformationManager" ref="courseProposalTransformationManager"/>
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
     </bean>
+
+    <bean id="CourseRetireProposalDataService"
+          class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseDataService">
+        <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="courseService" ref="courseClient"/>
+        <property name="proposalService" ref="proposalClient"/>
+        <property name="luService" ref="luClient"/>
+        <property name="transformationManager" ref="courseRetireProposalTransformationManager"/>
+        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
+    </bean>
+    
+    
     
     <bean id="CluSetManagementRpcGwtServlet"
           class="org.kuali.student.lum.lu.ui.tools.server.gwt.CluSetManagementRpcGwtServlet">
@@ -467,6 +493,20 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="courseRetireProposalTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
+        <property name="metadataService" ref="metadataServiceImpl"/>
+        <property name="filters">
+            <list>
+                <!-- Order of filters is important -->
+                <ref bean="authzFilter"/>
+                <ref bean="idTranslatorFilter"/>
+                <ref bean="courseRetireProposalWorkflowFilter"/>
+                <ref bean="collaboratorFilter"/>
+            </list>
+        </property>
+    </bean>
+    
 
     <bean id="majorDisciplineTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
         <property name="metadataService" ref="programMetadataServiceImpl"/>
@@ -626,6 +666,26 @@
 	           			</map>
 	           		</property>
 				</bean>   
+				<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.course.retire"/>
+	        		<property name="defaultDocumentTitle" value="Retire: {courseTitle}"/>
+	        		<property name="docContentFieldMap">
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+					</property>
+	            </bean>         
+ 			</list>
+		</property>			
+    </bean>
+
+    <bean id="courseRetireProposalWorkflowFilter" parent="parentProposalWorkflowFilter">
+        <property name="proposalReferenceType" value="kuali.proposal.referenceType.clu"/>
+        <property name="defaultDocType" value="kuali.proposal.type.course.retire"/>
+        <property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.RetireCourseProposalInfo"/>
+        <property name="docTypeConfigs">
+	        <list>
 				<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
 	        		<property name="documentType" value="kuali.proposal.type.course.retire"/>
 	        		<property name="defaultDocumentTitle" value="Retire: {courseTitle}"/>

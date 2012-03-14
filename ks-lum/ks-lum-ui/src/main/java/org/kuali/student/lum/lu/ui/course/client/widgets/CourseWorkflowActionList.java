@@ -142,7 +142,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 				@Override
 				public void onClick(ClickEvent event) {
 			    	if(hasCourseId(viewContext)){
-						viewContext.setId(courseId);
+						viewContext.setId((String)model.get(CreditCourseConstants.ID));
 						viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
 						viewContext.getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
 											
@@ -170,7 +170,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
    
     private void doRetireActionItem(ViewContext viewContext, String retirePath, DataModel model){
     	if(hasCourseId(viewContext)){
-			viewContext.setId(getCourseVersionIndId(model));
+			viewContext.setId((String)model.get(CreditCourseConstants.ID));
 			viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
             viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
         }
@@ -352,7 +352,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (radioOptionAdminRetire.getValue()){
-					viewContext.setId(courseId);
+					viewContext.setId((String)model.get(CreditCourseConstants.ID));
 					viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
 					Application.navigate(AppLocations.Locations.COURSE_RETIRE_BY_PROPOSAL.getLocation(), viewContext);
 				} else if (radioOptionRetireByProposal.getValue()){
