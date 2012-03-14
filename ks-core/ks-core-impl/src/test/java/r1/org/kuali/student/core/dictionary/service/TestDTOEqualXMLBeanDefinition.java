@@ -20,6 +20,8 @@ import org.kuali.student.r2.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.proposal.dto.ProposalDocRelationInfo;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementInfo;
@@ -73,7 +75,49 @@ public class TestDTOEqualXMLBeanDefinition {
 
 	}
 	
+	//@Test
+	public void testProposalDTOsAgainstDataDictionary() {
+		System.out.println("testing statement dictionary");
+
+		Set<String> startingClasses = new LinkedHashSet();
+		startingClasses.add(ProposalDocRelationInfo.class.getName());
+		startingClasses.add(ProposalInfo.class.getName());
+		String contextFile = "ks-proposalInfo-dictionary-context";
+		String outFile = "target/" + contextFile + ".txt";
+		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
+				outFile, startingClasses, contextFile + ".xml", false);
+		helper.setPrintDescrepenciesOnly(true);
+		List<String> errors = helper.doTest();
+		if (errors.size() > 0) {
+			fail("failed dictionary validation:\n" + formatAsString(errors));
+		}
+
+	}
+	
+	
 	@Test
+	public void testVersionManagementDTOsAgainstDataDictionary() {
+		System.out.println("testing statement dictionary");
+
+		Set<String> startingClasses = new LinkedHashSet();
+		startingClasses.add(ProposalDocRelationInfo.class.getName());
+		//startingClasses.add(ProposalInfo.class.getName());
+		String contextFile = "ks-proposalInfo-dictionary-context";
+		String outFile = "target/" + contextFile + ".txt";
+		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
+				outFile, startingClasses, contextFile + ".xml", false);
+		helper.setPrintDescrepenciesOnly(true);
+		List<String> errors = helper.doTest();
+		if (errors.size() > 0) {
+			fail("failed dictionary validation:\n" + formatAsString(errors));
+		}
+
+	}
+
+	
+	
+	
+	//@Test
 	public void testDocumentDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 
@@ -93,6 +137,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		}
 
 	}
+	
 	
 	//@Test
 	public void testCommentDTOsAgainstDataDictionary() {
