@@ -20,7 +20,7 @@
     <ref bean="cluSetInfo.membershipQuery"/>
     <ref bean="cluSetInfo.name"/>
     <ref bean="cluSetInfo.stateKey"/>
-    <ref bean="cluSetInfo.type"/>
+    <ref bean="cluSetInfo.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -92,11 +92,11 @@
  </bean>
  <bean id="cluSetInfo.stateKey" parent="cluSetInfo.stateKey-parent"/>
 
- <bean id="cluSetInfo.type-parent" abstract="true" parent="baseKualiType">
-  <property name="name" value="type"/>
+ <bean id="cluSetInfo.typeKey-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="typeKey"/>
   <property name="minOccurs" value="1"/>
  </bean>
- <bean id="cluSetInfo.type" parent="cluSetInfo.type-parent"/>
+ <bean id="cluSetInfo.typeKey" parent="cluSetInfo.typeKey-parent"/>
 
  <!-- MembershipQueryInfo-->
  <bean id="org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo-parent" abstract="true" parent="objectStructureDefinition">

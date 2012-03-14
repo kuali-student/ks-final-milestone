@@ -58,7 +58,7 @@
     <ref bean="majorDisciplineInfo.unitsFinancialResources"/>
     <ref bean="majorDisciplineInfo.unitsFinancialControl"/>
 
-    <ref bean="majorDisciplineInfo.type"/>
+    <ref bean="majorDisciplineInfo.typeKey"/>
     <ref bean="majorDisciplineInfo.stateKey"/>
     <ref bean="majorDisciplineInfo.id"/>
 
@@ -1027,10 +1027,10 @@
 							</bean>
  <bean id="majorDisciplineInfo.unitsFinancialControl" parent="majorDisciplineInfo.unitsFinancialControl-parent"/>
 
- <bean id="majorDisciplineInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
-  <property name="name" value="type"/>
+ <bean id="majorDisciplineInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="majorDisciplineInfo.type" parent="majorDisciplineInfo.type-parent"/>
+ <bean id="majorDisciplineInfo.typeKey" parent="majorDisciplineInfo.typeKey-parent"/>
 
  <bean id="majorDisciplineInfo.stateKey-parent" abstract="true" parent="cluInfo.stateKey-parent">
   <property name="name" value="stateKey"/>
@@ -1084,7 +1084,7 @@
     <ref bean="programVariationInfo.startTerm"/>
     <ref bean="programVariationInfo.stateKey"/>
     <ref bean="programVariationInfo.transcriptTitle"/>
-    <ref bean="programVariationInfo.type"/>
+    <ref bean="programVariationInfo.typeKey"/>
     <ref bean="programVariationInfo.unitsContentOwner"/>
     <ref bean="programVariationInfo.unitsDeployment"/>
     <ref bean="programVariationInfo.unitsFinancialControl"/>
@@ -1412,10 +1412,10 @@
  </bean>
  <bean id="programVariationInfo.transcriptTitle" parent="programVariationInfo.transcriptTitle-parent"/>
 
- <bean id="programVariationInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
-  <property name="name" value="type"/>
+ <bean id="programVariationInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="programVariationInfo.type" parent="programVariationInfo.type-parent"/>
+ <bean id="programVariationInfo.typeKey" parent="programVariationInfo.typeKey-parent"/>
 
  <bean id="programVariationInfo.unitsContentOwner-parent" abstract="true"
        parent="majorDisciplineInfo.unitsContentOwner-parent">
@@ -1593,7 +1593,7 @@
     <ref bean="coreProgramInfo.startTerm"/>
     <ref bean="coreProgramInfo.stateKey"/>
     <ref bean="coreProgramInfo.transcriptTitle"/>
-    <ref bean="coreProgramInfo.type"/>
+    <ref bean="coreProgramInfo.typeKey"/>
     <ref bean="coreProgramInfo.unitsContentOwner"/>
     <ref bean="coreProgramInfo.unitsStudentOversight"/>
     <ref bean="coreProgramInfo.universityClassification"/>
@@ -1705,10 +1705,10 @@
  </bean>
  <bean id="coreProgramInfo.transcriptTitle" parent="coreProgramInfo.transcriptTitle-parent"/>
 
- <bean id="coreProgramInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
-  <property name="name" value="type"/>
+ <bean id="coreProgramInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="coreProgramInfo.type" parent="coreProgramInfo.type-parent"/>
+ <bean id="coreProgramInfo.typeKey" parent="coreProgramInfo.typeKey-parent"/>
 
  <bean id="coreProgramInfo.unitsContentOwner-parent" abstract="true"
        parent="majorDisciplineInfo.unitsContentOwner-parent">
@@ -1778,7 +1778,7 @@
  </bean>
  <bean id="credentialProgramInfo.coreProgramIds" parent="credentialProgramInfo.coreProgramIds-parent"/>
 
- <bean id="credentialProgramInfo.credentialProgramType-parent" abstract="true" parent="cluInfo.type-parent">
+ <bean id="credentialProgramInfo.credentialProgramType-parent" abstract="true" parent="cluInfo.typeKey-parent">
   <property name="name" value="credentialProgramType"/>
  </bean>
  <bean id="credentialProgramInfo.credentialProgramType" parent="credentialProgramInfo.credentialProgramType-parent"/>
@@ -1911,7 +1911,7 @@
     <ref bean="minorDisciplineInfo.id"/>
     <ref bean="minorDisciplineInfo.programRequirements"/>
     <ref bean="minorDisciplineInfo.stateKey"/>
-    <ref bean="minorDisciplineInfo.type"/>
+    <ref bean="minorDisciplineInfo.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -1940,10 +1940,10 @@
  </bean>
  <bean id="minorDisciplineInfo.stateKey" parent="minorDisciplineInfo.stateKey-parent"/>
 
- <bean id="minorDisciplineInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
-  <property name="name" value="type"/>
+ <bean id="minorDisciplineInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="minorDisciplineInfo.type" parent="minorDisciplineInfo.type-parent"/>
+ <bean id="minorDisciplineInfo.typeKey" parent="minorDisciplineInfo.typeKey-parent"/>
 
  <!-- ProgramRequirementInfo-->
  <bean id="org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo-parent" abstract="true"
@@ -1958,7 +1958,7 @@
     <ref bean="programRequirementInfo.shortTitle"/>
     <ref bean="programRequirementInfo.stateKey"/>
     <ref bean="programRequirementInfo.statement"/>
-    <ref bean="programRequirementInfo.type"/>
+    <ref bean="programRequirementInfo.typeKey"/>
     <ref bean="programRequirementInfo.minCredits"/>
     <ref bean="programRequirementInfo.maxCredits"/>
    </list>
@@ -2093,9 +2093,9 @@
  </bean>
  <bean id="programRequirementInfo.statement" parent="programRequirementInfo.statement-parent"/>
 
- <bean id="programRequirementInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
-  <property name="name" value="type"/>
+ <bean id="programRequirementInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="programRequirementInfo.type" parent="programRequirementInfo.type-parent"/>
+ <bean id="programRequirementInfo.typeKey" parent="programRequirementInfo.typeKey-parent"/>
 
 </beans>

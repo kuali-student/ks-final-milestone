@@ -47,7 +47,7 @@
     <ref bean="courseInfo.subjectArea" />
     <ref bean="courseInfo.termsOffered" />
     <ref bean="courseInfo.transcriptTitle" />
-    <ref bean="courseInfo.type" />
+    <ref bean="courseInfo.typeKey" />
     <ref bean="courseInfo.variations" />
     <ref bean="courseInfo.pilotCourse" />
     <ref bean="courseInfo.specialTopicsCourse" />
@@ -791,11 +791,11 @@
  </bean>
  <bean id="courseInfo.transcriptTitle" parent="courseInfo.transcriptTitle-parent" />
 
- <bean id="courseInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
-  <property name="name" value="type" />
-  <property name="defaultValue" value="kuali.lu.type.CreditCourse"/>
+ <bean id="courseInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey" />
+  <property name="defaultValue" value="kuali.lu.typeKey.CreditCourse"/>
  </bean>
- <bean id="courseInfo.type" parent="courseInfo.type-parent" />
+ <bean id="courseInfo.typeKey" parent="courseInfo.typeKey-parent" />
 
  <bean id="courseInfo.versionInfo-parent" abstract="true" parent="baseComplex">
   <property name="name" value="versionInfo"/>
@@ -869,7 +869,7 @@
 
  <bean id="courseRevenueInfo.feeType-parent" abstract="true" parent="cluFeeRecordInfo.feeType">
   <property name="name" value="feeType"/>
-  <property name="defaultValue" value="kuali.lu.fee.type.revenue"/>
+  <property name="defaultValue" value="kuali.lu.fee.typeKey.revenue"/>
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="courseRevenueInfo.feeType" parent="courseRevenueInfo.feeType-parent"/>
@@ -915,7 +915,7 @@
     <ref bean="courseVariationInfo.courseNumberSuffix" />
     <ref bean="courseVariationInfo.id" />
     <ref bean="courseVariationInfo.subjectArea" />
-    <ref bean="courseVariationInfo.type" />
+    <ref bean="courseVariationInfo.typeKey" />
     <ref bean="courseVariationInfo.variationCode" />
     <ref bean="courseVariationInfo.variationTitle" />
    </list>
@@ -939,11 +939,11 @@
  </bean>
  <bean id="courseVariationInfo.subjectArea" parent="courseVariationInfo.subjectArea-parent" />
 
- <bean id="courseVariationInfo.type-parent" abstract="true" parent="cluIdentifierInfo.type-parent">
-  <property name="name" value="type" />
-  <property name="defaultValue" value="kuali.lu.type.CreditCourse.identifier.variation"/>
+ <bean id="courseVariationInfo.typeKey-parent" abstract="true" parent="cluIdentifierInfo.typeKey-parent">
+  <property name="name" value="typeKey" />
+  <property name="defaultValue" value="kuali.lu.typeKey.CreditCourse.identifier.variation"/>
  </bean>
- <bean id="courseVariationInfo.type" parent="courseVariationInfo.type-parent" />
+ <bean id="courseVariationInfo.typeKey" parent="courseVariationInfo.typeKey-parent" />
 
  <bean id="courseVariationInfo.variationCode-parent" abstract="true" parent="cluIdentifierInfo.variation-parent">
   <property name="name" value="variationCode" />
@@ -970,7 +970,7 @@
     <ref bean="courseCrossListingInfo.id" />
     <ref bean="courseCrossListingInfo.code" />
     <ref bean="courseCrossListingInfo.subjectArea" />
-    <ref bean="courseCrossListingInfo.type" />
+    <ref bean="courseCrossListingInfo.typeKey" />
    </list>
   </property>
  </bean>
@@ -1000,11 +1000,11 @@
  </bean>
  <bean id="courseCrossListingInfo.subjectArea" parent="courseCrossListingInfo.subjectArea-parent" />
 
- <bean id="courseCrossListingInfo.type-parent" abstract="true" parent="cluIdentifierInfo.type">
-  <property name="name" value="type" />
-  <property name="defaultValue" value="kuali.lu.type.CreditCourse.identifier.crosslisting"/>
+ <bean id="courseCrossListingInfo.typeKey-parent" abstract="true" parent="cluIdentifierInfo.typeKey">
+  <property name="name" value="typeKey" />
+  <property name="defaultValue" value="kuali.lu.typeKey.CreditCourse.identifier.crosslisting"/>
  </bean>
- <bean id="courseCrossListingInfo.type" parent="courseCrossListingInfo.type-parent" />
+ <bean id="courseCrossListingInfo.typeKey" parent="courseCrossListingInfo.typeKey-parent" />
 
 
 
@@ -1020,7 +1020,7 @@
     <ref bean="courseJointInfo.courseTitle" />
     <ref bean="courseJointInfo.relationId" />
     <ref bean="courseJointInfo.subjectArea" />
-    <ref bean="courseJointInfo.type" />
+    <ref bean="courseJointInfo.typeKey" />
    </list>
   </property>
  </bean>
@@ -1060,12 +1060,12 @@
  </bean>
  <bean id="courseJointInfo.subjectArea" parent="courseJointInfo.subjectArea-parent" />
 
- <bean id="courseJointInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
-  <property name="name" value="type" />
+ <bean id="courseJointInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey" />
   <property name="minOccurs" value="0"/>
   <property name="minLength" value="0" />
  </bean>
- <bean id="courseJointInfo.type" parent="courseJointInfo.type-parent" />
+ <bean id="courseJointInfo.typeKey" parent="courseJointInfo.typeKey-parent" />
 
  <!-- FormatInfo-->
  <bean id="org.kuali.student.r2.lum.course.dto.FormatInfo-parent"
@@ -1076,7 +1076,7 @@
     <ref bean="formatInfo.activities" />
     <ref bean="formatInfo.id" />
     <ref bean="formatInfo.stateKey" />
-    <ref bean="formatInfo.type" />
+    <ref bean="formatInfo.typeKey" />
     <ref bean="formatInfo.duration" />
     <ref bean="formatInfo.termsOffered" />
    </list>
@@ -1103,11 +1103,11 @@
  </bean>
  <bean id="formatInfo.stateKey" parent="formatInfo.stateKey-parent" />
 
- <bean id="formatInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
-  <property name="name" value="type" />
-  <property name="defaultValue" value="kuali.lu.type.CreditCourseFormatShell"/>
+ <bean id="formatInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey" />
+  <property name="defaultValue" value="kuali.lu.typeKey.CreditCourseFormatShell"/>
  </bean>
- <bean id="formatInfo.type" parent="formatInfo.type-parent" />
+ <bean id="formatInfo.typeKey" parent="formatInfo.typeKey-parent" />
 
  <bean id="formatInfo.duration-parent" abstract="true" parent="cluInfo.stdDuration-parent">
   <property name="name" value="duration" />
@@ -1145,7 +1145,7 @@
  <bean id="activityInfo.unitsContentOwner" parent="activityInfo.unitsContentOwner-parent" />
 
  <bean id="activityInfo.activityType-parent" abstract="true"
-       parent="cluInfo.type-parent">
+       parent="cluInfo.typeKey-parent">
   <property name="name" value="activityType" />
 		                </bean>
  <bean id="activityInfo.activityType" parent="activityInfo.activityType-parent" />
@@ -1262,7 +1262,7 @@
   <property name="maxOccurs" value="1" />
  </bean>
 
- <!--example of how to use dyanamic attributes to define a complex type-->
+ <!--example of how to use dyanamic attributes to define a complex typeKey-->
  <bean id="courseInfo.outOfClassHours-parent" abstract="true" parent="baseComplex">
   <property name="name" value="outOfClassHours" />
   <property name="dataObjectStructure" ref="courseInfo.outOfClassHours-structure" />
@@ -1359,7 +1359,7 @@
 
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey-parent" abstract="true" parent="currencyAmountInfo.currencyTypeKey-parent">
   <property name="name" value="currencyTypeKey" />
-  <property name="defaultValue" value="kuali.currency.type.usdollars.cents" />
+  <property name="defaultValue" value="kuali.currency.typeKey.usdollars.cents" />
  </bean>
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey-parent" />
 
@@ -1380,7 +1380,7 @@
    <ref bean="resultComponentInfo.name" />
    <ref bean="resultComponentInfo.resultValuesNumeric" />
    <ref bean="course.resultComponentInfo.stateKey" />
-   <ref bean="resultComponentInfo.type" />
+   <ref bean="resultComponentInfo.typeKey" />
    <ref bean="resultComponentInfo.minCreditValue"/>
    <ref bean="resultComponentInfo.maxCreditValue"/>
    <ref bean="resultComponentInfo.fixedCreditValue"/>

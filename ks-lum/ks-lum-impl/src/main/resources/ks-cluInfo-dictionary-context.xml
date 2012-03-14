@@ -39,7 +39,7 @@
                 <ref bean="cluInfo.stateKey"/>
                 <ref bean="cluInfo.stdDuration"/>
                 <ref bean="cluInfo.studySubjectArea"/>
-                <ref bean="cluInfo.type"/>
+                <ref bean="cluInfo.typeKey"/>
                 <ref bean="cluInfo.versionInfo"/>
             </list>
         </property>
@@ -261,10 +261,10 @@
     </bean>
     <bean id="cluInfo.studySubjectArea" parent="cluInfo.studySubjectArea-parent"/>
 
-    <bean id="cluInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-        <property name="name" value="type"/>
+    <bean id="cluInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+        <property name="name" value="typeKey"/>
     </bean>
-    <bean id="cluInfo.type" parent="cluInfo.type-parent"/>
+    <bean id="cluInfo.typeKey" parent="cluInfo.typeKey-parent"/>
 
     <!-- AcademicSubjectOrgInfo-->
     <bean id="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo-parent"
@@ -553,7 +553,7 @@
                 <ref bean="cluIdentifierInfo.shortName"/>
                 <ref bean="cluIdentifierInfo.stateKey"/>
                 <ref bean="cluIdentifierInfo.suffixCode"/>
-                <ref bean="cluIdentifierInfo.type"/>
+                <ref bean="cluIdentifierInfo.typeKey"/>
                 <ref bean="cluIdentifierInfo.variation"/>
             </list>
         </property>
@@ -606,10 +606,10 @@
     </bean>
     <bean id="cluIdentifierInfo.suffixCode" parent="cluIdentifierInfo.suffixCode-parent"/>
 
-    <bean id="cluIdentifierInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-        <property name="name" value="type"/>
+    <bean id="cluIdentifierInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+        <property name="name" value="typeKey"/>
     </bean>
-    <bean id="cluIdentifierInfo.type" parent="cluIdentifierInfo.type-parent"/>
+    <bean id="cluIdentifierInfo.typeKey" parent="cluIdentifierInfo.typeKey-parent"/>
 
     <bean id="cluIdentifierInfo.variation-parent" abstract="true" parent="baseKualiCode">
         <property name="name" value="variation"/>
@@ -653,7 +653,7 @@
                 <ref bean="luCodeInfo.descr"/>
                 <ref bean="luCodeInfo.id"/>
                 <ref bean="luCodeInfo.value"/>
-                <ref bean="luCodeInfo.type"/>
+                <ref bean="luCodeInfo.typeKey"/>
             </list>
         </property>
         <property name="hasMetaData" value="true"/>
@@ -675,10 +675,10 @@
     </bean>
     <bean id="luCodeInfo.value" parent="luCodeInfo.value-parent"/>
 
-    <bean id="luCodeInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-        <property name="name" value="type"/>
+    <bean id="luCodeInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+        <property name="name" value="typeKey"/>
     </bean>
-    <bean id="luCodeInfo.type" parent="luCodeInfo.type-parent"/>
+    <bean id="luCodeInfo.typeKey" parent="luCodeInfo.typeKey-parent"/>
 
 
     <!-- TimeAmountInfo-->
@@ -755,7 +755,7 @@
             <list>
                 <ref bean="adminOrgInfo.id"/>
                 <ref bean="adminOrgInfo.orgId"/>
-                <ref bean="adminOrgInfo.type"/>
+                <ref bean="adminOrgInfo.typeKey"/>
                 <ref bean="adminOrgInfo.primary"/>
             </list>
         </property>
@@ -774,10 +774,10 @@
     <bean id="adminOrgInfo.orgId" parent="adminOrgInfo.orgId-parent"/>
 
 
-    <bean id="adminOrgInfo.type-parent" abstract="true" parent="baseKualiTypeRequired"/>
+    <bean id="adminOrgInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
 
-    <bean id="adminOrgInfo.type" parent="adminOrgInfo.type-parent">
-        <property name="name" value="type"></property>
+    <bean id="adminOrgInfo.typeKey" parent="adminOrgInfo.typeKey-parent">
+        <property name="name" value="typeKey"></property>
     </bean>
 
     <bean id="adminOrgInfo.primary-parent" abstract="true" parent="baseBoolean">

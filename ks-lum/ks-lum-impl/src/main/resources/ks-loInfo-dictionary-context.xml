@@ -56,7 +56,7 @@
     <ref bean="loDisplayInfo.loInfo.loRepositoryKey" />
     <ref bean="loInfo.name" />
     <ref bean="loInfo.stateKey" />
-    <ref bean="loInfo.type" />
+    <ref bean="loInfo.typeKey" />
     <!-- dynamic attributes -->
     <ref bean="loInfo.sequence" />
    </list>
@@ -96,7 +96,7 @@
     <ref bean="loCategoryInfo.loRepository" />
     <ref bean="loCategoryInfo.name" />
     <ref bean="loCategoryInfo.stateKey" />
-    <ref bean="loCategoryInfo.type" />
+    <ref bean="loCategoryInfo.typeKey" />
    </list>
   </property>
   <property name="hasMetaData" value="true" />
@@ -165,10 +165,10 @@
  </bean>
  <bean id="loCategoryInfo.stateKey" parent="loCategoryInfo.stateKey-parent" />
 
- <bean id="loCategoryInfo.type-parent" abstract="true" parent="baseString">
-  <property name="name" value="type" />
+ <bean id="loCategoryInfo.typeKey-parent" abstract="true" parent="baseString">
+  <property name="name" value="typeKey" />
  </bean>
- <bean id="loCategoryInfo.type" parent="loCategoryInfo.type-parent" />
+ <bean id="loCategoryInfo.typeKey" parent="loCategoryInfo.typeKey-parent" />
 
  <!-- LoInfo-->
  <bean id="org.kuali.student.r2.lum.lo.dto.LoInfo-parent" abstract="true"
@@ -183,7 +183,7 @@
     <ref bean="loInfo.loRepositoryKey" />
     <ref bean="loInfo.name" />
     <ref bean="loInfo.stateKey" />
-    <ref bean="loInfo.type" />
+    <ref bean="loInfo.typeKey" />
     <!-- dynamic attributes -->
     <ref bean="loInfo.sequence" />
    </list>
@@ -256,10 +256,10 @@
  </bean>
  <bean id="loInfo.stateKey" parent="loInfo.stateKey-parent" />
 
- <bean id="loInfo.type-parent" abstract="true" parent="baseString">
-  <property name="name" value="type" />
+ <bean id="loInfo.typeKey-parent" abstract="true" parent="baseString">
+  <property name="name" value="typeKey" />
  </bean>
- <bean id="loInfo.type" parent="loInfo.type-parent" />
+ <bean id="loInfo.typeKey" parent="loInfo.typeKey-parent" />
 
  <bean id="loInfo.sequence" parent="baseInteger">
   <property name="name" value="sequence" />
@@ -278,7 +278,7 @@
     <ref bean="loLoRelationInfo.loId"/>
     <ref bean="loLoRelationInfo.relatedLoId"/>
     <ref bean="loLoRelationInfo.stateKey"/>
-    <ref bean="loLoRelationInfo.type"/>
+    <ref bean="loLoRelationInfo.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -317,9 +317,9 @@
  </bean>
  <bean id="loLoRelationInfo.stateKey" parent="loLoRelationInfo.stateKey-parent"/>
 
- <bean id="loLoRelationInfo.type-parent" abstract="true" parent="baseKualiType">
-  <property name="name" value="type"/>
+ <bean id="loLoRelationInfo.typeKey-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="loLoRelationInfo.type" parent="loLoRelationInfo.type-parent"/>
+ <bean id="loLoRelationInfo.typeKey" parent="loLoRelationInfo.typeKey-parent"/>
 
 </beans>

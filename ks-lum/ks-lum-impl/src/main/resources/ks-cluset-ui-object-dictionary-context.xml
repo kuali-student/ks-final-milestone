@@ -24,7 +24,7 @@
     <ref bean="freestanding.cluset.name"/>
     <ref bean="freestanding.cluset.organization" />
     <ref bean="freestanding.cluset.proposedClus"/>
-    <ref bean="freestanding.cluset.type"/>
+    <ref bean="freestanding.cluset.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -48,7 +48,7 @@
     <ref bean="freestanding.cluset.name"/>
     <ref bean="freestanding.cluset.organization" />
     <ref bean="freestanding.cluset.proposedClus"/>
-    <ref bean="freestanding.cluset.type"/>
+    <ref bean="freestanding.cluset.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -72,7 +72,7 @@
     <ref bean="freestanding.cluset.name"/>
     <ref bean="freestanding.cluset.organization" />
     <ref bean="freestanding.cluset.proposedClus"/>
-    <ref bean="freestanding.cluset.type"/>
+    <ref bean="freestanding.cluset.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -96,7 +96,7 @@
     <ref bean="freestanding.cluset.name"/>
     <ref bean="freestanding.cluset.organization" />
     <ref bean="freestanding.cluset.proposedClus"/>
-    <ref bean="freestanding.cluset.type"/>
+    <ref bean="freestanding.cluset.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -131,11 +131,11 @@
  </bean>
  <bean id="freestanding.cluset.name" parent="freestanding.cluset.name-parent"/>
 
- <bean id="freestanding.cluset.type-parent" abstract="true" parent="cluSetInfo.type-parent">
-  <property name="name" value="type"/>
+ <bean id="freestanding.cluset.typeKey-parent" abstract="true" parent="cluSetInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
   <property name="minOccurs" value="0"/>
  </bean>
- <bean id="freestanding.cluset.type" parent="freestanding.cluset.type-parent"/>
+ <bean id="freestanding.cluset.typeKey" parent="freestanding.cluset.typeKey-parent"/>
 
 
  <bean id="freestanding.cluset.organization-parent" abstract="true" parent="cluSetInfo.adminOrg-parent">

@@ -15,7 +15,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
     <ref bean="resultComponentInfo.name"/>
     <ref bean="resultComponentInfo.resultValues"/>
     <ref bean="resultComponentInfo.stateKey"/>
-    <ref bean="resultComponentInfo.type"/>
+    <ref bean="resultComponentInfo.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -60,10 +60,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  </bean>
  <bean id="resultComponentInfo.stateKey" parent="resultComponentInfo.stateKey-parent"/>
 
- <bean id="resultComponentInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-  <property name="name" value="type"/>
+ <bean id="resultComponentInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="resultComponentInfo.type" parent="resultComponentInfo.type-parent"/>
+ <bean id="resultComponentInfo.typeKey" parent="resultComponentInfo.typeKey-parent"/>
 
  <!-- CredentialInfo-->
  <bean id="org.kuali.student.r1.lum.lrc.dto.CredentialInfo-parent" abstract="true" parent="objectStructureDefinition">
@@ -75,7 +75,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
     <ref bean="credentialInfo.expirationDate"/>
     <ref bean="credentialInfo.id"/>
     <ref bean="credentialInfo.name"/>
-    <ref bean="credentialInfo.type"/>
+    <ref bean="credentialInfo.typeKey"/>
     <ref bean="credentialInfo.value"/>
    </list>
   </property>
@@ -108,10 +108,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  </bean>
  <bean id="credentialInfo.name" parent="credentialInfo.name-parent"/>
 
- <bean id="credentialInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-  <property name="name" value="type"/>
+ <bean id="credentialInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="credentialInfo.type" parent="credentialInfo.type-parent"/>
+ <bean id="credentialInfo.typeKey" parent="credentialInfo.typeKey-parent"/>
 
  <bean id="credentialInfo.value-parent" abstract="true" parent="baseString">
   <property name="name" value="value"/>
@@ -128,7 +128,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
     <ref bean="creditInfo.expirationDate"/>
     <ref bean="creditInfo.id"/>
     <ref bean="creditInfo.name"/>
-    <ref bean="creditInfo.type"/>
+    <ref bean="creditInfo.typeKey"/>
     <ref bean="creditInfo.value"/>
    </list>
   </property>
@@ -161,10 +161,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  </bean>
  <bean id="creditInfo.name" parent="creditInfo.name-parent"/>
 
- <bean id="creditInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-  <property name="name" value="type"/>
+ <bean id="creditInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="creditInfo.type" parent="creditInfo.type-parent"/>
+ <bean id="creditInfo.typeKey" parent="creditInfo.typeKey-parent"/>
 
  <bean id="creditInfo.value-parent" abstract="true" parent="baseString">
   <property name="name" value="value"/>
@@ -182,7 +182,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
     <ref bean="gradeInfo.name"/>
     <ref bean="gradeInfo.rank"/>
     <ref bean="gradeInfo.scaleKey"/>
-    <ref bean="gradeInfo.type"/>
+    <ref bean="gradeInfo.typeKey"/>
     <ref bean="gradeInfo.value"/>
    </list>
   </property>
@@ -219,10 +219,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  </bean>
  <bean id="gradeInfo.scaleKey" parent="gradeInfo.scaleKey-parent"/>
 
- <bean id="gradeInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-  <property name="name" value="type"/>
+ <bean id="gradeInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="gradeInfo.type" parent="gradeInfo.type-parent"/>
+ <bean id="gradeInfo.typeKey" parent="gradeInfo.typeKey-parent"/>
 
  <bean id="gradeInfo.value-parent" abstract="true" parent="baseString">
   <property name="name" value="value"/>
