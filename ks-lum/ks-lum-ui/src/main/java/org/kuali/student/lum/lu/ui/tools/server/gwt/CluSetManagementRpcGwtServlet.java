@@ -316,5 +316,32 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         	Collections.sort(result.getClus());
         return result;
     }
+
+	//TODO KSCM-392
+	@Deprecated
+	@Override
+	public CluSetInfo getCluSetInfo(String cluSetId)
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	//TODO KSCM-392
+	@Deprecated
+	@Override
+	public List<CluInformation> getCluInformation(List<String> cluIds)
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	//TODO KSCM-392
+	@Deprecated
+	@Override
+	public List<CluSetInfo> getCluSetInfos(List<String> cluSetIds)
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
