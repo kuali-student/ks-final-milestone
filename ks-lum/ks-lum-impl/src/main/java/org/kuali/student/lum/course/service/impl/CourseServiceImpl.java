@@ -82,7 +82,7 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseInfo> getCoursesByIds(@WebParam(name = "courseIds") List<String> courseIds,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM
+        // TODO KSCM-429
         return null; //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -90,7 +90,7 @@ public class CourseServiceImpl implements CourseService {
     public List<String> searchForCourseIds(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM
+        // TODO KSCM-429
         return null; //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -98,11 +98,11 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseInfo> searchForCourses(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM
+        // TODO KSCM-429
         return null; //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    // TODO KSCM Service Method Comparison Implementation
+    // TODO KSCM-429 Service Method Comparison Implementation
     @Override
     public List<FormatInfo> getCourseFormatsByCourse(@WebParam(name = "courseId") String courseId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
@@ -110,7 +110,7 @@ public class CourseServiceImpl implements CourseService {
         return this.getCourseFormats(courseId);
     }
 
-    // TODO KSCM Service Method Comparison Implementation
+    // TODO KSCM-429 Service Method Comparison Implementation
     @Override
     public List<ActivityInfo> getCourseActivitiesByCourseFormat(@WebParam(name = "formatId") String formatId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
@@ -118,7 +118,7 @@ public class CourseServiceImpl implements CourseService {
         return this.getCourseActivities(formatId);
     }
 
-    // TODO KSCM replaced implementation with ENR
+    // TODO KSCM-429 replaced implementation with ENR
     @Override
     public List<LoDisplayInfo> getCourseLearningObjectivesByCourse(@WebParam(name = "courseId") String courseId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
