@@ -44,6 +44,22 @@
 		</property>	
 	</bean>
 
+	<!-- Proposal definition for Retire Course *By Proposal*. KSCM-982 -->
+	<bean id="org.kuali.student.core.proposal.definition.RetireCourseProposalInfo"
+		parent="org.kuali.student.core.proposal.dto.ProposalInfo" >
+		<property name="name"
+			value="org.kuali.student.core.proposal.definition.CourseProposalInfo" />
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="retireCourseProposalInfo.otherComments" />
+				<ref bean="retireCourseProposalInfo.proposedRetirementRationale" />
+				<ref bean="retireCourseProposalInfo.proposedEndTerm" />
+				<ref bean="retireCourseProposalInfo.proposedLastTermOffered" />
+				<ref bean="retireCourseProposalInfo.proposedLastCourseCatalogYear" />	
+			</list>
+		</property>	
+	</bean>	
+
 	<!-- Proposal definition for Program Proposal. NOTE: There is no java class called ProgramProposalInfo -->
 	<bean id="org.kuali.student.core.proposal.definition.ProgramProposalInfo"
 		parent="org.kuali.student.core.proposal.dto.ProposalInfo" >
@@ -65,6 +81,41 @@
 		</property>	
 	</bean>
 
+    <!--  Retire Course By Proposal Fields (KSCM-982) -->
+	<bean id="retireCourseProposalInfo.otherComments-parent" abstract="true"
+		parent="baseKualiDescription">
+		<property name="name" value="otherComments" />
+	</bean>
+	<bean id="retireCourseProposalInfo.otherComments" parent="retireCourseProposalInfo.otherComments-parent" />
+
+	<bean id="retireCourseProposalInfo.proposedEndTerm-parent" abstract="true"
+		parent="proposalInfo.prevEndTerm-parent">
+		<property name="name" value="proposedEndTerm" />
+		<property name="minOccurs" value="1" />	
+	</bean>
+	<bean id="retireCourseProposalInfo.proposedEndTerm" parent="retireCourseProposalInfo.proposedEndTerm-parent" />
+	
+	<bean id="retireCourseProposalInfo.proposedLastTermOffered-parent" abstract="true"
+		parent="proposalInfo.prevEndTerm-parent">
+		<property name="name" value="proposedLastTermOffered" />
+	</bean>	
+	<bean id="retireCourseProposalInfo.proposedLastTermOffered" parent="retireCourseProposalInfo.proposedLastTermOffered-parent" />
+	
+	<bean id="retireCourseProposalInfo.proposedLastCourseCatalogYear-parent" abstract="true"
+		parent="proposalInfo.prevEndTerm-parent">
+		<property name="name" value="proposedLastCourseCatalogYear" />
+	</bean>
+	<bean id="retireCourseProposalInfo.proposedLastCourseCatalogYear" parent="retireCourseProposalInfo.proposedLastCourseCatalogYear-parent" />
+
+	<bean id ="retireCourseProposalInfo.proposedRetirementRationale-parent" abstract="true"
+		parent="proposalInfo.rationale-parent">
+		<property name="name" value="proposedRetirementRationale" />
+	</bean>
+	<bean id="retireCourseProposalInfo.proposedRetirementRationale" parent="retireCourseProposalInfo.proposedRetirementRationale-parent" />
+
+	
+	
+    <!-- Normal Proposal Fields -->
 	<bean id="proposalInfo.detailDesc-parent" abstract="true"
 		parent="baseKualiDescription">
 		<property name="name" value="detailDesc" />

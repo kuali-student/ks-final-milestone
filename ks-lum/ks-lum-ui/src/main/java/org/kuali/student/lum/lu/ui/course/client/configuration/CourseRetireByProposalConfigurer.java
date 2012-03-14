@@ -71,12 +71,14 @@ public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
     
     protected Section generateRetirementInfoSection(Section section) {
         addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUUIConstants.PROPOSAL_TITLE_LABEL_KEY));
-        addField(section, COURSE + "/" + RETIREMENT_RATIONALE,
+        addField(section, PROPOSAL_PATH + "/" + PROPOSED_RETIREMENT_RATIONALE, // MAKE NEW ONES
                 generateMessageInfo(LUUIConstants.RETIREMENT_RATIONALE_LABEL_KEY));
-        addReadOnlyField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
-        addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
-//        addField(section, COURSE + "/" + OTHER_COMMENTS,
-//                generateMessageInfo(LUUIConstants.OTHER_COMMENTS_LABEL_KEY));  // Should be different one ???????!!!!!!!!!!!
+        addReadOnlyField(section, PROPOSAL_PATH + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
+        addField(section, PROPOSAL_PATH + "/" + PROPOSED_END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
+        addField(section, PROPOSAL_PATH + "/" + PROPOSED_LAST_TERM_OFFERED, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
+        addField(section, PROPOSAL_PATH + "/" + PROPOSED_LAST_COURSE_CATALOG_YEAR, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
+        addField(section, PROPOSAL_PATH + "/" + OTHER_COMMENTS,
+                generateMessageInfo(LUUIConstants.OTHER_COMMENTS_LABEL_KEY));  // Should be different one ???????!!!!!!!!!!!
 
         return section;
     }

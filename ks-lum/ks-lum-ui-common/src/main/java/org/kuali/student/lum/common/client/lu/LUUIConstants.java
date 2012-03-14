@@ -319,7 +319,8 @@ public class LUUIConstants {
 	public static final String LAST_TERM_OFFERED_LABEL_KEY = "courseLastTermOffered";
 	public static final String LAST_PUBLICATION_YEAR_LABEL_KEY = "coursePublicationYear";
 	public static final String SPECIAL_CIRCUMSTANCES_LABEL_KEY = "courseSpecialCircumstances";
-	    
+	public static final String OTHER_COMMENTS_LABEL_KEY = "courseOtherComments";
+		    
 
 }
 

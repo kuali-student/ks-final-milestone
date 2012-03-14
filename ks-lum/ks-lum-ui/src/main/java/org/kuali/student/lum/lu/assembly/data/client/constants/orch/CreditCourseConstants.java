@@ -76,5 +76,12 @@ public interface CreditCourseConstants
 	public static final String VERSION_SEQ_NUMBER = "sequenceNumber";
 	public static final String VERSION_IND_ID = "versionIndId";
 	public static final String _RUNTIME_DATA = "_runtimeData";
+	// Course Retire by Proposal KSLAB-2583
+	public static final String OTHER_COMMENTS = "otherComments";
+	public static final String PROPOSED_END_TERM = "proposedEndTerm";
+	public static final String PROPOSED_RETIREMENT_RATIONALE = "proposedRetirementRationale";
+	public static final String PROPOSED_LAST_TERM_OFFERED = "proposedLastTermOffered";
+	public static final String PROPOSED_LAST_COURSE_CATALOG_YEAR = "proposedLastCourseCatalogYear";
+	
 }
 

@@ -362,15 +362,11 @@ public class CourseWorkflowActionList extends StylishDropDown {
 			}        	
         });
               
+        if(isCurrentVersion){
         layout.add(radioOptionAdminRetire);
     	layout.add(radioOptionRetireByProposal);
-    	//FIXME isCurrentVersion is becoming corrupted or something when Modify course proposal is clicked once.
-    	// Put this back in after troubleshooting.
-    	
-   /*     if(isCurrentVersion){
-        	layout.add(radioOptionRetireByProposal);
         }
-        */
+        
         
         retireDialog.setWidget(layout);
         retireDialog.show();
