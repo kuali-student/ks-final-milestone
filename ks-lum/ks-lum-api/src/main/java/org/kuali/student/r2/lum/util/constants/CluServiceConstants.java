@@ -28,7 +28,7 @@ public class CluServiceConstants {
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "clu";
     public static final String REF_OBJECT_URI_CLU = NAMESPACE + "/" + CluInfo.class.getSimpleName();
     
-    // TODO KSCM COnfrim it's ok to copy these from CM-1.2.2
+    // TODO KSCM-429 COnfrim it's ok to copy these from CM-1.2.2
     public static final String LU_NAMESPACE = "http://student.kuali.org/wsdl/lu";
     public static final String CLU_NAMESPACE_URI = "{" + LU_NAMESPACE + "}cluInfo";
 }
