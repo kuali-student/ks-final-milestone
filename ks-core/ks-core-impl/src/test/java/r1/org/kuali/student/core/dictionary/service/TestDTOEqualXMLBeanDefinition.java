@@ -10,9 +10,15 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.TagInfo;
+import org.kuali.student.r2.core.document.dto.DocumentBinaryInfo;
+import org.kuali.student.r2.core.document.dto.DocumentCategoryInfo;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
@@ -52,7 +58,8 @@ public class TestDTOEqualXMLBeanDefinition {
 		System.out.println("testing statement dictionary");
 
 		Set<String> startingClasses = new LinkedHashSet();
-	
+		startingClasses.add(MilestoneInfo.class.getName());	
+		startingClasses.add(AtpAtpRelationInfo.class.getName());
 		startingClasses.add(AtpInfo.class.getName());
 		String contextFile = "ks-atp-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
@@ -67,6 +74,27 @@ public class TestDTOEqualXMLBeanDefinition {
 	}
 	
 	@Test
+	public void testDocumentDTOsAgainstDataDictionary() {
+		System.out.println("testing statement dictionary");
+
+		Set<String> startingClasses = new LinkedHashSet();
+		startingClasses.add(DocumentBinaryInfo.class.getName());
+		startingClasses.add(DocumentCategoryInfo.class.getName());
+		startingClasses.add(DocumentInfo.class.getName());
+		startingClasses.add(RefDocRelationInfo.class.getName());
+		String contextFile = "ks-document-dictionary-context";
+		String outFile = "target/" + contextFile + ".txt";
+		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
+				outFile, startingClasses, contextFile + ".xml", false);
+		helper.setPrintDescrepenciesOnly(true);
+		List<String> errors = helper.doTest();
+		if (errors.size() > 0) {
+			fail("failed dictionary validation:\n" + formatAsString(errors));
+		}
+
+	}
+	
+	//@Test
 	public void testCommentDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 
