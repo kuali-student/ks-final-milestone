@@ -161,7 +161,7 @@ public abstract class AbstractDataService implements DataService{
 			}
 			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
 				LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
-				result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
+				result = getPermissionService().isAuthorizedByTemplate(user, namespaceCode, permissionTemplateName, null, roleQuals);
 			}
 			else {
 				LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");

@@ -11,14 +11,13 @@ import org.kuali.student.r2.common.infc.Attribute;
 @Entity
 @Table(name = "KSEN_MSTONE_ATTR")
 public class MilestoneAttributeEntity extends BaseAttributeEntity<MilestoneEntity> {
-    
+
     @ManyToOne
     @JoinColumn(name = "OWNER")
     private MilestoneEntity owner;
 
-    public MilestoneAttributeEntity () {
-    }
-    
+    public MilestoneAttributeEntity() {}
+
     public MilestoneAttributeEntity(String key, String value) {
         super(key, value);
     }
@@ -31,7 +30,7 @@ public class MilestoneAttributeEntity extends BaseAttributeEntity<MilestoneEntit
     @Override
     public void setOwner(MilestoneEntity owner) {
         this.owner = owner;
-        
+
     }
 
     @Override

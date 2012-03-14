@@ -86,13 +86,11 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
      */
 
 	protected boolean isAuthorized(String principal, String permissionName, String qualifier) {
-		Map<String, String> permissionDetails = null;
 		Map<String, String> qualifierDetails = new HashMap<String,String>();
 		qualifierDetails.put("qualifierKey", qualifier);
 		return this.permissionService.isAuthorized(principal,
 				ENRLLMENT_NAMESPACE,
 				permissionName,
-				permissionDetails,
 				qualifierDetails);
 	}
 

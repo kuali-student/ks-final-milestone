@@ -1,10 +1,11 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
+import javax.jws.WebParam;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.Days;
 import org.joda.time.Period;
 import org.joda.time.Weeks;
-import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -21,7 +22,6 @@ import org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalenda
 import org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.r2.common.assembler.AssemblyException;
-import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
@@ -42,8 +42,6 @@ import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
-import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
@@ -74,7 +72,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private HolidayAssembler holidayAssembler;
     private KeyDateAssembler keyDateAssembler;
     private AcalEventAssembler acalEventAssembler;
-    private CriteriaLookupService criteriaLookupService;
 
     public AcalEventAssembler getAcalEventAssembler() {
         return acalEventAssembler;
@@ -131,14 +128,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public void setStateService(StateService stateService) {
         this.stateService = stateService;
     }
-    
-    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
-        this.criteriaLookupService = criteriaLookupService;
-    }
-
-    public CriteriaLookupService getCriteriaLookupService() {
-        return criteriaLookupService;
-    }
 
     @Override
     public TypeInfo getAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -160,10 +149,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return null;
     }
 
+    private List<StateInfo> getAtpStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<StateInfo> results;
+        try {
+            results = stateService.getStatesByLifecycle(AtpServiceConstants.ATP_PROCESS_KEY, context);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException(AtpServiceConstants.ATP_PROCESS_KEY, ex);
+        }
+
+        return results;
+    }
+
     @Override
-    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<StateInfo>();
+    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getAtpStates(context);
     }
 
     @Override
@@ -388,6 +387,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             throw new OperationFailedException("Error creating holiday calendar.", e);
         }
         return newHolidayCalendar;
+    }
+
+    @Override
+    public HolidayCalendarInfo copyHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -1006,6 +1010,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    @Transactional
     public KeyDateInfo updateKeyDate(String keyDateId, KeyDateInfo keyDateInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
@@ -1035,12 +1040,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException, PermissionDeniedException {
+        TypeInfo type = typeService.getType(holidayTypeKey, context);
+
+
+        if (!checkTypeForHolidayType(holidayTypeKey, context)) {
+            throw new InvalidParameterException(holidayTypeKey + " is not a Holiday type");
+        }
+
+        return type;
     }
 
     @Override
+    @Transactional
     public HolidayInfo updateHoliday(String holidayId, HolidayInfo holidayInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
@@ -1276,16 +1289,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<AcademicCalendarInfo> searchForAcademicCalendars(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         
-        GenericQueryResults<AtpEntity> results = criteriaLookupService.lookup(AtpEntity.class, criteria);
-        List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>(results.getResults().size());
+        List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
+        List<AtpInfo> atps = atpService.searchForAtps(criteria, context);
         
-        if (null != results && results.getResults().size() > 0) {
-            for (AtpEntity atp : results.getResults()) {
-                try {
-                    academicCalendars.add(acalAssembler.assemble(atp.toDto(), context));
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
-                }
+        for (AtpInfo atp : atps) {
+            try {
+                academicCalendars.add(acalAssembler.assemble(atp, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
             }
         }
         
@@ -1296,16 +1307,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         
-        GenericQueryResults<AtpEntity> results = criteriaLookupService.lookup(AtpEntity.class, criteria);
-        List<TermInfo> terms = new ArrayList<TermInfo>(results.getResults().size());
-        
-        if (null != results && results.getResults().size() > 0) {
-            for (AtpEntity atp : results.getResults()) {
-                try {
-                    terms.add(termAssembler.assemble(atp.toDto(), context));
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
-                }
+        List<AtpInfo> results = atpService.searchForAtps(criteria, context);
+        List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
+
+        for (AtpInfo atp : results) {
+            try {
+                terms.add(termAssembler.assemble(atp, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
             }
         }
 
@@ -1323,17 +1332,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<HolidayInfo> searchForHolidays(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         
-        GenericQueryResults<MilestoneEntity> results = criteriaLookupService.lookup(MilestoneEntity.class, criteria);
-        List<HolidayInfo> holidayInfos = new ArrayList<HolidayInfo>(results.getResults().size());
-        
-        if (null != results && results.getResults().size() > 0) {
-            for (MilestoneEntity milestone : results.getResults()) {
-                MilestoneInfo milestoneInfo = milestone.toDto();
-                try {
-                    holidayInfos.add(holidayAssembler.assemble(milestoneInfo, context));
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("Error assembling holiday with Id " + milestoneInfo.getId(), e);
-                }
+        List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(criteria, context);
+        List<HolidayInfo> holidayInfos = new ArrayList<HolidayInfo>();
+
+        for (MilestoneInfo milestoneInfo : milestoneInfos) {
+            try {
+                holidayInfos.add(holidayAssembler.assemble(milestoneInfo, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("Error assembling holiday with Id " + milestoneInfo.getId(), e);
             }
         }
         
@@ -1342,10 +1348,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     private boolean checkTypeForTermType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeInfo> types = getTermTypes(context);
+        return checkTypeInTypes(typeKey, types);
+    }
 
-        for (TypeInfo type : types) {
-            if (type.getKey().equals(typeKey)) {
-                return true;
+    private boolean checkTypeForHolidayType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<TypeInfo> types = getHolidayTypes(context);
+        return checkTypeInTypes(typeKey, types);
+    }
+
+    private boolean checkTypeInTypes(String typeKey, List<TypeInfo> types){
+        if(types != null && !types.isEmpty()){
+            for (TypeInfo type : types) {
+                if (type.getKey().equals(typeKey)) {
+                    return true;
+                }
             }
         }
 
@@ -1453,8 +1469,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public TypeInfo getHolidayCalendarType(String holidayCalendarTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        TypeInfo type;
+        try{
+            type = typeService.getType(holidayCalendarTypeKey, contextInfo);
+        }catch (PermissionDeniedException ex){
+            throw new OperationFailedException("Permission Denied");
+        }
+
+        return type;
+
     }
 
     @Override
@@ -1464,16 +1487,16 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public StateInfo getHolidayCalendarState(String holidayCalendarStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StateInfo getHolidayCalendarState(String holidayCalendarStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException,
             OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        StateInfo hcState = stateService.getState(holidayCalendarStateKey, contextInfo);
+
+        return hcState;
     }
 
     @Override
-    public List<StateInfo> getHolidayCalendarStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<StateInfo> getHolidayCalendarStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getAtpStates(contextInfo);
     }
 
     @Override
@@ -1487,7 +1510,35 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<HolidayCalendarInfo> getHolidayCalendarsByStartYear(Integer year, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        //return null;
+        final Date yearBegin, yearEnd;
+
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(year, 0, 1);
+        yearBegin = cal.getTime(); // XXXX-01-01 00:00:00.000
+        cal.add(Calendar.YEAR, 1);
+        cal.add(Calendar.MILLISECOND, -1);
+        yearEnd = cal.getTime(); // XXXX-12-31 23:59:59.999
+
+        Set<AtpInfo> atpInfos = new TreeSet<AtpInfo>(new Comparator<AtpInfo>() {
+            @Override
+            public int compare(AtpInfo atpInfo1, AtpInfo atpInfo2) {
+                return atpInfo1.getId().compareTo(atpInfo2.getId());
+            }
+        });
+
+        atpInfos.addAll(atpService.getAtpsByStartDateRangeAndType(yearBegin, yearEnd, AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY, contextInfo));
+
+        List<HolidayCalendarInfo> hcalInfos = new ArrayList<HolidayCalendarInfo>();
+        for (AtpInfo atpInfo : atpInfos) {
+            try {
+                hcalInfos.add(holidayCalendarAssembler.assemble(atpInfo, contextInfo));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+        }
+        return hcalInfos;
     }
 
     @Override
@@ -1498,10 +1549,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<HolidayCalendarInfo> searchForHolidayCalendars(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<HolidayCalendarInfo> searchForHolidayCalendars(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<HolidayCalendarInfo> holidayCalendars = new ArrayList<HolidayCalendarInfo>();
+        List<AtpInfo> atps = atpService.searchForAtps(criteria, contextInfo);
+
+        for (AtpInfo atp : atps) {
+            try {
+                holidayCalendars.add(holidayCalendarAssembler.assemble(atp, contextInfo));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+        }
+
+        return holidayCalendars;
     }
 
     @Override
@@ -1576,6 +1637,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    @Transactional
     public KeyDateInfo createKeyDate(String termId, String keyDateTypeKey, KeyDateInfo keyDateInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         KeyDateInfo newKeyDateInfo = null;
@@ -1619,8 +1681,32 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<TypeInfo> getAcalEventTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getAcalEventTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        List<TypeTypeRelationInfo> relations = null;
+
+        try {
+            //MILESTONE_EVENT_GROUPING_TYPE_KEY = "kuali.milestone.type.group.event";
+            //TYPE_TYPE_RELATION_GROUP_TYPE_KEY = "kuali.type.type.relation.type.group";
+            relations = typeService.getTypeTypeRelationsByOwnerType(AtpServiceConstants.MILESTONE_EVENT_GROUPING_TYPE_KEY,
+                    TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        }
+
+        if (relations != null) {
+            List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
+            for (TypeTypeRelationInfo rel : relations) {
+                try {
+                    results.add(typeService.getType(rel.getRelatedTypeKey(), contextInfo));
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException(e.getMessage(), e);
+                }
+            }
+
+            return results;
+        }
+
         return null;
     }
 
@@ -1737,20 +1823,17 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<AcalEventInfo> searchForAcalEvents(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         
-        GenericQueryResults<MilestoneEntity> results = criteriaLookupService.lookup(MilestoneEntity.class, criteria);
-        List<AcalEventInfo> acalEventInfos = new ArrayList<AcalEventInfo>(results.getResults().size());
+        List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(criteria, contextInfo);
+        List<AcalEventInfo> acalEventInfos = new ArrayList<AcalEventInfo>();
 
-        if (null != results && results.getResults().size() > 0) {
-            for (MilestoneEntity milestone : results.getResults()) {
-                MilestoneInfo milestoneInfo = milestone.toDto();
-                try {
-                    acalEventInfos.add(acalEventAssembler.assemble(milestoneInfo, contextInfo));
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("Error assembling AcalEvent " + milestoneInfo.getId(), e);
-                }
+        for (MilestoneInfo milestoneInfo : milestoneInfos) {
+            try {
+                acalEventInfos.add(acalEventAssembler.assemble(milestoneInfo, contextInfo));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("Error assembling AcalEvent", e);
             }
         }
-
+        
         return acalEventInfos;
     }
 
@@ -1762,6 +1845,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    @Transactional
     public AcalEventInfo createAcalEvent(String academicCalendarId, String acalEventTypeKey, AcalEventInfo acalEventInfo, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
@@ -1785,6 +1869,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    @Transactional
     public AcalEventInfo updateAcalEvent(String acalEventId, AcalEventInfo acalEventInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
@@ -1805,6 +1890,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    @Transactional
     public StatusInfo deleteAcalEvent(String acalEventId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         MilestoneInfo existingMilestone = atpService.getMilestone(acalEventId, contextInfo);
@@ -1826,10 +1912,33 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<TypeInfo> getHolidayTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+    public List<TypeInfo> getHolidayTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        List<TypeTypeRelationInfo> relations = null;
+
+        try {
+            relations = typeService.getTypeTypeRelationsByOwnerType(AtpServiceConstants.MILESTONE_HOLIDAY_GROUPING_TYPE_KEY,
+                            TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        }
+
+        if (relations != null) {
+            List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
+            for (TypeTypeRelationInfo rel : relations) {
+                try {
+                    results.add(typeService.getType(rel.getRelatedTypeKey(), contextInfo));
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException(e.getMessage(), e);
+                }
+            }
+
+            return results;
+        }
+
         return null;
     }
+
 
     @Override
     public List<TypeInfo> getHolidayTypesForHolidayCalendarType(String holidayCalendarTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
@@ -1839,15 +1948,23 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public StateInfo getHolidayState(String holidayStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public StateInfo getHolidayState(String holidayStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StateInfo holidayState = stateService.getState(holidayStateKey, contextInfo);
+
+        return holidayState;
     }
 
     @Override
-    public List<StateInfo> getHolidayStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<StateInfo> getHolidayStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<StateInfo> results;
+        try {
+            results = stateService.getStatesByLifecycle(AtpServiceConstants.MILESTONE_PROCESS_KEY, contextInfo);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException(AtpServiceConstants.MILESTONE_PROCESS_KEY, ex);
+        }
+
+        return results;
+
     }
 
     @Override
@@ -1946,6 +2063,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    @Transactional
     public HolidayInfo createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayInfo holidayInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         HolidayInfo newHolidayInfo = null;
@@ -2051,7 +2169,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         for (AtpAtpRelationInfo atpRelationForTerm : atpAtpRelationsForTerm) {
             if (atpRelationForTerm.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY)) {
                 try {
-                    AtpInfo acalAtp = this.atpService.getAtp(atpRelationForTerm.getRelatedAtpId(), contextInfo);
+                    AtpInfo acalAtp = this.atpService.getAtp(atpRelationForTerm.getAtpId(), contextInfo);
                     if (acalAtp.getTypeKey().equals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY))
                         academicCalendars.add(this.acalAssembler.assemble(acalAtp, contextInfo));
                 } catch (AssemblyException e) {

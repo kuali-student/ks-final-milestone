@@ -255,7 +255,7 @@
 		<property name="interfaceClass" value="org.kuali.rice.kim.service.PermissionService" />
 		<property name="methodReturnMap">
 			<map>
-				<entry key="isAuthorizedByTemplateName">
+				<entry key="isAuthorizedByTemplate">
 					<bean class="java.lang.Boolean">
 						<constructor-arg value="true"/>
 					</bean>

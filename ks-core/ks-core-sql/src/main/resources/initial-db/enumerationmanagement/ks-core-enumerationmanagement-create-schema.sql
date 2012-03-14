@@ -86,8 +86,6 @@ CREATE TABLE KSEM_ENUM_T
         , EXPIR_DT TIMESTAMP
         , NAME VARCHAR2(255)
         , OBJ_ID VARCHAR2(36)
-        , ENUM_STATE VARCHAR2(36)
-        , ENUM_TYPE(36)
         , VER_NBR NUMBER(19)
     
 

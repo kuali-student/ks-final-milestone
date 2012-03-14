@@ -65,7 +65,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             	  p:allowWhitespace="false" />
     	</property>
     	<property name="controlField">
-      		<bean parent="TextControl" p:size="42"/>
+      		<bean parent="Uif-TextControl" p:size="42"/>
     	</property> 
     </bean>
 
@@ -76,7 +76,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Name" />
         <property name="required" value="false"/>
         <property name="controlField">
-      		<bean parent="TextControl" p:size="42"/>
+      		<bean parent="Uif-TextControl" p:size="42"/>
     	</property>
     	<property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern"
@@ -91,7 +91,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Organization ID"/>
         <property name="required" value="true"/>   	
     	<property name="controlField">
-      		<bean parent="TextControl" p:size="42"/>
+      		<bean parent="Uif-TextControl" p:size="42"/>
     	</property>
     	<property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern"

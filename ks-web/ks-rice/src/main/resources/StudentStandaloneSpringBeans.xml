@@ -48,17 +48,6 @@
           p:businessObjectService-ref="businessObjectService"
           p:criteriaLookupService-ref="criteriaLookupService" />
 
-	<bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-		<property name="remotedServiceRegistry" ref="rice.ksb.serviceBus" />
-		<property name="serviceDefinition">
-			<bean parent="kimSoapService" p:service-ref="kimPermissionService"
-				p:localServiceName="kimPermissionService">
-				<property name="busSecurity" value="${ks.core.bus.security}" />
-				<property name="jaxWsService" value="true" />
-			</bean>
-		</property>
-	</bean>
-
     <!-- TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release -->
 	<bean id="ks.exp.kimIdentityManagementService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="remotedServiceRegistry" ref="rice.ksb.serviceBus" />
@@ -152,12 +141,12 @@
         <property name="checkFutureRequests" value="false" />
     </bean>    
 
-    <bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl">
+    <bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl">
         <property name="permissionTemplateNamespace" value="KS-SYS" />
         <property name="permissionTemplateName" value="Comment on Document" />
     </bean>
 
-    <bean id="ksEditDocumentRoleTypeService" class="org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl">
+    <bean id="ksEditDocumentRoleTypeService" class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl">
         <property name="permissionTemplateNamespace" value="KS-SYS" />
         <property name="permissionTemplateName" value="Edit Document" />
     </bean>

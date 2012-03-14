@@ -28,18 +28,6 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="atpTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-    
-    <bean id="atpStateDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpStateDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-    
-    <bean id="atpRichTextDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-    
    <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
@@ -152,28 +140,32 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="processDao" class="org.kuali.student.r2.core.process.dao.ProcessDao">
+    <bean id="processDao" class="org.kuali.student.r2.core.class1.process.dao.ProcessDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="instructionDao" class="org.kuali.student.r2.core.process.dao.InstructionDao">
+    <bean id="instructionDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="checkDao" class="org.kuali.student.r2.core.process.dao.CheckDao">
+    <bean id="checkDao" class="org.kuali.student.r2.core.class1.process.dao.CheckDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="checkTypeDao" class="org.kuali.student.r2.core.process.dao.CheckTypeDao">
+    <bean id="checkTypeDao" class="org.kuali.student.r2.core.class1.process.dao.CheckTypeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="instructionTypeDao" class="org.kuali.student.r2.core.process.dao.InstructionTypeDao">
+    <bean id="instructionTypeDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionTypeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="processTypeDao" class="org.kuali.student.r2.core.process.dao.ProcessTypeDao">
+    <bean id="processTypeDao" class="org.kuali.student.r2.core.class1.process.dao.ProcessTypeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
+
+    <bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+    	<property name="entityManager" ref="enrollEntityManager"/>
+  	</bean>
 
 </beans>

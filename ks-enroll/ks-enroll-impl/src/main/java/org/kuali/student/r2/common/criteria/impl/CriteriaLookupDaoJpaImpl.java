@@ -202,7 +202,7 @@ public class CriteriaLookupDaoJpaImpl {
             parent.lt(pp, value);
         } else if (p instanceof LikePredicate) {
             //no need to convert * or ? since ojb handles the conversion/escaping
-            parent.like(pp, value);
+            parent.like(genUpperFunc(pp), ((String) value).toUpperCase());
         } else if (p instanceof NotEqualPredicate) {
             parent.ne(pp, value);
         } else if (p instanceof NotEqualIgnoreCasePredicate) {

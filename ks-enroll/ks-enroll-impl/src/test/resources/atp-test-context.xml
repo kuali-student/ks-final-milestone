@@ -23,6 +23,7 @@
     <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
 	<import resource="classpath:search-test-context.xml"/>
+	
 	    <!--  Preloaded data -->
     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
@@ -104,13 +105,9 @@
     
     <bean id="atpServiceImpl" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
 	  	<property name="atpDao" ref="atpDao"/>
-	  	<property name="atpTypeDao" ref="atpTypeDao"/>
-	  	<property name="atpStateDao" ref="atpStateDao"/>
-	  	<property name="atpRichTextDao" ref="atpRichTextDao"/>
 	  	<property name="atpRelDao" ref="atpAtpRelationDao"/>
 	  	<property name="milestoneDao" ref="milestoneDao"/>
 	  	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
-    	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     	<property name="stateService" ref="stateService"/>
         <property name="typeService" ref="typeService" />
     	<property name="dataDictionaryService" ref="dataDictionaryServiceForAtp"/>
@@ -137,18 +134,6 @@
     </bean>
 
    <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-    
-    <bean id="atpTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-    
-    <bean id="atpStateDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpStateDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-    
-    <bean id="atpRichTextDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao">
         <property name="em" ref="entityManager"/>
     </bean>
     

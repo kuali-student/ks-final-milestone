@@ -44,7 +44,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHold", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHold", null)) {
             return getNextDecorator().getHold(holdId, context);
         } else {
             throw new PermissionDeniedException();
@@ -57,7 +57,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHoldsByIssue", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHoldsByIssue", null)) {
             return getNextDecorator().getHoldsByIssue(issueId, context);
         } else {
             throw new PermissionDeniedException();
@@ -71,7 +71,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHoldIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHoldIds", null)) {
             return getNextDecorator().searchForHoldIds(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -85,7 +85,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHolds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHolds", null)) {
             return getNextDecorator().searchForHolds(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -99,7 +99,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateHold", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateHold", null)) {
             return getNextDecorator().validateHold(validationTypeKey, holdInfo, context);
         } else {
             throw new OperationFailedException("Permission Denied.");
@@ -113,7 +113,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createHold", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createHold", null)) {
             return getNextDecorator().createHold(holdInfo, context);
         } else {
             throw new PermissionDeniedException();
@@ -127,7 +127,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateHold", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateHold", null)) {
             return getNextDecorator().updateHold(holdId, holdInfo, context);
         } else {
             throw new PermissionDeniedException();
@@ -141,7 +141,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "releaseHold", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "releaseHold", null)) {
             return getNextDecorator().releaseHold(holdId, context);
         } else {
             throw new PermissionDeniedException();
@@ -155,7 +155,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteHold", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteHold", null)) {
             return getNextDecorator().deleteHold(holdId, context);
         } else {
             throw new PermissionDeniedException();
@@ -169,7 +169,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getIssue", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getIssue", null)) {
             return getNextDecorator().getIssue(issueId, context);
         } else {
             throw new PermissionDeniedException();
@@ -182,7 +182,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getIssuesByOrg", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getIssuesByOrg", null)) {
             return getNextDecorator().getIssuesByOrg(organizationId, context);
         } else {
             throw new PermissionDeniedException();
@@ -196,7 +196,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForIssues", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForIssues", null)) {
             return getNextDecorator().searchForIssues(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -210,7 +210,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateIssue", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateIssue", null)) {
             return getNextDecorator().validateIssue(validationTypeKey, issueInfo, context);
         } else {
             throw new OperationFailedException("Permission Denied.");
@@ -224,7 +224,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createIssue", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createIssue", null)) {
             return getNextDecorator().createIssue(issueInfo, context);
         } else {
             throw new PermissionDeniedException();
@@ -238,7 +238,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateIssue", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateIssue", null)) {
             return getNextDecorator().updateIssue(issueId, issueInfo, context);
         } else {
             throw new PermissionDeniedException();
@@ -252,7 +252,7 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteIssue", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteIssue", null)) {
             return getNextDecorator().deleteIssue(issueId, context);
         } else {
             throw new PermissionDeniedException();

@@ -113,7 +113,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                     return students;
                 }
 
-                List<GradeRosterEntryInfo> entryInfos = getGradingService().getGradeRosterEntriesByIds(rosterInfo.getGradeRosterEntryIds(), context);
+                List<GradeRosterEntryInfo> entryInfos = getGradingService().getGradeRosterEntriesByIdList(rosterInfo.getGradeRosterEntryIds(), context);
 
                 if (!entryInfos.isEmpty() && entryInfos.get(0).getValidGradeGroupKeys().isEmpty()){
                     GlobalVariables.getMessageMap().putWarning("selectedGrade",GradingConstants.WARNING_GRADING_OPTIONS_NOT_FOUND,"test");
@@ -254,19 +254,20 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
         form.setSelectedTerm(term.getName());
 
-//        List<CourseOfferingInfo> courseOfferingInfoList = new ArrayList<CourseOfferingInfo>();
+        List<CourseOfferingInfo> courseOfferingInfoList = new ArrayList<CourseOfferingInfo>();
 
         try{
-            List<CourseOfferingInfo> cos = getCOService().getCourseOfferingsByTermAndInstructor(term.getId(), context.getPrincipalId(), context);
+            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getId(), context.getPrincipalId(), context);
 
-            if (cos == null || cos.isEmpty()){
+            if (coIds == null || coIds.isEmpty()){
                 GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_COURSE_NOT_FOUND_TO_GRADE,term.getName());
                 return;
             }
 
             form.setCourseOfferingInfoList(new ArrayList<CourseOfferingInfo>());
-            if (!cos.isEmpty()){
-                for (CourseOfferingInfo co : cos) {
+            if (!coIds.isEmpty()){
+                courseOfferingInfoList = getCOService().getCourseOfferingsByIdList(coIds, context);
+                for (CourseOfferingInfo co : courseOfferingInfoList) {
                     if (StringUtils.equals(co.getStateKey(), LuiServiceConstants.LUI_OFFERED_STATE_KEY) &&
                         StringUtils.equals(co.getTypeKey(),LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)){
                         form.getCourseOfferingInfoList().add(co);

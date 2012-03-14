@@ -16,6 +16,7 @@
 package org.kuali.student.r2.core.enumerationmanagement.infc;
 
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
+import org.kuali.student.r2.common.infc.HasMeta;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ import java.util.List;
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface EnumeratedValue extends HasEffectiveDates {
+public interface EnumeratedValue extends HasEffectiveDates, HasMeta {
     /**
      * Typically coincides with a code representation. Likely the key if this is
      * a reference to another object.

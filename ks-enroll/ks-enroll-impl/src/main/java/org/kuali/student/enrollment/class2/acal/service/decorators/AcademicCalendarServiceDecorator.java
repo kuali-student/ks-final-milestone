@@ -11,6 +11,9 @@
 
 package org.kuali.student.enrollment.class2.acal.service.decorators;
 
+import java.util.Date;
+import java.util.List;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
@@ -35,8 +38,7 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
-import java.util.Date;
-import java.util.List;
+import javax.jws.WebParam;
 
 public class AcademicCalendarServiceDecorator implements AcademicCalendarService {
 
@@ -226,6 +228,11 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     public HolidayCalendarInfo createHolidayCalendar(String holidayCalendarTypeKey, HolidayCalendarInfo holidayCalendarInfo, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return (getNextDecorator().createHolidayCalendar(holidayCalendarTypeKey, holidayCalendarInfo, contextInfo));
+    }
+
+    @Override
+    public HolidayCalendarInfo copyHolidayCalendar(String holidayCalendarId, Date startDate, Date endDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return (getNextDecorator().copyHolidayCalendar(holidayCalendarId,startDate,endDate,contextInfo));
     }
 
     @Override

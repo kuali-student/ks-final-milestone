@@ -18,6 +18,7 @@
   <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
   <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
   <import resource="classpath:search-test-context.xml"/>
+
   <!-- Preloaded data -->
   <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
     <property name="jtaTxManager" ref="JtaTxManager" />
@@ -91,9 +92,6 @@
 
   <bean id="atpServiceImpl" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     <property name="atpDao" ref="atpDao" />
-    <property name="atpTypeDao" ref="atpTypeDao" />
-    <property name="atpStateDao" ref="atpStateDao" />
-    <property name="atpRichTextDao" ref="atpRichTextDao" />
     <property name="atpRelDao" ref="atpAtpRelationDao" />
     <property name="milestoneDao" ref="milestoneDao" />
     <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
@@ -113,7 +111,6 @@
     <property name="keyDateAssembler" ref="keyDateAssembler" />
     <property name="acalEventAssembler" ref="acalEventAssembler" />
     <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
-    <property name="criteriaLookupService" ref="acalCriteriaLookupService"/>
   </bean>
 
   <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
@@ -159,22 +156,11 @@
   </bean>
 
     <bean id="acalServiceCalculation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
+        <property name="atpService" ref="atpServiceAuthorization"/>
         <property name="nextDecorator" ref="acalService" />
     </bean>
 
   <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
-    <property name="em" ref="entityManager" />
-  </bean>
-
-  <bean id="atpTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao">
-    <property name="em" ref="entityManager" />
-  </bean>
-
-  <bean id="atpStateDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpStateDao">
-    <property name="em" ref="entityManager" />
-  </bean>
-
-  <bean id="atpRichTextDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao">
     <property name="em" ref="entityManager" />
   </bean>
 

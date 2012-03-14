@@ -42,6 +42,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lui-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
@@ -229,6 +236,7 @@ public class TestLuiServiceImpl {
         LuiInfo created = null;
         created = luiServiceValidation.createLui("testCluId", "testAtpId1", info, callContext);
         assertNotNull(created);
+        assertNull("official identifier was non-null after creation even though it was never set intentionally", created.getOfficialIdentifier());
         assertEquals("Test lui one", created.getName());
         assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, created.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, created.getTypeKey());

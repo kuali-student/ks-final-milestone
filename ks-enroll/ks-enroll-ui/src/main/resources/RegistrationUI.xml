@@ -20,6 +20,17 @@
     -->
 
     <bean id="ks_studentFacing_registrationView" parent="KSFormView">
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>/ks-enroll/css/registration.css</value>
+                <value>/ks-enroll/css/schedule.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>/ks-enroll/scripts/schedule-plugin.js</value>
+            </list>
+        </property>
         <property name="id" value="studentRegistrationView"/>
         <property name="title" value="Registration"/>
         <property name="entryPageId" value="termSelectionPage"/>
@@ -27,11 +38,11 @@
         <property name="viewHelperServiceClassName"
                   value="org.kuali.student.enrollment.class2.registration.service.RegistrationViewHelperServiceImpl"/>
         <property name="footer">
-            <bean parent="Footer"/>
+            <bean parent="Uif-FooterBase"/>
         </property>
         <property name="items">
             <list>
-                <bean parent="Page" p:id="termSelectionPage">
+                <bean parent="Uif-Page" p:id="termSelectionPage">
                     <property name="items">
                         <list>
                             <ref bean="termSelector"/>
@@ -39,7 +50,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Page" p:id="registrationPage">
+                <bean parent="Uif-Page" p:id="registrationPage">
                     <property name="items">
                         <list>
                             <ref bean="registration_grid_layout"/>
@@ -51,13 +62,13 @@
         <property name="formClass" value="org.kuali.student.enrollment.class2.registration.form.RegistrationForm"/>
     </bean>
 
-    <bean id="termSelector" parent="GroupGridLayout">
+    <bean id="termSelector" parent="Uif-GridSection">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="InputField_Form" p:propertyName="termId" p:label="Select Term" p:required="true">
+                <bean parent="Uif-InputField" p:propertyName="termId" p:label="Select Term" p:required="true">
                     <property name="control">
-                        <bean parent="SelectControl"/>
+                        <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
@@ -66,16 +77,16 @@
             </list>
         </property>
     </bean>
-    <bean id="Registration_Footer_termSelectionPage" parent="Footer">
+    <bean id="Registration_Footer_termSelectionPage" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean parent="ActionField_Secondary" p:methodToCall="showRegistration"
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="showRegistration"
                       p:actionLabel="Show Registration"/>
             </list>
         </property>
     </bean>
 
-    <bean id="registration_grid_layout" parent="GroupGridLayout">
+    <bean id="registration_grid_layout" parent="Uif-GridSection">
         <property name="disclosure.render" value="false"/>
         <property name="layoutManager.numberOfColumns" value="10"/>
         <property name="layoutManager.renderAlternatingHeaderColumns" value="false"/>
@@ -87,7 +98,7 @@
         </property>
     </bean>
 
-    <bean id="registration_search_panel" parent="Group"
+    <bean id="registration_search_panel" parent="Uif-VerticalBoxSection"
           p:layoutManager.orientation="VERTICAL" p:colSpan="6">
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -99,7 +110,7 @@
         </property>
     </bean>
 
-    <bean id="registration_schedule_panel" parent="Group"
+    <bean id="registration_schedule_panel" parent="Uif-VerticalBoxSection"
           p:layoutManager.orientation="VERTICAL" p:colSpan="4" p:styleClasses="registration-schedule-group">
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -110,15 +121,15 @@
         </property>
     </bean>
 
-    <bean id="registration_schedule_panel_schedule" parent="Group"
+    <bean id="registration_schedule_panel_schedule" parent="Uif-VerticalBoxSection"
           p:layoutManager.orientation="VERTICAL" p:styleClasses="registration-schedule-wrapper">
         <property name="disclosure.render" value="false"/>
         <property name="header">
-            <bean parent="HeaderThree" p:headerText="Your Schedule"/>
+            <bean parent="Uif-HeaderField-Three" p:headerText="Your Schedule"/>
         </property>
         <property name="items">
             <list>
-                <bean id="RegScheduleTable" parent="InputField_Form" abstract="true"
+                <bean id="RegScheduleTable" parent="Uif-InputField" abstract="true"
                       p:labelField.renderColon="false" p:propertyName="registeredCoursesJsArray" p:id="RegScheduleTable_attrib">
                     <property name="control">
                         <bean parent="ScheduleControl" p:id="RegSchedulTable_control"/>
@@ -128,29 +139,29 @@
         </property>
     </bean>
 
-    <bean id="registration_schedule_panel_cart" parent="Group"
+    <bean id="registration_schedule_panel_cart" parent="Uif-VerticalBoxSection"
           p:layoutManager.orientation="VERTICAL" p:styleClasses="registration-schedule-wrapper">
         <property name="disclosure.render" value="false"/>
         <property name="header">
-            <bean parent="HeaderThree" p:headerText="Registration Cart"/>
+            <bean parent="Uif-HeaderField-Three" p:headerText="Registration Cart"/>
         </property>
         <property name="items">
             <list>
-                <bean id="RegScheduleCart" parent="InputField_Form" abstract="true" p:id="RegScheduleCart_attrib"
+                <bean id="RegScheduleCart" parent="Uif-InputField" abstract="true" p:id="RegScheduleCart_attrib"
                       p:labelField.renderColon="false" p:propertyName="cartCoursesJsArray" p:finalizeMethodToCall="checkSubmitItemRender">
                     <property name="control">
                         <bean parent="ScheduleCartControl" p:scheduleId="RegScheduleTable" p:removeText="Remove" p:removeJsFunction="removeFromCart" p:id="RegSchedulCart_control" />
                     </property>
                 </bean>
-                <bean parent="MessageField" p:messageText="Your cart is empty"
+                <bean parent="Uif-MessageField" p:messageText="Your cart is empty"
                       p:finalizeMethodToCall="checkRenderCartEmpty"/>
-                <bean parent="ActionField" p:jumpToIdAfterSubmit="TOP" p:finalizeMethodToCall="checkSubmitItemRender"
+                <bean parent="Uif-PrimaryActionButton" p:jumpToIdAfterSubmit="TOP" p:finalizeMethodToCall="checkSubmitItemRender"
                       p:methodToCall="submitRegistration" p:actionLabel="Submit Registration"/>
             </list>
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_searchFunctions" parent="Group"
+    <bean id="ks_studentFacing_registrationView_searchFunctions" parent="Uif-VerticalBoxSection"
           p:layoutManager.orientation="HORIZONTAL">
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -161,39 +172,39 @@
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_browse" parent="Group">
+    <bean id="ks_studentFacing_registrationView_browse" parent="Uif-VerticalBoxSection">
         <property name="title" value="Browse Classes"/>
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="InputField_Form" p:propertyName="subjectArea" p:label="By Programs/Departments"
+                <bean parent="Uif-InputField" p:propertyName="subjectArea" p:label="By Programs/Departments"
                       p:labelPlacement="TOP" p:labelField.renderColon="false">
                     <property name="control">
-                        <bean parent="SelectControl"/>
+                        <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SubjectAreaKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="InputField_Form" p:labelField.renderColon="false" p:propertyName="termId">
+                <bean parent="Uif-InputField" p:labelField.renderColon="false" p:propertyName="termId">
                     <property name="control">
-                        <bean parent="HiddenControl"/>
+                        <bean parent="Uif-HiddenControl"/>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_fast_find" parent="Group" p:styleClasses="fastFind-group">
+    <bean id="ks_studentFacing_registrationView_fast_find" parent="Uif-VerticalBoxSection" p:styleClasses="fastFind-group">
         <property name="title" value="Fast Find"/>
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="InputField_Form" p:propertyName="courseOfferingCode"
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingCode"
                       p:label="Enter the Course Code"
                       p:labelPlacement="TOP" p:labelField.renderColon="false">
                     <property name="control">
-                        <bean parent="TextControl" p:size="20"/>
+                        <bean parent="Uif-TextControl" p:size="20"/>
                     </property>
                     <!--
                                         <property name="fieldSuggest.render" value="true" />
@@ -208,21 +219,21 @@
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_search_buttons" parent="Group"
+    <bean id="ks_studentFacing_registrationView_search_buttons" parent="Uif-VerticalBoxSection"
           p:layoutManager.orientation="HORIZONTAL">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="ActionField" p:methodToCall="searchCourseOfferings" p:actionLabel="View Courses"
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="searchCourseOfferings" p:actionLabel="View Courses"
                       p:jumpToIdAfterSubmit="TOP"/>
-                <bean parent="ActionField" p:methodToCall="clearSearchValues" p:actionLabel="Clear Values"
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="clearSearchValues" p:actionLabel="Clear Values"
                       p:jumpToIdAfterSubmit="TOP"/>
             </list>
         </property>
     </bean>
 
 
-    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup">
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="Uif-StackedCollectionSection">
         <property name="instructionalText"
                   value="Click a class to show/hide detail.  Hover over a time to preview effect on Your Schedule."/>
         <property name="disclosure.render" value="false"/>
@@ -234,13 +245,13 @@
         <property name="layoutManager.summaryTitle" value=""/>
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="KSGroup" p:layoutManager.orientation="VERTICAL"
-                  p:styleClasses="courseOffering-item" p:footer-ref="Footer">
+                  p:styleClasses="courseOffering-item" p:footer-ref="Uif-FooterBase">
                 <property name="disclosure.defaultOpen" value="false"/>
                 <property name="disclosure.render" value="true"/>
             </bean>
         </property>
         <property name="layoutManager.subCollectionFieldGroupPrototype">
-            <bean parent="FieldGroup" p:labelField.render="false" p:group.header.render="false"/>
+            <bean parent="Uif-VerticalFieldGroup" p:labelField.render="false"/>
         </property>
         <property name="layoutManager.summaryFields">
             <list>
@@ -250,11 +261,11 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="InputField" p:labelField.render="false" p:propertyName="courseOffering.descr.plain"
+                <bean parent="Uif-InputField" p:labelField.render="false" p:propertyName="courseOffering.descr.plain"
                       p:readOnly="true"/>
-                <bean parent="InputField" p:label="Instructor(s)" p:propertyName="instructorsList"
+                <bean parent="Uif-InputField" p:label="Instructor(s)" p:propertyName="instructorsList"
                       p:readOnly="true"/>
-                <bean parent="InputField" p:label="Prerequisites" p:propertyName="prereq"
+                <bean parent="Uif-InputField" p:label="Prerequisites" p:propertyName="prereq"
                       p:readOnly="true"/>
             </list>
         </property>
@@ -265,7 +276,7 @@
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" parent="CollectionGroup"
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" parent="Uif-StackedCollectionSection"
           p:layoutManager.lineGroupPrototype.disclosure.render="false" p:instructionalText="Add a course to your cart or register with a single click:">
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass"
@@ -294,11 +305,11 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="InputField" p:labelField.renderColon="false"
+                <bean parent="Uif-InputField" p:labelField.renderColon="false"
                       p:propertyName="registrationGroup.maximumEnrollment" p:readOnly="true"/>
-                <bean parent="InputField" p:labelField.renderColon="false"
+                <bean parent="Uif-InputField" p:labelField.renderColon="false"
                       p:propertyName="registrationGroup.isHonorsOffering" p:readOnly="true"/>
-                <bean parent="InputField" p:labelField.renderColon="false"
+                <bean parent="Uif-InputField" p:labelField.renderColon="false"
                       p:propertyName="registrationGroup.hasWaitlist" p:readOnly="true"/>
 
             </list>
@@ -310,12 +321,12 @@
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_footer" parent="Footer">
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_footer" parent="Uif-FooterBase">
         <property name="id" value="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_footer"/>
     </bean>
 
     <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings"
-          parent="CollectionGroup"
+          parent="Uif-StackedCollectionSection"
           p:layoutManager.lineGroupPrototype.disclosure.render="false">
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass"
@@ -324,15 +335,15 @@
         <property name="renderAddLine" value="false"/>
         <property name="readOnly" value="true"/>
         <property name="layoutManager.lineGroupPrototype">
-            <bean parent="Group" p:header.render="false" p:layoutManager.orientation="VERTICAL"
-                  p:styleClasses="activityOffering-item" p:footer-ref="Footer"/>
+            <bean parent="Uif-VerticalBoxSection" p:header.render="false" p:layoutManager.orientation="VERTICAL"
+                  p:styleClasses="activityOffering-item" p:footer-ref="Uif-FooterBase"/>
         </property>
         <property name="layoutManager.subCollectionFieldGroupPrototype">
-            <bean parent="FieldGroup" p:labelField.render="false" p:group.header.render="false"/>
+            <bean parent="Uif-VerticalFieldGroup" p:labelField.render="false"/>
         </property>
         <property name="items">
             <list>
-                <bean parent="InputField" p:styleClasses="activityOfferingType" p:labelField.render="false"
+                <bean parent="Uif-InputField" p:styleClasses="activityOfferingType" p:labelField.render="false"
                       p:propertyName="typeName"/>
             </list>
         </property>
@@ -344,7 +355,7 @@
     </bean>
 
     <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_schedules"
-          parent="CollectionGroup"
+          parent="Uif-StackedCollectionSection"
           p:layoutManager.lineGroupPrototype.disclosure.render="false">
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass"
@@ -353,17 +364,17 @@
         <property name="renderAddLine" value="false"/>
         <property name="readOnly" value="true"/>
         <property name="layoutManager.lineGroupPrototype">
-            <bean parent="Group" p:header.render="false" p:layoutManager.orientation="VERTICAL"
-                  p:styleClasses="meetingTime-item" p:footer-ref="Footer"/>
+            <bean parent="Uif-VerticalBoxSection" p:header.render="false" p:layoutManager.orientation="VERTICAL"
+                  p:styleClasses="meetingTime-item" p:footer-ref="Uif-FooterBase"/>
         </property>
         <property name="layoutManager.subCollectionFieldGroupPrototype">
-            <bean parent="FieldGroup" p:labelField.render="false" p:group.header.render="false"/>
+            <bean parent="Uif-VerticalFieldGroup" p:labelField.render="false"/>
         </property>
         <property name="items">
             <list>
-                <bean parent="InputField" p:styleClasses="displayableTime" p:labelField.render="false"
+                <bean parent="Uif-InputField" p:styleClasses="displayableTime" p:labelField.render="false"
                       p:propertyName="displayableTime"/>
-                <bean parent="InputField_Form" p:readOnly="false" p:labelField.render="false"
+                <bean parent="Uif-InputField" p:readOnly="false" p:labelField.render="false"
                       p:propertyName="regGroupTimesJsObject">
                     <property name="control">
                         <bean parent="TimePreviewControl" p:hoverComponentClass="meetingTime-item"

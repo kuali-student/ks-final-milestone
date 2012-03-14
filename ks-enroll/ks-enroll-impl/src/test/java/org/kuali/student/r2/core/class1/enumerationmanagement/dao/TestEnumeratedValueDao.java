@@ -15,9 +15,9 @@
 
 package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,8 +30,6 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumContextValueEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
-import org.kuali.student.r2.core.class1.state.dao.StateDao;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
@@ -241,6 +239,7 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         EnumerationEntity existing = enumerationDao.find("kuali.lu.subjectArea");
         EnumerationEntity keyA = new EnumerationEntity();
         keyA.setId("KeyA");
+        keyA.setDescrPlain("KeyA plain description");
         keyA.setEnumerationType(existing.getEnumerationType());
         keyA.setEnumerationState(existing.getEnumerationState());
         keyA.setName("KeyA");
@@ -282,12 +281,14 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         EnumerationEntity keyB = new EnumerationEntity();
         keyB.setId("KeyB");
         keyB.setName("KeyB");
+        keyB.setDescrPlain("KeyB plain description");
         keyB.setEnumerationType(existing.getEnumerationType());
         keyB.setEnumerationState(existing.getEnumerationState());
         
         EnumerationEntity entity = new EnumerationEntity();
         entity.setName("Name3");
         entity.setId("Key3");
+        entity.setDescrPlain("entity plain description");
         entity.setEnumerationType(existing.getEnumerationType());
         entity.setEnumerationState(existing.getEnumerationState());
         

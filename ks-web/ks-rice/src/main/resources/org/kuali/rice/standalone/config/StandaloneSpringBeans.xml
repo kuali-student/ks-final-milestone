@@ -50,8 +50,7 @@
 		class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
-				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml
-				</value>
+				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -72,7 +71,6 @@
 		<property name="targetObject" ref="bootstrapConfig" />
 		<property name="targetMethod" value="getProperties" />
 	</bean>
-	<import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
 	<import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
 	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml" />
 

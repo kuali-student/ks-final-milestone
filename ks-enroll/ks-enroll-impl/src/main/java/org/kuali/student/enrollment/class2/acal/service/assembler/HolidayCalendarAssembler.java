@@ -21,6 +21,7 @@ public class HolidayCalendarAssembler implements DTOAssembler<HolidayCalendarInf
             HolidayCalendarInfo holidayCalendarInfo = new HolidayCalendarInfo();
             holidayCalendarInfo.setId(atp.getId());
             holidayCalendarInfo.setName(atp.getName());
+            holidayCalendarInfo.setAdminOrgId(atp.getAdminOrgId());
             holidayCalendarInfo.setDescr(atp.getDescr());
             holidayCalendarInfo.setStartDate(atp.getStartDate());
             holidayCalendarInfo.setEndDate(atp.getEndDate());
@@ -43,6 +44,7 @@ public class HolidayCalendarAssembler implements DTOAssembler<HolidayCalendarInf
             AtpInfo atp = new AtpInfo();
             atp.setId(holidayCalendarInfo.getId());
             atp.setName(holidayCalendarInfo.getName());
+            atp.setAdminOrgId(holidayCalendarInfo.getAdminOrgId());
             atp.setDescr(holidayCalendarInfo.getDescr());
             atp.setStartDate(holidayCalendarInfo.getStartDate());
             atp.setEndDate(holidayCalendarInfo.getEndDate());

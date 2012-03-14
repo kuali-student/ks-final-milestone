@@ -89,7 +89,7 @@ public class RulesEvaluationUtil {
     public List<ReqComponentInfo> getFailedRequirementsFromEngineResults(EngineResults results, Map<Proposition, ReqComponentInfo> reqComponentPropositionMap) {
         List<ReqComponentInfo> failedRequirements = new ArrayList<ReqComponentInfo>();
 
-        List<ResultEvent> events = results.getResultsOfType(ResultEvent.PropositionEvaluated);
+        List<ResultEvent> events = results.getResultsOfType(ResultEvent.PROPOSITION_EVALUATED);
         for (ResultEvent e : events) {
             if (!e.getResult()) {
                 Proposition prop = (Proposition) e.getSource();

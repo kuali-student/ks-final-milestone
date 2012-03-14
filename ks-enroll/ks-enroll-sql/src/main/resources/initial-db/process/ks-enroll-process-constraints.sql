@@ -158,13 +158,14 @@ ALTER TABLE "KSEN_INSTR_TYPE_ATTR" ADD PRIMARY KEY ("ID") ENABLE
 
 --------------------------------------------------------
 --  Constraints for Table KSEN_INSTR_PRSN_RELTN
+-- TODO this table is not yet defined, should these constraints be here?
 --------------------------------------------------------
 
-ALTER TABLE "KSEN_INSTR_PRSN_RELTN" MODIFY ("INSTR_ID" NOT NULL ENABLE)
-/
+--ALTER TABLE "KSEN_INSTR_PRSN_RELTN" MODIFY ("INSTR_ID" NOT NULL ENABLE)
+--/
 
-ALTER TABLE "KSEN_INSTR_PRSN_RELTN" MODIFY ("PERSON_ID" NOT NULL ENABLE)
-/
+--ALTER TABLE "KSEN_INSTR_PRSN_RELTN" MODIFY ("PERSON_ID" NOT NULL ENABLE)
+--/
 
 --------------------------------------------------------
 --  Constraints for Table KSEN_INSTR_ATPTYPE_RELTN

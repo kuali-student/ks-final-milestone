@@ -428,7 +428,8 @@ public  class CourseOfferingServiceImpl implements CourseOfferingService{
 		processInstructors(co.getId(), co.getInstructors(), co.getTermId(), context);
 
 		//how to determine that the lui already exist?
-		if(co.getHasFinalExam()) {
+        Boolean hasFinalExam = co.getHasFinalExam();
+		if(hasFinalExam != null && hasFinalExam) {
             processFinalExam(co, context);
         }
 			

@@ -161,7 +161,6 @@
 	  	<property name="atpRelDao" ref="atpAtpRelationDao"/>
 	  	<property name="milestoneDao" ref="milestoneDao"/>
 	  	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
-    	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     	<property name="stateService" ref="stateService"/>
     	<property name="dataDictionaryService" ref="dataDictionaryServiceForAtp"/>
     </bean>

@@ -76,11 +76,6 @@ public class RegistrationController extends UifControllerBase {
     private transient CourseService courseService;
     private transient CourseRegistrationService courseRegistrationService;
 
-//    @Override
-    protected Class<? extends UifFormBase> formType() {
-        return RegistrationForm.class;
-    }
-
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
             return new RegistrationForm();
     }
@@ -300,12 +295,12 @@ public class RegistrationController extends UifControllerBase {
     }
 
     protected List<RegistrationGroupInfo> getRegistrationGroupInfos(String coId, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        return getCourseOfferingService().getRegistrationGroupsForCourseOffering(coId, context);
+        return getCourseOfferingService().getRegGroupsForCourseOffering(coId, context);
     }
 
     protected List<ActivityOfferingWrapper> getActivityOfferingInfos(RegistrationGroup regGroup, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        // TODO right now getOfferingsByIds throws a not supported exception
-//        return getCourseOfferingService().getActivityOfferingsByIds(regGroup.getActivityOfferingIds(), context);
+        // TODO right now getOfferingsByIdList throws a not supported exception
+//        return getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context);
         List<ActivityOfferingWrapper> activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>(regGroup.getActivityOfferingIds().size());
         for (String activityId : regGroup.getActivityOfferingIds()) {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(activityId, context);
@@ -336,9 +331,7 @@ public class RegistrationController extends UifControllerBase {
 
     protected List<MeetingScheduleWrapper> setupMeetingScheduleInfos(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo) {
         List<MeetingScheduleWrapper> wrappers = new ArrayList<MeetingScheduleWrapper>();
-        // TODO: fix this to get the meeting schedule from the schedule Id and the schedule service
-        List<MeetingScheduleInfo> list = new ArrayList<MeetingScheduleInfo> ();        
-        for (MeetingScheduleInfo meetingScheduleInfo : list) {
+        for (MeetingScheduleInfo meetingScheduleInfo : activityOfferingInfo.getMeetingSchedules()) {
             MeetingScheduleWrapper wrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
             wrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
             wrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());

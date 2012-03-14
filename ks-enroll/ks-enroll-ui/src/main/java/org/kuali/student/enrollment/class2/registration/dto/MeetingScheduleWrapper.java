@@ -29,7 +29,7 @@ public class MeetingScheduleWrapper implements Serializable {
         this();
         this.meetingSchedule = meetingSchedule;
         // timePeriods string should be in format "TU,TH;1130,1330"
-        String timePeriods = getMeetingSchedule().getScheduleId();
+        String timePeriods = getMeetingSchedule().getTimePeriods();
         String[] timePeriodsSplit = StringUtils.splitPreserveAllTokens(timePeriods, ";");
         Collections.addAll(days, StringUtils.split(timePeriodsSplit[0], ","));
         String[] timesArray = StringUtils.split(timePeriodsSplit[1], ",");
