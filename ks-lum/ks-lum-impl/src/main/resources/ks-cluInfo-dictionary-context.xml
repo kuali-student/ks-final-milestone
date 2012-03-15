@@ -387,7 +387,6 @@
                 <ref bean="currencyAmountInfo.id"/>
             </list>
         </property>
-        <property name="hasMetaData" value="true"/>
     </bean>
     <bean id="org.kuali.student.r2.common.dto.CurrencyAmountInfo"
           parent="org.kuali.student.r2.common.dto.CurrencyAmountInfo-parent"/>
@@ -571,6 +570,7 @@
                 <ref bean="cluIdentifierInfo.variation"/>
             </list>
         </property>
+        <property name="hasMetaData" value="true"/>
     </bean>
     <bean id="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo"
           parent="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo-parent"/>
