@@ -15,6 +15,13 @@ import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
+import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.CluAccountingInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCreditInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
 
 public class TestDTOEqualXMLBeanDefinition {
 
@@ -46,7 +53,14 @@ public class TestDTOEqualXMLBeanDefinition {
 		System.out.println("testing statement dictionary");
 
 		Set<String> startingClasses = new LinkedHashSet();
-		startingClasses.add(AcademicSubjectOrgInfo.class.getName());
+		//startingClasses.add(AcademicSubjectOrgInfo.class.getName());
+		//startingClasses.add(AccreditationInfo.class.getName());
+		//startingClasses.add(AdminOrgInfo.class.getName());
+		//startingClasses.add(AffiliatedOrgInfo.class.getName());
+		//startingClasses.add(CluAccountingInfo.class.getName());
+		//startingClasses.add(CluCluRelationInfo.class.getName());
+		//startingClasses.add(CluCreditInfo.class.getName());
+		startingClasses.add(CluFeeInfo.class.getName());
 		String contextFile = "ks-cluInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
