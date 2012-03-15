@@ -74,7 +74,7 @@ public interface AppointmentService {
      * @return a list of Appointments
      * @throws DoesNotExistException     a appointmentId in list not found
      * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException missing appointmentId or contextInfo is
+     * @throws MissingParameterException appointmentId or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -267,7 +267,7 @@ public interface AppointmentService {
      *                                      designated as read only
      * @impl AppointmentSlots are assumed to be already generated for the
      * AppointmentWindow
-     * @impl Return the number of appointments created as aprt of StatusInfo
+     * @impl Return the number of appointments created as part of StatusInfo
      * message field
      */
     public StatusInfo generateAppointmentsByWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "appointmentTypeKey") String appointmentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
@@ -597,6 +597,24 @@ public interface AppointmentService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public AppointmentSlotInfo getAppointmentSlot(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of AppointmentSlots corresponding to the given list of
+     * AppointmentSlot Ids.
+     *
+     * @param appointmentSlotIds list of Appointments to be retrieved
+     * @param contextInfo    Context information containing the principalId and
+     *                       locale information about the caller of service
+     *                       operation
+     * @return a list of Appointments
+     * @throws DoesNotExistException     an appointmentSlotId in list not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException appointmentSlotId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<AppointmentSlotInfo> getAppointmentSlotsByIds(@WebParam(name = "appointmentSlotIds") List<String> appointmentSlotIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves all AppointmentWindows belonging to the person and period
