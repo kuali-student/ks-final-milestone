@@ -20,6 +20,7 @@ import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 
+@Deprecated
 public class AbstractSimpleModel implements Model {
 	private HandlerManager handlers = new HandlerManager(this);
 	@Override

@@ -15,22 +15,23 @@
 
 package org.kuali.student.common.ui.server.gwt.old;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.old.Assembler;
-import org.kuali.student.common.assembly.old.data.SaveResult;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.old.Assembler;
+import org.kuali.student.r1.common.assembly.old.data.SaveResult;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
@@ -57,10 +58,9 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	private Assembler<Data, Void> assembler;
 
-    private SimpleDocumentActionsWebService simpleDocService;
-    private WorkflowUtility workflowUtilityService;
-	private IdentityManagementService permissionService;
-	private IdentityManagementService identityService;
+    private WorkflowDocumentActionsService simpleDocService;
+	private PermissionService permissionService;
+	private IdentityService identityService;
 
 	@Override
 	public Data getData(String dataId) {
@@ -104,7 +104,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 
 	protected String getCurrentUser() {
-		String username = SecurityUtils.getCurrentUserId();
+		String username = SecurityUtils.getCurrentPrincipalId();
 		//backdoorId is only for convenience
 		if(username==null&&this.getThreadLocalRequest().getSession().getAttribute("backdoorId")!=null){
 			username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");
@@ -125,7 +125,8 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			}
 			String namespaceCode = type.getPermissionNamespace();
 			String permissionTemplateName = type.getPermissionTemplateName();
-			AttributeSet roleQuals = new AttributeSet(StudentIdentityConstants.DOCUMENT_TYPE_NAME, getDefaultWorkflowDocumentType());
+			Map<String, String> roleQuals = new LinkedHashMap<String, String>();
+                        roleQuals.put (StudentIdentityConstants.DOCUMENT_TYPE_NAME, getDefaultWorkflowDocumentType());
 			if (attributes != null) {
 				roleQuals.putAll(attributes);
 			}
@@ -157,41 +158,32 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		this.assembler = assembler;
 	}
 
-	public IdentityManagementService getPermissionService() {
+	public PermissionService getPermissionService() {
         return permissionService;
     }
 
-    public void setPermissionService(IdentityManagementService permissionService) {
+    public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
     }
 
-	public IdentityManagementService getIdentityService() {
+	public IdentityService getIdentityService() {
     	return identityService;
     }
 
-	public void setIdentityService(IdentityManagementService identityService) {
+	public void setIdentityService(IdentityService identityService) {
     	this.identityService = identityService;
     }
 
-	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
+	public void setSimpleDocService(WorkflowDocumentActionsService simpleDocService) {
 		this.simpleDocService = simpleDocService;
-	}
-
-	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
-		this.workflowUtilityService = workflowUtilityService;
 	}
 
 	protected Assembler<Data, Void> getAssembler() {
 		return assembler;
 	}
 
-	protected SimpleDocumentActionsWebService getSimpleDocService() {
+	protected WorkflowDocumentActionsService getSimpleDocService() {
 		return simpleDocService;
 	}
-
-	protected WorkflowUtility getWorkflowUtilityService() {
-		return workflowUtilityService;
-	}
-
 
 }

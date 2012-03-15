@@ -163,14 +163,14 @@
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">
 		<property name="defaultException"
-			value="org.kuali.student.common.exceptions.OperationFailedException" />
+			value="org.kuali.student.r2.common.exceptions.OperationFailedException" />
 		<property name="exceptionMapping">
 			<map>
 				<entry key="javax.persistence.EntityExistsException"
-					value="org.kuali.student.common.exceptions.AlreadyExistsException" />
+					value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
 				<entry
 					key="org.hibernate.exception.ConstraintViolationException"
-					value="org.kuali.student.common.exceptions.AlreadyExistsException" />
+					value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
 			</map>
 		</property>
 	</bean>
@@ -206,22 +206,22 @@
     </bean>
 
 	<bean id="emDao"
-		class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
+		class="org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
         <property name="em" ref="emEntityManager" />
 	</bean>
 
-	<bean id="emSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+	<bean id="emSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:em-search-config.xml" />
 	</bean>
 
 	<bean id="emServiceImpl"
-		class="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+		class="org.kuali.student.r1.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
 		<property name="enumDAO" ref="emDao" />
 		<property name="searchManager" ref="emSearchManager"/>
 	</bean>
 
     <!--  Organization Service Config -->
-    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
     </bean>
 
@@ -236,19 +236,19 @@
     </bean>
 
     <bean id="orgDao"
-        class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
+        class="org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl">
         <property name="em" ref="orgEntityManager" />
     </bean>
 
     <bean id="orgServiceImpl"
-        class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
+        class="org.kuali.student.r1.core.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao" />
         <property name="searchManager" ref="orgSearchManager" />
         <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
     </bean>
 
     <bean id="orgSearchManager"
-        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:organization-search-config.xml" />
     </bean>
 
@@ -269,7 +269,7 @@
     </bean>
 
     <bean id="atpServiceImpl"
-        class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
+        class="org.kuali.student.r1.core.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
@@ -277,7 +277,7 @@
     </bean>
 
     <bean id="atpSearchManager"
-        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
     </bean>
 
@@ -286,7 +286,7 @@
 	<!--                   -->
 
 	<!-- Service Validator and messages -->
-	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
+	<bean id="ks.messageServiceMock" class="org.kuali.student.r1.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
 			<list>
 				<value>classpath:gwt-messages.xml</value>
@@ -294,7 +294,7 @@
 		</property>
 	</bean>
 
-	<bean id="serviceValidator" class="org.kuali.student.common.validator.old.Validator">
+	<bean id="serviceValidator" class="org.kuali.student.r2.common.validator.old.Validator">
 		<property name="messageService" ref="ks.messageServiceMock"/>
 	</bean>
 
@@ -315,22 +315,22 @@
         <property name="em" ref="luEntityManager" />
 	</bean>
 
-	<bean id="luSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+	<bean id="luSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
 
-	<bean id="lumDictionary" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+	<bean id="lumDictionary" class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
 		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />
 	</bean>
 
 	<bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.r1.lum.lu.service.LuService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
 	</bean>
 
 	<bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.r1.core.proposal.service.ProposalService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
 	</bean>
 
@@ -357,26 +357,26 @@
     </bean>
 
 	<bean id="statementDao"
-		class="org.kuali.student.core.statement.dao.impl.StatementDaoImpl">
+		class="org.kuali.student.r1.core.statement.dao.impl.StatementDaoImpl">
         <property name="em" ref="statementEntityManager" />
 	</bean>
 
 	<bean id="statementSearchManager"
-		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 	</bean>
 
     <bean id="statementAssembler"
-        class="org.kuali.student.core.statement.service.impl.StatementAssembler">
+        class="org.kuali.student.r1.core.statement.service.impl.StatementAssembler">
         <property name="statementDao" ref="statementDao"/>
     </bean>
 
-    <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler" lazy-init="true">
+    <bean id="statementTreeViewAssembler" class="org.kuali.student.r1.core.statement.service.assembler.StatementTreeViewAssembler" lazy-init="true">
         <property name="statementService" ref="statementServiceImpl"/>
    </bean>
 
 	<bean id="statementServiceImpl"
-		class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+		class="org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl">
 		<property name="statementDao" ref="statementDao" />
         <property name="searchManager" ref="statementSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService" />
@@ -403,7 +403,7 @@
 	</bean>
 
 	<bean id="loSearchManager"
-		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lo-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
@@ -434,7 +434,7 @@
 	</bean>
 
 	<bean id="lrcSearchManager"
-		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lrc-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
@@ -448,11 +448,11 @@
 	</bean>
 
 	<!-- Search -->
-	<bean id="lumCrossServiceSearchManager" class="org.kuali.student.common.search.service.impl.CrossSearchManager">
+	<bean id="lumCrossServiceSearchManager" class="org.kuali.student.r1.common.search.service.impl.CrossSearchManager">
 		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
 	</bean>
 
-	<bean id="lumSearchDispatcher" class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
+	<bean id="lumSearchDispatcher" class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
 		<property name="services">
 			<list>
 				<ref bean="loServiceImpl"/>
@@ -530,7 +530,7 @@
   	</bean>
 
 
-	<bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+	<bean id="dictionaryService" class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
 		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
 	</bean>
 
@@ -540,7 +540,7 @@
 	</bean>
 
    <bean id="EnumMetaCampus"
-   		class="org.kuali.student.core.enumerationmanagement.entity.Enumeration">
+   		class="org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration">
 		<property name="descr"	value="kuali.lu.campusLocation" />
 		<property name="id"	value="kuali.lu.campusLocation" />
 		<property name="name"	value="kuali.lu.campusLocation" />
@@ -548,7 +548,7 @@
 	</bean>
 
 	<bean id="northCampus"
-		class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue">
+		class="org.kuali.student.r1.core.enumerationmanagement.entity.EnumeratedValue">
 		<property name="id" value="33" />
 		<property name="abbrevValue" value="North" />
 		<property name="code" value="NO" />
@@ -558,7 +558,7 @@
 		<property name="versionNumber" value="0" />
 	</bean>
 	<bean id="southCampus"
-		class="org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue">
+		class="org.kuali.student.r1.core.enumerationmanagement.entity.EnumeratedValue">
 		<property name="id" value="34" />
 		<property name="abbrevValue" value="South" />
 		<property name="code" value="SO" />
@@ -603,7 +603,7 @@
 		</property>
 	</bean>
 
-	<bean id="milestoneTypeLastDateToDrop" class="org.kuali.student.core.atp.entity.MilestoneType">
+	<bean id="milestoneTypeLastDateToDrop" class="org.kuali.student.r1.core.atp.entity.MilestoneType">
 		<property name="id" value="atp.milestoneType.lastDateToDrop" />
 		<property name="name" value="LastDateToDrop" />
 		<property name="descr"
@@ -612,7 +612,7 @@
 		<property name="expirationDate" value="01/01/2100" />
 	</bean>
 
-	<bean id="dateRangeTypeFinals" class="org.kuali.student.core.atp.entity.DateRangeType">
+	<bean id="dateRangeTypeFinals" class="org.kuali.student.r1.core.atp.entity.DateRangeType">
 		<property name="id" value="atp.dateRangeType.finals" />
 		<property name="name" value="Finals" />
 		<property name="descr" value="ATP Duration Type for Finals" />
@@ -620,7 +620,7 @@
 		<property name="expirationDate" value="01/01/2100" />
 	</bean>
 
-	<bean id="atpTypeSpringSemester" class="org.kuali.student.core.atp.entity.AtpType">
+	<bean id="atpTypeSpringSemester" class="org.kuali.student.r1.core.atp.entity.AtpType">
 		<property name="id" value="atp.atpType.springSemester" />
 		<property name="name" value="Spring Semester" />
 		<property name="descr" value="ATP Type for Spring Semester" />
@@ -630,7 +630,7 @@
 		<property name="seasonalType" ref="atpSeasonalTypeFall" />
 	</bean>
 
-	<bean id="atpTypeFallSemester" class="org.kuali.student.core.atp.entity.AtpType">
+	<bean id="atpTypeFallSemester" class="org.kuali.student.r1.core.atp.entity.AtpType">
 		<property name="id" value="atp.atpType.fallSemester" />
 		<property name="name" value="Fall Semester" />
 		<property name="descr" value="ATP Type for Fall Semester" />
@@ -642,7 +642,7 @@
 
 
 
-	<bean id="atpSeasonalTypeFall" class="org.kuali.student.core.atp.entity.AtpSeasonalType">
+	<bean id="atpSeasonalTypeFall" class="org.kuali.student.r1.core.atp.entity.AtpSeasonalType">
 		<property name="id" value="atp.seasonType.fall" />
 		<property name="name" value="Fall" />
 		<property name="descr" value="ATP Season Type for Fall" />
@@ -650,7 +650,7 @@
 		<property name="expirationDate" value="01/01/2100" />
 		<property name="attributes">
 			<list>
-				<bean class="org.kuali.student.core.atp.entity.AtpSeasonalTypeAttribute">
+				<bean class="org.kuali.student.r1.core.atp.entity.AtpSeasonalTypeAttribute">
 					<property name="name" value="atp.attribute.notes" />
 					<property name="value" value="Notes for a Seasonal type Fall attribute" />
 					<property name="owner" ref="atpSeasonalTypeFall" />
@@ -659,7 +659,7 @@
 		</property>
 	</bean>
 
-	<bean id="atpSeasonalTypeSpring" class="org.kuali.student.core.atp.entity.AtpSeasonalType">
+	<bean id="atpSeasonalTypeSpring" class="org.kuali.student.r1.core.atp.entity.AtpSeasonalType">
 		<property name="id" value="atp.seasonType.spring" />
 		<property name="name" value="Spring" />
 		<property name="descr" value="ATP Season Type for Spring" />
@@ -667,7 +667,7 @@
 		<property name="expirationDate" value="01/01/2100" />
 		<property name="attributes">
 			<list>
-				<bean class="org.kuali.student.core.atp.entity.AtpSeasonalTypeAttribute">
+				<bean class="org.kuali.student.r1.core.atp.entity.AtpSeasonalTypeAttribute">
 					<property name="name" value="atp.attribute.notes" />
 					<property name="value"
 						value="Notes for a Seasonal type Spring attribute" />
@@ -677,7 +677,7 @@
 		</property>
 	</bean>
 
-	<bean id="atpDurationTypeSemester" class="org.kuali.student.core.atp.entity.AtpDurationType">
+	<bean id="atpDurationTypeSemester" class="org.kuali.student.r1.core.atp.entity.AtpDurationType">
 		<property name="id" value="atp.durationType.semester" />
 		<property name="name" value="Semester" />
 		<property name="descr" value="ATP Duration Type for Semester" />
@@ -685,7 +685,7 @@
 		<property name="expirationDate" value="01/01/2100" />
 		<property name="attributes">
 			<list>
-				<bean class="org.kuali.student.core.atp.entity.AtpDurationTypeAttribute">
+				<bean class="org.kuali.student.r1.core.atp.entity.AtpDurationTypeAttribute">
 					<property name="name" value="atp.attribute.notes" />
 					<property name="value"
 						value="Notes for a Duration type Semester attribute" />
@@ -696,11 +696,11 @@
 	</bean>
 
 
-	<bean id="atp2009SpringSemester" class="org.kuali.student.core.atp.entity.Atp">
+	<bean id="atp2009SpringSemester" class="org.kuali.student.r1.core.atp.entity.Atp">
 		<property name="id" value="atp.2009SpringSemester" />
 		<property name="name" value="2009 Spring Semester" />
 		<property name="descr">
-			<bean class="org.kuali.student.core.atp.entity.AtpRichText">
+			<bean class="org.kuali.student.r1.core.atp.entity.AtpRichText">
 				<property name="formatted" value="Atp for 2009 Spring Semester" />
 			</bean>
 		</property>
@@ -710,7 +710,7 @@
 		<property name="state" value="stale" />
 		<property name="attributes">
 			<list>
-				<bean class="org.kuali.student.core.atp.entity.AtpAttribute">
+				<bean class="org.kuali.student.r1.core.atp.entity.AtpAttribute">
 					<property name="name" value="atp.attribute.notes" />
 					<property name="value" value="Notes for 2009 Spring Semester attribute" />
 					<property name="owner" ref="atp2009SpringSemester" />
@@ -719,11 +719,11 @@
 		</property>
 	</bean>
 
-	<bean id="atp2009FallSemester" class="org.kuali.student.core.atp.entity.Atp">
+	<bean id="atp2009FallSemester" class="org.kuali.student.r1.core.atp.entity.Atp">
 		<property name="id" value="atp.2009FallSemester" />
 		<property name="name" value="2009 Fall Semester" />
 		<property name="descr">
-			<bean class="org.kuali.student.core.atp.entity.AtpRichText">
+			<bean class="org.kuali.student.r1.core.atp.entity.AtpRichText">
 				<property name="formatted" value="Atp for 2009 Fall Semester" />
 			</bean>
 		</property>
@@ -735,7 +735,7 @@
 		<property name="milestones"><list><ref bean="milestoneLastToDrop2009FallSemester"/></list></property>
 		<property name="attributes">
 			<list>
-				<bean class="org.kuali.student.core.atp.entity.AtpAttribute">
+				<bean class="org.kuali.student.r1.core.atp.entity.AtpAttribute">
 					<property name="name" value="atp.attribute.notes" />
 					<property name="value" value="Notes for 2009 Fall Semester attribute" />
 					<property name="owner" ref="atp2009FallSemester" />
@@ -744,11 +744,11 @@
 		</property>
 	</bean>
 
-	<bean id="milestoneLastToDrop2009FallSemester" class="org.kuali.student.core.atp.entity.Milestone">
+	<bean id="milestoneLastToDrop2009FallSemester" class="org.kuali.student.r1.core.atp.entity.Milestone">
 		<property name="id" value="milestone.LastToDrop2009FallSemester" />
 		<property name="name" value="Last day to drop 2009 Fall Semester" />
 		<property name="descr">
-			<bean class="org.kuali.student.core.atp.entity.AtpRichText">
+			<bean class="org.kuali.student.r1.core.atp.entity.AtpRichText">
 				<property name="formatted"
 					value="Milestone for Last day to drop 2009 Fall Semester" />
 			</bean>
@@ -758,7 +758,7 @@
 		<property name="milestoneDate" value="09/20/2009" />
 		<property name="attributes">
 			<list>
-				<bean class="org.kuali.student.core.atp.entity.MilestoneAttribute">
+				<bean class="org.kuali.student.r1.core.atp.entity.MilestoneAttribute">
 					<property name="name" value="atp.attribute.notes" />
 					<property name="value"
 						value="Notes for LastToDrop2009FallSemester attribute" />
@@ -768,11 +768,11 @@
 		</property>
 	</bean>
 
-	<bean id="dateRangeFinals2009FallSemester" class="org.kuali.student.core.atp.entity.DateRange">
+	<bean id="dateRangeFinals2009FallSemester" class="org.kuali.student.r1.core.atp.entity.DateRange">
 		<property name="id" value="dateRange.finals2009FallSemester" />
 		<property name="name" value="Finals 2009 Fall Semester" />
 		<property name="descr">
-			<bean class="org.kuali.student.core.atp.entity.AtpRichText">
+			<bean class="org.kuali.student.r1.core.atp.entity.AtpRichText">
 				<property name="formatted" value="DateRange for Finals 2009 Fall Semester" />
 			</bean>
 		</property>
@@ -782,7 +782,7 @@
 		<property name="endDate" value="12/10/2009" />
 		<property name="attributes">
 			<list>
-				<bean class="org.kuali.student.core.atp.entity.DateRangeAttribute">
+				<bean class="org.kuali.student.r1.core.atp.entity.DateRangeAttribute">
 					<property name="name" value="atp.attribute.notes" />
 					<property name="value"
 						value="Notes for LastToDrop2009FallSemester attribute" />

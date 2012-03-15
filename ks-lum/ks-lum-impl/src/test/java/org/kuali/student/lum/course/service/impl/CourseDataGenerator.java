@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r1.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 
 /**
  * Use this class to generate test data for a course (it may need improvements for creating real relationships for more

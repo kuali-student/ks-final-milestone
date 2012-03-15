@@ -2,9 +2,10 @@ package org.kuali.student.lum.program.client.major.view;
 
 import java.util.List;
 
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -12,20 +13,19 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -36,36 +36,39 @@ public class ProgramRequirementsViewConfiguration extends AbstractControllerConf
     private ProgramRequirementsDataModel rules;
     private ProgramRequirementsDataModel rulesComp;
 
-    public ProgramRequirementsViewConfiguration(boolean special) {
-        progReqcontroller = new ProgramRequirementsViewController(controller, MajorManager.getEventBus(), 
-                                    ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_VIEW, true,
-                                    (special ? new MajorEditableHeader(ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT) : null));
+    public ProgramRequirementsViewConfiguration(Configurer configurer, boolean special) {
+        this.setConfigurer(configurer);
+        progReqcontroller = new ProgramRequirementsViewController(controller, MajorManager.getEventBus(), this.getTitle(), 
+                                    ProgramSections.PROGRAM_REQUIREMENTS_VIEW, true,
+                                    (special ? new MajorEditableHeader(this.getTitle(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT) : null));
     }
 
-    public ProgramRequirementsViewConfiguration(boolean special, boolean reloadRequirements) {
-        progReqcontroller = new ProgramRequirementsViewController(controller, MajorManager.getEventBus(),
-                                    ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_VIEW, true,
-                                    (special ? new MajorEditableHeader(ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT) : null), reloadRequirements);
+    public ProgramRequirementsViewConfiguration(Configurer configurer, boolean special, boolean reloadRequirements) {
+        this.setConfigurer(configurer);
+        progReqcontroller = new ProgramRequirementsViewController(controller, MajorManager.getEventBus(), this.getTitle(), 
+                                    ProgramSections.PROGRAM_REQUIREMENTS_VIEW, true,
+                                    (special ? new MajorEditableHeader(this.getTitle(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT) : null), reloadRequirements);
     }
 
-    public ProgramRequirementsViewConfiguration(Controller controller, boolean special) {
-        String title = ProgramProperties.get().program_menu_sections_requirements();
+    public ProgramRequirementsViewConfiguration(Configurer configurer, Controller controller, boolean special) {
+        this.setConfigurer(configurer);
         if (special){
-        	rootSection = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.PROGRAM_REQUIREMENTS_EDIT));
+        	rootSection = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_VIEW, this.getTitle(), ProgramConstants.PROGRAM_MODEL_ID, 
+        	        new MajorEditableHeader(this.getTitle(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT));
         } else {
-        	rootSection = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID);        	
+        	rootSection = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_VIEW, this.getTitle(), ProgramConstants.PROGRAM_MODEL_ID);        	
         }
         this.controller = controller;
+    }
+    
+    private String getTitle(){
+        return getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_REQUIREMENTS);
     }
 
     @Override
     protected void buildLayout() {
     	if (controller instanceof MajorProposalController || controller instanceof MajorEditController)
-    	{	
-    		VerticalSection section = new VerticalSection();
-    		section.addSection(createProgramRequirementsSectionEdit());
-    		rootSection.addSection(section);
-    	}	
+    		rootSection.addSection(createProgramRequirementsSectionEdit());
     	else  	
             rootSection = progReqcontroller.getProgramRequirementsView(); 	
     }
@@ -87,8 +90,7 @@ public class ProgramRequirementsViewConfiguration extends AbstractControllerConf
         return section;
     }
 
-    @SuppressWarnings("unchecked")
-  	public SummaryTableFieldBlock createProgramRequirementsSectionEditBlock() {
+    public SummaryTableFieldBlock createProgramRequirementsSectionEditBlock() {
   		SummaryTableFieldBlock block = new SummaryTableFieldBlock();
   		if (controller instanceof MajorProposalController)
   		{	

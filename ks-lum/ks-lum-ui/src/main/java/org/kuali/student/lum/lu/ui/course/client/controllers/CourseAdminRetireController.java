@@ -1,6 +1,5 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.event.ActionEvent;
@@ -18,6 +17,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminRetireConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
+import org.kuali.student.r2.common.dto.DtoConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

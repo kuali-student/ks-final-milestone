@@ -20,19 +20,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.server.StatementUtil;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 
@@ -41,21 +43,22 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	private static final long serialVersionUID = 1L;
 
     private CourseService courseService;
-    private LuService luService;
+    private CluService cluService;
 	private StatementService statementService;
 	private CourseStateChangeServiceImpl stateChangeService;
 
     @Override
     public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws Exception {
-        List<StatementTreeViewInfo> rules = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
+        List<StatementTreeViewInfo> rules = courseService.getCourseStatements(courseId, nlUsageTypeKey, language, ContextUtils.getContextInfo());
         if (rules != null) {
         	for (StatementTreeViewInfo rule : rules) {
-        		setReqCompNL(rule);
+        		setReqCompNL(rule, ContextUtils.getContextInfo());
         	}
         }
         return rules;
     }
-
+    
+    @Override
     public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states,
                                                                         Map<Integer, StatementTreeViewInfo> rules) throws Exception {
 
@@ -89,22 +92,22 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
     	StatementUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
     	CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
-        StatementTreeViewInfo rule = courseService.createCourseStatement(courseId, statementTreeViewInfo);
-        setReqCompNL(rule);
+        StatementTreeViewInfo rule = courseService.createCourseStatement(courseId, statementTreeViewInfo, ContextUtils.getContextInfo());
+        setReqCompNL(rule, ContextUtils.getContextInfo());
         return rule;
     }
 
     @Override
     public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        return courseService.deleteCourseStatement(courseId, statementTreeViewInfo);
+        return courseService.deleteCourseStatement(courseId, statementTreeViewInfo, ContextUtils.getContextInfo());
     }
 
     @Override
     public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
     	StatementUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
     	CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
-        StatementTreeViewInfo rule = courseService.updateCourseStatement(courseId, statementTreeViewInfo);
-        setReqCompNL(rule);
+        StatementTreeViewInfo rule = courseService.updateCourseStatement(courseId, null ,statementTreeViewInfo, ContextUtils.getContextInfo());
+        setReqCompNL(rule, ContextUtils.getContextInfo());
         return rule;
     }
 
@@ -127,17 +130,17 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	
 	@Override
     public StatusInfo changeState(String courseId, String newState, String prevEndTerm) throws Exception {
-    	return stateChangeService.changeState(courseId, newState, prevEndTerm);
+    	return stateChangeService.changeState(courseId, newState, prevEndTerm, ContextUtils.getContextInfo());
     }
 
-    private void setReqCompNL(StatementTreeViewInfo tree) throws Exception {
+    private void setReqCompNL(StatementTreeViewInfo tree,ContextInfo contextInfo) throws Exception {
         List<StatementTreeViewInfo> statements = tree.getStatements();
         List<ReqComponentInfo> reqComponentInfos = tree.getReqComponents();
 
          if ((statements != null) && (statements.size() > 0)) {
             // retrieve all statements
             for (StatementTreeViewInfo statement : statements) {
-                setReqCompNL(statement); // inside set the children of this statementTreeViewInfo
+                setReqCompNL(statement,contextInfo); // inside set the children of this statementTreeViewInfo
             }
         } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
             // retrieve all req. component LEAFS
@@ -163,7 +166,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     	states.add("Draft");
     	states.add("Superseded");
     	request.addParam("lu.queryParam.luOptionalState", states);
-    	SearchResult result = luService.search(request);
+    	SearchResult result = cluService.search(request);
     	
     	String resultString = result.getRows().get(0).getCells().get(0).getValue();
     	return "0".equals(resultString);
@@ -182,7 +185,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 		this.stateChangeService = stateChangeService;
 	}
 
-	public void setLuService(LuService luService) {
-		this.luService = luService;
+	public void seCluService(CluService cluService) {
+		this.cluService = cluService;
 	}
 }

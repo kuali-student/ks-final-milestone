@@ -21,6 +21,7 @@ package org.kuali.student.common.ui.client.mvc;
  * 
  * @author Kuali Student Team
  */
+@Deprecated
 public class ControllerException extends RuntimeException {
 
     private static final long serialVersionUID = 3080242531292487209L;

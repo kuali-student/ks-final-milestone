@@ -21,13 +21,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.DataValue;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.DataValue;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -57,8 +59,9 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -88,6 +91,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
+//TODO KSCM-244
 public class LOCategoryBuilder extends Composite implements HasValue<List<LoCategoryInfo>> {	//KSLAB-2091:  One instance for each LO entry box
 
     private String type;
@@ -107,7 +111,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private KSButton addButton = new KSButton("Add", ButtonStyle.SECONDARY);
 
     private KSLightBox createCategoryWindow;
-    Anchor browseCategoryLink = new Anchor("Browse for categories");
+    Anchor browseCategoryLink;
     private final BlockingTask saving = new BlockingTask("Saving");
 
     public LOCategoryBuilder(String messageGroup, String type, String state, String loRepoKey) {
@@ -132,6 +136,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 addEnteredCategory();
             }
         });
+        browseCategoryLink = new Anchor(getLabelText(LUUIConstants.LO_CATEGORY_BROWSE_LABEL_KEY));
         browseCategoryLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -153,8 +158,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 pop.addButton(addButton);
                 pop.addButton(cancelButton);
 
+                pop.setNonCaptionHeader(SectionTitle.generateH2Title(getLabelText(LUUIConstants.LO_CATEGORY_BROWSE_POPUP_LABEL_KEY)));
                 FlowPanel mainPanel = new FlowPanel();
-                mainPanel.add(SectionTitle.generateH2Title("Select Categories"));
                 mainPanel.add(categoryManagement);
 
                 addButton.addClickHandler(new ClickHandler() {
@@ -278,7 +283,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
         SectionTitle sectionTitle = SectionTitle.generateH2Title("Create New Category");
         //KSThinTitleBar titleBar = new KSThinTitleBar("Create New Category");
-        main.add(sectionTitle);
+        createCategoryWindow.setNonCaptionHeader(sectionTitle);
         main.add(layoutTable);
 
         loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
@@ -392,14 +397,15 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
         }
 
-        if (categoryTypeMap.containsKey(category.getType())) {
+        if (categoryTypeMap.containsKey(category.getTypeKey())) {
             // check if category is already added to picker.  only add it once.
             if (!isCategoryAlreadyAddedToPicker(category)){
                 categoryList.addItem(category);
             }
             picker.reset();
         } else {
-            loCatRpcServiceAsync.getLoCategoryType(category.getType(), new KSAsyncCallback<LoCategoryTypeInfo>() {
+            //TODO KSCM-390 - Correct contextInfo param?
+            loCatRpcServiceAsync.getLoCategoryType(category.getTypeKey(), new KSAsyncCallback<LoCategoryTypeInfo>() {
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -540,6 +546,13 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
             return suggestBox.addSelectionChangeHandler(handler);
         }
+
+        @Override
+        protected void onEnsureDebugId(String baseID) {
+            super.onEnsureDebugId(baseID);
+            suggestBox.getTextBox().ensureDebugId(baseID);
+        }
+        
     }
 
     private class LOCategoryTypeInfoList implements ListItems {
@@ -806,4 +819,14 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             return null;
         }
     }
+
+    @Override
+    protected void onEnsureDebugId(String baseID) {
+        super.onEnsureDebugId(baseID);
+        picker.ensureDebugId(baseID);
+        addButton.ensureDebugId(baseID + "-Add");
+        browseCategoryLink.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + browseCategoryLink.getText()));
+    }
+    
+    
 }

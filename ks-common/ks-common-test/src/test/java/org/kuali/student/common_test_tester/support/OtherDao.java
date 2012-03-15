@@ -15,6 +15,7 @@
 
 package org.kuali.student.common_test_tester.support;
 
+@Deprecated
 public interface OtherDao {
 	public void foo();
 }

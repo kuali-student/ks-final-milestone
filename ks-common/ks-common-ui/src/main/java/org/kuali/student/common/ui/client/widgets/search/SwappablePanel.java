@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SwappablePanel extends Composite{
 	private VerticalFlowPanel panel = new VerticalFlowPanel();
 	private ListBox panelSelector = new ListBox();

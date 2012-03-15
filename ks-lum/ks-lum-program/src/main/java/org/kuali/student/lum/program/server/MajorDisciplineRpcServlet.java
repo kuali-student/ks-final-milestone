@@ -6,29 +6,32 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.server.StatementUtil;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
+import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel.requirementState;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
 
 public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDisciplineRpcService {
 
@@ -42,7 +45,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     private ProgramService programService;
     private StatementService statementService;
     protected StateChangeService stateChangeService;
-    private LuService luService;
+    private CluService cluService;
  
     /**
      * 
@@ -93,7 +96,8 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         List<ProgramRequirementInfo> programReqInfos = new ArrayList<ProgramRequirementInfo>();
 
         for (String programReqId : programRequirementIds) {
-            ProgramRequirementInfo rule = programService.getProgramRequirement(programReqId, null, null);
+            ProgramRequirementInfo rule = null;
+            rule = programService.getProgramRequirement(programReqId, null, null,ContextUtils.getContextInfo());
             setProgReqNL(rule);
             programReqInfos.add(rule);
         }
@@ -145,7 +149,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         StatementUtil.updateStatementTreeViewInfoState(programRequirementInfo.getState(), programRequirementInfo.getStatement());
        
         // Call the web service to create the requirement and statement tree in the database
-        ProgramRequirementInfo rule = programService.createProgramRequirement(programRequirementInfo);
+        ProgramRequirementInfo rule = programService.createProgramRequirement(programRequirementInfo.getId(),programRequirementInfo,ContextUtils.getContextInfo());
         
         // Translate the requirement into its natural language equivalent
         setProgReqNL(rule);
@@ -154,7 +158,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     }
 
     public StatusInfo deleteProgramRequirement(String programRequirementId) throws Exception {
-        return programService.deleteProgramRequirement(programRequirementId);
+        return programService.deleteProgramRequirement(programRequirementId,ContextUtils.getContextInfo());
     }
 
     public ProgramRequirementInfo updateProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception {
@@ -171,7 +175,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
             programRequirementInfo.setDescr(new RichTextInfo());    
         }
 
-        ProgramRequirementInfo rule = programService.updateProgramRequirement(programRequirementInfo);
+        ProgramRequirementInfo rule = programService.updateProgramRequirement(null, null, programRequirementInfo,ContextUtils.getContextInfo());
         setProgReqNL(rule);
         return rule;
     }
@@ -192,10 +196,11 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
             // retrieve all req. component LEAFS
         	for (int i = 0; i < reqComponentInfos.size(); i++) {
-        		ReqComponentInfoUi reqUi = RulesUtil.clone(reqComponentInfos.get(i));
-        		reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en"));
-        		reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en"));
-        		reqComponentInfos.set(i, reqUi);
+        		ReqComponentInfoUi reqUi = null;
+        		// TODO KSCM-420 reqUi = RulesUtil.clone(reqComponentInfos.get(i));
+        		// TODO KSCM-420 reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en",ContextUtils.getContextInfo()));
+        		// TODO KSCM-420 reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en",ContextUtils.getContextInfo()));
+        		// TODO KSCM-420 reqComponentInfos.set(i, reqUi);
         	}
         }
     }
@@ -213,7 +218,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     	states.add("Draft");
     	states.add("Superseded");
     	request.addParam("lu.queryParam.luOptionalState", states);
-    	SearchResult result = luService.search(request);
+    	SearchResult result = cluService.search(request);
     	
     	String resultString = result.getRows().get(0).getCells().get(0).getValue();
     	return "0".equals(resultString);	    	
@@ -248,7 +253,8 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         // ProposalWorkflowFilter.applyOutboundDataFilter().  Set on line 130-131.  Use these for reference ID.
        
         // Ask the proposal service to return a list of proposals with this reference id    
-        List<ProposalInfo> proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId);
+        List<ProposalInfo> proposals = null;
+        // TODO KSCM-369 proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId,ContextUtils.getContextInfo());
         
         // If at least one proposal is returned, this is a proposal, so return true
         if (proposals != null && proposals.size() >= 1){
@@ -281,9 +287,8 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
 
     }
     
-	public void setLuService(LuService luService) {
-		this.luService = luService;
-	}
- 
+	public void setLuService(CluService cluService) {
+		this.cluService = cluService;
+	}	
 
 }

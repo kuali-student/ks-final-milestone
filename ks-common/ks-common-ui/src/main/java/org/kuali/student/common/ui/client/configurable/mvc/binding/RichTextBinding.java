@@ -15,9 +15,9 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.RichTextEditor;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
 /**
  * Sets to and from model data that is marked as rich text (it has plain and formatted text in the model)
@@ -25,6 +25,7 @@ import org.kuali.student.common.ui.client.widgets.RichTextEditor;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class RichTextBinding extends ModelWidgetBindingSupport<RichTextEditor> {
     public static RichTextBinding INSTANCE = new RichTextBinding();
 

@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.widgets.buttonlayout.ButtonRow;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
+@Deprecated
 public class SearchCancelGroup extends ButtonGroup<SearchCancelEnum>{
     
     public SearchCancelGroup(Callback<SearchCancelEnum> callback){

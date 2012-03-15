@@ -16,8 +16,8 @@ package org.kuali.student.lum.common.client.widgets;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -42,9 +42,9 @@ public class CourseWidget extends Composite implements AccessWidgetValue, HasDat
     private Callback getCluNameCallback;
 
     //widgets
-    private VerticalSection layout = new VerticalSection();
-    private KSDropDown courseTypeWidget;
-    private KSPicker courseWidget = null;
+    protected VerticalSection layout = new VerticalSection();
+    protected KSDropDown courseTypeWidget;
+    protected KSPicker courseWidget = null;
     private KSLabel previousCourseCode;
     private String previousCourseId;
 
@@ -73,7 +73,7 @@ public class CourseWidget extends Composite implements AccessWidgetValue, HasDat
         retrieveMetadata();
     }
 
-    private void createAndAddCourseTypesDropdown() {
+    protected void createAndAddCourseTypesDropdown() {
         courseTypeWidget = new KSDropDown();
         SimpleListItems courseTypes = new SimpleListItems();
         courseTypes.addItem(CommonWidgetConstants.CLU_SET_APPROVED_CLUS_FIELD, "Approved Courses");
@@ -123,7 +123,7 @@ public class CourseWidget extends Composite implements AccessWidgetValue, HasDat
         }
     }
 
-    private void addCourseListWidget(boolean enabled, String courseType) {
+    protected void addCourseListWidget(boolean enabled, String courseType) {
         if (courseWidget != null) {
             layout.remove(courseWidget);
         }

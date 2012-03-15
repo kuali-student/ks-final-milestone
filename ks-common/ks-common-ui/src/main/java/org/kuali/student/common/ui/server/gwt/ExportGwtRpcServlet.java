@@ -12,14 +12,15 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.service.GwtExportRpcService;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
+import org.kuali.student.r1.common.assembly.data.Data;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+@Deprecated
 @SuppressWarnings("serial")
 public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExportRpcService {
 

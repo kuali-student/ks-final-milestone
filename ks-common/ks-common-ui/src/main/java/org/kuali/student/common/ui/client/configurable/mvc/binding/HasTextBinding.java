@@ -17,10 +17,10 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Date;
 
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.DataType;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.validator.ClientDateParser;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data.DataType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasText;
@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.HasText;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class HasTextBinding extends ModelWidgetBindingSupport<HasText> {
     public static HasTextBinding INSTANCE = new HasTextBinding();
 

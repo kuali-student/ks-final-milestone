@@ -21,8 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
@@ -40,6 +38,8 @@ import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -124,52 +124,38 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     }
     
     private <V extends Enum<?>> void beginShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
-    	beforeViewChange(viewType, new Callback<Boolean>(){
+        beforeViewChange(viewType, new Callback<Boolean>(){
 
-			@Override
-			public void exec(Boolean result) {
-				if(result){
-					 boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
-						
-				        if (requiresAuthz){
-				        	ViewContext tempContext;
-				        	if(view instanceof LayoutController){
-				        		tempContext = ((LayoutController) view).getViewContext();
-				        	}                 
-				        	else{
-				        		tempContext = view.getController().getViewContext();
-				        	}
-				        	
-				        	PermissionType permType = (tempContext != null) ? tempContext.getPermissionType() : null;
-				        	if (permType != null) {
-				        		GWT.log("Checking permission type '" + permType.getPermissionTemplateName() + "' for view '" + view.toString() + "'", null);
-				            	//A callback is required if async rpc call is required for authz check
-					        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
-									public void isAuthorized() {
-										finalizeShowView(view, viewType, onReadyCallback);
-									}
-				
-									public void isNotAuthorized(String msg) {
-										Window.alert(msg);
-										onReadyCallback.exec(false);					
-									}        		
-					        	});
-				        	}
-				        	else {
-				        		GWT.log("Cannot find PermissionType for view '" + view.toString() + "' which requires authorization", null);
-				            	finalizeShowView(view, viewType, onReadyCallback);
-				        	}
-				        } else {
-				    		GWT.log("Not Requiring Auth.", null);
-				        	finalizeShowView(view, viewType, onReadyCallback);
-				        }
-				}
-				else{
-					onReadyCallback.exec(false);
-				}
-				
-			}
-		});
+            @Override
+            public void exec(Boolean result) {
+                if(result){
+                     boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
+                        
+                        if (requiresAuthz){
+//                          GWT.log("Checking permission type '" + getViewContext().getPermissionType().getPermissionTemplateName() + "' for viewType '" + viewType.toString() + "'", null);
+
+                            //A callback is required if async rpc call is required for authz check
+                            ((RequiresAuthorization)view).checkAuthorization(new AuthorizationCallback(){
+                                public void isAuthorized() {
+                                    finalizeShowView(view, viewType, onReadyCallback);
+                                }
+            
+                                public void isNotAuthorized(String msg) {
+                                    Window.alert(msg);
+                                    onReadyCallback.exec(false);                    
+                                }               
+                            });
+                        } else {
+                            GWT.log("Not Requiring Auth.", null);
+                            finalizeShowView(view, viewType, onReadyCallback);
+                        }
+                }
+                else{
+                    onReadyCallback.exec(false);
+                }
+                
+            }
+        });
     }
     
     private <V extends Enum<?>> void finalizeShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
@@ -314,7 +300,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public void requestModel(final ModelRequestCallback callback) {
         requestModel((String)null, callback);
     }

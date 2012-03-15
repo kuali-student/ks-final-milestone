@@ -21,6 +21,7 @@ package org.kuali.student.common.ui.client.widgets.field.layout.layouts;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class TopLevelLayout extends VerticalFieldLayout{
 
 	public TopLevelLayout(){

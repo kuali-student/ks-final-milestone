@@ -14,33 +14,37 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.common.test.mock.MockProxyFactoryBean;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.common.validator.ServerDateParser;
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.common.validator.ValidatorFactory;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r1.common.validator.ServerDateParser;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.utils.ActiveDatesValidator;
 import org.kuali.student.lum.course.service.utils.ActivityTypeValidator;
 import org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator;
 import org.kuali.student.lum.course.service.utils.RevenuePercentValidator;
 import org.kuali.student.lum.course.service.utils.SubjectAreaUnitOwnerValidator;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestCourseInfoDictionary {
+	
+	ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 
 	@Test
 	public void testLoadCourseInfoDictionary() {
@@ -94,7 +98,7 @@ public class TestCourseInfoDictionary {
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		CourseInfo info = new CourseInfo();
 		ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
-		List<ValidationResultInfo> validationResults = val.validateObject(info,	os);
+		List<ValidationResultInfo> validationResults = val.validateObject(info,	os, contextInfo);
 		System.out.println("h3. With just a blank Course");
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
@@ -111,7 +115,7 @@ public class TestCourseInfoDictionary {
 		info.setRevenues(new ArrayList<CourseRevenueInfo>());
 		info.setExpenditure(null);
 		
-		validationResults = val.validateObject(info, os);
+		validationResults = val.validateObject(info, os, contextInfo);
 		System.out.println("h3. With generated data");
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
@@ -121,12 +125,12 @@ public class TestCourseInfoDictionary {
 		System.out.println("testCourseDescrRequiredBasedOnState");
 		info.setState("DRAFT");
 		info.setDescr(null);
-		validationResults = val.validateObject(info, os);
+		validationResults = val.validateObject(info, os, contextInfo);
 		assertEquals(0, validationResults.size());
 
 		info.setState("ACTIVE");
 		info.setDescr(null);
-		validationResults = val.validateObject(info, os);
+		validationResults = val.validateObject(info, os, contextInfo);
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
@@ -134,7 +138,7 @@ public class TestCourseInfoDictionary {
 
 		System.out.println("test validation on dynamic attributes");
 		info.getAttributes().put("finalExamStatus", "123");
-		validationResults = val.validateObject(info, os);
+		validationResults = val.validateObject(info, os, contextInfo);
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
@@ -149,7 +153,7 @@ public class TestCourseInfoDictionary {
 		loCatInfo.setDesc(rtInfo);
 		info.setCourseSpecificLOs(Arrays.asList(loInfo));
 		info.setRevenues(new ArrayList<CourseRevenueInfo>());
-		validationResults = val.validateObject(info, os);
+		validationResults = val.validateObject(info, os, contextInfo);
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
@@ -212,7 +216,7 @@ public class TestCourseInfoDictionary {
         CourseExpenditureInfo cei = new CourseExpenditureInfo();
         cei.setAffiliatedOrgs(afList);
         
-        List<ValidationResultInfo> validationResults1 = val.validateObject(info, os);
+        List<ValidationResultInfo> validationResults1 = val.validateObject(info, os, contextInfo);
         System.out.println("h3. With just a custom validations");
 
         assertEquals(2, validationResults1.size());

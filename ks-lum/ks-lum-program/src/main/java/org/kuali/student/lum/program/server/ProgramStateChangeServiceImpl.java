@@ -2,17 +2,16 @@ package org.kuali.student.lum.program.server;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.common.server.StatementUtil;
-import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.service.ProgramService;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -67,7 +66,7 @@ public class ProgramStateChangeServiceImpl {
             throw new InvalidParameterException("new state cannot be null");
 
         // The version selected in the UI
-        MajorDisciplineInfo selectedVersion = programService.getMajorDiscipline(majorDisciplineId);
+        MajorDisciplineInfo selectedVersion = programService.getMajorDiscipline(majorDisciplineId,ContextUtils.getContextInfo());
 
         // If we are activating this version we need to mark the previous version superseded,
         // update the previous version end terms, and make the selected version current.
@@ -113,7 +112,8 @@ public class ProgramStateChangeServiceImpl {
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm) {
         majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
         majorDisciplineInfo.setEndTerm(endEnrollTerm);
-        majorDisciplineInfo.getAttributes().put(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm);
+        // TODO KSCM-421: HASMAPs versus LISTs
+        //majorDisciplineInfo.getAttributes().put(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm);
     }
 
     /**
@@ -130,7 +130,7 @@ public class ProgramStateChangeServiceImpl {
          
         // Update major discipline
         majorDisciplineInfo.setState(newState);
-        programService.updateMajorDiscipline(majorDisciplineInfo);
+     // TODO KSCM-393 programService.updateMajorDiscipline(majorDisciplineInfo,ContextUtils.getContextInfo());
     }
 
     /**
@@ -142,12 +142,11 @@ public class ProgramStateChangeServiceImpl {
 
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
-        VersionDisplayInfo currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId());
+        VersionDisplayInfo currentVersion = null;
+        // TODO KSCM-393 currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId(),ContextUtils.getContextInfo());
 
         // If this is not the current version, then make it current
-        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) {
-            programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null);
-        }
+     // TODO KSCM-393 if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) { programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null,ContextUtils.getContextInfo()); }
     }
 
     /**
@@ -164,10 +163,13 @@ public class ProgramStateChangeServiceImpl {
      */
     private MajorDisciplineInfo findPreviousVersion(MajorDisciplineInfo majorDisciplineInfo) throws Exception {
         // Find all previous versions using the version independent indicator
-        List<VersionDisplayInfo> versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId());
+        List<VersionDisplayInfo> versions = null;
+     // TODO KSCM-393 versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId(),ContextUtils.getContextInfo());
 
         // Take the sequence number for this version
-        Long sequenceNumber = majorDisciplineInfo.getVersionInfo().getSequenceNumber();
+        Long sequenceNumber = null;
+ 
+        sequenceNumber = majorDisciplineInfo.getVersionInfo().getSequenceNumber();
 
         // And subtract 1 from the sequence number to get the previous version
         sequenceNumber -= 1;
@@ -182,7 +184,7 @@ public class ProgramStateChangeServiceImpl {
         MajorDisciplineInfo previousVersion = null;
         for (VersionDisplayInfo versionInfo : versions) {
             if (versionInfo.getSequenceNumber().equals(sequenceNumber)) {
-                previousVersion = programService.getMajorDiscipline(versionInfo.getId());
+                previousVersion = programService.getMajorDiscipline(versionInfo.getId(),ContextUtils.getContextInfo());
                 break;
             }
         }
@@ -205,7 +207,8 @@ public class ProgramStateChangeServiceImpl {
         for (String programRequirementId : programRequirementIds) {
 
             // Get program requirement from the program service
-            ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null);
+            ProgramRequirementInfo programRequirementInfo = null;
+            // TODO KSCM-393 programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null,ContextUtils.getContextInfo());
 
             // Look in the requirement for the statement tree
             StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();
@@ -217,7 +220,7 @@ public class ProgramStateChangeServiceImpl {
             programRequirementInfo.setState(newState);
 
             // The write the requirement back to the program service
-            programService.updateProgramRequirement(programRequirementInfo);
+         // TODO KSCM-393 programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
 
         }
     }

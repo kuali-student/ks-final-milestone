@@ -24,11 +24,11 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -41,6 +41,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public abstract class FieldLayout extends FlowPanel implements FieldLayoutComponent{
 	protected Map<String, FieldElement> fieldMap = new HashMap<String, FieldElement>();
 	protected Map<String, FieldLayout> layoutMap = new HashMap<String, FieldLayout>();

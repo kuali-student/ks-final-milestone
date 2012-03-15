@@ -3,38 +3,41 @@ package org.kuali.student.lum.course.service.impl;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.student.common.dto.CurrencyAmountInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.CircularRelationshipException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.UnsupportedActionException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.lum.course.dto.CourseFeeInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.CourseJointInfo;
-import org.kuali.student.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.lum.course.dto.CourseVariationInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r1.lum.lu.service.LuService;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.service.StatementService;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
+import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
+import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
+import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 
+// TODO KSCM-225
 public class CourseServiceUtils {
 	public static void resetIds(CourseInfo course) {
 		
@@ -53,10 +56,13 @@ public class CourseServiceUtils {
 				activity.setId(null);
 			}
 		}
+		
 		//Clear result component ids
-		for(ResultComponentInfo result:course.getCreditOptions()){
-			result.setId(null);
-		}
+		//TODO KSCM-421 r2 returns List<String>
+//		for(ResultComponentInfo result:course.getCreditOptions()){
+//			result.setId(null);
+//		}
+		
 		//Clear cross listing ids
 		for(CourseCrossListingInfo crossListing:course.getCrossListings()){
 			crossListing.setId(null);
@@ -94,10 +100,10 @@ public class CourseServiceUtils {
 	}
 
 	private static void clearStatementTreeViewIds(
-			List<StatementTreeViewInfo> statementTreeViews, String newState, LuService luService) throws OperationFailedException {
+			List<StatementTreeViewInfo> statementTreeViews, String newState, CluService cluService,ContextInfo contextInfo) throws OperationFailedException {
 		//Clear out all statement ids recursively
 		for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-			clearStatementTreeViewIdsRecursively(statementTreeView, newState, luService);
+			clearStatementTreeViewIdsRecursively(statementTreeView, newState, cluService,contextInfo);
 		}
 	}
 
@@ -107,7 +113,7 @@ public class CourseServiceUtils {
 	 * @param luService
 	 * @throws OperationFailedException
 	 */
-	private static void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView, String newState,LuService luService) throws OperationFailedException{
+	private static void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView, String newState, CluService cluService,ContextInfo contextInfo) throws OperationFailedException{
 		statementTreeView.setId(null);
 		statementTreeView.setState(newState);
 		
@@ -122,16 +128,16 @@ public class CourseServiceUtils {
 				   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
 				   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
 					try {
-						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
-						cluSet.setId(null);
-						cluSet.setState(newState);
-						//Clear clu ids if membership info exists, they will be re-added based on membership info 
-						if (cluSet.getMembershipQuery() != null){
-							cluSet.getCluIds().clear();
-							cluSet.getCluSetIds().clear();
-						}
-						cluSet = luService.createCluSet(cluSet.getType(), cluSet);
-						field.setValue(cluSet.getId());
+						//TODO KSCM-421 						cluService.getCluSetInfo(field.getValue(),contextInfo);
+//						cluSet.setId(null);
+//						cluSet.setState(newState);
+//						//Clear clu ids if membership info exists, they will be re-added based on membership info 
+//						if (cluSet.getMembershipQuery() != null){
+//							cluSet.getCluIds().clear();
+//							cluSet.getCluSetIds().clear();
+//						}
+//						cluSet = cluService.createCluSet(cluSet.getType(), cluSet,contextInfo);
+//						field.setValue(cluSet.getId());
 					} catch (Exception e) {
 						throw new OperationFailedException("Error copying clusets.", e);
 					}
@@ -141,33 +147,33 @@ public class CourseServiceUtils {
 		}
 		//recurse through nested statements
 		for(StatementTreeViewInfo child: statementTreeView.getStatements()){
-			clearStatementTreeViewIdsRecursively(child,newState,luService);
+			clearStatementTreeViewIdsRecursively(child,newState, cluService,contextInfo);
 		}
 	}
 
 	public static void copyStatements(String originalCluId, String newCluId, String newState,
-			StatementService statementService, LuService luService, CourseService courseService) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DataValidationErrorException {
-		List<StatementTreeViewInfo> statementTreeViews = courseService.getCourseStatements(originalCluId,null,null);
+			StatementService statementService, CluService cluService, CourseService courseService,ContextInfo contextInfo) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DataValidationErrorException {
+		List<StatementTreeViewInfo> statementTreeViews = courseService.getCourseStatements(originalCluId,null,null,contextInfo);
 		
-		clearStatementTreeViewIds(statementTreeViews,newState,luService);
+		clearStatementTreeViewIds(statementTreeViews, newState, cluService, contextInfo);
 		
 		for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-			courseService.createCourseStatement(newCluId, statementTreeView);
+			courseService.createCourseStatement(newCluId, statementTreeView, contextInfo);
 		}
 	}
 	
-	public static CourseInfo copyCourse(String originalCluId, String newCluId, String newState, String[] ignoreProperties, StatementService statementService, LuService luService, CourseService courseService) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException{
-		CourseInfo originalCourse = courseService.getCourse(originalCluId);
+	public static CourseInfo copyCourse(String originalCluId, String newCluId, String newState, String[] ignoreProperties, StatementService statementService, CluService cluService, CourseService courseService,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException{
+		CourseInfo originalCourse = courseService.getCourse(originalCluId,contextInfo);
 		resetIds(originalCourse);
 		
 		//Default the newState to the existing course state if no state was set.
 		//State should never be null
 		if(newState==null){
-			newState = originalCourse.getState();
+			newState = originalCourse.getStateKey();
 		}
 		
 		originalCourse.setId(newCluId);
-		originalCourse.setState(newState);
+		originalCourse.setStateKey(newState);
 		
 		if(ignoreProperties!=null){
 			for(String property:ignoreProperties){
@@ -179,8 +185,8 @@ public class CourseServiceUtils {
 			}
 		}
 		
-		CourseInfo newCourse = courseService.createCourse(originalCourse);
-		copyStatements(originalCluId, newCourse.getId(), newState, statementService, luService, courseService);
+		CourseInfo newCourse = courseService.createCourse(originalCourse,contextInfo);
+		copyStatements(originalCluId, newCourse.getId(), newState, statementService, cluService, courseService,contextInfo);
 		return newCourse;
 	}
 	

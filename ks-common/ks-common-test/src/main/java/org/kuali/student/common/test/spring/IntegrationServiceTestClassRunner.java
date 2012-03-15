@@ -30,6 +30,7 @@ import org.mortbay.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Deprecated
 public class IntegrationServiceTestClassRunner extends JUnit4ClassRunner {
 	final static Logger logger = LoggerFactory.getLogger(IntegrationServiceTestClassRunner.class);
 

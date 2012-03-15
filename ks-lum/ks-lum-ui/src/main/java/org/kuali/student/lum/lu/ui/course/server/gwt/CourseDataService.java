@@ -21,23 +21,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
-import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
-import org.kuali.student.lum.lu.LUConstants;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.lum.lu.LUConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.util.StringUtils;
 
 public class CourseDataService extends AbstractDataService {
@@ -48,14 +47,14 @@ public class CourseDataService extends AbstractDataService {
 	private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
 	
 	private CourseService courseService;
-	private LuService luService;
+	private CluService cluService;
 
 	@Override
-	protected Object get(String id) throws Exception {
+	protected Object get(String id, ContextInfo contextInfo) throws Exception {
 		CourseInfo courseInfo = null;
 
 		try {
-			courseInfo = courseService.getCourse(id);
+			courseInfo = courseService.getCourse(id, contextInfo);
 		} catch (DoesNotExistException dne) {
 			LOG.info("Course not found for key " + id + ". Course loaded from proposal instead.");
 		}		
@@ -64,7 +63,7 @@ public class CourseDataService extends AbstractDataService {
 	}
 
 	@Override
-	protected Object save(Object dto, Map<String, Object> properties) throws Exception {
+	protected Object save(Object dto, Map<String, Object> properties, ContextInfo contextInfo) throws Exception {
 		CourseInfo courseInfo = (CourseInfo)dto;
 		
 		//Set derived course fields before saving/updating
@@ -75,12 +74,14 @@ public class CourseDataService extends AbstractDataService {
 			//For Modify Course, see if we need to create a new version instead of create
 			if(courseInfo.getId() == null){
 			    
-			    if (isLatestVersion(courseInfo.getVersionInfo().getVersionIndId())){
+			    if (isLatestVersion(courseInfo.getVersionInfo().getVersionIndId(), contextInfo)){
 	            	String courseIndId = courseInfo.getVersionInfo().getVersionIndId();
 	            	
 	            	//Get the currentCourse from the service
-	            	VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseIndId);
-	            	CourseInfo originalCourseInfo = courseService.getCourse(versionInfo.getId());
+	            	VersionDisplayInfo versionInfo = null;
+	            	// TODO KSCM-423 Versions versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseIndId, contextInfo);
+	            	CourseInfo originalCourseInfo = null;
+	            	// TODO KSCM-423 Versions originalCourseInfo = courseService.getCourse(versionInfo.getId(), contextInfo);
 	            	
 			    	//Save the start and end terms from the old version and put into filter properties
 			    	String startTerm = originalCourseInfo.getStartTerm();
@@ -93,18 +94,18 @@ public class CourseDataService extends AbstractDataService {
 			    	
 			    	properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);
 			    	
-			        courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment());
+			        courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment(), contextInfo);
 			    } else {
 			        throw new OperationFailedException("Error creating new version for course, this course is currently under modification.");
 			    }
 			}else{
-				courseInfo = courseService.updateCourse(courseInfo);
+				courseInfo = courseService.updateCourse(courseInfo.getId(), courseInfo, contextInfo);
 			}
 		}else{
 			if (courseInfo.getId() == null){
-				courseInfo = courseService.createCourse(courseInfo);
+				courseInfo = courseService.createCourse(courseInfo, contextInfo);
 			} else {
-				courseInfo = courseService.updateCourse(courseInfo);
+				courseInfo = courseService.updateCourse(courseInfo.getId(), courseInfo, contextInfo);
 			}
 		}
 		return courseInfo;
@@ -112,8 +113,8 @@ public class CourseDataService extends AbstractDataService {
 	
 	
 	@Override
-	protected List<ValidationResultInfo> validate(Object dto) throws Exception {
-		return courseService.validateCourse("OBJECT", (CourseInfo)dto);
+	protected List<ValidationResultInfo> validate(Object dto, ContextInfo contextInfo) throws Exception {
+		return courseService.validateCourse("OBJECT", (CourseInfo)dto, contextInfo);
 	}
 
 	@Override
@@ -140,8 +141,8 @@ public class CourseDataService extends AbstractDataService {
 		this.courseService = courseService;
 	}
 
-	public void setLuService(LuService luService) {
-        this.luService = luService;
+	public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 
     /**
@@ -175,8 +176,8 @@ public class CourseDataService extends AbstractDataService {
 	    return subjectArea + suffixNumber;
 	}
 	
-	public Boolean isLatestVersion(String versionIndId) throws Exception {
-	    VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, versionIndId);
+	public Boolean isLatestVersion(String versionIndId, ContextInfo contextInfo) throws Exception {
+	    VersionDisplayInfo currentVersion = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndId, contextInfo);
         //Perform a search to see if there are any new versions of the course that are approved, draft, etc.
         //We don't want to version if there are
         SearchRequest request = new SearchRequest("lu.search.isVersionable");
@@ -188,7 +189,7 @@ public class CourseDataService extends AbstractDataService {
         states.add("Draft");
         states.add("Superseded");
         request.addParam("lu.queryParam.luOptionalState", states);
-        SearchResult result = luService.search(request);
+        SearchResult result = cluService.search(request);
         
         String resultString = result.getRows().get(0).getCells().get(0).getValue();
         return "0".equals(resultString);

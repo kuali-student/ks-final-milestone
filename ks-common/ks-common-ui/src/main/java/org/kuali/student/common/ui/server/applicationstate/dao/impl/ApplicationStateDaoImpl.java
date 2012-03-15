@@ -23,16 +23,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.ui.server.applicationstate.dao.ApplicationStateDao;
 import org.kuali.student.common.ui.server.applicationstate.entity.ApplicationState;
+import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
 /**
  * This data access class stores the GUI (page, section, widget, etc.) 
  * application states as key value pairs in a database.
  */
+@Deprecated
 public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl implements ApplicationStateDao {
 
 	private final static String DEFAULT_USER_ID = "APPLICATION";

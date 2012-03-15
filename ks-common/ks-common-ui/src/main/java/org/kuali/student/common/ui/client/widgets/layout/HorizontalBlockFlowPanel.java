@@ -16,6 +16,7 @@
 package org.kuali.student.common.ui.client.widgets.layout;
 
 
+@Deprecated
 public class HorizontalBlockFlowPanel extends CustomFlowPanel{
 
     @Override

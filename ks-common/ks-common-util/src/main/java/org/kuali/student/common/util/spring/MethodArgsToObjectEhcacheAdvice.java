@@ -15,15 +15,11 @@
 
 package org.kuali.student.common.util.spring;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.ObjectExistsException;
 
 import org.aopalliance.aop.Advice;
-import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 
@@ -79,7 +75,7 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 
 			}
 		}
-		MultiKey cacheKey = getCacheKey(pjp);
+		String cacheKey = getCacheKey(pjp);
 
 		Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
 		Object result = null;
@@ -95,17 +91,16 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 		return result;
 	}
 
-	private MultiKey getCacheKey(ProceedingJoinPoint pjp) {
-	    List<Object> keyList = new ArrayList<Object>();
-	    keyList.add(pjp.getSignature().getName());
-	    for(Object arg : pjp.getArgs()){
-	    	if(arg==null){
-	    		keyList.add("_null_");
-	    	}else{
-	    		keyList.add(arg.toString());
-	    	}
-	    }
-	    return new MultiKey(keyList.toArray());
+	private String getCacheKey(ProceedingJoinPoint pjp) {
+		final StringBuffer cacheKey = new StringBuffer(pjp.getSignature().getName());
+		cacheKey.append("(");
+		for (int i = 0; i < pjp.getArgs().length; i++) {
+			cacheKey.append(pjp.getArgs()[i].toString());
+			if (i + 1 != pjp.getArgs().length) {
+				cacheKey.append(",");
+			}
+		}
+		return cacheKey.toString();
 	}
 
 	/**

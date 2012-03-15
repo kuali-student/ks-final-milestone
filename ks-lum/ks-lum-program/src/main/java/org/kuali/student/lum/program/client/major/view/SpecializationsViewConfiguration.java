@@ -3,13 +3,12 @@ package org.kuali.student.lum.program.client.major.view;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ListToTextBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
@@ -20,11 +19,11 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSect
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationsBinding;
 
 /**
@@ -34,37 +33,41 @@ public class SpecializationsViewConfiguration extends AbstractSectionConfigurati
 
 	private Controller controller = null;
 
-    public static SpecializationsViewConfiguration create() {
-        return new SpecializationsViewConfiguration(new VerticalSectionView(ProgramSections.SPECIALIZATIONS_VIEW, ProgramProperties.get().program_menu_sections_specializations(), ProgramConstants.PROGRAM_MODEL_ID));
+    public static SpecializationsViewConfiguration create(Configurer configurer) {
+        return new SpecializationsViewConfiguration(configurer);
     }
 
-    public static SpecializationsViewConfiguration createSpecial(Controller controller) {
-        String title = ProgramProperties.get().program_menu_sections_specializations();
-        return new SpecializationsViewConfiguration(new VerticalSectionView(ProgramSections.SPECIALIZATIONS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.SPECIALIZATIONS_EDIT)), controller);
+    public static SpecializationsViewConfiguration createSpecial(Configurer configurer, Controller controller) {
+        return new SpecializationsViewConfiguration(configurer, controller);
     }
 
-    private SpecializationsViewConfiguration(SectionView sectionView) {
-        rootSection = sectionView;
+    private SpecializationsViewConfiguration(Configurer configurer) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_SPECIALIZATIONS);
+        rootSection = new VerticalSectionView(ProgramSections.SPECIALIZATIONS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID);
     }
 
-    private SpecializationsViewConfiguration(SectionView sectionView, Controller controller) {
-        rootSection = sectionView;
+    private SpecializationsViewConfiguration(Configurer configurer, Controller controller) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_SPECIALIZATIONS);
+        rootSection = new VerticalSectionView(ProgramSections.SPECIALIZATIONS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, 
+                new MajorEditableHeader(title, ProgramSections.SPECIALIZATIONS_EDIT));
     	this.controller = controller;
     }
 
     @Override
     protected void buildLayout() {
-		VerticalSection section = new VerticalSection();
     	if (controller instanceof MajorProposalController || controller instanceof MajorEditController) 
-       		section.addSection(createSpecializationsSectionEdit());
+    		rootSection.addSection(createSpecializationsSectionEdit());
     	else
     	{
-    		KSCheckBox isVariationRequiredCheckBox = new KSCheckBox(ProgramProperties.get().programSpecialization_instructions());
+    		VerticalSection section = new VerticalSection();
+    		KSCheckBox isVariationRequiredCheckBox = new KSCheckBox(getLabel(ProgramMsgConstants.PROGRAMSPECIALIZATION_INSTRUCTIONS));
     		isVariationRequiredCheckBox.setEnabled(false);
     		configurer.addReadOnlyField(section, ProgramConstants.IS_VARIATION_REQUIRED, null, isVariationRequiredCheckBox);
     		configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS, new MessageKeyInfo(""), new FlexTable()).setWidgetBinding(new VariationsBinding(AppLocations.Locations.VIEW_VARIATION.getLocation(), false));
+    		rootSection.addSection(section);
     	}
-		rootSection.addSection(section);
     }
     
     // Side-by-side comparison (when controller is not null)  
@@ -76,13 +79,12 @@ public class SpecializationsViewConfiguration extends AbstractSectionConfigurati
         return section;
     }
 
-  	@SuppressWarnings("unchecked")
   	public SummaryTableFieldBlock createSpecializationsSectionEditBlock() {
   		SummaryTableFieldBlock block = new SummaryTableFieldBlock();
  
-		KSCheckBox isVariationRequiredCheckBox = new KSCheckBox(ProgramProperties.get().programSpecialization_instructions());
+		KSCheckBox isVariationRequiredCheckBox = new KSCheckBox(getLabel(ProgramMsgConstants.PROGRAMSPECIALIZATION_INSTRUCTIONS));
 		isVariationRequiredCheckBox.setEnabled(false);
-		KSCheckBox isVariationRequiredCheckBox2 = new KSCheckBox(ProgramProperties.get().programSpecialization_instructions());
+		KSCheckBox isVariationRequiredCheckBox2 = new KSCheckBox(getLabel(ProgramMsgConstants.PROGRAMSPECIALIZATION_INSTRUCTIONS));
 		isVariationRequiredCheckBox2.setEnabled(false);
 
         block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.IS_VARIATION_REQUIRED, null, isVariationRequiredCheckBox, isVariationRequiredCheckBox2, null, null, false));        

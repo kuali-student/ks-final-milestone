@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Composite;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public abstract class KSMenu extends Composite {
 	public static enum MenuImageLocation{LEFT, RIGHT};
 	

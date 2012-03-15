@@ -3,13 +3,13 @@ package org.kuali.student.core.document.ui.client.widgets.documenttool;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
-import org.kuali.student.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcServiceAsync;
 
@@ -136,7 +136,7 @@ public class DocumentList extends Composite{
                 tableLayout.setWidget(rowIndex, columnIndex, name);
                 columnIndex++;
                 if(showDesc){
-	                documentText.setHTML(docInfo.getDesc().getPlain());
+                	documentText.setHTML(docInfo.getDesc().getPlain());
 	                documentText.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
 	                tableLayout.setWidget(rowIndex, columnIndex, documentText);
 	                columnIndex++;
