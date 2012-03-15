@@ -29,6 +29,15 @@ import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
+import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
+import org.kuali.student.r2.lum.clu.dto.FeeInfo;
+import org.kuali.student.r2.lum.clu.dto.FieldInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 
 public class TestDTOEqualXMLBeanDefinition {
 
@@ -60,21 +69,31 @@ public class TestDTOEqualXMLBeanDefinition {
 		System.out.println("testing statement dictionary");
 
 		Set<String> startingClasses = new LinkedHashSet();
-		//startingClasses.add(AcademicSubjectOrgInfo.class.getName());
-		//startingClasses.add(AccreditationInfo.class.getName());
-		//startingClasses.add(AdminOrgInfo.class.getName());
-		//startingClasses.add(AffiliatedOrgInfo.class.getName());
-		//startingClasses.add(CluAccountingInfo.class.getName());
-		//startingClasses.add(CluCluRelationInfo.class.getName());
-		//startingClasses.add(CluCreditInfo.class.getName());
-		//startingClasses.add(CluFeeInfo.class.getName());
+		startingClasses.add(AcademicSubjectOrgInfo.class.getName());
+		startingClasses.add(AccreditationInfo.class.getName());
+		startingClasses.add(AdminOrgInfo.class.getName());
+		startingClasses.add(AffiliatedOrgInfo.class.getName());
+		startingClasses.add(CluAccountingInfo.class.getName());
+		startingClasses.add(CluCluRelationInfo.class.getName());
+		startingClasses.add(CluCreditInfo.class.getName());
+		startingClasses.add(CluFeeInfo.class.getName());
 		//startingClasses.add(CluFeeRecordInfo.class.getName()); //osDict is null
-		//startingClasses.add(CluIdentifierInfo.class.getName());
+		startingClasses.add(CluIdentifierInfo.class.getName());
 		//startingClasses.add(CluInfo.class.getName());//Nullpointerexception
-		//startingClasses.add(CluInstructorInfo.class.getName());
-		//startingClasses.add(CluLoRelationInfo.class.getName());
-		//startingClasses.add(CluPublicationInfo.class.getName()); //nie in xml
-		//startingClasses.add(CluResultInfo.class.getName());//nie in xml
+		startingClasses.add(CluInstructorInfo.class.getName());
+		startingClasses.add(CluLoRelationInfo.class.getName());
+		//startingClasses.add(CluPublicationInfo.class.getName()); //variants maxOccurs inconsistent: dictionary='1'], java class='unbounded'
+		//startingClasses.add(CluResultInfo.class.getName());//variants maxOccurs inconsistent: dictionary='1'], java class='unbounded'
+		//startingClasses.add(CluSetInfo.class.getName());//Nullpointerexception
+		//startingClasses.add(CluSetTreeViewInfo.class.getName());//Nullpointerexception
+		//startingClasses.add(ExpenditureInfo.class.getName());//affiliatedOrgs maxOccurs inconsistent: dictionary='1'], java class='unbounded'
+		//startingClasses.add(FeeInfo.class.getName());//feeAmounts maxOccurs inconsistent: dictionary='1'], java class='unbounded'
+		startingClasses.add(FieldInfo.class.getName());
+		startingClasses.add(LuCodeInfo.class.getName());
+		startingClasses.add(LuDocRelationInfo.class.getName());
+		//startingClasses.add(MembershipQueryInfo.class.getName());//Nullpointerexception
+		startingClasses.add(ResultOptionInfo.class.getName());
+		
 		String contextFile = "ks-cluInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
