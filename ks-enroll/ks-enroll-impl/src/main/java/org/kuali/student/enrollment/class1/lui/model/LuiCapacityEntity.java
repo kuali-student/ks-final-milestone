@@ -35,7 +35,7 @@ public class LuiCapacityEntity extends MetaEntity {
     private Date effectiveDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIR_DT")
+    @Column(name = "EXP_DT")
     private Date expirationDate;
 
     @Column(name = "MAX_SEATS")

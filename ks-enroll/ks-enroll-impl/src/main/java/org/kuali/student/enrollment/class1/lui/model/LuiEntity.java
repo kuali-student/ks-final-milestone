@@ -65,7 +65,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     private Date effectiveDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIR_DT")
+    @Column(name = "EXP_DT")
     private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
