@@ -178,7 +178,7 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
             }
             if (orgsForRouting != null) {
                 for (OrgInfo orgForRouting : orgsForRouting) {
-                    if (orgType != null && orgType.equals(orgForRouting.getType())) {
+                    if (orgType != null && orgType.equals(orgForRouting.getTypeKey())) {
                         List<SearchResultRow> results = relatedOrgsFromOrgId(orgForRouting.getId(), getOrganizationRelationTypeCode(), getRelatedOrganizationTypeCode());
                         returnAttributeSets.addAll(attributeSetFromSearchResult(results, orgIdKey));
                     }

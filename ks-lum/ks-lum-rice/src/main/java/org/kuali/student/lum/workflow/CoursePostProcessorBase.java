@@ -58,7 +58,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         // update the course state if the cluState value is not null (allows for clearing of the state)
         String courseId = getCourseId(proposalInfo);
         CourseInfo courseInfo = getCourseService().getCourse(courseId, contextInfo);
-        String courseState = getCluStateForRouteStatus(courseInfo.getState(), statusChangeEvent.getNewRouteStatus());
+        String courseState = getCluStateForRouteStatus(courseInfo.getStateKey(), statusChangeEvent.getNewRouteStatus());
         updateCourse(statusChangeEvent, courseState, courseInfo, contextInfo);
         return true;
     }
@@ -117,7 +117,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             if (LOG.isInfoEnabled()) {
                 LOG.info("Setting state '" + courseState + "' on CLU with cluId='" + courseInfo.getId() + "'");
             }
-            courseInfo.setState(courseState);
+            courseInfo.setStateKey(courseState);
             requiresSave = true;
         }
         if (LOG.isInfoEnabled()) {
@@ -140,7 +140,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             
             List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null, contextInfo);
             if(statementTreeViewInfos!=null){
-	            statementTreeViewInfoStateSetter(courseInfo.getState(), statementTreeViewInfos.iterator());
+	            statementTreeViewInfoStateSetter(courseInfo.getStateKey(), statementTreeViewInfos.iterator());
 	            
 	            for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
 

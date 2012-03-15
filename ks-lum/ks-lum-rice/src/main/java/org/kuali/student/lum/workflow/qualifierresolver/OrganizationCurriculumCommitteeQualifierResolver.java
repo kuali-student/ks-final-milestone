@@ -54,12 +54,12 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
             List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgIdValue, null);	// TODO KSCM-267
             for (OrgOrgRelationInfo orgOrgRelationInfo : orgRelationInfos) {
                 // check that the relationship is active
-                if (StringUtils.equals("Active", orgOrgRelationInfo.getState())) {
+                if (StringUtils.equals("Active", orgOrgRelationInfo.getStateKey())) {
                     // check for the proper relationship type
-                    if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getType())) {
+                    if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getTypeKey())) {
                         OrgInfo nextNodeOrgInfo = getOrganization(orgOrgRelationInfo.getRelatedOrgId());
                         // check the org type of the related org is the proper org type
-                        if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_COC, nextNodeOrgInfo.getType())) {
+                        if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_COC, nextNodeOrgInfo.getTypeKey())) {
                             if (LOG.isDebugEnabled()) {
                                 LOG.debug("---- Related Org Relation: " + nextNodeOrgInfo.getId() + " - " + nextNodeOrgInfo.getShortName() + " (" + nextNodeOrgInfo.getLongName() + ")");
                             }

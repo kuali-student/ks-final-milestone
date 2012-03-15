@@ -189,7 +189,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
             ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(statusChangeEvent.getDocumentId(), contextInfo);
 
             // update the proposal state if the proposalState value is not null (allows for clearing of the state)
-            String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), statusChangeEvent.getNewRouteStatus());
+            String proposalState = getProposalStateForRouteStatus(proposalInfo.getStateKey(), statusChangeEvent.getNewRouteStatus());
             updateProposal(statusChangeEvent, proposalState, proposalInfo, contextInfo);
             success = processCustomRouteStatusChange(statusChangeEvent, proposalInfo, contextInfo);
 	    }
@@ -291,7 +291,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         }
         boolean requiresSave = false;
         if (proposalState != null) {
-            proposalInfo.setState(proposalState);
+            proposalInfo.setStateKey(proposalState);
             requiresSave = true;
         }
         requiresSave |= preProcessProposalSave(iDocumentEvent, proposalInfo);

@@ -141,8 +141,8 @@ public class OrganizationDynamicNode implements DynamicNode {
                     LOG.debug("------------ Org ID: " + orgOrgRelationInfo.getOrgId());
                  // TODO KSCM-424 orgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getRelatedOrgId(), contextInfo);
                     LOG.debug("------------ Related Org on Document: " + getOrgInfoForPrint(orgInfo));
-                    LOG.debug("------------ Relation State: " + orgOrgRelationInfo.getState());
-                    LOG.debug("------------ Relation Type: " + orgOrgRelationInfo.getType());
+                    LOG.debug("------------ Relation State: " + orgOrgRelationInfo.getStateKey());
+                    LOG.debug("------------ Relation Type: " + orgOrgRelationInfo.getTypeKey());
                 }
                 List<OrgOrgRelationInfo> relatedOrgRelationInfos = null;
              // TODO KSCM  relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(orgId, contextInfo);
@@ -151,8 +151,8 @@ public class OrganizationDynamicNode implements DynamicNode {
                     LOG.debug("------------ Related Org ID: " + orgOrgRelationInfo.getRelatedOrgId());
                  // TODO KSCM-424 orgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getOrgId(), contextInfo);
                     LOG.debug("------------ Org of Relation: " + getOrgInfoForPrint(orgInfo));
-                    LOG.debug("------------ Relation State: " + orgOrgRelationInfo.getState());
-                    LOG.debug("------------ Relation Type: " + orgOrgRelationInfo.getType());
+                    LOG.debug("------------ Relation State: " + orgOrgRelationInfo.getStateKey());
+                    LOG.debug("------------ Relation Type: " + orgOrgRelationInfo.getTypeKey());
                 }
             }
         } catch (Exception e) {
@@ -255,8 +255,8 @@ public class OrganizationDynamicNode implements DynamicNode {
             List<OrgOrgRelationInfo> relatedOrgRelationInfos = null;
          // TODO KSCM relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(currentNodeOrgId, contextInfo);
             for (OrgOrgRelationInfo orgOrgRelationInfo : relatedOrgRelationInfos) {
-                if (StringUtils.equals("Active", orgOrgRelationInfo.getState())) {
-                    if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getType())) {
+                if (StringUtils.equals("Active", orgOrgRelationInfo.getStateKey())) {
+                    if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getTypeKey())) {
                         LOG.debug("---- Related Org Relation:");
                         OrgInfo referenceOrgInfo = null;
                         // TODO KSCM-424 referenceOrgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getRelatedOrgId(), contextInfo);

@@ -89,7 +89,7 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 				List<OrgPersonRelationInfo> relations = null;
 				// TODO KSCM relations = orgService.getAllOrgPersonRelationsByOrg(orgId, contextInfo);
 				for(OrgPersonRelationInfo relation:relations){
-					if(excludedOrgPersonRelationTypes==null||!excludedOrgPersonRelationTypes.contains(relation.getType())){
+					if(excludedOrgPersonRelationTypes==null||!excludedOrgPersonRelationTypes.contains(relation.getTypeKey())){
 					    //Add role membership only for memberships that are valid meaning expiration date is greater than or equal to current date.
 					    if(relation.getExpirationDate()!=null){
 					        if(relation.getExpirationDate().compareTo(now)>=0){
