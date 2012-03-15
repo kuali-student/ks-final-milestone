@@ -62,7 +62,7 @@ public class CluAssemblerUtils {
 		List<String> results = new ArrayList<String>();
 		//Loop through all the CluResults to find those with the matching types
 		for(CluResultInfo cluResult:cluResults){
-			if(resultTypes.contains(cluResult.getType())){
+			if(resultTypes.contains(cluResult.getTypeKey())){
 				//Loop through all options and add to the list of Strings
 				for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
 					results.add(resultOption.getResultComponentId());
@@ -93,7 +93,7 @@ public class CluAssemblerUtils {
 				cluResultList = cluService.getCluResultByClu(cluId, contextInfo);
 
 				for (CluResultInfo currentResult : cluResultList) {
-					if (resultType.equals(currentResult.getType())) {
+					if (resultType.equals(currentResult.getTypeKey())) {
 						cluResult = currentResult;
 						if(NodeOperation.DELETE.equals(operation)){
 							//if this is a delete, then we only need the CluResultInfo
@@ -105,7 +105,7 @@ public class CluAssemblerUtils {
 							for(ResultOptionInfo resultOption:currentResult.getResultOptions()){
 								// Set the state of the result option so it appears in the KSLU_RSLT_OPT table
 							    // States include Draft, Approved, Superseded etc.
-							    resultOption.setState(cluState);
+							    resultOption.setStateKey(cluState);
 							    currentResults.put(resultOption.getResultComponentId(), resultOption);
 							}
 						}
@@ -127,8 +127,8 @@ public class CluAssemblerUtils {
 				//Create a new resultInfo of the given type if one does not exist and set operation to Create
 				cluResult = new CluResultInfo();
 				cluResult.setCluId(cluId);
-				cluResult.setState(cluState);
-				cluResult.setType(resultType);
+				cluResult.setStateKey(cluState);
+				cluResult.setTypeKey(resultType);
 				RichTextInfo desc = new RichTextInfo();
 				desc.setPlain(resultsDescription);
 				cluResult.setDescr(desc);
@@ -141,7 +141,7 @@ public class CluAssemblerUtils {
 
             // Set the state of the result so it appears in the KSLU_CLU_RSLT table
             // States include Draft, Approved, Superseded etc.
-			cluResult.setState(cluState);
+			cluResult.setStateKey(cluState);
 			
 			// Loop through all the credit options in this clu
 			for (String optionType : options) {
@@ -151,7 +151,7 @@ public class CluAssemblerUtils {
                     
 					// Set the state of the result option so it appears in the KSLU_RSLT_OPT table
                     // States include Draft, Approved, Superseded etc.
-					resultOptionInfo.setState(cluState);
+					resultOptionInfo.setStateKey(cluState);
 					cluResult.getResultOptions().add(resultOptionInfo);
 				}else{
 					//Otherwise create a new result option
@@ -163,7 +163,7 @@ public class CluAssemblerUtils {
                     
 					// Set the state of the result option so it appears in the KSLU_RSLT_OPT table
                     // States include Draft, Approved, Superseded etc.
-                    resultOptionInfo.setState(cluState);
+                    resultOptionInfo.setStateKey(cluState);
 
 					cluResult.getResultOptions().add(resultOptionInfo);
 				}
@@ -201,7 +201,7 @@ public class CluAssemblerUtils {
 		try {
 			List<CluLoRelationInfo> cluLoRelations = cluService.getCluLoRelationsByClu(cluId, contextInfo);
 			for(CluLoRelationInfo cluLoRelation:cluLoRelations){
-				if(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION.equals(cluLoRelation.getType())){
+				if(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION.equals(cluLoRelation.getTypeKey())){
 					currentCluLoRelations.put(cluLoRelation.getLoId(), cluLoRelation);
 				}
 			}
@@ -220,7 +220,7 @@ public class CluAssemblerUtils {
                 // the lo does not exist, so create
                 // Assemble and add the lo
 		    	loDisplay.getLoInfo().setId(null);
-		    	loDisplay.getLoInfo().setState(cluState);
+		    	loDisplay.getLoInfo().setStateKey(cluState);
                 BaseDTOAssemblyNode<org.kuali.student.r1.lum.course.dto.LoDisplayInfo, org.kuali.student.r1.lum.lo.dto.LoInfo> loNode = loAssembler.disassemble(R1R2ConverterUtil.convert(loDisplay, org.kuali.student.r1.lum.course.dto.LoDisplayInfo.class), NodeOperation.CREATE, contextInfo);
                 results.add(loNode);
 
@@ -228,12 +228,12 @@ public class CluAssemblerUtils {
                 CluLoRelationInfo relation = new CluLoRelationInfo();
                 relation.setCluId(cluId);
                 relation.setLoId(loNode.getNodeData().getId());
-                relation.setType(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION);
+                relation.setTypeKey(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION);
                 
                 // Relations can be either Active or Suspended
                 // For now, we set them all to Active
                 // DO NOT use states like draft, superseded, etc for relations
-                relation.setState(DtoConstants.STATE_ACTIVE);
+                relation.setStateKey(DtoConstants.STATE_ACTIVE);
 
                 BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo> relationNode = new BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo>(
                         null);
@@ -245,7 +245,7 @@ public class CluAssemblerUtils {
 					&& currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId())) {
 				// On update, we need to change the state of the LO to
                 // match the state of the parent program
-                loDisplay.getLoInfo().setState(cluState);
+                loDisplay.getLoInfo().setStateKey(cluState);
                 BaseDTOAssemblyNode<org.kuali.student.r1.lum.course.dto.LoDisplayInfo, org.kuali.student.r1.lum.lo.dto.LoInfo> loNode = loAssembler.disassemble(R1R2ConverterUtil.convert(loDisplay, org.kuali.student.r1.lum.course.dto.LoDisplayInfo.class), NodeOperation.UPDATE, contextInfo);
 				results.add(loNode);
 

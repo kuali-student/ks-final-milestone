@@ -123,7 +123,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			CluInfo clu = (CluInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				CluInfo newClu = cluService.createClu(clu.getType(), clu, contextInfo);
+				CluInfo newClu = cluService.createClu(clu.getTypeKey(), clu, contextInfo);
 				if(results.getAssembler() != null) {
 					results.getAssembler().assemble(newClu, results.getBusinessDTORef(), true, contextInfo);
 				}
@@ -142,7 +142,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			CluCluRelationInfo  relation = (CluCluRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				CluCluRelationInfo newCluRel = cluService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation, contextInfo);
+				CluCluRelationInfo newCluRel = cluService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getTypeKey(), relation, contextInfo);
 				// Update the businessDTO if one exists for the cluclurelation (for e.g. CourseJointInfo)
 				if(null != results.getBusinessDTORef()) {
 					results.getAssembler().assemble(newCluRel, results.getBusinessDTORef(), true, contextInfo);
@@ -163,7 +163,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			CluResultInfo cluResult = (CluResultInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				cluService.createCluResult(cluResult.getCluId(), cluResult.getType(), cluResult, contextInfo);
+				cluService.createCluResult(cluResult.getCluId(), cluResult.getTypeKey(), cluResult, contextInfo);
 				break;
 			case UPDATE:
 				cluService.updateCluResult(cluResult.getId(), cluResult, contextInfo);
@@ -188,7 +188,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			LoInfo lo = (LoInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				LoInfo createdLo = loService.createLo(lo.getLoRepositoryKey(), lo, lo.getType(), contextInfo);
+				LoInfo createdLo = loService.createLo(lo.getLoRepositoryKey(), lo, lo.getTypeKey(), contextInfo);
 				if(null != results.getBusinessDTORef()) {
 					results.getAssembler().assemble(createdLo, results.getBusinessDTORef(), true, contextInfo);
 				}
@@ -207,7 +207,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			LoLoRelationInfo loRelation = (LoLoRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				loService.createLoLoRelation(loRelation.getLoId(), loRelation.getRelatedLoId(), loRelation.getType(), loRelation, contextInfo);
+				loService.createLoLoRelation(loRelation.getLoId(), loRelation.getRelatedLoId(), loRelation.getTypeKey(), loRelation, contextInfo);
 				break;
 			case UPDATE:
 				loService.updateLoLoRelation(loRelation.getId(), loRelation, contextInfo);
@@ -220,7 +220,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			CluLoRelationInfo cluLoRelation = (CluLoRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				cluService.createCluLoRelation(cluLoRelation.getCluId(), cluLoRelation.getLoId(), cluLoRelation.getType(), cluLoRelation, contextInfo);
+				cluService.createCluLoRelation(cluLoRelation.getCluId(), cluLoRelation.getLoId(), cluLoRelation.getTypeKey(), cluLoRelation, contextInfo);
 				break;
 			case UPDATE:
 				cluService.updateCluLoRelation(cluLoRelation.getLoId(), cluLoRelation, contextInfo);
@@ -328,7 +328,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			CluPublicationInfo cluPublication = (CluPublicationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				cluService.createCluPublication(cluPublication.getCluId(), cluPublication.getType(), cluPublication, contextInfo);
+				cluService.createCluPublication(cluPublication.getCluId(), cluPublication.getTypeKey(), cluPublication, contextInfo);
 				break;
 			case UPDATE:
 				cluService.updateCluPublication(cluPublication.getId(), cluPublication, contextInfo);

@@ -12,7 +12,7 @@ import org.apache.cxf.service.model.MessageInfo;
 import org.junit.Test;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.common.messages.dto.LocaleKeyList;
 import org.kuali.student.common.messages.dto.Message;
 import org.kuali.student.common.messages.dto.MessageGroupKeyList;

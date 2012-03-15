@@ -263,7 +263,7 @@ public class ProgramServiceImpl implements ProgramService{
             updateStatementTreeViewInfoState(newState, statementTree);
 
             // Update the state of the requirement object
-            programRequirementInfo.setState(newState);
+            programRequirementInfo.setStateKey(newState);
 
             // The write the requirement back to the program service
             updateProgramRequirement(programRequirementInfo,contextInfo);
@@ -290,14 +290,14 @@ public class ProgramServiceImpl implements ProgramService{
         */
         
         // Set the state on the statement tree itself
-        statementTreeViewInfo.setState(state);
+        statementTreeViewInfo.setStateKey(state);
          
         // Get all the requirements components for this statement
         List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
         
         // Loop over requirements and set the state for each requirement
         for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
-            it.next().setState(state);
+            it.next().setStateKey(state);
         
         // Loop over each statement and set the state for each statement (recursively calling this method)
         for(Iterator<StatementTreeViewInfo> itr = statementTreeViewInfo.getStatements().iterator(); itr.hasNext();)
@@ -320,9 +320,9 @@ public class ProgramServiceImpl implements ProgramService{
 				for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
 					field.setId(null);
 					//copy any clusets that are adhoc'd and set the field value to the new cluset
-					if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId().equals(field.getType())||
-					   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
-					   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
+					if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId().equals(field.getTypeKey())||
+					   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getTypeKey())||
+					   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getTypeKey())){
 						try {
 							CluSetInfo cluSet = cluService.getCluSet(field.getValue(),contextInfo);
 							cluSet.setId(null);
@@ -331,7 +331,7 @@ public class ProgramServiceImpl implements ProgramService{
 								cluSet.getCluIds().clear();
 								cluSet.getCluSetIds().clear();
 							}
-							cluSet = cluService.createCluSet(cluSet.getType(), cluSet,contextInfo);
+							cluSet = cluService.createCluSet(cluSet.getTypeKey(), cluSet,contextInfo);
 							field.setValue(cluSet.getId());
 						} catch (Exception e) {
 							throw new OperationFailedException("Error copying clusets.", e);
@@ -400,29 +400,29 @@ public class ProgramServiceImpl implements ProgramService{
 			CluCluRelationInfo relation = new CluCluRelationInfo();
 	        relation.setCluId(majorDiscipline.getId());
 	        relation.setRelatedCluId(newVariationClu.getId());
-	        relation.setType(ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
+	        relation.setTypeKey(ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
 	        
 	        // Relations can only be ACTIVE or Suspended
 	        // We will set to ACTIVE for now
-	        relation.setState(DtoConstants.STATE_ACTIVE);
-			cluService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation,contextInfo);
+	        relation.setStateKey(DtoConstants.STATE_ACTIVE);
+			cluService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getTypeKey(), relation,contextInfo);
 	        
 			//Set variation id & versionInfo to new variation clu
 			variation.setId(newVariationClu.getId());
 			variation.setMeta(newVariationClu.getMeta());
 						
 			//Set state to parent program's state
-			variation.setState(majorDiscipline.getState());
+			variation.setStateKey(majorDiscipline.getStateKey());
 			//Clear Los
 			for(LoDisplay lo:variation.getLearningObjectives()){
 				resetLoRecursively((LoDisplayInfo)lo);
 			}
 			//Copy Requirements for variation
-			copyProgramRequirements(variation.getProgramRequirements(),majorDiscipline.getState(),contextInfo);
+			copyProgramRequirements(variation.getProgramRequirements(),majorDiscipline.getStateKey(),contextInfo);
 		}
 		
 		//Copy requirements for majorDiscipline
-		copyProgramRequirements(majorDiscipline.getProgramRequirements(),majorDiscipline.getState(),contextInfo);
+		copyProgramRequirements(majorDiscipline.getProgramRequirements(),majorDiscipline.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
 		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId,contextInfo);
@@ -430,7 +430,7 @@ public class ProgramServiceImpl implements ProgramService{
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(majorDiscipline.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", majorDiscipline.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation,contextInfo);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", majorDiscipline.getId(), docRelation.getDocumentId(), docRelation.getTypeKey(), docRelation,contextInfo);
 			}
 		}
 	}
@@ -450,7 +450,7 @@ public class ProgramServiceImpl implements ProgramService{
 		}
 
 		//Copy requirements for majorDiscipline
-		copyProgramRequirements(originaCredentialProgram.getProgramRequirements(),originaCredentialProgram.getState(),contextInfo);
+		copyProgramRequirements(originaCredentialProgram.getProgramRequirements(),originaCredentialProgram.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
 		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId,contextInfo);
@@ -458,7 +458,7 @@ public class ProgramServiceImpl implements ProgramService{
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(originaCredentialProgram.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originaCredentialProgram.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation,contextInfo);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originaCredentialProgram.getId(), docRelation.getDocumentId(), docRelation.getTypeKey(), docRelation,contextInfo);
 			}
 		}
 	}
@@ -474,7 +474,7 @@ public class ProgramServiceImpl implements ProgramService{
 			resetLoRecursively((LoDisplayInfo)lo);
 		}
 		//Copy requirements for majorDiscipline
-		copyProgramRequirements(originalCoreProgram.getProgramRequirements(),originalCoreProgram.getState(),contextInfo);
+		copyProgramRequirements(originalCoreProgram.getProgramRequirements(),originalCoreProgram.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
 		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId,contextInfo);
@@ -482,7 +482,7 @@ public class ProgramServiceImpl implements ProgramService{
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(originalCoreProgram.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originalCoreProgram.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation,contextInfo);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originalCoreProgram.getId(), docRelation.getDocumentId(), docRelation.getTypeKey(), docRelation,contextInfo);
 			}
 		}
 	}
@@ -510,7 +510,7 @@ public class ProgramServiceImpl implements ProgramService{
 			//Clear the id
 			programRequirementInfo.setId(null);
 			
-			programRequirementInfo.setState(state);
+			programRequirementInfo.setStateKey(state);
 			//Clear statement tree ids
 			clearStatementTreeViewIdsRecursively(R1R2ConverterUtil.convert(programRequirementInfo.getStatement(), new StatementTreeViewInfo()),contextInfo);
 			//Clear learning objectives
@@ -657,7 +657,7 @@ public class ProgramServiceImpl implements ProgramService{
         try {
             CluInfo clu = cluService.getClu(credentialProgramId,contextInfo);
 
-            if ( ! ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getType()) ) {
+            if ( ! ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getTypeKey()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Credential Program");
             }
             ;
@@ -719,7 +719,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         try {
             CluInfo clu = cluService.getClu(majorDisciplineId,contextInfo);
-            if ( ! ProgramAssemblerConstants.MAJOR_DISCIPLINE.equals(clu.getType()) ) {
+            if ( ! ProgramAssemblerConstants.MAJOR_DISCIPLINE.equals(clu.getTypeKey()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Major Discipline");
             }
             majorDiscipline = R1R2ConverterUtil.convert(majorDisciplineAssembler.assemble(R1R2ConverterUtil.convert(clu, new org.kuali.student.r1.lum.lu.dto.CluInfo()) , null, false,contextInfo),new MajorDisciplineInfo());
@@ -773,7 +773,7 @@ public class ProgramServiceImpl implements ProgramService{
 		checkForMissingParameter(programRequirementId, "programRequirementId");
 
 		CluInfo clu = cluService.getClu(programRequirementId,contextInfo);
-		if (!ProgramAssemblerConstants.PROGRAM_REQUIREMENT.equals(clu.getType())) {
+		if (!ProgramAssemblerConstants.PROGRAM_REQUIREMENT.equals(clu.getTypeKey())) {
 			throw new DoesNotExistException("Specified CLU is not a Program Requirement");
 		}
 		try {
@@ -1286,7 +1286,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         try {
             CluInfo clu = cluService.getClu(coreProgramId,contextInfo);
-            if ( ! ProgramAssemblerConstants.CORE_PROGRAM.equals(clu.getType()) ) {
+            if ( ! ProgramAssemblerConstants.CORE_PROGRAM.equals(clu.getTypeKey()) ) {
                 throw new DoesNotExistException("Specified CLU is not a CoreProgram");
             }
             coreProgramInfo = R1R2ConverterUtil.convert(coreProgramAssembler.assemble(R1R2ConverterUtil.convert(clu, new org.kuali.student.r1.lum.lu.dto.CluInfo() ), null, false,contextInfo), new CoreProgramInfo());

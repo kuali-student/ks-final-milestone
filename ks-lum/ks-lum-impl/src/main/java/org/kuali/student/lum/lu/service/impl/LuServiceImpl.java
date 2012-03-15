@@ -2061,7 +2061,7 @@ public class LuServiceImpl implements CluService {
                     + cluLoRelationInfo.getCluId());
         }
 
-        CluLoRelationType cluLoRelationTypeEntity = luDao.fetch(CluLoRelationType.class, cluLoRelationInfo.getType());
+        CluLoRelationType cluLoRelationTypeEntity = luDao.fetch(CluLoRelationType.class, cluLoRelationInfo.getTypeKey());
         if (cluLoRelationTypeEntity == null) {
             throw new DoesNotExistException("CluLoRelationType does not exist for id: "
                     + cluLoRelationInfo.getTypeKey());
@@ -2142,7 +2142,7 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluSetTypeKey, "cluSetType");
         checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
-        cluSetInfo.setType(cluSetTypeKey);
+        cluSetInfo.setTypeKey(cluSetTypeKey);
 
         validateCluSet(cluSetInfo);
 
@@ -3555,7 +3555,7 @@ public class LuServiceImpl implements CluService {
         CluInfo newClu = null;
 
         try {
-            Clu clu = toCluForCreate(cluInfo.getType(), cluInfo, contextInfo);
+            Clu clu = toCluForCreate(cluInfo.getTypeKey(), cluInfo, contextInfo);
             //Set the Version data
             Version version = new Version();
             version.setSequenceNumber(latestClu.getVersion().getSequenceNumber() + 1);
@@ -3577,7 +3577,7 @@ public class LuServiceImpl implements CluService {
 
     private void clearCluIds(CluInfo clu) {
         // Clear out all ids so a copy can be made
-        clu.setState(DtoConstants.STATE_DRAFT);// TODO check if this should be set from outside
+        clu.setStateKey(DtoConstants.STATE_DRAFT);// TODO check if this should be set from outside
         clu.setId(null);
 
         if (clu.getAccountingInfo() != null) {
