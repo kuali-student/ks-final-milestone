@@ -61,6 +61,7 @@ import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
@@ -294,7 +295,7 @@ public class TestCourseServiceImpl {
         
         Map<String, String> attrMap = new HashMap<String, String>();
         attrMap.put("FRMT", "value");
-        newFormat.setAttributes(attrMap);
+//TODO KSCM newFormat.setAttributes(attrMap);
 
         // Add two new activities to new formats
         ActivityInfo newActivity1 = new ActivityInfo();
@@ -316,7 +317,7 @@ public class TestCourseServiceImpl {
 
         Map<String, String> attributes = createdCourse.getAttributes();
         attributes.put("testKey", "testValue");
-        createdCourse.setAttributes(attributes);
+      //TODO KSCM       createdCourse.setAttributes(attributes);
 
         createdCourse.getCreditOptions().remove(1);
         ResultComponentInfo rsltComp = new ResultComponentInfo();
@@ -360,7 +361,7 @@ public class TestCourseServiceImpl {
         // Perform the update
         try {
             System.out.println("updating course...");
-            updatedCourse = courseService.updateCourse(createdCourse);
+            updatedCourse = courseService.updateCourse(null,createdCourse,contextInfo);
         } catch (DataValidationErrorException e) {
             dumpValidationErrors(createdCourse);
             fail("DataValidationError: " + e.getMessage());
@@ -409,9 +410,9 @@ public class TestCourseServiceImpl {
         // the new contents of the updated Clu (see the
         // results.getAssembler().assemble(updatedClu, results.getBusinessDTORef(), true);
         // line in CourseServiceMethodInvoker.invokeServiceCalls()
-        int currVersion = Integer.parseInt(retrievedCourse.getMetaInfo().getVersionInd());
+        int currVersion = Integer.parseInt(retrievedCourse.getMeta().getVersionInd());
         if (currVersion > 0) {
-            retrievedCourse.getMetaInfo().setVersionInd(Integer.toString(--currVersion));
+            retrievedCourse.getMeta().setVersionInd(Integer.toString(--currVersion));
         }
         try {
             System.out.println("Updating course again trying to get a version mismatch...");
@@ -506,7 +507,7 @@ public class TestCourseServiceImpl {
             Map<String, String> da = new HashMap<String, String>();
             da.put("KEY1", "VALUE1");
             
-            ccInfo.setAttributes(da);
+          //TODO KSCM ccInfo.setAttributes(da);
             
             CourseCrossListingInfo ccInfo1 = new CourseCrossListingInfo();
             ccInfo1.setCourseNumberSuffix("200");
@@ -654,7 +655,7 @@ public class TestCourseServiceImpl {
             attrMap.put("proposalTitle", "proposalTitle-1");
             attrMap.put("proposalRationale", "proposalRationale");
 
-            cInfo.setAttributes(attrMap);
+          //TODO KSCM        cInfo.setAttributes(attrMap);
 
             FormatInfo fInfo = new FormatInfo();
             fInfo.setTypeKey(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
@@ -662,7 +663,7 @@ public class TestCourseServiceImpl {
             aInfo.setActivityType(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
             Map<String, String> activityAttrs = new HashMap<String, String>();
             activityAttrs.put("ACTIVITY_KEY", "ACTIVITY_VALUE");
-            aInfo.setAttributes(activityAttrs);
+          //TODO KSCM        aInfo.setAttributes(activityAttrs);
             
             List<ActivityInfo> activities = new ArrayList<ActivityInfo>();
             activities.add(aInfo);                       
@@ -746,7 +747,7 @@ public class TestCourseServiceImpl {
     public void testCourseVersioning() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, IllegalVersionSequencingException {
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
-        CourseInfo createdCourse = courseService.createCourse(cInfo, );
+        CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
 
         CourseInfo newCourse = null;
         try {
@@ -761,7 +762,7 @@ public class TestCourseServiceImpl {
         
         // test that creating a new course version copies over statements
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
-        StatementTreeViewInfo createdTree = courseService.createCourseStatement(createdCourse.getId(), statementTreeViewInfo);
+        StatementTreeViewInfo createdTree =  courseService.createCourseStatement(createdCourse.getId(), statementTreeViewInfo);
         assertNotNull(createdTree);
         
         CourseInfo newVersion = null;
@@ -783,7 +784,7 @@ public class TestCourseServiceImpl {
     public void testGetCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         String courseId = "COURSE-STMT-1";
-        List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, null, null);
+        List<StatementTreeViewInfo> courseStatements =R1R2ConverterUtil.convertLists(courseService.getCourseStatements(courseId, null, null, contextInfo), StatementTreeViewInfo.class);
         assertEquals(2, courseStatements.size());
         for (StatementTreeViewInfo tree : courseStatements) {
             checkTreeView(tree, false);
@@ -793,7 +794,7 @@ public class TestCourseServiceImpl {
         String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
         
         try {
-            courseService.getCourseStatements(credentialProgramId, null, null);
+            courseService.getCourseStatements(credentialProgramId, null, null, contextInfo);
             assertTrue(false);
         }
         catch(DoesNotExistException e) {
@@ -810,7 +811,7 @@ public class TestCourseServiceImpl {
         String courseId = "COURSE-STMT-1";
         String nlUsageTypeKey = "KUALI.RULE";
         String language = "en";
-        List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
+        List<StatementTreeViewInfo> courseStatements = R1R2ConverterUtil.convertLists(courseService.getCourseStatements(courseId, nlUsageTypeKey, language, contextInfo),StatementTreeViewInfo.class);
         assertEquals(2, courseStatements.size());
         for (StatementTreeViewInfo tree : courseStatements) {
             checkTreeView(tree, true);
@@ -832,7 +833,7 @@ public class TestCourseServiceImpl {
         String courseId = "COURSE-STMT-1";
         String nlUsageTypeKey = "KUALI.RULE";
         String language = "en";
-        List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language);
+        List<StatementTreeViewInfo> courseStatements = R1R2ConverterUtil.convertLists(courseService.getCourseStatements(courseId, nlUsageTypeKey, language, contextInfo), StatementTreeViewInfo.class);
         courseService.createCourseStatement(courseId, courseStatements.get(0));
     }
 
@@ -859,7 +860,7 @@ public class TestCourseServiceImpl {
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
         StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, statementTreeViewInfo);
         StatusInfo status = courseService.deleteCourseStatement(courseId, createdTree);
-        assertTrue(status.getSuccess());
+        assertTrue(status.getIsSuccess());
         List<StatementTreeViewInfo> statements = courseService.getCourseStatements(courseId, null, null);
         for (StatementTreeViewInfo statement : statements) {
             if (statement.getId().equals(createdTree.getId())) {
