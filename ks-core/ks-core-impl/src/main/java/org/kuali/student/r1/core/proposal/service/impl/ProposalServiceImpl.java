@@ -274,7 +274,7 @@ public class ProposalServiceImpl implements ProposalService {
             throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
         }
 
-        Proposal proposal = ProposalAssembler.toProposal(proposalInfo.getType(), R1R2ConverterUtil.convert(proposalInfo, org.kuali.student.r1.core.proposal.dto.ProposalInfo.class), proposalDao);
+        Proposal proposal = ProposalAssembler.toProposal(proposalInfo.getTypeKey(), R1R2ConverterUtil.convert(proposalInfo, org.kuali.student.r1.core.proposal.dto.ProposalInfo.class), proposalDao);
         Proposal updated = proposalDao.update(proposal);
 
         return R1R2ConverterUtil.convert(ProposalAssembler.toProposalInfo(updated), org.kuali.student.r2.core.proposal.dto.ProposalInfo.class);
