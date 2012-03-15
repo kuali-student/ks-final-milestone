@@ -65,7 +65,8 @@
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-MetaSection" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL" p:id="acal-info-meta">
+    <!--<bean id="KS-AcademicCalendar-MetaSection" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL" p:id="acal-info-meta">-->
+    <bean id="KS-AcademicCalendar-MetaSection" parent="Uif-HorizontalBoxSection" >
         <property name="title" value="Calendar Information" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -198,7 +199,7 @@
 
     <bean id="KS-AcademicCalendar-HolidaySection" parent="Uif-Disclosure-StackedCollectionSection">
         <property name="title" value="Holidays" />
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
         <property name="propertyName" value="holidayCalendarList" />
 
   <!--
@@ -254,7 +255,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"
-                      p:propertyName="name"
+                      p:propertyName="holidayCalendarInfo.name"
                       p:label="Holiday Calendar Name"
                       p:labelField.width="40%"
                       p:width="60%"
@@ -266,7 +267,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"
-                      p:propertyName="adminOrgId"
+                      p:propertyName="adminOrgName"
                       p:label="Organization"
                       p:readOnly="true"
                       p:labelField.renderColon="false"
@@ -276,7 +277,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"
-                      p:propertyName="startDate"
+                      p:propertyName="holidayCalendarInfo.startDate"
                       p:label="Start Date"
                       p:readOnly="true"
                       p:labelField.renderColon="false"
@@ -286,7 +287,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"
-                      p:propertyName="endDate"
+                      p:propertyName="holidayCalendarInfo.endDate"
                       p:label="End Date"
                       p:readOnly="true"
                       p:labelField.renderColon="false"

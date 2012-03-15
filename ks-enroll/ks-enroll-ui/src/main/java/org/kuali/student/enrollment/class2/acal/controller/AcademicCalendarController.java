@@ -28,13 +28,12 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
-import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -114,7 +113,7 @@ public class AcademicCalendarController extends UifControllerBase {
                                  HttpServletRequest request, HttpServletResponse response){
         acalForm.setAcademicCalendarInfo(new AcademicCalendarInfo());
         acalForm.setEvents(new ArrayList<AcalEventWrapper>());
-        acalForm.setHolidayCalendarList(new ArrayList<HolidayCalendarInfo>());
+        acalForm.setHolidayCalendarList(new ArrayList<HolidayCalendarWrapper>());
         acalForm.setTermWrapperList(new ArrayList<AcademicTermWrapper>());
         acalForm.setOfficial(false);
         acalForm.setDelete(false);

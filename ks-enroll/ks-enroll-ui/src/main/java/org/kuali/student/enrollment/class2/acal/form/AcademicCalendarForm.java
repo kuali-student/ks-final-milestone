@@ -22,8 +22,8 @@ import java.text.SimpleDateFormat;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 
 /**
@@ -40,7 +40,7 @@ public class AcademicCalendarForm extends UifFormBase {
     private String updateTimeString;
 
     private List<AcalEventWrapper> events;
-    private List<HolidayCalendarInfo> holidayCalendarList;
+    private List<HolidayCalendarWrapper> holidayCalendarList;
     private List<AcademicTermWrapper> termWrapperList;
 
     //used by copy for creating a new
@@ -56,7 +56,7 @@ public class AcademicCalendarForm extends UifFormBase {
         super();
         termWrapperList = new ArrayList<AcademicTermWrapper>();
         events = new ArrayList<AcalEventWrapper>();
-        holidayCalendarList = new ArrayList<HolidayCalendarInfo>();
+        holidayCalendarList = new ArrayList<HolidayCalendarWrapper>();
     }
 
     public AcademicCalendarInfo getAcademicCalendarInfo() {
@@ -75,11 +75,11 @@ public class AcademicCalendarForm extends UifFormBase {
         this.adminOrgName = adminOrgName;
     }
 
-    public void setHolidayCalendarList(List<HolidayCalendarInfo> holidayCalendarList) {
+    public void setHolidayCalendarList(List<HolidayCalendarWrapper> holidayCalendarList) {
         this.holidayCalendarList = holidayCalendarList;
     }
 
-    public List<HolidayCalendarInfo> getHolidayCalendarList() {
+    public List<HolidayCalendarWrapper> getHolidayCalendarList() {
         return holidayCalendarList;
     }
 

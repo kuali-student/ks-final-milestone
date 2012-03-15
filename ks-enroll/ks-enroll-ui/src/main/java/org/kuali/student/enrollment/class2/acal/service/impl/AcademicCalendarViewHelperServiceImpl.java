@@ -797,6 +797,52 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
 
+        }else if (addLine instanceof HolidayCalendarWrapper){
+            HolidayCalendarWrapper inputLine = (HolidayCalendarWrapper)addLine;
+            List<HolidayWrapper> holidays = new ArrayList<HolidayWrapper>();
+            try {
+                System.out.println("HC id =" +inputLine.getId());
+
+                HolidayCalendarInfo hcInfo = getAcalService().getHolidayCalendar(inputLine.getId(), getContextInfo());
+
+                inputLine.setHolidayCalendarInfo(hcInfo);
+                inputLine.setAdminOrgName(getAdminOrgNameById(hcInfo.getAdminOrgId()));
+                StateInfo hcState = getAcalService().getHolidayCalendarState(hcInfo.getStateKey(), getContextInfo());
+                inputLine.setStateName(hcState.getName());
+                try {
+                    List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
+                    for(HolidayInfo holidayInfo : holidayInfoList){
+                        HolidayWrapper holiday = new HolidayWrapper();
+                        holiday.setHolidayInfo(holidayInfo);
+                        TypeInfo typeInfo = getAcalService().getHolidayType(holidayInfo.getTypeKey(), getContextInfo());
+                        holiday.setTypeName(typeInfo.getName());
+                        holidays.add(holiday);
+                    }
+                    inputLine.setHolidays(holidays);
+                }catch (DoesNotExistException dnee){
+                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
+                }catch (InvalidParameterException ipe){
+                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
+                }catch (MissingParameterException mpe){
+                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
+                }catch (OperationFailedException ofe){
+                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
+                }catch (PermissionDeniedException pde){
+                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
+                }
+            }catch (DoesNotExistException dnee){
+                System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
+            }catch (InvalidParameterException ipe){
+                System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
+            }catch (MissingParameterException mpe){
+                System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
+            }catch (OperationFailedException ofe){
+                System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
+            }catch (PermissionDeniedException pde){
+                System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
+            }
+
+
         }else if (addLine instanceof KeyDateWrapper){
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
             try {
@@ -898,5 +944,18 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             contextInfo = TestHelper.getContext1();
         }
         return contextInfo;
+    }
+
+    private String getAdminOrgNameById(String id){
+        //TODO: hard-coded for now, going to call OrgService
+        String adminOrgName = null;
+        Map<String, String> allHcOrgs = new HashMap<String, String>();
+        allHcOrgs.put("102", "Registrar's Office");
+
+        if(allHcOrgs.containsKey(id)){
+            adminOrgName = allHcOrgs.get(id);
+        }
+
+        return adminOrgName;
     }
 }
