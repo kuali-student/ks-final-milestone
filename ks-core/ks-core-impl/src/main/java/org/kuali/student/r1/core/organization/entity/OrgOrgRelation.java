@@ -51,7 +51,7 @@ import org.kuali.student.r1.common.entity.MetaEntity;
 		@NamedQuery(name = "OrgOrgRelation.getOrgOrgRelationsByIdList", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.id IN (:idList)"),
 		@NamedQuery(name = "OrgOrgRelation.OrgOrgRelation", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.org.id = :orgId"),
 		@NamedQuery(name = "OrgOrgRelation.getOrgOrgRelationsByRelatedOrg", query = "SELECT oor FROM OrgOrgRelation oor WHERE oor.relatedOrg.id = :relatedOrgId"),
-		@NamedQuery(name = "OrgOrgRelation.getOrgTreeInfo", query = "SELECT NEW org.kuali.student.core.organization.dto.OrgTreeInfo(oor.relatedOrg.id, oor.org.id, oor.relatedOrg.longName) "
+		@NamedQuery(name = "OrgOrgRelation.getOrgTreeInfo", query = "SELECT NEW org.kuali.student.r1.core.organization.dto.OrgTreeInfo(oor.relatedOrg.id, oor.org.id, oor.relatedOrg.longName) "
 				+ "   FROM OrgOrgRelation oor "
 				+ "  WHERE oor.org.id = :orgId "
 				+ "    AND oor.type.orgHierarchy.id = :orgHierarchyId " 
@@ -64,9 +64,9 @@ import org.kuali.student.r1.common.entity.MetaEntity;
 				+ "   AND oor.type.id = :orgOrgRelationTypeKey") })
 public class OrgOrgRelation extends MetaEntity implements
 		AttributeOwner<OrgOrgRelationAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
+	
+//	@Column(name = "ID")
+//	private String id;
 
 	@ManyToOne
 	@JoinColumn(name = "ORG")
@@ -99,16 +99,17 @@ public class OrgOrgRelation extends MetaEntity implements
 	 */
 	@Override
 	public void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
+//		this.id = UUIDHelper.genStringUUID(this.id);
+		this.setId(UUIDHelper.genStringUUID(this.getId()));
 	}
 
-	public String getId() {
-		return id;
-	}
+//	public String getId() {
+//		return id;
+//	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
+//	public void setId(String id) {
+//		this.id = id;
+//	}
 
 	public Org getOrg() {
 		return org;

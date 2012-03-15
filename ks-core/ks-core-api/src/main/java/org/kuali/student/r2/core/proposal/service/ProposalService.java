@@ -18,6 +18,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+// TODO KSCM how correct is it that r2 service using old r1 searchService
 import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
