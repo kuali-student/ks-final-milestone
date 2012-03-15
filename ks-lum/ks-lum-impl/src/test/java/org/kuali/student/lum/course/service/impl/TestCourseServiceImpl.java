@@ -396,7 +396,7 @@ public class TestCourseServiceImpl {
         // Now explicitly get it
         try {
             System.out.println("Getting course again...");
-            retrievedCourse = courseService.getCourse(createdCourse.getId());
+            retrievedCourse = courseService.getCourse(createdCourse.getId(), contextInfo);
         } catch (Exception ex) {
             ex.printStackTrace();
             fail("failed getting course again:" + ex.getMessage());
@@ -468,17 +468,17 @@ public class TestCourseServiceImpl {
             CourseDataGenerator generator = new CourseDataGenerator();
             CourseInfo cInfo = generator.getCourseTestData();
             assertNotNull(cInfo);
-            CourseInfo createdCourse = courseService.createCourse(cInfo);
+            CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
             assertNotNull(createdCourse);
             assertEquals(DtoConstants.STATE_DRAFT, createdCourse.getStateKey());
             assertEquals("kuali.lu.type.CreditCourse", createdCourse.getTypeKey());
             String courseId = createdCourse.getId();
-            CourseInfo retrievedCourse = courseService.getCourse(courseId);
+            CourseInfo retrievedCourse = courseService.getCourse(courseId, contextInfo);
             assertNotNull(retrievedCourse);
 
-            courseService.deleteCourse(courseId);
+            courseService.deleteCourse(courseId, contextInfo);
             try {
-                retrievedCourse = courseService.getCourse(courseId);
+                retrievedCourse = courseService.getCourse(courseId, contextInfo);
                 fail("Retrieval of deleted course should have thrown exception");
             } catch (DoesNotExistException e) {}
         } catch (Exception e) {
@@ -594,7 +594,7 @@ public class TestCourseServiceImpl {
             cInfo.setCreditOptions(creditOptions);
                         
             try {
-                cInfo = courseService.createCourse(cInfo);
+                cInfo = courseService.createCourse(cInfo, contextInfo);
             } catch (DataValidationErrorException e) {
                 dumpValidationErrors(cInfo);
                 fail("DataValidationError: " + e.getMessage());
@@ -603,7 +603,7 @@ public class TestCourseServiceImpl {
                 fail("failed creating course:" + e.getMessage());
             }
             
-            CourseInfo rcInfo = courseService.getCourse(cInfo.getId());
+            CourseInfo rcInfo = courseService.getCourse(cInfo.getId(), contextInfo);
             
             List<ResultComponentInfo> co = rcInfo.getCreditOptions();
             
@@ -674,7 +674,7 @@ public class TestCourseServiceImpl {
             cInfo.setFormats(formats);
             
             try {
-                cInfo = courseService.createCourse(cInfo);
+                cInfo = courseService.createCourse(cInfo, contextInfo);
             } catch (DataValidationErrorException e) {
                 dumpValidationErrors(cInfo);
                 fail("DataValidationError: " + e.getMessage());
@@ -746,11 +746,11 @@ public class TestCourseServiceImpl {
     public void testCourseVersioning() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, IllegalVersionSequencingException {
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
-        CourseInfo createdCourse = courseService.createCourse(cInfo);
+        CourseInfo createdCourse = courseService.createCourse(cInfo, );
 
         CourseInfo newCourse = null;
         try {
-            newCourse = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version");
+            newCourse = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
@@ -767,7 +767,7 @@ public class TestCourseServiceImpl {
         CourseInfo newVersion = null;
         
         try {
-            newVersion = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version for statements");
+            newVersion = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version for statements", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -866,7 +866,7 @@ public class TestCourseServiceImpl {
                 fail("StatementTree not deleted from course");
             }
         }
-        statementService.getStatementTreeView(createdTree.getId());
+        statementService.getStatementTreeView(createdTree.getId(), contextInfo);
     }
 
     @Test(expected = DoesNotExistException.class)
@@ -891,7 +891,7 @@ public class TestCourseServiceImpl {
 
     @Test(expected = MissingParameterException.class)
     public void testDeleteCourseStatement_nullTreeId() throws Exception {
-        courseService.deleteCourseStatement("xxx", null);
+        courseService.deleteCourseStatement("xxx", null, contextInfo);
     }
 
     @Test
@@ -909,7 +909,7 @@ public class TestCourseServiceImpl {
         rc2.setDesc(toRichText("REQCOMP-2"));
         rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
-        subTree1.setDesc(toRichText("STMT-5"));
+        subTree1.setDescr(toRichText("STMT-5"));
         subTree1.setOperator(StatementOperatorTypeKey.AND);
         subTree1.setTypeKey("kuali.statement.type.program.entrance");
         reqCompList1.add(rc1);
@@ -953,8 +953,8 @@ public class TestCourseServiceImpl {
         ReqComponentInfo reqCompInfo = new ReqComponentInfo();
         // reqCompInfo.setId("REQCOMP-NL-X");
         reqCompInfo.setId("1234567890123456789012345678901234567890");
-        reqCompInfo.setType("kuali.reqComponent.type.courseList.nof");
-        reqCompInfo.setState("Active");
+        reqCompInfo.setTypeKey("kuali.reqComponent.type.courseList.nof");
+        reqCompInfo.setStateKey("Active");
 
         List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 
@@ -997,7 +997,7 @@ public class TestCourseServiceImpl {
         rc1.setDesc(toRichText("REQCOMP-1"));
         rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
         ReqComponentInfo rc2 = new ReqComponentInfo();
-        rc2.setDesc(toRichText("REQCOMP-2"));
+        rc2.setDescr(toRichText("REQCOMP-2"));
         rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         ReqComponentInfo rc3 = new ReqComponentInfo();
         rc3.setDesc(toRichText("REQCOMP-3"));
@@ -1014,13 +1014,13 @@ public class TestCourseServiceImpl {
         statementTree.setTypeKey("kuali.statement.type.course.academicReadiness.coreq");
 
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
-        subTree1.setDesc(toRichText("STMT-2"));
+        subTree1.setDescr(toRichText("STMT-2"));
         subTree1.setOperator(StatementOperatorTypeKey.AND);
         // subTree1.setType("kuali.statement.type.program.entrance");
-        subTree1.setType("kuali.statement.type.course.recommendedPreparation");
+        subTree1.setTypeKey("kuali.statement.type.course.recommendedPreparation");
 
         StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
-        subTree2.setDesc(toRichText("STMT-3"));
+        subTree2.setDescr(toRichText("STMT-3"));
         subTree2.setOperator(StatementOperatorTypeKey.AND);
         // subTree2.setType("kuali.statement.type.program.entrance");
         subTree2.setTypeKey("kuali.statement.type.course.academicReadiness.antireq");
@@ -1176,10 +1176,10 @@ public class TestCourseServiceImpl {
     public void testGetCurrentVersion() throws Exception {
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
-        CourseInfo createdCourse = courseService.createCourse(cInfo);
+        CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
 
         try {
-            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version");
+            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
@@ -1195,7 +1195,7 @@ public class TestCourseServiceImpl {
     public void testGetCurrentVersionOnDate() throws Exception {
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
-        CourseInfo createdCourse = courseService.createCourse(cInfo);
+        CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
 
         VersionDisplayInfo versionInfo = courseService.getCurrentVersionOnDate(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), new Date());
         
@@ -1206,7 +1206,7 @@ public class TestCourseServiceImpl {
         // make a second version of the course, set it to be the current version a month in the future, and ensure that getting today's version gets the one that was created first
         CourseInfo cInfo2 = null;
         try {
-            cInfo2 = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version by date");
+            cInfo2 = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version by date" , contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
@@ -1216,7 +1216,7 @@ public class TestCourseServiceImpl {
         cal.add(Calendar.MONTH, 1);
         
         // Make the created the current version one month from now
-        courseService.setCurrentCourseVersion(cInfo2.getId(), cal.getTime());
+        courseService.setCurrentCourseVersion(cInfo2.getId(), cal.getTime(), contextInfo);
         
         // make sure when we get the current version for today, it still returns the first one created
         versionInfo = courseService.getCurrentVersionOnDate(CourseServiceConstants.COURSE_NAMESPACE_URI, cInfo2.getVersionInfo().getVersionIndId(), new Date());
@@ -1230,7 +1230,7 @@ public class TestCourseServiceImpl {
         
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
-        CourseInfo createdCourse = courseService.createCourse(cInfo);
+        CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
 
         List<VersionDisplayInfo> versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId());
         
@@ -1293,7 +1293,7 @@ public class TestCourseServiceImpl {
         CourseInfo cInfo = generator.getCourseTestData();
         CourseInfo createdCourse = courseService.createCourse(cInfo);
 
-        VersionDisplayInfo versionInfo = courseService.getCurrentVersionOnDate(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), new Date());
+        VersionDisplayInfo versionInfo = courseService.getCurrentVersionOnDate(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), new Date(), );
         
         assertNotNull(versionInfo);
         assertEquals(createdCourse.getVersionInfo().getSequenceNumber(),versionInfo.getSequenceNumber());
@@ -1312,7 +1312,7 @@ public class TestCourseServiceImpl {
         cal.add(Calendar.MONTH, 1);
         
         // Make the created the current version one month from now
-        courseService.setCurrentCourseVersion(cInfo2.getId(), cal.getTime());
+        courseService.setCurrentCourseVersion(cInfo2.getId(), cal.getTime(), contextInfo);
         
         // ensure that when retrieving versions from yesterday to tomorrow, we get only the first created version
         Calendar rangeInstance = Calendar.getInstance();
