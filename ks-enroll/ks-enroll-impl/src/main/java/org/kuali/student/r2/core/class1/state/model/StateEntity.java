@@ -37,7 +37,7 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
     private Date effectiveDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIR_DT")
+    @Column(name = "EXP_DT")
     private Date expirationDate;
  
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
