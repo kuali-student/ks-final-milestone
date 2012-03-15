@@ -387,6 +387,7 @@
                 <ref bean="currencyAmountInfo.id"/>
             </list>
         </property>
+        <property name="hasMetaData" value="true"/>
     </bean>
     <bean id="org.kuali.student.r2.common.dto.CurrencyAmountInfo"
           parent="org.kuali.student.r2.common.dto.CurrencyAmountInfo-parent"/>
@@ -680,7 +681,7 @@
     </bean>
     <bean id="org.kuali.student.r2.lum.clu.dto.LuCodeInfo" parent="org.kuali.student.r2.lum.clu.dto.LuCodeInfo-parent"/>
 
-    <bean id="luCodeInfo.descr-parent" abstract="true" parent="baseKualiDescription">
+    <bean id="luCodeInfo.descr-parent" abstract="true" parent="baseComplex">
         <property name="name" value="descr"/>
     </bean>
     <bean id="luCodeInfo.descr" parent="luCodeInfo.descr-parent"/>
@@ -1037,4 +1038,366 @@
     </bean>
     <bean id="cluLoRelationInfo.expirationDate" parent="cluLoRelationInfo.expirationDate-parent"/>
 
+
+    <!-- CluPublicationInfo-->
+    <bean id="org.kuali.student.r2.lum.clu.dto.CluPublicationInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.r2.lum.clu.dto.CluPublicationInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="cluPublicationInfo.id"/>
+                <ref bean="cluPublicationInfo.cluId"/>
+                <ref bean="cluPublicationInfo.typeKey"/>
+                <ref bean="cluPublicationInfo.stateKey"/>
+                <ref bean="cluPublicationInfo.effectiveDate"/>
+                <ref bean="cluPublicationInfo.expirationDate"/>                
+                <ref bean="cluPublicationInfo.endCycle"/>
+                <ref bean="cluPublicationInfo.startCycle"/>
+                <ref bean="cluPublicationInfo.variants"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.r2.lum.clu.dto.CluPublicationInfo" parent="org.kuali.student.r2.lum.clu.dto.CluPublicationInfo-parent"/>
+
+    <bean id="cluPublicationInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="cluPublicationInfo.id" parent="cluPublicationInfo.id-parent"/>
+    
+    <bean id="cluPublicationInfo.descr-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="cluPublicationInfo.descr" parent="cluPublicationInfo.descr-parent"/>
+
+    <bean id="cluPublicationInfo.cluId-parent" abstract="true" parent="baseKualiOrgId">
+        <property name="name" value="cluId"/>
+    </bean>
+    <bean id="cluPublicationInfo.cluId" parent="cluPublicationInfo.cluId-parent"/>
+
+    <bean id="cluPublicationInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+
+    <bean id="cluPublicationInfo.typeKey" parent="cluPublicationInfo.typeKey-parent">
+        <property name="name" value="typeKey"></property>
+    </bean>
+
+    <bean id="cluPublicationInfo.stateKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+    <bean id="cluPublicationInfo.stateKey" parent="cluPublicationInfo.stateKey-parent">
+        <property name="name" value="stateKey"></property>
+    </bean>
+    
+    <bean id="cluPublicationInfo.effectiveDate-parent" abstract="true"
+          parent="baseKualiEffectiveDate">
+        <property name="name" value="effectiveDate"/>
+    </bean>
+    <bean id="cluPublicationInfo.effectiveDate" parent="cluPublicationInfo.effectiveDate-parent"/>
+
+    <bean id="cluPublicationInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+        <property name="name" value="expirationDate"/>
+    </bean>
+    <bean id="cluPublicationInfo.expirationDate" parent="cluPublicationInfo.expirationDate-parent"/>
+    
+    <bean id="cluPublicationInfo.endCycle-parent" abstract="true" parent="baseString">
+        <property name="name" value="endCycle"/>
+    </bean>
+    <bean id="cluPublicationInfo.endCycle" parent="cluPublicationInfo.endCycle-parent"/>
+    
+    <bean id="cluPublicationInfo.startCycle-parent" abstract="true" parent="baseString">
+        <property name="name" value="startCycle"/>
+    </bean>
+    <bean id="cluPublicationInfo.startCycle" parent="cluPublicationInfo.startCycle-parent"/>
+    
+    <bean id="cluPublicationInfo.variants-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="variants"/>
+    </bean>
+    <bean id="cluPublicationInfo.variants" parent="cluPublicationInfo.variants-parent"/>
+    
+<!-- CluResultInfo-->
+    <bean id="org.kuali.student.r2.lum.clu.dto.CluResultInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.r2.lum.clu.dto.CluResultInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="cluResultInfo.descr"/>
+                <ref bean="cluResultInfo.id"/>
+                <ref bean="cluResultInfo.cluId"/>
+                <ref bean="cluResultInfo.typeKey"/>
+                <ref bean="cluResultInfo.stateKey"/>
+                <ref bean="cluResultInfo.effectiveDate"/>
+                <ref bean="cluResultInfo.expirationDate"/>
+                <ref bean="cluResultInfo.resultOptions"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.r2.lum.clu.dto.CluResultInfo" parent="org.kuali.student.r2.lum.clu.dto.CluResultInfo-parent"/>
+    
+    <bean id="cluResultInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="cluResultInfo.id" parent="cluResultInfo.id-parent"/>
+    
+    <bean id="cluResultInfo.descr-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="cluResultInfo.descr" parent="cluResultInfo.descr-parent"/>
+
+    <bean id="cluResultInfo.cluId-parent" abstract="true" parent="baseKualiOrgId">
+        <property name="name" value="cluId"/>
+    </bean>
+    <bean id="cluResultInfo.cluId" parent="cluResultInfo.cluId-parent"/>
+
+    <bean id="cluResultInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+
+    <bean id="cluResultInfo.typeKey" parent="cluResultInfo.typeKey-parent">
+        <property name="name" value="typeKey"></property>
+    </bean>
+
+    <bean id="cluResultInfo.stateKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+    <bean id="cluResultInfo.stateKey" parent="cluResultInfo.stateKey-parent">
+        <property name="name" value="stateKey"></property>
+    </bean>
+    
+    <bean id="cluResultInfo.effectiveDate-parent" abstract="true"
+          parent="baseKualiEffectiveDate">
+        <property name="name" value="effectiveDate"/>
+    </bean>
+    <bean id="cluResultInfo.effectiveDate" parent="cluResultInfo.effectiveDate-parent"/>
+
+    <bean id="cluResultInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+        <property name="name" value="expirationDate"/>
+    </bean>
+    <bean id="cluResultInfo.expirationDate" parent="cluResultInfo.expirationDate-parent"/>
+    
+    <bean id="cluResultInfo.resultOptions-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="resultOptions"/>
+    </bean>
+    <bean id="cluResultInfo.resultOptions" parent="cluResultInfo.resultOptions-parent"/>
+    
+ <!-- ExpenditureInfo-->
+    <bean id="org.kuali.student.r2.lum.clu.dto.ExpenditureInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.r2.lum.clu.dto.ExpenditureInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="expenditureInfo.id"/>
+                <ref bean="expenditureInfo.affiliatedOrgs"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="org.kuali.student.r2.lum.clu.dto.ExpenditureInfo" parent="org.kuali.student.r2.lum.clu.dto.ExpenditureInfo-parent"/>
+    
+    <bean id="expenditureInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="expenditureInfo.id" parent="expenditureInfo.id-parent"/>
+    
+    <bean id="expenditureInfo.affiliatedOrgs-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="affiliatedOrgs"/>
+    </bean>
+    <bean id="expenditureInfo.affiliatedOrgs" parent="expenditureInfo.affiliatedOrgs-parent"/>
+
+ <!-- FeeInfo-->
+    <bean id="org.kuali.student.r2.lum.clu.dto.FeeInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.r2.lum.clu.dto.FeeInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="feeInfo.id"/>
+                <ref bean="feeInfo.descr"/>
+                <ref bean="feeInfo.feeAmounts"/>
+                <ref bean="feeInfo.feeType"/>
+                <ref bean="feeInfo.key"/>
+                <ref bean="feeInfo.rateType"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.r2.lum.clu.dto.FeeInfo" parent="org.kuali.student.r2.lum.clu.dto.FeeInfo-parent"/>
+    
+    <bean id="feeInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="feeInfo.id" parent="feeInfo.id-parent"/>
+    
+    <bean id="feeInfo.descr-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="feeInfo.descr" parent="feeInfo.descr-parent"/>
+    
+    <bean id="feeInfo.feeAmounts-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="feeAmounts"/>
+    </bean>
+    <bean id="feeInfo.feeAmounts" parent="feeInfo.feeAmounts-parent"/>
+    
+        <bean id="feeInfo.feeType-parent" abstract="true" parent="baseString">
+        <property name="name" value="feeType"/>
+    </bean>
+    <bean id="feeInfo.feeType" parent="feeInfo.feeType-parent"/>
+    
+        <bean id="feeInfo.key-parent" abstract="true" parent="baseString">
+        <property name="name" value="key"/>
+    </bean>
+    <bean id="feeInfo.key" parent="feeInfo.key-parent"/>
+    
+        <bean id="feeInfo.rateType-parent" abstract="true" parent="baseString">
+        <property name="name" value="rateType"/>
+    </bean>
+    <bean id="feeInfo.rateType" parent="feeInfo.rateType-parent"/>
+    
+     <!-- FieldInfo-->
+    <bean id="org.kuali.student.r2.lum.clu.dto.FieldInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.r2.lum.clu.dto.FieldInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="fieldInfo.id"/>
+                <ref bean="fieldInfo.value"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="org.kuali.student.r2.lum.clu.dto.FieldInfo" parent="org.kuali.student.r2.lum.clu.dto.FieldInfo-parent"/>
+    
+    <bean id="fieldInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="fieldInfo.id" parent="fieldInfo.id-parent"/>
+    
+    <bean id="fieldInfo.value-parent" abstract="true" parent="baseString">
+        <property name="name" value="value"/>
+    </bean>
+    <bean id="fieldInfo.value" parent="fieldInfo.value-parent"/>    
+    
+        
+ <!-- LuDocRelationInfo-->
+    <bean id="org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="luDocRelationInfo.descr"/>
+                <ref bean="luDocRelationInfo.id"/>
+                <ref bean="luDocRelationInfo.documentId"/>
+                <ref bean="luDocRelationInfo.cluId"/>
+                <ref bean="luDocRelationInfo.typeKey"/>
+                <ref bean="luDocRelationInfo.stateKey"/>
+                <ref bean="luDocRelationInfo.effectiveDate"/>
+                <ref bean="luDocRelationInfo.expirationDate"/>
+                <ref bean="luDocRelationInfo.title"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo" parent="org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo-parent"/>
+    
+    <bean id="luDocRelationInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="luDocRelationInfo.id" parent="luDocRelationInfo.id-parent"/>
+    
+    <bean id="luDocRelationInfo.documentId-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="documentId"/>
+    </bean>
+    <bean id="luDocRelationInfo.documentId" parent="luDocRelationInfo.documentId-parent"/>
+    
+    <bean id="luDocRelationInfo.descr-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="luDocRelationInfo.descr" parent="luDocRelationInfo.descr-parent"/>
+    
+    <bean id="luDocRelationInfo.title-parent" abstract="true" parent="baseString">
+        <property name="name" value="title"/>
+    </bean>
+    <bean id="luDocRelationInfo.title" parent="luDocRelationInfo.title-parent"/>
+
+    <bean id="luDocRelationInfo.cluId-parent" abstract="true" parent="baseKualiOrgId">
+        <property name="name" value="cluId"/>
+    </bean>
+    <bean id="luDocRelationInfo.cluId" parent="luDocRelationInfo.cluId-parent"/>
+
+    <bean id="luDocRelationInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+
+    <bean id="luDocRelationInfo.typeKey" parent="luDocRelationInfo.typeKey-parent">
+        <property name="name" value="typeKey"></property>
+    </bean>
+
+    <bean id="luDocRelationInfo.stateKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+    <bean id="luDocRelationInfo.stateKey" parent="luDocRelationInfo.stateKey-parent">
+        <property name="name" value="stateKey"></property>
+    </bean>
+    
+    <bean id="luDocRelationInfo.effectiveDate-parent" abstract="true"
+          parent="baseKualiEffectiveDate">
+        <property name="name" value="effectiveDate"/>
+    </bean>
+    <bean id="luDocRelationInfo.effectiveDate" parent="luDocRelationInfo.effectiveDate-parent"/>
+
+    <bean id="luDocRelationInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+        <property name="name" value="expirationDate"/>
+    </bean>
+    <bean id="luDocRelationInfo.expirationDate" parent="luDocRelationInfo.expirationDate-parent"/>
+    
+            
+ <!-- ResultOptionInfo-->
+    <bean id="org.kuali.student.r2.lum.clu.dto.ResultOptionInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.r2.lum.clu.dto.ResultOptionInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="resultOptionInfo.descr"/>
+                <ref bean="resultOptionInfo.id"/>
+                <ref bean="resultOptionInfo.typeKey"/>
+                <ref bean="resultOptionInfo.stateKey"/>
+                <ref bean="resultOptionInfo.effectiveDate"/>
+                <ref bean="resultOptionInfo.expirationDate"/>
+                <ref bean="resultOptionInfo.resultComponentId"/>
+                <ref bean="resultOptionInfo.resultUsageTypeKey"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.r2.lum.clu.dto.ResultOptionInfo" parent="org.kuali.student.r2.lum.clu.dto.ResultOptionInfo-parent"/>
+    
+    <bean id="resultOptionInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="resultOptionInfo.id" parent="resultOptionInfo.id-parent"/>
+    
+    <bean id="resultOptionInfo.descr-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="resultOptionInfo.descr" parent="resultOptionInfo.descr-parent"/>
+
+    <bean id="resultOptionInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+
+    <bean id="resultOptionInfo.typeKey" parent="resultOptionInfo.typeKey-parent">
+        <property name="name" value="typeKey"></property>
+    </bean>
+    
+      <bean id="resultOptionInfo.resultUsageTypeKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+
+    <bean id="resultOptionInfo.resultUsageTypeKey" parent="resultOptionInfo.resultUsageTypeKey-parent">
+        <property name="name" value="resultUsageTypeKey"></property>
+    </bean>
+
+    <bean id="resultOptionInfo.stateKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+    <bean id="resultOptionInfo.stateKey" parent="resultOptionInfo.stateKey-parent">
+        <property name="name" value="stateKey"></property>
+    </bean>
+    
+    <bean id="resultOptionInfo.effectiveDate-parent" abstract="true"
+          parent="baseKualiEffectiveDate">
+        <property name="name" value="effectiveDate"/>
+    </bean>
+    <bean id="resultOptionInfo.effectiveDate" parent="resultOptionInfo.effectiveDate-parent"/>
+
+    <bean id="resultOptionInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+        <property name="name" value="expirationDate"/>
+    </bean>
+    <bean id="resultOptionInfo.expirationDate" parent="resultOptionInfo.expirationDate-parent"/>
+    
+     <bean id="resultOptionInfo.resultComponentId-parent" abstract="true" parent="baseString">
+        <property name="name" value="resultComponentId"/>
+    </bean>
+    <bean id="resultOptionInfo.resultComponentId" parent="resultOptionInfo.resultComponentId-parent"/>
 </beans>
