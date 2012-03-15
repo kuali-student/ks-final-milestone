@@ -38,6 +38,7 @@ import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
+import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 
 public class TestDTOEqualXMLBeanDefinition {
 
@@ -67,7 +68,7 @@ public class TestDTOEqualXMLBeanDefinition {
 	@Test
 	public void testCluDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
-
+		//TODO KSCM Correct errors below
 		Set<String> startingClasses = new LinkedHashSet();
 		startingClasses.add(AcademicSubjectOrgInfo.class.getName());
 		startingClasses.add(AccreditationInfo.class.getName());
@@ -77,7 +78,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		startingClasses.add(CluCluRelationInfo.class.getName());
 		startingClasses.add(CluCreditInfo.class.getName());
 		startingClasses.add(CluFeeInfo.class.getName());
-		//startingClasses.add(CluFeeRecordInfo.class.getName()); //osDict is null
+		startingClasses.add(CluFeeRecordInfo.class.getName()); //osDict is null But class exits in .xml file
 		startingClasses.add(CluIdentifierInfo.class.getName());
 		//startingClasses.add(CluInfo.class.getName());//Nullpointerexception
 		startingClasses.add(CluInstructorInfo.class.getName());
@@ -93,6 +94,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		startingClasses.add(LuDocRelationInfo.class.getName());
 		//startingClasses.add(MembershipQueryInfo.class.getName());//Nullpointerexception
 		startingClasses.add(ResultOptionInfo.class.getName());
+		startingClasses.add(RevenueInfo.class.getName());
 		
 		String contextFile = "ks-cluInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
