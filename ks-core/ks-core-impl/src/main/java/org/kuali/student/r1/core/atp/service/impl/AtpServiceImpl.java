@@ -13,7 +13,6 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
@@ -557,7 +556,7 @@ public class AtpServiceImpl implements AtpService {
      * @return
      */
     @Deprecated
-    public AtpDao getAtpDao() throws UnsupportedException {
+    public AtpDao getAtpDao()  {
         return atpDao;
     }
 
@@ -568,7 +567,7 @@ public class AtpServiceImpl implements AtpService {
      * @param atpDao
      */
     @Deprecated
-    public void setAtpDao(AtpDao atpDao) throws UnsupportedException {
+    public void setAtpDao(AtpDao atpDao)  {
         this.atpDao = atpDao;
     }
 
@@ -577,10 +576,10 @@ public class AtpServiceImpl implements AtpService {
      * This method ...
      * 
      * @return
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-    public SearchManager getSearchManager() throws UnsupportedException {
+    public SearchManager getSearchManager()  {
         return searchManager;
     }
 
@@ -589,10 +588,10 @@ public class AtpServiceImpl implements AtpService {
      * This method ...
      * 
      * @param searchManager
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-    public void setSearchManager(SearchManager searchManager) throws UnsupportedException {
+    public void setSearchManager(SearchManager searchManager)  {
         this.searchManager = searchManager;
     }
 
@@ -660,7 +659,7 @@ public class AtpServiceImpl implements AtpService {
      * @return the validatorFactory
      */
     @Deprecated
-    public ValidatorFactory getValidatorFactory() throws UnsupportedException {
+    public ValidatorFactory getValidatorFactory()  {
         return validatorFactory;
     }
 
@@ -669,7 +668,7 @@ public class AtpServiceImpl implements AtpService {
      *            the validatorFactory to set
      */
     @Deprecated
-    public void setValidatorFactory(ValidatorFactory validatorFactory) throws UnsupportedException {
+    public void setValidatorFactory(ValidatorFactory validatorFactory)  {
         this.validatorFactory = validatorFactory;
     }
 
@@ -677,7 +676,7 @@ public class AtpServiceImpl implements AtpService {
      * @return the dictionaryServiceDelegate
      */
     @Deprecated
-    public DictionaryService getDictionaryServiceDelegate() throws UnsupportedException {
+    public DictionaryService getDictionaryServiceDelegate()  {
         return dictionaryServiceDelegate;
     }
 
@@ -685,7 +684,7 @@ public class AtpServiceImpl implements AtpService {
      * @param dictionaryServiceDelegate the dictionaryServiceDelegate to set
      */
     @Deprecated
-    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) throws UnsupportedException {
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate)  {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
     

@@ -21,7 +21,6 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
@@ -398,10 +397,10 @@ public class DocumentServiceImpl implements DocumentService {
      * This method ...
      * 
      * @return
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-    public DictionaryService getDictionaryServiceDelegate() throws UnsupportedException {
+    public DictionaryService getDictionaryServiceDelegate()  {
         return dictionaryServiceDelegate;
     }
 
@@ -410,10 +409,10 @@ public class DocumentServiceImpl implements DocumentService {
      * This method ...
      * 
      * @param dictionaryServiceDelegate
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) throws UnsupportedException {
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate)  {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
@@ -422,10 +421,10 @@ public class DocumentServiceImpl implements DocumentService {
      * This method ...
      * 
      * @return
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-	public DocumentDao getDao() throws UnsupportedException {
+	public DocumentDao getDao()  {
 		return dao;
 	}
 
@@ -434,10 +433,10 @@ public class DocumentServiceImpl implements DocumentService {
      * This method ...
      * 
      * @param dao
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-	public void setDao(DocumentDao dao) throws UnsupportedException {
+	public void setDao(DocumentDao dao)  {
 		this.dao = dao;
 	}
 
@@ -446,10 +445,10 @@ public class DocumentServiceImpl implements DocumentService {
      * This method ...
      * 
      * @return
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-	public SearchManager getSearchManager() throws UnsupportedException {
+	public SearchManager getSearchManager()  {
 		return searchManager;
 	}
 
@@ -458,10 +457,10 @@ public class DocumentServiceImpl implements DocumentService {
      * This method ...
      * 
      * @param searchManager
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-	public void setSearchManager(SearchManager searchManager) throws UnsupportedException {
+	public void setSearchManager(SearchManager searchManager)  {
 		this.searchManager = searchManager;
 	}
 
@@ -470,10 +469,10 @@ public class DocumentServiceImpl implements DocumentService {
      * This method ...
      * 
      * @return
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-    public ValidatorFactory getValidatorFactory() throws UnsupportedException {
+    public ValidatorFactory getValidatorFactory()  {
         return validatorFactory;
     }
 
@@ -482,10 +481,10 @@ public class DocumentServiceImpl implements DocumentService {
      * This method ...
      * 
      * @param validatorFactory
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-    public void setValidatorFactory(ValidatorFactory validatorFactory) throws UnsupportedException {
+    public void setValidatorFactory(ValidatorFactory validatorFactory)  {
         this.validatorFactory = validatorFactory;
     }	
 }

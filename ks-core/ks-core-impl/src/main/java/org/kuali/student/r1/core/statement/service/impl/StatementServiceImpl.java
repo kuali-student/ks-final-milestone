@@ -25,7 +25,6 @@ import java.util.Set;
 
 import javax.jws.WebService;
 
-import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
@@ -1287,10 +1286,10 @@ public class StatementServiceImpl implements StatementService {
 	 * This method ...
 	 * 
 	 * @param validatorFactory
-	 * @throws UnsupportedException
+	 * @
 	 */
 	@Deprecated
-	public void setValidatorFactory(ValidatorFactory validatorFactory) throws UnsupportedException {
+	public void setValidatorFactory(ValidatorFactory validatorFactory)  {
 		this.validatorFactory = validatorFactory;
 	}
 }

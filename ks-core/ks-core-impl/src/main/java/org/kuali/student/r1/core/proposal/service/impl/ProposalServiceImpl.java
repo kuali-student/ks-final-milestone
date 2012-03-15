@@ -19,7 +19,6 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
@@ -332,7 +331,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @return
      */
     @Deprecated
-    public ProposalDao getProposalDao() throws UnsupportedException {
+    public ProposalDao getProposalDao() {
         return proposalDao;
     }
 
@@ -343,7 +342,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @param dao
      */
     @Deprecated
-    public void setProposalDao(ProposalDao dao) throws UnsupportedException {
+    public void setProposalDao(ProposalDao dao) {
         this.proposalDao = dao;
     }
 
@@ -466,7 +465,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @return the validatorFactory
      */
     @Deprecated
-    public ValidatorFactory getValidatorFactory() throws UnsupportedException {
+    public ValidatorFactory getValidatorFactory()  {
         return validatorFactory;
     }
 
@@ -474,7 +473,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @param validatorFactory the validatorFactory to set
      */
     @Deprecated
-    public void setValidatorFactory(ValidatorFactory validatorFactory) throws UnsupportedException {
+    public void setValidatorFactory(ValidatorFactory validatorFactory) {
         this.validatorFactory = validatorFactory;
     }
 
@@ -482,7 +481,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @return the searchManager
      */
     @Deprecated
-    public SearchManager getSearchManager() throws UnsupportedException {
+    public SearchManager getSearchManager()  {
         return searchManager;
     }
 
@@ -490,7 +489,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @return the dictionaryServiceDelegate
      */
     @Deprecated
-    public DictionaryService getDictionaryServiceDelegate() throws UnsupportedException {
+    public DictionaryService getDictionaryServiceDelegate()  {
         return dictionaryServiceDelegate;
     }
 

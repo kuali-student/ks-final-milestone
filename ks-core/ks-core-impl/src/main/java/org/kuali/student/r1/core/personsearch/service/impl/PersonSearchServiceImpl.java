@@ -23,7 +23,6 @@ import java.util.Map;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -35,7 +34,6 @@ import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchService;
-import org.kuali.student.r2.common.dto.ContextInfo;
 /**
  * Proxy Search service to the rice PersonService that adds primitive support for the search() and searchForResult()
  * search methods.
@@ -164,10 +162,10 @@ public class PersonSearchServiceImpl implements SearchService {
      * This method ...
      * 
      * @return
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-    public IdentityService getIdentityService() throws UnsupportedException {
+    public IdentityService getIdentityService()  {
         return identityService;
     }
     
@@ -176,10 +174,10 @@ public class PersonSearchServiceImpl implements SearchService {
      * This method ...
      * 
      * @param identityService
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-    public void setIdentityService(IdentityService identityService) throws UnsupportedException {
+    public void setIdentityService(IdentityService identityService)  {
         this.identityService = identityService;
     }
 

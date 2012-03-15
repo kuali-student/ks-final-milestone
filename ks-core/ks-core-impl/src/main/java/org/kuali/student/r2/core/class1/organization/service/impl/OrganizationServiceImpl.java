@@ -16,7 +16,6 @@ import java.util.Set;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
@@ -977,10 +976,10 @@ public class OrganizationServiceImpl implements OrganizationService {
      * 
      * @param objectTypeKey
      * @return
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-    public ObjectStructure getObjectStructure(String objectTypeKey) throws UnsupportedException {
+    public ObjectStructure getObjectStructure(String objectTypeKey)  {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 }

@@ -18,7 +18,7 @@ import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
 import org.apache.log4j.Logger;
-import org.apache.openjpa.util.UnsupportedException;
+
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
@@ -794,10 +794,9 @@ public class OrganizationServiceImpl implements OrganizationService {
      * This method ...
      * 
      * @return
-     * @throws UnsupportedException
      */
     @Deprecated
-    public SearchManager getSearchManager() throws UnsupportedException {
+    public SearchManager getSearchManager()  {
         return searchManager;
     }
 
@@ -806,10 +805,9 @@ public class OrganizationServiceImpl implements OrganizationService {
      * This method ...
      * 
      * @param searchManager
-     * @throws UnsupportedException
      */
     @Deprecated
-    public void setSearchManager(SearchManager searchManager) throws UnsupportedException {
+    public void setSearchManager(SearchManager searchManager)  {
         this.searchManager = searchManager;
     }
 
@@ -818,10 +816,9 @@ public class OrganizationServiceImpl implements OrganizationService {
      * This method ...
      * 
      * @return
-     * @throws UnsupportedException
      */
     @Deprecated
-    public DictionaryService getDictionaryServiceDelegate() throws UnsupportedException {
+    public DictionaryService getDictionaryServiceDelegate()  {
         return dictionaryServiceDelegate;
     }
 
@@ -830,10 +827,9 @@ public class OrganizationServiceImpl implements OrganizationService {
      * This method ...
      * 
      * @param dictionaryServiceDelegate
-     * @throws UnsupportedException
      */
     @Deprecated
-    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) throws UnsupportedException {
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate)  {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
@@ -842,10 +838,9 @@ public class OrganizationServiceImpl implements OrganizationService {
      * This method ...
      * 
      * @return
-     * @throws UnsupportedException
      */
     @Deprecated
-    public Validator getValidator() throws UnsupportedException {
+    public Validator getValidator()  {
         return validator;
     }
 
@@ -854,10 +849,9 @@ public class OrganizationServiceImpl implements OrganizationService {
      * This method ...
      * 
      * @param validator
-     * @throws UnsupportedException
      */
     @Deprecated
-    public void setValidator(Validator validator) throws UnsupportedException {
+    public void setValidator(Validator validator)  {
         this.validator = validator;
     }
 

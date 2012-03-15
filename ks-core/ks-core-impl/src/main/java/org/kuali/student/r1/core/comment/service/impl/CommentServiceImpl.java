@@ -21,7 +21,6 @@ import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
 import org.apache.log4j.Logger;
-import org.apache.openjpa.util.UnsupportedException;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
@@ -447,10 +446,10 @@ public class CommentServiceImpl implements CommentService {
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
-     * @throws UnsupportedException
+     * @
      */
     @Deprecated
-    private List<ValidationResultInfo> validateTag(String validationType, TagInfo tagInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedException {
+    private List<ValidationResultInfo> validateTag(String validationType, TagInfo tagInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(tagInfo, "tagInfo");
 
@@ -464,7 +463,7 @@ public class CommentServiceImpl implements CommentService {
      * @return the commentDao
      */
     @Deprecated
-    public CommentDao getCommentDao() throws UnsupportedException {
+    public CommentDao getCommentDao()  {
         return commentDao;
     }
 
@@ -472,7 +471,7 @@ public class CommentServiceImpl implements CommentService {
      * @param commentDao the commentDao to set
      */
     @Deprecated
-    public void setCommentDao(CommentDao commentDao) throws UnsupportedException {
+    public void setCommentDao(CommentDao commentDao)  {
         this.commentDao = commentDao;
     }
 
@@ -483,9 +482,8 @@ public class CommentServiceImpl implements CommentService {
      * @param parameter name
      * @throws MissingParameterException
      */
-    @Deprecated
     private void checkForMissingParameter(Object param, String paramName)
-            throws MissingParameterException, UnsupportedException {
+            throws MissingParameterException {
         if (param == null) {
             throw new MissingParameterException(paramName + " can not be null");
         }
@@ -495,7 +493,7 @@ public class CommentServiceImpl implements CommentService {
 	 * @return the dictionaryServiceDelegate
 	 */
     @Deprecated
-	public DictionaryService getDictionaryServiceDelegate() throws UnsupportedException {
+	public DictionaryService getDictionaryServiceDelegate()  {
 		return dictionaryServiceDelegate;
 	}
 
@@ -504,14 +502,14 @@ public class CommentServiceImpl implements CommentService {
 	 */
     @Deprecated
 	public void setDictionaryServiceDelegate(
-			DictionaryService dictionaryServiceDelegate) throws UnsupportedException {
+			DictionaryService dictionaryServiceDelegate)  {
 		this.dictionaryServiceDelegate = dictionaryServiceDelegate;
 	}
     /**
 	 * @return the searchManager
 	 */
     @Deprecated
-	public SearchManager getSearchManager() throws UnsupportedException {
+	public SearchManager getSearchManager()  {
 		return searchManager;
 	}
 
@@ -519,7 +517,7 @@ public class CommentServiceImpl implements CommentService {
 	 * @param searchManager the searchManager to set
 	 */
     @Deprecated
-	public void setSearchManager(SearchManager searchManager) throws UnsupportedException {
+	public void setSearchManager(SearchManager searchManager)  {
 		this.searchManager = searchManager;
 	}
 
@@ -536,7 +534,7 @@ public class CommentServiceImpl implements CommentService {
      * @return the validatorFactory
      */
 	@Deprecated
-    public ValidatorFactory getValidatorFactory() throws UnsupportedException {
+    public ValidatorFactory getValidatorFactory()  {
         return validatorFactory;
     }
 
@@ -544,7 +542,7 @@ public class CommentServiceImpl implements CommentService {
      * @param validatorFactory the validatorFactory to set
      */
 	@Deprecated
-    public void setValidatorFactory(ValidatorFactory validatorFactory) throws UnsupportedException {
+    public void setValidatorFactory(ValidatorFactory validatorFactory)  {
         this.validatorFactory = validatorFactory;
     }
 }
