@@ -384,7 +384,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         if (categoriesInPicker != null && categoryToCheck != null){
             for (LoCategoryInfo pickerCategory : categoriesInPicker) {
                 boolean namesMatch = pickerCategory.getName().equalsIgnoreCase(categoryToCheck.getName());
-                boolean typesMatch = pickerCategory.getType().equalsIgnoreCase(categoryToCheck.getType());
+                boolean typesMatch = pickerCategory.getTypeKey().equalsIgnoreCase(categoryToCheck.getTypeKey());
                 if (namesMatch && typesMatch){
                     return true;
                 }
@@ -657,7 +657,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
             for (int i = 0; i < categories.size(); i++) {
                 String name = categories.get(i).getName();
-                String typeKey = categories.get(i).getType();
+                String typeKey = categories.get(i).getTypeKey();
                 // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw()
                 KSItemLabel newItemLabel = new KSItemLabel(true, new CategoryDataParser());
                 Data categoryData = CategoryDataUtil.toData(categories.get(i));
@@ -742,7 +742,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 LoCategoryInfo loCategoryInfo = CategoryDataUtil.toLoCategoryInfo(data);
                 String typeName = "ERROR: uninitialized categoryTypeMap";
                 if (null != categoryTypeMap) {
-                    typeName = categoryTypeMap.get(loCategoryInfo.getType()).getName();
+                    typeName = categoryTypeMap.get(loCategoryInfo.getTypeKey()).getName();
                 }
                 result = loCategoryInfo.getName() +
                         LOCategoryBuilder.LOCategoryListNew.CATEGORY_TYPE_SEPARATOR + typeName;

@@ -251,8 +251,8 @@ public class CategoryManagementTable extends Composite {
             LoCategoryInfo loCategoryInfo = new LoCategoryInfo();
             loCategoryInfo.setId(r.getCellData(ID_COLUMN_KEY).toString());
             loCategoryInfo.setName(r.getCellData(NAME_COLUMN_KEY).toString());
-            loCategoryInfo.setType(r.getCellData(TYPE_COLUMN_KEY).toString());
-            loCategoryInfo.setState(r.getCellData(STATE_COLUMN_KEY).toString());
+            loCategoryInfo.setTypeKey(r.getCellData(TYPE_COLUMN_KEY).toString());
+            loCategoryInfo.setStateKey(r.getCellData(STATE_COLUMN_KEY).toString());
             loCategoryInfos.add(loCategoryInfo);
         }
         return loCategoryInfos;
@@ -318,8 +318,8 @@ public class CategoryManagementTable extends Composite {
             boolean shouldExcludeRow = false;
             for (LoCategoryInfo toFilter : loCategoriesToFilter) {
                 String name = toFilter.getName();
-                String type = toFilter.getType();
-                if (result.getName().equals(name) && result.getType().equals(type)){
+                String type = toFilter.getTypeKey();
+                if (result.getName().equals(name) && result.getTypeKey().equals(type)){
                     shouldExcludeRow = true;
                     break;
                 }
@@ -340,7 +340,7 @@ public class CategoryManagementTable extends Composite {
        if(isHideInactiveCategories()) {
             List<LoCategoryInfo> filteredResult = new ArrayList<LoCategoryInfo>();
             for(LoCategoryInfo info : result) {
-                if (info.getState().equals("active") ) {
+                if (info.getStateKey().equals("active") ) {
                     filteredResult.add(info);
                 }
             }

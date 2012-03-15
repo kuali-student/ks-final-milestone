@@ -29,8 +29,8 @@ public class CategoryDataUtil {
         AttributesAssembler attAssembler = new AttributesAssembler();
         catHelper.setAttributes(attAssembler.assemble(cat.getAttributes()));
         */
-        catHelper.setState(loCategoryInfo.getState());
-        catHelper.setType(loCategoryInfo.getType());
+        catHelper.setState(loCategoryInfo.getStateKey());
+        catHelper.setType(loCategoryInfo.getTypeKey());
 
         MetaInfo mInfo = loCategoryInfo.getMetaInfo();
         if (mInfo != null) {
@@ -71,8 +71,8 @@ public class CategoryDataUtil {
             // and its LOCategoryBuilder
             // catInfo.setAttributes(catHelper.getAttributes());
             catInfo.setName(catHelper.getName());
-            catInfo.setState(catHelper.getState());
-            catInfo.setType(catHelper.getType());
+            catInfo.setStateKey(catHelper.getState());
+            catInfo.setTypeKey(catHelper.getType());
             // TODO - LoCategoryInfoAssembler, w/ a disassemble method so we can just do 
             // categoriesData.add(LoCategoryInfoAssembler.disassemble(catData)) instead
             // of all the above

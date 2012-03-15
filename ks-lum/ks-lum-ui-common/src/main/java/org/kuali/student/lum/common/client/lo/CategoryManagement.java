@@ -390,7 +390,7 @@ public class CategoryManagement extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     // not really deleting; rather 'retiring' LoCategory, but switching state to "inactive"
-                	categoryInfo.setState("inactive");
+                	categoryInfo.setStateKey("inactive");
                     loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(categoryInfo), new KSAsyncCallback<DataSaveResult>(){
                         @Override
                         public void handleFailure(Throwable caught) {
@@ -439,7 +439,7 @@ public class CategoryManagement extends Composite {
             categoryNameLabel.setText(categoryInfo.getName());
             if (categoryTypeList != null) {
                 for (LoCategoryTypeInfo catTypeInfo : categoryTypeList) {
-                    if (catTypeInfo.getId() != null && catTypeInfo.getId().equals(categoryInfo.getType())) {
+                    if (catTypeInfo.getId() != null && catTypeInfo.getId().equals(categoryInfo.getTypeKey())) {
                         categoryTypeLabel.setText(catTypeInfo.getName());
                         break;
                     }
@@ -544,13 +544,13 @@ public class CategoryManagement extends Composite {
         public void setCategory(LoCategoryInfo cate) {
             categoryInfo = cate;
             nameTextBox.setText(categoryInfo.getName());
-           	typeListBox.selectItem(categoryInfo.getType());
+           	typeListBox.selectItem(categoryInfo.getTypeKey());
         }
 
         public LoCategoryInfo getCategory() {
             categoryInfo.setName(nameTextBox.getText());
             //categoryInfo.setType(typeListBox.getItemText(typeListBox.getSelectedIndex()));
-            categoryInfo.setType(typeListBox.getSelectedItem());
+            categoryInfo.setTypeKey(typeListBox.getSelectedItem());
             return categoryInfo;
         }
     }
@@ -647,8 +647,8 @@ public class CategoryManagement extends Composite {
         public LoCategoryInfo getCategory() {
             LoCategoryInfo info = new LoCategoryInfo();
             info.setName(nameTextBox.getText());
-            info.setType(typeListBox.getSelectedItem());
-            info.setState("active");
+            info.setTypeKey(typeListBox.getSelectedItem());
+            info.setStateKey("active");
             info.setLoRepository("kuali.loRepository.key.singleUse");
             // FIXME [KSCOR-225] user needs to specify what LoRepository they want category to tagged with
             return info;
