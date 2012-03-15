@@ -415,7 +415,7 @@ public class TestCourseServiceImpl {
         }
         try {
             System.out.println("Updating course again trying to get a version mismatch...");
-            courseService.updateCourse(retrievedCourse);
+            courseService.updateCourse(null, retrievedCourse, contextInfo);
             fail("Failed to throw VersionMismatchException");
         } catch (VersionMismatchException e) {
             System.out.println("Correctly received " + e.getMessage());
