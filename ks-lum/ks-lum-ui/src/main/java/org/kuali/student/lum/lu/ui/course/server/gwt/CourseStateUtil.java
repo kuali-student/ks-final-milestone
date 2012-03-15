@@ -13,10 +13,10 @@ public class CourseStateUtil {
 	
 	/* Recursively set state for StatementTreeViewInfo */
 	public static void updateStatementTreeViewInfoState(String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-		statementTreeViewInfo.setState(courseState);
+		statementTreeViewInfo.setStateKey(courseState);
         List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
         for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
-        	it.next().setState(courseState);
+        	it.next().setStateKey(courseState);
         for(Iterator<StatementTreeViewInfo> itr = statementTreeViewInfo.getStatements().iterator(); itr.hasNext();)
         	updateStatementTreeViewInfoState(courseState, (StatementTreeViewInfo)itr.next());
 	}

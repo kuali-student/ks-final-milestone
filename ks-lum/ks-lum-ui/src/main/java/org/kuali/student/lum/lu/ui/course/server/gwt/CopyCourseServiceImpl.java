@@ -96,8 +96,8 @@ public class CopyCourseServiceImpl {
 			//Clear ids and set the reference to the copied course
 			originalProposal.setId(null);
 			originalProposal.setWorkflowId(null);
-			originalProposal.setState(defaultState);
-			originalProposal.setType(defaultDocumentType);
+			originalProposal.setStateKey(defaultState);
+			originalProposal.setTypeKey(defaultDocumentType);
 			originalProposal.getProposalReference().set(0, copiedCourse.getId());
 			originalProposal.getProposerOrg().clear();
 			originalProposal.getProposerPerson().clear();
@@ -202,13 +202,13 @@ public class CopyCourseServiceImpl {
 					try {
 						CluSetInfo cluSet = cluService.getCluSet(field.getValue(), contextInfo);
 						cluSet.setId(null);
-						cluSet.setState(newState);
+						cluSet.setStateKey(newState);
 						//Clear clu ids if membership info exists, they will be re-added based on membership info 
 						if (cluSet.getMembershipQuery() != null){
 							cluSet.getCluIds().clear();
 							cluSet.getCluSetIds().clear();
 						}
-						cluSet = cluService.createCluSet(cluSet.getType(), cluSet, contextInfo);
+						cluSet = cluService.createCluSet(cluSet.getTypeKey(), cluSet, contextInfo);
 						field.setValue(cluSet.getId());
 					} catch (Exception e) {
 						throw new OperationFailedException("Error copying clusets.", e);
@@ -245,11 +245,11 @@ public class CopyCourseServiceImpl {
 		//Default the newState to the existing course state if no state was set.
 		//State should never be null
 		if(newState==null){
-			newState = originalCourse.getState();
+			newState = originalCourse.getStateKey();
 		}
 		
 		originalCourse.setId(newCluId);
-		originalCourse.setState(newState);
+		originalCourse.setStateKey(newState);
         originalCourse.setPilotCourse(false);
 		
 		//Loop through the ignore properties and null out the values

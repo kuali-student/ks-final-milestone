@@ -241,10 +241,10 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 wrapperCluSet.setCluIds(cluSetInfo.getCluIds());
                 cluSetInfo.setCluIds(null);
                 try {
-                    if (wrapperCluSet.getType() == null) {
-                	    wrapperCluSet.setType("kuali.cluSet.type.CreditCourse");
+                    if (wrapperCluSet.getTypeKey() == null) {
+                	    wrapperCluSet.setTypeKey("kuali.cluSet.type.CreditCourse");
                     }
-                    wrapperCluSet = cluService.createCluSet(wrapperCluSet.getType(), wrapperCluSet, ContextUtils.getContextInfo());
+                    wrapperCluSet = cluService.createCluSet(wrapperCluSet.getTypeKey(), wrapperCluSet, ContextUtils.getContextInfo());
                 } catch (Exception e) {
                     LOG.error("Failed to create wrapper cluset",e);
                     throw new AssemblyException(e);
@@ -258,7 +258,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 wrapperCluSet.setMembershipQuery(mqInfo);
                 cluSetInfo.setMembershipQuery(null);
                 try {
-                    wrapperCluSet = cluService.createCluSet(wrapperCluSet.getType(), wrapperCluSet, ContextUtils.getContextInfo());
+                    wrapperCluSet = cluService.createCluSet(wrapperCluSet.getTypeKey(), wrapperCluSet, ContextUtils.getContextInfo());
                 } catch (Exception e) {
                     LOG.error("Failed to create wrapper cluset",e);
                     throw new AssemblyException(e);
@@ -279,8 +279,8 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         wrapperCluSet.setIsReusable(false);
         wrapperCluSet.setIsReferenceable(false);
         wrapperCluSet.setName(cluSetInfo.getName());
-        wrapperCluSet.setState(cluSetInfo.getState());
-        wrapperCluSet.setType(cluSetInfo.getType());
+        wrapperCluSet.setStateKey(cluSetInfo.getStateKey());
+        wrapperCluSet.setTypeKey(cluSetInfo.getTypeKey());
     }
 
     private SaveResult<Data> saveCluSet(Data input) throws AssemblyException {
@@ -319,10 +319,10 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             }
         } else {
             try {
-                if (cluSetInfo.getType() == null) {
-                    cluSetInfo.setType("kuali.cluSet.type.CreditCourse");
+                if (cluSetInfo.getTypeKey() == null) {
+                    cluSetInfo.setTypeKey("kuali.cluSet.type.CreditCourse");
                 }
-                updatedCluSetInfo = cluService.createCluSet(cluSetInfo.getType(), cluSetInfo, ContextUtils.getContextInfo());
+                updatedCluSetInfo = cluService.createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
             } catch (Exception e) {
                 LOG.error("Failed to create cluset",e);
                 throw new AssemblyException(e);
@@ -381,7 +381,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             	}
                 result.setApprovedClus(new Data());
                 for (CluInfo cluInfo : cluInfos) {
-                    if (cluInfo.getState().equals("Active")) {
+                    if (cluInfo.getStateKey().equals("Active")) {
                         result.getApprovedClus().add(cluInfo.getVersionInfo().getVersionIndId());
                     } else {
                         result.getProposedClus().add(cluInfo.getVersionInfo().getVersionIndId());
@@ -412,8 +412,8 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             result.setMetaInfo(toMetaInfoHelper(cluSetInfo.getMeta()));
             result.setName(cluSetInfo.getName());
             result.setOrganization(cluSetInfo.getAdminOrg());
-            result.setState(cluSetInfo.getState());
-            result.setType(cluSetInfo.getType());
+            result.setState(cluSetInfo.getStateKey());
+            result.setType(cluSetInfo.getTypeKey());
             result.setCluRangeParams(CluSetRangeModelUtil.INSTANCE.toData(
                     cluSetInfo.getMembershipQuery()));
         }
@@ -470,11 +470,11 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
         cluSetInfo.setMeta(toMetaInfo(cluSetHelper.getMetaInfo()));
         cluSetInfo.setName(cluSetHelper.getName());
-        cluSetInfo.setState(cluSetHelper.getState());
-        if (cluSetInfo.getState() == null) {
-            cluSetInfo.setState("active");
+        cluSetInfo.setStateKey(cluSetHelper.getState());
+        if (cluSetInfo.getStateKey() == null) {
+            cluSetInfo.setStateKey("active");
         }
-        cluSetInfo.setType(cluSetHelper.getType());
+        cluSetInfo.setTypeKey(cluSetHelper.getType());
         cluSetInfo.setIsReusable(cluSetHelper.getReusable());
         cluSetInfo.setIsReferenceable(cluSetHelper.getReferenceable());
         return cluSetInfo;
