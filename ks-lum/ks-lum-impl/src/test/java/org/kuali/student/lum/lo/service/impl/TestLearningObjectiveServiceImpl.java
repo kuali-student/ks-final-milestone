@@ -161,7 +161,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         } catch (MissingParameterException e) {}
         
         StatusInfo statusInfo = client.deleteLo(loId, contextInfo);
-        assertTrue(statusInfo.getSuccess());
+        assertTrue(statusInfo.getIsSuccess());
         
         // now make sure we can't orphan "included" LO's
     	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
@@ -247,7 +247,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         	
           // delete the one erroneously created so as to not mess up other tests
         	 StatusInfo statusInfo = client.deleteLo(created.getId(), contextInfo);
-             assertTrue(statusInfo.getSuccess());            
+             assertTrue(statusInfo.getIsSuccess());            
              fail("OperationFailedException expected when creating Lo with empty description");
         } catch (DataValidationErrorException mpe) {
 			// expected result
@@ -280,7 +280,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	        	
 	          // delete the one erroneously created so as to not mess up other tests
 	        	 StatusInfo statusInfo = client.deleteLoCategory(newCatInfo.getId(), contextInfo);
-	             assertTrue(statusInfo.getSuccess());            
+	             assertTrue(statusInfo.getIsSuccess());            
 	             fail("OperationFailedException expected when creating LoCategory with empty description");
 		} catch (DataValidationErrorException mpe) {
 			// expected result
@@ -421,7 +421,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     public void testGetLoRepositories() throws DoesNotExistException, InvalidParameterException, OperationFailedException {
     	List<LoRepositoryInfo> repos = null;
     	try {
-    		repos = client.getLoRepositories();
+    		repos = client.getLoRepositories(contextInfo);
     	} catch (Exception e) {
             fail("Exception caught when calling LearningObjectiveService.getLoRepositories(): " + e.getMessage());
     	}
@@ -431,7 +431,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		boolean found = false;
 		String  repoId = "kuali.loRepository.key.state";
 		for (LoRepositoryInfo loRInfo : repos) {
-			if (loRInfo.getId().equals(repoId)) {
+			if (loRInfo.getRootLoId().equals(repoId)) {
 				found = true;
 			}
 		}
@@ -486,7 +486,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     public void testGetLoLoRelationTypes()  {
     	List<LoLoRelationTypeInfo> llrtInfos = null;
     	try {
-    		llrtInfos = client.getLoLoRelationTypes();
+    		llrtInfos = client.getLoLoRelationTypes(contextInfo);
     	} catch (Exception e) {
             fail("Exception caught when calling LearningObjectiveService.getLoLoRelationTypes(): " + e.getMessage());
     	}
@@ -705,11 +705,11 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         
         String categoryId = "550e8400-e29b-41d4-a716-446655440000";
         
-        category = client.getLoCategory(categoryId);
+        category = client.getLoCategory(categoryId, contextInfo);
         assertEquals("Perception", category.getName());
         assertEquals("loCategoryType.skillarea", category.getTypeKey());
         category.setName("LENNY, THE LECHEROUS MILK THIEF");
-        category.setType("loCategoryType.accreditation");
+        category.setTypeKey("loCategoryType.accreditation");
         
         List<LoInfo> twoLos = client.getLosByLoCategory(categoryId, contextInfo);
         assertTrue(null != twoLos);
@@ -754,7 +754,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         // add one to an LO that didn't have one
         categoryId = "054caa88-c21d-4496-8287-36a311a11d68";
         StatusInfo statusInfo = client.addLoCategoryToLo(categoryId, "91a91860-d796-4a17-976b-a6165b1a0b05", contextInfo);
-        assertTrue(statusInfo.getSuccess());
+        assertTrue(statusInfo.getIsSuccess());
         
         los = client.getLosByLoCategory(categoryId, contextInfo);
         assertEquals(1, los.size());
@@ -764,17 +764,17 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertEquals(1, categories.size());
         
         try {
-            statusInfo = client.deleteLoCategory(categoryId);
+            statusInfo = client.deleteLoCategory(categoryId, contextInfo);
             fail("DependentObjectsExistException expected"); 
         } catch(DependentObjectsExistException e) {}
         
         statusInfo = client.removeLoCategoryFromLo(categoryId, "91a91860-d796-4a17-976b-a6165b1a0b05", contextInfo);
-        assertTrue(statusInfo.getSuccess());
+        assertTrue(statusInfo.getIsSuccess());
         
         los = client.getLosByLoCategory(categoryId, contextInfo);
         assertTrue(null == los || los.size() == 0);
         statusInfo = client.deleteLoCategory(categoryId, contextInfo);
-        assertTrue(statusInfo.getSuccess());
+        assertTrue(statusInfo.getIsSuccess());
     }
     
 	@Test
