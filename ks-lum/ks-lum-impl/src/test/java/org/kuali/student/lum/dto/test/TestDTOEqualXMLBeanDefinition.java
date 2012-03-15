@@ -24,6 +24,11 @@ import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluCreditInfo;
 import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
 import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
 
 public class TestDTOEqualXMLBeanDefinition {
 
@@ -63,8 +68,13 @@ public class TestDTOEqualXMLBeanDefinition {
 		//startingClasses.add(CluCluRelationInfo.class.getName());
 		//startingClasses.add(CluCreditInfo.class.getName());
 		//startingClasses.add(CluFeeInfo.class.getName());
-		//startingClasses.add(CluFeeRecordInfo.class.getName()); //Issue met run
-		startingClasses.add(CluIdentifierInfo.class.getName());
+		//startingClasses.add(CluFeeRecordInfo.class.getName()); //osDict is null
+		//startingClasses.add(CluIdentifierInfo.class.getName());
+		//startingClasses.add(CluInfo.class.getName());//Nullpointerexception
+		//startingClasses.add(CluInstructorInfo.class.getName());
+		//startingClasses.add(CluLoRelationInfo.class.getName());
+		//startingClasses.add(CluPublicationInfo.class.getName()); //nie in xml
+		//startingClasses.add(CluResultInfo.class.getName());//nie in xml
 		String contextFile = "ks-cluInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
