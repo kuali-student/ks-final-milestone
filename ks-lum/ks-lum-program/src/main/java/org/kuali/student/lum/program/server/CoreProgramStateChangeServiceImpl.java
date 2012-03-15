@@ -125,8 +125,8 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 			boolean updateState = isVersionNewerThanCurrentVersion && !isVersionSelectedVersion;
 			if (updateState) {
 				CoreProgramInfo otherProgram = programService.getCoreProgram(versionInfo.getId(),ContextUtils.getContextInfo());
-				if (otherProgram.getState().equals(DtoConstants.STATE_APPROVED) ||
-					otherProgram.getState().equals(DtoConstants.STATE_ACTIVE)){
+				if (otherProgram.getStateKey().equals(DtoConstants.STATE_APPROVED) ||
+					otherProgram.getStateKey().equals(DtoConstants.STATE_ACTIVE)){
 			        updateCoreProgramInfoState(otherProgram, DtoConstants.STATE_SUPERSEDED);
 				}		
 			}
@@ -187,7 +187,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
  
 
         // Update major discipline
-        coreProgramInfo.setState(newState);
+        coreProgramInfo.setStateKey(newState);
   
         programService.updateCoreProgram(coreProgramInfo.getId(),coreProgramInfo.getTypeKey(),coreProgramInfo,ContextUtils.getContextInfo());
     }
@@ -237,7 +237,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
             StatementUtil.updateStatementTreeViewInfoState(newState, statementTree);
 
             // Update the state of the requirement object
-            programRequirementInfo.setState(newState);
+            programRequirementInfo.setStateKey(newState);
 
             // The write the requirement back to the program service
          // TODO KSCM-393 programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());

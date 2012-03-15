@@ -128,19 +128,7 @@ public class CredentialProgramRpcServlet extends MajorDisciplineRpcServlet imple
 	}
 
 	@Override
-	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getStateKey() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getState() {
 		// TODO Auto-generated method stub
 		return null;
 	}

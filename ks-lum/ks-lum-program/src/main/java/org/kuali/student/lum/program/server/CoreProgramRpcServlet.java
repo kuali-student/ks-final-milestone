@@ -143,20 +143,9 @@ public class CoreProgramRpcServlet extends MajorDisciplineRpcServlet implements 
 		return null;
 	}
 
-	@Override
-	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public String getStateKey() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getState() {
 		// TODO Auto-generated method stub
 		return null;
 	}

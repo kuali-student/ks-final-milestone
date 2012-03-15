@@ -51,8 +51,8 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
         MajorDisciplineInfo returnDTO;
         if (null == id || id.length() == 0) {
             returnDTO = new MajorDisciplineInfo();
-            returnDTO.setType(ProgramClientConstants.MAJOR_PROGRAM);
-            returnDTO.setState(DtoConstants.STATE_DRAFT);
+            returnDTO.setTypeKey(ProgramClientConstants.MAJOR_PROGRAM);
+            returnDTO.setStateKey(DtoConstants.STATE_DRAFT);
             returnDTO.setCredentialProgramId(getCredentialId());
         } else {
             returnDTO = programService.getMajorDiscipline(id,contextInfo);

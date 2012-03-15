@@ -565,7 +565,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         if (internalProgReqID == null) {
             progReqInfo = new ProgramRequirementInfo();
             progReqInfo.setId(NEW_PROG_REQ_ID + Integer.toString(tempStmtTreeID++));   //set unique id
-            progReqInfo.setType("kuali.lu.type.Requirement");
+            progReqInfo.setTypeKey("kuali.lu.type.Requirement");
 
             //create a top level statement tree
             StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();

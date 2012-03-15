@@ -129,7 +129,7 @@ public class ProgramStateChangeServiceImpl {
         updateRequirementsState(majorDisciplineInfo, newState);
          
         // Update major discipline
-        majorDisciplineInfo.setState(newState);
+        majorDisciplineInfo.setStateKey(newState);
      // TODO KSCM-393 programService.updateMajorDiscipline(majorDisciplineInfo,ContextUtils.getContextInfo());
     }
 
@@ -217,7 +217,7 @@ public class ProgramStateChangeServiceImpl {
             StatementUtil.updateStatementTreeViewInfoState(newState, statementTree);
 
             // Update the state of the requirement object
-            programRequirementInfo.setState(newState);
+            programRequirementInfo.setStateKey(newState);
 
             // The write the requirement back to the program service
          // TODO KSCM-393 programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());

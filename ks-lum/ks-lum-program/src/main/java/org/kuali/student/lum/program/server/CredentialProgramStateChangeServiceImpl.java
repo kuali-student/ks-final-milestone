@@ -126,8 +126,8 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
 			boolean updateState = isVersionNewerThanCurrentVersion && !isVersionSelectedVersion;
 			if (updateState) {
 				CredentialProgramInfo otherProgram = programService.getCredentialProgram(versionInfo.getId(),ContextUtils.getContextInfo());
-				if (otherProgram.getState().equals(DtoConstants.STATE_APPROVED) ||
-					otherProgram.getState().equals(DtoConstants.STATE_ACTIVE)){
+				if (otherProgram.getStateKey().equals(DtoConstants.STATE_APPROVED) ||
+					otherProgram.getStateKey().equals(DtoConstants.STATE_ACTIVE)){
 			        updateCredentialProgramInfoState(otherProgram, DtoConstants.STATE_SUPERSEDED);
 				}		
 			}
@@ -187,7 +187,7 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
         // Credential and core programs do not have variations
         
         // Update program
-        credentialProgramInfo.setState(newState);
+        credentialProgramInfo.setStateKey(newState);
         programService.updateCredentialProgram(credentialProgramInfo,ContextUtils.getContextInfo());
     }
 
@@ -233,7 +233,7 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
             StatementUtil.updateStatementTreeViewInfoState(newState, statementTree);
 
             // Update the state of the requirement object
-            programRequirementInfo.setState(newState);
+            programRequirementInfo.setStateKey(newState);
 
             // The write the requirement back to the program service
             programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());

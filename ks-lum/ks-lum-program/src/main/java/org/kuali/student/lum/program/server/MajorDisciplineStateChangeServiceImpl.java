@@ -122,7 +122,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
         
         
         // Update major discipline
-        majorDisciplineInfo.setState(newState);
+        majorDisciplineInfo.setStateKey(newState);
         programService.updateMajorDiscipline(null, majorDisciplineInfo,ContextUtils.getContextInfo());
     }
 
@@ -195,8 +195,8 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 			boolean updateState = isVersionNewerThanCurrentVersion && !isVersionSelectedVersion;
 			if (updateState) {
 				MajorDisciplineInfo otherProgram = programService.getMajorDiscipline(versionInfo.getId(),ContextUtils.getContextInfo());
-				if (otherProgram.getState().equals(DtoConstants.STATE_APPROVED) ||
-					otherProgram.getState().equals(DtoConstants.STATE_ACTIVE)){
+				if (otherProgram.getStateKey().equals(DtoConstants.STATE_APPROVED) ||
+					otherProgram.getStateKey().equals(DtoConstants.STATE_ACTIVE)){
 			        updateMajorDisciplineInfoState(otherProgram, DtoConstants.STATE_SUPERSEDED);
 				}		
 			}
@@ -322,7 +322,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
             StatementUtil.updateStatementTreeViewInfoState(newState, statementTree);
 
             // Update the state of the requirement object
-            programRequirementInfo.setState(newState);
+            programRequirementInfo.setStateKey(newState);
 
             // The write the requirement back to the program service
             programService.updateProgramRequirement(programRequirementId, programRequirementId, programRequirementInfo,ContextUtils.getContextInfo());

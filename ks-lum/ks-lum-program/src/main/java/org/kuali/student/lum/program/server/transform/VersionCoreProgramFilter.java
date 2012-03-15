@@ -32,7 +32,7 @@ public class VersionCoreProgramFilter extends VersionProgramFilter {
 				previousVersionData.set(ProgramConstants.ID, previousVersionCoreInfo.getId());
 				previousVersionData.set(ProgramConstants.END_PROGRAM_ENTRY_TERM, previousVersionCoreInfo.getEndProgramEntryTerm());
 				previousVersionData.set(ProgramConstants.END_PROGRAM_ENROLL_TERM, previousVersionCoreInfo.getEndTerm());
-				previousVersionData.set(ProgramConstants.STATE, previousVersionCoreInfo.getState());
+				previousVersionData.set(ProgramConstants.STATE, previousVersionCoreInfo.getStateKey());
 			}
 			
 			data.set(PREVIOUS_VERSION_INFO, previousVersionData);

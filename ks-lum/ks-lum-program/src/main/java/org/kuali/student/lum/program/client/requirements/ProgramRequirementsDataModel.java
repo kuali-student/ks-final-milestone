@@ -374,7 +374,7 @@ public class ProgramRequirementsDataModel {
     protected void setRuleState(ProgramRequirementInfo programReqInfo) {
         if (model != null) {
             String programState = ((DataModel) model).get(ProgramConstants.STATE);
-            programReqInfo.setState(programState);
+            programReqInfo.setStateKey(programState);
         }
     }
 
@@ -466,8 +466,8 @@ public class ProgramRequirementsDataModel {
             clonedProgReqInfo.setDescr(inProgReqInfo.getDescr());
             clonedProgReqInfo.setMinCredits(inProgReqInfo.getMinCredits());
             clonedProgReqInfo.setMaxCredits(inProgReqInfo.getMaxCredits());
-            clonedProgReqInfo.setState(inProgReqInfo.getState());
-            clonedProgReqInfo.setType(inProgReqInfo.getType());
+            clonedProgReqInfo.setStateKey(inProgReqInfo.getStateKey());
+            clonedProgReqInfo.setTypeKey(inProgReqInfo.getTypeKey());
             clonedProgReqInfo.setStatement(RulesUtil.clone(inProgReqInfo.getStatement()));
             //TODO clonedProgReqInfo.setAttributes();
             //TODO clonedProgReqInfo.setLearningObjectives();

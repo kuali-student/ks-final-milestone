@@ -146,7 +146,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         
         // Update the state of the statement tree to match the state of the requirement
         // Note: the requirement state already matches the program state (e.g. Draft, Approved, etc)
-        StatementUtil.updateStatementTreeViewInfoState(programRequirementInfo.getState(), programRequirementInfo.getStatement());
+        StatementUtil.updateStatementTreeViewInfoState(programRequirementInfo.getStateKey(), programRequirementInfo.getStatement());
        
         // Call the web service to create the requirement and statement tree in the database
         ProgramRequirementInfo rule = programService.createProgramRequirement(programRequirementInfo.getId(),programRequirementInfo,ContextUtils.getContextInfo());
@@ -168,7 +168,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
 
         // Update the state of the statement tree to match the state of the requirement
         // Note: the requirement state already matches the program state (e.g. Draft, Approved, etc)
-        StatementUtil.updateStatementTreeViewInfoState(programRequirementInfo.getState(), programRequirementInfo.getStatement());
+        StatementUtil.updateStatementTreeViewInfoState(programRequirementInfo.getStateKey(), programRequirementInfo.getStatement());
         
         //TODO temporary fix - see KSLUM 1421
         if (programRequirementInfo.getDescr() == null) {
