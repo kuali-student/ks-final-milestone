@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
+import org.kuali.student.r1.lum.lu.dto.CluFeeRecordInfo;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementInfo;
@@ -22,6 +23,7 @@ import org.kuali.student.r2.lum.clu.dto.CluAccountingInfo;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluCreditInfo;
 import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
 
 public class TestDTOEqualXMLBeanDefinition {
 
@@ -60,7 +62,9 @@ public class TestDTOEqualXMLBeanDefinition {
 		//startingClasses.add(CluAccountingInfo.class.getName());
 		//startingClasses.add(CluCluRelationInfo.class.getName());
 		//startingClasses.add(CluCreditInfo.class.getName());
-		startingClasses.add(CluFeeInfo.class.getName());
+		//startingClasses.add(CluFeeInfo.class.getName());
+		//startingClasses.add(CluFeeRecordInfo.class.getName()); //Issue met run
+		startingClasses.add(CluIdentifierInfo.class.getName());
 		String contextFile = "ks-cluInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
