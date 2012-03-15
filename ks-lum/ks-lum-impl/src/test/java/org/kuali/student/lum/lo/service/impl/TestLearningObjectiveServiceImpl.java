@@ -29,9 +29,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
@@ -44,23 +44,23 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
-import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
-import org.kuali.student.lum.lo.dto.LoRepositoryInfo;
-import org.kuali.student.lum.lo.dto.LoTypeInfo;
-import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
+import org.kuali.student.r2.lum.lo.dto.LoInfo;
+import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
+import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
+import org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
+import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 
 @Daos({@Dao(value = "org.kuali.student.lum.lo.dao.impl.LoDaoImpl", testSqlFile = "classpath:ks-lo.sql")})
 @PersistenceFileLocation("classpath:META-INF/lo-persistence.xml")
@@ -75,7 +75,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         RichTextInfo richText = new RichTextInfo();
         richText.setFormatted("<p>New ResultComponent</p>");
         richText.setPlain("New ResultComponent");
-        loInfo.setDesc(richText);
+        loInfo.setDescr(richText);
         Date date = new Date();
         loInfo.setEffectiveDate(date);
         loInfo.setExpirationDate(date);
@@ -83,8 +83,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("attrKey", "attrValue");
         loInfo.setAttributes(attributes);
-        loInfo.setType("kuali.lo.type.singleUse");
-        loInfo.setState(DtoConstants.STATE_DRAFT);
+        loInfo.setTypeKey("kuali.lo.type.singleUse");
+        loInfo.setStateKey(DtoConstants.STATE_DRAFT);
 
         LoInfo created = client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo); 
         assertNotNull(created);
@@ -93,7 +93,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         
         created = client.getLo(loId);
 
-        RichTextInfo desc = created.getDesc();
+        RichTextInfo desc = created.getDescr();
         assertNotNull(desc);
         assertEquals("<p>New ResultComponent</p>", desc.getFormatted());
         assertEquals("New ResultComponent", desc.getPlain());
@@ -102,8 +102,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         Map<String, String> newAttributes = created.getAttributes();
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
-        assertEquals("kuali.lo.type.singleUse", created.getType()); 
-        assertEquals(DtoConstants.STATE_DRAFT, created.getState());
+        assertEquals("kuali.lo.type.singleUse", created.getTypeKey()); 
+        assertEquals(DtoConstants.STATE_DRAFT, created.getStateKey());
 
         loInfo = client.getLo(loId);
         loInfo.setName("Lo in the mid 30s");
@@ -120,8 +120,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         newAttributes = updated.getAttributes();
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
-        assertEquals("kuali.lo.type.singleUse", updated.getType()); 
-        assertEquals(DtoConstants.STATE_DRAFT, updated.getState());
+        assertEquals("kuali.lo.type.singleUse", updated.getTypeKey()); 
+        assertEquals(DtoConstants.STATE_DRAFT, updated.getStateKey());
 
         try {
             client.updateLo(loId, loInfo);
@@ -194,16 +194,16 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		
 		LoCategoryInfo newCatInfo = new LoCategoryInfo();
 		newCatInfo.setName(catName);
-		newCatInfo.setType(catType);
-		newCatInfo.setState(catState);
+		newCatInfo.setTypeKey(catType);
+		newCatInfo.setStateKey(catState);
 		newCatInfo.setLoRepository(catRepo);
 		
 		newCatInfo = client.createLoCategory(catRepo, catType, newCatInfo);
 		
 		LoCategoryInfo dupCatInfo = new LoCategoryInfo();
 		dupCatInfo.setName(catName);
-		dupCatInfo.setType(catType);
-		dupCatInfo.setState(catState);
+		dupCatInfo.setTypeKey(catType);
+		dupCatInfo.setStateKey(catState);
 		dupCatInfo.setLoRepository(catRepo);
 		
 		
@@ -235,8 +235,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("attrKey", "attrValue");
         loInfo.setAttributes(attributes);
-        loInfo.setType("kuali.lo.type.singleUse");
-        loInfo.setState(DtoConstants.STATE_DRAFT);
+        loInfo.setTypeKey("kuali.lo.type.singleUse");
+        loInfo.setStateKey(DtoConstants.STATE_DRAFT);
 
         try {
         	 LoInfo created = client.createLo(loInfo.getLoRepositoryKey (), loInfo.getType (), loInfo);
@@ -298,8 +298,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		
 		LoCategoryInfo newCatInfo = new LoCategoryInfo();
 		newCatInfo.setName(catName);
-		newCatInfo.setType(catType);
-		newCatInfo.setState(catState);
+		newCatInfo.setTypeKey(catType);
+		newCatInfo.setStateKey(catState);
 		newCatInfo.setLoRepository(catRepo);
 		
 		try{				
@@ -316,8 +316,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		String dupCatName = "dontDupThisCategory";
 		LoCategoryInfo dupCatInfo = new LoCategoryInfo();
 		dupCatInfo.setName(dupCatName);
-		dupCatInfo.setType(catType);
-		dupCatInfo.setState(catState);
+		dupCatInfo.setTypeKey(catType);
+		dupCatInfo.setStateKey(catState);
 		dupCatInfo.setLoRepository(catRepo);
 		
 		
@@ -351,14 +351,14 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		
 		LoCategoryInfo catInfo1 = new LoCategoryInfo();
 		catInfo1.setName( "DontDupThisCategory");
-		catInfo1.setType(catType);
-		catInfo1.setState(catState);
+		catInfo1.setTypeKey(catType);
+		catInfo1.setStateKey(catState);
 		catInfo1.setLoRepository(catRepo);
 		
 		LoCategoryInfo catInfo2 = new LoCategoryInfo();
 		catInfo2.setName("DontDupThisCategory2");
-		catInfo2.setType(catType);
-		catInfo2.setState(catState);
+		catInfo2.setTypeKey(catType);
+		catInfo2.setStateKey(catState);
 		catInfo2.setLoRepository(catRepo);
 		
 		try{				
@@ -529,8 +529,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	assertNotNull(llrInfo);
     	assertEquals("81abea67-3bcc-4088-8348-e265f3670145", llrInfo.getLoId());
     	assertEquals("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a", llrInfo.getRelatedLoId());
-    	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
-    	assertEquals(DtoConstants.STATE_DRAFT, llrInfo.getState());
+    	assertEquals("kuali.lo.relation.type.includes", llrInfo.getTypeKey());
+    	assertEquals(DtoConstants.STATE_DRAFT, llrInfo.getStateKey());
         // Detecting expected errors
         try {
     		client.getLoLoRelation(null);
@@ -596,8 +596,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	llrInfo = client.getLoLoRelation(llrInfo.getId());
     	assertEquals("7bcd7c0e-3e6b-4527-ac55-254c58cecc22", llrInfo.getLoId());
     	assertEquals("91a91860-d796-4a17-976b-a6165b1a0b05", llrInfo.getRelatedLoId());
-    	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
-    	assertEquals(DtoConstants.STATE_DRAFT, llrInfo.getState());
+    	assertEquals("kuali.lo.relation.type.includes", llrInfo.getTypeKey());
+    	assertEquals(DtoConstants.STATE_DRAFT, llrInfo.getStateKey());
         // Detecting expected errors
         try {
     		client.createLoLoRelation(null, "foo", "bar", llrInfo);
@@ -723,7 +723,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         // make sure it all stuck
         updated = client.getLoCategory(updated.getId());
         assertEquals("LENNY, THE LECHEROUS MILK THIEF", updated.getName());
-        assertEquals("loCategoryType.accreditation", updated.getType());
+        assertEquals("loCategoryType.accreditation", updated.getTypeKey());
         
         try {
             client.updateLoCategory(categoryId, category);
