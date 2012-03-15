@@ -17,6 +17,8 @@ public class FormatOfferingAssembler{
     public static FormatOfferingInfo assemble(LuiInfo baseDTO)
         {
             FormatOfferingInfo  formatOfferingInfo = new FormatOfferingInfo();
+            formatOfferingInfo.setActivityOfferingTypeKeys(baseDTO.getRelatedLuiTypes());
+            formatOfferingInfo.setId(baseDTO.getId());
             return formatOfferingInfo;
         }
 

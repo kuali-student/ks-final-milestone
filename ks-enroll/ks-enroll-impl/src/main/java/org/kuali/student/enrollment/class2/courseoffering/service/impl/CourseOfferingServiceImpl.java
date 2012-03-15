@@ -998,7 +998,8 @@ public  class CourseOfferingServiceImpl implements CourseOfferingService{
 			DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		if(courseOfferingId != null){
+	
+        if(courseOfferingId != null){
             LuiInfo lui = null;
             try {
                 lui = rgAssembler.disassemble(registrationGroupInfo, context);
