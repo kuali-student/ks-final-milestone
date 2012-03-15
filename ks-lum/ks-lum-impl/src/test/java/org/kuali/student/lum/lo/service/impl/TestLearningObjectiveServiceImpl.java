@@ -242,7 +242,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         loInfo.setStateKey(DtoConstants.STATE_DRAFT);
 
         try {
-        	 LoInfo created = client.createLo(loInfo.getLoRepositoryKey (), loInfo.getType (), loInfo);
+        	 LoInfo created = client.createLo(loInfo.getLoRepositoryKey (), loInfo.getTypeKey (), loInfo);
         	 assertNotNull(created);
         	
           // delete the one erroneously created so as to not mess up other tests
@@ -452,7 +452,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	assertEquals("Learning objectives mandated by the state", repo.getDescr().getPlain());
         // Detecting expected errors
         try {
-    		client.getLoRepository(null);
+    		client.getLoRepository(null, contextInfo);
             fail("MissingParameterException expected for loRepositoryKey");
         } catch (MissingParameterException e) {}
     }
@@ -477,7 +477,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         
         // Detecting expected errors
         try {
-    		client.getLoType(null);
+    		client.getLoType(null, contextInfo);
             fail("MissingParameterException expected for loTypeKey");
         } catch (MissingParameterException e) {}
     }
