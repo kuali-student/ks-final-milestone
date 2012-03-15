@@ -48,7 +48,7 @@
 	<bean id="org.kuali.student.core.proposal.definition.RetireCourseProposalInfo"
 		parent="org.kuali.student.core.proposal.dto.ProposalInfo" >
 		<property name="name"
-			value="org.kuali.student.core.proposal.definition.CourseProposalInfo" />
+			value="org.kuali.student.core.proposal.definition.RetireCourseProposalInfo" />
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="retireCourseProposalInfo.otherComments" />
