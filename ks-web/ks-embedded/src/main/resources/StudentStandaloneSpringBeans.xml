@@ -64,7 +64,7 @@
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarCopyView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarLookupAndInquiryView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarWrapperMaintenance.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarWrapperLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarFlowView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarCopyView.xml</value>
                 <value>classpath:AcademicCalendarEditView.xml</value>
