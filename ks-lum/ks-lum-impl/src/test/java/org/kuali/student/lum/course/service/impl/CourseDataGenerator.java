@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.kuali.student.r1.common.dto.DtoConstants;
-import org.kuali.student.r1.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 

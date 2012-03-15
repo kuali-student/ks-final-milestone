@@ -47,7 +47,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
@@ -521,7 +520,7 @@ public class TestCourseServiceImpl {
             cInfo.setCrossListings(ccList);
             
             try {
-                cInfo = courseService.createCourse(cInfo);
+                cInfo = courseService.createCourse(cInfo, ContextInfoTestUtility.getEnglishContextInfo());
             } catch (DataValidationErrorException e) {
                 dumpValidationErrors(cInfo);
                 fail("DataValidationError: " + e.getMessage());
@@ -530,7 +529,7 @@ public class TestCourseServiceImpl {
                 fail("failed creating course:" + e.getMessage());
             }
             
-            CourseInfo rcInfo = courseService.getCourse(cInfo.getId());
+            CourseInfo rcInfo = courseService.getCourse(cInfo.getId(), ContextInfoTestUtility.getEnglishContextInfo());
             
             assertEquals(2,rcInfo.getCrossListings().size());
             
