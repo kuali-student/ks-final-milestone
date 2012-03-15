@@ -379,7 +379,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		
 		try {
 			catInfo2.setName( "dontDupThisCategory");
-			client.updateLoCategory(catId2, catInfo2);
+			client.updateLoCategory(catId2, catInfo2, contextInfo);
 			
 	
             fail("DataValidationErrorException expected when updating LoCategory with the same name, type and state");
@@ -390,8 +390,8 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		}
 		
 		// delete the two created so as to not mess up other tests
-		client.deleteLoCategory(catId1);
-		client.deleteLoCategory(catId2);
+		client.deleteLoCategory(catId1, contextInfo);
+		client.deleteLoCategory(catId2, contextInfo);
 	}	
 	
     @Test
