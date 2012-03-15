@@ -247,7 +247,7 @@
                         <bean parent="Uif-TextControl" p:size="60"/>
                     </property>
 
-                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
+                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
                     <property name="fieldLookup.fieldConversions">
                         <map>
                             <entry key="id" value="id" />
