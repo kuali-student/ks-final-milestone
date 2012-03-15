@@ -743,6 +743,7 @@
                   value="org.kuali.student.r2.lum.clu.dto.CluInstructorInfo"/>
         <property name="attributes">
             <list>
+                <ref bean="cluInstructorInfo.id"/>
                 <ref bean="cluInstructorInfo.orgId"/>
                 <ref bean="cluInstructorInfo.personId"/>
                 <ref bean="cluInstructorInfo.personInfoOverride"/>
@@ -751,6 +752,11 @@
     </bean>
     <bean id="org.kuali.student.r2.lum.clu.dto.CluInstructorInfo"
           parent="org.kuali.student.r2.lum.clu.dto.CluInstructorInfo-parent"/>
+    
+    <bean id="cluInstructorInfo.id-parent" abstract="true" parent="baseKualiOrgId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="cluInstructorInfo.id" parent="cluInstructorInfo.id-parent"/>
 
     <bean id="cluInstructorInfo.orgId-parent" abstract="true" parent="baseKualiOrgId">
         <property name="name" value="orgId"/>
@@ -968,4 +974,67 @@
     </bean>
     <bean id="cluCreditInfo.repeatUnits" parent="cluCreditInfo.repeatUnits-parent"/>   
     
+    
+    <!-- CluLoRelationInfo-->
+    <bean id="org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="cluLoRelationInfo.id"/>
+                <ref bean="cluLoRelationInfo.cluId"/>
+                <ref bean="cluLoRelationInfo.loId"/>
+                <ref bean="cluLoRelationInfo.typeKey"/>
+                <ref bean="cluLoRelationInfo.stateKey"/>
+                <ref bean="cluLoRelationInfo.effectiveDate"/>
+                <ref bean="cluLoRelationInfo.expirationDate"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo" parent="org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo-parent"/>
+
+    <bean id="cluLoRelationInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="cluLoRelationInfo.id" parent="cluLoRelationInfo.id-parent"/>
+    
+    <bean id="cluLoRelationInfo.descr-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="cluLoRelationInfo.descr" parent="cluLoRelationInfo.descr-parent"/>
+
+    <bean id="cluLoRelationInfo.cluId-parent" abstract="true" parent="baseKualiOrgId">
+        <property name="name" value="cluId"/>
+    </bean>
+    <bean id="cluLoRelationInfo.cluId" parent="cluLoRelationInfo.cluId-parent"/>
+    
+    <bean id="cluLoRelationInfo.loId-parent" abstract="true" parent="baseKualiOrgId">
+        <property name="name" value="loId"/>
+    </bean>
+    <bean id="cluLoRelationInfo.loId" parent="cluLoRelationInfo.loId-parent"/>
+
+
+    <bean id="cluLoRelationInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+
+    <bean id="cluLoRelationInfo.typeKey" parent="cluLoRelationInfo.typeKey-parent">
+        <property name="name" value="typeKey"></property>
+    </bean>
+
+    <bean id="cluLoRelationInfo.stateKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+    <bean id="cluLoRelationInfo.stateKey" parent="cluLoRelationInfo.stateKey-parent">
+        <property name="name" value="stateKey"></property>
+    </bean>
+    
+    <bean id="cluLoRelationInfo.effectiveDate-parent" abstract="true"
+          parent="baseKualiEffectiveDate">
+        <property name="name" value="effectiveDate"/>
+    </bean>
+    <bean id="cluLoRelationInfo.effectiveDate" parent="cluLoRelationInfo.effectiveDate-parent"/>
+
+    <bean id="cluLoRelationInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+        <property name="name" value="expirationDate"/>
+    </bean>
+    <bean id="cluLoRelationInfo.expirationDate" parent="cluLoRelationInfo.expirationDate-parent"/>
+
 </beans>
