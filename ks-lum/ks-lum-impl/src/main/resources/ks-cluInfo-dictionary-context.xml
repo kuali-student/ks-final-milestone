@@ -1400,4 +1400,39 @@
         <property name="name" value="resultComponentId"/>
     </bean>
     <bean id="resultOptionInfo.resultComponentId" parent="resultOptionInfo.resultComponentId-parent"/>
+    
+
+<!-- RevenueInfo-->
+    <bean id="org.kuali.student.r2.lum.clu.dto.RevenueInfo-parent"
+          abstract="true" parent="objectStructureDefinition">
+        <property name="name" value="org.kuali.student.r2.lum.clu.dto.RevenueInfo"/>
+        <property name="attributes">
+            <list>
+                <ref bean="revenueInfo.id"/>
+                <ref bean="revenueInfo.affiliatedOrgs"/>
+                <ref bean="revenueInfo.feeType"/>
+            </list>
+        </property>
+        <property name="hasMetaData" value="true"/>
+    </bean>
+    <bean id="org.kuali.student.r2.lum.clu.dto.RevenueInfo" parent="org.kuali.student.r2.lum.clu.dto.RevenueInfo-parent"/>
+    
+    <bean id="revenueInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="revenueInfo.id" parent="revenueInfo.id-parent"/>
+    
+        <bean id="revenueInfo.affiliatedOrgs-parent" abstract="true" parent="baseComplexRepeating">
+        <property name="name" value="affiliatedOrgs"/>
+        <property name="dataObjectStructure"
+                  ref="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo"/>
+    </bean>
+    <bean id="revenueInfo.affiliatedOrgs" parent="revenueInfo.affiliatedOrgs-parent"/>
+    
+        <bean id="revenueInfo.feeType-parent" abstract="true" parent="baseKualiTypeRequired">
+        <property name="name" value="feeType"/>
+    </bean>
+    <bean id="revenueInfo.feeType" parent="revenueInfo.feeType-parent"/>
+   
+    
 </beans>
