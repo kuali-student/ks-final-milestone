@@ -84,7 +84,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
  <bean id="credentialInfo.descr-parent" abstract="true" parent="baseComplex">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
  <bean id="credentialInfo.descr" parent="credentialInfo.descr-parent"/>
 
@@ -137,7 +137,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
  <bean id="creditInfo.descr-parent" abstract="true" parent="baseComplex">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
  <bean id="creditInfo.descr" parent="creditInfo.descr-parent"/>
 
@@ -246,7 +246,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
  <bean id="scaleInfo.descr-parent" abstract="true" parent="baseComplex">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
  <bean id="scaleInfo.descr" parent="scaleInfo.descr-parent"/>
 

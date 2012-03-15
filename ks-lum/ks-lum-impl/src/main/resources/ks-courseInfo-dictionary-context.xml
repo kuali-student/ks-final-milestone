@@ -1426,7 +1426,7 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo" parent="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo-parent"/>
+ <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo" parent="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo-parent"/>
 
  <bean id="versionInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
   <property name="name" value="currentVersionEnd"/>

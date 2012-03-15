@@ -39,6 +39,7 @@ import org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 
 public class TestDTOEqualXMLBeanDefinition {
 
@@ -65,7 +66,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		}
 	}
 
-	@Test
+	//@Test
 	public void testCluDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 		//TODO KSCM Correct errors below
@@ -97,6 +98,24 @@ public class TestDTOEqualXMLBeanDefinition {
 		startingClasses.add(RevenueInfo.class.getName());
 		
 		String contextFile = "ks-cluInfo-dictionary-context";
+		String outFile = "target/" + contextFile + ".txt";
+		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
+				outFile, startingClasses, contextFile + ".xml", false);
+		helper.setPrintDescrepenciesOnly(true);
+		List<String> errors = helper.doTest();
+		if (errors.size() > 0) {
+			fail("failed dictionary validation:\n" + formatAsString(errors));
+		}
+
+	}
+	
+	@Test
+	public void testCourseDTOsAgainstDataDictionary() {
+		System.out.println("testing statement dictionary");
+		Set<String> startingClasses = new LinkedHashSet();
+		//startingClasses.add(ActivityInfo.class.getName());
+		
+		String contextFile = "ks-courseInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
 				outFile, startingClasses, contextFile + ".xml", false);
