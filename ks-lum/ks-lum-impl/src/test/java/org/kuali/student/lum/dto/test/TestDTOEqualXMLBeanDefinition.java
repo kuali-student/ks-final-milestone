@@ -16,8 +16,6 @@ import org.kuali.student.r2.core.statement.dto.StatementInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo;
 
-import r1.org.kuali.student.core.dictionary.service.DictionaryDiscrepencyTesterHelper;
-
 public class TestDTOEqualXMLBeanDefinition {
 
 
