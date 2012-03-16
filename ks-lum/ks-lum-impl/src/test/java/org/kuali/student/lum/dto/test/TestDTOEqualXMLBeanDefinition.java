@@ -88,17 +88,17 @@ public class TestDTOEqualXMLBeanDefinition {
 		startingClasses.add(CluCluRelationInfo.class.getName());
 		startingClasses.add(CluCreditInfo.class.getName());
 		startingClasses.add(CluFeeInfo.class.getName());
-		startingClasses.add(CluFeeRecordInfo.class.getName()); //osDict is null But class exits in .xml file
+		startingClasses.add(CluFeeRecordInfo.class.getName());
 		startingClasses.add(CluIdentifierInfo.class.getName());
 		//startingClasses.add(CluInfo.class.getName());//Nullpointerexception
 		startingClasses.add(CluInstructorInfo.class.getName());
 		startingClasses.add(CluLoRelationInfo.class.getName());
-		//startingClasses.add(CluPublicationInfo.class.getName()); //variants maxOccurs inconsistent: dictionary='1'], java class='unbounded'//kyk na ks-courseInfo....xml lyn 196
-		//startingClasses.add(CluResultInfo.class.getName());//variants maxOccurs inconsistent: dictionary='1'], java class='unbounded'
+		startingClasses.add(CluPublicationInfo.class.getName()); 
+		startingClasses.add(CluResultInfo.class.getName());
 		//startingClasses.add(CluSetInfo.class.getName());//Nullpointerexception
 		//startingClasses.add(CluSetTreeViewInfo.class.getName());//Nullpointerexception
-		//startingClasses.add(ExpenditureInfo.class.getName());//affiliatedOrgs maxOccurs inconsistent: dictionary='1'], java class='unbounded'
-		//startingClasses.add(FeeInfo.class.getName());//feeAmounts maxOccurs inconsistent: dictionary='1'], java class='unbounded'
+		startingClasses.add(ExpenditureInfo.class.getName());//affiliatedOrgs maxOccurs inconsistent: dictionary='1'], java class='unbounded'
+		startingClasses.add(FeeInfo.class.getName());//feeAmounts maxOccurs inconsistent: dictionary='1'], java class='unbounded'
 		startingClasses.add(FieldInfo.class.getName());
 		startingClasses.add(LuCodeInfo.class.getName());
 		startingClasses.add(LuDocRelationInfo.class.getName());
