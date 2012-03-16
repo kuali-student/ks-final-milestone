@@ -656,7 +656,7 @@ public class TestProgramServiceImpl {
     public void testCreateMajorDisciplineDeleteRule() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo major;
-            assertNotNull(major = R1R2ConverterUtil.convert(mdGenerator.getMajorDisciplineInfoTestData(), MajorDisciplineInfo.class );
+            assertNotNull(major = R1R2ConverterUtil.convert(mdGenerator.getMajorDisciplineInfoTestData(), MajorDisciplineInfo.class ));
 
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(null, major, contextInfo);
 
@@ -945,7 +945,7 @@ public class TestProgramServiceImpl {
 
 	@Test(expected=DoesNotExistException.class)
 	public void testUpdateProgramRequirement() throws Exception {
-		ProgramRequirementInfo progReq = programService.createProgramRequirement(createProgramRequirementTestData());
+		ProgramRequirementInfo progReq = programService.createProgramRequirement(null, createProgramRequirementTestData(), contextInfo);
         StatementTreeViewInfo treeView = R1R2ConverterUtil.convert(progReq.getStatement(), StatementTreeViewInfo.class);
 
         List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
@@ -965,9 +965,9 @@ public class TestProgramServiceImpl {
 
         StatementTreeViewInfo oldSubTree1 = treeView.getStatements().get(0);
         treeView.getStatements().set(0, subTree1);
-        ProgramRequirementInfo updated = programService.updateProgramRequirement(progReq);
+        ProgramRequirementInfo updated = programService.updateProgramRequirement(progReq, contextInfo);
         checkProgramRequirement(progReq, updated);
-        statementService.getStatement(oldSubTree1.getId());
+        statementService.getStatement(oldSubTree1.getId(), contextInfo);
 	}
 
     @Test
@@ -1072,7 +1072,7 @@ public class TestProgramServiceImpl {
             MajorDisciplineInfo major = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7", contextInfo);
 
             List<String> reqIds = new ArrayList<String>(1);
-            ProgramRequirementInfo req1 = programService.createProgramRequirement(createProgramRequirementTestData());
+            ProgramRequirementInfo req1 = programService.createProgramRequirement(null, createProgramRequirementTestData(), contextInfo);
             reqIds.add(req1.getId());
             major.setProgramRequirements(reqIds);
 
@@ -1593,7 +1593,7 @@ public class TestProgramServiceImpl {
         CoreProgramInfo secondVersion = null;
         
         try {
-            secondVersion = programService.createNewCoreProgramVersion(core.getVersionInfo().getVersionIndId(), "test core program second version");
+            secondVersion = programService.createNewCoreProgramVersion(core.getVersionInfo(contextInfo).getVersionIndId(), "test core program second version", contextInfo);
             assertTrue(true);
         }
         catch (Exception e) {
