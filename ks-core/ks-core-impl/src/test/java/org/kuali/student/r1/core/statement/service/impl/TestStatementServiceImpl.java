@@ -76,12 +76,12 @@ import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.r1.core.statement.naturallanguage.ReqComponentFieldTypes;
 import org.kuali.student.r1.core.statement.service.StatementService;
 
-@Daos({@Dao(value = "org.kuali.student.core.statement.dao.impl.StatementDaoImpl")})
+@Daos({@Dao(value = "org.kuali.student.r1.core.statement.dao.impl.StatementDaoImpl")})
 @PersistenceFileLocation("classpath:META-INF/statement-persistence.xml")
 public class TestStatementServiceImpl extends AbstractServiceTest {
     SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
-    @Client(value = "org.kuali.student.core.statement.service.impl.StatementServiceImpl", additionalContextFile="classpath:statement-additional-context.xml")
+    @Client(value = "org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl", additionalContextFile="classpath:statement-additional-context.xml")
     public StatementService statementService;
 
     private RefStatementRelationInfo newDto;

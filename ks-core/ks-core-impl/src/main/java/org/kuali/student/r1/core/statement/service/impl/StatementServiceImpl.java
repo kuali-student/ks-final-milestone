@@ -75,7 +75,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Deprecated
-@WebService(endpointInterface = "org.kuali.student.core.statement.service.StatementService", serviceName = "StatementService", portName = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
+@WebService(endpointInterface = "org.kuali.student.r1.core.statement.service.StatementService", serviceName = "StatementService", portName = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
 public class StatementServiceImpl implements StatementService {
 
 	private final static Logger logger = LoggerFactory.getLogger(ReqComponentTranslator.class);

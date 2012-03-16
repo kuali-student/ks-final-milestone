@@ -56,11 +56,11 @@ import org.kuali.student.r1.core.comment.service.CommentService;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-@Daos( { @Dao(value = "org.kuali.student.core.comment.dao.impl.CommentDaoImpl",testSqlFile="classpath:ks-comment.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
+@Daos( { @Dao(value = "org.kuali.student.r1.core.comment.dao.impl.CommentDaoImpl",testSqlFile="classpath:ks-comment.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/comment-persistence.xml")
 public class TestCommentServiceImpl extends AbstractServiceTest {
 	final Logger LOG = Logger.getLogger(TestCommentServiceImpl.class);
-    @Client(value = "org.kuali.student.core.comment.service.impl.CommentServiceImpl",additionalContextFile="classpath:comment-additional-context.xml")
+    @Client(value = "org.kuali.student.r1.core.comment.service.impl.CommentServiceImpl",additionalContextFile="classpath:comment-additional-context.xml")
     public CommentService client;
 
 

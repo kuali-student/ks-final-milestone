@@ -60,10 +60,10 @@ import org.kuali.student.r1.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.r1.core.organization.service.OrganizationService;
 
 
-@Daos( { @Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl",testSqlFile="classpath:ks-org.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
+@Daos( { @Dao(value = "org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl",testSqlFile="classpath:ks-org.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationServiceImpl extends AbstractServiceTest {
-	@Client(value = "org.kuali.student.core.organization.service.impl.OrganizationServiceImpl", additionalContextFile="classpath:organization-additional-context.xml")
+	@Client(value = "org.kuali.student.r1.core.organization.service.impl.OrganizationServiceImpl", additionalContextFile="classpath:organization-additional-context.xml")
 	public OrganizationService client;
 
 	@Test

@@ -46,12 +46,12 @@ import org.kuali.student.r1.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r1.core.atp.dto.MilestoneTypeInfo;
 import org.kuali.student.r1.core.atp.service.AtpService;
 
-@Daos( { @Dao(value = "org.kuali.student.core.atp.dao.impl.AtpDaoImpl", testDataFile = "classpath:atp-test-beans.xml") })
+@Daos( { @Dao(value = "org.kuali.student.r1.core.atp.dao.impl.AtpDaoImpl", testDataFile = "classpath:atp-test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/atp-persistence.xml")
 public class TestAtpService extends AbstractServiceTest {
 	final Logger LOG = Logger.getLogger(TestAtpService.class);
 	
-	@Client(value = "org.kuali.student.core.atp.service.impl.AtpServiceImpl", additionalContextFile="classpath:atp-additional-context.xml")
+	@Client(value = "org.kuali.student.r1.core.atp.service.impl.AtpServiceImpl", additionalContextFile="classpath:atp-additional-context.xml")
 	public AtpService client;
 
 	public static final String atpType_fallSemester = "atp.atpType.fallSemester";

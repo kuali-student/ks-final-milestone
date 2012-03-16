@@ -33,7 +33,7 @@ import org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration;
 
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTest{
-    @Dao(value = "org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:enumeration-test-beans.xml")
+    @Dao(value = "org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:enumeration-test-beans.xml")
     public EnumerationManagementDAOImpl enumerationManagementDAO;
 
     @Test

@@ -58,7 +58,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Deprecated
-@WebService(endpointInterface = "org.kuali.student.core.comment.service.CommentService", serviceName = "CommentService", portName = "CommentService", targetNamespace = "http://student.kuali.org/wsdl/commentService")
+@WebService(endpointInterface = "org.kuali.student.r1.core.comment.service.CommentService", serviceName = "CommentService", portName = "CommentService", targetNamespace = "http://student.kuali.org/wsdl/commentService")
 public class CommentServiceImpl implements CommentService {
     
     final Logger logger = Logger.getLogger(CommentServiceImpl.class);

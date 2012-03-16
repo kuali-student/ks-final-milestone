@@ -61,7 +61,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationDao extends AbstractTransactionalDaoTest {
-	@Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql")
+	@Dao(value = "org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql")
 	public OrganizationDao dao;
 	
 	@Test

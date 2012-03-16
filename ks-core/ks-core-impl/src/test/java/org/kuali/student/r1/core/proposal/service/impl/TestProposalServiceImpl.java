@@ -55,10 +55,10 @@ import org.kuali.student.r1.core.proposal.service.ProposalService;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-@Daos( { @Dao(value = "org.kuali.student.core.proposal.dao.impl.ProposalDaoImpl",testSqlFile="classpath:ks-proposal.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
+@Daos( { @Dao(value = "org.kuali.student.r1.core.proposal.dao.impl.ProposalDaoImpl",testSqlFile="classpath:ks-proposal.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/proposal-persistence.xml")
 public class TestProposalServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.core.proposal.service.impl.ProposalServiceImpl", additionalContextFile="classpath:proposal-additional-context.xml")
+    @Client(value = "org.kuali.student.r1.core.proposal.service.impl.ProposalServiceImpl", additionalContextFile="classpath:proposal-additional-context.xml")
     public ProposalService client;
 
     @Test

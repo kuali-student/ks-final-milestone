@@ -32,11 +32,11 @@ import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 
 
-@Daos( { @Dao(value = "org.kuali.student.core.messages.dao.impl.MessageManagementDAOImpl", testDataFile = "classpath:messages-test-beans.xml") })
+@Daos( { @Dao(value = "org.kuali.student.r1.core.messages.dao.impl.MessageManagementDAOImpl", testDataFile = "classpath:messages-test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/messages-persistence.xml")
 public class MessageServiceImplTest extends AbstractServiceTest{    
     
-    @Client(value = "org.kuali.student.core.messages.service.impl.MessageServiceImpl")
+    @Client(value = "org.kuali.student.r1.core.messages.service.impl.MessageServiceImpl")
     private MessageService messageService;
     
     
