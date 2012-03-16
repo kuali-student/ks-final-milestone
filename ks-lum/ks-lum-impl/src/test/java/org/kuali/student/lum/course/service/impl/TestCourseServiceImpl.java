@@ -1303,7 +1303,7 @@ public class TestCourseServiceImpl {
         // make a second version of the course, set it to be the current version a month in the future, and ensure that getting today's version gets the one that was created first
         CourseInfo cInfo2 = null;
         try {
-            cInfo2 = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version by date");
+            cInfo2 = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version by date", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
