@@ -468,10 +468,10 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getId());
 
-            assertNotNull(createdMD.getState());
+            assertNotNull(createdMD.getStateKey());
             assertEquals(DtoConstants.STATE_DRAFT, createdMD.getStateKey());
 
-            assertNotNull(createdMD.getType());
+            assertNotNull(createdMD.getTypeKey());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getTypeKey());
 
             assertNotNull(createdMD.getIntensity());
@@ -946,7 +946,7 @@ public class TestProgramServiceImpl {
 	@Test(expected=DoesNotExistException.class)
 	public void testUpdateProgramRequirement() throws Exception {
 		ProgramRequirementInfo progReq = programService.createProgramRequirement(createProgramRequirementTestData());
-        StatementTreeViewInfo treeView = progReq.getStatement();
+        StatementTreeViewInfo treeView = R1R2ConverterUtil.convert(progReq.getStatement(), StatementTreeViewInfo.class);
 
         List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
         ReqComponentInfo rc1 = new ReqComponentInfo();
@@ -1006,18 +1006,18 @@ public class TestProgramServiceImpl {
     @Test
     public void testUpdateMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
-        	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
+        	MajorDisciplineInfo majorDisciplineInfo = R1R2ConverterUtil.convert(generator.getMajorDisciplineInfoTestData(), MajorDisciplineInfo.class);
             assertNotNull(majorDisciplineInfo);
 //            MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
-            MajorDisciplineInfo major = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7");
+            MajorDisciplineInfo major = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7", contextInfo);
             assertNotNull(major);
 
             // minimal sanity check
             assertNotNull(major.getCode());
             assertEquals("ANTH", major.getCode());
-            assertNotNull(major.getType());
+            assertNotNull(major.getTypeKey());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, major.getTypeKey());
-            assertNotNull(major.getState());
+            assertNotNull(major.getStateKey());
             assertEquals(DtoConstants.STATE_ACTIVE, major.getStateKey());
             assertNotNull(major.getId());
             assertEquals("d4ea77dd-b492-4554-b104-863e42c5f8b7", major.getId());
@@ -1126,7 +1126,7 @@ public class TestProgramServiceImpl {
             credentialProgramInfo.setCoreProgramIds(coreProgramIds);
             CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
             assertNotNull(createdCP);
-            assertEquals(DtoConstants.STATE_DRAFT, createdCP.getState());
+            assertEquals(DtoConstants.STATE_DRAFT, createdCP.getStateKey());
             assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
 	}
 
@@ -1156,7 +1156,7 @@ public class TestProgramServiceImpl {
             assertEquals("B.S.", credentialProgramInfo.getShortTitle());
             assertEquals("Bachelor of Science", credentialProgramInfo.getLongTitle());
             assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
-            assertEquals(DtoConstants.STATE_ACTIVE, credentialProgramInfo.getState());
+            assertEquals(DtoConstants.STATE_ACTIVE, credentialProgramInfo.getStateKey());
             assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
             assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
 
@@ -1200,8 +1200,8 @@ public class TestProgramServiceImpl {
             assertNotNull(coreProgramInfo = generator.getCoreProgramTestData());
             CoreProgramInfo createdCP = programService.createCoreProgram(coreProgramInfo);
             assertNotNull(createdCP);
-            assertEquals(DtoConstants.STATE_DRAFT, createdCP.getState());
-            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdCP.getType());
+            assertEquals(DtoConstants.STATE_DRAFT, createdCP.getStateKey());
+            assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdCP.getTypeKey());
 	}
 
     @Test
