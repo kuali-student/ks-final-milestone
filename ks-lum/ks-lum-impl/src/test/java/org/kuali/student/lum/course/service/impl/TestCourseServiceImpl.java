@@ -1313,7 +1313,7 @@ public class TestCourseServiceImpl {
         cal.add(Calendar.MONTH, 1);
         
         // Make the created the current version one month from now
-        courseService.setCurrentCourseVersion(cInfo2.getId(), cal.getTime(), contextInfo);
+        courseService.setCurrentCourseVersion(cInfo2.getId(), cal.getTime());
         
         // ensure that when retrieving versions from yesterday to tomorrow, we get only the first created version
         Calendar rangeInstance = Calendar.getInstance();
