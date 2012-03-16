@@ -305,7 +305,7 @@
     <bean id="orgClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.core.organization.service.OrganizationService"/>
+                  value="org.kuali.student.r1.core.organization.service.OrganizationService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/organization}OrganizationService"/>
     </bean>
@@ -559,13 +559,13 @@
     -->
     <bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
-                  value="org.kuali.student.common.exceptions.OperationFailedException"/>
+                  value="org.kuali.student.r2.common.exceptions.OperationFailedException"/>
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"
-                       value="org.kuali.student.common.exceptions.AlreadyExistsException"/>
+                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException"/>
                 <entry key="org.hibernate.exception.ConstraintViolationException"
-                       value="org.kuali.student.common.exceptions.AlreadyExistsException"/>
+                       value="org.kuali.student.r2.common.exceptions.AlreadyExistsException"/>
             </map>
         </property>
     </bean>

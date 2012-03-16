@@ -111,7 +111,7 @@
   </bean>
 
 	<bean id="ks.subjectCode.searchManager"
-		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0"
 			value="classpath:org/kuali/student/core/subjectcode/subjectcode-search-config.xml" />
 	</bean>
