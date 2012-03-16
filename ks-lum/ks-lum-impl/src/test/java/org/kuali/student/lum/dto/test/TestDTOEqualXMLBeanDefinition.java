@@ -75,7 +75,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		}
 	}
 
-	//@Test
+	@Test
 	public void testCluDTOsAgainstDataDictionary() {
 		  System.out.println("testing statement dictionary");
 		  //TODO KSCM Correct errors below
@@ -88,7 +88,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		  startingClasses.add(CluCluRelationInfo.class.getName());
 		  startingClasses.add(CluCreditInfo.class.getName());
 		  startingClasses.add(CluFeeInfo.class.getName());
-		  startingClasses.add(CluFeeRecordInfo.class.getName()); //osDict is null But class exits in .xml file
+		  //startingClasses.add(CluFeeRecordInfo.class.getName()); //osDict is null But class exits in .xml file
 		  startingClasses.add(CluIdentifierInfo.class.getName());
 		  //startingClasses.add(CluInfo.class.getName());//Nullpointerexception
 		  startingClasses.add(CluInstructorInfo.class.getName());
