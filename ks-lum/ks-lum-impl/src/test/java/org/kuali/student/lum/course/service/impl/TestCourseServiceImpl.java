@@ -1254,10 +1254,10 @@ public class TestCourseServiceImpl {
         
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
-        CourseInfo createdCourse = courseService.createCourse(cInfo);
+        CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
 
         try {
-            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version");
+            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
