@@ -45,6 +45,8 @@ public class ActivityInfo extends IdEntityInfo implements Activity, Serializable
 
     @XmlElement
     private AmountInfo contactHours;
+    
+
 
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement

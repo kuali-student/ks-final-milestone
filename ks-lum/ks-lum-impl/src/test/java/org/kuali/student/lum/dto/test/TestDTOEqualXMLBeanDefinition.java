@@ -40,6 +40,13 @@ import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
+import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
+import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
+import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
+import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 
 public class TestDTOEqualXMLBeanDefinition {
 
@@ -84,7 +91,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		//startingClasses.add(CluInfo.class.getName());//Nullpointerexception
 		startingClasses.add(CluInstructorInfo.class.getName());
 		startingClasses.add(CluLoRelationInfo.class.getName());
-		//startingClasses.add(CluPublicationInfo.class.getName()); //variants maxOccurs inconsistent: dictionary='1'], java class='unbounded'
+		//startingClasses.add(CluPublicationInfo.class.getName()); //variants maxOccurs inconsistent: dictionary='1'], java class='unbounded'//kyk na ks-courseInfo....xml lyn 196
 		//startingClasses.add(CluResultInfo.class.getName());//variants maxOccurs inconsistent: dictionary='1'], java class='unbounded'
 		//startingClasses.add(CluSetInfo.class.getName());//Nullpointerexception
 		//startingClasses.add(CluSetTreeViewInfo.class.getName());//Nullpointerexception
@@ -113,7 +120,14 @@ public class TestDTOEqualXMLBeanDefinition {
 	public void testCourseDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
-		//startingClasses.add(ActivityInfo.class.getName());
+		//startingClasses.add(ActivityInfo.class.getName());//Field unitTypeKey not in dictionary or java file, but asked
+		startingClasses.add(CourseCrossListingInfo.class.getName());
+		startingClasses.add(CourseExpenditureInfo.class.getName());
+		startingClasses.add(CourseFeeInfo.class.getName());
+		//startingClasses.add(CourseInfo.class.getName());//NullPointerException
+		startingClasses.add(CourseJointInfo.class.getName());
+		startingClasses.add(CourseRevenueInfo.class.getName());
+		startingClasses.add(CourseVariationInfo.class.getName());
 		
 		String contextFile = "ks-courseInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
