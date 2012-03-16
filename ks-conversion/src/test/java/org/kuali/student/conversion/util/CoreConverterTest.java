@@ -245,10 +245,12 @@ public class CoreConverterTest {
         r1.setAttributes(R1TestDataUtil.getAttributeData());
         r1.setDesc(R1TestDataUtil.getRichTextInfoData());
         r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setState("R1 State");
         r1.setType("R1 Type");
         ProposalDocRelationInfo r2 = R1R2ConverterUtil.convert(r1, ProposalDocRelationInfo.class);
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
         Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     

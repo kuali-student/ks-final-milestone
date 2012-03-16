@@ -7,7 +7,7 @@
 	<!-- ********************************************************************* -->
 	<!-- ks-common-api: org.kuali.student.common.versionmanagement.dto mappings -->
 	<mapping>
-		<class-a>org.kuali.student.common.versionmanagement.dto.VersionInfo
+		<class-a>org.kuali.student.r1.common.versionmanagement.dto.VersionInfo
 		</class-a>
 		<class-b>org.kuali.student.r2.core.versionmanagement.dto.VersionInfo
 		</class-b>
@@ -231,6 +231,14 @@
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">metaInfo</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.core.atp.dto.MilestoneInfo</class-a>
@@ -249,6 +257,14 @@
 		<field>
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 
@@ -286,6 +302,14 @@
 		<field>
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 
@@ -489,6 +513,14 @@
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo
@@ -543,6 +575,14 @@
 		<field>
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 	<mapping>
@@ -617,6 +657,10 @@
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
 		</field>
+		<field>
+			<a get-method="getDesc" set-method="setDesc">desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo
@@ -633,6 +677,10 @@
 		<field>
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a get-method="getDesc" set-method="setDesc">desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
 		</field>
 	</mapping>
 
@@ -653,6 +701,10 @@
 		<field>
 			<a>activityType</a>
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
 		</field>
 		<field>
 			<a>metaInfo</a>

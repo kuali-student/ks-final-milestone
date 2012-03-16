@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r1.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r1.common.dto.AmountInfo;
 import org.kuali.student.r1.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r1.common.dto.MetaInfo;
