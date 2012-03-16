@@ -305,10 +305,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluSetInfo.membershipQuery.(default).(default).queryParamValueList.(default).(default) -->
 <!-- ************************************************************************************************************************ -->
 <!-- Value(s) for a given query parameter. -->
-<dict:objectStructure key="org.kuali.student.common.search.dto.QueryParamValue" id="object.field.cluSetInfo.membershipQuery.queryParamValueList.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r1.common.search.dto.QueryParamValue" id="object.field.cluSetInfo.membershipQuery.queryParamValueList.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluSetInfo.membershipQuery.queryParamValueList"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.search.dto.QueryParamValue" id="object.field.cluSetInfo.membershipQuery.queryParamValueList" parent="object.field.cluSetInfo.membershipQuery.queryParamValueList.abstract"/>
+<dict:objectStructure key="org.kuali.student.r1.common.search.dto.QueryParamValue" id="object.field.cluSetInfo.membershipQuery.queryParamValueList" parent="object.field.cluSetInfo.membershipQuery.queryParamValueList.abstract"/>
 
 <dict:type key="*" id="type.field.cluSetInfo.membershipQuery.queryParamValueList.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

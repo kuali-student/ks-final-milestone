@@ -192,7 +192,7 @@
     </bean>
 
     <bean id="loSearchManager"
-          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0"
                          value="classpath:lo-search-config.xml"/>
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
@@ -215,19 +215,19 @@
     </bean>
 
     <bean id="lrcSearchManager"
-          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0"
                          value="classpath:lrc-search-config.xml"/>
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
     </bean>
 
     <bean id="lumCrossServiceSearchManager"
-          class="org.kuali.student.common.search.service.impl.CrossSearchManager">
+          class="org.kuali.student.r1.common.search.service.impl.CrossSearchManager">
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 
     <bean id="lumSearchDispatcher"
-          class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
         <property name="services">
             <list>
                 <ref bean="loClient"/>
@@ -421,7 +421,7 @@
     <!-- Program Service Config -->
 
     <bean id="programSearchManager"
-          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0"
                          value="classpath:lu-search-config.xml"/>
     </bean>
