@@ -3431,10 +3431,17 @@
         </foreign-key>
     </table>
     <table name="KRSB_SVC_DEF_T">
-        <column name="SVC_DEF_ID" primaryKey="true" size="14" type="DECIMAL"/>
+        <column name="SVC_DEF_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="SVC_NM" required="true" size="255" type="VARCHAR"/>
         <column name="SVC_URL" required="true" size="500" type="VARCHAR"/>
+        <column name="INSTN_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="APPL_ID" required="true" size="255" type="VARCHAR"/>
         <column name="SRVR_IP" required="true" size="40" type="VARCHAR"/>
+        <column name="TYP_CD" required="true" size="40" type="VARCHAR"/>
+        <column name="SVC_VER" required="true" size="40" type="VARCHAR"/>
+        <column name="STAT_CD" required="true" size="1" type="VARCHAR"/>
+        <column name="SVC_DSCRPTR_ID" required="true" size="40" type="VARCHAR"/>
+        <column name="CHKSM" required="true" size="30" type="VARCHAR"/>
         <column name="SVC_NMSPC" required="true" size="255" type="VARCHAR"/>
         <column name="SVC_ALIVE" required="true" size="1" type="DECIMAL"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
@@ -3443,10 +3450,27 @@
         <unique name="KRSB_SVC_DEF_TI2">
             <unique-column name="FLT_SVC_DEF_ID"/>
         </unique>
+         <foreign-key foreignTable="KRSB_SVC_DSCRPTR_T"
+            name="KRSB_SVC_DEF_FK1" onDelete="cascade">
+            <reference foreign="SVC_DSCRPTR_ID" local="SVC_DSCRPTR_ID"/>
+        </foreign-key>
         <index name="KRSB_SVC_DEF_TI1">
             <index-column name="SRVR_IP"/>
             <index-column name="SVC_NMSPC"/>
         </index>
+        <index name="KRSB_SVC_DEF_TI4">
+           <index-column name="SVC_NM"/>
+            <index-column name="STAT_CD"/>
+         
+        </index>
+       <index name="KRSB_SVC_DEF_TI3">
+            <index-column name="STAT_CD"/>
+        </index>
+       
+    </table>
+    <table name="KRSB_SVC_DSCRPTR_T">
+        <column name="SVC_DSCRPTR_ID" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="DSCRPTR" required="true" type="CLOB"/>
     </table>
     <table name="KR_COUNTRY_T">
         <column name="POSTAL_CNTRY_CD" primaryKey="true" size="2" type="VARCHAR"/>
