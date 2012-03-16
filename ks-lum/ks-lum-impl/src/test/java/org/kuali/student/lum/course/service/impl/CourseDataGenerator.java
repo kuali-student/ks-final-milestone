@@ -38,17 +38,18 @@ public class CourseDataGenerator {
 
     public CourseInfo getCourseTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException {
         CourseInfo testData = generateTestData(CourseInfo.class, 0, 0, null);
-        testData.getAttributes().put("proposalTitle", "proposalTitle-1");
-        testData.getAttributes().put("proposalRationale", "proposalRationale");
-        testData.getCreditOptions().get(0).getResultValues().set(0, "1");
-        testData.getCreditOptions().get(0).getResultValues().set(1, "2");
-        testData.getCreditOptions().get(1).getResultValues().set(0, "3");
-        testData.getCreditOptions().get(1).getResultValues().set(1, "4");
-        for (ResultComponentInfo resultComponent : testData.getCreditOptions()) {
-            resultComponent.getAttributes().put("minCreditValue", "2");
-            resultComponent.getAttributes().put("maxCreditValue", "5");
-            resultComponent.getAttributes().put("fixedCreditValue", "11");
-        }
+//TODO KSCM
+        //        testData.getAttributes().put("proposalTitle", "proposalTitle-1");
+//        testData.getAttributes().put("proposalRationale", "proposalRationale");
+//        testData.getCreditOptions().get(0).getResultValues().set(0, "1");
+//        testData.getCreditOptions().get(0).getResultValues().set(1, "2");
+//        testData.getCreditOptions().get(1).getResultValues().set(0, "3");
+//        testData.getCreditOptions().get(1).getResultValues().set(1, "4");
+//        for (ResultComponentInfo resultComponent : testData.getCreditOptions()) {
+//            resultComponent.getAttributes().put("minCreditValue", "2");
+//            resultComponent.getAttributes().put("maxCreditValue", "5");
+//            resultComponent.getAttributes().put("fixedCreditValue", "11");
+//        }
         return testData;
     }
 
