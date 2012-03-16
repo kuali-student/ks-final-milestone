@@ -33,11 +33,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.common.dto.AmountInfo;
-import org.kuali.student.common.dto.CurrencyAmountInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -60,33 +60,34 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.lum.lu.dto.AccreditationInfo;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
-import org.kuali.student.lum.lu.dto.CluAccountingInfo;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluFeeInfo;
-import org.kuali.student.lum.lu.dto.CluFeeRecordInfo;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluInstructorInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
-import org.kuali.student.lum.lu.dto.CluPublicationInfo;
-import org.kuali.student.lum.lu.dto.CluResultInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
-import org.kuali.student.lum.lu.dto.FieldInfo;
-import org.kuali.student.lum.lu.dto.LuCodeInfo;
-import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuiInfo;
-import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
-import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
-import org.kuali.student.lum.lu.dto.ResultOptionInfo;
-import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
+import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.CluAccountingInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
+import org.kuali.student.r2.lum.clu.dto.FieldInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuLuRelationTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuiInfo;
+import org.kuali.student.r1.lum.lu.dto.LuiLuiRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
+import org.kuali.student.r1.lum.lu.dto.ResultUsageTypeInfo;
+import org.kuali.student.r1.lum.lu.service.LuService;
+import org.kuali.student.r1.lum.lu.service.LuServiceConstants;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -108,19 +109,19 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		// getClu
-		CluInfo clu = client.getClu("CLU-1");
+		CluInfo clu = R1R2ConverterUtil.convert(client.getClu("CLU-1"),CluInfo.class) ;
 		assertNotNull(clu);
 		assertEquals(clu.getId(), "CLU-1");
 
 		try {
-			clu = client.getClu("CLX-1");
+			clu = R1R2ConverterUtil.convert(client.getClu("CLX-1"), CluInfo.class) ;
 			assertTrue(false);
 		} catch (DoesNotExistException e) {
 			assertTrue(true);
 		}
 
 		try {
-			clu = client.getClu(null);
+			clu = R1R2ConverterUtil.convert(client.getClu(null), CluInfo.class);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -129,17 +130,17 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		// getClusByIdList
 		List<String> ids = new ArrayList<String>(1);
 		ids.add("CLU-2");
-		List<CluInfo> clus = client.getClusByIdList(ids);
+		List<CluInfo> clus = R1R2ConverterUtil.convertLists(client.getClusByIdList(ids), CluInfo.class);
 		assertNotNull(clus);
 		assertEquals(1, clus.size());
 
 		ids.clear();
 		ids.add("CLX-42");
-		clus = client.getClusByIdList(ids);
+		clus = R1R2ConverterUtil.convertLists(client.getClusByIdList(ids),CluInfo.class );
 		assertTrue(clus == null || clus.size() == 0);
 
 		try {
-			clus = client.getClusByIdList(null);
+			clus = R1R2ConverterUtil.convertLists(client.getClusByIdList(null), CluInfo.class ) ;
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -171,18 +172,18 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}
 
 		// getClusByLuType
-		clus = client.getClusByLuType("luType.shell.program", "STATE2");
+		clus =  R1R2ConverterUtil.convertLists(client.getClusByLuType("luType.shell.program", "STATE2"), CluInfo.class );
 		assertTrue(null != clus);
 		assertEquals(1, clus.size());
 		assertEquals("CLU-2", clus.get(0).getId());
 
-		clus = client.getClusByLuType("LUTYPE-1X", "STATE1");
+		clus = R1R2ConverterUtil.convertLists(client.getClusByLuType("LUTYPE-1X", "STATE1"), CluInfo.class );
 		assertTrue(clus == null || clus.size() == 0);
-		clus = client.getClusByLuType("luType.shell.course", "STATE1X");
+		clus = R1R2ConverterUtil.convertLists(client.getClusByLuType("luType.shell.course", "STATE1X"), CluInfo.class );
 		assertTrue(clus == null || clus.size() == 0);
 
 		try {
-			clus = client.getClusByLuType(null, "STATE1");
+			clus =  R1R2ConverterUtil.convertLists(client.getClusByLuType(null, "STATE1"), CluInfo.class );
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -201,21 +202,21 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// getCluSetInfo
-		CluSetInfo csi = client.getCluSetInfo("CLUSET-2");
+		CluSetInfo csi =  R1R2ConverterUtil.convert(client.getCluSetInfo("CLUSET-2"), CluSetInfo.class);
 		assertNotNull(csi);
 
-		csi = client.getCluSetInfo("CLUSET-1");
+		csi = R1R2ConverterUtil.convert(client.getCluSetInfo("CLUSET-1"), CluSetInfo.class);
 		assertNotNull(csi);
 
 		try {
-			csi = client.getCluSetInfo("CLUSETXX-42");
+			csi =  R1R2ConverterUtil.convert(client.getCluSetInfo("CLUSETXX-42"), CluSetInfo.class);
 			assertTrue(false);
 		} catch (DoesNotExistException e1) {
 			assertTrue(true);
 		}
 
 		try {
-			csi = client.getCluSetInfo(null);
+			csi = R1R2ConverterUtil.convert(client.getCluSetInfo(null), CluSetInfo.class);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -224,16 +225,16 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		// getCluSetInfoByIdList
 		List<String> ids = new ArrayList<String>(1);
 		ids.add("CLUSET-2");
-		List<CluSetInfo> cluSets = client.getCluSetInfoByIdList(ids);
+		List<CluSetInfo> cluSets = R1R2ConverterUtil.convertLists(client.getCluSetInfoByIdList(ids),CluSetInfo.class) ;
 		assertEquals(1, cluSets.size());
 
 		ids.clear();
 		ids.add("CLUSETXXX-42");
-		cluSets = client.getCluSetInfoByIdList(ids);
+		cluSets =  R1R2ConverterUtil.convertLists(client.getCluSetInfoByIdList(ids),CluSetInfo.class);
 		assertTrue(cluSets == null || cluSets.size() == 0);
 
 		try {
-			cluSets = client.getCluSetInfoByIdList(null);
+			cluSets =  R1R2ConverterUtil.convertLists(client.getCluSetInfoByIdList(null),CluSetInfo.class);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -259,12 +260,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		}
 
 		// getAllClusInCluSet
-		List<CluInfo> clus = client.getClusFromCluSet("CLUSET-2");
+		List<CluInfo> clus = R1R2ConverterUtil.convertLists(client.getClusFromCluSet("CLUSET-2"), CluInfo.class);
 		assertEquals(2, clus.size());
 		assertEquals("CLU-1", clus.get(0).getId());
 
 		try {
-			clus = client.getClusFromCluSet("CLUSETXXX-42");
+			clus = R1R2ConverterUtil.convertLists(client.getClusFromCluSet("CLUSETXXX-42"), CluInfo.class);
 			assertTrue(false);
 		} catch (DoesNotExistException e) {
 			assertTrue(true);
@@ -277,7 +278,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 
-		clus = client.getAllClusInCluSet("CLUSET-4");
+		clus = R1R2ConverterUtil.convertLists(client.getAllClusInCluSet("CLUSET-4"),CluInfo.class);
 		assertEquals(2, clus.size());
 
 		try {
@@ -287,7 +288,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 
-		clus = client.getAllClusInCluSet("CLUSET-2");
+		clus = R1R2ConverterUtil.convertLists(client.getAllClusInCluSet("CLUSET-2"),CluInfo.class) ;
 		assertEquals(3, clus.size());
 
 		// isCluInCluSet
@@ -329,8 +330,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		RichTextInfo desc = new RichTextInfo();
 		desc.setFormatted("<p>Formatted Desc</p>");
 		desc.setPlain("plain");
-		cluSetInfo.setType("kuali.cluSet.type.CreditCourse");
-  cluSetInfo.setState ("draft");
+		cluSetInfo.setTypeKey("kuali.cluSet.type.CreditCourse");
+  cluSetInfo.setStateKey ("draft");
 		cluSetInfo.setAdminOrg("uuid-1234");
 		cluSetInfo.setDescr(desc);
 		cluSetInfo.setEffectiveDate(DF.parse("20080101"));
@@ -345,7 +346,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		CluSetInfo createdSet1 = client.createCluSet("kuali.cluSet.type.CreditCourse", cluSetInfo);
 
-		assertEquals("kuali.cluSet.type.CreditCourse", createdSet1.getType());
+		assertEquals("kuali.cluSet.type.CreditCourse", createdSet1.getTypeKey());
 		assertEquals("uuid-1234", createdSet1.getAdminOrg());
 		assertEquals("<p>Formatted Desc</p>", createdSet1.getDescr().getFormatted());
 		assertEquals("plain", createdSet1.getDescr().getPlain());
@@ -358,8 +359,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 //		assertEquals("CLUSET-2", createdSet1.getCluSetIds().get(1));
 		assertEquals("cluSet1ArrtValue1", createdSet1.getAttributes().get("cluSet1ArrtKey1"));
 		assertEquals("cluSet1ArrtValue2", createdSet1.getAttributes().get("cluSet1ArrtKey2"));
-		assertNotNull(createdSet1.getMetaInfo().getCreateTime());
-		assertNotNull(createdSet1.getMetaInfo().getUpdateTime());
+		assertNotNull(createdSet1.getMeta().getCreateTime());
+		assertNotNull(createdSet1.getMeta().getUpdateTime());
 		assertNotNull(createdSet1.getId());
 
 		createdSet1.setAdminOrg("uuid-1234-5678");
@@ -395,7 +396,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("cluSet1ArrtValue3", updatedSet1.getAttributes().get(
 				"cluSet1ArrtKey3"));
 		assertEquals(2, updatedSet1.getAttributes().size());
-		assertNotNull(updatedSet1.getMetaInfo().getUpdateTime());
+		assertNotNull(updatedSet1.getMeta().getUpdateTime());
 	}
 
 	@Test
@@ -409,7 +410,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(3, createdCluSet1.getCluIds().size());
 
 		StatusInfo status = client.removeCluFromCluSet("CLU-2", createdCluSet1.getId());
-		assertTrue(status.getSuccess());
+		assertTrue(status.getIsSuccess());
 
 		createdCluSet1 = client.getCluSetInfo(createdCluSet1.getId());
 
@@ -430,7 +431,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(3, createdCluSet1.getCluSetIds().size());
 
 		StatusInfo status = client.removeCluSetFromCluSet(createdCluSet1.getId(), "CLUSET-2");
-		assertTrue(status.getSuccess());
+		assertTrue(status.getIsSuccess());
 
 		createdCluSet1 = client.getCluSetInfo(createdCluSet1.getId());
 
@@ -447,7 +448,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSet);
 
 		StatusInfo status = client.deleteCluSet(createdCluSet1.getId());
-		assertTrue(status.getSuccess());
+		assertTrue(status.getIsSuccess());
 
 		try {
 			client.getCluSetInfo(createdCluSet1.getId());
@@ -520,7 +521,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("offId-shortName", createdClu.getOfficialIdentifier()
 				.getShortName());
 		assertEquals("offId-state", createdClu.getOfficialIdentifier()
-				.getState());
+				.getStateKey());
 		assertEquals("offId-type", createdClu.getOfficialIdentifier().getType());
 		assertEquals("offId-variation", createdClu.getOfficialIdentifier()
 				.getVariation());
@@ -542,9 +543,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("cluId1-shortName", createdClu.getAlternateIdentifiers()
 				.get(0).getShortName());
 		assertEquals("cluId1-state", createdClu.getAlternateIdentifiers()
-				.get(0).getState());
+				.get(0).getStateKey());
 		assertEquals("cluId1-type", createdClu.getAlternateIdentifiers().get(0)
-				.getType());
+				.getTypeKey());
 		assertEquals("cluId1-variation", createdClu.getAlternateIdentifiers()
 				.get(0).getVariation());
 		assertEquals("cluId1-suffixcode", createdClu.getAlternateIdentifiers()
@@ -565,9 +566,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("cluId2-shortName", createdClu.getAlternateIdentifiers()
 				.get(1).getShortName());
 		assertEquals("cluId2-state", createdClu.getAlternateIdentifiers()
-				.get(1).getState());
+				.get(1).getStateKey());
 		assertEquals("cluId2-type", createdClu.getAlternateIdentifiers().get(1)
-				.getType());
+				.getTypeKey());
 		assertEquals("cluId2-variation", createdClu.getAlternateIdentifiers()
 				.get(1).getVariation());
 		assertEquals("cluId2-suffixcode", createdClu.getAlternateIdentifiers()
@@ -818,7 +819,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.remove("luCode1AttrKey2");
 		createdClu.getLuCodes().get(0).getAttributes().put("luCode1AttrKey3",
 				"luCode1AttrValue3");
-		createdClu.getLuCodes().get(0).setType("updatedType");
+		createdClu.getLuCodes().get(0).setTypeKey("updatedType");
 
 		createdClu.getLuCodes().remove(1);
 
@@ -828,7 +829,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		luCode3.setValue("luCode3-value");
 		luCode3.getAttributes().put("luCode3AttrKey1", "luCode3AttrValue1");
 		luCode3.getAttributes().put("luCode3AttrKey2", "luCode3AttrValue2");
-		luCode3.setType("updatedType");
+		luCode3.setTypeKey("updatedType");
 		createdClu.getLuCodes().add(luCode3);
 
 
@@ -1118,7 +1119,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluCluRelationInfo.setEffectiveDate(effectiveDate);
 		cluCluRelationInfo.setExpirationDate(expirationDate);
 		cluCluRelationInfo.setIsCluRelationRequired(true);
-		cluCluRelationInfo.setState("hello");
+		cluCluRelationInfo.setStateKey("hello");
 		cluCluRelationInfo.getAttributes().put("clucluAttrKey1",
 				"clucluAttrValue1");
 		cluCluRelationInfo.getAttributes().put("clucluAttrKey2",
@@ -1277,9 +1278,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			fail("Should not have thrown DoesNotExistException");
 		}
 
-		StatusInfo status = client.deleteLuiLuiRelation(updated.getId());
+		StatusInfo status = R1R2ConverterUtil.convert(client.deleteLuiLuiRelation(updated.getId()), StatusInfo.class);
 
-		assertTrue(status.getSuccess());
+		assertTrue(status.getIsSuccess());
 
 		try {
 			client.getLuiLuiRelation(created.getId());
@@ -1582,8 +1583,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	public void testGetLuisByRelation() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		List<LuiInfo> luis = client
-				.getLuisByRelation("LUI-1", "luLuType.type1");
+		List<LuiInfo> luis = client.getLuisByRelation("LUI-1", "luLuType.type1");
 		assertTrue(luis == null || luis.size() == 0);
 		luis = client.getLuisByRelation("LUI-2", "luLuType.type1");
 		Collections.sort(luis, new Comparator<LuiInfo>() {
@@ -1600,8 +1600,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	public void testGetLuiIdsByRelation() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		List<String> luis = client.getLuiIdsByRelation("LUI-1",
-				"luLuType.type1");
+		List<String> luis = client.getLuiIdsByRelation("LUI-1",	"luLuType.type1");
 		assertTrue(luis == null || luis.size() == 0);
 		luis = client.getLuiIdsByRelation("LUI-2", "luLuType.type1");
 		Collections.sort(luis);
