@@ -236,7 +236,6 @@ public class TestLuiServiceImpl {
         LuiInfo created = null;
         created = luiServiceValidation.createLui("testCluId", "testAtpId1", info, callContext);
         assertNotNull(created);
-        assertNull("official identifier was non-null after creation even though it was never set intentionally", created.getOfficialIdentifier());
         assertEquals("Test lui one", created.getName());
         assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, created.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, created.getTypeKey());

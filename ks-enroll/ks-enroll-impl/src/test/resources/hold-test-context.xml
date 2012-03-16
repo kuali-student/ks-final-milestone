@@ -99,9 +99,6 @@
 	  	<property name="issueDao" ref="issueDao"/>
 	  	<property name="holdDao" ref="holdDao"/>
 	  	<property name="restrictionDao" ref="restrictionDao"/>
-	  	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
-	  	<property name="holdTypeDao" ref="holdTypeDao"/>
-	  	<property name="holdRichTextDao" ref="holdRichTextDao"/>
 	  	<property name="stateService" ref="stateService"/>
 	  	<property name="dataDictionaryService" ref="dataDictionaryServiceForHold"/>
     </bean>
@@ -119,21 +116,13 @@
             	
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
        
-   	<bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
-    	<property name="em" ref="entityManager"/>
-    </bean>
+   
  
     <bean id="restrictionDao" class="org.kuali.student.enrollment.class1.hold.dao.RestrictionDao">
     	<property name="em" ref="entityManager"/>
     </bean> 
     
-    <bean id="holdTypeDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldTypeDao">
-    	<property name="em" ref="entityManager"/>
-    </bean>
     
-    <bean id="holdRichTextDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldRichTextDao">
-    	<property name="em" ref="entityManager"/>
-    </bean>
     
     <bean id="holdDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldDao">
     	<property name="em" ref="entityManager"/>

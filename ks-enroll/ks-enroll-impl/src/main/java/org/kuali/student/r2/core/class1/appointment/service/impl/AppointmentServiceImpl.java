@@ -337,4 +337,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     public StatusInfo deleteAppointmentSlotsByWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public List<AppointmentSlotInfo> getAppointmentSlotsByIds(List<String> appointmentSlotIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        throw new UnsupportedOperationException();
+    }
 }

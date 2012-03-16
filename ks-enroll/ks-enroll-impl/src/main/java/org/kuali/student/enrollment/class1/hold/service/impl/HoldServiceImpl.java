@@ -43,7 +43,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
@@ -57,8 +56,6 @@ public class HoldServiceImpl implements HoldService {
     private IssueDao issueDao;
     private RestrictionDao restrictionDao;
     private HoldDao holdDao;
-    private HoldRichTextDao holdRichTextDao;
-    private TypeTypeRelationDao typeTypeRelationDao;
     private StateService stateService;
     private DataDictionaryService dataDictionaryService;
 
@@ -86,21 +83,7 @@ public class HoldServiceImpl implements HoldService {
         this.holdDao = holdDao;
     }
 
-    public HoldRichTextDao getHoldRichTextDao() {
-        return holdRichTextDao;
-    }
 
-    public void setHoldRichTextDao(HoldRichTextDao holdRichTextDao) {
-        this.holdRichTextDao = holdRichTextDao;
-    }
-
-    public TypeTypeRelationDao getTypeTypeRelationDao() {
-        return typeTypeRelationDao;
-    }
-
-    public void setTypeTypeRelationDao(TypeTypeRelationDao typetypeRelationDao) {
-        this.typeTypeRelationDao = typetypeRelationDao;
-    }
 
     public StateService getStateService() {
         return stateService;
