@@ -2449,7 +2449,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testGetCluSetTreeView() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		CluSetTreeViewInfo treeView = client.getCluSetTreeView("CLUSET-2");
+		CluSetTreeViewInfo treeView = R1R2ConverterUtil.convert(client.getCluSetTreeView("CLUSET-2"), CluSetTreeViewInfo.class) ;
 		assertNotNull(treeView);
 		assertEquals(2, treeView.getCluSets().size());
 
@@ -2707,10 +2707,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluResultInfo dto = new CluResultInfo();
 		RichTextInfo desc = new RichTextInfo();
 		desc.setPlain("Plain description");
-		dto.setDesc(desc);
+		dto.setDescr(desc);
 		dto.setCluId("CLU-1");
-		dto.setState("active");
-		dto.setType("kuali.resultType.gradeCourseResult");
+		dto.setStateKey("active");
+		dto.setTypeKey("kuali.resultType.gradeCourseResult");
 		dto.setEffectiveDate(new Date());
 		dto.setExpirationDate(new Date());
 
@@ -2733,10 +2733,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluResultInfo dto = new CluResultInfo();
 		RichTextInfo desc1 = new RichTextInfo();
 		desc1.setPlain("Plain description");
-		dto.setDesc(desc1);
+		dto.setDescr(desc1);
 		dto.setCluId("CLU-1");
-		dto.setState("Suspended");
-		dto.setType("kuali.resultType.gradeCourseResult");
+		dto.setStateKey("Suspended");
+		dto.setTypeKey("kuali.resultType.gradeCourseResult");
 		dto.setEffectiveDate(new Date());
 		dto.setExpirationDate(new Date());
 
@@ -2744,12 +2744,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         ResultOptionInfo option = new ResultOptionInfo();
 		RichTextInfo desc2 = new RichTextInfo();
 		desc2.setPlain("Plain description");
-		option.setDesc(desc2);
+		option.setDescr(desc2);
 		option.setEffectiveDate(new Date());
 		option.setExpirationDate(new Date());
 		option.setResultComponentId("kuali.resultComponent.grade.letter");
 		option.setResultUsageTypeKey(null);
-		option.setState("Suspended");
+		option.setStateKey("Suspended");
 		resultOptions.add(option);
 
         dto.setResultOptions(resultOptions);
@@ -2801,10 +2801,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluResultInfo dto = new CluResultInfo();
 		RichTextInfo desc1 = new RichTextInfo();
 		desc1.setPlain("Plain description");
-		dto.setDesc(desc1);
+		dto.setDescr(desc1);
 		dto.setCluId("CLU-1");
-		dto.setState("Suspended");
-		dto.setType("kuali.resultType.gradeCourseResult");
+		dto.setStateKey("Suspended");
+		dto.setTypeKey("kuali.resultType.gradeCourseResult");
 		dto.setEffectiveDate(new Date());
 		dto.setExpirationDate(new Date());
 
@@ -2812,12 +2812,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
         ResultOptionInfo option = new ResultOptionInfo();
 		RichTextInfo desc2 = new RichTextInfo();
 		desc2.setPlain("Plain description");
-		option.setDesc(desc2);
+		option.setDescr(desc2);
 		option.setEffectiveDate(new Date());
 		option.setExpirationDate(new Date());
 		option.setResultComponentId("kuali.resultComponent.grade.letter");
 		//option.setResultUsageTypeKey("lrType.finalGrade");
-		option.setState("Suspended");
+		option.setStateKey("Suspended");
 		resultOptions.add(option);
 
         dto.setResultOptions(resultOptions);
@@ -2841,8 +2841,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testVersioning() throws ParseException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, IllegalVersionSequencingException{
 		CluInfo clu = createCluInfo();
-		clu.setType("luType.shell.course");
-		CluInfo cluV1 = client.createClu(clu.getType(), clu);
+		clu.setTypeKey("luType.shell.course");
+		CluInfo cluV1 = client.createClu(clu.getTypeKey(), clu);
 
 		try{
 			//Try to set the start date in the past
@@ -2886,8 +2886,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluSetInfo.setEffectiveDate(DF.parse("20080101"));
 		cluSetInfo.setExpirationDate(DF.parse("20180101"));
 		cluSetInfo.setName("Clu set name");
-  cluSetInfo.setState ("draft");
-  cluSetInfo.setType ("kuali.cluset.course");
+  cluSetInfo.setStateKey ("draft");
+  cluSetInfo.setTypeKey ("kuali.cluset.course");
 		return cluSetInfo;
 	}
 
