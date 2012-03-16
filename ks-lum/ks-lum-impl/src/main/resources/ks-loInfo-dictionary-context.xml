@@ -15,12 +15,50 @@
     <ref bean="loDisplayInfo.loDisplayInfoList" />
     <ref bean="loDisplayInfo.loInfo" />
     <ref bean="loDisplayInfo.parentLoRelationid" />
-    <ref bean="loDisplayInfo.parentRelType" />
+    <ref bean="loDisplayInfo.parentRelType" />    
+    <ref bean="loDisplayInfo.descr" />   
+    <ref bean="loDisplayInfo.name" />  
+    <ref bean="loDisplayInfo.id" />  
+    <ref bean="loDisplayInfo.stateKey" />  
+    <ref bean="loDisplayInfo.typeKey" /> 
+    <ref bean="loDisplayInfo.loRepositoryKey" />
    </list>
   </property>
+  <property name="hasMetaData" value="true"/>
  </bean>
  <bean id="org.kuali.student.r2.lum.course.dto.LoDisplayInfo" parent="org.kuali.student.r2.lum.course.dto.LoDisplayInfo-parent" />
 
+ <bean id="loDisplayInfo.descr-parent" abstract="true" parent="cluFeeRecordInfo.descr">
+  <property name="name" value="descr"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
+ </bean>
+ <bean id="loDisplayInfo.descr" parent="loDisplayInfo.descr-parent"/>
+ 
+  <bean id="loDisplayInfo.name-parent" abstract="true" parent="baseString">
+  <property name="name" value="name"/>
+ </bean>
+ <bean id="loDisplayInfo.name" parent="loDisplayInfo.name-parent"/>
+ 
+  <bean id="loDisplayInfo.id-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="id"/>
+ </bean>
+ <bean id="loDisplayInfo.id" parent="loDisplayInfo.id-parent"/>
+ 
+  <bean id="loDisplayInfo.stateKey-parent" abstract="true" parent="baseString">
+  <property name="name" value="stateKey" />
+ </bean>
+ <bean id="loDisplayInfo.stateKey" parent="loDisplayInfo.stateKey-parent" />
+
+ <bean id="loDisplayInfo.typeKey-parent" abstract="true" parent="baseString">
+  <property name="name" value="typeKey" />
+ </bean>
+ <bean id="loDisplayInfo.typeKey" parent="loDisplayInfo.typeKey-parent" />
+ 
+  <bean id="loDisplayInfo.loRepositoryKey-parent" abstract="true" parent="baseString">
+  <property name="name" value="typeKey" />
+ </bean>
+ <bean id="loDisplayInfo.loRepositoryKey" parent="loDisplayInfo.loRepositoryKey-parent" />
+ 
  <bean id="loDisplayInfo.loCategoryInfoList-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="loCategoryInfoList" />
 <!--  per jira KSLAB-1745

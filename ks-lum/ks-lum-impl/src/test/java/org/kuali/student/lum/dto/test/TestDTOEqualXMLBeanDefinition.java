@@ -47,6 +47,8 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 
 public class TestDTOEqualXMLBeanDefinition {
 
@@ -128,6 +130,8 @@ public class TestDTOEqualXMLBeanDefinition {
 		startingClasses.add(CourseJointInfo.class.getName());
 		startingClasses.add(CourseRevenueInfo.class.getName());
 		startingClasses.add(CourseVariationInfo.class.getName());
+		//startingClasses.add(FormatInfo.class.getName());//Field unitTypeKey not in dictionary or java file, but asked
+		//startingClasses.add(LoDisplayInfo.class.getName());//Field desc not in dictionary or java file, but asked
 		
 		String contextFile = "ks-courseInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
