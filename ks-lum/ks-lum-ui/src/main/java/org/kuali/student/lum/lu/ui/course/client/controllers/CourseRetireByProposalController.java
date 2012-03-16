@@ -52,7 +52,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
 		super.cfg = GWT.create(CourseRetireByProposalConfigurer.class);	
 		proposalPath = cfg.getProposalPath();
    		cfg.setState(DtoConstants.STATE_DRAFT);   		
-   		// cfg.setNextState(DtoConstants.STATE_RETIRED);
+   		cfg.setNextState(DtoConstants.STATE_RETIRED);
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
    		super.addStyleName("ks-course-admin");  
@@ -126,67 +126,6 @@ public class CourseRetireByProposalController extends CourseProposalController {
 
     }
 	
-	/**
-	 * Override the getSaveButton to provide a new set of buttons for the admin screens
-	 */
-	@Override
-	public KSButton getSaveButton(){
-		KSButton saveButton =  new KSButton("Retire", new ClickHandler(){
-            public void onClick(ClickEvent event) {
-            	handleButtonClick(DtoConstants.STATE_RETIRED);            	
-            }
-        });
-		
-		return saveButton;
-	}
-				
-	public KSButton getCancelButton(){
-		KSButton button = new KSButton("Cancel", new ClickHandler(){
-            public void onClick(ClickEvent event) {       
-            	Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation());
-            }
-        });
-	
-		button.addStyleName("ks-button-spacing");
-		return button;
-    }
-	
-	/**
-	 * This processes the save or activate button clicks
-	 * 
-	 * @param state The state to set on the course when saving course data.
-	 */
-	protected void handleButtonClick(final String state){
-		final SaveActionEvent saveActionEvent = new SaveActionEvent(false);
-
-    	saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
-			@Override
-			public void onActionComplete(ActionEvent actionEvent) {
-				if (saveActionEvent.isSaveSuccessful()){
-	                final ViewContext viewContext = new ViewContext();
-	                viewContext.setId((String)cluProposalModel.get(CreditCourseConstants.ID));
-	                viewContext.setIdType(IdType.OBJECT_ID);											
-
-	                
-					CourseWorkflowActionList.setCourseState(viewContext.getId(), DtoConstants.STATE_RETIRED, new Callback<String>(){
-						@Override
-						public void exec(String result) {
-							if (result == null){
-								KSNotifier.add(new KSNotification("Course saved, but unable to set retire state.", false, true, 5000));
-							} else {
-								KSNotifier.show("Course saved and retired.");									
-								Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation(), viewContext);
-							}							
-						}
-					});							
-				}      
-			}
-    	});
-    	
-    	CourseRetireByProposalController.this.fireApplicationEvent(saveActionEvent);    		
-	}
-	
-
 	
 	
 	/**

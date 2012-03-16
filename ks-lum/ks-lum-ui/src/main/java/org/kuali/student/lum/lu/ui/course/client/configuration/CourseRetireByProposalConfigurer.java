@@ -1,6 +1,8 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.kuali.student.common.assembly.data.Data;
@@ -14,6 +16,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSe
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -22,8 +25,11 @@ import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTo
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminRetireController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
+
+import com.google.gwt.core.client.GWT;
 
 
 /**
@@ -71,6 +77,19 @@ public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
         documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
         documentTool.setModelDefinition((DataModelDefinition)modelDefinition);
         layout.addMenuItem(sections, documentTool);
+        
+        //Add common buttons to sections except for sections with specific button behavior
+        List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
+        excludedViews.add(CourseSections.DOCUMENTS);
+        excludedViews.add(CourseSections.COURSE_REQUISITES);
+        layout.addCommonButton(LUUIConstants.COURSE_SECTIONS, layout.getSaveButton(), excludedViews);
+        layout.addCommonButton(LUUIConstants.COURSE_SECTIONS, layout.getCancelButton(CourseSections.SUMMARY), excludedViews);
+
+        //Summary
+        summaryConfigurer = GWT.create(CourseRetireSummaryConfigurer.class);
+        summaryConfigurer.init(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
+        layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
+        
 
     }
     
