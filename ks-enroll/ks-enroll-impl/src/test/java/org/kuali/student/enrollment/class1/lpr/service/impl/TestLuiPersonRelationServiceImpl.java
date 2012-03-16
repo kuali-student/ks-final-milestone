@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
@@ -57,7 +58,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 /**
  * @Author sambit
  */
-
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lpr-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)

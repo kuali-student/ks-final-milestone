@@ -214,8 +214,6 @@
     <property name="luiDao" ref="luiDao" />
     <property name="lprRosterDao" ref="lprRosterDao" />
     <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
-    <property name="lprStateDao" ref="stateDao" />
-    <property name="lprTypeDao" ref="lprTypeDao" />
     <property name="lprTransDao" ref="lprTrasactionDao" />
     <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
     <property name="stateService" ref="stateService" />
@@ -227,14 +225,9 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="lprStateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
-    <property name="em" ref="entityManager" />
-  </bean>
 
-  <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao">
-    <property name="em" ref="entityManager" />
-  </bean>
 
+ 
   <bean id="lprRosterDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao">
     <property name="em" ref="entityManager" />
   </bean>

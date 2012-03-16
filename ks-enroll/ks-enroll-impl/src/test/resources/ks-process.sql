@@ -22,8 +22,8 @@ INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kua
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.process.process.state.inactive', 'Inactive', 'kuali.process.process.lifecycle', 'Indicates that this Process is inactive because it was put out to pasture. Any checks for this process should fail.', 0)
 
 
-INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.Fall', 'Fall', 'Fall Semester', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
-INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.Spring', 'Spring', 'Spring Semester', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
+INSERT INTO KSEN_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.Fall', 'Fall', 'Fall Semester', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
+INSERT INTO KSEN_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.Spring', 'Spring', 'Spring Semester', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
 
 insert into KSEN_PROCESS_RICH_TEXT (ID, OBJ_ID, VER_NBR,PLAIN,FORMATTED) values ('RTKEY.KUALI.PROCESS.REGISTRATION.BASIC.ELIGIBILITY',null,0,'The process of checking a student''s basic eligibility to register for courses.',null)
 insert into KSEN_PROCESS_RICH_TEXT (ID, OBJ_ID, VER_NBR,PLAIN,FORMATTED) values ('RTKEY.KUALI.PROCESS.REGISTRATION.ELIGIBILITY.FOR.TERM',null,0,'The process of checking a student''s eligibility to register for a particular term.',null)

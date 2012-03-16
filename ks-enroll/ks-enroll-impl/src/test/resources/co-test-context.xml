@@ -236,7 +236,7 @@
     <property name="stateService" ref="stateService" />
   </bean>
 
-  <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.LRCServiceMockImpl" />
+
 
   <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
     <property name="em" ref="entityManager" />

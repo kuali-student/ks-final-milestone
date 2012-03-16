@@ -120,22 +120,13 @@
     <bean id="checkDao" class="org.kuali.student.r2.core.class1.process.dao.CheckDao">
         <property name="em" ref="entityManager"/>
     </bean>
-    <bean id="checkTypeDao" class="org.kuali.student.r2.core.class1.process.dao.CheckTypeDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
+  
     <bean id="instructionDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-    <bean id="instructionTypeDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionTypeDao">
         <property name="em" ref="entityManager"/>
     </bean>
     <bean id="processDao" class="org.kuali.student.r2.core.class1.process.dao.ProcessDao">
         <property name="em" ref="entityManager"/>
     </bean>
-    <bean id="processTypeDao" class="org.kuali.student.r2.core.class1.process.dao.ProcessTypeDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-
     <bean id="stateService" class=" org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
         <property name="stateDao" ref="stateDao"/>
         <property name="spDao" ref="stateProcessDao"/>

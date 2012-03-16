@@ -106,6 +106,7 @@ INSERT INTO KSEN_LUI (ID, NAME, ATP_ID, CLU_ID, LUI_TYPE, LUI_STATE,  EFF_DT, EX
 INSERT INTO KSEN_LUI (ID, NAME, CLU_ID,LUI_TYPE, LUI_STATE,  EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-2', 'Lui rwo', 'cluId2', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
 INSERT INTO KSEN_LUI (ID, NAME, CLU_ID,LUI_TYPE, LUI_STATE,  EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-3', 'Lui three', 'cluId3', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
 INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE,LUI_STATE,  EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-4', 'Lui four', 'cluId4', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
+INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE,LUI_STATE,  EFF_DT, EXP_DT, VER_NBR) VALUES ('luiFormat-1', 'TEST FORMAT OFFERING"', 'cluId4', 'kuali.lui.type.format.offering', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
 
 //LuiLuiRelationEntity
 INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, LUILUI_RELTN_STATE, LUI_ID, LUILUI_RELTN_TYPE, RELATED_LUI_ID) VALUES ('LUILUIREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-1', 'kuali.lui.lui.relation.associated', 'Lui-2')
@@ -531,6 +532,7 @@ insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, S
 insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VER_NBR) values ('LUI-2', 'CLU-1', 'ATP-2', 'MENG 329 section 102', 75, {ts '2000-08-25 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Approved', 1)
 insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VER_NBR) values ('LUI-3', 'CLU-1', 'ATP-2', 'MENG 329 section 112', 75, {ts '2000-08-25 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', 1)
 insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VER_NBR) values ('LUI-4', 'CLU-2', 'ATP-1', 'BENG 471 section 101', 75, {ts '2000-01-01 00:00:00.0'}, {ts '2000-06-01 00:00:00.0'}, 'Retired', 1)
+insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VER_NBR) values ('luiFormat-1', 'CLU-1', 'ATP-2', 'MENG 329 section 102', 75, {ts '2000-08-25 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Approved', 1)
 
 // CluAtpTypeKey
 INSERT into KSLU_CLU_ATP_TYPE_KEY (ID, ATP_TYPE_KEY, clu_id,VER_NBR) VALUES ('ATP-1', 'atpType.semester.fall', 'f77befe3-c76c-4963-b4c2-104197f51e96',0)

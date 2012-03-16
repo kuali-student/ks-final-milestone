@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
-public abstract class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingServiceDecorator implements HoldsPermissionService{
+public  class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingServiceDecorator implements HoldsPermissionService{
     public static final String ENRLLMENT_NAMESPACE = "KS-ENROLL";
     public static final String SERVICE_NAME = "CourseOfferingService.";
     

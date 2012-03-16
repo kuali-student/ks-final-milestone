@@ -46,14 +46,9 @@
 		<class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
 	  	<class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
  		<class>org.kuali.student.r2.core.class1.state.model.StateLifecycleRelationEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.entity.TypeEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationAttributeEntity</class>
         
         <class>org.kuali.student.enrollment.class1.hold.model.RestrictionEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.RestrictionAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldTypeAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.IssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.IssueAttributeEntity</class>
@@ -111,12 +106,10 @@
         <class>org.kuali.student.r2.core.class1.process.model.InstructionAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.process.model.InstructionEntity</class>
         <class>org.kuali.student.r2.core.class1.process.model.InstructionMessageEntity</class>
-        <class>org.kuali.student.r2.core.class1.process.model.InstructionTypeAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.process.model.InstructionTypeEntity</class>
         <class>org.kuali.student.r2.core.class1.process.model.ProcessAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.process.model.ProcessEntity</class>
         <class>org.kuali.student.r2.core.class1.process.model.ProcessRichTextEntity</class>
-        <class>org.kuali.student.r2.core.class1.process.model.ProcessTypeAttributeEntity</class>
 
 		<class>org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity</class>
 		<class>org.kuali.student.enrollment.class1.lrr.model.LrrAttributeEntity</class>

@@ -127,7 +127,6 @@
     <class>org.kuali.student.r2.core.class1.process.model.InstructionAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.InstructionEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.InstructionMessageEntity</class>
-    <class>org.kuali.student.r2.core.class1.process.model.InstructionTypeAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.InstructionTypeEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.ProcessAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.ProcessEntity</class>

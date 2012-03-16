@@ -105,7 +105,6 @@
     <property name="lprRosterDao" ref="lprRosterDao" />
     <property name="lprTransDao" ref="lprTransDao" />
     <property name="lprTransItemDao" ref="lprTransItemDao"/>
-    <!-- <property name="lprStateDao" ref="lprStateDao" /> -->
     <property name="stateService" ref="stateService" />
     <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
   </bean>
@@ -136,9 +135,6 @@
   </bean>
 
 
-  <bean id="lprStateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
-    <property name="em" ref="entityManager" />
-  </bean>
 
   <bean id="lprRosterEntryDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao">
     <property name="em" ref="entityManager" />
