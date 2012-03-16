@@ -1109,6 +1109,7 @@
     
     <bean id="cluPublicationInfo.variants-parent" abstract="true" parent="baseComplex">
         <property name="name" value="variants"/>
+    <property name="maxOccurs" value="1" /> 
     </bean>
     <bean id="cluPublicationInfo.variants" parent="cluPublicationInfo.variants-parent"/>
     
