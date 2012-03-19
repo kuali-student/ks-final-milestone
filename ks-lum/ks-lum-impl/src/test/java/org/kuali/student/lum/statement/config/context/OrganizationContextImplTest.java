@@ -50,7 +50,7 @@ public class OrganizationContextImplTest {
 		reqComponent1 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.ORGANIZATION_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.ORGANIZATION_KEY.getId());
         reqCompField1.setValue("59");
         reqCompFieldList.add(reqCompField1);
 		reqComponent1.setReqCompFields(reqCompFieldList);
@@ -60,7 +60,7 @@ public class OrganizationContextImplTest {
 		reqComponent2 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.ORGANIZATION_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.ORGANIZATION_KEY.getId());
         reqCompField1.setValue(null);
         reqCompFieldList.add(reqCompField1);
 		reqComponent2.setReqCompFields(reqCompFieldList);
@@ -102,14 +102,14 @@ public class OrganizationContextImplTest {
 			org1.setId("59");
 			org1.setLongName("Sociology Dept");
 			org1.setShortName("Sociology");
-			org1.setType("kuali.org.Department");
+			org1.setTypeKey("kuali.org.Department");
 			orgMap.put("59", org1);
 
 			OrgInfo org2 = new OrgInfo();
 			org2.setId("60");
 			org2.setLongName("Interdisciplinary Studies in Social Science Program");
 			org2.setShortName("InterdiscBSOS");
-			org2.setType("kuali.org.Office");
+			org2.setTypeKey("kuali.org.Office");
 			orgMap.put("60", org2);
 		}
 		
