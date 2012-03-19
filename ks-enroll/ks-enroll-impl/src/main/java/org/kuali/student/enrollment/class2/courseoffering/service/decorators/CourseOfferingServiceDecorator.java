@@ -153,7 +153,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     @Override
     public List<org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria,org.kuali.student.r2.common.dto.ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+	   return getNextDecorator().searchForCourseOfferings(criteria, context);
         }
 
     @Override

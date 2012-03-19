@@ -18,6 +18,7 @@
   <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
   <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
   <import resource="classpath:en-course-test-context.xml" />
+  <import resource="classpath:search-test-context.xml"/>
   <!-- Preloaded data -->
   <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
     <property name="jtaTxManager" ref="JtaTxManager" />
@@ -177,6 +178,7 @@
     <property name="acalService" ref="acalService" />
     <property name="stateService" ref="stateService" />
     <property name="lprService" ref="lprPersistenceService" />
+    <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
   </bean>
 
   <bean id="coAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler">
