@@ -81,27 +81,13 @@ public class AcademicCalendarController extends UifControllerBase {
 
         String acalId = request.getParameter("acalId");
         if (acalId != null && !acalId.trim().isEmpty()) {
-            String viewId = request.getParameter("viewId");
-            if ("academicCalendarEditView".equals(viewId)) {
-                acalForm.setViewTypeName(UifConstants.ViewType.INQUIRY);
-            }
-
             try {
                 getAcademicCalendar(acalId, acalForm);
+                List<AcademicTermWrapper> termWrappers = ((AcademicCalendarViewHelperService)acalForm.getView().getViewHelperService()).loadTerms(acalId,getContextInfo());
+                acalForm.setTermWrapperList(termWrappers);
             } catch (Exception ex) {
+                ex.printStackTrace();
                 //TODO: handle exception properly
-            }
-        }else{
-            acalId = request.getParameter("id");
-            if (StringUtils.isNotBlank(acalId)){
-                try {
-                    getAcademicCalendar(acalId, acalForm);
-                    List<AcademicTermWrapper> termWrappers = ((AcademicCalendarViewHelperService)acalForm.getView().getViewHelperService()).loadTerms(acalId,getContextInfo());
-                    acalForm.setTermWrapperList(termWrappers);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    //TODO: handle exception properly
-                }
             }
         }
 

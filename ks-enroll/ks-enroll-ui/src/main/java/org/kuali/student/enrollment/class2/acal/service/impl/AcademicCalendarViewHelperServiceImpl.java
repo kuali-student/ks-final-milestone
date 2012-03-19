@@ -468,7 +468,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     private boolean isDuplicateEvent(AcalEventWrapper newEvent, AcalEventWrapper sourceEvent){
 //        return (newEvent.getAcalEventInfo().getTypeKey().equals(sourceEvent.getAcalEventInfo().getTypeKey()) &&
 //                newEvent.getStartDate().equals(sourceEvent.getStartDate()));
-        return (newEvent.getAcalEventInfo().getTypeKey().equals(sourceEvent.getAcalEventInfo().getTypeKey()));
+        return (newEvent.getEventType().equals(sourceEvent.getEventType()));
     }
 
     public void populateKeyDateTypes(InputField field, AcademicCalendarForm acalForm) {
