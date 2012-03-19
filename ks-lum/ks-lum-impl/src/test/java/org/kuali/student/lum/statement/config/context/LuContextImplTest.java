@@ -29,33 +29,33 @@ import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.CluPublicationInfo;
-import org.kuali.student.lum.lu.dto.CluResultInfo;
-import org.kuali.student.lum.lu.dto.CluResultTypeInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
-import org.kuali.student.lum.lu.dto.CluSetTypeInfo;
-import org.kuali.student.lum.lu.dto.DeliveryMethodTypeInfo;
-import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
-import org.kuali.student.lum.lu.dto.LuCodeTypeInfo;
-import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuPublicationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.dto.LuiInfo;
-import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
-import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
+import org.kuali.student.r1.lum.lu.dto.CluLoRelationTypeInfo;
+import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+import org.kuali.student.r1.lum.lu.dto.CluResultTypeInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
+import org.kuali.student.r1.lum.lu.dto.CluSetTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.DeliveryMethodTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.InstructionalFormatTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuCodeTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuLuRelationTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuPublicationTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuiInfo;
+import org.kuali.student.r1.lum.lu.dto.LuiLuiRelationInfo;
+import org.kuali.student.r1.lum.lu.dto.ResultUsageTypeInfo;
+import org.kuali.student.r1.lum.lu.service.LuService;
 import org.kuali.student.lum.statement.config.context.util.NLCluSet;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 
 public class LuContextImplTest {
 
@@ -69,43 +69,43 @@ public class LuContextImplTest {
 		reqComponent1 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.CLU_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.CLU_KEY.getId());
         reqCompField1.setValue("CLU-NL-1");
         reqCompFieldList.add(reqCompField1);
 		reqComponent1.setReqCompFields(reqCompFieldList);
 
         ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
-        reqCompField2.setType(ReqComponentFieldTypes.COURSE_CLU_KEY.getId());
+        reqCompField2.setTypeKey(ReqComponentFieldTypes.COURSE_CLU_KEY.getId());
         reqCompField2.setValue("CLU-NL-1");
         reqCompFieldList.add(reqCompField2);
 		reqComponent1.setReqCompFields(reqCompFieldList);
 
         ReqCompFieldInfo reqCompField3 = new ReqCompFieldInfo();
-        reqCompField3.setType(ReqComponentFieldTypes.PROGRAM_CLU_KEY.getId());
+        reqCompField3.setTypeKey(ReqComponentFieldTypes.PROGRAM_CLU_KEY.getId());
         reqCompField3.setValue("CLU-NL-1");
         reqCompFieldList.add(reqCompField3);
 		reqComponent1.setReqCompFields(reqCompFieldList);
 
         ReqCompFieldInfo reqCompField4 = new ReqCompFieldInfo();
-        reqCompField4.setType(ReqComponentFieldTypes.TEST_CLU_KEY.getId());
+        reqCompField4.setTypeKey(ReqComponentFieldTypes.TEST_CLU_KEY.getId());
         reqCompField4.setValue("CLU-NL-1");
         reqCompFieldList.add(reqCompField4);
 		reqComponent1.setReqCompFields(reqCompFieldList);
 		
 		ReqCompFieldInfo reqCompField5 = new ReqCompFieldInfo();
-        reqCompField5.setType(ReqComponentFieldTypes.CLUSET_KEY.getId());
+        reqCompField5.setTypeKey(ReqComponentFieldTypes.CLUSET_KEY.getId());
         reqCompField5.setValue("CLUSET-NL-1");
         reqCompFieldList.add(reqCompField5);
 		reqComponent1.setReqCompFields(reqCompFieldList);
 
 		ReqCompFieldInfo reqCompField6 = new ReqCompFieldInfo();
-        reqCompField6.setType(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId());
+        reqCompField6.setTypeKey(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId());
         reqCompField6.setValue("CLUSET-NL-1");
         reqCompFieldList.add(reqCompField6);
 		reqComponent1.setReqCompFields(reqCompFieldList);
 
 		ReqCompFieldInfo reqCompField7 = new ReqCompFieldInfo();
-        reqCompField7.setType(ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId());
+        reqCompField7.setTypeKey(ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId());
         reqCompField7.setValue("CLUSET-NL-1");
         reqCompFieldList.add(reqCompField7);
 		reqComponent1.setReqCompFields(reqCompFieldList);
@@ -121,13 +121,13 @@ public class LuContextImplTest {
 		reqComponent2 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.CLU_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.CLU_KEY.getId());
         reqCompField1.setValue(null);
         reqCompFieldList.add(reqCompField1);
 		reqComponent2.setReqCompFields(reqCompFieldList);
 
         ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
-        reqCompField2.setType(ReqComponentFieldTypes.COURSE_CLU_KEY.getId());
+        reqCompField2.setTypeKey(ReqComponentFieldTypes.COURSE_CLU_KEY.getId());
         reqCompField2.setValue(null);
         reqCompFieldList.add(reqCompField2);
 		reqComponent2.setReqCompFields(reqCompFieldList);
@@ -253,7 +253,7 @@ public class LuContextImplTest {
 		public LuServiceMock() {
 			CluInfo clu1 = new CluInfo();
 			clu1.setId("CLU-NL-1");
-			clu1.setType("kuali.lu.type.CreditCourse");
+			clu1.setTypeKey("kuali.lu.type.CreditCourse");
 			CluIdentifierInfo cluIdent1 = new CluIdentifierInfo();
 			cluIdent1.setId("IDENT-NL-1");
 			cluIdent1.setCode("MATH152");
@@ -264,7 +264,7 @@ public class LuContextImplTest {
 
 			CluInfo clu2 = new CluInfo();
 			clu2.setId("CLU-NL-3");
-			clu2.setType("kuali.lu.type.CreditCourse");
+			clu2.setTypeKey("kuali.lu.type.CreditCourse");
 			CluIdentifierInfo cluIdent2 = new CluIdentifierInfo();
 			cluIdent2.setId("IDENT-NL-3");
 			cluIdent2.setCode("MATH180");
