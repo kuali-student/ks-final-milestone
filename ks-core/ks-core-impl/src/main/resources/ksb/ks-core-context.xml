@@ -190,7 +190,7 @@
         <property name="atpDao" ref="atpDao"/>
         <property name="searchManager" ref="atpSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
-        <property name="validatorFactory" ref="coreValidatorFactory"/>
+        <property name="validatorFactory" ref="r1_coreValidatorFactory"/>
     </bean>
 
     <bean id="atpSearchManager"
@@ -205,7 +205,7 @@
                 <property name="service" ref="atpServiceImpl"/>
                 <property name="serviceInterface" value="org.kuali.student.r1.core.atp.service.AtpService"/>
                 <property name="localServiceName" value="AtpService"/>
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/atp"/>
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/r1_atp"/>
                 <property name="busSecurity" value="${ks.core.bus.security}"/>
             </bean>
         </property>
@@ -529,7 +529,10 @@
     <bean id="coreServiceValidator" class="org.kuali.student.r2.common.validator.DefaultValidatorImpl">
         <property name="searchDispatcher" ref="coreSearchDispatcher"/>
     </bean>
-
+    <bean id="r1_coreServiceValidator" class="org.kuali.student.r1.common.validator.DefaultValidatorImpl">
+        <property name="searchDispatcher" ref="coreSearchDispatcher"/>
+    </bean>
+    
     <bean id="coreValidatorFactory-parent"
           abstract="true" class="org.kuali.student.r2.common.validator.ValidatorFactory">
         <property name="defaultValidator" ref="coreServiceValidator"/>
@@ -537,8 +540,16 @@
             <list/>
         </property>
     </bean>
+    <bean id="r1_coreValidatorFactory-parent"
+          abstract="true" class="org.kuali.student.r1.common.validator.ValidatorFactory">
+        <property name="defaultValidator" ref="r1_coreServiceValidator"/>
+        <property name="validatorList">
+            <list/>
+        </property>
+    </bean>
 
     <bean id="coreValidatorFactory" parent="coreValidatorFactory-parent"/>
+    <bean id="r1_coreValidatorFactory" parent="r1_coreValidatorFactory-parent"/>
 
     <bean id="coreSearchDispatcher"
           class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
