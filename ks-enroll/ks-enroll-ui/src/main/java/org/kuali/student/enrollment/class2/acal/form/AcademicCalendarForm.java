@@ -93,7 +93,9 @@ public class AcademicCalendarForm extends UifFormBase {
 
     public String getUpdateTimeString(){
         updateTimeString = new String("");
-        if (getAcademicCalendarInfo() == null){
+        if (getAcademicCalendarInfo() == null ||
+            getAcademicCalendarInfo().getId()== null ||
+            getAcademicCalendarInfo().getId().isEmpty()){
             return updateTimeString;
         }
         else {
