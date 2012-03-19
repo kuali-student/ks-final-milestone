@@ -286,11 +286,9 @@ public class HolidayCalendarController extends UifControllerBase {
             hcForm.setOfficial(hc.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
             hcForm.setDelete(true);
             GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hc.getName());
-            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
         }
-        else {
-            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
-        }
+
+        return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
     }
 
     private boolean isValidHolidayCalendar(HolidayCalendarInfo hc)throws Exception {
