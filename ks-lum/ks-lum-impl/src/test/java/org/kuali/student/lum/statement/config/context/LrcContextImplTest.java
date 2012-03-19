@@ -9,8 +9,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -24,19 +24,19 @@ import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.lum.lrc.dto.CredentialInfo;
-import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
-import org.kuali.student.lum.lrc.dto.CreditInfo;
-import org.kuali.student.lum.lrc.dto.CreditTypeInfo;
-import org.kuali.student.lum.lrc.dto.GradeInfo;
-import org.kuali.student.lum.lrc.dto.GradeTypeInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
-import org.kuali.student.lum.lrc.dto.ScaleInfo;
-import org.kuali.student.lum.lrc.service.LrcService;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.lum.lrc.dto.CredentialInfo;
+import org.kuali.student.r1.lum.lrc.dto.CredentialTypeInfo;
+import org.kuali.student.r1.lum.lrc.dto.CreditInfo;
+import org.kuali.student.r1.lum.lrc.dto.CreditTypeInfo;
+import org.kuali.student.r1.lum.lrc.dto.GradeInfo;
+import org.kuali.student.r1.lum.lrc.dto.GradeTypeInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
+import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
+import org.kuali.student.r1.lum.lrc.service.LrcService;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 
 public class LrcContextImplTest {
 	private LrcService lrcService = new LrcServiceMock();
@@ -50,11 +50,11 @@ public class LrcContextImplTest {
 		reqComponent1 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.GRADE_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.GRADE_KEY.getId());
         reqCompField1.setValue("A");
         reqCompFieldList.add(reqCompField1);
         ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
-        reqCompField2.setType(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
+        reqCompField2.setTypeKey(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
         reqCompField2.setValue("kuali.resultComponent.grade.letter");
         reqCompFieldList.add(reqCompField2);
 
@@ -65,11 +65,11 @@ public class LrcContextImplTest {
 		reqComponent2 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.GRADE_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.GRADE_KEY.getId());
         reqCompField1.setValue(null);
         reqCompFieldList.add(reqCompField1);
         ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
-        reqCompField2.setType(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
+        reqCompField2.setTypeKey(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
         reqCompField2.setValue(null);
         reqCompFieldList.add(reqCompField2);
 
@@ -80,7 +80,7 @@ public class LrcContextImplTest {
 		reqComponent3 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
         reqCompField1.setValue("kuali.resultComponent.grade.letter");
         reqCompFieldList.add(reqCompField1);
 
@@ -91,7 +91,7 @@ public class LrcContextImplTest {
 		reqComponent4 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.GRADE_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.GRADE_KEY.getId());
         reqCompField1.setValue("A");
         reqCompFieldList.add(reqCompField1);
 
@@ -423,7 +423,7 @@ public class LrcContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public SearchCriteriaTypeInfo getSearchCriteriaType(
 				String searchCriteriaTypeKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -432,14 +432,14 @@ public class LrcContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 				throws OperationFailedException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+	//	@Override
 		public SearchResultTypeInfo getSearchResultType(
 				String searchResultTypeKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -448,14 +448,14 @@ public class LrcContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<SearchResultTypeInfo> getSearchResultTypes()
 				throws OperationFailedException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+	//	@Override
 		public SearchTypeInfo getSearchType(String searchTypeKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
@@ -463,14 +463,14 @@ public class LrcContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<SearchTypeInfo> getSearchTypes()
 				throws OperationFailedException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+	//	@Override
 		public List<SearchTypeInfo> getSearchTypesByCriteria(
 				String searchCriteriaTypeKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -479,7 +479,7 @@ public class LrcContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<SearchTypeInfo> getSearchTypesByResult(
 				String searchResultTypeKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -488,7 +488,7 @@ public class LrcContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public SearchResult search(SearchRequest searchRequest)
 				throws MissingParameterException {
 			// TODO Auto-generated method stub
