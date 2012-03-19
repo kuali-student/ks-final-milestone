@@ -190,7 +190,7 @@ public class LuContextImplTest {
 		Assert.assertEquals("CLU-NL-1", programClu.getId());
 		Assert.assertEquals("CLU-NL-1", testClu.getId());
 
-		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getTypeKey());
+		Assert.assertEquals("kuali.lu.type.CreditCourse", clu.getType());
 		Assert.assertEquals("MATH 152", clu.getOfficialIdentifier().getShortName());
 		Assert.assertEquals("MATH 152 Linear Systems", clu.getOfficialIdentifier().getLongName());
 	}
