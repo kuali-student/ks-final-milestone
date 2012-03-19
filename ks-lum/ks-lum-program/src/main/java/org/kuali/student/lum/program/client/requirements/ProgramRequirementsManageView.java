@@ -295,14 +295,14 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                             StatementTreeViewInfo newStatementTreeViewInfo = new StatementTreeViewInfo();
                             newStatementTreeViewInfo.setId(ProgramRequirementsSummaryView.NEW_STMT_TREE_ID + Integer.toString(ProgramRequirementsSummaryView.tempStmtTreeID++));
                             newStatementTreeViewInfo.setOperator(rule.getStatements().get(0).getOperator());
-                         // TODO KSCM-420 newStatementTreeViewInfo.getReqComponents().add(reqComp);
+                            newStatementTreeViewInfo.getReqComponents().add(reqComp);
                             rule.getStatements().add(newStatementTreeViewInfo);
                         } else {
                         	// TODO KSCM-420 rule.getReqComponents().add(reqComp);
                             //set default operator between req. components of the rule
-                         // TODO KSCM-425 wait for ks-core-ui/paul                            if (rule.getOperator() == null) {
+                         if (rule.getOperator() == null) {
                          // TODO KSCM-425 wait for ks-core-ui/paul                                rule.setOperator(StatementOperatorTypeKey.AND);
-                         // TODO KSCM-425 wait for ks-core-ui/paul                            }
+                          }
                         }
                     } else {    //update req. component
                         editedReqCompInfo.setNaturalLanguageTranslation(reqComp.getNaturalLanguageTranslation());
