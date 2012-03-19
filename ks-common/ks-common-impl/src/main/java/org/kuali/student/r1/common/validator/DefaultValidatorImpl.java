@@ -460,7 +460,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         			if (constraint.getCaseConstraint() != null){
         				return processCaseConstraint(valResults, constraint.getCaseConstraint(), objStructure, value, dataProvider, elementStack, rootData, rootObjStructure);
         			} else {
-        				processCrossFieldWarning(valResults, caseConstraint, constraint, value, ErrorLevel.convertR2toR1(constraint.getErrorLevel()));
+        				processCrossFieldWarning(valResults, caseConstraint, constraint, value, constraint.getErrorLevel());
         				return constraint;
         			}
                 }
@@ -473,7 +473,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 	        			if (constraint.getCaseConstraint() != null){
 	        				return processCaseConstraint(valResults, constraint.getCaseConstraint(), objStructure, value, dataProvider, elementStack, rootData, rootObjStructure);
 	        			} else {
-	        				processCrossFieldWarning(valResults, caseConstraint, constraint, value, ErrorLevel.convertR2toR1(constraint.getErrorLevel()));	        				
+	        				processCrossFieldWarning(valResults, caseConstraint, constraint, value, constraint.getErrorLevel());	        				
 	        				return constraint;
 	        			}
 	                }
@@ -670,7 +670,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 } else {
                 	val.setMessage(getMessage("validation.required"));
                 }
-                val.setLevel(ErrorLevel.convertR2toR1(constraint.getErrorLevel()));
+                val.setLevel(constraint.getErrorLevel());
                 valResults.add(val);
             }
             return;
