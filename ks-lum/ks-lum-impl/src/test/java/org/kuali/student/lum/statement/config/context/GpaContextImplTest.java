@@ -8,9 +8,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 
 public class GpaContextImplTest {
 	private GpaContextImpl gpaContext = new GpaContextImpl();
@@ -21,7 +21,7 @@ public class GpaContextImplTest {
 		reqComponent1 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.GPA_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.GPA_KEY.getId());
         reqCompField1.setValue("2.75");
         reqCompFieldList.add(reqCompField1);
 		reqComponent1.setReqCompFields(reqCompFieldList);
@@ -31,7 +31,7 @@ public class GpaContextImplTest {
 		reqComponent2 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.GPA_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.GPA_KEY.getId());
         reqCompField1.setValue(null);
         reqCompFieldList.add(reqCompField1);
         reqComponent2.setReqCompFields(reqCompFieldList);
