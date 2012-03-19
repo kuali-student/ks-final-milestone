@@ -8,9 +8,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 
 public class BasicContextImplTest {
 	private BasicContextImpl basicContext = new BasicContextImpl();
@@ -23,11 +23,11 @@ public class BasicContextImplTest {
 		reqComponent1 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.OPERATOR_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.OPERATOR_KEY.getId());
         reqCompField1.setValue(">");
         reqCompFieldList.add(reqCompField1);
         ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
-        reqCompField2.setType(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
+        reqCompField2.setTypeKey(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
         reqCompField2.setValue("1");
         reqCompFieldList.add(reqCompField2);
 		reqComponent1.setReqCompFields(reqCompFieldList);
@@ -37,7 +37,7 @@ public class BasicContextImplTest {
 		reqComponent2 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
         reqCompField1.setValue("1");
         reqCompFieldList.add(reqCompField1);
 		reqComponent2.setReqCompFields(reqCompFieldList);
@@ -47,7 +47,7 @@ public class BasicContextImplTest {
 		reqComponent3 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
         reqCompField1.setValue(null);
         reqCompFieldList.add(reqCompField1);
 		reqComponent3.setReqCompFields(reqCompFieldList);
@@ -57,11 +57,11 @@ public class BasicContextImplTest {
 		reqComponent4 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType(ReqComponentFieldTypes.OPERATOR_KEY.getId());
+        reqCompField1.setTypeKey(ReqComponentFieldTypes.OPERATOR_KEY.getId());
         reqCompField1.setValue(null);
         reqCompFieldList.add(reqCompField1);
         ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
-        reqCompField2.setType(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
+        reqCompField2.setTypeKey(ReqComponentFieldTypes.INTEGER_VALUE1_KEY.getId());
         reqCompField2.setValue(null);
         reqCompFieldList.add(reqCompField2);
 		reqComponent4.setReqCompFields(reqCompFieldList);
