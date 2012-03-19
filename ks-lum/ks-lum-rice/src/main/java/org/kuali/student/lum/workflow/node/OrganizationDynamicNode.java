@@ -145,7 +145,7 @@ public class OrganizationDynamicNode implements DynamicNode {
                     LOG.debug("------------ Relation Type: " + orgOrgRelationInfo.getTypeKey());
                 }
                 List<OrgOrgRelationInfo> relatedOrgRelationInfos = null;
-             // TODO KSCM  relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(orgId, contextInfo);
+             // TODO KSCM-429  relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(orgId, contextInfo);
                 for (OrgOrgRelationInfo orgOrgRelationInfo : relatedOrgRelationInfos) {
                     LOG.debug("---- Related Org Relation:");
                     LOG.debug("------------ Related Org ID: " + orgOrgRelationInfo.getRelatedOrgId());
@@ -253,7 +253,7 @@ public class OrganizationDynamicNode implements DynamicNode {
         Set<String> relatedOrgIds = new HashSet<String>();
         try {
             List<OrgOrgRelationInfo> relatedOrgRelationInfos = null;
-         // TODO KSCM relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(currentNodeOrgId, contextInfo);
+         // TODO KSCM-429 relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(currentNodeOrgId, contextInfo);
             for (OrgOrgRelationInfo orgOrgRelationInfo : relatedOrgRelationInfos) {
                 if (StringUtils.equals("Active", orgOrgRelationInfo.getStateKey())) {
                     if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getTypeKey())) {

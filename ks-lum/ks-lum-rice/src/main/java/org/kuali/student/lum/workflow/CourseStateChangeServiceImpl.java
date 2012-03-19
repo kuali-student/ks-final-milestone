@@ -271,7 +271,7 @@ public class CourseStateChangeServiceImpl {
 		// with the new state
 		for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos
 				.iterator(); it.hasNext();)
-            //TODO KSCM : Figure out why I had to put a null into the method call...
+            //TODO KSCM-429 : Figure out why I had to put a null into the method call...
 			courseService.updateCourseStatement(courseInfo.getId(),null ,it.next(),contextInfo);
 	}
 
