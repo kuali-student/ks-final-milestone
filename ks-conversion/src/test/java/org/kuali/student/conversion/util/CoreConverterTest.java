@@ -76,10 +76,14 @@ public class CoreConverterTest {
         r1.setAttributes(R1TestDataUtil.getAttributeData());
         r1.setCommentText(R1TestDataUtil.getRichTextInfoData());
         r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setState("R1 State");
+        r1.setType("R1 Type");
         CommentInfo r2 = R1R2ConverterUtil.convert(r1, CommentInfo.class);
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getCommentText().getPlain(), r2.getCommentText().getPlain());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     
     @Test
@@ -105,11 +109,15 @@ public class CoreConverterTest {
         r1.setAttributes(R1TestDataUtil.getAttributeData());
         r1.setDesc(R1TestDataUtil.getRichTextInfoData());
         r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setState("R1 State");
+        r1.setType("R1 Type");
         DocumentInfo r2 = R1R2ConverterUtil.convert(r1, DocumentInfo.class);
         Assert.assertEquals(r1.getDocumentBinaryInfo().getBinary(), r2.getDocumentBinary().getBinary());
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals("R1 Plain", r2.getDescr().getPlain());
         Assert.assertEquals("R1 Meta Info Version Id", r2.getMeta().getVersionInd());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     
     @Test
@@ -118,10 +126,14 @@ public class CoreConverterTest {
         r1.setAttributes(R1TestDataUtil.getAttributeData());
         r1.setDesc(R1TestDataUtil.getRichTextInfoData());
         r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setState("R1 State");
+        r1.setType("R1 Type");
         RefDocRelationInfo r2 = R1R2ConverterUtil.convert(r1, RefDocRelationInfo.class);
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals("R1 Plain", r2.getDescr().getPlain());
         Assert.assertEquals("R1 Meta Info Version Id", r2.getMeta().getVersionInd());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     
     @Test
@@ -177,6 +189,8 @@ public class CoreConverterTest {
         r1.setShortName("R1 Short Name");
         r1.setAttributes(R1TestDataUtil.getAttributeData());
         r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setState("R1 State");
+        r1.setType("R1 Type");
         OrgInfo r2 = R1R2ConverterUtil.convert(r1, OrgInfo.class);
         Assert.assertEquals(r1.getLongDesc(), r2.getLongDescr().getPlain());
         Assert.assertEquals(r1.getLongName(), r2.getLongName());
@@ -187,6 +201,8 @@ public class CoreConverterTest {
         Assert.assertEquals(r1.getShortName(), r2.getShortName());
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     
     @Test
@@ -194,9 +210,13 @@ public class CoreConverterTest {
         org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo();
         r1.setAttributes(R1TestDataUtil.getAttributeData());
         r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setState("R1 State");
+        r1.setType("R1 Type");
         OrgOrgRelationInfo r2 = R1R2ConverterUtil.convert(r1, OrgOrgRelationInfo.class);
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     
     @Test
@@ -269,6 +289,8 @@ public class CoreConverterTest {
         r1PropPersonList.add("R1 Prop Person");
         r1.setProposerPerson(r1PropPersonList);
         r1.setDetailDesc("R1 Desc");
+        r1.setState("R1 State");
+        r1.setType("R1 Type");
         ProposalInfo r2 = R1R2ConverterUtil.convert(r1, ProposalInfo.class);
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
@@ -276,6 +298,8 @@ public class CoreConverterTest {
         Assert.assertEquals(r1.getProposerOrg().get(0), r2.getProposerOrg().get(0));
         Assert.assertEquals(r1.getProposerPerson().get(0), r2.getProposerPerson().get(0));
         Assert.assertEquals(r1.getDetailDesc(), r2.getDetailDesc().getPlain());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     
     @Test
@@ -289,9 +313,13 @@ public class CoreConverterTest {
         r1ReqComFieldInfo.setValue("R1 Value");
         r1ReqCompList.add(r1ReqComFieldInfo);
         r1.setReqCompFields(r1ReqCompList);
+        r1.setState("R1 State");
+        r1.setType("R1 Type");
         ReqComponentInfo r2 = R1R2ConverterUtil.convert(r1, ReqComponentInfo.class);
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
         Assert.assertEquals("R1 Value", r2.getReqCompFields().get(0).getValue());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     
     @Test
@@ -301,23 +329,29 @@ public class CoreConverterTest {
         r1.setDesc(R1TestDataUtil.getRichTextInfoData());
         r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
         r1.setOperator(StatementOperatorTypeKey.AND);
+        r1.setState("R1 State");
+        r1.setType("R1 Type");
         StatementInfo r2 = R1R2ConverterUtil.convert(r1, StatementInfo.class);
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getDesc().getPlain(), r2.getDescr().getPlain());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
         Assert.assertEquals(r1.getOperator().name(), r2.getOperator().name());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     
     @Test
     public void testStatementTreeViewInfo() {
-        org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo r1 = new org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo();
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        r1.setDesc(R1TestDataUtil.getRichTextInfoData());
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo r1 = R1TestDataUtil.getStatementTreeViewInfoData();
         StatementTreeViewInfo r2 = R1R2ConverterUtil.convert(r1, StatementTreeViewInfo.class);
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getDesc().getPlain(), r2.getDescr().getPlain());
+        Assert.assertEquals(r1.getId(), r2.getId());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals(r1.getName(), r2.getName());
+        Assert.assertEquals(r1.getOperator().name(), r2.getOperator().name());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
 
 }

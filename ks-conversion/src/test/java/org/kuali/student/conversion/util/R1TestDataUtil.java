@@ -12,6 +12,10 @@ import org.kuali.student.r1.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r1.common.dto.RichTextInfo;
 import org.kuali.student.r1.common.dto.TimeAmountInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.lum.course.dto.ActivityInfo;
 import org.kuali.student.r1.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r1.lum.course.dto.CourseExpenditureInfo;
@@ -24,9 +28,12 @@ import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r1.lum.lo.dto.LoInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r1.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.r1.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.r1.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r1.lum.program.dto.ProgramVariationInfo;
 
 public class R1TestDataUtil {
 
@@ -336,6 +343,152 @@ public class R1TestDataUtil {
         r1AdminOrgInfo.setPrimary(false);
         r1AdminOrgInfo.setType("R1 Type");
         return r1AdminOrgInfo;
+    }
+    
+    public static List<AccreditationInfo> getAccreditationInfoDataList() {
+        List<AccreditationInfo> r1AccrInfoList = new ArrayList<AccreditationInfo>();
+        AccreditationInfo r1AccrInfo = new AccreditationInfo();
+        r1AccrInfo.setAttributes(R1TestDataUtil.getAttributeData());
+        r1AccrInfo.setEffectiveDate(new Date());
+        r1AccrInfo.setExpirationDate(new Date());
+        r1AccrInfo.setId("R1 Id");
+        r1AccrInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1AccrInfo.setOrgId("R1 Org Id");
+        r1AccrInfoList.add(r1AccrInfo);
+        return r1AccrInfoList;
+    }
+    
+    public static CoreProgramInfo getCoreProgramInfo() {
+        CoreProgramInfo r1 = new CoreProgramInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setCatalogDescr(R1TestDataUtil.getRichTextInfoData());
+        r1.setCatalogPublicationTargets(null);
+        //No matching R2 attribute r1.setCip2000Code("R1 Cip 2000 Code");
+        //No matching R2 attribute r1.setCip2010Code("R1 Cip 2010 Code");
+        r1.setCode("R1 Code");
+        r1.setDescr(R1TestDataUtil.getRichTextInfoData());
+        //No matching R2 attribute r1.setDiplomaTitle("R1 Diploma Title");
+        r1.setDivisionsContentOwner(null);
+        List<String> divStudentOversightList = new ArrayList<String>();
+        divStudentOversightList.add("R1 Div Student Oversight");
+        r1.setDivisionsStudentOversight(divStudentOversightList);
+        r1.setEndProgramEntryTerm("R1 End Program Entry Term");
+        r1.setEndTerm("R1 End Term");
+        //No matching R2 attribute r1.setHegisCode("R1 Hegis Code");
+        r1.setId("R1 Id");
+        r1.setLearningObjectives(R1TestDataUtil.getLoDisplayInfoDataList());
+        r1.setLongTitle("R1 Long Title");
+        List<String> programReqList = new ArrayList<String>();
+        programReqList.add("R1 Program Requirement");
+        r1.setProgramRequirements(programReqList);
+        r1.setReferenceURL("R1 Reference URL");
+        //No matching R2 attribute r1.setSelectiveEnrollmentCode("R1 Selective Enrollment Code");
+        r1.setShortTitle("R1 Short Title");
+        r1.setStartTerm("R1 Start Term");
+        r1.setState("R1 State");
+        r1.setTranscriptTitle("R1 Transcript Title");
+        r1.setType("R1 Type");
+        List<String> r1UnitContentOwnerList = new ArrayList<String>();
+        r1UnitContentOwnerList.add("R1 Unit Content Owner");
+        r1.setUnitsContentOwner(r1UnitContentOwnerList);
+        List<String> r1UnitStudentOversightList = new ArrayList<String>();
+        r1UnitStudentOversightList.add("R1 Unit Student Oversight");
+        r1.setUnitsStudentOversight(r1UnitStudentOversightList);
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setVersionInfo(R1TestDataUtil.getVersionInfoData());
+        return r1;
+    }
+
+    
+    
+    public static List<ProgramVariationInfo> getProgramVariationInfoDataList() {
+        List<ProgramVariationInfo> r1ProgVarInfoList = new ArrayList<ProgramVariationInfo>();
+        ProgramVariationInfo r1ProgVarInfo = new ProgramVariationInfo();
+        r1ProgVarInfo.setAttributes(R1TestDataUtil.getAttributeData());
+        List<String> campusLocations = new ArrayList<String>();
+        campusLocations.add("R1 Campus Location");
+        r1ProgVarInfo.setCampusLocations(campusLocations);
+        r1ProgVarInfo.setCatalogDescr(R1TestDataUtil.getRichTextInfoData());
+        r1ProgVarInfo.setCatalogPublicationTargets(null);
+        r1ProgVarInfo.setCip2000Code("R1 Cip 2000 Code");
+        r1ProgVarInfo.setCip2010Code("R1 Cip 2010 Code");
+        r1ProgVarInfo.setCode("R1 Code");
+        r1ProgVarInfo.setDescr(R1TestDataUtil.getRichTextInfoData());
+        r1ProgVarInfo.setDiplomaTitle("R1 Diploma Title");
+        r1ProgVarInfo.setDivisionsContentOwner(null);
+        r1ProgVarInfo.setDivisionsDeployment(null);
+        r1ProgVarInfo.setDivisionsFinancialControl(null);
+        r1ProgVarInfo.setDivisionsFinancialResources(null);
+        r1ProgVarInfo.setDivisionsStudentOversight(null);
+        r1ProgVarInfo.setEffectiveDate(new Date());
+        r1ProgVarInfo.setEndProgramEntryTerm("R1 End Program Entry Term");
+        r1ProgVarInfo.setEndTerm("R1 End Term");
+        r1ProgVarInfo.setHegisCode("R1 Hegis Code");
+        r1ProgVarInfo.setId("R1 Id");
+        r1ProgVarInfo.setIntensity("R1 Intensity");
+        r1ProgVarInfo.setLearningObjectives(R1TestDataUtil.getLoDisplayInfoDataList());
+        r1ProgVarInfo.setLongTitle("R1 Long Title");
+        r1ProgVarInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1ProgVarInfo.setProgramRequirements(null);
+        r1ProgVarInfo.setReferenceURL("R1 Reference URL");
+        r1ProgVarInfo.setResultOptions(null);
+        r1ProgVarInfo.setSelectiveEnrollmentCode("R1 Selective Enrollment Code");
+        r1ProgVarInfo.setShortTitle("R1 Short Title");
+        r1ProgVarInfo.setStartTerm("R1 Start Term");
+        r1ProgVarInfo.setState("R1 State");
+        r1ProgVarInfo.setStdDuration(R1TestDataUtil.getTimeAmountInfoData());
+        r1ProgVarInfo.setTranscriptTitle("R1 Transcript Title");
+        r1ProgVarInfo.setType("R1 Type");
+        r1ProgVarInfo.setUnitsContentOwner(null);
+        r1ProgVarInfo.setUnitsDeployment(null);
+        r1ProgVarInfo.setUnitsFinancialControl(null);
+        r1ProgVarInfo.setUnitsFinancialResources(null);
+        r1ProgVarInfo.setUnitsStudentOversight(null);
+        r1ProgVarInfo.setUniversityClassification("R1 University Classification");
+        r1ProgVarInfo.setVersionInfo(R1TestDataUtil.getVersionInfoData());
+        r1ProgVarInfoList.add(r1ProgVarInfo);
+        return r1ProgVarInfoList;
+    }
+    
+    public static StatementTreeViewInfo getStatementTreeViewInfoData() {
+        StatementTreeViewInfo r1 = new StatementTreeViewInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setDesc(R1TestDataUtil.getRichTextInfoData());
+        r1.setId("R1 Id");
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setName("R1 Name");
+        r1.setOperator(StatementOperatorTypeKey.AND);
+        r1.setReqComponents(R1TestDataUtil.getReqComponentInfoDataList());
+        r1.setState("R1 State");
+        r1.setStatements(null);
+        r1.setType("R1 Type");
+        return r1;
+    }
+    
+    public static List<ReqComponentInfo> getReqComponentInfoDataList() {
+        List<ReqComponentInfo> r1ReqComponentInfoList = new ArrayList<ReqComponentInfo>();
+        ReqComponentInfo r1ReqComponentInfo = new ReqComponentInfo();
+        r1ReqComponentInfo.setDesc(R1TestDataUtil.getRichTextInfoData());
+        r1ReqComponentInfo.setEffectiveDate(new Date());
+        r1ReqComponentInfo.setExpirationDate(new Date());
+        r1ReqComponentInfo.setId("R1 Id");
+        r1ReqComponentInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1ReqComponentInfo.setNaturalLanguageTranslation("R1 Natural Language Translation");
+        r1ReqComponentInfo.setReqCompFields(R1TestDataUtil.getReqCompFieldInfoDataList());
+        r1ReqComponentInfo.setState("R1 State");
+        r1ReqComponentInfo.setType("R1 Type");
+        r1ReqComponentInfoList.add(r1ReqComponentInfo);
+        return r1ReqComponentInfoList;
+    }
+    
+    public static List<ReqCompFieldInfo> getReqCompFieldInfoDataList() {
+        List<ReqCompFieldInfo> r1ReqCompFieldInfoList = new ArrayList<ReqCompFieldInfo>();
+        ReqCompFieldInfo r1ReqCompFieldInfo = new ReqCompFieldInfo();
+        r1ReqCompFieldInfo.setId("R1 Id");
+        r1ReqCompFieldInfo.setType("R1 Type");
+        r1ReqCompFieldInfo.setValue("R1 Value");
+        r1ReqCompFieldInfoList.add(r1ReqCompFieldInfo);
+        return r1ReqCompFieldInfoList;
     }
 
 }

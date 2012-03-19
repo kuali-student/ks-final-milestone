@@ -66,98 +66,6 @@
 		</field>
 	</mapping>
 
-	<!-- ks-common-api: org.kuali.student.r*.common.exceptions mappings -->
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.AlreadyExistsException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.AlreadyExistsException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.CircularReferenceException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.CircularReferenceException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.CircularRelationshipException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.CircularRelationshipException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.DataValidationErrorException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.DataValidationErrorException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.DependentObjectsExistException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.DependentObjectsExistException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.DisabledIdentifierException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.DisabledIdentifierException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.DoesNotExistException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.DoesNotExistException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.IllegalVersionSequencingException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.InvalidParameterException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.InvalidParameterException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.MissingParameterException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.MissingParameterException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.OperationFailedException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.OperationFailedException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.PermissionDeniedException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.PermissionDeniedException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.ReadOnlyException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.ReadOnlyException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.UnsupportedActionException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.UnsupportedActionException
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.exceptions.VersionMismatchException
-		</class-a>
-		<class-b>org.kuali.student.r2.common.exceptions.VersionMismatchException
-		</class-b>
-	</mapping>
-
 	<!-- ks-common-api: org.kuali.student.r*.common.messages.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.common.messages.dto.Message</class-a>
@@ -287,6 +195,14 @@
 			<a>commentText</a>
 			<b get-method="getCommentText" set-method="setCommentText">commentText</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 
 	<mapping>
@@ -359,6 +275,14 @@
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.core.document.dto.RefDocRelationInfo
@@ -379,6 +303,14 @@
 		<field>
 			<a>metaInfo</a>
 			<b set-method="setMeta" get-method="getMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 
@@ -479,6 +411,14 @@
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo
@@ -495,6 +435,14 @@
 		<field>
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 	<mapping>
@@ -605,6 +553,14 @@
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 
 	<!-- ks-core-api: org.kuali.student.r*.core.statement.dto mappings -->
@@ -640,6 +596,14 @@
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.core.statement.dto.StatementInfo
@@ -661,6 +625,14 @@
 			<a get-method="getDesc" set-method="setDesc">desc</a>
 			<b get-method="getDescr" set-method="setDescr">descr</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo
@@ -681,6 +653,14 @@
 		<field>
 			<a get-method="getDesc" set-method="setDesc">desc</a>
 			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 
@@ -731,6 +711,10 @@
 			<a-hint>java.util.HashMap</a-hint>
 			<b-hint>java.util.ArrayList</b-hint>
 		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.course.dto.CourseExpenditureInfo
@@ -766,7 +750,57 @@
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.course.dto.CourseInfo</class-a>
-		<class-b>org.kuali.student.r2.lum.course.dto.CourseInfo</class-b>
+		<class-b
+			create-method="org.kuali.student.conversion.util.factory.CourseInfoFactory.newInstance">org.kuali.student.r2.lum.course.dto.CourseInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a get-method="getDescr" set-method="setDescr">descr</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>expenditure</a>
+			<b get-method="getExpenditure" set-method="setExpenditure">expenditure</b>
+		</field>
+		<field>
+			<a>feeJustification</a>
+			<b get-method="getFeeJustification" set-method="setFeeJustification">feeJustification</b>
+		</field>
+		<field>
+			<a>outOfClassHours</a>
+			<b get-method="getOutOfClassHours" set-method="setOutOfClassHours">outOfClassHours</b>
+		</field>
+		<field>
+			<a>primaryInstructor</a>
+			<b get-method="getPrimaryInstructor" set-method="setPrimaryInstructor">primaryInstructor
+			</b>
+		</field>
+		<field>
+			<a>versionInfo</a>
+			<b get-method="getVersionInfo" set-method="setVersionInfo">versionInfo</b>
+		</field>
+		<field>
+			<a>duration</a>
+			<b get-method="getDuration" set-method="setDuration">duration</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.course.dto.CourseJointInfo</class-a>
@@ -809,6 +843,18 @@
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>duration</a>
+			<b get-method="getDuration" set-method="setDuration">duration</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.course.dto.LoDisplayInfo</class-a>
@@ -834,6 +880,14 @@
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.lo.dto.LoInfo</class-a>
@@ -853,6 +907,14 @@
 			<a>desc</a>
 			<b get-method="getDescr" set-method="setDescr">descr</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo</class-a>
@@ -867,6 +929,14 @@
 		<field>
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 	<mapping>
@@ -918,6 +988,14 @@
 			<a>versionInfo</a>
 			<b get-method="getVersion" set-method="setVersion">versionInfo</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.program.dto.CredentialProgramInfo
@@ -943,6 +1021,14 @@
 			<a>descr</a>
 			<b set-method="setDescr" get-method="getDescr">descr</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.program.dto.HonorsProgramInfo
@@ -959,6 +1045,14 @@
 		<field>
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 	<mapping>
@@ -989,6 +1083,14 @@
 			<a>versionInfo</a>
 			<b get-method="getVersion" set-method="setVersion">version</b>
 		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.program.dto.MinorDisciplineInfo
@@ -1005,6 +1107,14 @@
 		<field>
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 	<mapping>
@@ -1027,6 +1137,14 @@
 		<field>
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 	<mapping>
@@ -1056,6 +1174,14 @@
 		<field>
 			<a>versionInfo</a>
 			<b get-method="getVersion" set-method="setVersion">version</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 
