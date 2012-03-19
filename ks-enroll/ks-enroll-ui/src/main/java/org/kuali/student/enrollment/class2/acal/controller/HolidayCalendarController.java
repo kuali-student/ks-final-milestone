@@ -210,6 +210,7 @@ public class HolidayCalendarController extends UifControllerBase {
             form.setHolidayCalendarInfo(newHCInfo);
             form.setOfficial(newHCInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
             form.setDelete(true);
+            form.setHcId(newHCInfo.getId());
             return getUIFModelAndView(form, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         }
     }
@@ -217,6 +218,7 @@ public class HolidayCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=toCreate")
     public ModelAndView toCreate(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response){
+        hcForm.setHcId(null);
         hcForm.setHolidayCalendarInfo( new HolidayCalendarInfo());
         hcForm.setHolidays(new ArrayList<HolidayWrapper>());
         hcForm.setOfficial(false);
@@ -272,6 +274,7 @@ public class HolidayCalendarController extends UifControllerBase {
         HolidayCalendarInfo hc = hcForm.getHolidayCalendarInfo();
 
         if(isValidHolidayCalendar(hc)){
+            String hcId = hc.getId();
             if(hc.getId() != null && !hc.getId().trim().isEmpty()){
                 // edit hc
                updateHolidayCalendar(hc.getId(), hcForm);
@@ -285,10 +288,19 @@ public class HolidayCalendarController extends UifControllerBase {
             hcForm.setStateName(getHolidayCalendarFormHelper(hcForm).getHolidayCalendarState(hc.getStateKey()));
             hcForm.setOfficial(hc.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
             hcForm.setDelete(true);
+            hcForm.setHcId(hc.getId());
             GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hc.getName());
-        }
 
-        return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+            if (StringUtils.isBlank(hcId)) {
+                return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+            }
+            else {
+                return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
+            }
+        }
+        else {
+            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        }
     }
 
     private boolean isValidHolidayCalendar(HolidayCalendarInfo hc)throws Exception {
