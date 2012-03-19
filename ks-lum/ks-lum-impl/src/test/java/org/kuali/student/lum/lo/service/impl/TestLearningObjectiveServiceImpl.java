@@ -43,6 +43,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.search.dto.SearchParam;
@@ -72,7 +73,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 
     ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
     @Test
-    public void testLo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException {
+    public void testLo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, ReadOnlyException {
         LoInfo loInfo = new LoInfo();
         loInfo.setName("How Lo Can You Go");
         RichTextInfo richText = new RichTextInfo();
@@ -89,7 +90,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         loInfo.setTypeKey("kuali.lo.type.singleUse");
         loInfo.setStateKey(DtoConstants.STATE_DRAFT);
 
-        LoInfo created = client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo); 
+        LoInfo created = client.createLo(/*TODO KSCM "kuali.loRepository.key.singleUse",*/ "kuali.lo.type.singleUse", loInfo, contextInfo); 
         assertNotNull(created);
         String loId = created.getId();
         assertNotNull(loId);
@@ -142,7 +143,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
             fail("MissingParameterException expected for loTypeId");
         } catch (MissingParameterException e) {}
         try {
-            client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", contextInfo);
+            client.createLo("kuali.loRepository.key.singleUse",null, "kuali.lo.type.singleUse", contextInfo);
             fail("MissingParameterException expected for loInfo");
         } catch (MissingParameterException e) {}
         
@@ -189,7 +190,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	 * Creating an LoCategory with the same name, type & state
 	 */
 	@Test
-	public void testDisallowLoCategoryDuplication() throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
+	public void testDisallowLoCategoryDuplication() throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException, ReadOnlyException {
 		String catName = "DontDupThisCategory";
 		String catState = "active";
 		String catType = "loCategoryType.accreditation";
@@ -201,7 +202,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		newCatInfo.setStateKey(catState);
 		newCatInfo.setLoRepository(catRepo);
 		
-		newCatInfo = client.createLoCategory(catRepo, catType, newCatInfo);
+		newCatInfo = client.createLoCategory(/* TODO KSCM catRepo, catType, */null,newCatInfo, contextInfo);
 		
 		LoCategoryInfo dupCatInfo = new LoCategoryInfo();
 		dupCatInfo.setName(catName);
@@ -211,7 +212,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		
 		
 		try {
-			dupCatInfo = client.createLoCategory(catRepo, catType, dupCatInfo);
+			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, dupCatInfo,contextInfo);
 			// delete the two (one erroneously) created so as to not mess up other tests
 			client.deleteLoCategory(newCatInfo.getId(), contextInfo);
 			client.deleteLoCategory(dupCatInfo.getId(), contextInfo);
@@ -224,7 +225,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	}	
 
     @Test
-    public void testDisallowLoWEmptyDesc() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException {
+    public void testDisallowLoWEmptyDesc() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, ReadOnlyException {
         LoInfo loInfo = new LoInfo();
         loInfo.setName("Lo with Empty Desc");
         RichTextInfo richText = new RichTextInfo();
@@ -242,7 +243,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         loInfo.setStateKey(DtoConstants.STATE_DRAFT);
 
         try {
-        	 LoInfo created = client.createLo(loInfo.getLoRepositoryKey (), loInfo.getTypeKey (), loInfo);
+        	 LoInfo created = client.createLo(/*TODO KSCM loInfo.getLoRepositoryKey (), loInfo.getTypeKey (),*/ null,loInfo, contextInfo);
         	 assertNotNull(created);
         	
           // delete the one erroneously created so as to not mess up other tests
@@ -255,7 +256,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
       }
     
     @Test
-    public void testDisallowLoCategoryWEmptyName() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException {
+    public void testDisallowLoCategoryWEmptyName() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, ReadOnlyException {
 //    	String catName = "DontDupThisCategorytest";
 		String catState = "active";
 		String catType = "loCategoryType.accreditation";
@@ -275,7 +276,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	      newCatInfo.setDesc(richText);
 		
 		try{
-				newCatInfo = client.createLoCategory(catRepo, catType, newCatInfo);
+				newCatInfo = client.createLoCategory(/*catRepo, catType,*/null,  newCatInfo, contextInfo);
 				assertNotNull(newCatInfo);
 	        	
 	          // delete the one erroneously created so as to not mess up other tests
@@ -293,7 +294,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	 */
 	
 	@Test
-	public void testDisallowLoCategoryDuplicationCaseInsensitive() throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
+	public void testDisallowLoCategoryDuplicationCaseInsensitive() throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException, ReadOnlyException {
 		String catName = "DontDupThisCategory";
 		String catState = "active";
 		String catType = "loCategoryType.accreditation";
@@ -306,7 +307,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		newCatInfo.setLoRepository(catRepo);
 		
 		try{				
-			newCatInfo = client.createLoCategory(catRepo, catType, newCatInfo);
+			newCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, newCatInfo, contextInfo);
 			newCatInfo = client.getLoCategory(newCatInfo.getId(), contextInfo);
 			newCatInfo.getName();
 			catRepo = newCatInfo.getLoRepository();
@@ -325,7 +326,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		
 		
 		try {
-			dupCatInfo = client.createLoCategory(catRepo, catType, dupCatInfo);
+			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, dupCatInfo, contextInfo);
 			dupCatInfo = client.getLoCategory(dupCatInfo.getId(), contextInfo);
 			dupCatName = dupCatInfo.getName();
 			
@@ -345,7 +346,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	 */
 	
 	@Test
-	public void testUpdateLoCategoryDuplicationCaseInsensitive() throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
+	public void testUpdateLoCategoryDuplicationCaseInsensitive() throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException, ReadOnlyException {
 		String catState = "active";
 		String catType = "loCategoryType.accreditation";
 		String catRepo = "kuali.loRepository.key.singleUse";
@@ -365,10 +366,10 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		catInfo2.setLoRepository(catRepo);
 		
 		try{				
-			catInfo1 = client.createLoCategory(catRepo, catType, catInfo1);
+			catInfo1 = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, catInfo1, contextInfo);
 			catId1 = catInfo1.getId();
 			
-			catInfo2 = client.createLoCategory(catRepo, catType, catInfo2);
+			catInfo2 = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, catInfo2, contextInfo);
 			catId2 = catInfo2.getId();
 		} catch (OperationFailedException ofe) {
 			System.err.println(ofe.getMessage());
@@ -441,7 +442,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     }
     
     @Test
-    public void testGetLoRepository() throws DoesNotExistException, InvalidParameterException, OperationFailedException {
+    public void testGetLoRepository() throws DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
     	LoRepositoryInfo repo = null;
     	try {
     		repo = client.getLoRepository("kuali.loRepository.key.state", contextInfo);
@@ -585,7 +586,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	}
 
     @Test
-    public void testCreateLoLoRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, CircularReferenceException, DataValidationErrorException, PermissionDeniedException, CircularRelationshipException {
+    public void testCreateLoLoRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, CircularReferenceException, DataValidationErrorException, PermissionDeniedException, CircularRelationshipException, ReadOnlyException {
     	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
     	llrInfo.setLoId ("7bcd7c0e-3e6b-4527-ac55-254c58cecc22");
      llrInfo.setRelatedLoId ("91a91860-d796-4a17-976b-a6165b1a0b05");
@@ -615,7 +616,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
             fail("MissingParameterException expected for loLoRelationType");
         } catch (MissingParameterException e) {}
         try {
-    		client.createLoLoRelation("foo", "bar", "baz", null);
+    		client.createLoLoRelation("foo", "bar", "baz", null,  contextInfo);
             fail("MissingParameterException expected for loLoRelationInfo");
         } catch (MissingParameterException e) {}
     }
@@ -684,7 +685,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     */
     
     @Test
-    public void testLoCategory() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, UnsupportedActionException {
+    public void testLoCategory() throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, DataValidationErrorException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, AlreadyExistsException, UnsupportedActionException, ReadOnlyException {
         
         List<LoCategoryInfo> categories = client.getLoCategories("foo.bar.baz", contextInfo);
         assertTrue(null == categories || categories.isEmpty());
@@ -700,7 +701,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         category.setName("BOB, THE AMAAAAAAZING WONDER LLAMA!!");
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("attrKey", "attrValue");
-        category.setAttributes(attributes);
+      //TODO KSCM  category.setAttributes(attributes);
         
         
         String categoryId = "550e8400-e29b-41d4-a716-446655440000";
