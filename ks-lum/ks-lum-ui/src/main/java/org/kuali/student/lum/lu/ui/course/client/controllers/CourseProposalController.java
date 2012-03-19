@@ -439,7 +439,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 							    KSLabel descLabel = new KSLabel();
 							    descLabel.setText(Application.getApplicationContext().getUILabel("course", LUUIConstants.FINAL_APPROVAL_DIALOG));
 							    if (workflowUtil.getApproveDialogue() != null) {
-// TODO KSCM-425 Paul will fix with ks-core-ui							        workflowUtil.getApproveDialogue().addWidget(descLabel);
+
+							    	workflowUtil.getApproveDialogue().addWidget(descLabel);
 							    }
 							    workflowUtil.addApproveDialogField("", "startTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_START_TERM), modelDefinition, true, true);
 							    workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition, false);
