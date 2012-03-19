@@ -25,14 +25,14 @@ import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.core.atp.dto.AtpDurationTypeInfo;
+import org.kuali.student.r1.core.atp.dto.AtpDurationTypeInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.dto.AtpSeasonalTypeInfo;
-import org.kuali.student.r2.core.atp.dto.AtpTypeInfo;
-import org.kuali.student.r2.core.atp.dto.DateRangeInfo;
-import org.kuali.student.r2.core.atp.dto.DateRangeTypeInfo;
+import org.kuali.student.r1.core.atp.dto.AtpSeasonalTypeInfo;
+import org.kuali.student.r1.core.atp.dto.AtpTypeInfo;
+import org.kuali.student.r1.core.atp.dto.DateRangeInfo;
+import org.kuali.student.r1.core.atp.dto.DateRangeTypeInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.dto.MilestoneTypeInfo;
+import org.kuali.student.r1.core.atp.dto.MilestoneTypeInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
@@ -47,11 +47,11 @@ public class AtpContextImplTest {
 		reqComponent1 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType("kuali.reqComponent.field.type.duration");
+        reqCompField1.setTypeKey("kuali.reqComponent.field.type.duration");
         reqCompField1.setValue("2");
         reqCompFieldList.add(reqCompField1);
         ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
-        reqCompField2.setType("kuali.reqComponent.field.type.durationType.id");
+        reqCompField2.setTypeKey("kuali.reqComponent.field.type.durationType.id");
         reqCompField2.setValue("kuali.atp.duration.Year");
         reqCompFieldList.add(reqCompField2);
 
@@ -62,11 +62,11 @@ public class AtpContextImplTest {
 		reqComponent2 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo reqCompField1 = new ReqCompFieldInfo();
-        reqCompField1.setType("kuali.reqComponent.field.type.duration");
+        reqCompField1.setTypeKey("kuali.reqComponent.field.type.duration");
         reqCompField1.setValue(null);
         reqCompFieldList.add(reqCompField1);
         ReqCompFieldInfo reqCompField2 = new ReqCompFieldInfo();
-        reqCompField2.setType("kuali.reqComponent.field.type.durationType.id");
+        reqCompField2.setTypeKey("kuali.reqComponent.field.type.durationType.id");
         reqCompField2.setValue(null);
         reqCompFieldList.add(reqCompField2);
 
@@ -124,7 +124,7 @@ public class AtpContextImplTest {
 			durationTypeMap.put("kuali.atp.duration.Term", type2);
 		}
 		
-		@Override
+		//@Override
 		public DateRangeInfo addDateRange(String atpKey, String dateRangeKey,
 				DateRangeInfo dateRangeInfo) throws AlreadyExistsException,
 				DataValidationErrorException, InvalidParameterException,
@@ -134,7 +134,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public MilestoneInfo addMilestone(String atpKey, String milestoneKey,
 				MilestoneInfo milestoneInfo) throws AlreadyExistsException,
 				DataValidationErrorException, InvalidParameterException,
@@ -144,7 +144,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public AtpInfo createAtp(String atpTypeKey, String atpKey,
 				AtpInfo atpInfo) throws AlreadyExistsException,
 				DataValidationErrorException, InvalidParameterException,
@@ -154,7 +154,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public StatusInfo deleteAtp(String atpKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException,
@@ -163,7 +163,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public AtpInfo getAtp(String atpKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
 				OperationFailedException {
@@ -171,21 +171,21 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public AtpDurationTypeInfo getAtpDurationType(String atpDurationTypeKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
 			return durationTypeMap.get(atpDurationTypeKey);
 		}
 
-		@Override
+		//@Override
 		public List<AtpDurationTypeInfo> getAtpDurationTypes()
 				throws OperationFailedException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+		//@Override
 		public AtpSeasonalTypeInfo getAtpSeasonalType(String atpSeasonalTypeKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
@@ -193,14 +193,14 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<AtpSeasonalTypeInfo> getAtpSeasonalTypes()
 				throws OperationFailedException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+		//	@Override
 		public AtpTypeInfo getAtpType(String atpTypeKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
@@ -208,13 +208,13 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<AtpTypeInfo> getAtpTypes() throws OperationFailedException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+		//	@Override
 		public List<AtpInfo> getAtpsByAtpType(String atpTypeKey)
 				throws InvalidParameterException, MissingParameterException,
 				OperationFailedException {
@@ -222,7 +222,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//	@Override
 		public List<AtpInfo> getAtpsByDate(Date searchDate)
 				throws InvalidParameterException, MissingParameterException,
 				OperationFailedException {
@@ -230,7 +230,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//	@Override
 		public List<AtpInfo> getAtpsByDates(Date startDate, Date endDate)
 				throws InvalidParameterException, MissingParameterException,
 				OperationFailedException {
@@ -238,7 +238,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//	@Override
 		public DateRangeInfo getDateRange(String dateRangeKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
@@ -246,7 +246,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//	@Override
 		public DateRangeTypeInfo getDateRangeType(String dateRangeTypeKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
@@ -254,14 +254,14 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//	@Override
 		public List<DateRangeTypeInfo> getDateRangeTypes()
 				throws OperationFailedException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<DateRangeTypeInfo> getDateRangeTypesForAtpType(
 				String atpTypeKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -270,7 +270,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<DateRangeInfo> getDateRangesByAtp(String atpKey)
 				throws InvalidParameterException, MissingParameterException,
 				OperationFailedException {
@@ -278,7 +278,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<DateRangeInfo> getDateRangesByDate(Date searchDate)
 				throws InvalidParameterException, MissingParameterException,
 				OperationFailedException {
@@ -286,7 +286,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public MilestoneInfo getMilestone(String milestoneKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
@@ -294,7 +294,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public MilestoneTypeInfo getMilestoneType(String milestoneTypeKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
@@ -302,14 +302,14 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<MilestoneTypeInfo> getMilestoneTypes()
 				throws OperationFailedException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+		//	@Override
 		public List<MilestoneTypeInfo> getMilestoneTypesForAtpType(
 				String atpTypeKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -318,7 +318,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<MilestoneInfo> getMilestonesByAtp(String atpKey)
 				throws InvalidParameterException, MissingParameterException,
 				OperationFailedException {
@@ -326,7 +326,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<MilestoneInfo> getMilestonesByDates(Date startDate,
 				Date endDate) throws InvalidParameterException,
 				MissingParameterException, OperationFailedException {
@@ -334,7 +334,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<MilestoneInfo> getMilestonesByDatesAndType(
 				String milestoneTypeKey, Date startDate, Date endDate)
 				throws InvalidParameterException, MissingParameterException,
@@ -343,7 +343,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public StatusInfo removeDateRange(String dateRangeKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException,
@@ -352,7 +352,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//	@Override
 		public StatusInfo removeMilestone(String milestoneKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException,
@@ -361,7 +361,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo)
 				throws DataValidationErrorException, DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -371,7 +371,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//	@Override
 		public DateRangeInfo updateDateRange(String dateRangeKey,
 				DateRangeInfo dateRangeInfo)
 				throws DataValidationErrorException, DoesNotExistException,
@@ -382,7 +382,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public MilestoneInfo updateMilestone(String milestoneKey,
 				MilestoneInfo milestoneInfo)
 				throws DataValidationErrorException, DoesNotExistException,
@@ -393,7 +393,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<ValidationResultInfo> validateAtp(String validationType,
 				AtpInfo atpInfo) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -402,7 +402,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<ValidationResultInfo> validateDateRange(
 				String validationType, DateRangeInfo dateRangeInfo)
 				throws DoesNotExistException, InvalidParameterException,
@@ -411,7 +411,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<ValidationResultInfo> validateMilestone(
 				String validationType, MilestoneInfo milestoneInfo)
 				throws DoesNotExistException, InvalidParameterException,
@@ -420,7 +420,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public SearchCriteriaTypeInfo getSearchCriteriaType(
 				String searchCriteriaTypeKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -429,14 +429,14 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 				throws OperationFailedException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+		//@Override
 		public SearchResultTypeInfo getSearchResultType(
 				String searchResultTypeKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -445,14 +445,14 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<SearchResultTypeInfo> getSearchResultTypes()
 				throws OperationFailedException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+		//@Override
 		public SearchTypeInfo getSearchType(String searchTypeKey)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
@@ -460,14 +460,14 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<SearchTypeInfo> getSearchTypes()
 				throws OperationFailedException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<SearchTypeInfo> getSearchTypesByCriteria(
 				String searchCriteriaTypeKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -476,7 +476,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public List<SearchTypeInfo> getSearchTypesByResult(
 				String searchResultTypeKey) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
@@ -485,7 +485,7 @@ public class AtpContextImplTest {
 			return null;
 		}
 
-		@Override
+		//@Override
 		public SearchResult search(SearchRequest searchRequest)
 				throws MissingParameterException {
 			// TODO Auto-generated method stub
