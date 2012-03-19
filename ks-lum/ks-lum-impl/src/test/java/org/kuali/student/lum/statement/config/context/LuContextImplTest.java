@@ -111,7 +111,7 @@ public class LuContextImplTest {
 		reqComponent1.setReqCompFields(reqCompFieldList);
 
 		ReqCompFieldInfo reqCompField8 = new ReqCompFieldInfo();
-        reqCompField8.setType(ReqComponentFieldTypes.TEST_CLUSET_KEY.getId());
+        reqCompField8.setTypeKey(ReqComponentFieldTypes.TEST_CLUSET_KEY.getId());
         reqCompField8.setValue("CLUSET-NL-1");
         reqCompFieldList.add(reqCompField8);
 		reqComponent1.setReqCompFields(reqCompFieldList);
@@ -133,25 +133,25 @@ public class LuContextImplTest {
 		reqComponent2.setReqCompFields(reqCompFieldList);
 
         ReqCompFieldInfo reqCompField3 = new ReqCompFieldInfo();
-        reqCompField3.setType(ReqComponentFieldTypes.PROGRAM_CLU_KEY.getId());
+        reqCompField3.setTypeKey(ReqComponentFieldTypes.PROGRAM_CLU_KEY.getId());
         reqCompField3.setValue(null);
         reqCompFieldList.add(reqCompField3);
 		reqComponent2.setReqCompFields(reqCompFieldList);
 
         ReqCompFieldInfo reqCompField4 = new ReqCompFieldInfo();
-        reqCompField4.setType(ReqComponentFieldTypes.TEST_CLU_KEY.getId());
+        reqCompField4.setTypeKey(ReqComponentFieldTypes.TEST_CLU_KEY.getId());
         reqCompField4.setValue(null);
         reqCompFieldList.add(reqCompField4);
 		reqComponent2.setReqCompFields(reqCompFieldList);
 		
 		ReqCompFieldInfo reqCompField5 = new ReqCompFieldInfo();
-        reqCompField5.setType(ReqComponentFieldTypes.CLUSET_KEY.getId());
+        reqCompField5.setTypeKey(ReqComponentFieldTypes.CLUSET_KEY.getId());
         reqCompField5.setValue(null);
         reqCompFieldList.add(reqCompField5);
 		reqComponent2.setReqCompFields(reqCompFieldList);
 
 		ReqCompFieldInfo reqCompField6 = new ReqCompFieldInfo();
-        reqCompField6.setType(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId());
+        reqCompField6.setTypeKey(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId());
         reqCompField6.setValue(null);
         reqCompFieldList.add(reqCompField6);
 		reqComponent2.setReqCompFields(reqCompFieldList);
