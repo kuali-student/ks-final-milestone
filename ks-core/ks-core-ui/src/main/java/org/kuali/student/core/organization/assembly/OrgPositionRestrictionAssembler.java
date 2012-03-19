@@ -128,8 +128,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                     OrgPositionRestrictionInfo orgPositionRestrictionInfo = buildOrgPositionRestrictionInfo(orgPositionHelper);
                     orgPositionRestrictionInfo.setId(orgPositionHelper.getId());
                     try {
-//                    	KSCM-320:  Check TODOs
-//                        OrgPositionRestrictionInfo result = null;
+
                         OrgPositionRestrictionInfo result = orgService.updatePositionRestrictionForOrg(orgPositionRestrictionInfo.getOrgId(), orgPositionRestrictionInfo.getOrgPersonRelationTypeKey(), orgPositionRestrictionInfo);
                         addVersionIndicator(orgPositionHelper.getData(), OrgPositionRestrictionInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
                     } catch (Exception e) {
@@ -155,8 +154,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                 orgPositionHelper.setOrgId((OrgHelper.wrap((Data)input.get("orgInfo")).getId()));
                 OrgPositionRestrictionInfo orgPositionRestrictionInfo = buildOrgPositionRestrictionInfo(orgPositionHelper);
                 try{
-//                	KSCM-320:  Check TODOs
-//                    OrgPositionRestrictionInfo result = null;
+
                     OrgPositionRestrictionInfo  result = orgService.addPositionRestrictionToOrg(orgPositionHelper.getOrgId(), 
                     		orgPositionHelper.getPersonRelationType(), orgPositionRestrictionInfo);
                     orgPositionHelper.setId(result.getId());

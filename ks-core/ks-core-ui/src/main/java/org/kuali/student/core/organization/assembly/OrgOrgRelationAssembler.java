@@ -176,12 +176,11 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                 AssemblerUtils.setUpdated(orgOrgRelation.getData(), false);
             }
             else if(isDeleted(orgOrgRelation.getData())&&orgOrgRelation.getId()!=null){
-//              OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
-//              orgOrgRelationInfo.setId(orgOrgRelation.getId());
+             OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
+              orgOrgRelationInfo.setId(orgOrgRelation.getId());
               try{
                   if(orgOrgRelation.getId()!=null){
-//KSCM-320:  Check TODOs
-                	  //                  	  StatusInfo result = null;
+
                   	  StatusInfo result = orgService.removeOrgOrgRelation(orgOrgRelation.getId());
                       propIter.remove();
                   }

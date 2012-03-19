@@ -453,11 +453,9 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         ArrayList<OrgPositionPersonRelationInfo> relations = new ArrayList<OrgPositionPersonRelationInfo>();
         OrgPositionPersonRelationInfo personRelationInfo = null;
         try{
-//        	KSCM-320 Check TODOs
-//            List<OrgPersonRelationInfo> orgPersonRelations = null;
+
             List<OrgPersonRelationInfo> orgPersonRelations = service.getAllOrgPersonRelationsByOrg(orgId);
-//        	KSCM-320 Check TODOs
-//            List<OrgPositionRestrictionInfo> orgPositionRestrictions = null;
+
             List<OrgPositionRestrictionInfo> orgPositionRestrictions = service.getPositionRestrictionsByOrg(orgId);
             
             for(OrgPositionRestrictionInfo position:orgPositionRestrictions){

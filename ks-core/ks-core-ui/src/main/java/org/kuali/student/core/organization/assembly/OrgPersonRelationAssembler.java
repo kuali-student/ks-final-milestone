@@ -128,8 +128,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
                     OrgPersonRelationInfo orgPersonRelationInfo = buildOrgPersonRelationInfo(orgPersonHelper);
                     orgPersonRelationInfo.setId(orgPersonHelper.getId());
                     try {
-//                    	KSCM-320:  Check TODOs
-//                        OrgPersonRelationInfo result = null;
+
                         OrgPersonRelationInfo result = orgService.updateOrgPersonRelation(orgPersonHelper.getId(), orgPersonRelationInfo);
                         addVersionIndicator(orgPersonHelper.getData(), OrgPersonRelationInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
                     } catch (Exception e) {
@@ -152,8 +151,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
                 orgPersonHelper.setOrgId((OrgHelper.wrap((Data)input.get("orgInfo")).getId()));
                 OrgPersonRelationInfo orgPersonRelationInfo = buildOrgPersonRelationInfo(orgPersonHelper);
                 try{
-//                	KSCM-320:  Check TODOs
-//                    OrgPersonRelationInfo  result = null;
+
                     OrgPersonRelationInfo  result = orgService.createOrgPersonRelation(orgPersonHelper.getOrgId(), orgPersonHelper.getPersonId(), orgPersonHelper.getTypeKey(), orgPersonRelationInfo);
                     orgPersonHelper.setId(result.getId());
                     addVersionIndicator(orgPersonHelper.getData(),OrgPersonRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
