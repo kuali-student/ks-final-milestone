@@ -157,7 +157,7 @@ public class LuContextImplTest {
 		reqComponent2.setReqCompFields(reqCompFieldList);
 
 		ReqCompFieldInfo reqCompField7 = new ReqCompFieldInfo();
-        reqCompField7.setType(ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId());
+        reqCompField7.setTypeKey(ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId());
         reqCompField7.setValue(null);
         reqCompFieldList.add(reqCompField7);
 		reqComponent2.setReqCompFields(reqCompFieldList);
