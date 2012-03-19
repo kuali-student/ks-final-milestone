@@ -117,7 +117,7 @@ public class AcademicCalendarController extends UifControllerBase {
         acalForm.setTermWrapperList(new ArrayList<AcademicTermWrapper>());
         acalForm.setOfficial(false);
         acalForm.setDelete(false);
-        return getUIFModelAndView(acalForm, CalendarConstants.ACAL_EDIT_VIEW);
+        return getUIFModelAndView(acalForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
     }
 
 //    @Override
@@ -199,7 +199,7 @@ public class AcademicCalendarController extends UifControllerBase {
             form.setAcademicCalendarInfo(newAcalInfo);
             form.setOfficial(newAcalInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
             form.setDelete(true);
-            return getUIFModelAndView(form, CalendarConstants.ACADEMICALENDAR_COPYPAGE);
+            return getUIFModelAndView(form, CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE);
         }
     }
 
@@ -222,6 +222,11 @@ public class AcademicCalendarController extends UifControllerBase {
             if(events != null && !events.isEmpty()){
                 processEvents(academicCalendarForm, events, acalInfo.getId());
             }
+            
+            List<HolidayCalendarWrapper> holidayCalendarList = academicCalendarForm.getHolidayCalendarList();
+            if (holidayCalendarList != null && !holidayCalendarList.isEmpty()) {
+//                updateACAndHCRelationships (academicCalendarForm, holidayCalendarList, acalInfo.getId());
+            }
         }
         else {
             // create acalInfo
@@ -229,6 +234,8 @@ public class AcademicCalendarController extends UifControllerBase {
             academicCalendarForm.setAcademicCalendarInfo(acalInfo);
             // then create events if any
             createEvents(acalInfo.getId(), academicCalendarForm);
+//            createACandHCRelationships(acalInfo.getId(), academicCalendarForm);
+
         }
 
         //TODO:Build real context.
@@ -513,7 +520,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     private void processEvents(AcademicCalendarForm acalForm, List<AcalEventWrapper> events, String acalId)throws Exception{
         List<AcalEventWrapper> updatedEvents = new ArrayList<AcalEventWrapper>();
-        List<String> currentEventIds = getEventIds(acalForm);
+        List<String> currentEventIds = getExistingEventIds(acalForm);
         for(AcalEventWrapper event : events){
             if(currentEventIds.contains(event.getAcalEventInfo().getId())){
                 //update event
@@ -539,7 +546,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
     }
 
-    private List<String> getEventIds(AcademicCalendarForm acalForm) throws Exception{
+    private List<String> getExistingEventIds(AcademicCalendarForm acalForm) throws Exception{
         List<AcalEventWrapper> events = getAcademicCalendarViewHelperService(acalForm).getEventsForAcademicCalendar(acalForm);
         List<String> eventIds = new ArrayList<String>();
 

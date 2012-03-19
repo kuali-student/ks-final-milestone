@@ -6,45 +6,38 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-    <bean id="KS-AcademicCalendar-EditView" parent="KSFormView">
-        <property name="id" value="academicCalendarEditView"/>
-        <property name="title" value="Academic Calendar"/>
-        <property name="singlePageView" value="true"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
-        <property name="page">
-            <bean parent="Uif-Page"/>
-        </property>
+
+    <bean id="KS-AcademicCalendar-EditPage" parent="Uif-Page" p:disclosure.render="false">
+        <property name="id" value="academicCalendarEditPage"/>
+        <property name="title" value="New Academic Calendar" />
+        <!--<property name="title" value="@{academicCalendarInfo.name != null? academicCalendarInfo.name : 'New Academic Calendar'}"/>-->
         <property name="header">
             <bean parent="Uif-HeaderField-Two"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-TabSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-AcademicCalendar-EditSection"/>
+                            <ref bean="KS-AcademicTerm-EditSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true" />
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:clientSideJs="submitForm();" p:render="@{official eq true}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{delete eq true}"/>
                     </list>
                 </property>
             </bean>
         </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-TabSection">
-                  <property name="items">
-                    <list>
-                        <ref bean="KS-AcademicCalendar-EditSection"/>
-                        <ref bean="KS-AcademicTerm-EditSection"/>
-                    </list>
-                  </property>
-                </bean>
-            </list>
-        </property>
-        <property name="additionalCssFiles">
-            <list merge="true">
-                <value>/ks-enroll/css/acal.css</value>
-            </list>
-        </property>
-        <!--<property name="additionalCssFiles" ref="ks-css"/>-->
-        <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm"/>
     </bean>
 
     <bean id="KS-AcademicCalendar-EditSection" parent="Uif-Page" p:disclosure.render="false" p:id="acal-info">
