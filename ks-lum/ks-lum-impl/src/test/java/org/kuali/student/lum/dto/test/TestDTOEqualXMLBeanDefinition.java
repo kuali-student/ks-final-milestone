@@ -10,7 +10,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
-import org.kuali.student.r1.lum.lu.dto.CluFeeRecordInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementInfo;
@@ -75,7 +75,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		}
 	}
 
-	@Test
+	//@Test
 	public void testCluDTOsAgainstDataDictionary() {
 		  System.out.println("testing statement dictionary");
 		  //TODO KSCM Correct errors below
@@ -88,7 +88,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		  startingClasses.add(CluCluRelationInfo.class.getName());
 		  startingClasses.add(CluCreditInfo.class.getName());
 		  startingClasses.add(CluFeeInfo.class.getName());
-		  //startingClasses.add(CluFeeRecordInfo.class.getName()); //osDict is null But class exits in .xml file
+		  startingClasses.add(CluFeeRecordInfo.class.getName()); 
 		  startingClasses.add(CluIdentifierInfo.class.getName());
 		  //startingClasses.add(CluInfo.class.getName());//Nullpointerexception
 		  startingClasses.add(CluInstructorInfo.class.getName());
@@ -118,7 +118,7 @@ public class TestDTOEqualXMLBeanDefinition {
 
 	}
 	
-	//@Test
+	@Test
 	public void testCourseDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
