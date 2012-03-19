@@ -42,7 +42,7 @@ import org.kuali.student.r1.common.search.service.SearchService;
  *
  */
 @Deprecated
-@WebService(endpointInterface = "org.kuali.student.common.search.service.SearchService", name = "PersonSearchService", serviceName = "PersonSearchService", portName = "PersonSearchService", targetNamespace = "http://student.kuali.org/wsdl/personsearch")
+@WebService(endpointInterface = "org.kuali.student.r1.common.search.service.SearchService", name = "PersonSearchService", serviceName = "PersonSearchService", portName = "PersonSearchService", targetNamespace = "http://student.kuali.org/wsdl/personsearch")
 public class PersonSearchServiceImpl implements SearchService {
     protected static final Logger LOG = Logger.getLogger(PersonSearchServiceImpl.class);
 
