@@ -1109,7 +1109,7 @@
     
     <bean id="cluPublicationInfo.variants-parent" abstract="true" parent="baseComplex">
         <property name="name" value="variants"/>
-    <property name="maxOccurs" value="1" /> 
+    <property name="maxOccurs" value="unbounded" /> 
     </bean>
     <bean id="cluPublicationInfo.variants" parent="cluPublicationInfo.variants-parent"/>
     
@@ -1171,7 +1171,8 @@
     <bean id="cluResultInfo.expirationDate" parent="cluResultInfo.expirationDate-parent"/>
     
     <bean id="cluResultInfo.resultOptions-parent" abstract="true" parent="baseComplex">
-        <property name="name" value="resultOptions"/>
+        <property name="name" value="resultOptions"/>        
+    <property name="maxOccurs" value="unbounded" /> 
     </bean>
     <bean id="cluResultInfo.resultOptions" parent="cluResultInfo.resultOptions-parent"/>
     
@@ -1185,6 +1186,7 @@
                 <ref bean="expenditureInfo.affiliatedOrgs"/>
             </list>
         </property>
+        <property name="hasMetaData" value="true"/>
     </bean>
     <bean id="org.kuali.student.r2.lum.clu.dto.ExpenditureInfo" parent="org.kuali.student.r2.lum.clu.dto.ExpenditureInfo-parent"/>
     
@@ -1194,7 +1196,8 @@
     <bean id="expenditureInfo.id" parent="expenditureInfo.id-parent"/>
     
     <bean id="expenditureInfo.affiliatedOrgs-parent" abstract="true" parent="baseComplex">
-        <property name="name" value="affiliatedOrgs"/>
+        <property name="name" value="affiliatedOrgs"/>     
+    <property name="maxOccurs" value="unbounded" />
     </bean>
     <bean id="expenditureInfo.affiliatedOrgs" parent="expenditureInfo.affiliatedOrgs-parent"/>
 
@@ -1227,12 +1230,13 @@
     <bean id="feeInfo.descr" parent="feeInfo.descr-parent"/>
     
     <bean id="feeInfo.feeAmounts-parent" abstract="true" parent="baseComplex">
-        <property name="name" value="feeAmounts"/>
+        <property name="name" value="feeAmounts"/>     
+    <property name="maxOccurs" value="unbounded" />
     </bean>
     <bean id="feeInfo.feeAmounts" parent="feeInfo.feeAmounts-parent"/>
     
         <bean id="feeInfo.feeType-parent" abstract="true" parent="baseString">
-        <property name="name" value="feeType"/>
+        <property name="name" value="feeType"/>    
     </bean>
     <bean id="feeInfo.feeType" parent="feeInfo.feeType-parent"/>
     
