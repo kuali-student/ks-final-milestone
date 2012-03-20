@@ -106,7 +106,7 @@
                       p:id="KS-AcademicCalendar-CopyView-From-SearchInfo">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ActionLink"
+                            <bean parent="Uif-ActionLink" p:methodToCall="search"
                                   p:actionLabel="@{orgAcalInfo != null ? 'Choose a Different Calendar' : 'Choose a Calendar'}">
                             </bean>
                         </list>

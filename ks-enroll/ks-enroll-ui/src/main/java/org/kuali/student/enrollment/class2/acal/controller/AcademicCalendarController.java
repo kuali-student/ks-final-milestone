@@ -175,6 +175,20 @@ public class AcademicCalendarController extends UifControllerBase {
 
     }
 
+    /**
+     * redirect to search Calendar page
+     */
+    @RequestMapping(params = "methodToCall=search")
+    public ModelAndView search(@ModelAttribute("KualiForm") AcademicCalendarForm searchForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String controllerPath = CalendarConstants.CALENDAR_SEARCH_CONTROLLER_PATH;
+        Properties urlParameters = new Properties();
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.CALENDAR_SEARCH_VIEW);
+        return super.performRedirect(searchForm,controllerPath, urlParameters);
+    }
+
 
     /**
      * Method used to save AcademicCalendar
