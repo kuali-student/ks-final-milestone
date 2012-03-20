@@ -5,6 +5,68 @@
  <import resource="classpath:ks-base-dictionary-context.xml" />
  <import resource="classpath:ks-cluInfo-dictionary-context.xml"/>
 
+ <!--  LoRepositoryInfo -->
+  <bean id="org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo-parent"
+       abstract="true" parent="objectStructureDefinition">
+  <property name="name"
+            value="org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo" />
+  <property name="attributes">
+   <list>
+    <ref bean="loRepositoryInfo.key" />
+    <ref bean="loRepositoryInfo.typeKey" />
+    <ref bean="loRepositoryInfo.stateKey" />
+    <ref bean="loRepositoryInfo.name" />
+    <ref bean="loRepositoryInfo.descr" />    
+    <ref bean="loRepositoryInfo.rootLoId" />   
+    <ref bean="loRepositoryInfo.effectiveDate" />  
+    <ref bean="loRepositoryInfo.expirationDate" />     
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo" parent="org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo-parent" />
+ 
+ <bean id="loRepositoryInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+  <property name="name" value="effectiveDate" />
+ </bean>
+ <bean id="loRepositoryInfo.effectiveDate" parent="loRepositoryInfo.effectiveDate-parent" />
+
+ <bean id="loRepositoryInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+  <property name="name" value="expirationDate" />
+ </bean>
+ <bean id="loRepositoryInfo.expirationDate" parent="loRepositoryInfo.expirationDate-parent" />
+
+ <bean id="loRepositoryInfo.key-parent" abstract="true" parent="baseString">
+  <property name="name" value="key" />
+ </bean>
+ <bean id="loRepositoryInfo.key" parent="loRepositoryInfo.key-parent" />
+ 
+ <bean id="loRepositoryInfo.stateKey-parent" abstract="true" parent="baseString">
+  <property name="name" value="stateKey" />
+ </bean>
+ <bean id="loRepositoryInfo.stateKey" parent="loRepositoryInfo.stateKey-parent" />
+
+ <bean id="loRepositoryInfo.typeKey-parent" abstract="true" parent="baseString">
+  <property name="name" value="typeKey" />
+ </bean>
+ <bean id="loRepositoryInfo.typeKey" parent="loRepositoryInfo.typeKey-parent" />
+ 
+ <bean id="loRepositoryInfo.name-parent" abstract="true" parent="baseString">
+  <property name="name" value="name"/>
+ </bean>
+ <bean id="loRepositoryInfo.name" parent="loRepositoryInfo.name-parent"/>
+ 
+ <bean id="loRepositoryInfo.descr-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="descr"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
+ </bean>
+ <bean id="loRepositoryInfo.descr" parent="loRepositoryInfo.descr-parent"/>
+ 
+ <bean id="loRepositoryInfo.rootLoId-parent" abstract="true" parent="baseString">
+  <property name="name" value="rootLoId" />
+ </bean>
+ <bean id="loRepositoryInfo.rootLoId" parent="loRepositoryInfo.rootLoId-parent" />
+ 
  <!-- LoDisplayInfo-->
  <bean id="org.kuali.student.r2.lum.course.dto.LoDisplayInfo-parent"
        abstract="true" parent="objectStructureDefinition">
