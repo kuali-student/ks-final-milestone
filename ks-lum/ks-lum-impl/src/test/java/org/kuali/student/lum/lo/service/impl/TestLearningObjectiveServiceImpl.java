@@ -200,7 +200,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		newCatInfo.setName(catName);
 		newCatInfo.setTypeKey(catType);
 		newCatInfo.setStateKey(catState);
-		newCatInfo.setLoRepository(catRepo);
+		newCatInfo.setLoRepositoryKey(catRepo);
 		
 		newCatInfo = client.createLoCategory(/* TODO KSCM catRepo, catType, */null,newCatInfo, contextInfo);
 		
@@ -208,7 +208,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		dupCatInfo.setName(catName);
 		dupCatInfo.setTypeKey(catType);
 		dupCatInfo.setStateKey(catState);
-		dupCatInfo.setLoRepository(catRepo);
+		dupCatInfo.setLoRepositoryKey(catRepo);
 		
 		
 		try {
@@ -266,14 +266,14 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 //		newCatInfo.setName(catName);
 		newCatInfo.setTypeKey(catType);
 		newCatInfo.setStateKey(catState);
-		newCatInfo.setLoRepository(catRepo);
+		newCatInfo.setLoRepositoryKey(catRepo);
 		
 		//Testing KSLAB-692 *** this was not the intention of this jira
   // it was that you needed to have at least one category with the LO
 	      RichTextInfo richText = new RichTextInfo();
 	      richText.setFormatted("<p> </p>");
 	      richText.setPlain("  ");
-	      newCatInfo.setDesc(richText);
+	      newCatInfo.setDescr(richText);
 		
 		try{
 				newCatInfo = client.createLoCategory(/*catRepo, catType,*/null,  newCatInfo, contextInfo);
@@ -304,13 +304,13 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		newCatInfo.setName(catName);
 		newCatInfo.setTypeKey(catType);
 		newCatInfo.setStateKey(catState);
-		newCatInfo.setLoRepository(catRepo);
+		newCatInfo.setLoRepositoryKey(catRepo);
 		
 		try{				
 			newCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, newCatInfo, contextInfo);
 			newCatInfo = client.getLoCategory(newCatInfo.getId(), contextInfo);
 			newCatInfo.getName();
-			catRepo = newCatInfo.getLoRepository();
+			catRepo = newCatInfo.getLoRepositoryKey();
 		} catch (OperationFailedException ofe) {
 			System.err.println(ofe.getMessage());
 		} catch (Exception e){
@@ -322,7 +322,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		dupCatInfo.setName(dupCatName);
 		dupCatInfo.setTypeKey(catType);
 		dupCatInfo.setStateKey(catState);
-		dupCatInfo.setLoRepository(catRepo);
+		dupCatInfo.setLoRepositoryKey(catRepo);
 		
 		
 		try {
@@ -357,13 +357,13 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		catInfo1.setName( "DontDupThisCategory");
 		catInfo1.setTypeKey(catType);
 		catInfo1.setStateKey(catState);
-		catInfo1.setLoRepository(catRepo);
+		catInfo1.setLoRepositoryKey(catRepo);
 		
 		LoCategoryInfo catInfo2 = new LoCategoryInfo();
 		catInfo2.setName("DontDupThisCategory2");
 		catInfo2.setTypeKey(catType);
 		catInfo2.setStateKey(catState);
-		catInfo2.setLoRepository(catRepo);
+		catInfo2.setLoRepositoryKey(catRepo);
 		
 		try{				
 			catInfo1 = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, catInfo1, contextInfo);
@@ -694,7 +694,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         RichTextInfo richText = new RichTextInfo();
         richText.setFormatted("<p>New Category</p>");
         richText.setPlain("New Category");
-        category.setDesc(richText);
+        category.setDescr(richText);
         Date date = new Date();
         category.setEffectiveDate(date);
         category.setExpirationDate(date);

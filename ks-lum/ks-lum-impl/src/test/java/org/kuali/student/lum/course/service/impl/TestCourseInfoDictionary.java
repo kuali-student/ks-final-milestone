@@ -152,7 +152,7 @@ public class TestCourseInfoDictionary {
 		RichTextInfo rtInfo = new RichTextInfo();
 		rtInfo.setPlain("The ability to use sensory cues to guide motor activity.  This ranges from sensory stimulation, through cue selection, to translation.");
 		rtInfo.setFormatted(rtInfo.getPlain());
-		loCatInfo.setDesc(rtInfo);
+		loCatInfo.setDescr(rtInfo);
 		info.setCourseSpecificLOs(Arrays.asList(loInfo));
 		info.setRevenues(new ArrayList<CourseRevenueInfo>());
 		validationResults = val.validateObject(info, os, contextInfo);

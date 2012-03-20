@@ -851,7 +851,7 @@ public class TestProgramServiceImpl {
 		assertNotNull(loCategoryInfo);
 		assertNotNull(loCategoryInfo2);
 		assertTrue(EqualsBuilder.reflectionEquals(loCategoryInfo, loCategoryInfo2, new String[]{"desc","attributes","metaInfo"}));
-		checkRichText(loCategoryInfo.getDesc(), loCategoryInfo2.getDesc());
+		checkRichText(loCategoryInfo.getDescr(), loCategoryInfo2.getDescr());
 	}
 
 	private static void checkLoDisplayLists(List<LoDisplayInfo> di1, List<LoDisplayInfo> di2) {
