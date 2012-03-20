@@ -53,8 +53,8 @@ INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEK
 --INSERT INTO KSEN_HOLD_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.hold.type.instructor', 'Instructor Hold', 'This is a hold that applies to instructors', 0)
 
 //RestrictionEntity
-INSERT INTO KSEN_RESTRICTION (ID, NAME, TYPE_ID, STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('Hold-Restriction-1', 'Restriction one', 'kuali.hold.restriction.type.registration', 'kuali.hold.restriction.state.active', 'RICHTEXT-Hold-101', 0)
-INSERT INTO KSEN_RESTRICTION (ID, NAME, TYPE_ID, STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('Hold-Restriction-2', 'Restriction two', 'kuali.hold.restriction.type.receive.diploma', 'kuali.hold.restriction.state.active', 'RICHTEXT-Hold-201', 0)
+INSERT INTO KSEN_RESTRICTION (ID, NAME, RESTRICTION_TYPE_ID, RESTRICTION_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('Hold-Restriction-1', 'Restriction one', 'kuali.hold.restriction.type.registration', 'kuali.hold.restriction.state.active', 'RICHTEXT-Hold-101', 0)
+INSERT INTO KSEN_RESTRICTION (ID, NAME, RESTRICTION_TYPE_ID, RESTRICTION_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('Hold-Restriction-2', 'Restriction two', 'kuali.hold.restriction.type.receive.diploma', 'kuali.hold.restriction.state.active', 'RICHTEXT-Hold-201', 0)
 
 //IssueEntity
 INSERT INTO KSEN_ISSUE (ID, NAME, TYPE_ID, STATE_ID, ORG_ID, RT_DESCR_ID, VER_NBR) VALUES ('Hold-Issue-1', 'Issue one', 'kuali.hold.issue.type.residency', 'kuali.hold.issue.state.active', '102', 'Issue-1-Desc', 0)

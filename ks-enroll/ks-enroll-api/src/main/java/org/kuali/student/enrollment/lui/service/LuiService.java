@@ -129,17 +129,19 @@ public interface LuiService {
      /**
      * Retrieves the list of LUI Ids for the specified atp.
      *
-     * @param atpId identifier of the
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return list of LUI identifiers
+     *
+      * @param atpId identifier of the
+      * @param context Context information containing the principalId
+      *        and locale information about the caller of service
+      *        operation
+      * @param typeKey
+      * @return list of LUI identifiers
      * @throws DoesNotExistException     clu not found
      * @throws InvalidParameterException invalid cluId
      * @throws MissingParameterException missing cluId
      * @throws OperationFailedException  unable to complete request
      */
-    public List<String> getLuiIdsByAtpAndType(@WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getLuiIdsByAtpAndType(@WebParam(name = "atpId") String atpId, @WebParam(name = "typeKey")String typeKey, @WebParam(name = "context") ContextInfo context ) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves the list of LUI Ids for the specified CLU and Time period.
@@ -704,7 +706,7 @@ public interface LuiService {
     /**
      * Creates a new LuiCapacity.
      *
-     * @param luiCapacityId identifier for the LuiCapacity being created
+     * @param luiCapacityInfo identifier for the LuiCapacity being created
      * @param luiCapacityInfo information about the LuiCapacity being created
      * @param context Context information containing the principalId
      *                and locale information about the caller of service

@@ -960,17 +960,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (courseOfferingId != null) {
-            LuiInfo lui = null;
 
-            lui = registrationGroupAssembler.disassemble(registrationGroupInfo, context);
+            LuiInfo lui  = registrationGroupAssembler.disassemble(registrationGroupInfo, context);
 
             try {
+
                 String termId = null;
 
                 if (registrationGroupInfo.getTermId() != null) {
                     termId = registrationGroupInfo.getTermId();
                 } else {
+
                     termId = getTermkeyByCourseOffering(courseOfferingId, context);
+
                 }
 
                 if (termId != null) {
