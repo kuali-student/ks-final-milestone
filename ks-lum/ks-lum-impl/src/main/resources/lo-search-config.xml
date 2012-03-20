@@ -268,7 +268,7 @@
 	<search:queryParam id="lo.queryParam.groupCategories-parent"  optional="true" abstract="true">
 		<dict:fieldDescriptor>
 			<dict:name>Group Categories</dict:name>
-			<dict:descr>Group Categories into a comma delimited string</dict:descr>
+			<dict:desc>Group Categories into a comma delimited string</dict:desc>
 			<dict:dataType>String</dict:dataType>
 		</dict:fieldDescriptor>
     </search:queryParam>
@@ -527,7 +527,7 @@
     <dict:fieldDescriptor id="lo.queryParam.cluOfficialIdentifier.cluCode.fd" parent="lo.queryParam.cluOfficialIdentifier.cluCode.fd-abstract"/>
     <dict:fieldDescriptor id="lo.queryParam.cluOfficialIdentifier.cluCode.fd-abstract" abstract="true">
     	<dict:name>Course Code</dict:name>
-        <dict:descr>Unique identifier for a descr.</dict:descr>
+        <dict:desc>Unique identifier for a descr.</dict:desc>
         <dict:dataType>string</dict:dataType>
         <dict:readOnly>true</dict:readOnly>
     </dict:fieldDescriptor>

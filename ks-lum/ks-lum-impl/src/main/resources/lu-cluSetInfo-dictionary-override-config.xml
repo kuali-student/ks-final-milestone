@@ -40,7 +40,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="kuali.cluSet.type.CreditCourse" id="type.cluSetInfo.CreditCourseCluSets.abstract" abstract="true">
 	<dict:name>Credit Course Clu Sets</dict:name>
-	<dict:descr>Sets composed of credit courses</dict:descr>
+	<dict:desc>Sets composed of credit courses</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.cluSetInfo.CreditCourseCluSets.active"/>
 		<dict:stateRef bean="state.cluSetInfo.CreditCourseCluSets.inactive"/>
@@ -95,7 +95,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluSetInfo.descr.CreditCourseCluSets.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluSetInfo.descr.CreditCourseCluSets"/>
 </dict:type>
@@ -122,7 +122,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="plain" id="dict.credit.course.set.description.plain" parent="dict.credit.course.set.description.plain.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.description.plain.fd.abstract" abstract="true">
 	<dict:name>credit course set description plain</dict:name>
-	<dict:descr>credit course set description plain</dict:descr>
+	<dict:desc>credit course set description plain</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -150,7 +150,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="formatted" id="dict.credit.course.set.description.formatted" parent="dict.credit.course.set.description.formatted.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.description.formatted.fd.abstract" abstract="true">
 	<dict:name>credit course set description formatted</dict:name>
-	<dict:descr>credit course set description formatted</dict:descr>
+	<dict:desc>credit course set description formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.description.formatted.fd" parent="dict.credit.course.set.description.formatted.fd.abstract"/>
@@ -178,7 +178,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluSetInfo.metaInfo.CreditCourseCluSets.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.cluSetInfo.metaInfo.CreditCourseCluSets"/>
 </dict:type>
@@ -208,7 +208,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="versionInd" id="dict.credit.course.set.metaInfo.versionInd" parent="dict.credit.course.set.metaInfo.versionInd.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo versionInd</dict:name>
-	<dict:descr>credit course set metaInfo versionInd</dict:descr>
+	<dict:desc>credit course set metaInfo versionInd</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -232,7 +232,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createTime" id="dict.credit.course.set.metaInfo.createTime" parent="dict.credit.course.set.metaInfo.createTime.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo createTime</dict:name>
-	<dict:descr>credit course set metaInfo createTime</dict:descr>
+	<dict:desc>credit course set metaInfo createTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.metaInfo.createTime.fd" parent="dict.credit.course.set.metaInfo.createTime.fd.abstract"/>
@@ -254,7 +254,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createId" id="dict.credit.course.set.metaInfo.creditId" parent="dict.credit.course.set.metaInfo.creditId.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.metaInfo.creditId.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo creditId</dict:name>
-	<dict:descr>credit course set metaInfo creditId</dict:descr>
+	<dict:desc>credit course set metaInfo creditId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -277,7 +277,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateTime" id="dict.credit.course.set.metaInfo.updateTime" parent="dict.credit.course.set.metaInfo.updateTime.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo updateTime</dict:name>
-	<dict:descr>credit course set metaInfo updateTime</dict:descr>
+	<dict:desc>credit course set metaInfo updateTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.metaInfo.updateTime.fd" parent="dict.credit.course.set.metaInfo.updateTime.fd.abstract"/>
@@ -299,7 +299,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateId" id="dict.credit.course.set.metaInfo.updateId" parent="dict.credit.course.set.metaInfo.updateId.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo updateId</dict:name>
-	<dict:descr>credit course set metaInfo updateId</dict:descr>
+	<dict:desc>credit course set metaInfo updateId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -322,7 +322,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="name" id="dict.credit.course.set.name" parent="dict.credit.course.set.name.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.name.fd.abstract" abstract="true">
 	<dict:name>credit course set name</dict:name>
-	<dict:descr>credit course set name</dict:descr>
+	<dict:desc>credit course set name</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.name.fd" parent="dict.credit.course.set.name.fd.abstract"/>
@@ -354,7 +354,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="descr" id="dict.credit.course.set.description" parent="dict.credit.course.set.description.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.description.fd.abstract" abstract="true">
 	<dict:name>credit course set description</dict:name>
-	<dict:descr>credit course set description</dict:descr>
+	<dict:desc>credit course set description</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluSetInfo.descr.CreditCourseCluSets"/>
 </dict:fieldDescriptor>
@@ -375,7 +375,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="dict.credit.course.set.effectiveDate" parent="dict.credit.course.set.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>credit course set effectiveDate</dict:name>
-	<dict:descr>credit course set effectiveDate</dict:descr>
+	<dict:desc>credit course set effectiveDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.effectiveDate.fd" parent="dict.credit.course.set.effectiveDate.fd.abstract"/>
@@ -396,7 +396,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="dict.credit.course.set.expirationDate" parent="dict.credit.course.set.expirationDate.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.expirationDate.fd.abstract" abstract="true">
 	<dict:name>credit course set expirationDate</dict:name>
-	<dict:descr>credit course set expirationDate</dict:descr>
+	<dict:desc>credit course set expirationDate</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.expirationDate.fd" parent="dict.credit.course.set.expirationDate.fd.abstract"/>
@@ -419,7 +419,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="membershipQuery" id="dict.credit.course.set.dynanic" parent="dict.credit.course.set.dynanic.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.dynanic.fd.abstract" abstract="true">
 	<dict:name>credit course set dynanic set</dict:name>
-	<dict:descr>credit course set dynanic set</dict:descr>
+	<dict:desc>credit course set dynanic set</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.dynanic.fd" parent="dict.credit.course.set.dynanic.fd.abstract"/>
@@ -440,7 +440,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="cluSetIds" id="dict.credit.course.set.credit.course.set.ids" parent="dict.credit.course.set.credit.course.set.ids.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.credit.course.set.ids.fd.abstract" abstract="true">
 	<dict:name>credit course set credit course set ids</dict:name>
-	<dict:descr>credit course set credit course set ids</dict:descr>
+	<dict:desc>credit course set credit course set ids</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.credit.course.set.ids.fd" parent="dict.credit.course.set.credit.course.set.ids.fd.abstract"/>
@@ -462,7 +462,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="cluIds" id="dict.credit.course.set.credit.course.ids" parent="dict.credit.course.set.credit.course.ids.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.credit.course.ids.fd.abstract" abstract="true">
 	<dict:name>credit course set credit course ids</dict:name>
-	<dict:descr>credit course set credit course ids</dict:descr>
+	<dict:desc>credit course set credit course ids</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.credit.course.ids.fd" parent="dict.credit.course.set.credit.course.ids.fd.abstract"/>
@@ -484,7 +484,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="metaInfo" id="dict.credit.course.set.metaInfo" parent="dict.credit.course.set.metaInfo.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.metaInfo.fd.abstract" abstract="true">
 	<dict:name>credit course set metaInfo</dict:name>
-	<dict:descr>credit course set metaInfo</dict:descr>
+	<dict:desc>credit course set metaInfo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.cluSetInfo.metaInfo.CreditCourseCluSets"/>
 	<dict:readOnly>true</dict:readOnly>
@@ -508,7 +508,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="type" id="dict.credit.course.set.type" parent="dict.credit.course.set.type.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.type.fd.abstract" abstract="true">
 	<dict:name>credit course set type</dict:name>
-	<dict:descr>credit course set type</dict:descr>
+	<dict:desc>credit course set type</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.type.fd" parent="dict.credit.course.set.type.fd.abstract"/>
@@ -532,7 +532,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="state" id="dict.credit.course.set.state" parent="dict.credit.course.set.state.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.state.fd.abstract" abstract="true">
 	<dict:name>credit course set state</dict:name>
-	<dict:descr>credit course set state</dict:descr>
+	<dict:desc>credit course set state</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.credit.course.set.state.fd" parent="dict.credit.course.set.state.fd.abstract"/>
@@ -554,7 +554,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="dict.credit.course.set.id" parent="dict.credit.course.set.id.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.id.fd.abstract" abstract="true">
 	<dict:name>credit course set id</dict:name>
-	<dict:descr>credit course set id</dict:descr>
+	<dict:desc>credit course set id</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>

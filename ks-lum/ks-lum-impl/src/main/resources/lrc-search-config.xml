@@ -101,7 +101,7 @@
 	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.id.fd" parent="lrc.queryParam.resultComponent.id.fd-abstract"/>
 	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.id.fd-abstract" abstract="true">
 		<dict:name>ResultComponent Key</dict:name>
-		<dict:descr>Result Component Key</dict:descr>
+		<dict:desc>Result Component Key</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
@@ -114,7 +114,7 @@
 	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.typeKey.fd" parent="lrc.queryParam.resultComponent.typeKey.fd-abstract"/>
 	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.typeKey.fd-abstract" abstract="true">
 		<dict:name>ResultComponent Type Key</dict:name>
-		<dict:descr>Result Component Type Key</dict:descr>
+		<dict:desc>Result Component Type Key</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
@@ -127,7 +127,7 @@
 	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.idRestrictionList.fd" parent="lrc.queryParam.resultComponent.idRestrictionList.fd-abstract"/>
 	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.idRestrictionList.fd-abstract" abstract="true">
 		<dict:name>Result Component Ids Key</dict:name>
-		<dict:descr>Result Component Ids Key</dict:descr>
+		<dict:desc>Result Component Ids Key</dict:desc>
 		<dict:dataType>list</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
@@ -184,7 +184,7 @@
 	<dict:fieldDescriptor id="lrc.queryParam.resultValue.id.fd" parent="lrc.queryParam.resultValue.id.fd-abstract"/>
 	<dict:fieldDescriptor id="lrc.queryParam.resultValue.id.fd-abstract" abstract="true">
 		<dict:name>Result Value Key</dict:name>
-		<dict:descr>Result Value Key</dict:descr>
+		<dict:desc>Result Value Key</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
@@ -197,7 +197,7 @@
 	<dict:fieldDescriptor id="lrc.queryParam.resultValue.value.fd" parent="lrc.queryParam.resultValue.value.fd-abstract"/>
 	<dict:fieldDescriptor id="lrc.queryParam.resultValue.value.fd-abstract" abstract="true">
 		<dict:name>Result Value Key</dict:name>
-		<dict:descr>Result Value Key</dict:descr>
+		<dict:desc>Result Value Key</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
@@ -210,7 +210,7 @@
 	<dict:fieldDescriptor id="lrc.queryParam.resultValue.resultComponent.id.fd" parent="lrc.queryParam.resultValue.resultComponent.id.fd-abstract"/>
 	<dict:fieldDescriptor id="lrc.queryParam.resultValue.resultComponent.id.fd-abstract" abstract="true">
 		<dict:name>Result Value's Associated Result Component Id</dict:name>
-		<dict:descr>Result Value's Associated Result Component Id</dict:descr>
+		<dict:desc>Result Value's Associated Result Component Id</dict:desc>
 		<dict:dataType>string</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>

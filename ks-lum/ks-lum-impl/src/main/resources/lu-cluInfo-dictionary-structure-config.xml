@@ -39,7 +39,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.cluInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.cluInfo"/>
 </dict:type>
@@ -93,7 +93,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="officialIdentifier" id="field.cluInfo.officialIdentifier" parent="field.cluInfo.officialIdentifier.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.fd.abstract" abstract="true">
 	<dict:name>Official Idenfifier</dict:name>
-	<dict:descr>Information related to the official identification of the clu, typically in human readable form. Used to officially reference or publish.</dict:descr>
+	<dict:desc>Information related to the official identification of the clu, typically in human readable form. Used to officially reference or publish.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.officialIdentifier"/>
 </dict:fieldDescriptor>
@@ -116,7 +116,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.officialIdentifier.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.officialIdentifier"/>
 </dict:type>
@@ -149,7 +149,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="code" id="field.cluInfo.officialIdentifier.code" parent="field.cluInfo.officialIdentifier.code.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.code.fd.abstract" abstract="true">
 	<dict:name>Code</dict:name>
-	<dict:descr>The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level &amp; Division, but may include items such as cluType.</dict:descr>
+	<dict:desc>The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level &amp; Division, but may include items such as cluType.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.code.fd" parent="field.cluInfo.officialIdentifier.code.fd.abstract"/>
@@ -169,7 +169,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="shortName" id="field.cluInfo.officialIdentifier.shortName" parent="field.cluInfo.officialIdentifier.shortName.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.shortName.fd.abstract" abstract="true">
 	<dict:name>Short Name</dict:name>
-	<dict:descr>Abbreviated name of the CLU, commonly used on transcripts</dict:descr>
+	<dict:desc>Abbreviated name of the CLU, commonly used on transcripts</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.shortName.fd" parent="field.cluInfo.officialIdentifier.shortName.fd.abstract"/>
@@ -189,7 +189,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="longName" id="field.cluInfo.officialIdentifier.longName" parent="field.cluInfo.officialIdentifier.longName.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.longName.fd.abstract" abstract="true">
 	<dict:name>Long Name</dict:name>
-	<dict:descr>Full name of the CLU, commonly used on catalogues</dict:descr>
+	<dict:desc>Full name of the CLU, commonly used on catalogues</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.longName.fd" parent="field.cluInfo.officialIdentifier.longName.fd.abstract"/>
@@ -208,7 +208,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="level" id="field.cluInfo.officialIdentifier.level" parent="field.cluInfo.officialIdentifier.level.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.level.fd.abstract" abstract="true">
 	<dict:name>Level</dict:name>
-	<dict:descr>A code that indicates whether this is introductory, advanced, etc.</dict:descr>
+	<dict:desc>A code that indicates whether this is introductory, advanced, etc.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.level.fd" parent="field.cluInfo.officialIdentifier.level.fd.abstract"/>
@@ -227,7 +227,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="division" id="field.cluInfo.officialIdentifier.division" parent="field.cluInfo.officialIdentifier.division.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.division.fd.abstract" abstract="true">
 	<dict:name>Division</dict:name>
-	<dict:descr>A code that indicates what school, program, major, subject area, etc. Examples: &quot;Chem&quot;, &quot;18&quot;</dict:descr>
+	<dict:desc>A code that indicates what school, program, major, subject area, etc. Examples: &quot;Chem&quot;, &quot;18&quot;</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.division.fd" parent="field.cluInfo.officialIdentifier.division.fd.abstract"/>
@@ -246,7 +246,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="suffixCode" id="field.cluInfo.officialIdentifier.suffixCode" parent="field.cluInfo.officialIdentifier.suffixCode.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.suffixCode.fd.abstract" abstract="true">
 	<dict:name>Suffix Code</dict:name>
-	<dict:descr>The &quot;extra&quot; portion of the code, which usually corresponds with the most detailed part of the number. Ex. at MIT we might map Division to subject area(Ex:6) but overall we need to say the code is 6.120. This field would represent the 120 part.</dict:descr>
+	<dict:desc>The &quot;extra&quot; portion of the code, which usually corresponds with the most detailed part of the number. Ex. at MIT we might map Division to subject area(Ex:6) but overall we need to say the code is 6.120. This field would represent the 120 part.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.suffixCode.fd" parent="field.cluInfo.officialIdentifier.suffixCode.fd.abstract"/>
@@ -265,7 +265,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="variation" id="field.cluInfo.officialIdentifier.variation" parent="field.cluInfo.officialIdentifier.variation.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.variation.fd.abstract" abstract="true">
 	<dict:name>Variation</dict:name>
-	<dict:descr>A number that indicates the sequence or order of versions in cases where several different Clus have the same offical Identifier</dict:descr>
+	<dict:desc>A number that indicates the sequence or order of versions in cases where several different Clus have the same offical Identifier</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.variation.fd" parent="field.cluInfo.officialIdentifier.variation.fd.abstract"/>
@@ -284,7 +284,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="orgId" id="field.cluInfo.officialIdentifier.orgId" parent="field.cluInfo.officialIdentifier.orgId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
-	<dict:descr>The identifier of the organization associated with this cluIdentifier.</dict:descr>
+	<dict:desc>The identifier of the organization associated with this cluIdentifier.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.orgId.fd" parent="field.cluInfo.officialIdentifier.orgId.fd.abstract"/>
@@ -304,7 +304,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="type" id="field.cluInfo.officialIdentifier.type" parent="field.cluInfo.officialIdentifier.type.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.type.fd.abstract" abstract="true">
 	<dict:name>CLU Identifier Type</dict:name>
-	<dict:descr>Identifies the type of usage for the identifier. While most usages will have the same data constraints, this may provide some context around what the specific intent is for this identifier. (Ex. Why does this alternate identifier exist?)</dict:descr>
+	<dict:desc>Identifies the type of usage for the identifier. While most usages will have the same data constraints, this may provide some context around what the specific intent is for this identifier. (Ex. Why does this alternate identifier exist?)</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.type.fd" parent="field.cluInfo.officialIdentifier.type.fd.abstract"/>
@@ -325,7 +325,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="state" id="field.cluInfo.officialIdentifier.state" parent="field.cluInfo.officialIdentifier.state.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.state.fd.abstract" abstract="true">
 	<dict:name>CLU Identifier State</dict:name>
-	<dict:descr>Identifies the state of the identifier. Values for this field are constrained to values present within the cluIdentifierState enumeration.</dict:descr>
+	<dict:desc>Identifies the state of the identifier. Values for this field are constrained to values present within the cluIdentifierState enumeration.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.state.fd" parent="field.cluInfo.officialIdentifier.state.fd.abstract"/>
@@ -346,7 +346,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="field.cluInfo.officialIdentifier.id" parent="field.cluInfo.officialIdentifier.id.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.officialIdentifier.id.fd.abstract" abstract="true">
 	<dict:name>CLU Identifier Identifier</dict:name>
-	<dict:descr>Identifies the particular identifier structure. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. This structure is not accessible through unique operations, and it is strongly recommended that no external references to this particular identifier be maintained.</dict:descr>
+	<dict:desc>Identifies the particular identifier structure. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. This structure is not accessible through unique operations, and it is strongly recommended that no external references to this particular identifier be maintained.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -367,7 +367,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="alternateIdentifiers" id="field.cluInfo.alternateIdentifiers" parent="field.cluInfo.alternateIdentifiers.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.fd.abstract" abstract="true">
 	<dict:name>Alternate Idenfifiers</dict:name>
-	<dict:descr>Information related to alternate identifications of the clu, typically in human readable form. Used to reference or publish.</dict:descr>
+	<dict:desc>Information related to alternate identifications of the clu, typically in human readable form. Used to reference or publish.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.alternateIdentifiers"/>
 </dict:fieldDescriptor>
@@ -390,7 +390,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.alternateIdentifiers.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.alternateIdentifiers"/>
 </dict:type>
@@ -423,7 +423,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="code" id="field.cluInfo.alternateIdentifiers.code" parent="field.cluInfo.alternateIdentifiers.code.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.code.fd.abstract" abstract="true">
 	<dict:name>Code</dict:name>
-	<dict:descr>The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level &amp; Division, but may include items such as cluType.</dict:descr>
+	<dict:desc>The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level &amp; Division, but may include items such as cluType.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.code.fd" parent="field.cluInfo.alternateIdentifiers.code.fd.abstract"/>
@@ -443,7 +443,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="shortName" id="field.cluInfo.alternateIdentifiers.shortName" parent="field.cluInfo.alternateIdentifiers.shortName.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.shortName.fd.abstract" abstract="true">
 	<dict:name>Short Name</dict:name>
-	<dict:descr>Abbreviated name of the CLU, commonly used on transcripts</dict:descr>
+	<dict:desc>Abbreviated name of the CLU, commonly used on transcripts</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.shortName.fd" parent="field.cluInfo.alternateIdentifiers.shortName.fd.abstract"/>
@@ -463,7 +463,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="longName" id="field.cluInfo.alternateIdentifiers.longName" parent="field.cluInfo.alternateIdentifiers.longName.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.longName.fd.abstract" abstract="true">
 	<dict:name>Long Name</dict:name>
-	<dict:descr>Full name of the CLU, commonly used on catalogues</dict:descr>
+	<dict:desc>Full name of the CLU, commonly used on catalogues</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.longName.fd" parent="field.cluInfo.alternateIdentifiers.longName.fd.abstract"/>
@@ -482,7 +482,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="level" id="field.cluInfo.alternateIdentifiers.level" parent="field.cluInfo.alternateIdentifiers.level.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.level.fd.abstract" abstract="true">
 	<dict:name>Level</dict:name>
-	<dict:descr>A code that indicates whether this is introductory, advanced, etc.</dict:descr>
+	<dict:desc>A code that indicates whether this is introductory, advanced, etc.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.level.fd" parent="field.cluInfo.alternateIdentifiers.level.fd.abstract"/>
@@ -501,7 +501,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="division" id="field.cluInfo.alternateIdentifiers.division" parent="field.cluInfo.alternateIdentifiers.division.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.division.fd.abstract" abstract="true">
 	<dict:name>Division</dict:name>
-	<dict:descr>A code that indicates what school, program, major, subject area, etc. Examples: &quot;Chem&quot;, &quot;18&quot;</dict:descr>
+	<dict:desc>A code that indicates what school, program, major, subject area, etc. Examples: &quot;Chem&quot;, &quot;18&quot;</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.division.fd" parent="field.cluInfo.alternateIdentifiers.division.fd.abstract"/>
@@ -520,7 +520,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="suffixCode" id="field.cluInfo.alternateIdentifiers.suffixCode" parent="field.cluInfo.alternateIdentifiers.suffixCode.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.suffixCode.fd.abstract" abstract="true">
 	<dict:name>Suffix Code</dict:name>
-	<dict:descr>The &quot;extra&quot; portion of the code, which usually corresponds with the most detailed part of the number. Ex. at MIT we might map Division to subject area(Ex:6) but overall we need to say the code is 6.120. This field would represent the 120 part.</dict:descr>
+	<dict:desc>The &quot;extra&quot; portion of the code, which usually corresponds with the most detailed part of the number. Ex. at MIT we might map Division to subject area(Ex:6) but overall we need to say the code is 6.120. This field would represent the 120 part.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.suffixCode.fd" parent="field.cluInfo.alternateIdentifiers.suffixCode.fd.abstract"/>
@@ -539,7 +539,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="variation" id="field.cluInfo.alternateIdentifiers.variation" parent="field.cluInfo.alternateIdentifiers.variation.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.variation.fd.abstract" abstract="true">
 	<dict:name>Variation</dict:name>
-	<dict:descr>A number that indicates the sequence or order of versions in cases where several different Clus have the same offical Identifier</dict:descr>
+	<dict:desc>A number that indicates the sequence or order of versions in cases where several different Clus have the same offical Identifier</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.variation.fd" parent="field.cluInfo.alternateIdentifiers.variation.fd.abstract"/>
@@ -558,7 +558,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="orgId" id="field.cluInfo.alternateIdentifiers.orgId" parent="field.cluInfo.alternateIdentifiers.orgId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
-	<dict:descr>The identifier of the organization associated with this cluIdentifier.</dict:descr>
+	<dict:desc>The identifier of the organization associated with this cluIdentifier.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.orgId.fd" parent="field.cluInfo.alternateIdentifiers.orgId.fd.abstract"/>
@@ -578,7 +578,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="type" id="field.cluInfo.alternateIdentifiers.type" parent="field.cluInfo.alternateIdentifiers.type.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.type.fd.abstract" abstract="true">
 	<dict:name>CLU Identifier Type</dict:name>
-	<dict:descr>Identifies the type of usage for the identifier. While most usages will have the same data constraints, this may provide some context around what the specific intent is for this identifier. (Ex. Why does this alternate identifier exist?)</dict:descr>
+	<dict:desc>Identifies the type of usage for the identifier. While most usages will have the same data constraints, this may provide some context around what the specific intent is for this identifier. (Ex. Why does this alternate identifier exist?)</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.type.fd" parent="field.cluInfo.alternateIdentifiers.type.fd.abstract"/>
@@ -599,7 +599,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="state" id="field.cluInfo.alternateIdentifiers.state" parent="field.cluInfo.alternateIdentifiers.state.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.state.fd.abstract" abstract="true">
 	<dict:name>CLU Identifier State</dict:name>
-	<dict:descr>Identifies the state of the identifier. Values for this field are constrained to values present within the cluIdentifierState enumeration.</dict:descr>
+	<dict:desc>Identifies the state of the identifier. Values for this field are constrained to values present within the cluIdentifierState enumeration.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.state.fd" parent="field.cluInfo.alternateIdentifiers.state.fd.abstract"/>
@@ -620,7 +620,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="field.cluInfo.alternateIdentifiers.id" parent="field.cluInfo.alternateIdentifiers.id.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateIdentifiers.id.fd.abstract" abstract="true">
 	<dict:name>CLU Identifier Identifier</dict:name>
-	<dict:descr>Identifies the particular identifier structure. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. This structure is not accessible through unique operations, and it is strongly recommended that no external references to this particular identifier be maintained.</dict:descr>
+	<dict:desc>Identifies the particular identifier structure. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. This structure is not accessible through unique operations, and it is strongly recommended that no external references to this particular identifier be maintained.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -641,7 +641,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="academicSubjectOrgs" id="field.cluInfo.academicSubjectOrgs" parent="field.cluInfo.academicSubjectOrgs.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.academicSubjectOrgs.fd.abstract" abstract="true">
 	<dict:name>Academic Subject Orgs</dict:name>
-	<dict:descr>The organizations that represents the Subject area of the Clu, if different from the PrimaryAdminOrg?</dict:descr>
+	<dict:desc>The organizations that represents the Subject area of the Clu, if different from the PrimaryAdminOrg?</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.academicSubjectOrgs"/>
 </dict:fieldDescriptor>
@@ -664,7 +664,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.academicSubjectOrgs"/>
 </dict:type>
@@ -687,7 +687,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="orgId" id="field.cluInfo.academicSubjectOrgs.orgId" parent="field.cluInfo.academicSubjectOrgs.orgId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.academicSubjectOrgs.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
-	<dict:descr>Unique identifier for an organization.</dict:descr>
+	<dict:desc>Unique identifier for an organization.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.academicSubjectOrgs.orgId.fd" parent="field.cluInfo.academicSubjectOrgs.orgId.fd.abstract"/>
@@ -706,7 +706,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="studySubjectArea" id="field.cluInfo.studySubjectArea" parent="field.cluInfo.studySubjectArea.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.studySubjectArea.fd.abstract" abstract="true">
 	<dict:name>Study Subject Area</dict:name>
-	<dict:descr>The Study Subject Area is used to identify the area of study associated with the clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. Naval Architecture) depending on the level of specificity of the clu.</dict:descr>
+	<dict:desc>The Study Subject Area is used to identify the area of study associated with the clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. Naval Architecture) depending on the level of specificity of the clu.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.studySubjectArea.fd" parent="field.cluInfo.studySubjectArea.fd.abstract"/>
@@ -726,7 +726,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="descr" id="field.cluInfo.descr" parent="field.cluInfo.descr.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.descr.fd.abstract" abstract="true">
 	<dict:name>Description</dict:name>
-	<dict:descr>Narrative description of the CLU, used for the catalog.</dict:descr>
+	<dict:desc>Narrative description of the CLU, used for the catalog.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.descr"/>
 </dict:fieldDescriptor>
@@ -749,7 +749,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.descr.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.descr"/>
 </dict:type>
@@ -773,7 +773,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="plain" id="field.cluInfo.descr.plain" parent="field.cluInfo.descr.plain.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.descr.plain.fd.abstract" abstract="true">
 	<dict:name>Plain Text</dict:name>
-	<dict:descr>Plain version of the text. This may be used for searching.</dict:descr>
+	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -796,7 +796,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="formatted" id="field.cluInfo.descr.formatted" parent="field.cluInfo.descr.formatted.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.descr.formatted.fd.abstract" abstract="true">
 	<dict:name>Formatted Text</dict:name>
-	<dict:descr>Formatted version of the text.</dict:descr>
+	<dict:desc>Formatted version of the text.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.descr.formatted.fd" parent="field.cluInfo.descr.formatted.fd.abstract"/>
@@ -818,7 +818,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="campusLocations" id="field.cluInfo.campusLocations" parent="field.cluInfo.campusLocations.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.campusLocations.fd.abstract" abstract="true">
 	<dict:name>List of Campus Locations</dict:name>
-	<dict:descr>Places where this clu might be offered</dict:descr>
+	<dict:desc>Places where this clu might be offered</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.campusLocations.fd" parent="field.cluInfo.campusLocations.fd.abstract"/>
@@ -837,7 +837,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="accreditations" id="field.cluInfo.accreditations" parent="field.cluInfo.accreditations.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.fd.abstract" abstract="true">
 	<dict:name>Accreditations</dict:name>
-	<dict:descr>Information around the accreditation of the clu.</dict:descr>
+	<dict:desc>Information around the accreditation of the clu.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.accreditations"/>
 </dict:fieldDescriptor>
@@ -860,7 +860,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.accreditations.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.accreditations"/>
 </dict:type>
@@ -887,7 +887,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="orgId" id="field.cluInfo.accreditations.orgId" parent="field.cluInfo.accreditations.orgId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
-	<dict:descr>Unique identifier for an organization. This organization is the body behind the accreditation.</dict:descr>
+	<dict:desc>Unique identifier for an organization. This organization is the body behind the accreditation.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.orgId.fd" parent="field.cluInfo.accreditations.orgId.fd.abstract"/>
@@ -906,7 +906,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="field.cluInfo.accreditations.effectiveDate" parent="field.cluInfo.accreditations.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>Effective Date</dict:name>
-	<dict:descr>Date and time the accreditation became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:descr>
+	<dict:desc>Date and time the accreditation became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.effectiveDate.fd" parent="field.cluInfo.accreditations.effectiveDate.fd.abstract"/>
@@ -925,7 +925,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="field.cluInfo.accreditations.expirationDate" parent="field.cluInfo.accreditations.expirationDate.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.expirationDate.fd.abstract" abstract="true">
 	<dict:name>Expiration Date</dict:name>
-	<dict:descr>Date and time that this accreditation expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:descr>
+	<dict:desc>Date and time that this accreditation expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.expirationDate.fd" parent="field.cluInfo.accreditations.expirationDate.fd.abstract"/>
@@ -945,7 +945,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="metaInfo" id="field.cluInfo.accreditations.metaInfo" parent="field.cluInfo.accreditations.metaInfo.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.fd.abstract" abstract="true">
 	<dict:name>Create/Update meta info</dict:name>
-	<dict:descr>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:descr>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.accreditations.metaInfo"/>
 	<dict:readOnly>true</dict:readOnly>
@@ -971,7 +971,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.accreditations.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.accreditations.metaInfo"/>
 </dict:type>
@@ -998,7 +998,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="versionInd" id="field.cluInfo.accreditations.metaInfo.versionInd" parent="field.cluInfo.accreditations.metaInfo.versionInd.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>Version Indicator</dict:name>
-	<dict:descr>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:descr>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1019,7 +1019,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createTime" id="field.cluInfo.accreditations.metaInfo.createTime" parent="field.cluInfo.accreditations.metaInfo.createTime.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Created</dict:name>
-	<dict:descr>The date and time the thing being described with this meta information was created</dict:descr>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.createTime.fd" parent="field.cluInfo.accreditations.metaInfo.createTime.fd.abstract"/>
@@ -1039,7 +1039,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createId" id="field.cluInfo.accreditations.metaInfo.createId" parent="field.cluInfo.accreditations.metaInfo.createId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.createId.fd.abstract" abstract="true">
 	<dict:name>Created By Identifier</dict:name>
-	<dict:descr>The principal who created the thing being described with this meta information</dict:descr>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1060,7 +1060,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateTime" id="field.cluInfo.accreditations.metaInfo.updateTime" parent="field.cluInfo.accreditations.metaInfo.updateTime.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Last Updated</dict:name>
-	<dict:descr>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:descr>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.updateTime.fd" parent="field.cluInfo.accreditations.metaInfo.updateTime.fd.abstract"/>
@@ -1080,7 +1080,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateId" id="field.cluInfo.accreditations.metaInfo.updateId" parent="field.cluInfo.accreditations.metaInfo.updateId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>Updated By Identifier</dict:name>
-	<dict:descr>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:descr>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1101,7 +1101,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="field.cluInfo.accreditations.id" parent="field.cluInfo.accreditations.id.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accreditations.id.fd.abstract" abstract="true">
 	<dict:name>Accreditation Identifier</dict:name>
-	<dict:descr>Identifier for the accreditation.</dict:descr>
+	<dict:desc>Identifier for the accreditation.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1122,7 +1122,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="primaryAdminOrg" id="field.cluInfo.primaryAdminOrg" parent="field.cluInfo.primaryAdminOrg.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.primaryAdminOrg.fd.abstract" abstract="true">
 	<dict:name>Admin Org</dict:name>
-	<dict:descr>The primary organization (typically, an academic department) with administrative oversight over the CLU. This will be used for Authorization and Workflow.</dict:descr>
+	<dict:desc>The primary organization (typically, an academic department) with administrative oversight over the CLU. This will be used for Authorization and Workflow.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.primaryAdminOrg"/>
 </dict:fieldDescriptor>
@@ -1145,7 +1145,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.primaryAdminOrg"/>
 </dict:type>
@@ -1168,7 +1168,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="orgId" id="field.cluInfo.primaryAdminOrg.orgId" parent="field.cluInfo.primaryAdminOrg.orgId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.primaryAdminOrg.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
-	<dict:descr>Unique identifier for an organization.</dict:descr>
+	<dict:desc>Unique identifier for an organization.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.primaryAdminOrg.orgId.fd" parent="field.cluInfo.primaryAdminOrg.orgId.fd.abstract"/>
@@ -1187,7 +1187,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="alternateAdminOrgs" id="field.cluInfo.alternateAdminOrgs" parent="field.cluInfo.alternateAdminOrgs.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateAdminOrgs.fd.abstract" abstract="true">
 	<dict:name>Alternate Admin Orgs</dict:name>
-	<dict:descr>For situations where more than one Organization shares in the Administration of this clu. This will be used in Authorization and Workflow</dict:descr>
+	<dict:desc>For situations where more than one Organization shares in the Administration of this clu. This will be used in Authorization and Workflow</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.alternateAdminOrgs"/>
 </dict:fieldDescriptor>
@@ -1210,7 +1210,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.alternateAdminOrgs.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.alternateAdminOrgs"/>
 </dict:type>
@@ -1233,7 +1233,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="orgId" id="field.cluInfo.alternateAdminOrgs.orgId" parent="field.cluInfo.alternateAdminOrgs.orgId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.alternateAdminOrgs.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
-	<dict:descr>Unique identifier for an organization.</dict:descr>
+	<dict:desc>Unique identifier for an organization.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.alternateAdminOrgs.orgId.fd" parent="field.cluInfo.alternateAdminOrgs.orgId.fd.abstract"/>
@@ -1252,7 +1252,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="primaryInstructor" id="field.cluInfo.primaryInstructor" parent="field.cluInfo.primaryInstructor.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.primaryInstructor.fd.abstract" abstract="true">
 	<dict:name>Primary Instructor</dict:name>
-	<dict:descr>Primary potential instructor for the clu. This is primarily for use in advertising the clu and may not be the actual instructor.</dict:descr>
+	<dict:desc>Primary potential instructor for the clu. This is primarily for use in advertising the clu and may not be the actual instructor.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.primaryInstructor"/>
 </dict:fieldDescriptor>
@@ -1275,7 +1275,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.primaryInstructor.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.primaryInstructor"/>
 </dict:type>
@@ -1299,7 +1299,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="orgId" id="field.cluInfo.primaryInstructor.orgId" parent="field.cluInfo.primaryInstructor.orgId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.primaryInstructor.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
-	<dict:descr>Unique identifier for an organization. This indicates which organization this individual is associated with for the purposes of this clu.</dict:descr>
+	<dict:desc>Unique identifier for an organization. This indicates which organization this individual is associated with for the purposes of this clu.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.primaryInstructor.orgId.fd" parent="field.cluInfo.primaryInstructor.orgId.fd.abstract"/>
@@ -1318,7 +1318,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="personId" id="field.cluInfo.primaryInstructor.personId" parent="field.cluInfo.primaryInstructor.personId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.primaryInstructor.personId.fd.abstract" abstract="true">
 	<dict:name>Person Identifier</dict:name>
-	<dict:descr>Unique identifier for a person record.</dict:descr>
+	<dict:desc>Unique identifier for a person record.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.primaryInstructor.personId.fd" parent="field.cluInfo.primaryInstructor.personId.fd.abstract"/>
@@ -1337,7 +1337,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="instructors" id="field.cluInfo.instructors" parent="field.cluInfo.instructors.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.instructors.fd.abstract" abstract="true">
 	<dict:name>Instructors</dict:name>
-	<dict:descr>Instructors associated with this clu. This may not be an exhaustive list, and instead may only be used to indicate potential instructors in publication.</dict:descr>
+	<dict:desc>Instructors associated with this clu. This may not be an exhaustive list, and instead may only be used to indicate potential instructors in publication.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.instructors"/>
 </dict:fieldDescriptor>
@@ -1360,7 +1360,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.instructors.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.instructors"/>
 </dict:type>
@@ -1384,7 +1384,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="orgId" id="field.cluInfo.instructors.orgId" parent="field.cluInfo.instructors.orgId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.instructors.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
-	<dict:descr>Unique identifier for an organization. This indicates which organization this individual is associated with for the purposes of this clu.</dict:descr>
+	<dict:desc>Unique identifier for an organization. This indicates which organization this individual is associated with for the purposes of this clu.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.instructors.orgId.fd" parent="field.cluInfo.instructors.orgId.fd.abstract"/>
@@ -1403,7 +1403,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="personId" id="field.cluInfo.instructors.personId" parent="field.cluInfo.instructors.personId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.instructors.personId.fd.abstract" abstract="true">
 	<dict:name>Person Identifier</dict:name>
-	<dict:descr>Unique identifier for a person record.</dict:descr>
+	<dict:desc>Unique identifier for a person record.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.instructors.personId.fd" parent="field.cluInfo.instructors.personId.fd.abstract"/>
@@ -1422,7 +1422,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expectedFirstAtp" id="field.cluInfo.expectedFirstAtp" parent="field.cluInfo.expectedFirstAtp.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.expectedFirstAtp.fd.abstract" abstract="true">
 	<dict:name>Expected First ATP</dict:name>
-	<dict:descr>The expected first academic time period that this clu would be effective. This may not reflect the first &quot;real&quot; academic time period for this clu.</dict:descr>
+	<dict:desc>The expected first academic time period that this clu would be effective. This may not reflect the first &quot;real&quot; academic time period for this clu.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.expectedFirstAtp.fd" parent="field.cluInfo.expectedFirstAtp.fd.abstract"/>
@@ -1441,7 +1441,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="field.cluInfo.effectiveDate" parent="field.cluInfo.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>Effective Date</dict:name>
-	<dict:descr>Date and time the CLU became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:descr>
+	<dict:desc>Date and time the CLU became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.effectiveDate.fd" parent="field.cluInfo.effectiveDate.fd.abstract"/>
@@ -1460,7 +1460,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="field.cluInfo.expirationDate" parent="field.cluInfo.expirationDate.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.expirationDate.fd.abstract" abstract="true">
 	<dict:name>Expiration Date</dict:name>
-	<dict:descr>Date and time that this CLU expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:descr>
+	<dict:desc>Date and time that this CLU expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.expirationDate.fd" parent="field.cluInfo.expirationDate.fd.abstract"/>
@@ -1480,7 +1480,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="intensity" id="field.cluInfo.intensity" parent="field.cluInfo.intensity.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.intensity.fd.abstract" abstract="true">
 	<dict:name>Intensity</dict:name>
-	<dict:descr>The expected level of time commitment between the student and the CLU meetings.</dict:descr>
+	<dict:desc>The expected level of time commitment between the student and the CLU meetings.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.intensity"/>
 </dict:fieldDescriptor>
@@ -1503,7 +1503,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.intensity.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.intensity"/>
 </dict:type>
@@ -1528,7 +1528,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="unitType" id="field.cluInfo.intensity.unitType" parent="field.cluInfo.intensity.unitType.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.intensity.unitType.fd.abstract" abstract="true">
 	<dict:name>Unit Type</dict:name>
-	<dict:descr>The kind of units associated with the quantity, such as hours/week. It is expected that in usage in other structures, this value will always be enumerated based on that context.</dict:descr>
+	<dict:desc>The kind of units associated with the quantity, such as hours/week. It is expected that in usage in other structures, this value will always be enumerated based on that context.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.intensity.unitType.fd" parent="field.cluInfo.intensity.unitType.fd.abstract"/>
@@ -1547,7 +1547,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="unitQuantity" id="field.cluInfo.intensity.unitQuantity" parent="field.cluInfo.intensity.unitQuantity.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.intensity.unitQuantity.fd.abstract" abstract="true">
 	<dict:name>Unit Quantity</dict:name>
-	<dict:descr>The amount of units. Allowed values consist of numeric values as well as the string &quot;unbounded&quot;.</dict:descr>
+	<dict:desc>The amount of units. Allowed values consist of numeric values as well as the string &quot;unbounded&quot;.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.intensity.unitQuantity.fd" parent="field.cluInfo.intensity.unitQuantity.fd.abstract"/>
@@ -1566,7 +1566,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="stdDuration" id="field.cluInfo.stdDuration" parent="field.cluInfo.stdDuration.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.stdDuration.fd.abstract" abstract="true">
 	<dict:name>Standard Duration</dict:name>
-	<dict:descr>The standard duration of the learning unit.</dict:descr>
+	<dict:desc>The standard duration of the learning unit.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.stdDuration"/>
 </dict:fieldDescriptor>
@@ -1589,7 +1589,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.stdDuration"/>
 </dict:type>
@@ -1614,7 +1614,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="atpDurationTypeKey" id="field.cluInfo.stdDuration.atpDurationTypeKey" parent="field.cluInfo.stdDuration.atpDurationTypeKey.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.stdDuration.atpDurationTypeKey.fd.abstract" abstract="true">
 	<dict:name>Academic Time Period Duration Type Key</dict:name>
-	<dict:descr>The kind of units associated with the quantity, such as Semesters</dict:descr>
+	<dict:desc>The kind of units associated with the quantity, such as Semesters</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.stdDuration.atpDurationTypeKey.fd" parent="field.cluInfo.stdDuration.atpDurationTypeKey.fd.abstract"/>
@@ -1634,7 +1634,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="timeQuantity" id="field.cluInfo.stdDuration.timeQuantity" parent="field.cluInfo.stdDuration.timeQuantity.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.stdDuration.timeQuantity.fd.abstract" abstract="true">
 	<dict:name>Time Quantity</dict:name>
-	<dict:descr>The amount of time</dict:descr>
+	<dict:desc>The amount of time</dict:desc>
 	<dict:dataType>integer</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.stdDuration.timeQuantity.fd" parent="field.cluInfo.stdDuration.timeQuantity.fd.abstract"/>
@@ -1653,7 +1653,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="canCreateLui" id="field.cluInfo.canCreateLui" parent="field.cluInfo.canCreateLui.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.canCreateLui.fd.abstract" abstract="true">
 	<dict:name>Can Create LUI</dict:name>
-	<dict:descr>Indicates if the CLU can be used to instantiate LUIs (offerings).</dict:descr>
+	<dict:desc>Indicates if the CLU can be used to instantiate LUIs (offerings).</dict:desc>
 	<dict:dataType>boolean</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.canCreateLui.fd" parent="field.cluInfo.canCreateLui.fd.abstract"/>
@@ -1672,7 +1672,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="referenceURL" id="field.cluInfo.referenceURL" parent="field.cluInfo.referenceURL.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.referenceURL.fd.abstract" abstract="true">
 	<dict:name>Reference URL</dict:name>
-	<dict:descr>An URL for additional information about the CLU. This could be a reference to a document which might in turn have references to other documents (e.g. course syllabus provided by the faculty or department, standard schedule of classes, etc.).</dict:descr>
+	<dict:desc>An URL for additional information about the CLU. This could be a reference to a document which might in turn have references to other documents (e.g. course syllabus provided by the faculty or department, standard schedule of classes, etc.).</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.referenceURL.fd" parent="field.cluInfo.referenceURL.fd.abstract"/>
@@ -1691,7 +1691,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="luCodes" id="field.cluInfo.luCodes" parent="field.cluInfo.luCodes.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.fd.abstract" abstract="true">
 	<dict:name>LU Code Info</dict:name>
-	<dict:descr>List of LU code info structures. These are structures so that many different types of codes can be associated with the clu. This allows them to be put into categories.</dict:descr>
+	<dict:desc>List of LU code info structures. These are structures so that many different types of codes can be associated with the clu. This allows them to be put into categories.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.luCodes"/>
 </dict:fieldDescriptor>
@@ -1714,7 +1714,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.luCodes.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.luCodes"/>
 </dict:type>
@@ -1740,7 +1740,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="descr" id="field.cluInfo.luCodes.descr" parent="field.cluInfo.luCodes.descr.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.descr.fd.abstract" abstract="true">
 	<dict:name>LU Code Description</dict:name>
-	<dict:descr>The description of the code.</dict:descr>
+	<dict:desc>The description of the code.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.descr.fd" parent="field.cluInfo.luCodes.descr.fd.abstract"/>
@@ -1760,7 +1760,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="value" id="field.cluInfo.luCodes.value" parent="field.cluInfo.luCodes.value.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.value.fd.abstract" abstract="true">
 	<dict:name>LU Code Value</dict:name>
-	<dict:descr>The code value.</dict:descr>
+	<dict:desc>The code value.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.value.fd" parent="field.cluInfo.luCodes.value.fd.abstract"/>
@@ -1779,7 +1779,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="metaInfo" id="field.cluInfo.luCodes.metaInfo" parent="field.cluInfo.luCodes.metaInfo.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.fd.abstract" abstract="true">
 	<dict:name>Create/Update meta info</dict:name>
-	<dict:descr>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:descr>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.luCodes.metaInfo"/>
 	<dict:readOnly>true</dict:readOnly>
@@ -1805,7 +1805,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.luCodes.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.luCodes.metaInfo"/>
 </dict:type>
@@ -1832,7 +1832,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="versionInd" id="field.cluInfo.luCodes.metaInfo.versionInd" parent="field.cluInfo.luCodes.metaInfo.versionInd.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>Version Indicator</dict:name>
-	<dict:descr>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:descr>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1853,7 +1853,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createTime" id="field.cluInfo.luCodes.metaInfo.createTime" parent="field.cluInfo.luCodes.metaInfo.createTime.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Created</dict:name>
-	<dict:descr>The date and time the thing being described with this meta information was created</dict:descr>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.createTime.fd" parent="field.cluInfo.luCodes.metaInfo.createTime.fd.abstract"/>
@@ -1873,7 +1873,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createId" id="field.cluInfo.luCodes.metaInfo.createId" parent="field.cluInfo.luCodes.metaInfo.createId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.createId.fd.abstract" abstract="true">
 	<dict:name>Created By Identifier</dict:name>
-	<dict:descr>The principal who created the thing being described with this meta information</dict:descr>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1894,7 +1894,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateTime" id="field.cluInfo.luCodes.metaInfo.updateTime" parent="field.cluInfo.luCodes.metaInfo.updateTime.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Last Updated</dict:name>
-	<dict:descr>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:descr>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.updateTime.fd" parent="field.cluInfo.luCodes.metaInfo.updateTime.fd.abstract"/>
@@ -1914,7 +1914,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateId" id="field.cluInfo.luCodes.metaInfo.updateId" parent="field.cluInfo.luCodes.metaInfo.updateId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>Updated By Identifier</dict:name>
-	<dict:descr>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:descr>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -1935,7 +1935,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="type" id="field.cluInfo.luCodes.type" parent="field.cluInfo.luCodes.type.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.type.fd.abstract" abstract="true">
 	<dict:name>LU Code Type</dict:name>
-	<dict:descr>Unique identifier for a learning unit code type.</dict:descr>
+	<dict:desc>Unique identifier for a learning unit code type.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.luCodes.type.fd" parent="field.cluInfo.luCodes.type.fd.abstract"/>
@@ -1955,7 +1955,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="nextReviewPeriod" id="field.cluInfo.nextReviewPeriod" parent="field.cluInfo.nextReviewPeriod.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.nextReviewPeriod.fd.abstract" abstract="true">
 	<dict:name>Next Review Period</dict:name>
-	<dict:descr>When the next review should be</dict:descr>
+	<dict:desc>When the next review should be</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.nextReviewPeriod.fd" parent="field.cluInfo.nextReviewPeriod.fd.abstract"/>
@@ -1975,7 +1975,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="enrollable" id="field.cluInfo.enrollable" parent="field.cluInfo.enrollable.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.enrollable.fd.abstract" abstract="true">
 	<dict:name>Is Enrollable</dict:name>
-	<dict:descr>Indicates if Luis generated from this Clu are intended to be enrolled in by Students directly</dict:descr>
+	<dict:desc>Indicates if Luis generated from this Clu are intended to be enrolled in by Students directly</dict:desc>
 	<dict:dataType>boolean</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.enrollable.fd" parent="field.cluInfo.enrollable.fd.abstract"/>
@@ -1996,7 +1996,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="offeredAtpTypes" id="field.cluInfo.offeredAtpTypes" parent="field.cluInfo.offeredAtpTypes.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.offeredAtpTypes.fd.abstract" abstract="true">
 	<dict:name>Offered Academic Time Period Types</dict:name>
-	<dict:descr>The academic time period types in which this CLU is typically offered. Standard usage would equate to terms. It can define a timeframe that a clu with of a certain stdDuration would fall in.</dict:descr>
+	<dict:desc>The academic time period types in which this CLU is typically offered. Standard usage would equate to terms. It can define a timeframe that a clu with of a certain stdDuration would fall in.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.offeredAtpTypes.fd" parent="field.cluInfo.offeredAtpTypes.fd.abstract"/>
@@ -2015,7 +2015,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="hasEarlyDropDeadline" id="field.cluInfo.hasEarlyDropDeadline" parent="field.cluInfo.hasEarlyDropDeadline.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.hasEarlyDropDeadline.fd.abstract" abstract="true">
 	<dict:name>Has Early Drop Deadline</dict:name>
-	<dict:descr>Indicates if the CLU has an Early Drop Deadline (EDD). Certain courses are designated as such to maximize access to courses that have historically experienced high demand and high attrition. Default is &quot;false&quot;.</dict:descr>
+	<dict:desc>Indicates if the CLU has an Early Drop Deadline (EDD). Certain courses are designated as such to maximize access to courses that have historically experienced high demand and high attrition. Default is &quot;false&quot;.</dict:desc>
 	<dict:dataType>boolean</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.hasEarlyDropDeadline.fd" parent="field.cluInfo.hasEarlyDropDeadline.fd.abstract"/>
@@ -2034,7 +2034,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="defaultEnrollmentEstimate" id="field.cluInfo.defaultEnrollmentEstimate" parent="field.cluInfo.defaultEnrollmentEstimate.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.defaultEnrollmentEstimate.fd.abstract" abstract="true">
 	<dict:name>Default Enrollment Estimate</dict:name>
-	<dict:descr>Default enrollment estimate for this CLU.</dict:descr>
+	<dict:desc>Default enrollment estimate for this CLU.</dict:desc>
 	<dict:dataType>integer</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.defaultEnrollmentEstimate.fd" parent="field.cluInfo.defaultEnrollmentEstimate.fd.abstract"/>
@@ -2053,7 +2053,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="defaultMaximumEnrollment" id="field.cluInfo.defaultMaximumEnrollment" parent="field.cluInfo.defaultMaximumEnrollment.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.defaultMaximumEnrollment.fd.abstract" abstract="true">
 	<dict:name>Default Maximum Enrollment</dict:name>
-	<dict:descr>Default maximum enrollment for this CLU.</dict:descr>
+	<dict:desc>Default maximum enrollment for this CLU.</dict:desc>
 	<dict:dataType>integer</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.defaultMaximumEnrollment.fd" parent="field.cluInfo.defaultMaximumEnrollment.fd.abstract"/>
@@ -2072,7 +2072,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="isHazardousForDisabledStudents" id="field.cluInfo.isHazardousForDisabledStudents" parent="field.cluInfo.isHazardousForDisabledStudents.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.isHazardousForDisabledStudents.fd.abstract" abstract="true">
 	<dict:name>Is Hazardous For Disabled Students</dict:name>
-	<dict:descr>Indicates if the CLU may be hazardous for students with disabilities. Would default to &quot;false&quot;.</dict:descr>
+	<dict:desc>Indicates if the CLU may be hazardous for students with disabilities. Would default to &quot;false&quot;.</dict:desc>
 	<dict:dataType>boolean</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.isHazardousForDisabledStudents.fd" parent="field.cluInfo.isHazardousForDisabledStudents.fd.abstract"/>
@@ -2091,7 +2091,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="feeInfo" id="field.cluInfo.feeInfo" parent="field.cluInfo.feeInfo.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.fd.abstract" abstract="true">
 	<dict:name>feeInfo</dict:name>
-	<dict:descr>Fee information associated with this CLU.</dict:descr>
+	<dict:desc>Fee information associated with this CLU.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo"/>
 </dict:fieldDescriptor>
@@ -2114,7 +2114,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.feeInfo"/>
 </dict:type>
@@ -2137,7 +2137,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="cluFeeRecords" id="field.cluInfo.feeInfo.cluFeeRecords" parent="field.cluInfo.feeInfo.cluFeeRecords.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.fd.abstract" abstract="true">
 	<dict:name>List of CLU Fee Records</dict:name>
-	<dict:descr>List of clu fee records</dict:descr>
+	<dict:desc>List of clu fee records</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecords"/>
 </dict:fieldDescriptor>
@@ -2160,7 +2160,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecords.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.feeInfo.cluFeeRecords"/>
 </dict:type>
@@ -2186,7 +2186,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="feeType" id="field.cluInfo.feeInfo.cluFeeRecords.feeType" parent="field.cluInfo.feeInfo.cluFeeRecords.feeType.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeType.fd.abstract" abstract="true">
 	<dict:name>Fee Type</dict:name>
-	<dict:descr>Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.</dict:descr>
+	<dict:desc>Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeType.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.feeType.fd.abstract"/>
@@ -2205,7 +2205,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="feeAmount" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.fd.abstract" abstract="true">
 	<dict:name>Fee Amount</dict:name>
-	<dict:descr>The page currencyAmount Structure does not exist.</dict:descr>
+	<dict:desc>The page currencyAmount Structure does not exist.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecords.feeAmount"/>
 </dict:fieldDescriptor>
@@ -2228,7 +2228,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecords.feeAmount.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.feeInfo.cluFeeRecords.feeAmount"/>
 </dict:type>
@@ -2252,7 +2252,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="currencyTypeKey" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.fd.abstract" abstract="true">
 	<dict:name>currencyTypeKey</dict:name>
-	<dict:descr>The kind of units associated with the quantity, such as US Dollars</dict:descr>
+	<dict:desc>The kind of units associated with the quantity, such as US Dollars</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyTypeKey.fd.abstract"/>
@@ -2272,7 +2272,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="currencyQuantity" id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.fd.abstract" abstract="true">
 	<dict:name>currency Quantity</dict:name>
-	<dict:descr>The amount of currency</dict:descr>
+	<dict:desc>The amount of currency</dict:desc>
 	<dict:dataType>integer</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.feeAmount.currencyQuantity.fd.abstract"/>
@@ -2291,7 +2291,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="affiliatedOrgInfoList" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.fd.abstract" abstract="true">
 	<dict:name>List of Affiliated Orgs</dict:name>
-	<dict:descr>List of affiliated organizations.</dict:descr>
+	<dict:desc>List of affiliated organizations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList"/>
 </dict:fieldDescriptor>
@@ -2314,7 +2314,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList"/>
 </dict:type>
@@ -2340,7 +2340,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="orgId" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
-	<dict:descr>Unique identifier for an organization.</dict:descr>
+	<dict:desc>Unique identifier for an organization.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.orgId.fd.abstract"/>
@@ -2359,7 +2359,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>effectiveDate</dict:name>
-	<dict:descr>Specifies a date with no time component.</dict:descr>
+	<dict:desc>Specifies a date with no time component.</dict:desc>
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.effectiveDate.fd.abstract"/>
@@ -2378,7 +2378,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.fd.abstract" abstract="true">
 	<dict:name>expirationDate</dict:name>
-	<dict:descr>Specifies a date with no time component.</dict:descr>
+	<dict:desc>Specifies a date with no time component.</dict:desc>
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.expirationDate.fd.abstract"/>
@@ -2399,7 +2399,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="percentage" id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.fd.abstract" abstract="true">
 	<dict:name>percentage</dict:name>
-	<dict:descr>A long numeric value without a fractional component.</dict:descr>
+	<dict:desc>A long numeric value without a fractional component.</dict:desc>
 	<dict:dataType>long</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.fd" parent="field.cluInfo.feeInfo.cluFeeRecords.affiliatedOrgInfoList.percentage.fd.abstract"/>
@@ -2418,7 +2418,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="field.cluInfo.feeInfo.cluFeeRecords.id" parent="field.cluInfo.feeInfo.cluFeeRecords.id.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.feeInfo.cluFeeRecords.id.fd.abstract" abstract="true">
 	<dict:name>CLU Fee Record Identifier</dict:name>
-	<dict:descr>Identifier for the clu fee record.</dict:descr>
+	<dict:desc>Identifier for the clu fee record.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -2439,7 +2439,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="accountingInfo" id="field.cluInfo.accountingInfo" parent="field.cluInfo.accountingInfo.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accountingInfo.fd.abstract" abstract="true">
 	<dict:name>accountingInfo</dict:name>
-	<dict:descr>Accounting information associated with this CLU.</dict:descr>
+	<dict:desc>Accounting information associated with this CLU.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.accountingInfo"/>
 </dict:fieldDescriptor>
@@ -2462,7 +2462,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.accountingInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.accountingInfo"/>
 </dict:type>
@@ -2485,7 +2485,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="affiliatedOrgInfoList" id="field.cluInfo.accountingInfo.affiliatedOrgInfoList" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.fd.abstract" abstract="true">
 	<dict:name>List of Affiliated Organizations</dict:name>
-	<dict:descr>List of affiliated organizations.</dict:descr>
+	<dict:desc>List of affiliated organizations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.accountingInfo.affiliatedOrgInfoList"/>
 </dict:fieldDescriptor>
@@ -2508,7 +2508,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.accountingInfo.affiliatedOrgInfoList.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.accountingInfo.affiliatedOrgInfoList"/>
 </dict:type>
@@ -2534,7 +2534,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="orgId" id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.orgId" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.orgId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.orgId.fd.abstract" abstract="true">
 	<dict:name>Organization Identifier</dict:name>
-	<dict:descr>Unique identifier for an organization.</dict:descr>
+	<dict:desc>Unique identifier for an organization.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.orgId.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.orgId.fd.abstract"/>
@@ -2553,7 +2553,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.effectiveDate" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>effectiveDate</dict:name>
-	<dict:descr>Specifies a date with no time component.</dict:descr>
+	<dict:desc>Specifies a date with no time component.</dict:desc>
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.effectiveDate.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.effectiveDate.fd.abstract"/>
@@ -2572,7 +2572,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.fd.abstract" abstract="true">
 	<dict:name>expirationDate</dict:name>
-	<dict:descr>Specifies a date with no time component.</dict:descr>
+	<dict:desc>Specifies a date with no time component.</dict:desc>
 	<dict:dataType>date</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.expirationDate.fd.abstract"/>
@@ -2593,7 +2593,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="percentage" id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.percentage" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.percentage.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.percentage.fd.abstract" abstract="true">
 	<dict:name>percentage</dict:name>
-	<dict:descr>A long numeric value without a fractional component.</dict:descr>
+	<dict:desc>A long numeric value without a fractional component.</dict:desc>
 	<dict:dataType>long</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.accountingInfo.affiliatedOrgInfoList.percentage.fd" parent="field.cluInfo.accountingInfo.affiliatedOrgInfoList.percentage.fd.abstract"/>
@@ -2613,7 +2613,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="metaInfo" id="field.cluInfo.metaInfo" parent="field.cluInfo.metaInfo.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.metaInfo.fd.abstract" abstract="true">
 	<dict:name>Create/Update meta info</dict:name>
-	<dict:descr>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:descr>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 		<dict:objectStructureRef bean="object.field.cluInfo.metaInfo"/>
 	<dict:readOnly>true</dict:readOnly>
@@ -2639,7 +2639,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 	<dict:stateRef bean="state.field.cluInfo.metaInfo"/>
 </dict:type>
@@ -2666,7 +2666,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="versionInd" id="field.cluInfo.metaInfo.versionInd" parent="field.cluInfo.metaInfo.versionInd.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.metaInfo.versionInd.fd.abstract" abstract="true">
 	<dict:name>Version Indicator</dict:name>
-	<dict:descr>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:descr>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -2687,7 +2687,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createTime" id="field.cluInfo.metaInfo.createTime" parent="field.cluInfo.metaInfo.createTime.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.metaInfo.createTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Created</dict:name>
-	<dict:descr>The date and time the thing being described with this meta information was created</dict:descr>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.metaInfo.createTime.fd" parent="field.cluInfo.metaInfo.createTime.fd.abstract"/>
@@ -2707,7 +2707,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createId" id="field.cluInfo.metaInfo.createId" parent="field.cluInfo.metaInfo.createId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.metaInfo.createId.fd.abstract" abstract="true">
 	<dict:name>Created By Identifier</dict:name>
-	<dict:descr>The principal who created the thing being described with this meta information</dict:descr>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -2728,7 +2728,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateTime" id="field.cluInfo.metaInfo.updateTime" parent="field.cluInfo.metaInfo.updateTime.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.metaInfo.updateTime.fd.abstract" abstract="true">
 	<dict:name>Date/Time Last Updated</dict:name>
-	<dict:descr>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:descr>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.metaInfo.updateTime.fd" parent="field.cluInfo.metaInfo.updateTime.fd.abstract"/>
@@ -2748,7 +2748,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateId" id="field.cluInfo.metaInfo.updateId" parent="field.cluInfo.metaInfo.updateId.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.metaInfo.updateId.fd.abstract" abstract="true">
 	<dict:name>Updated By Identifier</dict:name>
-	<dict:descr>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:descr>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -2770,7 +2770,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="type" id="field.cluInfo.type" parent="field.cluInfo.type.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.type.fd.abstract" abstract="true">
 	<dict:name>Learning Unit Type</dict:name>
-	<dict:descr>Unique identifier for a learning unit type. Once set at create time, this field may not be updated.</dict:descr>
+	<dict:desc>Unique identifier for a learning unit type. Once set at create time, this field may not be updated.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.type.fd" parent="field.cluInfo.type.fd.abstract"/>
@@ -2791,7 +2791,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="state" id="field.cluInfo.state" parent="field.cluInfo.state.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.state.fd.abstract" abstract="true">
 	<dict:name>Learning Unit State</dict:name>
-	<dict:descr>The current status of the clu. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value. This field may not be updated through updating this structure and must instead be updated through a dedicated operation.</dict:descr>
+	<dict:desc>The current status of the clu. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value. This field may not be updated through updating this structure and must instead be updated through a dedicated operation.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="field.cluInfo.state.fd" parent="field.cluInfo.state.fd.abstract"/>
@@ -2812,7 +2812,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="field.cluInfo.id" parent="field.cluInfo.id.abstract"/>
 <dict:fieldDescriptor id="field.cluInfo.id.fd.abstract" abstract="true">
 	<dict:name>CLU Identifier</dict:name>
-	<dict:descr>Unique identifier for a Canonical Learning Unit (CLU). This is optional, due to the identifier being set at the time of creation. Once the CLU has been created, this should be seen as required.</dict:descr>
+	<dict:desc>Unique identifier for a Canonical Learning Unit (CLU). This is optional, due to the identifier being set at the time of creation. Once the CLU has been created, this should be seen as required.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>

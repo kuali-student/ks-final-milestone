@@ -40,7 +40,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="kuali.lo.type.singleUse" id="type.loInfo.singleUse.abstract" abstract="true">
 	<dict:name>singleUse</dict:name>
-	<dict:descr>LO created in support of programs or courses, e.g., faculty-inspired additional LO for a course that are not intended for others to re-use</dict:descr>
+	<dict:desc>LO created in support of programs or courses, e.g., faculty-inspired additional LO for a course that are not intended for others to re-use</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.loInfo.singleUse.draft"/>
 		<dict:stateRef bean="state.loInfo.singleUse.active"/>
@@ -104,7 +104,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.loInfo.descr.singleUse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.loInfo.descr.singleUse"/>
 </dict:type>
@@ -131,7 +131,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="plain" id="dict.singleUse.lo.descr.plain" parent="dict.singleUse.lo.descr.plain.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.descr.plain.fd.abstract" abstract="true">
 	<dict:name>informal lo descr plain text</dict:name>
-	<dict:descr>informal lo descr plain text</dict:descr>
+	<dict:desc>informal lo descr plain text</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -158,7 +158,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="formatted" id="dict.singleUse.lo.descr.formatted" parent="dict.singleUse.lo.descr.formatted.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.descr.formatted.fd.abstract" abstract="true">
 	<dict:name>informal lo descr formatted</dict:name>
-	<dict:descr>informal lo descr formatted</dict:descr>
+	<dict:desc>informal lo descr formatted</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.descr.formatted.fd" parent="dict.singleUse.lo.descr.formatted.fd.abstract"/>
@@ -183,7 +183,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:type key="*" id="type.field.loInfo.metaInfo.singleUse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
-	<dict:descr>Default</dict:descr>
+	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
 		<dict:stateRef bean="state.field.loInfo.metaInfo.singleUse"/>
 </dict:type>
@@ -213,7 +213,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="versionInd" id="dict.singleUse.lo.meta.versionInd" parent="dict.singleUse.lo.meta.versionInd.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.meta.versionInd.fd.abstract" abstract="true">
 	<dict:name>informal lo meta versionInd</dict:name>
-	<dict:descr>informal lo meta versionInd</dict:descr>
+	<dict:desc>informal lo meta versionInd</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -237,7 +237,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createTime" id="dict.singleUse.lo.meta.createTime" parent="dict.singleUse.lo.meta.createTime.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.meta.createTime.fd.abstract" abstract="true">
 	<dict:name>informal lo meta createTime</dict:name>
-	<dict:descr>informal lo meta createTime</dict:descr>
+	<dict:desc>informal lo meta createTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.meta.createTime.fd" parent="dict.singleUse.lo.meta.createTime.fd.abstract"/>
@@ -259,7 +259,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="createId" id="dict.singleUse.lo.meta.createId" parent="dict.singleUse.lo.meta.createId.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.meta.createId.fd.abstract" abstract="true">
 	<dict:name>informal lo meta createId</dict:name>
-	<dict:descr>informal lo meta createId</dict:descr>
+	<dict:desc>informal lo meta createId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -282,7 +282,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateTime" id="dict.singleUse.lo.meta.updateTime" parent="dict.singleUse.lo.meta.updateTime.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.meta.updateTime.fd.abstract" abstract="true">
 	<dict:name>informal lo meta updateTime</dict:name>
-	<dict:descr>informal lo meta updateTime</dict:descr>
+	<dict:desc>informal lo meta updateTime</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.meta.updateTime.fd" parent="dict.singleUse.lo.meta.updateTime.fd.abstract"/>
@@ -304,7 +304,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="updateId" id="dict.singleUse.lo.meta.updateId" parent="dict.singleUse.lo.meta.updateId.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.meta.updateId.fd.abstract" abstract="true">
 	<dict:name>informal lo meta updateId</dict:name>
-	<dict:descr>informal lo meta updateId</dict:descr>
+	<dict:desc>informal lo meta updateId</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
@@ -327,7 +327,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="name" id="dict.singleUse.lo.name" parent="dict.singleUse.lo.name.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.name.fd.abstract" abstract="true">
 	<dict:name>informal lo name</dict:name>
-	<dict:descr>the name of the lo</dict:descr>
+	<dict:desc>the name of the lo</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.name.fd" parent="dict.singleUse.lo.name.fd.abstract"/>
@@ -348,7 +348,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="descr" id="dict.singleUse.lo.descr" parent="dict.singleUse.lo.descr.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.descr.fd.abstract" abstract="true">
 	<dict:name>informal lo description</dict:name>
-	<dict:descr>the description of the lo</dict:descr>
+	<dict:desc>the description of the lo</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.loInfo.descr.singleUse"/>
 </dict:fieldDescriptor>
@@ -369,7 +369,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="loRepositoryKey" id="dict.singleUse.lo.loRepository" parent="dict.singleUse.lo.loRepository.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.loRepository.fd.abstract" abstract="true">
 	<dict:name>informal lo hierarcy</dict:name>
-	<dict:descr>the name of the hierarchy to which the lo belongs</dict:descr>
+	<dict:desc>the name of the hierarchy to which the lo belongs</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.loRepository.fd" parent="dict.singleUse.lo.loRepository.fd.abstract"/>
@@ -391,7 +391,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="effectiveDate" id="dict.singleUse.lo.effectiveDate" parent="dict.singleUse.lo.effectiveDate.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.effectiveDate.fd.abstract" abstract="true">
 	<dict:name>informal lo effective date</dict:name>
-	<dict:descr>the effective date of the lo</dict:descr>
+	<dict:desc>the effective date of the lo</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.effectiveDate.fd" parent="dict.singleUse.lo.effectiveDate.fd.abstract"/>
@@ -412,7 +412,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="expirationDate" id="dict.singleUse.lo.expirationDate" parent="dict.singleUse.lo.expirationDate.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.expirationDate.fd.abstract" abstract="true">
 	<dict:name>informal lo expiration date</dict:name>
-	<dict:descr>the expiration date of the lo</dict:descr>
+	<dict:desc>the expiration date of the lo</dict:desc>
 	<dict:dataType>dateTime</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.expirationDate.fd" parent="dict.singleUse.lo.expirationDate.fd.abstract"/>
@@ -435,7 +435,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="sequence" id="dict.singleUse.lo.sequence" parent="dict.singleUse.lo.sequence.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.sequence.fd.abstract" abstract="true">
 	<dict:name>single use lo sequence</dict:name>
-	<dict:descr>Value to capture the sequence of the Lo</dict:descr>
+	<dict:desc>Value to capture the sequence of the Lo</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.sequence.fd" parent="dict.singleUse.lo.sequence.fd.abstract"/>
@@ -455,7 +455,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="metaInfo" id="dict.singleUse.lo.metaInfo" parent="dict.singleUse.lo.metaInfo.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.metaInfo.fd.abstract" abstract="true">
 	<dict:name>informal lo meta info</dict:name>
-	<dict:descr>meta info</dict:descr>
+	<dict:desc>meta info</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
 	<dict:objectStructureRef bean="object.field.loInfo.metaInfo.singleUse"/>
 	<dict:readOnly>true</dict:readOnly>
@@ -479,7 +479,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="type" id="dict.singleUse.lo.type" parent="dict.singleUse.lo.type.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.type.fd.abstract" abstract="true">
 	<dict:name>type</dict:name>
-	<dict:descr>the type of the lo</dict:descr>
+	<dict:desc>the type of the lo</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.type.fd" parent="dict.singleUse.lo.type.fd.abstract"/>
@@ -503,7 +503,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="stateKey" id="dict.singleUse.lo.stateKey" parent="dict.singleUse.lo.stateKey.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.stateKey.fd.abstract" abstract="true">
 	<dict:name>informal lo.state</dict:name>
-	<dict:descr>the state of the lo</dict:descr>
+	<dict:desc>the state of the lo</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
 <dict:fieldDescriptor id="dict.singleUse.lo.stateKey.fd" parent="dict.singleUse.lo.stateKey.fd.abstract"/>
@@ -524,7 +524,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:field key="id" id="dict.singleUse.lo.internal.id" parent="dict.singleUse.lo.internal.id.abstract"/>
 <dict:fieldDescriptor id="dict.singleUse.lo.internal.id.fd.abstract" abstract="true">
 	<dict:name>informal lo internal id</dict:name>
-	<dict:descr>the internal id of the lo</dict:descr>
+	<dict:desc>the internal id of the lo</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
