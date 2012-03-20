@@ -28,7 +28,6 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -56,9 +55,6 @@ public class TestCourseOfferingServiceImpl {
 
     @Resource
     private GradingService gradingService;
-
-    @Resource
-    private LRCService lrcService;
 
     public static String principalId = "123";
     public ContextInfo callContext = null;
@@ -174,7 +170,6 @@ public class TestCourseOfferingServiceImpl {
         rv.setName("test");
         ResultValueRangeInfo rvr = new ResultValueRangeInfo();
         rv.setResultValueRange(rvr);
-        lrcService.createResultValuesGroup(rv, callContext);
         retrieved.setCreditOptions(rv);
         try {
             coServiceAuthDecorator.updateCourseOffering(retrieved.getId(), retrieved, callContext);

@@ -1,16 +1,3 @@
-INSERT INTO KSEN_CHECK_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.check.type.hold',1,'A Check to the Hold Service.','Hold Check')
-INSERT INTO KSEN_CHECK_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.check.type.milestone.startdate',1,'A Check to the ATP Service for the start of a Milestone.','Start Date Check')
-INSERT INTO KSEN_CHECK_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.check.type.milestone.deadline',1,'A Check to the ATP Service for the end of a Milestone.','Deadline Check')
-INSERT INTO KSEN_CHECK_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.check.type.milestone.period',1,'A Check to the ATP Service for the date range of a Milestone.','Time Period Check')
-INSERT INTO KSEN_CHECK_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.check.type.process',1,'A Check that depends on another Process in the Process Service.','Process Check')
-INSERT INTO KSEN_CHECK_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.check.type.rule.direct',1,'A Check based on a known or nameable rule (Agenda).','Direct Rule Check')
-INSERT INTO KSEN_CHECK_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.check.type.rule.indirect',1,'A Check to some logic (rule) to determine another rule to eveluate.','Indirect Rule Check')
-INSERT INTO KSEN_CHECK_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.check.type.value.equals',1,'A Check to determine if a value is equal to the value specified in the Check.','Equal Value Check')
-INSERT INTO KSEN_CHECK_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.check.type.value.max',1,'A Check to determine if a value is equal to or less than the value specified in the Check.','Maximum Value Check')
-INSERT INTO KSEN_CHECK_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.check.type.value.min',1,'A Check to determine if a value is equal to or greater than the value specified in the Check.','Minimum Value Check')
-INSERT INTO KSEN_CHECK_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.check.type.acknowledgement',1,'A check based on an acknowledgement','Acknowledgement Check')
-INSERT INTO KSEN_INSTR_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.instruction.type',1,'An Instruction.','Instruction')
-INSERT INTO KSEN_PROCESS_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.process.process.type',1,'A Process.','Process')
 
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.process.check.state.enabled', 'Enabled', 'kuali.process.check.lifecycle', 'Indicates that this Check is active and should be checked across all Processes.', 0)
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.process.check.state.disabled', 'Disabled', 'kuali.process.check.lifecycle', 'Indicates that this Check is disabled across all Processes and should be skipped with a success.', 0)
@@ -22,8 +9,8 @@ INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kua
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.process.process.state.inactive', 'Inactive', 'kuali.process.process.lifecycle', 'Indicates that this Process is inactive because it was put out to pasture. Any checks for this process should fail.', 0)
 
 
-INSERT INTO KSEN_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.Fall', 'Fall', 'Fall Semester', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
-INSERT INTO KSEN_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.Spring', 'Spring', 'Spring Semester', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
+INSERT INTO KSEN_TYPE(TYPE_KEY, NAME, DESCR_PLAIN, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.Fall', 'Fall', 'Fall Semester', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
+INSERT INTO KSEN_TYPE(TYPE_KEY, NAME, DESCR_PLAIN, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.Spring', 'Spring', 'Spring Semester', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
 
 insert into KSEN_PROCESS_RICH_TEXT (ID, OBJ_ID, VER_NBR,PLAIN,FORMATTED) values ('RTKEY.KUALI.PROCESS.REGISTRATION.BASIC.ELIGIBILITY',null,0,'The process of checking a student''s basic eligibility to register for courses.',null)
 insert into KSEN_PROCESS_RICH_TEXT (ID, OBJ_ID, VER_NBR,PLAIN,FORMATTED) values ('RTKEY.KUALI.PROCESS.REGISTRATION.ELIGIBILITY.FOR.TERM',null,0,'The process of checking a student''s eligibility to register for a particular term.',null)

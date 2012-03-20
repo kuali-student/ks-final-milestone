@@ -235,7 +235,7 @@ public class TestAcademicCalendarServiceImpl {
         unexpected.add("testEdgeAtpId10");
 
         for (String acalName : expected) {
-            assertTrue("Expected calendar not returned: " + acalName, acalNames.contains(acalName));
+            assertTrue("Expected calendar returned: " + acalName, acalNames.contains(acalName));
         }
         for (String acalName : unexpected) {
             assertFalse("Unexpected calendar returned: " + acalName, acalNames.contains(acalName));
