@@ -698,7 +698,7 @@
 
  <bean id="majorDisciplineInfo.accreditingAgencies-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="accreditingAgencies"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AccreditationInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.clu.dto.AccreditationInfo"/>
  </bean>
  <bean id="majorDisciplineInfo.accreditingAgencies" parent="majorDisciplineInfo.accreditingAgencies-parent"/>
 
@@ -1822,7 +1822,7 @@
  <bean id="credentialProgramInfo.institution-parent" abstract="true" parent="cluInfo.adminOrgs">
   <property name="name" value="institution"/>
   <property name="maxOccurs" value="1"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.AdminOrgInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo"/>
  </bean>
  <bean id="credentialProgramInfo.institution" parent="credentialProgramInfo.institution-parent"/>
 
@@ -2089,7 +2089,7 @@
 
  <bean id="programRequirementInfo.statement-parent" abstract="true" parent="baseComplex">
   <property name="name" value="statement"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.statement.dto.StatementTreeViewInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo"/>
  </bean>
  <bean id="programRequirementInfo.statement" parent="programRequirementInfo.statement-parent"/>
 
