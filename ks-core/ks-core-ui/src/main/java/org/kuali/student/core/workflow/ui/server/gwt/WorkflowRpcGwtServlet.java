@@ -402,7 +402,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	}
 	
 	@Override
-    public Boolean adhocRequest(String workflowId, String docId, String recipientPrincipalId, ActionRequestType requestType,
+    public Boolean adhocRequest(String docId, String recipientPrincipalId, ActionRequestType requestType,
             String annotation) throws OperationFailedException {
 	    try {
             //Get a user name
