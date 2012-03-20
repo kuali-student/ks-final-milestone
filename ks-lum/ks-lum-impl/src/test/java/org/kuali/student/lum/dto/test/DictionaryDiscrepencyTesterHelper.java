@@ -128,7 +128,7 @@ public class DictionaryDiscrepencyTesterHelper
   {
    System.out.println ("processing class " + className);
    discrepancies = doTestOnClass (className, ac);
-   if (discrepancies.size() > 0) {
+   if (discrepancies != null && discrepancies.size() > 0) {
 	   alldiscrepancies.addAll(discrepancies);
 	
 }
@@ -144,6 +144,13 @@ public class DictionaryDiscrepencyTesterHelper
 
  private List<String> doTestOnClass (String className, ApplicationContext ac)
  {
+	 
+	 // If name contains Infc then skip
+	 boolean isInterface = className.contains("infc");
+	 //
+	 if (!isInterface) {
+		
+	
   ObjectStructureDefinition os =   os = objectStructures.get (className);
   String simpleName = calcSimpleName (className);
   System.out.println("processing " + simpleName);
@@ -163,7 +170,14 @@ public class DictionaryDiscrepencyTesterHelper
                                                1, // header level to start at
                                                this.processSubstructures, this.printDescrepenciesOnly);
 //  out.println (formatter.formatForWiki ());
+	 
   return formatter.formatForWiki();
+	 }
+//	 List<String> interfaces = new ArrayList();
+	 System.out.println();
+	 System.out.println("*** Warning : " + className + " is a interface ");
+	 System.out.println();
+	 return null;
  }
 
  private String calcSimpleName (String name)

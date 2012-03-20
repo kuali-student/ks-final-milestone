@@ -80,7 +80,7 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
         return resultScaleKey;
     }
 
-    public void setScaleKey(String resultScaleKey) {
+    public void setResultScaleKey(String resultScaleKey) {
         this.resultScaleKey = resultScaleKey;
     }
 

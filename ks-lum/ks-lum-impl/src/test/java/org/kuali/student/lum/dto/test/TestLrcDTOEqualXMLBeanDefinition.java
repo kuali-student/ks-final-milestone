@@ -43,10 +43,11 @@ public class TestLrcDTOEqualXMLBeanDefinition {
 		System.out.println("testing statement dictionary");
 
 		Set<String> startingClasses = new LinkedHashSet();
-		//startingClasses.add(ResultScaleInfo.class.getName());
+//		startingClasses.add(ResultValueRangeInfo.class.getName());
+//		startingClasses.add(ResultValuesGroupInfo.class.getName());		
+//		startingClasses.add(ResultScaleInfo.class.getName());
 		startingClasses.add(ResultValueInfo.class.getName());
-		//startingClasses.add(ResultValueRangeInfo.class.getName());
-		//startingClasses.add(ResultValuesGroupInfo.class.getName());		
+		
 		String contextFile = "ks-lrc-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
