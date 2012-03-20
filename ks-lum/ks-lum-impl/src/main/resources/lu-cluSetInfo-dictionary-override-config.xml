@@ -529,7 +529,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.credit.course.set.state.cd"/>
 <dict:selector>true</dict:selector>
 </dict:field>
-<dict:field key="state" id="dict.credit.course.set.state" parent="dict.credit.course.set.state.abstract"/>
+<dict:field key="state" id="dict.credit.course.set.stateKey" parent="dict.credit.course.set.state.abstract"/>
 <dict:fieldDescriptor id="dict.credit.course.set.state.fd.abstract" abstract="true">
 	<dict:name>credit course set state</dict:name>
 	<dict:desc>credit course set state</dict:desc>

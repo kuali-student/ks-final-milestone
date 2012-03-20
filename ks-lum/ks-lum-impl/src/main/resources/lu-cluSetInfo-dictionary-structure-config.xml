@@ -585,7 +585,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldDescriptorRef bean="field.cluSetInfo.state.fd"/>
 	<dict:constraintDescriptorRef bean="field.cluSetInfo.state.cd"/>
 </dict:field>
-<dict:field key="state" id="field.cluSetInfo.state" parent="field.cluSetInfo.state.abstract"/>
+<dict:field key="state" id="field.cluSetInfo.stateKey" parent="field.cluSetInfo.state.abstract"/>
 <dict:fieldDescriptor id="field.cluSetInfo.state.fd.abstract" abstract="true">
 	<dict:name>CLU Set State</dict:name>
 	<dict:desc>The current status of the clu set. The values for this field are constrained to those in the cluSetState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
