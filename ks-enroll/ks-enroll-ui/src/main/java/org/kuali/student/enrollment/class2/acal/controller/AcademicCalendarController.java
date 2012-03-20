@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.acal.controller;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -27,7 +28,6 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
@@ -51,7 +51,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.*;
-import java.text.SimpleDateFormat;
 
 /**
  * This class //TODO ...
@@ -82,13 +81,22 @@ public class AcademicCalendarController extends UifControllerBase {
         String acalId = request.getParameter("acalId");
         if (acalId != null && !acalId.trim().isEmpty()) {
             try {
-                getAcademicCalendar(acalId, acalForm);
-                List<AcademicTermWrapper> termWrappers = ((AcademicCalendarViewHelperService)acalForm.getView().getViewHelperService()).loadTerms(acalId,getContextInfo());
-                acalForm.setTermWrapperList(termWrappers);
+                loadAcademicCalendar(acalId, acalForm);
             } catch (Exception ex) {
-                ex.printStackTrace();
-                //TODO: handle exception properly
+                throw new RuntimeException(ex);
             }
+        }else{
+
+            acalId = request.getParameter(CalendarConstants.CALENDAR_ID);
+            String readOnlyView = request.getParameter(CalendarConstants.READ_ONLY_VIEW);
+
+            try {
+                loadAcademicCalendar(acalId, acalForm);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+
+            acalForm.getView().setReadOnly(BooleanUtils.toBoolean(readOnlyView));
         }
 
         return super.start(form, result, request, response);
@@ -105,13 +113,6 @@ public class AcademicCalendarController extends UifControllerBase {
         acalForm.setDelete(false);
         return getUIFModelAndView(acalForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
     }
-
-//    @Override
-//    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=refresh")
-//    public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-//                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        return super.refresh(form, result, request, response);
-//    }
 
     // if acalId is not empty, use the acalInfo of that acalId as the template for copying
     //otherwise, find the latest acal and use it as the template for copying
@@ -463,15 +464,22 @@ public class AcademicCalendarController extends UifControllerBase {
 
     }
 
-    private void getAcademicCalendar(String acalId, AcademicCalendarForm acalForm) throws Exception {
+    private void loadAcademicCalendar(String acalId, AcademicCalendarForm acalForm) throws Exception {
+
         AcademicCalendarInfo acalInfo = getAcalService().getAcademicCalendar(acalId,getContextInfo());
         acalForm.setAcademicCalendarInfo(acalInfo);
         acalForm.setAdminOrgName(getAdminOrgNameById(acalInfo.getAdminOrgId()));
 
         List<AcalEventWrapper> events = getAcademicCalendarViewHelperService(acalForm).getEventsForAcademicCalendar(acalForm);
-        if (events.size() == 0)  
+        if (events.size() == 0){
             System.out.println(">>> didn't find any event associated with Academic Calendar: "+acalInfo.getName());
+        }
+
         acalForm.setEvents(events);
+
+        List<AcademicTermWrapper> termWrappers = ((AcademicCalendarViewHelperService)acalForm.getView().getViewHelperService()).loadTerms(acalId,getContextInfo());
+        acalForm.setTermWrapperList(termWrappers);
+
     }
 
     private String getAdminOrgNameById(String id){

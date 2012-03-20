@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class2.acal.controller;
 
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -137,7 +138,9 @@ public class HolidayCalendarController extends UifControllerBase {
             HttpServletRequest request, HttpServletResponse response) {
         HolidayCalendarForm hcForm = (HolidayCalendarForm) form;
 
-        String hcId = request.getParameter("hcId");
+        String hcId = request.getParameter(CalendarConstants.CALENDAR_ID);
+        String readOnlyView = request.getParameter(CalendarConstants.READ_ONLY_VIEW);
+
         if ((hcId != null) && !hcId.trim().isEmpty()) {
             String viewId = request.getParameter("viewId");
             if ("holidayCalendarView".equals(viewId)) {
@@ -149,6 +152,8 @@ public class HolidayCalendarController extends UifControllerBase {
             } catch (Exception ex) {
             }
         }
+
+        hcForm.getView().setReadOnly(BooleanUtils.toBoolean(readOnlyView));
 
         return super.start(form, result, request, response);
     }

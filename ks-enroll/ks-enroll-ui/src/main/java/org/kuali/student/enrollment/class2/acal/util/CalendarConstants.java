@@ -27,27 +27,31 @@ public class CalendarConstants {
     public static final String HOLIDAYCALENDAR_VIEWPAGE = "holidayCalendarViewPage";
     public static final String HOLIDAYCALENDAR_FLOWVIEW = "holidayCalendarFlowView";
 
-    //Acal pages
+    //Acal
+    public static final String ACAL_CONTROLLER_PATH = "academicCalendar";
+    public static final String ACAL_VIEW = "academicCalendarFlowView";
     public static final String ACADEMIC_CALENDAR_COPY_PAGE = "academicCalendarCopyPage";
     public static final String ACADEMIC_CALENDAR_EDIT_PAGE = "academicCalendarEditPage";
-    
+
+    //Hcal
+    public static final String HCAL_CONTROLLER_PATH = "holidayCalendar";
+    public static final String HCAL_EDIT_VIEW = "holidayCalendarFlowView";
+
     //calender types for search
     public static final String ACADEMICCALENDER= "AcademicCalendar";
     public static final String HOLIDAYCALENDER= "HolidayCalendar";
     public static final String TERM= "AcademicTerm";
 
-    public static final String ACAL_EDIT_VIEW = "academicCalendarEditView";
-    public static final String HCAL_EDIT_VIEW = "holidayCalendarFlowView";
-
-    public static final String ACAL_CONTROLLER_PATH = "academicCalendar";
-    public static final String HCAL_CONTROLLER_PATH = "holidayCalendar";
-
-    public static final String ACAL_EDIT_METHOD = "";
-    public static final String ACAL_VIEW_METHOD = "";
-    public static final String TERM_EDIT_METHOD = "";
-    public static final String TERM_VIEW_METHOD = "";
+    //method names
+    public static final String AC_EDIT_METHOD = "start";
+    public static final String AC_VIEW_METHOD = "start";
+    public static final String AC_COPY_METHOD = "copyForNew";
     public static final String HC_EDIT_METHOD = "start";
     public static final String HC_VIEW_METHOD = "start";
     public static final String HC_COPY_METHOD = "startNew";
+
+    public static final String CALENDAR_ID = "id";
+    public static final String PAGE_ID = "pageId";
+    public static final String READ_ONLY_VIEW = "readOnlyView";
 
 }

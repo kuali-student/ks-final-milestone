@@ -38,6 +38,7 @@
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
+                <value>classpath:UifKRADOverrideDefinitions.xml</value>
 				<value>classpath:UifKSDefinitions.xml</value>
 				<value>classpath:AcademicCalendarInfoUI.xml</value>
 				<value>classpath:TermInfoUI.xml</value>

@@ -138,9 +138,9 @@
         </property>
         <property name="actionFields">
               <list>
-                  <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
                   <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
@@ -179,9 +179,9 @@
         </property>
         <property name="actionFields">
               <list>
-                  <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
                   <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
@@ -220,8 +220,8 @@
         </property>
         <property name="actionFields">
               <list>
-                  <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                   <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>

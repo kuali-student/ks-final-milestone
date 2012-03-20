@@ -885,9 +885,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 KeyDatesGroupWrapper registrationWrapper = new KeyDatesGroupWrapper("kuali.milestone.type.group.keydate",registrationGroup.getName());
                 KeyDatesGroupWrapper curriculumWrapper = new KeyDatesGroupWrapper("kuali.milestone.type.group.curriculum",curriculumGroup.getName());
 
-                termWrapper.getKeyDatesGroupWrappers().add(registrationWrapper);
-                termWrapper.getKeyDatesGroupWrappers().add(curriculumWrapper);
-
                 for (KeyDateInfo keyDateInfo : keydateList) {
                     KeyDateWrapper keyDateWrapper = new KeyDateWrapper(keyDateInfo);
                     type = getTypeService().getType(keyDateInfo.getTypeKey(),context);
@@ -903,6 +900,15 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                         curriculumWrapper.getKeydates().add(keyDateWrapper);
                     }
                 }
+
+                if (!registrationWrapper.getKeydates().isEmpty()){
+                    termWrapper.getKeyDatesGroupWrappers().add(registrationWrapper);
+                }
+
+                if (!curriculumWrapper.getKeydates().isEmpty()){
+                    termWrapper.getKeyDatesGroupWrappers().add(curriculumWrapper);
+                }
+
                 termWrappers.add(termWrapper);
             }
 

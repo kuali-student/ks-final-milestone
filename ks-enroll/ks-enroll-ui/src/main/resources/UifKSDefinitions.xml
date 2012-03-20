@@ -160,4 +160,7 @@
           p:labelPlacement="TOP" p:labelField.requiredMessagePlacement="LEFT"
           p:instructionalMessageField.render="false" />
 
+    <!-- If the action button is in collection, this will submits the form (useful for redirect) instead of KRAD's default ajax callback and update the collection component -->
+    <bean id="KS-SubmitActionLink" parent="Uif-ActionLink" p:clientSideJs="jq('#kualiForm').submit();" abstract="true" />
+
 </beans>
