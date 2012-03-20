@@ -193,6 +193,7 @@
         <property name="title" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
         <property name="propertyName" value="holidayCalendarList" />
+        <property name="collectionLookup.quickfinderActionField.render" value="false" />
 
   <!--
         <property name="addLineFields">
