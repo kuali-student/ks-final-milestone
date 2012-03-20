@@ -859,7 +859,14 @@
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.course.dto.LoDisplayInfo</class-a>
 		<class-b>org.kuali.student.r2.lum.course.dto.LoDisplayInfo</class-b>
-	</mapping>
+		<field>
+			<a get-method="getLoDisplayInfoList" set-method="setLoDisplayInfoList">loDisplayInfoList</a>
+			<b get-method="getLoDisplayInfoList" set-method="setLoDisplayInfoList">loDisplayInfoList
+			</b>
+			<a-hint>org.kuali.student.r1.lum.course.dto.LoDisplayInfo</a-hint>
+			<b-hint>org.kuali.student.r2.lum.course.dto.LoDisplayInfo</b-hint>
+		</field>
+	<field><a>loInfo</a><b get-method="getLoInfo" set-method="setLoInfo">loInfo</b></field></mapping>
 
 	<!-- org.kuali.student.r*.lum.lo.dto mappings -->
 	<mapping>
