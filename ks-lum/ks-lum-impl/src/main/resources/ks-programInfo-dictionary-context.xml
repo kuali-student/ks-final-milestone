@@ -71,7 +71,7 @@
     <ref bean="majorDisciplineInfo.durationNotes"/>
     <ref bean="majorDisciplineInfo.coreFaculties"/>
 
-    <ref bean="majorDisciplineInfo.searchProgramVersions"/>
+<!--     <ref bean="majorDisciplineInfo.searchProgramVersions"/> TODO KSCM Why is this a issue-->
    </list>
   </property>
   <property name="hasMetaData" value="true"/>

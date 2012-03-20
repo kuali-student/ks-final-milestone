@@ -154,14 +154,7 @@ public class DictionaryDiscrepencyTesterHelper
   ObjectStructureDefinition os =   os = objectStructures.get (className);
   String simpleName = calcSimpleName (className);
   System.out.println("processing " + simpleName);
-  if (os == null)
-  {
-
-   out.println ("h1. " + simpleName);
-   out.println ("{anchor:" + simpleName + "}");
-   out.println ("h2. Error could not find a corresponding dictionary definition");
-//   return;
-  }
+  
   DictionaryDiscrepencyTester formatter =
                       new DictionaryDiscrepencyTester (className,
                                                className,

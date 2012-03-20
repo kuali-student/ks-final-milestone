@@ -4,7 +4,9 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,19 +72,21 @@ public class Bean2DictionaryConverter
  private FieldDefinition calcField (Class<?> clazz, PropertyDescriptor pd)
  {
   FieldDefinition fd = new FieldDefinition ();
-  fd.setName (pd.getName ());
+  String propDescriptorName = pd.getName ();
+fd.setName (propDescriptorName);
   Class<?> pt = pd.getPropertyType ();
   if (List.class.equals (pt))
   {
    fd.setMaxOccurs (fd.UNBOUNDED);
    try
    {
-    pt =
-    (Class<?>) ((ParameterizedType) clazz.getDeclaredField (pd.getName ()).getGenericType ()).getActualTypeArguments ()[0];
-   }
-   catch (NoSuchFieldException ex)
-   {
-    throw new RuntimeException (ex);
+	   ArrayList<Field> allFieldsOnClass = new ArrayList<Field>();
+//	   Field declaredFields = clazz.getDeclaredField (propDescriptorName);
+	   allFieldsOnClass = getAllFields(allFieldsOnClass, clazz);	   
+       Field declaredFields = findField(propDescriptorName, allFieldsOnClass);
+	ParameterizedType propGenericType = (ParameterizedType) declaredFields.getGenericType ();
+	pt =
+    (Class<?>) propGenericType.getActualTypeArguments ()[0];
    }
    catch (SecurityException ex)
    {
@@ -148,5 +152,26 @@ public class Bean2DictionaryConverter
    throw new RuntimeException ("unknown/unhandled type of object in bean " + pt.getName ());
   }
  }
+ 
+	public ArrayList<Field> getAllFields(ArrayList<Field> fields, Class<?> type) {
+	    for (Field field: type.getDeclaredFields()) {
+	        fields.add(field);
+	    }
+
+	    if (type.getSuperclass() != null) {
+	        fields = getAllFields(fields, type.getSuperclass());
+	    }
+
+	    return fields;
+	}
+	
+	public Field findField(String fieldName, ArrayList<Field> fields) {
+		for (Field field : fields) {
+			if (field.getName().equals(fieldName)) {
+				return field;
+			}
+		}
+		return null;
+	}
 }
 
