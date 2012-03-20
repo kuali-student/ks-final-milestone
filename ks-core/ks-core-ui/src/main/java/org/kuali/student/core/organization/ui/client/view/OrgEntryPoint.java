@@ -53,7 +53,8 @@ public class OrgEntryPoint implements EntryPoint{
 
         try {
             MessageList messageList =  getSerializedObject( "i18nMessages");
-         // TODO KSCM-429 context.addMessages(messageList.getMessages());
+
+            context.addMessages(messageList.getMessages());
 
         } catch (Exception e) {
             GWT.log("Error on ModuleLoad",e);
