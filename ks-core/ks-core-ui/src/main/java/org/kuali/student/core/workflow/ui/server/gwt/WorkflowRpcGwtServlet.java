@@ -22,6 +22,7 @@ import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.DocumentUpdate;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
+import org.kuali.rice.kew.api.action.DocumentActionResult;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -401,7 +402,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	}
 	
 	@Override
-    public Boolean adhocRequest(String docId, String recipientPrincipalId, ActionRequestType requestType,
+    public Boolean adhocRequest(String workflowId, String docId, String recipientPrincipalId, ActionRequestType requestType,
             String annotation) throws OperationFailedException {
 	    try {
             //Get a user name
@@ -410,25 +411,25 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             String fyiAnnotation = "";
             String approveAnnotation = "";
             String ackAnnotation = "";
-//TODO KSCM-370: Entire commented section
-//            if (ActionRequestType.FYI.equals(requestType)) {
-//                StandardResponse stdResp = getSimpleDocService().requestAdHocFyiToPrincipal(workflowId,recipientPrincipalId, username, fyiAnnotation);
-//                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-//                    throw new OperationFailedException("Error found in Adhoc FYI: " + stdResp.getErrorMessage());
-//                }
-//            }
-//            if (ActionRequestType.APPROVE.equals(requestType)) {
-//                StandardResponse stdResp = getSimpleDocService().requestAdHocApproveToPrincipal(workflowId, recipientPrincipalId,username, approveAnnotation);
-//                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-//                    throw new OperationFailedException("Error found in Adhoc Approve: " + stdResp.getErrorMessage());
-//                }
-//            }
-//            if (ActionRequestType.ACKNOWLEDGE.equals(requestType)) {
-//                StandardResponse stdResp = getSimpleDocService().requestAdHocAckToPrincipal(workflowId,recipientPrincipalId,username, ackAnnotation);
-//                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-//                    throw new OperationFailedException("Error found in Adhoc Ack: " + stdResp.getErrorMessage());
-//                }
-//            }
+            //TODO KSCM-277: Entire commented section
+            /*if (ActionRequestType.FYI.equals(requestType)) {
+                StandardResponse stdResp = getWorkflowDocumentService().requestAdHocFyiToPrincipal(workflowId, recipientPrincipalId, username, fyiAnnotation);
+                if (stdResp == null || StringUtils.isNotBlank(stdResp.stdResp())) {
+                    throw new OperationFailedException("Error found in Adhoc FYI: " + stdResp.getErrorMessage());
+                    }
+                }
+            if (ActionRequestType.APPROVE.equals(requestType)) {
+                StandardResponse stdResp = getWorkflowDocumentService().requestAdHocApproveToPrincipal(workflowId, recipientPrincipalId,username, approveAnnotation);
+                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                    throw new OperationFailedException("Error found in Adhoc Approve: " + stdResp.getErrorMessage());
+                    }
+                }
+            if (ActionRequestType.ACKNOWLEDGE.equals(requestType)) {
+                StandardResponse stdResp = getWorkflowDocumentService().requestAdHocAckToPrincipal(workflowId,recipientPrincipalId,username, ackAnnotation);
+                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                    throw new OperationFailedException("Error found in Adhoc Ack: " + stdResp.getErrorMessage());
+                    }
+                }*/
 
         } catch (Exception e) {
             LOG.error("Error adhoc routing",e);
