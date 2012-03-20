@@ -647,13 +647,13 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		List<ValidationResultInfo> val = validateLoCategory("SYSTEM", loCategoryInfo,contextInfo);
 
 		//kslum-136 - don't allow dups w/ same name (case insensitive), type, state & repository
-
-        if (doesLoCategoryExist(loCategoryInfo.getLoRepository(), loCategoryInfo, loCategoryId,contextInfo)) {
-            ValidationResultInfo vr = new ValidationResultInfo();
-            vr.setElement("LO Category Name");
-            vr.setError("LO Category already exists");
-            val.add(vr);
-        }
+//TODO KSCM-448
+//        if (doesLoCategoryExist(loCategoryInfo.getLoRepository(), loCategoryInfo, loCategoryId,contextInfo)) {
+//            ValidationResultInfo vr = new ValidationResultInfo();
+//            vr.setElement("LO Category Name");
+//            vr.setError("LO Category already exists");
+//            val.add(vr);
+//        }
         if(null != val && val.size() > 0) {
             for (ValidationResultInfo result : val) {
                 System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());

@@ -22,7 +22,7 @@ import java.util.Map;
 import org.kuali.student.lum.statement.config.context.util.NLCluSet;
 import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.lum.lu.service.LuService;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -37,7 +37,7 @@ public class LuContextImpl extends BasicContextImpl {
     /**
      * Learning unit service.
      */
-	private LuService luService;
+	private CluService luService;
 
 	/**
 	 * <code>clu</code> token (key) references a Clu object used in templates.
@@ -64,7 +64,7 @@ public class LuContextImpl extends BasicContextImpl {
 	 *
 	 * @param luService LU service
 	 */
-    public void setLuService(LuService luService) {
+    public void setLuService(CluService luService) {
 		this.luService = luService;
 	}
 

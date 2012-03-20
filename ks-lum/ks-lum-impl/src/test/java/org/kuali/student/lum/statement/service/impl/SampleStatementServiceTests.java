@@ -21,7 +21,7 @@ public class SampleStatementServiceTests {
 		
 		Assert.assertEquals("HELLO","HELLO");
 	}
-	
+//TODO KSCM-448 	
 //	@Test
 //    public void testGetNaturalLanguageForReqComponent1() throws Exception {
 //        //req. type: 'kuali.reqComponent.type.test'
