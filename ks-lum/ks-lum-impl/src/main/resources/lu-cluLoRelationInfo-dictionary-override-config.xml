@@ -376,7 +376,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="dict.includes.luLoRelation.state.cd"/>
 <dict:selector>true</dict:selector>
 </dict:field>
-<dict:field key="state" id="dict.includes.luLoRelation.state" parent="dict.includes.luLoRelation.state.abstract"/>
+<dict:field key="state" id="dict.includes.luLoRelation.stateKey" parent="dict.includes.luLoRelation.state.abstract"/>
 <dict:fieldDescriptor id="dict.includes.luLoRelation.state.fd.abstract" abstract="true">
 	<dict:name>includes relation state</dict:name>
 	<dict:desc>the state of the relation</dict:desc>

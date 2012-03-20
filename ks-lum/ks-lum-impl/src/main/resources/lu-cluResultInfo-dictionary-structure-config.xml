@@ -813,7 +813,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintDescriptorRef bean="field.cluResultInfo.state.cd"/>
 <dict:selector>true</dict:selector>
 </dict:field>
-<dict:field key="state" id="field.cluResultInfo.state" parent="field.cluResultInfo.state.abstract"/>
+<dict:field key="state" id="field.cluResultInfo.stateKey" parent="field.cluResultInfo.state.abstract"/>
 <dict:fieldDescriptor id="field.cluResultInfo.state.fd.abstract" abstract="true">
 	<dict:name>CLU Result State</dict:name>
 	<dict:desc>The current status of the CLU Result. The values for this field are constrained to those in the cluResultState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
