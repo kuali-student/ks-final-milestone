@@ -83,7 +83,7 @@
 		parent="baseRepeatingComplex">
 		<property name="name" value="courseSpecificLOs" />
 		<property name="dataObjectStructure"
-			ref="org.kuali.student.lum.course.dto.LoDisplayInfo" />
+			ref="org.kuali.student.r2.lum.course.dto.LoDisplayInfo" />
 	</bean>
 	<bean id="courseInfo.courseSpecificLOs" parent="courseInfo.courseSpecificLOs-parent" />
 
@@ -502,7 +502,7 @@
 	<bean id="org.kuali.student.lum.course.dto.LoDisplayInfo-parent"
 		abstract="true" parent="ObjectStructureDefinition">
 		<property name="name"
-			value="org.kuali.student.lum.course.dto.LoDisplayInfo" />
+			value="org.kuali.student.r2.lum.course.dto.LoDisplayInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="loDisplayInfo.loCategoryInfoList" />
@@ -528,7 +528,7 @@
 		<property name="name" value="loDisplayInfoList" />
 		<!-- 
 		<property name="dataObjectStructure"
-			ref="org.kuali.student.lum.course.dto.LoDisplayInfo" />
+			ref="org.kuali.student.r2.lum.course.dto.LoDisplayInfo" />
 			-->
 	</bean>
 	<bean id="loDisplayInfo.loDisplayInfoList" parent="loDisplayInfo.loDisplayInfoList-parent" />

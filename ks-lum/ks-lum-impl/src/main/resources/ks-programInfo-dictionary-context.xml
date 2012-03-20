@@ -621,7 +621,7 @@
 	<!-- use ref to course's for now; MajorDiscipline's may be significantly 
 		different -->
 	<property name="dataObjectStructure"
-		ref="org.kuali.student.lum.course.dto.LoDisplayInfo" />
+		ref="org.kuali.student.r2.lum.course.dto.LoDisplayInfo" />
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
@@ -1663,7 +1663,7 @@
  <bean id="coreProgramInfo.learningObjectives-parent" abstract="true"
        parent="majorDisciplineInfo.learningObjectives-parent">
   <property name="name" value="learningObjectives"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.LoDisplayInfo"/>
  </bean>
  <bean id="coreProgramInfo.learningObjectives" parent="coreProgramInfo.learningObjectives-parent"/>
 
@@ -1829,7 +1829,7 @@
  <bean id="credentialProgramInfo.learningObjectives-parent" abstract="true"
        parent="majorDisciplineInfo.learningObjectives-parent">
   <property name="name" value="learningObjectives"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.LoDisplayInfo"/>
   <property name="caseConstraint"><null/></property>
  </bean>
  <bean id="credentialProgramInfo.learningObjectives" parent="credentialProgramInfo.learningObjectives-parent"/>
@@ -2055,7 +2055,7 @@
  <bean id="programRequirementInfo.learningObjectives-parent" abstract="true"
        parent="majorDisciplineInfo.learningObjectives-parent">
   <property name="name" value="learningObjectives"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.LoDisplayInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.LoDisplayInfo"/>
   <property name="caseConstraint"><null/></property>
  </bean>
  <bean id="programRequirementInfo.learningObjectives" parent="programRequirementInfo.learningObjectives-parent"/>

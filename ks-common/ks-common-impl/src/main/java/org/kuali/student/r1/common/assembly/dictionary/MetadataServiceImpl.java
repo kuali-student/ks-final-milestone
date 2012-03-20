@@ -429,7 +429,7 @@ public class MetadataServiceImpl {
                 List<Object> values = whenConstraint.getValues();
                 Constraint constraint = whenConstraint.getConstraint();
 
-                if (constraint.getErrorLevel() == org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel.ERROR && constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0){
+                if (constraint.getErrorLevel() == ErrorLevel.ERROR && constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0){
                     //This is a required field, so need to determine if it is required to save or required to approve based on the
                 	//workflowNode parameter. The order of workflow nodes defined in the case constraint on this field is important in 
                 	//determining if required to approve or required to save. If the workflowNode parameter equals is the first  
@@ -482,7 +482,7 @@ public class MetadataServiceImpl {
                 if (values != null) {
                     Constraint constraint = whenConstraint.getConstraint();
 
-                    if (constraint.getErrorLevel() == org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel.ERROR){
+                    if (constraint.getErrorLevel() == ErrorLevel.ERROR){
                     	//NOTE: if the constraint has a nested constraint with fieldPath="lookup:proposal...", 
                     	//the required, requiredForNextState, and nextState values will be reset based on workflow node	           
                     	

@@ -315,7 +315,7 @@
         <property name="commentDao" ref="commentDao"/>
         <property name="searchManager" ref="commentSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
-        <property name="validatorFactory" ref="coreValidatorFactory"/>
+        <property name="validatorFactory" ref="r1_coreValidatorFactory"/>
     </bean>
 
     <bean id="ks.exp.commentService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -367,7 +367,7 @@
         <property name="searchManager" ref="statementSearchManager"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
-        <property name="validatorFactory" ref="lumValidatorFactory"/>
+        <property name="validatorFactory" ref="r1_lumValidatorFactory"/>
         <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
     </bean>
 
@@ -413,7 +413,7 @@
           class="org.kuali.student.r1.core.document.service.impl.DocumentServiceImpl">
         <property name="documentDao" ref="documentDao1"/>
         <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
-        <property name="validatorFactory" ref="coreValidatorFactory"/>
+        <property name="validatorFactory" ref="r1_coreValidatorFactory"/>
     </bean>
 
     <bean id="ks.exp.documentService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -504,7 +504,7 @@
         <property name="proposalDao" ref="proposalDao"/>
         <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
         <property name="searchManager" ref="proposalSearchManager"/>
-        <property name="validatorFactory" ref="coreValidatorFactory"/>
+        <property name="validatorFactory" ref="r1_coreValidatorFactory"/>
     </bean>
 
     <bean id="proposalSearchManager"

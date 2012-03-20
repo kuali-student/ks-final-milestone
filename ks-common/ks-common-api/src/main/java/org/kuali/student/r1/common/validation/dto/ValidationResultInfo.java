@@ -64,11 +64,27 @@ public class ValidationResultInfo implements Serializable {
             }
         }
         
+        public static org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel fromR1Int(int level) {
+            switch (level) {
+                case 0:
+                    return org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel.OK;
+                case 1:
+                    return org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel.WARN;
+                case 2:
+                    return org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel.ERROR;
+                default:
+                    throw new IllegalArgumentException(level + "");
+            }
+        }
         // This method was added to maintain some of the R1 packages which are old and 
         // should be replaced, but still need to compile
 		@Deprecated
 		public static ErrorLevel convertR2toR1(org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel errorLevelR2){	    
 		    return ErrorLevel.fromInt(errorLevelR2.getLevel());
+		}
+		
+		public static org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel convertR1toR2(ErrorLevel errorLevelR1){	    
+		    return ErrorLevel.fromR1Int(errorLevelR1.getLevel());
 		}
 	}
 

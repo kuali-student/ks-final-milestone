@@ -378,7 +378,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             rMap.put("field2", fieldName);
             val = new ValidationResultInfo(element, fieldValue);
             val.setMessage(MessageUtils.interpolate(getMessage("validation.requiresField"), rMap));
-            val.setLevel(ErrorLevel.convertR2toR1(constraint.getErrorLevel()));  
+            val.setLevel(constraint.getErrorLevel());  
         }
 
         return val;
@@ -460,7 +460,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         			if (constraint.getCaseConstraint() != null){
         				return processCaseConstraint(valResults, constraint.getCaseConstraint(), objStructure, value, dataProvider, elementStack, rootData, rootObjStructure);
         			} else {
-        				processCrossFieldWarning(valResults, caseConstraint, constraint, value, ErrorLevel.convertR2toR1(constraint.getErrorLevel()));
+        				processCrossFieldWarning(valResults, caseConstraint, constraint, value, constraint.getErrorLevel());
         				return constraint;
         			}
                 }
@@ -473,7 +473,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 	        			if (constraint.getCaseConstraint() != null){
 	        				return processCaseConstraint(valResults, constraint.getCaseConstraint(), objStructure, value, dataProvider, elementStack, rootData, rootObjStructure);
 	        			} else {
-	        				processCrossFieldWarning(valResults, caseConstraint, constraint, value, ErrorLevel.convertR2toR1(constraint.getErrorLevel()));	        				
+	        				processCrossFieldWarning(valResults, caseConstraint, constraint, value, constraint.getErrorLevel());	        				
 	        				return constraint;
 	        			}
 	                }
@@ -549,7 +549,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
          // TODO: figure out what data should go here instead of null
             val = new ValidationResultInfo(element, null);
             val.setMessage(getMessage("validation.occurs"));
-            val.setLevel(ErrorLevel.convertR2toR1(constraint.getErrorLevel()));
+            val.setLevel(constraint.getErrorLevel());
         }
 
         return val;
@@ -651,10 +651,10 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         //If there are no search results then make a validation result
         if (searchResult == null || searchResult.getRows() == null || searchResult.getRows().isEmpty()) {
             ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName(), value);
-            val.setLevel(ErrorLevel.convertR2toR1(lookupConstraint.getErrorLevel()));
+            val.setLevel(lookupConstraint.getErrorLevel());
             val.setMessage(getMessage("validation.lookup"));
             valResults.add(val);
-        	processCrossFieldWarning(valResults, lookupConstraint, ErrorLevel.convertR2toR1(lookupConstraint.getErrorLevel()));
+        	processCrossFieldWarning(valResults, lookupConstraint, lookupConstraint.getErrorLevel());
         }
     }
 
@@ -670,7 +670,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 } else {
                 	val.setMessage(getMessage("validation.required"));
                 }
-                val.setLevel(ErrorLevel.convertR2toR1(constraint.getErrorLevel()));
+                val.setLevel(constraint.getErrorLevel());
                 valResults.add(val);
             }
             return;

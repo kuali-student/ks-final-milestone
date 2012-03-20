@@ -146,7 +146,7 @@
     <bean id="proposalClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.core.proposal.service.ProposalService"/>
+                  value="org.kuali.student.r1.core.proposal.service.ProposalService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/proposal}ProposalService"/>
     </bean>
@@ -383,14 +383,19 @@
         <constructor-arg index="0" value="${ks.lum.dictionary.serviceContextLocations}"/>
     </bean>
 
-    <bean id="lumServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+    <bean id="lumServiceValidator" class="org.kuali.student.r2.common.validator.DefaultValidatorImpl">
+        <property name="messageService" ref="ks.messageServiceMock"/>
+        <property name="searchDispatcher" ref="lumSearchDispatcher"/>
+    </bean>
+    
+    <bean id="r1_lumServiceValidator" class="org.kuali.student.r1.common.validator.DefaultValidatorImpl">
         <property name="messageService" ref="ks.messageServiceMock"/>
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 
 
     <bean id="lumValidatorFactory-parent"
-          abstract="true" class="org.kuali.student.common.validator.ValidatorFactory">
+          abstract="true" class="org.kuali.student.r2.common.validator.ValidatorFactory">
         <property name="defaultValidator" ref="lumServiceValidator"/>
         <property name="validatorList">
         	<list>
@@ -416,7 +421,32 @@
 
     <bean id="lumValidatorFactory" parent="lumValidatorFactory-parent"/>
 	
-    
+    <bean id="r1_lumValidatorFactory-parent"
+          abstract="true" class="org.kuali.student.r1.common.validator.ValidatorFactory">
+        <property name="defaultValidator" ref="r1_lumServiceValidator"/>
+        <property name="validatorList">
+        	<list>
+				<!--  Add Custom Validators Here -->
+				<bean class="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator" >
+        			<property name="messageService" ref="ks.messageServiceMock"/>
+       				<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+				</bean>
+				
+				<!--  Custom Validator for Revenue. Checks to see if the sum of all the orgs adds up to 100% -->
+			    <bean class="org.kuali.student.lum.course.service.utils.RevenuePercentValidator"/>
+			    <bean class="org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator"/>    	
+				<bean class="org.kuali.student.lum.course.service.utils.ActiveDatesValidator">
+					<property name="atpService" ref="atpClient"/>
+				</bean>
+				<bean class="org.kuali.student.lum.course.service.utils.SubjectAreaUnitOwnerValidator">
+					<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+				</bean>
+				<bean class="org.kuali.student.lum.course.service.utils.ActivityTypeValidator"/>
+			</list>
+        </property>
+    </bean>
+
+    <bean id="r1_lumValidatorFactory" parent="r1_lumValidatorFactory-parent"/>
 
     <!-- Program Service Config -->
 
@@ -426,7 +456,7 @@
                          value="classpath:lu-search-config.xml"/>
     </bean>
 
-    <bean id="statementTreeViewAssembler" class="org.kuali.student.core.statement.service.assembler.StatementTreeViewAssembler">
+    <bean id="statementTreeViewAssembler" class="org.kuali.student.r1.core.statement.service.assembler.StatementTreeViewAssembler">
    </bean>
 
     <bean id="programRequirementAssembler"
@@ -536,19 +566,19 @@
     </bean>
     
     <bean id="documentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.document.service.DocumentService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
     </bean>
 
     <bean id="subjectCodeClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.subjectcode.service.SubjectCodeService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.subjectcode.service.SubjectCodeService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/subjectCode}SubjectCodeService"/>
     </bean>
     
     <bean id="statementServiceClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.core.statement.service.StatementService"/>
+                  value="org.kuali.student.r1.core.statement.service.StatementService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/statement}StatementService"/>
     </bean>

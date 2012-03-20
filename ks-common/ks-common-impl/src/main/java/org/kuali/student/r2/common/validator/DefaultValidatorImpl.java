@@ -405,7 +405,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             rMap.put("field2", fieldName);
             val = new ValidationResultInfo(element, fieldValue);
             val.setMessage(MessageUtils.interpolate(getMessage("validation.requiresField", contextInfo), rMap));
-            val.setLevel(constraint.getErrorLevel());
+            val.setLevel(org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel.convertR1toR2(constraint.getErrorLevel()));
         }
 
         return val;
@@ -489,8 +489,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                         return processCaseConstraint(valResults, constraint.getCaseConstraint(), objStructure, value,
                                 dataProvider, elementStack, rootData, rootObjStructure, contextInfo);
                     } else {
-                        processCrossFieldWarning(valResults, caseConstraint, constraint, value,
-                                constraint.getErrorLevel(), contextInfo);
+                        processCrossFieldWarning(valResults, caseConstraint, constraint, value, org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel.convertR1toR2(constraint.getErrorLevel()), contextInfo);
                         return constraint;
                     }
                 }
@@ -507,7 +506,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                                     value, dataProvider, elementStack, rootData, rootObjStructure, contextInfo);
                         } else {
                             processCrossFieldWarning(valResults, caseConstraint, constraint, value,
-                                    constraint.getErrorLevel(), contextInfo);
+                            		org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel.convertR1toR2(constraint.getErrorLevel()), contextInfo);
                             return constraint;
                         }
                     }
@@ -585,7 +584,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             // TODO: figure out what data should go here instead of null
             val = new ValidationResultInfo(element, null);
             val.setMessage(getMessage("validation.occurs", contextInfo));
-            val.setLevel(constraint.getErrorLevel());
+            val.setLevel(org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel.convertR1toR2(constraint.getErrorLevel()));
         }
 
         return val;
@@ -692,10 +691,10 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         if (searchResult == null || searchResult.getRows() == null || searchResult.getRows().isEmpty()) {
             ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName(),
                     value);
-            val.setLevel(lookupConstraint.getErrorLevel());
+            val.setLevel(org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel.convertR1toR2(lookupConstraint.getErrorLevel()));
             val.setMessage(getMessage("validation.lookup", contextInfo));
             valResults.add(val);
-            processCrossFieldWarning(valResults, lookupConstraint, lookupConstraint.getErrorLevel(), contextInfo);
+            processCrossFieldWarning(valResults, lookupConstraint, org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel.convertR1toR2(lookupConstraint.getErrorLevel()), contextInfo);
         }
     }
 
@@ -712,7 +711,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 } else {
                     val.setMessage(getMessage("validation.required", contextInfo));
                 }
-                val.setLevel(constraint.getErrorLevel());
+                val.setLevel(org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel.convertR1toR2(constraint.getErrorLevel()));
                 valResults.add(val);
             }
             return;
