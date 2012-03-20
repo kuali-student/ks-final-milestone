@@ -80,7 +80,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluInfo.accountingInfo"/>
 	<dict:fieldRef bean="field.cluInfo.metaInfo"/>
 	<dict:fieldRef bean="field.cluInfo.type"/>
-	<dict:fieldRef bean="field.cluInfo.stateKey"/>
+	<dict:fieldRef bean="field.cluInfo.state"/>
 	<dict:fieldRef bean="field.cluInfo.id"/>
 </dict:state>
 <dict:state key="*" id="state.cluInfo" parent="state.cluInfo.abstract"/>
