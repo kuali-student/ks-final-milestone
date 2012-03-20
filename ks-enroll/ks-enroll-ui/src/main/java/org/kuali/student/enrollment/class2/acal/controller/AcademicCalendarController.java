@@ -78,26 +78,18 @@ public class AcademicCalendarController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response) {
         AcademicCalendarForm acalForm = (AcademicCalendarForm) form;
 
-        String acalId = request.getParameter("acalId");
-        if (acalId != null && !acalId.trim().isEmpty()) {
+        String acalId = request.getParameter(CalendarConstants.CALENDAR_ID);
+
+        if (StringUtils.isNotBlank(acalId)){
             try {
                 loadAcademicCalendar(acalId, acalForm);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-        }else{
-
-            acalId = request.getParameter(CalendarConstants.CALENDAR_ID);
-            String readOnlyView = request.getParameter(CalendarConstants.READ_ONLY_VIEW);
-
-            try {
-                loadAcademicCalendar(acalId, acalForm);
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-
-            acalForm.getView().setReadOnly(BooleanUtils.toBoolean(readOnlyView));
         }
+
+        String readOnlyView = request.getParameter(CalendarConstants.READ_ONLY_VIEW);
+        acalForm.getView().setReadOnly(BooleanUtils.toBoolean(readOnlyView));
 
         return super.start(form, result, request, response);
     }
@@ -123,7 +115,7 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarForm acalForm = (AcademicCalendarForm) form;
         AcademicCalendarInfo acalInfo = null;
 
-        String acalId = request.getParameter("acalId");
+        String acalId = request.getParameter(CalendarConstants.CALENDAR_ID);
         if (acalId != null && !acalId.trim().isEmpty()) {
             String pageId = request.getParameter("pageId");
             if ("academicCalendarCopyPage".equals(pageId)) {

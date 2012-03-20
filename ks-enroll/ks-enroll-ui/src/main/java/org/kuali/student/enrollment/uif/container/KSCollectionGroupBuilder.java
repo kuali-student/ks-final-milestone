@@ -13,7 +13,6 @@ import java.util.List;
 
 public class KSCollectionGroupBuilder extends CollectionGroupBuilder{
 
-    @Override
     protected List<ActionField> getLineActions(View view, Object model, CollectionGroup collectionGroup,
 			Object collectionLine, int lineIndex) {
 

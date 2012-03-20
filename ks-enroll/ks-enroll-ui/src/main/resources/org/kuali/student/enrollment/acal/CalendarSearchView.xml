@@ -141,7 +141,7 @@
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -182,7 +182,7 @@
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -222,7 +222,7 @@
               <list>
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
