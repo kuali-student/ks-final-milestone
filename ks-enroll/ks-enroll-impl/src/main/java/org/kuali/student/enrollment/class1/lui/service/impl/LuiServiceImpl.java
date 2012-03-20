@@ -35,6 +35,8 @@ import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.WebParam;
+
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class LuiServiceImpl implements LuiService {
     private LuiDao luiDao;
@@ -131,6 +133,12 @@ public class LuiServiceImpl implements LuiService {
     public List<String> getLuiIdsByCluId(String cluId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return new ArrayList<String>();
     }
+
+    @Override
+    public List<String> getLuiIdsByAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+        {
+            return  new ArrayList<String>();
+        }
 
     @Override
     public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {

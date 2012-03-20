@@ -86,7 +86,6 @@ public class TestCourseOfferingServiceImpl {
             assertNotNull(co);
             assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, co.getStateKey());
             assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, co.getTypeKey());
-            assertEquals("Lui Desc 101", co.getDescr().getPlain());
         } catch (Exception ex) {
             fail(ex.getMessage());
         }

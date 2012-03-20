@@ -126,6 +126,21 @@ public interface LuiService {
      */
     public List<String> getLuiIdsByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
+     /**
+     * Retrieves the list of LUI Ids for the specified atp.
+     *
+     * @param atpId identifier of the
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return list of LUI identifiers
+     * @throws DoesNotExistException     clu not found
+     * @throws InvalidParameterException invalid cluId
+     * @throws MissingParameterException missing cluId
+     * @throws OperationFailedException  unable to complete request
+     */
+    public List<String> getLuiIdsByAtp( @WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
     /**
      * Retrieves the list of LUI Ids for the specified CLU and Time period.
      *
