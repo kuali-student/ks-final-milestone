@@ -3,6 +3,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
  <import resource="classpath:ks-base-dictionary-context.xml" />
+ <import resource="classpath:ks-cluInfo-dictionary-context.xml"/>
 
  <!-- LoDisplayInfo-->
  <bean id="org.kuali.student.r2.lum.course.dto.LoDisplayInfo-parent"
@@ -131,7 +132,7 @@
     <ref bean="loCategoryInfo.effectiveDate" />
     <ref bean="loCategoryInfo.expirationDate" />
     <ref bean="loCategoryInfo.id" />
-    <ref bean="loCategoryInfo.loRepository" />
+    <ref bean="loCategoryInfo.loRepositoryKey" />
     <ref bean="loCategoryInfo.name" />
     <ref bean="loCategoryInfo.stateKey" />
     <ref bean="loCategoryInfo.typeKey" />
@@ -186,11 +187,11 @@
  </bean>
  <bean id="loCategoryInfo.id" parent="loCategoryInfo.id-parent" />
 
- <bean id="loCategoryInfo.loRepository-parent" abstract="true"
+ <bean id="loCategoryInfo.loRepositoryKey-parent" abstract="true"
        parent="baseString">
-  <property name="name" value="loRepository" />
+  <property name="name" value="loRepositoryKey" />
  </bean>
- <bean id="loCategoryInfo.loRepository" parent="loCategoryInfo.loRepository-parent" />
+ <bean id="loCategoryInfo.loRepositoryKey" parent="loCategoryInfo.loRepositoryKey-parent" />
 
  <bean id="loCategoryInfo.name-parent" abstract="true" parent="baseString">
   <property name="name" value="name" />

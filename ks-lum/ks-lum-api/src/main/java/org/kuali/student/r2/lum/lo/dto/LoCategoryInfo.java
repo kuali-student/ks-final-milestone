@@ -92,36 +92,13 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
     }
 
     @Deprecated
-	public RichTextInfo getDesc() {
-		return this.getDescr();
-	}
-
-    @Deprecated
 	public MetaInfo getMetaInfo() {
 		return this.getMeta();
 	}
 
     @Deprecated
-	public void setDesc(RichTextInfo descInfo) {
-		this.setDescr(descInfo);
-		
-	}
-
-    @Deprecated
 	public void setMetaInfo(MetaInfo metaInfo) {
 		this.setMeta(metaInfo);		
-	}
-
-    @Deprecated
-	public String getLoRepository() {
-		// TODO KSCM-392 not sure what it should be replaced with NINA
-		return null;
-	}
-
-    @Deprecated
-	public void setLoRepository(String loRepository) {
-		// TODO  KSCM-392 not sure what it should be replaced with NINA
-		
 	}
 
 }
