@@ -135,7 +135,7 @@ public class LuiServiceImpl implements LuiService {
     }
 
     @Override
-    public List<String> getLuiIdsByAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+    public List<String> getLuiIdsByAtpAndType(@WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
         {
             return  new ArrayList<String>();
         }

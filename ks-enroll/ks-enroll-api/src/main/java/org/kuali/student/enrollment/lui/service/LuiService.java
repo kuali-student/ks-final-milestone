@@ -139,7 +139,7 @@ public interface LuiService {
      * @throws MissingParameterException missing cluId
      * @throws OperationFailedException  unable to complete request
      */
-    public List<String> getLuiIdsByAtp( @WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getLuiIdsByAtpAndType(@WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves the list of LUI Ids for the specified CLU and Time period.
