@@ -139,7 +139,6 @@ public class HolidayCalendarController extends UifControllerBase {
         HolidayCalendarForm hcForm = (HolidayCalendarForm) form;
 
         String hcId = request.getParameter(CalendarConstants.CALENDAR_ID);
-        String readOnlyView = request.getParameter(CalendarConstants.READ_ONLY_VIEW);
 
         if ((hcId != null) && !hcId.trim().isEmpty()) {
             String viewId = request.getParameter("viewId");
@@ -152,8 +151,6 @@ public class HolidayCalendarController extends UifControllerBase {
             } catch (Exception ex) {
             }
         }
-
-        hcForm.getView().setReadOnly(BooleanUtils.toBoolean(readOnlyView));
 
         return super.start(form, result, request, response);
     }

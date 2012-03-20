@@ -182,17 +182,15 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put(CalendarConstants.CALENDAR_ID,hcInfo.getId());
+        props.put(CalendarConstants.CALENDAR_ID, hcInfo.getId());
         props.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
 
         if (StringUtils.equals(methodToCall,CalendarConstants.HC_COPY_METHOD)){
-           props.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE);
+           props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_COPYPAGE);
+        }else if (StringUtils.equals(methodToCall,CalendarConstants.HC_VIEW_METHOD) && readOnlyView){
+            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
         } else {
            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
-        }
-
-        if (readOnlyView){
-            props.put(CalendarConstants.READ_ONLY_VIEW,""+ true);
         }
 
         return props;

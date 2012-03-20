@@ -38,9 +38,9 @@ public class CalendarConstants {
     public static final String HCAL_EDIT_VIEW = "holidayCalendarFlowView";
 
     //calender types for search
-    public static final String ACADEMICCALENDER= "AcademicCalendar";
-    public static final String HOLIDAYCALENDER= "HolidayCalendar";
-    public static final String TERM= "AcademicTerm";
+    public static final String ACADEMICCALENDER = "AcademicCalendar";
+    public static final String HOLIDAYCALENDER = "HolidayCalendar";
+    public static final String TERM = "AcademicTerm";
 
     //method names
     public static final String AC_EDIT_METHOD = "start";
