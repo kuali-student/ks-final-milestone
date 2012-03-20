@@ -54,4 +54,7 @@ public class CalendarConstants {
     public static final String PAGE_ID = "pageId";
     public static final String READ_ONLY_VIEW = "readOnlyView";
 
+    public static final String KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD = "kuali.milestone.type.group.keydate";
+    public static final String KEY_DATE_GROUP_TYPE_CURRICULUM = "kuali.milestone.type.group.curriculum";
+
 }

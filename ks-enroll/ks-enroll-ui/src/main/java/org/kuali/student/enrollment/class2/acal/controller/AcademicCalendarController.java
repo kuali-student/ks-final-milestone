@@ -109,77 +109,70 @@ public class AcademicCalendarController extends UifControllerBase {
     // if acalId is not empty, use the acalInfo of that acalId as the template for copying
     //otherwise, find the latest acal and use it as the template for copying
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=copyForNew")
-    public ModelAndView copyForNew( @ModelAttribute("KualiForm") AcademicCalendarForm form, BindingResult result,
+    public ModelAndView copyForNew( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
 
-        AcademicCalendarForm acalForm = (AcademicCalendarForm) form;
         AcademicCalendarInfo acalInfo = null;
 
         String acalId = request.getParameter(CalendarConstants.CALENDAR_ID);
         if (acalId != null && !acalId.trim().isEmpty()) {
-            String pageId = request.getParameter("pageId");
-            if ("academicCalendarCopyPage".equals(pageId)) {
-                acalForm.setViewTypeName(UifConstants.ViewType.INQUIRY);
+            String pageId = request.getParameter(CalendarConstants.PAGE_ID);
+            if (CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE.equals(pageId)) {
+//                acalForm.setViewTypeName(UifConstants.ViewType.INQUIRY);
                 try {
                     acalInfo= getAcalService().getAcademicCalendar(acalId, getContextInfo());
-                    form.setAcademicCalendarInfo(acalInfo);
+                    acalForm.setOrgAcalInfo(acalInfo);
 
                 } catch (Exception ex) {
                     //TODO: handle exception properly
                 }
             }
-            return super.start(form, result, request, response);
         }
         else {
+            // try to get the latest AC from DB
             try {
-                acalInfo = getAcademicCalendarViewHelperService(form).getLatestAcademicCalendar();
-                form.setAcademicCalendarInfo(acalInfo);
+                acalInfo = getAcademicCalendarViewHelperService(acalForm).getLatestAcademicCalendar();
+                acalForm.setOrgAcalInfo(acalInfo);
             }
             catch (Exception x) {
                 //TODO - what to do here?
             }
 
-            if (null != acalInfo) {
-                // do some calculations on probable values for the new calendar
-                Calendar cal=Calendar.getInstance();
-                cal.setTime(acalInfo.getStartDate());
-                cal.add(Calendar.YEAR, 1);
-                form.setNewCalendarStartDate(cal.getTime());
-                cal.setTime(acalInfo.getEndDate());
-                cal.add(Calendar.YEAR, 1);
-                form.setNewCalendarEndDate(cal.getTime());
-            }
+//            if (null != acalInfo) {
+//                // do some calculations on probable values for the new calendar
+//                Calendar cal=Calendar.getInstance();
+//                cal.setTime(acalInfo.getStartDate());
+//                cal.add(Calendar.YEAR, 1);
+//                form.setNewCalendarStartDate(cal.getTime());
+//                cal.setTime(acalInfo.getEndDate());
+//                cal.add(Calendar.YEAR, 1);
+//                form.setNewCalendarEndDate(cal.getTime());
+//            }
 
-            return super.start(form, result, request, response);
         }
+        //return super.start(acalForm, result, request, response);
+        return getUIFModelAndView(acalForm);
     }
 
-
+    //copy over from the existing AcalInfo to create a new
     @RequestMapping(method = RequestMethod.POST, params="methodToCall=copy")
-    public ModelAndView copy( @ModelAttribute("KualiForm") AcademicCalendarForm form, BindingResult result,
+    public ModelAndView copy( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        if ((null == form.getAcademicCalendarInfo()) || (null == form.getAcademicCalendarInfo().getId())) {
+        if ( null == acalForm.getOrgAcalInfo() || null == acalForm.getOrgAcalInfo().getId()) {
             //TODO - display some kind of error
-            return getUIFModelAndView(form);
+            return getUIFModelAndView(acalForm);
         }
 
-        AcademicCalendarInfo newAcalInfo = null;
+
         try {
-            newAcalInfo = getAcademicCalendarViewHelperService(form).copyAcademicCalendar(form);
-        }
-        catch (Exception x) {
-        }
+           getAcademicCalendarViewHelperService(acalForm).copyToCreateAcademicCalendar(acalForm);
+            //???
+           acalForm.setDelete(true);
+        }catch (Exception ex) {
 
-        if (null == newAcalInfo) {
-            //TODO - display some kind of error
-            return getUIFModelAndView(form);
         }
-        else {
-            form.setAcademicCalendarInfo(newAcalInfo);
-            form.setOfficial(newAcalInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
-            form.setDelete(true);
-            return getUIFModelAndView(form, CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE);
-        }
+        return getUIFModelAndView(acalForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
+
     }
 
 
@@ -192,27 +185,28 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarInfo academicCalendarInfo = academicCalendarForm.getAcademicCalendarInfo();
 
         if(academicCalendarInfo.getId() != null && !academicCalendarInfo.getId().trim().isEmpty()){
-            // update acal
+            // 1. update acal
             AcademicCalendarInfo acalInfo = getAcalService().updateAcademicCalendar(academicCalendarInfo.getId(), academicCalendarInfo, getContextInfo() );
             academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), getContextInfo()));
 
-            //update acalEvents if any
+            // 2. update acalEvents if any
             List<AcalEventWrapper> events = academicCalendarForm.getEvents();
             if(events != null && !events.isEmpty()){
                 processEvents(academicCalendarForm, events, acalInfo.getId());
             }
-            
+            // 3. update AC-HC relationships
             List<HolidayCalendarWrapper> holidayCalendarList = academicCalendarForm.getHolidayCalendarList();
             if (holidayCalendarList != null && !holidayCalendarList.isEmpty()) {
 //                updateACAndHCRelationships (academicCalendarForm, holidayCalendarList, acalInfo.getId());
             }
         }
         else {
-            // create acalInfo
+            // 1. create  a new acalInfo
             AcademicCalendarInfo acalInfo = getAcademicCalendarViewHelperService(academicCalendarForm).createAcademicCalendar(academicCalendarForm);
             academicCalendarForm.setAcademicCalendarInfo(acalInfo);
-            // then create events if any
+            // 2. create new events if any
             createEvents(acalInfo.getId(), academicCalendarForm);
+            // 3. create AC-HC relationships
 //            createACandHCRelationships(acalInfo.getId(), academicCalendarForm);
 
         }

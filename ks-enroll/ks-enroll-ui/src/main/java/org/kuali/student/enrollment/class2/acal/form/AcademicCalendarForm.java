@@ -36,17 +36,13 @@ public class AcademicCalendarForm extends UifFormBase {
     private static final long serialVersionUID = 4898118410378641665L;
 
     private AcademicCalendarInfo academicCalendarInfo;
+    private AcademicCalendarInfo orgAcalInfo;
     private String adminOrgName;
     private String updateTimeString;
 
     private List<AcalEventWrapper> events;
     private List<HolidayCalendarWrapper> holidayCalendarList;
     private List<AcademicTermWrapper> termWrapperList;
-
-    //used by copy for creating a new
-    private String newCalendarName;
-    private Date newCalendarStartDate;
-    private Date newCalendarEndDate;
 
     //used by copying
     private boolean official;
@@ -68,6 +64,14 @@ public class AcademicCalendarForm extends UifFormBase {
 
     public void setAcademicCalendarInfo(AcademicCalendarInfo academicCalendarInfo) {
         this.academicCalendarInfo = academicCalendarInfo;
+    }
+
+    public AcademicCalendarInfo getOrgAcalInfo() {
+        return orgAcalInfo;
+    }
+
+    public void setOrgAcalInfo(AcademicCalendarInfo orgAcalInfo) {
+        this.orgAcalInfo = orgAcalInfo;
     }
 
     public String getAdminOrgName() {
@@ -116,30 +120,6 @@ public class AcademicCalendarForm extends UifFormBase {
 
     public void setEvents(List<AcalEventWrapper> events) {
         this.events = events;
-    }
-
-    public String getNewCalendarName() {
-        return newCalendarName;
-    }
-
-    public void setNewCalendarName(String newCalendarName) {
-        this.newCalendarName = newCalendarName;
-    }
-
-    public Date getNewCalendarStartDate() {
-        return newCalendarStartDate;
-    }
-
-    public void setNewCalendarStartDate(Date newCalendarStartDate) {
-        this.newCalendarStartDate = newCalendarStartDate;
-    }
-
-    public Date getNewCalendarEndDate() {
-        return newCalendarEndDate;
-    }
-
-    public void setNewCalendarEndDate(Date newCalendarEndDate) {
-        this.newCalendarEndDate = newCalendarEndDate;
     }
 
     public boolean isOfficial() {

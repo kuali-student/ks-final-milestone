@@ -44,6 +44,7 @@ import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -260,13 +261,87 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }
     }
 
-    public AcademicCalendarInfo copyAcademicCalendar(AcademicCalendarForm form) throws Exception {
-        AcademicCalendarInfo newAcalInfo =
-                getAcalService().copyAcademicCalendar(form.getAcademicCalendarInfo().getId(), form.getNewCalendarStartDate(),
-                        form.getNewCalendarEndDate(), getContextInfo());
-        if (null != newAcalInfo) {
-            newAcalInfo.setName(form.getNewCalendarName());
-        }
+    public AcademicCalendarInfo copyToCreateAcademicCalendar(AcademicCalendarForm form) throws Exception {
+           AcademicCalendarInfo orgAcalInfo = form.getOrgAcalInfo();
+           AcademicCalendarInfo newAcalInfo = form.getAcademicCalendarInfo();
+           ContextInfo context = getContextInfo();
+        
+           // 1. copy over events                     
+           List<AcalEventInfo> orgEventInfoList= getAcalService().getAcalEventsForAcademicCalendar(orgAcalInfo.getId(), getContextInfo());
+           List<AcalEventWrapper> newEventList = new ArrayList<AcalEventWrapper>();
+           for (AcalEventInfo orgEventInfo : orgEventInfoList){
+               AcalEventInfo newEventInfo = new AcalEventInfo();
+               newEventInfo.setTypeKey(orgEventInfo.getTypeKey());
+               newEventInfo.setIsDateRange(orgEventInfo.getIsDateRange());
+               newEventInfo.setIsAllDay(orgEventInfo.getIsAllDay());
+               AcalEventWrapper newEvent= new AcalEventWrapper();
+               newEvent.setAcalEventInfo(newEventInfo);
+               newEvent.setEventType(orgEventInfo.getTypeKey());
+               newEventList.add(newEvent);
+           }
+           form.setEvents(newEventList);          
+
+          // 2. copy over terms
+          List<TermInfo> orgTermInfoList = getAcalService().getTermsForAcademicCalendar(orgAcalInfo.getId(), context);
+          List<AcademicTermWrapper> newTermList = new ArrayList<AcademicTermWrapper>();
+          for(TermInfo orgTermInfo : orgTermInfoList){              
+              TermInfo newTermInfo = new TermInfo();
+              newTermInfo.setTypeKey(orgTermInfo.getTypeKey());
+              AcademicTermWrapper newTermWrapper = new AcademicTermWrapper(newTermInfo);
+              newTermWrapper.setTermType(orgTermInfo.getTypeKey());
+              TypeInfo type = getAcalService().getTermType(newTermInfo.getTypeKey(),context);
+              newTermWrapper.setTypeInfo(type);
+              newTermWrapper.setTermNameForUI(type.getName());
+
+              //Populate keydates and copy over
+              List<KeyDateInfo> keydateList = getAcalService().getKeyDatesForTerm(orgTermInfo.getId(),context);
+
+              TypeInfo registrationGroup = getTypeService().getType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,context);
+              TypeInfo curriculumGroup = getTypeService().getType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,context);
+
+              KeyDatesGroupWrapper registrationWrapper = new KeyDatesGroupWrapper(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,registrationGroup.getName());
+              KeyDatesGroupWrapper curriculumWrapper = new KeyDatesGroupWrapper(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,curriculumGroup.getName());
+
+              for (KeyDateInfo orgKeyDateInfo : keydateList) {
+                  KeyDateInfo newKeyDateInfo = new KeyDateInfo();
+                  newKeyDateInfo.setTypeKey(orgKeyDateInfo.getTypeKey());
+                  newKeyDateInfo.setIsDateRange(orgKeyDateInfo.getIsDateRange());
+                  newKeyDateInfo.setIsAllDay(orgKeyDateInfo.getIsAllDay());
+                  KeyDateWrapper keyDateWrapper = new KeyDateWrapper(newKeyDateInfo);
+                  type = getTypeService().getType(orgKeyDateInfo.getTypeKey(),context);
+                  keyDateWrapper.setTypeInfo(type);
+                  keyDateWrapper.setKeyDateNameUI(type.getName());
+                  keyDateWrapper.setKeyDateType(orgKeyDateInfo.getTypeKey());
+
+                  List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,null,context);
+                  List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,null,context);
+
+                  if (isRelationExists(registrationRelations,orgKeyDateInfo.getTypeKey())){
+                      registrationWrapper.getKeydates().add(keyDateWrapper);
+                  }else if (isRelationExists(curriculumRelations,orgKeyDateInfo.getTypeKey())){
+                      curriculumWrapper.getKeydates().add(keyDateWrapper);
+                  }
+              }
+
+              if (!registrationWrapper.getKeydates().isEmpty()){
+                  newTermWrapper.getKeyDatesGroupWrappers().add(registrationWrapper);
+              }
+
+              if (!curriculumWrapper.getKeydates().isEmpty()){
+                  newTermWrapper.getKeyDatesGroupWrappers().add(curriculumWrapper);
+              }
+
+              newTermList.add(newTermWrapper);
+          }
+         form.setTermWrapperList(newTermList);
+
+          // 3. do NOT copy over any AC-HC relationship
+//        AcademicCalendarInfo newAcalInfo =
+//                getAcalService().copyAcademicCalendar(form.getAcademicCalendarInfo().getId(), form.getNewCalendarStartDate(),
+//                        form.getNewCalendarEndDate(), getContextInfo());
+//        if (null != newAcalInfo) {
+//            newAcalInfo.setName(form.getNewCalendarName());
+//        }
         return newAcalInfo;
     }
 
@@ -879,11 +954,11 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 //Populate keydates
                 List<KeyDateInfo> keydateList = getAcalService().getKeyDatesForTerm(termInfo.getId(),context);
 
-                TypeInfo registrationGroup = getTypeService().getType("kuali.milestone.type.group.keydate",context);
-                TypeInfo curriculumGroup = getTypeService().getType("kuali.milestone.type.group.curriculum",context);
+                TypeInfo registrationGroup = getTypeService().getType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,context);
+                TypeInfo curriculumGroup = getTypeService().getType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,context);
 
-                KeyDatesGroupWrapper registrationWrapper = new KeyDatesGroupWrapper("kuali.milestone.type.group.keydate",registrationGroup.getName());
-                KeyDatesGroupWrapper curriculumWrapper = new KeyDatesGroupWrapper("kuali.milestone.type.group.curriculum",curriculumGroup.getName());
+                KeyDatesGroupWrapper registrationWrapper = new KeyDatesGroupWrapper(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,registrationGroup.getName());
+                KeyDatesGroupWrapper curriculumWrapper = new KeyDatesGroupWrapper(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,curriculumGroup.getName());
 
                 for (KeyDateInfo keyDateInfo : keydateList) {
                     KeyDateWrapper keyDateWrapper = new KeyDateWrapper(keyDateInfo);
@@ -891,8 +966,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     keyDateWrapper.setTypeInfo(type);
                     keyDateWrapper.setKeyDateNameUI(type.getName());
 
-                    List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerType("kuali.milestone.type.group.keydate",null,context);
-                    List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerType("kuali.milestone.type.group.curriculum",null,context);
+                    List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,null,context);
+                    List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,null,context);
 
                     if (isRelationExists(registrationRelations,keyDateInfo.getTypeKey())){
                         registrationWrapper.getKeydates().add(keyDateWrapper);
