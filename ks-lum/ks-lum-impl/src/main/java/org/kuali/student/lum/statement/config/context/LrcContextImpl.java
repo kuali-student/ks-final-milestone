@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.r1.lum.lrc.service.LrcService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
@@ -29,13 +29,13 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  */
 public class LrcContextImpl extends BasicContextImpl {
 	
-	private LrcService lrcService;
+	private LRCService lrcService;
 	
 	/** Total credits template token */ 
 	public final static String GRADE_TOKEN = "grade";
     public final static String GRADE_TYPE_TOKEN = "gradeType";	
 
-	public void setLrcService(LrcService lrcService) {
+	public void setLrcService(LRCService lrcService) {
 		this.lrcService = lrcService;
 	}
 
