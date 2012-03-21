@@ -602,7 +602,7 @@
     </property>-->
    </bean>
 
-   <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="7" p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}">
+   <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="9" p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}">
      <property name="title" value="Key Dates" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
      <property name="layoutManager.style" value="margin-top:1em;"/>
@@ -638,10 +638,10 @@
                  <bean parent="BasicDatePatternConstraint" />
              </property>
          </bean>
-        <bean parent="Uif-HorizontalFieldGroup" p:label="Start Time">
-            <property name="items">
-                <list>
-                    <bean parent="Uif-InputField-LabelTop" p:propertyName="startTime" p:refreshWhenChanged="#lp.allDay"
+        <!--<bean parent="Uif-HorizontalFieldGroup" p:label="Start Time" p:group.style="display:block;" p:group.layoutManager.orientation="VERTICAL">-->
+            <!--<property name="items">-->
+                <!--<list>-->
+                    <bean parent="Uif-InputField-LabelTop" p:propertyName="startTime" p:label="Start Time" p:labelPlacement="LEFT" p:refreshWhenChanged="#lp.allDay"
 					p:readOnly="@{#lp.allDay eq true}">
                         <property name="control">
                             <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
@@ -656,9 +656,9 @@
                             <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
                          </property>
                      </bean>
-                </list>
-            </property>
-         </bean>
+                <!--</list>-->
+            <!--</property>-->
+         <!--</bean>-->
         <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" p:refreshWhenChanged="#lp.dateRange"
 					p:readOnly="@{#lp.dateRange eq false}" >
             <property name="control">
@@ -668,10 +668,10 @@
                 <bean parent="BasicDatePatternConstraint" />
             </property>
         </bean>
-        <bean parent="Uif-HorizontalFieldGroup" p:label="End Time" p:style="width: 160px"> <!--p:refreshDiscloseMethodToCall=""-->
-            <property name="items">
-                <list>
-                    <bean parent="Uif-InputField-LabelTop" p:propertyName="endTime" p:refreshWhenChanged="#lp.allDay"
+        <!--<bean parent="Uif-HorizontalFieldGroup" p:label="End Time" p:group.layoutManager.style="display:block;" p:group.layoutManager.orientation="VERTICAL"> &lt;!&ndash;p:refreshDiscloseMethodToCall=""&ndash;&gt;-->
+            <!--<property name="items">-->
+                <!--<list>-->
+                    <bean parent="Uif-InputField-LabelTop" p:propertyName="endTime" p:label="End Time" p:labelPlacement="LEFT" p:refreshWhenChanged="#lp.allDay"
 					p:readOnly="@{#lp.allDay eq true}">
                         <property name="control">
                             <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
@@ -686,15 +686,15 @@
                             <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
                          </property>
                      </bean>
-                </list>
-            </property>
-         </bean>
-         <bean parent="Uif-InputField" p:label="All Day" p:propertyName="allDay"  p:width="50px">
+                <!--</list>-->
+            <!--</property>-->
+         <!--</bean>-->
+         <bean parent="Uif-InputField" p:label="All Day" p:propertyName="allDay">
             <property name="control">
                 <bean parent="Uif-CheckboxControl"/>
             </property>
          </bean>
-         <bean parent="Uif-InputField" p:label="Date Range" p:propertyName="dateRange" p:width="50px">
+         <bean parent="Uif-InputField" p:label="Date Range" p:propertyName="dateRange">
             <property name="control">
                 <bean parent="Uif-CheckboxControl"/>
             </property>
@@ -709,6 +709,7 @@
    </bean>
 
    <util:list id="hctime-options">
+       <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
        <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="am"/>
        <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="pm"/>
    </util:list>
