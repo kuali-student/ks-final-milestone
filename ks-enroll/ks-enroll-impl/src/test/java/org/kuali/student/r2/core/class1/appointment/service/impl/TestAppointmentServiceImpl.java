@@ -78,6 +78,8 @@ public class TestAppointmentServiceImpl {
         makeSlotRule();
         // Uses rule from makeSlotRule
         apptWindowInfo.setSlotRule(rule);
+        apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY);
+        apptWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ACTIVE_KEY);
     }
 
     private Date createDate(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
@@ -276,6 +278,25 @@ public class TestAppointmentServiceImpl {
             AppointmentSlotInfo retrieved = appointmentService.getAppointmentSlot(slotId, contextInfo);
             // Check that date matches the new start date
             assertEquals(newStartDate, retrieved.getStartDate());
+        } catch (Exception e) {
+            System.err.println("Exception");
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+    
+    @Test
+    public void testGenerateSlotsByWindow() {
+        // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
+        try {
+            AppointmentWindowInfo window = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
+                    apptWindowInfo, contextInfo);
+            List<AppointmentSlotInfo> slots =
+                    appointmentService.generateAppointmentSlotsByWindow(window.getId(), contextInfo);
+            assert(slots.size() == 1);
+            AppointmentSlotInfo oneSlot = slots.get(0);
+            assertEquals(oneSlot.getStartDate(), apptWindowInfo.getStartDate());
+            assertNull(oneSlot.getEndDate());
         } catch (Exception e) {
             System.err.println("Exception");
             e.printStackTrace();
