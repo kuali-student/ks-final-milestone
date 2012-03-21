@@ -479,6 +479,11 @@ public class AcademicCalendarController extends UifControllerBase {
         List<AcademicTermWrapper> termWrappers = getAcademicCalendarViewHelperService(acalForm).loadTerms(acalId,getContextInfo());
         acalForm.setTermWrapperList(termWrappers);
 
+        //Calculate instructional days (if HC exists)
+        if (acalForm.getHolidayCalendarList() != null && !acalForm.getHolidayCalendarList().isEmpty()) {
+           getAcademicCalendarViewHelperService(acalForm).populateInstructionalDays(acalForm.getTermWrapperList(),getContextInfo());
+        }
+
     }
 
     private String getAdminOrgNameById(String id){

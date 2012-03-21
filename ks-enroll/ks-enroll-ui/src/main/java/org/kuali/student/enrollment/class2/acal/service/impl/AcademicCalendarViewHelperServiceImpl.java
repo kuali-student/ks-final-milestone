@@ -636,19 +636,19 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }
     }
 
-    public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList,ContextInfo context){
+    public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList,ContextInfo context)
+    throws Exception {
          for (AcademicTermWrapper termWrapper : termWrapperList) {
             if (termWrapper.getKeyDatesGroupWrappers() != null){
                 for (KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapper.getKeyDatesGroupWrappers()) {
                      if (keyDatesGroupWrapper.getKeydates() != null){
-                         if (StringUtils.equals(keyDatesGroupWrapper.getKeyDateGroupType(),AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)){
-                             try {
+                         for (KeyDateWrapper keydate : keyDatesGroupWrapper.getKeydates()) {
+                             if (StringUtils.equals(keydate.getKeyDateType(),AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY) &&
+                                 termWrapper.getTermInfo() != null && StringUtils.isNotBlank(termWrapper.getTermInfo().getId())){
                                  int instructionalDays = getAcalService().getInstructionalDaysForTerm(termWrapper.getTermInfo().getId(),context);
                                  termWrapper.setInstructionalDays(instructionalDays);
-                             } catch (Exception e) {
-                                 throw new RuntimeException(e);
+                                 break;
                              }
-                             break;
                          }
                      }
 

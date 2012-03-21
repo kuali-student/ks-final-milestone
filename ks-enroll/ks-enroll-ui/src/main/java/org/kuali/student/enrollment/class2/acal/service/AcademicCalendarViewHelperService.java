@@ -60,7 +60,7 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public void validateTerm(List<AcademicTermWrapper> termWrapper, ContextInfo context) throws Exception;
 
-    public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList,ContextInfo context);
+    public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList,ContextInfo context)throws Exception;
 
     public List<AcademicTermWrapper> loadTerms(String acalId,ContextInfo context);
 
