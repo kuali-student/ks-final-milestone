@@ -230,7 +230,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
 
         //Validate Term
-        ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).validateTerm(academicCalendarForm.getTermWrapperList(),context);
+        getAcademicCalendarViewHelperService(academicCalendarForm).validateTerm(academicCalendarForm.getTermWrapperList(),context);
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 0){
            return getUIFModelAndView(academicCalendarForm);
@@ -239,12 +239,12 @@ public class AcademicCalendarController extends UifControllerBase {
 
         //Calculate instructional days (if HC exists)
         if (academicCalendarForm.getHolidayCalendarList() != null && !academicCalendarForm.getHolidayCalendarList().isEmpty()) {
-           ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).populateInstructionalDays(academicCalendarForm.getTermWrapperList(),context);
+           getAcademicCalendarViewHelperService(academicCalendarForm).populateInstructionalDays(academicCalendarForm.getTermWrapperList(),context);
         }
 
         //Save Term and keydates
         for(AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
-            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
+            getAcademicCalendarViewHelperService(academicCalendarForm).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
         }
 
         return getUIFModelAndView(academicCalendarForm);
@@ -283,7 +283,7 @@ public class AcademicCalendarController extends UifControllerBase {
 //        ContextInfo context = TestHelper.getContext1();
 //
 //        try{
-//            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
+//            ((AcademicCalendarViewHelperService)academicCalendarForm.getPostedView().getViewHelperService()).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
 //            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS,"info.enroll.term.saved",termWrapper.getTermNameForUI());
 //        }catch (Exception e){
 //            //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
@@ -335,7 +335,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         try{
-            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).setTermOfficial(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
+            getAcademicCalendarViewHelperService(academicCalendarForm).setTermOfficial(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS,"info.enroll.term.official",termWrapper.getTermNameForUI());
         }catch (Exception e){
             //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
@@ -378,7 +378,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
         try {
-            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).deleteTerm(academicCalendarForm.getTermWrapperList(),selectedLineIndex,academicCalendarForm.getAcademicCalendarInfo().getId(),context);
+            getAcademicCalendarViewHelperService(academicCalendarForm).deleteTerm(academicCalendarForm.getTermWrapperList(),selectedLineIndex,academicCalendarForm.getAcademicCalendarInfo().getId(),context);
         } catch (Exception e) {
             //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
             throw new RuntimeException(e);
@@ -417,7 +417,7 @@ public class AcademicCalendarController extends UifControllerBase {
         KeyDatesGroupWrapper keydateGroup = termWrapper.getKeyDatesGroupWrappers().get(Integer.parseInt(selectedKeyDateGroup));
         try {
 
-            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).deleteKeyDate(keydateGroup,selectedLineIndex,context);
+            getAcademicCalendarViewHelperService(academicCalendarForm).deleteKeyDate(keydateGroup,selectedLineIndex,context);
         } catch (Exception e) {
             //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
             throw new RuntimeException(e);
@@ -453,8 +453,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(Integer.parseInt(selectedTermIndex));
         try {
-
-            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).deleteKeyDateGroup(termWrapper,selectedLineIndex,context);
+            getAcademicCalendarViewHelperService(academicCalendarForm).deleteKeyDateGroup(termWrapper,selectedLineIndex,context);
         } catch (Exception e) {
             //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
             throw new RuntimeException(e);
@@ -477,7 +476,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         acalForm.setEvents(events);
 
-        List<AcademicTermWrapper> termWrappers = ((AcademicCalendarViewHelperService)acalForm.getView().getViewHelperService()).loadTerms(acalId,getContextInfo());
+        List<AcademicTermWrapper> termWrappers = getAcademicCalendarViewHelperService(acalForm).loadTerms(acalId,getContextInfo());
         acalForm.setTermWrapperList(termWrappers);
 
     }
@@ -554,7 +553,11 @@ public class AcademicCalendarController extends UifControllerBase {
 
 
     private AcademicCalendarViewHelperService getAcademicCalendarViewHelperService(AcademicCalendarForm academicCalendarForm){
-        return (AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService();
+        if (academicCalendarForm.getView().getViewHelperServiceClassName() != null){
+            return (AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService();
+        }else{
+            return (AcademicCalendarViewHelperService)academicCalendarForm.getPostedView().getViewHelperService();
+        }
     }
 
     private ContextInfo getContextInfo() {

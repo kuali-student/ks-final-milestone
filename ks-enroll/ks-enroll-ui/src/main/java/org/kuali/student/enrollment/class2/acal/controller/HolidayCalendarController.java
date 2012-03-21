@@ -52,7 +52,6 @@ import java.util.*;
 @Controller
 @RequestMapping(value = "/holidayCalendar")
 public class HolidayCalendarController extends UifControllerBase {
-    private AcademicCalendarViewHelperService acalHelper;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
@@ -416,9 +415,10 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
     private AcademicCalendarViewHelperService getHolidayCalendarFormHelper(HolidayCalendarForm hcForm) {
-        if (null == acalHelper) {
-            acalHelper = (AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService();
+        if (hcForm.getView().getViewHelperServiceClassName() != null){
+            return (AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService();
+        } else {
+            return (AcademicCalendarViewHelperService)hcForm.getPostedView().getViewHelperService();
         }
-        return acalHelper;
     }
 }
