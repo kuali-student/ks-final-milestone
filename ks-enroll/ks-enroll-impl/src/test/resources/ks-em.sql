@@ -13,19 +13,6 @@
 -- permissions and limitations under the License.
 --
 
--- Enumeration Rich Text
-insert into KSEM_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) values ('subjectArea.descr', 'Subject Area Enumeration', 'Subject Area Enumeration',0)
-insert into KSEM_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) values ('campusLocation.descr', 'Campus Location Enumeration', 'Campus Location Enumeration',0)
-insert into KSEM_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) values ('duration.descr', 'ATP Durations', 'ATP Durations',0)
-insert into KSEM_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) values ('state.descr', 'KS Data States', 'KS Data States',0)
-insert into KSEM_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) values ('feeType.descr', 'Learning Unit Fee Type', 'Learning Unit Fee Type',0)
-insert into KSEM_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) values ('rateType.descr', 'Learning Unit Rate Type', 'Learning Unit Rate Type',0)
-insert into KSEM_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) values ('cip2010.descr', 'CIP Codes 2010', 'CIP Codes 2010',0)
-insert into KSEM_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) values ('cip2000.descr', 'CIP Codes 2000', 'CIP Codes 2000',0)
-insert into KSEM_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) values ('level.descr', 'Program Level', 'Program Level',0)
-insert into KSEM_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) values ('classification.descr', 'University Classification', 'University Classification',0)
-insert into KSEM_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) values ('status.descr', 'Final Exam Status', 'Final Exam Status',0)
-
 -- Enumeration States
 insert into KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) values ('kuali.enumeration.state.active', 'Active', 'kuali.enumeration.process', 'Indicates that this Enumeration is active', 0)
 insert into KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) values ('kuali.enumeration.state.inactive', 'Inactive', 'kuali.enumeration.process', 'Indicates that this Enumeration is inactive', 0)

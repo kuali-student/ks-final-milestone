@@ -14,7 +14,6 @@
 --
 
 // Statement type -> requirement component type mapping
-INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID,REQ_COM_TYPE_ID,SORT_ORDER,STMT_TYPE_ID,VER_NBR) VALUES('CA-1', 'kuali.reqComponent.type.course.notcompleted', 1, 'kuali.statement.type.course.academicReadiness.antireq', 0)
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID,REQ_COM_TYPE_ID,SORT_ORDER,STMT_TYPE_ID,VER_NBR) VALUES('CA-2', 'kuali.reqComponent.type.course.courseset.completed.none', 2, 'kuali.statement.type.course.academicReadiness.antireq', 0)
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID,REQ_COM_TYPE_ID,SORT_ORDER,STMT_TYPE_ID,VER_NBR) VALUES('CA-3', 'kuali.reqComponent.type.course.courseset.credits.completed.none', 3, 'kuali.statement.type.course.academicReadiness.antireq', 0)
 INSERT INTO KSST_STMT_TYP_JN_RC_TYP (ID,REQ_COM_TYPE_ID,SORT_ORDER,STMT_TYPE_ID,VER_NBR) VALUES('CA-4', 'kuali.reqComponent.type.course.courseset.credits.completed.max', 4, 'kuali.statement.type.course.academicReadiness.antireq', 0)

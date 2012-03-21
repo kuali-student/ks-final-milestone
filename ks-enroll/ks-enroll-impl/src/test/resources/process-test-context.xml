@@ -97,11 +97,8 @@
     
     <bean id="processServiceImpl" class="org.kuali.student.r2.core.class1.process.service.impl.ProcessServiceImpl">
         <property name="checkDao" ref="checkDao"/>
-        <property name="checkTypeDao" ref="checkTypeDao"/>
         <property name="instructionDao" ref="instructionDao"/>
-        <property name="instructionTypeDao" ref="instructionTypeDao"/>
         <property name="processDao" ref="processDao"/>
-        <property name="processTypeDao" ref="processTypeDao"/>
         <property name="stateService" ref="stateService"/>
     </bean>
 
