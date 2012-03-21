@@ -1,23 +1,20 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.TreeSet;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ListToTextBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -26,50 +23,22 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
-import org.kuali.student.common.ui.client.widgets.table.summary.ShowRowConditionCallback;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentList;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentListBinding;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
-import org.kuali.student.lum.common.client.lo.TreeStringBinding;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.base.AcademicSubjectOrgInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.base.MetaInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.AffiliatedOrgInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseDurationConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseExpenditureInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseFormatConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseJointsConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseProposalConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseProposalInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseRevenueInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.FeeInfoConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.LearningObjectiveConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.KeyListModelWigetBinding;
-import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
-import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
-import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
-import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsSummaryView;
-import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
@@ -281,9 +250,13 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
                 }
                
             };
+            
+            HorizontalSection layoutSection = new HorizontalSection();
+            layoutSection.addSection(tableSection);
+            layoutSection.addSection(generateReferenceDataSection());
             // Widget-adding order matters
             verticalSection.addWidget(infoContainer1); // Header widget (with warnings if necessary)
-            verticalSection.addSection(tableSection);
+            verticalSection.addSection(layoutSection);
             verticalSection.addWidget(infoContainer2); // Footer widget (with warnings if necessary)
 
             return verticalSection;
@@ -293,7 +266,10 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
             VerticalSectionView verticalSection = new VerticalSectionView(
                     CourseSections.SUMMARY,
                     getLabel(LUUIConstants.SUMMARY_LABEL_KEY), modelId);
-            verticalSection.addSection(tableSection);
+            HorizontalSection layoutSection = new HorizontalSection();
+            layoutSection.addSection(tableSection);
+            layoutSection.addSection(generateReferenceDataSection());
+            verticalSection.addSection(layoutSection);
             GWT.log("CourseSummaryConfigurer - Summary table needs a workflow controller to provide submit/validation mechanism");
 
             return verticalSection;
@@ -356,4 +332,61 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
         return block;
     }
 
+    
+    protected VerticalSection generateReferenceDataSection() {
+        VerticalSection section = new VerticalSection(SectionTitle.generateH2Title(getLabel("ReferenceData")));
+        section.addStyleName("readOnlySection");
+        section.addStyleName("readOnlyNeedsToBeOnTheRight");
+        
+        addReadOnlyFieldJustText(section, COURSE + "/" + CreditCourseConstants.COURSE_TITLE, generateMessageInfo(LUUIConstants.COURSE_TITLE_LABEL_KEY));
+        addReadOnlyFieldJustText(section, COURSE + "/" + CreditCourseConstants.COURSE_CODE, generateMessageInfo(LUUIConstants.COURSE_NUMBER_LABEL_KEY));
+        
+        //Add the crosslisted/joint Reference Data with custom binding
+        FieldDescriptorReadOnly xlistsAndJoints = new FieldDescriptorReadOnly(CreditCourseConstants.CROSSLISTED_AND_JOINTS, generateMessageInfo(LUUIConstants.CROSSLISTED_AND_JOINTS_LABEL_KEY), null, new KSLabel());
+        xlistsAndJoints.setWidgetBinding(new ModelWidgetBinding<KSLabel>() {
+			public void setModelValue(KSLabel widget, DataModel model,
+					String path) {
+			}
+			public void setWidgetValue(KSLabel widget, DataModel model,
+					String path) {
+				TreeSet<String> codes = new TreeSet<String>();
+				Data crossListings = model.getRoot().get(CreditCourseConstants.CROSS_LISTINGS);
+				for(Property property:crossListings){
+					codes.add((String) ((Data)property.getValue()).get(CreditCourseConstants.COURSE_CODE));
+				}
+				Data joints = model.getRoot().get(CreditCourseConstants.JOINTS);
+				for(Property property:joints){
+					String subjectArea = (String) ((Data)property.getValue()).get(CreditCourseConstants.SUBJECT_AREA);
+					String courseNumberSuffix = (String) ((Data)property.getValue()).get(CreditCourseConstants.COURSE_NUMBER_SUFFIX);
+					codes.add(subjectArea + courseNumberSuffix);
+				}
+				String output="";
+				for(Iterator<String> iter=codes.iterator();iter.hasNext();){
+					String code = iter.next();
+					output += code;
+					if(iter.hasNext()){
+						output += ", ";
+					}
+				}
+				widget.setText(output);
+			}
+        	
+        });
+        section.addField(xlistsAndJoints);
+        
+        addReadOnlyFieldJustText(section, COURSE + "/" + CreditCourseConstants.CURRICULUM_OVERSIGHT_ORGS_, generateMessageInfo(LUUIConstants.ACADEMIC_SUBJECT_ORGS_KEY));
+        
+        return section;
+    }
+
+    //Makes a read only field with no helptext/instructions/examples/constraint text
+    protected FieldDescriptor addReadOnlyFieldJustText(Section section, String fieldKey, MessageKeyInfo messageKey){
+    	FieldDescriptor fd = addReadOnlyField(section, fieldKey, messageKey);
+        fd.getFieldElement().setHelp(null);
+        fd.getFieldElement().setInstructions(null);
+        fd.getFieldElement().setExamples(null);
+        fd.getFieldElement().setConstraintText(null);
+    	return fd;
+    }
+    
 }
