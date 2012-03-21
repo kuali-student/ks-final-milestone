@@ -15,13 +15,18 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-TabSection">
+                <bean parent="Uif-TabSection" >
                     <property name="items">
                         <list>
                             <ref bean="KS-AcademicCalendar-EditSection"/>
                             <ref bean="KS-AcademicTerm-EditSection"/>
                         </list>
                     </property>
+                    <property name="tabsWidget.componentOptionsJSString">
+                        <value>
+                          { selected: @{defaultSelectedTabIndex} }
+                        </value>
+                      </property>
                 </bean>
             </list>
         </property>

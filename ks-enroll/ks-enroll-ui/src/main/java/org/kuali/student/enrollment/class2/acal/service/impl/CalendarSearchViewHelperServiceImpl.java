@@ -148,6 +148,7 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
         props.put(CalendarConstants.CALENDAR_ID,acalId);
         props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
         props.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
+        props.put(CalendarConstants.SELECT_TAB,CalendarConstants.ACAL_TERM_TAB);
 
         if (readOnlyView){
             props.put(CalendarConstants.READ_ONLY_VIEW,""+ true);

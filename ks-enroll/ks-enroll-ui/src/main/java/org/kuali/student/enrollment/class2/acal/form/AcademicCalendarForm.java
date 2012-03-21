@@ -19,12 +19,14 @@ import java.util.List;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 
 /**
  * This class //TODO ...
@@ -48,6 +50,9 @@ public class AcademicCalendarForm extends UifFormBase {
     private boolean official;
     private boolean delete;
 
+    //This is useful when user edit term from calendar search. User should see the term tab. By default, info tab
+    private String defaultTabToShow;
+
     public AcademicCalendarForm() {
         super();
         academicCalendarInfo = new AcademicCalendarInfo();
@@ -56,6 +61,7 @@ public class AcademicCalendarForm extends UifFormBase {
         holidayCalendarList = new ArrayList<HolidayCalendarWrapper>();
         official = false;
         delete = false;
+        defaultTabToShow = CalendarConstants.ACAL_INFO_TAB;
     }
 
     public AcademicCalendarInfo getAcademicCalendarInfo() {
@@ -137,5 +143,21 @@ public class AcademicCalendarForm extends UifFormBase {
     public void setDelete(boolean delete) {
         this.delete = delete;
     }
-    
+
+    public String getDefaultTabToShow() {
+        return defaultTabToShow;
+    }
+
+    public void setDefaultTabToShow(String defaultTabToShow) {
+        this.defaultTabToShow = defaultTabToShow;
+    }
+
+    public int getDefaultSelectedTabIndex() {
+        if (StringUtils.equals(defaultTabToShow,CalendarConstants.ACAL_TERM_TAB)){
+            return 1;
+        }
+        return 0;
+    }
+
+
 }

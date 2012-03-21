@@ -91,6 +91,10 @@ public class AcademicCalendarController extends UifControllerBase {
         String readOnlyView = request.getParameter(CalendarConstants.READ_ONLY_VIEW);
         acalForm.getView().setReadOnly(BooleanUtils.toBoolean(readOnlyView));
 
+        if (StringUtils.isNotBlank(request.getParameter(CalendarConstants.SELECT_TAB))) {
+            acalForm.setDefaultTabToShow(request.getParameter(CalendarConstants.SELECT_TAB));
+        }
+
         return super.start(form, result, request, response);
     }
 
