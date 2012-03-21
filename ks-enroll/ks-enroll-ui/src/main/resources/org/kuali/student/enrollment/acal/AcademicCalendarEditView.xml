@@ -29,10 +29,10 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true" />
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:clientSideJs="submitForm();" p:render="@{official eq true}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{delete eq true}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true"  p:render="@{!#view.readOnly}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:clientSideJs="submitForm();" p:render="@{official eq true and !#view.readOnly}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Close" p:methodToCall="close"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{delete eq true and !#view.readOnly}"/>
                     </list>
                 </property>
             </bean>
@@ -489,7 +489,7 @@
 
     <!-- Academic terms -->
 
-   <bean id="KS-AcademicTerm-EditSection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-term" p:style="min-width:70em;">
+   <bean id="KS-AcademicTerm-EditSection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-term" p:style="min-width:70em;" p:readOnly="@{#view.readOnly}">
      <property name="title" value="Terms" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
      <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
@@ -507,7 +507,7 @@
          <bean parent="Uif-VerticalBoxGroup">
              <property name="items">
                 <list>
-                   <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingTerm" p:actionLabel="Cancel Adding Term" p:clientSideJs="performCollectionAction('acal-term');"/>
+                   <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingTerm" p:actionLabel="Cancel Adding Term" p:clientSideJs="performCollectionAction('acal-term');" p:render="@{!#view.readOnly}"/>
                 </list>
              </property>
          </bean>
@@ -563,7 +563,7 @@
      </property>
    </bean>
 
-    <bean id="KS-KeyDatesGroup-EditSubSection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-term-keydatesgroup">
+    <bean id="KS-KeyDatesGroup-EditSubSection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-term-keydatesgroup" p:readOnly="@{#view.readOnly}">
      <property name="title" value="Key Dates Group" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
      <!--<property name="layoutManager.style" value="margin-top:1em;"/>-->
@@ -602,7 +602,7 @@
     </property>-->
    </bean>
 
-   <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="7" p:id="acal-term-keydates">
+   <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="7" p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}">
      <property name="title" value="Key Dates" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
      <property name="layoutManager.style" value="margin-top:1em;"/>

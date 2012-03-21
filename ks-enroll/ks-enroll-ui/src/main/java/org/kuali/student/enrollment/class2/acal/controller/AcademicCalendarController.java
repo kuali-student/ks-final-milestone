@@ -237,14 +237,14 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
 
-        //Calculate instructional days (if HC exists)
-        if (academicCalendarForm.getHolidayCalendarList() != null && !academicCalendarForm.getHolidayCalendarList().isEmpty()) {
-           getAcademicCalendarViewHelperService(academicCalendarForm).populateInstructionalDays(academicCalendarForm.getTermWrapperList(),context);
-        }
-
         //Save Term and keydates
         for(AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
             getAcademicCalendarViewHelperService(academicCalendarForm).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
+        }
+
+        //Calculate instructional days (if HC exists)
+        if (academicCalendarForm.getHolidayCalendarList() != null && !academicCalendarForm.getHolidayCalendarList().isEmpty()) {
+           getAcademicCalendarViewHelperService(academicCalendarForm).populateInstructionalDays(academicCalendarForm.getTermWrapperList(),context);
         }
 
         return getUIFModelAndView(academicCalendarForm);
