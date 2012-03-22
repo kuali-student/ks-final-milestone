@@ -1945,8 +1945,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInstructorInfo instructor2 = new CluInstructorInfo();
 		instructor2.setOrgId("EXTorgIdthree");
 		instructor2.setPersonId("EXTpersonIdthree");
-		instructor2.getAttributes().add(new AttributeInfo("Inst2AttrKey1", "Inst2AttrValue1");
-		instructor2.getAttributes().add(new AttributeInfo("Inst2AttrKey2", "Inst2AttrValue2");
+		instructor2.getAttributes().add(new AttributeInfo("Inst2AttrKey1", "Inst2AttrValue1"));
+		instructor2.getAttributes().add(new AttributeInfo("Inst2AttrKey2", "Inst2AttrValue2"));
 		clu.getInstructors().add(instructor2);
 
 		LuCodeInfo luCode1 = new LuCodeInfo();
@@ -1955,8 +1955,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		luCode1Desc.setPlain("luCode1desc");
 		luCode1.setDescr(luCode1Desc);
 		luCode1.setValue("luCode1value");
-		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey1", "luCode1AttrValue1");
-		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey2", "luCode1AttrValue2");
+		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey1", "luCode1AttrValue1"));
+		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey2", "luCode1AttrValue2"));
 		clu.getLuCodes().add(luCode1);
 
 		LuCodeInfo luCode2 = new LuCodeInfo();
@@ -1965,8 +1965,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		luCodetwodesc.setPlain("luCodetwodesc");
 		luCode2.setDescr(luCodetwodesc);
 		luCode2.setValue("luCodetwovalue");
-		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey1", "luCode2AttrValue1");
-		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey2", "luCode2AttrValue2");
+		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey1", "luCode2AttrValue1"));
+		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey2", "luCode2AttrValue2"));
 		clu.getLuCodes().add(luCode2);
 
 		RichTextInfo marketingDesc = new RichTextInfo();
