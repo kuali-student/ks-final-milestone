@@ -73,10 +73,5 @@ public class CoreProgramInfo extends CommonWithCoreProgramInfo
     public CoreProgramInfo(CoreProgram input) {
         super(input);
     }
-    //TODO KSCM-392
-    @Deprecated
-	public VersionDisplayInfo getVersionInfo(ContextInfo contextInfo) {
-		
-		return null;
-	}
+
 }
