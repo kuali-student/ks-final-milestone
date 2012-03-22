@@ -649,7 +649,7 @@ public class CategoryManagement extends Composite {
             info.setName(nameTextBox.getText());
             info.setTypeKey(typeListBox.getSelectedItem());
             info.setStateKey("active");
-            info.setLoRepository("kuali.loRepository.key.singleUse");
+            info.setLoRepositoryKey("kuali.loRepository.key.singleUse");
             // FIXME [KSCOR-225] user needs to specify what LoRepository they want category to tagged with
             return info;
         }

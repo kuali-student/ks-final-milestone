@@ -16,13 +16,13 @@ public class CategoryDataUtil {
         catHelper.setId(loCategoryInfo.getId());
         catHelper.setName(loCategoryInfo.getName());
         RichTextInfoHelper catRTHelper = RichTextInfoHelper.wrap(new Data());
-        RichTextInfo catRT = loCategoryInfo.getDesc();
+        RichTextInfo catRT = loCategoryInfo.getDescr();
         if (null != catRT) {
-            catRTHelper.setFormatted(loCategoryInfo.getDesc().getFormatted());
-            catRTHelper.setPlain(loCategoryInfo.getDesc().getPlain());
+            catRTHelper.setFormatted(loCategoryInfo.getDescr().getFormatted());
+            catRTHelper.setPlain(loCategoryInfo.getDescr().getPlain());
         }
         catHelper.setDesc(catRTHelper.getData());
-        catHelper.setLoRepository(loCategoryInfo.getLoRepository());
+        catHelper.setLoRepository(loCategoryInfo.getLoRepositoryKey());
         catHelper.setEffectiveDate(loCategoryInfo.getEffectiveDate());
         catHelper.setExpirationDate(loCategoryInfo.getExpirationDate());
         /* TODO - doesn't work on the client; what to do?
@@ -62,11 +62,11 @@ public class CategoryDataUtil {
                 RichTextInfo descInfo = new RichTextInfo();
                 descInfo.setFormatted(rtHelper.getFormatted());
                 descInfo.setPlain(rtHelper.getPlain());
-                catInfo.setDesc(descInfo);
+                catInfo.setDescr(descInfo);
             }
             catInfo.setEffectiveDate(catHelper.getEffectiveDate());
             catInfo.setExpirationDate(catHelper.getExpirationDate());
-            catInfo.setLoRepository(catHelper.getLoRepository());
+            catInfo.setLoRepositoryKey(catHelper.getLoRepository());
             // TODO - this should't be necessary when DOL pushed down into LOPicker
             // and its LOCategoryBuilder
             // catInfo.setAttributes(catHelper.getAttributes());
