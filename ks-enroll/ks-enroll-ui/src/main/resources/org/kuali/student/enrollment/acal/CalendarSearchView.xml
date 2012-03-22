@@ -111,7 +111,7 @@
 		<property name="propertyName" value="holidayCalendars" />
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
@@ -134,7 +134,7 @@
             </list>
 		</property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label=""/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
         </property>
         <property name="actionFields">
               <list>
@@ -152,7 +152,7 @@
 		<property name="propertyName" value="academicCalendars" />
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
@@ -175,7 +175,7 @@
             </list>
 		</property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label=""/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
         </property>
         <property name="actionFields">
               <list>
@@ -193,7 +193,7 @@
 		<property name="propertyName" value="terms" />
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
@@ -216,7 +216,7 @@
             </list>
 		</property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label=""/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
         </property>
         <property name="actionFields">
               <list>
