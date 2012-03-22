@@ -62,7 +62,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu = null;
 		try {
-			clu = cluService.getClu(cluRel.getRelatedCluId() , contextInfo);
+			// TODO KSCM-421 clu = cluService.getClu(cluRel.getRelatedCluId() , contextInfo);
 
 			joint.setCourseId(clu.getId());
 
@@ -89,7 +89,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu = null;
 		try {
-			clu = cluService.getClu(cluId , contextInfo);
+			// TODO KSCM-421 clu = cluService.getClu(cluId , contextInfo);
 			
 			if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
 				clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) {
