@@ -2109,7 +2109,7 @@
     <ref bean="commonWithCoreProgramInfo.divisionsContentOwner"/>  
     <ref bean="commonWithCoreProgramInfo.divisionsStudentOversight"/>
     <ref bean="commonWithCoreProgramInfo.id"/>
-     <ref bean="commonWithCoreProgramInfo.longTitle"/>
+    <ref bean="commonWithCoreProgramInfo.longTitle"/>
     <ref bean="commonWithCoreProgramInfo.learningObjectives"/>
     <ref bean="commonWithCoreProgramInfo.referenceURL"/>
     <ref bean="commonWithCoreProgramInfo.catalogDescr"/>
@@ -2124,9 +2124,7 @@
     <ref bean="commonWithCoreProgramInfo.unitsStudentOversight"/>
     <ref bean="commonWithCoreProgramInfo.universityClassification"/>
     <ref bean="commonWithCoreProgramInfo.programRequirements"/>
-<!--     <ref bean="commonWithCoreProgramInfo.minCredits"/> -->
-<!--     <ref bean="commonWithCoreProgramInfo.maxCredits"/> -->
-     <ref bean="commonWithCoreProgramInfo.endTerm"/>
+    <ref bean="commonWithCoreProgramInfo.endTerm"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -2256,5 +2254,140 @@
  <bean id="commonWithCoreProgramInfo.learningObjectives" parent="commonWithCoreProgramInfo.learningObjectives-parent"/>      
        
        
+   <!-- CommonWithCredentialProgramInfo-->
+ <bean id="org.kuali.student.r2.lum.program.dto.CommonWithCredentialProgramInfo-parent" abstract="true"
+       parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.lum.program.dto.CommonWithCredentialProgramInfo"/>
+  <property name="attributes">
+   <list>
+    <ref bean="commonWithCredentialProgramInfo.descr"/>
+    <ref bean="commonWithCredentialProgramInfo.code"/>
+    <ref bean="commonWithCredentialProgramInfo.divisionsContentOwner"/>  
+    <ref bean="commonWithCredentialProgramInfo.divisionsStudentOversight"/>
+    <ref bean="commonWithCredentialProgramInfo.id"/>
+    <ref bean="commonWithCredentialProgramInfo.longTitle"/>
+    <ref bean="commonWithCredentialProgramInfo.learningObjectives"/>
+    <ref bean="commonWithCredentialProgramInfo.endProgramEntryTerm"/>
+    <ref bean="commonWithCredentialProgramInfo.shortTitle"/>
+    <ref bean="commonWithCredentialProgramInfo.startTerm"/>
+    <ref bean="commonWithCredentialProgramInfo.stateKey"/>
+    <ref bean="commonWithCredentialProgramInfo.transcriptTitle"/>
+    <ref bean="commonWithCredentialProgramInfo.typeKey"/>
+    <ref bean="commonWithCredentialProgramInfo.unitsContentOwner"/>
+    <ref bean="commonWithCredentialProgramInfo.unitsStudentOversight"/>
+    <ref bean="commonWithCredentialProgramInfo.universityClassification"/>
+    <ref bean="commonWithCredentialProgramInfo.programRequirements"/>
+    <ref bean="commonWithCredentialProgramInfo.endTerm"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="org.kuali.student.r2.lum.program.dto.CommonWithCredentialProgramInfo"
+       parent="org.kuali.student.r2.lum.program.dto.CommonWithCredentialProgramInfo-parent"/>
+ <bean id="commonWithCredentialProgramInfo.programRequirements-parent" abstract="true"
+       parent="majorDisciplineInfo.programRequirements-parent">
+  <property name="name" value="programRequirements"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.programRequirements" parent="commonWithCredentialProgramInfo.programRequirements-parent"/>
+
+ <bean id="commonWithCredentialProgramInfo.endProgramEntryTerm-parent" abstract="true"
+       parent="majorDisciplineInfo.endProgramEntryTerm">
+  <property name="name" value="endProgramEntryTerm"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.endProgramEntryTerm" parent="commonWithCredentialProgramInfo.endProgramEntryTerm-parent"/>
+ 
+ <bean id="commonWithCredentialProgramInfo.divisionsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.divisionsStudentOversight-parent">
+  <property name="name" value="divisionsStudentOversight"/>
+  <property name="defaultValuePath" value="/divisionsStudentOversight"/>
+			</bean>
+ <bean id="commonWithCredentialProgramInfo.divisionsStudentOversight"
+       parent="commonWithCredentialProgramInfo.divisionsStudentOversight-parent"/>
+
+ <bean id="commonWithCredentialProgramInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
+  <property name="name" value="descr"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.descr" parent="commonWithCredentialProgramInfo.descr-parent"/>
+ 
+  <bean id="commonWithCredentialProgramInfo.code-parent" abstract="true" parent="majorDisciplineInfo.code-parent">
+  <property name="name" value="code"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.code" parent="commonWithCredentialProgramInfo.code-parent"/>
+ 
+  <bean id="commonWithCredentialProgramInfo.divisionsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.divisionsContentOwner-parent">
+  <property name="name" value="divisionsContentOwner"/>
+  <property name="defaultValuePath" value="/divisionsContentOwner"/>
+      </bean>
+ <bean id="commonWithCredentialProgramInfo.divisionsContentOwner" parent="commonWithCredentialProgramInfo.divisionsContentOwner-parent"/>
+ 
+ <bean id="commonWithCredentialProgramInfo.endTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
+  <property name="name" value="endTerm"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.endTerm" parent="commonWithCredentialProgramInfo.endTerm-parent"/>
+
+ <bean id="commonWithCredentialProgramInfo.id-parent" abstract="true" parent="cluInfo.id">
+  <property name="name" value="id"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.id" parent="commonWithCredentialProgramInfo.id-parent"/>
+
+<bean id="commonWithCredentialProgramInfo.longTitle-parent" abstract="true" parent="majorDisciplineInfo.longTitle-parent">
+  <property name="name" value="longTitle"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.longTitle" parent="commonWithCredentialProgramInfo.longTitle-parent"/>
+
+<bean id="commonWithCredentialProgramInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
+  <property name="name" value="shortTitle"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.shortTitle" parent="commonWithCredentialProgramInfo.shortTitle-parent"/>
+
+<bean id="commonWithCredentialProgramInfo.startTerm-parent" abstract="true" parent="majorDisciplineInfo.startTerm-parent">
+  <property name="name" value="startTerm"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.startTerm" parent="commonWithCredentialProgramInfo.startTerm-parent"/>
+
+ <bean id="commonWithCredentialProgramInfo.stateKey-parent" abstract="true" parent="cluInfo.stateKey-parent">
+  <property name="name" value="stateKey"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.stateKey" parent="commonWithCredentialProgramInfo.stateKey-parent"/>
+
+ <bean id="commonWithCredentialProgramInfo.transcriptTitle-parent" abstract="true"
+       parent="majorDisciplineInfo.transcriptTitle-parent">
+  <property name="name" value="transcriptTitle"/>
+  <property name="caseConstraint"><null/></property>
+  <property name="maxLength" value="34"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.transcriptTitle" parent="commonWithCredentialProgramInfo.transcriptTitle-parent"/>
+
+ <bean id="commonWithCredentialProgramInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.typeKey" parent="commonWithCredentialProgramInfo.typeKey-parent"/>
+
+ <bean id="commonWithCredentialProgramInfo.unitsContentOwner-parent" abstract="true"
+       parent="majorDisciplineInfo.unitsContentOwner-parent">
+  <property name="name" value="unitsContentOwner"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.unitsContentOwner" parent="commonWithCredentialProgramInfo.unitsContentOwner-parent"/>
+
+ <bean id="commonWithCredentialProgramInfo.unitsStudentOversight-parent" abstract="true"
+       parent="majorDisciplineInfo.unitsStudentOversight-parent">
+  <property name="name" value="unitsStudentOversight"/>
+  <property name="caseConstraint"><null/></property>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.unitsStudentOversight" parent="commonWithCredentialProgramInfo.unitsStudentOversight-parent"/>
+
+ <bean id="commonWithCredentialProgramInfo.universityClassification-parent" abstract="true"
+       parent="majorDisciplineInfo.universityClassification-parent">
+  <property name="name" value="universityClassification"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.universityClassification" parent="commonWithCredentialProgramInfo.universityClassification-parent"/>
+ 
+ <bean id="commonWithCredentialProgramInfo.learningObjectives-parent" abstract="true"
+       parent="majorDisciplineInfo.learningObjectives-parent">
+  <property name="name" value="learningObjectives"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.LoDisplayInfo"/>
+ </bean>
+ <bean id="commonWithCredentialProgramInfo.learningObjectives" parent="commonWithCredentialProgramInfo.learningObjectives-parent"/>      
+         
 
 </beans>
