@@ -138,6 +138,10 @@
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.population.model.PopulationEntity</class>
+        <class>org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity</class>
+               <class>org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationAttributeEntity</class>
+               <class>org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity</class>
+               <class>org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumContextValueEntity</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 

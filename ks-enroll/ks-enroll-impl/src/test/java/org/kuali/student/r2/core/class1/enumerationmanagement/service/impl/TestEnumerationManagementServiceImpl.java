@@ -86,7 +86,7 @@ public class TestEnumerationManagementServiceImpl {
         
         assertEquals("kuali.enum.lu.program.level", dto.getKey());
         assertEquals("Program Level", dto.getName());
-        assertEquals("Program Level", dto.getDescr().getPlain());
+        assertEquals("level.descr", dto.getDescr().getPlain());
     }
     
     @Test
@@ -95,7 +95,7 @@ public class TestEnumerationManagementServiceImpl {
         EnumerationInfo dto = enumService.getEnumeration("kuali.enum.lu.program.level", callContext);
         assertEquals("kuali.enum.lu.program.level", dto.getKey());
         assertEquals("Program Level", dto.getName());
-        assertEquals("Program Level", dto.getDescr().getPlain());
+        assertEquals("level.descr", dto.getDescr().getPlain());
         
         //fetchEnumerationMeta for "NULL" key
         EnumerationInfo dto_null = null;

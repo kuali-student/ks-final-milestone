@@ -14,6 +14,8 @@
 --
 
 //AtpTypeEntity
+
+
 INSERT INTO KSEN_TYPE(ID, NAME, DESCR_PLAIN, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.AcademicCalendar', 'Academic Calendar', 'Academic Calendar', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
 INSERT INTO KSEN_TYPE(ID, NAME, DESCR_PLAIN, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.HolidayCalendar', 'Holiday Calendar', 'Holiday Calendar', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
 INSERT INTO KSEN_TYPE(ID, NAME, DESCR_PLAIN, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.Fall', 'Fall', 'Fall Semester', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
@@ -207,6 +209,11 @@ INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, ATP_ID, MSTONE_ID) values ('ATPMS
 INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, ATP_ID, MSTONE_ID) values ('ATPMSTONEREL-2', 0, 'testAtpId2', 'testId2')
 INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, ATP_ID, MSTONE_ID) values ('ATPMSTONEREL-3', 0, 'testDeleteAtpId1', 'testId')
 INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, ATP_ID, MSTONE_ID) values ('ATPMSTONEREL-4', 0, 'testDeleteAtpId2', 'testId2')
+
+
+
+INSERT INTO KSEN_TYPE(ID, NAME, DESCR_PLAIN, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.HalfFall1', 'Half Fall Term Type', 'Half Term', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
+
 
 // Term Atps for testing
 INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE, ATP_STATE, DESCR_PLAIN, VER_NBR) VALUES ('termRelationTestingTerm1', 'testingTerm1', {ts '2000-09-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'Desc term rich text 1', 0)

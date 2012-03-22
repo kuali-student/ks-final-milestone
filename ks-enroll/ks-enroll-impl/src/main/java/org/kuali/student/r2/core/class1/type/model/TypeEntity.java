@@ -44,6 +44,8 @@ public class TypeEntity extends MetaEntity implements AttributeOwner<TypeAttribu
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<TypeAttributeEntity> attributes ;
 
+    public TypeEntity(){}
+
     public TypeEntity(Type type){
         
 

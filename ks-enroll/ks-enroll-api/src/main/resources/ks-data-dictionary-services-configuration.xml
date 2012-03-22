@@ -20,7 +20,13 @@
     <bean id="dataDictionaryServiceForAcal" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="acal" />
         <property name="dictionaryLocations" ref="acalServiceDictionaryLocations" />
-    </bean>   
+    </bean>
+
+    <bean id="dataDictionaryServiceForHold" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+           <property name="serviceNamespaceSuffix" value="hold" />
+        <property name="dictionaryLocations" ref="holdInfoDictionaryLocation" />
+    </bean>
+
    <!-- Hold Service-->
      <!-- Lui Service -->
    <bean id="dataDictionaryServiceForLui" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">

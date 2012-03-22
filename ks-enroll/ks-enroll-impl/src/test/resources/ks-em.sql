@@ -20,17 +20,17 @@ insert into KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) values ('kua
 -- Enumeration Types
 
 -- Enumerations 
-insert into KSEN_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.subjectArea', 'Subject Area Enumeration', 'subjectArea.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEN_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.campusLocation', 'Campus Location Enumeration', 'campusLocation.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEN_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.atptype.duration', 'ATP Durations', 'duration.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
-insert into KSEN_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.state', 'KS Data States', 'state.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEN_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.fee.feeType', 'Learning Unit Fee Type', 'feeType.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEN_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.fee.rateType', 'Learning Unit Rate Type', 'rateType.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
-insert into KSEN_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.enum.type.cip2010', 'CIP 2010', 'cip2010.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEN_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.enum.type.cip2000', 'CIP 2000', 'cip2000.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEN_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.enum.lu.program.level', 'Program Level', 'level.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
-insert into KSEN_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.code.UniversityClassification', 'University Classification', 'classification.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEN_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.finalExam.status', 'Final Exam Status', 'status.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEN_ENUM_T (ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.subjectArea', 'Subject Area Enumeration', 'subjectArea.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEN_ENUM_T (ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.campusLocation', 'Campus Location Enumeration', 'campusLocation.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEN_ENUM_T (ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('kuali.atptype.duration', 'ATP Durations', 'duration.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
+insert into KSEN_ENUM_T (ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('kuali.state', 'KS Data States', 'state.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEN_ENUM_T (ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.fee.feeType', 'Learning Unit Fee Type', 'feeType.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEN_ENUM_T (ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.fee.rateType', 'Learning Unit Rate Type', 'rateType.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
+insert into KSEN_ENUM_T (ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('kuali.enum.type.cip2010', 'CIP 2010', 'cip2010.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEN_ENUM_T (ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('kuali.enum.type.cip2000', 'CIP 2000', 'cip2000.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEN_ENUM_T (ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('kuali.enum.lu.program.level', 'Program Level', 'level.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
+insert into KSEN_ENUM_T (ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.code.UniversityClassification', 'University Classification', 'classification.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEN_ENUM_T (ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.finalExam.status', 'Final Exam Status', 'status.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
 
 --Enumerated Values
 insert into KSEN_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('1', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, '1', 'Robotics');
@@ -108,71 +108,3 @@ insert into KSEN_CTX_T (ID, CTX_KEY, CTX_VAL) values ('3', 'kuali.atptype.durati
 insert into KSEN_CTX_T (ID, CTX_KEY, CTX_VAL) values ('4', 'kuali.state', 'default');
 insert into KSEN_CTX_T (ID, CTX_KEY, CTX_VAL) values ('5', 'kuali.lu.fee.feeType', 'default');
 insert into KSEN_CTX_T (ID, CTX_KEY, CTX_VAL) values ('6', 'kuali.lu.fee.rateType', 'default');
-
---Join Table
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','1');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','2');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','3');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','4');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','5');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','6');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','7');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','8');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','9');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','10');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','11');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','12');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','13');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','14');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','15');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','16');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','17');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','18');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','19');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','20');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','21');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','22');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','23');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','24');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','25');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','26');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','27');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','28');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','29');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','30');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','31');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','32');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','59');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('1','60');
-
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','33');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','34');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','64');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('2','65');
-
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('3','35');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('3','36');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('3','37');
-
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','38');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','39');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','41');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','42');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','43');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','44');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','45');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('4','46');
-
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','47');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','48');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','49');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','50');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','51');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','52');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','53');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('5','54');
-
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('6','55');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('6','56');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('6','57');
-insert into KSEN_CTX_JN_ENUM_VAL_T (CTX_ID, ENUM_VAL_ID) values ('6','58');
