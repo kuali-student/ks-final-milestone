@@ -971,8 +971,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getOrgId());
 		assertEquals("EXT-personId-3", updatedClu.getInstructors().get(1)
 				.getPersonId());
-		// TODO KSCM-212  assertEquals("Inst3AttrValue1", updatedClu.getInstructors().get(1).getAttributes().get("Inst3AttrKey1"));
-		// TODO KSCM-212  assertEquals("Inst3AttrValue2", updatedClu.getInstructors().get(1).getAttributes().get("Inst3AttrKey2"));
+		assertEquals("Inst3AttrValue1", updatedClu.getInstructors().get(1).getAttributeInfoValue(updatedClu.getInstructors().get(1).getAttributes(),"Inst3AttrKey1"));
+		assertEquals("Inst3AttrValue2", updatedClu.getInstructors().get(1).getAttributeInfoValue(updatedClu.getInstructors().get(1).getAttributes(),"Inst3AttrKey2"));
 		assertEquals(2, updatedClu.getInstructors().get(1).getAttributes()
 				.size());
 
@@ -982,8 +982,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("UPluCode1-desc", updatedClu.getLuCodes().get(0).getDescr());
 		assertEquals("UPluCode1-value", updatedClu.getLuCodes().get(0)
 				.getValue());
-		// TODO KSCM-212  assertEquals("luCode1AttrValue1", updatedClu.getLuCodes().get(0).getAttributes().get("luCode1AttrKey1"));
-		// TODO KSCM-212  assertEquals("luCode1AttrValue3", updatedClu.getLuCodes().get(0).getAttributes().get("luCode1AttrKey3"));
+		assertEquals("luCode1AttrValue1", updatedClu.getLuCodes().get(0).getAttributeInfoValue(updatedClu.getLuCodes().get(0).getAttributes(),"luCode1AttrKey1"));
+		assertEquals("luCode1AttrValue3", updatedClu.getLuCodes().get(0).getAttributeInfoValue(updatedClu.getLuCodes().get(0).getAttributes(),"luCode1AttrKey3"));
 		assertEquals(2, updatedClu.getLuCodes().get(0).getAttributes().size());
 		assertNotNull(updatedClu.getLuCodes().get(0).getMeta());
 		assertNotNull(updatedClu.getLuCodes().get(0).getMeta()
@@ -996,8 +996,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("luCode3.key", updatedClu.getLuCodes().get(1).getId());
 		assertEquals("luCode3-desc", updatedClu.getLuCodes().get(1).getDescr());
 		assertEquals("luCode3-value", updatedClu.getLuCodes().get(1).getValue());
-		// TODO KSCM-212  assertEquals("luCode3AttrValue1", updatedClu.getLuCodes().get(1).getAttributes().get("luCode3AttrKey1"));
-		// TODO KSCM-212  assertEquals("luCode3AttrValue2", updatedClu.getLuCodes().get(1).getAttributes().get("luCode3AttrKey2"));
+		assertEquals("luCode3AttrValue1", updatedClu.getLuCodes().get(1).getAttributeInfoValue(updatedClu.getLuCodes().get(1).getAttributes(),"luCode3AttrKey1"));
+		assertEquals("luCode3AttrValue2", updatedClu.getLuCodes().get(1).getAttributeInfoValue(updatedClu.getLuCodes().get(1).getAttributes(),"luCode3AttrKey2"));
 		assertNotNull(updatedClu.getLuCodes().get(1).getMeta());
 		assertNotNull(updatedClu.getLuCodes().get(1).getMeta()
 				.getVersionInd());
@@ -1097,9 +1097,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("CLU-1", created.getCluId());
 		assertEquals("CLU-2", created.getRelatedCluId());
 		assertEquals("luLuType.type1", created.getTypeKey());
-		// TODO KSCM-212  assertEquals("clucluAttrValue1", created.getAttributes().get("clucluAttrKey1"));
-		// TODO KSCM-212  assertEquals("clucluAttrValue2", created.getAttributes().get("clucluAttrKey2"));
-		// TODO KSCM-212  assertEquals("clucluAttrValue3", created.getAttributes().get("clucluAttrKey3"));
+		assertEquals("clucluAttrValue1", created.getAttributeInfoValue(created.getAttributes(),"clucluAttrKey1"));
+		assertEquals("clucluAttrValue2", created.getAttributeInfoValue(created.getAttributes(),"clucluAttrKey2"));
+		assertEquals("clucluAttrValue3", created.getAttributeInfoValue(created.getAttributes(),"clucluAttrKey3"));
 		assertNotNull(created.getId());
 		assertNotNull(created.getMeta().getCreateTime());
 		assertNotNull(created.getMeta().getVersionInd());
@@ -1125,10 +1125,10 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("CLU-2", updated.getCluId());
 		assertEquals("CLU-3", updated.getRelatedCluId());
 		assertEquals("luLuType.type2", updated.getTypeKey());
-		// TODO KSCM-212  assertEquals("clucluAttrValue1", updated.getAttributes().get("clucluAttrKey1"));
-		// TODO KSCM-212  assertNull(updated.getAttributes().get("clucluAttrKey2"));
-		// TODO KSCM-212  assertEquals("clucluAttrValue3-A", updated.getAttributes().get("clucluAttrKey3"));
-		// TODO KSCM-212  assertEquals("clucluAttrValue4", updated.getAttributes().get("clucluAttrKey4"));
+		assertEquals("clucluAttrValue1", updated.getAttributeInfoValue(updated.getAttributes(),"clucluAttrKey1"));
+		assertNull(updated.getAttributeInfoValue(updated.getAttributes(),"clucluAttrKey2"));
+		assertEquals("clucluAttrValue3-A", updated.getAttributeInfoValue(updated.getAttributes(),"clucluAttrKey3"));
+		assertEquals("clucluAttrValue4", updated.getAttributeInfoValue(updated.getAttributes(),"clucluAttrKey4"));
 		assertNotNull(created.getId());
 		assertNotNull(created.getMeta().getCreateTime());
 		assertNotNull(created.getMeta().getVersionInd());
@@ -3192,48 +3192,33 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("PRIMARY-ADMIN-ORG-ID", clu.getAdminOrgs().get(0)
 				.getOrgId());
 		assertEquals(2,  clu.getAdminOrgs().get(0).getAttributes().size());
-		// TODO KSCM-212  assertEquals("PrimaryAdminOrgAttrValue1",  clu.getAdminOrgs().get(0)
-		//		.getAttributes().get("PrimaryAdminOrgAttrKey1"));
-		// TODO KSCM-212  assertEquals("PrimaryAdminOrgAttrValue2",  clu.getAdminOrgs().get(0)
-		//		.getAttributes().get("PrimaryAdminOrgAttrKey2"));
+		assertEquals("PrimaryAdminOrgAttrValue1",  clu.getAdminOrgs().get(0).getAttributeInfoValue(clu.getAdminOrgs().get(0).getAttributes(),"PrimaryAdminOrgAttrKey1"));
+		assertEquals("PrimaryAdminOrgAttrValue2",  clu.getAdminOrgs().get(0).getAttributeInfoValue(clu.getAdminOrgs().get(0).getAttributes(),"PrimaryAdminOrgAttrKey2"));
 		
-		assertEquals("ALT-ADMIN-ORG-ID1", clu.getAdminOrgs().get(1)
-				.getOrgId());
-		assertEquals(3, clu.getAdminOrgs().get(1).getAttributes()
-				.size());
-		// TODO KSCM-212  assertEquals("AltAdminOrg1AttrValue1", clu.getAdminOrgs().get(
-		//		1).getAttributes().get("AltAdminOrg1AttrKey1"));
-		// TODO KSCM-212  assertEquals("AltAdminOrg1AttrValue2", clu.getAdminOrgs().get(
-		//		1).getAttributes().get("AltAdminOrg1AttrKey2"));
-		// TODO KSCM-212  assertEquals("AltAdminOrg1AttrValue3", clu.getAdminOrgs().get(
-		//		1).getAttributes().get("AltAdminOrg1AttrKey3"));
+		assertEquals("ALT-ADMIN-ORG-ID1", clu.getAdminOrgs().get(1).getOrgId());
+		assertEquals(3, clu.getAdminOrgs().get(1).getAttributes().size());
+		assertEquals("AltAdminOrg1AttrValue1", clu.getAdminOrgs().get(1).getAttributeInfoValue(clu.getAdminOrgs().get(1).getAttributes(),"AltAdminOrg1AttrKey1"));
+		assertEquals("AltAdminOrg1AttrValue2", clu.getAdminOrgs().get(1).getAttributeInfoValue(clu.getAdminOrgs().get(1).getAttributes(),"AltAdminOrg1AttrKey2"));
+		assertEquals("AltAdminOrg1AttrValue3", clu.getAdminOrgs().get(1).getAttributeInfoValue(clu.getAdminOrgs().get(1).getAttributes(),"AltAdminOrg1AttrKey3"));
 
-		assertEquals("ALT-ADMIN-ORG-ID2", clu.getAdminOrgs().get(2)
-				.getOrgId());
-		assertEquals(2, clu.getAdminOrgs().get(2).getAttributes()
-				.size());
-		// TODO KSCM-212  assertEquals("AltAdminOrg2AttrValue1", clu.getAdminOrgs().get(
-		//		2).getAttributes().get("AltAdminOrg2AttrKey1"));
-		// TODO KSCM-212  assertEquals("AltAdminOrg2AttrValue2", clu.getAdminOrgs().get(
-		//		2).getAttributes().get("AltAdminOrg2AttrKey2"));
+		assertEquals("ALT-ADMIN-ORG-ID2", clu.getAdminOrgs().get(2).getOrgId());
+		assertEquals(2, clu.getAdminOrgs().get(2).getAttributes().size());
+		assertEquals("AltAdminOrg2AttrValue1", clu.getAdminOrgs().get(2).getAttributeInfoValue(clu.getAdminOrgs().get(2).getAttributes(),"AltAdminOrg2AttrKey1"));
+		assertEquals("AltAdminOrg2AttrValue2", clu.getAdminOrgs().get(2).getAttributeInfoValue(clu.getAdminOrgs().get(2).getAttributes(),"AltAdminOrg2AttrKey2"));
 	}
 
 	private void updateAdminOrgs(CluInfo clu) {
 //		clu.getAdminOrgs().get(0).setId("adminOrg121");
 		clu.getAdminOrgs().get(0).setOrgId("UPD-PRIMARY-ADMIN-ORG-ID");
-		// TODO KSCM-212  clu.getAdminOrgs().get(0).getAttributes().put("PrimaryAdminOrgAttrKey3",
-		//		"PrimaryAdminOrgAttrValue3");
+		// TODO KSCM-212  clu.getAdminOrgs().get(0).getAttributes().put("PrimaryAdminOrgAttrKey3","PrimaryAdminOrgAttrValue3");
 		clu.getAdminOrgs().get(0).getAttributes().remove(
 				"PrimaryAdminOrgAttrKey2");
-		// TODO KSCM-212  clu.getAdminOrgs().get(0).getAttributes().put("PrimaryAdminOrgAttrKey4",
-		//		"PrimaryAdminOrgAttrValue4");
+		// TODO KSCM-212  clu.getAdminOrgs().get(0).getAttributes().put("PrimaryAdminOrgAttrKey4","PrimaryAdminOrgAttrValue4");
 		
 		AdminOrgInfo altAdminOrg3 = new AdminOrgInfo();
 		altAdminOrg3.setOrgId("UPD-ADMIN-ORG-ID3");
-		// TODO KSCM-212  altAdminOrg3.getAttributes().put("UPDAdminOrg3AttrKey1",
-		//		"UPDAdminOrg3AttrKey1");
-		// TODO KSCM-212  altAdminOrg3.getAttributes().put("UPDAdminOrg3AttrKey2",
-		//		"UPDAdminOrg3AttrKey1");
+		// TODO KSCM-212  altAdminOrg3.getAttributes().put("UPDAdminOrg3AttrKey1","UPDAdminOrg3AttrKey1");
+		// TODO KSCM-212  altAdminOrg3.getAttributes().put("UPDAdminOrg3AttrKey2","UPDAdminOrg3AttrKey1");
 		altAdminOrg3.setTypeKey("kuali.testType");
 
 		clu.getAdminOrgs().remove(1);
@@ -3245,29 +3230,22 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("UPD-PRIMARY-ADMIN-ORG-ID", clu.getAdminOrgs().get(0)
 				.getOrgId());
 		assertEquals(3, clu.getAdminOrgs().get(0).getAttributes().size());
-		// TODO KSCM-212  assertEquals("PrimaryAdminOrgAttrValue4", clu.getAdminOrgs().get(0)
-		//		.getAttributes().get("PrimaryAdminOrgAttrKey4"));
-		// TODO KSCM-212  assertNull(clu.getAdminOrgs().get(0).getAttributes().get(
-		//		"PrimaryAdminOrgAttrKey2"));
+		assertEquals("PrimaryAdminOrgAttrValue4", clu.getAdminOrgs().get(0).getAttributeInfoValue(clu.getAdminOrgs().get(0).getAttributes(),"PrimaryAdminOrgAttrKey4"));
+		assertNull(clu.getAdminOrgs().get(0).getAttributeInfoValue(clu.getAdminOrgs().get(0).getAttributes(),"PrimaryAdminOrgAttrKey2"));
 		assertEquals(3, clu.getAdminOrgs().size());
 		assertEquals("UPD-PRIMARY-ADMIN-ORG-ID", clu.getAdminOrgs().get(0)
 				.getOrgId());
 		assertEquals(3, clu.getAdminOrgs().get(0).getAttributes()
 				.size());
-		// TODO KSCM-212  assertEquals("PrimaryAdminOrgAttrValue1", clu.getAdminOrgs().get(
-		//		0).getAttributes().get("PrimaryAdminOrgAttrKey1"));
-		// TODO KSCM-212  assertEquals("PrimaryAdminOrgAttrValue4", clu.getAdminOrgs().get(
-		//		0).getAttributes().get("PrimaryAdminOrgAttrKey4"));
-		// TODO KSCM-212  assertEquals("PrimaryAdminOrgAttrValue3", clu.getAdminOrgs().get(
-		//		0).getAttributes().get("PrimaryAdminOrgAttrKey3"));
+		assertEquals("PrimaryAdminOrgAttrValue1", clu.getAdminOrgs().get(0).getAttributeInfoValue(clu.getAdminOrgs().get(0).getAttributes(),"PrimaryAdminOrgAttrKey1"));
+		assertEquals("PrimaryAdminOrgAttrValue4", clu.getAdminOrgs().get(0).getAttributeInfoValue(clu.getAdminOrgs().get(0).getAttributes(),"PrimaryAdminOrgAttrKey4"));
+		assertEquals("PrimaryAdminOrgAttrValue3", clu.getAdminOrgs().get(0).getAttributeInfoValue(clu.getAdminOrgs().get(0).getAttributes(),"PrimaryAdminOrgAttrKey3"));
 		assertEquals("ALT-ADMIN-ORG-ID2", clu.getAdminOrgs().get(1)
 				.getOrgId());
 		assertEquals(2, clu.getAdminOrgs().get(1).getAttributes()
 				.size());
-		// TODO KSCM-212  assertEquals("AltAdminOrg2AttrValue2", clu.getAdminOrgs().get(
-		//		1).getAttributes().get("AltAdminOrg2AttrKey2"));
-		// TODO KSCM-212  assertEquals("AltAdminOrg2AttrValue1", clu.getAdminOrgs().get(
-		//		1).getAttributes().get("AltAdminOrg2AttrKey1"));
+		assertEquals("AltAdminOrg2AttrValue2", clu.getAdminOrgs().get(1).getAttributeInfoValue(clu.getAdminOrgs().get(1).getAttributes(),"AltAdminOrg2AttrKey2"));
+		assertEquals("AltAdminOrg2AttrValue1", clu.getAdminOrgs().get(1).getAttributeInfoValue(clu.getAdminOrgs().get(1).getAttributes(),"AltAdminOrg2AttrKey1"));
 	}
 
 	private void createAccreditationList(CluInfo clu) throws ParseException {
@@ -3275,19 +3253,15 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		accreditationOrg1.setOrgId("EXT-orgId-1");
 		accreditationOrg1.setEffectiveDate(DF.parse("20100203"));
 		accreditationOrg1.setExpirationDate(DF.parse("21001231"));
-		// TODO KSCM-212  accreditationOrg1.getAttributes().put("Accred1AttrKey1",
-		//		"Accred1AttrValue1");
-		// TODO KSCM-212  accreditationOrg1.getAttributes().put("Accred1AttrKey2",
-		//		"Accred1AttrValue2");
+		// TODO KSCM-212  accreditationOrg1.getAttributes().put("Accred1AttrKey1","Accred1AttrValue1");
+		// TODO KSCM-212  accreditationOrg1.getAttributes().put("Accred1AttrKey2","Accred1AttrValue2");
 
 		AccreditationInfo accreditationOrg2 = new AccreditationInfo();
 		accreditationOrg2.setOrgId("EXT-orgId-2");
 		accreditationOrg2.setEffectiveDate(DF.parse("20110203"));
 		accreditationOrg2.setExpirationDate(DF.parse("21011231"));
-		// TODO KSCM-212  accreditationOrg2.getAttributes().put("Accred2AttrKey1",
-		//		"Accred2AttrValue1");
-		// TODO KSCM-212  accreditationOrg2.getAttributes().put("Accred2AttrKey2",
-		//		"Accred2AttrValue2");
+		// TODO KSCM-212  accreditationOrg2.getAttributes().put("Accred2AttrKey1","Accred2AttrValue1");
+		// TODO KSCM-212  accreditationOrg2.getAttributes().put("Accred2AttrKey2","Accred2AttrValue2");
 
 		clu.getAccreditations().add(accreditationOrg1);
 		clu.getAccreditations().add(accreditationOrg2);
@@ -3306,10 +3280,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getExpirationDate());
 		assertEquals(2, clu.getAccreditations().get(0).getAttributes()
 				.size());
-		// TODO KSCM-212  assertEquals("Accred1AttrValue1", clu.getAccreditations().get(0)
-		//		.getAttributes().get("Accred1AttrKey1"));
-		// TODO KSCM-212  assertEquals("Accred1AttrValue2", clu.getAccreditations().get(0)
-		//		.getAttributes().get("Accred1AttrKey2"));
+		assertEquals("Accred1AttrValue1", clu.getAccreditations().get(0).getAttributeInfoValue(clu.getAccreditations().get(0).getAttributes(),"Accred1AttrKey1"));
+		assertEquals("Accred1AttrValue2", clu.getAccreditations().get(0).getAttributeInfoValue(clu.getAccreditations().get(0).getAttributes(),"Accred1AttrKey2"));
 
 		assertEquals("EXT-orgId-2", clu.getAccreditations().get(1)
 				.getOrgId());
@@ -3319,10 +3291,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getExpirationDate());
 		assertEquals(2, clu.getAccreditations().get(1).getAttributes()
 				.size());
-		// TODO KSCM-212  assertEquals("Accred2AttrValue1", clu.getAccreditations().get(1)
-		//		.getAttributes().get("Accred2AttrKey1"));
-		// TODO KSCM-212  assertEquals("Accred2AttrValue2", clu.getAccreditations().get(1)
-		//		.getAttributes().get("Accred2AttrKey2"));
+	    assertEquals("Accred2AttrValue1", clu.getAccreditations().get(1).getAttributeInfoValue(clu.getAccreditations().get(1).getAttributes(),"Accred2AttrKey1"));
+		assertEquals("Accred2AttrValue2", clu.getAccreditations().get(1).getAttributeInfoValue(clu.getAccreditations().get(1).getAttributes(),"Accred2AttrKey2"));
 	}
 
 	private void updateAccreditationList(CluInfo clu) throws ParseException {
