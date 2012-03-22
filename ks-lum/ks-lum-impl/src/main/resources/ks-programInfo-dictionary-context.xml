@@ -1043,10 +1043,11 @@
  <bean id="majorDisciplineInfo.id" parent="majorDisciplineInfo.id-parent"/>
 
  <bean id="majorDisciplineInfo.versionInfo-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="versionInfo"/>
+  <property name="name" value="version"/>
   <property name="dataObjectStructure" ref="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
  </bean>
  <bean id="majorDisciplineInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
+ <bean id="coreProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
 
  <!-- begin ProgramVariationInfo-->
     <!-- ProgramVariationInfo-->
@@ -1597,7 +1598,7 @@
     <ref bean="coreProgramInfo.unitsContentOwner"/>
     <ref bean="coreProgramInfo.unitsStudentOversight"/>
     <ref bean="coreProgramInfo.universityClassification"/>
-
+	<ref bean="coreProgramInfo.versionInfo"/>
 <!--     <ref bean="coreProgramInfo.searchProgramVersions"/> -->
    </list>
   </property>
