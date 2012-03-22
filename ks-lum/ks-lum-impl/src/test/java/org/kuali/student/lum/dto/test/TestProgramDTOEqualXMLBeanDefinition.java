@@ -55,13 +55,13 @@ public class TestProgramDTOEqualXMLBeanDefinition {
 	public void testProgramDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 
-		Set<String> startingClasses = new LinkedHashSet();
-		startingClasses.add(CommonWithCoreProgramInfo.class.getName());
+    	Set<String> startingClasses = new LinkedHashSet();
+//		startingClasses.add(CommonWithCoreProgramInfo.class.getName());
 //		startingClasses.add(CommonWithCredentialProgramInfo.class.getName());
 //		startingClasses.add(CommonWithProgramVariationInfo.class.getName());
 //		startingClasses.add(CoreProgramInfo.class.getName());
 //		startingClasses.add(CredentialProgramInfo.class.getName());
-//		startingClasses.add(HonorsProgramInfo.class.getName());
+		startingClasses.add(HonorsProgramInfo.class.getName());
 //		startingClasses.add(MajorDisciplineInfo.class.getName());
 //		startingClasses.add(MinorDisciplineInfo.class.getName());
 //		startingClasses.add(ProgramRequirementInfo.class.getName());

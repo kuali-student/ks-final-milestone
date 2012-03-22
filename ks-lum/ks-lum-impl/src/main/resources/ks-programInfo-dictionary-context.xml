@@ -1598,7 +1598,7 @@
     <ref bean="coreProgramInfo.unitsStudentOversight"/>
     <ref bean="coreProgramInfo.universityClassification"/>
 
-    <ref bean="coreProgramInfo.searchProgramVersions"/>
+<!--     <ref bean="coreProgramInfo.searchProgramVersions"/> -->
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -1606,7 +1606,7 @@
  <bean id="org.kuali.student.r2.lum.program.dto.CoreProgramInfo"
        parent="org.kuali.student.r2.lum.program.dto.CoreProgramInfo-parent"/>
 
- <bean id="coreProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/>
+<!--  <bean id="coreProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/> -->
 
  <bean id="coreProgramInfo.catalogDescr-parent" abstract="true" parent="majorDisciplineInfo.catalogDescr-parent">
   <property name="name" value="catalogDescr"/>
@@ -1759,7 +1759,7 @@
     <ref bean="credentialProgramInfo.unitsStudentOversight"/>
     <ref bean="credentialProgramInfo.universityClassification"/>
 
-    <ref bean="credentialProgramInfo.searchProgramVersions"/>
+<!--     <ref bean="credentialProgramInfo.searchProgramVersions"/> TODO KSCM -->
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -1899,7 +1899,7 @@
  <bean id="credentialProgramInfo.universityClassification"
        parent="credentialProgramInfo.universityClassification-parent"/>
 
- <bean id="credentialProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/>
+<!-- TODO KSCM -why is this removed from class? <bean id="credentialProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/> -->
 
  <!-- MinorDisciplineInfo-->
  <bean id="org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo-parent" abstract="true"
@@ -2659,6 +2659,55 @@
 </bean>
  <bean id="commonWithProgramVariationInfo.unitsDeployment" parent="commonWithProgramVariationInfo.unitsDeployment-parent"/>
        
-          
+  
 
+
+
+
+
+
+<!-- HonorsProgramInfo-->
+ <bean id="org.kuali.student.r2.lum.program.dto.HonorsProgramInfo-parent" abstract="true"
+       parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.lum.program.dto.HonorsProgramInfo"/>
+  <property name="attributes">
+   <list>
+    <ref bean="honorsProgramInfo.id"/>
+    <ref bean="honorsProgramInfo.stateKey"/>
+    <ref bean="honorsProgramInfo.typeKey"/>
+    <ref bean="honorsProgramInfo.programRequirements"/>
+    <ref bean="honorsProgramInfo.credentialProgramId"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="org.kuali.student.r2.lum.program.dto.HonorsProgramInfo"
+       parent="org.kuali.student.r2.lum.program.dto.HonorsProgramInfo-parent"/>
+
+ <bean id="honorsProgramInfo.programRequirements-parent" abstract="true"
+       parent="majorDisciplineInfo.programRequirements-parent">
+  <property name="name" value="programRequirements"/>
+ </bean>
+ <bean id="honorsProgramInfo.programRequirements" parent="honorsProgramInfo.programRequirements-parent"/>
+ 
+ <bean id="honorsProgramInfo.id-parent" abstract="true" parent="cluInfo.id">
+  <property name="name" value="id"/>
+ </bean>
+ <bean id="honorsProgramInfo.id" parent="honorsProgramInfo.id-parent"/>
+
+ <bean id="honorsProgramInfo.stateKey-parent" abstract="true" parent="cluInfo.stateKey-parent">
+  <property name="name" value="stateKey"/>
+ </bean>
+ <bean id="honorsProgramInfo.stateKey" parent="honorsProgramInfo.stateKey-parent"/>
+
+ <bean id="honorsProgramInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
+ </bean>
+ <bean id="honorsProgramInfo.typeKey" parent="honorsProgramInfo.typeKey-parent"/>
+
+ <bean id="honorsProgramInfo.credentialProgramId-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="credentialProgramId"/>
+ </bean>
+ <bean id="honorsProgramInfo.credentialProgramId" parent="honorsProgramInfo.credentialProgramId-parent"/>
+ 
 </beans>
