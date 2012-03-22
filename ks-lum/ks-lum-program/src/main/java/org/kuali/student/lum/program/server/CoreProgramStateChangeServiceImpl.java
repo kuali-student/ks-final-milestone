@@ -5,6 +5,7 @@ import java.util.List;
 import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -226,7 +227,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 
             // Get program requirement from the program service
             ProgramRequirementInfo programRequirementInfo = null;
-            programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null, new ContextInfo());
+            programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null, ContextUtils.getContextInfo());
 
             // Look in the requirement for the statement tree
             StatementTreeViewInfo statementTree = null;
