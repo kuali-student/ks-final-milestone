@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -246,8 +247,8 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     	//Set the end terms on the major discipline
     	majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
         majorDisciplineInfo.setEndTerm(endEnrollTerm);
-        //TODO KSCM-388
-        //majorDisciplineInfo.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
+        majorDisciplineInfo.getAttributes().add(new AttributeInfo("endInstAdmitTerm", endInstAdmitTerm));
+        
         
         //Check if there are variations to process
         if(!majorDisciplineInfo.getVariations().isEmpty()){

@@ -76,7 +76,13 @@ public final class AttributeInfo
         }
     }
 
-    @Override
+    public AttributeInfo(String key, String value) {
+		super();
+		this.key = key;
+		this.value = value;
+	}
+
+	@Override
     public String getId() {
         return id;
     }
