@@ -16,16 +16,13 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlType;
-
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.course.infc.Activity;
-//import org.w3c.dom.Element;
 
 @XmlType(name = "ActivityInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "duration", "unitsContentOwner", "defaultEnrollmentEstimate", "contactHours", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 

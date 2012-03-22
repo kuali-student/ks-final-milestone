@@ -687,7 +687,7 @@
 	</bean>
 
 	<bean id="kuali.common.lookup.amountInfo.unitType" parent="commonLookup-parent">
-		<property name="id" value="kuali.common.lookup.amountInfo.unitType" />
+		<property name="id" value="kuali.common.lookup.amountInfo.unitTypeKey" />
 		<property name="searchTypeId" value="enumeration.management.search" />
 		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
 		<property name="params">

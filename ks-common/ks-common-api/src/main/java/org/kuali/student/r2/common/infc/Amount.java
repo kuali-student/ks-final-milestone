@@ -50,6 +50,5 @@ public interface Amount {
     /**
      * Use getUnitTypeKey() instead.
      */
-    @Deprecated
-    public String getUnitType();
+
 }

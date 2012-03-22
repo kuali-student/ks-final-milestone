@@ -46,7 +46,7 @@ public class ActivityTypeValidator extends DefaultValidatorImpl {
 		
 		AmountInfo contactHours = activity.getContactHours();
 		if (contactHours != null){
-			hasData = hasData || hasText(contactHours.getUnitQuantity()) || hasText(contactHours.getUnitType());
+			hasData = hasData || hasText(contactHours.getUnitQuantity()) || hasText(contactHours.getUnitTypeKey());
 		}
 		
 		int enrollmentEstimate = activity.getDefaultEnrollmentEstimate();

@@ -94,14 +94,5 @@ public class AmountInfo
     }
 
     // Compatbility
-    @Override
-    @Deprecated
-    public String getUnitType() {
-        return getUnitTypeKey();
-    }
 
-    @Deprecated
-    public void setUnitType(String unitTypeKey) {
-        setUnitTypeKey(unitTypeKey);
-    }
 }

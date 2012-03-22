@@ -33,6 +33,7 @@ import org.kuali.student.r2.lum.course.infc.CourseJoint;
 import org.kuali.student.r2.lum.course.infc.CourseRevenue;
 import org.kuali.student.r2.lum.course.infc.Format;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.clu.infc.CluInstructor;
 //import org.w3c.dom.Element;
@@ -238,6 +239,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
             this.revenues = courseRevList;
 
             this.expenditure = new CourseExpenditureInfo(courseInfo.getExpenditure());
+            this.expenditure.setAffiliatedOrgs(new ArrayList<AffiliatedOrgInfo>(0));
 
             List<LoDisplayInfo> courseLos = new ArrayList<LoDisplayInfo>();
 

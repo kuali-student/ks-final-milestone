@@ -507,7 +507,7 @@
     </bean>
 
     <bean id="amountInfo.unitType-parent" abstract="true" parent="baseKualiType">
-        <property name="name" value="unitType"/>
+        <property name="name" value="unitTypeKey"/>
         <property name="lookupDefinition" ref="constraint.lookup.unitTypes"/>
     </bean>
     <bean id="amountInfo.unitType" parent="amountInfo.unitType-parent"/>
