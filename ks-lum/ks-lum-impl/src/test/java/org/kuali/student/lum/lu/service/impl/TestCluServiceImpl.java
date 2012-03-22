@@ -794,8 +794,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		instructor3.getAttributes().add(new AttributeInfo("Inst3AttrKey1", "Inst3AttrValue1"));
 		instructor3.getAttributes().add(new AttributeInfo("Inst3AttrKey2", "Inst3AttrValue2"));
 		createdClu.getInstructors().add(instructor3);
-
-		createdClu.getLuCodes().get(0).setDescr("UPluCode1-desc");
+		RichTextInfo UPLuCode1Desc = new RichTextInfo(); 
+		UPLuCode1Desc.setPlain("luCodetwodesc");
+		createdClu.getLuCodes().get(0).setDescr(UPLuCode1Desc);
 		createdClu.getLuCodes().get(0).setValue("UPluCode1-value");
 		createdClu.getLuCodes().get(0).getAttributes().add(new AttributeInfo("luCode1AttrKey1", "luCode1AttrValue1"));
 		createdClu.getLuCodes().get(0).getAttributes().remove("luCode1AttrKey2");
@@ -806,7 +807,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		LuCodeInfo luCode3 = new LuCodeInfo();
 		luCode3.setId("luCode3.key");
-		luCode3.setDescr("luCode3-desc");
+		RichTextInfo luCode3Desc = new RichTextInfo(); 
+		luCode3Desc.setPlain("luCode3-desc");
+		luCode3.setDescr(luCode3Desc);
 		luCode3.setValue("luCode3-value");
 		luCode3.getAttributes().add(new AttributeInfo("luCode3AttrKey1", "luCode3AttrValue1"));
 		luCode3.getAttributes().add(new AttributeInfo("luCode3AttrKey2", "luCode3AttrValue2"));
@@ -1948,7 +1951,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		LuCodeInfo luCode1 = new LuCodeInfo();
 		luCode1.setId("luCode1.key");
-		luCode1.setDescr("luCode1desc");
+		RichTextInfo luCode1Desc = new RichTextInfo();
+		luCode1Desc.setPlain("luCode1desc");
+		luCode1.setDescr(luCode1Desc);
 		luCode1.setValue("luCode1value");
 		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey1", "luCode1AttrValue1");
 		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey2", "luCode1AttrValue2");
@@ -1956,7 +1961,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		LuCodeInfo luCode2 = new LuCodeInfo();
 		luCode2.setId("luCode2.key");
-		luCode2.setDescr("luCodetwodesc");
+		RichTextInfo luCodetwodesc = new RichTextInfo();
+		luCodetwodesc.setPlain("luCodetwodesc");
+		luCode2.setDescr(luCodetwodesc);
 		luCode2.setValue("luCodetwovalue");
 		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey1", "luCode2AttrValue1");
 		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey2", "luCode2AttrValue2");
@@ -2194,7 +2201,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", "CLUSET-3", "CLUSET-4"});
 
 		StatusInfo status = client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList, contextInfo);
-		CluSetInfo getCluSetInfo = client.getCluSetType(createdCluSet.getId(), contextInfo);
+		List<TypeInfo> getCluSetInfo = client.getCluSetTypes(contextInfo);
 
 		assertTrue(status.getIsSuccess());
 		assertEquals(4, getCluSetInfo.getCluSetIds().size());
