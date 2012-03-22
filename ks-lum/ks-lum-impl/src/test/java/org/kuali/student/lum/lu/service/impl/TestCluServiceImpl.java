@@ -3317,7 +3317,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getOrgId());
 		assertEquals(1, clu.getAccreditations().get(0).getAttributes()
 				.size());
-		assertEquals("Accred1AttrValue1-UPD", clu.getAccreditations().get(0).getAttributeInfoValue(getAttributes()clu.getAccreditations().get(0),"Accred1AttrKey1"));
+		assertEquals("Accred1AttrValue1-UPD", clu.getAccreditations().get(0).getAttributeInfoValue(clu.getAccreditations().get(0).getAttributes(),"Accred1AttrKey1"));
 
 		assertEquals("EXT-orgId-3", clu.getAccreditations().get(1)
 				.getOrgId());
