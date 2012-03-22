@@ -35,7 +35,7 @@ import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 import org.kuali.student.core.subjectcode.bo.SubjectCode;
 import org.kuali.student.core.subjectcode.bo.SubjectCodeJoinOrg;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
@@ -195,9 +195,8 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 			//Perform the Org search
 			SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
 			orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(orgIdToRowMapping.keySet()));
-// TODO KSCM-165  SearchResult orgIdTranslationSearchResult = getOrganizationService().search(orgIdTranslationSearchRequest);
-            SearchResult orgIdTranslationSearchResult = null;   // TODO KSCM-165
-			
+			SearchResult orgIdTranslationSearchResult = getOrganizationService().search(orgIdTranslationSearchRequest);
+            			
 			//For each translation, update the result cell with the translated org name
 			for(SearchResultRow row:orgIdTranslationSearchResult.getRows()){
 				//Get Params

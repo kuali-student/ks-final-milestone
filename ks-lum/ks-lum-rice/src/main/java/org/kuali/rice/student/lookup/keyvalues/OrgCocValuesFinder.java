@@ -57,9 +57,7 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
         searchRequest.setParams(queryParamValues);
         
         try {
-            SearchResult results = null;
-            // TODO KSCM-371 results = getOrganizationService().search(searchRequest, null);	// TODO KSCM-165
-
+            SearchResult results = getOrganizationService().search(searchRequest);
             for (SearchResultRow result : results.getRows()) {
                 String orgId = "";
                 String orgShortName = "";
@@ -74,7 +72,6 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
                 }
                 departments.add(buildKeyLabelPair(orgId, orgShortName, null, null));
             }
-
             return departments;
         } catch (Exception e) {
         	LOG.error("Error building KeyValues List", e);

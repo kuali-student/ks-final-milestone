@@ -13,7 +13,7 @@ import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultCell;
 import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 
 public class DepartmentValuesFinder extends KeyValuesBase {
 	private static OrganizationService organizationService;
@@ -42,8 +42,7 @@ public class DepartmentValuesFinder extends KeyValuesBase {
 		searchRequest.addParam("org.queryParam.orgOptionalType", orgTypes);
 		searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
 		try {
-// TODO KSCM-165		SearchResult results = getOrganizationService().search(searchRequest);
-            SearchResult results = null;  // TODO KSCM-165
+            SearchResult results = getOrganizationService().search(searchRequest);
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = null;
 				String orgLongName = null;

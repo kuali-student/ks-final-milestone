@@ -33,27 +33,25 @@ public class AllOrgsValuesFinder extends StudentKeyValuesBase {
         searchRequest.setSearchKey("org.search.generic");
 
         try {
-        	// TODO KSCM-165 
-//            for (SearchResultRow result : getOrganizationService().search(searchRequest, null).getRows()) {  // TODO KSCM-165
-//                String orgId = "";
-//                String orgShortName = "";
-//                String orgOptionalLongName = "";
-//                String orgType = "";
-//                for (SearchResultCell resultCell : result.getCells()) {
-//                    if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
-//                        orgId = resultCell.getValue();
-//                    } else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
-//                        orgShortName = resultCell.getValue();
-//                    } else if ("org.resultColumn.orgOptionalLongName".equals(resultCell.getKey())) {
-//                    	orgOptionalLongName = resultCell.getValue();
-//                    } else if ("org.resultColumn.orgType".equals(resultCell.getKey())) {
-//                    	orgType = resultCell.getValue();
-//                    }
-//                }
-//                departments.add(buildKeyLabelPair(orgId, orgShortName, orgOptionalLongName, orgType));
-//            }
-
-            return departments;
+        	for (SearchResultRow result : getOrganizationService().search(searchRequest).getRows()) {
+                String orgId = "";
+                String orgShortName = "";
+                String orgOptionalLongName = "";
+                String orgType = "";
+                for (SearchResultCell resultCell : result.getCells()) {
+                    if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
+                        orgId = resultCell.getValue();
+                    } else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
+                        orgShortName = resultCell.getValue();
+                    } else if ("org.resultColumn.orgOptionalLongName".equals(resultCell.getKey())) {
+                    	orgOptionalLongName = resultCell.getValue();
+                    } else if ("org.resultColumn.orgType".equals(resultCell.getKey())) {
+                    	orgType = resultCell.getValue();
+                    }
+                }
+                departments.add(buildKeyLabelPair(orgId, orgShortName, orgOptionalLongName, orgType));
+            }
+        	return departments;
         } catch (Exception e) {
         	LOG.error("Error building KeyValues List", e);
             throw new RuntimeException(e);
