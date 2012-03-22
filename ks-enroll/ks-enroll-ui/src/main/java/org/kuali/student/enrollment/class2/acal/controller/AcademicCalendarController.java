@@ -203,7 +203,8 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarInfo academicCalendarInfo = academicCalendarForm.getAcademicCalendarInfo();
 
         if(academicCalendarInfo.getId() != null && !academicCalendarInfo.getId().trim().isEmpty()){
-            // 1. update acal
+            // 1. update acal and AC-HC relationships
+            processHolidayCalendars(academicCalendarForm);
             AcademicCalendarInfo acalInfo = getAcalService().updateAcademicCalendar(academicCalendarInfo.getId(), academicCalendarInfo, getContextInfo() );
             academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), getContextInfo()));
 
@@ -212,21 +213,15 @@ public class AcademicCalendarController extends UifControllerBase {
             if(events != null && !events.isEmpty()){
                 processEvents(academicCalendarForm, events, acalInfo.getId());
             }
-            // 3. update AC-HC relationships
-            List<HolidayCalendarWrapper> holidayCalendarList = academicCalendarForm.getHolidayCalendarList();
-            if (holidayCalendarList != null && !holidayCalendarList.isEmpty()) {
-//                updateACAndHCRelationships (academicCalendarForm, holidayCalendarList, acalInfo.getId());
-            }
         }
         else {
-            // 1. create  a new acalInfo
-            AcademicCalendarInfo acalInfo = getAcademicCalendarViewHelperService(academicCalendarForm).createAcademicCalendar(academicCalendarForm);
-            academicCalendarForm.setAcademicCalendarInfo(acalInfo);
+            AcademicCalendarInfo acalInfo = null;
+            // 1. create  a new acalInfo with a list of HC Ids
+            processHolidayCalendars(academicCalendarForm);
+            acalInfo = getAcademicCalendarViewHelperService(academicCalendarForm).createAcademicCalendar(academicCalendarForm);
+            academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), getContextInfo()));
             // 2. create new events if any
             createEvents(acalInfo.getId(), academicCalendarForm);
-            // 3. create AC-HC relationships
-//            createACandHCRelationships(acalInfo.getId(), academicCalendarForm);
-
         }
 
         //TODO:Build real context.
@@ -240,6 +235,11 @@ public class AcademicCalendarController extends UifControllerBase {
            return getUIFModelAndView(academicCalendarForm);
         }
 
+
+        //Calculate instructional days (if HC exists)
+        if (academicCalendarForm.getHolidayCalendarList() != null && !academicCalendarForm.getHolidayCalendarList().isEmpty()) {
+           ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).populateInstructionalDays(academicCalendarForm.getTermWrapperList(),context);
+        }
 
         //Save Term and keydates
         for(AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
@@ -482,12 +482,29 @@ public class AcademicCalendarController extends UifControllerBase {
 
         List<AcademicTermWrapper> termWrappers = getAcademicCalendarViewHelperService(acalForm).loadTerms(acalId,getContextInfo());
         acalForm.setTermWrapperList(termWrappers);
+        
+        List<HolidayCalendarWrapper> holidayCalendarWrapperList = getAcademicCalendarViewHelperService(acalForm).loadHolidayCalendars(acalInfo);
+        acalForm.setHolidayCalendarList(holidayCalendarWrapperList);
+    
 
         //Calculate instructional days (if HC exists)
         if (acalForm.getHolidayCalendarList() != null && !acalForm.getHolidayCalendarList().isEmpty()) {
            getAcademicCalendarViewHelperService(acalForm).populateInstructionalDays(acalForm.getTermWrapperList(),getContextInfo());
         }
 
+    }
+
+    private void processHolidayCalendars (AcademicCalendarForm academicCalendarForm)    {
+        List<HolidayCalendarWrapper> holidayCalendarList = academicCalendarForm.getHolidayCalendarList();
+        List<String> holidayCalendarIds = new ArrayList<String>();
+        if (holidayCalendarList!=null && !holidayCalendarList.isEmpty()) {
+            for (HolidayCalendarWrapper hcWrapper : holidayCalendarList){
+                holidayCalendarIds.add(hcWrapper.getHolidayCalendarInfo().getId());
+            }
+            AcademicCalendarInfo acalInfo = academicCalendarForm.getAcademicCalendarInfo();
+            acalInfo.setHolidayCalendarIds(holidayCalendarIds);
+            academicCalendarForm.setAcademicCalendarInfo(acalInfo);
+        }
     }
 
     private String getAdminOrgNameById(String id){
