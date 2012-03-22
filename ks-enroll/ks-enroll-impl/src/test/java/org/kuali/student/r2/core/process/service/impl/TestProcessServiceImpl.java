@@ -91,7 +91,7 @@ public class TestProcessServiceImpl {
         assertNotNull(process);
         assertEquals("Owner2", process.getOwnerOrgId());
         assertEquals(ProcessServiceConstants.PROCESS_TYPE_KEY, process.getTypeKey());
-        assertEquals(ProcessServiceConstants.PROCESS_DISABLED_STATE_KEY, process.getStateKey());
+        assertEquals("kuali.process.process.lifecycle", process.getStateKey());
 
         // Delete
         processService.deleteProcess(processId, context);
@@ -135,7 +135,7 @@ public class TestProcessServiceImpl {
         assertEquals("milestoneTypeKey-1", check.getMilestoneTypeKey());
         assertEquals("kuali.process.registration.basic.eligibility", check.getProcessKey());
         assertEquals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check.getTypeKey());
-        assertEquals(ProcessServiceConstants.PROCESS_CHECK_STATE_ENABLED, check.getStateKey());
+        assertEquals("kuali.process.check.lifecycle",check.getStateKey());
 
         // Update
         check.setIssueKey("Hold-Issue-1");
@@ -152,7 +152,7 @@ public class TestProcessServiceImpl {
         assertEquals("milestoneTypeKey-2", check.getMilestoneTypeKey());
         assertNull(check.getProcessKey());
         assertEquals(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY, check.getTypeKey());
-        assertEquals(ProcessServiceConstants.PROCESS_CHECK_STATE_INACTIVE, check.getStateKey());
+        assertEquals("kuali.process.check.lifecycle", check.getStateKey());
 
         // Delete
         processService.deleteCheck(checkKey, context);

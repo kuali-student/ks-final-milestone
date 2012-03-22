@@ -40,7 +40,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @Column(name = "INSTRUCTION_TYPE")
     private String instructionType;
 
-    @Column(name = "STATE_ID")
+    @Column(name = "INSTRUCTION_STATE")
     private String instructionState;
 
     @ManyToOne(optional = false)
