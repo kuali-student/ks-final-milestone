@@ -3,6 +3,7 @@ package org.kuali.student.lum.program.server;
 import java.util.List;
 
 import org.kuali.student.lum.common.server.StatementUtil;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -112,7 +113,7 @@ public class ProgramStateChangeServiceImpl {
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm) {
         majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
         majorDisciplineInfo.setEndTerm(endEnrollTerm);
-        majorDisciplineInfo.getAttributes().put(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm);
+        //TODO KSCM-421 majorDisciplineInfo.getAttributes().put(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm);
     }
 
     /**
@@ -129,7 +130,7 @@ public class ProgramStateChangeServiceImpl {
          
         // Update major discipline
         majorDisciplineInfo.setStateKey(newState);
-     // TODO KSCM-393 programService.updateMajorDiscipline(majorDisciplineInfo,ContextUtils.getContextInfo());
+        programService.updateMajorDiscipline(majorDisciplineInfo,ContextUtils.getContextInfo());
     }
 
     /**
@@ -145,7 +146,7 @@ public class ProgramStateChangeServiceImpl {
         // TODO KSCM-393 currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId(),ContextUtils.getContextInfo());
 
         // If this is not the current version, then make it current
-     // TODO KSCM-393 if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) { programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null,ContextUtils.getContextInfo()); }
+        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) { programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null,ContextUtils.getContextInfo()); }
     }
 
     /**
@@ -207,7 +208,7 @@ public class ProgramStateChangeServiceImpl {
 
             // Get program requirement from the program service
             ProgramRequirementInfo programRequirementInfo = null;
-            // TODO KSCM-393 programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null,ContextUtils.getContextInfo());
+            programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null,ContextUtils.getContextInfo());
 
             // Look in the requirement for the statement tree
             StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();
@@ -219,7 +220,8 @@ public class ProgramStateChangeServiceImpl {
             programRequirementInfo.setStateKey(newState);
 
             // The write the requirement back to the program service
-         // TODO KSCM-393 programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
+
+            programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
 
         }
     }
