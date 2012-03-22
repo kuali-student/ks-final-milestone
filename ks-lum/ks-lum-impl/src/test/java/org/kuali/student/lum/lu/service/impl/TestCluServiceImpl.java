@@ -2140,7 +2140,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testAddCluSetToCluSet_NestedCircularRelationshipException() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+	public void testAddCluSetToCluSet_NestedCircularRelationshipException() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    
 	    CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo(), contextInfo);
@@ -2159,7 +2159,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testAddCluSetToCluSet_DuplicateCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+	public void testAddCluSetToCluSet_DuplicateCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    
 	    CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo(), contextInfo);
@@ -2209,15 +2209,15 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testAddCluSetsToCluSet_InvalidCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+	public void testAddCluSetsToCluSet_InvalidCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    
-	    CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo());
+	    CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo(), contextInfo);
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-INVALID-ID", "CLUSET-3", "CLUSET-4"});
 
 		try {
-			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList);
+			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList, contextInfo);
 			fail("Adding a non-existent CluSet (id='CLUSET-INVALID-ID') to CluSet should have failed");
 		} catch(DoesNotExistException e) {
 			assertTrue(true);
@@ -2225,15 +2225,15 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testAddCluSetsToCluSet_DuplicateCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+	public void testAddCluSetsToCluSet_DuplicateCluSetId() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    
-	    CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo());
+	    CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo(), contextInfo);
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", "CLUSET-3", "CLUSET-2"});
 
 		try {
-			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList);
+			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList, contextInfo);
 			fail("Adding a duplicate CluSet (id='CLUSET-2') to CluSet should have failed");
 		} catch(OperationFailedException e) {
 			assertTrue(true);
@@ -2241,15 +2241,15 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testAddCluSetsToCluSet_CircularRelationshipException() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+	public void testAddCluSetsToCluSet_CircularRelationshipException() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    
-	    CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo());
+	    CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo(), contextInfo);
 		// Adding createdCluSet to itself
 		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", createdCluSet.getId(), "CLUSET-4"});
 
 		try {
-			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList);
+			client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList, contextInfo);
 			fail("Adding a CluSet to itself should have failed");
 		} catch(CircularRelationshipException e) {
 			assertTrue(true);
@@ -2257,23 +2257,23 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testAddCluSetsToCluSet_NestedCircularRelationshipException() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException {
+	public void testAddCluSetsToCluSet_NestedCircularRelationshipException() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, CircularRelationshipException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    
-	    CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo());
-		CluSetInfo createdCluSet2 = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo());
-		CluSetInfo createdCluSet3 = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo());
+	    CluSetInfo createdCluSet1 = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo(), contextInfo);
+		CluSetInfo createdCluSet2 = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo(), contextInfo);
+		CluSetInfo createdCluSet3 = client.createCluSet("kuali.cluSet.type.CreditCourse", createCluSetInfo(), contextInfo);
 
 		List<String> cluIdList1 = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", createdCluSet1.getId()});
-		client.addCluSetsToCluSet(createdCluSet3.getId(), cluIdList1);
+		client.addCluSetsToCluSet(createdCluSet3.getId(), cluIdList1, contextInfo);
 
 		// Adding createdCluSet to itself
 		List<String> cluIdList2 = Arrays.asList(new String[] {"CLUSET-1",createdCluSet3.getId()});
-		client.addCluSetsToCluSet(createdCluSet2.getId(), cluIdList2);
+		client.addCluSetsToCluSet(createdCluSet2.getId(), cluIdList2, contextInfo);
 
 		try {
 			List<String> cluIdList3 = Arrays.asList(new String[] {createdCluSet2.getId(),});
-			client.addCluSetsToCluSet(createdCluSet1.getId(), cluIdList3);
+			client.addCluSetsToCluSet(createdCluSet1.getId(), cluIdList3, contextInfo);
 			fail("Adding CluSet should have thrown a CircularRelationshipException");
 		} catch(CircularRelationshipException e) {
 			assertTrue(true);
@@ -2281,7 +2281,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
 	@Test
-	public void testCreateDynamicCluSet_Simple() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
+	public void testCreateDynamicCluSet_Simple() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    
 	    CluSetInfo cluSet = createCluSetInfo();
@@ -2290,7 +2290,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		query.setSearchTypeKey("lu.search.clus");
 
 		cluSet.setMembershipQuery(query);
-		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.CreditCourse", cluSet);
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.CreditCourse", cluSet, contextInfo);
 
 		assertNotNull(createdCluSet);
 		assertNotNull(createdCluSet.getMembershipQuery());
@@ -2322,12 +2322,14 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testCreateDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
-		CluSetInfo cluSet = createCluSetInfo();
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+	    
+	    CluSetInfo cluSet = createCluSetInfo();
 
 		MembershipQueryInfo query = getMembershipQueryInfo();
 		cluSet.setMembershipQuery(query);
 
-		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.CreditCourse", cluSet);
+		CluSetInfo createdCluSet = client.createCluSet("kuali.cluSet.type.CreditCourse", cluSet, contextInfo);
 
 		assertNotNull(createdCluSet);
 		assertNotNull(createdCluSet.getMembershipQuery());
@@ -2354,7 +2356,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testCreateCluSet_InvalidCluSet1() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
-		CluSetInfo cluSet = createCluSetInfo();
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+	    
+	    CluSetInfo cluSet = createCluSetInfo();
 		cluSet.getCluIds().add("CLU-1");
 
 		MembershipQueryInfo query = new MembershipQueryInfo();
@@ -2363,7 +2367,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cluSet.setMembershipQuery(query);
 
 		try {
-			client.createCluSet("kuali.cluSet.type.CreditCourse", cluSet);
+			client.createCluSet("kuali.cluSet.type.CreditCourse", cluSet, contextInfo);
 			fail("Creating CluSet should have thrown an UnsupportedActionException. Cannot add CLUs and Dynamic CluSets into one CluSet");
 		} catch (UnsupportedActionException e) {
 			assertTrue(true);
@@ -2373,7 +2377,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testCreateCluSet_InvalidCluSet2() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
-		CluSetInfo cluSet = createCluSetInfo();
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+	    
+	    CluSetInfo cluSet = createCluSetInfo();
 		cluSet.getCluSetIds().add("CLUSET-1");
 
 		MembershipQueryInfo query = new MembershipQueryInfo();
@@ -2392,7 +2398,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testCreateCluSet_InvalidCluSet3() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
-		CluSetInfo cluSet = createCluSetInfo();
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+	    
+	    CluSetInfo cluSet = createCluSetInfo();
 		cluSet.getCluIds().add("CLU-1");
 		cluSet.getCluSetIds().add("CLUSET-1");
 
@@ -2407,7 +2415,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testGetDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
-		CluSetInfo cluSet = createCluSetInfo();
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+	    
+	    CluSetInfo cluSet = createCluSetInfo();
 
 		MembershipQueryInfo query = getMembershipQueryInfo();
 		cluSet.setMembershipQuery(query);
@@ -2431,7 +2441,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testGetDynamicCluSet_Simple() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException {
-		CluSetInfo cluSet = createCluSetInfo();
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+	    
+	    CluSetInfo cluSet = createCluSetInfo();
 
 		MembershipQueryInfo query = new MembershipQueryInfo();
 		query.setSearchTypeKey("lu.search.clus");
@@ -2449,7 +2461,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testGetCluSetTreeView() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		CluSetTreeViewInfo treeView = R1R2ConverterUtil.convert(client.getCluSetTreeView("CLUSET-2"), CluSetTreeViewInfo.class) ;
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+	    
+	    CluSetTreeViewInfo treeView = R1R2ConverterUtil.convert(client.getCluSetTreeView("CLUSET-2"), CluSetTreeViewInfo.class) ;
 		assertNotNull(treeView);
 		assertEquals(2, treeView.getCluSets().size());
 
