@@ -3306,16 +3306,14 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		accreditationOrg4.setOrgId("EXT-orgId-4");
 		accreditationOrg4.setEffectiveDate(DF.parse("20130203"));
 		accreditationOrg4.setExpirationDate(DF.parse("21031231"));
-		// TODO KSCM-212  accreditationOrg4.getAttributes().put("Accred4AttrKey1",
-		//		"Accred4AttrValue1");
+		// TODO KSCM-212  accreditationOrg4.getAttributes().put("Accred4AttrKey1","Accred4AttrValue1");
 
 		clu.getAccreditations().add(accreditationOrg3);
 		clu.getAccreditations().add(accreditationOrg4);
 
 		clu.getAccreditations().get(0).getAttributes().remove(
 				"Accred1AttrKey2");
-		// TODO KSCM-212  clu.getAccreditations().get(0).getAttributes().put(
-		//		"Accred1AttrKey1", "Accred1AttrValue1-UPD");
+		// TODO KSCM-212  clu.getAccreditations().get(0).getAttributes().put("Accred1AttrKey1", "Accred1AttrValue1-UPD");
 		clu.getAccreditations().remove(1);
 	}
 
@@ -3347,8 +3345,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getExpirationDate());
 		assertEquals(1, clu.getAccreditations().get(2).getAttributes()
 				.size());
-		// TODO KSCM-212  assertEquals("Accred4AttrValue1", clu.getAccreditations().get(2)
-		//		.getAttributes().get("Accred4AttrKey1"));
+		assertEquals("Accred4AttrValue1", clu.getAccreditations().get(2).getAttributeInfoValue(clu.getAccreditations().get(2).getAttributes(),"Accred4AttrKey1"));
 
 	}
 
