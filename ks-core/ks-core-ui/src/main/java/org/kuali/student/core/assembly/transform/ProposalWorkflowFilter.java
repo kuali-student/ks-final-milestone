@@ -145,10 +145,10 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
                 }
                 
                 Map<String,String> proposalAttributes = (Map<String, String>) properties.get(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES);
-                //TODO KSCM-388 
-                /*if(proposalAttributes!=null){
+
+                if(proposalAttributes!=null){
                 	proposalInfo.getAttributes().putAll(proposalAttributes);
-                }*/
+                }
                 
                 proposalInfo.setState("Saved");
                                 
@@ -239,8 +239,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
             proposalInfo.setWorkflowId(workflowId);
             
             //Set the node attribute on the proposal to preroute as an initial value
-            //TODO KSCM-388 
-            //proposalInfo.getAttributes().put("workflowNode", "PreRoute");
+            proposalInfo.getAttributes().put("workflowNode", "PreRoute");
             
             //Lookup the workflow document detail to see if create was successful
             try {
