@@ -195,7 +195,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 			//Perform the Org search
 			SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
 			orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(orgIdToRowMapping.keySet()));
-// TODO KSCM-165			SearchResult orgIdTranslationSearchResult = getOrganizationService().search(orgIdTranslationSearchRequest);
+// TODO KSCM-165  SearchResult orgIdTranslationSearchResult = getOrganizationService().search(orgIdTranslationSearchRequest);
             SearchResult orgIdTranslationSearchResult = null;   // TODO KSCM-165
 			
 			//For each translation, update the result cell with the translated org name
