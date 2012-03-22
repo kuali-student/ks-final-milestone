@@ -33,6 +33,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
@@ -365,8 +366,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("CLU-2", createdSet1.getCluIds().get(1));
 //		assertEquals("CLUSET-1", createdSet1.getCluSetIds().get(0));
 //		assertEquals("CLUSET-2", createdSet1.getCluSetIds().get(1));
-		// TODO KSCM-212  assertEquals("cluSet1ArrtValue1", createdSet1.getAttributes().get("cluSet1ArrtKey1"));
-		// TODO KSCM-212  assertEquals("cluSet1ArrtValue2", createdSet1.getAttributes().get("cluSet1ArrtKey2"));
+		assertEquals("cluSet1ArrtValue1", createdSet1.getAttributeInfoValue(createdSet1.getAttributes(),"cluSet1ArrtKey1"));
+		assertEquals("cluSet1ArrtValue2", createdSet1.getAttributeInfoValue(createdSet1.getAttributes(),"cluSet1ArrtKey2"));
 		assertNotNull(createdSet1.getMeta().getCreateTime());
 		assertNotNull(createdSet1.getMeta().getUpdateTime());
 		assertNotNull(createdSet1.getId());
@@ -399,10 +400,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 //		assertEquals("CLUSET-1", updatedSet1.getCluSetIds().get(0));
 //		assertEquals("CLUSET-3", updatedSet1.getCluSetIds().get(1));
 //		assertEquals(2, updatedSet1.getCluSetIds().size());
-		// TODO KSCM-212  assertEquals("UPcluSet1ArrtValue1", updatedSet1.getAttributes().get(
-		//		"cluSet1ArrtKey1"));
-		// TODO KSCM-212  assertEquals("cluSet1ArrtValue3", updatedSet1.getAttributes().get(
-		//		"cluSet1ArrtKey3"));
+		assertEquals("UPcluSet1ArrtValue1", updatedSet1.getAttributeInfoValue(updatedSet1.getAttributes(),"cluSet1ArrtKey1"));
+		assertEquals("cluSet1ArrtValue3", updatedSet1.getAttributeInfoValue(updatedSet1.getAttributes(),"cluSet1ArrtKey3"));
 		assertEquals(2, updatedSet1.getAttributes().size());
 		assertNotNull(updatedSet1.getMeta().getUpdateTime());
 	}
@@ -516,11 +515,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		createdClu = client.getClu(createdClu.getId(), contextInfo);
 		// Validate Results
 		assertNotNull(createdClu);
-
-		// TODO KSCM-212 	assertEquals("AccountingAttrValue1", createdClu.getAccountingInfo()
-		// TODO KSCM-212 			.getAttributes().get("AccountingAttrKey1"));
-		// TODO KSCM-212 	assertEquals("AccountingAttrValue2", createdClu.getAccountingInfo()
-				// TODO KSCM-212 		.getAttributes().get("AccountingAttrKey2"));
+		
+		assertEquals("AccountingAttrValue1", createdClu.getAccountingInfo().getAttributeInfoValue(createdClu.getAccountingInfo().getAttributes(),"AccountingAttrKey1"));
+		assertEquals("AccountingAttrValue2", createdClu.getAccountingInfo().getAttributeInfoValue(createdClu.getAccountingInfo().getAttributes(),"AccountingAttrKey2"));
 
 		assertEquals("offId-divisionoffId-suffixcode", createdClu
 				.getOfficialIdentifier().getCode());
@@ -541,8 +538,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getSuffixCode());
 		assertEquals("offId-orgid", createdClu.getOfficialIdentifier()
 				.getOrgId());
-		// TODO KSCM-212 assertEquals("OfficialIdentValue", createdClu.getOfficialIdentifier().getAttributes().get("OfficialIdentKey"));
-		
+		assertEquals("OfficialIdentValue", createdClu.getOfficialIdentifier().getAttributeInfoValue(createdClu.getOfficialIdentifier().getAttributes(),"OfficialIdentKey"));
 		
 		assertEquals("cluId1-divisioncluId1-suffixcode", createdClu
 				.getAlternateIdentifiers().get(0).getCode());
@@ -564,7 +560,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.get(0).getSuffixCode());
 		assertEquals("cluId1-orgid", createdClu.getAlternateIdentifiers()
 				.get(0).getOrgId());
-		// TODO KSCM-212 	assertEquals("AltIdentValue", createdClu.getAlternateIdentifiers().get(0).getAttributes().get("AltIdentKey"));
+		assertEquals("AltIdentValue", createdClu.getAlternateIdentifiers().get(0).getAttributeInfoValue(createdClu.getAlternateIdentifiers().get(0).getAttributes(),"AltIdentKey"));
         
 		
 		assertEquals("cluId2-divisioncluId2-suffixcode", createdClu
@@ -587,10 +583,10 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.get(1).getSuffixCode());
 		assertEquals("cluId2-orgid", createdClu.getAlternateIdentifiers()
 				.get(1).getOrgId());
-		// TODO KSCM-212  assertEquals("AltIdentValue", createdClu.getAlternateIdentifiers().get(1).getAttributes().get("AltIdentKey"));
+		assertEquals("AltIdentValue", createdClu.getAlternateIdentifiers().get(1).getAttributeInfoValue(createdClu.getAttributes(),"AltIdentKey"));
 		
-		// TODO KSCM-212  assertEquals("cluAttrValue1", createdClu.getAttributes().get("cluAttrKey1"));
-		// TODO KSCM-212  assertEquals("cluAttrValue2", createdClu.getAttributes().get("cluAttrKey2"));
+		assertEquals("cluAttrValue1", createdClu.getAttributeInfoValue(createdClu.getAttributes(),"cluAttrKey1"));
+		assertEquals("cluAttrValue2", createdClu.getAttributeInfoValue(createdClu.getAttributes(),"cluAttrKey2"));
 
 		assertTrue(createdClu.getCanCreateLui());
 
@@ -606,8 +602,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		assertTrue(createdClu.getIsEnrollable());
 
-		// TODO KSCM-212  assertEquals("FeeAttrValue1", createdClu.getFeeInfo().getAttributes().get("FeeAttrKey1"));
-		// TODO KSCM-212  assertEquals("FeeAttrValue2", createdClu.getFeeInfo().getAttributes().get("FeeAttrKey2"));
+		assertEquals("FeeAttrValue1", createdClu.getFeeInfo().getAttributeInfoValue(createdClu.getFeeInfo().getAttributes(),"FeeAttrKey1"));
+		assertEquals("FeeAttrValue2", createdClu.getFeeInfo().getAttributeInfoValue(createdClu.getFeeInfo().getAttributes(),"FeeAttrKey2"));
 
 		assertEquals("Clu Fee", createdClu.getFeeInfo().getDescr().getPlain());
 		assertEquals(2, createdClu.getFeeInfo().getCluFeeRecords().size());
@@ -628,28 +624,28 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getOrgId());
 		assertEquals("EXT-personId-1", createdClu.getPrimaryInstructor()
 				.getPersonId());
-		// TODO KSCM-212  assertEquals("PrimaryInstAttrValue1", createdClu.getPrimaryInstructor().getAttributes().get("PrimaryInstAttrKey1"));
-		// TODO KSCM-212  assertEquals("PrimaryInstAttrValue2", createdClu.getPrimaryInstructor().getAttributes().get("PrimaryInstAttrKey2"));
+		assertEquals("PrimaryInstAttrValue1", createdClu.getPrimaryInstructor().getAttributeInfoValue(createdClu.getPrimaryInstructor().getAttributes(),"PrimaryInstAttrKey1"));
+		assertEquals("PrimaryInstAttrValue2", createdClu.getPrimaryInstructor().getAttributeInfoValue(createdClu.getPrimaryInstructor().getAttributes(),"PrimaryInstAttrKey2"));
 
 		assertEquals("EXT-orgId-2", createdClu.getInstructors().get(0)
 				.getOrgId());
 		assertEquals("EXT-personId-2", createdClu.getInstructors().get(0)
 				.getPersonId());
-		// TODO KSCM-212  assertEquals("Inst1AttrValue1", createdClu.getInstructors().get(0).getAttributes().get("Inst1AttrKey1"));
-		// TODO KSCM-212  assertEquals("Inst1AttrValue2", createdClu.getInstructors().get(0).getAttributes().get("Inst1AttrKey2"));
+		assertEquals("Inst1AttrValue1", createdClu.getInstructors().get(0).getAttributeInfoValue(createdClu.getInstructors().get(0).getAttributes(),"Inst1AttrKey1"));
+		assertEquals("Inst1AttrValue2", createdClu.getInstructors().get(0).getAttributeInfoValue(createdClu.getInstructors().get(0).getAttributes(),"Inst1AttrKey2"));
 
 		assertEquals("EXT-orgId-3", createdClu.getInstructors().get(1)
 				.getOrgId());
 		assertEquals("EXT-personId-3", createdClu.getInstructors().get(1)
 				.getPersonId());
-		// TODO KSCM-212  assertEquals("Inst2AttrValue1", createdClu.getInstructors().get(1).getAttributes().get("Inst2AttrKey1"));
-		// TODO KSCM-212  assertEquals("Inst2AttrValue2", createdClu.getInstructors().get(1).getAttributes().get("Inst2AttrKey2"));
+		assertEquals("Inst2AttrValue1", createdClu.getInstructors().get(1).getAttributeInfoValue(createdClu.getInstructors().get(1).getAttributes(),"Inst2AttrKey1"));
+		assertEquals("Inst2AttrValue2", createdClu.getInstructors().get(1).getAttributeInfoValue(createdClu.getInstructors().get(1).getAttributes(),"Inst2AttrKey2"));
 
 		assertEquals("luCode1.key", createdClu.getLuCodes().get(0).getId());
 		assertEquals("luCode1-desc", createdClu.getLuCodes().get(0).getDescr());
 		assertEquals("luCode1-value", createdClu.getLuCodes().get(0).getValue());
-		// TODO KSCM-212  assertEquals("luCode1AttrValue1", createdClu.getLuCodes().get(0).getAttributes().get("luCode1AttrKey1"));
-		// TODO KSCM-212  assertEquals("luCode1AttrValue2", createdClu.getLuCodes().get(0).getAttributes().get("luCode1AttrKey2"));
+		assertEquals("luCode1AttrValue1", createdClu.getLuCodes().get(0).getAttributeInfoValue(createdClu.getLuCodes().get(0).getAttributes(),"luCode1AttrKey1"));
+		assertEquals("luCode1AttrValue2", createdClu.getLuCodes().get(0).getAttributeInfoValue(createdClu.getLuCodes().get(0).getAttributes(),"luCode1AttrKey2"));
 		assertNotNull(createdClu.getLuCodes().get(0).getMeta());
 		assertNotNull(createdClu.getLuCodes().get(0).getMeta()
 				.getVersionInd());
@@ -659,8 +655,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("luCode2.key", createdClu.getLuCodes().get(1).getId());
 		assertEquals("luCode2-desc", createdClu.getLuCodes().get(1).getDescr());
 		assertEquals("luCode2-value", createdClu.getLuCodes().get(1).getValue());
-		// TODO KSCM-212  assertEquals("luCode2AttrValue1", createdClu.getLuCodes().get(1).getAttributes().get("luCode2AttrKey1"));
-		// TODO KSCM-212  assertEquals("luCode2AttrValue2", createdClu.getLuCodes().get(1).getAttributes().get("luCode2AttrKey2"));
+		assertEquals("luCode2AttrValue1", createdClu.getLuCodes().get(1).getAttributeInfoValue(createdClu.getLuCodes().get(1).getAttributes(),"luCode2AttrKey1"));
+		assertEquals("luCode2AttrValue2", createdClu.getLuCodes().get(1).getAttributeInfoValue(createdClu.getLuCodes().get(1).getAttributes(),"luCode2AttrKey2"));
 		assertNotNull(createdClu.getLuCodes().get(1).getMeta());
 		assertNotNull(createdClu.getLuCodes().get(1).getMeta()
 				.getVersionInd());
@@ -853,8 +849,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		// Validate Results
 		assertNotNull(updatedClu);
 
-		// TODO KSCM-212  assertEquals("AccountingAttrValue1", updatedClu.getAccountingInfo().getAttributes().get("AccountingAttrKey1"));
-		// TODO KSCM-212  assertEquals("AccountingAttrValue3", updatedClu.getAccountingInfo().getAttributes().get("AccountingAttrKey3"));
+		assertEquals("AccountingAttrValue1", updatedClu.getAccountingInfo().getAttributeInfoValue(updatedClu.getAccountingInfo().getAttributes(),"AccountingAttrKey1"));
+		assertEquals("AccountingAttrValue3", updatedClu.getAccountingInfo().getAttributeInfoValue(updatedClu.getAccountingInfo().getAttributes(),"AccountingAttrKey3"));
 		assertEquals(2, updatedClu.getAccountingInfo().getAttributes().size());
 
         assertEquals("UPoffId-code", updatedClu
@@ -876,8 +872,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("UPoffId-variation", updatedClu.getOfficialIdentifier()
 				.getVariation());
 		assertEquals(2, updatedClu.getOfficialIdentifier().getAttributes().size());
-		// TODO KSCM-212   assertEquals("OfficialIdentValueUptd", updatedClu.getOfficialIdentifier().getAttributes().get("OfficialIdentKeyUptd"));
-		
+		assertEquals("OfficialIdentValueUptd", updatedClu.getOfficialIdentifier().getAttributeInfoValue(updatedClu.getOfficialIdentifier().getAttributes(),"OfficialIdentKeyUptd"));
 				
 		assertEquals("UPcluId1-code", updatedClu
 				.getAlternateIdentifiers().get(0).getCode());
@@ -898,7 +893,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("UPcluId1-variation", updatedClu.getAlternateIdentifiers()
 				.get(0).getVariation());
         assertEquals(2, updatedClu.getAlternateIdentifiers().get(0).getAttributes().size());
-     // TODO KSCM-212  assertEquals("AltIdentValueUptd", createdClu.getAlternateIdentifiers().get(0).getAttributes().get("AltIdentKeyUptd"));
+        assertEquals("AltIdentValueUptd", createdClu.getAlternateIdentifiers().get(0).getAttributeInfoValue(createdClu.getAlternateIdentifiers().get(0).getAttributes(),"AltIdentKeyUptd"));
 		
 		assertEquals("cluId3-code", updatedClu
 				.getAlternateIdentifiers().get(1).getCode());
@@ -921,8 +916,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		assertEquals(2, updatedClu.getAlternateIdentifiers().size());
 
-		// TODO KSCM-212  assertEquals("cluAttrValue1", updatedClu.getAttributes().get("cluAttrKey1"));
-		// TODO KSCM-212  assertEquals("cluAttrValue3", updatedClu.getAttributes().get("cluAttrKey3"));
+		assertEquals("cluAttrValue1", updatedClu.getAttributeInfoValue(updatedClu.getAttributes(),"cluAttrKey1"));
+		assertEquals("cluAttrValue3", updatedClu.getAttributeInfoValue(updatedClu.getAttributes(),"cluAttrKey3"));
 		assertEquals(2, updatedClu.getAttributes().size());
 
 		assertFalse(updatedClu.getCanCreateLui());
@@ -939,8 +934,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		assertFalse(updatedClu.getIsEnrollable());
 
-		// TODO KSCM-212  assertEquals("FeeAttrValue1", updatedClu.getFeeInfo().getAttributes().get("FeeAttrKey1"));
-		// TODO KSCM-212  assertEquals("FeeAttrValue3", updatedClu.getFeeInfo().getAttributes().get("FeeAttrKey3"));
+		assertEquals("FeeAttrValue1", updatedClu.getFeeInfo().getAttributeInfoValue(updatedClu.getFeeInfo().getAttributes(),"FeeAttrKey1"));
+		assertEquals("FeeAttrValue3", updatedClu.getFeeInfo().getAttributeInfoValue(updatedClu.getFeeInfo().getAttributes(),"FeeAttrKey3"));
 		assertEquals(2, updatedClu.getFeeInfo().getAttributes().size());
 
 		assertEquals(2, createdClu.getFeeInfo().getCluFeeRecords().size());
@@ -956,8 +951,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getOrgId());
 		assertEquals("UPEXT-personId-1", updatedClu.getPrimaryInstructor()
 				.getPersonId());
-		// TODO KSCM-212  assertEquals("PrimaryInstAttrValue1", updatedClu.getPrimaryInstructor().getAttributes().get("PrimaryInstAttrKey1"));
-		// TODO KSCM-212  assertEquals("PrimaryInstAttrValue3", updatedClu.getPrimaryInstructor().getAttributes().get("PrimaryInstAttrKey3"));
+		assertEquals("PrimaryInstAttrValue1", updatedClu.getPrimaryInstructor().getAttributeInfoValue(updatedClu.getPrimaryInstructor().getAttributes(),"PrimaryInstAttrKey1"));
+		assertEquals("PrimaryInstAttrValue3", updatedClu.getPrimaryInstructor().getAttributeInfoValue(updatedClu.getPrimaryInstructor().getAttributes(),"PrimaryInstAttrKey3"));
 		assertEquals(2, updatedClu.getPrimaryInstructor().getAttributes()
 				.size());
 
@@ -967,8 +962,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getOrgId());
 		assertEquals("UPEXT-personId-2", updatedClu.getInstructors().get(0)
 				.getPersonId());
-		// TODO KSCM-212  assertEquals("Inst1AttrValue1", updatedClu.getInstructors().get(0).getAttributes().get("Inst1AttrKey1"));
-		// TODO KSCM-212  assertEquals("Inst1AttrValue3", updatedClu.getInstructors().get(0).getAttributes().get("Inst1AttrKey3"));
+		assertEquals("Inst1AttrValue1", updatedClu.getInstructors().get(0).getAttributeInfoValue(updatedClu.getInstructors().get(0).getAttributes(),"Inst1AttrKey1"));
+		assertEquals("Inst1AttrValue3", updatedClu.getInstructors().get(0).getAttributeInfoValue(updatedClu.getInstructors().get(0).getAttributes(),"Inst1AttrKey3"));
 		assertEquals(2, updatedClu.getInstructors().get(0).getAttributes()
 				.size());
 
@@ -3335,8 +3330,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.getOrgId());
 		assertEquals(1, clu.getAccreditations().get(0).getAttributes()
 				.size());
-		// TODO KSCM-212  assertEquals("Accred1AttrValue1-UPD", clu.getAccreditations().get(0)
-		//		.getAttributes().get("Accred1AttrKey1"));
+		assertEquals("Accred1AttrValue1-UPD", clu.getAccreditations().get(0).getAttributeInfoValue(getAttributes()clu.getAccreditations().get(0),"Accred1AttrKey1"));
 
 		assertEquals("EXT-orgId-3", clu.getAccreditations().get(1)
 				.getOrgId());
