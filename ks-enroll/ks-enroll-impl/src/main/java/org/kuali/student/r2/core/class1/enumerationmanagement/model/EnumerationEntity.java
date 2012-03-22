@@ -36,7 +36,7 @@ import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.infc.Enumeration;
 
 @Entity
-@Table(name = "KSEM_ENUM_T")
+@Table(name = "KSEN_ENUM_T")
 @AttributeOverrides({
     @AttributeOverride(name="id", column=@Column(name="ENUM_KEY"))})
 public class EnumerationEntity extends MetaEntity implements AttributeOwner<EnumerationAttributeEntity> {
