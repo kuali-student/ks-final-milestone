@@ -112,6 +112,13 @@
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.componentOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+            </map>
+        </property>
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
@@ -153,6 +160,13 @@
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.componentOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+            </map>
+        </property>
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
@@ -194,6 +208,13 @@
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.componentOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+            </map>
+        </property>
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
