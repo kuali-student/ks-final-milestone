@@ -105,7 +105,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 																										 */) })
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class TestCluServiceImpl extends AbstractServiceTest {
-	@Client(value = "org.kuali.student.lum.lu.service.impl.LuServiceImpl", additionalContextFile = "classpath:lu-additional-context.xml")
+	@Client(value = "org.kuali.student.lum.lu.service.impl.LuServiceImpl", additionalContextFile = "classpath:clu-additional-context.xml")
 	public CluService client;
 	private static final SimpleDateFormat DF = new SimpleDateFormat("yyyyMMdd");
 	final Logger LOG = Logger.getLogger(TestCluServiceImpl.class);
