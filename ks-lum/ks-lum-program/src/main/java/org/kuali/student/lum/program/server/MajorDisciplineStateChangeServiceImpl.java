@@ -313,7 +313,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 
             // Get program requirement from the program service
             ProgramRequirementInfo programRequirementInfo = null;
-            // TODO KSCM-393 programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null,ContextUtils.getContextInfo());
+            programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null,ContextUtils.getContextInfo());
 
             // Look in the requirement for the statement tree
             StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();

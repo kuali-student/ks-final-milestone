@@ -226,7 +226,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 
             // Get program requirement from the program service
             ProgramRequirementInfo programRequirementInfo = null;
-         // TODO KSCM-393 programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null, new ContextInfo());
+            programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null, new ContextInfo());
 
             // Look in the requirement for the statement tree
             StatementTreeViewInfo statementTree = null;
@@ -240,7 +240,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
             programRequirementInfo.setStateKey(newState);
 
             // The write the requirement back to the program service
-         // TODO KSCM-393 programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
+            programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
 
         }
     }
