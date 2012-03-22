@@ -35,6 +35,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r2.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -350,8 +351,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cluSetInfo.getCluIds().add("CLU-2");
 //		cluSetInfo.getCluSetIds().add("CLUSET-1");
 //		cluSetInfo.getCluSetIds().add("CLUSET-2");
-		// TODO KSCM-212  cluSetInfo.getAttributes().put("cluSet1ArrtKey1", "cluSet1ArrtValue1");
-		// TODO KSCM-212  cluSetInfo.getAttributes().put("cluSet1ArrtKey2", "cluSet1ArrtValue2");
+		cluSetInfo.getAttributes().add(new AttributeInfo("cluSet1ArrtKey1", "cluSet1ArrtValue1"));
+		cluSetInfo.getAttributes().add(new AttributeInfo("cluSet1ArrtKey2", "cluSet1ArrtValue2"));
 
 		CluSetInfo createdSet1 = client.createCluSet("kuali.cluSet.type.CreditCourse", cluSetInfo, contextInfo);
 
@@ -382,9 +383,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		createdSet1.getCluIds().add("CLU-3");
 //		createdSet1.getCluSetIds().remove(1);
 //		createdSet1.getCluSetIds().add("CLUSET-3");
-		// TODO KSCM-212 	createdSet1.getAttributes().put("cluSet1ArrtKey1", "UPcluSet1ArrtValue1");
-		// TODO KSCM-212 	createdSet1.getAttributes().remove("cluSet1ArrtKey2");
-		// TODO KSCM-212 	createdSet1.getAttributes().put("cluSet1ArrtKey3", "cluSet1ArrtValue3");
+		createdSet1.getAttributes().add(new AttributeInfo("cluSet1ArrtKey1", "UPcluSet1ArrtValue1"));
+		createdSet1.getAttributes().remove("cluSet1ArrtKey2");
+		createdSet1.getAttributes().add(new AttributeInfo("cluSet1ArrtKey3", "cluSet1ArrtValue3"));
 
 		CluSetInfo updatedSet1 = client.updateCluSet(createdSet1.getId(), createdSet1, contextInfo);
 
@@ -502,12 +503,12 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInfo clu = createCluInfo();
 
 		clu.getOfficialIdentifier().setCode("offId-divisionoffId-suffixcode");
-		// TODO KSCM-212  clu.getOfficialIdentifier().getAttributes().put("OfficialIdentKey", "OfficialIdentValue");
+		clu.getOfficialIdentifier().getAttributes().add(new AttributeInfo("OfficialIdentKey", "OfficialIdentValue"));
 		
 		clu.getAlternateIdentifiers().get(0).setCode("cluId1-divisioncluId1-suffixcode");
-		// TODO KSCM-212  clu.getAlternateIdentifiers().get(0).getAttributes().put("AltIdentKey", "AltIdentValue");
+		clu.getAlternateIdentifiers().get(0).getAttributes().add(new AttributeInfo("AltIdentKey", "AltIdentValue"));
 		clu.getAlternateIdentifiers().get(1).setCode("cluId2-divisioncluId2-suffixcode");
-		// TODO KSCM-212  clu.getAlternateIdentifiers().get(1).getAttributes().put("AltIdentKey", "AltIdentValue");
+		clu.getAlternateIdentifiers().get(1).getAttributes().add(new AttributeInfo("AltIdentKey", "AltIdentValue"));
         
 		
 		// Do the actual create call
@@ -697,9 +698,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		checkAdminOrgsCreate(createdClu);
 
 		// Now Update the Clu!
-		// TODO KSCM-212  createdClu.getAccountingInfo().getAttributes().put("AccountingAttrKey1", "AccountingAttrValue1");
+		createdClu.getAccountingInfo().getAttributes().add(new AttributeInfo("AccountingAttrKey1", "AccountingAttrValue1"));
 		createdClu.getAccountingInfo().getAttributes().remove("AccountingAttrKey2");
-		// TODO KSCM-212  createdClu.getAccountingInfo().getAttributes().put("AccountingAttrKey3", "AccountingAttrValue3");
+		createdClu.getAccountingInfo().getAttributes().add(new AttributeInfo("AccountingAttrKey3", "AccountingAttrValue3"));
 
 		createdClu.getOfficialIdentifier().setCode("UPoffId-code");
 		createdClu.getOfficialIdentifier().setDivision("UPoffId-division");
@@ -710,7 +711,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		createdClu.getOfficialIdentifier().setStateKey("UPoffId-state");
 		createdClu.getOfficialIdentifier().setTypeKey("UPoffId-type");
 		createdClu.getOfficialIdentifier().setVariation("UPoffId-variation");
-		// TODO KSCM-212  createdClu.getOfficialIdentifier().getAttributes().put("OfficialIdentKeyUptd", "OfficialIdentValueUptd");
+		createdClu.getOfficialIdentifier().getAttributes().add(new AttributeInfo("OfficialIdentKeyUptd", "OfficialIdentValueUptd"));
 		
 		
 		createdClu.getAlternateIdentifiers().get(0).setCode("UPcluId1-code");
@@ -727,7 +728,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		createdClu.getAlternateIdentifiers().get(0).setTypeKey("UPcluId1-type");
 		createdClu.getAlternateIdentifiers().get(0).setVariation(
 				"UPcluId1-variation");
-		// TODO KSCM-212  createdClu.getAlternateIdentifiers().get(0).getAttributes().put("AltIdentKeyUptd", "AltIdentValueUptd");
+		createdClu.getAlternateIdentifiers().get(0).getAttributes().add(new AttributeInfo("AltIdentKeyUptd", "AltIdentValueUptd"));
 		
 		createdClu.getAlternateIdentifiers().remove(1);
 
@@ -745,9 +746,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		
 		createdClu.getAlternateIdentifiers().add(cluId3);
 
-		// TODO KSCM-212  createdClu.getAttributes().put("cluAttrKey1", "cluAttrValue1");
+		createdClu.getAttributes().add(new AttributeInfo("cluAttrKey1", "cluAttrValue1"));
 		createdClu.getAttributes().remove("cluAttrKey2");
-		// TODO KSCM-212  createdClu.getAttributes().put("cluAttrKey3", "cluAttrValue3");
+		createdClu.getAttributes().add(new AttributeInfo("cluAttrKey3", "cluAttrValue3"));
 
 		createdClu.setCanCreateLui(false);
 
@@ -762,9 +763,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		createdClu.setIsEnrollable(false);
 
-		// TODO KSCM-212  createdClu.getFeeInfo().getAttributes().put("FeeAttrKey1", "FeeAttrValue1");
+		createdClu.getFeeInfo().getAttributes().add(new AttributeInfo("FeeAttrKey1", "FeeAttrValue1"));
 		createdClu.getFeeInfo().getAttributes().remove("FeeAttrKey2");
-		// TODO KSCM-212  createdClu.getFeeInfo().getAttributes().put("FeeAttrKey3", "FeeAttrValue3");
+		createdClu.getFeeInfo().getAttributes().add(new AttributeInfo("FeeAttrKey3", "FeeAttrValue3"));
 
 		createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgs().remove(0);
 		createdClu.getFeeInfo().getCluFeeRecords().get(1).setFeeType("FEE-TYPE-Z");
@@ -775,30 +776,30 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		createdClu.getPrimaryInstructor().setOrgId("UPEXT-orgId-1");
 		createdClu.getPrimaryInstructor().setPersonId("UPEXT-personId-1");
-		// TODO KSCM-212  createdClu.getPrimaryInstructor().getAttributes().put("PrimaryInstAttrKey1", "PrimaryInstAttrValue1");
+		createdClu.getPrimaryInstructor().getAttributes().add(new AttributeInfo("PrimaryInstAttrKey1", "PrimaryInstAttrValue1"));
 		createdClu.getPrimaryInstructor().getAttributes().remove("PrimaryInstAttrKey2");
-		// TODO KSCM-212  createdClu.getPrimaryInstructor().getAttributes().put("PrimaryInstAttrKey3", "PrimaryInstAttrValue3");
+		createdClu.getPrimaryInstructor().getAttributes().add(new AttributeInfo("PrimaryInstAttrKey3", "PrimaryInstAttrValue3"));
 
 		createdClu.getInstructors().get(0).setOrgId("UPEXT-orgId-2");
 		createdClu.getInstructors().get(0).setPersonId("UPEXT-personId-2");
-		// TODO KSCM-212  createdClu.getInstructors().get(0).getAttributes().put("Inst1AttrKey1", "Inst1AttrValue1");
+		createdClu.getInstructors().get(0).getAttributes().add(new AttributeInfo("Inst1AttrKey1", "Inst1AttrValue1"));
 		createdClu.getInstructors().get(0).getAttributes().remove("Inst1AttrKey2");
-		// TODO KSCM-212  createdClu.getInstructors().get(0).getAttributes().put("Inst1AttrKey3", "Inst1AttrValue3");
+		createdClu.getInstructors().get(0).getAttributes().add(new AttributeInfo("Inst1AttrKey3", "Inst1AttrValue3"));
 
 		createdClu.getInstructors().remove(1);
 
 		CluInstructorInfo instructor3 = new CluInstructorInfo();
 		instructor3.setOrgId("EXT-orgId-3");
 		instructor3.setPersonId("EXT-personId-3");
-		// TODO KSCM-212  instructor3.getAttributes().put("Inst3AttrKey1", "Inst3AttrValue1");
-		// TODO KSCM-212  instructor3.getAttributes().put("Inst3AttrKey2", "Inst3AttrValue2");
+		instructor3.getAttributes().add(new AttributeInfo("Inst3AttrKey1", "Inst3AttrValue1"));
+		instructor3.getAttributes().add(new AttributeInfo("Inst3AttrKey2", "Inst3AttrValue2"));
 		createdClu.getInstructors().add(instructor3);
 
 		createdClu.getLuCodes().get(0).setDescr("UPluCode1-desc");
 		createdClu.getLuCodes().get(0).setValue("UPluCode1-value");
-		// TODO KSCM-212  createdClu.getLuCodes().get(0).getAttributes().put("luCode1AttrKey1", "luCode1AttrValue1");
+		createdClu.getLuCodes().get(0).getAttributes().add(new AttributeInfo("luCode1AttrKey1", "luCode1AttrValue1"));
 		createdClu.getLuCodes().get(0).getAttributes().remove("luCode1AttrKey2");
-		// TODO KSCM-212  createdClu.getLuCodes().get(0).getAttributes().put("luCode1AttrKey3", "luCode1AttrValue3");
+		createdClu.getLuCodes().get(0).getAttributes().add(new AttributeInfo("luCode1AttrKey3", "luCode1AttrValue3"));
 		createdClu.getLuCodes().get(0).setTypeKey("updatedType");
 
 		createdClu.getLuCodes().remove(1);
@@ -807,8 +808,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		luCode3.setId("luCode3.key");
 		luCode3.setDescr("luCode3-desc");
 		luCode3.setValue("luCode3-value");
-		// TODO KSCM-212  luCode3.getAttributes().put("luCode3AttrKey1", "luCode3AttrValue1");
-		// TODO KSCM-212  luCode3.getAttributes().put("luCode3AttrKey2", "luCode3AttrValue2");
+		luCode3.getAttributes().add(new AttributeInfo("luCode3AttrKey1", "luCode3AttrValue1"));
+		luCode3.getAttributes().add(new AttributeInfo("luCode3AttrKey2", "luCode3AttrValue2"));
 		luCode3.setTypeKey("updatedType");
 		createdClu.getLuCodes().add(luCode3);
 
@@ -822,8 +823,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInstructorInfo pubInstructor3 = new CluInstructorInfo();
 		pubInstructor3.setOrgId("EXT-orgId-3");
 		pubInstructor3.setPersonId("EXT-personId-3");
-		// TODO KSCM-212  pubInstructor3.getAttributes().put("PubInst3AttrKey1", "PubInst3AttrValue1");
-		// TODO KSCM-212  pubInstructor3.getAttributes().put("PubInst3AttrKey2", "PubInst3AttrValue2");
+		pubInstructor3.getAttributes().add(new AttributeInfo("PubInst3AttrKey1", "PubInst3AttrValue1"));
+		pubInstructor3.getAttributes().add(new AttributeInfo("PubInst3AttrKey2", "PubInst3AttrValue2"));
 
 		createdClu.setReferenceURL("UPhttp://student.kuali.org/clus");
 
@@ -1083,9 +1084,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cluCluRelationInfo.setExpirationDate(expirationDate);
 		cluCluRelationInfo.setIsCluRelationRequired(true);
 		cluCluRelationInfo.setStateKey("hello");
-		// TODO KSCM-212  cluCluRelationInfo.getAttributes().put("clucluAttrKey1", "clucluAttrValue1");
-		// TODO KSCM-212  cluCluRelationInfo.getAttributes().put("clucluAttrKey2", "clucluAttrValue2");
-		// TODO KSCM-212  cluCluRelationInfo.getAttributes().put("clucluAttrKey3", "clucluAttrValue3");
+		cluCluRelationInfo.getAttributes().add(new AttributeInfo("clucluAttrKey1", "clucluAttrValue1"));
+		cluCluRelationInfo.getAttributes().add(new AttributeInfo("clucluAttrKey2", "clucluAttrValue2"));
+		cluCluRelationInfo.getAttributes().add(new AttributeInfo("clucluAttrKey3", "clucluAttrValue3"));
 
 		CluCluRelationInfo created = client.createCluCluRelation("CLU-1",
 				"CLU-2", "luLuType.type1", cluCluRelationInfo, contextInfo);
@@ -1105,8 +1106,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(created.getMeta().getVersionInd());
 
 		created.getAttributes().remove("clucluAttrKey2");
-		// TODO KSCM-212  created.getAttributes().put("clucluAttrKey3", "clucluAttrValue3-A");
-		// TODO KSCM-212  created.getAttributes().put("clucluAttrKey4", "clucluAttrValue4");
+		created.getAttributes().add(new AttributeInfo("clucluAttrKey3", "clucluAttrValue3-A"));
+		created.getAttributes().add(new AttributeInfo("clucluAttrKey4", "clucluAttrValue4"));
 		created.setCluId("CLU-2");
 		created.setEffectiveDate(expirationDate);
 		created.setExpirationDate(effectiveDate);
@@ -1794,8 +1795,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInfo clu = new CluInfo();
 
 		CluAccountingInfo accountingInfo = new CluAccountingInfo();
-		// TODO KSCM-212  accountingInfo.getAttributes().put("AccountingAttrKey1", "AccountingAttrValue1");
-		// TODO KSCM-212  accountingInfo.getAttributes().put("AccountingAttrKey2", "AccountingAttrValue2");
+		accountingInfo.getAttributes().add(new AttributeInfo("AccountingAttrKey1", "AccountingAttrValue1"));
+		accountingInfo.getAttributes().add(new AttributeInfo("AccountingAttrKey2", "AccountingAttrValue2"));
 		clu.setAccountingInfo(accountingInfo);
 
 		CluIdentifierInfo officialIdentifier = new CluIdentifierInfo();
@@ -1844,8 +1845,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		// cluId.setOrgId();
 		clu.getAlternateIdentifiers().add(cluId2);
 
-		// TODO KSCM-212  clu.getAttributes().put("cluAttrKey1", "cluAttrValue1");
-		// TODO KSCM-212  clu.getAttributes().put("cluAttrKey2", "cluAttrValue2");
+		clu.getAttributes().add(new AttributeInfo("cluAttrKey1", "cluAttrValue1"));
+		clu.getAttributes().add(new AttributeInfo("cluAttrKey2", "cluAttrValue2"));
 
 		clu.setCanCreateLui(true);
 
@@ -1914,8 +1915,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cfDesc.setPlain("Clu Fee");
 
 		CluFeeInfo feeInfo = new CluFeeInfo();
-		// TODO KSCM-212  feeInfo.getAttributes().put("FeeAttrKey1", "FeeAttrValue1");
-		// TODO KSCM-212  feeInfo.getAttributes().put("FeeAttrKey2", "FeeAttrValue2");
+		feeInfo.getAttributes().add(new AttributeInfo("FeeAttrKey1", "FeeAttrValue1"));
+		feeInfo.getAttributes().add(new AttributeInfo("FeeAttrKey2", "FeeAttrValue2"));
 		feeInfo.setCluFeeRecords(feeRecList);
 		feeInfo.setDescr(cfDesc);
 		clu.setFeeInfo(feeInfo);
@@ -1927,38 +1928,38 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInstructorInfo primaryInstructor = new CluInstructorInfo();
 		primaryInstructor.setOrgId("EXTorgIdone");
 		primaryInstructor.setPersonId("EXTpersonIdone");
-		// TODO KSCM-212  primaryInstructor.getAttributes().put("PrimaryInstAttrKey1", "PrimaryInstAttrValue1");
-		// TODO KSCM-212  primaryInstructor.getAttributes().put("PrimaryInstAttrKey2", "PrimaryInstAttrValue2");
+		primaryInstructor.getAttributes().add(new AttributeInfo("PrimaryInstAttrKey1", "PrimaryInstAttrValue1"));
+		primaryInstructor.getAttributes().add(new AttributeInfo("PrimaryInstAttrKey2", "PrimaryInstAttrValue2"));
 		clu.setPrimaryInstructor(primaryInstructor);
 
 		CluInstructorInfo instructor1 = new CluInstructorInfo();
 		instructor1.setOrgId("EXTorgIdtwo");
 		instructor1.setPersonId("EXTpersonIdtwo");
-		// TODO KSCM-212  instructor1.getAttributes().put("Inst1AttrKey1", "Inst1AttrValue1");
-		// TODO KSCM-212  instructor1.getAttributes().put("Inst1AttrKey2", "Inst1AttrValue2");
+		instructor1.getAttributes().add(new AttributeInfo("Inst1AttrKey1", "Inst1AttrValue1"));
+		instructor1.getAttributes().add(new AttributeInfo("Inst1AttrKey2", "Inst1AttrValue2"));
 		clu.getInstructors().add(instructor1);
 
 		CluInstructorInfo instructor2 = new CluInstructorInfo();
 		instructor2.setOrgId("EXTorgIdthree");
 		instructor2.setPersonId("EXTpersonIdthree");
-		// TODO KSCM-212  instructor2.getAttributes().put("Inst2AttrKey1", "Inst2AttrValue1");
-		// TODO KSCM-212  instructor2.getAttributes().put("Inst2AttrKey2", "Inst2AttrValue2");
+		instructor2.getAttributes().add(new AttributeInfo("Inst2AttrKey1", "Inst2AttrValue1");
+		instructor2.getAttributes().add(new AttributeInfo("Inst2AttrKey2", "Inst2AttrValue2");
 		clu.getInstructors().add(instructor2);
 
 		LuCodeInfo luCode1 = new LuCodeInfo();
 		luCode1.setId("luCode1.key");
 		luCode1.setDescr("luCode1desc");
 		luCode1.setValue("luCode1value");
-		// TODO KSCM-212  luCode1.getAttributes().put("luCode1AttrKey1", "luCode1AttrValue1");
-		// TODO KSCM-212  luCode1.getAttributes().put("luCode1AttrKey2", "luCode1AttrValue2");
+		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey1", "luCode1AttrValue1");
+		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey2", "luCode1AttrValue2");
 		clu.getLuCodes().add(luCode1);
 
 		LuCodeInfo luCode2 = new LuCodeInfo();
 		luCode2.setId("luCode2.key");
 		luCode2.setDescr("luCodetwodesc");
 		luCode2.setValue("luCodetwovalue");
-		// TODO KSCM-212  luCode2.getAttributes().put("luCode2AttrKey1", "luCode2AttrValue1");
-		// TODO KSCM-212  luCode2.getAttributes().put("luCode2AttrKey2", "luCode2AttrValue2");
+		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey1", "luCode2AttrValue1");
+		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey2", "luCode2AttrValue2");
 		clu.getLuCodes().add(luCode2);
 
 		RichTextInfo marketingDesc = new RichTextInfo();
@@ -2932,10 +2933,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInfo clu = new CluInfo();
 
 		CluAccountingInfo accountingInfo = new CluAccountingInfo();
-		// TODO KSCM-212  accountingInfo.getAttributes().put("AccountingAttrKey1",
-		//		"AccountingAttrValue1");
-		// TODO KSCM-212  accountingInfo.getAttributes().put("AccountingAttrKey2",
-		//		"AccountingAttrValue2");
+		accountingInfo.getAttributes().add(new AttributeInfo("AccountingAttrKey1","AccountingAttrValue1"));
+		accountingInfo.getAttributes().add(new AttributeInfo("AccountingAttrKey2","AccountingAttrValue2"));
 		clu.setAccountingInfo(accountingInfo);
 
 		CluIdentifierInfo officialIdentifier = new CluIdentifierInfo();
@@ -2977,8 +2976,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cluId2.setOrgId("cluId2-orgid");
 		clu.getAlternateIdentifiers().add(cluId2);
 
-		// TODO KSCM-212  clu.getAttributes().put("cluAttrKey1", "cluAttrValue1");
-		// TODO KSCM-212  clu.getAttributes().put("cluAttrKey2", "cluAttrValue2");
+		clu.getAttributes().add(new AttributeInfo("cluAttrKey1", "cluAttrValue1"));
+		clu.getAttributes().add(new AttributeInfo("cluAttrKey2", "cluAttrValue2"));
 
 		clu.setCanCreateLui(true);
 
@@ -3047,8 +3046,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cfDesc.setPlain("Clu Fee");
 
 		CluFeeInfo feeInfo = new CluFeeInfo();
-		// TODO KSCM-212  feeInfo.getAttributes().put("FeeAttrKey1", "FeeAttrValue1");
-		// TODO KSCM-212  feeInfo.getAttributes().put("FeeAttrKey2", "FeeAttrValue2");
+		feeInfo.getAttributes().add(new AttributeInfo("FeeAttrKey1", "FeeAttrValue1"));
+		feeInfo.getAttributes().add(new AttributeInfo("FeeAttrKey2", "FeeAttrValue2"));
 		feeInfo.setCluFeeRecords(feeRecList);
 		feeInfo.setDescr(cfDesc);
 		clu.setFeeInfo(feeInfo);
@@ -3060,32 +3059,30 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInstructorInfo primaryInstructor = new CluInstructorInfo();
 		primaryInstructor.setOrgId("EXT-orgId-1");
 		primaryInstructor.setPersonId("EXT-personId-1");
-		// TODO KSCM-212  primaryInstructor.getAttributes().put("PrimaryInstAttrKey1",
-		//		"PrimaryInstAttrValue1");
-		// TODO KSCM-212  primaryInstructor.getAttributes().put("PrimaryInstAttrKey2",
-		//		"PrimaryInstAttrValue2");
+		primaryInstructor.getAttributes().add(new AttributeInfo("PrimaryInstAttrKey1","PrimaryInstAttrValue1"));
+		primaryInstructor.getAttributes().add(new AttributeInfo("PrimaryInstAttrKey2","PrimaryInstAttrValue2"));
 		clu.setPrimaryInstructor(primaryInstructor);
 
 		CluInstructorInfo instructor1 = new CluInstructorInfo();
 		instructor1.setOrgId("EXT-orgId-2");
 		instructor1.setPersonId("EXT-personId-2");
-		// TODO KSCM-212  instructor1.getAttributes().put("Inst1AttrKey1", "Inst1AttrValue1");
-		// TODO KSCM-212  instructor1.getAttributes().put("Inst1AttrKey2", "Inst1AttrValue2");
+		instructor1.getAttributes().add(new AttributeInfo("Inst1AttrKey1", "Inst1AttrValue1"));
+		instructor1.getAttributes().add(new AttributeInfo("Inst1AttrKey2", "Inst1AttrValue2"));
 		clu.getInstructors().add(instructor1);
 
 		CluInstructorInfo instructor2 = new CluInstructorInfo();
 		instructor2.setOrgId("EXT-orgId-3");
 		instructor2.setPersonId("EXT-personId-3");
-		// TODO KSCM-212  instructor2.getAttributes().put("Inst2AttrKey1", "Inst2AttrValue1");
-		// TODO KSCM-212  instructor2.getAttributes().put("Inst2AttrKey2", "Inst2AttrValue2");
+		instructor2.getAttributes().add(new AttributeInfo("Inst2AttrKey1", "Inst2AttrValue1"));
+		instructor2.getAttributes().add(new AttributeInfo("Inst2AttrKey2", "Inst2AttrValue2"));
 		clu.getInstructors().add(instructor2);
 
 		LuCodeInfo luCode1 = new LuCodeInfo();
 		luCode1.setId("luCode1.key");
 		luCode1.setDescr("luCode1-desc");
 		luCode1.setValue("luCode1-value");
-		// TODO KSCM-212  luCode1.getAttributes().put("luCode1AttrKey1", "luCode1AttrValue1");
-		// TODO KSCM-212  luCode1.getAttributes().put("luCode1AttrKey2", "luCode1AttrValue2");
+		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey1", "luCode1AttrValue1"));
+		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey2", "luCode1AttrValue2"));
 		luCode1.setType("kuali.someKindOfLuCode");
 		clu.getLuCodes().add(luCode1);
 
@@ -3093,8 +3090,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		luCode2.setId("luCode2.key");
 		luCode2.setDescr("luCode2-desc");
 		luCode2.setValue("luCode2-value");
-		// TODO KSCM-212  luCode2.getAttributes().put("luCode2AttrKey1", "luCode2AttrValue1");
-		// TODO KSCM-212  luCode2.getAttributes().put("luCode2AttrKey2", "luCode2AttrValue2");
+		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey1", "luCode2AttrValue1"));
+		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey2", "luCode2AttrValue2"));
 		luCode2.setType("kuali.someKindOfLuCode");
 		clu.getLuCodes().add(luCode2);
 
@@ -3111,26 +3108,20 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInstructorInfo pubPrimaryInstructor = new CluInstructorInfo();
 		pubPrimaryInstructor.setOrgId("EXT-orgId-234");
 		pubPrimaryInstructor.setPersonId("EXT-personId-2451");
-		// TODO KSCM-212  pubPrimaryInstructor.getAttributes().put("PubPrimaryInstAttrKey1",
-		//		"PubPrimaryInstAttrValue1");
-		// TODO KSCM-212  pubPrimaryInstructor.getAttributes().put("PubPrimaryInstAttrKey2",
-		//		"PubPrimaryInstAttrValue2");
+		pubPrimaryInstructor.getAttributes().add(new AttributeInfo("PubPrimaryInstAttrKey1","PubPrimaryInstAttrValue1"));
+		pubPrimaryInstructor.getAttributes().add(new AttributeInfo("PubPrimaryInstAttrKey2","PubPrimaryInstAttrValue2"));
 
 		CluInstructorInfo pubInstructor1 = new CluInstructorInfo();
 		pubInstructor1.setOrgId("EXT-orgId-2");
 		pubInstructor1.setPersonId("EXT-personId-2");
-		// TODO KSCM-212  pubInstructor1.getAttributes().put("PubInst1AttrKey1",
-		//		"PubInst1AttrValue1");
-		// TODO KSCM-212  pubInstructor1.getAttributes().put("PubInst1AttrKey2",
-		//		"PubInst1AttrValue2");
+		pubInstructor1.getAttributes().add(new AttributeInfo("PubInst1AttrKey1","PubInst1AttrValue1"));
+		pubInstructor1.getAttributes().add(new AttributeInfo("PubInst1AttrKey2","PubInst1AttrValue2"));
 
 		CluInstructorInfo pubInstructor2 = new CluInstructorInfo();
 		pubInstructor2.setOrgId("EXT-orgId-3");
 		pubInstructor2.setPersonId("EXT-personId-3");
-		// TODO KSCM-212  pubInstructor2.getAttributes().put("PubInst2AttrKey1",
-		//		"PubInst2AttrValue1");
-		// TODO KSCM-212  pubInstructor2.getAttributes().put("PubInst2AttrKey2",
-		//		"PubInst2AttrValue2");
+		pubInstructor2.getAttributes().add(new AttributeInfo("PubInst2AttrKey1","PubInst2AttrValue1"));
+		pubInstructor2.getAttributes().add(new AttributeInfo("PubInst2AttrKey2","PubInst2AttrValue2"));
 
 		clu.setReferenceURL("http://student.kuali.org/clus");
 
@@ -3157,29 +3148,22 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	private void createAdminOrgs(CluInfo clu) {
 		AdminOrgInfo adminOrg = new AdminOrgInfo();
 		adminOrg.setOrgId("PRIMARY-ADMIN-ORG-ID");
-		// TODO KSCM-212  adminOrg.getAttributes().put("PrimaryAdminOrgAttrKey1",
-		//		"PrimaryAdminOrgAttrValue1");
-		// TODO KSCM-212  adminOrg.getAttributes().put("PrimaryAdminOrgAttrKey2",
-		//		"PrimaryAdminOrgAttrValue2");
+		adminOrg.getAttributes().add(new AttributeInfo("PrimaryAdminOrgAttrKey1","PrimaryAdminOrgAttrValue1"));
+		adminOrg.getAttributes().add(new AttributeInfo("PrimaryAdminOrgAttrKey2","PrimaryAdminOrgAttrValue2"));
 		adminOrg.setTypeKey("kuali.altadminType1");
 		
 		clu.getAdminOrgs().add(adminOrg);
 		AdminOrgInfo altAdminOrg1 = new AdminOrgInfo();
 		altAdminOrg1.setOrgId("ALT-ADMIN-ORG-ID1");
-		// TODO KSCM-212  altAdminOrg1.getAttributes().put("AltAdminOrg1AttrKey1",
-		//		"AltAdminOrg1AttrValue1");
-		// TODO KSCM-212  altAdminOrg1.getAttributes().put("AltAdminOrg1AttrKey2",
-		//		"AltAdminOrg1AttrValue2");
-		// TODO KSCM-212  altAdminOrg1.getAttributes().put("AltAdminOrg1AttrKey3",
-		//		"AltAdminOrg1AttrValue3");
+		altAdminOrg1.getAttributes().add(new AttributeInfo("AltAdminOrg1AttrKey1","AltAdminOrg1AttrValue1"));
+		altAdminOrg1.getAttributes().add(new AttributeInfo("AltAdminOrg1AttrKey2","AltAdminOrg1AttrValue2"));
+		altAdminOrg1.getAttributes().add(new AttributeInfo("AltAdminOrg1AttrKey3","AltAdminOrg1AttrValue3"));
 		altAdminOrg1.setTypeKey("kuali.altadminType1");
 		
 		AdminOrgInfo altAdminOrg2 = new AdminOrgInfo();
 		altAdminOrg2.setOrgId("ALT-ADMIN-ORG-ID2");
-		// TODO KSCM-212  altAdminOrg2.getAttributes().put("AltAdminOrg2AttrKey1",
-		//		"AltAdminOrg2AttrValue1");
-		// TODO KSCM-212  altAdminOrg2.getAttributes().put("AltAdminOrg2AttrKey2",
-		//		"AltAdminOrg2AttrValue2");
+		altAdminOrg2.getAttributes().add(new AttributeInfo("AltAdminOrg2AttrKey1","AltAdminOrg2AttrValue1"));
+		altAdminOrg2.getAttributes().add(new AttributeInfo("AltAdminOrg2AttrKey2","AltAdminOrg2AttrValue2"));
 		altAdminOrg2.setTypeKey("kuali.altadminType1");
 
 		clu.getAdminOrgs().add(altAdminOrg1);
@@ -3210,15 +3194,15 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	private void updateAdminOrgs(CluInfo clu) {
 //		clu.getAdminOrgs().get(0).setId("adminOrg121");
 		clu.getAdminOrgs().get(0).setOrgId("UPD-PRIMARY-ADMIN-ORG-ID");
-		// TODO KSCM-212  clu.getAdminOrgs().get(0).getAttributes().put("PrimaryAdminOrgAttrKey3","PrimaryAdminOrgAttrValue3");
+		clu.getAdminOrgs().get(0).getAttributes().add(new AttributeInfo("PrimaryAdminOrgAttrKey3","PrimaryAdminOrgAttrValue3"));
 		clu.getAdminOrgs().get(0).getAttributes().remove(
 				"PrimaryAdminOrgAttrKey2");
-		// TODO KSCM-212  clu.getAdminOrgs().get(0).getAttributes().put("PrimaryAdminOrgAttrKey4","PrimaryAdminOrgAttrValue4");
+		clu.getAdminOrgs().get(0).getAttributes().add(new AttributeInfo("PrimaryAdminOrgAttrKey4","PrimaryAdminOrgAttrValue4"));
 		
 		AdminOrgInfo altAdminOrg3 = new AdminOrgInfo();
 		altAdminOrg3.setOrgId("UPD-ADMIN-ORG-ID3");
-		// TODO KSCM-212  altAdminOrg3.getAttributes().put("UPDAdminOrg3AttrKey1","UPDAdminOrg3AttrKey1");
-		// TODO KSCM-212  altAdminOrg3.getAttributes().put("UPDAdminOrg3AttrKey2","UPDAdminOrg3AttrKey1");
+		altAdminOrg3.getAttributes().add(new AttributeInfo("UPDAdminOrg3AttrKey1","UPDAdminOrg3AttrKey1"));
+		altAdminOrg3.getAttributes().add(new AttributeInfo("UPDAdminOrg3AttrKey2","UPDAdminOrg3AttrKey1"));
 		altAdminOrg3.setTypeKey("kuali.testType");
 
 		clu.getAdminOrgs().remove(1);
@@ -3253,15 +3237,15 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		accreditationOrg1.setOrgId("EXT-orgId-1");
 		accreditationOrg1.setEffectiveDate(DF.parse("20100203"));
 		accreditationOrg1.setExpirationDate(DF.parse("21001231"));
-		// TODO KSCM-212  accreditationOrg1.getAttributes().put("Accred1AttrKey1","Accred1AttrValue1");
-		// TODO KSCM-212  accreditationOrg1.getAttributes().put("Accred1AttrKey2","Accred1AttrValue2");
+		accreditationOrg1.getAttributes().add(new AttributeInfo("Accred1AttrKey1","Accred1AttrValue1"));
+		accreditationOrg1.getAttributes().add(new AttributeInfo("Accred1AttrKey2","Accred1AttrValue2"));
 
 		AccreditationInfo accreditationOrg2 = new AccreditationInfo();
 		accreditationOrg2.setOrgId("EXT-orgId-2");
 		accreditationOrg2.setEffectiveDate(DF.parse("20110203"));
 		accreditationOrg2.setExpirationDate(DF.parse("21011231"));
-		// TODO KSCM-212  accreditationOrg2.getAttributes().put("Accred2AttrKey1","Accred2AttrValue1");
-		// TODO KSCM-212  accreditationOrg2.getAttributes().put("Accred2AttrKey2","Accred2AttrValue2");
+		accreditationOrg2.getAttributes().add(new AttributeInfo("Accred2AttrKey1","Accred2AttrValue1"));
+		accreditationOrg2.getAttributes().add(new AttributeInfo("Accred2AttrKey2","Accred2AttrValue2"));
 
 		clu.getAccreditations().add(accreditationOrg1);
 		clu.getAccreditations().add(accreditationOrg2);
@@ -3306,14 +3290,14 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		accreditationOrg4.setOrgId("EXT-orgId-4");
 		accreditationOrg4.setEffectiveDate(DF.parse("20130203"));
 		accreditationOrg4.setExpirationDate(DF.parse("21031231"));
-		// TODO KSCM-212  accreditationOrg4.getAttributes().put("Accred4AttrKey1","Accred4AttrValue1");
+		accreditationOrg4.getAttributes().add(new AttributeInfo("Accred4AttrKey1","Accred4AttrValue1"));
 
 		clu.getAccreditations().add(accreditationOrg3);
 		clu.getAccreditations().add(accreditationOrg4);
 
 		clu.getAccreditations().get(0).getAttributes().remove(
 				"Accred1AttrKey2");
-		// TODO KSCM-212  clu.getAccreditations().get(0).getAttributes().put("Accred1AttrKey1", "Accred1AttrValue1-UPD");
+		clu.getAccreditations().get(0).getAttributes().add(new AttributeInfo("Accred1AttrKey1", "Accred1AttrValue1-UPD"));
 		clu.getAccreditations().remove(1);
 	}
 
