@@ -2388,6 +2388,277 @@
   <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.LoDisplayInfo"/>
  </bean>
  <bean id="commonWithCredentialProgramInfo.learningObjectives" parent="commonWithCredentialProgramInfo.learningObjectives-parent"/>      
-         
+
+<!-- CommonWithProgramVariationInfo-->
+ <bean id="org.kuali.student.r2.lum.program.dto.CommonWithProgramVariationInfo-parent" abstract="true"
+       parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.lum.program.dto.CommonWithProgramVariationInfo"/>
+  <property name="attributes">
+   <list>
+    <ref bean="commonWithProgramVariationInfo.descr"/>
+    <ref bean="commonWithProgramVariationInfo.code"/>
+    <ref bean="commonWithProgramVariationInfo.divisionsContentOwner"/>  
+    <ref bean="commonWithProgramVariationInfo.divisionsStudentOversight"/>
+    <ref bean="commonWithProgramVariationInfo.id"/>
+    <ref bean="commonWithProgramVariationInfo.longTitle"/>
+    <ref bean="commonWithProgramVariationInfo.learningObjectives"/>
+    <ref bean="commonWithProgramVariationInfo.referenceURL"/>
+    <ref bean="commonWithProgramVariationInfo.catalogDescr"/>
+    <ref bean="commonWithProgramVariationInfo.catalogPublicationTargets"/>
+    <ref bean="commonWithProgramVariationInfo.endProgramEntryTerm"/>
+    <ref bean="commonWithProgramVariationInfo.shortTitle"/>
+    <ref bean="commonWithProgramVariationInfo.startTerm"/>
+    <ref bean="commonWithProgramVariationInfo.stateKey"/>
+    <ref bean="commonWithProgramVariationInfo.transcriptTitle"/>
+    <ref bean="commonWithProgramVariationInfo.typeKey"/>
+    <ref bean="commonWithProgramVariationInfo.unitsContentOwner"/>
+    <ref bean="commonWithProgramVariationInfo.unitsStudentOversight"/>
+    <ref bean="commonWithProgramVariationInfo.universityClassification"/>
+    <ref bean="commonWithProgramVariationInfo.programRequirements"/>
+    <ref bean="commonWithProgramVariationInfo.endTerm"/>
+    <ref bean="commonWithProgramVariationInfo.unitsDeployment"/>
+    <ref bean="commonWithProgramVariationInfo.campusLocations"/>
+    <ref bean="commonWithProgramVariationInfo.cip2000Code"/>
+    <ref bean="commonWithProgramVariationInfo.cip2010Code"/>
+    <ref bean="commonWithProgramVariationInfo.diplomaTitle"/>
+    <ref bean="commonWithProgramVariationInfo.divisionsDeployment"/>
+    <ref bean="commonWithProgramVariationInfo.divisionsFinancialControl"/>
+    <ref bean="commonWithProgramVariationInfo.divisionsFinancialResources"/>
+    <ref bean="commonWithProgramVariationInfo.effectiveDate"/>
+    <ref bean="commonWithProgramVariationInfo.hegisCode"/>
+    <ref bean="commonWithProgramVariationInfo.intensity"/>
+    <ref bean="commonWithProgramVariationInfo.resultOptions"/>
+    <ref bean="commonWithProgramVariationInfo.selectiveEnrollmentCode"/>
+    <ref bean="commonWithProgramVariationInfo.stdDuration"/>
+    <ref bean="commonWithProgramVariationInfo.unitsFinancialControl"/>
+    <ref bean="commonWithProgramVariationInfo.unitsFinancialResources"/>
+    
+    
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="org.kuali.student.r2.lum.program.dto.CommonWithProgramVariationInfo"
+       parent="org.kuali.student.r2.lum.program.dto.CommonWithProgramVariationInfo-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.programRequirements-parent" abstract="true"
+       parent="majorDisciplineInfo.programRequirements-parent">
+  <property name="name" value="programRequirements"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.programRequirements" parent="commonWithProgramVariationInfo.programRequirements-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.endProgramEntryTerm-parent" abstract="true"
+       parent="majorDisciplineInfo.endProgramEntryTerm">
+  <property name="name" value="endProgramEntryTerm"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.endProgramEntryTerm" parent="commonWithProgramVariationInfo.endProgramEntryTerm-parent"/>
+ 
+ <bean id="commonWithProgramVariationInfo.divisionsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.divisionsStudentOversight-parent">
+  <property name="name" value="divisionsStudentOversight"/>
+  <property name="defaultValuePath" value="/divisionsStudentOversight"/>
+			</bean>
+ <bean id="commonWithProgramVariationInfo.divisionsStudentOversight"
+       parent="commonWithProgramVariationInfo.divisionsStudentOversight-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
+  <property name="name" value="descr"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.descr" parent="commonWithProgramVariationInfo.descr-parent"/>
+ 
+  <bean id="commonWithProgramVariationInfo.code-parent" abstract="true" parent="majorDisciplineInfo.code-parent">
+  <property name="name" value="code"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.code" parent="commonWithProgramVariationInfo.code-parent"/>
+ 
+  <bean id="commonWithProgramVariationInfo.divisionsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.divisionsContentOwner-parent">
+  <property name="name" value="divisionsContentOwner"/>
+  <property name="defaultValuePath" value="/divisionsContentOwner"/>
+      </bean>
+ <bean id="commonWithProgramVariationInfo.divisionsContentOwner" parent="commonWithProgramVariationInfo.divisionsContentOwner-parent"/>
+ 
+ <bean id="commonWithProgramVariationInfo.referenceURL-parent" abstract="true" parent="cluInfo.referenceURL-parent">
+  <property name="name" value="referenceURL"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.referenceURL" parent="commonWithProgramVariationInfo.referenceURL-parent"/>
+
+<bean id="commonWithProgramVariationInfo.catalogDescr-parent" abstract="true" parent="majorDisciplineInfo.catalogDescr-parent">
+  <property name="name" value="catalogDescr"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.catalogDescr" parent="commonWithProgramVariationInfo.catalogDescr-parent"/>
+ 
+  <bean id="commonWithProgramVariationInfo.catalogPublicationTargets-parent" abstract="true" parent="majorDisciplineInfo.catalogPublicationTargets-parent">
+  <property name="name" value="catalogPublicationTargets"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.catalogPublicationTargets"
+       parent="commonWithProgramVariationInfo.catalogPublicationTargets-parent"/>
+       
+       <bean id="commonWithProgramVariationInfo.endTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
+  <property name="name" value="endTerm"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.endTerm" parent="commonWithProgramVariationInfo.endTerm-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.id-parent" abstract="true" parent="cluInfo.id">
+  <property name="name" value="id"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.id" parent="commonWithProgramVariationInfo.id-parent"/>
+
+<bean id="commonWithProgramVariationInfo.longTitle-parent" abstract="true" parent="majorDisciplineInfo.longTitle-parent">
+  <property name="name" value="longTitle"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.longTitle" parent="commonWithProgramVariationInfo.longTitle-parent"/>
+
+<bean id="commonWithProgramVariationInfo.shortTitle-parent" abstract="true" parent="majorDisciplineInfo.shortTitle-parent">
+  <property name="name" value="shortTitle"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.shortTitle" parent="commonWithProgramVariationInfo.shortTitle-parent"/>
+
+<bean id="commonWithProgramVariationInfo.startTerm-parent" abstract="true" parent="majorDisciplineInfo.startTerm-parent">
+  <property name="name" value="startTerm"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.startTerm" parent="commonWithProgramVariationInfo.startTerm-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.stateKey-parent" abstract="true" parent="cluInfo.stateKey-parent">
+  <property name="name" value="stateKey"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.stateKey" parent="commonWithProgramVariationInfo.stateKey-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.transcriptTitle-parent" abstract="true"
+       parent="majorDisciplineInfo.transcriptTitle-parent">
+  <property name="name" value="transcriptTitle"/>
+  <property name="caseConstraint"><null/></property>
+  <property name="maxLength" value="34"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.transcriptTitle" parent="commonWithProgramVariationInfo.transcriptTitle-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.typeKey" parent="commonWithProgramVariationInfo.typeKey-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.unitsContentOwner-parent" abstract="true"
+       parent="majorDisciplineInfo.unitsContentOwner-parent">
+  <property name="name" value="unitsContentOwner"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.unitsContentOwner" parent="commonWithProgramVariationInfo.unitsContentOwner-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.unitsStudentOversight-parent" abstract="true"
+       parent="majorDisciplineInfo.unitsStudentOversight-parent">
+  <property name="name" value="unitsStudentOversight"/>
+  <property name="caseConstraint"><null/></property>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.unitsStudentOversight" parent="commonWithProgramVariationInfo.unitsStudentOversight-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.universityClassification-parent" abstract="true"
+       parent="majorDisciplineInfo.universityClassification-parent">
+  <property name="name" value="universityClassification"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.universityClassification" parent="commonWithProgramVariationInfo.universityClassification-parent"/>
+ 
+ <bean id="commonWithProgramVariationInfo.learningObjectives-parent" abstract="true"
+       parent="majorDisciplineInfo.learningObjectives-parent">
+  <property name="name" value="learningObjectives"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.LoDisplayInfo"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.learningObjectives" parent="commonWithProgramVariationInfo.learningObjectives-parent"/>      
+   
+ <bean id="commonWithProgramVariationInfo.campusLocations-parent" abstract="true" parent="majorDisciplineInfo.campusLocations-parent">
+  <property name="name" value="campusLocations"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.campusLocations" parent="commonWithProgramVariationInfo.campusLocations-parent"/>
+
+<bean id="commonWithProgramVariationInfo.cip2000Code-parent" abstract="true" parent="majorDisciplineInfo.cip2000Code-parent">
+  <property name="name" value="cip2000Code"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.cip2000Code" parent="commonWithProgramVariationInfo.cip2000Code-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.cip2010Code-parent" abstract="true" parent="majorDisciplineInfo.cip2010Code-parent">
+  <property name="name" value="cip2010Code"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.cip2010Code" parent="commonWithProgramVariationInfo.cip2010Code-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.diplomaTitle-parent" abstract="true" parent="majorDisciplineInfo.diplomaTitle-parent">
+  <property name="name" value="diplomaTitle"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.diplomaTitle" parent="commonWithProgramVariationInfo.diplomaTitle-parent"/>
+
+<bean id="commonWithProgramVariationInfo.divisionsDeployment-parent" abstract="true" parent="majorDisciplineInfo.divisionsDeployment-parent">
+  <property name="name" value="divisionsDeployment"/>
+  <property name="defaultValuePath" value="/divisionsDeployment"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.divisionsDeployment" parent="commonWithProgramVariationInfo.divisionsDeployment-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.divisionsFinancialControl-parent" abstract="true" parent="majorDisciplineInfo.divisionsFinancialControl-parent">
+  <property name="name" value="divisionsFinancialControl"/>
+  <property name="defaultValuePath" value="/divisionsFinancialControl"/>
+      </bean>
+ <bean id="commonWithProgramVariationInfo.divisionsFinancialControl"
+       parent="commonWithProgramVariationInfo.divisionsFinancialControl-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.divisionsFinancialResources-parent" abstract="true" parent="majorDisciplineInfo.divisionsFinancialResources-parent">
+  <property name="name" value="divisionsFinancialResources"/>
+  <property name="defaultValuePath" value="/divisionsFinancialResources"/>
+			</bean>
+ <bean id="commonWithProgramVariationInfo.divisionsFinancialResources"
+       parent="commonWithProgramVariationInfo.divisionsFinancialResources-parent"/>
+
+<bean id="commonWithProgramVariationInfo.effectiveDate-parent" abstract="true" parent="majorDisciplineInfo.effectiveDate-parent">
+  <property name="name" value="effectiveDate"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.effectiveDate" parent="commonWithProgramVariationInfo.effectiveDate-parent"/>
+
+
+<bean id="commonWithProgramVariationInfo.hegisCode-parent" abstract="true" parent="majorDisciplineInfo.hegisCode-parent">
+  <property name="name" value="hegisCode"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.hegisCode" parent="commonWithProgramVariationInfo.hegisCode-parent"/>
+
+<bean id="commonWithProgramVariationInfo.intensity-parent" abstract="true" parent="majorDisciplineInfo.intensity-parent">
+  <property name="name" value="intensity"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.intensity" parent="commonWithProgramVariationInfo.intensity-parent"/>
+
+<bean id="commonWithProgramVariationInfo.resultOptions-parent" abstract="true"  parent="majorDisciplineInfo.resultOptions-parent">
+  <property name="name" value="resultOptions"/>
+<!--   <property name="maxOccurs" value="1"/> -->
+ </bean>
+ <bean id="commonWithProgramVariationInfo.resultOptions" parent="commonWithProgramVariationInfo.resultOptions-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.selectiveEnrollmentCode-parent" abstract="true"
+       parent="majorDisciplineInfo.selectiveEnrollmentCode-parent">
+  <property name="name" value="selectiveEnrollmentCode"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.selectiveEnrollmentCode"
+       parent="commonWithProgramVariationInfo.selectiveEnrollmentCode-parent"/>
+
+<bean id="commonWithProgramVariationInfo.stdDuration-parent" abstract="true" parent="cluInfo.stdDuration-parent">
+  <property name="name" value="stdDuration"/>
+ </bean>
+ <bean id="commonWithProgramVariationInfo.stdDuration" parent="commonWithProgramVariationInfo.stdDuration-parent"/>
+
+
+ <bean id="commonWithProgramVariationInfo.unitsFinancialControl-parent" abstract="true"
+       parent="majorDisciplineInfo.unitsFinancialControl-parent">
+  <property name="name" value="unitsFinancialControl"/>
+  <property name="defaultValuePath" value="/unitsFinancialControl"/>
+					</bean>
+ <bean id="commonWithProgramVariationInfo.unitsFinancialControl" parent="commonWithProgramVariationInfo.unitsFinancialControl-parent"/>
+
+ <bean id="commonWithProgramVariationInfo.unitsFinancialResources-parent" abstract="true"
+       parent="majorDisciplineInfo.unitsFinancialResources-parent">
+  <property name="name" value="unitsFinancialResources"/>
+  <property name="defaultValuePath" value="/unitsFinancialResources"/>
+					</bean>
+ <bean id="commonWithProgramVariationInfo.unitsFinancialResources"
+       parent="commonWithProgramVariationInfo.unitsFinancialResources-parent"/>     
+  
+  <bean id="commonWithProgramVariationInfo.unitsDeployment-parent" abstract="true"
+	parent="majorDisciplineInfo.unitsDeployment-parent">
+	<property name="name" value="unitsDeployment" />
+  <property name="defaultValuePath" value="/unitsDeployment"/>
+</bean>
+ <bean id="commonWithProgramVariationInfo.unitsDeployment" parent="commonWithProgramVariationInfo.unitsDeployment-parent"/>
+       
+          
 
 </beans>
