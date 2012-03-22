@@ -1401,8 +1401,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             for (String relatedKey : relatedAtpIds) {
                 if (!currentRelIds.containsKey(relatedKey))
                     createAtpAtpRelations(atpId, relatedKey, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, context);
-                else
-                    updateAtpAtpRelations(currentRelIds.get(relatedKey), context);
+                //Commenting out the update method for now as it's a blocker (KSENROLL-679)
+//                else
+//                    updateAtpAtpRelations(currentRelIds.get(relatedKey), context);
             }
 
         } catch (DoesNotExistException e) {
