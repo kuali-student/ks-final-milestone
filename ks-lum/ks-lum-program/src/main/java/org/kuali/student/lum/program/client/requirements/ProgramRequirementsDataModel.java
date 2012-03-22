@@ -194,14 +194,7 @@ public class ProgramRequirementsDataModel {
         }
 
         //if we don't have top level req. components wrapped in statement, do so before we add another statement
-        //TODO KSCM-388 : Jacobus, Paul's dicussion regarding conversion
-        StatementTreeViewInfo temp1 = affectedRule.getStatement();
-        StatementTreeViewInfo affectedTopTree = new StatementTreeViewInfo();
-        
-        //affectedTopTree.getDesc(temp1.getDesc());
-        //affectedTopTree.getAttributes( temp1.getAttributes())
-        //TODO KSCM-388 This here was the original statement before we started to changes it.... look below :P
-        //StatementTreeViewInfo affectedTopTree = affectedRule.getStatement();
+        StatementTreeViewInfo affectedTopTree = affectedRule.getStatement();
         if ((affectedTopTree.getReqComponents() != null) && !affectedTopTree.getReqComponents().isEmpty()) {
             StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
             stmtTree.setId(ProgramRequirementsSummaryView.generateStatementTreeId());
@@ -211,8 +204,7 @@ public class ProgramRequirementsDataModel {
             stmtList.add(stmtTree);
             affectedTopTree.setStatements(stmtList);
         }
-
-        //now update the actual rule
+      //now update the actual rule
         List<StatementTreeViewInfo> affectedSubRules = affectedTopTree.getStatements();
         if (isNewRule) {
             affectedSubRules.add(newSubRule);

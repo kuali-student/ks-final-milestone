@@ -465,9 +465,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		result.getChildNodes().addAll(courseJointResults);
 
 		//Disassemble the CluResults (grading and credit options)
-		//Special code to take audit from attributes and put into options
-//TODO KSCM-388 --> This if statement needs work		if(course.getAttributes().containskey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)&&"true".equals(course.getAttributes(). .get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
-        if (true){
+		//Special code to take audit from attributes and put into options		
+		if(course.getAttributes().containsKey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)&&"true".equals(course.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
 			if(!course.getGradingOptions().contains(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT)){
 				course.getGradingOptions().add(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
 			}

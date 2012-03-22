@@ -7,9 +7,12 @@ import java.util.Map;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.HasAttributesInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -85,9 +88,9 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
 				String startTerm = latestStartAtp.getId();
 		    	String endTerm = mdInfo.getEndTerm();
 		    	String endProgramEntryTerm = mdInfo.getEndProgramEntryTerm();
-		    	//TODO KSCM-388 : I commented this line below out since the get was originally done on a hashmap not a List
-		    	//String endInstAdmitTerm = mdInfo.getAttributes().get(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
-		    	String endInstAdmitTerm = ""; //TODO KSCM-388 : I added this just so that the code below might work.
+				String endInstAdmitTerm = HasAttributesInfo.getAttributeValue(mdInfo.getAttributes(), ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
+		    	
+		    	//
 		    	Map<String,String> proposalAttributes = new HashMap<String,String>();
 		    	if(startTerm!=null)
 		    		proposalAttributes.put("prevStartTerm",startTerm);
@@ -109,7 +112,17 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
         } else {
             throw new InvalidParameterException("Only persistence of MajorDiscipline is supported by this DataService implementation.");
         }
-    }  
+    }
+
+//	private String getAttributeValue(List<AttributeInfo> attributes, String attributeKey) {
+//		for (AttributeInfo attrInfo : attributes) {
+//			 
+//			if (attrInfo.getKey().equals(attributeKey)) {
+//				return attrInfo.getValue();
+//			}
+//		}
+//		return null;
+//	}  
 
     
     @Override
