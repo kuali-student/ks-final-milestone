@@ -913,7 +913,7 @@ public class LuServiceImpl implements CluService {
             		luDao));
             BeanUtils.copyProperties(luCodeInfo, luCode, new String[]{
                     "attributes", "metaInfo"});
-            luCode.setDescr(luCodeInfo.getDescr());
+            luCode.setDescr(luCodeInfo.getDescr().getPlain());
             luCode.setClu(clu);
             luCodes.add(luCode);
         }
@@ -1140,7 +1140,7 @@ public class LuServiceImpl implements CluService {
             		luDao));
             BeanUtils.copyProperties(luCodeInfo, luCode, new String[]{
                     "attributes", "metaInfo"});
-            luCode.setDescr(luCodeInfo.getDescr());
+            luCode.setDescr(luCodeInfo.getDescr().getPlain());
             luCode.setClu(clu);
             clu.getLuCodes().add(luCode);
         }

@@ -394,7 +394,7 @@ public class ProgramServiceImpl implements ProgramService{
 			//Create new variation version
 			//TODO KSCM-423 :String variationVersionIndId = variation.getVersionInfo().getVersionIndId();
 	    	String variationVersionIndId = variation.getVersion().getVersionIndId();
-			CluInfo newVariationClu = cluService.createNewCluVersion(variationVersionIndId, "Variation version for MajorDiscipline version " + majorDiscipline.getVersionInfo().getSequenceNumber(),contextInfo);
+			CluInfo newVariationClu = cluService.createNewCluVersion(variationVersionIndId, "Variation version for MajorDiscipline version " + majorDiscipline.getVersion().getSequenceNumber(),contextInfo);
 			
 			//Create relation b/w new major discipline and new variation
 			CluCluRelationInfo relation = new CluCluRelationInfo();
