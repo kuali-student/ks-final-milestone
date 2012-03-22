@@ -2191,7 +2191,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		List<String> cluIdList = Arrays.asList(new String[] {"CLUSET-1", "CLUSET-2", "CLUSET-3", "CLUSET-4"});
 
 		StatusInfo status = client.addCluSetsToCluSet(createdCluSet.getId(), cluIdList, contextInfo);
-		List<TypeInfo> getCluSetInfo = client.getCluSetTypes(contextInfo);
+		CluSetInfo getCluSetInfo = client.getCluSet(createdCluSet.getId(), contextInfo);
 
 		assertTrue(status.getIsSuccess());
 		assertEquals(4, getCluSetInfo.getCluSetIds().size());
@@ -2296,7 +2296,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {
-		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+		ArrayList<SearchParam> queryParamValues = new ArrayList<SearchParam>();
 		SearchParam sp1 = new SearchParam();
 		sp1.setKey("lu.queryParam.startsWith.cluCode");
 		sp1.setValue("AAST");
@@ -2334,7 +2334,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdCluSet.getCluIds());
 		assertEquals(10, createdCluSet.getCluIds().size());
 
-		CluSetInfo getCluSet = client.getCluSetTypes(createdCluSet.getId());
+		CluSetInfo getCluSet = client.getCluSet(createdCluSet.getId(), contextInfo);
 
 		assertNotNull(getCluSet);
 		assertNotNull(getCluSet.getMembershipQuery());
@@ -2418,7 +2418,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdCluSet);
 		assertNotNull(createdCluSet.getCluIds());
 
-		CluSetInfo getCluSet = client.getCluSetTypes(createdCluSet.getId());
+		CluSetInfo getCluSet = client.getCluSet(createdCluSet.getId(), contextInfo);
 
 		assertNotNull(getCluSet);
 		assertNotNull(getCluSet.getMembershipQuery());
@@ -2446,7 +2446,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdCluSet);
 		assertNotNull(createdCluSet.getCluIds());
 
-		CluSetInfo getCluSet = client.getCluSetTypes(createdCluSet.getId());
+		CluSetInfo getCluSet = client.getCluSet(createdCluSet.getId(), contextInfo);
 		assertNotNull(getCluSet);
 		assertNotNull(getCluSet.getCluIds());
 		assertEquals(createdCluSet.getCluIds().size(), getCluSet.getCluIds().size());
@@ -2522,7 +2522,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	    CluSetInfo cluSet1 = createCluSetInfo();
 
 		//Create clu set
-		List<SearchParam> queryParamValues1 = new ArrayList<SearchParam>();
+		ArrayList<SearchParam> queryParamValues1 = new ArrayList<SearchParam>();
 		MembershipQueryInfo query1 = new MembershipQueryInfo();
 		query1.setSearchTypeKey("lu.search.clus");
 		query1.setQueryParamValueList(queryParamValues1);
@@ -2586,7 +2586,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluSetInfo updatedCluSet1 = client.updateCluSet(createdCluSet1.getId(), createdCluSet1, contextInfo);
 		assertEquals(0, updatedCluSet1.getCluSetIds().size());
 
-		CluSetInfo getCluSet1 = client.getCluSetTypes(updatedCluSet1.getId());
+		CluSetInfo getCluSet1 = client.getCluSet(updatedCluSet1.getId(), contextInfo);
 		assertEquals(0, getCluSet1.getCluSetIds().size());
 	}
 
@@ -2605,7 +2605,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluSetInfo updatedCluSet1 = client.updateCluSet(createdCluSet1.getId(), createdCluSet1, contextInfo);
 		assertEquals(2, updatedCluSet1.getCluSetIds().size());
 
-		CluSetInfo getCluSet1 = client.getCluSetTypes(updatedCluSet1.getId());
+		CluSetInfo getCluSet1 = client.getCluSet(updatedCluSet1.getId(), contextInfo);
 		assertEquals(2, getCluSet1.getCluSetIds().size());
 		assertTrue(getCluSet1.getCluSetIds().contains("CLUSET-1"));
 		assertTrue(getCluSet1.getCluSetIds().contains("CLUSET-2"));
@@ -2628,7 +2628,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluSetInfo updatedCluSet1 = client.updateCluSet(createdCluSet1.getId(), createdCluSet1, contextInfo);
 		assertEquals(2, updatedCluSet1.getCluSetIds().size());
 
-		CluSetInfo getCluSet1 = client.getCluSetTypes(updatedCluSet1.getId());
+		CluSetInfo getCluSet1 = client.getCluSet(updatedCluSet1.getId(), contextInfo);
 		assertEquals(2, getCluSet1.getCluSetIds().size());
 		assertTrue(getCluSet1.getCluSetIds().contains("CLUSET-1"));
 		assertTrue(getCluSet1.getCluSetIds().contains("CLUSET-3"));
@@ -2659,7 +2659,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(updatedCluSet1.getCluIds());
 		assertEquals(0, updatedCluSet1.getCluIds().size());
 
-		CluSetInfo getCluSet1 = client.getCluSetTypes(updatedCluSet1.getId());
+		CluSetInfo getCluSet1 = client.getCluSet(updatedCluSet1.getId(), contextInfo);
 
 		assertNotNull(getCluSet1);
 		assertNotNull(getCluSet1.getCluIds());
@@ -2690,7 +2690,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(updatedCluSet1.getCluIds());
 		assertEquals(3, updatedCluSet1.getCluIds().size());
 
-		CluSetInfo getCluSet1 = client.getCluSetTypes(updatedCluSet1.getId());
+		CluSetInfo getCluSet1 = client.getCluSet(updatedCluSet1.getId(), contextInfo);
 
 		assertNotNull(getCluSet1);
 		assertNotNull(getCluSet1.getCluIds());
@@ -2722,7 +2722,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals(1, updatedCluSet1.getCluIds().size());
 		assertTrue(updatedCluSet1.getCluIds().contains("CLU-2"));
 
-		CluSetInfo getCluSet1 = client.getCluSetTypes(updatedCluSet1.getId());
+		CluSetInfo getCluSet1 = client.getCluSet(updatedCluSet1.getId(), contextInfo);
 
 		assertNotNull(getCluSet1);
 		assertNotNull(getCluSet1.getCluIds());
@@ -3076,7 +3076,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		LuCodeInfo luCode1 = new LuCodeInfo();
 		luCode1.setId("luCode1.key");
-		luCode1.setDescr("luCode1-desc");
+		RichTextInfo loCode1desc = new RichTextInfo();
+		loCode1desc.setPlain("luCode1-desc");
+		luCode1.setDescr(loCode1desc);
 		luCode1.setValue("luCode1-value");
 		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey1", "luCode1AttrValue1"));
 		luCode1.getAttributes().add(new AttributeInfo("luCode1AttrKey2", "luCode1AttrValue2"));
@@ -3085,7 +3087,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		LuCodeInfo luCode2 = new LuCodeInfo();
 		luCode2.setId("luCode2.key");
-		luCode2.setDescr("luCode2-desc");
+		RichTextInfo loCode2desc = new RichTextInfo();
+        loCode2desc.setPlain("luCode2-desc");
+		luCode2.setDescr(loCode2desc);
 		luCode2.setValue("luCode2-value");
 		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey1", "luCode2AttrValue1"));
 		luCode2.getAttributes().add(new AttributeInfo("luCode2AttrKey2", "luCode2AttrValue2"));
@@ -3332,25 +3336,25 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	private void createIntensity(CluInfo clu) {
 		AmountInfo intensity = new AmountInfo();
-		intensity.setUnitType("EXT-intensity-Id1");
+		intensity.setUnitTypeKey("EXT-intensity-Id1");
 		intensity.setUnitQuantity("123");
 		clu.setIntensity(intensity);
 	}
 
 	private void checkIntensityCreate(CluInfo clu) {
 		assertEquals("EXT-intensity-Id1", clu.getIntensity()
-				.getUnitType());
+				.getUnitTypeKey());
 		assertEquals("123", clu.getIntensity().getUnitQuantity());
 	}
 
 	private void updateIntensity(CluInfo clu) {
-		clu.getIntensity().setUnitType("UPD-intensity-Id1");
+		clu.getIntensity().setUnitTypeKey("UPD-intensity-Id1");
 		clu.getIntensity().setUnitQuantity("456");
 	}
 
 	private void checkIntensityUpdate(CluInfo clu) {
 		assertEquals("UPD-intensity-Id1", clu.getIntensity()
-				.getUnitType());
+				.getUnitTypeKey());
 		assertEquals("456", clu.getIntensity().getUnitQuantity());
 
 	}
