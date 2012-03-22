@@ -31,8 +31,7 @@ public class RemoteOrganizationValuesFinder extends KeyValuesBase {
         searchRequest.setSearchKey("org.search.generic");
 
         try {
-            SearchResult results = null; // TODO KSCM-165
-            results = getOrganizationService().search(searchRequest);
+            SearchResult results = getOrganizationService().search(searchRequest);
             for (SearchResultRow result : results.getRows()) {
                 String orgId = "";
                 String orgShortName = "";
