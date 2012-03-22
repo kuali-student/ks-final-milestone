@@ -62,7 +62,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu = null;
 		try {
-			// TODO KSCM-421 			clu = cluService.getClu(cluRel.getRelatedCluId() , contextInfo);
+			clu = cluService.getClu(cluRel.getRelatedCluId() , contextInfo);
 
 			joint.setCourseId(clu.getId());
 
