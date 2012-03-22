@@ -1177,10 +1177,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		luiLuiRelationInfo.setExpirationDate(DF.parse("20100101"));
 		luiLuiRelationInfo.setState("hello");
 		luiLuiRelationInfo.setType("goodbye");
-		luiLuiRelationInfo.getAttributes().put("luiluiAttrKey1",
-				"luiluiAttrValue1");
-		luiLuiRelationInfo.getAttributes().put("luiluiAttrKey2",
-				"luiluiAttrValue2");
+		luiLuiRelationInfo.getAttributes().add(new AttributeInfo("luiluiAttrKey1","luiluiAttrValue1"));
+		luiLuiRelationInfo.getAttributes().add(new AttributeInfo("luiluiAttrKey2","luiluiAttrValue2"));
 
 		LuiLuiRelationInfo created = client.createLuiLuiRelation("LUI-1",
 				"LUI-2", "luLuType.type1", luiLuiRelationInfo, contextInfo);
@@ -1191,10 +1189,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("luLuType.type1", created.getType());
 		assertEquals("LUI-1", created.getLuiId());
 		assertEquals("LUI-2", created.getRelatedLuiId());
-		assertEquals("luiluiAttrValue1", created.getAttributes().get(
-				"luiluiAttrKey1"));
-		assertEquals("luiluiAttrValue2", created.getAttributes().get(
-				"luiluiAttrKey2"));
+		assertEquals("luiluiAttrValue1", created.getAttributeInfoValue(created.getAttributes(),"luiluiAttrKey1"));
+		assertEquals("luiluiAttrValue2", created.getAttributeInfoValue(created.getAttributes(),"luiluiAttrKey2"));
 		assertNotNull(created.getId());
 		assertNotNull(created.getMetaInfo().getCreateTime());
 		assertNotNull(created.getMetaInfo().getVersionInd());
@@ -1205,9 +1201,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		created.setType("luLuType.type2");
 		created.setLuiId("LUI-2");
 		created.setRelatedLuiId("LUI-3");
-		created.getAttributes().put("luiluiAttrKey1", "UPluiluiAttrValue1");
+		created.getAttributes().add(new AttributeInfo("luiluiAttrKey1", "UPluiluiAttrValue1"));
 		created.getAttributes().remove("luiluiAttrKey2");
-		created.getAttributes().put("luiluiAttrKey3", "luiluiAttrValue3");
+		created.getAttributes().add(new AttributeInfo("luiluiAttrKey3", "luiluiAttrValue3"));
 
 		LuiLuiRelationInfo updated = client.updateLuiLuiRelation(created
 				.getId(), created, contextInfo);
@@ -1218,10 +1214,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("luLuType.type2", updated.getType());
 		assertEquals("LUI-2", updated.getLuiId());
 		assertEquals("LUI-3", updated.getRelatedLuiId());
-		assertEquals("UPluiluiAttrValue1", updated.getAttributes().get(
-				"luiluiAttrKey1"));
-		assertEquals("luiluiAttrValue3", updated.getAttributes().get(
-				"luiluiAttrKey3"));
+		assertEquals("UPluiluiAttrValue1", updated.getAttributeInfoValue(updated.getAttributes(),"luiluiAttrKey1"));
+		assertEquals("luiluiAttrValue3", updated.getAttributeInfoValue(updated.getAttributes(),"luiluiAttrKey3"));
 		assertEquals(2, updated.getAttributes().size());
 		assertEquals(created.getId(), updated.getId());
 		assertNotNull(updated.getMetaInfo().getUpdateTime());
@@ -1335,8 +1329,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		luiInfo.setState("Test Lui State");
 		luiInfo.setEffectiveDate(DF.parse("20101203"));
 		luiInfo.setExpirationDate(DF.parse("20801231"));
-		luiInfo.getAttributes().put("luiAttrKey1", "luiAttrValue1");
-		luiInfo.getAttributes().put("luiAttrKey2", "luiAttrValue2");
+		luiInfo.getAttributes().add(new AttributeInfo("luiAttrKey1", "luiAttrValue1"));
+		luiInfo.getAttributes().add(new AttributeInfo("luiAttrKey2", "luiAttrValue2"));
 
 		LuiInfo createdLui = client.createLui("CLU-2", "ATP-3", luiInfo, contextInfo);
 
@@ -1347,10 +1341,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals(DF.parse("20801231"), luiInfo.getExpirationDate());
 		assertEquals("CLU-2", createdLui.getCluId());
 		assertEquals(2, createdLui.getAttributes().size());
-		assertEquals("luiAttrValue1", createdLui.getAttributes().get(
-				"luiAttrKey1"));
-		assertEquals("luiAttrValue2", createdLui.getAttributes().get(
-				"luiAttrKey2"));
+		assertEquals("luiAttrValue1", createdLui.getAttributeInfoValue(createdLui.getAttributes(),"luiAttrKey1"));
+		assertEquals("luiAttrValue2", createdLui.getAttributeInfoValue(createdLui.getAttributes(),"luiAttrKey2"));
 
 		// update
 		createdLui.setAtpId("ATP-2");
@@ -1360,8 +1352,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		createdLui.setState("Test Lui State Update");
 		createdLui.setEffectiveDate(DF.parse("20111203"));
 		createdLui.setExpirationDate(DF.parse("20811231"));
-		createdLui.getAttributes().put("luiAttrKey1", "luiAttrValue1Updated");
-		createdLui.getAttributes().put("luiAttrKey2", "luiAttrValue2Updated");
+		createdLui.getAttributes().add(new AttributeInfo("luiAttrKey1", "luiAttrValue1Updated"));
+		createdLui.getAttributes().add(new AttributeInfo("luiAttrKey2", "luiAttrValue2Updated"));
 
 		LuiInfo updatedLui = null;
 		try {
@@ -1379,10 +1371,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals(DF.parse("20111203"), updatedLui.getEffectiveDate());
 		assertEquals(DF.parse("20811231"), updatedLui.getExpirationDate());
 		assertEquals(2, updatedLui.getAttributes().size());
-		assertEquals("luiAttrValue1Updated", updatedLui.getAttributes().get(
-				"luiAttrKey1"));
-		assertEquals("luiAttrValue2Updated", updatedLui.getAttributes().get(
-				"luiAttrKey2"));
+		assertEquals("luiAttrValue1Updated", updatedLui.getAttributeInfoValue(updatedLui.getAttributes(),"luiAttrKey1"));
+		assertEquals("luiAttrValue2Updated", updatedLui.getAttributeInfoValue(updatedLui.getAttributes(),"luiAttrKey2"));
 
 		// optimistic locking working?
 		try {
@@ -1526,8 +1516,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		luiInfo.setState("Approved");
 		luiInfo.setEffectiveDate(DF.parse("20101203"));
 		luiInfo.setExpirationDate(DF.parse("20801231"));
-		luiInfo.getAttributes().put("luiAttrKey1", "luiAttrValue1");
-		luiInfo.getAttributes().put("luiAttrKey2", "luiAttrValue2");
+		luiInfo.getAttributes().add(new AttributeInfo("luiAttrKey1", "luiAttrValue1"));
+		luiInfo.getAttributes().add(new AttributeInfo("luiAttrKey2", "luiAttrValue2"));
 
 		LuiInfo createdLui = client.createLui("CLU-2", "ATP-3", luiInfo, contextInfo);
 		// make sure the db's in the state we expect
