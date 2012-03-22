@@ -1982,20 +1982,20 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInstructorInfo pubPrimaryInstructor = new CluInstructorInfo();
 		pubPrimaryInstructor.setOrgId("EXTorgId");
 		pubPrimaryInstructor.setPersonId("EXTpersonId");
-		// TODO KSCM-212  pubPrimaryInstructor.getAttributes().put("PubPrimaryInstAttrKey1", "PubPrimaryInstAttrValue1");
-		// TODO KSCM-212  pubPrimaryInstructor.getAttributes().put("PubPrimaryInstAttrKey2", "PubPrimaryInstAttrValue2");
+		pubPrimaryInstructor.getAttributes().add(new AttributeInfo("PubPrimaryInstAttrKey1", "PubPrimaryInstAttrValue1"));
+		pubPrimaryInstructor.getAttributes().add(new AttributeInfo("PubPrimaryInstAttrKey2", "PubPrimaryInstAttrValue2"));
 
 		CluInstructorInfo pubInstructor1 = new CluInstructorInfo();
 		pubInstructor1.setOrgId("EXTorgIdtwo");
 		pubInstructor1.setPersonId("EXT-personId-two");
-		// TODO KSCM-212  pubInstructor1.getAttributes().put("PubInst1AttrKey1", "PubInst1AttrValue1");
-		// TODO KSCM-212  pubInstructor1.getAttributes().put("PubInst1AttrKey2", "PubInst1AttrValue2");
+		pubInstructor1.getAttributes().add(new AttributeInfo("PubInst1AttrKey1", "PubInst1AttrValue1"));
+		pubInstructor1.getAttributes().add(new AttributeInfo("PubInst1AttrKey2", "PubInst1AttrValue2"));
 
 		CluInstructorInfo pubInstructor2 = new CluInstructorInfo();
 		pubInstructor2.setOrgId("EXTorgIdthree");
 		pubInstructor2.setPersonId("EXTpersonIdthree");
-		// TODO KSCM-212  pubInstructor2.getAttributes().put("PubInst2AttrKey1", "PubInst2AttrValue1");
-		// TODO KSCM-212  pubInstructor2.getAttributes().put("PubInst2AttrKey2", "PubInst2AttrValue2");
+		pubInstructor2.getAttributes().add(new AttributeInfo("PubInst2AttrKey1", "PubInst2AttrValue1"));
+		pubInstructor2.getAttributes().add(new AttributeInfo("PubInst2AttrKey2", "PubInst2AttrValue2"));
 
 		clu.setReferenceURL("http://student.kuali.org/clus");
 
