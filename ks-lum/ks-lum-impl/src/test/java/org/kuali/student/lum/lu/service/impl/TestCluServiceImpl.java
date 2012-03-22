@@ -102,7 +102,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 																										 * =
 																										 * "classpath:test-beans.xml"
 																										 */) })
-@PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/lu-persistence.xml") //toets 1 2 3
 public class TestCluServiceImpl extends AbstractServiceTest {
 	@Client(value = "org.kuali.student.lum.lu.service.impl.LuServiceImpl", additionalContextFile = "classpath:lu-additional-context.xml")
 	public CluService client;
