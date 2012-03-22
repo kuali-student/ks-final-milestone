@@ -152,21 +152,21 @@ public class LumConverterTest {
         Assert.assertEquals(r1.getLoInfo().getName(), r2.getLoInfo().getName());
     }
 
-    @Test
-    public void testLoCategoryInfo() {
-        org.kuali.student.r1.lum.lo.dto.LoCategoryInfo r1 = R1TestDataUtil.getLoCategoryInfoData();
-        LoCategoryInfo r2 = R1R2ConverterUtil.convert(r1, LoCategoryInfo.class);
-        Assert.assertEquals(r1.getId(), r2.getId());
-        Assert.assertEquals(r1.getLoRepository(), r2.getLoRepositoryKey());
-        Assert.assertEquals(r1.getName(), r2.getName());
-        Assert.assertEquals(r1.getState(), r2.getStateKey());
-        Assert.assertEquals(r1.getType(), r2.getTypeKey());
-        Assert.assertEquals(r1.getEffectiveDate(), r2.getEffectiveDate());
-        Assert.assertEquals(r1.getExpirationDate(), r2.getExpirationDate());
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getDesc().getPlain(), r2.getDescr().getPlain());
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-    }
+//    @Test
+//    public void testLoCategoryInfo() {
+//        org.kuali.student.r1.lum.lo.dto.LoCategoryInfo r1 = R1TestDataUtil.getLoCategoryInfoData();
+//        LoCategoryInfo r2 = R1R2ConverterUtil.convert(r1, LoCategoryInfo.class);
+//        Assert.assertEquals(r1.getId(), r2.getId());
+//        Assert.assertEquals(r1.getLoRepository(), r2.getLoRepositoryKey());
+//        Assert.assertEquals(r1.getName(), r2.getName());
+//        Assert.assertEquals(r1.getState(), r2.getStateKey());
+//        Assert.assertEquals(r1.getType(), r2.getTypeKey());
+//        Assert.assertEquals(r1.getEffectiveDate(), r2.getEffectiveDate());
+//        Assert.assertEquals(r1.getExpirationDate(), r2.getExpirationDate());
+//        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+//        Assert.assertEquals(r1.getDesc().getPlain(), r2.getDescr().getPlain());
+//        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+//    }
 
     @Test
     public void testLoInfo() {

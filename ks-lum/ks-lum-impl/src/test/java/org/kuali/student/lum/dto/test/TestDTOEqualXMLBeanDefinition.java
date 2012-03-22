@@ -122,17 +122,18 @@ public class TestDTOEqualXMLBeanDefinition {
 	public void testCourseDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
-		startingClasses.add(ActivityInfo.class.getName());//Field unitTypeKey not in dictionary or java file, but asked
-		startingClasses.add(CourseCrossListingInfo.class.getName());
-		startingClasses.add(CourseExpenditureInfo.class.getName());
-		startingClasses.add(CourseFeeInfo.class.getName());
+		//startingClasses.add(ActivityInfo.class.getName());//Field unitTypeKey not in dictionary or java file, but asked
+		//startingClasses.add(CourseCrossListingInfo.class.getName());
+		//startingClasses.add(CourseExpenditureInfo.class.getName());
+		//startingClasses.add(CourseFeeInfo.class.getName());
 		
-		// TODO KSCM-482 startingClasses.add(CourseInfo.class.getName());//NullPointerException 
-		startingClasses.add(CourseJointInfo.class.getName());
-		startingClasses.add(CourseRevenueInfo.class.getName());
-		startingClasses.add(CourseVariationInfo.class.getName());
-		startingClasses.add(FormatInfo.class.getName());//Is working now -- Field unitTypeKey not in dictionary or java file, but asked
-		startingClasses.add(LoDisplayInfo.class.getName());//Is working now -- Field desc not in dictionary or java file, but asked
+		// TODO KSCM-482 
+		startingClasses.add(CourseInfo.class.getName());//NullPointerException 
+		//startingClasses.add(CourseJointInfo.class.getName());
+		//startingClasses.add(CourseRevenueInfo.class.getName());
+		//startingClasses.add(CourseVariationInfo.class.getName());
+		//startingClasses.add(FormatInfo.class.getName());//Is working now -- Field unitTypeKey not in dictionary or java file, but asked
+		//startingClasses.add(LoDisplayInfo.class.getName());//Is working now -- Field desc not in dictionary or java file, but asked
 		
 		String contextFile = "ks-courseInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";

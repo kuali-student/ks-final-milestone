@@ -170,6 +170,12 @@
         <property name="name" value="id"/>
     </bean>
     <bean id="cluInfo.id" parent="cluInfo.id-parent"/>
+    
+    <bean id="cluInfo.name-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="name"/>
+    </bean>
+    
+    <bean id="cluInfo.name" parent="cluInfo.name-parent"/>
 
     <bean id="cluInfo.instructors-parent" abstract="true" parent="baseComplexRepeating">
         <property name="name" value="instructors"/>

@@ -15,6 +15,7 @@
   <property name="name" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
   <property name="attributes">
    <list>
+    
     <ref bean="courseInfo.unitsContentOwner" />
     <ref bean="courseInfo.campusLocations" />
     <ref bean="courseInfo.code" />
@@ -35,11 +36,12 @@
     <ref bean="courseInfo.expenditure" />
     <ref bean="courseInfo.startTerm" />
     <ref bean="courseInfo.endTerm" />
-   <!--  <ref bean="courseInfo.formats" /> -->
+    <ref bean="courseInfo.formats" />
     <ref bean="courseInfo.gradingOptions"/>
     <ref bean="courseInfo.audit"/>
     <ref bean="courseInfo.passFail"/>
     <ref bean="courseInfo.id" />
+    <ref bean="courseInfo.name" />
     <ref bean="courseInfo.joints" />
     <ref bean="courseInfo.primaryInstructor" />
     <ref bean="courseInfo.instructors" />
@@ -63,10 +65,10 @@
          their model structure
     see https://jira.kuali.org/browse/KSLUM-375
     -->
-    <ref bean="courseInfo.searchCourseVersions"/>
+<!-- TODO KSCM-      <ref bean="courseInfo.searchCourseVersions"/> 
 
     <ref bean="freestanding.search.cluset" />
-    <ref bean="freestanding.search.findCourse" />
+    <ref bean="freestanding.search.findCourse" />-->
 
    </list>
   </property>
@@ -259,7 +261,7 @@
  </bean>
  <bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" />
 
- <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseComplexRepeating">
+ <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseKualiTypeRepeating">
   <property name="name" value="creditOptions"/>
 <!--  <property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultComponentInfo"/>-->
   <property name="caseConstraint">
@@ -642,7 +644,7 @@
  </property>
 </bean>
 <bean id="constraint.lookup.course.endTerm" parent="constraint.lookup.course.endTerm-parent"/>
-<!-- 
+ 
  <bean id="courseInfo.formats-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="formats" />
   <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.FormatInfo" />
@@ -673,12 +675,17 @@
    </bean>
   </property>
  </bean>
- <bean id="courseInfo.formats" parent="courseInfo.formats-parent" /> -->
+ <bean id="courseInfo.formats" parent="courseInfo.formats-parent" /> 
 
  <bean id="courseInfo.id-parent" abstract="true" parent="cluInfo.id">
   <property name="name" value="id" />
  </bean>
  <bean id="courseInfo.id" parent="courseInfo.id-parent" />
+
+ <bean id="courseInfo.name-parent" abstract="true" parent="cluInfo.id">
+  <property name="name" value="name" />
+ </bean> 
+ <bean id="courseInfo.name" parent="courseInfo.name-parent" />
 
  <bean id="courseInfo.joints-parent" abstract="true"	parent="baseComplexRepeating">
   <property name="name" value="joints" />
