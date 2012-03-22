@@ -112,8 +112,7 @@ public class ProgramStateChangeServiceImpl {
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm) {
         majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
         majorDisciplineInfo.setEndTerm(endEnrollTerm);
-        // TODO KSCM-421: HASMAPs versus LISTs
-        //majorDisciplineInfo.getAttributes().put(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm);
+        majorDisciplineInfo.getAttributes().put(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm);
     }
 
     /**
