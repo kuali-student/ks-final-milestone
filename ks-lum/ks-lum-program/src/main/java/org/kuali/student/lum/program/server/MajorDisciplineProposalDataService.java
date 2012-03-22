@@ -88,7 +88,7 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
 				String startTerm = latestStartAtp.getId();
 		    	String endTerm = mdInfo.getEndTerm();
 		    	String endProgramEntryTerm = mdInfo.getEndProgramEntryTerm();
-				String endInstAdmitTerm = HasAttributesInfo.getAttributeValue(mdInfo.getAttributes(), ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
+				String endInstAdmitTerm = mdInfo.getAttributeInfoValue(mdInfo.getAttributes(), ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
 		    	
 		    	//
 		    	Map<String,String> proposalAttributes = new HashMap<String,String>();
@@ -113,18 +113,7 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
             throw new InvalidParameterException("Only persistence of MajorDiscipline is supported by this DataService implementation.");
         }
     }
-
-//	private String getAttributeValue(List<AttributeInfo> attributes, String attributeKey) {
-//		for (AttributeInfo attrInfo : attributes) {
-//			 
-//			if (attrInfo.getKey().equals(attributeKey)) {
-//				return attrInfo.getValue();
-//			}
-//		}
-//		return null;
-//	}  
-
-    
+  
     @Override
 	protected List<ValidationResultInfo> validate(Object dto,ContextInfo contextInfo) throws Exception {
 		return programService.validateMajorDiscipline("OBJECT", (MajorDisciplineInfo)dto,ContextUtils.getContextInfo());
