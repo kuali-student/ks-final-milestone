@@ -1512,7 +1512,7 @@ public class ProgramServiceImpl implements ProgramService{
 		//TODO KSCM-429			compareAtps(startTerm, majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term", "endInstAdmitTerm",contextInfo);
 		//TODO KSCM-429		}
 		if(!isEmpty(majorDisciplineInfo.getEndProgramEntryTerm())){
-			compareAtps(startTerm, majorDisciplineInfo.getEndProgramEntryTermId(), validationResults, "End Program Entry Term", "endProgramEntryTerm",contextInfo);
+			compareAtps(startTerm, majorDisciplineInfo.getEndTerm(), validationResults, "End Program Entry Term", "endProgramEntryTerm",contextInfo);
 		}
 		
 		if(!isEmpty(majorDisciplineInfo.getEndTerm())){
