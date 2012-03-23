@@ -319,116 +319,128 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
 
-    // TODO KSCM-392
+    
 	@Override
 	@Deprecated
 	public VersionDisplayInfo getCurrentVersion(
 			String programNamespaceMajorDisciplineUri,
-			String majorVersionIndId, ContextInfo contextInfo) {
-		return null;
+			String majorVersionIndId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, 
+			MissingParameterException, OperationFailedException, PermissionDeniedException {
+		return this.getNextDecorator().getCurrentVersion(programNamespaceMajorDisciplineUri, majorVersionIndId, contextInfo);
 	}
 
 
-	// TODO KSCM-392
+	
 	@Override
 	@Deprecated
 	public List<VersionDisplayInfo> getVersions(
 			String programNamespaceMajorDisciplineUri, String versionIndId,
-			ContextInfo contextInfo) {
-		return null;
+			ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException{
+		return this.getNextDecorator().getVersions(programNamespaceMajorDisciplineUri,versionIndId, contextInfo);
 	}
 
 
-	// TODO KSCM-392
+	
 		@Override
 		@Deprecated
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
-		return null;
+		return this.getNextDecorator().getSearchTypes();
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public SearchTypeInfo getSearchType(String searchTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return null;
+		return this.getNextDecorator().getSearchType(searchTypeKey);
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public List<SearchTypeInfo> getSearchTypesByResult(
 			String searchResultTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return null;
+		return this.getNextDecorator().getSearchTypesByResult(searchResultTypeKey);
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return null;
+		return this.getNextDecorator().getSearchTypesByCriteria(searchCriteriaTypeKey);
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
-		return null;
+		return this.getNextDecorator().getSearchResultTypes();
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return null;
+		return this.getNextDecorator().getSearchResultType(searchResultTypeKey);
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 			throws OperationFailedException {
-		return null;
+		return this.getNextDecorator().getSearchCriteriaTypes();
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return null;
+		return this.getNextDecorator().getSearchCriteriaType(searchCriteriaTypeKey);
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public SearchResult search(SearchRequest searchRequest)
 			throws MissingParameterException {
-		return null;
+			
+			SearchResult sr = null;
+			try {
+				sr = this.getNextDecorator().search(searchRequest);
+			} catch (OperationFailedException e) {
+				e.printStackTrace();
+			}
+			
+		return sr ;
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public VersionDisplayInfo getFirstVersion(String refObjectUri,
@@ -436,11 +448,11 @@ public class ProgramServiceDecorator implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return null;
+		return this.getNextDecorator().getFirstVersion(refObjectUri,refObjectId, contextInfo);
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public VersionDisplayInfo getLatestVersion(String refObjectUri,
@@ -448,11 +460,11 @@ public class ProgramServiceDecorator implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return null;
+		return this.getNextDecorator().getLatestVersion(refObjectUri,refObjectId, contextInfo);
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public VersionDisplayInfo getVersionBySequenceNumber(String refObjectUri,
@@ -460,11 +472,11 @@ public class ProgramServiceDecorator implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return null;
+		return this.getNextDecorator().getVersionBySequenceNumber(refObjectUri,refObjectId, sequence, contextInfo);
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectUri,
@@ -472,11 +484,11 @@ public class ProgramServiceDecorator implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return null;
+		return this.getNextDecorator().getCurrentVersionOnDate(refObjectUri, refObjectId, date, contextInfo);
 	}
 
 
-		// TODO KSCM-392
+		
 		@Override
 		@Deprecated
 	public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectUri,
@@ -484,38 +496,50 @@ public class ProgramServiceDecorator implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return null;
+		return this.getNextDecorator().getVersionsInDateRange(refObjectUri,refObjectId, from, to, contextInfo);
 	}
 
 
-		// TODO KSCM-392
+		
 				@Override
 				@Deprecated
 		public List<String> getObjectTypes() {
-			return null;
+			List<String> ls = null;
+			try {
+				ls = this.getNextDecorator().getObjectTypes();
+			} catch (OperationFailedException e) {
+				e.printStackTrace();
+			}
+			return ls;
 		}
 
 
-				// TODO KSCM-392
-				@Override
-				@Deprecated
+		
+		@Override
+		@Deprecated
 		public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
-			return null;
+			ObjectStructureDefinition osd = null;			
+			try {
+				return this.getNextDecorator().getObjectStructure(objectTypeKey);
+			}catch (OperationFailedException e) {
+				e.printStackTrace();
+			}
+			return osd;
 		}
 
 
-				// TODO KSCM-392
-				@Override
-				@Deprecated
+				
+		@Override
+		@Deprecated
 		public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
 				String majorDisciplineId, ContextInfo contextInfo)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
-			return null;
+			return this.getNextDecorator().getVariationsByMajorDisciplineId(majorDisciplineId, contextInfo);
 		}
 
 
-				// TODO KSCM-392
+				
 				@Override
 				@Deprecated
 		public ProgramRequirementInfo getProgramRequirement(
@@ -524,11 +548,12 @@ public class ProgramServiceDecorator implements ProgramService {
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException,
 				PermissionDeniedException {
-			return null;
+			return this.getNextDecorator().getProgramRequirement(programRequirementId, nlUsageTypeKey,
+					language, contextInfo);
 		}
 
 
-				// TODO KSCM-392
+				
 				@Override
 				@Deprecated
 		public CredentialProgramInfo updateCredentialProgram(
@@ -537,11 +562,11 @@ public class ProgramServiceDecorator implements ProgramService {
 				DoesNotExistException, InvalidParameterException,
 				MissingParameterException, VersionMismatchException,
 				OperationFailedException, PermissionDeniedException {
-			return null;
+			return this.getNextDecorator().updateCredentialProgram(credentialProgramInfo, contextInfo);
 		}
 
 
-				// TODO KSCM-392
+				
 				@Override
 				@Deprecated
 		public MajorDisciplineInfo updateMajorDiscipline(
@@ -550,11 +575,11 @@ public class ProgramServiceDecorator implements ProgramService {
 				InvalidParameterException, MissingParameterException,
 				VersionMismatchException, OperationFailedException,
 				PermissionDeniedException {
-			return null;
+			return this.getNextDecorator().updateMajorDiscipline(majorDisciplineInfo, contextInfo);
 		}
 
 
-				// TODO KSCM-392
+			
 				@Override
 				@Deprecated
 		public ProgramRequirementInfo updateProgramRequirement(
@@ -563,7 +588,7 @@ public class ProgramServiceDecorator implements ProgramService {
 				DoesNotExistException, InvalidParameterException,
 				MissingParameterException, VersionMismatchException,
 				OperationFailedException, PermissionDeniedException {
-			return null;
+			return this.getNextDecorator().updateProgramRequirement(programRequirementInfo, contextInfo);
 		}
 
     
