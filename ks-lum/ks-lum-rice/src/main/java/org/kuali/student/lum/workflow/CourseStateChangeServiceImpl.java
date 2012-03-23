@@ -3,6 +3,7 @@ package org.kuali.student.lum.workflow;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -48,9 +49,8 @@ public class CourseStateChangeServiceImpl {
 				if(courseInfo.isPilotCourse()){
 					//Pilot courses get Retired
 					//Add required fields for Retired State
-                    //TODO KSCM-388
-					//courseInfo.getAttributes().put("retirementRationale", "Pilot Course");
-					//courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
+					courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", "Pilot Course"));
+					courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", courseInfo.getEndTerm()));
 					courseInfo.setStateKey(DtoConstants.STATE_ACTIVE);
 					retireCourse(courseInfo,contextInfo);
 				}else{

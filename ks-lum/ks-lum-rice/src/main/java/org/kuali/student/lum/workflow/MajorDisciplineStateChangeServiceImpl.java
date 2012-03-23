@@ -1,5 +1,6 @@
 package org.kuali.student.lum.workflow;
 
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.*;
@@ -242,8 +243,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     	//Set the end terms on the major discipline
     	//TODO KSCM-388 majorDisciplineInfo.setEndProgramEntryTermId(endEntryTerm);
     	//TODO KSCM-388 majorDisciplineInfo.setEndTermId(endEnrollTerm);
-        //TODO KSCM-388
-        //majorDisciplineInfo.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
+        majorDisciplineInfo.getAttributes().add(new AttributeInfo("endInstAdmitTerm", endInstAdmitTerm));
 
         //Check if there are variations to process
         if(!majorDisciplineInfo.getVariations().isEmpty()){
