@@ -554,9 +554,9 @@
                 <bean parent="BasicDatePatternConstraint" />
             </property>
         </bean>
-        <bean parent="Uif-InputField" p:propertyName="instructionalDays" p:label="Instructional Days" p:readOnly="true" p:render="@{!#isAddLine}">
+        <bean parent="Uif-InputField" p:propertyName="instructionalDays" p:label="Instructional Days" p:render="@{!#isAddLine}">
             <property name="control">
-                <bean parent="Uif-TextControl" p:size="5" />
+                <bean parent="Uif-TextControl" p:size="5" p:disabled="true"/>
             </property>
         </bean>
        </list>
@@ -611,6 +611,8 @@
      <property name="title" value="Key Dates" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
      <property name="layoutManager.style" value="margin-top:1em;"/>
+     <property name="layoutManager.applyDefaultCellWidths" value="true" />
+     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
      <property name="propertyName" value="keydates" />
      <property name="header.styleClasses">
       <list merge="true">
