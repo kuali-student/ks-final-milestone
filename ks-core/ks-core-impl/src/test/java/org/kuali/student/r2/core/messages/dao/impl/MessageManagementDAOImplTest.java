@@ -30,7 +30,7 @@ import org.kuali.student.r1.core.messages.entity.MessageEntity;
 
 @PersistenceFileLocation("classpath:META-INF/messages-persistence.xml")
 public class MessageManagementDAOImplTest extends AbstractTransactionalDaoTest{
-    @Dao(value = "org.kuali.student.r2.core.messages.dao.impl.MessageManagementDAOImpl", testDataFile = "classpath:messages-test-beans.xml")
+    @Dao(value = "org.kuali.student.r1.core.messages.dao.impl.MessageManagementDAOImpl", testDataFile = "classpath:messages-test-beans.xml")
     public MessageManagementDAOImpl messageManagementDAO;
     	    
 	@Test
