@@ -1048,7 +1048,10 @@
  </bean>
  <bean id="majorDisciplineInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
  <bean id="coreProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
-
+ <bean id="commonWithCoreProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
+ <bean id="commonWithCredentialProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
+ <bean id="commonWithProgramVariationInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
+ <bean id="credentialProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
  <!-- begin ProgramVariationInfo-->
     <!-- ProgramVariationInfo-->
  <bean id="org.kuali.student.r2.lum.program.dto.ProgramVariationInfo-parent" abstract="true"
@@ -1285,7 +1288,7 @@
 
  <bean id="programVariationInfo.resultOptions-parent" abstract="true"  parent="majorDisciplineInfo.resultOptions-parent">
   <property name="name" value="resultOptions"/>
-  <property name="maxOccurs" value="1"/>
+  <property name="maxOccurs" value="unbounded"/>
  </bean>
  <bean id="programVariationInfo.resultOptions" parent="programVariationInfo.resultOptions-parent"/>
 
@@ -1759,6 +1762,8 @@
     <ref bean="credentialProgramInfo.unitsContentOwner"/>
     <ref bean="credentialProgramInfo.unitsStudentOversight"/>
     <ref bean="credentialProgramInfo.universityClassification"/>
+    <ref bean="credentialProgramInfo.versionInfo"/>
+    <ref bean="credentialProgramInfo.typeKey"/>
 
 <!--     <ref bean="credentialProgramInfo.searchProgramVersions"/> TODO KSCM -->
    </list>
@@ -1768,6 +1773,11 @@
  <bean id="org.kuali.student.r2.lum.program.dto.CredentialProgramInfo"
        parent="org.kuali.student.r2.lum.program.dto.CredentialProgramInfo-parent"/>
 
+ <bean id="credentialProgramInfo.typeKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
+ </bean>
+ <bean id="credentialProgramInfo.typeKey" parent="credentialProgramInfo.typeKey-parent"/>
+ 
  <bean id="credentialProgramInfo.code-parent" abstract="true" parent="majorDisciplineInfo.code-parent">
   <property name="name" value="code"/>
  </bean>
@@ -2126,6 +2136,7 @@
     <ref bean="commonWithCoreProgramInfo.universityClassification"/>
     <ref bean="commonWithCoreProgramInfo.programRequirements"/>
     <ref bean="commonWithCoreProgramInfo.endTerm"/>
+    <ref bean="commonWithCoreProgramInfo.versionInfo"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -2279,6 +2290,7 @@
     <ref bean="commonWithCredentialProgramInfo.universityClassification"/>
     <ref bean="commonWithCredentialProgramInfo.programRequirements"/>
     <ref bean="commonWithCredentialProgramInfo.endTerm"/>
+    <ref bean="commonWithCoreProgramInfo.versionInfo"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -2433,7 +2445,7 @@
     <ref bean="commonWithProgramVariationInfo.stdDuration"/>
     <ref bean="commonWithProgramVariationInfo.unitsFinancialControl"/>
     <ref bean="commonWithProgramVariationInfo.unitsFinancialResources"/>
-    
+    <ref bean="commonWithProgramVariationInfo.versionInfo"/>
     
    </list>
   </property>
