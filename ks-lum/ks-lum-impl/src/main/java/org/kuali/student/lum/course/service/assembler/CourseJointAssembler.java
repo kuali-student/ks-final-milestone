@@ -23,11 +23,10 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r1.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInfo;
-import org.kuali.student.r1.lum.lu.service.LuService;
-
 /**
  * Assembles/Disassembles CourseJointInfo DTO from/to CluCluRelationInfo 
  * 
@@ -62,7 +61,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu = null;
 		try {
-			// TODO KSCM-421 clu = cluService.getClu(cluRel.getRelatedCluId() , contextInfo);
+			clu = R1R2ConverterUtil.convert(cluService.getClu(cluRel.getRelatedCluId() , contextInfo), org.kuali.student.r1.lum.lu.dto.CluInfo.class);
 
 			joint.setCourseId(clu.getId());
 
@@ -89,7 +88,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu = null;
 		try {
-			// TODO KSCM-421 clu = cluService.getClu(cluId , contextInfo);
+			clu = R1R2ConverterUtil.convert(cluService.getClu(cluRel.getRelatedCluId() , contextInfo), org.kuali.student.r1.lum.lu.dto.CluInfo.class);
 			
 			if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
 				clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) {
