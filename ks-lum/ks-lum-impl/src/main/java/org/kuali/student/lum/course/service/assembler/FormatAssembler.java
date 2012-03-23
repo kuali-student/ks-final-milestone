@@ -38,8 +38,8 @@ import org.kuali.student.r1.lum.course.dto.CourseInfo;
 import org.kuali.student.r1.lum.course.dto.FormatInfo;
 import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInfo;
-import org.kuali.student.r1.lum.lu.service.LuService;
-
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 /**
  * Assembler for FormatInfo. Assembles/Disassemble FormatInfo from CluInfo and
  * other structures.
@@ -51,7 +51,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	final static Logger LOG = Logger.getLogger(FormatAssembler.class);
 
 	private BOAssembler<ActivityInfo, CluInfo> activityAssembler;
-	private LuService luService;
+	private CluService luService;
 
 	@Override
 	public FormatInfo assemble(CluInfo clu, FormatInfo formatInfo,
@@ -78,10 +78,9 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			// Use the luService to find activities, then convert and add to the
 			// format
 			try {
-				List<CluInfo> activities = null;
-								luService.getRelatedClusByCluId(
+				List<CluInfo> activities = R1R2ConverterUtil.convertLists(luService.getRelatedClusByCluId(
 										format.getId(),
-										CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
+										CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE),CluInfo.class);
 				for (CluInfo activity : activities) {
 					ActivityInfo activityInfo = activityAssembler.assemble(
 							activity, null, false,contextInfo);
@@ -114,7 +113,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
         try {
         	clu = null;
           
-        	clu = (NodeOperation.UPDATE == operation) ? clu = luService.getClu(format.getId()) : new CluInfo();
+        	clu = (NodeOperation.UPDATE == operation) ? clu = R1R2ConverterUtil.convert(luService.getClu(format.getId(),contextInfo),CluInfo.class) : new CluInfo();
         } catch (Exception e) {
             throw new AssemblyException("Error retrieving course format shell during update", e);
         } 
@@ -188,9 +187,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
-				List<CluCluRelationInfo> activityRelationships = null;
-								luService
-										.getCluCluRelationsByClu(format.getId());
+				List<CluCluRelationInfo> activityRelationships = R1R2ConverterUtil.convertLists(luService.getCluCluRelationsByClu(format.getId(),contextInfo),CluCluRelationInfo.class);
 				
 				for (CluCluRelationInfo activityRelation : activityRelationships) {
 										if (CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE
@@ -302,11 +299,11 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		this.activityAssembler = activityAssembler;
 	}
 
-	public LuService getLuService() {
+	public CluService getLuService() {
 		return luService;
 	}
 
-	public void setLuService(LuService luService) {
+	public void setLuService(CluService luService) {
 		this.luService = luService;
 	}
 }

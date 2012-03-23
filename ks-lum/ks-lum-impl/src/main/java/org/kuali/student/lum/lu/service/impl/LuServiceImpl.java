@@ -2420,6 +2420,13 @@ public class LuServiceImpl implements CluService {
         return searchManager.getSearchTypesByResult(searchResultTypeKey);
     }
 
+    @Override
+    public List<org.kuali.student.r2.lum.clu.dto.CluInfo> getRelatedClusByCluId(String id, String courseActivityRelationType) {
+        //To change body of implemented methods use File | Settings | File Templates.
+        //TODO KSCM-490
+        return null;
+    }
+
     private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
             throws OperationFailedException {
         for (CluSetJoinVersionIndClu join : cluSet.getCluVerIndIds()) {

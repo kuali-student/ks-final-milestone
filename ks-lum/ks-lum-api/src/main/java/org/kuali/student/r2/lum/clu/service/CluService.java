@@ -2057,4 +2057,7 @@ public interface CluService extends VersionManagementService ,SearchService {
 	 */
 	@Deprecated
 	public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name="searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+    @Deprecated
+    public List<org.kuali.student.r2.lum.clu.dto.CluInfo> getRelatedClusByCluId(String id, String courseActivityRelationType);
 }
