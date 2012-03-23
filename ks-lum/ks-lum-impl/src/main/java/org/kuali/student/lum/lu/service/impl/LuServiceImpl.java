@@ -2421,10 +2421,17 @@ public class LuServiceImpl implements CluService {
     }
 
     @Override
-    public List<org.kuali.student.r2.lum.clu.dto.CluInfo> getRelatedClusByCluId(String id, String courseActivityRelationType) {
+    public List<org.kuali.student.r2.lum.clu.dto.CluInfo> getRelatedClusByCluId(String id, String courseActivityRelationType) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
         //To change body of implemented methods use File | Settings | File Templates.
-        //TODO KSCM-490
-        return null;
+
+        checkForMissingParameter(id, "cluId");
+        checkForMissingParameter(courseActivityRelationType, "luLuRelationTypeKey");
+        List<Clu> relatedClus = luDao.getRelatedClusByCluId(id,
+                courseActivityRelationType);
+        return R1R2ConverterUtil.convertLists( LuServiceAssembler.toCluInfos(relatedClus), org.kuali.student.r2.lum.clu.dto.CluInfo.class);
+       // return null;
     }
 
     private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
