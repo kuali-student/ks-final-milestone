@@ -530,7 +530,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals("offId-orgid", createdClu.getOfficialIdentifier()
 				.getOrgId());
 		// TODO KSCM-212 assertEquals("OfficialIdentValue", createdClu.getOfficialIdentifier().getAttributes().get("OfficialIdentKey"));
-		
+		//Hier is 'n verandering
 		
 		assertEquals("cluId1-divisioncluId1-suffixcode", createdClu
 				.getAlternateIdentifiers().get(0).getCode());
