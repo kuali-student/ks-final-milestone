@@ -16,6 +16,7 @@ import java.util.Set;
 import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -139,7 +140,7 @@ public class TestCourseInfoDictionary {
 
 		System.out.println("test validation on dynamic attributes");
 		
-		// TODO KSCM-388 info.getAttributes().put("finalExamStatus", "123");
+		info.getAttributes().add(new AttributeInfo("finalExamStatus", "123"));
 		validationResults = val.validateObject(info, os, contextInfo);
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
