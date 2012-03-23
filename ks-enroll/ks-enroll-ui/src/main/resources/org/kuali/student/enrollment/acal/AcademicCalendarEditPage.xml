@@ -48,12 +48,6 @@
         <property name="title" value="Information" />
         <property name="items">
             <list>
-                <!--
-                <bean parent ="Uif-InputField" p:propertyName="updateTimeString">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="50" p:disabled="true"/>
-                    </property>
-                </bean> -->
                 <bean parent="Uif-MessageField" p:messageText="@{updateTimeString}" p:styleClasses="font-light12"/>
                 <ref bean="KS-AcademicCalendar-MetaSection"/>
                 <ref bean="KS-AcademicCalendar-EventSection"/>
@@ -62,7 +56,6 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-AcademicCalendar-MetaSection" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL" p:id="acal-info-meta">-->
     <bean id="KS-AcademicCalendar-MetaSection" parent="Uif-HorizontalBoxSection" >
         <property name="title" value="Calendar Information" />
         <property name="disclosure.render" value="false"/>
@@ -104,16 +97,6 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
-                <!--<bean parent="Uif-InputField" p:label="Holiday Calendar"
-                                         p:instructionalText="click the button to perform a lookup on Holiday Calendar"
-                                         p:propertyName="holidayCalendarName">
-                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
-                    <property name="fieldLookup.fieldConversions">
-                        <map>
-                            <entry key="id" value="holidayCalendarName" />
-                        </map>
-                    </property>
-                </bean>-->
             </list>
         </property>
     </bean>
@@ -131,7 +114,7 @@
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.disableTableSort" value="true" />
         <property name="layoutManager.richTable.render" value="false" />
-
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:label="Event" p:propertyName="eventType" p:required="true" >
@@ -202,6 +185,7 @@
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarInfo.name}"/>
         <property name="layoutManager.lineGroupPrototype.footer.render" value="@{#isAddLine}"/>
+        <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:1em;"/>
         <property name="layoutManager.lineGroupPrototype.header.styleClasses">
           <list merge="true">
             <value>ks-borderBottom</value>
@@ -213,26 +197,31 @@
           </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.header.group">
-         <bean parent="Uif-HorizontalBoxGroup">
-             <property name="items">
-                <list>
-                    <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
-                   <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
-                   <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:clientSideJs="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
-                </list>
-             </property>
-         </bean>
-      </property>
-        <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:1em;"/>
+             <bean parent="Uif-HorizontalBoxGroup">
+                 <property name="items">
+                    <list>
+                        <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
+                       <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
+                       <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:clientSideJs="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
+                    </list>
+                 </property>
+             </bean>
+        </property>
+        <property name="layoutManager.addLineGroup.header.group">
+             <bean parent="Uif-HorizontalBoxGroup">
+                 <property name="items">
+                    <list>
+                       <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingHoliday" p:actionLabel="Cancel Adding Holiday Calendar" p:clientSideJs="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
+                    </list>
+                 </property>
+             </bean>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="Another Holiday Calendar ID"
-                              p:propertyName="id" p:render="@{#isAddLine}" >
-
+                <bean parent="Uif-InputField" p:label="Holiday Calendar ID" p:propertyName="id" p:render="@{#isAddLine}" p:id="hcal_id">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="60"/>
                     </property>
-
                     <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
                     <property name="fieldLookup.fieldConversions">
                         <map>
@@ -291,7 +280,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Holidays-SubSection" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="4" p:id="acal-hc-holidays" p:readOnly="true">
+    <bean id="KS-Holidays-SubSection" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="4" p:id="acal-hc-holidays" p:readOnly="true" p:layoutManager.style="width: 70%;">
      <property name="title" value="Holidays" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
      <property name="layoutManager.applyDefaultCellWidths" value="false" />
@@ -301,7 +290,6 @@
      <property name="layoutManager.generateAutoSequence" value="false" />
      <property name="layoutManager.separateAddLine" value="false" />
      <property name="layoutManager.richTable.render" value="false" />
-
      <property name="items">
        <list>
          <bean parent="Uif-InputField" p:propertyName="holidayInfo.name">
@@ -309,17 +297,17 @@
                 <bean parent="Uif-TextControl"/>
              </property>
          </bean>
-         <bean parent="Uif-InputField" p:propertyName="holidayInfo.startDate" p:label="Start Date" p:style="font-weight:normal;">
+         <bean parent="Uif-InputField" p:propertyName="holidayInfo.startDate" p:label="Start Date" p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;">
              <property name="control">
                 <bean parent="Uif-TextControl"/>
              </property>
          </bean>
-         <bean parent="Uif-InputField" p:propertyName="holidayInfo.endDate" p:label="End Date" p:style="font-weight:normal;">
+         <bean parent="Uif-InputField" p:propertyName="holidayInfo.endDate" p:label="End Date" p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;">
              <property name="control">
                 <bean parent="Uif-TextControl"/>
              </property>
          </bean>
-         <bean parent="Uif-InputField" p:propertyName="isNonInstructional" p:label="Non Instructional" p:style="font-weight:normal;">
+         <bean parent="Uif-InputField" p:propertyName="isNonInstructional" p:label="Non Instructional" p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;">
              <property name="control">
                 <bean parent="Uif-CheckboxControl"/>
              </property>
