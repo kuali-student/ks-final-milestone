@@ -86,7 +86,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 							activity, null, false,contextInfo);
 					format.getActivities().add(activityInfo);
 				}
-				// TODO KSCM-429			} catch (DoesNotExistException e) {
+
 			} catch (Exception e) {
 				throw new AssemblyException("Error getting related activities", e);
 			} 
@@ -196,7 +196,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 					.getRelatedCluId(), activityRelation.getId());
 										}
 				}
-				// TODO KSCM-429			} catch (DoesNotExistException e) {
+
 			} catch (Exception e) {
 				throw new AssemblyException("Error getting related activities",	e);
 			}
@@ -222,7 +222,8 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
                                                             // already be set
                                                             // even if it's a
                                                             // create
-             // TODO KSCM                relation.setType(CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
+
+                relation.setType(CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
                 relation.setState(format.getState());
 
                 BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo>(
@@ -279,7 +280,8 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
             results.add(relationToDeleteNode);
 
             CluInfo activityCluToDelete = null;
-         // TODO KSCM            luService.getClu(entry.getKey());
+
+            luService.getClu(entry.getKey(),contextInfo);
             ActivityInfo activityToDelete = activityAssembler.assemble(activityCluToDelete, null, false,contextInfo);
             BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
             .disassemble(activityToDelete, NodeOperation.DELETE,contextInfo);
