@@ -15,6 +15,8 @@
  */
 package org.kuali.student.enrollment.class2.acal.dto;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 
 /**
@@ -42,5 +44,13 @@ public class HolidayWrapper extends TimeSetWrapper {
 
     public void setHolidayInfo(HolidayInfo holidayInfo) {
         this.holidayInfo = holidayInfo;
+    }
+
+    //This is for UI display purpose
+    public String getIsNonInstructional(){
+        if (holidayInfo != null){
+            return StringUtils.capitalize(BooleanUtils.toStringYesNo(!holidayInfo.getIsInstructionalDay()));
+        }
+        return StringUtils.capitalize(BooleanUtils.toStringYesNo(true));
     }
 }

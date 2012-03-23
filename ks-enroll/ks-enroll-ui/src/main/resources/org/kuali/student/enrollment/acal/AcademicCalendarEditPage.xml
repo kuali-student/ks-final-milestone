@@ -194,13 +194,14 @@
 		</property>
 	</bean>
 
-    <bean id="KS-AcademicCalendar-HolidaySection" parent="Uif-Disclosure-StackedCollectionSection">
+    <bean id="KS-AcademicCalendar-HolidaySection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-holidays" >
         <property name="title" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="propertyName" value="holidayCalendarList" />
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarInfo.name}"/>
+        <property name="layoutManager.lineGroupPrototype.footer.render" value="@{#isAddLine}"/>
         <property name="layoutManager.lineGroupPrototype.header.styleClasses">
           <list merge="true">
             <value>ks-borderBottom</value>
@@ -211,6 +212,17 @@
             <value>ks-borderBottom</value>
           </list>
         </property>
+        <property name="layoutManager.lineGroupPrototype.header.group">
+         <bean parent="Uif-HorizontalBoxGroup">
+             <property name="items">
+                <list>
+                    <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
+                   <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
+                   <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:clientSideJs="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
+                </list>
+             </property>
+         </bean>
+      </property>
         <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:1em;"/>
         <property name="items">
             <list>
@@ -292,264 +304,39 @@
 
      <property name="items">
        <list>
-         <bean parent="Uif-InputField" p:propertyName="typeName" p:label="Type">
+         <bean parent="Uif-InputField" p:propertyName="holidayInfo.name">
              <property name="control">
                 <bean parent="Uif-TextControl"/>
              </property>
          </bean>
-         <bean parent="Uif-InputField" p:propertyName="holidayInfo.name" p:label="Name">
+         <bean parent="Uif-InputField" p:propertyName="holidayInfo.startDate" p:label="Start Date" p:style="font-weight:normal;">
              <property name="control">
                 <bean parent="Uif-TextControl"/>
              </property>
          </bean>
-         <bean parent="Uif-InputField" p:propertyName="holidayInfo.startDate" p:label="Start Date">
+         <bean parent="Uif-InputField" p:propertyName="holidayInfo.endDate" p:label="End Date" p:style="font-weight:normal;">
              <property name="control">
                 <bean parent="Uif-TextControl"/>
              </property>
          </bean>
-         <bean parent="Uif-InputField" p:propertyName="holidayInfo.endDate" p:label="End Date">
+         <bean parent="Uif-InputField" p:propertyName="isNonInstructional" p:label="Non Instructional" p:style="font-weight:normal;">
              <property name="control">
-                <bean parent="Uif-TextControl"/>
+                <bean parent="Uif-CheckboxControl"/>
              </property>
          </bean>
        </list>
      </property>
     </bean>
 
-
-
     <util:list id="org-options">
         <bean parent="Uif-KeyLabelPair" p:key="102" p:value="Registrar's Office"/>
         <bean parent="Uif-KeyLabelPair" p:key="34" p:value="Medical School"/>
     </util:list>
-
-
-    <!-- Academic terms -->
-
-   <bean id="KS-AcademicTerm-EditSection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-term" p:style="min-width:70em;" p:readOnly="@{#view.readOnly}">
-     <property name="title" value="Terms" />
-     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
-     <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
-     <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.termNameForUI}"/>
-     <property name="propertyName" value="termWrapperList" />
-     <property name="layoutManager.lineGroupPrototype.instructionalText" value="@{#line.termNameForUI} Term Information"/>
-     <property name="layoutManager.lineGroupPrototype.readOnly" value="@{#line.readOnly}"/>
-     <property name="layoutManager.lineGroupPrototype.instructionalMessageField.styleClasses">
-      <list merge="true">
-        <value>ks-header-boldWithLine</value>
-      </list>
-     </property>
-     <property name="layoutManager.addLineGroup.style" value="margin-top:1em;"/>
-     <property name="header.group">
-         <bean parent="Uif-VerticalBoxGroup">
-             <property name="items">
-                <list>
-                   <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingTerm" p:actionLabel="Cancel Adding Term" p:clientSideJs="performCollectionAction('acal-term');" p:render="@{!#view.readOnly}"/>
-                </list>
-             </property>
-         </bean>
-      </property>
-     <property name="actionFields">
-      <list>
-        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Set as Official"  p:methodToCall="setTermOfficial" p:render="@{#line.readOnly eq false}"/>
-        <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete"/>
-      </list>
-    </property>
-     <property name="items">
-       <list>
-         <bean parent="Uif-InputField" p:propertyName="termType" p:label="Term" p:required="true" p:render="@{#isAddLine}">
-             <property name="control">
-                <bean parent="Uif-DropdownControl"/>
-             </property>
-             <property name="optionsFinder">
-                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues"/>
-             </property>
-         </bean>
-         <bean parent="Uif-InputField" p:propertyName="name" p:render="@{!#isAddLine}" p:label="Name" p:required="true">
-            <property name="control">
-                <bean parent="Uif-TextControl" p:size="30" />
-            </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true">
-            <property name="control">
-                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
-            </property>
-            <property name="validCharactersConstraint">
-                <bean parent="BasicDatePatternConstraint" />
-            </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" p:required="true">
-            <property name="control">
-                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
-            </property>
-            <property name="validCharactersConstraint">
-                <bean parent="BasicDatePatternConstraint" />
-            </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="instructionalDays" p:label="Instructional Days" p:render="@{!#isAddLine}">
-            <property name="control">
-                <bean parent="Uif-TextControl" p:size="5" p:disabled="true"/>
-            </property>
-        </bean>
-       </list>
-     </property>
-     <property name="subCollections">
-       <list>
-         <ref bean="KS-KeyDatesGroup-EditSubSection" />
-       </list>
-     </property>
-   </bean>
-
-    <bean id="KS-KeyDatesGroup-EditSubSection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-term-keydatesgroup" p:readOnly="@{#view.readOnly}">
-     <property name="title" value="Key Dates Group" />
-     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
-     <!--<property name="layoutManager.style" value="margin-top:1em;"/>-->
-     <property name="propertyName" value="keyDatesGroupWrappers" />
-     <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.keyDateGroupNameUI} Key Dates"/>
-     <property name="addLineLabelField.labelText" value="Add KeyDate Group"/>
-     <property name="actionFields">
-      <list>
-        <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteKeyDateGroup" p:actionLabel="delete keydate group"/>
-      </list>
-    </property>
-     <property name="header.styleClasses">
-      <list merge="true">
-        <value>ks-borderBottom</value>
-      </list>
-    </property>
-
-     <property name="items">
-       <list>
-         <bean parent="Uif-InputField" p:propertyName="keyDateGroupType" p:label="Key Date Group Type" p:required="true" p:render="@{#isAddLine}" p:finalizeMethodToCall="populateKeyDateGroupTypes" >
-             <property name="control">
-                <bean parent="Uif-DropdownControl"/>
-             </property>
-         </bean>
-       </list>
-     </property>
-     <property name="subCollections">
-       <list>
-         <ref bean="KS-KeyDates-EditSubSection" />
-       </list>
-     </property>
-     <!--<property name="actionFields">
-          <list>
-              <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteKeyDate" p:actionLabel="delete"/>
-          </list>
-    </property>-->
-   </bean>
-
-   <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="9" p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}">
-     <property name="title" value="Key Dates" />
-     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
-     <property name="layoutManager.style" value="margin-top:1em;"/>
-     <property name="layoutManager.applyDefaultCellWidths" value="true" />
-     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-     <property name="propertyName" value="keydates" />
-     <property name="header.styleClasses">
-      <list merge="true">
-        <value>ks-borderBottom</value>
-      </list>
-    </property>
-     <property name="layoutManager.renderSequenceField" value="false" />
-     <property name="layoutManager.generateAutoSequence" value="false" />
-     <property name="layoutManager.separateAddLine" value="false" />
-     <property name="layoutManager.richTable.disableTableSort" value="true" />
-     <property name="layoutManager.richTable.render" value="false" />
-
-     <property name="items">
-       <list>
-         <bean parent="Uif-InputField" p:propertyName="keyDateType" p:label="Key Date Type" p:render="@{#isAddLine}" p:required="true"  p:finalizeMethodToCall="populateKeyDateTypes" >
-             <property name="control">
-                <bean parent="Uif-DropdownControl"/>
-             </property>
-         </bean>
-         <bean parent="Uif-InputField" p:propertyName="keyDateNameUI" p:label="Start Date"  p:readOnly="true" p:render="@{!#isAddLine}" p:required="true">
-            <property name="control">
-                <bean parent="Uif-TextControl" p:size="30" />
-            </property>
-        </bean>
-         <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true">
-            <property name="control">
-                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
-            </property>
-             <property name="validCharactersConstraint">
-                 <bean parent="BasicDatePatternConstraint" />
-             </property>
-         </bean>
-        <!--<bean parent="Uif-HorizontalFieldGroup" p:label="Start Time" p:group.style="display:block;" p:group.layoutManager.orientation="VERTICAL">-->
-            <!--<property name="items">-->
-                <!--<list>-->
-                    <bean parent="Uif-InputField-LabelTop" p:propertyName="startTime" p:label="Start Time" p:labelPlacement="LEFT" p:refreshWhenChanged="#lp.allDay"
-					p:readOnly="@{#lp.allDay eq true}">
-                        <property name="control">
-                            <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
-                        </property>
-                        <property name="validCharactersConstraint">
-                            <bean parent="TimePatternConstraint" />
-                        </property>
-                    </bean>
-                    <bean parent="Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:refreshWhenChanged="#lp.allDay"
-					p:readOnly="@{#lp.allDay eq true}">
-                         <property name="control">
-                            <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
-                         </property>
-                     </bean>
-                <!--</list>-->
-            <!--</property>-->
-         <!--</bean>-->
-        <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" p:refreshWhenChanged="#lp.dateRange"
-					p:readOnly="@{#lp.dateRange eq false}" >
-            <property name="control">
-                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
-            </property>
-            <property name="validCharactersConstraint">
-                <bean parent="BasicDatePatternConstraint" />
-            </property>
-        </bean>
-        <!--<bean parent="Uif-HorizontalFieldGroup" p:label="End Time" p:group.layoutManager.style="display:block;" p:group.layoutManager.orientation="VERTICAL"> &lt;!&ndash;p:refreshDiscloseMethodToCall=""&ndash;&gt;-->
-            <!--<property name="items">-->
-                <!--<list>-->
-                    <bean parent="Uif-InputField-LabelTop" p:propertyName="endTime" p:label="End Time" p:labelPlacement="LEFT" p:refreshWhenChanged="#lp.allDay"
-					p:readOnly="@{#lp.allDay eq true}">
-                        <property name="control">
-                            <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
-                        </property>
-                        <property name="validCharactersConstraint">
-                            <bean parent="TimePatternConstraint" />
-                        </property>
-                    </bean>
-                    <bean parent="Uif-InputField-LabelTop" p:propertyName="endTimeAmPm" p:refreshWhenChanged="#lp.allDay"
-					p:readOnly="@{#lp.allDay eq true}">
-                         <property name="control">
-                            <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
-                         </property>
-                     </bean>
-                <!--</list>-->
-            <!--</property>-->
-         <!--</bean>-->
-         <bean parent="Uif-InputField" p:label="All Day" p:propertyName="allDay">
-            <property name="control">
-                <bean parent="Uif-CheckboxControl"/>
-            </property>
-         </bean>
-         <bean parent="Uif-InputField" p:label="Date Range" p:propertyName="dateRange">
-            <property name="control">
-                <bean parent="Uif-CheckboxControl"/>
-            </property>
-         </bean>
-       </list>
-     </property>
-     <property name="actionFields">
-          <list>
-              <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteKeyDate" p:actionLabel="delete"/>
-          </list>
-    </property>
-   </bean>
 
    <util:list id="hctime-options">
        <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
        <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="am"/>
        <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="pm"/>
    </util:list>
+
 </beans>

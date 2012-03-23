@@ -15,6 +15,8 @@
  */
 package org.kuali.student.enrollment.class2.acal.util;
 
+import org.kuali.rice.krad.util.KRADConstants;
+
 /**
  * This class //TODO ...
  *
@@ -44,11 +46,11 @@ public class CalendarConstants {
     public static final String TERM = "AcademicTerm";
     public static final String CALENDAR_SEARCH_VIEW= "calendarSearchView";
     //method names
-    public static final String AC_EDIT_METHOD = "start";
-    public static final String AC_VIEW_METHOD = "start";
+    public static final String AC_EDIT_METHOD = KRADConstants.START_METHOD;
+    public static final String AC_VIEW_METHOD = KRADConstants.START_METHOD;
     public static final String AC_COPY_METHOD = "copyForNew";
-    public static final String HC_EDIT_METHOD = "start";
-    public static final String HC_VIEW_METHOD = "start";
+    public static final String HC_EDIT_METHOD = KRADConstants.START_METHOD;
+    public static final String HC_VIEW_METHOD = KRADConstants.START_METHOD;
     public static final String HC_COPY_METHOD = "startNew";
 
     public static final String CALENDAR_ID = "id";

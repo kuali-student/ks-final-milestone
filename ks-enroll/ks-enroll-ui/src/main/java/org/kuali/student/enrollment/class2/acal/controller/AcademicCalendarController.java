@@ -24,6 +24,7 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
@@ -64,9 +65,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
     private AcademicCalendarService acalService;
     private ContextInfo contextInfo;
-    /**
-     * @see org.kuali.rice.krad.web.controller.UifControllerBase#createInitialForm(javax.servlet.http.HttpServletRequest)
-     */
+
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new AcademicCalendarForm();
@@ -179,18 +178,58 @@ public class AcademicCalendarController extends UifControllerBase {
 
     }
 
+    //Editing Hcal is implemented fully and it's working.. but we're having some issues with KRAD form management
+    //This will be implemented in future milestones
+    @RequestMapping(method = RequestMethod.POST, params="methodToCall=editHolidayCalendar")
+    public ModelAndView editHolidayCalendar( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                                            HttpServletRequest request, HttpServletResponse response) {
+
+        String selectedCollectionPath = acalForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("unable to determine the selected collection path");
+        }
+
+        int selectedLineIndex = -1;
+        String selectedLine = acalForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("unable to determine the selected line index");
+        }
+
+        Properties hcalURLParam = new Properties();
+        hcalURLParam.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, CalendarConstants.HC_EDIT_METHOD);
+        hcalURLParam.put(CalendarConstants.CALENDAR_ID, acalForm.getHolidayCalendarList().get(selectedLineIndex).getId());
+        hcalURLParam.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
+        hcalURLParam.put(UifParameters.PAGE_ID, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        hcalURLParam.put(UifParameters.RETURN_FORM_KEY, acalForm.getFormKey());
+
+        Properties acalReturnURLParams = new Properties();
+        acalReturnURLParams.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, CalendarConstants.AC_EDIT_METHOD);
+        acalReturnURLParams.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
+        acalReturnURLParams.put(UifParameters.PAGE_ID, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
+        String returnUrl = UrlFactory.parameterizeUrl(CalendarConstants.ACAL_CONTROLLER_PATH, acalReturnURLParams);
+        hcalURLParam.put(UifParameters.RETURN_LOCATION, returnUrl);
+
+        return super.performRedirect(acalForm,CalendarConstants.HCAL_CONTROLLER_PATH, hcalURLParam);
+
+    }
+
+
     /**
      * redirect to search Calendar page
      */
     @RequestMapping(params = "methodToCall=search")
-    public ModelAndView search(@ModelAttribute("KualiForm") AcademicCalendarForm searchForm, BindingResult result,
+    public ModelAndView search(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String controllerPath = CalendarConstants.CALENDAR_SEARCH_CONTROLLER_PATH;
         Properties urlParameters = new Properties();
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.CALENDAR_SEARCH_VIEW);
-        return super.performRedirect(searchForm,controllerPath, urlParameters);
+        return super.performRedirect(acalForm,controllerPath, urlParameters);
     }
 
 
@@ -253,49 +292,6 @@ public class AcademicCalendarController extends UifControllerBase {
 
         return getUIFModelAndView(academicCalendarForm);
     }
-
-    /**
-     * Method used to save AcademicCalendar
-     */
-//    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveTerm")
-//    public ModelAndView saveTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-//                             HttpServletRequest request, HttpServletResponse response) {
-//
-//        if(StringUtils.isBlank(academicCalendarForm.getAcademicCalendarInfo().getId())){
-//             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Please save the academic calendar first");
-//             return updateComponent(academicCalendarForm, result, request, response);
-//        }
-//
-//        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-//        if (StringUtils.isBlank(selectedCollectionPath)) {
-//            throw new RuntimeException("unable to determine the selected collection path");
-//        }
-//
-//        int selectedLineIndex = -1;
-//        String selectedLine = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-//        if (StringUtils.isNotBlank(selectedLine)) {
-//            selectedLineIndex = Integer.parseInt(selectedLine);
-//        }
-//
-//        if (selectedLineIndex == -1) {
-//            throw new RuntimeException("unable to determine the selected line index");
-//        }
-//
-//        AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
-//
-//        //TODO:Build real context.
-//        ContextInfo context = TestHelper.getContext1();
-//
-//        try{
-//            ((AcademicCalendarViewHelperService)academicCalendarForm.getPostedView().getViewHelperService()).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
-//            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS,"info.enroll.term.saved",termWrapper.getTermNameForUI());
-//        }catch (Exception e){
-//            //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
-//           throw new RuntimeException(e);
-//        }
-//
-//        return updateComponent(academicCalendarForm, result, request, response);
-//    }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=setTermOfficial")
     public ModelAndView setTermOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
