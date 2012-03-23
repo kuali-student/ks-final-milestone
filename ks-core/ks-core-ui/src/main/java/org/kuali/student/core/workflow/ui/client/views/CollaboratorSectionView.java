@@ -65,30 +65,30 @@ public class CollaboratorSectionView extends SectionView {
 
     private QueryPath collabPath = QueryPath.parse("collaboratorInfo/collaborators");
 
-    private GroupSection section;
-    private FieldDescriptor person;
-    private FieldDescriptor permissions;
-    private FieldDescriptor actionRequests;
+    protected GroupSection section;
+    protected FieldDescriptor person;
+    protected FieldDescriptor permissions;
+    protected FieldDescriptor actionRequests;
     protected FieldDescriptor authorNotation;
-    private KSButton addButton = new KSButton("Add Collaborator", ButtonStyle.SECONDARY);
-    private SimpleWidgetTable table;
-    private VerticalSection tableSection;
-    private InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
-    private InfoMessage addWarning = new InfoMessage("Both Permission and Action Request must be selected before a collaborator could be added.", false);
+    protected KSButton addButton = new KSButton("Add Collaborator", ButtonStyle.SECONDARY);
+    protected SimpleWidgetTable table;
+    protected VerticalSection tableSection;
+    protected InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
+    protected InfoMessage addWarning = new InfoMessage("Both Permission and Action Request must be selected before a collaborator could be added.", false);
     protected SimpleListItems permissionListItems = new SimpleListItems();
     protected SimpleListItems actionRequestListItems = new SimpleListItems();
 
-    private KSDropDown permissionList = new KSDropDown();
+    protected KSDropDown permissionList = new KSDropDown();
     protected KSDropDown actionRequestList = new KSDropDown();
 
-    private boolean canRemoveCollaborators = false;
-    private boolean loaded = false;
+    protected boolean canRemoveCollaborators = false;
+    protected boolean loaded = false;
 
     protected String workflowId;
     protected String documentStatus = null;
-    private int numCollabs = 0;
+    protected int numCollabs = 0;
 
-    List<Data> newCollaborators = new ArrayList<Data>();
+    protected List<Data> newCollaborators = new ArrayList<Data>();
     
     public CollaboratorSectionView(){
     	
