@@ -1052,6 +1052,7 @@
  <bean id="commonWithCredentialProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
  <bean id="commonWithProgramVariationInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
  <bean id="credentialProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
+ <bean id="programVariationInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
  <!-- begin ProgramVariationInfo-->
     <!-- ProgramVariationInfo-->
  <bean id="org.kuali.student.r2.lum.program.dto.ProgramVariationInfo-parent" abstract="true"
@@ -1101,6 +1102,7 @@
     <ref bean="programVariationInfo.durationNotes"/>
     <ref bean="programVariationInfo.coreFaculties"/>
     <ref bean="programVariationInfo.endInstAdmitTerm"/>
+    <ref bean="programVariationInfo.versionInfo"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
