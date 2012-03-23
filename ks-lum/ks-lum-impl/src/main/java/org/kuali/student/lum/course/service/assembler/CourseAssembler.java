@@ -49,7 +49,7 @@ import org.kuali.student.r1.lum.course.dto.FormatInfo;
 import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r1.lum.lo.dto.LoInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.r1.lum.lrc.service.LrcService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.r1.lum.lu.dto.CluAccountingInfo;
 import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
@@ -98,7 +98,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 	private LoAssembler loAssembler;
 	private LearningObjectiveService loService;
     private CluAssemblerUtils cluAssemblerUtils;
-    private LrcService lrcService;
+    private LRCService lrcService;
     private AtpService atpService;
     private float defaultCreditIncrement = 1.0f;
 //	
