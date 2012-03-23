@@ -67,9 +67,9 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
     protected Object save(Object dto, Map<String, Object> properties,ContextInfo contextInfo) throws Exception {
         if (dto instanceof MajorDisciplineInfo) {
             MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;
-            if (mdInfo.getId() == null && mdInfo.getVersionInfo() != null) {
+            if (mdInfo.getId() == null && mdInfo.getVersion() != null) {
             	
-            	String majorVersionIndId = mdInfo.getVersionInfo().getVersionIndId();
+            	String majorVersionIndId = mdInfo.getVersion().getVersionIndId();
             	
             	//Get the current Major Dicipline from the service
             	VersionDisplayInfo mdVersionInfo = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorVersionIndId,ContextUtils.getContextInfo());

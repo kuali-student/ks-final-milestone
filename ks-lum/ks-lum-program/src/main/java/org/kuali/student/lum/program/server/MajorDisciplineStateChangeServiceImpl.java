@@ -137,10 +137,10 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
         VersionDisplayInfo currentVersion = null;
-        currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId(),ContextUtils.getContextInfo());
+        currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersion().getVersionIndId(),ContextUtils.getContextInfo());
 
         // If this is not the current version, then make it current
-        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) {
+        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersion().getSequenceNumber())) {
             programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null,ContextUtils.getContextInfo());
         }
     }
@@ -180,19 +180,19 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 		// higher than previous active program
 
 		List<VersionDisplayInfo> versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
-				selectedVersion.getVersionInfo().getVersionIndId(),ContextUtils.getContextInfo());
+				selectedVersion.getVersion().getVersionIndId(),ContextUtils.getContextInfo());
 		Long startSeq = new Long(1);
 
 		if (!isSelectedVersionCurrent) {
 						
-			startSeq = currentVersion.getVersionInfo().getSequenceNumber() + 1;
+			startSeq = currentVersion.getVersion().getSequenceNumber() + 1;
 		}
 
 		for (VersionDisplayInfo versionInfo : versions) {
 			boolean isVersionNewerThanCurrentVersion = versionInfo.getSequenceNumber() >= startSeq;
 			boolean isVersionSelectedVersion = false;
 
-			isSelectedVersionCurrent = versionInfo.getSequenceNumber().equals(selectedVersion.getVersionInfo().getSequenceNumber());  
+			isSelectedVersionCurrent = versionInfo.getSequenceNumber().equals(selectedVersion.getVersion().getSequenceNumber());  
 			boolean updateState = isVersionNewerThanCurrentVersion && !isVersionSelectedVersion;
 			if (updateState) {
 				MajorDisciplineInfo otherProgram = programService.getMajorDiscipline(versionInfo.getId(),ContextUtils.getContextInfo());
@@ -213,7 +213,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	protected MajorDisciplineInfo getCurrentVersion(MajorDisciplineInfo majorDisciplineInfo)
 			throws Exception {
 		// Get version independent id of program
-		String verIndId = majorDisciplineInfo.getVersionInfo().getVersionIndId();
+		String verIndId = majorDisciplineInfo.getVersion().getVersionIndId();
 
 		// Get id of current version of program given the version independent id
 		VersionDisplayInfo curVerDisplayInfo = null;

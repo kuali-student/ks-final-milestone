@@ -54,10 +54,10 @@ public class MajorDisciplineDataService extends AbstractDataService {
     protected Object save(Object dto, Map<String, Object> properties, ContextInfo contextInfo) throws Exception {
         if (dto instanceof MajorDisciplineInfo) {
             MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;
-            if (mdInfo.getId() == null && mdInfo.getVersionInfo() != null) {
+            if (mdInfo.getId() == null && mdInfo.getVersion() != null) {
             	String majorVersionIndId = null;
             	
-            	majorVersionIndId = mdInfo.getVersionInfo().getVersionIndId();
+            	majorVersionIndId = mdInfo.getVersion().getVersionIndId();
             	mdInfo = programService.createNewMajorDisciplineVersion(majorVersionIndId, "New major discipline version",ContextUtils.getContextInfo());
             } else if (mdInfo.getId() == null){
                 mdInfo = programService.createMajorDiscipline(mdInfo.getId(), mdInfo, ContextUtils.getContextInfo());

@@ -146,7 +146,7 @@ public class ProgramStateChangeServiceImpl {
         // TODO KSCM-393 currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId(),ContextUtils.getContextInfo());
 
         // If this is not the current version, then make it current
-        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) { programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null,ContextUtils.getContextInfo()); }
+        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersion().getSequenceNumber())) { programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null,ContextUtils.getContextInfo()); }
     }
 
     /**
@@ -169,7 +169,7 @@ public class ProgramStateChangeServiceImpl {
         // Take the sequence number for this version
         Long sequenceNumber = null;
  
-        sequenceNumber = majorDisciplineInfo.getVersionInfo().getSequenceNumber();
+        sequenceNumber = majorDisciplineInfo.getVersion().getSequenceNumber();
 
         // And subtract 1 from the sequence number to get the previous version
         sequenceNumber -= 1;

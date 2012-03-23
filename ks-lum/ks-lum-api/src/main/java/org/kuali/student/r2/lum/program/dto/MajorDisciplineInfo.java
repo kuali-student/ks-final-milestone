@@ -16,7 +16,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -34,7 +33,6 @@ import org.kuali.student.r2.lum.program.dto.assembly.ProgramPublicationAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
 import org.kuali.student.r2.lum.program.infc.MajorDiscipline;
 import org.kuali.student.r2.lum.program.infc.ProgramVariation;
-//import org.w3c.dom.Element;
 
 @XmlType(name = "MajorDisciplineInfo", propOrder = {"id",
     "typeKey",
@@ -205,15 +203,5 @@ public class MajorDisciplineInfo extends CommonWithProgramVariationInfo implemen
         this.orgCoreProgram = orgCoreProgram;
     }
 
-    // TODO KSCM-392 what to replace this with NINA
-	@Deprecated
-    public org.kuali.student.r1.common.versionmanagement.dto.VersionInfo getVersionInfo()  {
-		return null;
-	}
-	
-	// TODO KSCM-392 how to imple
-	@Deprecated
-	public String getEndProgramEntryTermId() {
-		return this.getId();
-	}
+
 }
