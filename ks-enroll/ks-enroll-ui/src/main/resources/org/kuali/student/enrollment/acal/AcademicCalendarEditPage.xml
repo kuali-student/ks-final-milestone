@@ -44,7 +44,7 @@
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-Page" p:disclosure.render="false" p:id="acal-info">
+    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-Page" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
         <property name="title" value="Information" />
         <property name="items">
             <list>
@@ -197,45 +197,21 @@
     <bean id="KS-AcademicCalendar-HolidaySection" parent="Uif-Disclosure-StackedCollectionSection">
         <property name="title" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="propertyName" value="holidayCalendarList" />
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
-
-  <!--
-        <property name="addLineFields">
-            <list>
-                <bean parent="Uif-InputField" p:label="Holiday Calendar ID"
-                    p:propertyName="id" p:defaultValue="testAtpId2">
-
-                  <property name="control">
-                      <bean parent="Uif-TextControl" p:size="60" />
-                  </property>
-
-                  <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
-                  <property name="fieldLookup.fieldConversions">
-                      <map>
-                          <entry key="id" value="id" />
-                      </map>
-                  </property>
-                </bean>
-
-                <bean parent="Uif-InputField" p:label="Holiday Calendar Name"
-                      p:instructionalText="click the button to perform a lookup on Holiday Calendar"
-                      p:propertyName="name" >
-
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="60"/>
-                    </property>
-                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
-                    <property name="fieldLookup.fieldConversions">
-                        <map>
-                            <entry key="name" value="name" />
-                        </map>
-                    </property>
-                </bean>
-
-            </list>
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarInfo.name}"/>
+        <property name="layoutManager.lineGroupPrototype.header.styleClasses">
+          <list merge="true">
+            <value>ks-borderBottom</value>
+          </list>
         </property>
-     -->
+        <property name="layoutManager.lineGroupPrototype.footer.styleClasses">
+          <list merge="true">
+            <value>ks-borderBottom</value>
+          </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:1em;"/>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:label="Another Holiday Calendar ID"
@@ -294,203 +270,59 @@
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-
-
-                <!--<bean parent="Uif-HorizontalFieldGroup" p:render="@{!#isAddLine}" >-->
-                    <!--<property name="group">-->
-                        <!--<list>-->
-                            <!--<bean parent="Uif-GridGroup"-->
-                                  <!--p:id="KS-HolidayCalendar-View-Meta-GridGroup"-->
-                                  <!--p:layoutManager.numberOfColumns="2"-->
-                                  <!--p:layoutManager.applyDefaultCellWidths="false"-->
-                                   <!-->-->
-                                <!--<property name="items">-->
-                                    <!--<list>-->
-                                        <!--<bean parent="Uif-InputField"-->
-                                              <!--p:propertyName="name"-->
-                                              <!--p:label="Holiday Calendar Name"-->
-                                              <!--p:id="KS-HolidayCalendar-View-Meta-name"-->
-                                              <!--p:labelField.width="40%"-->
-                                              <!--p:width="60%"-->
-                                              <!--p:readOnly="true"-->
-                                              <!--p:labelField.renderColon="false">-->
-                                            <!--<property name="control">-->
-                                                <!--<bean parent="Uif-TextControl"/>-->
-                                            <!--</property>-->
-                                        <!--</bean>-->
-                                        <!--<bean parent="Uif-InputField"-->
-                                              <!--p:propertyName="adminOrgId"-->
-                                              <!--p:label="Organization"-->
-                                              <!--p:id="KS-HolidayCalendar-View-Meta-adminOrgName"-->
-                                              <!--p:readOnly="true"-->
-                                              <!--p:labelField.renderColon="false">-->
-                                            <!--<property name="control">-->
-                                                <!--<bean parent="Uif-TextControl"/>-->
-                                            <!--</property>-->
-                                        <!--</bean>-->
-                                        <!--<bean parent="Uif-InputField"-->
-                                              <!--p:propertyName="startDate"-->
-                                              <!--p:label="Start Date"-->
-                                              <!--p:id="KS-HolidayCalendar-View-Meta-startDate"-->
-                                              <!--p:readOnly="true"-->
-                                              <!--p:labelField.renderColon="false">-->
-                                            <!--<property name="control">-->
-                                                <!--<bean parent="Uif-TextControl"/>-->
-                                            <!--</property>-->
-                                        <!--</bean>-->
-                                        <!--<bean parent="Uif-InputField"-->
-                                              <!--p:propertyName="endDate"-->
-                                              <!--p:label="End Date"-->
-                                              <!--p:id="KS-HolidayCalendar-View-Meta-endDate"-->
-                                              <!--p:readOnly="true"-->
-                                              <!--p:labelField.renderColon="false">-->
-                                            <!--<property name="control">-->
-                                                <!--<bean parent="Uif-TextControl"/>-->
-                                            <!--</property>-->
-                                        <!--</bean>-->
-                                    <!--</list>-->
-                                <!--</property>-->
-                            <!--</bean>-->
-                        <!--&lt;!&ndash;</list>&ndash;&gt;-->
-                    <!--</property>-->
-                <!--</bean>-->
-
             </list>
         </property>
-        <!--
-        <property name="layoutManager.lineGroupPrototype">
-            <ref bean="KS-HolidayCalendar-InquiryView"/>
-        </property>  -->
-    </bean>
-        <!--
-
-            <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
-            <property name="layoutManager.lineGroupPrototype.readOnly" value="@{#line.readOnly}"/>
-             <property name="layoutManager.lineGroupPrototype">
-                <ref bean="KS-HolidayCalendar-InquiryView"/>
-            </property>  -->
-
- <!--
-        <property name="layoutManager.addLineGroup.items">
-            <list>
-                <bean parent="Uif-InputField" p:label="Holiday Calendar"
-                                         p:instructionalText="click the button to perform a lookup on Holiday Calendar"
-                                         p:propertyName="id">
-                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
-                    <property name="fieldLookup.fieldConversions">
-                        <map>
-                            <entry key="id" value="id" />
-                        </map>
-                    </property>
-                </bean>
-
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="Add Holiday Calendar"
-                      p:actionEvent="addLine"/>
-            </list>
-        </property>
-    -->
-
-    <!--
-    <bean id="KS-HolidayCalendar-InquiryView" parent="Uif-GridGroup"
-             p:title="@{name}"
-          p:header.id="KS-HolidayCalendar-View-header">
-        <property name="header">
-            <bean parent="Uif-HeaderField-Two"/>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase"/>
-        </property>
-
-        <property name="items">
-            <list>
-                <bean parent="Uif-VerticalBoxSection"
-                      p:header.render="false"
-                      p:disclosure.render="false"
-                      p:id="KS-HolidayCalendar-View-Page">
-                    <property name="items">
-                        <list>
-                            <ref bean="KS-HolidayCalendar-InquiryView-Meta"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
+        <property name="subCollections">
+           <list>
+             <ref bean="KS-Holidays-SubSection" />
+           </list>
         </property>
     </bean>
-    -->
- <!--
-    <bean id="KS-HolidayCalendar-InquiryView" parent="Uif-Disclosure-VerticalBoxSection"
-          p:title="Holiday Calendar Information" >
-        <property name="header">
-            <bean parent="Uif-HeaderField-Three"/>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-GridGroup"
-                      p:id="KS-HolidayCalendar-View-Meta-GridGroup"
-                      p:layoutManager.numberOfColumns="2"
-                      p:layoutManager.applyDefaultCellWidths="false">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="name"
-                                  p:label="Holiday Calendar Name"
-                                  p:id="KS-HolidayCalendar-View-Meta-name"
-                                  p:labelField.width="40%"
-                                  p:width="60%"
-                                  p:readOnly="true"
-                                  p:labelField.renderColon="false"
-                                  p:render="@{!#isAddLine}"  >
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="adminOrgId"
-                                  p:label="Organization"
-                                  p:id="KS-HolidayCalendar-View-Meta-adminOrgName"
-                                  p:readOnly="true"
-                                  p:labelField.renderColon="false"
-                                  p:render="@{!#isAddLine}"  >
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="startDate"
-                                  p:label="Start Date"
-                                  p:id="KS-HolidayCalendar-View-Meta-startDate"
-                                  p:readOnly="true"
-                                  p:labelField.renderColon="false"
-                                  p:render="@{!#isAddLine}"  >
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="endDate"
-                                  p:label="End Date"
-                                  p:id="KS-HolidayCalendar-View-Meta-endDate"
-                                  p:readOnly="true"
-                                  p:labelField.renderColon="false"
-                                  p:render="@{!#isAddLine}"  >
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
+
+    <bean id="KS-Holidays-SubSection" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="4" p:id="acal-hc-holidays" p:readOnly="true">
+     <property name="title" value="Holidays" />
+     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
+     <property name="layoutManager.applyDefaultCellWidths" value="false" />
+     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+     <property name="propertyName" value="holidays" />
+     <property name="layoutManager.renderSequenceField" value="false" />
+     <property name="layoutManager.generateAutoSequence" value="false" />
+     <property name="layoutManager.separateAddLine" value="false" />
+     <property name="layoutManager.richTable.render" value="false" />
+
+     <property name="items">
+       <list>
+         <bean parent="Uif-InputField" p:propertyName="typeName" p:label="Type">
+             <property name="control">
+                <bean parent="Uif-TextControl"/>
+             </property>
+         </bean>
+         <bean parent="Uif-InputField" p:propertyName="holidayInfo.name" p:label="Name">
+             <property name="control">
+                <bean parent="Uif-TextControl"/>
+             </property>
+         </bean>
+         <bean parent="Uif-InputField" p:propertyName="holidayInfo.startDate" p:label="Start Date">
+             <property name="control">
+                <bean parent="Uif-TextControl"/>
+             </property>
+         </bean>
+         <bean parent="Uif-InputField" p:propertyName="holidayInfo.endDate" p:label="End Date">
+             <property name="control">
+                <bean parent="Uif-TextControl"/>
+             </property>
+         </bean>
+       </list>
+     </property>
     </bean>
-  -->
+
+
 
     <util:list id="org-options">
         <bean parent="Uif-KeyLabelPair" p:key="102" p:value="Registrar's Office"/>
         <bean parent="Uif-KeyLabelPair" p:key="34" p:value="Medical School"/>
-<!--        <bean parent="Uif-KeyLabelPair" p:key="103" p:value="Law School"/>
-        <bean parent="Uif-KeyLabelPair" p:key="105" p:value="Continuing Study"/>    -->
     </util:list>
+
 
     <!-- Academic terms -->
 
