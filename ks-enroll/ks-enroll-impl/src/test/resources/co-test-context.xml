@@ -135,9 +135,7 @@
     <property name="milestoneDao" ref="milestoneDao" />
     <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
     <property name="stateService" ref="stateService" />
-      <property name="typeService" ref="typeService" />
-
-    <property name="dataDictionaryService" ref="dataDictionaryServiceForAtp" />
+    <property name="typeService" ref="typeService" />
   </bean>
 
   <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">

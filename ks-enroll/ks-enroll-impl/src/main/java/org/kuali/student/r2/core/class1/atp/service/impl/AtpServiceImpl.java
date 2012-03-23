@@ -12,7 +12,6 @@ import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -55,7 +54,6 @@ public class AtpServiceImpl implements AtpService {
     private AtpMilestoneRelationDao atpMilestoneRelationDao;
     private StateService stateService;
     private TypeService typeService;
-    private DataDictionaryService dataDictionaryService;
     private CriteriaLookupService criteriaLookupService;
 
     public AtpDao getAtpDao() {
@@ -104,14 +102,6 @@ public class AtpServiceImpl implements AtpService {
 
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
-    }
-
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
     }
 
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {

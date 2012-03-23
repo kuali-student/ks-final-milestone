@@ -110,7 +110,6 @@
 	  	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
     	<property name="stateService" ref="stateService"/>
         <property name="typeService" ref="typeService" />
-    	<property name="dataDictionaryService" ref="dataDictionaryServiceForAtp"/>
     	<property name="criteriaLookupService" ref="atpCriteriaLookupService"/>
     </bean>
 
