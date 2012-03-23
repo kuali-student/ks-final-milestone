@@ -3446,14 +3446,14 @@ public class LuServiceImpl implements CluService {
     public List<TypeInfo> getCluCluRelationTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getCluCluRelationTypes");
     }
 
     @Override
     public List<TypeInfo> getDeliveryMethodTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getDeliveryMethodTypes");
     }
 
     @Override
@@ -3461,14 +3461,14 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getDeliveryMethodType");
     }
 
     @Override
     public List<TypeInfo> getInstructionalFormatTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getInstructionalFormatTypes");
     }
 
     @Override
@@ -3476,35 +3476,35 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getInstructionalFormatType");
     }
 
     @Override
     public List<TypeInfo> getLuTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getLuTypes");
     }
 
     @Override
     public TypeInfo getLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getLuType");
     }
 
     @Override
     public List<TypeInfo> getLuCodeTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getLuCodeTypes");
     }
 
     @Override
     public TypeInfo getLuCodeType(String luCodeTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getLuCodeType");
     }
 
     @Override
@@ -3512,14 +3512,14 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getLuLuRelationType");
     }
 
     @Override
     public List<TypeInfo> getLuPublicationTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getLuPublicationTypes");
     }
 
     @Override
@@ -3527,21 +3527,21 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getLuPublicationType");
     }
 
     @Override
     public List<TypeInfo> getCluResultTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getCluResultTypes");
     }
 
     @Override
     public TypeInfo getCluResultType(String cluResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getCluResultType");
     }
 
     @Override
@@ -3549,14 +3549,14 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getCluResultTypesForLuType");
     }
 
     @Override
     public List<TypeInfo> getResultUsageTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getResultUsageTypes");
     }
 
     @Override
@@ -3564,14 +3564,14 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getResultUsageType");
     }
 
     @Override
     public List<TypeInfo> getCluLoRelationTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getCluLoRelationTypes");
     }
 
     @Override
@@ -3579,28 +3579,28 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getCluLoRelationType");
     }
 
     @Override
     public List<TypeInfo> getCluSetTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getCluSetTypes");
     }
 
     @Override
     public TypeInfo getCluSetType(String cluSetTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getCluSetType");
     }
 
     @Override
     public List<TypeInfo> getLuLuRelationTypes(ContextInfo contextInfo) throws OperationFailedException,
             UnsupportedOperationException {
         // TODO KSCM-422 - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	throw new UnsupportedOperationException("getLuLuRelationTypes");
     }
 
     //    @Override

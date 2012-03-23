@@ -83,7 +83,8 @@ public class CourseServiceImpl implements CourseService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-429
-        return null; //To change body of implemented methods use File | Settings | File Templates.
+    	throw new UnsupportedOperationException("getCoursesByIds"); 
+    	//To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -91,7 +92,8 @@ public class CourseServiceImpl implements CourseService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-429
-        return null; //To change body of implemented methods use File | Settings | File Templates.
+    	throw new UnsupportedOperationException("searchForCourseIds");
+    	//To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -99,7 +101,8 @@ public class CourseServiceImpl implements CourseService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO KSCM-429
-        return null; //To change body of implemented methods use File | Settings | File Templates.
+    	throw new UnsupportedOperationException("searchForCourses");
+    	//To change body of implemented methods use File | Settings | File Templates.
     }
 
     // TODO KSCM-429 Service Method Comparison Implementation
