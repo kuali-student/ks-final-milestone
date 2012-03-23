@@ -58,8 +58,8 @@ public class CoreProgramDataService extends AbstractDataService {
     protected Object save(Object dto, Map<String, Object> properties,ContextInfo contextInfo) throws Exception {
         if (dto instanceof CoreProgramInfo) {
             CoreProgramInfo cpInfo = (CoreProgramInfo) dto;
-            if (cpInfo.getId() == null && cpInfo.getVersionInfo(contextInfo) != null) {
-            	String coreVersionIndId = cpInfo.getVersionInfo(contextInfo).getVersionIndId();
+            if (cpInfo.getId() == null && cpInfo.getVersion() != null) {
+            	String coreVersionIndId = cpInfo.getVersion().getVersionIndId();
             	cpInfo = programService.createNewCoreProgramVersion(coreVersionIndId, "New core program version",contextInfo);
             } else if (cpInfo.getId() == null) {
                 cpInfo = programService.createCoreProgram(cpInfo.getTypeKey(),cpInfo,contextInfo);

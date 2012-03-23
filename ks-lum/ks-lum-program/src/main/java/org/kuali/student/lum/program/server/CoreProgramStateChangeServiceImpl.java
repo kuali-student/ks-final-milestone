@@ -117,12 +117,12 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 		Long startSeq = new Long(1);
 
 		if (!isSelectedVersionCurrent) {
-			startSeq = currentVersion.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber() + 1;
+			startSeq = currentVersion.getVersion().getSequenceNumber() + 1;
 		}
 
 		for (VersionDisplayInfo versionInfo : versions) {
 			boolean isVersionNewerThanCurrentVersion = versionInfo.getSequenceNumber() >= startSeq;
-			boolean isVersionSelectedVersion = versionInfo.getSequenceNumber().equals(selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber());  
+			boolean isVersionSelectedVersion = versionInfo.getSequenceNumber().equals(selectedVersion.getVersion().getSequenceNumber());  
 			boolean updateState = isVersionNewerThanCurrentVersion && !isVersionSelectedVersion;
 			if (updateState) {
 				CoreProgramInfo otherProgram = programService.getCoreProgram(versionInfo.getId(),ContextUtils.getContextInfo());
@@ -143,7 +143,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 	protected CoreProgramInfo getCurrentVersion(CoreProgramInfo coreProgramInfo)
 			throws Exception {
 		// Get version independent id of program
-		String verIndId = coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId();
+		String verIndId = coreProgramInfo.getVersion().getVersionIndId();
 
 		// Get id of current version of program given the version independent id
 		VersionDisplayInfo curVerDisplayInfo = null;
@@ -207,7 +207,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 
         // If this is not the current version, then make it current
         if (
-        		!currentVersion.getSequenceNumber().equals(coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber())) {
+        		!currentVersion.getSequenceNumber().equals(coreProgramInfo.getVersion().getSequenceNumber())) {
             programService.setCurrentCoreProgramVersion(coreProgramInfo.getId(), null,ContextUtils.getContextInfo());
         }
     }
