@@ -204,12 +204,22 @@ public class ValidationResultInfo
         this.message = message;
     }
 
-    // TODO KSCM-421 compare with R1 and decide how to implement nina
-	public static boolean hasValidationErrors(
-			List<ValidationResultInfo> results, ErrorLevel warn,
-			List<String> ignoreFields) {
-		// TODO Auto-generated method stub
-		return false;
+    public static boolean hasValidationErrors(List<ValidationResultInfo> validationResults, ErrorLevel threshold, List<String> ignoreFields) {
+	    if (validationResults != null) {
+            for (ValidationResultInfo validationResult : validationResults) {
+                //Ignore any fields that are in the list
+                if(ignoreFields!=null && !ignoreFields.contains(validationResult.getElement())){
+                    //Return true if any of the validation results exceed your threshold
+                    if (validationResult.getLevel() == ErrorLevel.ERROR) {
+                        return true;
+                    }
+                    if (ErrorLevel.WARN.equals(threshold) && validationResult.getLevel() == ErrorLevel.WARN) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
 	}
 
 }
