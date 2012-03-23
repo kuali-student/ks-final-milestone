@@ -163,4 +163,35 @@
     <!-- If the action button is in collection, this will submits the form (useful for redirect) instead of KRAD's default ajax callback and update the collection component -->
     <bean id="KS-SubmitActionLink" parent="Uif-ActionLink" p:clientSideJs="jq('#kualiForm').submit();" abstract="true" />
 
+    <bean id="KS-Disclosure-HorizontalCollectionSection" parent="KS-Disclosure-HorizontalCollectionSection-parentBean"/>
+
+    <bean id="KS-Disclosure-HorizontalCollectionSection-parentBean" parent="Uif-StackedCollectionSection">
+        <property name="layoutManager">
+          <bean parent="Uif-StackedCollectionLayout-WithGridItems">
+            <property name="template" value="/krad/WEB-INF/jsp/templates/layout/stackedList.jsp"/>
+            <property name="lineGroupPrototype">
+              <bean parent="Uif-HorizontalBoxSection">
+                <property name="header">
+                  <bean parent="Uif-HeaderField-Four"/>
+                </property>
+                <property name="disclosure.renderImage" value="true"/>
+                <property name="disclosure.defaultOpen" value="true"/>
+              </bean>
+            </property>
+            <property name="addLineGroup">
+              <bean parent="Uif-CollectionHorizontalBoxItem">
+                <property name="styleClasses">
+                  <list merge="true">
+                    <value>uif-collectionAddItem</value>
+                  </list>
+                </property>
+              </bean>
+            </property>
+            <property name="subCollectionFieldGroupPrototype">
+              <bean parent="Uif-HorizontalFieldGroup" p:labelField.render="true"/>
+            </property>
+          </bean>
+        </property>
+    </bean>
+
 </beans>
