@@ -636,14 +636,14 @@ public class TestProgramServiceImpl {
         }
         MajorDisciplineInfo createdMajor = programService.createMajorDiscipline(null, mdInfo, contextInfo);
 
-        MajorDisciplineInfo newMajorDiscipline = programService.createNewMajorDisciplineVersion(createdMajor.getVersionInfo().getVersionIndId(), "test make a new version", contextInfo);
+        MajorDisciplineInfo newMajorDiscipline = programService.createNewMajorDisciplineVersion(createdMajor.getVersion().getVersionIndId(), "test make a new version", contextInfo);
         
         // Make the created the current version
         programService.setCurrentMajorDisciplineVersion(newMajorDiscipline.getId(), null, contextInfo);
 
 		MajorDisciplineInfo	newMajor = null;
         try {
-            newMajor = programService.createNewMajorDisciplineVersion(createdMajor.getVersionInfo().getVersionIndId(), "test make a new version", contextInfo);
+            newMajor = programService.createNewMajorDisciplineVersion(createdMajor.getVersion().getVersionIndId(), "test make a new version", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
@@ -1584,7 +1584,7 @@ public class TestProgramServiceImpl {
         
         CoreProgramInfo core = programService.createCoreProgram(null, coreData, contextInfo);
         
-        CoreProgramInfo newCore = programService.createNewCoreProgramVersion(core.getVersionInfo(contextInfo).getVersionIndId(), "test core program versioning", contextInfo);
+        CoreProgramInfo newCore = programService.createNewCoreProgramVersion(core.getVersion().getVersionIndId(), "test core program versioning", contextInfo);
         
         assertNotNull(newCore);
         
@@ -1594,7 +1594,7 @@ public class TestProgramServiceImpl {
         CoreProgramInfo secondVersion = null;
         
         try {
-            secondVersion = programService.createNewCoreProgramVersion(core.getVersionInfo(contextInfo).getVersionIndId(), "test core program second version", contextInfo);
+            secondVersion = programService.createNewCoreProgramVersion(core.getVersion().getVersionIndId(), "test core program second version", contextInfo);
             assertTrue(true);
         }
         catch (Exception e) {
