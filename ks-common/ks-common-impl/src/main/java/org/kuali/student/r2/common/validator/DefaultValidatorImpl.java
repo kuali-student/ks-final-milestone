@@ -48,7 +48,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.springframework.beans.BeanUtils;
 
-//TODO KSCM-428 This class is a special case, this class/equivelent doesn't exist in R2 
+//This class is a special case, this class/equivelent doesn't exist in R2 
 //packages and is a common and has methods used in both R1 and R2 packages, 
 //this class was duplicated to R2 and modified to work with R2 services
 //BaseAbstractValidator, BaseAbstractValidator, Validator, ValidatorFactory
