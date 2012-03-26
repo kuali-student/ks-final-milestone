@@ -514,7 +514,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(holidayCalendarInfo.getId(), context);
                 for(HolidayInfo holidayInfo : holidayInfoList){
                     HolidayWrapper holiday = new HolidayWrapper(holidayInfo);
-//                    holiday.setHolidayInfo(holidayInfo);
                     TypeInfo typeInfo = getAcalService().getHolidayType(holidayInfo.getTypeKey(), context);
                     holiday.setTypeName(typeInfo.getName());
                     holidays.add(holiday);
@@ -1114,8 +1113,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 try {
                     List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
                     for(HolidayInfo holidayInfo : holidayInfoList){
-                        HolidayWrapper holiday = new HolidayWrapper();
-                        holiday.setHolidayInfo(holidayInfo);
+                        HolidayWrapper holiday = new HolidayWrapper(holidayInfo);
                         TypeInfo typeInfo = getAcalService().getHolidayType(holidayInfo.getTypeKey(), getContextInfo());
                         holiday.setTypeName(typeInfo.getName());
                         holidays.add(holiday);

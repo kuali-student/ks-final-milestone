@@ -85,12 +85,6 @@ public class HolidayWrapper extends TimeSetWrapper {
 
     public void setHolidayInfo(HolidayInfo holidayInfo) {
         this.holidayInfo = holidayInfo;
-//        if (holidayInfo != null){
-//            setAllDay(holidayInfo.getIsAllDay());
-//            setInstructional(holidayInfo.getIsInstructionalDay());
-//            setDateRange(holidayInfo.getIsDateRange());
-//            setTypeKey(holidayInfo.getTypeKey());
-//        }
     }
 
     //This is for UI display purpose
