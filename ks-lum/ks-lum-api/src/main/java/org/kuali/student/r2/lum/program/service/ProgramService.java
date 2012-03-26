@@ -826,38 +826,109 @@ public interface ProgramService extends  SearchService ,  VersionManagementServi
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     @Deprecated
-	public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
-			String majorDisciplineId, ContextInfo contextInfo)
+    /**
+     * 
+     * This method ...
+     * 
+     * @param majorDisciplineId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+	public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(@WebParam(name="majorDisciplineId") String majorDisciplineId, @WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
     @Deprecated
-	public ProgramRequirementInfo getProgramRequirement(String programRequirementId,
-			String nlUsageTypeKey, String language, ContextInfo contextInfo)
+    /**
+     * 
+     * This method ...
+     * 
+     * @param programRequirementId
+     * @param nlUsageTypeKey
+     * @param language
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+	public ProgramRequirementInfo getProgramRequirement(@WebParam(name="programRequirementId") String programRequirementId,
+	        @WebParam(name="nlUsageTypeKey") String nlUsageTypeKey, @WebParam(name="language") String language, @WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
 
     @Deprecated
+    /**
+     * 
+     * This method ...
+     * 
+     * @param credentialProgramInfo
+     * @param contextInfo
+     * @return
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws VersionMismatchException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
 	public CredentialProgramInfo updateCredentialProgram(
-			CredentialProgramInfo credentialProgramInfo, ContextInfo contextInfo)
+	        @WebParam(name="credentialProgramInfo") CredentialProgramInfo credentialProgramInfo, @WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			VersionMismatchException, OperationFailedException,
 			PermissionDeniedException;
 
     @Deprecated
+    /**
+     * 
+     * This method ...
+     * 
+     * @param majorDisciplineInfo
+     * @param contextInfo
+     * @return
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws VersionMismatchException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
 	public MajorDisciplineInfo updateMajorDiscipline(
-			MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo)
+	        @WebParam(name="majorDisciplineInfo") MajorDisciplineInfo majorDisciplineInfo, @WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			VersionMismatchException, OperationFailedException,
 			PermissionDeniedException;
 
     @Deprecated
+    /**
+     * 
+     * This method ...
+     * 
+     * @param programRequirementInfo
+     * @param contextInfo
+     * @return
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws VersionMismatchException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
 	public ProgramRequirementInfo updateProgramRequirement(
-			ProgramRequirementInfo programRequirementInfo,
-			ContextInfo contextInfo) throws DataValidationErrorException,
+	        @WebParam(name="programRequirementInfo") ProgramRequirementInfo programRequirementInfo,
+	        @WebParam(name="contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, VersionMismatchException,
 			OperationFailedException, PermissionDeniedException;
