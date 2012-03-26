@@ -151,7 +151,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.kuali.student.conversion.util.R1R2ConverterUtil;
 
-@WebService(endpointInterface = "org.kuali.student.r2.lum.clu.service.CluService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
+@WebService(endpointInterface = "org.kuali.student.r2.lum.clu.service.CluService", serviceName = "CluService", portName = "CluService", targetNamespace = "http://student.kuali.org/wsdl/clu")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class LuServiceImpl implements CluService {
 
