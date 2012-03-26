@@ -410,7 +410,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldDescriptorRef bean="field.loCategoryInfo.state.fd"/>
 	<dict:constraintDescriptorRef bean="field.loCategoryInfo.state.cd"/>
 </dict:field>
-<dict:field key="state" id="field.loCategoryInfo.state" parent="field.loCategoryInfo.state.abstract"/>
+<dict:field key="state" id="field.loCategoryInfo.stateKey" parent="field.loCategoryInfo.state.abstract"/>
 <dict:fieldDescriptor id="field.loCategoryInfo.state.fd.abstract" abstract="true">
 	<dict:name>Learning Objective Category State</dict:name>
 	<dict:desc>The current status of the learning objective category. The values for this field are constrained to those in the loCategoryState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>

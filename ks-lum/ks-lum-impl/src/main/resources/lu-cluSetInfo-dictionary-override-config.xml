@@ -539,7 +539,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.credit.course.set.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.clu.set.states"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="state" id="dict.credit.course.set.state.cd" parent="dict.credit.course.set.state.cd.abstract"/>

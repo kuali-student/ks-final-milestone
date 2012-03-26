@@ -317,7 +317,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldDescriptorRef bean="field.loLoRelationInfo.state.fd"/>
 	<dict:constraintDescriptorRef bean="field.loLoRelationInfo.state.cd"/>
 </dict:field>
-<dict:field key="state" id="field.loLoRelationInfo.state" parent="field.loLoRelationInfo.state.abstract"/>
+<dict:field key="state" id="field.loLoRelationInfo.stateKey" parent="field.loLoRelationInfo.state.abstract"/>
 <dict:fieldDescriptor id="field.loLoRelationInfo.state.fd.abstract" abstract="true">
 	<dict:name>LO to LO Relation State</dict:name>
 	<dict:desc>Identifier for the current status of a LO to LO relationship. The values for this field are constrained to those in the luLuRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
@@ -328,7 +328,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="field.loLoRelationInfo.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="state" id="field.loLoRelationInfo.state.cd" parent="field.loLoRelationInfo.state.cd.abstract"/>
 

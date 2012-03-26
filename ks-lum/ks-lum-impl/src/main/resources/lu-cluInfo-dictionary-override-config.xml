@@ -1350,7 +1350,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.course.official.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.identifier.states"/>
 	<dict:constraintRef bean="constraint.hard.coded.active"/>
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -1704,7 +1704,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.course.cross-listed.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.identifier.states"/>
 	<dict:constraintRef bean="constraint.default.active"/>
 </dict:constraintDescriptor>
@@ -1963,7 +1963,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.course.version.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.identifier.states"/>
 	<dict:constraintRef bean="constraint.hard.coded.active"/>
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -5473,7 +5473,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.course.format.official.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.identifier.states"/>
 	<dict:constraintRef bean="constraint.hard.coded.active"/>
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -6011,7 +6011,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.program.official.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.identifier.states"/>
 	<dict:constraintRef bean="constraint.hard.coded.active"/>
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -6326,7 +6326,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.program.version.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.identifier.states"/>
 	<dict:constraintRef bean="constraint.hard.coded.active"/>
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -8507,7 +8507,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.course.activity.official.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.identifier.states"/>
 	<dict:constraintRef bean="constraint.hard.coded.active"/>
 	<dict:constraintRef bean="constraint.read.only"/>
@@ -9671,7 +9671,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.course.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.states"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="state" id="dict.course.state.cd" parent="dict.course.state.cd.abstract"/>
@@ -10604,7 +10604,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.course.format.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.states"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="state" id="dict.course.format.state.cd" parent="dict.course.format.state.cd.abstract"/>
@@ -11304,7 +11304,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.program.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.states"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="state" id="dict.program.state.cd" parent="dict.program.state.cd.abstract"/>
@@ -12152,7 +12152,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.course.activity.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.states"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="state" id="dict.course.activity.state.cd" parent="dict.course.activity.state.cd.abstract"/>
