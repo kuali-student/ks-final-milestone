@@ -136,11 +136,11 @@
                          value="${ks.lum.dictionary.old.serviceContextLocations}"/>
     </bean>
 
-    <bean id="luClient"
+    <bean id="cluClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.clu.service.CluService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/lu}LuService"/>
+                  value="{http://student.kuali.org/wsdl/clu}CluService"/>
     </bean>
 
     <bean id="proposalClient"
@@ -165,9 +165,9 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="luServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.lum.lu.service.LuService"/>
-                <property name="localServiceName" value="LuService"/>
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lu"/>
+                          value="org.kuali.student.r2.lum.clu.service.CluService"/>
+                <property name="localServiceName" value="CluService"/>
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/clu"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
             </bean>
         </property>
@@ -231,7 +231,7 @@
         <property name="services">
             <list>
                 <ref bean="loClient"/>
-                <ref bean="luClient"/>
+                <ref bean="cluClient"/>
                 <ref bean="lrcClient"/>
                 <ref bean="orgClient"/>
                 <ref bean="enumServiceClient"/>
@@ -246,7 +246,7 @@
     <bean id="lrcClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.lum.lrc.service.LrcService"/>
+                  value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/lrc}LearningResultService"/>
     </bean>
@@ -264,7 +264,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="lrcServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.lum.lrc.service.LrcService"/>
+                          value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
                 <property name="localServiceName" value="LearningResultService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lrc"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
@@ -275,7 +275,7 @@
     <bean id="loClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.lum.lo.service.LearningObjectiveService"/>
+                  value="org.kuali.student.r2.lum.lo.service.LearningObjectiveService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService"/>
     </bean>
@@ -294,7 +294,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="loServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.lum.lo.service.LearningObjectiveService"/>
+                          value="org.kuali.student.r2.lum.lo.service.LearningObjectiveService"/>
                 <property name="localServiceName" value="LearningObjectiveService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lo"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
@@ -321,7 +321,7 @@
     <!-- CourseService config -->
     <bean id="courseServiceImpl"
           class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
         <property name="courseAssembler" ref="courseAssembler"/>
         <property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
@@ -335,7 +335,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="courseServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.lum.course.service.CourseService"/>
+                          value="org.kuali.student.r2.lum.course.service.CourseService"/>
                 <property name="localServiceName" value="CourseService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/course"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
@@ -345,7 +345,7 @@
  
     <bean id="courseServiceMethodInvoker"
           class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
         <property name="loService" ref="loClient"/>
         <property name="lrcService" ref="lrcClient"/>
     </bean>
@@ -356,7 +356,7 @@
         <property name="courseJointAssembler" ref="courseJointAssembler"/>
         <property name="loAssembler" ref="loAssembler"/>
         <property name="loService" ref="loClient"/>
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
         <property name="lrcService" ref="lrcClient"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="atpService" ref="atpClient"/>
@@ -365,17 +365,17 @@
     <bean id="formatAssembler"
           class="org.kuali.student.lum.course.service.assembler.FormatAssembler">
         <property name="activityAssembler" ref="activityAssembler"/>
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
     </bean>
 
     <bean id="activityAssembler"
           class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
     </bean>
 
     <bean id="courseJointAssembler"
           class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
     </bean>
 
     <bean id="lumDictionaryService"
@@ -426,13 +426,13 @@
         <property name="defaultValidator" ref="r1_lumServiceValidator"/>
         <property name="validatorList">
         	<list>
-				<!--  Add Custom Validators Here -->
+				<!-- Add Custom Validators Here-->
 				<bean class="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator" >
         			<property name="messageService" ref="ks.messageServiceMock"/>
        				<property name="searchDispatcher" ref="lumSearchDispatcher"/>
 				</bean>
 				
-				<!--  Custom Validator for Revenue. Checks to see if the sum of all the orgs adds up to 100% -->
+				<!-- Custom Validator for Revenue. Checks to see if the sum of all the orgs adds up to 100% -->
 			    <bean class="org.kuali.student.lum.course.service.utils.RevenuePercentValidator"/>
 			    <bean class="org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator"/>    	
 				<bean class="org.kuali.student.lum.course.service.utils.ActiveDatesValidator">
@@ -478,14 +478,14 @@
 
     <bean id="cluAssemblerUtils"
           class="org.kuali.student.lum.service.assembler.CluAssemblerUtils">
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
     </bean>
 
     <bean id="majorDisciplineAssembler"
           class="org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler">
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
         <property name="programVariationAssembler" ref="programVariationAssembler"/>
         <property name="coreProgramAssembler" ref="coreProgramAssembler"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
@@ -502,7 +502,7 @@
           class="org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler">
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
     </bean>
 
     <bean id="coreProgramAssembler"
@@ -514,21 +514,21 @@
 
     <bean id="programVariationAssembler"
           class="org.kuali.student.lum.program.service.assembler.ProgramVariationAssembler">
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
         <property name="programAssemblerUtils" ref="programAssemblerUtils"/>
     </bean>
 
     <bean id="programServiceMethodInvoker"
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
         <property name="loService" ref="loClient"/>
         <property name="statementService" ref="statementServiceClient"/>
     </bean>
 
     <bean id="programServiceImpl"
           class="org.kuali.student.lum.program.service.impl.ProgramServiceImpl">
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
         <property name="programRequirementAssembler" ref="programRequirementAssembler"/>
         <property name="searchManager" ref="programSearchManager"/>
         <property name="dictionaryService" ref="lumDictionaryService"/>
@@ -547,7 +547,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="programServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.lum.program.service.ProgramService"/>
+                          value="org.kuali.student.r2.lum.program.service.ProgramService"/>
                 <property name="localServiceName" value="ProgramService"/>
                 <property name="serviceNameSpaceURI"
                           value="http://student.kuali.org/wsdl/program"/>

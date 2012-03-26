@@ -68,7 +68,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r1.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.springframework.util.StringUtils;
@@ -413,7 +413,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		//Default course effective dates to the atps if entered
 		if(course.getStartTerm() != null){
 			try {
-				AtpInfo startAtp = R1R2ConverterUtil.convert(atpService.getAtp(course.getStartTerm(),contextInfo), AtpInfo.class);
+				AtpInfo startAtp = R1R2ConverterUtil.convert(atpService.getAtp(course.getStartTerm()), AtpInfo.class);
 				course.setEffectiveDate(startAtp.getStartDate());
 			} catch (Exception e) {
 				throw new AssemblyException("Error getting start term Atp.",e);
@@ -421,7 +421,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 		if(course.getEndTerm() != null){
 			try {
-				AtpInfo endAtp = R1R2ConverterUtil.convert(atpService.getAtp(course.getEndTerm(),contextInfo), AtpInfo.class);
+				AtpInfo endAtp = R1R2ConverterUtil.convert(atpService.getAtp(course.getEndTerm()), AtpInfo.class);
 				course.setExpirationDate(endAtp.getEndDate());
 			} catch (Exception e) {
 				throw new AssemblyException("Error getting end term Atp.",e);

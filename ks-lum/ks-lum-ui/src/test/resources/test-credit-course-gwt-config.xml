@@ -65,7 +65,7 @@
 	<!-- GWT Servlets -->
 	<bean id="LuRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.LuRpcGwtServlet">
-		<property name="service" ref="luClient" />
+		<property name="service" ref="cluClient" />
 	</bean>
 
 	<bean id="CluProposalRpcGwtServlet"
@@ -92,7 +92,7 @@
 	<bean id="creditCourseProposalAssembler" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler" parent="baseAssembler">
 		<constructor-arg value="draft"/>
 		<property name="learningObjectiveService" ref="loClient"/>
-		<property name="luService" ref="luClient"/>
+		<property name="luService" ref="cluClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
 		<property name="proposalService" ref="proposalClient"/>
 		<property name="orgService" ref="orgClient"/>
@@ -106,7 +106,7 @@
         <constructor-arg value="classpath:lum-orchestration-dictionary.xml" />
         <constructor-arg>
         	<list>
-        		<ref bean="luClient"/>
+        		<ref bean="cluClient"/>
         		<ref bean="commentClient"/>
         	</list>
         </constructor-arg>
@@ -134,7 +134,7 @@
 
 	<bean id="courseAssembler" class="org.kuali.student.lum.lu.assembly.CourseAssembler" parent="baseAssembler">
 		<property name="loService" ref="loClient"/>
-		<property name="luService" ref="luClient"/>
+		<property name="luService" ref="cluClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
 		<property name="orgService" ref="orgClient"/>
 		<property name="atpService" ref="atpClient"/>
@@ -209,7 +209,7 @@
 	<bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
 		<constructor-arg>
 	      <list>
-	        <ref bean="luClient"/>
+	        <ref bean="cluClient"/>
 	        <ref bean="loClient"/>
 	        <ref bean="orgClient"/>
 	      	<ref bean="atpClient"/>
@@ -219,10 +219,10 @@
 	</bean>
 
 	<!-- Service clients -->
-	<bean id="luClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/LuService?wsdl"/>
-		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/lu}LuService"/>
-		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lu.service.LuService"/>
+	<bean id="cluClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/CluService?wsdl"/>
+		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/clu}CluService"/>
+		<property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.clu.service.CluService"/>
 	</bean>
 	
 	<bean id="commentClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
@@ -269,7 +269,7 @@
 
 	<bean id="loClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/LearningObjectiveService?wsdl"/>
-		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lo.service.LearningObjectiveService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.lo.service.LearningObjectiveService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService" />
 	</bean>
 

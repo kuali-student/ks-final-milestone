@@ -26,11 +26,11 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-    <bean id="luClient"
+    <bean id="cluClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.lum.lu.service.LuService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.clu.service.CluService"/>
         <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/lu}LuService"/>
+                  value="{http://student.kuali.org/wsdl/clu}CluService"/>
     </bean>
   
    <bean id="lrcClient"
@@ -75,7 +75,7 @@
         <property name="services">
             <list>
                 <ref bean="loClient"/>
-                <ref bean="luClient"/>
+                <ref bean="cluClient"/>
                 <ref bean="lrcClient"/>
                 <ref bean="orgClient"/>
                 <ref bean="enumServiceClient"/>
@@ -101,7 +101,7 @@
 
     <bean id="programServiceMethodInvoker"
           class="org.kuali.student.lum.program.service.impl.ProgramServiceMethodInvoker">
-        <property name="luService" ref="luClient"/>
+        <property name="luService" ref="cluClient"/>
     </bean>
     
    <bean id="programSearchManager"

@@ -31,8 +31,8 @@ import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.common.validator.ValidatorUtils;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r1.core.atp.dto.AtpInfo;
+import org.kuali.student.r1.core.atp.service.AtpService;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
@@ -1552,7 +1552,7 @@ public class ProgramServiceImpl implements ProgramService{
 		if(atpKey==null){
 			return null;
 		}
-		return atpService.getAtp(atpKey,contextInfo);
+		return atpService.getAtp(atpKey);
 	}
 	//FIXME error should return using message service and not static text
 	private void compareAtps(String aptKey1, String aptKey2, List<ValidationResultInfo> validationResults, String field, String path,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{

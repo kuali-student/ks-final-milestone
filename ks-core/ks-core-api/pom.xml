@@ -80,7 +80,7 @@
             <id>document-wsdl</id>
             <phase>${ks.java2ws.phase}</phase>
             <configuration>
-              <className>org.kuali.student.core.document.service.DocumentService</className>
+              <className>org.kuali.student.r1.core.document.service.DocumentService</className>
               <serviceName>DocumentService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/document</targetNameSpace>
             </configuration>
@@ -92,7 +92,7 @@
             <id>comment-wsdl</id>
             <phase>${ks.java2ws.phase}</phase>
             <configuration>
-              <className>org.kuali.student.core.comment.service.CommentService</className>
+              <className>org.kuali.student.r1.core.comment.service.CommentService</className>
               <serviceName>CommentService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/comment</targetNameSpace>
             </configuration>
@@ -104,7 +104,7 @@
             <id>proposal-wsdl</id>
             <phase>${ks.java2ws.phase}</phase>
             <configuration>
-              <className>org.kuali.student.core.proposal.service.ProposalService</className>
+              <className>org.kuali.student.r1.core.proposal.service.ProposalService</className>
               <serviceName>ProposalService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/proposal</targetNameSpace>
             </configuration>
@@ -116,7 +116,7 @@
             <id>statement-wsdl</id>
             <phase>${ks.java2ws.phase}</phase>
             <configuration>
-              <className>org.kuali.student.core.statement.service.StatementService</className>
+              <className>org.kuali.student.r1.core.statement.service.StatementService</className>
               <serviceName>StatementService</serviceName>
               <targetNameSpace>http://student.kuali.org/wsdl/statement</targetNameSpace>
             </configuration>
