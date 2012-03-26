@@ -118,7 +118,7 @@
  <bean id="loDisplayInfo.typeKey" parent="loDisplayInfo.typeKey-parent" />
  
   <bean id="loDisplayInfo.loRepositoryKey-parent" abstract="true" parent="baseString">
-  <property name="name" value="typeKey" />
+  <property name="name" value="loRepositoryKey" />
  </bean>
  <bean id="loDisplayInfo.loRepositoryKey" parent="loDisplayInfo.loRepositoryKey-parent" />
  
