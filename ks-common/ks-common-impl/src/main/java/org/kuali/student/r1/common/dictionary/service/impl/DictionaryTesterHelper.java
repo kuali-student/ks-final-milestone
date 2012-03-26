@@ -130,13 +130,13 @@ public class DictionaryTesterHelper
  }
 
  private Set<String> getComplexSubStructures (String className)
- {
-  return new ComplexSubstructuresHelper ().getComplexStructures (className);
+ { 
+  return new ComplexSubstructuresHelper().getComplexStructures (className);
  }
 
  private void doTestOnClass (String className, ApplicationContext ac)
  {
-  ObjectStructureDefinition os =   os = objectStructures.get (className);
+  ObjectStructureDefinition os = objectStructures.get (className);
   String simpleName = calcSimpleName (className);
   if (os == null)
   {

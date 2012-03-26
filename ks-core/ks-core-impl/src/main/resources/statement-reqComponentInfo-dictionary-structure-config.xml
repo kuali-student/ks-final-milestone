@@ -451,7 +451,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="field.reqComponentInfo.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.lu.requirement.component.states"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="state" id="field.reqComponentInfo.state.cd" parent="field.reqComponentInfo.state.cd.abstract"/>

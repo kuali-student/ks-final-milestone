@@ -275,7 +275,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="kuali.state" id="constraint.kuali.state" serverSide="true">
+	<dict:constraint key="kuali.state" id="constraint.kuali.stateKey" serverSide="true">
 		<!-- Kuali STATE -->
 		<dict:minOccurs>1</dict:minOccurs>
 		<dict:maxOccurs>1</dict:maxOccurs>

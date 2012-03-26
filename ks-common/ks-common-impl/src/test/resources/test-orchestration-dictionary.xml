@@ -318,7 +318,7 @@
 		<property name="specialValidator"
 			value="org.kuali.student.r1.common.validation.KualiMetaDataValidator" />
 	</bean>
-	<bean id="constraint.kuali.state" parent="constraint">
+	<bean id="constraint.kuali.stateKey" parent="constraint">
 		<property name="id" value="kuali.state" />
 		<!--<property name="messageId" value="kuali.msg.validation.kuali.state" />-->
 		<property name="desc" value="Kuali STATE" />
@@ -668,7 +668,7 @@
 							<ref bean="constraint.single" />
 							<ref bean="constraint.required" />
 							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
+							<ref bean="constraint.kuali.stateKey" />
 						</list>
 					</property>
 				</bean>
@@ -831,7 +831,7 @@
 							<ref bean="constraint.single" />
 							<ref bean="constraint.required" />
 							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
+							<ref bean="constraint.kuali.stateKey" />
 							<ref bean="constraint.lu.states" />
 						</list>
 					</property>
@@ -1006,7 +1006,7 @@
 							<ref bean="constraint.single" />
 							<ref bean="constraint.required" />
 							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
+							<ref bean="constraint.kuali.stateKey" />
 							<ref bean="constraint.lu.states" />
 						</list>
 					</property>
@@ -1583,7 +1583,7 @@
 							<ref bean="constraint.single" />
 							<ref bean="constraint.required" />
 							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
+							<ref bean="constraint.kuali.stateKey" />
 						</list>
 					</property>
 				</bean>
@@ -1808,7 +1808,7 @@
 							<ref bean="constraint.single" />
 							<ref bean="constraint.required" />
 							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
+							<ref bean="constraint.kuali.stateKey" />
 						</list>
 					</property>
 				</bean>
@@ -1947,7 +1947,7 @@
 							<ref bean="constraint.single" />
 							<ref bean="constraint.required" />
 							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
+							<ref bean="constraint.kuali.stateKey" />
 						</list>
 					</property>
 				</bean>
@@ -2531,7 +2531,7 @@
 							<ref bean="constraint.single" />
 							<ref bean="constraint.required" />
 							<ref bean="constraint.single" />
-							<ref bean="constraint.kuali.state" />
+							<ref bean="constraint.kuali.stateKey" />
 							<ref bean="constraint.lu.states" />
 						</list>
 					</property>

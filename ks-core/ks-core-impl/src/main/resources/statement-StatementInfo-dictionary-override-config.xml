@@ -499,7 +499,7 @@ Should not include rules that restrict enrollment for other purposes other than 
 <dict:constraintDescriptor id="dict.requisite.statement.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.statement.states"/>
 	<dict:constraintRef bean="constraint.hard.coded.active"/>
 </dict:constraintDescriptor>
