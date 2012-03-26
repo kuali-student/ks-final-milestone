@@ -52,7 +52,7 @@ public class TestCourseDTOEqualXMLBeanDefinition {
 	public void testCourseDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
-		startingClasses.add(ActivityInfo.class.getName());//Field unitTypeKey not in dictionary or java file, but asked
+		startingClasses.add(ActivityInfo.class.getName());
 		startingClasses.add(CourseCrossListingInfo.class.getName());
 		startingClasses.add(CourseExpenditureInfo.class.getName());
 		startingClasses.add(CourseFeeInfo.class.getName());
@@ -60,8 +60,8 @@ public class TestCourseDTOEqualXMLBeanDefinition {
 		startingClasses.add(CourseJointInfo.class.getName());
 		startingClasses.add(CourseRevenueInfo.class.getName());
 		startingClasses.add(CourseVariationInfo.class.getName());
-		startingClasses.add(FormatInfo.class.getName());//Field unitTypeKey not in dictionary or java file, but asked
-		startingClasses.add(LoDisplayInfo.class.getName());//Field desc not in dictionary or java file, but asked
+		startingClasses.add(FormatInfo.class.getName());
+		startingClasses.add(LoDisplayInfo.class.getName());
 		
 		String contextFile = "ks-courseInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";

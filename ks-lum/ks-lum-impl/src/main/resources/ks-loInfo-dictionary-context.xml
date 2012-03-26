@@ -84,7 +84,7 @@
     <ref bean="loDisplayInfo.id" />  
     <ref bean="loDisplayInfo.stateKey" />  
     <ref bean="loDisplayInfo.typeKey" /> 
-    <ref bean="loDisplayInfo.loRepositoryKey" />
+<!--     <ref bean="loDisplayInfo.loRepositoryKey" /> -->
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
