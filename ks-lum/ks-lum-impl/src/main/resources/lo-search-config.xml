@@ -29,7 +29,7 @@
 	
 	<search:crossSearchType id="lo.search.loByDescCrossSearch">
         <search:name>LO Search for all LOs and related Clus matching supplied word</search:name>
-        <search:descr>Returns all matching LOs ids and related Clu ids and codes</search:descr>
+        <search:desc>Returns all matching LOs ids and related Clu ids and codes</search:desc>
         <search:searchResultTypeInfo>
         	<ref bean="lo.result.loCluByDesc" />
         </search:searchResultTypeInfo>
@@ -55,7 +55,7 @@
 	
 	<search:crossSearchType id="lo.search.loByCategoryCluCrossSearch">
         <search:name>LO Search for all LOs and related Clus matching category name</search:name>
-        <search:descr>Returns all matching LOs ids and related Clu ids and codes</search:descr>
+        <search:desc>Returns all matching LOs ids and related Clu ids and codes</search:desc>
         <search:searchResultTypeInfo>
         	<ref bean="lo.result.loCluByCategory" />
         </search:searchResultTypeInfo>
@@ -94,7 +94,7 @@
     <search:searchType id="lo.search.loByName" parent="lo.search.loByName-parent"/>
 	<search:searchType id="lo.search.loByName-parent"  abstract="true">
         <search:name>LoSearchByName</search:name>
-        <search:descr>Retrieve LO by name</search:descr>
+        <search:desc>Retrieve LO by name</search:desc>
         <search:searchResultTypeInfo>
             <ref bean="lo.result.los" />
         </search:searchResultTypeInfo>
@@ -106,7 +106,7 @@
     <search:searchType id="lo.search.los" parent="lo.search.los-parent"/>
 	<search:searchType id="lo.search.los-parent"  abstract="true">
         <search:name>LO Search for all LOs</search:name>
-        <search:descr>Returns all available LOs</search:descr>
+        <search:desc>Returns all available LOs</search:desc>
         <search:searchResultTypeInfo>
             <ref bean="lo.result.los" />
         </search:searchResultTypeInfo>
@@ -118,7 +118,7 @@
     <search:searchType id="lo.search.loByDesc" parent="lo.search.loByDesc-parent"/>
 	<search:searchType id="lo.search.loByDesc-parent"  abstract="true">
         <search:name>LO Search for all LOs matching supplied word</search:name>
-        <search:descr>Returns all matching LOs</search:descr>
+        <search:desc>Returns all matching LOs</search:desc>
         <search:searchResultTypeInfo>
             <ref bean="lo.result.loDesc" />
         </search:searchResultTypeInfo>
@@ -130,7 +130,7 @@
     <search:searchType id="lo.search.loCluByDesc" parent="lo.search.loCluByDesc-parent"/>
 	<search:searchType id="lo.search.loCluByDesc-parent"  abstract="true">
         <search:name>LO Search for all LOs and related Clus matching supplied word</search:name>
-        <search:descr>Returns all matching LOs ids and related Clu ids and codes</search:descr>
+        <search:desc>Returns all matching LOs ids and related Clu ids and codes</search:desc>
         <search:searchResultTypeInfo>
         	<ref bean="lo.result.loCluByDesc" />
         </search:searchResultTypeInfo>
@@ -142,7 +142,7 @@
     <search:searchType id="lo.search.loByCategory" parent="lo.search.loByCategory-parent"/>
 	<search:searchType id="lo.search.loByCategory-parent"  abstract="true">
         <search:name>LO Search for all LOs by matching category</search:name>
-        <search:descr>Returns all matching LOs with lo id, description and category</search:descr>
+        <search:desc>Returns all matching LOs with lo id, description and category</search:desc>
         <search:searchResultTypeInfo>
         	<ref bean="lo.result.loByCategory" />
         </search:searchResultTypeInfo>
@@ -154,7 +154,7 @@
     <search:searchType id="lo.search.loByCluCode" parent="lo.search.loByCluCode-parent"/>
 	<search:searchType id="lo.search.loByCluCode-parent"  abstract="true">
         <search:name>LO Search for all LOs by Clu Code</search:name>
-        <search:descr>Returns all matching LOs ids </search:descr>
+        <search:desc>Returns all matching LOs ids </search:desc>
         <search:searchResultTypeInfo>
         	<ref bean="lo.result.loClu" />
         </search:searchResultTypeInfo>
@@ -166,7 +166,7 @@
     <search:searchType id="lo.search.loByCluCategory" parent="lo.search.loByCluCategory-parent"/>
 	<search:searchType id="lo.search.loByCluCategory-parent"  abstract="true">
         <search:name>LO Search for all LOs by matching category</search:name>
-        <search:descr>Returns all matching LOs ids </search:descr>
+        <search:desc>Returns all matching LOs ids </search:desc>
         <search:searchResultTypeInfo>
         	<ref bean="lo.result.loClu" />
         </search:searchResultTypeInfo>
@@ -178,7 +178,7 @@
     <search:searchType id="lo.search.loCategories" parent="lo.search.loCategories-parent"/>
 	<search:searchType id="lo.search.loCategories-parent"  abstract="true">
         <search:name>LO Search for all categories</search:name>
-        <search:descr>Returns all matching category names </search:descr>
+        <search:desc>Returns all matching category names </search:desc>
         <search:searchResultTypeInfo>
         	<ref bean="lo.result.categoryName" />
         </search:searchResultTypeInfo>
@@ -190,7 +190,7 @@
     <search:searchType id="lo.search.loCategoriesByNameRepoTypeState" parent="lo.search.loCategoriesByNameRepoTypeState-parent"/>
 	<search:searchType id="lo.search.loCategoriesByNameRepoTypeState-parent"  abstract="true">
         <search:name>LO Search for all categories based on name, type and state</search:name>
-        <search:descr>Returns all matching category ids</search:descr>
+        <search:desc>Returns all matching category ids</search:desc>
         <search:searchResultTypeInfo>
         	<ref bean="lo.result.categoryId" />
         </search:searchResultTypeInfo>
@@ -202,13 +202,13 @@
     <search:searchCriteriaTypeInfo id="lo.criteria.all" parent="lo.criteria.all-parent"/>
 	<search:searchCriteriaTypeInfo id="lo.criteria.all-parent"  abstract="true">
         <search:name>LoLo</search:name>
-        <search:descr>Placeholder Criteria</search:descr>
+        <search:desc>Placeholder Criteria</search:desc>
     </search:searchCriteriaTypeInfo>
 	
 	<search:searchCriteriaTypeInfo id="lo.criteria.loName" parent="lo.criteria.loName-parent"/>
 	<search:searchCriteriaTypeInfo id="lo.criteria.loName-parent"  abstract="true">
 		<search:name>LoSearchByNameCriteria</search:name>
-		<search:descr>Search criteria for searching for learning objectives by name</search:descr>
+		<search:desc>Search criteria for searching for learning objectives by name</search:desc>
         <search:queryParams>
             <ref bean="lo.queryParam.loName" />
         </search:queryParams>
@@ -322,7 +322,7 @@
     <search:searchResultTypeInfo id="lo.result.los" parent="lo.result.los-parent"/>
 	<search:searchResultTypeInfo id="lo.result.los-parent"  abstract="true">
         <search:name>Los</search:name>
-        <search:descr>List Los</search:descr>
+        <search:desc>List Los</search:desc>
         <search:resultColumns>
             <ref bean="lo.resultColumn.loId" />
             <ref bean="lo.resultColumn.loName" />
@@ -332,7 +332,7 @@
     <search:searchResultTypeInfo id="lo.result.loDesc" parent="lo.result.loDesc-parent"/>
 	<search:searchResultTypeInfo id="lo.result.loDesc-parent"  abstract="true">
         <search:name>Los</search:name>
-        <search:descr>Lo descs</search:descr>
+        <search:desc>Lo descs</search:desc>
         <search:resultColumns>
             <ref bean="lo.resultColumn.loDescId" />
             <ref bean="lo.resultColumn.loDescPlain" />
@@ -342,7 +342,7 @@
     <search:searchResultTypeInfo id="lo.result.loCluByDesc" parent="lo.result.loCluByDesc-parent"/>
 	<search:searchResultTypeInfo id="lo.result.loCluByDesc-parent"  abstract="true">
         <search:name>Los and Related Clus</search:name>
-        <search:descr>Lo descs ids and Clu ids and Codes</search:descr>
+        <search:desc>Lo descs ids and Clu ids and Codes</search:desc>
         <search:resultColumns>
             <ref bean="lo.resultColumn.loId" />
             <ref bean="lo.resultColumn.loCluId" />
@@ -354,7 +354,7 @@
     <search:searchResultTypeInfo id="lo.result.loCluByCategory" parent="lo.result.loCluByCategory-parent"/>
 	<search:searchResultTypeInfo id="lo.result.loCluByCategory-parent"  abstract="true">
         <search:name>Los and Related Clus</search:name>
-        <search:descr>Lo descs ids and Clu ids and Codes</search:descr>
+        <search:desc>Lo descs ids and Clu ids and Codes</search:desc>
         <search:resultColumns>
             <ref bean="lo.resultColumn.loId" />
             <ref bean="lo.resultColumn.loCluId" />
@@ -370,7 +370,7 @@
     <search:searchResultTypeInfo id="lo.result.loClu" parent="lo.result.loClu-parent"/>
 	<search:searchResultTypeInfo id="lo.result.loClu-parent"  abstract="true">
         <search:name>Los and Related Clus</search:name>
-        <search:descr>Lo descs ids and Clu ids and Codes</search:descr>
+        <search:desc>Lo descs ids and Clu ids and Codes</search:desc>
         <search:resultColumns>
             <ref bean="lo.resultColumn.loId" />
             <ref bean="lo.resultColumn.loCluId" />
@@ -383,7 +383,7 @@
     <search:searchResultTypeInfo id="lo.result.loByCategory" parent="lo.result.loByCategory-parent"/>
 	<search:searchResultTypeInfo id="lo.result.loByCategory-parent"  abstract="true">
         <search:name>Los and Related Clus</search:name>
-        <search:descr>Lo descs ids and Clu ids and Codes</search:descr>
+        <search:desc>Lo descs ids and Clu ids and Codes</search:desc>
         <search:resultColumns>
             <ref bean="lo.resultColumn.loId" />
             <ref bean="lo.resultColumn.loDescPlain" />
@@ -394,7 +394,7 @@
     <search:searchResultTypeInfo id="lo.result.categoryName" parent="lo.result.categoryName-parent"/>
 	<search:searchResultTypeInfo id="lo.result.categoryName-parent"  abstract="true">
         <search:name>Los and Related Clus</search:name>
-        <search:descr>Lo descs ids and Clu ids and Codes</search:descr>
+        <search:desc>Lo descs ids and Clu ids and Codes</search:desc>
         <search:resultColumns>
             <ref bean="lo.resultColumn.categoryId" />
             <ref bean="lo.resultColumn.categoryName" />
@@ -408,7 +408,7 @@
     <search:searchResultTypeInfo id="lo.result.categoryId" parent="lo.result.categoryId-parent"/>
 	<search:searchResultTypeInfo id="lo.result.categoryId-parent"  abstract="true">
         <search:name>LoCategory id</search:name>
-        <search:descr>LoCategory id</search:descr>
+        <search:desc>LoCategory id</search:desc>
         <search:resultColumns>
             <ref bean="lo.resultColumn.categoryId" />
         </search:resultColumns>
@@ -417,101 +417,101 @@
     <search:resultColumn id="lo.resultColumn.loId" parent="lo.resultColumn.loId-parent"/>
 	<search:resultColumn id="lo.resultColumn.loId-parent"  abstract="true">
         <search:name>Lo Identifier</search:name>
-        <search:descr>Identifier of an Lo</search:descr>
+        <search:desc>Identifier of an Lo</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 	
 	<search:resultColumn id="lo.resultColumn.loCluId" parent="lo.resultColumn.loCluId-parent"/>
 	<search:resultColumn id="lo.resultColumn.loCluId-parent"  abstract="true">
         <search:name>Clu Identifier</search:name>
-        <search:descr>Identifier of a Clu</search:descr>
+        <search:desc>Identifier of a Clu</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     
     <search:resultColumn id="lo.resultColumn.loCluCode" parent="lo.resultColumn.loCluCode-parent"/>
 	<search:resultColumn id="lo.resultColumn.loCluCode-parent"  abstract="true">
         <search:name>Clu Code</search:name>
-        <search:descr>Clu Code</search:descr>
+        <search:desc>Clu Code</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     <search:resultColumn id="lo.resultColumn.loCluType" parent="lo.resultColumn.loCluType-parent"/>
 	<search:resultColumn id="lo.resultColumn.loCluType-parent"  abstract="true">
         <search:name>Clu Type</search:name>
-        <search:descr>Clu Type</search:descr>
+        <search:desc>Clu Type</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     <search:resultColumn id="lo.resultColumn.loCluState" parent="lo.resultColumn.loCluState-parent"/>
 	<search:resultColumn id="lo.resultColumn.loCluState-parent"  abstract="true">
         <search:name>Clu State</search:name>
-        <search:descr>Clu State</search:descr>
+        <search:desc>Clu State</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 	<search:resultColumn id="lo.resultColumn.loCluOptionalLongName" parent="lo.resultColumn.loCluOptionalLongName-parent"/>
 	<search:resultColumn id="lo.resultColumn.loCluOptionalLongName-parent"  abstract="true">
 		<search:name>Clu Long Name</search:name>
-		<search:descr>Clu Long Name</search:descr>
+		<search:desc>Clu Long Name</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>		
     <search:resultColumn id="lo.resultColumn.loName" parent="lo.resultColumn.loName-parent"/>
 	<search:resultColumn id="lo.resultColumn.loName-parent"  abstract="true">
         <search:name>Lo Name</search:name>
-        <search:descr>Official name of an Lo</search:descr>
+        <search:desc>Official name of an Lo</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     
     <search:resultColumn id="lo.resultColumn.loDescId" parent="lo.resultColumn.loDescId-parent"/>
 	<search:resultColumn id="lo.resultColumn.loDescId-parent"  abstract="true">
         <search:name>Desc Identifier</search:name>
-        <search:descr>Identifier of an LO descr </search:descr>
+        <search:desc>Identifier of an LO descr </search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
     <search:resultColumn id="lo.resultColumn.loDescPlain" parent="lo.resultColumn.loDescPlain-parent"/>
 	<search:resultColumn id="lo.resultColumn.loDescPlain-parent"  abstract="true">
         <search:name>Lo Desc</search:name>
-        <search:descr>Desc of an Lo</search:descr>
+        <search:desc>Desc of an Lo</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
     <search:resultColumn id="lo.resultColumn.categoryName" parent="lo.resultColumn.categoryName-parent"/>
 	<search:resultColumn id="lo.resultColumn.categoryName-parent"  abstract="true">
         <search:name>Category</search:name>
-        <search:descr>Category to be used for an LO</search:descr>
+        <search:desc>Category to be used for an LO</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     
     <search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.cluCode" parent="lu.resultColumn.cluOfficialIdentifier.cluCode-parent"/>
 	<search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.cluCode-parent"  abstract="true">
         <search:name>Clu Code</search:name>
-        <search:descr>Clu Code</search:descr>
+        <search:desc>Clu Code</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
         
     <search:resultColumn id="lo.resultColumn.categoryType" parent="lo.resultColumn.categoryType-parent"/>
 	<search:resultColumn id="lo.resultColumn.categoryType-parent"  abstract="true">
         <search:name>Category</search:name>
-        <search:descr>Category type for a category</search:descr>
+        <search:desc>Category type for a category</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     
     <search:resultColumn id="lo.resultColumn.categoryTypeName" parent="lo.resultColumn.categoryTypeName-parent"/>
 	<search:resultColumn id="lo.resultColumn.categoryTypeName-parent"  abstract="true">
         <search:name>Category</search:name>
-        <search:descr>Category type name for a category</search:descr>
+        <search:desc>Category type name for a category</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     
     <search:resultColumn id="lo.resultColumn.categoryNameAndType" parent="lo.resultColumn.categoryNameAndType-parent"/>
 	<search:resultColumn id="lo.resultColumn.categoryNameAndType-parent"  abstract="true">
         <search:name>Category</search:name>
-        <search:descr>Category name concatenated with category type</search:descr>
+        <search:desc>Category name concatenated with category type</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     
     <search:resultColumn id="lo.resultColumn.categoryId" parent="lo.resultColumn.categoryId-parent"/>
 	<search:resultColumn id="lo.resultColumn.categoryId-parent"  abstract="true">
         <search:name>Category ID</search:name>
-        <search:descr>Category to be used for an LO</search:descr>
+        <search:desc>Category to be used for an LO</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     
@@ -519,7 +519,7 @@
     <search:resultColumn id="lo.resultColumn.categoryState" parent="lo.resultColumn.categoryState-parent"/>
 	<search:resultColumn id="lo.resultColumn.categoryState-parent"  abstract="true">
         <search:name>Category state</search:name>
-        <search:descr>Category state to be used for an LO</search:descr>
+        <search:desc>Category state to be used for an LO</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     <!-- KSLAB-2091 -->
