@@ -24,7 +24,6 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
-import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao;
@@ -35,14 +34,10 @@ import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntit
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
-import javax.annotation.Resources;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
-import org.kuali.student.r2.core.class1.type.dao.TypeDao;
 import org.springframework.transaction.annotation.Transactional;
-import sun.rmi.runtime.NewThreadAction;
 
 /**
  * This class //TODO ...

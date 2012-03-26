@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 
 import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.class1.type.model.TypeEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +29,8 @@ public class AtpDataGenerator {
         AtpEntity atp = new AtpEntity();
         atp.setId("testId");
         atp.setName("testId");
-        atp.setDescr(new AtpRichTextEntity("testId plain descr", "testId formatted descr"));
+        atp.setDescrPlain("testId plain descr");
+        atp.setDescrFormatted ("testId formatted descr");
         atp.setStartDate(Calendar.getInstance().getTime());
         atp.setEndDate(Calendar.getInstance().getTime());
         atp.setAtpState(createState().getId());

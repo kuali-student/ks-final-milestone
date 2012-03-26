@@ -266,6 +266,8 @@ public class TestAtpServiceImpl {
         milestone.setEndDate(cal.getTime());
         milestone.setIsDateRange(false);
         milestone.setIsAllDay(true);
+        milestone.setIsInstructionalDay(false);
+        milestone.setIsRelative(false);
         milestone.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         milestone
                 .setTypeKey("kuali.atp.milestone.RegistrationPeriod");
@@ -309,6 +311,8 @@ public class TestAtpServiceImpl {
         RichTextInfo descr = new RichTextInfo();
         descr.setPlain("Test");
         milestone.setDescr(descr);
+        milestone.setIsInstructionalDay(false);
+        milestone.setIsRelative(false);
 
         try {
             MilestoneInfo created = atpService.createMilestone(milestone, callContext);

@@ -11,7 +11,6 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.core.class1.atp.dao.AtpDao;
 import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 public class TestAtpDao extends AbstractTransactionalDaoTest {
@@ -33,7 +32,8 @@ public class TestAtpDao extends AbstractTransactionalDaoTest {
 
         AtpEntity atp = new AtpEntity();
         atp.setName("atpTest");
-        atp.setDescr(new AtpRichTextEntity("plain", "formatted"));
+        atp.setDescrPlain ("plain");
+        atp.setDescrFormatted ("formatted");
         atp.setAtpState(existingEntity.getAtpState());
         atp.setAtpType(existingEntity.getAtpType());
         atp.setEndDate(existingEntity.getEndDate());
@@ -48,7 +48,7 @@ public class TestAtpDao extends AbstractTransactionalDaoTest {
 
         AtpEntity atp2 = dao.find(atp.getId());
         assertEquals("atpTest", atp2.getName());
-        assertEquals("plain", atp2.getDescr().getPlain());
+        assertEquals("plain", atp2.getDescrPlain());
         assertEquals(1, atp2.getAttributes().size());
         assertEquals("kuali.lu.type.credential.Baccalaureate", atp2.getAttributes().get(0).getValue());
     }

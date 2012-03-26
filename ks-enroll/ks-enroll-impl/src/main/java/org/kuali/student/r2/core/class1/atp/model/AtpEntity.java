@@ -15,7 +15,6 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.RichText;
@@ -24,7 +23,7 @@ import org.kuali.student.r2.core.atp.infc.Atp;
 
 @Entity
 @Table(name = "KSEN_ATP")
-public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttributeEntity> {
+public class AtpEntity extends MetaEntity {
     @Column(name = "NAME")
     private String name;
 
@@ -129,13 +128,13 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         this.atpState = atpState;
     }
 
-    @Override
+//    @Override
     public void setAttributes(List<AtpAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-    @Override
+//    @Override
     public List<AtpAttributeEntity> getAttributes() {
         return attributes;
     }
@@ -199,17 +198,5 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
 
     public void setAtpCode(String atpCode) {
         this.atpCode = atpCode;
-    }
-
-    //Kept this setter for the sake of backwards compatibility
-    public void setDescr(AtpRichTextEntity atpRichTextEntity) {
-        this.setDescrFormatted(atpRichTextEntity.getFormatted());
-        this.setDescrPlain(atpRichTextEntity.getPlain());
-
-    }
-
-    //Kept this getter for the sake of backwards compatibility
-    public AtpRichTextEntity getDescr() {
-        return new AtpRichTextEntity(this.getDescrPlain(), this.getDescrFormatted());
     }
 }

@@ -86,8 +86,6 @@
     <!-- <property name="milestoneTypeDao" ref="milestoneTypeDao"/> -->
     <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
     <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
-    <property name="stateService" ref="stateService" />
-    <property name="typeService" ref="typeService" />
     <property name="criteriaLookupService" ref="criteriaLookupService"/>
   </bean>
 

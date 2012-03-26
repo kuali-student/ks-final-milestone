@@ -17,7 +17,6 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.RichText;
@@ -26,7 +25,7 @@ import org.kuali.student.r2.core.atp.infc.Milestone;
 
 @Entity
 @Table(name = "KSEN_MSTONE")
-public class MilestoneEntity extends MetaEntity implements AttributeOwner<MilestoneAttributeEntity> {
+public class MilestoneEntity extends MetaEntity {
 
     @Column(name = "NAME")
     private String name;
@@ -173,13 +172,13 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         this.relativeAnchorMilestone = relativeAnchorMilestone;
     }
 
-    @Override
+//    @Override
     public void setAttributes(List<MilestoneAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-    @Override
+//    @Override
     public List<MilestoneAttributeEntity> getAttributes() {
         return attributes;
     }

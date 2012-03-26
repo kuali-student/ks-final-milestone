@@ -15,7 +15,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
@@ -23,7 +22,7 @@ import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
 
 @Entity
 @Table(name = "KSEN_ATPATP_RELTN")
-public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<AtpAtpRelationAttributeEntity> {
+public class AtpAtpRelationEntity extends MetaEntity {
 
     @ManyToOne
     @JoinColumn(name = "ATP_ID", nullable = false)
@@ -115,12 +114,12 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
         this.atpState = atpState;
     }
 
-    @Override
+
     public void setAttributes(List<AtpAtpRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
-    @Override
+
     public List<AtpAtpRelationAttributeEntity> getAttributes() {
         return attributes;
     }

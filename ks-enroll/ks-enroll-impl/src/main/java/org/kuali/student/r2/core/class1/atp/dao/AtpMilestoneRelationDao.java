@@ -10,12 +10,6 @@ import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 public class AtpMilestoneRelationDao extends GenericEntityDao<AtpMilestoneRelationEntity> {
 
     @SuppressWarnings("unchecked")
-    public List<AtpMilestoneRelationEntity> getByTypeId(String atpMilestoneRelationType) {
-        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.atpType=:atpType")
-                .setParameter("atpType", atpMilestoneRelationType).getResultList();
-    }
-
-    @SuppressWarnings("unchecked")
     public List<AtpMilestoneRelationEntity> getByMilestoneId(String milestoneId) {
         return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.milestone.id=:milestoneId")
                 .setParameter("milestoneId", milestoneId).getResultList();
