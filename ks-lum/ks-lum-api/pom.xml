@@ -49,7 +49,7 @@
                         <configuration>
                             <className>org.kuali.student.r2.lum.lu.service.CluService</className>
                             <serviceName>CluService</serviceName>
-                            <targetNameSpace>http://student.kuali.org/wsdl/lu</targetNameSpace>
+                            <targetNameSpace>http://student.kuali.org/wsdl/clu</targetNameSpace>
                         </configuration>
                         <goals>
                             <goal>java2ws</goal>
