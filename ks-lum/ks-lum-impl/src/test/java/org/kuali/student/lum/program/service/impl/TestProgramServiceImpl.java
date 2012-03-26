@@ -1030,7 +1030,7 @@ public class TestProgramServiceImpl {
             // update some fields
             major.getCampusLocations().add("MAIN");
             major.setLongTitle(major.getLongTitle() + "-updated");
-            //TODO KSCM    major.getAttributes().put("PIES", "APPLE");
+            //TODO KSCM-212    major.getAttributes().put("PIES", "APPLE");
 
             major.setCip2000Code(major.getCip2000Code() + "-updated");
             major.setDiplomaTitle(major.getDiplomaTitle() + "-updated");
