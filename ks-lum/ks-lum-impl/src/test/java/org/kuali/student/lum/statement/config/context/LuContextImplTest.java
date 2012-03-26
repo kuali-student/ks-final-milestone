@@ -66,7 +66,7 @@ public class LuContextImplTest {
 	private LuContextImpl cluContext = new LuContextImpl();
 
 	private ReqComponentInfo reqComponent1;
-	private ReqComponentInfo reqComponent2;
+	private ReqComponentInfo reqComponent2;//
 	
 	private void setupReqComponent1() {
 		reqComponent1 = new ReqComponentInfo();
