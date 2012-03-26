@@ -78,7 +78,7 @@
     </bean>
 
 	<bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-TableCollectionSection"
-		p:layoutManager.numberOfColumns="8">
+		p:layoutManager.numberOfColumns="10" p:layoutManager.style="width: 100%; display:block;">
 		<property name="title" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
 		<property name="propertyName" value="holidays" />
@@ -86,19 +86,20 @@
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
 		<property name="items">
 			<list>
-                <bean parent="Uif-InputField-LabelTop" p:label="Holiday Type" p:propertyName="holidayInfo.typeKey"  p:required="true" p:render="@{#isAddLine}" p:finalizeMethodToCall="populateHolidayTypes">
+                <bean parent="Uif-InputField-LabelTop" p:label="Holiday Type" p:propertyName="typeKey"  p:required="true" p:readOnly="@{!#isAddLine}" p:finalizeMethodToCall="populateHolidayTypes" p:alternateDisplayPropertyName="typeName">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="typeName" p:label="Holiday Type"  p:readOnly="true" p:render="@{!#isAddLine}" p:required="true">
+                <!--<bean parent="Uif-InputField" p:propertyName="typeName" p:label="Holiday Type"  p:readOnly="true" p:render="@{!#isAddLine}" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" />
                     </property>
-                </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Start Date" p:propertyName="startDate" p:required="true"  p:width="130px">
+                </bean>-->
+                <bean parent="Uif-InputField-LabelTop" p:label="Start Date" p:propertyName="startDate" p:required="true">
                     <property name="validCharactersConstraint">
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
@@ -106,27 +107,24 @@
                         <bean parent="Uif-DateControl" />
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="Start Time" p:style="width: 160px" >
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Start Time" p:labelField.render="false" p:propertyName="startTime">
-                                <property name="validCharactersConstraint">
-                                    <bean parent="TimePatternConstraint" />
-                                </property>
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:label="AM/PM" p:labelField.render="false" p:propertyName="startTimeAmPm">
-                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
-                                 </property>
-                             </bean>
-                        </list>
+                <bean parent="Uif-InputField-LabelTop" p:label="Start Time" p:labelField.render="false" p:propertyName="startTime" p:refreshWhenChanged="#lp.allDay"
+                    p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" p:style="font-weight:normal; text-align:center;">
+                    <property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
                     </property>
                 </bean>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:refreshWhenChanged="#lp.allDay"  p:persistInSession="true"
+                     p:readOnly="@{#lp.allDay eq true}" >
+                     <property name="control">
+                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
+                     </property>
+                 </bean>
                <!--TODO:Change endDate to not required-->
-				<bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="true" p:width="130px">
+				<bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="true" p:refreshWhenChanged="#lp.dateRange" p:persistInSession="true"
+					p:readOnly="@{#lp.dateRange eq false}" >
                     <property name="validCharactersConstraint">
 						<bean parent="BasicDatePatternConstraint" />
 					</property>
@@ -134,42 +132,43 @@
 						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="End Time" p:style="width: 160px">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField-LabelTop" p:label="End Time" p:labelField.render="false" p:propertyName="endTime" p:width="60px">
-                                <property name="validCharactersConstraint">
-                                    <bean parent="TimePatternConstraint" />
-                                </property>
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:label="AM/PM" p:labelField.render="false" p:propertyName="endTimeAmPm">
-                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
-                                 </property>
-                             </bean>
-                        </list>
+                <bean parent="Uif-InputField-LabelTop" p:label="End Time" p:labelField.render="false" p:propertyName="endTime" p:refreshWhenChanged="#lp.allDay"
+                    p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" >
+                    <property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
                     </property>
                 </bean>
-	            <bean parent="Uif-InputField" p:label="All Day" p:propertyName="holidayInfo.isAllDay"  p:width="50px">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTimeAmPm" p:refreshWhenChanged="#lp.allDay"
+                     p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" >
+                     <property name="control">
+                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
+                     </property>
+                 </bean>
+	            <bean parent="Uif-InputField" p:label="All Day" p:propertyName="allDay" p:persistInSession="true" >
 					<property name="control">
 						<bean parent="Uif-CheckboxControl"/>
 					</property>
 				</bean>
-                <bean parent="Uif-InputField" p:label="Date Range" p:propertyName="holidayInfo.isDateRange" p:width="50px">
+                <bean parent="Uif-InputField" p:label="Date Range" p:propertyName="dateRange" p:persistInSession="true" >
 					<property name="control">
 						<bean parent="Uif-CheckboxControl"/>
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:label="Instructional" p:propertyName="holidayInfo.isInstructionalDay" p:width="50px">
+				<bean parent="Uif-InputField" p:label="Instructional" p:propertyName="instructional">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl" />
 					</property>
 				</bean>
 			</list>
 		</property>
+        <property name="actionFields">
+          <list>
+              <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteHoliday" p:actionLabel="delete"/>
+          </list>
+    </property>
 	</bean>
 
     <util:list id="hcorg-options">
@@ -177,6 +176,7 @@
     </util:list>
 
     <util:list id="hctime-options">
+        <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
         <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="am"/>
         <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="pm"/>
     </util:list>

@@ -20,17 +20,23 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
+import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -92,43 +98,43 @@ public class HolidayCalendarController extends UifControllerBase {
 
     private boolean checkHoliday(HolidayWrapper holiday) {
         boolean valid = true;
-        Date startDate = holiday.getStartDate();
-        Date endDate = holiday.getEndDate();
-        String startTime = holiday.getStartTime();
-        String endTime = holiday.getEndTime();
-        HolidayInfo holidayInfo = holiday.getHolidayInfo();
-
-        if (endDate == null)  {
-            holidayInfo.setIsDateRange(false);
-
-            if(StringUtils.isBlank(startTime)){
-                holidayInfo.setIsAllDay(true);
-            }
-        }
-        else {
-            int timeDiff = startDate.compareTo(endDate);
-            if(timeDiff > 0) {
-                //TODO:change to  putError, when error reload fixed
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: The adding holiday start date should not be later than the end date.");
-                return false;
-            }else if (timeDiff == 0 ) {
-                holidayInfo.setIsDateRange(false);
-            }else {
-                holidayInfo.setIsDateRange(true);
-            }
-
-            if (StringUtils.isBlank(startTime) & StringUtils.isBlank(endTime)) {
-                holidayInfo.setIsAllDay(true);
-            }else if(StringUtils.isNotEmpty(startTime)){
-                holidayInfo.setIsAllDay(false);
-            }
-        }
+//        Date startDate = holiday.getStartDate();
+//        Date endDate = holiday.getEndDate();
+//        String startTime = holiday.getStartTime();
+//        String endTime = holiday.getEndTime();
+//        HolidayInfo holidayInfo = holiday.getHolidayInfo();
+//
+//        if (endDate == null)  {
+//            holidayInfo.setIsDateRange(false);
+//
+//            if(StringUtils.isBlank(startTime)){
+//                holidayInfo.setIsAllDay(true);
+//            }
+//        }
+//        else {
+//            int timeDiff = startDate.compareTo(endDate);
+//            if(timeDiff > 0) {
+//                //TODO:change to  putError, when error reload fixed
+//                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: The adding holiday start date should not be later than the end date.");
+//                return false;
+//            }else if (timeDiff == 0 ) {
+//                holidayInfo.setIsDateRange(false);
+//            }else {
+//                holidayInfo.setIsDateRange(true);
+//            }
+//
+//            if (StringUtils.isBlank(startTime) & StringUtils.isBlank(endTime)) {
+//                holidayInfo.setIsAllDay(true);
+//            }else if(StringUtils.isNotEmpty(startTime)){
+//                holidayInfo.setIsAllDay(false);
+//            }
+//        }
 
         return valid;
     }
 
     private boolean isDuplicateHoliday(HolidayWrapper newHoliday, HolidayWrapper sourceHoliday){
-        return (newHoliday.getHolidayInfo().getTypeKey().equals(sourceHoliday.getHolidayInfo().getTypeKey()));
+        return (newHoliday.getTypeKey().equals(sourceHoliday.getTypeKey()));
     }
 
     @Override
@@ -271,37 +277,60 @@ public class HolidayCalendarController extends UifControllerBase {
          return updateHolidayCalendarForm(hcForm, "info.enroll.holidaycalendar.official");
      }
 
+     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteHoliday")
+    public ModelAndView deleteHoliday(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) {
+
+        String selectedCollectionPath = hcForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("unable to determine the selected collection path");
+        }
+
+        int selectedLineIndex = -1;
+        String selectedLine = hcForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("unable to determine the selected line index");
+        }
+
+        try{
+          getHolidayCalendarFormHelper(hcForm).deleteHoliday(selectedLineIndex,hcForm);
+        }catch (Exception e){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Error deleting holiday - " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return updateComponent(hcForm, result, request, response);
+
+    }
+
     private ModelAndView updateHolidayCalendarForm(HolidayCalendarForm hcForm, String updateMsg) throws Exception {
-        HolidayCalendarInfo hc = hcForm.getHolidayCalendarInfo();
 
-        if(isValidHolidayCalendar(hc)){
-            String hcId = hc.getId();
-            if(hc.getId() != null && !hc.getId().trim().isEmpty()){
-                // edit hc
-               updateHolidayCalendar(hc.getId(), hcForm);
-            }
-            else {
-               // create hc
-                createHolidayCalendar(hcForm);
-            }
+        if(isValidHolidayCalendar(hcForm.getHolidayCalendarInfo())){
 
-            hcForm.setAdminOrgName(getAdminOrgNameById(hc.getAdminOrgId()));
-            hcForm.setStateName(getHolidayCalendarFormHelper(hcForm).getHolidayCalendarState(hc.getStateKey()));
-            hcForm.setOfficial(hc.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
+            getHolidayCalendarFormHelper(hcForm).saveHolidayCalendar(hcForm);
+
+            HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
+            hcForm.setAdminOrgName(getAdminOrgNameById(hCalInfo.getAdminOrgId()));
+            hcForm.setStateName(getHolidayCalendarFormHelper(hcForm).getHolidayCalendarState(hCalInfo.getStateKey()));
+            hcForm.setOfficial(hCalInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
             hcForm.setDelete(true);
-            hcForm.setHcId(hc.getId());
-            GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hc.getName());
+            hcForm.setHcId(hCalInfo.getId());
+            GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hCalInfo.getName());
 
-            if (StringUtils.isBlank(hcId)) {
-                return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
-            }
-            else {
-                return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
-            }
+//            if (StringUtils.isBlank(hCalInfo.getId())) {
+//                return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+//            }
+//            else {
+//                return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
+////            }
         }
-        else {
+//        else {
             return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
-        }
+//        }
     }
 
     private boolean isValidHolidayCalendar(HolidayCalendarInfo hc)throws Exception {
@@ -319,12 +348,18 @@ public class HolidayCalendarController extends UifControllerBase {
         return valid;
     }
 
-    private void createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception {
-        HolidayCalendarInfo hcInfo = getHolidayCalendarFormHelper(hcForm).createHolidayCalendar(hcForm);
-        hcForm.setHolidayCalendarInfo(hcInfo);
-
-        createHolidays(hcInfo.getId(), hcForm);
-    }
+//    private void createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception {
+//        HolidayCalendarInfo hcInfo = getHolidayCalendarFormHelper(hcForm).createHolidayCalendar(hcForm);
+//        hcForm.setHolidayCalendarInfo(hcInfo);
+//
+//        List<HolidayWrapper> holidays = hcForm.getHolidays();
+//
+//       if(holidays != null && !holidays.isEmpty()){
+//            for (HolidayWrapper holiday : holidays){
+//                getHolidayCalendarFormHelper(hcForm).createHoliday(holidayCalendarId, holiday.getTypeKey(), holiday);
+//            }
+//        }
+//    }
 
     private void getHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
         HolidayCalendarInfo hcInfo = getHolidayCalendarFormHelper(hcForm).getHolidayCalendar(hcId);
@@ -337,26 +372,15 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setHolidays(holidays);
     }
 
-    private void updateHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
+    /*private void updateHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
         //update hc meta data
         getHolidayCalendarFormHelper(hcForm).updateHolidayCalendar(hcForm);
         hcForm.setHolidayCalendarInfo(getHolidayCalendarFormHelper(hcForm).getHolidayCalendar(hcId));
 
         //update hc-holidays
         List<HolidayWrapper> holidays = hcForm.getHolidays();
-        processHolidays(hcForm, holidays, hcId);
-    }
-
-    private void createHolidays(String holidayCalendarId, HolidayCalendarForm hcForm) throws Exception {
-        List<HolidayWrapper> holidays = hcForm.getHolidays();
-
-       if(holidays != null && !holidays.isEmpty()){
-            for (HolidayWrapper holiday : holidays){
-                getHolidayCalendarFormHelper(hcForm).createHoliday(holidayCalendarId, holiday.getHolidayInfo().getTypeKey(), holiday);
-            }
-        }
-
-    }
+//        processHolidays(hcForm, holidays, hcId);
+    }*/
 
     private List<String> getHolidayIds(HolidayCalendarForm hcForm) throws Exception{
         List<HolidayWrapper> holidays = getHolidayCalendarFormHelper(hcForm).getHolidaysForHolidayCalendar(hcForm);
@@ -371,35 +395,35 @@ public class HolidayCalendarController extends UifControllerBase {
         return holidayIds;
     }
 
-    private void processHolidays(HolidayCalendarForm hcForm, List<HolidayWrapper> holidays, String hcId)throws Exception{
-        List<HolidayWrapper> updatedHolidays = new ArrayList<HolidayWrapper>();
-        List<String> currentHolidays = getHolidayIds(hcForm);
-
-        if(holidays != null && !holidays.isEmpty()){
-            for(HolidayWrapper holiday : holidays){
-                if(currentHolidays.contains(holiday.getHolidayInfo().getId())){
-                    //update holiday
-                    getHolidayCalendarFormHelper(hcForm).updateHoliday(holiday.getHolidayInfo().getId(), holiday);
-                    updatedHolidays.add(holiday);
-                    currentHolidays.remove(holiday.getHolidayInfo().getId());
-                }
-                else {
-                    //create Holiday
-                    getHolidayCalendarFormHelper(hcForm).createHoliday(hcId, holiday.getHolidayInfo().getTypeKey(), holiday);
-                    updatedHolidays.add(holiday);
-                }
-            }
-        }
-
-        hcForm.setHolidays(updatedHolidays);
-
-        if (currentHolidays != null && currentHolidays.size() > 0){
-            for(String holidayId: currentHolidays){
-                getHolidayCalendarFormHelper(hcForm).deleteHoliday(holidayId);
-            }
-        }
-
-	}
+//    private void processHolidays(HolidayCalendarForm hcForm, List<HolidayWrapper> holidays, String hcId)throws Exception{
+//        List<HolidayWrapper> updatedHolidays = new ArrayList<HolidayWrapper>();
+//        List<String> currentHolidays = getHolidayIds(hcForm);
+//
+//        if(holidays != null && !holidays.isEmpty()){
+//            for(HolidayWrapper holiday : holidays){
+//                if(currentHolidays.contains(holiday.getHolidayInfo().getId())){
+//                    //update holiday
+//                    getHolidayCalendarFormHelper(hcForm).updateHoliday(holiday.getHolidayInfo().getId(), holiday);
+//                    updatedHolidays.add(holiday);
+//                    currentHolidays.remove(holiday.getHolidayInfo().getId());
+//                }
+//                else {
+//                    //create Holiday
+//                    getHolidayCalendarFormHelper(hcForm).createHoliday(hcId, holiday.getTypeKey(), holiday);
+//                    updatedHolidays.add(holiday);
+//                }
+//            }
+//        }
+//
+//        hcForm.setHolidays(updatedHolidays);
+//
+//        if (currentHolidays != null && currentHolidays.size() > 0){
+//            for(String holidayId: currentHolidays){
+//                getHolidayCalendarFormHelper(hcForm).deleteHoliday(holidayId);
+//            }
+//        }
+//
+//	}
 
     private String getAdminOrgNameById(String id){
         //TODO: hard-coded for now, going to call OrgService

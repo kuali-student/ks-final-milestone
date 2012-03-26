@@ -113,6 +113,7 @@
 		<property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="addLineLabelField.labelText" value=""/>
         <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
 		<property name="items">
@@ -186,14 +187,10 @@
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarInfo.name}"/>
         <property name="layoutManager.lineGroupPrototype.footer.render" value="@{#isAddLine}"/>
         <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:1em;"/>
+        <property name="addLineLabelField.labelText" value=""/>
         <property name="layoutManager.lineGroupPrototype.header.styleClasses">
           <list merge="true">
-            <value>ks-borderBottom</value>
-          </list>
-        </property>
-        <property name="layoutManager.lineGroupPrototype.footer.styleClasses">
-          <list merge="true">
-            <value>ks-borderBottom</value>
+            <value>ks-borderBottom2</value>
           </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.header.group">
@@ -290,6 +287,12 @@
      <property name="layoutManager.generateAutoSequence" value="false" />
      <property name="layoutManager.separateAddLine" value="false" />
      <property name="layoutManager.richTable.render" value="false" />
+     <property name="header.style" value="margin-bottom:1em;"/>
+     <property name="header.styleClasses">
+      <list merge="true">
+        <value>ks-borderBottom1</value>
+      </list>
+    </property>
      <property name="items">
        <list>
          <bean parent="Uif-InputField" p:propertyName="holidayInfo.name">

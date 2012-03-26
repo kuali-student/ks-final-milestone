@@ -274,12 +274,6 @@ public class AcademicCalendarController extends UifControllerBase {
            return getUIFModelAndView(academicCalendarForm);
         }
 
-
-        //Calculate instructional days (if HC exists)
-        if (academicCalendarForm.getHolidayCalendarList() != null && !academicCalendarForm.getHolidayCalendarList().isEmpty()) {
-           ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).populateInstructionalDays(academicCalendarForm.getTermWrapperList(),context);
-        }
-
         //Save Term and keydates
         for(AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
             getAcademicCalendarViewHelperService(academicCalendarForm).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
@@ -287,7 +281,12 @@ public class AcademicCalendarController extends UifControllerBase {
 
         //Calculate instructional days (if HC exists)
         if (academicCalendarForm.getHolidayCalendarList() != null && !academicCalendarForm.getHolidayCalendarList().isEmpty()) {
-           getAcademicCalendarViewHelperService(academicCalendarForm).populateInstructionalDays(academicCalendarForm.getTermWrapperList(),context);
+            try{
+                getAcademicCalendarViewHelperService(academicCalendarForm).populateInstructionalDays(academicCalendarForm.getTermWrapperList(),context);
+            }catch(Exception e){
+                //FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
+                e.printStackTrace();
+            }
         }
 
         return getUIFModelAndView(academicCalendarForm);
@@ -494,7 +493,12 @@ public class AcademicCalendarController extends UifControllerBase {
 
         //Calculate instructional days (if HC exists)
         if (acalForm.getHolidayCalendarList() != null && !acalForm.getHolidayCalendarList().isEmpty()) {
-           getAcademicCalendarViewHelperService(acalForm).populateInstructionalDays(acalForm.getTermWrapperList(),getContextInfo());
+           try{
+                getAcademicCalendarViewHelperService(acalForm).populateInstructionalDays(acalForm.getTermWrapperList(),getContextInfo());
+            }catch(Exception e){
+                //FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
+                e.printStackTrace();
+            }
         }
 
     }

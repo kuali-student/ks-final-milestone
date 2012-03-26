@@ -1,6 +1,10 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class AcalEventWrapper extends TimeSetWrapper{
 
@@ -9,6 +13,34 @@ public class AcalEventWrapper extends TimeSetWrapper{
 
     public AcalEventWrapper() {
         acalEventInfo = new AcalEventInfo();
+        setAllDay(false);
+        setDateRange(true);
+    }
+
+    public AcalEventWrapper(AcalEventInfo acalEventInfo){
+        this.setAcalEventInfo(acalEventInfo);
+        this.setStartDate(acalEventInfo.getStartDate());
+        this.setAllDay(acalEventInfo.getIsAllDay());
+        this.setDateRange(acalEventInfo.getIsDateRange());
+        this.setEventType(acalEventInfo.getTypeKey());
+        this.setEndDate(acalEventInfo.getEndDate());
+
+        // If not all day, set start/end time in the wrapper
+        if (!isAllDay()){
+            DateFormat dfm = new SimpleDateFormat("hh:mm");
+
+            setStartTime(dfm.format(acalEventInfo.getStartDate()));
+            setEndTime(dfm.format(acalEventInfo.getEndDate()));
+
+            dfm = new SimpleDateFormat("a");
+            setStartTimeAmPm(dfm.format(acalEventInfo.getStartDate()));
+            setEndTimeAmPm(dfm.format(acalEventInfo.getEndDate()));
+
+            if (!isDateRange()) {
+                setEndDate(null);
+            }
+        }
+
     }
 
     public AcalEventInfo getAcalEventInfo(){
@@ -26,5 +58,6 @@ public class AcalEventWrapper extends TimeSetWrapper{
     public void setEventType(String eventType) {
         this.eventType = eventType;
     }
+
 
 }
