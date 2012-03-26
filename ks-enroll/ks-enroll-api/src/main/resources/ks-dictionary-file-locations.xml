@@ -96,10 +96,22 @@
     <bean id="courseOfferingInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-CourseOfferingInfo-dictionary.xml" />
     </bean>
+
+    <bean id="formatOfferingInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-FormatOfferingInfo-dictionary.xml" />
+    </bean>
+    <bean id="registrationGroupInfoDictionaryLocation" class="java.lang.String">
+           <constructor-arg value="classpath:ks-RegistrationGroupInfo-dictionary.xml" />
+       </bean>
+
+
     <bean name="courseOfferingServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
-                <bean parent="courseOfferingInfoDictionaryLocation" />          
+                <bean parent="courseOfferingInfoDictionaryLocation" />
+                <bean parent="formatOfferingInfoDictionaryLocation"/>
+                <bean parent="registrationGroupInfoDictionaryLocation"/>
+
             </list>
         </constructor-arg>
      </bean>

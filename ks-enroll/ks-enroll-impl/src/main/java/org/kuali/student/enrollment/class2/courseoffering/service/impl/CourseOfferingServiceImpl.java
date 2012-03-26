@@ -52,11 +52,7 @@ import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
     private LuiService luiService;
@@ -956,47 +952,31 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional
-    public RegistrationGroupInfo createRegistrationGroup(String courseOfferingId, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
+    public RegistrationGroupInfo createRegistrationGroup(String registrationTypeKey, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        if (courseOfferingId != null) {
+            registrationGroupInfo.setTypeKey(registrationTypeKey);
+            LuiInfo lui = registrationGroupAssembler.disassemble(registrationGroupInfo, context);
+            LuiInfo created ;
+        try {
+             created = luiService.createLui(registrationGroupInfo.getFormatId() , registrationGroupInfo.getTermId(), lui, context);
+          for (String activityOfferingId:registrationGroupInfo.getActivityOfferingIds())  {
 
-            LuiInfo lui  = registrationGroupAssembler.disassemble(registrationGroupInfo, context);
+                LuiLuiRelationInfo activtyRegGroupRelation = new LuiLuiRelationInfo();
+                activtyRegGroupRelation.setEffectiveDate(new Date());
 
-            try {
+                  luiService.createLuiLuiRelation(activityOfferingId, lui.getId(),LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY, activtyRegGroupRelation,context);
+          }
+        } catch (AlreadyExistsException e) {
+                   throw new OperationFailedException(e.getMessage()) ;
+                 }
+        catch (CircularRelationshipException cre){
+            throw new OperationFailedException(cre.getMessage()) ;
 
-                String termId = null;
+        }
 
-                if (registrationGroupInfo.getTermId() != null) {
-                    termId = registrationGroupInfo.getTermId();
-                } else {
 
-                    termId = getTermkeyByCourseOffering(courseOfferingId, context);
-
-                }
-
-                if (termId != null) {
-                    LuiInfo created = null;
-
-                    created = luiService.createLui(registrationGroupInfo.getFormatId(), termId, lui, context);
-
-                    if (created != null) {
-                        registrationGroupInfo.setId(created.getId());
-                        registrationGroupInfo.setTermId(termId);
-                        processRelationsForRegGroup(courseOfferingId, registrationGroupInfo, context);
-                    }
-
-                    return registrationGroupInfo;
-                } else {
-                    throw new OperationFailedException("termkey is missing.");
-                }
-            } catch (DoesNotExistException e) {
-                throw new OperationFailedException();
-            } catch (AlreadyExistsException ex) {
-                throw new OperationFailedException(ex.toString());
-            }
-        } else
-            return null;
+        return registrationGroupAssembler.assemble(created, context);
     }
 
     @Override

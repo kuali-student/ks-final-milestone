@@ -90,7 +90,6 @@ INSERT INTO KSEN_TYPE(ID, NAME, DESCR_PLAIN, REF_OBJECT_URI, VER_NBR) VALUES ('k
 INSERT INTO KSEN_TYPE(ID, NAME, DESCR_PLAIN, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.HalfFall2', 'Fall Half-Semester 2', 'Fall Half-Semester 2', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
 INSERT INTO KSEN_TYPE(ID, NAME, DESCR_PLAIN, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.HalfSpring1', 'Spring Half-Semester 1', 'Spring Half-Semester 1', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
 INSERT INTO KSEN_TYPE(ID, NAME, DESCR_PLAIN, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.type.HalfSpring2', 'Spring Half-Semester 1', 'Spring Half-Semester 2', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
-INSERT INTO KSEN_TYPE (ID, DESCR_PLAIN,  NAME) VALUES ('kuali.atp.type.Mini-mester1A', 'Summer Mini-mester 1A', {ts '2000-01-01 00:00:00.000000'}, {ts '2100-01-01 00:00:00.000000'}, 'Mini-mester 1A');
 INSERT INTO KSEN_TYPE (ID, DESCR_PLAIN,  NAME) VALUES ('kuali.atp.type.Mini-mester1B', 'Summer Mini-mester 1B', {ts '2000-01-01 00:00:00.000000'}, {ts '2100-01-01 00:00:00.000000'}, 'Mini-mester 1B');
 INSERT INTO KSEN_TYPE (ID, DESCR_PLAIN,  NAME) VALUES ('kuali.atp.type.Mini-mester2C', 'Summer Mini-mester 2C', {ts '2000-01-01 00:00:00.000000'}, {ts '2100-01-01 00:00:00.000000'}, 'Mini-mester 2C');
 INSERT INTO KSEN_TYPE (ID, DESCR_PLAIN,  NAME) VALUES ('kuali.atp.type.Mini-mester2D', 'Summer Mini-mester 2D', {ts '2000-01-01 00:00:00.000000'}, {ts '2100-01-01 00:00:00.000000'}, 'Mini-mester 2D');

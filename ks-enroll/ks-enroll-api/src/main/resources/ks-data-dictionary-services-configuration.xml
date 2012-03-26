@@ -38,7 +38,8 @@
         <property name="serviceNamespaceSuffix" value="courseOffering" />
         <property name="dictionaryLocations" ref="courseOfferingServiceDictionaryLocations" />
    </bean> 
-   
+   <!-- CourseOffering Service -->
+
     <!--All Objects Data Dictionary Service used by Rice-->
     <bean id="dataDictionaryServiceForAllUsedByRice" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="shouldNotMatter" />
