@@ -113,7 +113,7 @@ public class ProgramStateChangeServiceImpl {
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm) {
         majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
         majorDisciplineInfo.setEndTerm(endEnrollTerm);
-        //TODO KSCM-421 majorDisciplineInfo.getAttributes().put(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm);
+        //TODO KSCM-212 majorDisciplineInfo.getAttributes().put(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm);
     }
 
     /**
