@@ -25,6 +25,9 @@ public class AcalEventWrapper extends TimeSetWrapper{
         this.setEventType(acalEventInfo.getTypeKey());
         this.setEndDate(acalEventInfo.getEndDate());
 
+        //This is needed to display enddate for readonly view.
+        endDateUI = acalEventInfo.getEndDate();
+
         // If not all day, set start/end time in the wrapper
         if (!isAllDay()){
             DateFormat dfm = new SimpleDateFormat("hh:mm");

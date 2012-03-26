@@ -241,6 +241,17 @@ public class AcademicCalendarController extends UifControllerBase {
                              HttpServletRequest request, HttpServletResponse response) throws Exception{
         AcademicCalendarInfo academicCalendarInfo = academicCalendarForm.getAcademicCalendarInfo();
 
+        //TODO:Build real context.
+        ContextInfo context = TestHelper.getContext1();
+
+        //Validate Term
+        getAcademicCalendarViewHelperService(academicCalendarForm).validateTerm(academicCalendarForm.getTermWrapperList(),context);
+
+        if (GlobalVariables.getMessageMap().getErrorCount() > 0){
+           return getUIFModelAndView(academicCalendarForm);
+        }
+
+        //If validation succeeds, continue save
         if(academicCalendarInfo.getId() != null && !academicCalendarInfo.getId().trim().isEmpty()){
             // 1. update acal and AC-HC relationships
             academicCalendarInfo = processHolidayCalendars(academicCalendarForm);
@@ -261,17 +272,6 @@ public class AcademicCalendarController extends UifControllerBase {
             academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), getContextInfo()));
             // 2. create new events if any
             createEvents(acalInfo.getId(), academicCalendarForm);
-        }
-
-        //TODO:Build real context.
-        ContextInfo context = TestHelper.getContext1();
-
-
-        //Validate Term
-        getAcademicCalendarViewHelperService(academicCalendarForm).validateTerm(academicCalendarForm.getTermWrapperList(),context);
-
-        if (GlobalVariables.getMessageMap().getErrorCount() > 0){
-           return getUIFModelAndView(academicCalendarForm);
         }
 
         //Save Term and keydates

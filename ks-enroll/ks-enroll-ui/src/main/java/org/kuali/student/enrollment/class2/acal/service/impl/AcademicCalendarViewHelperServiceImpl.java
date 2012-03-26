@@ -574,9 +574,9 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     }
 
     private AcalEventWrapper assembleEventWrapperFromEventInfo (AcalEventInfo acalEventInfo) throws Exception {
-        AcalEventWrapper event  = new AcalEventWrapper();
+        AcalEventWrapper event  = new AcalEventWrapper(acalEventInfo);
         event.setAcalEventInfo(acalEventInfo);
-        event.setEventType(acalEventInfo.getTypeKey());
+        /*event.setEventType(acalEventInfo.getTypeKey());
         Date startDate = acalEventInfo.getStartDate();
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
         if (startDate !=null) {
@@ -598,7 +598,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             }
             event.setEndTimeAmPm(timeStr[2].toLowerCase());
 
-        }
+        }*/
         return event;
     }
 
@@ -610,11 +610,32 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         eventInfo.setDescr(rti);
         eventInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         eventInfo.setTypeKey(eventWrapper.getEventType());
+        eventInfo.setStartDate(eventWrapper.getStartDate());
+        eventInfo.setEndDate(eventWrapper.getEndDate());
+        eventInfo.setIsAllDay(eventWrapper.isAllDay());
+        eventInfo.setIsDateRange(eventWrapper.isDateRange());
 
-        Date startDate = eventWrapper.getStartDate();
+        if (!eventWrapper.isAllDay()){
+            eventInfo.setStartDate(updateTime(eventWrapper.getStartDate(),eventWrapper.getStartTime(),eventWrapper.getStartTimeAmPm()));
+            if (eventWrapper.isDateRange()){
+                eventInfo.setEndDate(updateTime(eventWrapper.getEndDate(),eventWrapper.getEndTime(),eventWrapper.getEndTimeAmPm()));
+            } else {
+                eventInfo.setEndDate(updateTime(eventWrapper.getStartDate(),eventWrapper.getEndTime(),eventWrapper.getEndTimeAmPm()));
+            }
+        }else{
+            eventInfo.setStartDate(updateTime(eventWrapper.getStartDate(),"00:00",StringUtils.EMPTY ));
+            if (eventWrapper.isDateRange()){
+                eventInfo.setEndDate(updateTime(eventWrapper.getEndDate(),"00:00",StringUtils.EMPTY ));
+            }else{
+                eventInfo.setEndDate(null);
+            }
+        }
+
+        /*Date startDate = eventWrapper.getStartDate();
         Date endDate = eventWrapper.getEndDate();
         String startTime =  eventWrapper.getStartTime();
         String endTime =   eventWrapper.getEndTime();
+
         if (endDate == null && !endTime.isEmpty())
             throw new Exception ("End Time can't be associated with an empty End Date.");
 
@@ -659,7 +680,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
             Date fullEndDate = formatter.parse(fullEndDateString);
             eventInfo.setEndDate(fullEndDate);
-        }
+        }*/
 
         return eventInfo;
     }
