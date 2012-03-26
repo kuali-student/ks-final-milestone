@@ -42,7 +42,7 @@ import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.springframework.beans.BeanUtils;
 
-//TODO KSCM-428 Hopefully this interface isn't here after refactoring, a equivelent with Contextinfo
+//A equivelent with Contextinfo
 //class has been created in R2 packages with upgraded metods/parameters
 
 @Deprecated
