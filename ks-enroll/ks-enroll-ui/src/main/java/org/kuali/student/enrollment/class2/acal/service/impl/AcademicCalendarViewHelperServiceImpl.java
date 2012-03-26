@@ -15,14 +15,9 @@
  */
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.joda.time.DateTime;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -56,6 +51,10 @@ import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.kuali.student.test.utilities.TestHelper;
+
+import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**
@@ -436,15 +435,11 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
               KeyDatesGroupWrapper curriculumWrapper = new KeyDatesGroupWrapper(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,curriculumGroup.getName());
 
               for (KeyDateInfo orgKeyDateInfo : keydateList) {
-                  KeyDateInfo newKeyDateInfo = new KeyDateInfo();
-                  newKeyDateInfo.setTypeKey(orgKeyDateInfo.getTypeKey());
-                  newKeyDateInfo.setIsDateRange(orgKeyDateInfo.getIsDateRange());
-                  newKeyDateInfo.setIsAllDay(orgKeyDateInfo.getIsAllDay());
-                  KeyDateWrapper keyDateWrapper = new KeyDateWrapper(newKeyDateInfo);
+                  KeyDateWrapper keyDateWrapper = new KeyDateWrapper();
+                  keyDateWrapper.copy(orgKeyDateInfo);
                   type = getTypeService().getType(orgKeyDateInfo.getTypeKey(),context);
                   keyDateWrapper.setTypeInfo(type);
                   keyDateWrapper.setKeyDateNameUI(type.getName());
-                  keyDateWrapper.setKeyDateType(orgKeyDateInfo.getTypeKey());
 
                   List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,null,context);
                   List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,null,context);
@@ -518,8 +513,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             try {
                 List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(holidayCalendarInfo.getId(), context);
                 for(HolidayInfo holidayInfo : holidayInfoList){
-                    HolidayWrapper holiday = new HolidayWrapper();
-                    holiday.setHolidayInfo(holidayInfo);
+                    HolidayWrapper holiday = new HolidayWrapper(holidayInfo);
+//                    holiday.setHolidayInfo(holidayInfo);
                     TypeInfo typeInfo = getAcalService().getHolidayType(holidayInfo.getTypeKey(), context);
                     holiday.setTypeName(typeInfo.getName());
                     holidays.add(holiday);

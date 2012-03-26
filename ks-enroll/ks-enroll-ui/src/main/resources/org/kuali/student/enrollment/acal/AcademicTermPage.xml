@@ -86,7 +86,6 @@
      <property name="title" value="Key Dates Group" />
      <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
-     <!--<property name="layoutManager.style" value="margin-top:1em;"/>-->
      <property name="propertyName" value="keyDatesGroupWrappers" />
      <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.keyDateGroupNameUI} Key Dates"/>
      <property name="actionFields">
@@ -116,11 +115,6 @@
          <ref bean="KS-KeyDates-EditSubSection" />
        </list>
      </property>
-     <!--<property name="actionFields">
-          <list>
-              <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteKeyDate" p:actionLabel="delete"/>
-          </list>
-    </property>-->
    </bean>
 
    <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="@{#view.readOnly ? 5 : 9}" p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}">
@@ -148,11 +142,6 @@
                 <bean parent="Uif-DropdownControl"/>
              </property>
          </bean>
-         <!--<bean parent="Uif-InputField" p:propertyName="keyDateNameUI" p:label="Key Date Type"  p:readOnly="true" p:render="@{!#isAddLine}" p:required="true">
-            <property name="control">
-                <bean parent="Uif-TextControl" p:size="30" />
-            </property>
-        </bean>-->
          <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;" p:alternateDisplayPropertyName="startDateUI">
             <property name="control">
                 <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>

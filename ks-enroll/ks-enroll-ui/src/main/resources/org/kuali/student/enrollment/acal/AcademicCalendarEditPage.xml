@@ -366,12 +366,12 @@
                 <bean parent="Uif-TextControl"/>
              </property>
          </bean>
-         <bean parent="Uif-InputField" p:propertyName="holidayInfo.startDate" p:label="Start Date" p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;">
+         <bean parent="Uif-InputField" p:propertyName="startDateUI" p:label="Start Date" p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;">
              <property name="control">
                 <bean parent="Uif-TextControl"/>
              </property>
          </bean>
-         <bean parent="Uif-InputField" p:propertyName="holidayInfo.endDate" p:label="End Date" p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;">
+         <bean parent="Uif-InputField" p:propertyName="endDateUI" p:label="End Date" p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;">
              <property name="control">
                 <bean parent="Uif-TextControl"/>
              </property>

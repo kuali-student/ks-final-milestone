@@ -1,15 +1,10 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class KeyDateWrapper extends TimeSetWrapper{
 
@@ -54,7 +49,13 @@ public class KeyDateWrapper extends TimeSetWrapper{
                 setEndDate(null);
             }
         }
+    }
 
+    public void copy(KeyDateInfo keydate){
+        keyDateInfo = new KeyDateInfo();
+        this.setKeyDateType(keydate.getTypeKey());
+        this.setAllDay(keydate.getIsAllDay());
+        this.setDateRange(keydate.getIsDateRange());
     }
 
     public String getKeyDateType() {

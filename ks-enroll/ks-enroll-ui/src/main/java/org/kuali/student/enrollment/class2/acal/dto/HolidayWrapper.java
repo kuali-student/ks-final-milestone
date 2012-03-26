@@ -50,6 +50,9 @@ public class HolidayWrapper extends TimeSetWrapper {
         this.setEndDate(holidayInfo.getEndDate());
         this.setInstructional(holidayInfo.getIsInstructionalDay());
 
+        //This is needed to display enddate for readonly view.
+        endDateUI = holidayInfo.getEndDate();
+
         // If not all day, set start/end time in the wrapper
         if (!isAllDay()){
             DateFormat dfm = new SimpleDateFormat("hh:mm");
