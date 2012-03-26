@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -1030,7 +1031,7 @@ public class TestProgramServiceImpl {
             // update some fields
             major.getCampusLocations().add("MAIN");
             major.setLongTitle(major.getLongTitle() + "-updated");
-            //TODO KSCM-212    major.getAttributes().put("PIES", "APPLE");
+            major.getAttributes().add(new AttributeInfo("PIES", "APPLE"));
 
             major.setCip2000Code(major.getCip2000Code() + "-updated");
             major.setDiplomaTitle(major.getDiplomaTitle() + "-updated");

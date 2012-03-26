@@ -5,6 +5,7 @@ import java.util.List;
 import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -113,7 +114,7 @@ public class ProgramStateChangeServiceImpl {
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm) {
         majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
         majorDisciplineInfo.setEndTerm(endEnrollTerm);
-        //TODO KSCM-212 majorDisciplineInfo.getAttributes().put(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm);
+        majorDisciplineInfo.getAttributes().add(new AttributeInfo(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm));
     }
 
     /**
