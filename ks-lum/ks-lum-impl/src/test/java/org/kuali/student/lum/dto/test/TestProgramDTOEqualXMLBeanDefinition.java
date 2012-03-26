@@ -64,7 +64,7 @@ public class TestProgramDTOEqualXMLBeanDefinition {
 		startingClasses.add(HonorsProgramInfo.class.getName());
 		startingClasses.add(MajorDisciplineInfo.class.getName());
 		startingClasses.add(MinorDisciplineInfo.class.getName());
-//		startingClasses.add(ProgramRequirementInfo.class.getName());
+		startingClasses.add(ProgramRequirementInfo.class.getName());
 		startingClasses.add(ProgramVariationInfo.class.getName());
 		String contextFile = "ks-programInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
