@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,6 +43,32 @@ public class AcalEventWrapper extends TimeSetWrapper{
             }
         }
 
+    }
+
+    public void copy(AcalEventInfo acalEventInfo){
+           AcalEventInfo newEventInfo = new AcalEventInfo();
+           newEventInfo.setTypeKey(acalEventInfo.getTypeKey());
+           newEventInfo.setIsDateRange(acalEventInfo.getIsDateRange());
+           newEventInfo.setIsAllDay(acalEventInfo.getIsAllDay());
+           setDateRange(acalEventInfo.getIsDateRange());
+           setAllDay(acalEventInfo.getIsAllDay());
+           setAcalEventInfo(newEventInfo);
+           setEventType(acalEventInfo.getTypeKey());
+           setStartDate(null);
+           setEndDate(null);
+
+        //Copy only start/end time
+        if (!isAllDay()){
+            DateFormat dfm = new SimpleDateFormat("hh:mm");
+
+            setStartTime(dfm.format(acalEventInfo.getStartDate()));
+            setEndTime(dfm.format(acalEventInfo.getEndDate()));
+
+            dfm = new SimpleDateFormat("a");
+            setStartTimeAmPm(dfm.format(acalEventInfo.getStartDate()));
+            setEndTimeAmPm(dfm.format(acalEventInfo.getEndDate()));
+
+        }
     }
 
     public AcalEventInfo getAcalEventInfo(){

@@ -17,10 +17,8 @@ package org.kuali.student.enrollment.class2.acal.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -29,18 +27,16 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.test.utilities.TestHelper;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -245,7 +241,7 @@ public class AcademicCalendarController extends UifControllerBase {
         ContextInfo context = TestHelper.getContext1();
 
         //Validate Term
-        getAcademicCalendarViewHelperService(academicCalendarForm).validateTerm(academicCalendarForm.getTermWrapperList(),context);
+        getAcademicCalendarViewHelperService(academicCalendarForm).validateTerms(academicCalendarForm.getTermWrapperList(), context);
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 0){
            return getUIFModelAndView(academicCalendarForm);
@@ -296,8 +292,8 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView setTermOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
 
-        if(StringUtils.isBlank(academicCalendarForm.getAcademicCalendarInfo().getId())){
-             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Please save the academic calendar first");
+        if(academicCalendarForm.getAcademicCalendarInfo() == null || !StringUtils.equals(academicCalendarForm.getAcademicCalendarInfo().getStateKey(),AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY)){
+             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Academic Calendar should be set official");
              return updateComponent(academicCalendarForm, result, request, response);
         }
 

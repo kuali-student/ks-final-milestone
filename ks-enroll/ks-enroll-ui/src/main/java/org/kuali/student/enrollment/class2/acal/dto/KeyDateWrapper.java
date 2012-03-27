@@ -56,6 +56,21 @@ public class KeyDateWrapper extends TimeSetWrapper{
         this.setKeyDateType(keydate.getTypeKey());
         this.setAllDay(keydate.getIsAllDay());
         this.setDateRange(keydate.getIsDateRange());
+        this.setStartDate(null);
+        this.setEndDate(null);
+
+        //Copy only start/end time
+        if (!isAllDay()){
+            DateFormat dfm = new SimpleDateFormat("hh:mm");
+
+            setStartTime(dfm.format(keydate.getStartDate()));
+            setEndTime(dfm.format(keydate.getEndDate()));
+
+            dfm = new SimpleDateFormat("a");
+            setStartTimeAmPm(dfm.format(keydate.getStartDate()));
+            setEndTimeAmPm(dfm.format(keydate.getEndDate()));
+
+        }
     }
 
     public String getKeyDateType() {

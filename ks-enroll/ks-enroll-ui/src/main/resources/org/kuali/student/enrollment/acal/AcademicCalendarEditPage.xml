@@ -135,7 +135,7 @@
                      </property>
                  </bean>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="startTime" p:label="Start Time" p:labelPlacement="LEFT" p:refreshWhenChanged="#lp.allDay"
-                p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" p:style="font-weight:normal;" p:render="@{!#view.readOnly}"  >
+                p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" p:required="@{!#lp.allDay eq true}" p:style="font-weight:normal;" p:render="@{!#view.readOnly}"  >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
                     </property>
@@ -144,13 +144,13 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:refreshWhenChanged="#lp.allDay"  p:persistInSession="true"
-                p:readOnly="@{#lp.allDay eq true}" p:style="font-weight:normal;"  p:render="@{!#view.readOnly}" >
+                p:readOnly="@{#lp.allDay eq true}" p:style="font-weight:normal;" p:required="@{!#lp.allDay eq true}"  p:render="@{!#view.readOnly}" >
                      <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
                      </property>
                  </bean>
                 <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" p:refreshWhenChanged="#lp.dateRange" p:persistInSession="true"
-                            p:readOnly="@{#lp.dateRange eq false}"  p:render="@{!#view.readOnly}" p:style="font-weight:normal;">
+                            p:readOnly="@{#lp.dateRange eq false}" p:required="@{#lp.dateRange eq true}"  p:render="@{!#view.readOnly}" p:style="font-weight:normal;">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
                     </property>
@@ -168,7 +168,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="endTime" p:label="End Time" p:labelPlacement="LEFT" p:refreshWhenChanged="#lp.allDay"
-                p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" p:style="font-weight:normal;"  p:render="@{!#view.readOnly}" >
+                p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" p:required="@{!#lp.allDay eq true}" p:style="font-weight:normal;"  p:render="@{!#view.readOnly}" >
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
                     </property>
@@ -177,7 +177,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="endTimeAmPm" p:refreshWhenChanged="#lp.allDay"
-                p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" p:style="font-weight:normal;" p:render="@{!#view.readOnly}"  >
+                p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" p:required="@{!#lp.allDay eq true}" p:style="font-weight:normal;" p:render="@{!#view.readOnly}"  >
                      <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
                      </property>

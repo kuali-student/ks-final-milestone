@@ -92,7 +92,9 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         //Save holiday calendar
         HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
-        hcInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        if (StringUtils.isBlank(hcInfo.getStateKey())){
+            hcInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        }
         hcInfo.setTypeKey(AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
         hcInfo.setDescr(CommonUtils.buildDesc("no description"));
 
@@ -298,10 +300,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
 //    }
 
-    public void deleteHoliday(int selectedIndex,HolidayCalendarForm hcForm) throws Exception {
-        String holidayId = hcForm.getHolidays().get(selectedIndex).getHolidayInfo().getId();
-        if (null != holidayId) {  // null is possible when copying a HC
-            getAcalService().deleteHoliday(holidayId, getContextInfo());
+    public void deleteHoliday(int selectedIndex,HolidayCalendarForm hcForm) throws Exception{
+        HolidayInfo holidayInfo = hcForm.getHolidays().get(selectedIndex).getHolidayInfo();
+        if (StringUtils.isNotBlank(holidayInfo.getId())){
+            getAcalService().deleteHoliday(holidayInfo.getId(), getContextInfo());
         }
         hcForm.getHolidays().remove(selectedIndex);
     }
@@ -393,13 +395,14 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
            List<AcalEventInfo> orgEventInfoList= getAcalService().getAcalEventsForAcademicCalendar(orgAcalInfo.getId(), getContextInfo());
            List<AcalEventWrapper> newEventList = new ArrayList<AcalEventWrapper>();
            for (AcalEventInfo orgEventInfo : orgEventInfoList){
-               AcalEventInfo newEventInfo = new AcalEventInfo();
-               newEventInfo.setTypeKey(orgEventInfo.getTypeKey());
-               newEventInfo.setIsDateRange(orgEventInfo.getIsDateRange());
-               newEventInfo.setIsAllDay(orgEventInfo.getIsAllDay());
+//               AcalEventInfo newEventInfo = new AcalEventInfo();
+//               newEventInfo.setTypeKey(orgEventInfo.getTypeKey());
+//               newEventInfo.setIsDateRange(orgEventInfo.getIsDateRange());
+//               newEventInfo.setIsAllDay(orgEventInfo.getIsAllDay());
                AcalEventWrapper newEvent= new AcalEventWrapper();
-               newEvent.setAcalEventInfo(newEventInfo);
-               newEvent.setEventType(orgEventInfo.getTypeKey());
+               newEvent.copy(orgEventInfo);
+//               newEvent.setAcalEventInfo(newEventInfo);
+//               newEvent.setEventType(orgEventInfo.getTypeKey());
                newEventList.add(newEvent);
            }
            form.setEvents(newEventList);          
@@ -809,7 +812,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     }
 
-    public void validateTerm(List<AcademicTermWrapper> termWrapper, ContextInfo context) throws Exception {
+    public void validateTerms(List<AcademicTermWrapper> termWrapper, ContextInfo context) throws Exception {
         int index1 = 0;
         for (AcademicTermWrapper academicTermWrapper : termWrapper) {
             index1++;
@@ -820,32 +823,69 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 if (wrapper != academicTermWrapper){
                     if (StringUtils.equalsIgnoreCase(wrapper.getName(),academicTermWrapper.getName())){
                         if (index1 < index2){
-                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.term.duplicateName",""+ NumberUtils.min(new int[]{index1,index2}),""+NumberUtils.max(new int[]{index1,index2}));
+                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.term.dupliateName",""+ NumberUtils.min(new int[]{index1,index2}),""+NumberUtils.max(new int[]{index1,index2}));
                         }
                     }
                 }
-
-                for(KeyDatesGroupWrapper keyDatesGroupWrapper : wrapper.getKeyDatesGroupWrappers()){
-                    for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
-
-                        //Check keydates start/end date/time filled out based on the flag
-                        if (keyDateWrapper.isDateRange() && keyDateWrapper.getEndDate() == null){
-                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.endDate.empty",wrapper.getTermNameForUI(),keyDateWrapper.getKeyDateNameUI());
-                        }
-                        if (!keyDateWrapper.isAllDay() &&
-                                (StringUtils.isBlank(keyDateWrapper.getStartTime()) ||
-                                 StringUtils.isBlank(keyDateWrapper.getEndTime()) ||
-                                 StringUtils.isBlank(keyDateWrapper.getStartTimeAmPm()) ||
-                                 StringUtils.isBlank(keyDateWrapper.getEndTimeAmPm()))){
-                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.time.empty",wrapper.getTermNameForUI(),keyDateWrapper.getKeyDateNameUI());
-                        }
-
-                    }
-                }
+//                validateKeyDates(academicTermWrapper,context);
             }
 
         }
     }
+
+//    public void validateKeyDates(AcademicTermWrapper termWrapper, ContextInfo context) throws Exception {
+//        for(KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapper.getKeyDatesGroupWrappers()){
+//            for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
+//
+//                //Check keydates start/end date/time filled out based on the flag
+//                if (keyDateWrapper.isDateRange() && keyDateWrapper.getEndDate() == null){
+//                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.endDate.empty",keyDateWrapper.getKeyDateNameUI());
+//                }
+//                if (!keyDateWrapper.isAllDay() &&
+//                        (StringUtils.isBlank(keyDateWrapper.getStartTime()) ||
+//                         StringUtils.isBlank(keyDateWrapper.getEndTime()) ||
+//                         StringUtils.isBlank(keyDateWrapper.getStartTimeAmPm()) ||
+//                         StringUtils.isBlank(keyDateWrapper.getEndTimeAmPm()))){
+//                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.time.empty",keyDateWrapper.getKeyDateNameUI());
+//                }
+//
+//            }
+//        }
+//    }
+//
+//    public void validateEvents(List<AcalEventWrapper> events, ContextInfo context) throws Exception {
+//        int index1 = 0;
+//        for (AcalEventWrapper event : events) {
+//            //Check keydates start/end date/time filled out based on the flag
+//            if (event.isDateRange() && event.getEndDate() == null){
+//                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.endDate.empty",event.getEventType());
+//            }
+//            if (!event.isAllDay() &&
+//                    (StringUtils.isBlank(event.getStartTime()) ||
+//                     StringUtils.isBlank(event.getEndTime()) ||
+//                     StringUtils.isBlank(event.getStartTimeAmPm()) ||
+//                     StringUtils.isBlank(event.getEndTimeAmPm()))){
+//                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.time.empty",event.getEventType());
+//            }
+//        }
+//    }
+//
+//    public void validateHolidays(List<HolidayWrapper> holidayWrappers, ContextInfo context) throws Exception {
+//        int index1 = 0;
+//        for (HolidayWrapper holidayWrapper : holidayWrappers) {
+//            //Check keydates start/end date/time filled out based on the flag
+//            if (holidayWrapper.isDateRange() && holidayWrapper.getEndDate() == null){
+//                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.endDate.empty",holidayWrapper.getTypeName());
+//            }
+//            if (!holidayWrapper.isAllDay() &&
+//                    (StringUtils.isBlank(holidayWrapper.getStartTime()) ||
+//                     StringUtils.isBlank(holidayWrapper.getEndTime()) ||
+//                     StringUtils.isBlank(holidayWrapper.getStartTimeAmPm()) ||
+//                     StringUtils.isBlank(holidayWrapper.getEndTimeAmPm()))){
+//                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.time.empty",holidayWrapper.getTypeName());
+//            }
+//        }
+//    }
 
     public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList,ContextInfo context)
     throws Exception {

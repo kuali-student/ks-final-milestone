@@ -59,11 +59,17 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public void populateKeyDateGroupTypes(InputField field, AcademicCalendarForm acalForm) throws Exception;
 
-    public void validateTerm(List<AcademicTermWrapper> termWrapper, ContextInfo context) throws Exception;
+    public void validateTerms(List<AcademicTermWrapper> termWrapper, ContextInfo context) throws Exception;
 
     public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList,ContextInfo context)throws Exception;
 
     public List<AcademicTermWrapper> loadTerms(String acalId,ContextInfo context);
 
     public AcademicCalendarService getAcalService();
+
+//    public void validateEvents(List<AcalEventWrapper> events, ContextInfo context) throws Exception;
+//
+//    public void validateHolidays(List<HolidayWrapper> holidayWrappers, ContextInfo context) throws Exception;
+//
+//    public void validateKeyDates(AcademicTermWrapper termWrapper, ContextInfo context) throws Exception;
 }
