@@ -84,31 +84,31 @@ public class TestAtpService extends AbstractServiceTest {
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 		
-		List<String> atpTypes = client.getAtp();
-		assertEquals(2,atpTypes.size());
+//		List<String> atpTypes = client.getAtp();
+//		assertEquals(2,atpTypes.size());
 		
-		List<AtpInfo> atpsByAtpType = client.getAtpsByAtpType(atpType_fallSemester);
-		assertEquals(1,atpsByAtpType.size());
-		assertEquals(atp_2009FallSemester,atpsByAtpType.get(0).getId());
+//		List<AtpInfo> atpsByAtpType = client.getAtpsByAtpType(atpType_fallSemester);
+//		assertEquals(1,atpsByAtpType.size());
+//		assertEquals(atp_2009FallSemester,atpsByAtpType.get(0).getId());
 		
-		List<AtpInfo> atpsByDate = client.getAtpsByDate(cal.getTime());
-		assertEquals(1,atpsByDate.size());
-		assertEquals(atp_2009FallSemester,atpsByDate.get(0).getId());
+//		List<AtpInfo> atpsByDate = client.getAtpsByDate(cal.getTime());
+//		assertEquals(1,atpsByDate.size());
+//		assertEquals(atp_2009FallSemester,atpsByDate.get(0).getId());
 		
-		List<AtpInfo> atpsByDates = client.getAtpsByDates(startCal.getTime(), endCal.getTime());
-		assertEquals(2,atpsByDates.size());
+//		List<AtpInfo> atpsByDates = client.getAtpsByDates(startCal.getTime(), endCal.getTime());
+//		assertEquals(2,atpsByDates.size());
 		
-		List<MilestoneInfo> milestonesByAtp = client.getMilestonesByAtp(atp_2009FallSemester);
-		assertEquals(1,milestonesByAtp.size());
+//		List<MilestoneInfo> milestonesByAtp = client.getMilestonesByAtp(atp_2009FallSemester);
+//		assertEquals(1,milestonesByAtp.size());
 		
-		List<MilestoneInfo> milestonesByDates = client.getMilestonesByDates(startCal.getTime(), endCal.getTime());
-		assertEquals(1,milestonesByDates.size());
+//		List<MilestoneInfo> milestonesByDates = client.getMilestonesByDates(startCal.getTime(), endCal.getTime());
+//		assertEquals(1,milestonesByDates.size());
 		
-		List<MilestoneInfo> milestonesByDatesAndType = client.getMilestonesByDatesAndType(milestoneType_lastDateToDrop, startCal.getTime(), endCal.getTime());
-		assertEquals(1,milestonesByDatesAndType.size());
+//		List<MilestoneInfo> milestonesByDatesAndType = client.getMilestonesByDatesAndType(milestoneType_lastDateToDrop, startCal.getTime(), endCal.getTime());
+//		assertEquals(1,milestonesByDatesAndType.size());
 		
-		List<MilestoneTypeInfo> milestoneTypesForAtpType = client.getMilestoneTypesForAtpType(atpType_fallSemester);
-		assertEquals(1,milestoneTypesForAtpType.size());
+//		List<MilestoneTypeInfo> milestoneTypesForAtpType = client.getMilestoneTypesForAtpType(atpType_fallSemester);
+//		assertEquals(1,milestoneTypesForAtpType.size());
 	}
 	
 	@Test
