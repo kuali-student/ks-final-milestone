@@ -2062,4 +2062,8 @@ public interface CluService extends VersionManagementService ,SearchService {
     public List<org.kuali.student.r2.lum.clu.dto.CluInfo> getRelatedClusByCluId(String id, String courseActivityRelationType)throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException;
+    @Deprecated
+    public CluSetInfo getCluSetInfo(String cluSetId)throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
 }
