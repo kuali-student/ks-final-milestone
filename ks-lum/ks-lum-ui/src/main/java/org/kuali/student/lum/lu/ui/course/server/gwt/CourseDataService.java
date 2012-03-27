@@ -37,6 +37,7 @@ import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.util.StringUtils;
 
 public class CourseDataService extends AbstractDataService {
@@ -78,10 +79,8 @@ public class CourseDataService extends AbstractDataService {
 	            	String courseIndId = courseInfo.getVersionInfo().getVersionIndId();
 	            	
 	            	//Get the currentCourse from the service
-	            	VersionDisplayInfo versionInfo = null;
-	            	// TODO KSCM-423 Versions versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseIndId, contextInfo);
-	            	CourseInfo originalCourseInfo = null;
-	            	// TODO KSCM-423 Versions originalCourseInfo = courseService.getCourse(versionInfo.getId(), contextInfo);
+	            	VersionDisplayInfo versionInfo =  courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseIndId, contextInfo);
+	            	CourseInfo originalCourseInfo =  courseService.getCourse(versionInfo.getId(), contextInfo);
 	            	
 			    	//Save the start and end terms from the old version and put into filter properties
 			    	String startTerm = originalCourseInfo.getStartTerm();
