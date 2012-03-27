@@ -29,6 +29,7 @@
 		<class>org.kuali.student.r1.common.entity.TimeAmount</class>
 		<class>org.kuali.student.r1.common.entity.Amount</class>
 
+
 		<class>org.kuali.student.lum.lu.entity.AffiliatedOrg</class>
 		<class>org.kuali.student.lum.lu.entity.AllowedCluLoRelationType</class>
 		<class>org.kuali.student.lum.lu.entity.AllowedCluResultLuType</class>		
