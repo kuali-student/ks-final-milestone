@@ -2434,6 +2434,17 @@ public class LuServiceImpl implements CluService {
        // return null;
     }
 
+    @Override
+    public CluSetInfo getCluSetInfo(String cluSetId)throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        checkForMissingParameter(cluSetId, "cluSetId");
+        CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
+        CluSetInfo cluSetInfo = R1R2ConverterUtil.convert(LuServiceAssembler.toCluSetInfo(cluSet),CluSetInfo.class);
+        setMembershipQuerySearchResult(cluSetInfo);
+        return cluSetInfo;
+    }
+
     private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
             throws OperationFailedException {
         for (CluSetJoinVersionIndClu join : cluSet.getCluVerIndIds()) {
