@@ -24,7 +24,6 @@
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotAttributeEntity</class>
 
 		<class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
-		<class>org.kuali.student.r2.core.class1.atp.model.AtpStateEntity</class>
 		<class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
 		<class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity</class>
 		<class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationAttributeEntity</class>
