@@ -8,7 +8,8 @@ import java.text.SimpleDateFormat;
 public class AcalEventWrapper extends TimeSetWrapper{
 
     private AcalEventInfo acalEventInfo;
-    private String eventType;
+    private String eventTypeKey;
+    private String eventTypeName;
 
     public AcalEventWrapper() {
         acalEventInfo = new AcalEventInfo();
@@ -21,7 +22,7 @@ public class AcalEventWrapper extends TimeSetWrapper{
         this.setStartDate(acalEventInfo.getStartDate());
         this.setAllDay(acalEventInfo.getIsAllDay());
         this.setDateRange(acalEventInfo.getIsDateRange());
-        this.setEventType(acalEventInfo.getTypeKey());
+        this.setEventTypeKey(acalEventInfo.getTypeKey());
         this.setEndDate(acalEventInfo.getEndDate());
 
         //This is needed to display enddate for readonly view.
@@ -53,7 +54,7 @@ public class AcalEventWrapper extends TimeSetWrapper{
            setDateRange(acalEventInfo.getIsDateRange());
            setAllDay(acalEventInfo.getIsAllDay());
            setAcalEventInfo(newEventInfo);
-           setEventType(acalEventInfo.getTypeKey());
+           setEventTypeKey(acalEventInfo.getTypeKey());
            setStartDate(null);
            setEndDate(null);
 
@@ -79,12 +80,20 @@ public class AcalEventWrapper extends TimeSetWrapper{
         this.acalEventInfo =  acalEventInfo;
     }
 
-    public String getEventType() {
-        return eventType;
+    public String getEventTypeKey() {
+        return eventTypeKey;
     }
 
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
+    public void setEventTypeKey(String eventTypeKey) {
+        this.eventTypeKey = eventTypeKey;        
+    }
+    
+    public String getEventTypeName() {
+        return eventTypeName;
+    }
+    
+    public void setEventTypeName(String eventTypeName) {
+        this.eventTypeName = eventTypeName;
     }
 
 

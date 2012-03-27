@@ -563,7 +563,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     private AcalEventWrapper assembleEventWrapperFromEventInfo (AcalEventInfo acalEventInfo) throws Exception {
         AcalEventWrapper event  = new AcalEventWrapper(acalEventInfo);
-        event.setAcalEventInfo(acalEventInfo);
+//        event.setAcalEventInfo(acalEventInfo);
+//        event.setEventTypeKey(acalEventInfo.getTypeKey());
+        TypeInfo type = getTypeService().getType(event.getEventTypeKey(), getContextInfo());
+        event.setEventTypeName(type.getName());
         /*event.setEventType(acalEventInfo.getTypeKey());
         Date startDate = acalEventInfo.getStartDate();
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
@@ -594,10 +597,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         AcalEventInfo eventInfo = eventWrapper.getAcalEventInfo();
         //create dummy descr for db MilestoneEntity.plain is not nullable
         RichTextInfo rti = new RichTextInfo();
-        rti.setPlain(eventWrapper.getEventType());
+        rti.setPlain(eventWrapper.getEventTypeKey());
         eventInfo.setDescr(rti);
         eventInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
-        eventInfo.setTypeKey(eventWrapper.getEventType());
+        eventInfo.setTypeKey(eventWrapper.getEventTypeKey());
         eventInfo.setStartDate(eventWrapper.getStartDate());
         eventInfo.setEndDate(eventWrapper.getEndDate());
         eventInfo.setIsAllDay(eventWrapper.isAllDay());
@@ -750,7 +753,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     private boolean isDuplicateEvent(AcalEventWrapper newEvent, AcalEventWrapper sourceEvent){
 //        return (newEvent.getAcalEventInfo().getTypeKey().equals(sourceEvent.getAcalEventInfo().getTypeKey()) &&
 //                newEvent.getStartDate().equals(sourceEvent.getStartDate()));
-        return (newEvent.getEventType().equals(sourceEvent.getEventType()));
+        return (newEvent.getEventTypeKey().equals(sourceEvent.getEventTypeKey()));
     }
 
     public void populateKeyDateTypes(InputField field, AcademicCalendarForm acalForm) {
@@ -1151,28 +1154,36 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     }
                     inputLine.setHolidays(holidays);
                 }catch (DoesNotExistException dnee){
-                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
+                    System.out.println("call AcademicCalendarService.getHolidaysForHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
                 }catch (InvalidParameterException ipe){
-                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
+                    System.out.println("call AcademicCalendarService.getHolidaysForHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
                 }catch (MissingParameterException mpe){
-                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
+                    System.out.println("call AcademicCalendarService.getHolidaysForHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
                 }catch (OperationFailedException ofe){
-                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
+                    System.out.println("call AcademicCalendarService.getHolidaysForHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
                 }catch (PermissionDeniedException pde){
-                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
+                    System.out.println("call AcademicCalendarService.getHolidaysForHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
                 }
             }catch (DoesNotExistException dnee){
-                System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
+                System.out.println("call AcademicCalendarService.getHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
             }catch (InvalidParameterException ipe){
-                System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
+                System.out.println("call AcademicCalendarService.getHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
             }catch (MissingParameterException mpe){
-                System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
+                System.out.println("call AcademicCalendarService.getHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
             }catch (OperationFailedException ofe){
-                System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
+                System.out.println("call AcademicCalendarService.getHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
             }catch (PermissionDeniedException pde){
-                System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
+                System.out.println("call AcademicCalendarService.getHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
             }
 
+        }else if (addLine instanceof AcalEventWrapper){
+            AcalEventWrapper acalEventWrapper = (AcalEventWrapper)addLine;
+            try {
+                TypeInfo type = getTypeService().getType(acalEventWrapper.getEventTypeKey(), getContextInfo());
+                acalEventWrapper.setEventTypeName(type.getName());
+            }catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
 
         }else if (addLine instanceof KeyDateWrapper){
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
