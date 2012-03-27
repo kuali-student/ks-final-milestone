@@ -5,13 +5,17 @@
 	<!-- ********************************************************************* -->
 	<!-- KS-COMMON-API -->
 	<!-- ********************************************************************* -->
-	<!-- ks-common-api: org.kuali.student.common.versionmanagement.dto mappings -->
+	<!-- ks-common-api: org.kuali.student.r*.common.versionmanagement.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.common.versionmanagement.dto.VersionInfo
 		</class-a>
 		<class-b>org.kuali.student.r2.core.versionmanagement.dto.VersionInfo
 		</class-b>
 	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo</class-a>
+		<class-b>org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo</class-b>
+	<field><a>objectTypeURI</a><b>refObjectUri</b></field></mapping>
 
 	<!-- ks-common-api: org.kuali.student.r*.common.dto mappings -->
 	<mapping>
@@ -56,6 +60,11 @@
 		<field>
 			<a>id</a>
 			<b>key</b>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.DescToRichTextConverter">
+			<a>descr</a><!-- This is a String -->
+			<b get-method="getDescr" set-method="setDescr">descr</b><!-- This is a RichTextInfo -->
 		</field>
 		<field
 			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
