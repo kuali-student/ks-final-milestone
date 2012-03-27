@@ -83,7 +83,8 @@ public class TestAtpService extends AbstractServiceTest {
 		endCal.set(2010, 1, 1);
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-		
+
+		// TODO KSCM-504
 //		List<String> atpTypes = client.getAtp();
 //		assertEquals(2,atpTypes.size());
 		
