@@ -3174,12 +3174,12 @@ public class LuServiceImpl implements CluService {
         Clu latestClu;
         Clu currentClu;
         try {
-            latestClu = luDao.getLatestCluVersion(null); // TODO KSCM-423 versionIndCluId
+            latestClu = luDao.getLatestCluVersion(cluId); 
         } catch (NoResultException e) {
             throw new DoesNotExistException("There are no matching versions of this clu", e);
         }
         try {
-            currentClu = luDao.getCurrentCluVersion(null); // TODO KSCM-423 versionIndCluId
+            currentClu = luDao.getCurrentCluVersion(cluId); 
         } catch (NoResultException e) {
             throw new DoesNotExistException(
                     "There is no current version of this clu. Only current clus can be versioned. Use setCurrentCluVersion to make a clu current.",
