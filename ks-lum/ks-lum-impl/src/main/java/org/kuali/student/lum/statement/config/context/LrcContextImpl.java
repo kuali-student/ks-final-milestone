@@ -17,6 +17,8 @@ package org.kuali.student.lum.statement.config.context;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List   ;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
@@ -44,8 +46,9 @@ public class LrcContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			return null;
-			// TODO KSCM			return lrcService.getResultComponent(resultComponentId);
+
+
+			return  lrcService.getResultComponent(resultComponentId);
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
@@ -69,17 +72,17 @@ public class LrcContextImpl extends BasicContextImpl {
 		}
 		
 		try {
-			// TODO KSCM
-//			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes();
-//			for(ResultComponentTypeInfo type : typeList) {
-//				List<String> resultComponentIdList = lrcService.getResultComponentIdsByResultComponentType(type.getId());
-//				for(String resultComponentId : resultComponentIdList) {
-//					ResultComponentInfo resultComponent = lrcService.getResultComponent(resultComponentId);
-//					if(resultComponent.getResultValues().contains(resultValueId)) {
-//						return resultComponent;
-//					}
-//				}
-//			}
+
+			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes();
+			for(ResultComponentTypeInfo type : typeList) {
+				List<String> resultComponentIdList = lrcService.getResultComponentIdsByResultComponentType(type.getId());
+				for(String resultComponentId : resultComponentIdList) {
+					ResultComponentInfo resultComponent = lrcService.getResultComponent(resultComponentId);
+					if(resultComponent.getResultValues().contains(resultValueId)) {
+						return resultComponent;
+					}
+				}
+			}
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
