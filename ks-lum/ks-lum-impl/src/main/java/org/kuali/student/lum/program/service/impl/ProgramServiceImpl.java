@@ -392,8 +392,7 @@ public class ProgramServiceImpl implements ProgramService{
 	    	variation.getAttributes().remove("endInstAdmitTerm");
 	    	
 			//Create new variation version
-			//TODO KSCM-423 :String variationVersionIndId = variation.getVersionInfo().getVersionIndId();
-	    	String variationVersionIndId = variation.getVersion().getVersionIndId();
+		   	String variationVersionIndId = variation.getVersion().getVersionIndId();
 			CluInfo newVariationClu = cluService.createNewCluVersion(variationVersionIndId, "Variation version for MajorDiscipline version " + majorDiscipline.getVersion().getSequenceNumber(),contextInfo);
 			
 			//Create relation b/w new major discipline and new variation
@@ -549,7 +548,7 @@ public class ProgramServiceImpl implements ProgramService{
 		for (ProgramVariationInfo variationInfo:variationList){
 			String variationId = variationInfo.getId();
 			//If null set to current (non-null value means version is first and is already current)
-			//TODO KSCM-423 :if (variationInfo.getVersionInfo().getCurrentVersionStart() == null){
+			
 			if (variationInfo.getVersion().getCurrentVersionStart() == null){
 				cluService.setCurrentCluVersion(variationId, currentVersionStart,contextInfo);
 			}
