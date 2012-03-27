@@ -38,7 +38,7 @@ public class TestCourseDTOEqualXMLBeanDefinition {
 		return builder.toString();
 	}
 
-	// @Test
+	@Test
 	public void getLinkedListFields() {
 		ComplexSubstructuresHelper helpme = new ComplexSubstructuresHelper();
 		ArrayList<Field> fields = new ArrayList<Field>();
