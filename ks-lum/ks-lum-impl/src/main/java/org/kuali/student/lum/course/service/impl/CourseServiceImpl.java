@@ -8,6 +8,7 @@ import javax.jws.WebParam;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
@@ -16,7 +17,7 @@ import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.validator.ValidatorUtils;
-import org.kuali.student.r1.lum.lu.service.LuService;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -39,7 +40,6 @@ import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.statement.service.StatementService;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -48,11 +48,9 @@ import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
 
 /**
  * CourseServiceImpl implements CourseService Interface by mapping DTOs in CourseInfo to

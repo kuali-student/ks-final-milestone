@@ -197,10 +197,9 @@ public class CourseStateChangeServiceImpl {
 		if (thisVerPrevState.equals(DtoConstants.STATE_APPROVED)
 				&& thisVerNewState.equals(DtoConstants.STATE_ACTIVE)) {
 
-			List<VersionDisplayInfo> versions = null;
-			// TODO KSCM-423  courseService.getVersions(
-			// TODO KSCM-423 		CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
-			// TODO KSCM-423 				.getVersionInfo().getVersionIndId(),contextInfo);
+			List<VersionDisplayInfo> versions = courseService.getVersions(
+					CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
+						.getVersionInfo().getVersionIndId(),contextInfo);
 			Long startSeq = new Long(1);
 
 			if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {

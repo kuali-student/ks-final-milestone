@@ -139,5 +139,16 @@ public class CourseServiceDecorator implements CourseService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Deprecated
+	@Override
+	public List<VersionDisplayInfo> getVersions(String refObjectTypeURI,
+			String refObjectId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }
