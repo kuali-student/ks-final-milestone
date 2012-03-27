@@ -207,7 +207,6 @@
     <ref bean="milestoneInfo.endDate"/>
     <ref bean="milestoneInfo.startDate"/>
     <ref bean="milestoneInfo.isAllDay"/>
-    <ref bean="milestoneInfo.typeKey"/>
     <ref bean="milestoneInfo.isDateRange"/>
     <ref bean="milestoneInfo.isInstructionalDay"/>
     <ref bean="milestoneInfo.isRelative"/>    
