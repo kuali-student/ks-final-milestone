@@ -13,9 +13,15 @@
 		</class-b>
 	</mapping>
 	<mapping>
-		<class-a>org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo</class-a>
-		<class-b>org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo</class-b>
-	<field><a>objectTypeURI</a><b>refObjectUri</b></field></mapping>
+		<class-a>org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo
+		</class-b>
+		<field>
+			<a>objectTypeURI</a>
+			<b>refObjectUri</b>
+		</field>
+	</mapping>
 
 	<!-- ks-common-api: org.kuali.student.r*.common.dto mappings -->
 	<mapping>
@@ -869,13 +875,18 @@
 		<class-a>org.kuali.student.r1.lum.course.dto.LoDisplayInfo</class-a>
 		<class-b>org.kuali.student.r2.lum.course.dto.LoDisplayInfo</class-b>
 		<field>
-			<a get-method="getLoDisplayInfoList" set-method="setLoDisplayInfoList">loDisplayInfoList</a>
+			<a get-method="getLoDisplayInfoList" set-method="setLoDisplayInfoList">loDisplayInfoList
+			</a>
 			<b get-method="getLoDisplayInfoList" set-method="setLoDisplayInfoList">loDisplayInfoList
 			</b>
 			<a-hint>org.kuali.student.r1.lum.course.dto.LoDisplayInfo</a-hint>
 			<b-hint>org.kuali.student.r2.lum.course.dto.LoDisplayInfo</b-hint>
 		</field>
-	<field><a>loInfo</a><b get-method="getLoInfo" set-method="setLoInfo">loInfo</b></field></mapping>
+		<field>
+			<a>loInfo</a>
+			<b get-method="getLoInfo" set-method="setLoInfo">loInfo</b>
+		</field>
+	</mapping>
 
 	<!-- org.kuali.student.r*.lum.lo.dto mappings -->
 	<mapping>
@@ -972,6 +983,107 @@
 		<field>
 			<a>desc</a>
 			<b set-method="setDescr" get-method="getDescr">descr</b>
+		</field>
+	</mapping>
+
+	<!-- org.kuali.student.r*.lum.lrc.dto mappings -->
+	<!-- TODO -->
+
+	<!-- org.kuali.student.r*.lum.lu.dto mappings -->
+	<!-- TODO -->
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluInfo</class-b>
+		<field>
+			<a>accountingInfo</a>
+			<b get-method="getAccountingInfo" set-method="setAccountingInfo">accountingInfo</b>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>intensity</a>
+			<b get-method="getIntensity"
+				set-method="setIntensity(org.kuali.student.r2.common.dto.AmountInfo)">intensity</b>
+		</field>
+		<field>
+			<a>feeInfo</a>
+			<b get-method="getFeeInfo" set-method="setFeeInfo">feeInfo</b>
+		</field>
+		<field>
+			<a>officialIdentifier</a>
+			<b get-method="getOfficialIdentifier" set-method="setOfficialIdentifier">officialIdentifier
+			</b>
+		</field>
+		<field>
+			<a>stdDuration</a>
+			<b get-method="getStdDuration" set-method="setStdDuration">stdDuration</b>
+		</field>
+		<field>
+			<a>primaryInstructor</a>
+			<b set-method="setPrimaryInstructor" get-method="getPrimaryInstructor">primaryInstructor
+			</b>
+		</field>
+		<field>
+			<a>stdDuration</a>
+			<b get-method="getStdDuration"
+				set-method="setStdDuration(org.kuali.student.r2.common.dto.TimeAmountInfo)">stdDuration</b>
+		</field>
+	</mapping>
+
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluFeeInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluFeeInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluIdentifierInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+	</mapping>
+
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluInstructorInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluInstructorInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
 		</field>
 	</mapping>
 

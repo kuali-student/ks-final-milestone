@@ -31,7 +31,12 @@ import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.r1.lum.lu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r1.lum.lu.dto.CluAccountingInfo;
+import org.kuali.student.r1.lum.lu.dto.CluFeeInfo;
+import org.kuali.student.r1.lum.lu.dto.CluFeeRecordInfo;
+import org.kuali.student.r1.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.r1.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.r1.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r1.lum.program.dto.ProgramVariationInfo;
 
@@ -489,6 +494,89 @@ public class R1TestDataUtil {
         r1ReqCompFieldInfo.setValue("R1 Value");
         r1ReqCompFieldInfoList.add(r1ReqCompFieldInfo);
         return r1ReqCompFieldInfoList;
+    }
+    
+    public static CluAccountingInfo getCluAccountingInfoData() {
+        CluAccountingInfo r1 = new CluAccountingInfo();
+        r1.setAffiliatedOrgs(R1TestDataUtil.getAffiliatedOrgInfoDataList());
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setId("R1 Id");
+        return r1;
+    }
+    
+    public static List<AdminOrgInfo> getAdminOrgInfoDataList() {
+        List<AdminOrgInfo> r1List = new ArrayList<AdminOrgInfo>();
+        AdminOrgInfo r1 = new AdminOrgInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setId("R1 Id");
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setOrgId("R1 Org Id");
+        r1.setPrimary(true);
+        r1.setType("R1 Type");
+        r1List.add(r1);
+        return r1List;
+    }
+    
+    public static CluIdentifierInfo getCluIdentifierInfoData() {
+        CluIdentifierInfo r1 = new CluIdentifierInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setCode("R1 Code");
+        r1.setDivision("R1 Division");
+        r1.setId("R1 Id");
+        r1.setLevel("R1 Level");
+        r1.setLongName("R1 Long Name");
+        r1.setOrgId("R1 Org Id");
+        r1.setShortName("R1 Short Name");
+        r1.setState("R1 State");
+        r1.setSuffixCode("R1 Suffix Code");
+        r1.setType("R1 Type");
+        r1.setVariation("R1 Variation");
+        return r1;
+    }
+    
+    public static List<CluIdentifierInfo> getCluIdentifierInfoDataList() {
+        List<CluIdentifierInfo> r1List = new ArrayList<CluIdentifierInfo>();
+        CluIdentifierInfo r1 = R1TestDataUtil.getCluIdentifierInfoData();
+        r1List.add(r1);
+        return r1List;
+    }
+
+    public static CluFeeInfo getCluFeeInfoData() {
+        CluFeeInfo r1 = new CluFeeInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setCluFeeRecords(R1TestDataUtil.getCluFeeRecordInfoDataList());
+        r1.setDescr(R1TestDataUtil.getRichTextInfoData());
+        r1.setId("R1 Id");
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        return r1;
+    }
+    
+    public static List<CluFeeRecordInfo> getCluFeeRecordInfoDataList() {
+        List<CluFeeRecordInfo> r1List = new ArrayList<CluFeeRecordInfo>();
+        CluFeeRecordInfo r1 = new CluFeeRecordInfo();
+        r1.setAffiliatedOrgs(R1TestDataUtil.getAffiliatedOrgInfoDataList());
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setDescr(R1TestDataUtil.getRichTextInfoData());
+        r1.setFeeAmounts(R1TestDataUtil.getCurrencyAmountInfoDataList());
+        r1.setFeeType("R1 Fee Type");
+        r1.setId("R1 Id");
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setRateType("R1 Rate Type");
+        r1List.add(r1);
+        return r1List;
+    }
+
+    public static List<LuCodeInfo> getLuCodeInfoDataList() {
+        List<LuCodeInfo> r1List = new ArrayList<LuCodeInfo>();
+        LuCodeInfo r1 = new LuCodeInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setDescr(R1TestDataUtil.getRichTextInfoData());
+        r1.setId("R1 Id");
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setType("R1 Type");
+        r1.setValue("R1 Value");
+        r1List.add(r1);
+        return r1List;
     }
 
 }

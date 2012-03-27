@@ -8,6 +8,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.r1.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r1.lum.lu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
@@ -228,6 +232,91 @@ public class LumConverterTest {
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getDesc().getPlain(), r2.getDescr().getPlain());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+    }
+    
+    @Test
+    public void testCluInfo() {
+        org.kuali.student.r1.lum.lu.dto.CluInfo r1 = new org.kuali.student.r1.lum.lu.dto.CluInfo();
+        r1.setAccountingInfo(R1TestDataUtil.getCluAccountingInfoData());
+        r1.setAccreditations(R1TestDataUtil.getAccreditationInfoDataList());
+        r1.setAdminOrgs(R1TestDataUtil.getAdminOrgInfoDataList());
+        r1.setAlternateIdentifiers(R1TestDataUtil.getCluIdentifierInfoDataList());
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setCampusLocations(null);
+        r1.setCanCreateLui(true);
+        r1.setDefaultEnrollmentEstimate(1);
+        r1.setDefaultMaximumEnrollment(1);
+        r1.setDescr(R1TestDataUtil.getRichTextInfoData());
+        r1.setEffectiveDate(new Date());
+        r1.setEnrollable(true);
+        r1.setExpectedFirstAtp("R1 Expected First Atp");
+        r1.setExpirationDate(new Date());
+        r1.setFeeInfo(R1TestDataUtil.getCluFeeInfoData());
+        r1.setHasEarlyDropDeadline(true);
+        r1.setHazardousForDisabledStudents(true);
+        r1.setId("R1 Id");
+        r1.setInstructors(R1TestDataUtil.getCluInstructorInfoDataList());
+        r1.setIntensity(R1TestDataUtil.getAmountInfoData());
+        r1.setLastAdmitAtp("R1 Last Admit Atp");
+        r1.setLuCodes(R1TestDataUtil.getLuCodeInfoDataList());
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setNextReviewPeriod("R1 Next Review Period");
+        r1.setOfferedAtpTypes(null);
+        r1.setOfficialIdentifier(R1TestDataUtil.getCluIdentifierInfoData());
+        r1.setPrimaryInstructor(R1TestDataUtil.getCluInstructorInfoData());
+        r1.setReferenceURL("R1 Reference URL");
+        r1.setState("R1 State");
+        r1.setStdDuration(R1TestDataUtil.getTimeAmountInfoData());
+        r1.setStudySubjectArea("R1 Study Subject Area");
+        r1.setType("R1 Type");
+        r1.setVersionInfo(R1TestDataUtil.getVersionInfoData());
+        CluInfo r2 = R1R2ConverterUtil.convert(r1, CluInfo.class);
+        Assert.assertEquals(r1.getAccountingInfo().getId(), r2.getAccountingInfo().getId());
+        Assert.assertEquals(r1.getAccreditations().get(0).getId(), r2.getAccreditations().get(0).getId());
+        Assert.assertEquals(r1.getAdminOrgs().get(0).getId(), r2.getAdminOrgs().get(0).getId());
+        Assert.assertEquals(r1.getAlternateIdentifiers().get(0).getId(), r2.getAlternateIdentifiers().get(0).getId());
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getDescr().getPlain(), r2.getDescr().getPlain());
+        Assert.assertEquals(r1.getFeeInfo().getId(), r2.getFeeInfo().getId());
+        Assert.assertEquals(r1.getInstructors().get(0).getPersonId(), r2.getInstructors().get(0).getPersonId());
+        Assert.assertEquals(r1.getIntensity().getUnitType(), r2.getIntensity().getUnitTypeKey());
+        Assert.assertEquals(r1.getLuCodes().get(0).getId(), r2.getLuCodes().get(0).getId());
+        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals(r1.getOfficialIdentifier().getId(), r2.getOfficialIdentifier().getId());
+        Assert.assertEquals(r1.getPrimaryInstructor().getPersonId(), r2.getPrimaryInstructor().getPersonId());
+        Assert.assertEquals(r1.getStdDuration().getTimeQuantity(), r2.getStdDuration().getTimeQuantity());
+        Assert.assertEquals(r1.getVersionInfo().getVersionIndId(), r2.getVersionInfo().getVersionIndId());
+    }
+    
+    @Test
+    public void testCluFeeInfo() {
+        org.kuali.student.r1.lum.lu.dto.CluFeeInfo r1 = R1TestDataUtil.getCluFeeInfoData();
+        CluFeeInfo r2 = R1R2ConverterUtil.convert(r1, CluFeeInfo.class);
+        Assert.assertEquals(r1.getId(), r2.getId());
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getCluFeeRecords().get(0).getId(), r2.getCluFeeRecords().get(0).getId());
+        Assert.assertEquals(r1.getDescr().getPlain(), r2.getDescr().getPlain());
+        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+    }
+    
+    @Test
+    public void testCluIdentifierInfo() {
+        org.kuali.student.r1.lum.lu.dto.CluIdentifierInfo r1 = R1TestDataUtil.getCluIdentifierInfoData();
+        CluIdentifierInfo r2 = R1R2ConverterUtil.convert(r1, CluIdentifierInfo.class);
+        Assert.assertEquals(r1.getId(), r2.getId());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
+    }
+    
+    @Test
+    public void testCluInstructorInfo() {
+        org.kuali.student.r1.lum.lu.dto.CluInstructorInfo r1 = R1TestDataUtil.getCluInstructorInfoData();
+        CluInstructorInfo r2 = R1R2ConverterUtil.convert(r1, CluInstructorInfo.class);
+        Assert.assertEquals(r1.getOrgId(), r2.getOrgId());
+        Assert.assertEquals(r1.getPersonId(), r2.getPersonId());
+        Assert.assertEquals(r1.getPersonInfoOverride(), r2.getPersonInfoOverride());
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
     }
 
     @Test
