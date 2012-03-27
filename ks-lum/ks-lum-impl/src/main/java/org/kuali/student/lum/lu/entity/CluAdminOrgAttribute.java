@@ -20,7 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Attribute;
+import org.kuali.student.r1.common.entity.Attribute;
 
 @Entity
 @Table(name = "KSLU_CLU_ADMIN_ORG_ATTR")
@@ -40,6 +40,4 @@ public class CluAdminOrgAttribute extends Attribute<CluAdminOrg> {
 		this.owner = owner;
 	}
 	
-	
-
 }

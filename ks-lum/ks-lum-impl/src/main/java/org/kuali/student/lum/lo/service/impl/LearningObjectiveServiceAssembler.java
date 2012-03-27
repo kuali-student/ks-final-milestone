@@ -15,23 +15,24 @@
 
 package org.kuali.student.lum.lo.service.impl;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.dao.CrudDao;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.service.impl.BaseAssembler;
+import org.kuali.student.r1.common.dao.CrudDao;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r1.common.service.impl.BaseAssembler;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.lo.dao.LoDao;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
-import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
-import org.kuali.student.lum.lo.dto.LoRepositoryInfo;
-import org.kuali.student.lum.lo.dto.LoTypeInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
+import org.kuali.student.r1.lum.lo.dto.LoInfo;
+import org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo;
+import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
+import org.kuali.student.r1.lum.lo.dto.LoRepositoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoAttribute;
 import org.kuali.student.lum.lo.entity.LoCategory;
@@ -63,7 +64,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
             if (lo == null) {
                 throw new DoesNotExistException((new StringBuilder()).append("Lo does not exist for id: ").append(dto.getId()).toString());
             }
-            if ( ! String.valueOf(lo.getVersionInd()).equals(dto.getMetaInfo().getVersionInd()) ) {
+            if ( ! String.valueOf(lo.getVersionNumber()).equals(dto.getMetaInfo().getVersionInd()) ) {
                 throw new VersionMismatchException("Lo to be updated is not the current version");
             }
         } else {
@@ -90,13 +91,13 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         return lo;
     }
 
-    public static LoInfo toLoInfo(Lo entity) {
+    public static LoInfo toLoInfo( Lo entity) {
         LoInfo dto = new LoInfo();
 
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "type" });
         dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setType(entity.getLoType().getId());
         dto.setLoRepositoryKey(entity.getLoRepository() == null? null: entity.getLoRepository().getId());
@@ -125,7 +126,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "loRepository", "loCategoryType" });
         dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setLoRepository(entity.getLoRepository().getId());
         dto.setType(entity.getLoCategoryType().getId());
@@ -139,7 +140,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "rootLo" });
         dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setRootLoId(entity.getRootLo() == null? null :entity.getRootLo().getId());
         return dto;
@@ -221,7 +222,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
             if (llRelation == null) {
                 throw new DoesNotExistException((new StringBuilder()).append("LoLoRelation does not exist for id: ").append(dto.getId()).toString());
             }
-            if ( ! String.valueOf(llRelation.getVersionInd()).equals(dto.getMetaInfo().getVersionInd()) ) {
+            if ( ! String.valueOf(llRelation.getVersionNumber()).equals(dto.getMetaInfo().getVersionInd()) ) {
                 throw new VersionMismatchException("LoLoRelation to be updated is not the current version");
             }
         } else {
@@ -259,7 +260,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         dto.setLoId(entity.getLo().getId());
         dto.setRelatedLoId(entity.getRelatedLo().getId());
         dto.setType(entity.getLoLoRelationType().getId());
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
 	}

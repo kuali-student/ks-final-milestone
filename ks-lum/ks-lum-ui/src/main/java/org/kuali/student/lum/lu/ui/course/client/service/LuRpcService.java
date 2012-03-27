@@ -18,8 +18,10 @@ package org.kuali.student.lum.lu.ui.course.client.service;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
+import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -37,6 +39,7 @@ public interface LuRpcService extends BaseRpcService {
 
     public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId);
 
-    public CluInfo getClu(String cluId);    
+    public CluInfo getClu(String cluId);
 
+    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId);
 }

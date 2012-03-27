@@ -15,11 +15,11 @@
 
 package org.kuali.student.core.authorization.ui.server.gwt;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.authorization.ui.client.service.AuthorizationRpcService;
 
@@ -44,15 +44,15 @@ public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements 
 		if (StringUtils.isBlank(currentUser)) {
 			throw new RuntimeException("Unable to find current user or backdoor user.");
 		}
-		AttributeSet roleQuals = null;
+		Map<String,String> roleQuals = null;
 		if (roleQualifications != null) {
-			roleQuals = new AttributeSet(roleQualifications);
+			roleQuals = new LinkedHashMap<String,String>(roleQualifications);
 		}
-		AttributeSet permDetails = null;
+		Map<String,String> permDetails = null;
 		if (permissionDetails != null) {
-			permDetails = new AttributeSet(permissionDetails);
+			permDetails = new LinkedHashMap<String,String>(permissionDetails);
 		}
-		return new Boolean(permissionService.isAuthorizedByTemplateName(currentUser, namespace, permissionTemplateName, permDetails, roleQuals));
+		return  Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, namespace, permissionTemplateName, permDetails, roleQuals));
 	}
 
 	protected String getCurrentUser() {

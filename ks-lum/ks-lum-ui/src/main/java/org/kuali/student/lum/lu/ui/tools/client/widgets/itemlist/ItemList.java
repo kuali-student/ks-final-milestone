@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.Callback;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;

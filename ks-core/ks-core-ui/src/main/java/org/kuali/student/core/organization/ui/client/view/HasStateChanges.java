@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.organization.ui.client.view;
 
-import com.google.gwt.event.shared.HandlerRegistration;
 
 
 public interface HasStateChanges {

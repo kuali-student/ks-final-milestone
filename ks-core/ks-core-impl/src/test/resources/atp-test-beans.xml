@@ -144,8 +144,8 @@
 			</bean>
 		</property>
 		<property name="type" ref="atpTypeSpringSemester" />
-		<property name="effectiveDate" value="01/28/2009" />
-		<property name="expirationDate" value="05/14/2009" />
+		<property name="startDate" value="01/28/2009" />
+		<property name="endDate" value="05/14/2009" />
 		<property name="state" value="stale" />
 		<property name="attributes">
 			<list>
@@ -167,8 +167,8 @@
 			</bean>
 		</property>
 		<property name="type" ref="atpTypeFallSemester" />
-		<property name="effectiveDate" value="08/30/2009" />
-		<property name="expirationDate" value="12/14/2009" />
+		<property name="startDate" value="08/30/2009" />
+		<property name="endDate" value="12/14/2009" />
 		<property name="state" value="stale" />
 		<property name="dateRanges"><list><ref bean="dateRangeFinals2009FallSemester"/></list></property>
 		<property name="milestones"><list><ref bean="milestoneLastToDrop2009FallSemester"/></list></property>

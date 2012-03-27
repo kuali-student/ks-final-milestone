@@ -15,201 +15,132 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.ConfigurableLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
-
-import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogBySchoolOrCollegeConstants;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.BrowseCourseCatalogConstants;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.KSBrowser;
 
-public class CatalogBrowserConfigurer
- implements BrowseCourseCatalogBySchoolOrCollegeConstants,
-            BrowseCourseCatalogConstants
-{
+import com.google.gwt.user.client.ui.Widget;
 
- private boolean WITH_DIVIDER = true;
- private boolean NO_DIVIDER = false;
- public static final String CATALOG_BROWSER_MODEL = "CatalogBrowserModel";
- private DataModelDefinition modelDefinition;
+public class CatalogBrowserConfigurer {
 
- public enum Sections
- {
+	public static final String CATALOG_BROWSER_MODEL = "CatalogBrowserModel";
+	private DataModelDefinition modelDefinition;
 
-  BROWSE_BY_SUBJECT_AREA,
-  BROWSE_BY_SCHOOL;
- }
+	public enum Sections {
+		BROWSE_BY_SUBJECT_AREA, BROWSE_BY_SCHOOL;
+	}
 
- public void setModelDefinition (DataModelDefinition modelDefinition)
- {
-  this.modelDefinition = modelDefinition;
- }
+	public void setModelDefinition(DataModelDefinition modelDefinition) {
+		this.modelDefinition = modelDefinition;
+	}
 
- private Controller controller;
+	private Controller controller;
 
- public Controller getController ()
- {
-  return controller;
- }
+	public Controller getController() {
+		return controller;
+	}
 
- public void setController (Controller controller)
- {
-  this.controller = controller;
- }
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
 
+	public void configureCatalogBrowser(CatalogBrowserController layout) {
+		// layout.setContentTitle("Browse Course Catalog");
+		layout.addStyleName("browseCatalog");
+		layout.setBasicTitle("Browse Course Catalog");
+		layout.addTab(createBrowseBySubjectAreaSection(),
+				"Browse By Subject Area");
+		layout.addTab(createBrowseBySchoolSection(), "Browse By School");
+		layout.setDefaultView(Sections.BROWSE_BY_SUBJECT_AREA);
+	}
 
- public void configureCatalogBrowser (ConfigurableLayout layout)
- {
-  
-// addStartSection(layout);
-  layout.addSection (new String[]
-   {
-    "Browse by Subject Area"
-//    getLabel (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA_LABEL_KEY)
-   }, createBrowseBySubjectAreaSection ());
-  layout.addSection (new String[]
-   {
-    "Browse by School"
-//    getLabel (CatalogBrowserConstants.BROWSE_BY_SCHOOL_LABEL_KEY)
-   }, createBrowseBySchoolSection ());
- }
+	protected SectionView createBrowseBySubjectAreaSection() {
+		//constructor sets the attributes of the browse subject area tab
+		VerticalSectionView nestedSectionView = 
+			new VerticalSectionView(Sections.BROWSE_BY_SUBJECT_AREA, "Browse by Subject Area", CATALOG_BROWSER_MODEL);
+		String fieldKey = CatalogBrowserConstants.FULLY_QUALIFIED_BY_SUBJECT_AREA;
+		addField(nestedSectionView, fieldKey, null,	configureKSBrowser(fieldKey));
+		return nestedSectionView;
+	}
 
- private SectionView createBrowseBySubjectAreaSection ()
- {
-  CatalogBrowserNestedSectionView nestedSectionView =
-      new CatalogBrowserNestedSectionView (Sections.BROWSE_BY_SUBJECT_AREA,
-                          getLabel (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA),
-                          CATALOG_BROWSER_MODEL);
-  nestedSectionView.addStyleName (LUConstants.STYLE_SECTION);
-//  VerticalSection verticalSection =
-//   initSection (getH3Title (CatalogBrowserConstants.BROWSE_BY_SUBJECT_AREA_INFO), WITH_DIVIDER);
-//  nestedSectionView.addSection (verticalSection);
-  String fieldKey = BY_SUBJECT_AREA + "/" + COURSE_ID;
-  addField (nestedSectionView, fieldKey, "", configureKSBrowser (fieldKey));
-  return nestedSectionView;
- }
+	protected SectionView createBrowseBySchoolSection() {
+		//constructor sets the attributes of the browse school tab
+		VerticalSectionView nestedSectionView = 
+			new VerticalSectionView(Sections.BROWSE_BY_SCHOOL, "Browse by School", CATALOG_BROWSER_MODEL);
+		String fieldKey = CatalogBrowserConstants.FULLY_QUALIFIED_BY_SCHOOL_OR_COLLEGE;
+		addField(nestedSectionView, fieldKey, null,	configureKSBrowser(fieldKey));
+		return nestedSectionView;
+	}
 
- private SectionView createBrowseBySchoolSection ()
- {
-  CatalogBrowserNestedSectionView nestedSectionView =
-   new CatalogBrowserNestedSectionView (Sections.BROWSE_BY_SCHOOL,
-                          getLabel (CatalogBrowserConstants.BROWSE_BY_SCHOOL),
-                          CATALOG_BROWSER_MODEL);
-  nestedSectionView.addStyleName (LUConstants.STYLE_SECTION);
-//  nestedSectionView.setSectionTitle (getH1Title (labelKey));
-//  VerticalSection verticalSection =
-//   initSection (getH3Title (CatalogBrowserConstants.BROWSE_BY_SCHOOL_INFO), WITH_DIVIDER);
-//  nestedSectionView.addSection (verticalSection);
-  String fieldKey = BY_SCHOOL_OR_COLLEGE + "/" + COURSE_ID;
-  addField (nestedSectionView, fieldKey, "", configureKSBrowser (fieldKey));
-  return nestedSectionView;
- }
+	private String formatMetadata(Metadata md, String fieldKey) {
+		String msg = "metadata for fieldKey="
+				+ fieldKey
+				// + "\n Name=" + md.getName ()
+				+ "\n LabelKey="
+				+ md.getLabelKey()
+				+ "\n defaultValuePath="
+				+ md.getDefaultValuePath()
+				+ "\n LookupContextPath="
+				+ md.getLookupContextPath()
+				// + "\n maskForatter=" + md.getMaskFormatter ()
+				// + "\n partialMaskFormatter=" + md.getPartialMaskFormatter ()
+				+ "\n dataType=" + md.getDataType() + "\n defaultValue="
+				+ md.getDefaultValue() + "\n WriteAccess="
+				+ md.getWriteAccess() + "\n initialLookup="
+				+ md.getInitialLookup() + "\n additionalLookups="
+				+ md.getAdditionalLookups();
+		if (md.getProperties() != null) {
+			msg += "\n It has " + md.getProperties().size() + " properties: \n";
+			for (String fk : md.getProperties().keySet()) {
+				msg += "\n" + formatMetadata(md.getProperties().get(fk), fk);
+			}
+		}
+		return msg;
+	}
 
- private KSBrowser configureKSBrowser (String fieldKey)
- {
-  QueryPath path = QueryPath.concat (null, fieldKey);
-  Metadata metaData = modelDefinition.getMetadata (path);
-  KSBrowser browser = new KSBrowser (metaData.getInitialLookup (), controller);
-  return browser;
- }
+	private KSBrowser configureKSBrowser(String fieldKey) {
+		QueryPath path = QueryPath.concat(null, fieldKey);
+		Metadata md = modelDefinition.getMetadata(path);
+		if (md == null) {
+			KSErrorDialog.show(new NullPointerException(
+					"Invalid lookup configuration: missing field in metadata."
+							+ formatMetadata(modelDefinition.getMetadata(),	fieldKey)));
+			return null;
+		}
+		if (md.getInitialLookup() == null) {
+			KSErrorDialog.show(new NullPointerException(
+					"Invalid lookup configuration: missing initial lookup in metadata."
+							+ formatMetadata(modelDefinition.getMetadata(),	fieldKey)));
+			return null;
+		}
+		KSBrowser browser = new KSBrowser(md.getInitialLookup(), controller);
+		return browser;
+	}
 
- private static VerticalSection initSection (SectionTitle title,
-                                             boolean withDivider)
- {
-  VerticalSection section = new VerticalSection ();
-  if (title != null)
-  {
-   section.setSectionTitle (title);
-  }
-  section.addStyleName (LUConstants.STYLE_SECTION);
-  if (withDivider)
-  {
-   section.addStyleName (LUConstants.STYLE_SECTION_DIVIDER);
-  }
-  return section;
- }
+	protected FieldDescriptor addField(Section section, String fieldKey, MessageKeyInfo messageKey, Widget widget) {
+		return addField(section, fieldKey, messageKey, widget, null);
+	}
 
- private String getLabel (String labelKey)
- {
-  // TODO make the group, type and state configurable when framework is ready
-  // tried created a new message group clusetmanagement but the entries are not read for some reason
-  return Application.getApplicationContext ().getUILabel ("course", "course", "draft", labelKey);
- }
+	protected FieldDescriptor addField(Section section, String fieldKey,
+			MessageKeyInfo messageKey, Widget widget, String parentPath) {
+		QueryPath path = QueryPath.concat(parentPath, fieldKey);
+		Metadata meta = modelDefinition.getMetadata(path);
 
- private SectionTitle getH1Title (String labelKey)
- {
-  return SectionTitle.generateH1Title (getLabel (labelKey));
- }
-
- private SectionTitle getH2Title (String labelKey)
- {
-  return SectionTitle.generateH2Title (getLabel (labelKey));
- }
-
- private SectionTitle getH3Title (String labelKey)
- {
-  return SectionTitle.generateH3Title (getLabel (labelKey));
- }
-
- private SectionTitle getH4Title (String labelKey)
- {
-  return SectionTitle.generateH4Title (getLabel (labelKey));
- }
-
- private SectionTitle getH5Title (String labelKey)
- {
-  return SectionTitle.generateH5Title (getLabel (labelKey));
- }
-
- // TODO - when DOL is pushed farther down into LOBuilder,
- // revert these 5 methods to returning void again.
- private FieldDescriptor addField (Section section, String fieldKey)
- {
-  return addField (section, fieldKey, null, null, null);
- }
-
- private FieldDescriptor addField (Section section, String fieldKey,
-                                   String fieldLabel)
- {
-  return addField (section, fieldKey, fieldLabel, null, null);
- }
-
- private FieldDescriptor addField (Section section, String fieldKey,
-                                   String fieldLabel, Widget widget)
- {
-  return addField (section, fieldKey, fieldLabel, widget, null);
- }
-
- private FieldDescriptor addField (Section section, String fieldKey,
-                                   String fieldLabel, String parentPath)
- {
-  return addField (section, fieldKey, fieldLabel, null, parentPath);
- }
-
- private FieldDescriptor addField (Section section, String fieldKey,
-                                   String fieldLabel, Widget widget,
-                                   String parentPath)
- {
-  QueryPath path = QueryPath.concat (parentPath, fieldKey);
-  Metadata meta = modelDefinition.getMetadata (path);
-
-  FieldDescriptor fd = new FieldDescriptor (path.toString (), fieldLabel, meta);
-  if (widget != null)
-  {
-   fd.setFieldWidget (widget);
-  }
-  section.addField (fd);
-  return fd;
- }
+		FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
+		if (widget != null) {
+			fd.setFieldWidget(widget);
+		}
+		section.addField(fd);
+		return fd;
+	}
 
 }

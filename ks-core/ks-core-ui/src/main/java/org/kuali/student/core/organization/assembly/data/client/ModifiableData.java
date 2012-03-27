@@ -15,8 +15,8 @@
 
 package org.kuali.student.core.organization.assembly.data.client;
 
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.helper.PropertyEnum;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.helper.PropertyEnum;
 
 public class ModifiableData extends Data {
 	public enum Properties implements PropertyEnum {
@@ -41,16 +41,5 @@ public class ModifiableData extends Data {
 	public ModifiableData(String className) {
 		super(className);
 	}
-	
-	public ModificationData getModifications() {
-		ModificationData result = super.get(Properties.MODIFICATIONS.getKey());
-		if (result == null) {
-			result = new ModificationData();
-			super.set(Properties.MODIFICATIONS.getKey(), result);
-		}
-		return result;
-	}
-	public void setModifications(ModificationData modifications) {
-		super.set(Properties.MODIFICATIONS.getKey(), modifications);
-	}
+
 }

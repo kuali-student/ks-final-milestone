@@ -20,14 +20,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Attribute;
+import org.kuali.student.r1.common.entity.Attribute;
 
 /**
  * @author Kuali Student Team
  *
  */
 @Entity
-@Table(name = "KSLU_LO_CATEGORY_TYPE_ATTR")
+@Table(name = "KSLO_LO_CATEGORY_TYPE_ATTR")
 public class LoCategoryTypeAttribute extends Attribute<LoCategoryType> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")

@@ -18,18 +18,18 @@ package org.kuali.rice.student.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 public class OrgCocValuesFinder extends StudentKeyValuesBase {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
 
-	public static List<KeyLabelPair> findCocOrgs() {
-        List<KeyLabelPair> departments = new ArrayList<KeyLabelPair>();
+	public static List<KeyValue> findCocOrgs() {
+        List<KeyValue> departments = new ArrayList<KeyValue>();
 
         List<String> types = new ArrayList<String>();
         types.add("kuali.org.College");
@@ -58,7 +58,6 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
         
         try {
             SearchResult results = getOrganizationService().search(searchRequest);
-
             for (SearchResultRow result : results.getRows()) {
                 String orgId = "";
                 String orgShortName = "";
@@ -73,7 +72,6 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
                 }
                 departments.add(buildKeyLabelPair(orgId, orgShortName, null, null));
             }
-
             return departments;
         } catch (Exception e) {
         	LOG.error("Error building KeyValues List", e);
@@ -82,8 +80,7 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
     }
 
     @Override
-    public List getKeyValues() {
-
+    public List<KeyValue> getKeyValues() {
         return findCocOrgs();
     }
 

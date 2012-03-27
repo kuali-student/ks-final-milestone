@@ -159,7 +159,7 @@ public class SamlUtils {
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.newDocument();
 
-        Element root = doc.createElementNS("http://student.kuali.org", "ks:RootElement");
+        Element root = doc.createElementNS("http://student.kuali.org", "ks:KSSecureToken");
         root.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:ks", "http://student.kuali.org");
         
         doc.appendChild(root);

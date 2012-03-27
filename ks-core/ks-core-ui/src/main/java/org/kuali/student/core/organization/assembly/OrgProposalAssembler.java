@@ -15,46 +15,49 @@
 
 package org.kuali.student.core.organization.assembly;
 
-import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.setCreated;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isModified;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.setCreated;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.apache.log4j.Logger;
+import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.old.BaseAssembler;
+import org.kuali.student.r1.common.assembly.old.data.SaveResult;
+import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.core.assembly.BaseAssembler;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData.ModificationState;
-import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
-import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
+import org.kuali.student.r1.core.organization.dto.OrgInfo;
+import org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(rollbackFor={Throwable.class})
+@Transactional(readOnly=true,rollbackFor={Throwable.class})
+@Deprecated
 public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
-    
+	final Logger LOG = Logger.getLogger(OrgProposalAssembler.class);
     private OrganizationService orgService;
     public static  String PROPOSAL_TYPE_CREATE_ORG = "kuali.proposal.type.org.create";
     public static  String ORG_PROPOSAL_DATA_TYPE = "OrgProposal";
@@ -71,11 +74,11 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 //        this.metadataService=metadataService;
 //    }
     
-    private void setMetadata(String orgId){
+    private void setMetaInfodata(String orgId){
         try {
             this.metadata=getMetadata(QUALIFICATION_ORG_ID, orgId, null, null);
         } catch (AssemblyException e) {
-            e.printStackTrace();
+            LOG.error(e);
         }
     }
     @Override
@@ -101,7 +104,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     @Override
     public Data get(String id) throws AssemblyException {
         if(metadata==null){
-            setMetadata(id);
+            setMetaInfodata(id);
         }
         OrgInfo orgInfo = new OrgInfo();
         List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
@@ -109,7 +112,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         Data result = new Data();
 //      SaveResult<Data> result = new SaveResult<Data>();
         try{
-            orgInfo = orgService.getOrganization(id);
+        	orgInfo = orgService.getOrganization(id);
             OrgInfoData orgInfoData = new OrgInfoData();
             orgInfoData.setOrgInfo(orgInfo);
             OrgHelper resultOrg = buildOrgDataMap(orgInfoData);
@@ -132,7 +135,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             
         }
         catch(Exception e){
-            
+        	LOG.error(e);
         }
         
         return result;
@@ -140,11 +143,12 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
 
     @Override
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public SaveResult<Data> save(Data input) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         OrgHelper orgHelper = OrgHelper.wrap((Data)input.get("orgInfo"));
         if(metadata==null){
-            setMetadata(orgHelper.getId());
+            setMetaInfodata(orgHelper.getId());
         }
         OrgInfoData orgInfoData = buildOrgInfo(orgHelper);
         SaveResult<Data> result = new SaveResult<Data>();
@@ -184,7 +188,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             result.setValue((orgId == null) ? null : get(orgId));
             
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e);
             throw(new AssemblyException());
         }
         
@@ -245,7 +249,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
                         result = orgService.createOrganization(orgInfo.getType(), orgInfo);
                         break;
                     case UPDATED:
-                        result = orgService.updateOrganization(orgInfo.getId(), orgInfo);
+                    	result = orgService.updateOrganization(orgInfo.getId(), orgInfo);
                     default:
                 }
             }
@@ -303,10 +307,10 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     }
 
     @Override
-    protected AttributeSet getQualification(String idType, String id) {
-        AttributeSet qualification = null;
+    protected Map<String,String> getQualification(String idType, String id) {
+        Map<String,String> qualification = null;
         if(id!=null&&!id.isEmpty()){
-         qualification = new AttributeSet();
+         qualification = new LinkedHashMap<String,String>();
         /*String DOCUMENT_TYPE_NAME = "documentTypeName";
         //FIXME: should this be something like org.proposal?
         qualification.put(DOCUMENT_TYPE_NAME, "Organization");*/

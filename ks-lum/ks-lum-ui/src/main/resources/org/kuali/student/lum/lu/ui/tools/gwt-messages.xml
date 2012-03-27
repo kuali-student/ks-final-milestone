@@ -19,15 +19,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
     
 	<bean id="enCourse" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
         <property name="locale"         value="en" />
         <property name="groupName"      value="course" />
 	</bean>
 
-   	<bean parent="enCourse" p:id="cluSetInformation"		p:value="CLU Set Information"/>
-   	<bean parent="enCourse" p:id="contentDirections" >
+   	<bean parent="enCourse" p:messageId="cluSetInformation"		p:value="CLU Set Information"/>
+   	<bean parent="enCourse" p:messageId="contentDirections" >
    		<property name="value">
    			<value>
    			    Use the dropdown to add courses, dynamic course ranges, or CLU sets below.
@@ -35,5 +35,7 @@
    			</value>   			
    		</property>   		
    	</bean>
+   	<bean parent="enCourse" p:messageId="cluSetClus"		p:value="Courses"/>
+   	
 
 </beans>

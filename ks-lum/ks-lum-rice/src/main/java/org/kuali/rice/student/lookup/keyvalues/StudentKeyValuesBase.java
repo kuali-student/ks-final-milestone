@@ -21,11 +21,11 @@ package org.kuali.rice.student.lookup.keyvalues;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.student.core.organization.service.OrganizationService;
-
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 /**
  * Convenience class used to help out key values classes
  *
@@ -43,7 +43,7 @@ public abstract class StudentKeyValuesBase extends KeyValuesBase {
 	}
 
 	/**
-	 * Builds a valid {@link KeyLabelPair} object for use in Student system KeyValue classes. Will throw an {@link IllegalArgumentException}
+	 * Builds a valid {@link KeyValue} object for use in Student system KeyValue classes. Will throw an {@link IllegalArgumentException}
 	 * if the parameters needed are not passed.
 	 * 
 	 * @param orgId
@@ -52,11 +52,16 @@ public abstract class StudentKeyValuesBase extends KeyValuesBase {
 	 * @param orgType
 	 * @return
 	 */
-	protected static KeyLabelPair buildKeyLabelPair(String orgId, String orgShortName, String orgLongName, String orgType) {
+	
+	//** question from Bonnie: Why the input parameters have orgId, orgShortName, orgLongName and orgType,
+	//** but the output of KeyLabelPair is constructed with orgShortName for both key and label?
+	//** This looks weird for me.
+	protected static KeyValue buildKeyLabelPair(String orgId, String orgShortName, String orgLongName, String orgType) {
 		if (StringUtils.isBlank(orgShortName)) {
 			throw new IllegalArgumentException("Blank value for orgShortName is invalid.");
 		}
-		return new KeyLabelPair(orgShortName, orgShortName);
+		//	return new KeyLabelPair(orgShortName, orgShortName);
+		return new ConcreteKeyValue(orgId, orgShortName);
 	}
 
 }

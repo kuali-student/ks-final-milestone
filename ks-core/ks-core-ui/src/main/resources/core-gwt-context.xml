@@ -23,55 +23,80 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
-          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd   http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd   http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
-    <bean id="propertyPlaceholder"
-        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
+	</bean>
+
+	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+		<property name="configLocations">
+			<list>
+				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
+		<property name="arguments">
+			<list><ref bean="bootstrapConfig"/></list>
+		</property>
+	</bean>
 
 	<!-- Service Clients -->
-	<bean id="orgClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.organization.service.OrganizationService" />
+	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.r1.core.organization.service.OrganizationService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
 	</bean>
 
-	<bean id="atpClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.atp.service.AtpService" />
+	<bean id="atpClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.r1.core.atp.service.AtpService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/atp}AtpService" />
 	</bean>
 
-	<bean id="documentService" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.document.service.DocumentService" />
+	<bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+		<property name="serviceEndpointInterface" value="org.kuali.student.r1.core.document.service.DocumentService" />
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
 	</bean>
-	<bean id="personSearchClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.search.service.SearchService" />
+	<bean id="personSearchClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r1.common.search.service.SearchService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
     </bean>
-    <bean id="permissionServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.PermissionService" />
-		<property name="serviceQName" value="{KIM}kimPermissionService" />
-	</bean>
-	<bean id="identityServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
-        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
-    </bean>
+        <!-- TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release -->
+    <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.permission.PermissionService" />
+         <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}permissionService" />
+     </bean>
+     <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}identityService"/>
+     </bean>
 
-	<!--<bean id="coreDictionaryServiceClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.dictionary.service.DictionaryService" />
+     <bean id="identityServiceClientNonCached" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService" />
+        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}identityService" />
+     </bean>
+
+	<!--<bean id="coreDictionaryServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.dictionary.service.old.DictionaryService" />
         <property name="serviceQName" value="coreDictionaryServiceDelegate" />
     </bean>-->
 
-    <bean id="proposalClient" class="org.kuali.rice.student.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
+    <bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.proposal.service.ProposalService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
     </bean>
 
+    <bean id="transactionManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="transactionManager" />
+    </bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
@@ -82,9 +107,6 @@
 			<map>
 				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/OrgRpcService">
 					<ref bean="orgRpcServiceGwtController"/>
-				</entry>
-				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/PersonRpcService">
-					<ref bean="personRpcGwtServletController"/>
 				</entry>
 				<entry key="/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/AuthorizationRpcService">
 					<ref bean="authorizationRpcGwtServletController"/>
@@ -121,11 +143,6 @@
 	<bean id="orgRpcServiceGwtController" class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="orgRpcGwtServlet"/>
 		<property name="servletInstance" ref="orgRpcGwtServlet"/>
-	</bean>
-
-	<bean id="personRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
-		<property name="servletName" value="personRpcGwtServlet"/>
-		<property name="servletInstance" ref="personRpcGwtServlet"/>
 	</bean>
 
 	<bean id="authorizationRpcGwtServletController" class="org.kuali.student.common.ws.ServletWrappingController">
@@ -170,10 +187,8 @@
 	<bean id="orgRpcGwtServlet" class="org.kuali.student.core.organization.ui.server.gwt.OrgRpcGwtServlet">
 		<property name="service" ref="orgClient"/>
 		<property name="identityService" ref="identityServiceClient"/>
+		<property name="identityServiceNonCached" ref="identityServiceClientNonCached"/>
 		<property name="assembler" ref="orgAssemblerFilterManager"/>
-	</bean>
-
-	<bean id="personRpcGwtServlet" class="org.kuali.student.core.person.ui.server.gwt.PersonRpcGwtServlet">
 	</bean>
 
 	<bean id="authorizationRpcGwtServlet"
@@ -181,7 +196,7 @@
 		<!--<property name="permissionService" ref="permissionClient" />-->
 	</bean>
 
-	<bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
+	<bean id="documentUpload" class="org.kuali.student.core.document.ui.server.upload.UploadServlet">
 		<property name="documentService" ref="documentService"/>
 	</bean>
 
@@ -189,8 +204,9 @@
 
 	<bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
 		<property name="searchDispatcher" ref="searchDispatcher" />
+		<property name="cachingEnabled" value="true"/>
 	</bean>
-	<bean id="searchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+	<bean id="searchDispatcher" class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
 		<property name="services">
 			<list>
 		        <ref bean="orgClient"/>
@@ -201,14 +217,14 @@
 		</property>
 	</bean>
 
-	<bean id="idTranslator" class="org.kuali.student.core.assembly.util.IdTranslator">
+	<bean id="idTranslator" class="org.kuali.student.common.assembly.util.IdTranslator">
 		<constructor-arg ref="searchDispatcher" />
 	</bean>
-	<bean id="idTranslatorAssemblerFilter" class="org.kuali.student.core.assembly.IdTranslatorAssemblerFilter">
+	<bean id="idTranslatorAssemblerFilter" class="org.kuali.student.common.assembly.old.IdTranslatorAssemblerFilter">
 		<constructor-arg ref="idTranslator" />
 	</bean>
 
-	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">
+	<bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.core.document.ui.server.UploadStatusRpcGwtServlet">
 	</bean>
 
 	<bean id="SecurityGwtServlet" class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
@@ -222,18 +238,18 @@
 		<property name="orgService" ref="orgClient"/>
 	</bean>
 
-	<bean id="baseAssembler" abstract="true" class="org.kuali.student.core.assembly.BaseAssembler">
+	<bean id="baseAssembler" abstract="true" class="org.kuali.student.common.assembly.old.BaseAssembler">
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="metadataService" ref="metadataServiceImpl" />
 	</bean>
 
 	<!-- Metadata lookup service -->
-	<bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.MetadataServiceImpl">
+	<bean id="metadataServiceImpl" class="org.kuali.student.common.assembly.dictionary.old.MetadataServiceImpl">
         <constructor-arg index="0" value="${ks.core.orchestration.dictionaryContextLocations}"/>
         <!--<constructor-arg index="1" ref="coreDictionaryServiceClient"/>-->
 	</bean>
 
-	<bean id="orgAssemblerFilterManager" class="org.kuali.student.core.assembly.AssemblerFilterManager">
+	<bean id="orgAssemblerFilterManager" class="org.kuali.student.common.assembly.old.AssemblerFilterManager">
 		<constructor-arg ref="orgProposalAssembler"/>
 		<property name="filters">
   		<list>

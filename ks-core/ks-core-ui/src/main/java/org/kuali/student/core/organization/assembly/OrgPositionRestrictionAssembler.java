@@ -15,35 +15,39 @@
 
 package org.kuali.student.core.organization.assembly;
 
-import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isCreated;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isDeleted;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isCreated;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isDeleted;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isModified;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isUpdated;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.old.Assembler;
+import org.kuali.student.r1.common.assembly.old.data.SaveResult;
+import org.kuali.student.r1.common.assembly.util.AssemblerUtils;
+import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.core.assembly.Assembler;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgHelper;
-import org.kuali.student.core.organization.assembly.data.client.org.OrgPositionHelper;
-import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
+import org.kuali.student.core.organization.assembly.data.server.org.OrgPositionHelper;
+import org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 
 public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPositionHelper>{
+	final Logger LOG = Logger.getLogger(OrgPositionRestrictionAssembler.class);
     private OrganizationService orgService;
     private Metadata metadata;
     public static final String POSITION_PATH                  = "OrgPositionRestrictionInfo";
@@ -69,15 +73,15 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
         List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
         Data orgPositionMap = null;
         try{
-            positions = orgService.getPositionRestrictionsByOrg(id);
+        	positions = orgService.getPositionRestrictionsByOrg(id);
             orgPositionMap = buildOrgPositionMap(positions);
         }
-        catch(DoesNotExistException dnee){
-            return null;
+        //catch(DoesNotExistException dnee){
+        //    return null;
             
-        }
+        //}
         catch(Exception e){
-            e.printStackTrace();
+            LOG.error(e);
         }
         return orgPositionMap;
     }
@@ -116,28 +120,33 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
         QueryPath metaPath = QueryPath.concat(null, POSITION_PATH);
         Metadata orgPersonMeta =orgPositionModel.getMetadata(metaPath);
         
-        for (Property p : (Data)input.get(POSITION_PATH)) {
+        for (Iterator<Property> propIter=((Data)input.get(POSITION_PATH)).iterator();propIter.hasNext();) {
+        	Property p = propIter.next(); 
             OrgPositionHelper orgPositionHelper=  OrgPositionHelper.wrap((Data)p.getValue());
             if (isUpdated(orgPositionHelper.getData())) {
                 if (orgPersonMeta.isCanEdit()) {
                     OrgPositionRestrictionInfo orgPositionRestrictionInfo = buildOrgPositionRestrictionInfo(orgPositionHelper);
                     orgPositionRestrictionInfo.setId(orgPositionHelper.getId());
                     try {
+
                         OrgPositionRestrictionInfo result = orgService.updatePositionRestrictionForOrg(orgPositionRestrictionInfo.getOrgId(), orgPositionRestrictionInfo.getOrgPersonRelationTypeKey(), orgPositionRestrictionInfo);
                         addVersionIndicator(orgPositionHelper.getData(), OrgPositionRestrictionInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
                     } catch (Exception e) {
                         throw new AssemblyException();
                     }
+                    //Clear flag to avoid multiple updates
+                    AssemblerUtils.setUpdated(orgPositionHelper.getData(),false);
                 }
             }
-            else if(isDeleted(orgPositionHelper.getData())){
+            else if(isDeleted(orgPositionHelper.getData())&&orgPositionHelper.getId()!=null){
                 try{
                     if(orgPositionHelper.getId()!=null){
-                        StatusInfo  result = orgService.removePositionRestrictionFromOrg(orgPositionHelper.getOrgId(), orgPositionHelper.getPersonRelationType());
+                    	StatusInfo  result = orgService.removePositionRestrictionFromOrg(orgPositionHelper.getOrgId(), orgPositionHelper.getPersonRelationType());
+                        propIter.remove();
                     }
                 }
                 catch(Exception e ){
-                    e.printStackTrace();
+                    LOG.error(e);
                     throw(new AssemblyException());
                 }
             }
@@ -145,15 +154,18 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                 orgPositionHelper.setOrgId((OrgHelper.wrap((Data)input.get("orgInfo")).getId()));
                 OrgPositionRestrictionInfo orgPositionRestrictionInfo = buildOrgPositionRestrictionInfo(orgPositionHelper);
                 try{
+
                     OrgPositionRestrictionInfo  result = orgService.addPositionRestrictionToOrg(orgPositionHelper.getOrgId(), 
-                            orgPositionHelper.getPersonRelationType(), orgPositionRestrictionInfo);
+                    		orgPositionHelper.getPersonRelationType(), orgPositionRestrictionInfo);
                     orgPositionHelper.setId(result.getId());
                     addVersionIndicator(orgPositionHelper.getData(),OrgPositionRestrictionInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
                 }
                 catch(Exception e ){
-                    e.printStackTrace();
+                    LOG.error(e);
                     throw new AssemblyException();
                 }
+                //Clear flag to avoid multiple creates
+                AssemblerUtils.setCreated(orgPositionHelper.getData(),false);
             }
            
           

@@ -20,10 +20,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Attribute;
+import org.kuali.student.r1.common.entity.Attribute;
 
 @Entity
-@Table(name = "KSLU_LO_ATTR")
+@Table(name = "KSLO_ATTR")
 public class LoAttribute extends Attribute<Lo> {
 	@ManyToOne
 	@JoinColumn(name = "OWNER")
