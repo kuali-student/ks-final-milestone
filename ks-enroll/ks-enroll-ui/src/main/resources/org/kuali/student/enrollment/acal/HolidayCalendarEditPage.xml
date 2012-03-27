@@ -94,11 +94,6 @@
                         <bean parent="Uif-DropdownControl" />
                     </property>
                 </bean>
-                <!--<bean parent="Uif-InputField" p:propertyName="typeName" p:label="Holiday Type"  p:readOnly="true" p:render="@{!#isAddLine}" p:required="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" />
-                    </property>
-                </bean>-->
                 <bean parent="Uif-InputField-LabelTop" p:label="Start Date" p:propertyName="startDate" p:required="true">
                     <property name="validCharactersConstraint">
                         <bean parent="BasicDatePatternConstraint" />
@@ -108,7 +103,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:label="Start Time" p:labelField.render="false" p:propertyName="startTime" p:refreshWhenChanged="#lp.allDay"
-                    p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" p:style="font-weight:normal; text-align:center;">
+                    p:readOnly="@{#lp.allDay eq true}" p:required="@{!#lp.allDay eq true}" p:persistInSession="true" p:style="font-weight:normal; text-align:center;">
                     <property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
                     </property>
@@ -117,14 +112,14 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:refreshWhenChanged="#lp.allDay"  p:persistInSession="true"
-                     p:readOnly="@{#lp.allDay eq true}" >
+                     p:readOnly="@{#lp.allDay eq true}" p:required="@{!#lp.allDay eq true}" >
                      <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
                      </property>
                  </bean>
                <!--TODO:Change endDate to not required-->
-				<bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="true" p:refreshWhenChanged="#lp.dateRange" p:persistInSession="true"
-					p:readOnly="@{#lp.dateRange eq false}" >
+				<bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:refreshWhenChanged="#lp.dateRange" p:persistInSession="true"
+					p:readOnly="@{#lp.dateRange eq false}" p:required="@{#lp.dateRange eq true}" >
                     <property name="validCharactersConstraint">
 						<bean parent="BasicDatePatternConstraint" />
 					</property>
@@ -133,7 +128,7 @@
 					</property>
 				</bean>
                 <bean parent="Uif-InputField-LabelTop" p:label="End Time" p:labelField.render="false" p:propertyName="endTime" p:refreshWhenChanged="#lp.allDay"
-                    p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" >
+                    p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" p:required="@{!#lp.allDay eq true}" >
                     <property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
                     </property>
@@ -142,7 +137,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="endTimeAmPm" p:refreshWhenChanged="#lp.allDay"
-                     p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" >
+                     p:readOnly="@{#lp.allDay eq true}" p:persistInSession="true" p:required="@{!#lp.allDay eq true}" >
                      <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
                      </property>
