@@ -88,12 +88,6 @@ INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_T
 INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.18', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Winter' , 0, 'kuali.atp.type.Winter is a type of Term')
 INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.19', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Adhoc' , 0, 'kuali.atp.type.Adhoc is a type of Term')
 
-//LuiInstructorEntity
-INSERT INTO KSEN_LUI_INSTR (ID, ORG_ID, PERS_ID, PERS_OVRID, PERCT_EFFT, VER_NBR) VALUES ('LUI-INSTR-1', 'Org-1', 'Pers-1', 'Instr-1', 30.5, 0)
-
-//LuiCapacityEntity
-INSERT INTO KSEN_LUI_CAPACITY (ID, NAME, LUI_CAPACITY_TYPE, LUI_CAPACITY_STATE, DESCR_FORMATTED, DESCR_PLAIN, MAX_SEATS, PROCESSING_ORDER, EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-cap-1', 'Lui Capacity', 'lui.capacity.type', 'lui.capacity.state', 'lui.capacit.descr.formatted', 'lui.capacity.descr.plain', 100, 100, {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
-
 //LuiEntity
 INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, ATP_ID, LUI_TYPE, LUI_STATE, DESCR_FORMATTED, DESCR_PLAIN, EFF_DT, EXP_DT, MAX_SEATS, MIN_SEATS, REF_URL, VER_NBR) VALUES ('Lui-1', 'Lui one',  'cluId1', 'atpId1', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft', '<p>Lui Desc 101</p>', 'Lui Desc 101', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 200, 50, 'ref.url', 0)
 INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, ATP_ID, LUI_TYPE, LUI_STATE, DESCR_FORMATTED, DESCR_PLAIN, EFF_DT, EXP_DT, MAX_SEATS, MIN_SEATS, REF_URL, VER_NBR) VALUES ('Lui-2', 'Lui rwo',  'cluId2', 'atpId2', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft', '<p>Lui Desc 201</p>', 'Lui Desc 201', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 200, 50, 'ref.url', 0)
@@ -110,40 +104,6 @@ INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, LUILUI_RELTN_STATE, D
 INSERT INTO KSEN_LUI_CLUCLU_RELTN (ID, LUI_ID, CLUCLU_RELTN_ID) VALUES ('LUI-CLUCLU-1', 'Lui-1', 'CluClu-1')
 INSERT INTO KSEN_LUI_CLUCLU_RELTN (ID, LUI_ID, CLUCLU_RELTN_ID) VALUES ('LUI-CLUCLU-2', 'Lui-1', 'CluClu-2')
 
-//LuiUnitsDeploymentEntity
-INSERT INTO KSEN_LUI_UNITS_DEPLOYMENT (ID, LUI_ID, ORG_ID) VALUES ('LUI-Dep-1', 'Lui-1', 'Org-1')
-
-//LuiUnitsContentOwnerEntity
-INSERT INTO KSEN_LUI_UNITS_CONT_OWNER (ID, LUI_ID, ORG_ID) VALUES ('LUI-Owner-1', 'Lui-1', 'Org-2')
-
-//LuiResultValueGroupEntity
-INSERT INTO KSEN_LUI_RESULT_VAL_GRP (ID, LUI_ID, RESULT_VAL_GRP_ID) VALUES ('LUI-ValGrp-1', 'Lui-1', 'Val-Group-1')
-INSERT INTO KSEN_LUI_RESULT_VAL_GRP (ID, LUI_ID, RESULT_VAL_GRP_ID) VALUES ('LUI-ValGrp-2', 'Lui-1', 'Val-Group-2')
-INSERT INTO KSEN_LUI_RESULT_VAL_GRP (ID, LUI_ID, RESULT_VAL_GRP_ID) VALUES ('LUI-ValGrp-3', 'Lui-1', 'Val-Group-3')
-
-//LuiMeetingScheduleEntity
-INSERT INTO KSEN_LUI_MTG_SCHE (ID, SPACE_ID, SCHEDULE_ID, LUI_ID) VALUES ('LUI-MSched-1', 'Space-1', 'Schedule-1', 'Lui-1')
-INSERT INTO KSEN_LUI_MTG_SCHE (ID, SPACE_ID, SCHEDULE_ID, LUI_ID) VALUES ('LUI-MSched-2', 'Space-2', 'Schedule-2', 'Lui-1')
-INSERT INTO KSEN_LUI_MTG_SCHE (ID, SPACE_ID, SCHEDULE_ID, LUI_ID) VALUES ('LUI-MSched-3', 'Space-3', 'Schedule-3', 'Lui-1')
-INSERT INTO KSEN_LUI_MTG_SCHE (ID, SPACE_ID, SCHEDULE_ID, LUI_ID) VALUES ('LUI-MSched-4', 'Space-4', 'Schedule-4', 'Lui-1')
-
-//LuiFeeEntity
-INSERT INTO KSEN_LUI_FEE (ID, FEE_TYPE, RATE_TYPE, DESCR_PLAIN, DESCR_FORMATTED, FEE_KEY, LUI_ID, VER_NBR) VALUES ('LUI-Fee-1', 'fee.type.one', 'rate.type', 'fee.descr.plain', 'fee.descr.formatted', 'fee.key', 'Lui-1', 0)
-INSERT INTO KSEN_LUI_FEE (ID, FEE_TYPE, RATE_TYPE, DESCR_PLAIN, DESCR_FORMATTED, FEE_KEY, LUI_ID, VER_NBR) VALUES ('LUI-Fee-2', 'fee.type.two', 'rate.type', 'fee.descr.plain', 'fee.descr.formatted', 'fee.key', 'Lui-1', 0)
-INSERT INTO KSEN_LUI_FEE (ID, FEE_TYPE, RATE_TYPE, DESCR_PLAIN, DESCR_FORMATTED, FEE_KEY, LUI_ID, VER_NBR) VALUES ('LUI-Fee-3', 'fee.type.three', 'rate.type', 'fee.descr.plain', 'fee.descr.formatted', 'fee.key', 'Lui-1', 0)
-
-//LuiExpenditureEntity
-INSERT INTO KSEN_LUI_EXPENDITURE (ID, LUI_ID, VER_NBR) VALUES ('LUI-Expen-1', 'Lui-1', 0)
-
-//LuiRevenueEntity
-INSERT INTO KSEN_LUI_REVENUE (ID, FEE_TYPE, LUI_ID, VER_NBR) VALUES ('LUI-Reven-1', 'fee.type.one', 'Lui-1', 0)
-INSERT INTO KSEN_LUI_REVENUE (ID, FEE_TYPE, LUI_ID, VER_NBR) VALUES ('LUI-Reven-2', 'fee.type.two', 'Lui-1', 0)
-
-//LuiCapacityRelationEntity
-INSERT INTO KSEN_LUICAPACITY_RELTN (ID, LUI_ID, LUI_CAPACITY_ID, VER_NBR) VALUES ('LUI-CapRel-1', 'Lui-1', 'Lui-cap-1', 0)
-
-//LuiLuCodeEntity
-INSERT INTO KSEN_LUI_LU_CD (ID, LUI_ID, LUI_LUCD_TYPE, DESCR_PLAIN, DESCR_FORMATTED, VALUE, VER_NBR) VALUES ('LUI-lu-cd-1', 'Lui-1', 'lu.code.type', 'lu.code.descr.plain', 'lu.code.descr.formatted', 'code.value', 0)
 
 // LuiIdentifierEntity
 INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, LUI_ID_STATE, LUI_ID_TYPE, VARTN, LUI_ID, VER_NBR) VALUES ('LUI-IDENT-1', 'CHEM123', 'CHEM', '123', 'Chemistry 123', 'Chem 123', null, 'kuali.lui.identifier.type.official', null, 'Lui-1', 0)
