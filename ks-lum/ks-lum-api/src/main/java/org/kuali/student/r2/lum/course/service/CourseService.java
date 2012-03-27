@@ -36,6 +36,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
@@ -368,4 +370,26 @@ public interface CourseService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
             OperationFailedException, PermissionDeniedException, org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException, DataValidationErrorException;
     
+    /**
+     * Retrieves current version associated with the objectId.
+     * 
+     * @param refObjectTypeURI
+     *            reference object type URI 
+     * @param refObjectId
+     *            reference object Id
+     * @return current version
+     * @throws DoesNotExistException
+     *             specified refObjectId, refObjectTypeURI not found
+     * @throws InvalidParameterException
+     *             invalid refObjectId, refObjectTypeURI
+     * @throws MissingParameterException
+     *            refObjectId, refObjectTypeURI not specified
+     * @throws OperationFailedException
+     *             unable to complete request
+     * @throws PermissionDeniedException
+     *             authorization failure
+     */
+    @Deprecated
+    public VersionDisplayInfo getCurrentVersion(@WebParam(name = "refObjectTypeURI") String refObjectTypeURI, @WebParam(name = "refObjectId") String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 }

@@ -15,8 +15,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 
-import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
@@ -120,9 +120,8 @@ public class CourseStateChangeServiceImpl {
 		String verIndId = course.getVersionInfo().getVersionIndId();
 
 		// Get id of current version of course given the versionindependen id
-		VersionDisplayInfo curVerDisplayInfo = null; 
-		// TODO KSCM-423		courseService.getCurrentVersion(
-		// TODO KSCM-423		CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId,contextInfo);
+		VersionDisplayInfo curVerDisplayInfo = courseService.getCurrentVersion(
+		CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId,contextInfo);
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
