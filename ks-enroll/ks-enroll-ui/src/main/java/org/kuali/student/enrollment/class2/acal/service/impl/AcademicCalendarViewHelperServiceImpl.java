@@ -492,7 +492,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         if (groupWrapper != null && StringUtils.isNotBlank(groupWrapper.getKeyDateGroupType())){
             try {
-                List<TypeTypeRelationInfo> types = getTypeService().getTypeTypeRelationsByOwnerType(groupWrapper.getKeyDateGroupType(),"kuali.atp.atp.relation.associated",getContextInfo());
+                List<TypeTypeRelationInfo> types = getTypeService().getTypeTypeRelationsByOwnerAndType(groupWrapper.getKeyDateGroupType(),"kuali.atp.atp.relation.associated",getContextInfo());
                 for (TypeTypeRelationInfo relationInfo : types) {
                     TypeInfo type = getTypeService().getType(relationInfo.getRelatedTypeKey(),contextInfo);
                     if (!existingKeyDateTypes.contains(type.getKey())){
@@ -848,8 +848,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     keyDateWrapper.setTypeInfo(type);
                     keyDateWrapper.setKeyDateNameUI(type.getName());
 
-                    List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerType("kuali.milestone.type.group.keydate",null,context);
-                    List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerType("kuali.milestone.type.group.curriculum",null,context);
+                    List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydate",null,context);
+                    List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.curriculum",null,context);
 
                     if (isRelationExists(registrationRelations,keyDateInfo.getTypeKey())){
                         registrationWrapper.getKeydates().add(keyDateWrapper);
