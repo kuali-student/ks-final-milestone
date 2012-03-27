@@ -71,6 +71,12 @@
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarEditPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicTermPage.xml</value>
                 <value>classpath:AcademicTermLookupView.xml</value>
+
+                <!-- Appointments -->
+                <value>classpath:org/kuali/student/enrollment/appointment/RegistrationWindowsEditPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/appointment/SelectTermForRegWindowsPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/appointment/RegistrationWindowsManagementView.xml</value>
+
 			</list>
 		</property>
 		<property name="packagePrefixes">

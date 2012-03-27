@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="KS-RegistrationWindowsManagement-EditPage" parent="Uif-Page" p:disclosure.render="false">
+        <property name="id" value="registrationWindowsEditPage"/>
+        <property name="title" value="@{termInfo.name != null? termInfo.name : ''}"/>
+        <property name="header">
+            <bean parent="Uif-HeaderField-Two"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-TabSection" >
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-RegistrationWindows-EditSection"/>
+                            <ref bean="KS-RegistrationAppointments-EditSection"/>
+                        </list>
+                    </property>
+                    <!--<property name="tabsWidget.componentOptionsJSString">-->
+                        <!--<value>-->
+                            <!--{ selected: @{defaultSelectedTabIndex} }-->
+                        <!--</value>-->
+                    <!--</property>-->
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase"/>
+        </property>
+    </bean>
+
+    <bean id="KS-RegistrationWindows-EditSection" parent="Uif-Page" p:disclosure.render="false" p:style="min-width:70em;" >
+        <property name="title" value="Registration Windows" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="This is a test" p:styleClasses="font-light12"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-RegistrationAppointments-EditSection" parent="Uif-Page" p:disclosure.render="false" p:style="min-width:70em;" >
+        <property name="title" value="Registration Appointments" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="This is the Registration Appointments tab" p:styleClasses="font-light12"/>
+            </list>
+        </property>
+    </bean>
+</beans>
