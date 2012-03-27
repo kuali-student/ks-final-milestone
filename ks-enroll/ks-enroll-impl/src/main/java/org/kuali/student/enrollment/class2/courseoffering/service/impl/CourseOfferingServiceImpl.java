@@ -661,9 +661,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     public List<TypeInfo> getActivityOfferingTypesForActivityType(String activityTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TypeInfo activityType = luiService.getType(activityTypeKey, context);
-
-        return typeService.getAllowedTypesForType(activityTypeKey, LuiServiceConstants.REF_OBJECT_URI_LUI, context);
+        return typeService.getAllowedTypesForType(activityTypeKey, context);
     }
 
     @Override

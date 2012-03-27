@@ -8,58 +8,57 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.class1.type.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.infc.Type;
 
 @Entity
 @Table(name = "KSEN_TYPE")
-@NamedQueries({@NamedQuery(name = "Type.GetByRefObjectUri", query = "select type.refObjectURI from TypeEntity type where type.refObjectURI=:refObjectURI"),@NamedQuery(name = "Type.GetAllRefObjectUris", query = "select refObjectURI from TypeEntity")})
-public class TypeEntity extends MetaEntity implements AttributeOwner<TypeAttributeEntity> {
+@NamedQueries({
+    @NamedQuery(name = "Type.GetByRefObjectUri", query = "select type from TypeEntity type where type.refObjectURI=:refObjectURI"),
+    @NamedQuery(name = "Type.GetAllRefObjectUris", query = "select distinct refObjectURI from TypeEntity")})
+@AttributeOverrides({
+    @AttributeOverride(name = "id", column =
+    @Column(name = "TYPE_KEY"))})
+public class TypeEntity extends MetaEntity {
 
     @Column(name = "NAME")
     private String name;
-
     @Column(name = "REF_OBJECT_URI")
     private String refObjectURI;
-
     @Column(name = "DESCR_PLAIN")
     private String descrPlain;
-
     @Column(name = "DESCR_FORMATTED")
     private String descrFormatted;
-
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "EFF_DT")
+    private Date effectiveDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "EXP_DT")
+    private Date expirationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<TypeAttributeEntity> attributes ;
+    private List<TypeAttributeEntity> attributes;
 
-    public TypeEntity(){}
-
-    public TypeEntity(Type type){
-        
-
-        super(type);
-        this.setName(type.getName());
-        this.setAttributes(new ArrayList<TypeAttributeEntity>());
-        if (null != type.getAttributes()) {
-            for (Attribute att : type.getAttributes()) {
-                this.getAttributes().add(new TypeAttributeEntity(att, this));
-            }
-        }
-    
+    public TypeEntity() {
     }
-    
+
+    public TypeEntity(Type type) {
+        super(type);
+        this.setId(type.getKey());
+        fromDto(type);
+    }
+
     public String getName() {
         return name;
     }
@@ -88,8 +87,6 @@ public class TypeEntity extends MetaEntity implements AttributeOwner<TypeAttribu
         this.descrFormatted = descrFormatted;
     }
 
- 
-
     public void setRefObjectURI(String refObjectURI) {
         this.refObjectURI = refObjectURI;
     }
@@ -97,28 +94,60 @@ public class TypeEntity extends MetaEntity implements AttributeOwner<TypeAttribu
     public String getRefObjectURI() {
         return refObjectURI;
     }
-    
-    @Override
+
     public void setAttributes(List<TypeAttributeEntity> attributes) {
         this.attributes = attributes;
-        
+
+    }
+
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public void fromDto(Type type) {
+        // NOTE: readonly fields are set only in the constructor above
+        this.setName(type.getName());
+        if (type.getDescr() == null) {
+            this.setDescrPlain(null);
+            this.setDescrFormatted(null);
+        } else {
+            this.setDescrPlain(type.getDescr().getPlain());
+            this.setDescrFormatted(type.getDescr().getFormatted());
+        }
+        this.setRefObjectURI(type.getRefObjectUri());
+        this.setEffectiveDate(type.getEffectiveDate());
+        this.setExpirationDate(type.getExpirationDate());
+        this.setAttributes(new ArrayList<TypeAttributeEntity>());
+        for (Attribute att : type.getAttributes()) {
+            this.getAttributes().add(new TypeAttributeEntity(att, this));
+        }
     }
 
     public TypeInfo toDto() {
         TypeInfo typeInfo = new TypeInfo();
-        typeInfo.setName(this.getName());
-        typeInfo.setKey(this.getId());
+        typeInfo.setKey(getId());
+        typeInfo.setName(getName());
         typeInfo.setRefObjectUri(getRefObjectURI());
-        typeInfo.setAttributes(new ArrayList<AttributeInfo>());
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (BaseAttributeEntity<?> att : this.getAttributes()) {
-            atts.add(att.toDto());
+        RichTextInfo rti = new RichTextHelper().toRichTextInfo(this.getDescrPlain(), this.getDescrFormatted());
+        typeInfo.setDescr(rti);
+        typeInfo.setEffectiveDate(getEffectiveDate());
+        typeInfo.setExpirationDate(getExpirationDate());
+        typeInfo.setMeta(super.toDTO());
+        for (TypeAttributeEntity att : this.getAttributes()) {
+            typeInfo.getAttributes().add(att.toDto());
         }
-        typeInfo.setAttributes(atts);
         return typeInfo;
     }
-
-   
-
-
 }

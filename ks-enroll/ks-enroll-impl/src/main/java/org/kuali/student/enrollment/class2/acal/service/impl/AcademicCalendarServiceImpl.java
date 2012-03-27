@@ -437,7 +437,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<TypeTypeRelationInfo> relations = null;
 
         try {
-            relations = typeService.getTypeTypeRelationsByOwnerType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
+            relations = typeService.getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
@@ -464,7 +464,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         TypeInfo acalType = typeService.getType(academicCalendarTypeKey, context);
 
-        return typeService.getAllowedTypesForType(acalType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
+        return typeService.getAllowedTypesForType(acalType.getKey(), context);
     }
 
     @Override
@@ -472,7 +472,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             OperationFailedException, PermissionDeniedException {
         TypeInfo termType = getTermType(termTypeKey, context);
 
-        return typeService.getAllowedTypesForType(termType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
+        return typeService.getAllowedTypesForType(termType.getKey(), context);
     }
 
     @Override
@@ -1688,7 +1688,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         try {
             //MILESTONE_EVENT_GROUPING_TYPE_KEY = "kuali.milestone.type.group.event";
             //TYPE_TYPE_RELATION_GROUP_TYPE_KEY = "kuali.type.type.relation.type.group";
-            relations = typeService.getTypeTypeRelationsByOwnerType(AtpServiceConstants.MILESTONE_EVENT_GROUPING_TYPE_KEY,
+            relations = typeService.getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_EVENT_GROUPING_TYPE_KEY,
                     TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException(e.getMessage(), e);
@@ -1917,7 +1917,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<TypeTypeRelationInfo> relations = null;
 
         try {
-            relations = typeService.getTypeTypeRelationsByOwnerType(AtpServiceConstants.MILESTONE_HOLIDAY_GROUPING_TYPE_KEY,
+            relations = typeService.getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_HOLIDAY_GROUPING_TYPE_KEY,
                             TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException(e.getMessage(), e);

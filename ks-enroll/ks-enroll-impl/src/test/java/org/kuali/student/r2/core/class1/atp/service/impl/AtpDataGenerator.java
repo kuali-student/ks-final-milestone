@@ -47,7 +47,7 @@ public class AtpDataGenerator {
     }
 
     private TypeEntity createType() {
-        TypeEntity atpType = new TypeEntity(null);
+        TypeEntity atpType = new TypeEntity();
         atpType.setName("type1");
         return atpType;
     }

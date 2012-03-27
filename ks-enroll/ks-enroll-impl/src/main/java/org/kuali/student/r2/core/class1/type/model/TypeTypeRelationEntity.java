@@ -13,7 +13,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
@@ -21,56 +20,40 @@ import org.kuali.student.r2.core.type.infc.TypeTypeRelation;
 
 @Entity
 @Table(name = "KSEN_TYPETYPE_RELTN")
-public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner<TypeTypeRelationAttributeEntity> {
+public class TypeTypeRelationEntity extends MetaEntity {
 
     @Column(name = "OWNER_TYPE_ID")
     private String ownerTypeId;
-
     @Column(name = "RANK")
     private Integer rank;
-
     @Column(name = "RELATED_TYPE_ID")
     private String relatedTypeId;
-
     @Column(name = "TYPETYPE_RELATION_TYPE")
     private String type;
-
     @Column(name = "TYPETYPE_RELATION_STATE")
     private String state;
-
-    @Column(name = "NAME")
-    private String name;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXP_DT")
     private Date expirationDate;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<TypeTypeRelationAttributeEntity> attributes;
 
-    public TypeTypeRelationEntity() {}
+    public TypeTypeRelationEntity() {
+    }
 
     public TypeTypeRelationEntity(TypeTypeRelation typeTypeRel) {
+        // Note: readonly fields are set here
         super(typeTypeRel);
-
         this.setId(typeTypeRel.getId());
-        this.setEffectiveDate(typeTypeRel.getEffectiveDate());
-        this.setExpirationDate(typeTypeRel.getExpirationDate());
-        this.setRank(typeTypeRel.getRank());
         this.setOwnerTypeId(typeTypeRel.getOwnerTypeKey());
         this.setRelatedTypeId(typeTypeRel.getRelatedTypeKey());
+        this.setType(typeTypeRel.getTypeKey());
         this.setState(typeTypeRel.getStateKey());
-        this.setAttributes(new ArrayList<TypeTypeRelationAttributeEntity>());
-        if (null != typeTypeRel.getAttributes()) {
-            for (Attribute att : typeTypeRel.getAttributes()) {
-                this.getAttributes().add(new TypeTypeRelationAttributeEntity(att));
-            }
-        }
-
+        // updatable fields are set here
+        this.fromDto(typeTypeRel);
     }
 
     public String getState() {
@@ -150,14 +133,6 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
         this.rank = rank;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public void setAttributes(List<TypeTypeRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
@@ -166,24 +141,34 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
         return attributes;
     }
 
+    public void fromDto(TypeTypeRelation typeTypeRel) {
+        // NOTE: fields that are readonly are only set in the constructor above
+        this.setEffectiveDate(typeTypeRel.getEffectiveDate());
+        this.setExpirationDate(typeTypeRel.getExpirationDate());
+        this.setRank(typeTypeRel.getRank());
+        this.setAttributes(new ArrayList<TypeTypeRelationAttributeEntity>());
+        for (Attribute att : typeTypeRel.getAttributes()) {
+            this.getAttributes().add(new TypeTypeRelationAttributeEntity(att));
+        }
+    }
+
     public TypeTypeRelationInfo toDto() {
         TypeTypeRelationInfo typeTypeRel = new TypeTypeRelationInfo();
-
         typeTypeRel.setRank(rank);
-        typeTypeRel.setEffectiveDate(new Date(effectiveDate.getTime()));
-        typeTypeRel.setExpirationDate(new Date(expirationDate.getTime()));
+        typeTypeRel.setEffectiveDate(effectiveDate);
+        typeTypeRel.setExpirationDate(expirationDate);
         typeTypeRel.setId(getId());
         typeTypeRel.setOwnerTypeKey(ownerTypeId);
         typeTypeRel.setRelatedTypeKey(relatedTypeId);
-        typeTypeRel.setMeta(super.toDTO());
+        typeTypeRel.setTypeKey(this.getType());
         typeTypeRel.setStateKey(this.getState());
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (TypeTypeRelationAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
+        typeTypeRel.setMeta(super.toDTO());
+        if (attributes != null) {
+            for (TypeTypeRelationAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                typeTypeRel.getAttributes().add(attInfo);
+            }
         }
-        typeTypeRel.setAttributes(atts);
-
         return typeTypeRel;
     }
 }

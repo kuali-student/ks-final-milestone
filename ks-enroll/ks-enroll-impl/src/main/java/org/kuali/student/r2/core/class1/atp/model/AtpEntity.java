@@ -18,45 +18,39 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.infc.Atp;
 
 @Entity
 @Table(name = "KSEN_ATP")
 public class AtpEntity extends MetaEntity {
+
     @Column(name = "NAME")
     private String name;
-
     @Column(name = "ADMIN_ORG_ID")
     private String adminOrgId;
-
     @Column(name = "ATP_CD")
     private String atpCode;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "START_DT", nullable = false)
     private Date startDate;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "END_DT", nullable = false)
     private Date endDate;
-
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String formatted;
-
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
     private String plain;
-
     @Column(name = "ATP_TYPE", nullable = false)
     private String atpType;
-
     @Column(name = "ATP_STATE", nullable = false)
     private String atpState;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<AtpAttributeEntity> attributes = new ArrayList<AtpAttributeEntity>();
 
-    public AtpEntity() {}
+    public AtpEntity() {
+    }
 
     public AtpEntity(Atp atp) {
         super(atp);
@@ -65,21 +59,15 @@ public class AtpEntity extends MetaEntity {
         this.setAdminOrgId(atp.getAdminOrgId());
         this.setAtpState(atp.getStateKey());
         this.setAtpType(atp.getTypeKey());
-
-        if (atp.getStartDate() != null) {
-            this.setStartDate(atp.getStartDate());
-        }
+        this.setStartDate(atp.getStartDate());
         this.setAtpState(atp.getStateKey());
         this.setAtpType(atp.getTypeKey());
-        if (atp.getEndDate() != null) {
-            this.setEndDate(atp.getEndDate());
-        }
+        this.setEndDate(atp.getEndDate());
         if (atp.getDescr() != null) {
             RichText rt = atp.getDescr();
             this.setDescrFormatted(rt.getFormatted());
             this.setDescrPlain(rt.getPlain());
         }
-
         this.setAttributes(new ArrayList<AtpAttributeEntity>());
         if (null != atp.getAttributes()) {
             for (Attribute att : atp.getAttributes()) {
@@ -154,24 +142,15 @@ public class AtpEntity extends MetaEntity {
         atp.setStartDate(startDate);
         atp.setEndDate(endDate);
         atp.setAdminOrgId(getAdminOrgId());
-        if (atpType != null)
-            atp.setTypeKey(atpType);
-        if (atpState != null)
-            atp.setStateKey(atpState);
+        atp.setTypeKey(atpType);
+        atp.setStateKey(atpState);
         atp.setMeta(super.toDTO());
-        if (getDescrPlain() != null) {
-            RichTextInfo rti = new RichTextInfo();
-            rti.setPlain(getDescrPlain());
-            rti.setFormatted(getDescrFormatted());
-            atp.setDescr(rti);
-        }
-
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+        RichTextInfo rti = new RichTextHelper().toRichTextInfo(getDescrPlain(), getDescrFormatted());
+        atp.setDescr(rti);
         for (AtpAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
+            atp.getAttributes().add(attInfo);
         }
-        atp.setAttributes(atts);
 
         return atp;
     }

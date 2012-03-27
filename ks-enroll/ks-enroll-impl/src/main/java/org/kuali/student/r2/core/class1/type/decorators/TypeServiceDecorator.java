@@ -69,8 +69,8 @@ public class TypeServiceDecorator implements TypeService {
         }
 
     @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectUri, contextInfo);
+    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAllowedTypesForType(ownerTypeKey, contextInfo);
     }
 
     @Override
@@ -103,8 +103,8 @@ public class TypeServiceDecorator implements TypeService {
     }
 
     @Override
-    public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerType(String ownerTypeKey, String typeTypeRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getTypeTypeRelationsByOwnerType(ownerTypeKey, typeTypeRelationTypeKey, contextInfo);
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerAndType(String ownerTypeKey, String typeTypeRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getTypeTypeRelationsByOwnerAndType(ownerTypeKey, typeTypeRelationTypeKey, contextInfo);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.kuali.student.r2.core.class1.type.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -15,6 +16,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.class1.type.dao.TypeDao;
 import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.core.class1.type.model.TypeEntity;
@@ -24,8 +26,8 @@ import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 public class TypeServiceImpl implements TypeService {
-    private TypeDao typeDao;
 
+    private TypeDao typeDao;
     private TypeTypeRelationDao typeTypeRelationDao;
 
     public TypeDao getTypeDao() {
@@ -47,79 +49,116 @@ public class TypeServiceImpl implements TypeService {
     @Override
     public TypeInfo getType(String typeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return typeDao.find(typeKey).toDto();
+        TypeEntity entity = typeDao.find(typeKey);
+        if (entity == null) {
+            throw new DoesNotExistException(typeKey);
+        }
+        return entity.toDto();
     }
 
     @Override
     public List<TypeInfo> getTypesByKeys(List<String> typeKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
         List<TypeInfo> typeInfoList = new ArrayList<TypeInfo>();
-
         for (TypeEntity type : typeDao.findByIds(typeKeys)) {
             typeInfoList.add(type.toDto());
         }
-
         return typeInfoList;
     }
 
     @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        List<TypeTypeRelationEntity> typeTypeRelationEntities = typeTypeRelationDao.getTypeTypeRelationsByOwnerTypeForRefObjectUri(ownerTypeKey, relatedRefObjectURI);
-        List<TypeInfo> typeInfoList = new ArrayList<TypeInfo>();
-        for (TypeTypeRelationEntity typeTypeEntity : typeTypeRelationEntities) {
-            typeInfoList.add(typeDao.find(typeTypeEntity.getRelatedTypeId()).toDto());
+        List<TypeTypeRelationInfo> rels = getTypeTypeRelationsByOwnerAndType(ownerTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, contextInfo);
+        List<TypeInfo> typeInfoList = new ArrayList<TypeInfo>(rels.size());
+        for (TypeTypeRelationInfo rel : rels) {
+            if (this.isRelationshipActive(rel)) {
+                typeInfoList.add(this.getType(rel.getRelatedTypeKey(), contextInfo));
+            }
         }
+        return typeInfoList;
+    }
 
+    private boolean isRelationshipActive(TypeTypeRelationInfo rel) {
+        if (!rel.getStateKey().equals(TypeServiceConstants.TYPE_TYPE_RELATION_ACTIVE_STATE_KEY)) {
+            return false;
+        }
+        if (rel.getEffectiveDate() != null) {
+            if (rel.getEffectiveDate().after(new Date())) {
+                return false;
+            }
+        }
+        if (rel.getExpirationDate() != null) {
+            if (rel.getExpirationDate().before(new Date())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public List<TypeInfo> getTypesForGroupType(String groupTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<TypeTypeRelationInfo> rels = getTypeTypeRelationsByOwnerAndType(groupTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
+        List<TypeInfo> typeInfoList = new ArrayList<TypeInfo>(rels.size());
+        for (TypeTypeRelationInfo rel : rels) {
+            if (this.isRelationshipActive(rel)) {
+                typeInfoList.add(this.getType(rel.getRelatedTypeKey(), contextInfo));
+            }
+        }
         return typeInfoList;
     }
 
     @Override
     public List<ValidationResultInfo> validateType(String validationTypeKey, TypeInfo typeInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
     public TypeInfo createType(String typeKey, TypeInfo typeInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        TypeEntity typeToPersist = new TypeEntity(typeInfo);
-        typeToPersist.setId(typeKey);
-        typeDao.persist(typeToPersist);
-        return typeToPersist.toDto();
+        TypeEntity entity = typeDao.find(typeKey);
+        if (entity != null) {
+            throw new AlreadyExistsException(typeKey);
+        }
+        if (!typeKey.equals(typeInfo.getKey())) {
+            throw new InvalidParameterException(typeKey + " does not match the key in the info object " + typeInfo.getKey());
+        }
+        entity = new TypeEntity(typeInfo);
+        entity.setId(typeKey);
+        entity.setCreateId(contextInfo.getPrincipalId());
+        entity.setCreateTime(contextInfo.getCurrentDate());
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
+        typeDao.persist(entity);
+        return entity.toDto();
     }
 
     @Override
     public TypeInfo updateType(String typeKey, TypeInfo typeInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-     
-        TypeEntity typeEntity = typeDao.find(typeKey);
 
-        if (null != typeEntity) {
-            TypeEntity modifiedType = new TypeEntity(typeInfo);
-
-            typeDao.merge(modifiedType);
-            return typeDao.find(modifiedType.getId()).toDto();
-        } else
+        TypeEntity entity = typeDao.find(typeKey);
+        if (entity == null) {
             throw new DoesNotExistException(typeKey);
+        }
+        entity.fromDto(typeInfo);
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
+        typeDao.merge(entity);
+        return typeDao.find(typeKey).toDto();
     }
 
     @Override
     public StatusInfo deleteType(String typeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        StatusInfo deleteStatus = new StatusInfo();
-        deleteStatus.setSuccess(false);
-        
-        
         TypeEntity typeEntityToRemove = typeDao.find(typeKey);
+        if (typeEntityToRemove == null) {
+            throw new DoesNotExistException(typeKey);
+        }
         typeDao.remove(typeEntityToRemove);
-
-        
+        StatusInfo deleteStatus = new StatusInfo();
         deleteStatus.setSuccess(true);
         return deleteStatus;
     }
@@ -127,14 +166,18 @@ public class TypeServiceImpl implements TypeService {
     @Override
     public TypeTypeRelationInfo getTypeTypeRelation(String typeTypeRelationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return typeTypeRelationDao.find(typeTypeRelationKey).toDto();
+        TypeTypeRelationEntity entity = typeTypeRelationDao.find(typeTypeRelationKey);
+        if (entity == null) {
+            throw new DoesNotExistException(typeTypeRelationKey);
+        }
+        return entity.toDto();
     }
 
     @Override
-    public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerAndType(String ownerTypeKey, String relationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<TypeTypeRelationEntity> typeTypeEntities = typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey, relationTypeKey);
-        List<TypeTypeRelationInfo> typeTypeRealtionInfo = new ArrayList<TypeTypeRelationInfo>();
+        List<TypeTypeRelationEntity> typeTypeEntities = typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationType(ownerTypeKey, relationTypeKey);
+        List<TypeTypeRelationInfo> typeTypeRealtionInfo = new ArrayList<TypeTypeRelationInfo>(typeTypeEntities.size());
         for (TypeTypeRelationEntity typeTypeEntity : typeTypeEntities) {
             typeTypeRealtionInfo.add(typeTypeEntity.toDto());
         }
@@ -144,94 +187,94 @@ public class TypeServiceImpl implements TypeService {
     @Override
     public List<ValidationResultInfo> validateTypeTypeRelation(String validationTypeKey, String typeKey, String typePeerKey, String typeTypeRelationTypeKey, TypeTypeRelationInfo typeTypeRelationInfo,
             ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
-    public TypeTypeRelationInfo createTypeTypeRelation(String typeTypeRelationKey, String typeKey, String typePeerKey, TypeTypeRelationInfo typeTypeRelationInfo, ContextInfo contextInfo)
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        TypeTypeRelationEntity typeRelationToPersist = new TypeTypeRelationEntity(typeTypeRelationInfo);
-
-        typeRelationToPersist.setId(typeTypeRelationKey);
-        typeRelationToPersist.setOwnerTypeId(typeKey);
-        typeRelationToPersist.setRelatedTypeId(typePeerKey);
-        typeTypeRelationDao.persist(typeRelationToPersist);
-        return typeRelationToPersist.toDto();
+    public TypeTypeRelationInfo createTypeTypeRelation(String typeTypeRelationTypeKey,
+            String ownerTypeKey,
+            String relatedTypeKey,
+            TypeTypeRelationInfo typeTypeRelationInfo,
+            ContextInfo contextInfo)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (!typeTypeRelationTypeKey.equals(typeTypeRelationInfo.getTypeKey())) {
+            throw new InvalidParameterException(typeTypeRelationTypeKey + " does not match " + typeTypeRelationInfo.getTypeKey());
+        }
+        if (!ownerTypeKey.equals(typeTypeRelationInfo.getOwnerTypeKey())) {
+            throw new InvalidParameterException(ownerTypeKey + " does not match " + typeTypeRelationInfo.getOwnerTypeKey());
+        }
+        if (!relatedTypeKey.equals(typeTypeRelationInfo.getRelatedTypeKey())) {
+            throw new InvalidParameterException(relatedTypeKey + " does not match " + typeTypeRelationInfo.getRelatedTypeKey());
+        }
+        TypeTypeRelationEntity entity = new TypeTypeRelationEntity(typeTypeRelationInfo);
+        entity.setType(typeTypeRelationTypeKey);
+        entity.setOwnerTypeId(ownerTypeKey);
+        entity.setRelatedTypeId(relatedTypeKey);
+        entity.setCreateId(contextInfo.getPrincipalId());
+        entity.setCreateTime(contextInfo.getCurrentDate());
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
+        typeTypeRelationDao.persist(entity);
+        return entity.toDto();
     }
 
     @Override
     public TypeTypeRelationInfo updateTypeTypeRelation(String typeTypeRelationKey, TypeTypeRelationInfo typeTypeRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-       
-        TypeTypeRelationEntity typeRelationEntity = typeTypeRelationDao.find(typeTypeRelationKey);
-        
-        if (null != typeRelationEntity) {
-            TypeTypeRelationEntity modifiedTypeTypeRelationEntity = new TypeTypeRelationEntity(typeTypeRelationInfo);
 
-            typeTypeRelationDao.merge(modifiedTypeTypeRelationEntity);
-            return typeTypeRelationDao.find(modifiedTypeTypeRelationEntity.getId()).toDto();
-        } else
+        TypeTypeRelationEntity entity = typeTypeRelationDao.find(typeTypeRelationKey);
+        if (entity == null) {
             throw new DoesNotExistException(typeTypeRelationKey);
+        }
+        entity.fromDto(typeTypeRelationInfo);
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
+        typeTypeRelationDao.merge(entity);
+        return entity.toDto();
+
     }
 
     @Override
     public StatusInfo deleteTypeTypeRelation(String typeTypeRelationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-       
-        StatusInfo deleteStatus = new StatusInfo();
-        deleteStatus.setSuccess(false);
-        
         TypeTypeRelationEntity typeEntityToRemove = typeTypeRelationDao.find(typeTypeRelationKey);
+        if (typeEntityToRemove == null) {
+            throw new DoesNotExistException (typeTypeRelationKey);
+        }
         typeTypeRelationDao.remove(typeEntityToRemove);
-
+        StatusInfo deleteStatus = new StatusInfo();
         deleteStatus.setSuccess(true);
         return deleteStatus;
     }
 
     @Override
-    public List<String> getRefObjectUris(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-           return typeDao.getAllRefObjectUris();
+    public List<String> getRefObjectUris(ContextInfo contextInfo) 
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return typeDao.getAllRefObjectUris();
 
     }
 
-    
-    
     @Override
-    public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-       List<TypeInfo>  typDTOs =  new ArrayList<TypeInfo>();
-       List<TypeEntity>  typeEntities =  typeDao.getTypesByRefObjectUri(refObjectUri);
-       for( TypeEntity typeEntity : typeEntities ){
-           typDTOs.add(typeEntity.toDto());
-       }
-       
-       return typDTOs;
+        List<TypeEntity> typeEntities = typeDao.getTypesByRefObjectUri(refObjectUri);
+        List<TypeInfo> typDTOs = new ArrayList<TypeInfo>(typeEntities.size());
+        for (TypeEntity typeEntity : typeEntities) {
+            typDTOs.add(typeEntity.toDto());
+        }
+        return typDTOs;
     }
 
     @Override
-    public List<TypeInfo> getTypesForGroupType(String groupTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
-     {
-        List<TypeTypeRelationEntity> typeTypeRelationEntities = typeTypeRelationDao.getTypeTypeRelationsByOwnerTypeAndRelationType(groupTypeKey, org.kuali.student.r2.common.util.constants.TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY);
-        List<TypeInfo> typeInfoList = new ArrayList<TypeInfo>();
-        for (TypeTypeRelationEntity typeTypeEntity : typeTypeRelationEntities) {
-            typeInfoList.add(typeDao.find(typeTypeEntity.getRelatedTypeId()).toDto());
-        }
-
-        return typeInfoList;
-     }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeTypeRelationsByIds(List<String> typeTypeRelationIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByIds(List<String> typeTypeRelationIds, ContextInfo contextInfo) 
+            throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<TypeTypeRelationInfo>   typeRelationInfos = new ArrayList<TypeTypeRelationInfo>();
-        for(String typeRelationId: typeTypeRelationIds)   {
-          typeRelationInfos.add(typeTypeRelationDao.find(typeRelationId).toDto());
-
+        List<TypeTypeRelationInfo> typeRelationInfos = new ArrayList<TypeTypeRelationInfo>();
+        for (String relId : typeTypeRelationIds) {
+            typeRelationInfos.add(this.getTypeTypeRelation(relId, contextInfo));
         }
-
         return typeRelationInfos;
-
     }
-
 }

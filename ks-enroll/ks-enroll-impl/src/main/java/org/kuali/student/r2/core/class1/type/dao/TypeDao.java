@@ -11,7 +11,7 @@ public class TypeDao extends GenericEntityDao<TypeEntity> {
 
     public List<TypeEntity> getTypesByRefObjectUri(String refObjectUri) {
         Query query = em.createNamedQuery("Type.GetByRefObjectUri");
-        query.setParameter("refObjectUri", refObjectUri);
+        query.setParameter("refObjectURI", refObjectUri);
         List<TypeEntity> typesByRefObjectUri = query.getResultList();
         return typesByRefObjectUri;
 
