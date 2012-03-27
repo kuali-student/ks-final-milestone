@@ -137,7 +137,6 @@ public class TypeServiceImpl implements TypeService {
     @Override
     public TypeInfo updateType(String typeKey, TypeInfo typeInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-
         TypeEntity entity = typeDao.find(typeKey);
         if (entity == null) {
             throw new DoesNotExistException(typeKey);
@@ -146,18 +145,18 @@ public class TypeServiceImpl implements TypeService {
         entity.setUpdateId(contextInfo.getPrincipalId());
         entity.setUpdateTime(contextInfo.getCurrentDate());
         typeDao.merge(entity);
-        return typeDao.find(typeKey).toDto();
+        return entity.toDto();
     }
 
     @Override
     public StatusInfo deleteType(String typeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        TypeEntity typeEntityToRemove = typeDao.find(typeKey);
-        if (typeEntityToRemove == null) {
+        TypeEntity entity = typeDao.find(typeKey);
+        if (entity == null) {
             throw new DoesNotExistException(typeKey);
         }
-        typeDao.remove(typeEntityToRemove);
+        typeDao.remove(entity);
         StatusInfo deleteStatus = new StatusInfo();
         deleteStatus.setSuccess(true);
         return deleteStatus;

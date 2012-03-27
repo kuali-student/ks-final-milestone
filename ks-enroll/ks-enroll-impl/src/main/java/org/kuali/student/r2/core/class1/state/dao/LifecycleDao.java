@@ -11,7 +11,8 @@ public class LifecycleDao extends GenericEntityDao<LifecycleEntity> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<LifecycleEntity> getLifecyclesByRefObjectUri(String refUri) {
-        return (List<LifecycleEntity>) em.createQuery("from LifecycleEntity se where se.refUri=:refUri").setParameter("refUri", refUri).getResultList();
+    public List<LifecycleEntity> getLifecyclesByRefObjectUri(String refObjectUri) {
+        return (List<LifecycleEntity>) em.createQuery("from LifecycleEntity se where se.refObjectUri=:refObjectUri").
+                setParameter("refObjectUri", refObjectUri).getResultList();
     }
 }

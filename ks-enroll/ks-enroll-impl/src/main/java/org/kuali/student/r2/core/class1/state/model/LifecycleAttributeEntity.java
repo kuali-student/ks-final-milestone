@@ -9,25 +9,25 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
 import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
-@Table(name = "KSEN_STATE_ATTR")
-public class StateAttributeEntity extends BaseAttributeEntityNew<StateEntity> {
+@Table(name = "KSEN_LIFECYCLE_ATTR")
+public class LifecycleAttributeEntity extends BaseAttributeEntityNew<StateEntity> {
     
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
     private StateEntity owner;
 
-    public StateAttributeEntity () {
+    public LifecycleAttributeEntity () {
     }
     
-    public StateAttributeEntity(String key, String value) {
+    public LifecycleAttributeEntity(String key, String value) {
         super(key, value);
     }
-    public StateAttributeEntity(Attribute att, StateEntity owner) {
+    public LifecycleAttributeEntity(Attribute att, StateEntity owner) {
         super(att);
         this.owner = owner;
     }
 
-    public StateAttributeEntity(Attribute att) {
+    public LifecycleAttributeEntity(Attribute att) {
         super(att);
     }
 

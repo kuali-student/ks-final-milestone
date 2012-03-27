@@ -71,7 +71,6 @@
 		<class>org.kuali.student.r2.core.class1.state.model.StateEntity</class>
 		<class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
 		<class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
-		<class>org.kuali.student.r2.core.class1.state.model.StateLifecycleRelationEntity</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 

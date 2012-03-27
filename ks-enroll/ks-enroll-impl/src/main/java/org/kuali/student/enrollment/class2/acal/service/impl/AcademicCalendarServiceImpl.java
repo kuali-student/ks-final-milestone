@@ -152,9 +152,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private List<StateInfo> getAtpStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<StateInfo> results;
         try {
-            results = stateService.getStatesByLifecycle(AtpServiceConstants.ATP_PROCESS_KEY, context);
+            results = stateService.getStatesByLifecycle(AtpServiceConstants.ATP_LIFECYCLE_KEY, context);
         } catch (DoesNotExistException ex) {
-            throw new OperationFailedException(AtpServiceConstants.ATP_PROCESS_KEY, ex);
+            throw new OperationFailedException(AtpServiceConstants.ATP_LIFECYCLE_KEY, ex);
         }
 
         return results;
@@ -489,9 +489,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         List<StateInfo> results;
         try {
-            results = stateService.getStatesByLifecycle(AtpServiceConstants.ATP_PROCESS_KEY, context);
+            results = stateService.getStatesByLifecycle(AtpServiceConstants.ATP_LIFECYCLE_KEY, context);
         } catch (DoesNotExistException ex) {
-            throw new OperationFailedException(AtpServiceConstants.ATP_PROCESS_KEY, ex);
+            throw new OperationFailedException(AtpServiceConstants.ATP_LIFECYCLE_KEY, ex);
         }
 
         return results;

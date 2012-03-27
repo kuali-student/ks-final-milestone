@@ -68,7 +68,7 @@ public class AcademicCalendarServiceConstants {
     /**
      * Academic Calendar Process
      */
-    public static final String ACADEMIC_CALENDAR_PROCESS_KEY = AtpServiceConstants.ATP_PROCESS_KEY;
+    public static final String ACADEMIC_CALENDAR_PROCESS_KEY = AtpServiceConstants.ATP_LIFECYCLE_KEY;
     public static final String ACADEMIC_CALENDAR_DRAFT_STATE_KEY = AtpServiceConstants.ATP_DRAFT_STATE_KEY;
     public static final String ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY = AtpServiceConstants.ATP_OFFICIAL_STATE_KEY;
     public static final String[] ACADEMIC_CALENDAR_PROCESS_STATE_KEYS = {ACADEMIC_CALENDAR_DRAFT_STATE_KEY, ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY};

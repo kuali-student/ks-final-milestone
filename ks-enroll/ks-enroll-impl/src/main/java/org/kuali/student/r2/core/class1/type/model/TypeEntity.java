@@ -45,7 +45,7 @@ public class TypeEntity extends MetaEntity {
     @Column(name = "EFF_DT")
     private Date effectiveDate;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXP_DT")
+    @Column(name = "EXPIR_DT")
     private Date expirationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<TypeAttributeEntity> attributes;
@@ -136,18 +136,20 @@ public class TypeEntity extends MetaEntity {
     }
 
     public TypeInfo toDto() {
-        TypeInfo typeInfo = new TypeInfo();
-        typeInfo.setKey(getId());
-        typeInfo.setName(getName());
-        typeInfo.setRefObjectUri(getRefObjectURI());
-        RichTextInfo rti = new RichTextHelper().toRichTextInfo(this.getDescrPlain(), this.getDescrFormatted());
-        typeInfo.setDescr(rti);
-        typeInfo.setEffectiveDate(getEffectiveDate());
-        typeInfo.setExpirationDate(getExpirationDate());
-        typeInfo.setMeta(super.toDTO());
-        for (TypeAttributeEntity att : this.getAttributes()) {
-            typeInfo.getAttributes().add(att.toDto());
+        TypeInfo info = new TypeInfo();
+        info.setKey(getId());
+        info.setName(name);
+        info.setRefObjectUri(refObjectURI);
+        RichTextInfo rti = new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted);
+        info.setDescr(rti);
+        info.setEffectiveDate(this.expirationDate);
+        info.setExpirationDate(this.expirationDate);
+        info.setMeta(super.toDTO());
+        if (attributes != null) {
+            for (TypeAttributeEntity att : attributes) {
+                info.getAttributes().add(att.toDto());
+            }
         }
-        return typeInfo;
+        return info;
     }
 }
