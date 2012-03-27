@@ -5,10 +5,10 @@ import java.beans.IntrospectionException;
 import java.io.IOException;
 
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryCreator;
-import org.kuali.student.r1.core.comment.dto.CommentInfo;
-import org.kuali.student.r1.core.comment.dto.TagInfo;
-import org.kuali.student.r1.core.document.dto.DocumentInfo;
-import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.dto.TagInfo;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 
 
 public class TestDictionaryCreator
