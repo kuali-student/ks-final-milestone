@@ -23,10 +23,9 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     public void saveHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
 //    public HolidayCalendarInfo createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
     public HolidayCalendarInfo getHolidayCalendar(String hcId) throws Exception;
-    public HolidayCalendarInfo copyHolidayCalendar(HolidayCalendarForm form) throws Exception;
     public HolidayCalendarInfo getNewestHolidayCalendar() throws Exception;
 //    public HolidayCalendarInfo updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
-    public List<HolidayWrapper> getHolidaysForHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
+    public List<HolidayWrapper> getHolidayWrappersForHolidayCalendar(String holidayCalendarId) throws Exception;
 //    public void createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayWrapper holiday) throws Exception;
 //    public void updateHoliday(String holidayId, HolidayWrapper holiday) throws Exception;
     public void deleteHoliday(int selectedIndex,HolidayCalendarForm hcForm) throws Exception;

@@ -1,14 +1,12 @@
 .ks-cell-align-center { text-align:center; }
 
 /*-- Holiday Calendar View ----------------------------------------------------------------------*/
-#holidayCalendarView_div #viewheader_div { margin-bottom:10px; }
-#KS-HolidayCalendar-View-header_div .uif-header { border-bottom:solid 2px #000; margin-bottom:5px; }
-
+#holidayCalendarViewPage_div h2.uif-header { border-bottom:solid 2px #000; margin-bottom:5px; }
 #KS-HolidayCalendar-View-Meta_div,
 #KS-HolidayCalendar-View-Holidays_div table.uif-tableCollectionLayout { width:650px; }
 
 #KS-HolidayCalendar-View-Meta_div h3 { border-bottom:solid 2px #000; margin-bottom:0; }
-#KS-HolidayCalendar-View-Meta-GridGroup span.boxLayoutVerticalItem { margin-bottom:0; }
+#KS-HolidayCalendar-View-Meta-GridGroup_div span.boxLayoutVerticalItem { margin-bottom:0; }
 #KS-HolidayCalendar-View-Meta-GridGroup_group table { margin-bottom:0; }
 #KS-HolidayCalendar-View-Meta-GridGroup_group table.uif-gridLayout tr { border-bottom:dotted 1px #333; }
 #KS-HolidayCalendar-View-Meta-GridGroup_group table.uif-gridLayout th { white-space:nowrap; padding:5px; text-align:left; }
@@ -26,11 +24,12 @@
 /*-- End of Holiday Calendar View ---------------------------------------------------------------*/
 
 /*-- Create New Holiday Calendar ----------------------------------------------------------------*/
-#holidayCalendarCopyView_div #viewheader_div { margin-bottom:10px; }
-#KS-HolidayCalendar-CopyView-header_div .uif-header { border-bottom:solid 2px #000; margin-bottom:5px; }
-#KS-HolidayCalendar-CopyView-Page_div table[role="presentation"] th { text-align:left; white-space:nowrap; }
-#KS-HolidayCalendar-CopyView-From_group { background-color:#eee; border:solid 1px #aaa; padding:5px 10px 5px 10px; }
-#KS-HolidayCalendar-CopyView-To_div { margin-top:15px; }
-#KS-HolidayCalendar-CopyView-To_group { border:solid 1px #aaa; padding:5px; }
-#KS-HolidayCalendar-CopyView-footer_div { margin-left:25px; text-align:left; }
+#holidayCalendarCopyPage_div #viewheader_div { margin-bottom:10px; }
+#KS-HolidayCalendar-CopyPage-header_div .uif-header { border-bottom:solid 2px #000; margin-bottom:5px; }
+#KS-HolidayCalendar-CopyPage-Section_div table[role="presentation"] th {
+    text-align:left; vertical-align:bottom; white-space:nowrap; }
+#KS-HolidayCalendar-CopyPage-From_group { background-color:#eee; border:solid 1px #aaa; padding:5px 10px 5px 10px; }
+#KS-HolidayCalendar-CopyPage-To_div { margin-top:15px; }
+#KS-HolidayCalendar-CopyPage-To_group { border:solid 1px #aaa; padding:5px; }
+#KS-HolidayCalendar-CopyPage-footer_div { margin-top:5px; }*/
 /*-- End of Create New Holiday Calendar ---------------------------------------------------------*/

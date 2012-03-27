@@ -23,7 +23,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * @author Kuali Student Team
  */
 public class CalendarConstants {
-    //HC pages
+    //HolidayCalendar pages
     public static final String HOLIDAYCALENDAR_COPYPAGE = "holidayCalendarCopyPage";
     public static final String HOLIDAYCALENDAR_EDITPAGE = "holidayCalendarEditPage";
     public static final String HOLIDAYCALENDAR_VIEWPAGE = "holidayCalendarViewPage";
@@ -35,7 +35,7 @@ public class CalendarConstants {
     public static final String ACADEMIC_CALENDAR_COPY_PAGE = "academicCalendarCopyPage";
     public static final String ACADEMIC_CALENDAR_EDIT_PAGE = "academicCalendarEditPage";
 
-    //Hcal
+    //HolidayCalendar
     public static final String HCAL_CONTROLLER_PATH = "holidayCalendar";
     public static final String HCAL_EDIT_VIEW = "holidayCalendarFlowView";
 
@@ -45,6 +45,8 @@ public class CalendarConstants {
     public static final String HOLIDAYCALENDER = "HolidayCalendar";
     public static final String TERM = "AcademicTerm";
     public static final String CALENDAR_SEARCH_VIEW= "calendarSearchView";
+    public static final String CALENDAR_SEARCH_TYPE = "calendarSearchType";
+
     //method names
     public static final String AC_EDIT_METHOD = KRADConstants.START_METHOD;
     public static final String AC_VIEW_METHOD = KRADConstants.START_METHOD;
@@ -62,5 +64,4 @@ public class CalendarConstants {
 
     public static final String KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD = "kuali.milestone.type.group.keydate";
     public static final String KEY_DATE_GROUP_TYPE_CURRICULUM = "kuali.milestone.type.group.curriculum";
-
 }

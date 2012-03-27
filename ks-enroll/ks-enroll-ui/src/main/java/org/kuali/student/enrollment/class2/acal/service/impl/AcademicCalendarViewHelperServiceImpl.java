@@ -172,18 +172,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }
     }
 
-    public HolidayCalendarInfo copyHolidayCalendar(HolidayCalendarForm form) throws Exception {
-        HolidayCalendarInfo newHCInfo =
-                getAcalService().copyHolidayCalendar( form.getHolidayCalendarInfo().getId(),
-                                                      form.getNewCalendarStartDate(),
-                                                      form.getNewCalendarEndDate(), getContextInfo());
-        if (null != newHCInfo) {
-            newHCInfo.setName(form.getNewCalendarName());
-        }
-        return newHCInfo;
-    }
-
-
 //    public HolidayCalendarInfo updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
 //        HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
 //
@@ -230,9 +218,9 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 //        return updatedHc;
 //    }
 
-    public List<HolidayWrapper> getHolidaysForHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
-        HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
-        List<HolidayInfo> holidayInfos = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
+    public List<HolidayWrapper> getHolidayWrappersForHolidayCalendar(String holidayCalendarId) throws Exception {
+        List<HolidayInfo> holidayInfos =
+                getAcalService().getHolidaysForHolidayCalendar(holidayCalendarId, getContextInfo());
         return assembleHolidays(holidayInfos);
     }
 
@@ -310,8 +298,11 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
 //    }
 
-    public void deleteHoliday(int selectedIndex,HolidayCalendarForm hcForm) throws Exception{
-        getAcalService().deleteHoliday(hcForm.getHolidays().get(selectedIndex).getHolidayInfo().getId(), getContextInfo());
+    public void deleteHoliday(int selectedIndex,HolidayCalendarForm hcForm) throws Exception {
+        String holidayId = hcForm.getHolidays().get(selectedIndex).getHolidayInfo().getId();
+        if (null != holidayId) {  // null is possible when copying a HC
+            getAcalService().deleteHoliday(holidayId, getContextInfo());
+        }
         hcForm.getHolidays().remove(selectedIndex);
     }
 
@@ -829,7 +820,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 if (wrapper != academicTermWrapper){
                     if (StringUtils.equalsIgnoreCase(wrapper.getName(),academicTermWrapper.getName())){
                         if (index1 < index2){
-                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.term.dupliateName",""+ NumberUtils.min(new int[]{index1,index2}),""+NumberUtils.max(new int[]{index1,index2}));
+                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.term.duplicateName",""+ NumberUtils.min(new int[]{index1,index2}),""+NumberUtils.max(new int[]{index1,index2}));
                         }
                     }
                 }

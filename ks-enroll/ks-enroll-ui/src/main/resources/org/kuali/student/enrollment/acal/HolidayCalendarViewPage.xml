@@ -61,51 +61,36 @@
                                   p:labelField.width="40%"
                                   p:width="60%"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                                  p:required="false"
+                                  p:labelField.renderColon="false"/>
                             <bean parent="Uif-InputField"
                                   p:propertyName="adminOrgName"
                                   p:label="Organization"
                                   p:id="KS-HolidayCalendar-View-Meta-adminOrgName"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                                  p:required="false"
+                                  p:labelField.renderColon="false"/>
                             <bean parent="Uif-InputField"
                                   p:propertyName="holidayCalendarInfo.startDate"
                                   p:label="Start Date"
                                   p:id="KS-HolidayCalendar-View-Meta-startDate"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                                  p:required="false"
+                                  p:labelField.renderColon="false"/>
                             <bean parent="Uif-InputField"
                                   p:propertyName="holidayCalendarInfo.endDate"
                                   p:label="End Date"
                                   p:id="KS-HolidayCalendar-View-Meta-endDate"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                                  p:required="false"
+                                  p:labelField.renderColon="false"/>
                             <bean parent="Uif-InputField"
                                   p:propertyName="stateName"
                                   p:label="State"
-                                  p:id="KS-HolidayCalendar-View-Meta-endDate"
+                                  p:id="KS-HolidayCalendar-View-Meta-stateName"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                                  p:required="false"
+                                  p:labelField.renderColon="false"/>
                         </list>
                     </property>
                 </bean>
@@ -113,6 +98,7 @@
         </property>
     </bean>
 
+<!--    p:layoutManager.richTable.render="false">-->
     <bean id="KS-HolidayCalendar-View-Holidays" parent="Uif-TableCollectionSection"
             p:title="Holidays"
             p:id="KS-HolidayCalendar-View-Holidays"
@@ -122,8 +108,7 @@
             p:renderLineActions="false"
             p:layoutManager.numberOfColumns="4"
             p:layoutManager.applyDefaultCellWidths="false"
-            p:layoutManager.renderSequenceField="false"
-            p:layoutManager.sequencePropertyName="startDate">
+            p:layoutManager.renderSequenceField="false">
         <property name="header">
             <bean parent="Uif-HeaderField-Three"/>
         </property>
@@ -131,42 +116,29 @@
             <list>
                 <bean parent="Uif-InputField"
                       p:propertyName="typeName"
-                      p:id="KS-HolidayCalendar-View-Holidays-name"
                       p:readOnly="true"
-                      p:style="font-weight:bold;">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
+                      p:style="font-weight:bold;"
+                      p:id="KS-HolidayCalendar-View-Holidays-name"/>
                 <bean parent="Uif-InputField"
                       p:label="Start Date"
                       p:propertyName="startDate"
                       p:readOnly="true"
-                      p:id="KS-HolidayCalendar-View-Holidays-startDate">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField"
+                      p:id="KS-HolidayCalendar-View-Holidays-startDate"/>
+                <bean parent="Uif-DataField"
                       p:label="End Date"
                       p:propertyName="endDate"
                       p:readOnly="true"
-                      p:id="KS-HolidayCalendar-View-Holidays-endDate">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField"
+                      p:id="KS-HolidayCalendar-View-Holidays-endDate"/>
+                <bean parent="Uif-DataField"
                       p:label="Instructional"
                       p:propertyName="holidayInfo.isInstructionalDay"
-                      p:id="KS-HolidayCalendar-View-Holidays-isInstructionalDay"
-                      p:align="center">
-					<property name="control">
-						<bean parent="Uif-CheckboxControl" p:disabled="true"/>
-					</property>
-                </bean>
+                      p:readOnly="true"
+                      p:alternateDisplayValue="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}"
+                      p:id="KS-HolidayCalendar-View-Holidays-isInstructionalDay"/>
             </list>
         </property>
+        <!--
+-->
         <property name="layoutManager.richTable.componentOptions">
             <!-- see http://datatables.net/ref for all options -->
             <map merge="true">
@@ -177,10 +149,10 @@
                 <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
                 <entry key="aoColumns"
                        value="[ {'bSortable':false, 'sWidth':'40%'},
-                                {'bSortable':false, 'sTitle':'Start Date', 'sWidth':'20%'},
-                                {'bSortable':false, 'sTitle':'End Date', 'sWidth':'20%'},
+                                {'bSortable':false, 'sType':'kuali_date', 'sTitle':'Start Date', 'sWidth':'20%'},
+                                {'bSortable':false, 'sType':'kuali_date', 'sTitle':'End Date', 'sWidth':'20%'},
                                 {'bSortable':false, 'sTitle':'Instructional', 'sWidth':'20%', 'sClass':'ks-cell-align-center'}
-                            ]"/>
+                           ]"/>
             </map>
         </property>
     </bean>
