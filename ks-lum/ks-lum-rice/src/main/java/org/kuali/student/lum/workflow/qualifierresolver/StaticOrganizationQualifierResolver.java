@@ -74,8 +74,7 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
                 Node organizationElement = organizationElements.item(i);
                 orgId = "";
                 orgId = organizationElement.getTextContent();
-                OrgInfo orgInfo = null;
-                // TODO KSCM-424 orgInfo = getOrganizationService().getOrganization(orgId, contextInfo);
+                OrgInfo orgInfo = getOrganizationService().getOrg(orgId, contextInfo);
                 Map<String,String> attrSet = new LinkedHashMap<String,String>();
                 attrSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, orgInfo.getId());
                 attributeSets.add(attrSet);

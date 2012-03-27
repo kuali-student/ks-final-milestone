@@ -132,24 +132,23 @@ public class OrganizationDynamicNode implements DynamicNode {
 
         try {
             for (String orgId : orgIds) {
-                OrgInfo orgInfo = null;
-                // TODO KSCM-424 orgInfo = getOrganizationService().getOrganization(orgId, contextInfo);
+                OrgInfo orgInfo = getOrganizationService().getOrg(orgId, contextInfo);
                 LOG.debug("Org on Document: " + getOrgInfoForPrint(orgInfo));
                 List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgId, contextInfo);
                 for (OrgOrgRelationInfo orgOrgRelationInfo : orgRelationInfos) {
                     LOG.debug("---- Org Relation:");
                     LOG.debug("------------ Org ID: " + orgOrgRelationInfo.getOrgId());
-                 // TODO KSCM-424 orgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getRelatedOrgId(), contextInfo);
+                    orgInfo = getOrganizationService().getOrg(orgOrgRelationInfo.getRelatedOrgId(), contextInfo);
                     LOG.debug("------------ Related Org on Document: " + getOrgInfoForPrint(orgInfo));
                     LOG.debug("------------ Relation State: " + orgOrgRelationInfo.getStateKey());
                     LOG.debug("------------ Relation Type: " + orgOrgRelationInfo.getTypeKey());
                 }
                 List<OrgOrgRelationInfo> relatedOrgRelationInfos = null;
-             // TODO KSCM-429  relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(orgId, contextInfo);
+                relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgId, contextInfo);
                 for (OrgOrgRelationInfo orgOrgRelationInfo : relatedOrgRelationInfos) {
                     LOG.debug("---- Related Org Relation:");
                     LOG.debug("------------ Related Org ID: " + orgOrgRelationInfo.getRelatedOrgId());
-                 // TODO KSCM-424 orgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getOrgId(), contextInfo);
+                    orgInfo = getOrganizationService().getOrg(orgOrgRelationInfo.getOrgId(), contextInfo);
                     LOG.debug("------------ Org of Relation: " + getOrgInfoForPrint(orgInfo));
                     LOG.debug("------------ Relation State: " + orgOrgRelationInfo.getStateKey());
                     LOG.debug("------------ Relation Type: " + orgOrgRelationInfo.getTypeKey());
@@ -259,9 +258,9 @@ public class OrganizationDynamicNode implements DynamicNode {
                     if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getTypeKey())) {
                         LOG.debug("---- Related Org Relation:");
                         OrgInfo referenceOrgInfo = null;
-                        // TODO KSCM-424 referenceOrgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getRelatedOrgId(), contextInfo);
+                        referenceOrgInfo = getOrganizationService().getOrg(orgOrgRelationInfo.getRelatedOrgId(), contextInfo);
                         OrgInfo nextNodeOrgInfo = null; 
-                        // TODO KSCM-424 	nextNodeOrgInfo = 	getOrganizationService().getOrganization(orgOrgRelationInfo.getOrgId(), contextInfo);
+                        nextNodeOrgInfo = getOrganizationService().getOrg(orgOrgRelationInfo.getOrgId(), contextInfo);
                         LOG.debug("------------ Reference Org: " + getOrgInfoForPrint(referenceOrgInfo));
                         LOG.debug("------------ Org for Next Node: " + getOrgInfoForPrint(nextNodeOrgInfo));
                         relatedOrgIds.add(nextNodeOrgInfo.getId());
