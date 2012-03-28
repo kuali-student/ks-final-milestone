@@ -25,6 +25,7 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -34,7 +35,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validator.Validator;
 import org.kuali.student.r1.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.comment.dao.CommentDao;
@@ -87,9 +87,7 @@ public class CommentServiceImpl implements CommentService {
             throw new OperationFailedException("Validation call failed." + e1.getMessage());
         }
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+            throw new DataValidationErrorException("Validation error!", validationResults);
         }
         
         Reference reference=null;
@@ -137,9 +135,7 @@ public class CommentServiceImpl implements CommentService {
             throw new OperationFailedException("Validation call failed." + e1.getMessage());
         }
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+            throw new DataValidationErrorException("Validation error!", validationResults);
         }
         
         tagInfo.setReferenceTypeKey(referenceTypeKey);
@@ -403,9 +399,7 @@ public class CommentServiceImpl implements CommentService {
         // Validate Comment
         List<ValidationResultInfo> validationResults = validateComment("OBJECT", commentInfo);
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+            throw new DataValidationErrorException("Validation error!", validationResults);
         }
         
 		Comment entity = commentDao.fetch(Comment.class, commentInfo.getId());

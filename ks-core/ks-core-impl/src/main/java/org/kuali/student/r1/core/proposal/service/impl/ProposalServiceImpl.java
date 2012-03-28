@@ -23,6 +23,7 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -40,7 +41,6 @@ import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validator.Validator;
 import org.kuali.student.r1.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.proposal.dao.ProposalDao;
@@ -52,7 +52,7 @@ import org.kuali.student.r1.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.r1.core.proposal.entity.ProposalType;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 
 /**
  * Implementation of the Proposal Service

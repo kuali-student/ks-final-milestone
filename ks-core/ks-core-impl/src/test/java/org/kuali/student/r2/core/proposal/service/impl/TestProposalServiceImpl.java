@@ -374,7 +374,7 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
             proposalInfo.setExpirationDate(expirationDate);
             Map<String, String> attributes = new HashMap<String, String>();
             attributes.put("key", "value");
-            proposalInfo.setAttributes(attributes);
+            //proposalInfo.setAttributes(attributes);
             proposalInfo.setTypeKey("proposalType.courseCorrection");
             proposalInfo.setStateKey("active");
          return proposalInfo;

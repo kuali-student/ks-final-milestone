@@ -16,6 +16,7 @@ import javax.jws.WebService;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -30,7 +31,6 @@ import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validator.Validator;
 import org.kuali.student.r1.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.atp.dao.AtpDao;
@@ -79,9 +79,7 @@ public class AtpServiceImpl implements AtpService {
             throw new OperationFailedException("Validation call failed." + e1.getMessage());
         }
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+            throw new DataValidationErrorException("Validation error!", validationResults);
         }
         
         
@@ -127,9 +125,7 @@ public class AtpServiceImpl implements AtpService {
             throw new OperationFailedException("Validation call failed." + e1.getMessage());
         }
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+            throw new DataValidationErrorException("Validation error!", validationResults);
 
         }
                 
@@ -160,9 +156,7 @@ public class AtpServiceImpl implements AtpService {
             throw new OperationFailedException("Validation call failed." + e1.getMessage());
         }
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+            throw new DataValidationErrorException("Validation error!", validationResults);
 
         }
         
@@ -432,10 +426,7 @@ public class AtpServiceImpl implements AtpService {
 
         List<ValidationResultInfo> validationResults = validateAtp("OBJECT", atpInfo);
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
-
+            throw new DataValidationErrorException("Validation error!", validationResults);
         }
         
         Atp atp = AtpAssembler.toAtp(true, atpInfo, atpDao);
@@ -459,9 +450,7 @@ public class AtpServiceImpl implements AtpService {
 
         List<ValidationResultInfo> validationResults = validateDateRange("OBJECT", dateRangeInfo);
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+            throw new DataValidationErrorException("Validation error!", validationResults);
 
         }
         
@@ -484,12 +473,8 @@ public class AtpServiceImpl implements AtpService {
         // Validate MilestoneInfo
         List<ValidationResultInfo> validationResults = validateMilestone("OBJECT", milestoneInfo);
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
-
+            throw new DataValidationErrorException("Validation error!", validationResults);
         }
-        
         
         Milestone milestone = AtpAssembler.toMilestone(true, milestoneInfo, atpDao);
         if (milestone == null) {
