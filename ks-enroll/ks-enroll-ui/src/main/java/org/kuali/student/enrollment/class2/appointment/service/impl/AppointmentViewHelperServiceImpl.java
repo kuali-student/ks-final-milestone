@@ -1,0 +1,114 @@
+/**
+ * Copyright 2012 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ * Created by Daniel on 3/28/12
+ */
+package org.kuali.student.enrollment.class2.appointment.service.impl;
+
+import org.apache.velocity.runtime.directive.Parse;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
+import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+
+import javax.xml.namespace.QName;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * This class //TODO ...
+ *
+ * @author Kuali Student Team
+ */
+public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl implements AppointmentViewHelperService {
+
+    @Override
+    public RegistrationWindowsManagementForm searchForTerm(String typeKey, String year) throws Exception {
+
+        //Parse the year to a date and the next year's date to compare against the startTerm
+        DateFormat df = new SimpleDateFormat("yyyy");
+        Date minBoundDate = df.parse(year);
+        Date maxBoundDate = df.parse(Integer.toString(Integer.parseInt(year)+1));
+        
+        //Build up a term search criteria
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.equal("atpType", typeKey),
+                PredicateFactory.greaterThanOrEqual("startDate", minBoundDate),
+                PredicateFactory.lessThan("startDate", maxBoundDate)));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        //Perform Term Search with Service Call
+        AcademicCalendarService academicCalendarService = getAcalService();
+        List<TermInfo> terms = academicCalendarService.searchForTerms(criteria, null);
+
+        //Check for exceptions
+        if(terms == null){
+            return null; //Nothing found and null
+        }
+        if(terms.isEmpty()){
+            return null; //Nothing found
+        }
+        if(terms.size()>1){
+            //TODO Use log4J or something
+            System.out.println("Too many terms!");
+            //throw new Exception("Too many terms found");
+        }
+        
+        TermInfo term = terms.get(0);
+
+        //Populate the result form
+        RegistrationWindowsManagementForm resultForm = new RegistrationWindowsManagementForm();
+        resultForm.setTermYear(df.format(term.getStartDate()));
+        resultForm.setTermType(term.getTypeKey());
+        resultForm.setTermInfo(term);
+
+        //Get the milestones and filter out anything that is not registration period
+        List<KeyDateInfo> keyDates = academicCalendarService.getKeyDatesForTerm(term.getId(), null);
+        if(keyDates != null){
+            List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
+            for(KeyDateInfo keyDate:keyDates){
+                if(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDate.getTypeKey())){//TODO  what types do we filter on?
+                    periodMilestones.add(keyDate);
+                }
+            }
+            resultForm.setPeriodMilestones(periodMilestones);
+        }
+
+        //Check if there are no periods (might want to handle this somewhere else and surface to the user)
+        if(resultForm.getPeriodMilestones()==null||resultForm.getPeriodMilestones().isEmpty()){
+            throw new Exception("No periods exist for term");//TODO what happens in this case
+        }
+        
+        return resultForm;
+    }
+
+    public AcademicCalendarService getAcalService() {
+        return (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+    }
+}

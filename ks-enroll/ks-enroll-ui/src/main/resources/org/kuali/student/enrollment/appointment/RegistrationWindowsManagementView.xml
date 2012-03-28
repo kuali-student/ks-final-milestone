@@ -8,7 +8,7 @@
         <property name="id" value="registrationWindowsManagementView"/>
         <property name="title" value="Manage Registration Windows"/>
         <property name="entryPageId" value="selectTermForRegWindows"/>
-        <!--<property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>-->
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentViewHelperServiceImpl"/>
         <property name="header">
             <bean parent="Uif-HeaderField-Two"/>
         </property>

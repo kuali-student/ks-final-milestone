@@ -29,7 +29,13 @@
             </list>
         </property>
         <property name="footer">
-            <bean parent="Uif-FooterBase"/>
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="searchForTerm"/>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 </beans>
