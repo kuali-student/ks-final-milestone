@@ -13,6 +13,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.enrollment.lui.dto;
 
 import java.io.Serializable;
@@ -42,85 +43,90 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiInfo", propOrder = {"id", "typeKey", "stateKey", "name",
-    "descr", "effectiveDate", "expirationDate",
-    "officialIdentifier", "alternateIdentifiers", "cluId",
-    "cluCluRelationIds", "atpId", "luiCodes",
-    "maximumEnrollment", "minimumEnrollment", "referenceURL",
-    "unitsContentOwner", "unitsDeployment", "resultValuesGroupKeys",
-        "relatedLuiTypes",
-    "fees", "revenues", "expenditure",
-    "meta", "attributes", "meetingSchedules", "_futureElements"})
+                "descr", "effectiveDate", "expirationDate",
+                "officialIdentifier", "alternateIdentifiers", "cluId",
+                "cluCluRelationIds", "atpId", "luiCodes",
+                "maximumEnrollment", "minimumEnrollment", "referenceURL",
+                "unitsContentOwner", "unitsDeployment", "resultValuesGroupKeys",
+                "relatedLuiTypes",
+                "fees", "revenues", "expenditure",
+                "meta", "attributes", "meetingSchedules", "_futureElements"})
+
 public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
     private static final long serialVersionUID = 1L;
+
     @XmlElement
     private Date effectiveDate;
+
     @XmlElement
     private Date expirationDate;
+
     @XmlElement
     private LuiIdentifierInfo officialIdentifier;
+
     @XmlElement
     private List<LuiIdentifierInfo> alternateIdentifiers;
+
     @XmlElement
     private String cluId;
+
     @XmlElement
     private List<String> cluCluRelationIds;
+
     @XmlElement
     private String atpId;
+
     @XmlElement
     private List<LuCodeInfo> luiCodes;
+
     @XmlElement
     private Integer maximumEnrollment;
+
     @XmlElement
     private Integer minimumEnrollment;
+
     @XmlElement
     private String referenceURL;
+
     @XmlElement
     private List<String> unitsContentOwner;
+
     @XmlElement
     private List<String> unitsDeployment;
+
     @XmlElement
     private List<String> resultValuesGroupKeys;
+
     @XmlElement
     private List<String> relatedLuiTypes;
+
     @XmlElement
     private List<FeeInfo> fees;
+
     @XmlElement
     private List<RevenueInfo> revenues;
+
     @XmlElement
     private ExpenditureInfo expenditure;
+
     @XmlElement
     private List<MeetingScheduleInfo> meetingSchedules;    
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public LuiInfo() {
-        super();
-
-        effectiveDate = null;
-        expirationDate = null;
-
-        officialIdentifier = null;
         alternateIdentifiers = new ArrayList<LuiIdentifierInfo>();
-        cluId = null;
         cluCluRelationIds = new ArrayList<String>();
-        atpId = null;
         luiCodes = new ArrayList<LuCodeInfo>();
-
-        maximumEnrollment = null;
-        minimumEnrollment = null;
-        referenceURL = null;
         unitsDeployment = new ArrayList<String>();
         unitsContentOwner = new ArrayList<String>();
         resultValuesGroupKeys = new ArrayList<String>();
         relatedLuiTypes = new ArrayList<String>();
         fees = new ArrayList<FeeInfo>();
         revenues = new ArrayList<RevenueInfo>();
-        expenditure = null;
-
         this.meetingSchedules = new ArrayList<MeetingScheduleInfo>();
-        
-        _futureElements = null;
     }
 
     public LuiInfo(Lui lui) {
