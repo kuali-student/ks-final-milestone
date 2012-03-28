@@ -18,7 +18,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-RegistrationWindowsManagement-SelectTermPage"/>
-                <!--<ref bean="KS-RegistrationWindowsManagement-EditPage"/>-->
+                <ref bean="KS-RegistrationWindowsManagement-EditPage"/>
 
             </list>
         </property>

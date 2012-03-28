@@ -7,7 +7,8 @@
 
     <bean id="KS-RegistrationWindowsManagement-EditPage" parent="Uif-Page" p:disclosure.render="false">
         <property name="id" value="registrationWindowsEditPage"/>
-        <property name="title" value="@{termInfo.name != null? termInfo.name : ''}"/>
+        <!--<property name="title" value="@{termInfo.name != null? termInfo.name : ''}"/>-->
+        <property name="title" value="Add Windows"/>
         <property name="header">
             <bean parent="Uif-HeaderField-Two"/>
         </property>
