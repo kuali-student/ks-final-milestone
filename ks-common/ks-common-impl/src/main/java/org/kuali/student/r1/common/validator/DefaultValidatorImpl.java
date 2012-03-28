@@ -37,9 +37,9 @@ import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.service.SearchDispatcher;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.springframework.beans.BeanUtils;
 
 //A equivelent with Contextinfo

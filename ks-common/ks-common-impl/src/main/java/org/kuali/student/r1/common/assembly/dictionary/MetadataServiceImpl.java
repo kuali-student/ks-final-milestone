@@ -38,7 +38,7 @@ import org.kuali.student.r1.common.dictionary.dto.WhenConstraint;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r1.common.dto.DtoConstants.DtoState;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

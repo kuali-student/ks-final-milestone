@@ -39,8 +39,8 @@ import org.kuali.student.r1.common.dictionary.old.dto.ValidCharsConstraint;
 import org.kuali.student.r1.common.dictionary.old.dto.WhenConstraint;
 import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.r1.common.messages.service.MessageService;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 
 @Deprecated
 public class Validator {

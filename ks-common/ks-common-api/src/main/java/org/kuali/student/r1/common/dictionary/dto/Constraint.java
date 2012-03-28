@@ -7,7 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+
 
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -16,17 +16,14 @@
 package org.kuali.student.r1.common.validation.dto;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
-
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ValidationResultInfo implements Serializable {
+public class ValidationResultInfo_old implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -99,7 +96,7 @@ public class ValidationResultInfo implements Serializable {
 	@XmlElement
 	protected String message;
 
-	public ValidationResultInfo() {
+	/*public ValidationResultInfo() {
 		super();
 		this.level = ErrorLevel.OK;
 	}
@@ -113,7 +110,7 @@ public class ValidationResultInfo implements Serializable {
 	public ValidationResultInfo(String element, Object invalidData) {
 		this(element);
 		this.invalidData = invalidData;
-	}
+	}*/
 
 	/**
 	 * @return the level
@@ -137,21 +134,18 @@ public class ValidationResultInfo implements Serializable {
 		return message;
 	}
 
-	/**
-	 * @param message
-	 *            the message to set
-	 */
 	public void setMessage(String message) {
 		this.message = message;
 	}
 
-	public String getElement() {
-		return element;
-	}
+    //@Override
+	//public String getElement() {
+	//	return element;
+	//}
 
-	public void setElement(String element) {
-		this.element = element;
-	}
+	//public void setElement(String element) {
+	//	this.element = element;
+	//}
 
 	/**
 	 * Returns the ValidationResult's error level
@@ -223,7 +217,7 @@ public class ValidationResultInfo implements Serializable {
 	 * @param ignoreFields
 	 * @return
 	 */
-	public static boolean hasValidationErrors(List<ValidationResultInfo> validationResults, ErrorLevel threshold, List<String> ignoreFields){
+	/*public static boolean hasValidationErrors(List<ValidationResultInfo> validationResults, ErrorLevel threshold, List<String> ignoreFields){
 		 if (validationResults != null) {
             for (ValidationResultInfo validationResult : validationResults) {
             	//Ignore any fields that are in the list
@@ -240,7 +234,7 @@ public class ValidationResultInfo implements Serializable {
         }
 		return false;
 	}
-	
+	*/
 	
 	public static org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel convertR1toR2Level(
 			ErrorLevel levelR1) {
@@ -252,14 +246,14 @@ public class ValidationResultInfo implements Serializable {
 
 	}
 
-	public static List<org.kuali.student.r2.common.dto.ValidationResultInfo> convertValidationResultInfoToR2(List<ValidationResultInfo> validationResults) {
+	//public static List<org.kuali.student.r2.common.dto.ValidationResultInfo> convertValidationResultInfoToR2(List<ValidationResultInfo> validationResults) {
 		// TODO KSCM-322
 	    
-	    org.kuali.student.r2.common.dto.ValidationResultInfo r2ValidationResultInfo =  new org.kuali.student.r2.common.dto.ValidationResultInfo(); 
+	  //  org.kuali.student.r2.common.dto.ValidationResultInfo r2ValidationResultInfo =  new org.kuali.student.r2.common.dto.ValidationResultInfo(); 
 	    
-	    List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResultInfoList = (List<org.kuali.student.r2.common.dto.ValidationResultInfo>) new org.kuali.student.r2.common.dto.ValidationResultInfo(); 
+	  //  List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResultInfoList = (List<org.kuali.student.r2.common.dto.ValidationResultInfo>) new org.kuali.student.r2.common.dto.ValidationResultInfo(); 
 	    
-	    for (ValidationResultInfo validationResultInfo : validationResults) 
+	   /* for (ValidationResultInfo validationResultInfo : validationResults) 
 	    {
 	        r2ValidationResultInfo.setElement(validationResultInfo.getElement()); 
 	        r2ValidationResultInfo.setMessage(validationResultInfo.getMessage());
@@ -267,11 +261,11 @@ public class ValidationResultInfo implements Serializable {
 	        r2ValidationResultInfo.setInvalidData(validationResultInfo.getInvalidData());
 	        
 	        r2ValidationResultInfoList.add(r2ValidationResultInfo); 
-	    }
+	    }*/
 	    
-	    return r2ValidationResultInfoList;
+	 //   return r2ValidationResultInfoList;
 	
-	}
+	//}
 
 	public Object getInvalidData() {
         return invalidData;
