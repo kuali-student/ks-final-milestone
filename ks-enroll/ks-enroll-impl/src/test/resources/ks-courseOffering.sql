@@ -1,73 +1,3 @@
-//StateProcessEntity
-INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.atp.process', 'kuali.atp.process', 'kuali atp state process', 0)
-INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.milestone.process', 'kuali.milestone.process', 'kuali milestone state process', 0)
-INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.atp.atp.relation.process', 'kuali.atp.atp.relation.process', 'kuali atp-atp relation state process', 0)
-INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.atp.milestone.relation.process', 'kuali.atp.milestone.relation.process', 'kuali atp-milestone relation state process', 0)
-
-//HOLD Process
-INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.hold.restriction.process', 'kuali.hold.restriction.process', 'kuali hold restriction process', 0)
-INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.hold.issue.process', 'kuali.hold.issue.process', 'kuali hold issue process', 0)
-INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.hold.process.student', 'kuali.hold.process.student', 'kuali hold process student', 0)
-
-//LUI Process
-INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.course.offering.process', 'kuali.course.offering.process', 'kuali course offering process', 0)
-INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lui.capacity.process', 'kuali.lui.capacity.process', 'kuali lui capacity process', 0)
-INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lui.lui.relationship.process', 'kuali.lui.lui.relationship.process', 'kuali lui-lui relationship process', 0)
-
-//StateEntity
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.atp.state.Draft', 'Draft', 'kuali.atp.process', 'Indicates that this Time Period is just tentative', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.atp.state.Official', 'Official', 'kuali.atp.process', 'Indicates that this Time Period has been established', 0)
-
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.milestone.state.Draft', 'Draft', 'kuali.milestone.process', 'Indicates that this milestone is just tentative', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.milestone.state.Official', 'Official', 'kuali.milestone.process', 'Indicates that this milestone has been established', 0)
-
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.atp.atp.relation.state.active', 'Active', 'kuali.atp.atp.relation.process', 'Indicates that this Atp-Atp relation is active', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.atp.atp.relation.state.inactive', 'Inactive', 'kuali.atp.atp.relation.process', 'Indicates that this Atp-Atp relation is inactive', 0)
-
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.atp.milestone.relation.state.active', 'Active', 'kuali.atp.milestone.relation.process', 'Indicates that this Atp-Milestone relation is active', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.atp.milestone.relation.state.inactive', 'Inactive', 'kuali.atp.milestone.relation.process', 'Indicates that this Atp-Milestone relation is inactive', 0)
-//HOLD States
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.hold.restriction.state.active', 'Active', 'kuali.hold.restriction.process', 'This restriction is active and should be enforced', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.hold.restriction.state.inactive', 'Inactive', 'kuali.hold.restriction.process', 'The restriction is inactive and should not be enforced', 0)
-
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.hold.issue.state.active', 'Active', 'kuali.hold.issue.process', 'This issue is active and can be attached to holds ', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.hold.issue.state.inactive', 'Inactive', 'kuali.hold.issue.process', 'The hold is inactive an cannot be attached to new holds ', 0)
-
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.hold.state.active', 'Active', 'kuali.hold.process.student', 'This hold is active and should be enforced', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.hold.state.released', 'Released', 'kuali.hold.process.student', 'The hold was active and the issue has been resolved', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.hold.state.canceled', 'Canceled', 'kuali.hold.process.student', 'The hold was canceled or removed because it was originally put on in error', 0)
-//LUI states
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lui.state.draft', 'Draft', 'kuali.course.offering.process', 'Proposed for Departmental Planning purposed', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lui.state.submitted', 'Submitted', 'kuali.course.offering.process', 'Submitted to central admin for approval (or scheduling)', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lui.state.approved', 'Approved', 'kuali.course.offering.process', 'Approved and ready to be scheduled', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lui.state.offered', 'Offered', 'kuali.course.offering.process', 'Departmental is offering course', 0)
-
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lui.lui.relation.state.active', 'Active', 'kuali.lui.lui.relationship.process', 'The relationship between the two LUIs is active ', 0)
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lui.lui.relation.state.inactive', 'Inactive', 'kuali.lui.lui.relationship.process', 'The relationship between the two LUIs is in-active ', 0)
-
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.roster.state.created', 'New', 'kuali.course.offering.process', 'Newly-created LprRoster', 0)
-
-//StateProcessRelationEntity
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-1', 'kuali.atp.process', null, 'kuali.atp.state.Draft', 0)
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-2', 'kuali.atp.process', 'kuali.atp.state.Draft', 'kuali.atp.state.Official', 0)
-
-//HOLD StateProcessRelation
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-3', 'kuali.hold.restriction.process', null, 'kuali.hold.restriction.state.active', 0)
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-4', 'kuali.hold.restriction.process', 'kuali.hold.restriction.state.active', 'kuali.hold.restriction.state.inactive', 0)
-
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-5', 'kuali.hold.issue.process', null, 'kuali.hold.issue.state.active', 0)
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-6', 'kuali.hold.issue.process', 'kuali.hold.issue.state.active', 'kuali.hold.issue.state.inactive', 0)
-
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-7', 'kuali.hold.process.student', null, 'kuali.hold.state.active', 0)
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-8', 'kuali.hold.process.student', 'kuali.hold.state.active', 'kuali.hold.state.released', 0)
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-9', 'kuali.hold.process.student', 'kuali.hold.state.released', 'kuali.hold.state.canceled', 0)
-
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-10', 'kuali.course.offering.process', null, 'kuali.lui.state.draft', 0)
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-11', 'kuali.course.offering.process', 'kuali.lui.state.draft', 'kuali.lui.state.submitted', 0)
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-12', 'kuali.course.offering.process', 'kuali.lui.state.submitted', 'kuali.lui.state.approved', 0)
-
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-13', 'kuali.lui.lui.relationship.process', null, 'kuali.lui.lui.relation.state.active', 0)
-INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-14', 'kuali.lui.lui.relationship.process', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.state.inactive', 0)
 
 //RichTextEntity
 INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-101', '<p>Desc 101</p>', 'Desc 101',0)
@@ -75,28 +5,6 @@ INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-10
 
 //AtpEntity
 INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE, ATP_STATE, DESCR_PLAIN, VER_NBR) VALUES ('testAtpId1', 'testAtp1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-101', 0)
-
-// TypeTypeRelationEntity - TODO: move to object-URI-neutral sql file
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Fall' , 0, 'kuali.atp.type.Fall is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfFall1' , 0, 'kuali.atp.type.HalfFall1 is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.3', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfFall2' , 0, 'kuali.atp.type.HalfFall2 is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.4', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfSpring1' , 0, 'kuali.atp.type.HalfSpring1 is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.5', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfSpring2' , 0, 'kuali.atp.type.HalfSpring2 is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.6', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester1A' , 0, 'kuali.atp.type.Mini-mester1A is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.7', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester1B' , 0, 'kuali.atp.type.Mini-mester1B is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.8', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester2C' , 0, 'kuali.atp.type.Mini-mester2C is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.9', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester2D' , 0, 'kuali.atp.type.Mini-mester2D is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.10', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Session1' , 0, 'kuali.atp.type.Session1 is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.11', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Session2' , 0, 'kuali.atp.type.Session2 is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.12', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SessionG1' , 0, 'kuali.atp.type.SessionG1 is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.13', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SessionG2' , 0, 'kuali.atp.type.SessionG2 is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.14', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Spring' , 0, 'kuali.atp.type.Spring is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.15', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SpringBreak' , 0, 'kuali.atp.type.SpringBreak is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.16', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Summer' , 0, 'kuali.atp.type.Summer is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.17', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SummerEve' , 0, 'kuali.atp.type.SummerEve is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.18', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Winter' , 0, 'kuali.atp.type.Winter is a type of Term')
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.19', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Adhoc' , 0, 'kuali.atp.type.Adhoc is a type of Term')
-
 
 //LuiInstructorEntity
 INSERT INTO KSEN_LUI_INSTR (ID, ORG_ID, PERS_ID, PERS_OVRID, PERCT_EFFT, VER_NBR) VALUES ('LUI-INSTR-1', 'Org-1', 'Pers-1', 'Instr-1', 30.5, 0)
@@ -112,60 +20,10 @@ INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE,LUI_STATE,  EFF_DT, EXP_DT, VER
 INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, LUILUI_RELTN_STATE, LUI_ID, LUILUI_RELTN_TYPE, RELATED_LUI_ID) VALUES ('LUILUIREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-1', 'kuali.lui.lui.relation.associated', 'Lui-2')
 INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, LUILUI_RELTN_STATE, LUI_ID, LUILUI_RELTN_TYPE, RELATED_LUI_ID) VALUES ('LUILUIREL-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-3', 'kuali.lui.lui.relation.associated', 'Lui-4')
 
-// CluSet Type
-INSERT INTO KSLU_CLU_SET_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.cluSet.type.CreditCourse', 'Clu set for Courses', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'Course Clu Set',0)
-INSERT INTO KSLU_CLU_SET_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.cluSet.type.Program', 'Clu set for programs', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'Program Clu Set',0)
-
-// ResultUsage Type
-INSERT INTO KSLU_RSLT_USG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('lrType.finalGrade', 'Final learning result for an LU. A stereotypical usage is the final grade in a course.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Final Grade',0)
-INSERT INTO KSLU_RSLT_USG_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('lrType.midtermGrade', 'Midterm learning result for an LU. A stereotypical usage is the midterm grade in a course.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Midterm Grade',0)
-
-// LU LU RelationType
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('luLuType.type1', 'bob', 'my desc1', 'rev name1', 'rev desc1', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('luLuType.type2', 'santiago', 'my desc2', 'rev name2', 'rev desc2', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('luLuType.type3', 'manolin', 'my desc3', 'rev name3', 'rev desc3', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('luLuRelationType.contains', 'alice', 'my desc4', 'rev name4', 'rev desc4', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('luLuRelationType.alias', 'ted', 'my desc5', 'rev name5', 'rev desc5', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('luLuRelationType.colocated', 'jim', 'my desc6', 'rev name6', 'rev desc6', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('luLuRelationType.hasCourseFormat', 'sam', 'my desc7', 'rev name7', 'rev desc7', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('kuali.lu.relation.type.co-located', 'dan', 'my desc8', 'rev name8', 'rev desc8', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('kuali.lu.relation.type.copyOfClu', 'dan', 'my desc8', 'rev name8', 'rev desc8', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('kuali.lu.lu.relation.type.hasCoreProgram', 'lazlo', 'my desc9', 'rev name9', 'rev desc9', {ts '2008-01-01 00:00:00.0'}, {ts '2030-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('kuali.lu.lu.relation.type.hasVariationProgram', 'artemis', 'my desc10', 'rev name10', 'rev desc10', {ts '2008-01-01 00:00:00.0'}, {ts '2030-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('kuali.lu.lu.relation.type.hasMajorProgram', 'brian', 'my desc11', 'rev name11', 'rev desc11', {ts '2008-01-01 00:00:00.0'}, {ts '2030-01-01 00:00:00.0'}, 0)
-INSERT INTO KSLU_LULU_RELTN_TYPE (ID, NAME, DESCR, REV_NAME, REV_DESC, EFF_DT, EXPIR_DT, VER_NBR) values ('kuali.lu.lu.relation.type.hasProgramRequirement', 'reginald', 'my desc12', 'rev name12', 'rev desc12', {ts '2008-01-01 00:00:00.0'}, {ts '2030-01-01 00:00:00.0'}, 0)
-
-// LU Type
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('luType.shell.course', 'A Shell Course', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Course',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('luType.shell.program', 'A Shell Program', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Program',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.CreditCourse', 'An course offered for academic credit', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Credit Course',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.CreditCourseFormatShell', 'A shell for course formats', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Credit Course Format Shell',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.NonCreditCourse', 'A course that is not offered for regular academic credit', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Non-Credit Course',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.activity.Tutorial', 'Instructor or assistant walking through a learning practice.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Tutorial',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.activity.Lecture', 'Instructor presentation of course materials.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Lecture',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.activity.WebLecture', 'Instructor presentation of course materials via the web', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Lecture',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.activity.Discussion', 'The exchange of opinions or questions on course material.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Discussion',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.activity.Lab', 'Student working on projects in a defined laboratory space.  Instructors are on-hand for students to ask questions and guidance.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Lab',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.activity.Directed', 'The exchange of opinions or questions on course material, directed by the instructor.', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Directed',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.credential.Baccalaureate', 'A Baccalaureate Program', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Baccalaureate',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.MajorDiscipline', 'A Major Discipline', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Major',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.Variation', 'Specialization of a Major Discipline', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Specialization',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.CoreProgram', 'Program containing core requirements', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Core',0)
-INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.lu.type.Requirement', 'Program requirements', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Req',0)
-
---Publication types
-INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) values ('cluPublication.Test.Type.1', 'TestType1', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'TestType1',0)
-INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) values ('cluPublication.Test.Type.2', 'TestType2', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'TestType2',0)
-INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) values ('kuali.lu.publication.Catalog', 'Catalog', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Catalog',0)
-INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) values ('kuali.lu.publication.UndergradCatalog', 'Undergraduate Catalog', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Undergrad Catalog',0)
-INSERT INTO KSLU_CLU_PUBL_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) values ('kuali.lu.publication.GradCatalog', 'Graduate Catalog', {ts '2000-01-01 00:00:00.0'}, {ts '2030-12-31 00:00:00.0'}, 'Grad Catalog',0)
 
 // CluInstructor
 INSERT INTO KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID,VER_NBR) VALUES ('INSTR-1', 'ORG-1', 'PersonID',0)
 INSERT INTO KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID,VER_NBR) VALUES ('INSTR-2', 'ORG-2', 'PersonID',0)
-
-// CLU LO RelationType
-insert into KSLU_CLU_LO_RELTN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME, OBJ_ID, VER_NBR) values ('kuali.lu.lo.relation.type.includes', 'Default Clu-Lo relation type', {ts '2000-01-01 00:00:00.0'}, null, null, 'B9B81FF5298B4F87883FC67E864C2A28', 0);
 
 
 // RichText

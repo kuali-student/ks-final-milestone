@@ -19,7 +19,6 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -127,8 +126,6 @@ public class TestLuiServiceImpl {
             assertEquals(2, obj.getRevenues().size());
             assertNotNull(obj.getExpenditure());
             assertEquals("LUI-Expen-1", obj.getExpenditure().getId());
-            assertNotNull(obj.getMeetingSchedules());
-            assertEquals(4, obj.getMeetingSchedules().size());
 
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
@@ -230,9 +227,6 @@ public class TestLuiServiceImpl {
         ExpenditureInfo expenditure = new ExpenditureInfo();
         info.setExpenditure(expenditure);
         
-        MeetingScheduleInfo meetingSchedule = new MeetingScheduleInfo();
-        info.getMeetingSchedules().add(meetingSchedule);
-
         LuiInfo created = null;
         created = luiServiceValidation.createLui("testCluId", "testAtpId1", info, callContext);
         assertNotNull(created);
@@ -262,8 +256,6 @@ public class TestLuiServiceImpl {
         assertEquals(1, created.getFees().size());
         assertEquals(1, created.getRevenues().size());
         assertNotNull(created.getExpenditure().getId());
-        assertEquals(1, created.getMeetingSchedules().size());
-
     }
 
     @Test
@@ -321,9 +313,6 @@ public class TestLuiServiceImpl {
         ExpenditureInfo expenditure = new ExpenditureInfo();
         modified.setExpenditure(expenditure);
         
-        MeetingScheduleInfo meetingSchedule = new MeetingScheduleInfo();
-        modified.getMeetingSchedules().add(meetingSchedule);
-        
         try {
             LuiInfo updated = luiServiceValidation.updateLui("Lui-1", modified, callContext);
             
@@ -359,8 +348,6 @@ public class TestLuiServiceImpl {
             assertEquals(4, updated.getFees().size());
             assertEquals(3, updated.getRevenues().size());
             assertTrue(!"LUI-Expen-1".equals(updated.getExpenditure().getId()));
-            assertEquals(5, updated.getMeetingSchedules().size());
-            
         } catch (Exception e) {
             fail(e.getMessage());
         }

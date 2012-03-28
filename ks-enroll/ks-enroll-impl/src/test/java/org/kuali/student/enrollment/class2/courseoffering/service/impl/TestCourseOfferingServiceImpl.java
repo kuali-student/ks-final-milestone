@@ -14,7 +14,6 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -322,16 +321,6 @@ public class TestCourseOfferingServiceImpl {
         ao.setTermId("testAtpId1");
         ao.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         ao.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-
-        List<MeetingScheduleInfo> schedules = new ArrayList<MeetingScheduleInfo>();
-        MeetingScheduleInfo schedule1 = new MeetingScheduleInfo();
-        schedule1.setSpaceId("room 314");
-        schedule1.setScheduleId("19960415T083000");
-        schedules.add(schedule1);
-        MeetingScheduleInfo schedule2 = new MeetingScheduleInfo();
-        schedule2.setSpaceId("room 316");
-        schedule2.setScheduleId("19960415T083000Z");
-        schedules.add(schedule2);
 
         List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
         OfferingInstructorInfo instructor = new OfferingInstructorInfo();
