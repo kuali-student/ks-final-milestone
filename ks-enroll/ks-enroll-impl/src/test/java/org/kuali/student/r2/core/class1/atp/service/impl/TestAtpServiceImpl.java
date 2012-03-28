@@ -104,7 +104,7 @@ public class TestAtpServiceImpl {
         atpInfo.setDescr(rt);
         atpInfo.setEndDate(Calendar.getInstance().getTime());
         AtpInfo created = null;
-        created = atpService.createAtp(atpInfo, callContext);
+        created = atpService.createAtp(atpInfo.getTypeKey(), atpInfo, callContext);
         assertNotNull(created);
         assertNotNull(created.getId());
 
@@ -176,7 +176,7 @@ public class TestAtpServiceImpl {
         RichTextInfo rti = new RichTextInfo();
         rti.setPlain("Test ATP for create test.");
         atpInfo.setDescr(rti);
-        AtpInfo created = atpService.createAtp(atpInfo, callContext);
+        AtpInfo created = atpService.createAtp(atpInfo.getTypeKey(), atpInfo, callContext);
         atpId = created.getId();
         assertNotNull(created);
         assertNotNull(created.getId());
@@ -275,7 +275,7 @@ public class TestAtpServiceImpl {
         descr.setPlain("Test");
         milestone.setDescr(descr);
 
-        MilestoneInfo created = atpService.createMilestone(milestone, callContext);
+        MilestoneInfo created = atpService.createMilestone(milestone.getTypeKey(), milestone, callContext);
         assertNotNull(created);
         assertNotNull(created.getId());
         assertEquals("testCreate", created.getName());
@@ -286,7 +286,7 @@ public class TestAtpServiceImpl {
 
         // ensure we cannot create another of the same id
         MilestoneInfo dupeCreated = null;
-        dupeCreated = atpService.createMilestone(milestone, callContext);
+        dupeCreated = atpService.createMilestone(milestone.getTypeKey(), milestone, callContext);
         assertFalse(created.getId().equals(dupeCreated.getId()));
     }
 
@@ -315,7 +315,7 @@ public class TestAtpServiceImpl {
         milestone.setIsRelative(false);
 
         try {
-            MilestoneInfo created = atpService.createMilestone(milestone, callContext);
+            MilestoneInfo created = atpService.createMilestone(milestone.getTypeKey(), milestone, callContext);
             assertNotNull(created);
             milestoneId = created.getId();
             assertNotNull(milestoneId);
@@ -719,7 +719,7 @@ public class TestAtpServiceImpl {
         atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
         atpRel.setEffectiveDate(new Date());
 
-        atpService.createAtpAtpRelation("testAtpId1", "testAtpId2", atpRel, callContext);
+        atpService.createAtpAtpRelation("testAtpId1", "testAtpId2", atpRel.getTypeKey(), atpRel, callContext);
 
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setName("testAtpId1 to new holiday calendar");
@@ -731,11 +731,11 @@ public class TestAtpServiceImpl {
         richTextInfo.setPlain("");
         atpInfo.setDescr(richTextInfo);
         AtpInfo cc = null;
-        cc = atpService.createAtp(atpInfo, callContext);
+        cc = atpService.createAtp(atpInfo.getTypeKey(), atpInfo, callContext);
         assertNotNull(cc);
 
         atpRel.setRelatedAtpId(cc.getId());
-        AtpAtpRelationInfo created = atpService.createAtpAtpRelation("testAtpId1", cc.getId(), atpRel, callContext);
+        AtpAtpRelationInfo created = atpService.createAtpAtpRelation("testAtpId1", cc.getId(), atpRel.getTypeKey(), atpRel, callContext);
         assertNotNull(created);
 
         AtpAtpRelationInfo retrieved = atpService.getAtpAtpRelation(created.getId(), callContext);

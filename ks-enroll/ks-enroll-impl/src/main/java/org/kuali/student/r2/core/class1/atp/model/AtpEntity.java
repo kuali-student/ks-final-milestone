@@ -14,10 +14,8 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.infc.Atp;
@@ -55,24 +53,27 @@ public class AtpEntity extends MetaEntity {
     public AtpEntity(Atp atp) {
         super(atp);
         this.setId(atp.getId());
+        this.setAtpType(atp.getTypeKey());
+        this.fromDTO(atp);
+    }
+
+    public void fromDTO(Atp atp) {
         this.setName(atp.getName());
+        if (atp.getDescr() != null) {
+            this.setDescrFormatted(atp.getDescr().getFormatted());
+            this.setDescrPlain(atp.getDescr().getPlain());
+        } else {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
+        }
         this.setAdminOrgId(atp.getAdminOrgId());
         this.setAtpState(atp.getStateKey());
-        this.setAtpType(atp.getTypeKey());
         this.setStartDate(atp.getStartDate());
         this.setAtpState(atp.getStateKey());
-        this.setAtpType(atp.getTypeKey());
         this.setEndDate(atp.getEndDate());
-        if (atp.getDescr() != null) {
-            RichText rt = atp.getDescr();
-            this.setDescrFormatted(rt.getFormatted());
-            this.setDescrPlain(rt.getPlain());
-        }
         this.setAttributes(new ArrayList<AtpAttributeEntity>());
-        if (null != atp.getAttributes()) {
-            for (Attribute att : atp.getAttributes()) {
-                this.getAttributes().add(new AtpAttributeEntity(att, this));
-            }
+        for (Attribute att : atp.getAttributes()) {
+            this.getAttributes().add(new AtpAttributeEntity(att, this));
         }
     }
 
@@ -116,13 +117,11 @@ public class AtpEntity extends MetaEntity {
         this.atpState = atpState;
     }
 
-//    @Override
     public void setAttributes(List<AtpAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-//    @Override
     public List<AtpAttributeEntity> getAttributes() {
         return attributes;
     }
@@ -145,11 +144,12 @@ public class AtpEntity extends MetaEntity {
         atp.setTypeKey(atpType);
         atp.setStateKey(atpState);
         atp.setMeta(super.toDTO());
-        RichTextInfo rti = new RichTextHelper().toRichTextInfo(getDescrPlain(), getDescrFormatted());
-        atp.setDescr(rti);
-        for (AtpAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atp.getAttributes().add(attInfo);
+        atp.setDescr(new RichTextHelper().toRichTextInfo(getDescrPlain(), getDescrFormatted()));
+        if (getAttributes() != null) {
+            for (AtpAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                atp.getAttributes().add(attInfo);
+            }
         }
 
         return atp;

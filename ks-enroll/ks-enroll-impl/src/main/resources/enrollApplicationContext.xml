@@ -52,8 +52,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
     <property name="stateDao" ref="stateDao" />
-    <property name="spDao" ref="stateProcessDao" />
-    <property name="sprDao" ref="stateProcessRelationDao" />
+    <property name="lifecycleDao" ref="lifecycleDao" />
   </bean>
 
   <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl"/>

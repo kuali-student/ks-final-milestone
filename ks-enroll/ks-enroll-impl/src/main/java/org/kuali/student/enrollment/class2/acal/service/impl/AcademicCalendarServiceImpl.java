@@ -266,7 +266,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         try {
             AtpInfo toCreate = acalAssembler.disassemble(academicCalendarInfo, context);
-            AtpInfo createdAtp = atpService.createAtp(toCreate, context);
+            AtpInfo createdAtp = atpService.createAtp(toCreate.getTypeKey(), toCreate, context);
 
             processAcalToCcalRelation(createdAtp.getId(), academicCalendarInfo.getHolidayCalendarIds(), context);
             return acalAssembler.assemble(createdAtp, context);
@@ -377,7 +377,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         try {
             atpInfo = holidayCalendarAssembler.disassemble(holidayCalendarInfo, context);
 
-            atpInfo = atpService.createAtp(atpInfo, context);
+            atpInfo = atpService.createAtp(atpInfo.getTypeKey(), atpInfo, context);
 
             newHolidayCalendar = holidayCalendarAssembler.assemble(atpInfo, context);
 
@@ -652,7 +652,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             }
 
             try {
-                AtpInfo newAtp = atpService.createAtp(atp, context);
+                AtpInfo newAtp = atpService.createAtp(atp.getTypeKey(), atp, context);
                 termInfo = termAssembler.assemble(newAtp, context);
             } catch (AssemblyException e) {
                 throw new OperationFailedException("Error assembling term", e);
@@ -1423,7 +1423,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
         atpRel.setEffectiveDate(new Date());
         try {
-            atpService.createAtpAtpRelation(atpId, relatedAtpId, atpRel, context);
+            atpService.createAtpAtpRelation(atpId, relatedAtpId, atpRel.getTypeKey(), atpRel, context);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException("Error creating atp-atp relation", e);
         } catch (ReadOnlyException e) {
@@ -1655,7 +1655,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             }
             MilestoneInfo newMilestone = null;
             try {
-                newMilestone = atpService.createMilestone(milestoneInfo, contextInfo);
+                newMilestone = atpService.createMilestone(keyDateTypeKey, milestoneInfo, contextInfo);
                 newKeyDateInfo = keyDateAssembler.assemble(newMilestone, contextInfo);
             } catch (ReadOnlyException e) {
                 throw new OperationFailedException("Error creating milestone", e);
@@ -1855,7 +1855,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 milestoneInfo.setTypeKey(acalEventTypeKey);
             }
 
-            MilestoneInfo newMilestone = atpService.createMilestone(milestoneInfo, contextInfo);
+            MilestoneInfo newMilestone = atpService.createMilestone(acalEventTypeKey, milestoneInfo, contextInfo);
 
             atpService.addMilestoneToAtp(newMilestone.getId(), academicCalendarId, contextInfo);
             return acalEventAssembler.assemble(newMilestone, contextInfo);
@@ -2081,7 +2081,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             }
             MilestoneInfo newMilestone = null;
             try {
-                newMilestone = atpService.createMilestone(milestoneInfo, contextInfo);
+                newMilestone = atpService.createMilestone(holidayTypeKey, milestoneInfo, contextInfo);
                 newHolidayInfo = holidayAssembler.assemble(newMilestone, contextInfo);
             } catch (ReadOnlyException e) {
                 throw new OperationFailedException("Error creating milestone", e);

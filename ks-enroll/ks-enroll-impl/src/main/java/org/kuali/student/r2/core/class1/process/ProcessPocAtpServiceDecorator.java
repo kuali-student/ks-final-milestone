@@ -53,7 +53,7 @@ public class ProcessPocAtpServiceDecorator extends AtpServiceDecorator {
         milestone.setEndDate(parseDate(end));
         milestone.setName("Registration Period for " + atp.getName());
         try {
-            MilestoneInfo createdMilestone = this.createMilestone(milestone, context);
+            MilestoneInfo createdMilestone = this.createMilestone(milestone.getTypeKey(), milestone, context);
             this.addMilestoneToAtp(milestone.getId(), atp.getId(), context);
             return createdMilestone;
         } catch (Exception ex) {
@@ -72,7 +72,7 @@ public class ProcessPocAtpServiceDecorator extends AtpServiceDecorator {
         atp.setEndDate(parseDate(end));
         atp.setName(name);
         try {
-            AtpInfo createdAtp = this.createAtp( atp, context);
+            AtpInfo createdAtp = this.createAtp(atp.getTypeKey(), atp, context);
             return createdAtp;
         } catch (Exception ex) {
             throw new RuntimeException("unexpected", ex);

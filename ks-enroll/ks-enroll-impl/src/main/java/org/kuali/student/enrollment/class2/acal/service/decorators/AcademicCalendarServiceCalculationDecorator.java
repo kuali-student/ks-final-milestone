@@ -155,7 +155,10 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
             atpRelationInfo.setExpirationDate(null);
             atpRelationInfo.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
             atpRelationInfo.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY);
-            getAtpService().createAtpAtpRelation(academicCalendarId, holidayCalendarId, atpRelationInfo, contextInfo);
+            getAtpService().createAtpAtpRelation(academicCalendarId, 
+                    holidayCalendarId, 
+                    atpRelationInfo.getTypeKey(), 
+                    atpRelationInfo, contextInfo);
 
         }
 

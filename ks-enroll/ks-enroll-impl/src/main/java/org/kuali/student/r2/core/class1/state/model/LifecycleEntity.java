@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -28,9 +29,9 @@ public class LifecycleEntity extends MetaEntity {
     private String name;
     @Column(name = "DESCR_PLAIN")
     private String descrPlain;
-    @Column(name = "DESCR_FORMATTED")
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
-    @Column(name = "REF_OBJECT_URI")
+    @Column(name = "REF_OBJECT_URI", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
     private String refObjectUri;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LifecycleAttributeEntity> attributes;

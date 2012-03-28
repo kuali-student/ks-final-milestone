@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -37,9 +38,9 @@ public class TypeEntity extends MetaEntity {
     private String name;
     @Column(name = "REF_OBJECT_URI")
     private String refObjectURI;
-    @Column(name = "DESCR_PLAIN")
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
     private String descrPlain;
-    @Column(name = "DESCR_FORMATTED")
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")

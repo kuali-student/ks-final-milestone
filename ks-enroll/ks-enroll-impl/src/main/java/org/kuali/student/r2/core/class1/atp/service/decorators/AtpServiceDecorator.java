@@ -165,10 +165,10 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public AtpInfo createAtp(AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public AtpInfo createAtp(String atpTypeKey, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        return getNextDecorator().createAtp(atpInfo, context);
+        return getNextDecorator().createAtp(atpTypeKey, atpInfo, context);
     }
 
     @Override
@@ -212,10 +212,10 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public MilestoneInfo createMilestone(MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public MilestoneInfo createMilestone(String milestoneTypeKey, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        return getNextDecorator().createMilestone(milestoneInfo, context);
+        return getNextDecorator().createMilestone(milestoneTypeKey, milestoneInfo, context);
     }
 
     @Override
@@ -276,10 +276,15 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public AtpAtpRelationInfo createAtpAtpRelation(String atpId, String atpPeerKey, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo contextInfo) throws DoesNotExistException,
+    public AtpAtpRelationInfo createAtpAtpRelation(String atpId, 
+    String relatedAtpId, 
+    String atpAtpRelationTypeKey, 
+    AtpAtpRelationInfo atpAtpRelationInfo, 
+    ContextInfo contextInfo) 
+            throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        return getNextDecorator().createAtpAtpRelation(atpId, atpPeerKey, atpAtpRelationInfo, contextInfo);
+        return getNextDecorator().createAtpAtpRelation(atpId, relatedAtpId, atpAtpRelationTypeKey, atpAtpRelationInfo, contextInfo);
     }
 
     @Override

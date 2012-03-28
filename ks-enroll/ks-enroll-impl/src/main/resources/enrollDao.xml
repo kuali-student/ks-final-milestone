@@ -12,14 +12,10 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="stateProcessDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
+    <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-            
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>

@@ -7,8 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,10 +14,9 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.infc.Milestone;
 
@@ -29,75 +26,68 @@ public class MilestoneEntity extends MetaEntity {
 
     @Column(name = "NAME")
     private String name;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "START_DT", nullable = false)
     private Date startDate;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "END_DT", nullable = true)
     private Date endDate;
-
     @Column(name = "MSTONE_TYPE", nullable = false)
     private String atpType;
-
     @Column(name = "MSTONE_STATE", nullable = false)
     private String atpState;
-
     @Column(name = "IS_ALL_DAY", nullable = false)
-    private boolean isAllDay;
-
+    private String isAllDay;
     @Column(name = "IS_INSTRCT_DAY", nullable = false)
-    private boolean isInstructionalDay;
-
+    private String isInstructionalDay;
     @Column(name = "IS_DATE_RANGE", nullable = false)
-    private boolean isDateRange;
-
+    private String isDateRange;
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
-    private String formatted;
-
+    private String descrFormatted;
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
-    private String plain;
-
+    private String descrPlain;
     @Column(name = "IS_RELATIVE", nullable = false)
-    private boolean isRelative;
-
-    @ManyToOne
-    @JoinColumn(name = "RELATIVE_ANCHOR_MSTONE_ID")
-    private MilestoneEntity relativeAnchorMilestone;
-
+    private String isRelative;
+    @Column(name = "RELATIVE_ANCHOR_MSTONE_ID")
+    private String relativeAnchorMilestoneId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<MilestoneAttributeEntity> attributes;
 
-    public MilestoneEntity() {}
+    public MilestoneEntity() {
+    }
 
     public MilestoneEntity(Milestone milestone) {
         super(milestone);
         this.setId(milestone.getId());
-        this.setAllDay( null != milestone.getIsAllDay() ? milestone.getIsAllDay() : false);
-        this.setIsInstructionalDay(null != milestone.getIsInstructionalDay() ? milestone.getIsInstructionalDay() : false);
-        this.setDateRange(null != milestone.getIsDateRange() ? milestone.getIsDateRange() : false);
-        this.setAtpState(milestone.getStateKey());
-        this.setAtpType(milestone.getTypeKey());
-        this.name = milestone.getName();
-        if (milestone.getDescr() != null) {
-            RichText rt = milestone.getDescr();
-            this.setDescrFormatted(rt.getFormatted());
-            this.setDescrPlain(rt.getPlain());
-        } else {
-            this.setDescrFormatted(new String());
-            this.setDescrPlain(new String());
-        }
-        this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
-        this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
-        this.isRelative = (null != milestone.getIsRelative()) ? milestone.getIsRelative() : false;
+        this.atpType = milestone.getTypeKey();
+        this.fromDto(milestone);
+    }
 
-        this.setAttributes(new ArrayList<MilestoneAttributeEntity>());
-        if (null != milestone.getAttributes()) {
-            for (Attribute att : milestone.getAttributes()) {
-                this.getAttributes().add(new MilestoneAttributeEntity(att, this));
-            }
+    private boolean defaultFalse(Boolean b) {
+        if (b == null) {
+            return false;
         }
+        return b.booleanValue();
+    }
+
+    private String toYN(Boolean flag) {
+        if (flag == null) {
+            return null;
+        }
+        if (flag) {
+            return "Y";
+        }
+        return "N";
+    }
+
+    private Boolean toBoolean(String flag) {
+        if (flag == null) {
+            return false;
+        }
+        if (flag.equals("Y")) {
+            return true;
+        }
+        return false;
     }
 
     public String getName() {
@@ -141,107 +131,118 @@ public class MilestoneEntity extends MetaEntity {
     }
 
     public boolean isAllDay() {
-        return isAllDay;
+        return this.toBoolean(isAllDay);
     }
 
     public void setAllDay(boolean isAllDay) {
-        this.isAllDay = isAllDay;
+        this.isAllDay = this.toYN(isAllDay);
     }
 
     public boolean isDateRange() {
-        return isDateRange;
+        return this.toBoolean(isDateRange);
     }
 
     public void setDateRange(boolean isDateRange) {
-        this.isDateRange = isDateRange;
+        this.isDateRange = this.toYN(isDateRange);
     }
 
     public boolean isRelative() {
-        return isRelative;
+        return this.toBoolean(isRelative);
     }
 
     public void setRelative(boolean relative) {
-        isRelative = relative;
+        isRelative = this.toYN(relative);
     }
 
-    public MilestoneEntity getRelativeAnchorMilestone() {
-        return relativeAnchorMilestone;
+    public String getRelativeAnchorMilestoneId() {
+        return relativeAnchorMilestoneId;
     }
 
-    public void setRelativeAnchorMilestone(MilestoneEntity relativeAnchorMilestone) {
-        this.relativeAnchorMilestone = relativeAnchorMilestone;
+    public void setRelativeAnchorMilestoneId(String relativeAnchorMilestoneId) {
+        this.relativeAnchorMilestoneId = relativeAnchorMilestoneId;
     }
 
-//    @Override
     public void setAttributes(List<MilestoneAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-//    @Override
     public List<MilestoneAttributeEntity> getAttributes() {
         return attributes;
     }
 
+    public String getDescrFormatted() {
+        return descrFormatted;
+    }
+
+    public void setDescrFormatted(String formatted) {
+        this.descrFormatted = formatted;
+    }
+
+    public String getDescrPlain() {
+        return descrPlain;
+    }
+
+    public void setDescrPlain(String plain) {
+        this.descrPlain = plain;
+    }
+
+    public boolean getIsInstructionalDay() {
+        return this.toBoolean(isInstructionalDay);
+    }
+
+    public void setIsInstructionalDay(boolean isInstructionalDay) {
+        this.isInstructionalDay = this.toYN(isInstructionalDay);
+    }
+
+    public void fromDto(Milestone milestone) {
+        this.setAllDay(defaultFalse(milestone.getIsAllDay()));
+        this.setIsInstructionalDay(defaultFalse(milestone.getIsInstructionalDay()));
+        this.setDateRange(defaultFalse(milestone.getIsDateRange()));
+        this.setRelative(defaultFalse(milestone.getIsRelative()));
+        this.relativeAnchorMilestoneId = milestone.getRelativeAnchorMilestoneId();
+        this.atpState = milestone.getStateKey();
+        this.name = milestone.getName();
+        if (milestone.getDescr() != null) {
+            this.descrFormatted = milestone.getDescr().getFormatted();
+            this.descrPlain = milestone.getDescr().getPlain();
+        } else {
+            this.descrFormatted = null;
+            this.descrPlain = null;
+        }
+        this.startDate = milestone.getStartDate();
+        this.endDate = milestone.getEndDate();
+
+        this.attributes = new ArrayList<MilestoneAttributeEntity>();
+        if (null != milestone.getAttributes()) {
+            for (Attribute att : milestone.getAttributes()) {
+                this.attributes.add(new MilestoneAttributeEntity(att, this));
+            }
+        }
+    }
+
     public MilestoneInfo toDto() {
         MilestoneInfo info = new MilestoneInfo();
-
         info.setId(getId());
         info.setName(getName());
-        info.setTypeKey(null != atpType ? atpType : null);
-        info.setStateKey(null != atpState ? atpState : null);
+        info.setTypeKey(atpType);
+        info.setStateKey(atpState);
         info.setStartDate(getStartDate());
         info.setEndDate(getEndDate());
         info.setIsAllDay(isAllDay());
         info.setIsDateRange(isDateRange());
         info.setIsInstructionalDay(getIsInstructionalDay());
-        info.setIsRelative(isRelative);
-        info.setRelativeAnchorMilestoneId(null != relativeAnchorMilestone ? relativeAnchorMilestone.getId() : null);
+        info.setIsRelative(isRelative());
+        info.setRelativeAnchorMilestoneId(relativeAnchorMilestoneId);
         info.setMeta(super.toDTO());
-        if (getDescrPlain() != null) {
-            RichTextInfo rti = new RichTextInfo();
-            rti.setPlain(getDescrPlain());
-            rti.setFormatted(getDescrFormatted());
-            info.setDescr(rti);
-        } else {
-            info.setDescr(null);
-        }
-
-        if (getAttributes() != null) {
-            List<AttributeInfo> atts = new ArrayList<AttributeInfo>(getAttributes().size());
+        info.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
+        if (attributes != null) {
             for (MilestoneAttributeEntity att : getAttributes()) {
                 AttributeInfo attInfo = att.toDto();
-                atts.add(attInfo);
+                info.getAttributes().add(attInfo);
             }
-
-            info.setAttributes(atts);
         }
 
         return info;
     }
-
-    public String getDescrFormatted() {
-        return formatted;
-    }
-
-    public void setDescrFormatted(String formatted) {
-        this.formatted = formatted;
-    }
-
-    public String getDescrPlain() {
-        return plain;
-    }
-
-    public void setDescrPlain(String plain) {
-        this.plain = plain;
-    }
-
-    public boolean getIsInstructionalDay() {
-        return isInstructionalDay;
-    }
-
-    public void setIsInstructionalDay(boolean isInstructionalDay) {
-        this.isInstructionalDay = isInstructionalDay;
-    }
-
 }

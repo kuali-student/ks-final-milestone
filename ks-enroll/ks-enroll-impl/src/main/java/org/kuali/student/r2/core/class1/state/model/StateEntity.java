@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -29,9 +30,9 @@ public class StateEntity extends MetaEntity {
 
     @Column(name = "NAME")
     private String name;
-    @Column(name = "DESCR_PLAIN")
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
     private String descrPlain;
-    @Column(name = "DESCR_FORMATTED")
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
     // TODO: consider storing this as a related JPA entity instead of as a string
     @Column(name = "LIFECYCLE_KEY")

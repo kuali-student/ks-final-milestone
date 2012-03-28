@@ -319,6 +319,7 @@ public interface AtpService {
      * Creates a new Academic Time Period. The ATP Type and Meta
      * information may not be set in the supplied data object.
      * 
+     * @param atpTypeKey the type of the atp
      * @param atpInfo the data with which to create the ATP
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -332,7 +333,11 @@ public interface AtpService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public AtpInfo createAtp(@WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public AtpInfo createAtp(@WebParam (name = "atpTypeKey") String atpTypeKey,
+            @WebParam(name = "atpInfo") AtpInfo atpInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, 
+            OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Academic Time Period. The ATP id, Type, and
@@ -560,7 +565,8 @@ public interface AtpService {
      * Ids, and Meta information may not be set in the supplied data.
      * 
      * @param atpId a peer of the relationship
-     * @param atpPeerId a peer of the relationship
+     * @param relatedAtpId a peer of the relationship
+     * @param atpAtpRelationTypeKey type of relationship between the two
      * @param atpAtpRelationInfo the relationship to be created
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
@@ -578,7 +584,13 @@ public interface AtpService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpPeerId") String atpPeerId, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpId") String atpId, 
+            @WebParam(name = "relatedAtpId") String relatedAtpId, 
+            @WebParam(name = "atpAtpRelationTypeKey") String atpAtpRelationTypeKey,
+            @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, 
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an ATP Milestone Relationship. The AtpAtpRelation Id,
@@ -843,6 +855,7 @@ public interface AtpService {
      * Create a new Milestone. The Milestone Id, Type, and Meta
      * information may not be set in the supplied data object.
      * 
+     * @param milestoneTypeKey identifies the type of this milestone
      * @param milestoneInfo the data with which to create the Milestone
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -857,7 +870,9 @@ public interface AtpService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public MilestoneInfo createMilestone(@WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public MilestoneInfo createMilestone(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey,
+            @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Milestone. The Milestone Id, Type, and Meta
