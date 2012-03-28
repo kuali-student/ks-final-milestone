@@ -54,7 +54,6 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiCapacityEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiCapacityRelationEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiFeeEntity</class>
@@ -68,17 +67,6 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiCluCluRelationEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgAttributeEntity</class>
-
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleRichTextEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueRichTextEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupRichTextEntity</class>
 
         <class>org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue</class>
         <class>org.kuali.student.core.enumerationmanagement.entity.ContextEntity</class>
