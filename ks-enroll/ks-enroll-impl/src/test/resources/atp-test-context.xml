@@ -24,8 +24,8 @@
 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
 	<import resource="classpath:search-test-context.xml"/>
 	
-	    <!--  Preloaded data -->
-    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+	    <!--  Preloaded data None -->
+<!--    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
         <property name="shouldLoadData" value="true"/>
         <property name="preloadMap">
@@ -35,7 +35,7 @@
                 </entry>
             </map>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="systemPropertyConfigurer"
         class="org.kuali.student.common.util.SystemPropertyConfigurer">

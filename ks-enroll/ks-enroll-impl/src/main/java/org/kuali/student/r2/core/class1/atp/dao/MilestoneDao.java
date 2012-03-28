@@ -36,17 +36,9 @@ public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<MilestoneEntity> getByAtp(String atpId) {
-        return em.createQuery("select m.milestone from AtpMilestoneRelationEntity m where m.atp.id = :atpId order by m.milestone.startDate")
+    public List<String> getIdsByAtp(String atpId) {
+        return em.createQuery("select m.milestoneId from AtpMilestoneRelationEntity m where m.atpId = :atpId")
                 .setParameter("atpId", atpId).getResultList();
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<MilestoneEntity> getByTypeForAtp(String atpId, String milestoneType) {
-        return em
-                .createQuery(
-                        "select m.milestone from AtpMilestoneRelationEntity m where m.atp.id = :atpId and m.milestone.atpType = :milestoneType")
-                .setParameter("atpId", atpId).setParameter("milestoneType", milestoneType).getResultList();
     }
 
     @SuppressWarnings("unchecked")

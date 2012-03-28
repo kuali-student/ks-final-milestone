@@ -1416,7 +1416,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private void createAtpAtpRelations(String atpId, String relatedAtpId, String relationType, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
-        atpRel.setId(UUIDHelper.genStringUUID());
         atpRel.setAtpId(atpId);
         atpRel.setRelatedAtpId(relatedAtpId);
         atpRel.setTypeKey(relationType);

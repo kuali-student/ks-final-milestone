@@ -5,12 +5,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -269,19 +270,12 @@ public class AtpServiceImpl implements AtpService {
             throw new InvalidParameterException(atpId);
         }
 
-        List<MilestoneEntity> entities = milestoneDao.getByAtp(atpId);
-
-        if (entities == null) {
-            return Collections.emptyList();
+        List<String> ids = milestoneDao.getIdsByAtp(atpId);
+        try {
+            return this.getMilestonesByIds(ids, contextInfo);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Atp to Milestone relation exists to a milestone that has been deleted", ex);
         }
-
-        List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(entities.size());
-
-        for (MilestoneEntity entity : entities) {
-            results.add(entity.toDto());
-        }
-
-        return results;
     }
 
     @Override
@@ -323,20 +317,13 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "milestoneTypeKey") String milestoneTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        List<MilestoneEntity> entities = milestoneDao.getByTypeForAtp(atpId, milestoneTypeKey);
-
-        if (entities == null) {
-            return Collections.emptyList();
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<MilestoneInfo> list = this.getMilestonesForAtp(atpId, contextInfo);
+        List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(list.size());
+        for (MilestoneInfo info : list) {
+            results.add(info);
         }
-
-        List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(entities.size());
-
-        for (MilestoneEntity entity : entities) {
-            results.add(entity.toDto());
-        }
-
         return results;
     }
 
@@ -556,12 +543,16 @@ public class AtpServiceImpl implements AtpService {
             throw new AlreadyExistsException("Milestone " + milestoneId + " already exists for ATP " + atpId);
         }
 
-        AtpMilestoneRelationEntity atpMilestoneRelation = new AtpMilestoneRelationEntity();
+        AtpMilestoneRelationEntity entity = new AtpMilestoneRelationEntity();
 
-        atpMilestoneRelation.setAtp(atp);
-        atpMilestoneRelation.setMilestone(milestone);
+        entity.setAtpId(atpId);
+        entity.setMilestoneId(milestoneId);
+        entity.setCreateId(contextInfo.getPrincipalId());
+        entity.setCreateTime(contextInfo.getCurrentDate());
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
 
-        atpMilestoneRelationDao.persist(atpMilestoneRelation);
+        atpMilestoneRelationDao.persist(entity);
 
         StatusInfo info = new StatusInfo();
         info.setSuccess(true);
@@ -686,7 +677,6 @@ public class AtpServiceImpl implements AtpService {
 //        }
 //        return exist;
 //    }
-
     @Override
     @Transactional
     public AtpAtpRelationInfo createAtpAtpRelation(String atpId,
@@ -713,8 +703,14 @@ public class AtpServiceImpl implements AtpService {
         AtpAtpRelationEntity entity = new AtpAtpRelationEntity(atpAtpRelationInfo);
         entity.setId(atpAtpRelationInfo.getId());
         entity.setAtpType(atpAtpRelationTypeKey);
-        entity.setAtp(atpDao.find(relatedAtpId));
+        entity.setAtp(atpDao.find(atpId));
+        if (entity.getAtp() == null) {
+            throw new DoesNotExistException(atpId);
+        }
         entity.setRelatedAtp(atpDao.find(relatedAtpId));
+        if (entity.getRelatedAtp() == null) {
+            throw new DoesNotExistException(relatedAtpId);
+        }
         entity.setCreateId(contextInfo.getPrincipalId());
         entity.setCreateTime(contextInfo.getCurrentDate());
         entity.setUpdateId(contextInfo.getPrincipalId());

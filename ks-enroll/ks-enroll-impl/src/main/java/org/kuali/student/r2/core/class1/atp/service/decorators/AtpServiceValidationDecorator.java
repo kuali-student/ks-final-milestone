@@ -15,6 +15,7 @@ import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 public class AtpServiceValidationDecorator extends AtpServiceDecorator implements HoldsValidator, HoldsDataDictionaryService {
 
@@ -74,7 +75,9 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
         _atpFullValidation(atpInfo, context);
 
         if (atpInfo.getId() != null) {
-            throw new ReadOnlyException("ID cannot be supplied when creating an ATP.");
+            if (!CommonServiceConstants.isIdAllowedOnCreate(context)) {
+                throw new ReadOnlyException("ID cannot be supplied when creating an ATP.");
+            }
         }
 
         return getNextDecorator().createAtp(atpTypeKey, atpInfo, context);
@@ -181,7 +184,9 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
         _milestoneFullValidation(milestoneInfo, context);
 
         if (milestoneInfo.getId() != null) {
-            throw new ReadOnlyException("ID cannot be populated when creating milestone.");
+            if (!CommonServiceConstants.isIdAllowedOnCreate(context)) {
+                throw new ReadOnlyException("ID cannot be populated when creating milestone.");
+            }
         }
 
         return getNextDecorator().createMilestone(milestoneTypeKey, milestoneInfo, context);

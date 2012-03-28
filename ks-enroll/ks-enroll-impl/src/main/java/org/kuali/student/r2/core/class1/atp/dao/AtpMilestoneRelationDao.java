@@ -11,20 +11,20 @@ public class AtpMilestoneRelationDao extends GenericEntityDao<AtpMilestoneRelati
 
     @SuppressWarnings("unchecked")
     public List<AtpMilestoneRelationEntity> getByMilestoneId(String milestoneId) {
-        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.milestone.id=:milestoneId")
+        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.milestoneId=:milestoneId")
                 .setParameter("milestoneId", milestoneId).getResultList();
     }
 
     @SuppressWarnings("unchecked")
     public List<AtpMilestoneRelationEntity> getByAtpId(String atpId) {
-        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.atp.id=:atpId")
+        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.atpId=:atpId")
                 .setParameter("atpId", atpId).getResultList();
     }
 
     @SuppressWarnings("unchecked")
     public List<AtpMilestoneRelationEntity> getByAtpAndMilestone(String atpId, String milestoneId) {
         Query query = em
-                .createQuery("from AtpMilestoneRelationEntity amRel where amRel.atp.id=:atpId and amRel.milestone.id=:milestoneId");
+                .createQuery("from AtpMilestoneRelationEntity amRel where amRel.atpId=:atpId and amRel.milestoneId=:milestoneId");
         query.setParameter("atpId", atpId);
         query.setParameter("milestoneId", milestoneId);
         return query.getResultList();

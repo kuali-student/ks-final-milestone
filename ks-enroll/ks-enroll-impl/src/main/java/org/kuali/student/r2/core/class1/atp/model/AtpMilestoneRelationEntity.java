@@ -17,9 +17,8 @@ package org.kuali.student.r2.core.class1.atp.model;
 
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -27,32 +26,28 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 @Entity
 @Table(name = "KSEN_ATPMSTONE_RELTN")
 public class AtpMilestoneRelationEntity extends MetaEntity {
-
-    @ManyToOne
-    @JoinColumn(name="ATP_ID")
-    private AtpEntity atp;
+    @Column(name="ATP_ID")
+    private String atpId;
     
-    @ManyToOne
-    @JoinColumn(name="MSTONE_ID")
-    private MilestoneEntity milestone;
+    @Column(name="MSTONE_ID")
+    private String milestoneId;
 
     public AtpMilestoneRelationEntity() {
     }
-    
-    
-    public AtpEntity getAtp() {
-        return atp;
+
+    public String getAtpId() {
+        return atpId;
     }
 
-    public void setAtp(AtpEntity atp) {
-        this.atp = atp;
+    public void setAtpId(String atpId) {
+        this.atpId = atpId;
     }
 
-    public MilestoneEntity getMilestone() {
-        return milestone;
+    public String getMilestoneId() {
+        return milestoneId;
     }
 
-    public void setMilestone(MilestoneEntity milestone) {
-        this.milestone = milestone;
+    public void setMilestoneId(String milestoneId) {
+        this.milestoneId = milestoneId;
     }
 }

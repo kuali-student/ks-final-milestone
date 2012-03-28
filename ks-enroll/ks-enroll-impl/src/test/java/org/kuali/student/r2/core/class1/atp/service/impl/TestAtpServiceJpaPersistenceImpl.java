@@ -249,6 +249,8 @@ public class TestAtpServiceJpaPersistenceImpl {
         atp1.setEndDate(new Date(new Date().getTime() + 1000));
         atp1.setDescr(new RichTextHelper().fromPlain("test description"));
         atp1 = atpService.createAtp(atp1.getTypeKey(), atp1, callContext);
+        atp1 = atpService.getAtp(atp1.getId(), callContext);
+        System.out.println ("atp1.id=" + atp1.getId());
 
         AtpInfo atp2 = new AtpInfo();
         atp2.setName("new Atp2");
@@ -258,7 +260,8 @@ public class TestAtpServiceJpaPersistenceImpl {
         atp2.setEndDate(new Date(new Date().getTime() + 1000));
         atp2.setDescr(new RichTextHelper().fromPlain("test description"));
         atp2 = atpService.createAtp(atp2.getTypeKey(), atp2, callContext);
-
+        atp2 = atpService.getAtp(atp2.getId(), callContext);
+        System.out.println ("atp2.id=" + atp2.getId());
 
         AtpAtpRelationInfo origR = new AtpAtpRelationInfo();
         origR.setAtpId(atp1.getId());
@@ -277,6 +280,8 @@ public class TestAtpServiceJpaPersistenceImpl {
                 origR, callContext);
         assertNotNull(resultR);
         assertNotNull(resultR.getId());
+        assertEquals(origR.getAtpId(), resultR.getAtpId());
+        assertEquals(origR.getRelatedAtpId(), resultR.getRelatedAtpId());
         assertEquals(origR.getTypeKey(), resultR.getTypeKey());
         assertEquals(origR.getStateKey(), resultR.getStateKey());
         assertEquals(origR.getEffectiveDate(), resultR.getEffectiveDate());
@@ -292,11 +297,13 @@ public class TestAtpServiceJpaPersistenceImpl {
         assertNotNull(resultR.getMeta().getUpdateTime());
         assertNotNull(resultR.getMeta().getVersionInd());
 
-        // test atp read
+        // test atp atp relation read
         origR = resultR;
         resultR = atpService.getAtpAtpRelation(resultR.getId(), callContext);
         assertNotNull(resultR);
         assertNotNull(resultR.getId());
+        assertEquals(origR.getAtpId(), resultR.getAtpId());
+        assertEquals(origR.getRelatedAtpId(), resultR.getRelatedAtpId());
         assertEquals(origR.getTypeKey(), resultR.getTypeKey());
         assertEquals(origR.getStateKey(), resultR.getStateKey());
         assertEquals(origR.getEffectiveDate(), resultR.getEffectiveDate());
@@ -312,12 +319,14 @@ public class TestAtpServiceJpaPersistenceImpl {
         assertNotNull(resultR.getMeta().getUpdateTime());
         assertNotNull(resultR.getMeta().getVersionInd());
 
-        // test atp update
+        // test atp atp rel update
         origR = resultR;
         origR.setExpirationDate(new Date(new Date().getTime() + 2000));
         resultR = atpService.updateAtpAtpRelation(origR.getId(), origR, callContext);
         assertNotNull(resultR);
         assertNotNull(resultR.getId());
+        assertEquals(origR.getAtpId(), resultR.getAtpId());
+        assertEquals(origR.getRelatedAtpId(), resultR.getRelatedAtpId());
         assertEquals(origR.getTypeKey(), resultR.getTypeKey());
         assertEquals(origR.getStateKey(), resultR.getStateKey());
         assertEquals(origR.getEffectiveDate(), resultR.getEffectiveDate());
@@ -352,17 +361,21 @@ public class TestAtpServiceJpaPersistenceImpl {
         m1.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         m1.setStartDate(new Date());
         m1.setEndDate(new Date(new Date().getTime() + 1000));
-        m1.setDescr(new RichTextHelper().fromPlain("test description"));
+        m1.setDescr(new RichTextHelper().fromPlain("test description1"));
         m1 = atpService.createMilestone(m1.getTypeKey(), m1, callContext);
+        m1 = atpService.getMilestone(m1.getId(), callContext);
+        System.out.println ("m1.id=" + m1.getId());
 
         MilestoneInfo m2 = new MilestoneInfo();
-        m2.setName("new Milestone1");
+        m2.setName("new Milestone2");
         m2.setTypeKey(AtpServiceConstants.MILESTONE_ADVANCE_REGISTRATION_PERIOD_TYPE_KEY);
         m2.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         m2.setStartDate(new Date());
         m2.setEndDate(new Date(new Date().getTime() + 1000));
-        m2.setDescr(new RichTextHelper().fromPlain("test description"));
+        m2.setDescr(new RichTextHelper().fromPlain("test description2"));
         m2 = atpService.createMilestone(m2.getTypeKey(), m2, callContext);
+        m2 = atpService.getMilestone(m2.getId(), callContext);
+        System.out.println ("m2.id=" + m2.getId());
 
         status = atpService.addMilestoneToAtp(m1.getId(), atp1.getId(), callContext);
         assertNotNull(status);
@@ -383,7 +396,12 @@ public class TestAtpServiceJpaPersistenceImpl {
         status = atpService.addMilestoneToAtp(m2.getId(), atp1.getId(), callContext);
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
-
+        try {
+            status = atpService.addMilestoneToAtp(m2.getId(), atp1.getId(), callContext);
+            fail("relationship should already exist");
+        } catch (AlreadyExistsException ex) {
+            // expected
+        }
         milestones = atpService.getMilestonesForAtp(atp1.getId(), callContext);
         assertNotNull(milestones);
         assertEquals(2, milestones.size());
