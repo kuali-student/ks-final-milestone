@@ -149,13 +149,15 @@ public class TestAtpServiceJpaPersistenceImpl {
             // expected
         }
 
-        // test atp create
+        // test milestone create
         MilestoneInfo origM = new MilestoneInfo();
         origM.setName("new Milestone");
         origM.setTypeKey(AtpServiceConstants.MILESTONE_ADVANCE_REGISTRATION_PERIOD_TYPE_KEY);
         origM.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         origM.setStartDate(new Date());
         origM.setEndDate(new Date(new Date().getTime() + 1000));
+        origM.setIsDateRange(Boolean.TRUE);
+        origM.setIsAllDay(Boolean.FALSE);
         origM.setDescr(new RichTextHelper().fromPlain("test description"));
         attr = new AttributeInfo();
         attr.setKey("attribute.key");
@@ -181,7 +183,7 @@ public class TestAtpServiceJpaPersistenceImpl {
         assertNotNull(resultM.getMeta().getUpdateTime());
         assertNotNull(resultM.getMeta().getVersionInd());
 
-        // test atp read
+        // test milestone read
         origM = resultM;
         resultM = atpService.getMilestone(resultM.getId(), callContext);
         assertNotNull(resultM);
@@ -203,7 +205,7 @@ public class TestAtpServiceJpaPersistenceImpl {
         assertNotNull(resultM.getMeta().getUpdateTime());
         assertNotNull(resultM.getMeta().getVersionInd());
 
-        // test atp update
+        // test milestone update
         origM = resultM;
         origM.setName("updated name");
         origM.setDescr(new RichTextHelper().fromPlain("test description"));
@@ -228,7 +230,7 @@ public class TestAtpServiceJpaPersistenceImpl {
         assertNotNull(resultM.getMeta().getUpdateTime());
         assertNotSame(origM.getMeta().getVersionInd(), resultM.getMeta().getVersionInd());
 
-        // test atp delete
+        // test milestone delete
         status = atpService.deleteMilestone(origM.getId(), callContext);
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
@@ -361,6 +363,8 @@ public class TestAtpServiceJpaPersistenceImpl {
         m1.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         m1.setStartDate(new Date());
         m1.setEndDate(new Date(new Date().getTime() + 1000));
+        m1.setIsDateRange(Boolean.TRUE);
+        m1.setIsAllDay(Boolean.FALSE);
         m1.setDescr(new RichTextHelper().fromPlain("test description1"));
         m1 = atpService.createMilestone(m1.getTypeKey(), m1, callContext);
         m1 = atpService.getMilestone(m1.getId(), callContext);
@@ -372,6 +376,8 @@ public class TestAtpServiceJpaPersistenceImpl {
         m2.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         m2.setStartDate(new Date());
         m2.setEndDate(new Date(new Date().getTime() + 1000));
+        m2.setIsDateRange(Boolean.TRUE);
+        m2.setIsAllDay(Boolean.FALSE);
         m2.setDescr(new RichTextHelper().fromPlain("test description2"));
         m2 = atpService.createMilestone(m2.getTypeKey(), m2, callContext);
         m2 = atpService.getMilestone(m2.getId(), callContext);

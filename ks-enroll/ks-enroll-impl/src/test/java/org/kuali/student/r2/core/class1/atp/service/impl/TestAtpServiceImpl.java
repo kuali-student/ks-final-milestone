@@ -21,12 +21,12 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -76,24 +76,22 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+    @Ignore
     public void testAtpServiceValidationSetup() {
         assertNotNull(atpService);
     }
 
     private void loadData() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, ReadOnlyException, VersionMismatchException {
+            DataValidationErrorException, ReadOnlyException, VersionMismatchException, AlreadyExistsException {
         loadAtp("testAtpId1", "testAtp1", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Draft", "Desc 101");
         loadAtp("testAtpId2", "testAtp2", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", "kuali.atp.type.HolidayCalendar", "kuali.atp.state.Draft", "Desc 102");
         loadAtp("testDeleteAtpId1", "testDeleteAtp1", "2012-01-01 00:00:00.0", "2100-12-31 00:00:00.0", "kuali.atp.type.HolidayCalendar", "kuali.atp.state.Draft", "Desc 103");
         loadAtp("testDeleteAtpId2", "testDeleteAtp2", "2012-01-01 00:00:00.0", "2100-12-31 00:00:00.0", "kuali.atp.type.HolidayCalendar", "kuali.atp.state.Draft", "Desc 104");
         loadAtp("testTermId1", "testTerm1", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", "kuali.atp.type.Fall", "kuali.atp.state.Draft", "Desc 2");
         loadAtp("testTermId2", "testTerm2", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", "kuali.atp.type.Spring", "kuali.atp.state.Draft", "Desc 3");
-        loadAtpDa("CredentialProgramType", "kuali.lu.type.credential.Baccalaureate", "testAtpId1");
-        loadMilestone("testId", "testId", "2011-07-10 00:00:00.0", "2011-07-20 00:00:00.0", "kuali.atp.milestone.AdvanceRegistrationPeriod", "kuali.milestone.state.Draft", false, false, true, false, null, "Desc 105");
-        loadMilestone("testId2", "testId2", "2011-08-01 00:00:00.0", "2011-10-01 00:00:00.0", "kuali.atp.milestone.RegistrationPeriod", "kuali.milestone.state.Draft", false, false, true, false, null, "Desc 106");
-        loadMilestone("testId3", "testId3", "2011-11-01 00:00:00.0", "2011-11-01 00:00:00.0", "kuali.atp.milestone.DropDate", "kuali.milestone.state.Draft", false, true, false, false, null, "Desc 107");
-        loadMilestone("testDeleteId", "testDeleteId", "2011-11-01 00:00:00.0", "2011-12-01 00:00:00.0", "kuali.atp.milestone.RegistrationPeriod", "kuali.milestone.state.Draft", false, false, false, false, null, "Desc 108");
+
+        updAtpDynamicAttribute("CredentialProgramType", "kuali.lu.type.credential.Baccalaureate", "testAtpId1");
 
         loadAtp("ACADEMICCALENDAR1990", "1990 Academic Calendar", "1990-08-01 00:00:00.0", "1991-12-31 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Official", "1990 Academic Calendar");
         loadAtp("CAMPUSCALENDAR19901991", "Holiday Calendar 1990-1991", "1990-08-01 00:00:00.0", "1991-12-31 00:00:00.0", "kuali.atp.type.HolidayCalendar", "kuali.atp.state.Official", "1990-1991 Holiday Calendar");
@@ -118,6 +116,12 @@ public class TestAtpServiceImpl {
         loadAtp("testEdgeAtpId7", "testEdgeAtpId7", "1980-01-01 00:00:00.0", "1980-06-30 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Official", "Desc 2007");
         loadAtp("testEdgeAtpId8", "testEdgeAtpId8", "1980-06-01 00:00:00.0", "1980-12-31 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Official", "Desc 2008");
         loadAtp("testEdgeAtpId9", "testEdgeAtpId9", "1979-12-01 00:00:00.0", "1979-12-31 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Official", "Desc 2009");
+
+        loadMilestone("testId", "testId", "2011-07-10 00:00:00.0", "2011-07-20 00:00:00.0", "kuali.atp.milestone.AdvanceRegistrationPeriod", "kuali.milestone.state.Draft", false, false, true, false, null, "Desc 105");
+        loadMilestone("testId2", "testId2", "2011-08-01 00:00:00.0", "2011-10-01 00:00:00.0", "kuali.atp.milestone.RegistrationPeriod", "kuali.milestone.state.Draft", false, false, true, false, null, "Desc 106");
+        loadMilestone("testId3", "testId3", "2011-11-01 00:00:00.0", "2011-11-01 00:00:00.0", "kuali.atp.milestone.DropDate", "kuali.milestone.state.Draft", false, true, false, false, null, "Desc 107");
+        loadMilestone("testDeleteId", "testDeleteId", "2011-11-01 00:00:00.0", "2011-12-01 00:00:00.0", "kuali.atp.milestone.RegistrationPeriod", "kuali.milestone.state.Draft", false, false, false, false, null, "Desc 108");
+        loadMilestone("FALLTERM1990REGISTRATION", "Fall Term Registration Period", "1990-08-01 00:00:00.0", "1990-09-09 00:00:00.0", "kuali.atp.milestone.RegistrationPeriod", "kuali.milestone.state.Official", false, false, true, false, null, "Fall 1990 Registration");
         loadMilestone("FALLFIRSTBLOCK1990COURSESELECTIONEND", "Fall First Block Course Selection Period Ends", "1990-09-10 00:00:00.0", "1990-09-10 00:00:00.0", "kuali.atp.milestone.CourseSelectionPeriodEnd", "kuali.milestone.state.Official", false, false, false, false, null, "Fall First Block Course Selection");
         loadMilestone("FALLFIRSTBLOCK1990DROPDATE", "Drop Deadlin", "1990-09-10 00:00:00.0", "1990-09-10 00:00:00.0", "kuali.atp.milestone.DropDate", "kuali.milestone.state.Official", false, false, false, false, null, "Deadline to Drop Fall First Block Classes");
         loadMilestone("FALLFIRSTBLOCK1990GRADESDUE", "Fall Grades Due", "1990-11-01 00:00:00.0", "1990-11-05 00:00:00.0", "kuali.atp.milestone.GradesDue", "kuali.milestone.state.Official", false, false, true, false, null, "First Block Grades Due");
@@ -134,7 +138,39 @@ public class TestAtpServiceImpl {
         loadMilestone("testKeyDate2", "testKeyDate2", "2001-08-01 00:00:00.0", "2001-10-01 00:00:00.0", "kuali.atp.milestone.RegistrationPeriod", "kuali.milestone.state.Draft", false, false, true, false, null, "Desc term rich text 6");
         loadMilestone("THANKSGIVING1990", "Thanksgiving 1990", "1990-11-21 00:00:00.0", "1990-11-26 00:00:00.0", "kuali.atp.milestone.ThanksgivingBreak", "kuali.milestone.state.Official", false, true, true, false, null, "Thanksgiving Break");
 
+        loadAtpAtpRel("ACADEMICCALENDAR1990CAMPUSCALENDAR19901991RELATION", "1988-01-01 00:00:00.0", null, "kuali.atp.atp.relation.state.active", "ACADEMICCALENDAR1990", "kuali.atp.atp.relation.associated", "CAMPUSCALENDAR19901991");
+        loadAtpAtpRel("ACADEMICCALENDAR1990FALLTERM1990RELATION", "1988-01-01 00:00:00.0", null, "kuali.atp.atp.relation.state.active", "ACADEMICCALENDAR1990", "kuali.atp.atp.relation.includes", "FALLTERM1990");
+        loadAtpAtpRel("FALLFIRSTBLOCK1990FALLFIRSTBLOCK1990RELATION", "1988-01-01 00:00:00.0", null, "kuali.atp.atp.relation.state.active", "FALLFIRSTBLOCK1990", "kuali.atp.atp.relation.includes", "FALLFIRSTBLOCK1990");
+        loadAtpAtpRel("termRelationTestingRel-AcalTerm-1", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.atp.atp.relation.state.active", "termRelationTestingAcal1", "kuali.atp.atp.relation.includes", "termRelationTestingTerm1");
+        loadAtpAtpRel("termRelationTestingRel-AcalTerm-2", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.atp.atp.relation.state.active", "termRelationTestingAcal2", "kuali.atp.atp.relation.includes", "termRelationTestingTerm2");
+        loadAtpAtpRel("termRelationTestingRel-TermTerm-1", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.atp.atp.relation.state.active", "termRelationTestingTerm1", "kuali.atp.atp.relation.includes", "termRelationTestingTerm2");
+        loadAtpAtpRel("termRelationTestingRel-TermTerm-2", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.atp.atp.relation.state.active", "termRelationTestingTerm3", "kuali.atp.atp.relation.includes", "termRelationTestingTerm4");
+        loadAtpAtpRel("ATPATPREL-1", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.atp.atp.relation.state.active", "testAtpId1", "kuali.atp.atp.relation.associated", "testAtpId2");
+        loadAtpAtpRel("ATPATPREL-2", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.atp.atp.relation.state.active", "testAtpId1", "kuali.atp.atp.relation.includes", "testTermId1");
+        loadAtpAtpRel("ATPATPREL-3", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.atp.atp.relation.state.active", "testTermId1", "kuali.atp.atp.relation.includes", "testTermId2");
+        loadAtpAtpRel("ATPATPREL-4", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.atp.atp.relation.state.active", "testAtpId1", "kuali.atp.atp.relation.includes", "testDeleteAtpId1");
+        loadAtpAtpRel("ATPATPREL-5", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.atp.atp.relation.state.active", "testAtpId1", "kuali.atp.atp.relation.includes", "testDeleteAtpId2");
 
+
+        addM2A("FALLTERM1990", "FALLTERM1990DROPDATE");
+        addM2A("testAtpId1", "testId");
+        addM2A("testAtpId2", "testId2");
+        addM2A("testDeleteAtpId1", "testId");
+        addM2A("testDeleteAtpId2", "testId2");
+        addM2A("CAMPUSCALENDAR19901991", "THANKSGIVING1990");
+        addM2A("FALLFIRSTBLOCK1990", "FALLFIRSTBLOCK1990COURSESELECTIONEND");
+        addM2A("FALLFIRSTBLOCK1990", "FALLFIRSTBLOCK1990DROPDATE");
+        addM2A("FALLFIRSTBLOCK1990", "FALLFIRSTBLOCK1990GRADESDUE");
+        addM2A("FALLFIRSTBLOCK1990", "FALLFIRSTBLOCK1990INSTRUCTIONPERIOD");
+        addM2A("FALLFIRSTBLOCK1990", "FALLFIRSTBLOCK1990REGISTRATION");
+        addM2A("FALLTERM1990", "FALLTERM1990CENSUS");
+        addM2A("FALLTERM1990", "FALLTERM1990COMMENCEMENT");
+        addM2A("FALLTERM1990", "FALLTERM1990COURSESELECTIONEND");
+        addM2A("FALLTERM1990", "FALLTERM1990FINALS");
+        addM2A("FALLTERM1990", "FALLTERM1990GRADESDUE");
+        addM2A("FALLTERM1990", "FALLTERM1990INSTRUCTIONPERIOD");
+        addM2A("FALLTERM1990", "FALLTERM1990REGISTRATION");
+        addM2A("termRelationTestingTerm1", "testKeyDate1");
     }
 
     private void loadMilestone(String id,
@@ -156,7 +192,7 @@ public class TestAtpServiceImpl {
         info.setId(id);
         info.setName(name);
         info.setStartDate(str2Date(startDate, id));
-        info.setStartDate(str2Date(endDate, id));
+        info.setEndDate(str2Date(endDate, id));
         info.setTypeKey(type);
         info.setStateKey(state);
         info.setIsAllDay(isAllDay);
@@ -173,7 +209,46 @@ public class TestAtpServiceImpl {
         this.atpService.createMilestone(type, info, context);
     }
 
-    private void loadAtpDa(String key, String value, String atpId)
+    private void addM2A(String atpId,
+            String milestoneId)
+            throws DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException, DoesNotExistException, AlreadyExistsException {
+
+        ContextInfo context = new ContextInfo();
+        context.setPrincipalId(principalId);
+        context.setCurrentDate(new Date());
+        CommonServiceConstants.setIsIdAllowedOnCreate(context, true);
+        this.atpService.addMilestoneToAtp(milestoneId, atpId, context);
+    }
+
+    private void loadAtpAtpRel(String id,
+            String effectiveDate,
+            String expirationDate,
+            String state,
+            String atpId,
+            String type,
+            String relatedAtpId)
+            throws DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException, DoesNotExistException {
+        AtpAtpRelationInfo info = new AtpAtpRelationInfo();
+        info.setId(id);
+        info.setEffectiveDate(str2Date(effectiveDate, id));
+        info.setExpirationDate(str2Date(expirationDate, id));
+        info.setTypeKey(type);
+        info.setStateKey(state);
+        info.setAtpId(atpId);
+        info.setRelatedAtpId(relatedAtpId);
+
+        ContextInfo context = new ContextInfo();
+        context.setPrincipalId(principalId);
+        context.setCurrentDate(new Date());
+        CommonServiceConstants.setIsIdAllowedOnCreate(context, true);
+        this.atpService.createAtpAtpRelation(atpId, relatedAtpId, type, info, context);
+    }
+
+    private void updAtpDynamicAttribute(String key, String value, String atpId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, VersionMismatchException {
@@ -206,8 +281,6 @@ public class TestAtpServiceImpl {
         atpInfo.setStateKey(state);
         atpInfo.setStartDate(str2Date(startDate, id));
         atpInfo.setEndDate(str2Date(endDate, id));
-        RichTextInfo rt = new RichTextInfo();
-        rt.setPlain("TestDesc1");
         atpInfo.setDescr(new RichTextHelper().fromPlain(descrPlain));
         ContextInfo context = new ContextInfo();
         context.setPrincipalId(principalId);
@@ -217,6 +290,9 @@ public class TestAtpServiceImpl {
     }
 
     private Date str2Date(String str, String context) {
+        if (str == null) {
+            return null;
+        }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
         try {
             Date date = df.parse(str);
@@ -227,6 +303,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testGetAtp() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpInfo atpInfo = atpService.getAtp("testAtpId1", callContext);
@@ -245,6 +322,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testAtpCrud() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, VersionMismatchException, ReadOnlyException {
@@ -302,6 +380,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testUpdateAtp() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, VersionMismatchException, ReadOnlyException {
@@ -319,6 +398,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testCreateAtp() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException {
@@ -345,6 +425,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testDeleteAtp() throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpInfo atpInfo = atpService.getAtp("testDeleteAtpId2", callContext);
@@ -364,6 +445,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testGetAtpsByDate()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -376,7 +458,7 @@ public class TestAtpServiceImpl {
         List<String> requiredKeys = new ArrayList<String>(Arrays.asList(
                 "testAtpId1", "testAtpId2", "testTermId1", "testTermId2"));
         int listSize = requiredKeys.size();
-        assertTrue("Date '" + cal.getTime().toString() + "' should return at least " + listSize + " records",
+        assertTrue("Date " + cal.getTime().toString() + " should return at least " + listSize + " records",
                 atpInfos.size() >= listSize);
 
         // make sure the required keys are in the retrieved list:
@@ -384,11 +466,12 @@ public class TestAtpServiceImpl {
             requiredKeys.remove(atpInfo.getId());
         }
         if (!requiredKeys.isEmpty()) {
-            fail("Failed to find key '" + requiredKeys.get(0) + "' in returned list");
+            fail("Failed to find key " + requiredKeys.get(0) + " in returned list");
         }
     }
 
     @Test
+//    @Ignore
     public void testSearchForAtps() throws DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -410,6 +493,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testCreateMilestone() throws DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException,
             ReadOnlyException {
@@ -447,6 +531,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testUpdateMilestone() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, VersionMismatchException {
@@ -514,6 +599,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testDeleteMilestone() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException,
             DataValidationErrorException {
@@ -541,6 +627,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testGetMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         MilestoneInfo milestoneInfo = atpService.getMilestone("testId", callContext);
@@ -561,6 +648,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testGetMilestonesByKeyList() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> milestoneIds = new ArrayList<String>();
@@ -593,28 +681,31 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testGetMilestonesByDates()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         Calendar cal = Calendar.getInstance();
-
         cal.set(Calendar.MONTH, Calendar.JULY);
         cal.set(Calendar.DATE, 1);
         cal.set(Calendar.YEAR, 2011);
-
         Date startDate = cal.getTime();
 
+        cal = Calendar.getInstance();
         cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
+        cal.set(Calendar.DATE, 1);
+        cal.set(Calendar.YEAR, 2011);
         Date endDate = cal.getTime();
 
         List<MilestoneInfo> milestones = atpService.getMilestonesByDates(startDate, endDate, callContext);
+        System.out.println(milestones.size() + " milestones selected");
+        for (MilestoneInfo info : milestones) {
+            System.out.println(info.getId() + " from " + info.getStartDate() + " to " + info.getEndDate() + " is allday=" + info.getIsAllDay() + " isRange=" + info.getIsDateRange());
+        }
         assertNotNull("getMilestonesByDates() should return a list, not null", milestones);
-
-        List<String> expectedIds = new ArrayList<String>();
-        expectedIds.addAll(Arrays.asList("testId", "testId2"));
-        int listSize = expectedIds.size();
-        assertTrue("Should have returned at least " + listSize + " records", milestones.size() >= listSize);
+        List<String> expectedIds = new ArrayList(Arrays.asList("testId", "testId2"));
+        assertTrue("Should have returned at least " + expectedIds.size() + " records", milestones.size() >= expectedIds.size());
 
         // check that all the expected Ids came back
         for (MilestoneInfo info : milestones) {
@@ -623,17 +714,25 @@ public class TestAtpServiceImpl {
 
         assertTrue(expectedIds.isEmpty());
 
-        cal.set(Calendar.YEAR, 1990);
-
+        cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 1989);
+        cal.set(Calendar.MONTH, Calendar.JULY);
+        cal.set(Calendar.DATE, 1);
         startDate = cal.getTime();
+
+        cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 1989);
+        cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
+        cal.set(Calendar.DATE, 1);
         endDate = cal.getTime();
 
         milestones = atpService.getMilestonesByDates(startDate, endDate, callContext);
 
-        assertTrue(milestones == null || milestones.isEmpty());
+        assertTrue(milestones.isEmpty());
     }
 
     @Test
+//    @Ignore
     public void testGetMilestoneIdsByType() throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         String expectedMilestoneType = "kuali.atp.milestone.RegistrationPeriod";
@@ -645,6 +744,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testGetMilestonesForAtp() throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<MilestoneInfo> milestones = atpService.getMilestonesForAtp("testAtpId1", callContext);
@@ -674,6 +774,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testSearchForMilestones() throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -692,153 +793,28 @@ public class TestAtpServiceImpl {
             fail(e.getMessage());
         }
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2011, 5, 1);
-        Predicate startPredicate = PredicateFactory.greaterThanOrEqual("startDate", new Timestamp(calendar.getTime().getTime()));
-        calendar.set(2011, 11, 30);
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2011);
+        cal.set(Calendar.MONTH, Calendar.MAY);
+        cal.set(Calendar.DATE, 1);
+        Predicate startPredicate = PredicateFactory.greaterThanOrEqual("startDate", new Timestamp(cal.getTime().getTime()));
+
+        cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2011);
+        cal.set(Calendar.MONTH, Calendar.NOVEMBER);
+        cal.set(Calendar.DATE, 30);
+        cal.set(2011, 11, 30);
         Predicate endPredicate = PredicateFactory.lessThanOrEqual("endDate",
-                new Timestamp(calendar.getTime().getTime()));
+                new Timestamp(cal.getTime().getTime()));
         qbcBuilder.setPredicates(startPredicate, endPredicate);
         qbc = qbcBuilder.build();
-        try {
-            List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
-            assertNotNull(milestoneInfos);
-            assertEquals(4, milestoneInfos.size());
-
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-
+        List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
+        assertNotNull(milestoneInfos);
+        assertEquals(2, milestoneInfos.size());
     }
 
-    //    @Test
-    //    public void testGetType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    //        try {
-    //	        TypeInfo typeInfo = atpService.getType(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY, callContext);
-    //	        assertNotNull(typeInfo);
-    //	        try {
-    //		        typeInfo = atpService.getType("totally.bogus.type.key", callContext);
-    //		        fail("Did not receive DoesNotExistException when getting nonexistent TypeInfo");
-    //	        } catch (DoesNotExistException dnee) { /* expected */ }
-    //	    } catch (Exception e) {
-    //	        fail(e.getMessage());
-    //	    }
-    //    }
-    //    @Test
-    //    public void testGetTypesByRefObjectURI() {
-    //        try {
-    //            List<TypeInfo> typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
-    //            assertNotNull("'getTypesByRefObjectURI()' should return a List<>, not null", typeInfos);
-    //
-    //            assertTrue("URI '" + AtpServiceConstants.REF_OBJECT_URI_ATP + "' should have returned at least 26 TypeInfo objects", typeInfos.size() >= 26);
-    //
-    //            typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_MILESTONE, callContext);
-    //            assertNotNull("'getTypesByRefObjectURI()' should return a List<>, not null", typeInfos);
-    //
-    //            List<String> requiredTypeKeys = new ArrayList<String>(Arrays.asList(
-    //                    "kuali.atp.milestone.AdvanceRegistrationPeriod",
-    //                    "kuali.atp.milestone.RegistrationPeriod",
-    //                    "kuali.atp.milestone.DropDate",
-    //                    "kuali.atp.milestone.GradesDue"));
-    //            int listSize = requiredTypeKeys.size();
-    //            assertTrue("URI '"+AtpServiceConstants.REF_OBJECT_URI_MILESTONE+"' should have returned at least "+listSize+" TypeInfo objects",
-    //                    typeInfos.size() >= listSize);
-    //
-    //            // make sure the required type keys are in the retrieved list:
-    //            for (TypeInfo typeInfo : typeInfos) {
-    //                requiredTypeKeys.remove(typeInfo.getKey());
-    //            }
-    //            if (!requiredTypeKeys.isEmpty()) {
-    //                fail("Failed to find type key '"+requiredTypeKeys.get(0)+"' in TypeInfo list");
-    //            }
-    //
-    //            try {
-    //	            typeInfos = atpService.getTypesByRefObjectURI("totally.bogus.object.uri", callContext);
-    //		        fail("Did not receive DoesNotExistException when getting TypeInfos for nonexistent refObjectURI");
-    //	        } catch (DoesNotExistException dnee) { /* expected */ }
-    //	    } catch (Exception e) {
-    //	        fail("Caught "+ e.toString() +": "+ e.getMessage());
-    //	    }
-    //    }
-    //
-    //    @Test
-    //    public void testGetState()
-    //            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
-    //    	try{
-    //    		StateInfo stateInfo = atpService.getState(AtpServiceConstants.ATP_PROCESS_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
-    //    		assertNotNull(stateInfo);
-    //    		assertEquals(stateInfo.getKey(), AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-    //    	 } catch (Exception e) {
-    // 	        fail("Caught "+ e.toString() +": "+ e.getMessage());
-    // 	    }
-    //    }
-    //
-    //    @Test
-    //    public void testGetStatesByProcess()
-    //            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-    //            OperationFailedException{
-    //    	try{
-    //    		List<StateInfo> stateInfos =
-    //                    atpService.getStatesByProcess(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
-    //    		assertNotNull("getStatesByProcess() should return a list, not null", stateInfos);
-    //
-    //    		 List<String> requiredKeys = new ArrayList<String>(Arrays.asList(
-    //                "kuali.atp.state.Draft", "kuali.atp.state.Official"));
-    //            int listSize = requiredKeys.size();
-    //            assertTrue("Key '"+ AtpServiceConstants.ATP_PROCESS_KEY +"' should return at least "+listSize+" records",
-    //                stateInfos.size()>=listSize);
-    //
-    //            // make sure the required keys are in the retrieved list:
-    //            for (StateInfo stateInfo : stateInfos) {
-    //                requiredKeys.remove(stateInfo.getKey());
-    //            }
-    //            if (!requiredKeys.isEmpty()) {
-    //                fail("Failed to find key '"+ requiredKeys.get(0) +"' in returned list");
-    //            }
-    //    	 } catch (Exception e) {
-    // 	        fail("Caught "+ e.toString() +": "+ e.getMessage());
-    // 	    }
-    //    }
-    //
-    //    @Test
-    //    public void testGetProcessByKey()
-    //            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-    //            OperationFailedException {
-    //    	StateProcessInfo spInfo = atpService.getProcessByKey(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
-    //    	assertNotNull(spInfo);
-    //		assertEquals(AtpServiceConstants.ATP_PROCESS_KEY, spInfo.getKey());
-    //    }
-    //
-    //    @Test
-    //    public void testGetInitialValidStates()
-    //            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-    //            OperationFailedException {
-    //        List<StateInfo> stateInfos =
-    //                atpService.getInitialValidStates(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
-    //        assertNotNull("'getInitialValidStates()' should return a list, not null", stateInfos);
-    //
-    //        List<String> requiredKeys = new ArrayList<String>(Arrays.asList("kuali.atp.state.Draft"));
-    //        int listSize = requiredKeys.size();
-    //        assertTrue("Key '"+ AtpServiceConstants.ATP_PROCESS_KEY +"' should return at least "+listSize+" records",
-    //                stateInfos.size() >= listSize);
-    //
-    //        // make sure the required keys are in the retrieved list:
-    //        for (StateInfo stateInfo : stateInfos) {
-    //            requiredKeys.remove(stateInfo.getKey());
-    //        }
-    //        if (!requiredKeys.isEmpty()) {
-    //            fail("Failed to find key '"+ requiredKeys.get(0) +"' in returned list");
-    //        }
-    //    }
-    //
-    //    @Test
-    //    public void testGetNextHappyState()
-    //            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
-    //        StateInfo stateInfo = atpService.getNextHappyState(AtpServiceConstants.ATP_PROCESS_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
-    //        assertNotNull(stateInfo);
-    //        assertEquals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, stateInfo.getKey());
-    //    }
     @Test
+//    @Ignore
     public void testValidateAtpAtpRelation()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
@@ -859,7 +835,8 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-    public void testCreatAtpAtpRelation()
+//    @Ignore
+    public void testCreateAtpAtpRelation()
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException,
             ReadOnlyException {
@@ -895,35 +872,8 @@ public class TestAtpServiceImpl {
         assertEquals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, retrieved.getTypeKey());
     }
 
-    //
-    //    @Test
-    //    public void testGetDataDictionaryEntry()
-    //            throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-    //        DictionaryEntryInfo value = atpService.getDataDictionaryEntry("http://student.kuali.org/wsdl/atp/AtpInfo", callContext);
-    //
-    //        assertNotNull(value);
-    //
-    //        DictionaryEntryInfo fakeEntry = null;
-    //        try {
-    //            fakeEntry = atpService.getDataDictionaryEntry("fakeKey", callContext);
-    //            fail("Did not get a DoesNotExistException when expected");
-    //        }
-    //        catch(DoesNotExistException e) {
-    //            assertNull(fakeEntry);
-    //        }
-    //    }
-    //
-    //    @Test
-    //    public void testGetDataDictionaryEntryKeys()
-    //            throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-    //        List<String> results = atpService.getDataDictionaryEntryKeys(callContext);
-    //
-    //        assertNotNull(results);
-    //        assertTrue(!results.isEmpty());
-    //
-    //        assertTrue(results.contains("http://student.kuali.org/wsdl/atp/AtpInfo"));
-    //    }
     @Test
+//    @Ignore
     public void testGetAtpAtpRelationsByTypeAndAtp() {
         try {
             List<AtpAtpRelationInfo> aaRelInfos = atpService.getAtpAtpRelationsByTypeAndAtp("testTermId1",
@@ -947,6 +897,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testGetAtpsByKeys()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -976,6 +927,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testGetAtpsByDates()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -1012,6 +964,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testGetAtpIdsByType()
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -1029,26 +982,8 @@ public class TestAtpServiceImpl {
         assertTrue("ATP IDs should be empty for fake type key", atpIds.isEmpty());
     }
 
-    //    @Test
-    //    public void testGetAllowedTypesForType() {
-    //        try {
-    //            List<TypeInfo> typeInfos = atpService.getAllowedTypesForType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
-    //            assertEquals(6, typeInfos.size());
-    //        } catch (Exception e) {
-    //            fail(e.getMessage());
-    //        }
-    //    }
-    //    @Test
-    //    public void testGetTypeRelationsByOwnerType() {
-    //        try {
-    //            List<TypeTypeRelationInfo> typeInfos = atpService.getTypeRelationsByOwnerType(AtpServiceConstants.ATP_AY_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, callContext);
-    //            assertNotNull(typeInfos);
-    //            assertEquals(3, typeInfos.size());
-    //	    } catch (Exception e) {
-    //	        fail(e.getMessage());
-    //	    }
-    //    }
     @Test
+//    @Ignore
     public void testGetImpactedMilestones() throws InvalidParameterException, MissingParameterException,
             DoesNotExistException, PermissionDeniedException, OperationFailedException {
         List<MilestoneInfo> impactedMilestones = atpService.getImpactedMilestones("FALLTERM1990INSTRUCTIONPERIOD",
@@ -1062,6 +997,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+//    @Ignore
     public void testCalculateMilestone() throws InvalidParameterException, MissingParameterException,
             DoesNotExistException, PermissionDeniedException, OperationFailedException {
         // Census start needs to be recalculated to 14-sept-1990

@@ -19,6 +19,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.infc.Milestone;
+import org.kuali.student.r2.core.class1.atp.service.impl.DateUtil;
 
 @Entity
 @Table(name = "KSEN_MSTONE")
@@ -194,11 +195,14 @@ public class MilestoneEntity extends MetaEntity {
     public void setIsInstructionalDay(boolean isInstructionalDay) {
         this.isInstructionalDay = this.toYN(isInstructionalDay);
     }
+    
 
     public void fromDto(Milestone milestone) {
-        this.setAllDay(defaultFalse(milestone.getIsAllDay()));
+        boolean allDay = defaultFalse(milestone.getIsAllDay());
+        this.setAllDay(allDay);
         this.setIsInstructionalDay(defaultFalse(milestone.getIsInstructionalDay()));
-        this.setDateRange(defaultFalse(milestone.getIsDateRange()));
+        boolean dateRange = defaultFalse(milestone.getIsDateRange());
+        this.setDateRange(dateRange);
         this.setRelative(defaultFalse(milestone.getIsRelative()));
         this.relativeAnchorMilestoneId = milestone.getRelativeAnchorMilestoneId();
         this.atpState = milestone.getStateKey();
@@ -210,9 +214,9 @@ public class MilestoneEntity extends MetaEntity {
             this.descrFormatted = null;
             this.descrPlain = null;
         }
-        this.startDate = milestone.getStartDate();
-        this.endDate = milestone.getEndDate();
-
+//      For explanation See https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates
+        this.startDate = DateUtil.startOfDayfIsAllDay (allDay, milestone.getStartDate());
+        this.endDate = DateUtil.endOfDayIfIsAllDay (allDay, DateUtil.nullIfNotDateRange(dateRange, milestone.getEndDate()));
         this.attributes = new ArrayList<MilestoneAttributeEntity>();
         if (null != milestone.getAttributes()) {
             for (Attribute att : milestone.getAttributes()) {

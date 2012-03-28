@@ -22,9 +22,9 @@ public class AtpMilestoneRelationDao extends GenericEntityDao<AtpMilestoneRelati
     }
 
     @SuppressWarnings("unchecked")
-    public List<AtpMilestoneRelationEntity> getByAtpAndMilestone(String atpId, String milestoneId) {
+    public List<String> getIdsByAtpAndMilestone(String atpId, String milestoneId) {
         Query query = em
-                .createQuery("from AtpMilestoneRelationEntity amRel where amRel.atpId=:atpId and amRel.milestoneId=:milestoneId");
+                .createQuery("select amRel.id from AtpMilestoneRelationEntity amRel where amRel.atpId=:atpId and amRel.milestoneId=:milestoneId");
         query.setParameter("atpId", atpId);
         query.setParameter("milestoneId", milestoneId);
         return query.getResultList();

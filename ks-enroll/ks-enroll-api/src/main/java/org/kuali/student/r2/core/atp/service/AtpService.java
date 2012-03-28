@@ -691,6 +691,12 @@ public interface AtpService {
      * Retrieves a list of Milestones that fall within a specified set
      * of dates inclusive of the dates.
      * 
+     * If the milestone is a date range then it should be selected if it overlaps 
+     * any part of the specified start and end dates.
+     * 
+     * Should follow these rules for storing and querying
+     * https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates
+     * 
      * @param startDate start of date range
      * @param endDate end of date range
      * @param contextInfo information containing the principalId and locale
@@ -725,6 +731,13 @@ public interface AtpService {
      * Retrieves a list of Milestones for a specified Academic Time
      * Period that fall within a specified set of dates inclusive of
      * the dates.
+     * 
+     * 
+     * If the milestone is a date range then it should be selected if it overlaps 
+     * any part of the specified start and end dates.
+     * 
+     * Should follow these rules for storing and querying
+     * https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates
      * 
      * @param atpId an identifier for an ATP
      * @param startDate start of date range
