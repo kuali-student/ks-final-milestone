@@ -64,29 +64,29 @@ public class CollaboratorHelper implements Serializable {
         ahtpBuilder.setForceAction(true);
 
         DocumentActionResult stdResp = null;
-        if (StudentWorkflowConstants.ActionRequestType.APPROVE.equals(actionRequestEnum)) {
-            ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_APPROVE_REQ_LABEL);
-            stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
-        }
-        else if (StudentWorkflowConstants.ActionRequestType.ACKNOWLEDGE.equals(actionRequestEnum)) {
-            ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
-            stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
-        }
-        else if (StudentWorkflowConstants.ActionRequestType.FYI.equals(actionRequestEnum)) {
-            ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_FYI_REQ_LABEL);
-            stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
-        }
-        else {
-        	throw new OperationFailedException("Invalid action request type '" + actionRequestEnum.getActionRequestLabel() + "'");
-        }
-        //TODO KSCM-277
-//        if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-//            if(stdResp==null){
-//            	throw new OperationFailedException("Error found in Collab Adhoc Request (" + actionRequestType.getActionRequestLabel() + ")");
-//            }else{
-//            	throw new OperationFailedException("Error found in Collab Adhoc Request (" + actionRequestType.getActionRequestLabel() + "): " + stdResp.getErrorMessage());
-//            }
-//        }
+        try {
+            if (StudentWorkflowConstants.ActionRequestType.APPROVE.equals(actionRequestEnum)) {
+                ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_APPROVE_REQ_LABEL);
+                stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
+            } else if (StudentWorkflowConstants.ActionRequestType.ACKNOWLEDGE.equals(actionRequestEnum)) {
+                ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+                stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
+            } else if (StudentWorkflowConstants.ActionRequestType.FYI.equals(actionRequestEnum)) {
+                ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+                stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
+            } else {
+                throw new OperationFailedException("Invalid action request type '"
+                        + actionRequestEnum.getActionRequestLabel() + "'");
+            }
+        } catch (RuntimeException e) {
+            if (e.getMessage() == null) {
+                throw new OperationFailedException("Error found in Collab Adhoc Request ("
+                        + actionRequestType.getLabel() + ")");
+            } else {
+                throw new OperationFailedException("Error found in Collab Adhoc Request ("
+                        + actionRequestType.getLabel() + "): " + e.getMessage().trim());
+            }
+        }        
 
         PermissionType selectedPermType = PermissionType.getByCode(selectedPermissionCode);
         if (selectedPermType == null) {
@@ -128,11 +128,13 @@ public class CollaboratorHelper implements Serializable {
                 throw new OperationFailedException("Unable to find Principal ID for action request id: " + actionRequestId);
             }
             DocumentActionParameters docActionParams = DocumentActionParameters.Builder.create(docId, currentUserPrincipalId).build();
-            DocumentActionResult stdResp = getWorkflowDocumentActionsService().revokeAdHocRequestById(docActionParams, actionRequestId);
-            //TODO KSCM-277
-//            if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-//                throw new OperationFailedException("Error found trying to remove collaborator");
-//            }
+            try {
+                DocumentActionResult stdResp = getWorkflowDocumentActionsService().revokeAdHocRequestById(
+                        docActionParams, actionRequestId);
+            } catch (RuntimeException e) {
+                throw new OperationFailedException("Error found trying to remove collaborator");
+            }
+            
             // remove principal from edit permission
             removeRoleMemberIfNeccesary(StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
             // remove principal from comment permission

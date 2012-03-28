@@ -13,6 +13,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
@@ -261,26 +262,24 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         DocumentActionParameters docActionParams = dapBuilder.build();
 
         //Save
-        DocumentActionResult stdResp;
-        if ( (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocument().getStatus())) ||
-        	 (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocument().getStatus())) ) {
-        	//if the route status is initial, then save initial
-            stdResp = workflowDocumentActionsService.save(docActionParams);
-        } else {
-        	//Otherwise just update the doc content
-        	stdResp = workflowDocumentActionsService.saveDocumentData(docActionParams);
+        try {
+            DocumentActionResult stdResp;
+            if ( (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocument().getStatus())) ||
+            	 (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocument().getStatus())) ) {
+            	//if the route status is initial, then save initial
+                stdResp = workflowDocumentActionsService.save(docActionParams);
+            } else {
+            	//Otherwise just update the doc content
+            	stdResp = workflowDocumentActionsService.saveDocumentData(docActionParams);
+            }
+        } catch (RuntimeException e) {
+            //Check if there were errors saving
+            if(e.getMessage() == null){
+                throw new RuntimeException("Error found updating document");
+            } else {
+                throw new RuntimeException("Error found updating document: " + e.getMessage().trim());
+            }
         }
-
-        //Check if there were errors saving
-        //TODO KSCM-277
-//        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-//            if(stdResp==null){
-//                throw new RuntimeException("Error found updating document");
-//            }else{
-//                throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
-//            }
-//        }
-        
         return proposalInfo;
     }
     

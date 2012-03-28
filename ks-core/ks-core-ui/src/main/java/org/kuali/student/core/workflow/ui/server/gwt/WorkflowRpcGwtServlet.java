@@ -401,43 +401,6 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	    }
 	}
 	
-	@Override
-    public Boolean adhocRequest(String docId, String recipientPrincipalId, ActionRequestType requestType,
-            String annotation) throws OperationFailedException {
-	    try {
-            //Get a user name
-            String username = SecurityUtils.getCurrentUserId();
-
-            String fyiAnnotation = "";
-            String approveAnnotation = "";
-            String ackAnnotation = "";
-            //TODO KSCM-277: Entire commented section
-            /*if (ActionRequestType.FYI.equals(requestType)) {
-                StandardResponse stdResp = getWorkflowDocumentService().requestAdHocFyiToPrincipal(workflowId, recipientPrincipalId, username, fyiAnnotation);
-                if (stdResp == null || StringUtils.isNotBlank(stdResp.stdResp())) {
-                    throw new OperationFailedException("Error found in Adhoc FYI: " + stdResp.getErrorMessage());
-                    }
-                }
-            if (ActionRequestType.APPROVE.equals(requestType)) {
-                StandardResponse stdResp = getWorkflowDocumentService().requestAdHocApproveToPrincipal(workflowId, recipientPrincipalId,username, approveAnnotation);
-                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-                    throw new OperationFailedException("Error found in Adhoc Approve: " + stdResp.getErrorMessage());
-                    }
-                }
-            if (ActionRequestType.ACKNOWLEDGE.equals(requestType)) {
-                StandardResponse stdResp = getWorkflowDocumentService().requestAdHocAckToPrincipal(workflowId,recipientPrincipalId,username, ackAnnotation);
-                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-                    throw new OperationFailedException("Error found in Adhoc Ack: " + stdResp.getErrorMessage());
-                    }
-                }*/
-
-        } catch (Exception e) {
-            LOG.error("Error adhoc routing",e);
-            throw new OperationFailedException("Could not adhoc route");
-        }
-        return  Boolean.valueOf(true);
-    }
-
 	public void setWorkflowDocumentActionsService(WorkflowDocumentActionsService workflowDocumentActionsService) {
 		this.workflowDocumentActionsService = workflowDocumentActionsService;
 	}

@@ -74,8 +74,6 @@ public interface WorkflowRpcService extends RemoteService {
     public Boolean returnDocumentWithId(String workflowId, String nodeName) throws OperationFailedException;
     public List<String> getPreviousRouteNodeNames(String workflowId) throws OperationFailedException;
 	
-	public Boolean adhocRequest(String docId, String recipientPrincipalId, ActionRequestType requestType, String annotation) throws OperationFailedException;
-	
-    public Boolean isAuthorizedAddReviewer(String workflowId) throws OperationFailedException;
+	public Boolean isAuthorizedAddReviewer(String workflowId) throws OperationFailedException;
     public Boolean isAuthorizedRemoveReviewers(String workflowId) throws OperationFailedException;
 }
