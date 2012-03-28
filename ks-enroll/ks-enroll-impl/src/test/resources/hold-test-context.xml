@@ -98,8 +98,6 @@
     <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
 	  	<property name="issueDao" ref="issueDao"/>
 	  	<property name="holdDao" ref="holdDao"/>
-	  	<property name="restrictionDao" ref="restrictionDao"/>
-	  	<property name="stateService" ref="stateService"/>
 	  	<property name="dataDictionaryService" ref="dataDictionaryServiceForHold"/>
     </bean>
 	
@@ -115,14 +113,6 @@
             	
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
-   
- 
-    <bean id="restrictionDao" class="org.kuali.student.enrollment.class1.hold.dao.RestrictionDao">
-    	<property name="em" ref="entityManager"/>
-    </bean> 
-    
-    
-    
     <bean id="holdDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldDao">
     	<property name="em" ref="entityManager"/>
     </bean>
@@ -131,19 +121,6 @@
     	<property name="em" ref="entityManager"/>
     </bean>
     
-	<bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
-        <property name="stateDao" ref="stateDao"/>
-        <property name="lifecycleDao" ref="lifecycleDao"/>
-    </bean>
-    
-    <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-    
-    <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-	   
 	<tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />
 		

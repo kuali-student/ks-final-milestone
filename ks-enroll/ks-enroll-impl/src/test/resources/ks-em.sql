@@ -13,10 +13,6 @@
 -- permissions and limitations under the License.
 --
 
--- Enumeration States
-insert into KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) values ('kuali.enumeration.state.active', 'Active', 'kuali.enumeration.process', 'Indicates that this Enumeration is active', 0)
-insert into KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) values ('kuali.enumeration.state.inactive', 'Inactive', 'kuali.enumeration.process', 'Indicates that this Enumeration is inactive', 0)
-
 -- Enumeration Types
 
 -- Enumerations 
