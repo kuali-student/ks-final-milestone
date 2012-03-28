@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
@@ -33,7 +33,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGrou
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
@@ -216,8 +216,7 @@ public abstract class ProgramController extends MenuSectionController {
      * @param callback we have to invoke this callback when model is loaded or failed.
      */
     protected void loadModel(final ModelRequestCallback<DataModel> callback) {
-        //TODO KSCM - Correct ContextInfo parameter?
-        programRemoteService.getData(getViewContext().getId(), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+        programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -345,8 +344,7 @@ public abstract class ProgramController extends MenuSectionController {
                 idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
             }
         }
-        //TODO KSCM - Correct ContextInfo parameter?
-        programRemoteService.getMetadata(viewContextId, idAttributes, ContextUtils.getContextInfo(), new AbstractCallback<Metadata>() {
+        programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
 
             @Override
             public void onSuccess(Metadata result) {
@@ -377,9 +375,9 @@ public abstract class ProgramController extends MenuSectionController {
     public void setViewContext(ViewContext viewContext) {
         super.setViewContext(viewContext);
         if (viewContext.getId() != null && !viewContext.getId().isEmpty()) {
-            viewContext.setPermissionType(PermissionType.OPEN);
+       //TODO KSCM-427      viewContext.setPermissionType(PermissionType.OPEN);
         } else {
-            viewContext.setPermissionType(PermissionType.INITIATE);
+        	//TODO KSCM-427     viewContext.setPermissionType(PermissionType.INITIATE);
         }
     }
 
@@ -449,8 +447,8 @@ public abstract class ProgramController extends MenuSectionController {
      * @param callback will return true if update succeeded
      */
      protected void updateState(String state, final Callback<Boolean> okCallback) {
-         //TODO KSCM - Correct ContextInfo parameter?
-       	 programRemoteService.updateState(programModel.getRoot(), state,  ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
+
+       	 programRemoteService.updateState(programModel.getRoot(), state,  new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
                 @Override
                 public void onSuccess(DataSaveResult result) {
                 	if(result.getValidationResults()==null || result.getValidationResults().isEmpty()){
@@ -467,9 +465,10 @@ public abstract class ProgramController extends MenuSectionController {
                 		okCallback.exec(false);
                 	}
                }
-         }); 
+                
+            }); 
+    	 
      }
-     
      /**
       * This method will refresh the model and view with the data sent back from
       * the server.

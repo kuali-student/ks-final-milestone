@@ -32,10 +32,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.loLoRelationInfo -->
 <!-- ******************************************** -->
 <!-- Detailed information about an LO to LO relationship. -->
-<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoLoRelationInfo" id="object.loLoRelationInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo" id="object.loLoRelationInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.loLoRelationInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoLoRelationInfo" id="object.loLoRelationInfo" parent="object.loLoRelationInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo" id="object.loLoRelationInfo" parent="object.loLoRelationInfo.abstract"/>
 
 <dict:type key="*" id="type.loLoRelationInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -56,7 +56,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.loLoRelationInfo.expirationDate"/>
 	<dict:fieldRef bean="field.loLoRelationInfo.metaInfo"/>
 	<dict:fieldRef bean="field.loLoRelationInfo.type"/>
-	<dict:fieldRef bean="field.loLoRelationInfo.state"/>
+	<dict:fieldRef bean="field.loLoRelationInfo.stateKey"/>
 	<dict:fieldRef bean="field.loLoRelationInfo.id"/>
 </dict:state>
 <dict:state key="*" id="state.loLoRelationInfo" parent="state.loLoRelationInfo.abstract"/>
@@ -163,10 +163,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.loLoRelationInfo.metaInfo.(default).(default) -->
 <!-- ******************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loLoRelationInfo.metaInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loLoRelationInfo.metaInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.field.loLoRelationInfo.metaInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loLoRelationInfo.metaInfo" parent="object.field.loLoRelationInfo.metaInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loLoRelationInfo.metaInfo" parent="object.field.loLoRelationInfo.metaInfo.abstract"/>
 
 <dict:type key="*" id="type.field.loLoRelationInfo.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -317,7 +317,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldDescriptorRef bean="field.loLoRelationInfo.state.fd"/>
 	<dict:constraintDescriptorRef bean="field.loLoRelationInfo.state.cd"/>
 </dict:field>
-<dict:field key="state" id="field.loLoRelationInfo.state" parent="field.loLoRelationInfo.state.abstract"/>
+<dict:field key="state" id="field.loLoRelationInfo.stateKey" parent="field.loLoRelationInfo.state.abstract"/>
 <dict:fieldDescriptor id="field.loLoRelationInfo.state.fd.abstract" abstract="true">
 	<dict:name>LO to LO Relation State</dict:name>
 	<dict:desc>Identifier for the current status of a LO to LO relationship. The values for this field are constrained to those in the luLuRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
@@ -328,7 +328,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="field.loLoRelationInfo.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="state" id="field.loLoRelationInfo.state.cd" parent="field.loLoRelationInfo.state.cd.abstract"/>
 

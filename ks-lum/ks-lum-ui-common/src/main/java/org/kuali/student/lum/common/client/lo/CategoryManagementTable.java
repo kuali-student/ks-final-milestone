@@ -20,10 +20,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
@@ -35,7 +31,11 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
 import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -251,8 +251,8 @@ public class CategoryManagementTable extends Composite {
             LoCategoryInfo loCategoryInfo = new LoCategoryInfo();
             loCategoryInfo.setId(r.getCellData(ID_COLUMN_KEY).toString());
             loCategoryInfo.setName(r.getCellData(NAME_COLUMN_KEY).toString());
-            loCategoryInfo.setType(r.getCellData(TYPE_COLUMN_KEY).toString());
-            loCategoryInfo.setState(r.getCellData(STATE_COLUMN_KEY).toString());
+            loCategoryInfo.setTypeKey(r.getCellData(TYPE_COLUMN_KEY).toString());
+            loCategoryInfo.setStateKey(r.getCellData(STATE_COLUMN_KEY).toString());
             loCategoryInfos.add(loCategoryInfo);
         }
         return loCategoryInfos;
@@ -318,8 +318,8 @@ public class CategoryManagementTable extends Composite {
             boolean shouldExcludeRow = false;
             for (LoCategoryInfo toFilter : loCategoriesToFilter) {
                 String name = toFilter.getName();
-                String type = toFilter.getType();
-                if (result.getName().equals(name) && result.getType().equals(type)){
+                String type = toFilter.getTypeKey();
+                if (result.getName().equals(name) && result.getTypeKey().equals(type)){
                     shouldExcludeRow = true;
                     break;
                 }
@@ -340,7 +340,7 @@ public class CategoryManagementTable extends Composite {
        if(isHideInactiveCategories()) {
             List<LoCategoryInfo> filteredResult = new ArrayList<LoCategoryInfo>();
             for(LoCategoryInfo info : result) {
-                if (info.getState().equals("active") ) {
+                if ("Active".equals(info.getStateKey())) {
                     filteredResult.add(info);
                 }
             }

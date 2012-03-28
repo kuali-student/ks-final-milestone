@@ -3,8 +3,9 @@ package org.kuali.student.lum.program.client.core.edit;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -19,8 +20,6 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramMsgConstants;
@@ -185,8 +184,8 @@ public class CoreEditController extends CoreController {
         versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
         versionData.set(new Data.StringKey("versionComment"), "Core Program Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
-        //TODO KSCM - Correct ContextInfo parameter?
-        programRemoteService.saveData(data, ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+
+        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -234,8 +233,7 @@ public class CoreEditController extends CoreController {
     }
 
     private void saveData(final Callback<Boolean> okCallback) {
-        //TODO KSCM - Correct ContextInfo parameter?
-        programRemoteService.saveData(programModel.getRoot(), ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
+        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);

@@ -16,17 +16,16 @@ package org.kuali.student.lum.lu.ui.course.client.requirements;
 
 import java.util.*;
 
-import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
@@ -88,8 +87,7 @@ public class CourseRequirementsDataModel {
     public void retrieveStatementTypes(final String courseId, final Callback<Boolean> onReadyCallback) {
 
         //retrieve available course requirement types
-            //TODO KSCM - Correct ContextInfo parameter?
-            statementRpcServiceAsync.getStatementTypesForStatementTypeForCourse("kuali.statement.type.course", ContextUtils.getContextInfo(), new KSAsyncCallback<List<StatementTypeInfo>>() {
+            statementRpcServiceAsync.getStatementTypesForStatementTypeForCourse("kuali.statement.type.course", new KSAsyncCallback<List<StatementTypeInfo>>() {
                 @Override
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
@@ -121,8 +119,7 @@ public class CourseRequirementsDataModel {
         }
 
         courseRemoteService.getCourseStatements(courseId, CourseRequirementsManageView.RULEEDIT_TEMLATE,
-                //TODO KSCM - Correct ContextInfo parameter?
-                                                    CourseRequirementsManageView.TEMLATE_LANGUAGE, ContextUtils.getContextInfo(), new KSAsyncCallback<List<StatementTreeViewInfo>>() {
+                                                    CourseRequirementsManageView.TEMLATE_LANGUAGE, new KSAsyncCallback<List<StatementTreeViewInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -192,8 +189,8 @@ public class CourseRequirementsDataModel {
         }
 
         final List<String> referencedProgReqIds = new ArrayList<String>();
-        //TODO KSCM - Correct ContextInfo parameter?
-        courseRemoteService.storeCourseStatements(courseId.toString(), courseState, courseReqState, courseReqInfos, ContextUtils.getContextInfo(), new KSAsyncCallback<Map<Integer, StatementTreeViewInfo>>() {
+
+        courseRemoteService.storeCourseStatements(courseId.toString(), courseState, courseReqState, courseReqInfos, new KSAsyncCallback<Map<Integer, StatementTreeViewInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -403,8 +400,7 @@ public class CourseRequirementsDataModel {
         StatementRpcServiceAsync statementRpcServiceAsync = GWT.create(StatementRpcService.class);
 
         //retrieve available course requirement types
-        //TODO KSCM - Correct ContextInfo parameter?
-        statementRpcServiceAsync.getStatementTypesForStatementTypeForCourse("kuali.statement.type.course", ContextUtils.getContextInfo(), new KSAsyncCallback<List<StatementTypeInfo>>() {
+        statementRpcServiceAsync.getStatementTypesForStatementTypeForCourse("kuali.statement.type.course", new KSAsyncCallback<List<StatementTypeInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
 	            Window.alert(caught.getMessage());

@@ -19,12 +19,12 @@ import org.kuali.rice.kew.role.QualifierResolver;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -130,7 +130,8 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
             searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
             searchRequest.setParams(queryParamValues);
             try {
-                SearchResult result = getOrganizationService().search(searchRequest, null);		// TODO KSCM-267
+                SearchResult result = null;
+             // TODO KSCM-371 result = getOrganizationService().search(searchRequest, null);
                 results = result.getRows();
             } catch (Exception e) {
                 LOG.error("Error calling org service");

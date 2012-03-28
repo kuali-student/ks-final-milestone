@@ -2,11 +2,11 @@ package org.kuali.student.lum.program.server.transform;
 
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.util.ContextUtils;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 
 /**
  * When credential program is activated this filter sets the previous version to superseded and updates the end program
@@ -32,7 +32,7 @@ public class VersionCredentialProgramFilter extends VersionProgramFilter {
 				previousVersionData.set(ProgramConstants.ID, previousVersionCoreInfo.getId());
 				previousVersionData.set(ProgramConstants.END_PROGRAM_ENTRY_TERM, previousVersionCoreInfo.getEndProgramEntryTerm());
 				previousVersionData.set(ProgramConstants.END_PROGRAM_ENROLL_TERM, previousVersionCoreInfo.getEndTerm());
-				previousVersionData.set(ProgramConstants.STATE, previousVersionCoreInfo.getState());
+				previousVersionData.set(ProgramConstants.STATE, previousVersionCoreInfo.getStateKey());
 			} 
 			
 			data.set(PREVIOUS_VERSION_INFO, previousVersionData);

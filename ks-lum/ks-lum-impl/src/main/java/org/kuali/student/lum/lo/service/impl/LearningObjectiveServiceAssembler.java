@@ -15,23 +15,24 @@
 
 package org.kuali.student.lum.lo.service.impl;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.dao.CrudDao;
-import org.kuali.student.common.dto.AttributeInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.service.impl.BaseAssembler;
+import org.kuali.student.r1.common.dao.CrudDao;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r1.common.service.impl.BaseAssembler;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.lo.dao.LoDao;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
-import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
-import org.kuali.student.lum.lo.dto.LoRepositoryInfo;
-import org.kuali.student.lum.lo.dto.LoTypeInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
+import org.kuali.student.r1.lum.lo.dto.LoInfo;
+import org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo;
+import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
+import org.kuali.student.r1.lum.lo.dto.LoRepositoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoAttribute;
 import org.kuali.student.lum.lo.entity.LoCategory;
@@ -72,8 +73,8 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(dto, lo, new String[] { "desc", "loRepository", "loType", "attributes", "metaInfo" });
 
-// TODO KSCM        lo.setAttributes(toGenericAttributes(LoAttribute.class, dto.getAttributes(), lo, dao));
-        lo.setDescr(toRichText(LoRichText.class, dto.getDescr()));
+        lo.setAttributes(toGenericAttributes(LoAttribute.class, dto.getAttributes(), lo, dao));
+        lo.setDescr(toRichText(LoRichText.class, dto.getDesc()));
 
         LoRepository repository = dao.fetch(LoRepository.class, dto.getLoRepositoryKey());
         if(null == repository) {
@@ -90,12 +91,12 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         return lo;
     }
 
-	public static LoInfo toLoInfo(Lo entity) {
+    public static LoInfo toLoInfo( Lo entity) {
         LoInfo dto = new LoInfo();
 
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "type" });
-        dto.setDescr(toRichTextInfo(entity.getDescr()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setType(entity.getLoType().getId());
@@ -112,9 +113,9 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
             entity = new LoCategory();
         BeanUtils.copyProperties(dto, entity,
                 new String[] { "desc", "attributes", "metaInfo", "loRepository", "type", "id"});
-        entity.setDesc(toRichText(LoRichText.class, dto.getDescr()));
-// TODO KSCM        entity.setAttributes(toGenericAttributes(LoCategoryAttribute.class, dto.getAttributes(), entity, dao));
-// TODO KSCM        entity.setLoRepository(dao.fetch(LoRepository.class, dto.getLoRepository()));
+        entity.setDesc(toRichText(LoRichText.class, dto.getDesc()));
+        entity.setAttributes(toGenericAttributes(LoCategoryAttribute.class, dto.getAttributes(), entity, dao));
+        entity.setLoRepository(dao.fetch(LoRepository.class, dto.getLoRepository()));
         entity.setLoCategoryType(dao.fetch(LoCategoryType.class, dto.getType()));
         return entity;
     }
@@ -124,10 +125,10 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "loRepository", "loCategoryType" });
-        dto.setDescr(toRichTextInfo(entity.getDescr()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-     // TODO KSCM        dto.setLoRepository(entity.getLoRepository().getId());
+        dto.setLoRepository(entity.getLoRepository().getId());
         dto.setType(entity.getLoCategoryType().getId());
         
         return dto;
@@ -138,7 +139,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "rootLo" });
-        dto.setDescr(toRichTextInfo(entity.getDescr()));
+        dto.setDesc(toRichTextInfo(entity.getDescr()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setRootLoId(entity.getRootLo() == null? null :entity.getRootLo().getId());
@@ -230,7 +231,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(dto, llRelation, new String[] { "lo", "relatedLo", "attributes", "metaInfo" });
 
-     // TODO KSCM        llRelation.setAttributes(toGenericAttributes(LoLoRelationAttribute.class, dto.getAttributes(), llRelation, dao));
+        llRelation.setAttributes(toGenericAttributes(LoLoRelationAttribute.class, dto.getAttributes(), llRelation, dao));
 
         Lo lo = null;
         Lo relatedLo = null;
@@ -258,7 +259,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
                 new String[] { "lo", "relatedLo", "type", "attributes" });
         dto.setLoId(entity.getLo().getId());
         dto.setRelatedLoId(entity.getRelatedLo().getId());
-     // TODO KSCM        dto.setType(entity.getLoLoRelationType().getId());
+        dto.setType(entity.getLoLoRelationType().getId());
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;

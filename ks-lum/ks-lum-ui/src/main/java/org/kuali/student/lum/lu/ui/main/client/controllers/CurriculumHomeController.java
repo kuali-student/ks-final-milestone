@@ -18,6 +18,7 @@ import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminControll
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminRetireController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminWithoutVersionController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseRetireByProposalController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.ViewCourseParentController;
 import org.kuali.student.lum.lu.ui.course.client.views.CategoryManagementView;
 import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
@@ -39,6 +40,7 @@ import com.google.gwt.user.client.Window;
  * default view of this controller is the Curriculum Home Landing page.  The following views are views within
  * this controller's scope:<br>
  * 		COURSE_PROPOSAL<br>
+        COURSE_RETIRE_BY_PROPOSAL<br>
         VIEW_COURSE<br>
         PROGRAM_VIEW<br>
         PROGRAM_EDIT<br>
@@ -66,6 +68,7 @@ public class CurriculumHomeController extends LayoutController {
     private final SpanPanel panel = new SpanPanel();
 
     private CourseProposalController courseProposalController;
+    private CourseRetireByProposalController courseRetireByProposalController;
     private CourseAdminController courseAdminController;
     private CourseAdminWithoutVersionController courseAdminWithoutVersionController;
     private CourseAdminRetireController courseAdminRetireController;
@@ -121,6 +124,14 @@ public class CurriculumHomeController extends LayoutController {
 //                    }
 //                });
                 break;
+            case COURSE_RETIRE_BY_PROPOSAL:
+//              GWT.runAsync(new RunAsyncGetView() {
+//                  @Override
+//                  public void onSuccess() {
+                      callback.exec(getCourseRetirebyProposalController());
+//                  }
+//              });
+              break;  
             case COURSE_ADMIN:
 //                GWT.runAsync(new RunAsyncGetView() {
 //                    @Override
@@ -369,6 +380,11 @@ public class CurriculumHomeController extends LayoutController {
     private CourseProposalController getCourseProposalController() {
         courseProposalController = GWT.create(CourseProposalController.class);
         return courseProposalController;
+    }
+    
+    private CourseProposalController getCourseRetirebyProposalController(){
+        courseRetireByProposalController = GWT.create(CourseRetireByProposalController.class);
+        return courseRetireByProposalController;
     }
 
     private CourseAdminController getCourseAdminController() {

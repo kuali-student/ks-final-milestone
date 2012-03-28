@@ -16,12 +16,12 @@ package org.kuali.student.lum.program.client.requirements;
 
 import java.util.*;
 
-import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
@@ -30,7 +30,7 @@ import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -112,8 +112,7 @@ public class ProgramRequirementsDataModel {
     private void retrieveStatementTypes(final List<String> programRequirementIds, final Callback<Boolean> onReadyCallback) {
 
         //retrieve available program requirement types
-        //TODO KSCM - Correct ContextInfo parameter?
-        statementRpcServiceAsync.getStatementTypesForStatementType("kuali.statement.type.program", ContextUtils.getContextInfo(), new KSAsyncCallback<List<StatementTypeInfo>>() {
+        statementRpcServiceAsync.getStatementTypesForStatementType("kuali.statement.type.program", new KSAsyncCallback<List<StatementTypeInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
 	            Window.alert(caught.getMessage());
@@ -142,8 +141,8 @@ public class ProgramRequirementsDataModel {
             onReadyCallback.exec(true);
             return;
         }
-        //TODO KSCM - Correct ContextInfo parameter?
-        programRemoteService.getProgramRequirements(programRequirementIds, ContextUtils.getContextInfo(), new KSAsyncCallback<List<ProgramRequirementInfo>>() {
+
+        programRemoteService.getProgramRequirements(programRequirementIds, new KSAsyncCallback<List<ProgramRequirementInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -178,6 +177,8 @@ public class ProgramRequirementsDataModel {
         });     
     }
 
+    
+    
     public ProgramRequirementInfo updateRules(StatementTreeViewInfo newSubRule, Integer internalProgReqID, boolean isNewRule) {
 
         ProgramRequirementInfo affectedRule = progReqInfos.get(internalProgReqID);
@@ -203,8 +204,7 @@ public class ProgramRequirementsDataModel {
             stmtList.add(stmtTree);
             affectedTopTree.setStatements(stmtList);
         }
-
-        //now update the actual rule
+      //now update the actual rule
         List<StatementTreeViewInfo> affectedSubRules = affectedTopTree.getStatements();
         if (isNewRule) {
             affectedSubRules.add(newSubRule);
@@ -233,8 +233,8 @@ public class ProgramRequirementsDataModel {
     public void updateProgramEntities(final Callback<List<ProgramRequirementInfo>> callback) {
 
         final List<String> referencedProgReqIds = new ArrayList<String>();
-        //TODO KSCM - Correct ContextInfo parameter?
-        programRemoteService.storeProgramRequirements(progReqState, progReqInfos, ContextUtils.getContextInfo(), new KSAsyncCallback<Map<Integer, ProgramRequirementInfo>>() {
+
+        programRemoteService.storeProgramRequirements(progReqState, progReqInfos, new KSAsyncCallback<Map<Integer, ProgramRequirementInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());

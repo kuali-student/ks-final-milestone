@@ -1,19 +1,19 @@
 package org.kuali.student.lum.program.service.assembler;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.BOAssembler;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.lum.program.dto.assembly.*;
+import org.kuali.student.r1.common.assembly.BOAssembler;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
+import org.kuali.student.r1.lum.lu.dto.CluInfo;
+import org.kuali.student.r1.lum.lu.service.LuService;
+import org.kuali.student.r1.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r1.lum.program.dto.assembly.*;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 import java.util.List;
@@ -56,12 +56,14 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         
         if (!shallowBuild) {
 	        programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) cpInfo, contextInfo);
-	        cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild));
+	        /* TODO KSCM-429 cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
 	        cpInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(baseDTO.getId(),contextInfo));
         }
         
         try {
-            cpInfo.setCoreProgramIds(luService.getRelatedCluIdsByCluId(baseDTO.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM,contextInfo));
+
+        	//TODO cpInfo.setCoreProgramIds(luService.getRelatedCluIdsByCluId(baseDTO.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM,contextInfo));
+        	 cpInfo.setCoreProgramIds(luService.getRelatedCluIdsByCluId(baseDTO.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM));
         } catch (Exception e) {
             throw new AssemblyException(e);
         }
@@ -84,7 +86,8 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
 
         CluInfo clu;
         try {
-            clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
+            //TODO KSCM-421 clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
+        	clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId()) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
         } 
@@ -104,11 +107,11 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         }
 
         if (businessDTO.getResultOptions() != null) {
-            disassembleResultOptions(businessDTO, operation, result);
+            disassembleResultOptions(businessDTO, operation, result, contextInfo);
         }
 
         if (businessDTO.getLearningObjectives() != null) {
-            disassembleLearningObjectives(businessDTO, operation, result);
+            disassembleLearningObjectives(businessDTO, operation, result,contextInfo);
         }
 
         clu.setDescr(businessDTO.getDescr());
@@ -127,24 +130,23 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         return result;
     }
 
-    private void disassembleResultOptions(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result) throws AssemblyException {
-        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
-                credential.getId(), credential.getState(), credential.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
+    private void disassembleResultOptions(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
+        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(credential.getId(), credential.getState(), credential.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option", contextInfo);
         if (resultOptions != null) {
             result.getChildNodes().add(resultOptions);
         }
     }
 
-    private void disassembleLearningObjectives(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result) throws AssemblyException {
-        try {
-            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(credential.getId(), credential.getState(), (List<LoDisplayInfo>) credential.getLearningObjectives(), operation);
+    private void disassembleLearningObjectives(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
+    	/* TODO KSCM-429  try {
+            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(credential.getId(), credential.getState(), (List<LoDisplayInfo>) credential.getLearningObjectives(), operation,contextInfo);
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
             }
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling los", e);
-        }
+        } */
     }
 
     private void disassembleCorePrograms(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {

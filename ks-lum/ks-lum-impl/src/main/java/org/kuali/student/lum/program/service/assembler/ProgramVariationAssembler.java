@@ -18,20 +18,22 @@ package org.kuali.student.lum.program.service.assembler;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.BOAssembler;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.dto.AmountInfo;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.lum.program.dto.assembly.*;
+import org.kuali.student.r1.common.assembly.BOAssembler;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r1.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r1.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r1.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r1.lum.program.dto.assembly.*;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 /**
  * @author KS
  *
@@ -39,7 +41,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 public class ProgramVariationAssembler implements BOAssembler<ProgramVariationInfo, CluInfo> {
     final static Logger LOG = Logger.getLogger(ProgramVariationAssembler.class);
 
-    private LuService luService;
+    private CluService luService;
     private CluAssemblerUtils cluAssemblerUtils;
     private ProgramAssemblerUtils programAssemblerUtils;
 
@@ -57,12 +59,17 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.assembleFullOrgs(baseDTO, (ProgramFullOrgAssembly) pvInfo);
         programAssemblerUtils.assembleAtps(baseDTO, (ProgramAtpAssembly) pvInfo);
         programAssemblerUtils.assembleLuCodes(baseDTO, (ProgramCodeAssembly) pvInfo);
-        programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) pvInfo, contextInfo);
+        try {
+			programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) pvInfo, contextInfo);
+		} catch (PermissionDeniedException e) {
+			// // TODO KSCM-421 could not add this to BoAssembler interface, since it is r2 exception and not a R1
+			e.printStackTrace();
+		}
         
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) pvInfo, contextInfo);
         	pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(baseDTO.getId(), contextInfo));
-            pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild));
+        	/* TODO KSCM-429  pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
         }
         
         pvInfo.setIntensity((null != baseDTO.getIntensity()) ? baseDTO.getIntensity().getUnitType() : null);
@@ -89,7 +96,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 
 		CluInfo clu;
 		try {
-			clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
+			clu = (NodeOperation.UPDATE == operation) ? R1R2ConverterUtil.convert(luService.getClu(businessDTO.getId(), contextInfo),new CluInfo()) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during variation update", e);
         } 
@@ -111,11 +118,11 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         }
         
         if (businessDTO.getResultOptions() != null) {
-            disassembleResultOptions(businessDTO, operation, result);
+            disassembleResultOptions(businessDTO, operation, result, contextInfo);
         }
 
         if (businessDTO.getLearningObjectives() != null) {
-            disassembleLearningObjectives(businessDTO, operation, result);
+            disassembleLearningObjectives(businessDTO, operation, result,contextInfo);
         }
  
 		AmountInfo intensity = new AmountInfo();
@@ -135,28 +142,27 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     	
     }
 
-    private void disassembleLearningObjectives(ProgramVariationInfo variation, NodeOperation operation, BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result) throws AssemblyException {
-        try {
-            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(variation.getId(), variation.getState(), (List<LoDisplayInfo>) variation.getLearningObjectives(), operation);
+    private void disassembleLearningObjectives(ProgramVariationInfo variation, NodeOperation operation, BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
+    	/* TODO KSCM-429 try {
+            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(variation.getId(), variation.getState(), (List<LoDisplayInfo>) variation.getLearningObjectives(), operation,contextInfo);
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
             }
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling los", e);
-        }
+        } */
     }
 
-    private void disassembleResultOptions(ProgramVariationInfo variation, NodeOperation operation, BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result) throws AssemblyException {
-        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(
-        		variation.getId(), variation.getState(), variation.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option");
+    private void disassembleResultOptions(ProgramVariationInfo variation, NodeOperation operation, BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
+        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(variation.getId(), variation.getState(), variation.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option", contextInfo);
         if (resultOptions != null) {
             result.getChildNodes().add(resultOptions);           
         }
     }
     
     // Spring setter
-    public void setLuService(LuService luService) {
+    public void setLuService(CluService luService) {
         this.luService = luService;
     }
     

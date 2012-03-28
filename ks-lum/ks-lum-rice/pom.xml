@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.lum</groupId>
     <artifactId>ks-lum</artifactId>
-    <version>2.0.0-cm-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
@@ -23,19 +23,19 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
-      <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
       <type>pom</type>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-api</artifactId>
-      <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -61,7 +61,7 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-      <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>

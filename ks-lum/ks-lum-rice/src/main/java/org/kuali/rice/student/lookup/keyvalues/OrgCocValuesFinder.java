@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 public class OrgCocValuesFinder extends StudentKeyValuesBase {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
@@ -57,8 +57,7 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
         searchRequest.setParams(queryParamValues);
         
         try {
-            SearchResult results = getOrganizationService().search(searchRequest, null);	// TODO KSCM-267
-
+            SearchResult results = getOrganizationService().search(searchRequest);
             for (SearchResultRow result : results.getRows()) {
                 String orgId = "";
                 String orgShortName = "";
@@ -73,7 +72,6 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
                 }
                 departments.add(buildKeyLabelPair(orgId, orgShortName, null, null));
             }
-
             return departments;
         } catch (Exception e) {
         	LOG.error("Error building KeyValues List", e);

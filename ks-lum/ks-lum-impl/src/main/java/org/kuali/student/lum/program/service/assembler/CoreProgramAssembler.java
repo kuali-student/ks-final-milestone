@@ -15,23 +15,28 @@
  */
 package org.kuali.student.lum.program.service.assembler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.BOAssembler;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r1.common.assembly.BOAssembler;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.lum.program.dto.assembly.*;
+import org.kuali.student.r1.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r1.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r1.lum.program.dto.assembly.*;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramCommonAssembly;
 
+
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 /**
  * @author KS
  *
@@ -39,7 +44,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInfo> {
     final static Logger LOG = Logger.getLogger(CourseAssembler.class);
 
-    private LuService luService;
+    private CluService cluService;
     private ProgramAssemblerUtils programAssemblerUtils;
     private CluAssemblerUtils cluAssemblerUtils;
 
@@ -50,19 +55,24 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         CoreProgramInfo cpInfo = (null != businessDTO) ? businessDTO : new CoreProgramInfo();
 
         // Copy all the data from the clu to the coreprogram
-        programAssemblerUtils.assembleBasics(baseDTO, (ProgramCommonAssembly) cpInfo, contextInfo);
+        programAssemblerUtils.assembleBasics((baseDTO),  (ProgramCommonAssembly) cpInfo, contextInfo);
         programAssemblerUtils.assembleIdentifiers(baseDTO, (ProgramIdentifierAssembly) cpInfo);
         programAssemblerUtils.assembleBasicAdminOrgs(baseDTO, (ProgramBasicOrgAssembly) cpInfo);
         programAssemblerUtils.assembleAtps(baseDTO, (ProgramAtpAssembly) cpInfo);
         programAssemblerUtils.assembleLuCodes(baseDTO, (ProgramCodeAssembly) cpInfo);
-        programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) cpInfo, contextInfo);
+        try {
+			programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) cpInfo, contextInfo);
+		} catch (PermissionDeniedException e) {
+			// TODO KSCM-421 could not add this to BoAssembler interface, since it is r2 exception and not a R1
+			e.printStackTrace();
+		}
 
         cpInfo.setDescr(baseDTO.getDescr());
         cpInfo.setVersionInfo(baseDTO.getVersionInfo());
         
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) cpInfo, contextInfo);
-        	cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild));
+        	/* TODO KSCM-429 cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
         }
         
         return cpInfo;
@@ -82,7 +92,9 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 
 		CluInfo clu;
 		try {
-			clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(),contextInfo) : new CluInfo();
+			
+			//TODO KSCMclu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(),contextInfo) : new CluInfo();
+			clu = (NodeOperation.UPDATE == operation) ? R1R2ConverterUtil.convert( cluService.getClu(businessDTO.getId(),contextInfo),new CluInfo()) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
         } 
@@ -117,20 +129,20 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
     }
 
     private void disassembleLearningObjectives(CoreProgramInfo core, NodeOperation operation, BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> result) throws AssemblyException {
-        try {
-            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(core.getId(), core.getState(), (List<LoDisplayInfo>) core.getLearningObjectives(), operation);
+    	/* TODO KSCM-429try {
+        	     List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(core.getId(), core.getState(),  (List<LoDisplayInfo>) core.getLearningObjectives() , operation,new ContextInfo());
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
             }
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling los", e);
-        }
+        }*/
     }
     
     // Spring setter
-    public void setLuService(LuService luService) {
-        this.luService = luService;
+    public void setLuService(CluService cluService) {
+        this.cluService = cluService;
     }
 
     public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
@@ -140,6 +152,5 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
     public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
         this.cluAssemblerUtils = cluAssemblerUtils;
     }
-
 
 }

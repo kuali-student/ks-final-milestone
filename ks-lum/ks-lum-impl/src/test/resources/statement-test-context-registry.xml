@@ -21,7 +21,7 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
@@ -59,7 +59,7 @@
     </bean>
 
     <bean id="contextRegistryReqComponent"
-        class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
+        class="org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
 				<entry key="kuali.reqComponent.type.test">
@@ -120,25 +120,25 @@
     </bean>
 
     <bean id="naturalLanguageMessageBuilder"
-        class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
         <constructor-arg index="0" ref="messageBuilderMap" />
     </bean>
 
     <bean id="reqComponentTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.ReqComponentTranslator">
         <property name="contextRegistry" ref="contextRegistryReqComponent" />
         <property name="language" value="en" />
     </bean>
 
     <bean id="statementTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.StatementTranslator">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.StatementTranslator">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
         <property name="language" value="en" />
     </bean>
 
     <bean id="naturalLanguageTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="statementTranslator" ref="statementTranslator" />
     </bean>

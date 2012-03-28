@@ -22,23 +22,24 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.BOAssembler;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.assembly.BOAssembler;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuService;
-
+import org.kuali.student.r1.lum.course.dto.ActivityInfo;
+import org.kuali.student.r1.lum.course.dto.CourseInfo;
+import org.kuali.student.r1.lum.course.dto.FormatInfo;
+import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
+import org.kuali.student.r1.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 /**
  * Assembler for FormatInfo. Assembles/Disassemble FormatInfo from CluInfo and
  * other structures.
@@ -50,7 +51,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	final static Logger LOG = Logger.getLogger(FormatAssembler.class);
 
 	private BOAssembler<ActivityInfo, CluInfo> activityAssembler;
-	private LuService luService;
+	private CluService luService;
 
 	@Override
 	public FormatInfo assemble(CluInfo clu, FormatInfo formatInfo,
@@ -65,10 +66,10 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
 		// Copy base properties
 		format.setId(clu.getId());
-// TODO KSCM		format.setType(clu.getType());
-		// TODO KSCM		format.setState(clu.getState());
-		format.setMeta(clu.getMetaInfo());
-		// TODO KSCM		format.setAttributes(clu.getAttributes());
+		format.setType(clu.getType());
+		format.setState(clu.getState());
+		format.setMetaInfo(clu.getMetaInfo());
+		format.setAttributes(clu.getAttributes());
 	    format.setDuration(clu.getStdDuration());
 	    format.setTermsOffered(clu.getOfferedAtpTypes());
 		
@@ -77,16 +78,15 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			// Use the luService to find activities, then convert and add to the
 			// format
 			try {
-				List<CluInfo> activities = null;
-				// TODO KSCM				luService.getRelatedClusByCluId(
-				// TODO KSCM						format.getId(),
-				// TODO KSCM						CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
+				List<CluInfo> activities = R1R2ConverterUtil.convertLists(luService.getRelatedClusByCluId(
+										format.getId(),
+										CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE),CluInfo.class);
 				for (CluInfo activity : activities) {
 					ActivityInfo activityInfo = activityAssembler.assemble(
 							activity, null, false,contextInfo);
 					format.getActivities().add(activityInfo);
 				}
-				// TODO KSCM			} catch (DoesNotExistException e) {
+
 			} catch (Exception e) {
 				throw new AssemblyException("Error getting related activities", e);
 			} 
@@ -112,7 +112,8 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		CluInfo clu;
         try {
         	clu = null;
-        	// TODO KSCM            clu = (NodeOperation.UPDATE == operation) ? clu = luService.getClu(format.getId()) : new CluInfo();
+          
+        	clu = (NodeOperation.UPDATE == operation) ? clu = R1R2ConverterUtil.convert(luService.getClu(format.getId(),contextInfo),CluInfo.class) : new CluInfo();
         } catch (Exception e) {
             throw new AssemblyException("Error retrieving course format shell during update", e);
         } 
@@ -123,10 +124,12 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 															// already(important
 															// for creating
 															// relations)
-		// TODO KSCM		clu.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
+	
+		clu.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
 		clu.setState(format.getState());
-		// TODO KSCM		clu.setMetaInfo(format.getMetaInfo());
-		// TODO KSCM		clu.setAttributes(format.getAttributes());
+	
+		clu.setMetaInfo(format.getMetaInfo());
+
 		clu.setStdDuration(format.getDuration());
 		clu.setOfferedAtpTypes(format.getTermsOffered());
 		
@@ -171,10 +174,11 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	 * @throws MissingParameterException 
 	 * @throws InvalidParameterException 
 	 * @throws DoesNotExistException 
+	 * @throws PermissionDeniedException 
 	 */
 	private List<BaseDTOAssemblyNode<?, ?>> disassembleActivities(String nodeId,
 			FormatInfo format, NodeOperation operation,ContextInfo contextInfo)
-			throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+			throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
 		// Get the current activities and put them in a map of activity
@@ -183,18 +187,16 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
-				List<CluCluRelationInfo> activityRelationships = null;
-				// TODO KSCM				luService
-				// TODO KSCM						.getCluCluRelationsByClu(format.getId());
+				List<CluCluRelationInfo> activityRelationships = R1R2ConverterUtil.convertLists(luService.getCluCluRelationsByClu(format.getId(),contextInfo),CluCluRelationInfo.class);
 				
 				for (CluCluRelationInfo activityRelation : activityRelationships) {
-					// TODO KSCM					if (CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE
-					// TODO KSCM							.equals(activityRelation.getType())) {
-					// TODO KSCM						currentActivityIds.put(activityRelation
-					// TODO KSCM.getRelatedCluId(), activityRelation.getId());
-					// TODO KSCM					}
+										if (CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE
+												.equals(activityRelation.getType())) {
+											currentActivityIds.put(activityRelation
+					.getRelatedCluId(), activityRelation.getId());
+										}
 				}
-				// TODO KSCM			} catch (DoesNotExistException e) {
+
 			} catch (Exception e) {
 				throw new AssemblyException("Error getting related activities",	e);
 			}
@@ -206,7 +208,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			// If this is a format create/new activity update then all activities will be created
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentActivityIds.containsKey(activity.getId()))) {
-		    	// TODO KSCM		    	activity.setState(format.getState());
+		    			    	activity.setState(format.getState());
                 // the activity does not exist, so create
                 // Assemble and add the activity
                 BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
@@ -220,7 +222,8 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
                                                             // already be set
                                                             // even if it's a
                                                             // create
-             // TODO KSCM                relation.setType(CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
+
+                relation.setType(CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
                 relation.setState(format.getState());
 
                 BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo>(
@@ -233,7 +236,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 					&& currentActivityIds.containsKey(activity.getId())) {
 				// If the format already has this activity, then just update the
 				// activity
-            	// TODO KSCM            	activity.setState(format.getState());
+            	            	activity.setState(format.getState());
 				BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
 						.disassemble(activity, NodeOperation.UPDATE,contextInfo);
 				results.add(activityNode);
@@ -277,7 +280,8 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
             results.add(relationToDeleteNode);
 
             CluInfo activityCluToDelete = null;
-         // TODO KSCM            luService.getClu(entry.getKey());
+
+            luService.getClu(entry.getKey(),contextInfo);
             ActivityInfo activityToDelete = activityAssembler.assemble(activityCluToDelete, null, false,contextInfo);
             BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
             .disassemble(activityToDelete, NodeOperation.DELETE,contextInfo);
@@ -297,11 +301,11 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		this.activityAssembler = activityAssembler;
 	}
 
-	public LuService getLuService() {
+	public CluService getLuService() {
 		return luService;
 	}
 
-	public void setLuService(LuService luService) {
+	public void setLuService(CluService luService) {
 		this.luService = luService;
 	}
 }

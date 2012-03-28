@@ -32,10 +32,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.cluSetInfo -->
 <!-- ************************************** -->
 <!-- Detailed information about a single CLU Set. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluSetInfo" id="object.cluSetInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluSetInfo" id="object.cluSetInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.cluSetInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluSetInfo" id="object.cluSetInfo" parent="object.cluSetInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluSetInfo" id="object.cluSetInfo" parent="object.cluSetInfo.abstract"/>
 
 <dict:type key="*" id="type.cluSetInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -51,7 +51,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:state key="*" id="state.cluSetInfo.abstract" abstract="true">
 	<dict:fieldRef bean="field.cluSetInfo.name"/>
-	<dict:fieldRef bean="field.cluSetInfo.desc"/>
+	<dict:fieldRef bean="field.cluSetInfo.descr"/>
 	<dict:fieldRef bean="field.cluSetInfo.effectiveDate"/>
 	<dict:fieldRef bean="field.cluSetInfo.expirationDate"/>
 	<dict:fieldRef bean="field.cluSetInfo.membershipQuery"/>
@@ -59,7 +59,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.cluSetInfo.cluIds"/>
 	<dict:fieldRef bean="field.cluSetInfo.metaInfo"/>
 	<dict:fieldRef bean="field.cluSetInfo.type"/>
-	<dict:fieldRef bean="field.cluSetInfo.state"/>
+	<dict:fieldRef bean="field.cluSetInfo.stateKey"/>
 	<dict:fieldRef bean="field.cluSetInfo.id"/>
 </dict:state>
 <dict:state key="*" id="state.cluSetInfo" parent="state.cluSetInfo.abstract"/>
@@ -84,67 +84,67 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="name" id="field.cluSetInfo.name.cd" parent="field.cluSetInfo.name.cd.abstract"/>
 
-<dict:field key="desc" id="field.cluSetInfo.desc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluSetInfo.desc.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluSetInfo.desc.cd"/>
+<dict:field key="descr" id="field.cluSetInfo.descr.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.descr.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.descr.cd"/>
 </dict:field>
-<dict:field key="desc" id="field.cluSetInfo.desc" parent="field.cluSetInfo.desc.abstract"/>
-<dict:fieldDescriptor id="field.cluSetInfo.desc.fd.abstract" abstract="true">
+<dict:field key="descr" id="field.cluSetInfo.descr" parent="field.cluSetInfo.descr.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.descr.fd.abstract" abstract="true">
 	<dict:name>CLU Set Description</dict:name>
 	<dict:desc>Narrative description of the CLU Set.</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.cluSetInfo.desc"/>
+		<dict:objectStructureRef bean="object.field.cluSetInfo.descr"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluSetInfo.desc.fd" parent="field.cluSetInfo.desc.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.descr.fd" parent="field.cluSetInfo.descr.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
-<dict:constraintDescriptor id="field.cluSetInfo.desc.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluSetInfo.descr.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="field.cluSetInfo.desc.cd" parent="field.cluSetInfo.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="field.cluSetInfo.descr.cd" parent="field.cluSetInfo.descr.cd.abstract"/>
 
 <!-- ********************************************************************* -->
-<!-- object structure for object.field.cluSetInfo.desc.(default).(default) -->
+<!-- object structure for object.field.cluSetInfo.descr.(default).(default) -->
 <!-- ********************************************************************* -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluSetInfo.desc.abstract" abstract="true">
-	<dict:typeRef bean="type.field.cluSetInfo.desc"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluSetInfo.descr.abstract" abstract="true">
+	<dict:typeRef bean="type.field.cluSetInfo.descr"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluSetInfo.desc" parent="object.field.cluSetInfo.desc.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluSetInfo.descr" parent="object.field.cluSetInfo.descr.abstract"/>
 
-<dict:type key="*" id="type.field.cluSetInfo.desc.abstract" abstract="true">
+<dict:type key="*" id="type.field.cluSetInfo.descr.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.cluSetInfo.desc"/>
+	<dict:stateRef bean="state.field.cluSetInfo.descr"/>
 </dict:type>
-<dict:type key="*" id="type.field.cluSetInfo.desc" parent="type.field.cluSetInfo.desc.abstract"/>
+<dict:type key="*" id="type.field.cluSetInfo.descr" parent="type.field.cluSetInfo.descr.abstract"/>
 
 <!-- ***************************************************************************** -->
-<!-- State for state.field.cluSetInfo.desc.(default).(default).(default).(default) -->
+<!-- State for state.field.cluSetInfo.descr.(default).(default).(default).(default) -->
 <!-- ***************************************************************************** -->
 
-<dict:state key="*" id="state.field.cluSetInfo.desc.abstract" abstract="true">
-	<dict:fieldRef bean="field.cluSetInfo.desc.plain"/>
-	<dict:fieldRef bean="field.cluSetInfo.desc.formatted"/>
+<dict:state key="*" id="state.field.cluSetInfo.descr.abstract" abstract="true">
+	<dict:fieldRef bean="field.cluSetInfo.descr.plain"/>
+	<dict:fieldRef bean="field.cluSetInfo.descr.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.cluSetInfo.desc" parent="state.field.cluSetInfo.desc.abstract"/>
+<dict:state key="*" id="state.field.cluSetInfo.descr" parent="state.field.cluSetInfo.descr.abstract"/>
 
 
-<dict:field key="plain" id="field.cluSetInfo.desc.plain.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluSetInfo.desc.plain.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluSetInfo.desc.plain.cd"/>
+<dict:field key="plain" id="field.cluSetInfo.descr.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.descr.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.descr.plain.cd"/>
 </dict:field>
-<dict:field key="plain" id="field.cluSetInfo.desc.plain" parent="field.cluSetInfo.desc.plain.abstract"/>
-<dict:fieldDescriptor id="field.cluSetInfo.desc.plain.fd.abstract" abstract="true">
+<dict:field key="plain" id="field.cluSetInfo.descr.plain" parent="field.cluSetInfo.descr.plain.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.descr.plain.fd.abstract" abstract="true">
 	<dict:name>Plain Text</dict:name>
 	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluSetInfo.desc.plain.fd" parent="field.cluSetInfo.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.descr.plain.fd" parent="field.cluSetInfo.descr.plain.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
-<dict:constraintDescriptor id="field.cluSetInfo.desc.plain.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluSetInfo.descr.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.multi.line.text"/>
@@ -152,21 +152,21 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="field.cluSetInfo.desc.plain.cd" parent="field.cluSetInfo.desc.plain.cd.abstract"/>
+<dict:constraintDescriptor key="plain" id="field.cluSetInfo.descr.plain.cd" parent="field.cluSetInfo.descr.plain.cd.abstract"/>
 
-<dict:field key="formatted" id="field.cluSetInfo.desc.formatted.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.cluSetInfo.desc.formatted.fd"/>
-	<dict:constraintDescriptorRef bean="field.cluSetInfo.desc.formatted.cd"/>
+<dict:field key="formatted" id="field.cluSetInfo.descr.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.cluSetInfo.descr.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.cluSetInfo.descr.formatted.cd"/>
 </dict:field>
-<dict:field key="formatted" id="field.cluSetInfo.desc.formatted" parent="field.cluSetInfo.desc.formatted.abstract"/>
-<dict:fieldDescriptor id="field.cluSetInfo.desc.formatted.fd.abstract" abstract="true">
+<dict:field key="formatted" id="field.cluSetInfo.descr.formatted" parent="field.cluSetInfo.descr.formatted.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.descr.formatted.fd.abstract" abstract="true">
 	<dict:name>Formatted Text</dict:name>
 	<dict:desc>Formatted version of the text.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.cluSetInfo.desc.formatted.fd" parent="field.cluSetInfo.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="field.cluSetInfo.descr.formatted.fd" parent="field.cluSetInfo.descr.formatted.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
-<dict:constraintDescriptor id="field.cluSetInfo.desc.formatted.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.cluSetInfo.descr.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.rich.text"/>
@@ -174,7 +174,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="field.cluSetInfo.desc.formatted.cd" parent="field.cluSetInfo.desc.formatted.cd.abstract"/>
+<dict:constraintDescriptor key="formatted" id="field.cluSetInfo.descr.formatted.cd" parent="field.cluSetInfo.descr.formatted.cd.abstract"/>
 
 <dict:field key="effectiveDate" id="field.cluSetInfo.effectiveDate.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="field.cluSetInfo.effectiveDate.fd"/>
@@ -238,10 +238,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluSetInfo.membershipQuery.(default).(default) -->
 <!-- ******************************************************************************** -->
 <!-- Specifies a search for CLU identifiers. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.MembershipQueryInfo" id="object.field.cluSetInfo.membershipQuery.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo" id="object.field.cluSetInfo.membershipQuery.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluSetInfo.membershipQuery"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.MembershipQueryInfo" id="object.field.cluSetInfo.membershipQuery" parent="object.field.cluSetInfo.membershipQuery.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo" id="object.field.cluSetInfo.membershipQuery" parent="object.field.cluSetInfo.membershipQuery.abstract"/>
 
 <dict:type key="*" id="type.field.cluSetInfo.membershipQuery.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -305,10 +305,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluSetInfo.membershipQuery.(default).(default).queryParamValueList.(default).(default) -->
 <!-- ************************************************************************************************************************ -->
 <!-- Value(s) for a given query parameter. -->
-<dict:objectStructure key="org.kuali.student.common.search.dto.QueryParamValue" id="object.field.cluSetInfo.membershipQuery.queryParamValueList.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r1.common.search.dto.QueryParamValue" id="object.field.cluSetInfo.membershipQuery.queryParamValueList.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluSetInfo.membershipQuery.queryParamValueList"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.search.dto.QueryParamValue" id="object.field.cluSetInfo.membershipQuery.queryParamValueList" parent="object.field.cluSetInfo.membershipQuery.queryParamValueList.abstract"/>
+<dict:objectStructure key="org.kuali.student.r1.common.search.dto.QueryParamValue" id="object.field.cluSetInfo.membershipQuery.queryParamValueList" parent="object.field.cluSetInfo.membershipQuery.queryParamValueList.abstract"/>
 
 <dict:type key="*" id="type.field.cluSetInfo.membershipQuery.queryParamValueList.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -431,10 +431,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluSetInfo.metaInfo.(default).(default) -->
 <!-- ************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluSetInfo.metaInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluSetInfo.metaInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluSetInfo.metaInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluSetInfo.metaInfo" parent="object.field.cluSetInfo.metaInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluSetInfo.metaInfo" parent="object.field.cluSetInfo.metaInfo.abstract"/>
 
 <dict:type key="*" id="type.field.cluSetInfo.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -585,7 +585,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldDescriptorRef bean="field.cluSetInfo.state.fd"/>
 	<dict:constraintDescriptorRef bean="field.cluSetInfo.state.cd"/>
 </dict:field>
-<dict:field key="state" id="field.cluSetInfo.state" parent="field.cluSetInfo.state.abstract"/>
+<dict:field key="state" id="field.cluSetInfo.stateKey" parent="field.cluSetInfo.state.abstract"/>
 <dict:fieldDescriptor id="field.cluSetInfo.state.fd.abstract" abstract="true">
 	<dict:name>CLU Set State</dict:name>
 	<dict:desc>The current status of the clu set. The values for this field are constrained to those in the cluSetState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
@@ -596,7 +596,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="field.cluSetInfo.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.clu.set.states"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="state" id="field.cluSetInfo.state.cd" parent="field.cluSetInfo.state.cd.abstract"/>

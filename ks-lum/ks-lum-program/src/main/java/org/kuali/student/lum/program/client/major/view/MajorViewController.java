@@ -2,8 +2,9 @@ package org.kuali.student.lum.program.client.major.view;
 
 
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -20,7 +21,6 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
@@ -153,7 +153,7 @@ public class MajorViewController extends MajorController implements RequiresAuth
     private void processModifyActionType(final ViewContext viewContext) {
     	SecurityContext securityContext = Application.getApplicationContext().getSecurityContext(); 
     	
-    	securityContext.checkPermission("useCurriculumReview", new Callback<Boolean>() {
+    	securityContext.checkScreenPermission("useCurriculumReview", new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
                 final boolean isAuthorized = result;
@@ -347,8 +347,7 @@ public class MajorViewController extends MajorController implements RequiresAuth
   
         // Call the server to see if this is the latest version of the program
         // and update the drop-down accordingly
-        //TODO KSCM - Correct ContextInfo parameter?
-    	programRemoteService.isLatestVersion(versionIndId, sequenceNumber, ContextUtils.getContextInfo(), new KSAsyncCallback<Boolean>(){
+    	programRemoteService.isLatestVersion(versionIndId, sequenceNumber, new KSAsyncCallback<Boolean>(){
 			public void onSuccess(Boolean isLatest) {
 			 
 			    // TODO PLEASE REVIEW.  Should we be passing values from async calls to light boxes
@@ -361,7 +360,7 @@ public class MajorViewController extends MajorController implements RequiresAuth
                 actionBox.setList(ActionType.getValuesForMajorDiscipline(isLatest));
 
                 if (!isCurrentVersion) {
-                    Application.getApplicationContext().getSecurityContext().checkPermission("useCurriculumReview", new Callback<Boolean>() {
+                    Application.getApplicationContext().getSecurityContext().checkScreenPermission("useCurriculumReview", new Callback<Boolean>() {
                         @Override
                         public void exec(Boolean result) {
                             final boolean isAuthorized = result;
@@ -373,8 +372,8 @@ public class MajorViewController extends MajorController implements RequiresAuth
                     });
                 }
 
- 			}  
-		});
+ 			}        	
+        });
     	
    	
     	// Get the reference ID of the proposal from the XML model
@@ -387,8 +386,7 @@ public class MajorViewController extends MajorController implements RequiresAuth
     	// TODO PLEASE REVIEW.  If this async call runs slow, will the box remain visible? Is this an issue?
     	//      Answer: Yes, it might be an issue, possible solution might to block user action w/progress bar until finished.    	
         if (status == ProgramStatus.DRAFT){
-            //TODO KSCM - Correct ContextInfo parameter?
-            programRemoteService.isProposal( "kuali.proposal.referenceType.clu", referenceId,  ContextUtils.getContextInfo(), new KSAsyncCallback<Boolean>(){
+	    	programRemoteService.isProposal( "kuali.proposal.referenceType.clu", referenceId,  new KSAsyncCallback<Boolean>(){
 	            public void onSuccess(Boolean isProposal) {
 	             
 	                // If this is a proposal then we cannot take any actions on it
@@ -397,7 +395,7 @@ public class MajorViewController extends MajorController implements RequiresAuth
 	                    actionBox.setVisible(false);
 	                }
 	              
-	            }  
+	            }           
 	        });
         }
     } 

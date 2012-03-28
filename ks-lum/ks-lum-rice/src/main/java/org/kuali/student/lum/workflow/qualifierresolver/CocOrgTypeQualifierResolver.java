@@ -15,8 +15,8 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -170,14 +170,15 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
                 // add the existing org in to the list to check for the given type
                 orgIds.add(orgId);
                 orgIds.addAll(getOrganizationService().getAllAncestors(orgId, getOrganizationHierarchyTypeCode(), null));		// TODO KSCM-267
-                orgsForRouting = getOrganizationService().getOrganizationsByIdList(orgIds, null);		// TODO KSCM-267
+                orgsForRouting = null;
+                orgsForRouting = getOrganizationService().getOrgsByIds(orgIds, null);
             } catch (Exception e) {
                 LOG.error("Error calling org service");
                 throw new RuntimeException(e);
             }
             if (orgsForRouting != null) {
                 for (OrgInfo orgForRouting : orgsForRouting) {
-                    if (orgType != null && orgType.equals(orgForRouting.getType())) {
+                    if (orgType != null && orgType.equals(orgForRouting.getTypeKey())) {
                         List<SearchResultRow> results = relatedOrgsFromOrgId(orgForRouting.getId(), getOrganizationRelationTypeCode(), getRelatedOrganizationTypeCode());
                         returnAttributeSets.addAll(attributeSetFromSearchResult(results, orgIdKey));
                     }

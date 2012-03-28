@@ -21,9 +21,9 @@
     xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/aop
-	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<bean id="luService"
 		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
@@ -35,15 +35,15 @@
 
 
 	<bean id="statementService"
-		class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+		class="org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl">
 	</bean>
 
 	<bean id="orgService"
-		class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
+		class="org.kuali.student.r1.core.organization.service.impl.OrganizationServiceImpl">
 	</bean>
 
 	<bean id="atpService"
-		class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
+		class="org.kuali.student.r1.core.atp.service.impl.AtpServiceImpl">
 	</bean>
 
 	<bean id="loService"

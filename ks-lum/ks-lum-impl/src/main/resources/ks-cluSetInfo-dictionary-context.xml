@@ -4,8 +4,8 @@
  <import resource="classpath:ks-base-dictionary-context.xml" />
 
  <!-- CluSetInfo-->
- <bean id="org.kuali.student.lum.lu.dto.CluSetInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lu.dto.CluSetInfo"/>
+ <bean id="org.kuali.student.r2.lum.clu.dto.CluSetInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.lum.clu.dto.CluSetInfo"/>
   <property name="attributes">
    <list>
     <ref bean="cluSetInfo.adminOrg"/>
@@ -19,13 +19,13 @@
     <ref bean="cluSetInfo.isReusable"/>
     <ref bean="cluSetInfo.membershipQuery"/>
     <ref bean="cluSetInfo.name"/>
-    <ref bean="cluSetInfo.state"/>
-    <ref bean="cluSetInfo.type"/>
+    <ref bean="cluSetInfo.stateKey"/>
+    <ref bean="cluSetInfo.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.lum.lu.dto.CluSetInfo" parent="org.kuali.student.lum.lu.dto.CluSetInfo-parent"/>
+ <bean id="org.kuali.student.r2.lum.clu.dto.CluSetInfo" parent="org.kuali.student.r2.lum.clu.dto.CluSetInfo-parent"/>
 
  <bean id="cluSetInfo.adminOrg-parent" abstract="true" parent="baseKualiOrgId">
   <property name="name" value="adminOrg"/>
@@ -46,7 +46,7 @@
 
  <bean id="cluSetInfo.descr-parent" abstract="true" parent="baseComplex">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
  <bean id="cluSetInfo.descr" parent="cluSetInfo.descr-parent"/>
 
@@ -77,7 +77,7 @@
 
  <bean id="cluSetInfo.membershipQuery-parent" abstract="true" parent="baseComplex">
   <property name="name" value="membershipQuery"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lu.dto.MembershipQueryInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo"/>
  </bean>
  <bean id="cluSetInfo.membershipQuery" parent="cluSetInfo.membershipQuery-parent"/>
 
@@ -86,21 +86,21 @@
  </bean>
  <bean id="cluSetInfo.name" parent="cluSetInfo.name-parent"/>
 
- <bean id="cluSetInfo.state-parent" abstract="true" parent="baseKualiState">
-  <property name="name" value="state"/>
+ <bean id="cluSetInfo.stateKey-parent" abstract="true" parent="baseKualiState">
+  <property name="name" value="stateKey"/>
   <property name="minOccurs" value="1"/>
  </bean>
- <bean id="cluSetInfo.state" parent="cluSetInfo.state-parent"/>
+ <bean id="cluSetInfo.stateKey" parent="cluSetInfo.stateKey-parent"/>
 
- <bean id="cluSetInfo.type-parent" abstract="true" parent="baseKualiType">
-  <property name="name" value="type"/>
+ <bean id="cluSetInfo.typeKey-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="typeKey"/>
   <property name="minOccurs" value="1"/>
  </bean>
- <bean id="cluSetInfo.type" parent="cluSetInfo.type-parent"/>
+ <bean id="cluSetInfo.typeKey" parent="cluSetInfo.typeKey-parent"/>
 
  <!-- MembershipQueryInfo-->
- <bean id="org.kuali.student.lum.lu.dto.MembershipQueryInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lu.dto.MembershipQueryInfo"/>
+ <bean id="org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo"/>
   <property name="attributes">
    <list>
     <ref bean="membershipQueryInfo.id"/>
@@ -109,7 +109,7 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.lum.lu.dto.MembershipQueryInfo" parent="org.kuali.student.lum.lu.dto.MembershipQueryInfo-parent"/>
+ <bean id="org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo" parent="org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo-parent"/>
 
  <bean id="membershipQueryInfo.id-parent" abstract="true" parent="baseKualiId">
   <property name="name" value="id"/>
@@ -118,7 +118,7 @@
 
  <bean id="membershipQueryInfo.queryParamValueList-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="queryParamValueList"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.common.search.dto.SearchParam"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r1.common.search.dto.SearchParam"/>
  </bean>
  <bean id="membershipQueryInfo.queryParamValueList" parent="membershipQueryInfo.queryParamValueList-parent"/>
 
@@ -128,8 +128,8 @@
  <bean id="membershipQueryInfo.searchTypeKey" parent="membershipQueryInfo.searchTypeKey-parent"/>
 
  <!-- SearchParam-->
- <bean id="org.kuali.student.common.search.dto.SearchParam-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.search.dto.SearchParam"/>
+ <bean id="org.kuali.student.r1.common.search.dto.SearchParam-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r1.common.search.dto.SearchParam"/>
   <property name="attributes">
    <list>
     <ref bean="searchParam.key"/>
@@ -137,7 +137,7 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.common.search.dto.SearchParam" parent="org.kuali.student.common.search.dto.SearchParam-parent"/>
+ <bean id="org.kuali.student.r1.common.search.dto.SearchParam" parent="org.kuali.student.r1.common.search.dto.SearchParam-parent"/>
 
  <bean id="searchParam.key-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="key"/>

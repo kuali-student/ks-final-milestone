@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -24,13 +28,9 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
@@ -70,6 +70,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     public static final String NEW_REQ_COMP_ID = "NEWREQCOMP";    
 
     protected Map<String, SpanPanel> perCourseRequisiteTypePanel = new LinkedHashMap<String, SpanPanel>();
+    
+    protected boolean displayInitialized = false;
 
     public CourseRequirementsSummaryView() {
         super();
@@ -129,6 +131,11 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
             onReadyCallback.exec(true);
             return;
         }
+        
+        //Check if the display was ever drawn (it's being set to false in ()
+        if(!displayInitialized){
+            displayRules();
+        }
 
         //see if we need to update a rule if user is returning from rule manage screen
         parentController.getView(CourseRequirementsViewController.CourseRequirementsViews.MANAGE, new Callback<View>(){
@@ -161,13 +168,13 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         displayRules();
     }
 
-    private void updateRequirementWidgets(StatementTreeViewInfo rule) {
+    protected void updateRequirementWidgets(StatementTreeViewInfo rule) {
         if (rule != null) {
-            StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(rule.getTypeKey());
+            StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(rule.getType());
             SpanPanel reqPanel = perCourseRequisiteTypePanel.get(affectedStatementTypeInfo.getId());
 
             //don't show 'add rule' button if we have one rule already
-            addButtonsList.get(rule.getTypeKey()).setVisible(false);
+            addButtonsList.get(rule.getType()).setVisible(false);
 
             //if this is a new rule then add it to the panel
             if (reqPanel.getWidgetCount() == 0) {
@@ -184,7 +191,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                 }   
                 reqPanel.remove(subrulePreviewWidget);
                 if (rule.getStatements().isEmpty() && rule.getReqComponents().isEmpty())                 
-                    addButtonsList.get(rule.getTypeKey()).setVisible(true);                    
+                    addButtonsList.get(rule.getType()).setVisible(true);                    
                 break; //there should be only one rule per requisite type
             }
         }
@@ -225,7 +232,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                 if (!ruleInfo.getStatements().isEmpty() || !ruleInfo.getReqComponents().isEmpty()) {
                     SubrulePreviewWidget subrulePreviewWidget = addCourseRequisite(requirementsPanel, ruleInfo);
                     requirementsPanel.add(subrulePreviewWidget);
-                }   
+                }  
             }
         }
 
@@ -235,6 +242,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         }
 
         addWidget(layout);
+        
+        displayInitialized = true;
     }
 
     protected void displayRequirementSectionForGivenType(final SpanPanel requirementsPanel,
@@ -278,9 +287,9 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                                 final StatementTreeViewInfo newRule = new StatementTreeViewInfo();
                                 newRule.setId(generateStatementTreeId());
                                 newRule.setType(stmtId);
-                                RichTextInfo text = new RichTextInfo();
+                                org.kuali.student.r1.common.dto.RichTextInfo text = new org.kuali.student.r1.common.dto.RichTextInfo();
                                 text.setPlain("");
-                                newRule.setDescr(text);
+                                newRule.setDesc(text);
                                 parentController.getView(
                                         CourseRequirementsViewController.CourseRequirementsViews.MANAGE,
                                         new Callback<View>() {
@@ -329,7 +338,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         return rulePreviewWidget;
     }
 
-    private void addRulePreviewWidgetHandlers(final SpanPanel requirementsPanel, final SubrulePreviewWidget subRuleWidget, final String stmtTypeId, final Integer internalProgReqID) {
+    protected void addRulePreviewWidgetHandlers(final SpanPanel requirementsPanel, final SubrulePreviewWidget subRuleWidget, final String stmtTypeId, final Integer internalProgReqID) {
 
         subRuleWidget.addEditButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
@@ -422,7 +431,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     }
 
     public void storeRules(final boolean storeRules, final Callback<Boolean> callback) {
-        parentController.requestModel(CourseRequirementsViewController.COURSE_PROPOSAL_MODEL, new ModelRequestCallback() {
+        parentController.requestModel(CourseRequirementsViewController.COURSE_PROPOSAL_MODEL, new ModelRequestCallback<DataModel>() {
             @Override
             public void onRequestFail(Throwable cause) {
                 Window.alert(cause.getMessage());
@@ -430,9 +439,9 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                 callback.exec(false);
             }
             @Override
-            public void onModelReady(Model model) {
-                String courseId = ((DataModel)model).getRoot().get("id");
-                String courseState = ((DataModel)model).getRoot().get("state");
+            public void onModelReady(DataModel model) {
+                String courseId = model.getRoot().get("id");
+                String courseState = model.getRoot().get("state");
                 if (courseId == null) {
                     final ConfirmationDialog dialog = new ConfirmationDialog("Submit Course Title", "Before saving rules please submit course proposal title");
                     dialog.getConfirmButton().addClickHandler(new ClickHandler(){

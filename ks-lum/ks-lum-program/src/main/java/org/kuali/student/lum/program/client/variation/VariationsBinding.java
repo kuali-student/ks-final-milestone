@@ -2,7 +2,8 @@ package org.kuali.student.lum.program.client.variation;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
@@ -12,7 +13,6 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramMsgConstants;

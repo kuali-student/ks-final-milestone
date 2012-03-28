@@ -17,14 +17,14 @@ package org.kuali.student.lum.common.client.lo;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;

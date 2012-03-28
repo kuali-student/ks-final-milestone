@@ -25,7 +25,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 /**
  * Convenience class used to help out key values classes
  *

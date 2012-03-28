@@ -2,6 +2,7 @@ package org.kuali.student.lum.program.client.major.view;
 
 import java.util.List;
 
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
@@ -12,7 +13,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -25,7 +25,7 @@ import org.kuali.student.lum.program.client.major.proposal.MajorProposalControll
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 

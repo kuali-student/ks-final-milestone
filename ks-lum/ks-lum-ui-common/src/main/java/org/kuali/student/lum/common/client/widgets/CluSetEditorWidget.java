@@ -6,15 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.DataValue;
-import org.kuali.student.common.assembly.data.Data.Value;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
@@ -39,7 +30,16 @@ import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data.DataValue;
+import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -70,6 +70,10 @@ public class CluSetEditorWidget extends VerticalSectionView {
     
     private enum CluSetManagementField {
         APPROVED, PROPOSED, CLUSETS, RANGE
+    }
+    
+    public CluSetEditorWidget() {
+        super();
     }
 
     public CluSetEditorWidget(CluSetRetriever cluSetRetriever, Enum<?> viewEnum,

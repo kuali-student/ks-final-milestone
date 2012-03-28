@@ -21,8 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.DataValue;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.DataValue;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -55,12 +56,12 @@ import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressInd
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
-import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -150,7 +151,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 categoryManagement.setUpdateButtonEnabled(false);
 
                 final KSLightBox pop = new KSLightBox();
-                pop.setSize(750, 600);
+                pop.setMaxWidth(600);
+                pop.setMaxHeight(750);
                 KSButton addButton = new KSButton("Add");
                 KSButton cancelButton = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED);
 
@@ -248,8 +250,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         if (selectedId.trim().equals("") || selectedId.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
             showNewCategoryWindow();
         } else {
-            //TODO KSCM - Correct ContextInfo parameter?
-            loCatRpcServiceAsync.getData(picker.getSelectedId(), ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
+            loCatRpcServiceAsync.getData(picker.getSelectedId(), new KSAsyncCallback<Data>() {
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -310,12 +311,11 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
                                 LoCategoryInfoHelper catHelper = new LoCategoryInfoHelper(new Data());
                                 catHelper.setName(nameTextBox.getText());
-                                catHelper.setState("active");
+                                catHelper.setState("Active");
                                 catHelper.setLoRepository(repoKey);
                                 catHelper.setType(typesDropDown.getSelectedItem());
-                                
-                                //TODO KSCM - Correct ContextInfo parameter?
-                                loCatRpcServiceAsync.saveData(catHelper.getData(), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>() {
+
+                                loCatRpcServiceAsync.saveData(catHelper.getData(), new KSAsyncCallback<DataSaveResult>() {
                                     @Override
                                     public void handleFailure(Throwable caught) {
                                         Window.alert("Create LO Category failed: " + caught.getMessage());
@@ -385,7 +385,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         if (categoriesInPicker != null && categoryToCheck != null){
             for (LoCategoryInfo pickerCategory : categoriesInPicker) {
                 boolean namesMatch = pickerCategory.getName().equalsIgnoreCase(categoryToCheck.getName());
-                boolean typesMatch = pickerCategory.getType().equalsIgnoreCase(categoryToCheck.getType());
+                boolean typesMatch = pickerCategory.getTypeKey().equalsIgnoreCase(categoryToCheck.getTypeKey());
                 if (namesMatch && typesMatch){
                     return true;
                 }
@@ -405,8 +405,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             }
             picker.reset();
         } else {
-            //TODO KSCM - Correct contextInfo param?
-            loCatRpcServiceAsync.getLoCategoryType(category.getTypeKey(), null, new KSAsyncCallback<LoCategoryTypeInfo>() {
+            //TODO KSCM-390 - Correct contextInfo param?
+            loCatRpcServiceAsync.getLoCategoryType(category.getTypeKey(), new KSAsyncCallback<LoCategoryTypeInfo>() {
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -658,7 +658,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
             for (int i = 0; i < categories.size(); i++) {
                 String name = categories.get(i).getName();
-                String typeKey = categories.get(i).getType();
+                String typeKey = categories.get(i).getTypeKey();
                 // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw()
                 KSItemLabel newItemLabel = new KSItemLabel(true, new CategoryDataParser());
                 Data categoryData = CategoryDataUtil.toData(categories.get(i));
@@ -743,7 +743,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 LoCategoryInfo loCategoryInfo = CategoryDataUtil.toLoCategoryInfo(data);
                 String typeName = "ERROR: uninitialized categoryTypeMap";
                 if (null != categoryTypeMap) {
-                    typeName = categoryTypeMap.get(loCategoryInfo.getType()).getName();
+                    typeName = categoryTypeMap.get(loCategoryInfo.getTypeKey()).getName();
                 }
                 result = loCategoryInfo.getName() +
                         LOCategoryBuilder.LOCategoryListNew.CATEGORY_TYPE_SEPARATOR + typeName;

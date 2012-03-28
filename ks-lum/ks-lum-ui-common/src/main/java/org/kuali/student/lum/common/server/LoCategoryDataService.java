@@ -15,18 +15,18 @@
 
 package org.kuali.student.lum.common.server;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r2.lum.lo.dto.LoInfo;
+import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -49,13 +49,13 @@ public class LoCategoryDataService extends AbstractDataService {
     }
 
 
-    protected Object get(String id,ContextInfo contextInfo) throws Exception {
+    protected Object get(String id, ContextInfo contextInfo) throws Exception {
 
         //TODO Check that only LO categories are coming through this way. LOs are persisted only in the context of a CLU?
         Object returnDTO ;
 
         try {
-            returnDTO = loService.getLoCategory(id,contextInfo);
+            returnDTO = loService.getLoCategory(id, contextInfo);
         }
         catch (DoesNotExistException e) {
             throw new InvalidParameterException("Only LoCategoryInfo supported by this DataService implementation.");
@@ -64,11 +64,11 @@ public class LoCategoryDataService extends AbstractDataService {
     }
 
 
-    protected Object save(Object dto, Map<String, Object> properties,ContextInfo contextInfo) throws Exception {
+    protected Object save(Object dto, Map<String, Object> properties, ContextInfo contextInfo) throws Exception {
         if (dto instanceof LoCategoryInfo) {
             LoCategoryInfo loCatInfo = (LoCategoryInfo) dto;
             if (loCatInfo.getId() == null ) {
-            	loCatInfo = loService.createLoCategory(loCatInfo.getLoRepository(), loCatInfo, contextInfo);
+            	loCatInfo = loService.createLoCategory(loCatInfo.getLoRepositoryKey(), loCatInfo, contextInfo);
             } else {
                 loCatInfo = loService.updateLoCategory(loCatInfo.getId(), loCatInfo,contextInfo);
             }
@@ -92,11 +92,11 @@ public class LoCategoryDataService extends AbstractDataService {
         this.loService = loService;
     }
 
-    // TODO KSCM
+    // TODO KSCM-392
 	@Override
 	public List<ValidationResultInfo> validateData(Data data,
 			ContextInfo contextInfo) throws OperationFailedException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

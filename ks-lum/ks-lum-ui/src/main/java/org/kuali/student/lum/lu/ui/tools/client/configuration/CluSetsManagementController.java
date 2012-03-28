@@ -17,8 +17,10 @@ package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
@@ -44,9 +46,6 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
@@ -93,8 +92,7 @@ public class CluSetsManagementController extends BasicLayout implements Requires
             viewClusetView.setSelectedCluSetId(cluSetId);
             if (cluSetId != null) {
                 KSBlockingProgressIndicator.addTask(retrievingTask);
-                //TODO KSCM - Correct ContextInfo parameter?
-                cluSetManagementRpcServiceAsync.getData(cluSetId,  ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
+                cluSetManagementRpcServiceAsync.getData(cluSetId,  new KSAsyncCallback<Data>() {
                     @Override
                     public void handleFailure(Throwable caught) {
                         KSBlockingProgressIndicator.removeTask(retrievingTask);
@@ -118,8 +116,7 @@ public class CluSetsManagementController extends BasicLayout implements Requires
             viewClusetView.setSelectedCluSetId(cluSetId);
             if (cluSetId != null) {
                 KSBlockingProgressIndicator.addTask(retrievingTask);
-                //TODO KSCM - Correct ContextInfo parameter?
-                cluSetManagementRpcServiceAsync.getData(cluSetId,  ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
+                cluSetManagementRpcServiceAsync.getData(cluSetId,  new KSAsyncCallback<Data>() {
                     @Override
                     public void handleFailure(Throwable caught) {
                         KSBlockingProgressIndicator.removeTask(retrievingTask);
@@ -171,7 +168,8 @@ public class CluSetsManagementController extends BasicLayout implements Requires
         // the callback is used here to append widgets at the end of the view.
         // callback is needed here because there is an asynchronous call to retrieve
         // metadata during the construction of ClusetView
-        createClusetView = new ClusetView(ClusetView.CluSetsManagementViews.CREATE,
+        createClusetView = GWT.create(ClusetView.class);
+        createClusetView.init(ClusetView.CluSetsManagementViews.CREATE,
                 "Build Course Set", CLUSET_MGT_MODEL, new Callback<Boolean>() {
                     @Override
                     public void exec(Boolean result) {
@@ -182,7 +180,8 @@ public class CluSetsManagementController extends BasicLayout implements Requires
                         }
                     }
         });
-        editClusetView = new ClusetView(ClusetView.CluSetsManagementViews.EDIT,
+        editClusetView = GWT.create(ClusetView.class);
+        editClusetView.init(ClusetView.CluSetsManagementViews.EDIT,
                 "Edit Course Set", CLUSET_MGT_MODEL, new Callback<Boolean>() {
                     @Override
                     public void exec(Boolean result) {
@@ -193,10 +192,12 @@ public class CluSetsManagementController extends BasicLayout implements Requires
                         }
                     }
         });
-        viewClusetView = new ClusetView(ClusetView.CluSetsManagementViews.VIEW,
+        viewClusetView = GWT.create(ClusetView.class);
+        viewClusetView.init(ClusetView.CluSetsManagementViews.VIEW,
                 "View Course Set", CLUSET_MGT_MODEL, null);
         
-        mainView = new ClusetView(ClusetView.CluSetsManagementViews.MAIN,
+        mainView = GWT.create(ClusetView.class);
+        mainView.init(ClusetView.CluSetsManagementViews.MAIN,
                 "", CLUSET_MGT_MODEL, null);
         
         setDefaultView(ClusetView.CluSetsManagementViews.MAIN);
@@ -237,8 +238,7 @@ public class CluSetsManagementController extends BasicLayout implements Requires
             onReadyCallback.exec(true);
         } else {
     		KSBlockingProgressIndicator.addTask(initializingTask);
-    		//TODO KSCM - Correct ContextInfo parameter?
-            cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, ContextUtils.getContextInfo(), new KSAsyncCallback<Metadata>(){
+            cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>(){
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -288,7 +288,6 @@ public class CluSetsManagementController extends BasicLayout implements Requires
 //        getNextButton("View CLU Sets").setVisible(false);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void requestModel(Class modelType, final ModelRequestCallback callback) {
         super.requestModel(modelType, callback);
@@ -333,8 +332,8 @@ public class CluSetsManagementController extends BasicLayout implements Requires
 
     private void saveModel(final DataModel dataModel, final SaveActionEvent saveActionEvent) {
     	KSBlockingProgressIndicator.addTask(saving);    	
-    	//TODO KSCM - Correct ContextInfo parameter?
-    	cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>() {
+        
+    	cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), new KSAsyncCallback<DataSaveResult>() {
     	    @Override
             public void handleFailure(Throwable caught) {
                 GWT.log("Save Failed.", caught);

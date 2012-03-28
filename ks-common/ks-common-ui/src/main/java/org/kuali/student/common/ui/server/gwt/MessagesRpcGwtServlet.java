@@ -1,0 +1,87 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the License.
+ */
+
+package org.kuali.student.common.ui.server.gwt;
+
+import java.util.List;
+
+import org.kuali.student.common.ui.client.service.MessagesRpcService;
+import org.kuali.student.r1.common.messages.dto.Message;
+import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
+import org.kuali.student.r2.common.messages.service.MessageService;
+import org.kuali.student.r2.common.util.ContextUtils;
+
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+public class MessagesRpcGwtServlet extends RemoteServiceServlet implements MessagesRpcService {
+
+    private static final long serialVersionUID = 1L;
+
+    private MessageService serviceImpl;
+
+    @Override
+    public StatusInfo addMessage(Message messageInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO fix merge fix localeinfo, messageInfo
+        return serviceImpl.addMessage(new LocaleInfo(), messageInfo.getId(), new MessageInfo(), ContextUtils.getContextInfo());
+
+    }
+
+    @Override
+    public List<LocaleInfo> getLocales() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return serviceImpl.getLocales(ContextUtils.getContextInfo());
+    }
+
+    @Override
+    public MessageInfo getMessage(String localeKey, String messageGroupKey, String messageKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO fix merge fix localeinfo
+        return serviceImpl.getMessage(new LocaleInfo(), messageGroupKey, messageKey, ContextUtils.getContextInfo());
+    }
+
+    // TODO fix merge
+    // @Override
+    // public MessageGroupKeyList getMessageGroups() {
+    // return serviceImpl.getMessageGroups();
+    // }
+
+    @Override
+    public List<MessageInfo> getMessages(String localeKey, String messageGroupKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO fix merge fix localeinfo
+        return serviceImpl.getMessages(new LocaleInfo(), messageGroupKey, ContextUtils.getContextInfo());
+    }
+
+    @Override
+    public List<MessageInfo> getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO fix merge fix localeinfo
+        return serviceImpl.getMessagesByGroups(new LocaleInfo(), messageGroupKeyList.getMessageGroupKeys(), ContextUtils.getContextInfo());
+    }
+
+    @Override
+    public MessageInfo updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        // TODO fix merge fix localeinfo, messageInfo
+        return serviceImpl.updateMessage(new LocaleInfo(), messageKey, new MessageInfo(), ContextUtils.getContextInfo());
+    }
+
+    public MessageService getServiceImpl() {
+        return serviceImpl;
+    }
+
+    public void setServiceImpl(MessageService impl) {
+        this.serviceImpl = impl;
+    }
+
+}

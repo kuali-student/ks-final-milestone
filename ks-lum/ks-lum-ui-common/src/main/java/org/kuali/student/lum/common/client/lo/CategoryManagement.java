@@ -16,21 +16,21 @@
 package org.kuali.student.lum.common.client.lo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Collections;
 
-import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.GroupFieldLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.TableFieldLayout;
@@ -42,11 +42,10 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -245,8 +244,7 @@ public class CategoryManagement extends Composite {
                 
                 String id = categoryManagementTable.getSelectedLoCategoryInfoId();
                 if(id != null){
-                    //TODO KSCM - Correct ContextInfo parameter?
-	                loCatRpcServiceAsync.getData(id, ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
+	                loCatRpcServiceAsync.getData(id, new KSAsyncCallback<Data>() {
 	                    @Override
 	                    public void handleFailure(Throwable caught) {
 	                        GWT.log("getSelectedLoCategoryInfo failed", caught);
@@ -269,8 +267,7 @@ public class CategoryManagement extends Composite {
             public void onClick(ClickEvent event) {
                 String id = categoryManagementTable.getSelectedLoCategoryInfoId();
                 if(id != null){
-                    //TODO KSCM - Correct ContextInfo parameter?
-	                loCatRpcServiceAsync.getData(id, ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
+	                loCatRpcServiceAsync.getData(id, new KSAsyncCallback<Data>() {
 	                    @Override
 	                    public void handleFailure(Throwable caught) {
 	                        GWT.log("getSelectedLoCategoryInfo failed", caught);
@@ -394,8 +391,7 @@ public class CategoryManagement extends Composite {
                 public void onClick(ClickEvent event) {
                     // not really deleting; rather 'retiring' LoCategory, but switching state to "inactive"
                 	categoryInfo.setStateKey("inactive");
-                	//TODO KSCM - Correct ContextInfo parameter?
-                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(categoryInfo), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>(){
+                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(categoryInfo), new KSAsyncCallback<DataSaveResult>(){
                         @Override
                         public void handleFailure(Throwable caught) {
                             GWT.log("updateLoCategory failed ", caught);
@@ -493,8 +489,7 @@ public class CategoryManagement extends Composite {
                     }
                     
                     if(!error){
-                        //TODO KSCM - Correct ContextInfo parameter?
-	                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>(){
+	                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), new KSAsyncCallback<DataSaveResult>(){
 	                        @Override
 	                        public void handleFailure(Throwable caught) {
 	                            GWT.log("updateLoCategory failed ", caught);
@@ -601,8 +596,7 @@ public class CategoryManagement extends Composite {
                     }
                     
                     if(!error){
-                        //TODO KSCM - Correct ContextInfo parameter?
-	                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>(){
+	                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), new KSAsyncCallback<DataSaveResult>(){
 	                        @Override
 	                        public void handleFailure(Throwable caught) {
 	                            Window.alert("Create LO Category failed: " + caught.getMessage());
@@ -654,8 +648,8 @@ public class CategoryManagement extends Composite {
             LoCategoryInfo info = new LoCategoryInfo();
             info.setName(nameTextBox.getText());
             info.setTypeKey(typeListBox.getSelectedItem());
-            info.setStateKey("active");
-            info.setLoRepository("kuali.loRepository.key.singleUse");
+            info.setStateKey("Active");
+            info.setLoRepositoryKey("kuali.loRepository.key.singleUse");
             // FIXME [KSCOR-225] user needs to specify what LoRepository they want category to tagged with
             return info;
         }

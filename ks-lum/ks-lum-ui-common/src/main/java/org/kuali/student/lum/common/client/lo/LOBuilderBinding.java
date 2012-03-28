@@ -6,11 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 /**
  * @author Igor

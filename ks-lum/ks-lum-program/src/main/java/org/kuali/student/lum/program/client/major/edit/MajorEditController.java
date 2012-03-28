@@ -8,11 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -38,8 +33,6 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
@@ -64,6 +57,12 @@ import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -150,8 +149,7 @@ public class MajorEditController extends MajorController {
             	//FIXME: The proper way of doing this would be a single server side call to validate next state
             	//which would retrieve warnings & required for next state, instead of re-validating warnings for
             	//current state server side and validating required for next state client side.
-                //TODO KSCM - Correct ContextInfo parameter?
-            	programRemoteService.validate(programModel.getRoot(), ContextUtils.getContextInfo(), new KSAsyncCallback<List<ValidationResultInfo>>(){
+            	programRemoteService.validate(programModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){
 					@Override
 					public void onSuccess(final List<ValidationResultInfo> currentStateResults) {
 		                programModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
@@ -279,8 +277,7 @@ public class MajorEditController extends MajorController {
             		Callback<Boolean> reqCallback = new Callback<Boolean>() {
             			@Override
             			public void exec(Boolean result) {
-            			    //TODO KSCM - Correct ContextInfo parameter?
-                           	programRemoteService.getData(getViewContext().getId(), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+                           	programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
 
                         		@Override
                         		public void onFailure(Throwable caught) {
@@ -355,8 +352,7 @@ public class MajorEditController extends MajorController {
                 idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
             }
         }
-        //TODO KSCM - Correct ContextInfo parameter?
-        programRemoteService.getMetadata(viewContextId, idAttributes, ContextUtils.getContextInfo(), new AbstractCallback<Metadata>() {
+        programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
 
             @Override
             public void onSuccess(Metadata result) {
@@ -384,8 +380,7 @@ public class MajorEditController extends MajorController {
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-    			    //TODO KSCM - Correct ContextInfo parameter?
-    				programRemoteService.getData(getViewContext().getId(), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+    				programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                         @Override
                         public void onSuccess(Data result) {
                             super.onSuccess(result);
@@ -428,8 +423,7 @@ public class MajorEditController extends MajorController {
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-    			    //TODO KSCM - Correct ContextInfo parameter?
-                    programRemoteService.getData(getViewContext().getId(), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+                    programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
 
                         @Override
                         public void onFailure(Throwable caught) {
@@ -478,8 +472,7 @@ public class MajorEditController extends MajorController {
         versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
 
-        //TODO KSCM - Correct ContextInfo parameter?
-        programRemoteService.saveData(data, ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -536,8 +529,7 @@ public class MajorEditController extends MajorController {
     }
 
     private void saveData(final Callback<Boolean> okCallback) {
-        //TODO KSCM - Correct ContextInfo parameter?
-        programRemoteService.saveData(programModel.getRoot(), ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
+        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);

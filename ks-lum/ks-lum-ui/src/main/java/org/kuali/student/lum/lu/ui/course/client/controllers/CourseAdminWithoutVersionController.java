@@ -1,7 +1,5 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -18,6 +16,8 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminWithoutVersionConfigurer;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

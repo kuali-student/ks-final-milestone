@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.service.SearchDispatcher;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.service.SearchDispatcher;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 /**
  * Validates Subject COde usage
@@ -73,7 +73,7 @@ public class SubjectAreaUnitOwnerValidator extends DefaultValidatorImpl {
 					units.retainAll(orgIds);
 					if(units.size()!=1){
 						ValidationResultInfo validationResult = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName());
-						validationResult.setWarning(getMessage("validation.course.subjectAreaUsage.one",contextInfo));
+						validationResult.setWarning(getMessage("validation.course.subjectAreaUsage.one", contextInfo));
 						validationResults.add(validationResult);
 					}
 				}

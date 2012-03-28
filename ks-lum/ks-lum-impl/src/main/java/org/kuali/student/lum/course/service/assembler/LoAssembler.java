@@ -7,26 +7,26 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import org.kuali.student.common.assembly.BOAssembler;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r1.common.assembly.BOAssembler;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoInfo;
+import org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 
 
 public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
@@ -34,8 +34,9 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 	private LearningObjectiveService loService;
 	
 
+	@Override
 	public LoDisplayInfo assemble(LoInfo lo, LoDisplayInfo loDisplayInfo,
-			boolean shallowBuild,ContextInfo contextInfo) throws AssemblyException {
+			boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
 		
 		LoDisplayInfo loDisplay = (null != loDisplayInfo) ? loDisplayInfo : new LoDisplayInfo();
 		
@@ -45,7 +46,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 			String loId = lo.getId();
 			try {
 				List<LoCategoryInfo> loCategories = null;
-// TODO KSCM				loService.getLoCategoriesForLo(loId);
+// TODO KSCM-391 				loService.getLoCategoriesForLo(loId);
 				loDisplay.setLoCategoryInfoList(loCategories);
 				// TODO KSCM			} catch (DoesNotExistException e) {
 			} catch (Exception e) {
@@ -53,17 +54,19 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 			}
 			try {
 				List<LoInfo> childLos = null;
-				// TODO KSCM	loService.getRelatedLosByLoId(loId,CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
+				
+				loService.getRelatedLosByLoId(loId,CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
 				for(LoInfo childLo:childLos){
 					LoDisplayInfo childLoDisplay = assemble(childLo, null, shallowBuild,contextInfo);
 					childLoDisplay.setParentLoRelationid(lo.getId());
-					// TODO KSCM					childLoDisplay.setParentRelType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
+								
+					childLoDisplay.setParentRelType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
 					loDisplay.getLoDisplayInfoList().add(childLoDisplay);
 				}
 				if(loDisplay.getLoDisplayInfoList().size()>1){
 					Collections.sort(loDisplay.getLoDisplayInfoList(), LoDisplayComparator.getInstance());
 				}
-				// TODO KSCM			} catch (DoesNotExistException e) {
+						} catch (DoesNotExistException e) {
 			} catch (Exception e) {
 				throw new AssemblyException("Error getting learning objective", e);
 			}
@@ -92,8 +95,10 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		loDisplay.getLoInfo().setId(UUIDHelper.genStringUUID(loDisplay.getLoInfo().getId()));
 		
 		//Default these values
-		// TODO KSCM		loDisplay.getLoInfo().setType(CourseAssemblerConstants.COURSE_LO_TYPE);
-		// TODO KSCM loDisplay.getLoInfo().setLoRepositoryKey(CourseAssemblerConstants.COURSE_LO_REPOSITORY_KEY);
+				
+		loDisplay.getLoInfo().setType(CourseAssemblerConstants.COURSE_LO_TYPE);
+		 
+		loDisplay.getLoInfo().setLoRepositoryKey(CourseAssemblerConstants.COURSE_LO_REPOSITORY_KEY);
 		
 		
 		//Populate the node
@@ -132,11 +137,11 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
 				List<LoCategoryInfo> categories = null;
-				// TODO KSCM loService.getLoCategoriesForLo(loDisplay.getLoInfo().getId());
+				// TODO KSCM-391 loService.getLoCategoriesForLo(loDisplay.getLoInfo().getId());
 				for (LoCategoryInfo category : categories) {
 					currentCategoryIds.add(category.getId());
 				}
-				// TODO KSCM			} catch (DoesNotExistException e) {
+				
 			} catch (Exception e) {
 				throw new AssemblyException("Error getting categories",	e);
 			}
@@ -148,15 +153,15 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentCategoryIds.contains(category.getId()))) {
 		    	
-		    	// TODO KSCM
-//		    	LoCategoryRelationInfo loCategoryRelation = new LoCategoryRelationInfo();
-//		    	loCategoryRelation.setCategoryId(category.getId());
-//		    	loCategoryRelation.setLoId(loDisplay.getLoInfo().getId());
-//		    	
-//                BaseDTOAssemblyNode<LoDisplayInfo, LoCategoryRelationInfo> relationToAddNode = new BaseDTOAssemblyNode<LoDisplayInfo, LoCategoryRelationInfo>(null);
-//                relationToAddNode.setNodeData(loCategoryRelation);
-//                relationToAddNode.setOperation(NodeOperation.CREATE);
-//                results.add(relationToAddNode);
+		    	
+		    	LoCategoryRelationInfo loCategoryRelation = new LoCategoryRelationInfo();
+		    	loCategoryRelation.setCategoryId(category.getId());
+		    	loCategoryRelation.setLoId(loDisplay.getLoInfo().getId());
+		    	
+                BaseDTOAssemblyNode<LoDisplayInfo, LoCategoryRelationInfo> relationToAddNode = new BaseDTOAssemblyNode<LoDisplayInfo, LoCategoryRelationInfo>(null);
+                relationToAddNode.setNodeData(loCategoryRelation);
+                relationToAddNode.setOperation(NodeOperation.CREATE);
+                results.add(relationToAddNode);
 
                 currentCategoryIds.remove(category.getId());
 		    } else if (NodeOperation.UPDATE == operation
@@ -166,15 +171,15 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		}
 		//Delete leftovers
 		for(String categoryId:currentCategoryIds){
-			// TODO KSCM
-//			LoCategoryRelationInfo loCategoryRelation = new LoCategoryRelationInfo();
-//	    	loCategoryRelation.setCategoryId(categoryId);
-//	    	loCategoryRelation.setLoId(loDisplay.getLoInfo().getId());
-//	    	
-//            BaseDTOAssemblyNode<LoDisplayInfo, LoCategoryRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<LoDisplayInfo, LoCategoryRelationInfo>(null);
-//            relationToDeleteNode.setNodeData(loCategoryRelation);
-//            relationToDeleteNode.setOperation(NodeOperation.DELETE);
-//            results.add(relationToDeleteNode);
+			
+			LoCategoryRelationInfo loCategoryRelation = new LoCategoryRelationInfo();
+	    	loCategoryRelation.setCategoryId(categoryId);
+	    	loCategoryRelation.setLoId(loDisplay.getLoInfo().getId());
+	    	
+            BaseDTOAssemblyNode<LoDisplayInfo, LoCategoryRelationInfo> relationToDeleteNode = new BaseDTOAssemblyNode<LoDisplayInfo, LoCategoryRelationInfo>(null);
+            relationToDeleteNode.setNodeData(loCategoryRelation);
+            relationToDeleteNode.setOperation(NodeOperation.DELETE);
+            results.add(relationToDeleteNode);
 		}
 		
 		return results;
@@ -187,16 +192,17 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
 				List<LoLoRelationInfo> loRelations = null;
-				// TODO KSCM loService.getLoLoRelationsByLoId(loDisplay.getLoInfo().getId());
+				 
+				loService.getLoLoRelationsByLoId(loDisplay.getLoInfo().getId());
 				for (LoLoRelationInfo loRelation : loRelations) {
 					//getLoLoRelationsByLoId returns if the lo is related or if it is the owner(this seems wrong)
-					// TODO KSCM
-//					if(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES.equals(loRelation.getType())&&
-//							!loDisplay.getLoInfo().getId().equals(loRelation.getRelatedLoId())){
-//						currentLoRelations.put(loRelation.getRelatedLoId(), loRelation);
-//					}
+					
+					if(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES.equals(loRelation.getType())&&
+							!loDisplay.getLoInfo().getId().equals(loRelation.getRelatedLoId())){
+						currentLoRelations.put(loRelation.getRelatedLoId(), loRelation);
+					}
 				}
-				// TODO KSCM} catch (DoesNotExistException e) {
+				
 			} catch (Exception e) {
 				throw new AssemblyException("Error getting categories",	e);
 			}
@@ -208,7 +214,8 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		    // Set the state of the child LO to match the state of the parent
 		    // LO. This end up propagating the program state to all of the LOs,
 		    // since we set parent LO state to program state earlier in the code
-			// TODO KSCM		    childDisplay.getLoInfo().setState(loDisplay.getLoInfo().getState());
+					    
+			childDisplay.getLoInfo().setState(loDisplay.getLoInfo().getState());
 		    
 			// If this is a format create/new activity update then all activities will be created
 		    if (NodeOperation.CREATE == operation
@@ -225,12 +232,14 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
                 LoLoRelationInfo relation = new LoLoRelationInfo();
                 relation.setLoId(loDisplay.getLoInfo().getId());
                 relation.setRelatedLoId(loNode.getNodeData().getId());
-             // TODO KSCMrelation.setType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
+             
+                relation.setType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
                 
                 // Relations can only have states of Active or SUSPENDED
                 // DO NOT use states like Approve, Draft, etc on relations
                 // Will default to Active
-             // TODO KSCM                relation.setState(DtoConstants.STATE_ACTIVE);
+                        
+                relation.setState(DtoConstants.STATE_ACTIVE);
                 
 
                 BaseDTOAssemblyNode<LoDisplayInfo, LoLoRelationInfo> relationNode = new BaseDTOAssemblyNode<LoDisplayInfo, LoLoRelationInfo>(
@@ -282,9 +291,12 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
             relationToDeleteNode.setNodeData(relationToDelete);
             relationToDeleteNode.setOperation(NodeOperation.DELETE);
             results.add(relationToDeleteNode);
+            
 
-            LoInfo loToDelete = loService.getLo(entry.getKey() , new ContextInfo());
-            LoDisplayInfo loDisplayToDelete = this.assemble(loToDelete, null, false,contextInfo);
+            org.kuali.student.r2.lum.lo.dto.LoInfo loToDelete = loService.getLo(entry.getKey() , new ContextInfo());
+            LoInfo temploTODelete = null; 
+            temploTODelete = temploTODelete.convertR2toR1(loToDelete);
+            LoDisplayInfo loDisplayToDelete = this.assemble(temploTODelete, null, false,contextInfo);
             BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = this.disassemble(loDisplayToDelete, NodeOperation.DELETE,contextInfo);
             results.add(loNode);                                            
         }
@@ -300,18 +312,19 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		private static LoDisplayComparator instance = new LoDisplayComparator();
 		@Override
 		public int compare(LoDisplayInfo o1, LoDisplayInfo o2) {
-			// TODO KSCM
-//			String o1Sequence = o1.getLoInfo().getAttributes().get(CourseAssemblerConstants.COURSE_LO_SEQUENCE);
-//			String o2Sequence = o1.getLoInfo().getAttributes().get(CourseAssemblerConstants.COURSE_LO_SEQUENCE);
-//			if(o1Sequence!=null){
-//				return o1Sequence.compareTo(o2Sequence);
-//			}else if(o2Sequence!=null){
-//				return -1;
-//			}
+			
+			String o1Sequence = o1.getLoInfo().getAttributes().get(CourseAssemblerConstants.COURSE_LO_SEQUENCE);
+			String o2Sequence = o1.getLoInfo().getAttributes().get(CourseAssemblerConstants.COURSE_LO_SEQUENCE);
+			if(o1Sequence!=null){
+				return o1Sequence.compareTo(o2Sequence);
+			}else if(o2Sequence!=null){
+				return -1;
+			}
 			return 0;
 		}
 		public static LoDisplayComparator getInstance() {
 			return instance;
 		}
 	}
+
 }

@@ -1,10 +1,11 @@
 package org.kuali.student.lum.common.client.widgets;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.util.ContextUtils;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.util.ContextUtils;
+
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -17,8 +18,7 @@ public class CluSetRetrieverImpl implements CluSetRetriever {
 
     @Override
     public void getCluSetInformation(final String cluSetId, final Callback<CluSetInformation> retrieveDoneCallback) {
-        //TODO KSCM - Correct ContextInfo parameter?
-        cluSetManagementRpcServiceAsync.getCluSetInformation(cluSetId, ContextUtils.getContextInfo(), new AsyncCallback<CluSetInformation>() {
+        cluSetManagementRpcServiceAsync.getCluSetInformation(cluSetId, new AsyncCallback<CluSetInformation>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Failed to retrieve CluSet information for " + cluSetId);
@@ -33,8 +33,7 @@ public class CluSetRetrieverImpl implements CluSetRetriever {
 
     @Override
     public void getMetadata(final String id, final Callback<Metadata> callback) {
-        //TODO KSCM - Correct ContextInfo parameter?
-        cluSetManagementRpcServiceAsync.getMetadata(id, null, null, new AsyncCallback<Metadata>() {
+        cluSetManagementRpcServiceAsync.getMetadata(id, null, new AsyncCallback<Metadata>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -51,8 +50,7 @@ public class CluSetRetrieverImpl implements CluSetRetriever {
 
     @Override
     public void getData(final String cluSetId, final Callback<Data> callback) {
-        //TODO KSCM - Correct ContextInfo parameter?
-        cluSetManagementRpcServiceAsync.getData(cluSetId, ContextUtils.getContextInfo(), new AsyncCallback<Data>() {
+        cluSetManagementRpcServiceAsync.getData(cluSetId, new AsyncCallback<Data>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Failed to retreive data for clu Set with id " + cluSetId);
@@ -67,8 +65,7 @@ public class CluSetRetrieverImpl implements CluSetRetriever {
 
     @Override
     public void saveData(final Data data, final Callback<DataSaveResult> callback) {
-        //TODO KSCM - Correct ContextInfo parameter?
-        cluSetManagementRpcServiceAsync.saveData(data, ContextUtils.getContextInfo(), new AsyncCallback<DataSaveResult>() {
+        cluSetManagementRpcServiceAsync.saveData(data, new AsyncCallback<DataSaveResult>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Failed to save clu set data");

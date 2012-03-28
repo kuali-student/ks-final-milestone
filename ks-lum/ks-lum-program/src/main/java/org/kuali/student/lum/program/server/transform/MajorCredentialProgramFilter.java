@@ -2,17 +2,17 @@ package org.kuali.student.lum.program.server.transform;
 
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.common.assembly.transform.AbstractDataFilter;
-import org.kuali.student.common.assembly.transform.DataBeanMapper;
-import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
-import org.kuali.student.common.assembly.transform.MetadataFilter;
-import org.kuali.student.common.util.ContextUtils;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.r1.common.assembly.transform.AbstractDataFilter;
+import org.kuali.student.r1.common.assembly.transform.DataBeanMapper;
+import org.kuali.student.r1.common.assembly.transform.DefaultDataBeanMapper;
+import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
 
 /**
  * Add/remove the related CredentialProgram data & metadata

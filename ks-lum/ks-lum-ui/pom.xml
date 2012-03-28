@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.kuali.student.lum</groupId>
         <artifactId>ks-lum</artifactId>
-        <version>2.0.0-cm-SNAPSHOT</version>
+        <version>0.0.6-SNAPSHOT</version>
     </parent>
     <properties>
       <selenium.pattern>**/selenium/**/*Test.java</selenium.pattern>
@@ -111,7 +111,7 @@
                 <dependency>
                     <groupId>org.kuali.student.core</groupId>
                     <artifactId>ks-core-impl</artifactId>
-                    <version>${ks-temp-project.version}</version>
+                    <version>${ks.service.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.derby</groupId>
@@ -131,10 +131,9 @@
 			    <dependency>
 			      <groupId>org.kuali.student.security</groupId>
 			      <artifactId>ks-standard-sec</artifactId>
-			      <version>${project.version}</version>
+			      <version>2.0.0-cm-SNAPSHOT</version>
 			    </dependency>
-
-            </dependencies>
+			</dependencies>
         </profile>
 
     <profile>
@@ -217,5 +216,16 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+			<groupId>org.kuali.student</groupId>
+			<artifactId>ks-conversion</artifactId>
+			<version>0.0.6-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.kuali.student.lum</groupId>
+					<artifactId>ks-lum-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
     </dependencies>
 </project>

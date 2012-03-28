@@ -1,7 +1,7 @@
 package org.kuali.student.lum.program.client.major.view;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
@@ -132,9 +132,9 @@ public class MajorKeyProgramInfoViewConfiguration extends AbstractSectionConfigu
         controller.requestModel(new ModelRequestCallback<DataModel>(){
 			public void onModelReady(final DataModel model) {
 				//Add previous end dates and update cross constraints
-				// TODO KSCM wait for ks-core-ui/paul				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM)), model);
-				// TODO KSCM wait for ks-core-ui/paul				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENROLLTERM)), model);
-				// TODO KSCM wait for ks-core-ui/paul				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_INST_ADMIN_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM)), model);
+				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM)), model);
+				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENROLLTERM)), model);
+				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_INST_ADMIN_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM)), model);
 			}
 			public void onRequestFail(Throwable cause) {
 			}

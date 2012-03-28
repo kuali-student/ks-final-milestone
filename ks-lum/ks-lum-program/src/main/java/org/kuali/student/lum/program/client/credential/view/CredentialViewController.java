@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -14,7 +15,6 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
@@ -95,8 +95,7 @@ public class CredentialViewController extends CredentialController implements Re
 
         actionBox.clear();
         if (status == ProgramStatus.ACTIVE) {
-            //TODO KSCM - Correct ContextInfo parameter?
-            programRemoteService.isLatestVersion(versionIndId, sequenceNumber, ContextUtils.getContextInfo(), new KSAsyncCallback<Boolean>() {
+            programRemoteService.isLatestVersion(versionIndId, sequenceNumber, new KSAsyncCallback<Boolean>() {
                 public void onSuccess(Boolean isLatest) {
                     actionBox.setList(ActionType.getValuesForCredentialProgram(isLatest));
                 }

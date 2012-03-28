@@ -2,12 +2,11 @@ package org.kuali.student.lum.program.client.variation;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramController;
@@ -105,8 +104,7 @@ public abstract class VariationController extends ProgramController {
      */
     @Override
     protected void loadModel(final ModelRequestCallback<DataModel> callback) {
-        //TODO KSCM - Correct ContextInfo parameter?
-        programRemoteService.getData(getViewContext().getId(), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+        programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
 
             @Override
             public void onFailure(Throwable caught) {

@@ -3,17 +3,17 @@ package org.kuali.student.lum.program.server;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
 
 /**
  * @author Igor
@@ -23,7 +23,7 @@ public class MajorDisciplineDataService extends AbstractDataService {
     private static final long serialVersionUID = 1L;
     
     private ProgramService programService;
-    private LuService luService;
+    private CluService cluService;
 
     @Override
     protected String getDefaultWorkflowDocumentType() {
@@ -54,13 +54,15 @@ public class MajorDisciplineDataService extends AbstractDataService {
     protected Object save(Object dto, Map<String, Object> properties, ContextInfo contextInfo) throws Exception {
         if (dto instanceof MajorDisciplineInfo) {
             MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;
-            if (mdInfo.getId() == null && mdInfo.getVersionInfo() != null) {
-            	String majorVersionIndId = mdInfo.getVersionInfo().getVersionIndId();
+            if (mdInfo.getId() == null && mdInfo.getVersion() != null) {
+            	String majorVersionIndId = null;
+            	
+            	majorVersionIndId = mdInfo.getVersion().getVersionIndId();
             	mdInfo = programService.createNewMajorDisciplineVersion(majorVersionIndId, "New major discipline version",ContextUtils.getContextInfo());
             } else if (mdInfo.getId() == null){
                 mdInfo = programService.createMajorDiscipline(mdInfo.getId(), mdInfo, ContextUtils.getContextInfo());
             } else {
-                mdInfo = programService.updateMajorDiscipline(mdInfo, ContextUtils.getContextInfo());
+            	mdInfo = programService.updateMajorDiscipline(mdInfo, ContextUtils.getContextInfo());
             }
             return mdInfo;
         } else {
@@ -80,7 +82,7 @@ public class MajorDisciplineDataService extends AbstractDataService {
     }
 
     private String getCredentialId() throws Exception {
-            List<String> credIds = luService.getCluIdsByLuType(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM, DtoConstants.STATE_ACTIVE, ContextUtils.getContextInfo());
+            List<String> credIds = cluService.getCluIdsByLuType(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM, DtoConstants.STATE_ACTIVE, ContextUtils.getContextInfo());
             if (null == credIds || credIds.size() != 1) {
                 throw new OperationFailedException("A single credential program of type " + ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM + " is required; database contains " +
                                                     (null == credIds ? "0" : credIds.size() +
@@ -95,8 +97,8 @@ public class MajorDisciplineDataService extends AbstractDataService {
         this.programService = programService;
     }
 
-    public void setLuService(LuService luService) {
-        this.luService = luService;
+    public void setLuService(CluService cluService) {
+        this.cluService = cluService;
     }
 
 }

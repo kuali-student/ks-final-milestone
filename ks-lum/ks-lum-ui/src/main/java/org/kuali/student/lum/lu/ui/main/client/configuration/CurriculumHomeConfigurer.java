@@ -3,9 +3,9 @@ package org.kuali.student.lum.lu.ui.main.client.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -47,11 +47,15 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	protected Metadata searchMetadata;
 	protected final KSCheckBox useCurricReviewCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
 
+	public CurriculumHomeConfigurer(){
+        
+    }
+	
 	public Widget configure(Metadata searchMeta) {
         this.searchMetadata = searchMeta;
         final ContentBlockLayout layout = new ContentBlockLayout(getMessage(CURRICULUM_MANAGEMENT));
-        ArrayList<String> permissionList = new ArrayList<String>();
-        
+        ArrayList<String> permissionList=new ArrayList<String>();
+                
         layout.addContentTitleWidget(getHowToWidget());
         layout.addContentTitleWidget(getActionListLink());
 

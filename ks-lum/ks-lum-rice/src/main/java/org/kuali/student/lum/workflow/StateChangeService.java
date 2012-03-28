@@ -1,6 +1,6 @@
 package org.kuali.student.lum.workflow;
 
-import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
  * This interface allows us to inject a different StateChangeService implementation for each of

@@ -275,7 +275,7 @@
     
 	<search:queryParam id="lo.queryParam.loDescPlain" parent="lo.queryParam.loDescPlain-parent"/>
 	<search:queryParam id="lo.queryParam.loDescPlain-parent"  optional="true" abstract="true">
-		<ref bean="field.loInfo.desc.plain.fd"/>
+		<ref bean="field.loInfo.descr.plain.fd"/>
     </search:queryParam>
        
 	<search:queryParam id="lo.queryParam.loCategoryName" parent="lo.queryParam.loCategoryName-parent"/>
@@ -462,7 +462,7 @@
     <search:resultColumn id="lo.resultColumn.loDescId" parent="lo.resultColumn.loDescId-parent"/>
 	<search:resultColumn id="lo.resultColumn.loDescId-parent"  abstract="true">
         <search:name>Desc Identifier</search:name>
-        <search:desc>Identifier of an LO desc </search:desc>
+        <search:desc>Identifier of an LO descr </search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
@@ -527,14 +527,14 @@
     <dict:fieldDescriptor id="lo.queryParam.cluOfficialIdentifier.cluCode.fd" parent="lo.queryParam.cluOfficialIdentifier.cluCode.fd-abstract"/>
     <dict:fieldDescriptor id="lo.queryParam.cluOfficialIdentifier.cluCode.fd-abstract" abstract="true">
     	<dict:name>Course Code</dict:name>
-        <dict:desc>Unique identifier for a desc.</dict:desc>
+        <dict:desc>Unique identifier for a descr.</dict:desc>
         <dict:dataType>string</dict:dataType>
         <dict:readOnly>true</dict:readOnly>
     </dict:fieldDescriptor>
     
     
     
-	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+	<bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
 				<entry key="lo.search.los">
@@ -637,4 +637,7 @@ JOIN
             </map>
 		</property>
 	</bean>
+	
+	<bean id="queryMap" parent="queryMap-parent"/>
+	
 </beans>

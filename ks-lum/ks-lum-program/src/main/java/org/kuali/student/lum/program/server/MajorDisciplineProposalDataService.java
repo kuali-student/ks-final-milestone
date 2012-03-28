@@ -4,25 +4,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.lum.program.service.ProgramService;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.HasAttributesInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
+import org.kuali.student.r1.core.atp.dto.AtpInfo;
+import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
+
 
 /**
  * @author Igor
@@ -32,7 +35,7 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
     private static final long serialVersionUID = 1L;
     
     private ProgramService programService;
-    private LuService luService;
+    private CluService cluService;
     private AtpService atpService; 
 
     @Override
@@ -51,8 +54,8 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
         MajorDisciplineInfo returnDTO;
         if (null == id || id.length() == 0) {
             returnDTO = new MajorDisciplineInfo();
-            returnDTO.setType(ProgramClientConstants.MAJOR_PROGRAM);
-            returnDTO.setState(DtoConstants.STATE_DRAFT);
+            returnDTO.setTypeKey(ProgramClientConstants.MAJOR_PROGRAM);
+            returnDTO.setStateKey(DtoConstants.STATE_DRAFT);
             returnDTO.setCredentialProgramId(getCredentialId());
         } else {
             returnDTO = programService.getMajorDiscipline(id,contextInfo);
@@ -64,18 +67,18 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
     protected Object save(Object dto, Map<String, Object> properties,ContextInfo contextInfo) throws Exception {
         if (dto instanceof MajorDisciplineInfo) {
             MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;
-            if (mdInfo.getId() == null && mdInfo.getVersionInfo() != null) {
+            if (mdInfo.getId() == null && mdInfo.getVersion() != null) {
             	
-            	String majorVersionIndId = mdInfo.getVersionInfo().getVersionIndId();
+            	String majorVersionIndId = mdInfo.getVersion().getVersionIndId();
             	
             	//Get the current Major Dicipline from the service
             	VersionDisplayInfo mdVersionInfo = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorVersionIndId,ContextUtils.getContextInfo());
             	mdInfo = programService.getMajorDiscipline(mdVersionInfo.getId(),ContextUtils.getContextInfo());
             	
             	//set the prev start term to be the most recent of the major and all variations
-				AtpInfo latestStartAtp = atpService.getAtp(mdInfo.getStartTerm(),ContextUtils.getContextInfo());
+				AtpInfo latestStartAtp = atpService.getAtp(mdInfo.getStartTerm());
 				for (ProgramVariationInfo variation:mdInfo.getVariations()){
-					AtpInfo variationAtp = atpService.getAtp(variation.getStartTerm(),ContextUtils.getContextInfo());
+					AtpInfo variationAtp = atpService.getAtp(variation.getStartTerm());
 					if(variationAtp!=null && variationAtp.getStartDate()!=null && variationAtp.getStartDate().compareTo(latestStartAtp.getStartDate())>0){
 						latestStartAtp = variationAtp;
 					}
@@ -85,9 +88,9 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
 				String startTerm = latestStartAtp.getId();
 		    	String endTerm = mdInfo.getEndTerm();
 		    	String endProgramEntryTerm = mdInfo.getEndProgramEntryTerm();
-		    	//TODO KSCM : I commented this line below out since the get was originally done on a hashmap not a List
-		    	//String endInstAdmitTerm = mdInfo.getAttributes().get(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
-		    	String endInstAdmitTerm = ""; //TODO KSCM : I added this just so that the code below might work.
+				String endInstAdmitTerm = mdInfo.getAttributeInfoValue(mdInfo.getAttributes(), ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
+		    	
+		    	//
 		    	Map<String,String> proposalAttributes = new HashMap<String,String>();
 		    	if(startTerm!=null)
 		    		proposalAttributes.put("prevStartTerm",startTerm);
@@ -103,15 +106,14 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
             } else if (mdInfo.getId() == null){
                 mdInfo = programService.createMajorDiscipline(mdInfo.getId(),mdInfo,ContextUtils.getContextInfo());
             } else {
-                mdInfo = programService.updateMajorDiscipline(mdInfo,ContextUtils.getContextInfo());
+                mdInfo = programService.updateMajorDiscipline(null, mdInfo,ContextUtils.getContextInfo());
             }
             return mdInfo;
         } else {
             throw new InvalidParameterException("Only persistence of MajorDiscipline is supported by this DataService implementation.");
         }
-    }  
-
-    
+    }
+  
     @Override
 	protected List<ValidationResultInfo> validate(Object dto,ContextInfo contextInfo) throws Exception {
 		return programService.validateMajorDiscipline("OBJECT", (MajorDisciplineInfo)dto,ContextUtils.getContextInfo());
@@ -124,7 +126,7 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
 
     private String getCredentialId() throws Exception {
 
-            List<String> credIds = luService.getCluIdsByLuType(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM, DtoConstants.STATE_ACTIVE,ContextUtils.getContextInfo());
+            List<String> credIds = cluService.getCluIdsByLuType(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM, DtoConstants.STATE_ACTIVE,ContextUtils.getContextInfo());
             if (null == credIds || credIds.size() != 1) {
                 throw new OperationFailedException("A single credential program of type " + ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM + " is required; database contains " +
                                                     (null == credIds ? "0" : credIds.size() +
@@ -137,21 +139,21 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
         this.programService = programService;
     }
 
-    public void setLuService(LuService luService) {
-        this.luService = luService;
+    public void setLuService(CluService cluService) {
+        this.cluService = cluService;
     }
 
 	public void setAtpService(AtpService atpService) {
 		this.atpService = atpService;
 	}
 
-	//TODO KSCM : need to add the logic to these methods ...
+	//TODO KSCM-392 : need to add the logic to these methods ...
 	@Override
 	protected boolean checkDocumentLevelPermissions() {
 		// TODO Auto-generated method stub
 		return  true;
 	}
-
+	//TODO KSCM-392
 	@Override
 	public List<ValidationResultInfo> validateData(Data data,
 			ContextInfo contextInfo) throws OperationFailedException {

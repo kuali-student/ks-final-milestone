@@ -3,22 +3,26 @@ package org.kuali.student.lum.workflow;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.CircularReferenceException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.CircularReferenceException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+
+import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+
 import org.springframework.transaction.annotation.Transactional;
 
 // TODO KSCM-260
@@ -40,28 +44,22 @@ public class CourseStateChangeServiceImpl {
 		CourseInfo courseInfo = courseService.getCourse(courseId,contextInfo);
 
 		StatusInfo ret = new StatusInfo();
-		try {
-			if (newState.equals(DtoConstants.STATE_ACTIVE)) {
-				if(courseInfo.isPilotCourse()){
-					//Pilot courses get Retired
-					//Add required fields for Retired State
-                    //TODO KSCM :
-					//courseInfo.getAttributes().put("retirementRationale", "Pilot Course");
-					//courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
-					courseInfo.setState(DtoConstants.STATE_ACTIVE);
-					retireCourse(courseInfo,contextInfo);
-				}else{
-					activateCourse(courseInfo, prevEndTermAtpId,contextInfo);
-				}
-			} else if (newState.equals(DtoConstants.STATE_RETIRED)) {
-				retireCourse(courseInfo,contextInfo);
-			}
+		if (newState.equals(DtoConstants.STATE_ACTIVE)) {
+            if(courseInfo.isPilotCourse()){
+                //Pilot courses get Retired
+                //Add required fields for Retired State
+                courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", "Pilot Course"));
+                courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", courseInfo.getEndTerm()));
+                courseInfo.setStateKey(DtoConstants.STATE_ACTIVE);
+                retireCourse(courseInfo, contextInfo);
+            }else{
+                activateCourse(courseInfo, prevEndTermAtpId, contextInfo);
+            }
+        } else if (newState.equals(DtoConstants.STATE_RETIRED)) {
+            retireCourse(courseInfo, contextInfo);
+        }
 
-			ret.setSuccess(new Boolean(true));
-		} catch (Exception e) {
-			ret.setSuccess(new Boolean(false));
-			ret.setMessage(e.getMessage());
-		}
+        ret.setSuccess(new Boolean(true));
 
 		return ret;
 	}
@@ -74,8 +72,8 @@ public class CourseStateChangeServiceImpl {
 	 */
 	protected void activateCourse(CourseInfo courseToActivate, String prevEndTermAtpId,ContextInfo contextInfo) throws Exception{
     	CourseInfo currVerCourse = getCurrentVersionOfCourse(courseToActivate,contextInfo);
-    	String existingState = courseToActivate.getState();
-		String currVerState = currVerCourse.getState();
+    	String existingState = courseToActivate.getStateKey();
+		String currVerState = currVerCourse.getStateKey();
 		boolean isCurrVer = (courseToActivate.getId().equals(currVerCourse.getId()));
 		
 		if (existingState.equals(DtoConstants.STATE_DRAFT)) {
@@ -96,10 +94,10 @@ public class CourseStateChangeServiceImpl {
 	 * @param courseToRetire the course to retire
 	 */
 	protected void retireCourse(CourseInfo courseToRetire,ContextInfo contextInfo) throws Exception{
-    	String existingState = courseToRetire.getState();		
+    	String existingState = courseToRetire.getStateKey();		
 		
     	if (existingState.equals(DtoConstants.STATE_ACTIVE) || existingState.equals(DtoConstants.STATE_SUSPENDED)){
-    		courseToRetire.setState(DtoConstants.STATE_RETIRED);
+    		courseToRetire.setStateKey(DtoConstants.STATE_RETIRED);
     		
     		courseService.updateCourse(courseToRetire.getId(),courseToRetire,contextInfo);
 			updateStatementTreeViewInfoState(courseToRetire,contextInfo);
@@ -118,7 +116,7 @@ public class CourseStateChangeServiceImpl {
 
 		// Get id of current version of course given the versionindependen id
 		VersionDisplayInfo curVerDisplayInfo = courseService.getCurrentVersion(
-				CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId,contextInfo);
+		CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId,contextInfo);
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
@@ -154,7 +152,7 @@ public class CourseStateChangeServiceImpl {
 			String thisVerNewState, CourseInfo currVerCourse,
 			String currVerNewState, boolean makeCurrent,
 			String prevEndTermAtpId,ContextInfo contextInfo) throws Exception {
-		String thisVerPrevState = thisVerCourse.getState();
+		String thisVerPrevState = thisVerCourse.getStateKey();
 
 		// if already current, will throw error if you try to make the current
 		// version the current version.
@@ -166,7 +164,7 @@ public class CourseStateChangeServiceImpl {
 		if (thisVerNewState == null) {
 			throw new InvalidParameterException("new state cannot be null");
 		} else {
-			thisVerCourse.setState(thisVerNewState);
+			thisVerCourse.setStateKey(thisVerNewState);
             //TODO KSCM I added into      thisVerCourse.getId() to the method call
 			courseService.updateCourse(thisVerCourse.getId(),thisVerCourse,contextInfo);
 			updateStatementTreeViewInfoState(thisVerCourse,contextInfo);
@@ -174,7 +172,7 @@ public class CourseStateChangeServiceImpl {
 
 		// won't get called if previous exception was thrown
 		if (currVerNewState != null) {
-			currVerCourse.setState(currVerNewState);
+			currVerCourse.setStateKey(currVerNewState);
 			if(currVerCourse.getEndTerm()==null){
 				currVerCourse.setEndTerm(prevEndTermAtpId);
 			}
@@ -196,7 +194,7 @@ public class CourseStateChangeServiceImpl {
 
 			List<VersionDisplayInfo> versions = courseService.getVersions(
 					CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
-							.getVersionInfo().getVersionIndId(),contextInfo);
+						.getVersionInfo().getVersionIndId(),contextInfo);
 			Long startSeq = new Long(1);
 
 			if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {
@@ -207,13 +205,13 @@ public class CourseStateChangeServiceImpl {
 				if (versionInfo.getSequenceNumber() >= startSeq) {
 					CourseInfo otherCourse = courseService
 							.getCourse(versionInfo.getId(),contextInfo);
-					if (otherCourse.getState().equals(
+					if (otherCourse.getStateKey().equals(
 							DtoConstants.STATE_APPROVED)
-							|| otherCourse.getState().equals(
+							|| otherCourse.getStateKey().equals(
 									DtoConstants.STATE_SUBMITTED)
-							|| otherCourse.getState().equals(
+							|| otherCourse.getStateKey().equals(
 									DtoConstants.STATE_DRAFT)) {
-						otherCourse.setState(DtoConstants.STATE_SUPERSEDED);
+						otherCourse.setStateKey(DtoConstants.STATE_SUPERSEDED);
 						courseService.updateCourse(otherCourse.getId(),otherCourse,contextInfo);
 						updateStatementTreeViewInfoState(otherCourse,contextInfo);
 					}
@@ -256,18 +254,18 @@ public class CourseStateChangeServiceImpl {
 		List<StatementTreeViewInfo> statementTreeViewInfos = courseService
 				.getCourseStatements(courseInfo.getId(), null, null,contextInfo);
 
-		// Recursively update state on all requirements/statements in the tree
-		for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos
-				.iterator(); it.hasNext();)
-			StatementUtil.updateStatementTreeViewInfoState(courseInfo
-					.getState(), it.next());
-
-		// Call the course web service and update the requirement/statement tree
-		// with the new state
-		for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos
-				.iterator(); it.hasNext();)
-            //TODO KSCM : Figure out why I had to put a null into the method call...
-			courseService.updateCourseStatement(courseInfo.getId(),null ,it.next(),contextInfo);
+		if(statementTreeViewInfos != null){
+            // Recursively update state on all requirements/statements in the tree
+            for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();){
+                StatementUtil.updateStatementTreeViewInfoState(courseInfo.getStateKey(), it.next());
+            }
+    
+            // Call the course web service and update the requirement/statement tree
+            // with the new state
+            for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();){
+                courseService.updateCourseStatement(courseInfo.getId(), null, it.next(), contextInfo);
+            }
+        }
 	}
 
 }

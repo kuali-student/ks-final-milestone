@@ -1,6 +1,6 @@
 package org.kuali.student.lum.lu.ui.course.client.views;
 
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ViewComposite;
@@ -25,7 +25,7 @@ public class CurriculumHomeView extends ViewComposite{
 	private final SpanPanel container = new SpanPanel();
 	MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
 	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
-	CurriculumHomeConfigurer configurer = GWT.create(CurriculumHomeConfigurer.class);
+	protected CurriculumHomeConfigurer configurer = GWT.create(CurriculumHomeConfigurer.class);
 	
 	public CurriculumHomeView(Controller controller, Enum<?> viewType) {
 		super(controller, "", viewType);

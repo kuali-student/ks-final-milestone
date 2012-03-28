@@ -213,6 +213,7 @@ public class LUUIConstants {
     public static final String COURSE_NUMBER_LABEL_KEY = "cluCourseNumber";
     public static final String COURSE_NUMBER_OR_TITLE_LABEL_KEY = "cluCourseNumberOrTitle";
     public static final String ADD_EXISTING_LABEL_KEY = "cluAddExisting";
+    public static final String CROSSLISTED_AND_JOINTS_LABEL_KEY = "crossListedAndJoints";
 
     
     //Learning Objectives  labels
@@ -320,6 +321,12 @@ public class LUUIConstants {
 	public static final String LAST_PUBLICATION_YEAR_LABEL_KEY = "coursePublicationYear";
 	public static final String SPECIAL_CIRCUMSTANCES_LABEL_KEY = "courseSpecialCircumstances";
 	    
-
+	//Retire by Proposal Fields
+    public static final String PROPOSED_PROPOSAL_TITLE_LABEL_KEY = "courseProposedProposalTitle";  // there is no new field for this one, just new labeling.
+    public static final String OTHER_COMMENTS_LABEL_KEY = "courseOtherComments"; 
+    public static final String PROPOSED_END_TERM_LABEL_KEY = "courseProposedEndTerm";
+    public static final String PROPOSED_LAST_TERM_OFFERED_LABEL_KEY = "courseProposedLastTermOffered";
+    public static final String PROPOSED_LAST_COURSE_CATALOG_YEAR_LABEL_KEY = "courseProposedLastCatalogYear";
+    
 }
 

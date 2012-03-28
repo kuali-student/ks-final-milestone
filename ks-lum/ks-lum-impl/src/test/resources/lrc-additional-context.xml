@@ -19,10 +19,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <bean id="dictionaryService"
-          class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+          class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg>
             <list>
                 <value>classpath:ks-lrc-dictionary-context.xml</value>
@@ -31,15 +31,15 @@
     </bean>
 
     
-    <bean id="validator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+    <bean id="validator" class="org.kuali.student.r2.common.validator.DefaultValidatorImpl">
     </bean>
 
     <bean id="validatorFactory"
-          class="org.kuali.student.common.validator.ValidatorFactory">
+          class="org.kuali.student.r2.common.validator.ValidatorFactory">
         <property name="defaultValidator" ref="validator"/>
     </bean>
 
-	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
+	<bean id="ks.messageServiceMock" class="org.kuali.student.r1.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
 			<list>
  				<value>classpath:gwt-messages.xml</value>				

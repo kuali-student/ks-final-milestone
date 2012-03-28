@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -27,15 +22,20 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.lum.lu.LUConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -56,7 +56,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class CourseAdminController extends CourseProposalController{
 	
 	//Need to keep track of cancel buttons, so they can be enabled when course has been saved. 
-	List<KSButton> cancelButtons = new ArrayList<KSButton>();
+    protected List<KSButton> cancelButtons = new ArrayList<KSButton>();
 	
 	/**
 	 * Override the intitailzeController method to use CourseAdminConfigurer 
@@ -73,7 +73,7 @@ public class CourseAdminController extends CourseProposalController{
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
    		super.addStyleName("ks-course-admin");
-   		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;     
+   		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;
         setViewContext(getViewContext());
     }
 

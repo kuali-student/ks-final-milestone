@@ -6,72 +6,93 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.dao.SearchableDao;
-import org.kuali.student.common.dictionary.dto.DataType;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dictionary.service.DictionaryService;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.*;
-import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.search.service.SearchManager;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.ServerDateParser;
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.common.validator.ValidatorFactory;
-import org.kuali.student.common.validator.ValidatorUtils;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.core.document.service.DocumentService;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.course.infc.LoDisplay;
-import org.kuali.student.lum.course.service.impl.CourseServiceUtils;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
-import org.kuali.student.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.lum.program.dto.HonorsProgramInfo;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.lum.program.infc.CredentialProgram;
-import org.kuali.student.lum.program.service.ProgramService;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
+import org.kuali.student.r1.common.assembly.BOAssembler;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r1.common.dao.SearchableDao;
+import org.kuali.student.r1.common.dictionary.dto.DataType;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.StatusInfo;
+
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.common.validator.ServerDateParser;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r1.common.validator.ValidatorUtils;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r1.core.atp.dto.AtpInfo;
+import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.document.service.DocumentService;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.course.infc.LoDisplay;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.infc.CredentialProgram;
+import org.kuali.student.r2.lum.program.service.ProgramService;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.lum.program.service.assembler.CoreProgramAssembler;
 import org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+
 import org.springframework.transaction.annotation.Transactional;
+
+import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException ;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException; 
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.CircularReferenceException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import javax.jws.WebParam;
 
-import static org.kuali.student.common.service.impl.BaseAssembler.toGenericMap;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 
 // TODO KSCM-253
-public class ProgramServiceImpl implements ProgramService, SearchManager{
+public class ProgramServiceImpl implements ProgramService{
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 
-    private LuService luService;
+    private CluService cluService;
     private ValidatorFactory validatorFactory;
     private BusinessServiceMethodInvoker programServiceMethodInvoker;
     private DictionaryService dictionaryService;
@@ -84,7 +105,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
     private AtpService atpService;
     private DocumentService documentService;
     
-    
+
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CredentialProgramInfo createCredentialProgram( String credentialProgramTypeKey,
@@ -167,17 +188,17 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
                                                                ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException, DataValidationErrorException,ReadOnlyException {
 		//step one, get the original
-		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, majorDisciplineId,contextInfo);
+		VersionDisplayInfo currentVersion = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, majorDisciplineId,contextInfo);
 		MajorDisciplineInfo originalMajorDiscipline = getMajorDiscipline(currentVersion.getId(),contextInfo);
 
 		//Version the Clu
-		CluInfo newVersionClu = luService.createNewCluVersion(majorDisciplineId, versionComment,contextInfo);
+		CluInfo newVersionClu = cluService.createNewCluVersion(majorDisciplineId, versionComment,contextInfo);
 
 		try {
-	        BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results;
+	        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
-			majorDisciplineAssembler.assemble(newVersionClu, originalMajorDiscipline, true,contextInfo);
+			majorDisciplineAssembler.assemble(R1R2ConverterUtil.convert(newVersionClu, new org.kuali.student.r1.lum.lu.dto.CluInfo()) , R1R2ConverterUtil.convert(originalMajorDiscipline, new org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo()), true,contextInfo);
 
 			//Clear Ids from the original so it will make a copy and do other processing
 			processCopy(originalMajorDiscipline, currentVersion.getId(),contextInfo);
@@ -188,12 +209,12 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
             updateRequirementsState(programRequirementIds, DtoConstants.STATE_DRAFT,contextInfo);
             
 			//Disassemble the new major discipline
-			results = majorDisciplineAssembler.disassemble(originalMajorDiscipline, NodeOperation.UPDATE,contextInfo);
+			results =  majorDisciplineAssembler.disassemble(R1R2ConverterUtil.convert( originalMajorDiscipline, new  org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo() ), NodeOperation.UPDATE,contextInfo);
 			
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
 
-			return results.getBusinessDTORef();
+			return R1R2ConverterUtil.convert(results.getBusinessDTORef(), new MajorDisciplineInfo()) ;
 		} catch(AssemblyException e) {
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		} catch (AlreadyExistsException e) {
@@ -236,13 +257,13 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
             ProgramRequirementInfo programRequirementInfo = getProgramRequirement(programRequirementId, null, null,contextInfo);
 
             // Look in the requirement for the statement tree
-            StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();
+            StatementTreeViewInfo statementTree = R1R2ConverterUtil.convert(programRequirementInfo.getStatement(), new StatementTreeViewInfo()) ;
 
             // And recursively update the entire tree with the new state
             updateStatementTreeViewInfoState(newState, statementTree);
 
             // Update the state of the requirement object
-            programRequirementInfo.setState(newState);
+            programRequirementInfo.setStateKey(newState);
 
             // The write the requirement back to the program service
             updateProgramRequirement(programRequirementInfo,contextInfo);
@@ -269,14 +290,14 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
         */
         
         // Set the state on the statement tree itself
-        statementTreeViewInfo.setState(state);
+        statementTreeViewInfo.setStateKey(state);
          
         // Get all the requirements components for this statement
         List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
         
         // Loop over requirements and set the state for each requirement
         for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
-            it.next().setState(state);
+            it.next().setStateKey(state);
         
         // Loop over each statement and set the state for each statement (recursively calling this method)
         for(Iterator<StatementTreeViewInfo> itr = statementTreeViewInfo.getStatements().iterator(); itr.hasNext();)
@@ -299,18 +320,18 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 				for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
 					field.setId(null);
 					//copy any clusets that are adhoc'd and set the field value to the new cluset
-					if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId().equals(field.getType())||
-					   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
-					   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
+					if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId().equals(field.getTypeKey())||
+					   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getTypeKey())||
+					   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getTypeKey())){
 						try {
-							CluSetInfo cluSet = luService.getCluSetInfo(field.getValue(),contextInfo);
+							CluSetInfo cluSet = cluService.getCluSet(field.getValue(),contextInfo);
 							cluSet.setId(null);
 							//Clear clu ids if membership info exists, they will be re-added based on membership info 
 							if (cluSet.getMembershipQuery() != null){
 								cluSet.getCluIds().clear();
 								cluSet.getCluSetIds().clear();
 							}
-							cluSet = luService.createCluSet(cluSet.getType(), cluSet,contextInfo);
+							cluSet = cluService.createCluSet(cluSet.getTypeKey(), cluSet,contextInfo);
 							field.setValue(cluSet.getId());
 						} catch (Exception e) {
 							throw new OperationFailedException("Error copying clusets.", e);
@@ -343,9 +364,9 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
      */
     private void processCopy(MajorDisciplineInfo majorDiscipline,String originalId,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException,ReadOnlyException {
 		//Clear Terms (needs to be set on new version anyway so this forces the issue)
-    	majorDiscipline.setStartTermId(null);
-    	majorDiscipline.setEndTermId(null);
-    	majorDiscipline.setEndProgramEntryTermId(null);
+    	majorDiscipline.setStartTerm(null);
+    	majorDiscipline.setEndTerm(null);
+    	majorDiscipline.setEndProgramEntryTerm(null);
     	majorDiscipline.getAttributes().remove("endInstAdmitTerm");
     	
     	//Clear Los
@@ -371,36 +392,36 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 	    	variation.getAttributes().remove("endInstAdmitTerm");
 	    	
 			//Create new variation version
-			String variationVersionIndId = variation.getVersionInfo().getVersionIndId();
-			CluInfo newVariationClu = luService.createNewCluVersion(variationVersionIndId, "Variation version for MajorDiscipline version " + majorDiscipline.getVersionInfo().getSequenceNumber(),contextInfo);
+		   	String variationVersionIndId = variation.getVersion().getVersionIndId();
+			CluInfo newVariationClu = cluService.createNewCluVersion(variationVersionIndId, "Variation version for MajorDiscipline version " + majorDiscipline.getVersion().getSequenceNumber(),contextInfo);
 			
 			//Create relation b/w new major discipline and new variation
 			CluCluRelationInfo relation = new CluCluRelationInfo();
 	        relation.setCluId(majorDiscipline.getId());
 	        relation.setRelatedCluId(newVariationClu.getId());
-	        relation.setType(ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
+	        relation.setTypeKey(ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
 	        
 	        // Relations can only be ACTIVE or Suspended
 	        // We will set to ACTIVE for now
-	        relation.setState(DtoConstants.STATE_ACTIVE);
-			luService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation,contextInfo);
+	        relation.setStateKey(DtoConstants.STATE_ACTIVE);
+			cluService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getTypeKey(), relation,contextInfo);
 	        
 			//Set variation id & versionInfo to new variation clu
 			variation.setId(newVariationClu.getId());
-			variation.setMetaInfo(newVariationClu.getMetaInfo());
+			variation.setMeta(newVariationClu.getMeta());
 						
 			//Set state to parent program's state
-			variation.setState(majorDiscipline.getState());
+			variation.setStateKey(majorDiscipline.getStateKey());
 			//Clear Los
 			for(LoDisplay lo:variation.getLearningObjectives()){
 				resetLoRecursively((LoDisplayInfo)lo);
 			}
 			//Copy Requirements for variation
-			copyProgramRequirements(variation.getProgramRequirements(),majorDiscipline.getState(),contextInfo);
+			copyProgramRequirements(variation.getProgramRequirements(),majorDiscipline.getStateKey(),contextInfo);
 		}
 		
 		//Copy requirements for majorDiscipline
-		copyProgramRequirements(majorDiscipline.getProgramRequirements(),majorDiscipline.getState(),contextInfo);
+		copyProgramRequirements(majorDiscipline.getProgramRequirements(),majorDiscipline.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
 		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId,contextInfo);
@@ -408,7 +429,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(majorDiscipline.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", majorDiscipline.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation,contextInfo);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", majorDiscipline.getId(), docRelation.getDocumentId(), docRelation.getTypeKey(), docRelation,contextInfo);
 			}
 		}
 	}
@@ -428,7 +449,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 		}
 
 		//Copy requirements for majorDiscipline
-		copyProgramRequirements(originaCredentialProgram.getProgramRequirements(),originaCredentialProgram.getState(),contextInfo);
+		copyProgramRequirements(originaCredentialProgram.getProgramRequirements(),originaCredentialProgram.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
 		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId,contextInfo);
@@ -436,7 +457,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(originaCredentialProgram.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originaCredentialProgram.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation,contextInfo);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originaCredentialProgram.getId(), docRelation.getDocumentId(), docRelation.getTypeKey(), docRelation,contextInfo);
 			}
 		}
 	}
@@ -452,7 +473,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			resetLoRecursively((LoDisplayInfo)lo);
 		}
 		//Copy requirements for majorDiscipline
-		copyProgramRequirements(originalCoreProgram.getProgramRequirements(),originalCoreProgram.getState(),contextInfo);
+		copyProgramRequirements(originalCoreProgram.getProgramRequirements(),originalCoreProgram.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
 		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId,contextInfo);
@@ -460,7 +481,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(originalCoreProgram.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originalCoreProgram.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation,contextInfo);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originalCoreProgram.getId(), docRelation.getDocumentId(), docRelation.getTypeKey(), docRelation,contextInfo);
 			}
 		}
 	}
@@ -488,9 +509,9 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			//Clear the id
 			programRequirementInfo.setId(null);
 			
-			programRequirementInfo.setState(state);
+			programRequirementInfo.setStateKey(state);
 			//Clear statement tree ids
-			clearStatementTreeViewIdsRecursively(programRequirementInfo.getStatement(),contextInfo);
+			clearStatementTreeViewIdsRecursively(R1R2ConverterUtil.convert(programRequirementInfo.getStatement(), new StatementTreeViewInfo()),contextInfo);
 			//Clear learning objectives
 			for(LoDisplayInfo lo:programRequirementInfo.getLearningObjectives()){
 				resetLoRecursively(lo);
@@ -519,16 +540,17 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			String majorDisciplineId, Date currentVersionStart,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, IllegalVersionSequencingException,
-			OperationFailedException, PermissionDeniedException {
-		StatusInfo status = luService.setCurrentCluVersion(majorDisciplineId, currentVersionStart,contextInfo);
+			OperationFailedException, PermissionDeniedException, DataValidationErrorException {
+		StatusInfo status = cluService.setCurrentCluVersion(majorDisciplineId, currentVersionStart,contextInfo);
 		
 		//Update the variations to be current as well
 		List<ProgramVariationInfo> variationList = getVariationsByMajorDisciplineId(majorDisciplineId,contextInfo);
 		for (ProgramVariationInfo variationInfo:variationList){
 			String variationId = variationInfo.getId();
 			//If null set to current (non-null value means version is first and is already current)
-			if (variationInfo.getVersionInfo().getCurrentVersionStart() == null){
-				luService.setCurrentCluVersion(variationId, currentVersionStart,contextInfo);
+			
+			if (variationInfo.getVersion().getCurrentVersionStart() == null){
+				cluService.setCurrentCluVersion(variationId, currentVersionStart,contextInfo);
 			}
 		}
 		
@@ -632,13 +654,13 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
     	CredentialProgramInfo credentialProgramInfo = null;
 
         try {
-            CluInfo clu = luService.getClu(credentialProgramId,contextInfo);
+            CluInfo clu = cluService.getClu(credentialProgramId,contextInfo);
 
-            if ( ! ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getType()) ) {
+            if ( ! ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getTypeKey()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Credential Program");
             }
-
-            credentialProgramInfo = credentialProgramAssembler.assemble(clu, null, false,contextInfo);
+            ;
+            credentialProgramInfo = R1R2ConverterUtil.convert(credentialProgramAssembler.assemble( R1R2ConverterUtil.convert(clu, new org.kuali.student.r1.lum.lu.dto.CluInfo()), null, false,contextInfo),new CredentialProgramInfo());
         } catch (AssemblyException e) {
             LOG.error("Error assembling CredentialProgram", e);
             throw new OperationFailedException("Error assembling CredentialProgram");
@@ -654,28 +676,28 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 //		}
     }
 
-    @Override
-    public LuTypeInfo getCredentialProgramType(String credentialProgramTypeKey, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+//    @Override
+//    public LuTypeInfo getCredentialProgramType(String credentialProgramTypeKey, ContextInfo contextInfo)
+//            throws DoesNotExistException, InvalidParameterException,
+//            MissingParameterException, OperationFailedException {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
-    @Override
-    public List<LuTypeInfo> getCredentialProgramTypes(ContextInfo contextInfo)
-            throws OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+//    @Override
+//    public List<LuTypeInfo> getCredentialProgramTypes(ContextInfo contextInfo)
+//            throws OperationFailedException {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
-    @Override
-    public List<String> getHonorsByCredentialProgramType(String programType, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+//    @Override
+//    public List<String> getHonorsByCredentialProgramType(String programType, ContextInfo contextInfo)
+//            throws DoesNotExistException, InvalidParameterException,
+//            MissingParameterException, OperationFailedException {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
     @Override
     public HonorsProgramInfo getHonorsProgram(String honorsProgramId, ContextInfo contextInfo) throws DoesNotExistException,
@@ -695,11 +717,11 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
         MajorDisciplineInfo majorDiscipline = null;
 
         try {
-            CluInfo clu = luService.getClu(majorDisciplineId,contextInfo);
-            if ( ! ProgramAssemblerConstants.MAJOR_DISCIPLINE.equals(clu.getType()) ) {
+            CluInfo clu = cluService.getClu(majorDisciplineId,contextInfo);
+            if ( ! ProgramAssemblerConstants.MAJOR_DISCIPLINE.equals(clu.getTypeKey()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Major Discipline");
             }
-            majorDiscipline = majorDisciplineAssembler.assemble(clu, null, false,contextInfo);
+            majorDiscipline = R1R2ConverterUtil.convert(majorDisciplineAssembler.assemble(R1R2ConverterUtil.convert(clu, new org.kuali.student.r1.lum.lu.dto.CluInfo()) , null, false,contextInfo),new MajorDisciplineInfo());
         } catch (AssemblyException e) {
             LOG.error("Error assembling MajorDiscipline", e);
             throw new OperationFailedException("Error assembling MajorDiscipline");
@@ -714,13 +736,13 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 //		}
 	}
 
-	@Override
-	public List<String> getMajorIdsByCredentialProgramType(String programType, ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public List<String> getMajorIdsByCredentialProgramType(String programType, ContextInfo contextInfo)
+//			throws DoesNotExistException, InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public MinorDisciplineInfo getMinorDiscipline(String minorDisciplineId,ContextInfo contextInfo)
@@ -749,12 +771,12 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
 		checkForMissingParameter(programRequirementId, "programRequirementId");
 
-		CluInfo clu = luService.getClu(programRequirementId,contextInfo);
-		if (!ProgramAssemblerConstants.PROGRAM_REQUIREMENT.equals(clu.getType())) {
+		CluInfo clu = cluService.getClu(programRequirementId,contextInfo);
+		if (!ProgramAssemblerConstants.PROGRAM_REQUIREMENT.equals(clu.getTypeKey())) {
 			throw new DoesNotExistException("Specified CLU is not a Program Requirement");
 		}
 		try {
-			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(clu, null, false,contextInfo);
+			ProgramRequirementInfo progReqInfo = R1R2ConverterUtil.convert( programRequirementAssembler.assemble(R1R2ConverterUtil.convert( clu,new org.kuali.student.r1.lum.lu.dto.CluInfo()  ), null, false,contextInfo),new ProgramRequirementInfo());
 			return progReqInfo;
 		} catch (AssemblyException e) {
             LOG.error("Error assembling program requirement", e);
@@ -771,11 +793,11 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
     	List<ProgramVariationInfo> pvInfos = new ArrayList<ProgramVariationInfo>();
 
     	try {
-    			List<CluInfo> clus = luService.getRelatedClusByCluId(majorDisciplineId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION,contextInfo);
+    			List<CluInfo> clus = cluService.getRelatedClusByCluAndRelationType(majorDisciplineId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION,contextInfo);
 
 		        if(clus != null && clus.size() > 0){
 		        	for(CluInfo clu : clus){
-		        		ProgramVariationInfo pvInfo = majorDisciplineAssembler.getProgramVariationAssembler().assemble(clu, null, false,contextInfo);
+		        		ProgramVariationInfo pvInfo = R1R2ConverterUtil.convert( majorDisciplineAssembler.getProgramVariationAssembler().assemble(R1R2ConverterUtil.convert(clu, new org.kuali.student.r1.lum.lu.dto.CluInfo()) , null, false,contextInfo), new ProgramVariationInfo());
 		        		if(pvInfo != null){
 		        			pvInfos.add(pvInfo);
 		        		}
@@ -784,7 +806,10 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 		    } catch (AssemblyException e) {
 		        LOG.error("Error assembling ProgramVariation", e);
 		        throw new OperationFailedException("Error assembling ProgramVariation");
-		    }
+		    } catch (PermissionDeniedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
         return pvInfos;
     }
@@ -816,17 +841,17 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
         }
     }
 
-    @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public HonorsProgramInfo updateHonorsProgram(
-            HonorsProgramInfo honorsProgramInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            VersionMismatchException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+//    @Override
+//    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+//	public HonorsProgramInfo updateHonorsProgram(
+//            HonorsProgramInfo honorsProgramInfo, ContextInfo contextInfo)
+//            throws DataValidationErrorException, DoesNotExistException,
+//            InvalidParameterException, MissingParameterException,
+//            VersionMismatchException, OperationFailedException,
+//            PermissionDeniedException {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -896,7 +921,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 //        if ( ! ProgramAssemblerConstants.DRAFT.equals(credentialProgramInfo.getState()) ) {
-            ObjectStructureDefinition objStructure = this.getObjectStructure(CredentialProgramInfo.class.getName(),contextInfo);
+            ObjectStructureDefinition objStructure = this.getObjectStructure(CredentialProgramInfo.class.getName());
             Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(credentialProgramInfo, objStructure,contextInfo));
 //        }
@@ -919,7 +944,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 //        if ( ! ProgramAssemblerConstants.DRAFT.equalsIgnoreCase(majorDisciplineInfo.getState()) ) {
-            ObjectStructureDefinition objStructure = this.getObjectStructure(MajorDisciplineInfo.class.getName(),contextInfo);
+            ObjectStructureDefinition objStructure = this.getObjectStructure(MajorDisciplineInfo.class.getName());
             Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(majorDisciplineInfo, objStructure,contextInfo));
 //        }
@@ -928,7 +953,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
     }
 
     @Override
-    public List<org.kuali.student.common.validation.dto.ValidationResultInfo> validateMinorDiscipline(
+    public List<ValidationResultInfo> validateMinorDiscipline(
             String validationType, MinorDisciplineInfo minorDisciplineInfo,ContextInfo contextInfo   )
             throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
@@ -942,26 +967,28 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
             throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(ProgramRequirementInfo.class.getName(),contextInfo);
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ProgramRequirementInfo.class.getName());
         Validator validator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = validator.validateObject(programRequirementInfo, objStructure,contextInfo);
 
         return validationResults;
     }
 
+
     @Override
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryService.getObjectStructure(objectTypeKey);
     }
 
-    @Override
-    public List<String> getObjectTypes(ContextInfo contextInfo) {
+
+   @Override
+    public List<String> getObjectTypes() {
         return dictionaryService.getObjectTypes();
     }
 
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(
-            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            String searchCriteriaTypeKey) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         // TODO Auto-generated method stub
@@ -969,14 +996,14 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
     }
 
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
             throws OperationFailedException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo contextInfo)
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         // TODO Auto-generated method stub
@@ -984,14 +1011,14 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
     }
 
     @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
+    public List<SearchResultTypeInfo> getSearchResultTypes()
             throws OperationFailedException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
+    public SearchTypeInfo getSearchType(String searchTypeKey)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         // TODO Auto-generated method stub
@@ -999,7 +1026,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
+    public List<SearchTypeInfo> getSearchTypes()
             throws OperationFailedException {
         // TODO Auto-generated method stub
         return null;
@@ -1007,7 +1034,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
     @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            String searchCriteriaTypeKey) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         // TODO Auto-generated method stub
@@ -1016,18 +1043,18 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
     @Override
     public List<SearchTypeInfo> getSearchTypesByResult(
-            String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            String searchResultTypeKeyo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException{
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
-    public SearchResult search(SearchRequest searchRequest, SearchableDao dao, ContextInfo contextInfo) throws MissingParameterException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+//    @Override
+//    public SearchResult search(SearchRequest searchRequest, SearchableDao dao) throws MissingParameterException {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
     /**
      * Check for missing parameter and throw localized exception if missing
@@ -1047,25 +1074,26 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
     private MajorDisciplineInfo processMajorDisciplineInfo(MajorDisciplineInfo majorDisciplineInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
 
-        BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results = majorDisciplineAssembler.disassemble(majorDisciplineInfo, operation,contextInfo);
+        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results = majorDisciplineAssembler.disassemble(R1R2ConverterUtil.convert(majorDisciplineInfo, new  org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo()) , operation,contextInfo);
         invokeServiceCalls(results);
-        return results.getBusinessDTORef();
+        return R1R2ConverterUtil.convert( results.getBusinessDTORef(), new org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo());
     }
 
     private CredentialProgramInfo processCredentialProgramInfo(CredentialProgramInfo credentialProgramInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
 
-        BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> results = credentialProgramAssembler.disassemble(credentialProgramInfo, operation,contextInfo);
+        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.CredentialProgramInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results = credentialProgramAssembler.disassemble(R1R2ConverterUtil.convert(credentialProgramInfo, new org.kuali.student.r1.lum.program.dto.CredentialProgramInfo()), operation,contextInfo);
         invokeServiceCalls(results);
-        return results.getBusinessDTORef();
+        return R1R2ConverterUtil.convert(results.getBusinessDTORef(), new CredentialProgramInfo());
     }
 
     private ProgramRequirementInfo processProgramRequirement(ProgramRequirementInfo programRequirementInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
-        BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> results = programRequirementAssembler.disassemble(programRequirementInfo, operation,contextInfo);
+    	BOAssembler< org.kuali.student.r1.lum.program.dto.ProgramRequirementInfo, CluInfo> passAlong;
+        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.ProgramRequirementInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results = programRequirementAssembler.disassemble(R1R2ConverterUtil.convert(programRequirementInfo, new org.kuali.student.r1.lum.program.dto.ProgramRequirementInfo() ), operation,contextInfo);
         invokeServiceCalls(results);
-        return results.getBusinessDTORef();
+        return R1R2ConverterUtil.convert( results.getBusinessDTORef(),new ProgramRequirementInfo());
     }
 
-	private void invokeServiceCalls(BaseDTOAssemblyNode<?, CluInfo> results) throws AssemblyException{
+	private void invokeServiceCalls(BaseDTOAssemblyNode<?, org.kuali.student.r1.lum.lu.dto.CluInfo> results) throws AssemblyException{
         // Use the results to make the appropriate service calls here
         try {
             programServiceMethodInvoker.invokeServiceCalls(results);
@@ -1078,12 +1106,12 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
     //Spring setters. Used by spring container to inject corresponding dependencies.
 
-    public void setLuService(LuService luService) {
-        this.luService = luService;
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 
-    public LuService getLuService() {
-		return luService;
+    public CluService getCluService() {
+		return cluService;
 	}
 
 	public void setDictionaryService(DictionaryService dictionaryService) {
@@ -1159,9 +1187,9 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
     private CoreProgramInfo processCoreProgramInfo(CoreProgramInfo coreProgramInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
 
-        BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results = coreProgramAssembler.disassemble(coreProgramInfo, operation,contextInfo);
+        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.CoreProgramInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results = coreProgramAssembler.disassemble(R1R2ConverterUtil.convert(coreProgramInfo, new org.kuali.student.r1.lum.program.dto.CoreProgramInfo()) , operation,contextInfo);
         invokeServiceCalls(results);
-        return results.getBusinessDTORef();
+        return R1R2ConverterUtil.convert(results.getBusinessDTORef(),new CoreProgramInfo());
     }
 
     @Override
@@ -1193,28 +1221,28 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			PermissionDeniedException, VersionMismatchException,
 			DataValidationErrorException, ReadOnlyException {
 		//step one, get the original
-		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, coreProgramId,contextInfo);
+		VersionDisplayInfo currentVersion = cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, coreProgramId,contextInfo);
 		CoreProgramInfo originalCoreProgram = getCoreProgram(currentVersion.getId(),contextInfo);
 
 		//Version the Clu
-		CluInfo newVersionClu = luService.createNewCluVersion(coreProgramId, versionComment,contextInfo);
+		CluInfo newVersionClu = cluService.createNewCluVersion(coreProgramId, versionComment,contextInfo);
 
 		try {
-	        BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results;
+	        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.CoreProgramInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
-			coreProgramAssembler.assemble(newVersionClu, originalCoreProgram, true,contextInfo);
-
+			coreProgramAssembler.assemble(R1R2ConverterUtil.convert( newVersionClu,new org.kuali.student.r1.lum.lu.dto.CluInfo()), R1R2ConverterUtil.convert(originalCoreProgram,new org.kuali.student.r1.lum.program.dto.CoreProgramInfo()), true,contextInfo);
+			
 			//Clear Ids from the original so it will make a copy and do other processing
 			processCopy(originalCoreProgram, currentVersion.getId(),contextInfo);
 
 			//Disassemble the new
-			results = coreProgramAssembler.disassemble(originalCoreProgram, NodeOperation.UPDATE,contextInfo);
+			results = coreProgramAssembler.disassemble(R1R2ConverterUtil.convert( originalCoreProgram, new org.kuali.student.r1.lum.program.dto.CoreProgramInfo() ), NodeOperation.UPDATE,contextInfo);
 
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
 
-			return results.getBusinessDTORef();
+			return R1R2ConverterUtil.convert(results.getBusinessDTORef(),new CoreProgramInfo());
 		} catch(AssemblyException e) {
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		} catch (AlreadyExistsException e) {
@@ -1256,11 +1284,11 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
     	CoreProgramInfo coreProgramInfo = null;
 
         try {
-            CluInfo clu = luService.getClu(coreProgramId,contextInfo);
-            if ( ! ProgramAssemblerConstants.CORE_PROGRAM.equals(clu.getType()) ) {
+            CluInfo clu = cluService.getClu(coreProgramId,contextInfo);
+            if ( ! ProgramAssemblerConstants.CORE_PROGRAM.equals(clu.getTypeKey()) ) {
                 throw new DoesNotExistException("Specified CLU is not a CoreProgram");
             }
-            coreProgramInfo = coreProgramAssembler.assemble(clu, null, false,contextInfo);
+            coreProgramInfo = R1R2ConverterUtil.convert(coreProgramAssembler.assemble(R1R2ConverterUtil.convert(clu, new org.kuali.student.r1.lum.lu.dto.CluInfo() ), null, false,contextInfo), new CoreProgramInfo());
         } catch (AssemblyException e) {
             LOG.error("Error assembling CoreProgram", e);
             throw new OperationFailedException("Error assembling CoreProgram");
@@ -1303,7 +1331,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
                                                            ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException{
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 //        if ( ! ProgramAssemblerConstants.DRAFT.equals(coreProgramInfo.getState()) ) {
-	        ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName(),contextInfo);
+	        ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
 	        Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(coreProgramInfo, objStructure,contextInfo));
 //        }
@@ -1318,29 +1346,32 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
                                                                     ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
 		//step one, get the original
-		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, credentialProgramId,contextInfo);
+		VersionDisplayInfo currentVersion = cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, credentialProgramId,contextInfo);
 		CredentialProgramInfo originaCredentialProgram = getCredentialProgram(currentVersion.getId(),contextInfo);
 
 		//Version the Clu
-		CluInfo newVersionClu = luService.createNewCluVersion(credentialProgramId, versionComment,contextInfo);
+		CluInfo newVersionClu = cluService.createNewCluVersion(credentialProgramId, versionComment,contextInfo);
 
 		try {
-	        BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> results;
+
+	        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.CredentialProgramInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
-			credentialProgramAssembler.assemble(newVersionClu, originaCredentialProgram, true,contextInfo);
+	        
+			credentialProgramAssembler.assemble(R1R2ConverterUtil.convert(newVersionClu, new org.kuali.student.r1.lum.lu.dto.CluInfo()) , R1R2ConverterUtil.convert(originaCredentialProgram, new org.kuali.student.r1.lum.program.dto.CredentialProgramInfo()) , true,contextInfo);
 
 			//Clear Ids from the original so it will make a copy and do other processing
 
 			processCopy(originaCredentialProgram, currentVersion.getId(),contextInfo);
 
-			//Disassemble the new
-			results = credentialProgramAssembler.disassemble(originaCredentialProgram, NodeOperation.UPDATE,contextInfo);
+			//Disassemble the new -- Convert the R2 to R1 before it is passed....
+			results = credentialProgramAssembler.disassemble(R1R2ConverterUtil.convert(originaCredentialProgram, new org.kuali.student.r1.lum.program.dto.CredentialProgramInfo()) , NodeOperation.UPDATE,contextInfo);
 
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
-
-			return results.getBusinessDTORef();
+			
+			//Here we get a R1 object that is then convert to and R2 object and then returned via the return statement below.
+			return R1R2ConverterUtil.convert(results.getBusinessDTORef(), new org.kuali.student.r2.lum.program.dto.CredentialProgramInfo()) ;
 		} catch(AssemblyException e) {
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		} catch (AlreadyExistsException e) {
@@ -1361,8 +1392,8 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo setCurrentCoreProgramVersion( String coreProgramId,  Date currentVersionStart,
                                                     ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
-            OperationFailedException, PermissionDeniedException{
-		StatusInfo status = luService.setCurrentCluVersion(coreProgramId, currentVersionStart,contextInfo);
+            OperationFailedException, PermissionDeniedException, DataValidationErrorException{
+		StatusInfo status = cluService.setCurrentCluVersion(coreProgramId, currentVersionStart,contextInfo);
 		
 		return status;
 	}
@@ -1371,8 +1402,8 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo setCurrentCredentialProgramVersion( String credentialProgramId,  Date currentVersionStart,
                                                           ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
-            OperationFailedException, PermissionDeniedException {
-		StatusInfo status = luService.setCurrentCluVersion(credentialProgramId, currentVersionStart,contextInfo);
+            OperationFailedException, PermissionDeniedException, DataValidationErrorException {
+		StatusInfo status = cluService.setCurrentCluVersion(credentialProgramId, currentVersionStart,contextInfo);
 		
 		return status;
 	}
@@ -1384,7 +1415,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1396,7 +1427,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return luService.getCurrentVersionOnDate(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, date,contextInfo);
+			return cluService.getCurrentVersionOnDate(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, date,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1408,7 +1439,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return luService.getFirstVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getFirstVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 
@@ -1421,7 +1452,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return luService.getLatestVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getLatestVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 
@@ -1435,7 +1466,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return luService.getVersionBySequenceNumber(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence,contextInfo);
+			return cluService.getVersionBySequenceNumber(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1447,7 +1478,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return luService.getVersions(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getVersions(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1460,7 +1491,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return luService.getVersionsInDateRange(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to,contextInfo);
+			return cluService.getVersionsInDateRange(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1474,19 +1505,17 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 	}
 
 	private void validateMajorDisciplineAtps(MajorDisciplineInfo majorDisciplineInfo, List<ValidationResultInfo> validationResults,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //TODO KSCM : Make sure .getStartTerm is the same as getStartTermId
-		String startTerm = majorDisciplineInfo.getStartTermId();
-        //TODO KSCM : note used method toGenericMap
-		if(!isEmpty(toGenericMap(majorDisciplineInfo.getAttributes()).get("endInstAdmitTerm"))){
-			compareAtps(startTerm, toGenericMap(majorDisciplineInfo.getAttributes()).get("endInstAdmitTerm"), validationResults, "End Inst Admin Term", "endInstAdmitTerm",contextInfo);
-		}
-        //TODO KSCM : Make sure .getEndProgramEntryTerm is the same as getEndProgramEntryTermId
-		if(!isEmpty(majorDisciplineInfo.getEndProgramEntryTermId())){
-			compareAtps(startTerm, majorDisciplineInfo.getEndProgramEntryTermId(), validationResults, "End Program Entry Term", "endProgramEntryTerm",contextInfo);
+		String startTerm = majorDisciplineInfo.getStartTerm();
+        //TODO KSCM-429 : note used method toGenericMap
+		//TODO KSCM-429		if(!isEmpty(majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"))){
+		//TODO KSCM-429			compareAtps(startTerm, majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term", "endInstAdmitTerm",contextInfo);
+		//TODO KSCM-429		}
+		if(!isEmpty(majorDisciplineInfo.getEndProgramEntryTerm())){
+			compareAtps(startTerm, majorDisciplineInfo.getEndTerm(), validationResults, "End Program Entry Term", "endProgramEntryTerm",contextInfo);
 		}
 		
-		if(!isEmpty(majorDisciplineInfo.getEndTermId())){
-			compareAtps(startTerm, majorDisciplineInfo.getEndTermId(), validationResults, "End Program Enroll Term", "endTerm",contextInfo);
+		if(!isEmpty(majorDisciplineInfo.getEndTerm())){
+			compareAtps(startTerm, majorDisciplineInfo.getEndTerm(), validationResults, "End Program Enroll Term", "endTerm",contextInfo);
 		}		
 		
 		List<ProgramVariationInfo> variations = majorDisciplineInfo.getVariations();
@@ -1502,12 +1531,12 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 	//FIXME, this validation should be moved into a custom validation class + configuration
 	private void validateVariationAtps(ProgramVariationInfo programVariationInfo, List<ValidationResultInfo> validationResults, int idx,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,PermissionDeniedException{
 		
-		String startTerm = programVariationInfo.getStartTermId();
+		String startTerm = programVariationInfo.getStartTerm();
 
-        //TODO KSCM : note used method toGenericMap
-		if(!isEmpty(toGenericMap(programVariationInfo.getAttributes()).get("endInstAdmitTerm"))){
-			compareAtps(startTerm, toGenericMap(programVariationInfo.getAttributes()).get("endInstAdmitTerm"), validationResults, "End Inst Admin Term",  "variations/" + idx + "/endInstAdmitTerm",contextInfo);
-		}
+        //TODO KSCM-429 : note used method toGenericMap
+// TODO KSCM-429 		if(!isEmpty(programVariationInfo.getAttributes().get("endInstAdmitTerm"))){
+		// TODO KSCM-429 			compareAtps(startTerm, programVariationInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term",  "variations/" + idx + "/endInstAdmitTerm",contextInfo);
+		// TODO KSCM-429 		}
 	
 		if(!isEmpty(programVariationInfo.getEndProgramEntryTerm())){
 			compareAtps(startTerm, programVariationInfo.getEndProgramEntryTerm(), validationResults, "End Program Entry Term", "variations/" + idx + "/endProgramEntryTerm",contextInfo);
@@ -1522,7 +1551,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 		if(atpKey==null){
 			return null;
 		}
-		return atpService.getAtp(atpKey,contextInfo);
+		return atpService.getAtp(atpKey);
 	}
 	//FIXME error should return using message service and not static text
 	private void compareAtps(String aptKey1, String aptKey2, List<ValidationResultInfo> validationResults, String field, String path,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
@@ -1562,8 +1591,8 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
 	// TODO KSCM-267
 	@Override
-	public SearchResult search(SearchRequest searchRequest,
-			ContextInfo contextInfo) throws MissingParameterException {
+	public SearchResult search(SearchRequest searchRequest
+			) throws MissingParameterException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -1692,15 +1721,28 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 		return null;
 	}
 
+
+
+
+
 	@Override
-	public MinorDisciplineInfo updateMinorDiscipline(
-			MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			VersionMismatchException, OperationFailedException,
-			PermissionDeniedException {
+	public List<ProgramVariationInfo> getProgramVariationsByMajorDiscipline(
+			String majorDisciplineId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+//	@Override
+//	public MinorDisciplineInfo updateMinorDiscipline(
+//			MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo)
+//			throws DataValidationErrorException, DoesNotExistException,
+//			InvalidParameterException, MissingParameterException,
+//			VersionMismatchException, OperationFailedException,
+//			PermissionDeniedException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 }

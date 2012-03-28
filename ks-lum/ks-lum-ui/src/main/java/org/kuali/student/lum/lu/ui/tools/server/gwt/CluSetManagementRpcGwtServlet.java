@@ -16,63 +16,65 @@
 package org.kuali.student.lum.lu.ui.tools.server.gwt;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.common.client.widgets.CluInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lrc.service.LrcService;
-import org.kuali.student.lum.lu.dto.*;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.clu.dto.*;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import org.apache.log4j.Logger;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+// TODO KSCM-429 import edu.emory.mathcs.backport.java.util.Collections;
 
 public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 		CluSetManagementRpcService {
 
 	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CluSetManagementRpcGwtServlet.class);
-	private LuService luService;
-	private LrcService lrcService;
+	private CluService cluService;
+	private LRCService lrcService;
     
-	public LuService getLuService() {
-        return luService;
+	public CluService getLuService() {
+        return cluService;
     }
 
-    public void setLuService(LuService luService) {
-        this.luService = luService;
+    public void setLuService(CluService cluService) {
+        this.cluService = cluService;
     }
 
-    public LrcService getLrcService() {
+    public LRCService getLRCService() {
         return lrcService;
     }
 
-    public void setLrcService(LrcService lrcService) {
+    public void setLRCService(LRCService lrcService) {
         this.lrcService = lrcService;
     }
     
     @Override
-    public Data getData(String id, ContextInfo contextInfo) throws OperationFailedException {
+    public Data getData(String id) throws OperationFailedException {
         try{
-            //TODO KSCM - Correct ContextInfo parameter?
-            return getDataService().getData(id, contextInfo);
+            //TODO KSCM-390 - Correct ContextInfo parameter?
+            return getDataService().getData(id, ContextUtils.getContextInfo());
         } catch (Exception e) {
             LOG.error("Could not get Data ", e);
             throw new OperationFailedException("Failed to get data");
@@ -80,10 +82,10 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
     }
 
     @Override
-    public DataSaveResult saveData(Data data, ContextInfo contextInfo) throws OperationFailedException {
+    public DataSaveResult saveData(Data data) throws OperationFailedException {
         try{
-            //TODO KSCM - Correct ContextInfo parameter?
-            return getDataService().saveData(data, contextInfo);
+            //TODO KSCM-390 - Correct ContextInfo parameter?
+            return getDataService().saveData(data, ContextUtils.getContextInfo());
         } catch (Exception e) {
             LOG.error("Could not save data ", e);
             throw new OperationFailedException("Failed to save data");
@@ -94,16 +96,16 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         List<String> cluIds = null;
         CluSetInfo cluSetInfo = null;
         try {
-            // note: the cluIds returned by luService.getCluSetInfo also contains the clus
+            // note: the cluIds returned by cluService.getCluSetInfo also contains the clus
             //       that are the result of query parameter search.  Set to null here and
             //       retrieve the clus that are direct members.
-            //TODO KSCM - Correct ContextInfo parameter?
-            cluSetInfo = luService.getCluSetInfo(cluSetId, contextInfo);
+            //TODO KSCM-390 - Correct ContextInfo parameter?
+            cluSetInfo = cluService.getCluSet(cluSetId, ContextUtils.getContextInfo());
             cluSetInfo.setCluIds(null);
-            //TODO KSCM - Correct ContextInfo parameter?
-            cluIds = luService.getCluIdsFromCluSet(cluSetId, contextInfo);
+            //TODO KSCM-390 - Correct ContextInfo parameter?
+            cluIds = cluService.getCluIdsFromCluSet(cluSetId, contextInfo);
             cluSetInfo.setCluIds(cluIds);
-            //TODO KSCM - Correct ContextInfo parameter?
+            //TODO KSCM-390 - Correct ContextInfo parameter?
             upWrap(cluSetInfo, contextInfo);
         } catch (Exception e) {
             throw new OperationFailedException("Failed to retrieve cluset info for " + cluSetId, e);
@@ -116,7 +118,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         if (cluSetIds != null) {
             for (String cluSetId : cluSetIds) {
                 clusetInfos = (clusetInfos == null)? new ArrayList<CluSetInfo>() : clusetInfos;
-                //TODO KSCM - Correct ContextInfo parameter?
+                //TODO KSCM-390 - Correct ContextInfo parameter?
                 clusetInfos.add(getCluSetInfo(cluSetId, contextInfo));
             }
         }
@@ -131,8 +133,8 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 
         try {
             if (cluSetIds != null && !cluSetIds.isEmpty()) {
-                //TODO KSCM - Correct ContextInfo parameter?
-                subCluSets = luService.getCluSetInfoByIdList(cluSetIds, contextInfo);
+                //TODO KSCM-390 - Correct ContextInfo parameter?
+                subCluSets = cluService.getCluSetsByIds(cluSetIds, contextInfo);
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -172,19 +174,19 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         if (cluIds != null) {
             for (String cluId : cluIds) {
                 try {
-                    //TODO KSCM - Correct ContextInfo parameter?
-                	VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId, contextInfo);
-                	//TODO KSCM - Correct ContextInfo parameter?
-                	CluInfo cluInfo = luService.getClu(versionInfo.getId(), contextInfo);
+                    //TODO KSCM-390 - Correct ContextInfo parameter?
+                	VersionDisplayInfo versionInfo = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluId, contextInfo);
+                	//TODO KSCM-390 - Correct ContextInfo parameter?
+                	CluInfo cluInfo = cluService.getClu(versionInfo.getId(), contextInfo);
                     if (cluInfo != null) {
 
                         //retrieve credits
                         String credits = "";
-                        //TODO KSCM - Correct ContextInfo parameter?
-                        List<CluResultInfo> cluResultInfos = luService.getCluResultByClu(versionInfo.getId(), contextInfo);
+                        //TODO KSCM-390 - Correct ContextInfo parameter?
+                        List<CluResultInfo> cluResultInfos = cluService.getCluResultByClu(versionInfo.getId(), contextInfo);
                         if (cluResultInfos != null) {
                             for (CluResultInfo cluResultInfo : cluResultInfos) {
-                                String cluType = cluResultInfo.getType();
+                                String cluType = cluResultInfo.getTypeKey();
 
                                 //ignore non-credit results
                                 if ((cluType == null) || (!cluType.equals("kuali.resultType.creditCourseResult"))) {
@@ -198,8 +200,8 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                                 if (cluResultInfo.getResultOptions() != null) {
                                     for (ResultOptionInfo resultOption : cluResultInfo.getResultOptions()) {
                                         if (resultOption.getResultComponentId() != null) {
-                                            //TODO KSCM - Correct ContextInfo parameter?
-                                            resultComponentInfo = lrcService.getResultComponent(resultOption.getResultComponentId(), contextInfo);
+                                            //TODO KSCM-390 - Correct ContextInfo parameter?
+                                            resultComponentInfo = lrcService.getResultComponent(resultOption.getResultComponentId());
                                             resultValues = resultComponentInfo.getResultValues();
                                             creditType = resultComponentInfo.getType();
                                             break;
@@ -235,11 +237,11 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                             cluInformation.setCredits(credits);
                         }
                         
-                        cluInformation.setType(cluInfo.getType());
+                        cluInformation.setType(cluInfo.getTypeKey());
                         //If the clu type is variation, get the parent clu id. 
-                        if ("kuali.lu.type.Variation".equals(cluInfo.getType())){
-                            //TODO KSCM - Correct ContextInfo parameter?
-                            List<String> clus = luService.getCluIdsByRelation(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", contextInfo);
+                        if ("kuali.lu.type.Variation".equals(cluInfo.getTypeKey())){
+                            //TODO KSCM-390 - Correct ContextInfo parameter?
+                            List<String> clus = cluService.getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", contextInfo);
                             if (clus == null || clus.size() == 0){ 
                                 throw new RuntimeException("Statement Dependency clu found, but no parent Program exists"); 
                             } else if(clus.size()>1){ 
@@ -260,9 +262,10 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
     }
 
     @Override
-    public CluSetInformation getCluSetInformation(String cluSetId, ContextInfo contextInfo) throws OperationFailedException {
+    public CluSetInformation getCluSetInformation(String cluSetId) throws OperationFailedException {
+        ContextInfo contextInfo = ContextUtils.getContextInfo();
         CluSetInformation result = new CluSetInformation();
-        //TODO KSCM - Correct ContextInfo parameter?
+        //TODO KSCM-390 - Correct ContextInfo parameter?
         CluSetInfo cluSetInfo = getCluSetInfo(cluSetId, contextInfo);
         List<String> allCluIds = cluSetInfo.getCluIds();
         List<String> cluSetIds =  cluSetInfo.getCluSetIds();
@@ -273,7 +276,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             result.setClus(clus);
         }
         if (cluSetIds != null) {
-            //TODO KSCM - Correct ContextInfo parameter?
+            //TODO KSCM-390 - Correct ContextInfo parameter?
             List<CluSetInfo> cluSetInfos = getCluSetInfos(cluSetIds, contextInfo);
             result.setCluSets(cluSetInfos);
         }
@@ -283,8 +286,8 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             searchRequest.setParams(membershipQueryInfo.getQueryParamValueList());
             SearchResult searchResult = null;
             try {
-                //TODO KSCM - Correct ContextInfo parameter?
-                searchResult = luService.search(searchRequest, contextInfo);
+                //TODO KSCM-390 - Correct ContextInfo parameter?
+                searchResult = cluService.search(searchRequest);
             } catch (Exception e) {
                 throw new OperationFailedException("Failed to search for clus in clu range", e);
             }
@@ -313,5 +316,5 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         	Collections.sort(result.getClus());
         return result;
     }
-	
+
 }

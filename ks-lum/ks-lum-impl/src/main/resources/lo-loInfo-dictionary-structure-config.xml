@@ -32,10 +32,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.loInfo -->
 <!-- ********************************** -->
 <!-- Detailed information about a learning objective -->
-<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoInfo" id="object.loInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoInfo" id="object.loInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.loInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoInfo" id="object.loInfo" parent="object.loInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoInfo" id="object.loInfo" parent="object.loInfo.abstract"/>
 
 <dict:type key="*" id="type.loInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -51,13 +51,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:state key="*" id="state.loInfo.abstract" abstract="true">
 	<dict:fieldRef bean="field.loInfo.name"/>
-	<dict:fieldRef bean="field.loInfo.desc"/>
+	<dict:fieldRef bean="field.loInfo.descr"/>
 	<dict:fieldRef bean="field.loInfo.loRepositoryKey"/>
 	<dict:fieldRef bean="field.loInfo.effectiveDate"/>
 	<dict:fieldRef bean="field.loInfo.expirationDate"/>
 	<dict:fieldRef bean="field.loInfo.metaInfo"/>
 	<dict:fieldRef bean="field.loInfo.type"/>
-	<dict:fieldRef bean="field.loInfo.state"/>
+	<dict:fieldRef bean="field.loInfo.stateKey"/>
 	<dict:fieldRef bean="field.loInfo.id"/>
 </dict:state>
 <dict:state key="*" id="state.loInfo" parent="state.loInfo.abstract"/>
@@ -81,67 +81,67 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="name" id="field.loInfo.name.cd" parent="field.loInfo.name.cd.abstract"/>
 
-<dict:field key="desc" id="field.loInfo.desc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.loInfo.desc.fd"/>
-	<dict:constraintDescriptorRef bean="field.loInfo.desc.cd"/>
+<dict:field key="descr" id="field.loInfo.descr.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loInfo.descr.fd"/>
+	<dict:constraintDescriptorRef bean="field.loInfo.descr.cd"/>
 </dict:field>
-<dict:field key="desc" id="field.loInfo.desc" parent="field.loInfo.desc.abstract"/>
-<dict:fieldDescriptor id="field.loInfo.desc.fd.abstract" abstract="true">
+<dict:field key="descr" id="field.loInfo.descr" parent="field.loInfo.descr.abstract"/>
+<dict:fieldDescriptor id="field.loInfo.descr.fd.abstract" abstract="true">
 	<dict:name>Learning Objective Description</dict:name>
 	<dict:desc>Narrative description of the learning objective</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.loInfo.desc"/>
+		<dict:objectStructureRef bean="object.field.loInfo.descr"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.loInfo.desc.fd" parent="field.loInfo.desc.fd.abstract"/>
+<dict:fieldDescriptor id="field.loInfo.descr.fd" parent="field.loInfo.descr.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
-<dict:constraintDescriptor id="field.loInfo.desc.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.loInfo.descr.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="field.loInfo.desc.cd" parent="field.loInfo.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="field.loInfo.descr.cd" parent="field.loInfo.descr.cd.abstract"/>
 
 <!-- ***************************************************************** -->
-<!-- object structure for object.field.loInfo.desc.(default).(default) -->
+<!-- object structure for object.field.loInfo.descr.(default).(default) -->
 <!-- ***************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.loInfo.desc.abstract" abstract="true">
-	<dict:typeRef bean="type.field.loInfo.desc"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.loInfo.descr.abstract" abstract="true">
+	<dict:typeRef bean="type.field.loInfo.descr"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.loInfo.desc" parent="object.field.loInfo.desc.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.loInfo.descr" parent="object.field.loInfo.descr.abstract"/>
 
-<dict:type key="*" id="type.field.loInfo.desc.abstract" abstract="true">
+<dict:type key="*" id="type.field.loInfo.descr.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.loInfo.desc"/>
+	<dict:stateRef bean="state.field.loInfo.descr"/>
 </dict:type>
-<dict:type key="*" id="type.field.loInfo.desc" parent="type.field.loInfo.desc.abstract"/>
+<dict:type key="*" id="type.field.loInfo.descr" parent="type.field.loInfo.descr.abstract"/>
 
 <!-- ************************************************************************* -->
-<!-- State for state.field.loInfo.desc.(default).(default).(default).(default) -->
+<!-- State for state.field.loInfo.descr.(default).(default).(default).(default) -->
 <!-- ************************************************************************* -->
 
-<dict:state key="*" id="state.field.loInfo.desc.abstract" abstract="true">
-	<dict:fieldRef bean="field.loInfo.desc.plain"/>
-	<dict:fieldRef bean="field.loInfo.desc.formatted"/>
+<dict:state key="*" id="state.field.loInfo.descr.abstract" abstract="true">
+	<dict:fieldRef bean="field.loInfo.descr.plain"/>
+	<dict:fieldRef bean="field.loInfo.descr.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.loInfo.desc" parent="state.field.loInfo.desc.abstract"/>
+<dict:state key="*" id="state.field.loInfo.descr" parent="state.field.loInfo.descr.abstract"/>
 
 
-<dict:field key="plain" id="field.loInfo.desc.plain.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.loInfo.desc.plain.fd"/>
-	<dict:constraintDescriptorRef bean="field.loInfo.desc.plain.cd"/>
+<dict:field key="plain" id="field.loInfo.descr.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loInfo.descr.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.loInfo.descr.plain.cd"/>
 </dict:field>
-<dict:field key="plain" id="field.loInfo.desc.plain" parent="field.loInfo.desc.plain.abstract"/>
-<dict:fieldDescriptor id="field.loInfo.desc.plain.fd.abstract" abstract="true">
+<dict:field key="plain" id="field.loInfo.descr.plain" parent="field.loInfo.descr.plain.abstract"/>
+<dict:fieldDescriptor id="field.loInfo.descr.plain.fd.abstract" abstract="true">
 	<dict:name>Plain Text</dict:name>
 	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.loInfo.desc.plain.fd" parent="field.loInfo.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="field.loInfo.descr.plain.fd" parent="field.loInfo.descr.plain.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
-<dict:constraintDescriptor id="field.loInfo.desc.plain.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.loInfo.descr.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.multi.line.text"/>
@@ -149,21 +149,21 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="field.loInfo.desc.plain.cd" parent="field.loInfo.desc.plain.cd.abstract"/>
+<dict:constraintDescriptor key="plain" id="field.loInfo.descr.plain.cd" parent="field.loInfo.descr.plain.cd.abstract"/>
 
-<dict:field key="formatted" id="field.loInfo.desc.formatted.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.loInfo.desc.formatted.fd"/>
-	<dict:constraintDescriptorRef bean="field.loInfo.desc.formatted.cd"/>
+<dict:field key="formatted" id="field.loInfo.descr.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loInfo.descr.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.loInfo.descr.formatted.cd"/>
 </dict:field>
-<dict:field key="formatted" id="field.loInfo.desc.formatted" parent="field.loInfo.desc.formatted.abstract"/>
-<dict:fieldDescriptor id="field.loInfo.desc.formatted.fd.abstract" abstract="true">
+<dict:field key="formatted" id="field.loInfo.descr.formatted" parent="field.loInfo.descr.formatted.abstract"/>
+<dict:fieldDescriptor id="field.loInfo.descr.formatted.fd.abstract" abstract="true">
 	<dict:name>Formatted Text</dict:name>
 	<dict:desc>Formatted version of the text.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.loInfo.desc.formatted.fd" parent="field.loInfo.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="field.loInfo.descr.formatted.fd" parent="field.loInfo.descr.formatted.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
-<dict:constraintDescriptor id="field.loInfo.desc.formatted.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.loInfo.descr.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.rich.text"/>
@@ -171,7 +171,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="field.loInfo.desc.formatted.cd" parent="field.loInfo.desc.formatted.cd.abstract"/>
+<dict:constraintDescriptor key="formatted" id="field.loInfo.descr.formatted.cd" parent="field.loInfo.descr.formatted.cd.abstract"/>
 
 <dict:field key="loRepositoryKey" id="field.loInfo.loRepositoryKey.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="field.loInfo.loRepositoryKey.fd"/>
@@ -257,10 +257,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.loInfo.metaInfo.(default).(default) -->
 <!-- ********************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loInfo.metaInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loInfo.metaInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.field.loInfo.metaInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loInfo.metaInfo" parent="object.field.loInfo.metaInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loInfo.metaInfo" parent="object.field.loInfo.metaInfo.abstract"/>
 
 <dict:type key="*" id="type.field.loInfo.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -407,25 +407,25 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="type" id="field.loInfo.type.cd" parent="field.loInfo.type.cd.abstract"/>
 
-<dict:field key="state" id="field.loInfo.state.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.loInfo.state.fd"/>
-	<dict:constraintDescriptorRef bean="field.loInfo.state.cd"/>
+<dict:field key="stateKey" id="field.loInfo.stateKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loInfo.stateKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.loInfo.stateKey.cd"/>
 <dict:selector>true</dict:selector>
 </dict:field>
-<dict:field key="state" id="field.loInfo.state" parent="field.loInfo.state.abstract"/>
-<dict:fieldDescriptor id="field.loInfo.state.fd.abstract" abstract="true">
+<dict:field key="stateKey" id="field.loInfo.stateKey" parent="field.loInfo.stateKey.abstract"/>
+<dict:fieldDescriptor id="field.loInfo.stateKey.fd.abstract" abstract="true">
 	<dict:name>Learning Objective State</dict:name>
 	<dict:desc>The current status of the learning objective. The values for this field are constrained to those in the loState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.loInfo.state.fd" parent="field.loInfo.state.fd.abstract"/>
+<dict:fieldDescriptor id="field.loInfo.stateKey.fd" parent="field.loInfo.stateKey.fd.abstract"/>
 <!-- Required; Single valued (non-repeating); Kuali STATE -->
-<dict:constraintDescriptor id="field.loInfo.state.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.loInfo.stateKey.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="state" id="field.loInfo.state.cd" parent="field.loInfo.state.cd.abstract"/>
+<dict:constraintDescriptor key="stateKey" id="field.loInfo.stateKey.cd" parent="field.loInfo.stateKey.cd.abstract"/>
 
 <dict:field key="id" id="field.loInfo.id.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="field.loInfo.id.fd"/>

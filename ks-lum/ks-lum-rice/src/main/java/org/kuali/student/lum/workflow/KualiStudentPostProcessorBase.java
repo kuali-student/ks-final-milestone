@@ -43,12 +43,12 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.student.StudentWorkflowConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.core.proposal.ProposalConstants;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.core.proposal.ProposalConstants;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 
 public class KualiStudentPostProcessorBase implements PostProcessor{
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiStudentPostProcessorBase.class);
@@ -129,13 +129,13 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         // do nothing but allow for child classes to override
     }
 
-    //TODO KSCM
+    //TODO KSCM-392
     @Override
     public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) throws Exception {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    //TODO KSCM
+    //TODO KSCM-392
     @Override
     public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -189,7 +189,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
             ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(statusChangeEvent.getDocumentId(), contextInfo);
 
             // update the proposal state if the proposalState value is not null (allows for clearing of the state)
-            String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), statusChangeEvent.getNewRouteStatus());
+            String proposalState = getProposalStateForRouteStatus(proposalInfo.getStateKey(), statusChangeEvent.getNewRouteStatus());
             updateProposal(statusChangeEvent, proposalState, proposalInfo, contextInfo);
             success = processCustomRouteStatusChange(statusChangeEvent, proposalInfo, contextInfo);
 	    }
@@ -291,7 +291,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         }
         boolean requiresSave = false;
         if (proposalState != null) {
-            proposalInfo.setState(proposalState);
+            proposalInfo.setStateKey(proposalState);
             requiresSave = true;
         }
         requiresSave |= preProcessProposalSave(iDocumentEvent, proposalInfo);

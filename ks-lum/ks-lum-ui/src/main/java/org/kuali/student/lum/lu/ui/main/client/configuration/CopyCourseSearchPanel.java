@@ -1,12 +1,12 @@
 package org.kuali.student.lum.lu.ui.main.client.configuration;
 
-import org.kuali.student.common.assembly.data.Data.Value;
-import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
+import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

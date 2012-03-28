@@ -3,9 +3,6 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayoutWithContentHeader;
@@ -24,8 +21,6 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
@@ -35,6 +30,10 @@ import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.views.SelectVersionsView;
 import org.kuali.student.lum.lu.ui.course.client.views.ShowVersionView;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -138,8 +137,7 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
 	private void getCourseFromCluId(final String courseId, final int modelNum, final ModelRequestCallback callback, final boolean id1Model){
 		KSBlockingProgressIndicator.addTask(loadDataTask);
 	
-		//TODO KSCM - Correct ContextInfo parameter?
-	    rpcServiceAsync.getData(courseId, ContextUtils.getContextInfo(), new KSAsyncCallback<Data>(){
+	    rpcServiceAsync.getData(courseId, new KSAsyncCallback<Data>(){
 	
 	        @Override
 	        public void handleFailure(Throwable caught) {
@@ -239,29 +237,24 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
     
     private void init(final Callback<Boolean> onReadyCallback) {
 
-        if (initialized) {
-            onReadyCallback.exec(true);
-        } else {
-        	KSBlockingProgressIndicator.addTask(loadDataTask);
-    		
-        	//TODO KSCM - Correct ContextInfo parameter?
-        	rpcServiceAsync.getMetadata("", null, ContextUtils.getContextInfo(), new KSAsyncCallback<Metadata>(){
+        KSBlockingProgressIndicator.addTask(loadDataTask);
 
-	        	public void handleFailure(Throwable caught) {
-	        		initialized = false;
-                	onReadyCallback.exec(false);
-                	KSBlockingProgressIndicator.removeTask(loadDataTask);
-                    throw new RuntimeException("Failed to get model definition.", caught);
-                }
+        rpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>() {
 
-                public void onSuccess(Metadata result) {
-                	definition = new DataModelDefinition(result);
-                    KSBlockingProgressIndicator.removeTask(loadDataTask);
-                    configureScreens(onReadyCallback);
-                }
-	          });
-            
-        }
+            public void handleFailure(Throwable caught) {
+                initialized = false;
+                onReadyCallback.exec(false);
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
+                throw new RuntimeException("Failed to get model definition.", caught);
+            }
+
+            public void onSuccess(Metadata result) {
+                definition = new DataModelDefinition(result);
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
+                configureScreens(onReadyCallback);
+            }
+        });
+
     }
 
     private void configureScreens(final Callback<Boolean> onReadyCallback) {

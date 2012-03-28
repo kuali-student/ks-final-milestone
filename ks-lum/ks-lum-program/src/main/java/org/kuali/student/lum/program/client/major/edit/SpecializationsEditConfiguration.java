@@ -9,8 +9,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.widgets.AppLocations;

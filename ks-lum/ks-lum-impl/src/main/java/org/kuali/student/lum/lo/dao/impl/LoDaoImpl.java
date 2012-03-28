@@ -21,10 +21,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoCategory;

@@ -3,48 +3,61 @@ package org.kuali.student.lum.service.assembler;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.*;
-import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.service.assembler.LoCategoryRelationInfo;
-import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lrc.service.LrcService;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
-import org.kuali.student.lum.lu.dto.CluPublicationInfo;
-import org.kuali.student.lum.lu.dto.CluResultInfo;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
+import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.service.StatementService;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r1.lum.lrc.service.LrcService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularReferenceException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.lo.dto.LoInfo;
+import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
+import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 
-// TODO KSCM-255
 public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	final Logger LOG = Logger.getLogger(LumServiceMethodInvoker.class);
-	private LuService luService;
+	private CluService cluService;
 	private StatementService statementService;
 	private LearningObjectiveService loService;
+	private OrganizationService orgService;
 	private AtpService atpService;
 	private LrcService lrcService;
 
 	@SuppressWarnings("unchecked")
-	public final void invokeServiceCalls(BaseDTOAssemblyNode results,ContextInfo contextInfo)
+	public final void invokeServiceCalls(BaseDTOAssemblyNode results, ContextInfo contextInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException,
 			DependentObjectsExistException, CircularRelationshipException,
-			AssemblyException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException,ReadOnlyException {
+			AssemblyException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException, ReadOnlyException, org.kuali.student.r1.common.exceptions.DataValidationErrorException, org.kuali.student.r1.common.exceptions.DoesNotExistException, org.kuali.student.r1.common.exceptions.InvalidParameterException, org.kuali.student.r1.common.exceptions.MissingParameterException, org.kuali.student.r1.common.exceptions.OperationFailedException, org.kuali.student.r1.common.exceptions.PermissionDeniedException, org.kuali.student.r1.common.exceptions.VersionMismatchException, org.kuali.student.r1.common.exceptions.AlreadyExistsException {
 
 	    // For Delete operation process the tree from bottom up
 	    if(NodeOperation.DELETE == results.getOperation()) {
@@ -53,7 +66,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
             }
 	    }
 
-	    invokeServiceCallOnResult(results,contextInfo);
+	    invokeServiceCallOnResult(results, contextInfo);
 
 		// For create/update process the child nodes from top to bottom
 		if(NodeOperation.DELETE != results.getOperation()) {
@@ -79,15 +92,24 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	 * @throws UnsupportedActionException
 	 * @throws UnsupportedOperationException
 	 * @throws CircularReferenceException
+	 * @throws ReadOnlyException 
+	 * @throws org.kuali.student.common.exceptions.DataValidationErrorException 
+	 * @throws org.kuali.student.common.exceptions.DoesNotExistException 
+	 * @throws org.kuali.student.common.exceptions.InvalidParameterException 
+	 * @throws org.kuali.student.common.exceptions.MissingParameterException 
+	 * @throws org.kuali.student.common.exceptions.OperationFailedException 
+	 * @throws org.kuali.student.common.exceptions.PermissionDeniedException 
+	 * @throws org.kuali.student.common.exceptions.VersionMismatchException 
+	 * @throws org.kuali.student.common.exceptions.AlreadyExistsException 
 	 */
-	protected void invokeServiceCallOnResult(BaseDTOAssemblyNode results,ContextInfo contextInfo)
+	protected void invokeServiceCallOnResult(BaseDTOAssemblyNode results, ContextInfo contextInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, AssemblyException,
 			VersionMismatchException, DependentObjectsExistException,
 			CircularRelationshipException, UnsupportedActionException,
-			UnsupportedOperationException, CircularReferenceException ,ReadOnlyException{
+			UnsupportedOperationException, CircularReferenceException, ReadOnlyException, org.kuali.student.r1.common.exceptions.DataValidationErrorException, org.kuali.student.r1.common.exceptions.DoesNotExistException, org.kuali.student.r1.common.exceptions.InvalidParameterException, org.kuali.student.r1.common.exceptions.MissingParameterException, org.kuali.student.r1.common.exceptions.OperationFailedException, org.kuali.student.r1.common.exceptions.PermissionDeniedException, org.kuali.student.r1.common.exceptions.VersionMismatchException, org.kuali.student.r1.common.exceptions.AlreadyExistsException {
 		Object nodeData = results.getNodeData();
 		if (nodeData == null) {
 			return;
@@ -101,117 +123,117 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			CluInfo clu = (CluInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				CluInfo newClu = luService.createClu(clu.getType(), clu,contextInfo);
+				CluInfo newClu = cluService.createClu(clu.getTypeKey(), clu, contextInfo);
 				if(results.getAssembler() != null) {
-					results.getAssembler().assemble(newClu, results.getBusinessDTORef(), true,contextInfo);
+					results.getAssembler().assemble(newClu, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case UPDATE:
-				CluInfo updatedClu = luService.updateClu(clu.getId(), clu,contextInfo);
+				CluInfo updatedClu = cluService.updateClu(clu.getId(), clu, contextInfo);
 				if(results.getAssembler() != null) {
-					results.getAssembler().assemble(updatedClu, results.getBusinessDTORef(), true,contextInfo);
+					results.getAssembler().assemble(updatedClu, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case DELETE:
-				luService.deleteClu(clu.getId(),contextInfo);
+				cluService.deleteClu(clu.getId(), contextInfo);
 				break;
 			}
 		}else if(nodeData instanceof CluCluRelationInfo){
 			CluCluRelationInfo  relation = (CluCluRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				CluCluRelationInfo newCluRel = luService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation,contextInfo);
+				CluCluRelationInfo newCluRel = cluService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getTypeKey(), relation, contextInfo);
 				// Update the businessDTO if one exists for the cluclurelation (for e.g. CourseJointInfo)
 				if(null != results.getBusinessDTORef()) {
-					results.getAssembler().assemble(newCluRel, results.getBusinessDTORef(), true,contextInfo);
+					results.getAssembler().assemble(newCluRel, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case UPDATE:
-				CluCluRelationInfo updatedCluRel = luService.updateCluCluRelation(relation.getId(), relation,contextInfo);
+				CluCluRelationInfo updatedCluRel = cluService.updateCluCluRelation(relation.getId(), relation, contextInfo);
 				// Update the businessDTO if one exists for the cluclurelation (for e.g. CourseJointInfo)
 				if(null != results.getBusinessDTORef()) {
-					results.getAssembler().assemble(updatedCluRel, results.getBusinessDTORef(), true,contextInfo);
+					results.getAssembler().assemble(updatedCluRel, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case DELETE:
-				luService.deleteCluCluRelation(relation.getId(),contextInfo);
+				cluService.deleteCluCluRelation(relation.getId(), contextInfo);
 				break;
 			}
 		}else if(nodeData instanceof CluResultInfo){
 			CluResultInfo cluResult = (CluResultInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				luService.createCluResult(cluResult.getCluId(), cluResult.getType(), cluResult,contextInfo);
+				cluService.createCluResult(cluResult.getCluId(), cluResult.getTypeKey(), cluResult, contextInfo);
 				break;
 			case UPDATE:
-				luService.updateCluResult(cluResult.getId(), cluResult,contextInfo);
+				cluService.updateCluResult(cluResult.getId(), cluResult, contextInfo);
 				break;
 			case DELETE:
-				luService.deleteCluResult(cluResult.getId(),contextInfo);
+				cluService.deleteCluResult(cluResult.getId(), contextInfo);
 				break;
 			}
 		}else if(nodeData instanceof LoCategoryRelationInfo){
 			LoCategoryRelationInfo loCategoryRelation = (LoCategoryRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				loService.addLoCategoryToLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId(),contextInfo);
+				loService.addLoCategoryToLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId(), contextInfo);
 				break;
 			case UPDATE:
 				throw new UnsupportedOperationException("Can't call update on lo category relations, just add and remove");
 			case DELETE:
-				loService.removeLoCategoryFromLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId(),contextInfo);
+				loService.removeLoCategoryFromLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId(), contextInfo);
 				break;
 			}
 		}else if(nodeData instanceof LoInfo){
 			LoInfo lo = (LoInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				LoInfo createdLo = loService.createLo(lo.getLoRepositoryKey(), lo, contextInfo);
+				LoInfo createdLo = loService.createLo(lo.getLoRepositoryKey(), lo, lo.getTypeKey(), contextInfo);
 				if(null != results.getBusinessDTORef()) {
-					results.getAssembler().assemble(createdLo, results.getBusinessDTORef(), true,contextInfo);
+					results.getAssembler().assemble(createdLo, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case UPDATE:
-				LoInfo updatedLo = loService.updateLo(lo.getId(), lo,contextInfo);
+				LoInfo updatedLo = loService.updateLo(lo.getId(), lo, contextInfo);
 				if(null != results.getBusinessDTORef()) {
-					results.getAssembler().assemble(updatedLo, results.getBusinessDTORef(), true,contextInfo);
+					results.getAssembler().assemble(updatedLo, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case DELETE:
-				loService.deleteLo(lo.getId(),contextInfo);
+				loService.deleteLo(lo.getId(), contextInfo);
 				break;
 			}
 		}else if(nodeData instanceof LoLoRelationInfo){
 			LoLoRelationInfo loRelation = (LoLoRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				loService.createLoLoRelation(loRelation.getLoId(), loRelation, contextInfo);
+				loService.createLoLoRelation(loRelation.getLoId(), loRelation.getRelatedLoId(), loRelation.getTypeKey(), loRelation, contextInfo);
 				break;
 			case UPDATE:
-				loService.updateLoLoRelation(loRelation.getId(), loRelation,contextInfo);
+				loService.updateLoLoRelation(loRelation.getId(), loRelation, contextInfo);
  				break;
 			case DELETE:
-				loService.deleteLoLoRelation(loRelation.getId(),contextInfo);
+				loService.deleteLoLoRelation(loRelation.getId());
 				break;
 			}
 		}else if(nodeData instanceof CluLoRelationInfo){
 			CluLoRelationInfo cluLoRelation = (CluLoRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				luService.createCluLoRelation(cluLoRelation.getCluId(), cluLoRelation.getLoId(), cluLoRelation.getType(), cluLoRelation,contextInfo);
+				cluService.createCluLoRelation(cluLoRelation.getCluId(), cluLoRelation.getLoId(), cluLoRelation.getTypeKey(), cluLoRelation, contextInfo);
 				break;
 			case UPDATE:
-				luService.updateCluLoRelation(cluLoRelation.getLoId(), cluLoRelation,contextInfo);
+				cluService.updateCluLoRelation(cluLoRelation.getLoId(), cluLoRelation, contextInfo);
 				break;
 			case DELETE:
-				luService.deleteCluLoRelation(cluLoRelation.getId(),contextInfo);
+				cluService.deleteCluLoRelation(cluLoRelation.getId(), contextInfo);
 				break;
 			}
 		}else if(nodeData instanceof ResultComponentInfo){
 			ResultComponentInfo resultComponent = (ResultComponentInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				ResultComponentInfo createdResultComponent = lrcService.createResultComponent(resultComponent.getType(), resultComponent,contextInfo);
+				ResultComponentInfo createdResultComponent = lrcService.createResultComponent(resultComponent.getType(), resultComponent);
 				//Copy the created back to the reference Should there be an assembler for this?
 				if(results.getBusinessDTORef()!=null&& results.getBusinessDTORef() instanceof ResultComponentInfo){
 					ResultComponentInfo resultComponentToUpdate = (ResultComponentInfo) results.getBusinessDTORef();
@@ -227,91 +249,92 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				}
 				break;
 			case UPDATE:
-				lrcService.updateResultComponent(resultComponent.getId(), resultComponent,contextInfo);
+				lrcService.updateResultComponent(resultComponent.getId(), resultComponent);
 				break;
 			case DELETE:
-				lrcService.deleteResultComponent(resultComponent.getId(),contextInfo);
+				lrcService.deleteResultComponent(resultComponent.getId());
 				break;
 			}
 		} else if(nodeData instanceof RefStatementRelationInfo){
 			RefStatementRelationInfo relation = (RefStatementRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				RefStatementRelationInfo created = statementService.createRefStatementRelation(relation.getRefObjectId(),relation.getStatementId(),relation.getRefObjectTypeKey(),relation,contextInfo);
+				// TODO KSCM
+				RefStatementRelationInfo created = statementService.createRefStatementRelation(relation);
 				relation.setMetaInfo(created.getMetaInfo());
 				break;
 			case UPDATE:
-				RefStatementRelationInfo updated = statementService.updateRefStatementRelation(relation.getId(), relation,contextInfo);
+				RefStatementRelationInfo updated = statementService.updateRefStatementRelation(relation.getId(), relation);
 				relation.setMetaInfo(updated.getMetaInfo());
 				break;
 			case DELETE:
-				statementService.deleteRefStatementRelation(relation.getId(),contextInfo);
+				statementService.deleteRefStatementRelation(relation.getId());
 				break;
 			}
 		} else if(nodeData instanceof StatementInfo){
 			StatementInfo statement = (StatementInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				StatementInfo created = statementService.createStatement(statement.getType(), statement,contextInfo);
+				StatementInfo created = statementService.createStatement(statement.getType(), statement);
 				if(results.getAssembler() != null && results.getBusinessDTORef() != null) {
-					results.getAssembler().assemble(created, results.getBusinessDTORef(), true,contextInfo);
+					results.getAssembler().assemble(created, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case UPDATE:
-				StatementInfo updated = statementService.updateStatement(statement.getId(), statement,contextInfo);
+				StatementInfo updated = statementService.updateStatement(statement.getId(), statement);
 				if(results.getAssembler() != null && results.getBusinessDTORef() != null) {
-					results.getAssembler().assemble(updated, results.getBusinessDTORef(), true,contextInfo);
+					results.getAssembler().assemble(updated, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case DELETE:
-				statementService.deleteStatement(statement.getId(),contextInfo);
+				statementService.deleteStatement(statement.getId());
 				break;
 			}
 		} else if(nodeData instanceof ReqComponentInfo){
 			ReqComponentInfo reqComp = (ReqComponentInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				ReqComponentInfo created = statementService.createReqComponent(reqComp.getType(), reqComp,contextInfo);
+				ReqComponentInfo created = statementService.createReqComponent(reqComp.getType(), reqComp);
 				reqComp.setMetaInfo(created.getMetaInfo());
 				break;
 			case UPDATE:
-				ReqComponentInfo updated = statementService.updateReqComponent(reqComp.getId(), reqComp,contextInfo);
+				ReqComponentInfo updated = statementService.updateReqComponent(reqComp.getId(), reqComp);
 				reqComp.setMetaInfo(updated.getMetaInfo());
 				break;
 			case DELETE:
-				statementService.deleteReqComponent(reqComp.getId(),contextInfo);
+				statementService.deleteReqComponent(reqComp.getId());
 				break;
 			}
 		}else if(nodeData instanceof StatementTreeViewInfo){
 			StatementTreeViewInfo treeView = (StatementTreeViewInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				StatementTreeViewInfo created = statementService.createStatementTreeView(treeView,contextInfo);
+				StatementTreeViewInfo created = statementService.createStatementTreeView(treeView);
 				if(results.getAssembler() != null && results.getBusinessDTORef() != null) {
-					results.getAssembler().assemble(created, results.getBusinessDTORef(), true,contextInfo);
+					results.getAssembler().assemble(created, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case UPDATE:
-				StatementTreeViewInfo updated = statementService.updateStatementTreeView(treeView.getId(), treeView,contextInfo);
+				StatementTreeViewInfo updated = statementService.updateStatementTreeView(treeView.getId(), treeView);
 				if(results.getAssembler() != null && results.getBusinessDTORef() != null) {
-					results.getAssembler().assemble(updated, results.getBusinessDTORef(), true,contextInfo);
+					results.getAssembler().assemble(updated, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case DELETE:
-				statementService.deleteStatementTreeView(treeView.getId(),contextInfo);
+				statementService.deleteStatementTreeView(treeView.getId());
 				break;
 			}
    		}else if(nodeData instanceof CluPublicationInfo){
 			CluPublicationInfo cluPublication = (CluPublicationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				luService.createCluPublication(cluPublication.getCluId(), cluPublication.getType(), cluPublication,contextInfo);
+				cluService.createCluPublication(cluPublication.getCluId(), cluPublication.getTypeKey(), cluPublication, contextInfo);
 				break;
 			case UPDATE:
-				luService.updateCluPublication(cluPublication.getId(), cluPublication,contextInfo);
+				cluService.updateCluPublication(cluPublication.getId(), cluPublication, contextInfo);
 				break;
 			case DELETE:
-				luService.deleteCluPublication(cluPublication.getId(),contextInfo);
+				cluService.deleteCluPublication(cluPublication.getId(), contextInfo);
 				break;
 			}
 		}else{
@@ -320,12 +343,12 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 
 	}
 
-	public LuService getLuService() {
-		return luService;
+	public CluService getLuService() {
+		return cluService;
 	}
 
-	public void setLuService(LuService luService) {
-		this.luService = luService;
+	public void setLuService(CluService luService) {
+		this.cluService = luService;
 	}
 
 	public StatementService getStatementService() {
@@ -344,6 +367,14 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 		this.loService = loService;
 	}
 
+	public OrganizationService getOrgService() {
+		return orgService;
+	}
+
+	public void setOrgService(OrganizationService orgService) {
+		this.orgService = orgService;
+	}
+
 	public AtpService getAtpService() {
 		return atpService;
 	}
@@ -356,9 +387,17 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 		this.lrcService = lrcService;
 	}
 
-    //TODO KSCM :
-    @Override
-    public void invokeServiceCalls(BaseDTOAssemblyNode results) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DependentObjectsExistException, CircularRelationshipException, AssemblyException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+	@Override
+	public void invokeServiceCalls(BaseDTOAssemblyNode results)
+			throws AlreadyExistsException, DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, VersionMismatchException,
+			DependentObjectsExistException, CircularRelationshipException,
+			AssemblyException, UnsupportedActionException,
+			UnsupportedOperationException, CircularReferenceException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

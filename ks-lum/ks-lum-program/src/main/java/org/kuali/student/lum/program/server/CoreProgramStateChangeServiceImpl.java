@@ -2,18 +2,17 @@ package org.kuali.student.lum.program.server;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.common.server.StatementUtil;
-import org.kuali.student.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.service.ProgramService;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
+import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -111,23 +110,24 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 		// We should only need to evaluated versions with sequence number
 		// higher than previous active program
 
-    	//TODO KSCM : Added a parameter to make it compile 
-		List<VersionDisplayInfo> versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
-				selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(), ContextUtils.getContextInfo());
+
+		List<VersionDisplayInfo> versions = null;
+		// TODO KSCM-393 versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
+		// TODO KSCM-393 versions selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(), ContextUtils.getContextInfo());
 		Long startSeq = new Long(1);
 
 		if (!isSelectedVersionCurrent) {
-			startSeq = currentVersion.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber() + 1;
+			startSeq = currentVersion.getVersion().getSequenceNumber() + 1;
 		}
 
 		for (VersionDisplayInfo versionInfo : versions) {
 			boolean isVersionNewerThanCurrentVersion = versionInfo.getSequenceNumber() >= startSeq;
-			boolean isVersionSelectedVersion = versionInfo.getSequenceNumber().equals(selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber());  
+			boolean isVersionSelectedVersion = versionInfo.getSequenceNumber().equals(selectedVersion.getVersion().getSequenceNumber());  
 			boolean updateState = isVersionNewerThanCurrentVersion && !isVersionSelectedVersion;
 			if (updateState) {
 				CoreProgramInfo otherProgram = programService.getCoreProgram(versionInfo.getId(),ContextUtils.getContextInfo());
-				if (otherProgram.getState().equals(DtoConstants.STATE_APPROVED) ||
-					otherProgram.getState().equals(DtoConstants.STATE_ACTIVE)){
+				if (otherProgram.getStateKey().equals(DtoConstants.STATE_APPROVED) ||
+					otherProgram.getStateKey().equals(DtoConstants.STATE_ACTIVE)){
 			        updateCoreProgramInfoState(otherProgram, DtoConstants.STATE_SUPERSEDED);
 				}		
 			}
@@ -143,11 +143,12 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 	protected CoreProgramInfo getCurrentVersion(CoreProgramInfo coreProgramInfo)
 			throws Exception {
 		// Get version independent id of program
-		String verIndId = coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId();
+		String verIndId = coreProgramInfo.getVersion().getVersionIndId();
 
 		// Get id of current version of program given the version independent id
-		VersionDisplayInfo curVerDisplayInfo = programService.getCurrentVersion(
-				ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
+		VersionDisplayInfo curVerDisplayInfo = null;
+		// TODO KSCM-393 curVerDisplayInfo = programService.getCurrentVersion(
+		// TODO KSCM-393 				ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
@@ -187,8 +188,8 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
  
 
         // Update major discipline
-        coreProgramInfo.setState(newState);
-        //TODO KSCM
+        coreProgramInfo.setStateKey(newState);
+  
         programService.updateCoreProgram(coreProgramInfo.getId(),coreProgramInfo.getTypeKey(),coreProgramInfo,ContextUtils.getContextInfo());
     }
 
@@ -201,10 +202,12 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
-        VersionDisplayInfo currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
+        VersionDisplayInfo currentVersion = null;
+     // TODO KSCM-393 currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
 
         // If this is not the current version, then make it current
-        if (!currentVersion.getSequenceNumber().equals(coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber())) {
+        if (
+        		!currentVersion.getSequenceNumber().equals(coreProgramInfo.getVersion().getSequenceNumber())) {
             programService.setCurrentCoreProgramVersion(coreProgramInfo.getId(), null,ContextUtils.getContextInfo());
         }
     }
@@ -223,16 +226,19 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
         for (String programRequirementId : programRequirementIds) {
 
             // Get program requirement from the program service
-            ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null, new ContextInfo());
+            ProgramRequirementInfo programRequirementInfo = null;
+            programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null, ContextUtils.getContextInfo());
 
             // Look in the requirement for the statement tree
-            StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();
+            StatementTreeViewInfo statementTree = null;
+ 
+             statementTree = programRequirementInfo.getStatement();
 
             // And recursively update the entire tree with the new state
             StatementUtil.updateStatementTreeViewInfoState(newState, statementTree);
 
             // Update the state of the requirement object
-            programRequirementInfo.setState(newState);
+            programRequirementInfo.setStateKey(newState);
 
             // The write the requirement back to the program service
             programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());

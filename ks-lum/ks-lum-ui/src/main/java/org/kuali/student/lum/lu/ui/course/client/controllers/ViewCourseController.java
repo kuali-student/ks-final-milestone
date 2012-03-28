@@ -18,10 +18,11 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -41,16 +42,14 @@ import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
@@ -191,8 +190,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 
     		}
     		
-    		//TODO KSCM - Correct ContextInfo parameter?
-        	rpcServiceAsync.getMetadata("", null, ContextUtils.getContextInfo(), new KSAsyncCallback<Metadata>(){
+        	rpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>(){
 
 	        	@Override
                 public void handleFailure(Throwable caught) {
@@ -277,8 +275,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     private void getCourseFromCluId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	KSBlockingProgressIndicator.addTask(loadDataTask);
 
-    	//TODO KSCM - Correct ContextInfo parameter?
-        rpcServiceAsync.getData(courseId, ContextUtils.getContextInfo(), new KSAsyncCallback<Data>(){
+        rpcServiceAsync.getData(courseId, new KSAsyncCallback<Data>(){
 
             @Override
             public void handleFailure(Throwable caught) {
@@ -311,8 +308,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     
     @SuppressWarnings("unchecked")
     private void getCurrentVersion(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback) {
-        //TODO KSCM - Correct ContextInfo parameter?
-    	rpcServiceAsync.getData(courseId, ContextUtils.getContextInfo(), new KSAsyncCallback<Data>(){
+    	rpcServiceAsync.getData(courseId, new KSAsyncCallback<Data>(){
 
             @Override
             public void handleFailure(Throwable caught) {

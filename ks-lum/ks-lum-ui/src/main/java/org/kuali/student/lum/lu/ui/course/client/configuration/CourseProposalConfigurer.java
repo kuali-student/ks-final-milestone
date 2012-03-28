@@ -35,11 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.Value;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -86,7 +81,6 @@ import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.core.comments.ui.client.widgets.decisiontool.DecisionPanel;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lo.LOBuilder;
 import org.kuali.student.lum.common.client.lo.LOBuilderBinding;
@@ -99,6 +93,12 @@ import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourse
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseJointsConstants;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -199,8 +199,8 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
             layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
         }
         else{
-        	 CourseSummaryConfigurer summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
-        	 summaryConfigurer.init(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
+             summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
+             summaryConfigurer.init(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
         	 layout.removeMenuNavigation();
              layout.addView(summaryConfigurer.generateProposalSummarySection(false));
         }
@@ -373,7 +373,11 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 ),
                 null,
                 null,0);
-        result.getLayout().setVisible(false);
+        if(this.getClass().getName().contains("CourseProposalConfigurer"))
+            result.getLayout().setVisible(true);
+         else {
+               result.getLayout().setVisible(false);
+         }
         return result;
     }
     

@@ -2,22 +2,22 @@ package org.kuali.student.lum.program.server.transform;
 
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.DataType;
-import org.kuali.student.common.assembly.data.Data.StringKey;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.common.assembly.transform.AbstractDataFilter;
-import org.kuali.student.common.assembly.transform.MetadataFilter;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.DataType;
+import org.kuali.student.r1.common.assembly.data.Data.StringKey;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.r1.common.assembly.transform.AbstractDataFilter;
+import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r1.core.atp.dto.AtpInfo;
+import org.kuali.student.r1.core.atp.service.AtpService;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.util.ContextUtils;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
 
 /**
  * Generating metadata and populating data model values for previous end term and enroll term
@@ -75,9 +75,9 @@ public class VersionProgramFilter extends AbstractDataFilter implements Metadata
 				previousVersionData.set(ProgramConstants.PREV_END_INST_ADMIN_TERM, previousVersionMajorInfo.getEndTerm());
 				
 				//set the prev start term to be the earliest of the major and all variations
-				AtpInfo latestStartAtp = atpService.getAtp(previousVersionMajorInfo.getStartTerm(), ContextUtils.getContextInfo());
+				AtpInfo latestStartAtp = atpService.getAtp(previousVersionMajorInfo.getStartTerm());
 				for (ProgramVariationInfo variation:previousVersionMajorInfo.getVariations()){
-					AtpInfo variationAtp = atpService.getAtp(variation.getStartTerm(), ContextUtils.getContextInfo());
+					AtpInfo variationAtp = atpService.getAtp(variation.getStartTerm());
 					if(variationAtp!=null && variationAtp.getStartDate()!=null && variationAtp.getStartDate().compareTo(latestStartAtp.getStartDate())>0){
 						latestStartAtp = variationAtp;
 					}

@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+">
+<!-- *** Automatically Generated ***
+on: Fri Feb 19 11:16:43 EST 2010
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+<import resource="classpath:comment-commentInfo-dictionary-structure-config.xml"/>
+
+<!-- *************************************** -->
+<!-- object structure for object.commentInfo -->
+<!-- *************************************** -->
+<!-- Detailed information about a comment. -->
+<dict:objectStructure key="org.kuali.student.r2.common.comment.dto.CommentInfo" id="object.commentInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.commentInfo.PublicProposal"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.r2.common.comment.dto.CommentInfo" id="object.commentInfo" parent="object.commentInfo.abstract"/>
+
+<!-- not in SIMPLES -->
+<dict:type key="kuali.comment.type.proposal.public" id="type.commentInfo.PublicProposal.abstract" abstract="true">
+	<dict:name>Public Proposal</dict:name>
+	<dict:desc>Comments that are visible to anyone who can view the associated proposal</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.commentInfo.PublicProposal.active"/>
+		<dict:stateRef bean="state.commentInfo.PublicProposal.inactive"/>
+</dict:type>
+<dict:type key="kuali.comment.type.proposal.public" id="type.commentInfo.PublicProposal" parent="type.commentInfo.PublicProposal.abstract"/>
+
+<!-- ***************************************************** -->
+<!-- State for state.commentInfo.Public Proposal.(default) -->
+<!-- ***************************************************** -->
+
+<dict:state key="*" id="state.commentInfo.PublicProposal.abstract" abstract="true">
+	<dict:fieldRef bean="dict.public.comment.commentText"/>
+	<dict:fieldRef bean="dict.public.comment.referenceTypeKey"/>
+	<dict:fieldRef bean="dict.public.comment.referenceId"/>
+	<dict:fieldRef bean="dict.public.comment.effectiveDate"/>
+	<dict:fieldRef bean="dict.public.comment.expirationDate"/>
+	<dict:fieldRef bean="dict.public.comment.metaInfo"/>
+	<dict:fieldRef bean="dict.public.comment.type"/>
+	<dict:fieldRef bean="dict.public.comment.state"/>
+	<dict:fieldRef bean="dict.public.comment.internal.id"/>
+</dict:state>
+
+<!-- ************************************************** -->
+<!-- State for state.commentInfo.Public Proposal.active -->
+<!-- ************************************************** -->
+
+<!-- States have not been thought through for results, these are intial stakes - will need to ADD TO Simples -->
+<dict:state key="active" parent="state.commentInfo.PublicProposal.abstract" id="state.commentInfo.PublicProposal.active.abstract" abstract="true">
+</dict:state>
+<dict:state key="active" id="state.commentInfo.PublicProposal.active" parent="state.commentInfo.PublicProposal.active.abstract"/>
+
+<!-- **************************************************** -->
+<!-- State for state.commentInfo.Public Proposal.inactive -->
+<!-- **************************************************** -->
+
+<!-- States have not been thought through for results, these are intial stakes - will need to ADD TO Simples -->
+<dict:state key="inactive" parent="state.commentInfo.PublicProposal.abstract" id="state.commentInfo.PublicProposal.inactive.abstract" abstract="true">
+</dict:state>
+<dict:state key="inactive" id="state.commentInfo.PublicProposal.inactive" parent="state.commentInfo.PublicProposal.inactive.abstract"/>
+
+
+<!-- *********************************************************************************** -->
+<!-- object structure for object.field.commentInfo.commentText.Public Proposal.(default) -->
+<!-- *********************************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.commentInfo.commentText.PublicProposal.abstract" abstract="true">
+	<dict:typeRef bean="type.field.commentInfo.commentText.PublicProposal"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.commentInfo.commentText.PublicProposal" parent="object.field.commentInfo.commentText.PublicProposal.abstract"/>
+
+<dict:type key="*" id="type.field.commentInfo.commentText.PublicProposal.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.commentInfo.commentText.PublicProposal"/>
+</dict:type>
+<dict:type key="*" id="type.field.commentInfo.commentText.PublicProposal" parent="type.field.commentInfo.commentText.PublicProposal.abstract"/>
+
+<!-- ******************************************************************************************* -->
+<!-- State for state.field.commentInfo.commentText.Public Proposal.(default).(default).(default) -->
+<!-- ******************************************************************************************* -->
+
+<dict:state key="*" id="state.field.commentInfo.commentText.PublicProposal.abstract" abstract="true">
+	<dict:fieldRef bean="dict.public.comment.commentText.plain"/>
+	<dict:fieldRef bean="dict.public.comment.commentText.formatted"/>
+</dict:state>
+<dict:state key="*" id="state.field.commentInfo.commentText.PublicProposal" parent="state.field.commentInfo.commentText.PublicProposal.abstract"/>
+
+
+<!-- ************************************* -->
+<!-- dict.public.comment.commentText.plain -->
+<!-- ************************************* -->
+<dict:field key="plain" id="dict.public.comment.commentText.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.commentText.plain.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.commentText.plain.cd"/>
+</dict:field>
+<dict:field key="plain" id="dict.public.comment.commentText.plain" parent="dict.public.comment.commentText.plain.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.commentText.plain.fd.abstract" abstract="true">
+	<dict:name>public comment desc plain</dict:name>
+	<dict:desc>public comment desc plain</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.commentText.plain.fd" parent="dict.public.comment.commentText.plain.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.commentText.plain.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+	<dict:constraint key="in-line.constraint.for.dictionary.public.comment.commentText.plain">
+		<dict:maxLength>1000</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="plain" id="dict.public.comment.commentText.plain.cd" parent="dict.public.comment.commentText.plain.cd.abstract"/>
+
+<!-- ***************************************** -->
+<!-- dict.public.comment.commentText.formatted -->
+<!-- ***************************************** -->
+<dict:field key="formatted" id="dict.public.comment.commentText.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.commentText.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.commentText.formatted.cd"/>
+</dict:field>
+<dict:field key="formatted" id="dict.public.comment.commentText.formatted" parent="dict.public.comment.commentText.formatted.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.commentText.formatted.fd.abstract" abstract="true">
+	<dict:name>public comment desc formatted</dict:name>
+	<dict:desc>public comment desc formatted</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.commentText.formatted.fd" parent="dict.public.comment.commentText.formatted.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.commentText.formatted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.rich.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+	<dict:constraint key="in-line.constraint.for.dictionary.public.comment.commentText.formatted">
+		<dict:maxLength>1000</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="formatted" id="dict.public.comment.commentText.formatted.cd" parent="dict.public.comment.commentText.formatted.cd.abstract"/>
+
+<!-- ******************************************************************************** -->
+<!-- object structure for object.field.commentInfo.metaInfo.Public Proposal.(default) -->
+<!-- ******************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.commentInfo.metaInfo.PublicProposal.abstract" abstract="true">
+	<dict:typeRef bean="type.field.commentInfo.metaInfo.PublicProposal"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.commentInfo.metaInfo.PublicProposal" parent="object.field.commentInfo.metaInfo.PublicProposal.abstract"/>
+
+<dict:type key="*" id="type.field.commentInfo.metaInfo.PublicProposal.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+		<dict:stateRef bean="state.field.commentInfo.metaInfo.PublicProposal"/>
+</dict:type>
+<dict:type key="*" id="type.field.commentInfo.metaInfo.PublicProposal" parent="type.field.commentInfo.metaInfo.PublicProposal.abstract"/>
+
+<!-- **************************************************************************************** -->
+<!-- State for state.field.commentInfo.metaInfo.Public Proposal.(default).(default).(default) -->
+<!-- **************************************************************************************** -->
+
+<dict:state key="*" id="state.field.commentInfo.metaInfo.PublicProposal.abstract" abstract="true">
+	<dict:fieldRef bean="dict.public.comment.meta.versionInd"/>
+	<dict:fieldRef bean="dict.public.comment.meta.createTime"/>
+	<dict:fieldRef bean="dict.public.comment.meta.createId"/>
+	<dict:fieldRef bean="dict.public.comment.meta.updateTime"/>
+	<dict:fieldRef bean="dict.public.comment.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.commentInfo.metaInfo.PublicProposal" parent="state.field.commentInfo.metaInfo.PublicProposal.abstract"/>
+
+
+<!-- *********************************** -->
+<!-- dict.public.comment.meta.versionInd -->
+<!-- *********************************** -->
+<dict:field key="versionInd" id="dict.public.comment.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="dict.public.comment.meta.versionInd" parent="dict.public.comment.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>file meta versionInd</dict:name>
+	<dict:desc>Version number for this file</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.meta.versionInd.fd" parent="dict.public.comment.meta.versionInd.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="dict.public.comment.meta.versionInd.cd" parent="dict.public.comment.meta.versionInd.cd.abstract"/>
+
+<!-- *********************************** -->
+<!-- dict.public.comment.meta.createTime -->
+<!-- *********************************** -->
+<dict:field key="createTime" id="dict.public.comment.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="dict.public.comment.meta.createTime" parent="dict.public.comment.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>file meta createTime</dict:name>
+	<dict:desc>Date-time this file was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.meta.createTime.fd" parent="dict.public.comment.meta.createTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="dict.public.comment.meta.createTime.cd" parent="dict.public.comment.meta.createTime.cd.abstract"/>
+
+<!-- ********************************* -->
+<!-- dict.public.comment.meta.createId -->
+<!-- ********************************* -->
+<dict:field key="createId" id="dict.public.comment.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="dict.public.comment.meta.createId" parent="dict.public.comment.meta.createId.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.meta.createId.fd.abstract" abstract="true">
+	<dict:name>file meta createId</dict:name>
+	<dict:desc>Principal of the persion who first created this file</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.meta.createId.fd" parent="dict.public.comment.meta.createId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="dict.public.comment.meta.createId.cd" parent="dict.public.comment.meta.createId.cd.abstract"/>
+
+<!-- *********************************** -->
+<!-- dict.public.comment.meta.updateTime -->
+<!-- *********************************** -->
+<dict:field key="updateTime" id="dict.public.comment.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="dict.public.comment.meta.updateTime" parent="dict.public.comment.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>file meta updateTime</dict:name>
+	<dict:desc>Date-time this  file was last updated</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.meta.updateTime.fd" parent="dict.public.comment.meta.updateTime.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="dict.public.comment.meta.updateTime.cd" parent="dict.public.comment.meta.updateTime.cd.abstract"/>
+
+<!-- ********************************* -->
+<!-- dict.public.comment.meta.updateId -->
+<!-- ********************************* -->
+<dict:field key="updateId" id="dict.public.comment.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="dict.public.comment.meta.updateId" parent="dict.public.comment.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>file meta updateId</dict:name>
+	<dict:desc>Principal of the persion who last updated this  file</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.meta.updateId.fd" parent="dict.public.comment.meta.updateId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="dict.public.comment.meta.updateId.cd" parent="dict.public.comment.meta.updateId.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.public.comment.commentText -->
+<!-- ******************************* -->
+<dict:field key="commentText" id="dict.public.comment.commentText.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.commentText.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.commentText.cd"/>
+</dict:field>
+<dict:field key="commentText" id="dict.public.comment.commentText" parent="dict.public.comment.commentText.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.commentText.fd.abstract" abstract="true">
+	<dict:name>public comment commentText</dict:name>
+	<dict:desc>public comment commentText</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.commentInfo.commentText.PublicProposal"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.commentText.fd" parent="dict.public.comment.commentText.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.commentText.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="commentText" id="dict.public.comment.commentText.cd" parent="dict.public.comment.commentText.cd.abstract"/>
+
+<!-- ************************************ -->
+<!-- dict.public.comment.referenceTypeKey -->
+<!-- ************************************ -->
+<dict:field key="referenceTypeKey" id="dict.public.comment.referenceTypeKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.referenceTypeKey.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.referenceTypeKey.cd"/>
+</dict:field>
+<dict:field key="referenceTypeKey" id="dict.public.comment.referenceTypeKey" parent="dict.public.comment.referenceTypeKey.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.referenceTypeKey.fd.abstract" abstract="true">
+	<dict:name>public comment referenceTypeKey</dict:name>
+	<dict:desc>public comment referenceTypeKey</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.referenceTypeKey.fd" parent="dict.public.comment.referenceTypeKey.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.referenceTypeKey.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.reference.types"/>
+	<dict:constraintRef bean="constraint.hard.coded.referenceType.Proposal"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="referenceTypeKey" id="dict.public.comment.referenceTypeKey.cd" parent="dict.public.comment.referenceTypeKey.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.public.comment.referenceId -->
+<!-- ******************************* -->
+<dict:field key="referenceId" id="dict.public.comment.referenceId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.referenceId.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.referenceId.cd"/>
+</dict:field>
+<dict:field key="referenceId" id="dict.public.comment.referenceId" parent="dict.public.comment.referenceId.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.referenceId.fd.abstract" abstract="true">
+	<dict:name>public comment referenceId</dict:name>
+	<dict:desc>public comment referenceId</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.referenceId.fd" parent="dict.public.comment.referenceId.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.referenceId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.proposal"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="referenceId" id="dict.public.comment.referenceId.cd" parent="dict.public.comment.referenceId.cd.abstract"/>
+
+<!-- ********************************* -->
+<!-- dict.public.comment.effectiveDate -->
+<!-- ********************************* -->
+<dict:field key="effectiveDate" id="dict.public.comment.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="dict.public.comment.effectiveDate" parent="dict.public.comment.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>public comment effectiveDate</dict:name>
+	<dict:desc>public comment effectiveDate</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.effectiveDate.fd" parent="dict.public.comment.effectiveDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="dict.public.comment.effectiveDate.cd" parent="dict.public.comment.effectiveDate.cd.abstract"/>
+
+<!-- ********************************** -->
+<!-- dict.public.comment.expirationDate -->
+<!-- ********************************** -->
+<dict:field key="expirationDate" id="dict.public.comment.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="dict.public.comment.expirationDate" parent="dict.public.comment.expirationDate.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.expirationDate.fd.abstract" abstract="true">
+	<dict:name>public comment expirationDate</dict:name>
+	<dict:desc>public comment expirationDate</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.expirationDate.fd" parent="dict.public.comment.expirationDate.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="dict.public.comment.expirationDate.cd" parent="dict.public.comment.expirationDate.cd.abstract"/>
+
+<!-- **************************** -->
+<!-- dict.public.comment.metaInfo -->
+<!-- **************************** -->
+<dict:field key="metaInfo" id="dict.public.comment.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="dict.public.comment.metaInfo" parent="dict.public.comment.metaInfo.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.metaInfo.fd.abstract" abstract="true">
+	<dict:name>public comment metaInfo</dict:name>
+	<dict:desc>public comment metaInfo</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+	<dict:objectStructureRef bean="object.field.commentInfo.metaInfo.PublicProposal"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.metaInfo.fd" parent="dict.public.comment.metaInfo.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="dict.public.comment.metaInfo.cd" parent="dict.public.comment.metaInfo.cd.abstract"/>
+
+<!-- ************************ -->
+<!-- dict.public.comment.type -->
+<!-- ************************ -->
+<dict:field key="type" id="dict.public.comment.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.type.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.type.cd"/>
+</dict:field>
+<dict:field key="type" id="dict.public.comment.type" parent="dict.public.comment.type.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.type.fd.abstract" abstract="true">
+	<dict:name>public comment type</dict:name>
+	<dict:desc>public comment type</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.type.fd" parent="dict.public.comment.type.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="dict.public.comment.type.cd" parent="dict.public.comment.type.cd.abstract"/>
+
+<!-- ************************* -->
+<!-- dict.public.comment.state -->
+<!-- ************************* -->
+<dict:field key="state" id="dict.public.comment.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.state.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.state.cd"/>
+<dict:selector>true</dict:selector>
+</dict:field>
+<dict:field key="state" id="dict.public.comment.state" parent="dict.public.comment.state.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.state.fd.abstract" abstract="true">
+	<dict:name>public comment state</dict:name>
+	<dict:desc>public comment state</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.state.fd" parent="dict.public.comment.state.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="dict.public.comment.state.cd" parent="dict.public.comment.state.cd.abstract"/>
+
+<!-- ******************************* -->
+<!-- dict.public.comment.internal.id -->
+<!-- ******************************* -->
+<dict:field key="id" id="dict.public.comment.internal.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.public.comment.internal.id.fd"/>
+	<dict:constraintDescriptorRef bean="dict.public.comment.internal.id.cd"/>
+</dict:field>
+<dict:field key="id" id="dict.public.comment.internal.id" parent="dict.public.comment.internal.id.abstract"/>
+<dict:fieldDescriptor id="dict.public.comment.internal.id.fd.abstract" abstract="true">
+	<dict:name>public comment internal id</dict:name>
+	<dict:desc>public comment internal id</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="dict.public.comment.internal.id.fd" parent="dict.public.comment.internal.id.fd.abstract"/>
+<dict:constraintDescriptor id="dict.public.comment.internal.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.hidden"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="dict.public.comment.internal.id.cd" parent="dict.public.comment.internal.id.cd.abstract"/>
+</beans>
