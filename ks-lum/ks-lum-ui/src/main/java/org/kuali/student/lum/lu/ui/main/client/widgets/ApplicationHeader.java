@@ -102,7 +102,7 @@ public class ApplicationHeader extends Composite{
     }
 	public ApplicationHeader(){
 		this.initWidget(ksHeader);
-		navDropDown.initialise("Select an area\u2026");
+		//navDropDown.initialise("Select an area\u2026");
 	}
 	protected void onLoad() {
 		super.onLoad();

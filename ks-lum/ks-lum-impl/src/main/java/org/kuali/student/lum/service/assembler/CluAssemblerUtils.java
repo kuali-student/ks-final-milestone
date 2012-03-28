@@ -28,7 +28,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.course.service.assembler.LoAssembler;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;

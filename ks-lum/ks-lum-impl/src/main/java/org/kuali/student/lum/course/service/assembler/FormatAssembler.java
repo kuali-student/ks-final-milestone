@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.lum.course.dto.ActivityInfo;
 import org.kuali.student.r1.lum.course.dto.CourseInfo;
@@ -39,7 +40,6 @@ import org.kuali.student.r1.lum.course.dto.FormatInfo;
 import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
 /**
  * Assembler for FormatInfo. Assembles/Disassemble FormatInfo from CluInfo and
  * other structures.

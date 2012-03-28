@@ -15,8 +15,8 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;

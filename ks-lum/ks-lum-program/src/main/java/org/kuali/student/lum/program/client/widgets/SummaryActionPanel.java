@@ -19,8 +19,8 @@ import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.StateChangeEvent;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

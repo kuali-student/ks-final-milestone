@@ -20,14 +20,12 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.r1.common.search.service.SearchService;
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
-import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -36,11 +34,12 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 /**
  * The Learning Result Catalog Service is a Class I service which
@@ -404,8 +403,8 @@ public interface LRCService  extends SearchService, DictionaryService {
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException;
 
-	@Deprecated
-	public ObjectStructureDefinition getObjectStructure(String objectTypeKey);
+	//@Deprecated
+	//public ObjectStructureDefinition getObjectStructure(String objectTypeKey);
 
 	@Deprecated
 	public List<String> getObjectTypes();

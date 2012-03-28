@@ -16,12 +16,12 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.versionmanagement.service.VersionManagementService;
 import org.kuali.student.r1.lum.course.dto.ActivityInfo;
 import org.kuali.student.r1.lum.course.dto.CourseInfo;
 import org.kuali.student.r1.lum.course.dto.FormatInfo;
 import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;

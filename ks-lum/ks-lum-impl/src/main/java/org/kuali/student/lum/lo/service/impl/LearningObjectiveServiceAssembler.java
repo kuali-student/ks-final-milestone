@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.service.impl.BaseAssembler;
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;

@@ -36,7 +36,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.lum.program.dto.assembly.ProgramCommonAssembly;
 
 
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 /**
  * @author KS
  *

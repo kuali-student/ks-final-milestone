@@ -21,8 +21,8 @@ import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r1.lum.course.dto.ActivityInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInfo;
 

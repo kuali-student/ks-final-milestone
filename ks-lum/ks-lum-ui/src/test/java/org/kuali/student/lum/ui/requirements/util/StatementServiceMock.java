@@ -211,7 +211,7 @@ public class StatementServiceMock implements StatementService {
 	}
 
 	@Override
-	public List<org.kuali.student.r1.common.validation.dto.ValidationResultInfo> validateRefStatementRelation(
+	public List<ValidationResultInfo> validateRefStatementRelation(
 			String validationType,
 			RefStatementRelationInfo refStatementRelationInfo)
 			throws DoesNotExistException, InvalidParameterException,
@@ -294,7 +294,7 @@ public class StatementServiceMock implements StatementService {
 	}
 
 	@Override
-	public List<org.kuali.student.r1.common.validation.dto.ValidationResultInfo> validateReqComponent(
+	public List<ValidationResultInfo> validateReqComponent(
 			String validationType, ReqComponentInfo reqComponentInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -303,7 +303,7 @@ public class StatementServiceMock implements StatementService {
 	}
 
 	@Override
-	public List<org.kuali.student.r1.common.validation.dto.ValidationResultInfo> validateStatement(
+	public List<ValidationResultInfo> validateStatement(
 			String validationType, StatementInfo statementInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {

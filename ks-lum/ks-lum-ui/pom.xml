@@ -216,7 +216,7 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+        <!-- dependency>
 			<groupId>org.kuali.student</groupId>
 			<artifactId>ks-conversion</artifactId>
 			<version>0.0.6-SNAPSHOT</version>
@@ -226,6 +226,6 @@
 					<artifactId>ks-lum-api</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency-->
     </dependencies>
 </project>

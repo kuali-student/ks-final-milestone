@@ -59,7 +59,7 @@ public class ViewCourseActionList extends Composite {
 		super();
 		super.initWidget(rootPanel);
 		
-		courseActionsDropDown.initialise("Course Actions");
+		//courseActionsDropDown.initialise("Course Actions");
 		
 		setupButtons();
 

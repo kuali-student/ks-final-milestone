@@ -34,7 +34,6 @@ import org.kuali.student.r1.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r1.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.search.service.SearchService;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.versionmanagement.service.VersionManagementService;
 import org.kuali.student.r1.lum.lu.dto.LuTypeInfo;
 import org.kuali.student.r1.lum.program.dto.CoreProgramInfo;
@@ -44,6 +43,7 @@ import org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r1.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.r1.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r1.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 /**
  *

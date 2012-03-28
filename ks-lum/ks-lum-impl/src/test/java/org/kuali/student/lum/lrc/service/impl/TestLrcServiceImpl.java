@@ -40,13 +40,13 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
 
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -54,10 +54,11 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 @Daos( { @Dao(value = "org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl",testSqlFile="classpath:ks-lrc.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/lrc-persistence.xml")
 public class TestLrcServiceImpl extends AbstractServiceTest {
+    
 	@Client(value = "org.kuali.student.lum.lrc.service.impl.LrcServiceImpl", additionalContextFile="classpath:lrc-additional-context.xml")
 	public LRCService client;
 
-	@Test
+    @Test
     public void testResultComponentCrud() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         ResultComponentInfo rci = new ResultComponentInfo();
         rci.setName("New Result Component");
@@ -137,7 +138,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
                 assertTrue(false);
             }
             
-            //Updateing an out of date version should throw an exception
+            //Updating an out of date version should throw an exception
             try{
             	client.updateResultComponent(id, rci, ContextInfoTestUtility.getEnglishContextInfo());
             	assertTrue(false);

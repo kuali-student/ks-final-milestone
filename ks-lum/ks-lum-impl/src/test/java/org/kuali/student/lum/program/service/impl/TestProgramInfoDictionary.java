@@ -13,20 +13,20 @@ import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.common.messages.dto.LocaleKeyList;
 import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.r1.common.messages.dto.MessageList;
 import org.kuali.student.r2.common.messages.service.MessageService;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.messages.service.impl.MessageServiceMock;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.course.service.impl.MockSearchDispatcher;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
@@ -103,7 +103,7 @@ public class TestProgramInfoDictionary {
         MajorDisciplineInfo info = new MajorDisciplineInfo();
         ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(
                 info.getClass().getName());
-        List<ValidationResultInfo> validationResults = R1R2ConverterUtil.convertLists(val.validateObject(info, os, contextInfo), ValidationResultInfo.class );
+        List<ValidationResultInfo> validationResults = val.validateObject(info, os, contextInfo);
         System.out.println("h2. with just a blank record");
         for (ValidationResultInfo vr : validationResults) {
             System.out.println(vr.getElement() + " " + vr.getMessage());
@@ -122,7 +122,7 @@ public class TestProgramInfoDictionary {
         catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-        validationResults = R1R2ConverterUtil.convertLists(val.validateObject(info, os, contextInfo), ValidationResultInfo.class );
+        validationResults = val.validateObject(info, os, contextInfo);
         System.out.println("h2. with generated data");
         for (ValidationResultInfo vr : validationResults) {
             System.out.println(vr.getElement() + " " + vr.getMessage());

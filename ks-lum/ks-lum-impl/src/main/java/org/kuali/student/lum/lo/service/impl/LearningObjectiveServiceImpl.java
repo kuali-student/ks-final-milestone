@@ -25,7 +25,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoCategory;

@@ -86,7 +86,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import javax.jws.WebParam;
 
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 
 // TODO KSCM-253
 public class ProgramServiceImpl implements ProgramService{

@@ -964,6 +964,12 @@ public class LuContextImplTest {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }
+
+        @Override
+        public CluSetInfo getCluSetInfo(String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+            return null;
+        }
 		
 	}
 }

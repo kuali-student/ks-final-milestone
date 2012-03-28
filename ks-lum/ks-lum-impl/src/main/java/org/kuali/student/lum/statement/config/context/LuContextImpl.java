@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.statement.config.context.util.NLCluSet;
 import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;

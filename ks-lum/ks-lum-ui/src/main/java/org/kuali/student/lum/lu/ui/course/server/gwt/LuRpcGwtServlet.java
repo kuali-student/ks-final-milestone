@@ -18,8 +18,8 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.common.util.ContextUtils;

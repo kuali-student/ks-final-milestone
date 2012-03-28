@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.lrc.dao.LrcDao;
 import org.kuali.student.lum.lrc.entity.ResultComponent;
 import org.kuali.student.lum.lrc.entity.ResultComponentType;
@@ -32,14 +33,11 @@ import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r2.common.search.service.SearchService;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.validator.Validator;
-import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -48,6 +46,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -399,10 +399,10 @@ public class LrcServiceImpl implements LRCService {
         // Validate Result component
         ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure, null);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure, contextInfo);
 
         if (null != validationResults && validationResults.size() > 0) {
-        	throw new DataValidationErrorException("Validation error!", validationResults);
+        	throw new DataValidationErrorException("Validation error!", R1R2ConverterUtil.convertLists(validationResults, org.kuali.student.r2.common.dto.ValidationResultInfo.class));
         }
         
         ResultComponent entity = lrcDao.fetch(ResultComponent.class, resultComponentId);
@@ -604,7 +604,7 @@ public class LrcServiceImpl implements LRCService {
 	}
 
 	@Override
-	public List<org.kuali.student.r2.common.dto.ValidationResultInfo> validateResultValuesGroup(
+	public List<ValidationResultInfo> validateResultValuesGroup(
 			String validationType, ResultValuesGroupInfo gradeValuesGroupInfo,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -666,7 +666,7 @@ public class LrcServiceImpl implements LRCService {
 	}
 
 	@Override
-	public List<org.kuali.student.r2.common.dto.ValidationResultInfo> validateResultValue(
+	public List<ValidationResultInfo> validateResultValue(
 			String validationType, ResultValueInfo resultValueInfo,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
