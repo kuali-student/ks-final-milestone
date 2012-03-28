@@ -17,18 +17,18 @@
 package org.kuali.student.r2.core.class1.appointment.model;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
-import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.infc.AppointmentSlot;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import javax.persistence.*;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +40,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "KSEN_APPT_SLOT")
-public class AppointmentSlotEntity extends MetaEntity implements AttributeOwner<AppointmentSlotAttributeEntity> {
+public class AppointmentSlotEntity extends MetaEntity {
     // These refer to columns unique to AppointmentSlotEntity (i.e., not inherited)
     // We use AppointmentWindowEntity because ORMs recognize foreign keys not by strings, but by objects that
     // represent a row in that table.  The ORM handles looking up the foreign key.
@@ -56,10 +56,10 @@ public class AppointmentSlotEntity extends MetaEntity implements AttributeOwner<
 
     // --------------------------------------------------
     // These instance variables are not inherited, so they need to be explicitly put here
-    @Column(name = "APPT_SLOT_TYPE_ID")
+    @Column(name = "APPT_SLOT_TYPE")
     private String apptSlotType;
 
-    @Column(name = "APPT_SLOT_STATE_ID")
+    @Column(name = "APPT_SLOT_STATE")
     private String apptSlotState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
@@ -135,12 +135,10 @@ public class AppointmentSlotEntity extends MetaEntity implements AttributeOwner<
         this.apptSlotState = apptSlotState;
     }
 
-    @Override
     public void setAttributes(List<AppointmentSlotAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
-    @Override
     public List<AppointmentSlotAttributeEntity> getAttributes() {
         return attributes;
     }

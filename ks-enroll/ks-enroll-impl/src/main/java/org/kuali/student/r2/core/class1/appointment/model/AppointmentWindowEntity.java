@@ -91,16 +91,16 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
-    private String formatted;
-
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String plain;
 
-    @Column(name = "APPT_WINDOW_TYPE_ID")
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String formatted;
+
+    @Column(name = "APPT_WINDOW_TYPE")
     private String apptWindowType;
 
-    @Column(name = "APPT_WINDOW_STATE_ID")
+    @Column(name = "APPT_WINDOW_STATE")
     private String apptWindowState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")

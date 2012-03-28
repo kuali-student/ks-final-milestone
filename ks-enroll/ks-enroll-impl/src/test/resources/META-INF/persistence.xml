@@ -18,7 +18,6 @@
 
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity</class>
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowAttributeEntity</class>
-        <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowRichTextEntity</class>
 
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity</class>
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotAttributeEntity</class>

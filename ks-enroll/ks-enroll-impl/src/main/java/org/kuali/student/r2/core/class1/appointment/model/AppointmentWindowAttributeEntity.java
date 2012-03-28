@@ -34,7 +34,7 @@ import javax.persistence.Table;
 public class AppointmentWindowAttributeEntity extends BaseAttributeEntity<AppointmentWindowEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private AppointmentWindowEntity owner;
 
     public AppointmentWindowAttributeEntity() {

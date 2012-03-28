@@ -100,7 +100,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<String> searchForAppointmentIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;  //To change body of implemented methods use File | Settings | File Templates.return new ArrayList<String>();
     }
 
     @Override
@@ -276,6 +276,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         AppointmentSlotEntity apptSlot = new AppointmentSlotEntity(appointmentSlotInfo);
         // Need to manually set the entity since appointmentSlotInfo only has an id for its corresponding AppointmentWindow
         AppointmentWindowEntity windowEntity = appointmentWindowDao.find(appointmentWindowId);
+        if(null == windowEntity) {
+            throw new DoesNotExistException(appointmentWindowId);
+        }
         apptSlot.setApptWinEntity(windowEntity); // This completes the initialization of apptSlot
         appointmentSlotDao.persist(apptSlot);
 
