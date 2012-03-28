@@ -33,7 +33,7 @@ import org.kuali.student.common.test.spring.Client;
  *
  */
 public class TestPersonSearchServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.r2.core.personsearch.service.impl.PersonSearchServiceImpl")
+    @Client(value = "org.kuali.student.r1.core.personsearch.service.impl.PersonSearchServiceImpl")
     public SearchService client;
 
 

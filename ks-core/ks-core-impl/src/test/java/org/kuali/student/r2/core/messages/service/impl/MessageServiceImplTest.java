@@ -24,7 +24,7 @@ import java.util.List;
 import org.junit.Test;
 import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.r1.common.messages.service.MessageService;
+import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
@@ -50,7 +50,7 @@ public class MessageServiceImplTest extends AbstractServiceTest{
     
 	@Test
     public void testGetMessageGroup(){
-    	List<String> groups = messageService.getMessageGroups().getMessageGroupKeys();
+    	List<String> groups = messageService.getMessageGroupKeys().getMessageGroupKeys();
 
     	assertEquals(2, groups.size());
     }
