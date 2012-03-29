@@ -45,12 +45,6 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     @Column(name = "RELEASED_DT")
     private Date releasedDate;
 
-    @Column(name = "IS_WARNING")
-    private boolean isWarning;
-
-    @Column(name = "IS_OVERRIDABLE")
-    private boolean isOverridable;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "ISSUE_ID")
     private IssueEntity issue;
@@ -73,18 +67,25 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         try {
             this.setId(hold.getId());
             this.setName(hold.getName());
-            if (hold.getEffectiveDate() != null)
+            if (hold.getEffectiveDate() != null) {
                 this.setEffectiveDate(hold.getEffectiveDate());
-            if (hold.getReleasedDate() != null)
+            }
+
+            if (hold.getReleasedDate() != null) {
                 this.setReleasedDate(hold.getReleasedDate());
-            this.setWarning(hold.getIsWarning());
-            this.setOverridable(hold.getIsOverridable());
+            }
+
             this.setPersonId(hold.getPersonId());
-            if (hold.getDescr() != null)
+            if (hold.getDescr() != null) {
                 this.setDescr(new HoldRichTextEntity(hold.getDescr()));
-            if (hold.getStateKey() != null)
+            }
+
+            if (hold.getStateKey() != null) {
                 this.setHoldState(hold.getStateKey());
+            }
+
             this.setAttributes(new ArrayList<HoldAttributeEntity>());
+
             if (null != hold.getAttributes()) {
                 for (Attribute att : hold.getAttributes()) {
                     HoldAttributeEntity attEntity = new HoldAttributeEntity(att);
@@ -102,26 +103,28 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         obj.setName(name);
         obj.setEffectiveDate(effectiveDate);
         obj.setReleasedDate(releasedDate);
-        obj.setIsWarning(isWarning);
-        obj.setIsOverridable(isOverridable);
         obj.setPersonId(personId);
-        if (holdType != null)
+        if (holdType != null) {
             obj.setTypeKey(holdType);
-        if (holdState != null)
+        }
+        if (holdState != null) {
             obj.setStateKey(holdState);
-        if (issue != null)
+        }
+        if (issue != null) {
             obj.setIssueKey(issue.getId());
+        }
         obj.setMeta(super.toDTO());
-        if (descr != null)
+        if (descr != null) {
             obj.setDescr(descr.toDto());
+        }
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (HoldAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }
-        obj.setAttributes(atts);
 
+        obj.setAttributes(atts);
         return obj;
     }
 
@@ -171,22 +174,6 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
 
     public void setReleasedDate(Date releasedDate) {
         this.releasedDate = releasedDate;
-    }
-
-    public boolean isWarning() {
-        return isWarning;
-    }
-
-    public void setWarning(boolean isWarning) {
-        this.isWarning = isWarning;
-    }
-
-    public boolean isOverridable() {
-        return isOverridable;
-    }
-
-    public void setOverridable(boolean isOverridable) {
-        this.isOverridable = isOverridable;
     }
 
     public IssueEntity getIssue() {

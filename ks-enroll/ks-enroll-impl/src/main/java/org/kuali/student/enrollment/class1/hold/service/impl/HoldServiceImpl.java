@@ -26,7 +26,6 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.hold.dao.HoldDao;
 import org.kuali.student.enrollment.class1.hold.dao.HoldRichTextDao;
 import org.kuali.student.enrollment.class1.hold.dao.IssueDao;
-import org.kuali.student.enrollment.class1.hold.dao.RestrictionDao;
 import org.kuali.student.enrollment.class1.hold.model.HoldEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
 import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
@@ -54,7 +53,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class HoldServiceImpl implements HoldService {
 
     private IssueDao issueDao;
-    private RestrictionDao restrictionDao;
     private HoldDao holdDao;
     private StateService stateService;
     private DataDictionaryService dataDictionaryService;
@@ -67,14 +65,6 @@ public class HoldServiceImpl implements HoldService {
         this.issueDao = issueDao;
     }
 
-    public RestrictionDao getRestrictionDao() {
-        return restrictionDao;
-    }
-
-    public void setRestrictionDao(RestrictionDao restrictionDao) {
-        this.restrictionDao = restrictionDao;
-    }
-
     public HoldDao getHoldDao() {
         return holdDao;
     }
@@ -82,8 +72,6 @@ public class HoldServiceImpl implements HoldService {
     public void setHoldDao(HoldDao holdDao) {
         this.holdDao = holdDao;
     }
-
-
 
     public StateService getStateService() {
         return stateService;
