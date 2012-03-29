@@ -108,10 +108,9 @@ public interface TypeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getRefObjectUris(@WebParam(name = "contextInfo") ContextInfo contextInfo) 
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getRefObjectUris(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-        /**
+    /**
      * This method returns a list of TypeInfo that belong to a
      * RefObjectUri. For e.g all types for CluInfo
      * 
