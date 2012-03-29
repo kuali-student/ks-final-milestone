@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.service.impl;
+package org.kuali.student.r2.core.class1.type.service.impl;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
