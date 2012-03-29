@@ -113,7 +113,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         return form;
     }
 
-    public RegistrationWindowsManagementForm loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {
+    public void loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {
         ContextInfo context = TestHelper.getContext1();
 //        try {
             TermInfo term = getAcalService().getTerm(termId, context);
@@ -140,7 +140,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 //        }catch (PermissionDeniedException pde){
 //            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get PermissionDeniedException:  "+pde.toString());
 //        }
-        return form;
+
     }
 
     public AcademicCalendarService getAcalService() {

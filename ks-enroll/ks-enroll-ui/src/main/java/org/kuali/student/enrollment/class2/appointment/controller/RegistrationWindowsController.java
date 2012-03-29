@@ -49,19 +49,19 @@ public class RegistrationWindowsController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        RegistrationWindowsManagementForm inputForm = (RegistrationWindowsManagementForm)form;
+        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)form;
         String termId = request.getParameter("termId");
 
         if (StringUtils.isNotBlank(termId)){
             try {
-                RegistrationWindowsManagementForm resultForm = getViewHelperService(inputForm).loadTermAndPeriods(termId, inputForm);
-                return getUIFModelAndView(resultForm);
+                getViewHelperService(theForm).loadTermAndPeriods(termId, theForm);
+                return getUIFModelAndView(theForm);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         }
 
-        return super.start(form, result, request, response);
+        return super.start(theForm, result, request, response);
     }
 
     /**
@@ -74,8 +74,8 @@ public class RegistrationWindowsController extends UifControllerBase {
         String termYear = searchForm.getTermYear();
 
         // resetForm(searchForm);
-        RegistrationWindowsManagementForm resultForm = getViewHelperService(searchForm).searchForTerm(termType, termYear, searchForm);
-        return getUIFModelAndView(resultForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
+        getViewHelperService(searchForm).searchForTerm(termType, termYear, searchForm);
+        return getUIFModelAndView(searchForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
     }
 
     private AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm){
