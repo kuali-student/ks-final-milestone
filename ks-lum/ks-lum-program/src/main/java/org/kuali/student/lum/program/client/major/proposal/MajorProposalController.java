@@ -76,6 +76,7 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.lum.lu.LUConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
@@ -124,9 +125,9 @@ public class MajorProposalController extends MajorController implements Workflow
         cancelButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_CANCEL), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
         
         proposalPath = configurer.getProposalPath();
-        //TODO KSCM-426
-        //workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions",
-   		//		ProgramSections.WF_APPROVE_DIALOG,"Required Fields", ProgramConstants.PROGRAM_MODEL_ID,ContextUtils.getContextInfo());
+        
+        workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions",
+   				ProgramSections.WF_APPROVE_DIALOG,"Required Fields", ProgramConstants.PROGRAM_MODEL_ID);
 
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
@@ -433,9 +434,7 @@ public class MajorProposalController extends MajorController implements Workflow
 			@Override
 			public void onEvent(ModelLoadedEvent event) {
 				if (workflowUtil != null){
-					//TODO KSCM-426
-					//workflowUtil.requestAndSetupModel(NO_OP_CALLBACK);
-					
+					workflowUtil.requestAndSetupModel(NO_OP_CALLBACK);
 				}
 			}        	
         });
@@ -910,18 +909,17 @@ public class MajorProposalController extends MajorController implements Workflow
 
         if (modelProposalId != null && !modelProposalId.isEmpty()) {
             String workflowId = programModel.get(QueryPath.parse(proposalPath + "/workflowId"));
-            //TODO KSCM-426 
-//            proposalServiceAsync.getProposalByWorkflowId(workflowId, new KSAsyncCallback<ProposalInfo>() {
-//                @Override
-//                public void handleFailure(Throwable caught) {
-//                    statusLabel.setText("Proposal status: Unknown");
-//                }
-//
-//                @Override
-//                public void onSuccess(ProposalInfo result) {
-//                    statusLabel.setText("Proposal status: " + result.getState());
-//                }
-//            });
+            proposalServiceAsync.getProposalByWorkflowId(workflowId, new KSAsyncCallback<ProposalInfo>() {
+                @Override
+                public void handleFailure(Throwable caught) {
+                    statusLabel.setText("Proposal status: Unknown");
+                }
+
+                @Override
+                public void onSuccess(ProposalInfo result) {
+                    statusLabel.setText("Proposal status: " + result.getState());
+                }
+            });
         }
     }
 	
