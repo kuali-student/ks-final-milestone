@@ -32,11 +32,11 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
         context.setPrincipalId("POC-Initializer");
 
         IssueInfo unpaidTuitionIssue = _createIssue(HoldServiceConstants.ISSUE_KEY_UNPAID_TUITION_PRIOR_TERM,
-                "Unpaid tuition from last term", HoldServiceConstants.FINANCIAL_ISSUE_TYPE_KEY, context);
-
-
+                                                    "Unpaid tuition from last term", HoldServiceConstants.FINANCIAL_ISSUE_TYPE_KEY, context);
+        
+        
         IssueInfo overdueBookIssue = _createIssue(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE,
-                "Overdue Library Book", HoldServiceConstants.OVERDUE_LIBRARY_MATERIALS_ISSUE_TYPE_KEY, context);
+                                                  "Overdue Library Book", HoldServiceConstants.OVERDUE_LIBRARY_MATERIALS_ISSUE_TYPE_KEY, context);
         
         this._createHold(ProcessPocConstants.PERSON_ID_KARA_STONE_2272, unpaidTuitionIssue, context);
         this._createHold(ProcessPocConstants.PERSON_ID_CLIFFORD_RIDDLE_2397, unpaidTuitionIssue, context);
@@ -65,8 +65,6 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
         hold.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         hold.setIssueKey(issue.getKey());
         hold.setName(issue.getName());
-        hold.setIsOverridable(true);
-        hold.setIsWarning(false);
         Date effDate = null;
         try {
             effDate = new SimpleDateFormat ("yyyy-MM-dd").parse ("2011-01-01");
