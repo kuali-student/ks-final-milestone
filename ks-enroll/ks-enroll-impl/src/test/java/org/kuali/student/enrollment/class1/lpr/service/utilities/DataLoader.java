@@ -39,8 +39,8 @@ public class DataLoader {
         personRelation.setPersonId(PERSON_ID1);
         personRelation.setEffectiveDate(Calendar.getInstance().getTime());
         personRelation.setExpirationDate(Calendar.getInstance().getTime());
-        personRelation.setPersonRelationState(TEST_VALUE_1);
-        personRelation.setPersonRelationType(TEST_VALUE_1);
+        personRelation.setPersonRelationStateId(TEST_VALUE_1);
+        personRelation.setPersonRelationTypeId(TEST_VALUE_1);
         personRelation.setAttributes(createAttributes());
         return personRelation;
     }

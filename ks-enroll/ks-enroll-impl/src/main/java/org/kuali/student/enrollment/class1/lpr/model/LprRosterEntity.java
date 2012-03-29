@@ -7,13 +7,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
@@ -32,9 +29,9 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
     @JoinColumn(name = "RT_DESCR_ID")
     private LprRichTextEntity descr;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSEN_LPRROSTER_LUI_RELTN", joinColumns = @JoinColumn(name = "LPRROSTER_ID"), inverseJoinColumns = @JoinColumn(name = "LUI_ID"))
-    private List<LuiEntity> associatedLuis;
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "KSEN_LPRROSTER_LUI_RELTN", joinColumns = @JoinColumn(name = "LPRROSTER_ID"), inverseJoinColumns = @JoinColumn(name = "LUI_ID"))
+//    private List<String> associatedLuiIds;
 
     @Column(name = "MAX_CAPACITY")
     private int maximumCapacity;
@@ -89,13 +86,13 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         }
     }
 
-    public List<LuiEntity> getAssociatedLuis() {
-        return associatedLuis;
-    }
-
-    public void setAssociatedLuis(List<LuiEntity> associatedLuis) {
-        this.associatedLuis = associatedLuis;
-    }
+//    public List<String> getAssociatedLuiIds() {
+//        return associatedLuiIds;
+//    }
+//
+//    public void setAssociatedLuiIds(List<String> associatedLuis) {
+//        this.associatedLuiIds = associatedLuis;
+//    }
 
     public void setCheckInRequired(boolean checkInRequired) {
         this.checkInRequired = checkInRequired;
@@ -187,13 +184,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         info.setName(this.getName());
         info.setStateKey(getLprRosterState());
         info.setTypeKey(getLprRosterType());
-        if (getAssociatedLuis() != null) {
-            List<String> associatedLuiIds = new ArrayList();
-            for (LuiEntity luiEntity : getAssociatedLuis()) {
-                associatedLuiIds.add(luiEntity.getId());
-            }
-            info.setAssociatedLuiIds(associatedLuiIds);
-        }
+//        info.setAssociatedLuiIds(this.getAssociatedLuiIds());
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LprRosterAttributeEntity att : getAttributes()) {

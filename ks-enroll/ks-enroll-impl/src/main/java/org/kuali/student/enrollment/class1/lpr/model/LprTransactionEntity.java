@@ -41,7 +41,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @JoinColumn(name = "LPR_TRANS_ID")
     private List<LprTransactionItemEntity> lprTransactionItems;
 
-    @Column(name = "LPR_TRANS_TYPE")
+    @Column(name = "LPR_TYPE_ID")
     private String lprTransType;
 
     @Column(name = "STATE_ID")

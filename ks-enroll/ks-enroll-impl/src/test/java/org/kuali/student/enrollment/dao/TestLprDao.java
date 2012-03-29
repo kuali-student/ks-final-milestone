@@ -101,8 +101,8 @@ public class TestLprDao extends AbstractTransactionalDaoTest {
         LuiPersonRelationEntity returnLpr = new LuiPersonRelationEntity();
         returnLpr.setLuiId(LUIID2);
         returnLpr.setPersonId(PERSONID2);
-        returnLpr.setPersonRelationState("kuali.lpr.state.registered");
-        returnLpr.setPersonRelationType("kuali.lpr.type.registrant");
+        returnLpr.setPersonRelationStateId("kuali.lpr.state.registered");
+        returnLpr.setPersonRelationTypeId("kuali.lpr.type.registrant");
         return returnLpr;
     }
 
