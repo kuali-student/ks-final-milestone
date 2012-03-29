@@ -1,8 +1,12 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.infc.Atp;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,14 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.kuali.student.common.entity.KSEntityConstants;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.infc.Atp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "KSEN_ATP")
@@ -58,6 +57,7 @@ public class AtpEntity extends MetaEntity {
     }
 
     public void fromDTO(Atp atp) {
+        this.setAtpCode(atp.getCode());
         this.setName(atp.getName());
         if (atp.getDescr() != null) {
             this.setDescrFormatted(atp.getDescr().getFormatted());
@@ -69,7 +69,6 @@ public class AtpEntity extends MetaEntity {
         this.setAdminOrgId(atp.getAdminOrgId());
         this.setAtpState(atp.getStateKey());
         this.setStartDate(atp.getStartDate());
-        this.setAtpState(atp.getStateKey());
         this.setEndDate(atp.getEndDate());
         this.setAttributes(new ArrayList<AtpAttributeEntity>());
         for (Attribute att : atp.getAttributes()) {
