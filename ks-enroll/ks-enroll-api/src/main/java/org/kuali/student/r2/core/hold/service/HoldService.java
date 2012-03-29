@@ -46,7 +46,7 @@ import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
  * Version: DRAFT - NOT READY FOR RELEASE. 
  *
  * The Hold Service defines a service to manage holdss on a Person by
- * Person basis. Restrictions are a way to put a "stop" on an action
+ * Person basis. Holds are a way to put a "stop" on an action
  * implemented by another service, such as registration for a course.
  * Holds are checked in the Process Service.
  *
