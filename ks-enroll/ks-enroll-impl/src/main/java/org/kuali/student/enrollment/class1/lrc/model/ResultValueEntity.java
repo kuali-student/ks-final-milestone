@@ -40,8 +40,8 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     @Column(name = "VALUE")
     private String value;
 
-    @Column(name = "LRC_TYPE")
-    private String lrcType;
+    @Column(name = "TYPE_ID")
+    private String type;
 
     @Column(name = "STATE_ID")
     private String state;
@@ -138,12 +138,12 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         this.descr = descr;
     }
 
-    public String getLrcType() {
-        return lrcType;
+    public String getType() {
+        return type;
     }
 
-    public void setLrcType(String type) {
-        this.lrcType = type;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getState() {
@@ -183,8 +183,8 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         if (getState() != null) {
             info.setStateKey(getState());
         }
-        if (getLrcType() != null) {
-            info.setTypeKey(getLrcType());
+        if (getType() != null) {
+            info.setTypeKey(getType());
         }
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
