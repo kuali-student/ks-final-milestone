@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
-	
+
 	<!-- Copied from ks-common -->
 	<mapping>
 		<class-a>org.kuali.student.r1.common.dto.AmountInfo</class-a>
@@ -206,13 +206,18 @@
 		<class-a>org.kuali.student.r1.lum.course.dto.LoDisplayInfo</class-a>
 		<class-b>org.kuali.student.r2.lum.course.dto.LoDisplayInfo</class-b>
 		<field>
-			<a get-method="getLoDisplayInfoList" set-method="setLoDisplayInfoList">loDisplayInfoList</a>
+			<a get-method="getLoDisplayInfoList" set-method="setLoDisplayInfoList">loDisplayInfoList
+			</a>
 			<b get-method="getLoDisplayInfoList" set-method="setLoDisplayInfoList">loDisplayInfoList
 			</b>
 			<a-hint>org.kuali.student.r1.lum.course.dto.LoDisplayInfo</a-hint>
 			<b-hint>org.kuali.student.r2.lum.course.dto.LoDisplayInfo</b-hint>
 		</field>
-	<field><a>loInfo</a><b get-method="getLoInfo" set-method="setLoInfo">loInfo</b></field></mapping>
+		<field>
+			<a>loInfo</a>
+			<b get-method="getLoInfo" set-method="setLoInfo">loInfo</b>
+		</field>
+	</mapping>
 
 	<!-- org.kuali.student.r*.lum.lo.dto mappings -->
 	<mapping>
@@ -241,10 +246,55 @@
 			<a>type</a>
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
+		<field>
+			<a>desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
 	</mapping>
-	
+
 	<!-- org.kuali.student.r*.lum.lu.dto mappings -->
 	<!-- TODO -->
+
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.AccreditationInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.AccreditationInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.AdminOrgInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.AdminOrgInfo</class-b>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a get-method="isPrimary" set-method="setPrimary">isPrimary</a>
+			<b get-method="getIsPrimary" set-method="setIsPrimary">isPrimary</b>
+		</field>
+	</mapping>
+	
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.lu.dto.CluInfo</class-a>
 		<class-b>org.kuali.student.r2.lum.clu.dto.CluInfo</class-b>
@@ -297,7 +347,8 @@
 		</field>
 		<field>
 			<a>versionInfo</a>
-			<b get-method="getVersionInfo" set-method="setVersionInfo(org.kuali.student.r2.core.versionmanagement.dto.VersionInfo)">descr</b>
+			<b get-method="getVersionInfo"
+				set-method="setVersionInfo(org.kuali.student.r2.core.versionmanagement.dto.VersionInfo)">descr</b>
 		</field>
 	</mapping>
 
@@ -348,7 +399,7 @@
 			<b-hint>java.util.ArrayList</b-hint>
 		</field>
 	</mapping>
-	
+
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.lo.dto.LoInfo</class-a>
 		<class-b>org.kuali.student.r2.lum.lo.dto.LoInfo</class-b>

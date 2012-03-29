@@ -350,8 +350,7 @@ public class R1TestDataUtil {
         return r1AdminOrgInfo;
     }
     
-    public static List<AccreditationInfo> getAccreditationInfoDataList() {
-        List<AccreditationInfo> r1AccrInfoList = new ArrayList<AccreditationInfo>();
+    public static AccreditationInfo getAccreditationInfoData() {
         AccreditationInfo r1AccrInfo = new AccreditationInfo();
         r1AccrInfo.setAttributes(R1TestDataUtil.getAttributeData());
         r1AccrInfo.setEffectiveDate(new Date());
@@ -359,6 +358,12 @@ public class R1TestDataUtil {
         r1AccrInfo.setId("R1 Id");
         r1AccrInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
         r1AccrInfo.setOrgId("R1 Org Id");
+        return r1AccrInfo;
+    }
+    
+    public static List<AccreditationInfo> getAccreditationInfoDataList() {
+        List<AccreditationInfo> r1AccrInfoList = new ArrayList<AccreditationInfo>();
+        AccreditationInfo r1AccrInfo = R1TestDataUtil.getAccreditationInfoData();
         r1AccrInfoList.add(r1AccrInfo);
         return r1AccrInfoList;
     }
@@ -506,13 +511,7 @@ public class R1TestDataUtil {
     
     public static List<AdminOrgInfo> getAdminOrgInfoDataList() {
         List<AdminOrgInfo> r1List = new ArrayList<AdminOrgInfo>();
-        AdminOrgInfo r1 = new AdminOrgInfo();
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        r1.setId("R1 Id");
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1.setOrgId("R1 Org Id");
-        r1.setPrimary(true);
-        r1.setType("R1 Type");
+        AdminOrgInfo r1 = R1TestDataUtil.getAdminOrgInfoData();
         r1List.add(r1);
         return r1List;
     }
