@@ -106,6 +106,7 @@
 		<property name="title" value="Events" />
         <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
         <property name="instructionalText" value="Adding events is optional. If events are added, Event type and Start Date are required fields."/>
+        <property name="instructionalMessageField.render" value="@{!#view.readOnly}"/>
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper" />
 		<property name="propertyName" value="events" />
 		<property name="layoutManager.sequencePropertyName" value="name" />
@@ -197,54 +198,6 @@
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                  </bean>
-				<!--<bean parent="Uif-InputField" p:label="Start Date" p:propertyName="startDate" p:required="true">
-                    <property name="control">
-						<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
-					</property>
-                    <property name="validCharactersConstraint">
-						<bean parent="BasicDatePatternConstraint" />
-					</property>
-				</bean>
-                <bean parent="Uif-InputField"  p:label="Start Time" p:propertyName="startTime" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" p:watermarkText="hh:mm"/>
-                    </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="TimePatternConstraint" />
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="startTimeAmPm"  p:required="false" >
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options" />
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="false">
-                   <property name="control">
-						<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy" />
-					</property>
-                    <property name="validCharactersConstraint">
-						<bean parent="BasicDatePatternConstraint" />
-					</property>
-				</bean>
-                <bean parent="Uif-InputField"  p:label="End Time" p:propertyName="endTime" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" p:watermarkText="hh:mm"/>
-                    </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="TimePatternConstraint" />
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="endTimeAmPm"  p:required="false" >
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options" />
-                    </property>
-                </bean>-->
-                <!--
-				<bean parent="InputField" p:label="Non Instructional" p:propertyName="isInstructionalDay" p:required="true">
-					<property name="control">
-						<bean parent="CheckboxControl" />
-					</property>
-				</bean>  -->
 			</list>
 		</property>
 	</bean>
