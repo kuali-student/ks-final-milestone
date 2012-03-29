@@ -3,6 +3,8 @@ package org.kuali.student.enrollment.class2.appointment.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -17,10 +19,13 @@ import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelp
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
+import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -40,6 +45,25 @@ public class RegistrationWindowsController extends UifControllerBase {
         return new RegistrationWindowsManagementForm();
     }
 
+    @Override
+    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        RegistrationWindowsManagementForm inputForm = (RegistrationWindowsManagementForm)form;
+        String termId = request.getParameter("termId");
+
+        if (StringUtils.isNotBlank(termId)){
+            try {
+                RegistrationWindowsManagementForm resultForm = getViewHelperService(inputForm).loadTermAndPeriods(termId, inputForm);
+                return getUIFModelAndView(resultForm);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        return super.start(form, result, request, response);
+    }
+
     /**
      * Method used to search atps
      */
@@ -51,8 +75,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         // resetForm(searchForm);
         RegistrationWindowsManagementForm resultForm = getViewHelperService(searchForm).searchForTerm(termType, termYear);
-
-        return getUIFModelAndView(resultForm);
+        return getUIFModelAndView(resultForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
     }
 
     private AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm){
@@ -62,4 +85,5 @@ public class RegistrationWindowsController extends UifControllerBase {
             return (AppointmentViewHelperService)appointmentForm.getPostedView().getViewHelperService();
         }
     }
+
 }

@@ -30,7 +30,10 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.test.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
@@ -106,6 +109,36 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         }
         
         return resultForm;
+    }
+
+    public RegistrationWindowsManagementForm loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {
+        ContextInfo context = TestHelper.getContext1();
+//        try {
+            TermInfo term = getAcalService().getTerm(termId, context);
+            if (term.getId() != null && !term.getId().isEmpty()) {
+                form.setTermInfo(term);
+                List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
+                List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(term.getId(), context);
+                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+                    if (AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+                        System.out.println(">>>find "+keyDateInfo.getName());
+                        periodMilestones.add (keyDateInfo);
+                    }
+                }
+                form.setPeriodMilestones(periodMilestones);
+            }
+//        }catch (DoesNotExistException dnee){
+//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get DoesNotExistException:  "+dnee.toString());
+//        }catch (InvalidParameterException ipe){
+//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get InvalidParameterException:  "+ipe.toString());
+//        }catch (MissingParameterException mpe){
+//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get MissingParameterException:  "+mpe.toString());
+//        }catch (OperationFailedException ofe){
+//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get OperationFailedException:  "+ofe.toString());
+//        }catch (PermissionDeniedException pde){
+//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get PermissionDeniedException:  "+pde.toString());
+//        }
+        return form;
     }
 
     public AcademicCalendarService getAcalService() {

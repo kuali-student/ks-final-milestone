@@ -12,22 +12,19 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Daniel on 3/28/12
  */
-package org.kuali.student.enrollment.class2.appointment.service;
+package org.kuali.student.enrollment.class2.appointment.util;
 
-import org.kuali.rice.krad.uif.service.ViewHelperService;
-import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
-import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
-public interface AppointmentViewHelperService extends ViewHelperService {
+public class AppointmentConstants {
 
-    public RegistrationWindowsManagementForm searchForTerm(String name, String year)throws Exception;
-    public RegistrationWindowsManagementForm loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception;
-
+    public static final String REGISTRATION_WINDOWS_EDIT_PAGE = "registrationWindowsEditPage";
+    public static final String SELECT_TERM_PAGE = "selectTermForRegWindows";
+    public static final String REGISTRATION_WINDOWS_MANAGEMENT_VIEW = "registrationWindowsManagementView";
 }
