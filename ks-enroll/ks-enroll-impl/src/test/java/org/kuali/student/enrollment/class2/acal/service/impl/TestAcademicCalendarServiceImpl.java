@@ -792,6 +792,7 @@ public class TestAcademicCalendarServiceImpl {
         keyDate.setEndDate(cal.getTime());
         keyDate.setIsAllDay(false);
         keyDate.setIsDateRange(true);
+        keyDate.setIsRelativeToKeyDate(false);
         keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         keyDate.setTypeKey(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
         RichTextInfo descr = new RichTextInfo();
