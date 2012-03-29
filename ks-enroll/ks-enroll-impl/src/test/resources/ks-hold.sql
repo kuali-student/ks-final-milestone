@@ -30,6 +30,6 @@ INSERT INTO KSEN_ISSUE (ID, NAME, TYPE_ID, STATE_ID, ORG_ID, RT_DESCR_ID, VER_NB
 INSERT INTO KSEN_ISSUE (ID, NAME, TYPE_ID, STATE_ID, ORG_ID, RT_DESCR_ID, VER_NBR) VALUES ('Hold-Issue-2', 'Issue two', 'kuali.hold.issue.type.residency', 'kuali.hold.issue.state.active', '102', 'Issue-2-Desc', 0)
 
 //HoldEntity
-INSERT INTO KSEN_HOLD (ID, NAME, RT_DESCR_ID, IS_WARNING, IS_OVERRIDABLE, PERS_ID, ISSUE_ID, TYPE_ID, STATE_ID, EFF_DT, RELEASED_DT, VER_NBR) VALUES ('Hold-1', 'Hold one', 'RICHTEXT-Hold-301', 0, 1, '1', 'Hold-Issue-1', 'kuali.hold.type.student', 'kuali.hold.state.active', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
-INSERT INTO KSEN_HOLD (ID, NAME, RT_DESCR_ID, IS_WARNING, IS_OVERRIDABLE, PERS_ID, ISSUE_ID, TYPE_ID, STATE_ID, EFF_DT, RELEASED_DT, VER_NBR) VALUES ('Hold-2', 'Hold two', 'RICHTEXT-Hold-401', 0, 1, '1', 'Hold-Issue-1', 'kuali.hold.type.instructor', 'kuali.hold.state.active', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
+INSERT INTO KSEN_HOLD (ID, NAME, RT_DESCR_ID, PERS_ID, ISSUE_ID, TYPE_ID, STATE_ID, EFF_DT, RELEASED_DT, VER_NBR) VALUES ('Hold-1', 'Hold one', 'RICHTEXT-Hold-301', '1', 'Hold-Issue-1', 'kuali.hold.type.student', 'kuali.hold.state.active', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
+INSERT INTO KSEN_HOLD (ID, NAME, RT_DESCR_ID, PERS_ID, ISSUE_ID, TYPE_ID, STATE_ID, EFF_DT, RELEASED_DT, VER_NBR) VALUES ('Hold-2', 'Hold two', 'RICHTEXT-Hold-401', '1', 'Hold-Issue-1', 'kuali.hold.type.instructor', 'kuali.hold.state.active', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
 

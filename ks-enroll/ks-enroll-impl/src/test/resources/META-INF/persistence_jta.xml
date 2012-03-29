@@ -44,17 +44,6 @@
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleAttributeEntity</class>
         
-        <class>org.kuali.student.enrollment.class1.hold.model.RestrictionEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.RestrictionAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.IssueEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.IssueAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.IssueRestrictionRelationEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.HoldAttributeEntity</class>
-
-        <class>org.kuali.student.enrollment.class1.hold.model.RestrictionEntity</class>
-        <class>org.kuali.student.enrollment.class1.hold.model.RestrictionAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.IssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.IssueAttributeEntity</class>

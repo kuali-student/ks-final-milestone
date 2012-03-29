@@ -77,5 +77,4 @@ public class TestIssueDao extends AbstractTransactionalDaoTest {
         List<IssueEntity> emptyResults = dao.getByOrganizationId("3");
         assertTrue(emptyResults == null || emptyResults.isEmpty());
     }
-
 }
