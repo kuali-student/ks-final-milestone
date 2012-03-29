@@ -1019,7 +1019,6 @@ public class TestAcademicCalendarServiceImpl {
         } catch (Exception e) {
             fail(e.getMessage());
         }
-
     }
 
     @Test
