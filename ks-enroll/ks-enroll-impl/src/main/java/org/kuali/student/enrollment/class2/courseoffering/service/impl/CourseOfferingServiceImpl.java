@@ -324,7 +324,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         coInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
 
         LuiInfo luiInfo = coAssembler.disassemble(coInfo, context);
-        LuiInfo created = luiService.createLui(courseId, termId, luiInfo, context);
+        LuiInfo created = luiService.createLui(courseId, termId, luiInfo.getTypeKey(), luiInfo, context);
 
         // DELETE THIS SECTION - NO LONGER REQUIRED,
         // GRADE ROSTER IS CREATED/ASSOCATED ELSEHWERE
@@ -469,7 +469,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // TODO: what else inherit or fill into finalExam?
         LuiInfo created;
         try {
-            created = luiService.createLui(cluId, atpId, finalExam, context);
+            created = luiService.createLui(cluId, atpId, finalExam.getTypeKey(),finalExam, context);
         } catch (AlreadyExistsException e1) {
             throw new OperationFailedException("AlreadyExistsException when createLui. cluId: " + cluId + ", atpId: " + atpId);
         }
@@ -650,7 +650,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         LuiInfo lui = FormatOfferingAssembler.disassemble(formatOfferingInfo);
         try {
-            LuiInfo newFormatOfferingLui = luiService.createLui(formatId, null, lui, context);
+            // TODO: this needs an atp id get it off the courseOffering
+            LuiInfo newFormatOfferingLui = luiService.createLui(formatId, null, lui.getTypeKey(),lui, context);
             LuiLuiRelationInfo relationInfo = new LuiLuiRelationInfo();
             relationInfo.setLuiId(courseOfferingId);
             relationInfo.setRelatedLuiId(newFormatOfferingLui.getId());
@@ -784,7 +785,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         try {
             LuiInfo created = null;
-            created = luiService.createLui(activityOfferingInfo.getActivityId(), activityOfferingInfo.getTermId(), lui, context);
+            created = luiService.createLui(activityOfferingInfo.getActivityId(), activityOfferingInfo.getTermId(),lui.getTypeKey(), lui, context);
             if (null == created) {
                 throw new OperationFailedException("LUI service did not create LUI");
             }
@@ -983,7 +984,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             LuiInfo lui = registrationGroupAssembler.disassemble(registrationGroupInfo, context);
             LuiInfo created ;
         try {
-             created = luiService.createLui(registrationGroupInfo.getFormatId() , registrationGroupInfo.getTermId(), lui, context);
+             created = luiService.createLui(registrationGroupInfo.getFormatId() , registrationGroupInfo.getTermId(), lui.getTypeKey(),lui, context);
           for (String activityOfferingId:registrationGroupInfo.getActivityOfferingIds())  {
 
                 LuiLuiRelationInfo activtyRegGroupRelation = new LuiLuiRelationInfo();

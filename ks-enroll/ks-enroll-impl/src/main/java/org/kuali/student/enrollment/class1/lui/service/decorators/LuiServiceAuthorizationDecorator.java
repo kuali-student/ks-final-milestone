@@ -258,7 +258,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
 	}
 
 	@Override
-	public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo,
+	public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo,
 			ContextInfo context) throws AlreadyExistsException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -268,7 +268,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createLui", null)) {
-	        return getNextDecorator().createLui(cluId, atpId, luiInfo, context);
+	        return getNextDecorator().createLui(cluId, atpId, luiInfo.getTypeKey(),luiInfo, context);
         }
         else {
            throw new PermissionDeniedException();

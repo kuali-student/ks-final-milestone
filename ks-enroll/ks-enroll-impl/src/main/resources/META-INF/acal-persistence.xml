@@ -15,13 +15,15 @@
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationAttributeEntity</class>
-        <class>org.kuali.student.r2.core.class1.atp.model.MilestoneEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.MilestoneEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.MilestoneAttributeEntity</class>
+    
         <class>org.kuali.student.r2.core.class1.state.model.StateEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleAttributeEntity</class>
+        
         <class>org.kuali.student.r2.core.class1.type.model.TypeEntity</class>
         <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity</class>
@@ -62,12 +64,10 @@
 
         <class>org.kuali.student.enrollment.class1.lui.model.LuiEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lui.model.LuiInstructorEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lui.model.LuiCluCluRelationEntity</class>
     
 <!--    <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>

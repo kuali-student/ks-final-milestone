@@ -155,13 +155,13 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
-    public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo, ContextInfo context) 
+    public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo context) 
         throws AlreadyExistsException, DataValidationErrorException, 
                DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
 
-        return getNextDecorator().createLui(cluId,atpId,luiInfo, context);
+        return getNextDecorator().createLui(cluId,atpId,luiTypeKey,luiInfo, context);
     }
 
     @Override

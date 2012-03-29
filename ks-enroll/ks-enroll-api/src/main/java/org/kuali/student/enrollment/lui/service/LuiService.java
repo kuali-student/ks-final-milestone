@@ -309,6 +309,7 @@ public interface LuiService {
      * @param cluId   identifier of the CLU for the LUI being created
      * @param atpId  identifier of the academic time period for the
      *                LUI being created
+     * @param luiTypeKey type of lui to be created
      * @param luiInfo information about the LUI being created
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
@@ -323,7 +324,14 @@ public interface LuiService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public LuiInfo createLui(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpId") String atpId, @WebParam(name = "luiInfo") LuiInfo luiInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LuiInfo createLui(@WebParam(name = "cluId") String cluId, 
+            @WebParam(name = "atpId") String atpId, 
+            @WebParam(name = "luiTypeKey") String luiTypeKey, 
+            @WebParam(name = "luiInfo") LuiInfo luiInfo, 
+            @WebParam(name = "context") ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException, 
+            DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates an existing LUI.

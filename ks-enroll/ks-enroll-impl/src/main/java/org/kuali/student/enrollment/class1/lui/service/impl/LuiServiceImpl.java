@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
-import org.kuali.student.enrollment.class1.lui.model.LuiCluCluRelationEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
@@ -27,20 +25,13 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.jws.WebParam;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class LuiServiceImpl implements LuiService {
+
     private LuiDao luiDao;
     private LuiLuiRelationDao luiLuiRelationDao;
-    private StateService stateService;
-    private AtpService atpService;
-    private CluService luService;
 
     public LuiDao getLuiDao() {
         return luiDao;
@@ -56,30 +47,6 @@ public class LuiServiceImpl implements LuiService {
 
     public void setLuiLuiRelationDao(LuiLuiRelationDao luiLuiRelationDao) {
         this.luiLuiRelationDao = luiLuiRelationDao;
-    }
-
-    public StateService getStateService() {
-        return stateService;
-    }
-
-    public void setStateService(StateService stateService) {
-        this.stateService = stateService;
-    }
-
-    public AtpService getAtpService() {
-        return atpService;
-    }
-
-    public void setAtpService(AtpService atpService) {
-        this.atpService = atpService;
-    }
-
-    public CluService getLuService() {
-        return luService;
-    }
-
-    public void setLuService(CluService luService) {
-        this.luService = luService;
     }
 
     @Override
@@ -132,10 +99,9 @@ public class LuiServiceImpl implements LuiService {
     }
 
     @Override
-    public List<String> getLuiIdsByAtpAndType( String atpId,String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
-        {
-            return  new ArrayList<String>();
-        }
+    public List<String> getLuiIdsByAtpAndType(String atpId, String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return new ArrayList<String>();
+    }
 
     @Override
     public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -241,7 +207,6 @@ public class LuiServiceImpl implements LuiService {
     // throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
     // }
     // }
-
     // TODO:call LuService
     private boolean checkExistenceForClu(String cluId, ContextInfo context) {
         // clu = luService.getClu(cluId, context);
@@ -262,20 +227,27 @@ public class LuiServiceImpl implements LuiService {
 
     @Override
     @Transactional
-    public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LuiEntity entity = new LuiEntity(luiInfo);
-        entity.setId(UUIDHelper.genStringUUID());
+    public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        LuiEntity existing = luiDao.find(entity.getId());
-        if (existing != null) {
-            throw new AlreadyExistsException();
+        if (!cluId.equals(luiInfo.getCluId())) {
+            throw new InvalidParameterException(cluId + " does not match the cluId in the info object " + luiInfo.getCluId());
         }
-
-        this.setLuiCluCluRelations(luiInfo.getCluCluRelationIds(), entity.getCluCluReltns(), entity);
-
+        if (!atpId.equals(luiInfo.getAtpId())) {
+            throw new InvalidParameterException(atpId + " does not match the atp in the info object " + luiInfo.getAtpId());
+        }
+        if (!luiTypeKey.equals(luiInfo.getTypeKey())) {
+            throw new InvalidParameterException(luiTypeKey + " does not match the type in the info object " + luiInfo.getTypeKey());
+        }
+        LuiEntity entity = new LuiEntity(luiInfo);
+        entity.setAtpId(atpId);
+        entity.setCluId(cluId);
+        entity.setLuiType(luiTypeKey);
+        entity.setCreateId(context.getPrincipalId());
+        entity.setCreateTime(context.getCurrentDate());
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
         luiDao.persist(entity);
-
-        return luiDao.find(entity.getId()).toDto();
+        return entity.toDto();
     }
 
     @Override
@@ -283,82 +255,50 @@ public class LuiServiceImpl implements LuiService {
     public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         LuiEntity entity = luiDao.find(luiId);
 
-        if (null != entity) {
-            LuiEntity modifiedEntity = new LuiEntity(luiInfo);
-            String cluId = luiInfo.getCluId();
-            if (null != cluId && checkExistenceForClu(cluId, context))
-                modifiedEntity.setCluId(cluId);
-
-            String atpId = luiInfo.getAtpId();
-            if (null != atpId && checkExistenceForAtp(atpId, context))
-                modifiedEntity.setAtpId(atpId);
-
-            this.setLuiCluCluRelations(luiInfo.getCluCluRelationIds(), entity.getCluCluReltns(), modifiedEntity);
-
-            luiDao.merge(modifiedEntity);
-            return luiDao.find(modifiedEntity.getId()).toDto();
-        } else
+        if (!luiId.equals(luiInfo.getId())) {
+            throw new InvalidParameterException(luiId + " does not match the id on the object " + luiInfo.getId());
+        }
+        if (null == entity) {
             throw new DoesNotExistException(luiId);
+        }
+        entity.fromDto(luiInfo);
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
+        luiDao.merge(entity);
+        return entity.toDto();
     }
 
     @Override
     @Transactional
-    public StatusInfo deleteLui(String luiId, ContextInfo context) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteLui(String luiId, ContextInfo context)
+            throws DependentObjectsExistException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        LuiEntity entity = luiDao.find(luiId);
+        if (null == entity) {
+            throw new DoesNotExistException(luiId);
+        }
+        List<LuiLuiRelationEntity> rels = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
+        for (LuiLuiRelationEntity rel : rels) {
+            luiLuiRelationDao.remove(rel);
+        }
+        luiDao.remove(entity);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
-
-        LuiEntity entity = luiDao.find(luiId);
-        if (null != entity) {
-            List<LuiLuiRelationEntity> rels = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
-            if (null != rels && !rels.isEmpty()) {
-                for (LuiLuiRelationEntity rel : rels)
-                    luiLuiRelationDao.remove(rel);
-            }
-
-            luiDao.remove(entity);
-        } else
-            throw new DoesNotExistException(luiId);
-
         return status;
-    }
-
-   
-
-   
-
-   
-    /**
-     * 
-     * Sets the LuiCluCluRelation entities on the LuiEntity.
-     * 
-     * The method loops thru the existing entities to find already added relations and only add new entities if required. New entities 
-     * are created based on the given cluCluRelationdIds.
-     * 
-     * @param cluCluRelationdIds
-     * @param existingCluCluReltns
-     * @param entity
-     */
-    private void setLuiCluCluRelations(final List<String> cluCluRelationdIds, List<LuiCluCluRelationEntity> existingCluCluReltns, LuiEntity entity) {
-
-        if (cluCluRelationdIds == null)
-            return;
-
-        reltns: for (String cluCluRelationId : cluCluRelationdIds) {
-            for (LuiCluCluRelationEntity existingCluCluReltn : existingCluCluReltns) {
-                if (existingCluCluReltn.getClucluRelationId().equals(cluCluRelationId)) {
-                    entity.getCluCluReltns().add(existingCluCluReltn);
-                    continue reltns;
-                }
-            }
-
-            entity.getCluCluReltns().add(new LuiCluCluRelationEntity(entity, cluCluRelationId));
-        }
-
     }
 
     @Override
     public LuiInfo updateLuiState(String luiId, String luState, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
+        LuiEntity entity = luiDao.find(luiId);
+        if (null == entity) {
+            throw new DoesNotExistException(luiId);
+        }
+        entity.setLuiState(luState);
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
+        luiDao.merge(entity);
+        return entity.toDto();
     }
 
     @Override
@@ -378,58 +318,63 @@ public class LuiServiceImpl implements LuiService {
         return new ArrayList<ValidationResultInfo>();
     }
 
-    private boolean checkExistenceForRelation(LuiLuiRelationInfo relationInfo) {
-        boolean existing = false;
-
-        List<LuiLuiRelationEntity> rels = luiLuiRelationDao.getLuiLuiRelationsByLui(relationInfo.getLuiId());
-
-        if (rels != null && !rels.isEmpty()) {
-            for (LuiLuiRelationEntity rel : rels) {
-                if (rel.getLui().getId().equals(relationInfo.getLuiId()) && rel.getRelatedLui().getId().equals(relationInfo.getRelatedLuiId())) {
-                    existing = true;
-                    break;
-
-                }
-            }
-        }
-
-        return existing;
-    }
-
     @Override
     @Transactional
-    public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context) throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId,
+            String luLuRelationTypeKey,
+            LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
+            throws AlreadyExistsException, CircularRelationshipException,
+            DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        if (!checkExistenceForRelation(luiLuiRelationInfo)) {
-            LuiLuiRelationEntity entity = new LuiLuiRelationEntity(luiLuiRelationInfo);
-            entity.setId(UUIDHelper.genStringUUID());
-            entity.setLui(luiDao.find(luiId));
-            entity.setRelatedLui(luiDao.find(relatedLuiId));
-            luiLuiRelationDao.persist(entity);
-            return entity.toDto();
-        } else
-            throw new AlreadyExistsException("The Lui-Lui relation already exists. lui=" + luiLuiRelationInfo.getLuiId() + ", relatedLui=" + luiLuiRelationInfo.getRelatedLuiId());
-
+        LuiLuiRelationEntity entity = new LuiLuiRelationEntity(luiLuiRelationInfo);
+        entity.setLuiLuiRelationType(luLuRelationTypeKey);
+        entity.setLui(luiDao.find(luiId));
+        if (entity.getLui() == null) {
+            throw new DoesNotExistException(luiId);
+        }
+        entity.setRelatedLui(luiDao.find(relatedLuiId));
+        if (entity.getRelatedLui() == null) {
+            throw new DoesNotExistException(luiId);
+        }
+        entity.setLuiLuiRelationType(luLuRelationTypeKey);
+        entity.setCreateId(context.getPrincipalId());
+        entity.setCreateTime(context.getCurrentDate());
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
+        luiLuiRelationDao.persist(entity);
+        return entity.toDto();
     }
 
     @Override
     @Transactional
     public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-        luiLuiRelationInfo.setId(luiLuiRelationId);
-        LuiLuiRelationEntity luiLuiRelationEntity = luiLuiRelationDao.find(luiLuiRelationId);
-        luiLuiRelationEntity = new LuiLuiRelationEntity(luiLuiRelationInfo);
-        return luiLuiRelationEntity.toDto();
+        if (!luiLuiRelationId.equals(luiLuiRelationInfo.getId())) {
+            throw new InvalidParameterException(luiLuiRelationId + " doe not match the id on the object " + luiLuiRelationInfo.getId());
+        }
+        LuiLuiRelationEntity entity = luiLuiRelationDao.find(luiLuiRelationId);
+        if (entity == null) {
+            throw new DoesNotExistException(luiLuiRelationId);
+        }
+        entity.fromDto(luiLuiRelationInfo);
+        entity.setUpdateId(context.getPrincipalId());
+        entity.setUpdateTime(context.getCurrentDate());
+        luiLuiRelationDao.merge(entity);
+        return entity.toDto();
     }
 
     @Override
     @Transactional
     public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
+        LuiLuiRelationEntity entity = luiLuiRelationDao.find(luiLuiRelationId);
+        if (entity == null) {
+            throw new DoesNotExistException(luiLuiRelationId);
+        }
+        luiLuiRelationDao.remove(entity);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.FALSE);
-        LuiLuiRelationEntity deleteLuiLuiRelationEntity = luiLuiRelationDao.find(luiLuiRelationId);
-        luiLuiRelationDao.remove(deleteLuiLuiRelationEntity);
         status.setSuccess(Boolean.TRUE);
         return status;
     }

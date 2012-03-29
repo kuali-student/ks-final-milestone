@@ -47,6 +47,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,18 +63,33 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestAcademicCalendarServiceImpl {
+
     @Autowired
     @Qualifier("acalServiceAuthDecorator")
     private AcademicCalendarService acalService;
-
-    public static String principalId = "123"; 
+    @Autowired
+    @Qualifier("atpServiceAuthorization")
+    private AtpService atpService;
+    public static String principalId = "123";
     public ContextInfo callContext = null;
 
     @Before
     public void setUp() {
         principalId = "123";
-        callContext = new ContextInfo ();
+        callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
+        try {
+            loadData();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private void loadData() throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            DataValidationErrorException, ReadOnlyException, VersionMismatchException, AlreadyExistsException {
+        AtpTestDataLoader loader = new AtpTestDataLoader(this.atpService);
+        loader.loadData();
     }
 
     @Test
@@ -468,7 +485,7 @@ public class TestAcademicCalendarServiceImpl {
             assertNull(fakeResults);
         }
     }
-    
+
     @Test
     public void testSearchForTerms() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -845,12 +862,13 @@ public class TestAcademicCalendarServiceImpl {
         try {
             calendars = acalService.getAcademicCalendarsByIds(calendarKeys, callContext);
             fail("Expected DoesNotExistException.");
-        } catch (DoesNotExistException e) {}
+        } catch (DoesNotExistException e) {
+        }
     }
-    
+
     @Test
     public void testSearchForAcademicCalendars() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-        PermissionDeniedException, ParseException {
+            PermissionDeniedException, ParseException {
 
         List<String> atpTypes = new ArrayList<String>();
         List<String> atpStates = new ArrayList<String>();
@@ -874,12 +892,12 @@ public class TestAcademicCalendarServiceImpl {
         }
 
         if (acalName != null && acalName.length() > 0) {
-            predicates.add(PredicateFactory.like("name", "%"+acalName+"%"));
+            predicates.add(PredicateFactory.like("name", "%" + acalName + "%"));
         }
         if (acalYear != null && acalYear.length() > 0) {
             int year = Integer.parseInt(acalYear);
             Date yearStart = new GregorianCalendar(year, Calendar.JANUARY, 1).getTime();
-            Date yearEnd = new GregorianCalendar(year+1, Calendar.JANUARY, 1).getTime();
+            Date yearEnd = new GregorianCalendar(year + 1, Calendar.JANUARY, 1).getTime();
             predicates.add(PredicateFactory.greaterThanOrEqual("startDate", yearStart));
             predicates.add(PredicateFactory.lessThan("startDate", yearEnd));
         }
@@ -908,9 +926,9 @@ public class TestAcademicCalendarServiceImpl {
         final String originalCalendarKey = "ACADEMICCALENDAR1990";
 
         AcademicCalendar originalCalendar = acalService.getAcademicCalendar(originalCalendarKey, callContext);
-        Date startDate = new SimpleDateFormat ("yyyy-MM-dd").parse ("2008-09-01");
-        Date endDate = new SimpleDateFormat ("yyyy-MM-dd").parse ("2009-08-31");
-        
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2008-09-01");
+        Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse("2009-08-31");
+
         AcademicCalendar copiedCalendar = acalService.copyAcademicCalendar(originalCalendarKey, startDate, endDate, callContext);
 
         assertNotNull(originalCalendar.getId());
@@ -994,7 +1012,7 @@ public class TestAcademicCalendarServiceImpl {
         // TODO should the milestone be saved in the calculation method or is that a seperate call?
         assertFalse("KeyDate was saved after calculation.", censusExpectedStartDate.equals(census.getStartDate()));
     }
-    
+
     @Test
     public void testSearchForAcalEvents() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -1029,7 +1047,7 @@ public class TestAcademicCalendarServiceImpl {
         }
 
     }
-    
+
     @Test
     public void testSearchForHolidays() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -1089,7 +1107,7 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(result);
         assertTrue(!result.isEmpty());
     }
-    
+
     private void populateRequiredFields(AcademicCalendarInfo acal) {
         acal.setEndDate(new Date());
         acal.setStartDate(new Date());
@@ -1106,4 +1124,3 @@ public class TestAcademicCalendarServiceImpl {
         term.setDescr(richTextInfo);
     }
 }
-

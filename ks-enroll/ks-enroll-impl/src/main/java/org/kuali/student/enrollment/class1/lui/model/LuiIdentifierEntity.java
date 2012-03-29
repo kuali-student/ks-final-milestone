@@ -14,93 +14,78 @@ import javax.persistence.Table;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_LUI_IDENT")
-public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<LuiIdentifierAttributeEntity> {
+public class LuiIdentifierEntity extends MetaEntity {
 
     @Column(name = "LUI_CD")
     private String code;
-
     @Column(name = "SHRT_NAME")
     private String shortName;
-
     @Column(name = "LNG_NAME")
     private String longName;
-
     @Column(name = "DIVISION")
     private String division;
-
     @Column(name = "VARTN")
     private String variation;
-
     @Column(name = "SUFX_CD")
     private String suffixCode;
-
     @Column(name = "LUI_ID_TYPE")
     private String type;
-
     @Column(name = "LUI_ID_STATE")
     private String state;
-
     @ManyToOne
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiIdentifierAttributeEntity> attributes;
 
-    public LuiIdentifierEntity() {}
+    public LuiIdentifierEntity() {
+    }
 
     public LuiIdentifierEntity(LuiIdentifier luiIdentifier) {
         super(luiIdentifier);
-        try {
-            this.setId(luiIdentifier.getId());
-            this.setCode(luiIdentifier.getCode());
-            this.setDivision(luiIdentifier.getDivision());
-            this.setLongName(luiIdentifier.getLongName());
-            this.setShortName(luiIdentifier.getShortName());
-            this.setState(luiIdentifier.getStateKey());
-            this.setSuffixCode(luiIdentifier.getSuffixCode());
-            this.setType(luiIdentifier.getTypeKey());
-            this.setVariation(luiIdentifier.getVariation());
+        this.setId(luiIdentifier.getId());
+        this.setState(luiIdentifier.getStateKey());
+        this.setType(luiIdentifier.getTypeKey());
+        fromDto(luiIdentifier);
+    }
 
-            this.setAttributes(new ArrayList<LuiIdentifierAttributeEntity>());
-            if (null != luiIdentifier.getAttributes()) {
-                for (Attribute att : luiIdentifier.getAttributes()) {
-                    LuiIdentifierAttributeEntity attEntity = new LuiIdentifierAttributeEntity(att);
-                    this.getAttributes().add(attEntity);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void fromDto(LuiIdentifier luiIdentifier) {
+        this.setCode(luiIdentifier.getCode());
+        this.setDivision(luiIdentifier.getDivision());
+        this.setLongName(luiIdentifier.getLongName());
+        this.setShortName(luiIdentifier.getShortName());
+        this.setSuffixCode(luiIdentifier.getSuffixCode());
+        this.setVariation(luiIdentifier.getVariation());
+        this.setAttributes(new ArrayList<LuiIdentifierAttributeEntity>());
+        for (Attribute att : luiIdentifier.getAttributes()) {
+            LuiIdentifierAttributeEntity attEntity = new LuiIdentifierAttributeEntity(att);
+            this.getAttributes().add(attEntity);
         }
     }
 
     public LuiIdentifierInfo toDto() {
-        LuiIdentifierInfo obj = new LuiIdentifierInfo();
-        obj.setId(getId());
-        obj.setCode(code);
-        obj.setDivision(division);
-        obj.setLongName(longName);
-        obj.setShortName(shortName);
-        obj.setStateKey(state);
-        obj.setSuffixCode(suffixCode);
-        obj.setTypeKey(type);
-        obj.setVariation(variation);
-        obj.setMeta(super.toDTO());
+        LuiIdentifierInfo info = new LuiIdentifierInfo();
+        info.setId(getId());
+        info.setCode(code);
+        info.setDivision(division);
+        info.setLongName(longName);
+        info.setShortName(shortName);
+        info.setStateKey(state);
+        info.setSuffixCode(suffixCode);
+        info.setTypeKey(type);
+        info.setVariation(variation);
+        info.setMeta(super.toDTO());
 
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuiIdentifierAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
+            info.getAttributes().add(attInfo);
         }
-        obj.setAttributes(atts);
-
-        return obj;
+        return info;
     }
 
     public String getCode() {
@@ -167,13 +152,11 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
         this.state = state;
     }
 
-    @Override
     public void setAttributes(List<LuiIdentifierAttributeEntity> attributes) {
         this.attributes = attributes;
 
     }
 
-    @Override
     public List<LuiIdentifierAttributeEntity> getAttributes() {
         return attributes;
     }
@@ -185,5 +168,4 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
     public void setLui(LuiEntity lui) {
         this.lui = lui;
     }
-
 }

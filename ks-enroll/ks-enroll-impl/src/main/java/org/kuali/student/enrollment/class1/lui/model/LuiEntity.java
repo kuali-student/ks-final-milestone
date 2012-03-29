@@ -16,171 +16,123 @@ import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.MeetingSchedule;
-import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.clu.infc.Fee;
-import org.kuali.student.r2.lum.clu.infc.LuCode;
-import org.kuali.student.r2.lum.clu.infc.Revenue;
 
 @Entity
 @Table(name = "KSEN_LUI")
-public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity> {
+public class LuiEntity extends MetaEntity {
+
     @Column(name = "NAME")
     private String name;
-
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String formatted;
-
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String plain;
-
     @Column(name = "LUI_TYPE")
     private String luiType;
-
     @Column(name = "LUI_STATE")
     private String luiState;
-
     @Column(name = "CLU_ID")
     private String cluId;
-
     @Column(name = "ATP_ID")
     private String atpId;
-
     @Column(name = "REF_URL")
     private String referenceURL;
-
     @Column(name = "MAX_SEATS")
     private Integer maxSeats;
-
     @Column(name = "MIN_SEATS")
     private Integer minSeats;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXP_DT")
     private Date expirationDate;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuiIdentifierEntity> identifiers;
-
-   
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
-    private List<LuiCluCluRelationEntity> cluCluReltns;
-
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiAttributeEntity> attributes;
 
-    public LuiEntity() {}
+    public LuiEntity() {
+    }
 
     public LuiEntity(Lui lui) {
         super(lui);
-        try {
-            this.setId(lui.getId());
-            this.setName(lui.getName());
-            this.setAtpId(lui.getAtpId());
-            this.setCluId(lui.getCluId());
-            this.setMaxSeats(lui.getMaximumEnrollment());
-            this.setMinSeats(lui.getMinimumEnrollment());
-            this.setReferenceURL(lui.getReferenceURL());
-            this.setLuiState(lui.getStateKey());
-            this.setLuiType(lui.getTypeKey());
-            if (lui.getEffectiveDate() != null)
-                this.setEffectiveDate(lui.getEffectiveDate());
-            if (lui.getExpirationDate() != null)
-                this.setExpirationDate(lui.getExpirationDate());
+        this.setId(lui.getId());
+        this.setLuiType(lui.getTypeKey());
+        this.setAtpId(lui.getAtpId());
+        this.setCluId(lui.getCluId());
+        fromDto(lui);
+    }
 
-            if (lui.getDescr() != null) {
-                RichText rt = lui.getDescr();
-                this.setDescrFormatted(rt.getFormatted());
-                this.setDescrPlain(rt.getPlain());
-            }
+    public void fromDto(Lui lui) {
+        this.setName(lui.getName());
+        this.setMaxSeats(lui.getMaximumEnrollment());
+        this.setMinSeats(lui.getMinimumEnrollment());
+        this.setReferenceURL(lui.getReferenceURL());
+        this.setLuiState(lui.getStateKey());
+        this.setEffectiveDate(lui.getEffectiveDate());
+        this.setExpirationDate(lui.getExpirationDate());
+        if (lui.getDescr() == null) {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
+        } else {
+            this.setDescrFormatted(lui.getDescr().getFormatted());
+            this.setDescrPlain(lui.getDescr().getPlain());
+        }
 
-            // Lui Identifiers
-            this.setIdentifiers(new ArrayList<LuiIdentifierEntity>());
-            if (lui.getOfficialIdentifier() != null)
-                this.getIdentifiers().add(new LuiIdentifierEntity(lui.getOfficialIdentifier()));
-            if (lui.getAlternateIdentifiers() != null) {
-                for (LuiIdentifier identifier : lui.getAlternateIdentifiers()) {
-                    this.getIdentifiers().add(new LuiIdentifierEntity(identifier));
-                }
-            }
-
-          
-            this.setCluCluReltns(new ArrayList<LuiCluCluRelationEntity>());
-
-            // Lui Attributes
-            this.setAttributes(new ArrayList<LuiAttributeEntity>());
-            if (null != lui.getAttributes()) {
-                for (Attribute att : lui.getAttributes()) {
-                    this.getAttributes().add(new LuiAttributeEntity(att));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Lui Identifiers
+        this.setIdentifiers(new ArrayList<LuiIdentifierEntity>());
+        if (lui.getOfficialIdentifier() != null) {
+            this.getIdentifiers().add(new LuiIdentifierEntity(lui.getOfficialIdentifier()));
+        }
+        for (LuiIdentifier identifier : lui.getAlternateIdentifiers()) {
+            this.getIdentifiers().add(new LuiIdentifierEntity(identifier));
+        }
+        // Lui Attributes
+        this.setAttributes(new ArrayList<LuiAttributeEntity>());
+        for (Attribute att : lui.getAttributes()) {
+            this.getAttributes().add(new LuiAttributeEntity(att));
         }
     }
 
     public LuiInfo toDto() {
-        LuiInfo obj = new LuiInfo();
-        obj.setId(getId());
-        obj.setName(name);
-        obj.setAtpId(atpId);
-        obj.setCluId(cluId);
-
-        if (maxSeats != null)
-            obj.setMaximumEnrollment(maxSeats);
-        if (minSeats != null)
-            obj.setMinimumEnrollment(minSeats);
-        obj.setEffectiveDate(effectiveDate);
-        obj.setExpirationDate(expirationDate);
-        obj.setReferenceURL(referenceURL);
-        
-        if (luiType != null)
-            obj.setTypeKey(luiType);
-        if (luiState != null)
-            obj.setStateKey(luiState);
-        obj.setMeta(super.toDTO());
-        if (getDescrPlain() != null) {
-            RichTextInfo rti = new RichTextInfo();
-            rti.setPlain(getDescrPlain());
-            rti.setFormatted(getDescrFormatted());
-            obj.setDescr(rti);
-        }
+        LuiInfo info = new LuiInfo();
+        info.setId(getId());
+        info.setName(name);
+        info.setAtpId(atpId);
+        info.setCluId(cluId);
+        info.setMaximumEnrollment(maxSeats);
+        info.setMinimumEnrollment(minSeats);
+        info.setEffectiveDate(effectiveDate);
+        info.setExpirationDate(expirationDate);
+        info.setReferenceURL(referenceURL);
+        info.setTypeKey(luiType);
+        info.setStateKey(luiState);
+        info.setMeta(super.toDTO());;
+        info.setDescr(new RichTextHelper().toRichTextInfo(plain, formatted));
 
         // Identifiers
-        for (LuiIdentifierEntity identifier : identifiers) {
-            if (LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY.equals(identifier.getType())) {
-                obj.setOfficialIdentifier(identifier.toDto());
-            } else {
-                obj.getAlternateIdentifiers().add(identifier.toDto());
+        if (identifiers != null) {
+            for (LuiIdentifierEntity identifier : identifiers) {
+                if (LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY.equals(identifier.getType())) {
+                    info.setOfficialIdentifier(identifier.toDto());
+                } else {
+                    info.getAlternateIdentifiers().add(identifier.toDto());
+                }
             }
         }
-        
-     
-
-        // CluClu Relations
-        if (null != this.getCluCluReltns()) {
-            for (LuiCluCluRelationEntity luCluCluRelation : this.getCluCluReltns()) {
-                obj.getCluCluRelationIds().add(luCluCluRelation.getClucluRelationId());
-            }
-        }
-
-  
+                
         // Attributes
-        for (LuiAttributeEntity att : getAttributes()) {
-            obj.getAttributes().add(att.toDto());
+        if (getAttributes() != null) {
+            for (LuiAttributeEntity att : getAttributes()) {
+                info.getAttributes().add(att.toDto());
+            }
         }
-        
-        return obj;
+        return info;
     }
 
     public Integer getMaxSeats() {
@@ -302,12 +254,9 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     // public void setWaitlistMaximum(Integer waitlistMaximum) {
     // this.waitlistMaximum = waitlistMaximum;
     // }
-
-    @Override
     public void setAttributes(List<LuiAttributeEntity> attributes) {
         this.attributes = attributes;
     }
-
 
     public List<LuiIdentifierEntity> getIdentifiers() {
         return identifiers;
@@ -317,22 +266,9 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.identifiers = identifiers;
     }
 
-
-    @Override
     public List<LuiAttributeEntity> getAttributes() {
         return attributes;
     }
-
-
-    public List<LuiCluCluRelationEntity> getCluCluReltns() {
-        return cluCluReltns;
-    }
-
-    public void setCluCluReltns(List<LuiCluCluRelationEntity> cluCluReltns) {
-        this.cluCluReltns = cluCluReltns;
-    }
-
-
 
     public String getFormatted() {
         return formatted;
@@ -349,12 +285,8 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     public void setPlain(String plain) {
         this.plain = plain;
     }
-
-  
-
     /*
      * public List<LuiCluRelationEntity> getCluCluRelationIds() { return cluCluRelationIds; } public void
      * setCluCluRelationIds(List<LuiCluRelationEntity> cluCluRelationIds) { this.cluCluRelationIds = cluCluRelationIds; }
      */
-
 }
