@@ -67,9 +67,11 @@ public class TestAcademicCalendarServiceImpl {
     @Autowired
     @Qualifier("acalServiceAuthDecorator")
     private AcademicCalendarService acalService;
+
     @Autowired
     @Qualifier("atpServiceAuthorization")
     private AtpService atpService;
+
     public static String principalId = "123";
     public ContextInfo callContext = null;
 
@@ -323,7 +325,6 @@ public class TestAcademicCalendarServiceImpl {
         }
 
         List<TermInfo> terms = acalService.getTermsForAcademicCalendar("testAtpId1", callContext);
-
         assertEquals(2, terms.size());
     }
 
@@ -773,33 +774,7 @@ public class TestAcademicCalendarServiceImpl {
         } catch (DoesNotExistException e) {
             assertNull(nullStatus);
         }
-
     }
-//
-//    @Test
-//    public void testGetDataDictionaryEntryKeys() throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-//        List<String> results = acalService.getDataDictionaryEntryKeys(callContext);
-//
-//        assertNotNull(results);
-//        assertTrue(!results.isEmpty());
-//
-//        assertTrue(results.contains("http://student.kuali.org/wsdl/acal/AcademicCalendarInfo"));
-//    }
-//
-//    @Test
-//    public void testGetDataDictionaryEntry() throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-//        DictionaryEntryInfo value = acalService.getDataDictionaryEntry("http://student.kuali.org/wsdl/acal/AcademicCalendarInfo", callContext);
-//
-//        assertNotNull(value);
-//
-//        DictionaryEntryInfo fakeEntry = null;
-//        try {
-//            fakeEntry = acalService.getDataDictionaryEntry("fakeKey", callContext);
-//            fail("Did not get a DoesNotExistException when expected");
-//        } catch (DoesNotExistException e) {
-//            assertNull(fakeEntry);
-//        }
-//    }
 
     @Test
     public void testCreateKeyDate() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -842,7 +817,6 @@ public class TestAcademicCalendarServiceImpl {
             kdIds.add(kd.getId());
         }
         assertTrue(kdIds.contains(keyDateId));
-
     }
 
     @Test

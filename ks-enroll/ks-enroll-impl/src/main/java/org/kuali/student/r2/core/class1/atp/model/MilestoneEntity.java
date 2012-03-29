@@ -27,30 +27,42 @@ public class MilestoneEntity extends MetaEntity {
 
     @Column(name = "NAME")
     private String name;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "START_DT", nullable = false)
     private Date startDate;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "END_DT", nullable = true)
     private Date endDate;
+
     @Column(name = "MSTONE_TYPE", nullable = false)
     private String atpType;
+
     @Column(name = "MSTONE_STATE", nullable = false)
     private String atpState;
+
     @Column(name = "IS_ALL_DAY", nullable = false)
     private String isAllDay;
+
     @Column(name = "IS_INSTRCT_DAY", nullable = false)
     private String isInstructionalDay;
+
     @Column(name = "IS_DATE_RANGE", nullable = false)
     private String isDateRange;
+
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
+
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
     private String descrPlain;
+
     @Column(name = "IS_RELATIVE", nullable = false)
     private String isRelative;
+
     @Column(name = "RELATIVE_ANCHOR_MSTONE_ID")
     private String relativeAnchorMilestoneId;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<MilestoneAttributeEntity> attributes;
 
@@ -132,27 +144,27 @@ public class MilestoneEntity extends MetaEntity {
     }
 
     public boolean isAllDay() {
-        return this.toBoolean(isAllDay);
+        return toBoolean(isAllDay);
     }
 
     public void setAllDay(boolean isAllDay) {
-        this.isAllDay = this.toYN(isAllDay);
+        this.isAllDay = toYN(isAllDay);
     }
 
     public boolean isDateRange() {
-        return this.toBoolean(isDateRange);
+        return toBoolean(isDateRange);
     }
 
     public void setDateRange(boolean isDateRange) {
-        this.isDateRange = this.toYN(isDateRange);
+        this.isDateRange = toYN(isDateRange);
     }
 
     public boolean isRelative() {
-        return this.toBoolean(isRelative);
+        return toBoolean(isRelative);
     }
 
     public void setRelative(boolean relative) {
-        isRelative = this.toYN(relative);
+        isRelative = toYN(relative);
     }
 
     public String getRelativeAnchorMilestoneId() {
@@ -165,7 +177,6 @@ public class MilestoneEntity extends MetaEntity {
 
     public void setAttributes(List<MilestoneAttributeEntity> attributes) {
         this.attributes = attributes;
-
     }
 
     public List<MilestoneAttributeEntity> getAttributes() {
@@ -189,11 +200,11 @@ public class MilestoneEntity extends MetaEntity {
     }
 
     public boolean getIsInstructionalDay() {
-        return this.toBoolean(isInstructionalDay);
+        return toBoolean(isInstructionalDay);
     }
 
     public void setIsInstructionalDay(boolean isInstructionalDay) {
-        this.isInstructionalDay = this.toYN(isInstructionalDay);
+        this.isInstructionalDay = toYN(isInstructionalDay);
     }
     
 
