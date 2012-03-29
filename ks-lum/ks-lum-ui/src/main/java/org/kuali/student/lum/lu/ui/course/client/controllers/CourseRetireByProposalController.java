@@ -22,9 +22,11 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRetireByProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseRetireProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
@@ -51,13 +53,15 @@ public class CourseRetireByProposalController extends CourseProposalController {
 		cluProposalRpcServiceAsync = GWT.create(CreditCourseRetireProposalRpcService.class);   		
 		super.cfg = GWT.create(CourseRetireByProposalConfigurer.class);	
 		proposalPath = cfg.getProposalPath();
+		workflowUtil = new WorkflowUtilities(CourseRetireByProposalController.this, proposalPath, "Proposal Actions",
+   				CourseProposalConfigurer.CourseSections.WF_APPROVE_DIALOG,"", cfg.getModelId());//TODO make msg
    		cfg.setState(DtoConstants.STATE_DRAFT);   		
    		cfg.setNextState(DtoConstants.STATE_RETIRED);
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
    		super.addStyleName("ks-course-admin");  
    		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_RETIRE;	 
-   	    // setViewContext(getViewContext());  // do i need to do this here?
+
     }
 	
 	// Overriding this method to make things a little cleaner.

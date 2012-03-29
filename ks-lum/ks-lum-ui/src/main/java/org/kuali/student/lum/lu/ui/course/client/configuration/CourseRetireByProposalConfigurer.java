@@ -8,14 +8,21 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
+import org.kuali.student.core.comments.ui.client.widgets.decisiontool.DecisionPanel;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminRetireController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 
 
 /**
@@ -40,13 +47,6 @@ public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
         nextState = DtoConstants.STATE_RETIRED;
 
         groupName = LUUIConstants.COURSE_GROUP_NAME;
-
-        KSLabel courseStatusLabel = new KSLabel("");
-        if (layout.getCourseState() != null)
-            courseStatusLabel.setText(getLabel("courseStatusLabel") + ": " + layout.getCourseState());
-        else
-            courseStatusLabel.setText(getLabel("courseStatusLabel") + ": Unknown");
-        layout.addContentWidget(courseStatusLabel);
 
     	addCluStartSection(layout);
         String sections = getLabel(LUUIConstants.COURSE_SECTIONS);
@@ -76,6 +76,31 @@ public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
         summaryConfigurer.init(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
         layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
         
+        // Proposal Status
+        layout.addContentWidget(layout.getWfUtilities().getProposalStatusLabel());
+        
+        // Comment Tool
+        final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS, getLabel(LUUIConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks", "Proposal Comments");
+        commentTool.setController(layout);
+        
+        layout.addContentWidget(new KSButton("Comments", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+            
+            @Override
+            public void onClick(ClickEvent event) {
+                commentTool.show();
+            }
+        }));
+        
+        // Decision Tool
+        final DecisionPanel decisionPanel = new DecisionPanel(CourseSections.DECISIONS, getLabel(LUUIConstants.TOOL_DECISION_LABEL_KEY), "kuali.comment.type.generalRemarks");
+        layout.addView(decisionPanel);
+        layout.addContentWidget(new KSButton("Decisions", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+            	decisionPanel.show();
+            }
+        }));
 
     }
     
