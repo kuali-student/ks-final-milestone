@@ -64,6 +64,11 @@
 			<a-hint>java.util.HashMap</a-hint>
 			<b-hint>java.util.ArrayList</b-hint>
 		</field>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.DescToRichTextConverter">
+			<a>descr</a><!-- This is a String -->
+			<b get-method="getDescr" set-method="setDescr">descr</b><!-- This is a RichTextInfo -->
+		</field>
 	</mapping>
 
 	<!-- ks-common-api: org.kuali.student.r*.common.messages.dto mappings -->
