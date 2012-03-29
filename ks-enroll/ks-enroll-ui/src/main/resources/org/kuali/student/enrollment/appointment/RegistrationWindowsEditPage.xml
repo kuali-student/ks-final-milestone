@@ -109,7 +109,10 @@
                 </bean>
                 <bean parent="Uif-InputField"  p:label="Student Group"  p:propertyName="assignedPopulationName" p:required="true" p:style="font-weight:bold;">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" />
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.StudentGroupsFinder"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;" p:alternateDisplayPropertyName="startDateUI">
