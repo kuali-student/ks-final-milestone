@@ -3,13 +3,14 @@ package org.kuali.student.lum.program.server;
 import java.util.List;
 
 import org.kuali.student.lum.common.server.StatementUtil;
-import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
@@ -111,9 +112,8 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 		// higher than previous active program
 
 
-		List<VersionDisplayInfo> versions = null;
-		// TODO KSCM-393 versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
-		// TODO KSCM-393 versions selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(), ContextUtils.getContextInfo());
+	   	List<VersionDisplayInfo> versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI,
+    			selectedVersion.getVersion().getVersionIndId(), ContextUtils.getContextInfo());
 		Long startSeq = new Long(1);
 
 		if (!isSelectedVersionCurrent) {
@@ -146,9 +146,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 		String verIndId = coreProgramInfo.getVersion().getVersionIndId();
 
 		// Get id of current version of program given the version independent id
-		VersionDisplayInfo curVerDisplayInfo = null;
-		// TODO KSCM-393 curVerDisplayInfo = programService.getCurrentVersion(
-		// TODO KSCM-393 				ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
+		VersionDisplayInfo curVerDisplayInfo = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
@@ -202,8 +200,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
 
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
-        VersionDisplayInfo currentVersion = null;
-     // TODO KSCM-393 currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, coreProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
+    	VersionDisplayInfo currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, coreProgramInfo.getVersion().getVersionIndId(),ContextUtils.getContextInfo());
 
         // If this is not the current version, then make it current
         if (
