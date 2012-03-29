@@ -27,7 +27,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
  */
 public interface AppointmentViewHelperService extends ViewHelperService {
 
-    public RegistrationWindowsManagementForm searchForTerm(String name, String year)throws Exception;
+    public RegistrationWindowsManagementForm searchForTerm(String name, String year, RegistrationWindowsManagementForm form)throws Exception;
     public RegistrationWindowsManagementForm loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception;
 
 }

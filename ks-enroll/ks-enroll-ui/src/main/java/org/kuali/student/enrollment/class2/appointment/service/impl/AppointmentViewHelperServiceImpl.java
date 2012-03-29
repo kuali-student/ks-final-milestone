@@ -50,7 +50,7 @@ import java.util.List;
 public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl implements AppointmentViewHelperService {
 
     @Override
-    public RegistrationWindowsManagementForm searchForTerm(String typeKey, String year) throws Exception {
+    public RegistrationWindowsManagementForm searchForTerm(String typeKey, String year, RegistrationWindowsManagementForm form) throws Exception {
 
         //Parse the year to a date and the next year's date to compare against the startTerm
         DateFormat df = new SimpleDateFormat("yyyy");
@@ -86,10 +86,11 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         TermInfo term = terms.get(0);
 
         //Populate the result form
-        RegistrationWindowsManagementForm resultForm = new RegistrationWindowsManagementForm();
-        resultForm.setTermYear(df.format(term.getStartDate()));
-        resultForm.setTermType(term.getTypeKey());
-        resultForm.setTermInfo(term);
+//        RegistrationWindowsManagementForm resultForm = new RegistrationWindowsManagementForm();
+//        resultForm.setTermYear(df.format(term.getStartDate()));
+//        resultForm.setTermType(term.getTypeKey());
+//        resultForm.setTermInfo(term);
+        form.setTermInfo(term);
 
         //Get the milestones and filter out anything that is not registration period
         List<KeyDateInfo> keyDates = academicCalendarService.getKeyDatesForTerm(term.getId(), null);
@@ -100,15 +101,16 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                     periodMilestones.add(keyDate);
                 }
             }
-            resultForm.setPeriodMilestones(periodMilestones);
+//            resultForm.setPeriodMilestones(periodMilestones);
+            form.setPeriodMilestones(periodMilestones);
         }
 
         //Check if there are no periods (might want to handle this somewhere else and surface to the user)
-        if(resultForm.getPeriodMilestones()==null||resultForm.getPeriodMilestones().isEmpty()){
+        if(form.getPeriodMilestones()==null||form.getPeriodMilestones().isEmpty()){
             throw new Exception("No periods exist for term");//TODO what happens in this case
         }
         
-        return resultForm;
+        return form;
     }
 
     public RegistrationWindowsManagementForm loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {

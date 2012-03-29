@@ -74,7 +74,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         String termYear = searchForm.getTermYear();
 
         // resetForm(searchForm);
-        RegistrationWindowsManagementForm resultForm = getViewHelperService(searchForm).searchForTerm(termType, termYear);
+        RegistrationWindowsManagementForm resultForm = getViewHelperService(searchForm).searchForTerm(termType, termYear, searchForm);
         return getUIFModelAndView(resultForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
     }
 
