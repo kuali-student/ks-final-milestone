@@ -79,8 +79,6 @@ public class CourseRetireByProposalController extends CourseProposalController {
 	protected void createRetireCluProposalModel(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         Data data = new Data();
         cluProposalModel.setRoot(data);        
-        
-     //   this.currentDocType = getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
        
         Data proposalData = new Data();
         proposalData.set(new Data.StringKey("type"), LUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
