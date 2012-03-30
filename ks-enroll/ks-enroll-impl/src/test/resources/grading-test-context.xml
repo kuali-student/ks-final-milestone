@@ -154,8 +154,11 @@
 
     <bean id="lrrService" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
         <property name="lrrDao" ref="lrrDao"/>
+        <property name="resultSourceDao" ref="resultSourceDao"/>
     </bean>
+
     <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao"/>
+    <bean id="resultSourceDao" class="org.kuali.student.enrollment.class1.lrr.dao.ResultSourceDao"/>
 
     <bean id="lrcService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
         <property name="resultValueDao" ref="resultValueDao"/>

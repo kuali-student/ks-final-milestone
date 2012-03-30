@@ -35,7 +35,6 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
 
     private LrrDao lrrDao;
     private ResultSourceDao resultSourceDao;
-    private StateService stateService;
 
     @Override
     public LearningResultRecordInfo getLearningResultRecord(
@@ -134,28 +133,6 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         return lrrDao.find(modifiedLrr.getId()).toDto();
     }
 
-    /*private StateEntity findState(String stateKey, ContextInfo context) throws InvalidParameterException,
-    		MissingParameterException, OperationFailedException, PermissionDeniedException{
-    	StateEntity state = null;
-    	try {
-    		StateInfo stInfo = getState(stateKey, context);
-    		if(stInfo != null){
-    			state = new StateEntity(stInfo);
-    			return state;
-    		}
-    		else
-    			throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
-    	} catch (DoesNotExistException e) {
-    		throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
-    	}
-    }*/
-
-    private StateInfo getState(String stateKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        StateInfo stateInfo = stateService.getState(stateKey, context);
-        return stateInfo;
-    }
-
     @Override
     @Transactional(readOnly = false)
     public StatusInfo deleteLearningResultRecord(
@@ -251,14 +228,6 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
 
     public void setLrrDao(LrrDao lrrDao) {
         this.lrrDao = lrrDao;
-    }
-
-    public StateService getStateService() {
-        return stateService;
-    }
-
-    public void setStateService(StateService stateService) {
-        this.stateService = stateService;
     }
 
     public ResultSourceDao getResultSourceDao() {
