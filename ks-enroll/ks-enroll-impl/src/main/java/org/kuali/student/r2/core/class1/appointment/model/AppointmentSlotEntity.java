@@ -75,24 +75,7 @@ public class AppointmentSlotEntity extends MetaEntity {
     public AppointmentSlotEntity(AppointmentSlot apptSlot) {
         super(apptSlot);
         this.setId(apptSlot.getId()); // obj_id set separately via inheritance, id needs to explicitly set...(why?)
-        // AppointmentSlot specific fields set below
-        this.setStartDate(apptSlot.getStartDate());
-        this.setEndDate(apptSlot.getEndDate());
-        // Type/state are in every entity though, in this case, named to AppointmentSlot
-        this.setApptSlotType(apptSlot.getTypeKey());
-        this.setApptSlotState(apptSlot.getStateKey());
-        // Add attributes individually
-        this.setAttributes(new ArrayList<AppointmentSlotAttributeEntity>());
-        if (null != apptSlot.getAttributes()) {
-            for (Attribute att : apptSlot.getAttributes()) {
-                this.getAttributes().add(new AppointmentSlotAttributeEntity(att, this));
-            }
-        }
-        // Note: apptWinEntity can't be set from apptSlot which only contains the
-        // id (which is a string) for AppointmentWindow.  When constructing an AppointmentSlotEntity
-        // in AssignmentServiceImpl, one needs to use the appointmentWindowDao to "find" (call the find
-        // method) to get the AppointmentWindowEntity and call setApptWinEntity to set the value
-        // separately
+        this.fromDto(apptSlot);
     }
 
     public AppointmentWindowEntity getApptWinEntity() {
@@ -142,6 +125,28 @@ public class AppointmentSlotEntity extends MetaEntity {
     public List<AppointmentSlotAttributeEntity> getAttributes() {
         return attributes;
     }
+
+    public void fromDto(AppointmentSlot apptSlot) {
+        // AppointmentSlot specific fields set below
+        this.setStartDate(apptSlot.getStartDate());
+        this.setEndDate(apptSlot.getEndDate());
+        // Type/state are in every entity though, in this case, named to AppointmentSlot
+        this.setApptSlotType(apptSlot.getTypeKey());
+        this.setApptSlotState(apptSlot.getStateKey());
+        // Add attributes individually
+        this.setAttributes(new ArrayList<AppointmentSlotAttributeEntity>());
+        if (null != apptSlot.getAttributes()) {
+            for (Attribute att : apptSlot.getAttributes()) {
+                this.getAttributes().add(new AppointmentSlotAttributeEntity(att, this));
+            }
+        }
+        // Note: apptWinEntity can't be set from apptSlot which only contains the
+        // id (which is a string) for AppointmentWindow.  When constructing an AppointmentSlotEntity
+        // in AssignmentServiceImpl, one needs to use the appointmentWindowDao to "find" (call the find
+        // method) to get the AppointmentWindowEntity and call setApptWinEntity to set the value
+        // separately
+    }
+
     // Converts AppoinmentSlotEntity to AppointmentSlotInfo
     public AppointmentSlotInfo toDto() {
         AppointmentSlotInfo slotInfo = new AppointmentSlotInfo();

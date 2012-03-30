@@ -208,12 +208,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     @Transactional
     public AppointmentWindowInfo updateAppointmentWindow(String appointmentWindowId, AppointmentWindowInfo appointmentWindowInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        AppointmentWindowEntity apptWin = appointmentWindowDao.find(appointmentWindowId);
-
-        if (null != apptWin) {
-            AppointmentWindowEntity modifiedApptWin = new AppointmentWindowEntity(appointmentWindowInfo);
-            appointmentWindowDao.merge(modifiedApptWin);
-            return appointmentWindowDao.find(modifiedApptWin.getId()).toDto();
+        AppointmentWindowEntity appointmentWindowEntity = appointmentWindowDao.find(appointmentWindowId);
+        if (null != appointmentWindowEntity) {
+            appointmentWindowEntity.fromDto(appointmentWindowInfo);
+            appointmentWindowEntity.setUpdateId(contextInfo.getPrincipalId());
+            appointmentWindowEntity.setUpdateTime(contextInfo.getCurrentDate());
+            appointmentWindowDao.merge(appointmentWindowEntity);
+            return appointmentWindowDao.find(appointmentWindowEntity.getId()).toDto();
         } else {
             throw new DoesNotExistException(appointmentWindowId);
         }
@@ -274,6 +275,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentSlotInfo createAppointmentSlot(String appointmentWindowId, String appointmentSlotTypeKey, AppointmentSlotInfo appointmentSlotInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         appointmentSlotInfo.setTypeKey(appointmentSlotTypeKey);
         AppointmentSlotEntity apptSlot = new AppointmentSlotEntity(appointmentSlotInfo);
+        apptSlot.fromDto(appointmentSlotInfo);
         // Need to manually set the entity since appointmentSlotInfo only has an id for its corresponding AppointmentWindow
         AppointmentWindowEntity windowEntity = appointmentWindowDao.find(appointmentWindowId);
         if(null == windowEntity) {
@@ -314,20 +316,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public AppointmentSlotInfo updateAppointmentSlot(String appointmentSlotId, AppointmentSlotInfo appointmentSlotInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        AppointmentSlotEntity apptSlot = appointmentSlotDao.find(appointmentSlotId);
-
-        if (null != apptSlot) {
-            String apptWinId = apptSlot.getApptWinEntity().getId();
-            AppointmentWindowEntity apptWin = appointmentWindowDao.find(apptWinId);
-            if (null != apptWin) {
-                AppointmentSlotEntity modifiedApptSlot = new AppointmentSlotEntity(appointmentSlotInfo);
+        AppointmentSlotEntity appointmentSlotEntity = appointmentSlotDao.find(appointmentSlotId);
+        if (null != appointmentSlotEntity) {
+            String apptWinId = appointmentSlotEntity.getApptWinEntity().getId();
+            AppointmentWindowEntity appointmentWindowEntity = appointmentWindowDao.find(apptWinId);
+            if (null != appointmentWindowEntity) {
+                appointmentSlotEntity.fromDto(appointmentSlotInfo);
+                appointmentSlotEntity.setUpdateId(contextInfo.getPrincipalId());
+                appointmentSlotEntity.setUpdateTime(contextInfo.getCurrentDate());
                 // Need to manually set appointment window entity (without it, an exception is thrown)
-                modifiedApptSlot.setApptWinEntity(apptWin);
-                appointmentSlotDao.merge(modifiedApptSlot);
-                return appointmentSlotDao.find(modifiedApptSlot.getId()).toDto();
+                appointmentSlotEntity.setApptWinEntity(appointmentWindowEntity);
+                appointmentSlotDao.merge(appointmentSlotEntity);
+                return appointmentSlotDao.find(appointmentSlotEntity.getId()).toDto();
             } else {
                 // Prefixing this since this refers to an appointment window
-                throw new DoesNotExistException("apptWinId:" + apptWinId);
+                throw new DoesNotExistException("appointmentWindowEntity:" + apptWinId);
             }
         } else {
             throw new DoesNotExistException(appointmentSlotId);
