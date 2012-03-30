@@ -1000,7 +1000,6 @@ public class TestAcademicCalendarServiceImpl {
             AcalEventInfo acalEventInfo = acalEventInfos.get(0);
             assertEquals("testId2", acalEventInfo.getId());
             assertEquals("testId2", acalEventInfo.getName());
-
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -1012,11 +1011,11 @@ public class TestAcademicCalendarServiceImpl {
         Predicate endPredicate = PredicateFactory.lessThanOrEqual("endDate", new Timestamp(calendar.getTime().getTime()));
         qbcBuilder.setPredicates(startPredicate, endPredicate);
         qbc = qbcBuilder.build();
+
         try {
             List<AcalEventInfo> acalEventInfos = acalService.searchForAcalEvents(qbc, callContext);
             assertNotNull(acalEventInfos);
-            assertEquals(4, acalEventInfos.size());
-
+            assertEquals(2, acalEventInfos.size());
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -1028,6 +1027,7 @@ public class TestAcademicCalendarServiceImpl {
         //qbcBuilder.setPredicates(PredicateFactory.equal("isAllDay", "0"));
         qbcBuilder.setPredicates(PredicateFactory.equal("holidayName", "testId2"));
         QueryByCriteria qbc = qbcBuilder.build();
+
         try {
             List<HolidayInfo> holidayInfos = acalService.searchForHolidays(qbc, callContext);
             assertNotNull(holidayInfos);
@@ -1047,15 +1047,14 @@ public class TestAcademicCalendarServiceImpl {
         Predicate endPredicate = PredicateFactory.lessThanOrEqual("endDate", new Timestamp(calendar.getTime().getTime()));
         qbcBuilder.setPredicates(startPredicate, endPredicate);
         qbc = qbcBuilder.build();
+
         try {
             List<HolidayInfo> holidayInfos = acalService.searchForHolidays(qbc, callContext);
             assertNotNull(holidayInfos);
-            assertEquals(4, holidayInfos.size());
-
+            assertEquals(2, holidayInfos.size());
         } catch (Exception e) {
             fail(e.getMessage());
         }
-
     }
 
     @Test

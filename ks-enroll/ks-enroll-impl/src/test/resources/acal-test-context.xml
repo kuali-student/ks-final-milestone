@@ -125,12 +125,12 @@
     <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
     <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
-    
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl"/>
+
     <bean id="atpServiceAuthorization" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceAuthorizationDecorator">
         <property name="nextDecorator" ref="atpServiceValidation" />
         <property name="permissionService" ref="permissionService" />
     </bean>
-
 
     <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
         <property name="nextDecorator" ref="atpServiceCalculationDecorator" />
@@ -175,19 +175,5 @@
         <property name="em" ref="entityManager" />
     </bean>
 
-    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
-        <property name="stateDao" ref="stateDao" />
-        <property name="lifecycleDao" ref="lifecycleDao" />
-    </bean>
-
-    <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-
-    <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
-
 </beans>

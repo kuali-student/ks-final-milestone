@@ -14,7 +14,7 @@ public class AcalEventAssembler  implements DTOAssembler<AcalEventInfo, Mileston
     @Override
     public AcalEventInfo assemble(MilestoneInfo milestoneInfo, ContextInfo context) throws AssemblyException {
         
-        if (milestoneInfo == null){
+        if (milestoneInfo == null) {
             return null;
         }
 
@@ -40,7 +40,7 @@ public class AcalEventAssembler  implements DTOAssembler<AcalEventInfo, Mileston
     @Override
     public MilestoneInfo disassemble(AcalEventInfo acalEventInfo, ContextInfo context) throws AssemblyException {
         
-        if (acalEventInfo == null){
+        if (acalEventInfo == null) {
             return null;
         }
 
