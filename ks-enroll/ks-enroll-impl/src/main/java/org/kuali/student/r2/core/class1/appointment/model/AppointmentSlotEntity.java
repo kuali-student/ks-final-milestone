@@ -16,7 +16,6 @@
  */
 package org.kuali.student.r2.core.class1.appointment.model;
 
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
@@ -164,12 +163,9 @@ public class AppointmentSlotEntity extends MetaEntity {
         slotInfo.setTypeKey(getApptSlotType()); // type is assumed not null
         slotInfo.setStateKey(getApptSlotState()); // state is assumed not null
         slotInfo.setMeta(super.toDTO());
-        List<AttributeInfo> attrs = new ArrayList<AttributeInfo>();
         for (AppointmentSlotAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            attrs.add(attInfo);
+            slotInfo.getAttributes().add(att.toDto());
         }
-        slotInfo.setAttributes(attrs);
         return slotInfo;
     }
 }
