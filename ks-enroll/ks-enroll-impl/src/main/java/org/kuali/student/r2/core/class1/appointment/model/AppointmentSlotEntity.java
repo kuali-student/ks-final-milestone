@@ -29,6 +29,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,9 +50,11 @@ public class AppointmentSlotEntity extends MetaEntity {
     @JoinColumn(name = "APPT_WINDOW_ID")
     private AppointmentWindowEntity apptWinEntity;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "START_DT")
     private Date startDate;  // When registration starts (for individual) month/day/year
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "END_DT")
     private Date endDate;    // When registration ends (for individual) month/day/year
 

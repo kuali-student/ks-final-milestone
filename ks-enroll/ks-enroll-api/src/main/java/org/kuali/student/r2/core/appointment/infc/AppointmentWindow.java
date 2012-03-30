@@ -57,7 +57,6 @@ public interface AppointmentWindow extends IdEntity {
      *
      * @impl This milestone may be mapped to an ATP ("FALL2013")
      * @name Period Milestone Id
-     * @readOnly
      * @required
      */
     public String getPeriodMilestoneId();
@@ -66,7 +65,6 @@ public interface AppointmentWindow extends IdEntity {
      * The Population Id to which the appointment window is assigned.
      *
      * @name Assigned Population Id
-     * @readOnly
      * @required
      */
     public String getAssignedPopulationId();
@@ -75,7 +73,6 @@ public interface AppointmentWindow extends IdEntity {
      * Ordering for appointment slots assignment ("random"/"last name"/"GPA")
      *
      * @name Assigned Order Type Key
-     * @readOnly
      * @required
      */
     public String getAssignedOrderTypeKey();

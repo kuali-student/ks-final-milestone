@@ -16,7 +16,6 @@
  */
 package org.kuali.student.r2.core.class1.appointment.service.impl;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.util.UUIDHelper;
@@ -58,6 +57,8 @@ public class TestAppointmentServiceImpl {
     @Resource
     private AppointmentService appointmentService;
     // ------------------------------------
+    private static final int SLOT_RULE_START_OF_DAY = 9;
+    private static final int SLOT_RULE_END_OF_DAY = 17;
     private ContextInfo contextInfo;
     private AppointmentWindowInfo apptWindowInfo;
     private AppointmentSlotRuleInfo rule; // not a resource
@@ -137,9 +138,9 @@ public class TestAppointmentServiceImpl {
         weekdays.add(4);
         weekdays.add(6);
         rule.setWeekdays(weekdays);
-        TimeOfDayInfo startInfo = makeTimeOfDayInfo(9);
+        TimeOfDayInfo startInfo = makeTimeOfDayInfo(SLOT_RULE_START_OF_DAY);
         startInMillis = startInfo.getMilliSeconds();
-        TimeOfDayInfo endInfo = makeTimeOfDayInfo(17); // 5pm
+        TimeOfDayInfo endInfo = makeTimeOfDayInfo(SLOT_RULE_END_OF_DAY); // 5pm
         endInMillis = endInfo.getMilliSeconds();
         rule.setStartTimeOfDay(startInfo);
         rule.setEndTimeOfDay(endInfo);
@@ -303,8 +304,8 @@ public class TestAppointmentServiceImpl {
             Long retrievedMillis = retrieved.getSlotRule().getStartTimeOfDay().getMilliSeconds();
             assertEquals(startInMillis, retrievedMillis);
             // Then, update the startInMillis (rule is already inside apptWindowInfo
-            rule.setStartTimeOfDay(makeTimeOfDayInfo(10)); // set to 10 AM
-            Long newStartInMillis = computeHoursInMillis(10);
+            rule.setStartTimeOfDay(makeTimeOfDayInfo(SLOT_RULE_START_OF_DAY));
+            Long newStartInMillis = computeHoursInMillis(SLOT_RULE_START_OF_DAY);
             appointmentService.updateAppointmentWindow(id, apptWindowInfo, contextInfo);
             // Now retrieve it again
             retrieved = appointmentService.getAppointmentWindow(id, contextInfo);

@@ -16,7 +16,7 @@
  */
 package org.kuali.student.r2.core.class1.appointment.model;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
 import org.kuali.student.r2.common.infc.Attribute;
 
 import javax.persistence.Entity;
@@ -31,7 +31,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "KSEN_APPT_SLOT_WINDOW_ATTR")
-public class AppointmentWindowAttributeEntity extends BaseAttributeEntity<AppointmentWindowEntity> {
+public class AppointmentWindowAttributeEntity  extends BaseAttributeEntityNew<AppointmentWindowEntity>{
 
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
@@ -49,13 +49,11 @@ public class AppointmentWindowAttributeEntity extends BaseAttributeEntity<Appoin
         setOwner(owner);
     }
 
-    @Override
     public void setOwner(AppointmentWindowEntity owner) {
         this.owner = owner;
 
     }
 
-    @Override
     public AppointmentWindowEntity getOwner() {
         return owner;
     }
