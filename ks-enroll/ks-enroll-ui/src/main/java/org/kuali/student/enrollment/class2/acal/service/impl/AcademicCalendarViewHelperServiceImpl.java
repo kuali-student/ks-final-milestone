@@ -1099,12 +1099,13 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     public ContextInfo getContextInfo() {
         if (null == contextInfo) {
-            ContextInfo ctx = new ContextInfo();
-            ctx.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            ctx.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+            contextInfo = new ContextInfo();
+            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
             LocaleInfo localeInfo = new LocaleInfo();
             localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
             localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
+            contextInfo.setLocale(localeInfo);
         }
         return contextInfo;
     }
