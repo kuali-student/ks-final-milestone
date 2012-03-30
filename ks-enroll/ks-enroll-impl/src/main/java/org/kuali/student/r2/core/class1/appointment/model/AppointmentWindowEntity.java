@@ -360,7 +360,7 @@ public class AppointmentWindowEntity extends MetaEntity {
         appointmentSlotRuleInfo.setWeekdays(weekdays);
         appointmentSlotRuleInfo.setStartTimeOfDay(convertToTimeOfDayInfo(getStartTime()));
         appointmentSlotRuleInfo.setEndTimeOfDay(convertToTimeOfDayInfo(getEndTime()));
-        appointmentSlotRuleInfo.setSlotStartInterval(convertToTimeAmountInfo (getStartIntervalDurationType(), "" + getStartIntervalTimeQuantity()));
+        appointmentSlotRuleInfo.setSlotStartInterval(convertToTimeAmountInfo(getStartIntervalDurationType(), "" + getStartIntervalTimeQuantity()));
         appointmentSlotRuleInfo.setSlotDuration(convertToTimeAmountInfo(getDurationType(), "" + getDurationTimeQuantity()));
         info.setPeriodMilestoneId(getPeriodMilestoneId());
         info.setAssignedPopulationId(getAssignedPopulationId());
@@ -369,10 +369,8 @@ public class AppointmentWindowEntity extends MetaEntity {
         // -------------------------------------------------
         // Stuff that is updated for nearly all entities
         info.setId(getId());
-            info.setTypeKey(apptWindowType);
-
-            info.setStateKey(apptWindowState);
-
+        info.setTypeKey(apptWindowType);
+        info.setStateKey(apptWindowState);
         info.setMeta(super.toDTO());
         if (getDescrPlain() != null) { // assume if this is not null, formatted also not null
             RichTextInfo textInfo = new RichTextInfo();
