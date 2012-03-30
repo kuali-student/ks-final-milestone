@@ -30,9 +30,7 @@ import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -54,8 +52,6 @@ import java.util.*;
 @Controller
 @RequestMapping(value = "/holidayCalendar")
 public class HolidayCalendarController extends UifControllerBase {
-
-    private ContextInfo contextInfo;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
@@ -352,12 +348,6 @@ public class HolidayCalendarController extends UifControllerBase {
 
         if(isValidHolidayCalendar(hcForm.getHolidayCalendarInfo())){
 
-//            getHolidayCalendarFormHelper(hcForm).validateHolidays(hcForm.getHolidays(),getContextInfo());
-
-            if (GlobalVariables.getMessageMap().getErrorCount() > 0){
-                 return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
-            }
-
             getHolidayCalendarFormHelper(hcForm).saveHolidayCalendar(hcForm);
 
             HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
@@ -381,7 +371,7 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
     private boolean isValidHolidayCalendar(HolidayCalendarInfo hc)throws Exception {
-        boolean valid = true;
+        boolean valid = CommonUtils.isValidDateRange(hc.getStartDate(),hc.getEndDate());
         Date startDate = hc.getStartDate();
         Date endDate = hc.getEndDate();
 
@@ -484,11 +474,4 @@ public class HolidayCalendarController extends UifControllerBase {
         }
     }
 
-    private ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            //TODO - get real ContextInfo
-            contextInfo = TestHelper.getContext1();
-        }
-        return contextInfo;
-    }
 }

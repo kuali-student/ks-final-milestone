@@ -67,6 +67,8 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public AcademicCalendarService getAcalService();
 
+    public ContextInfo getContextInfo();
+
 //    public void validateEvents(List<AcalEventWrapper> events, ContextInfo context) throws Exception;
 //
 //    public void validateHolidays(List<HolidayWrapper> holidayWrappers, ContextInfo context) throws Exception;

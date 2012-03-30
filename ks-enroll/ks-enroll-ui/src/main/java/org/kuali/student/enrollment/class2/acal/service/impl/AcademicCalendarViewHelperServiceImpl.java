@@ -42,6 +42,7 @@ import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelp
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
@@ -1096,10 +1097,14 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         return this.typeService;
     }
 
-    private ContextInfo getContextInfo() {
+    public ContextInfo getContextInfo() {
         if (null == contextInfo) {
-            //TODO - get real ContextInfo
-            contextInfo = TestHelper.getContext1();
+            ContextInfo ctx = new ContextInfo();
+            ctx.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+            ctx.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+            LocaleInfo localeInfo = new LocaleInfo();
+            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
+            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
         }
         return contextInfo;
     }
