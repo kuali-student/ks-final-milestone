@@ -136,6 +136,7 @@ public class AtpEntity extends MetaEntity {
     public AtpInfo toDto() {
         AtpInfo atp = new AtpInfo();
         atp.setId(getId());
+        atp.setCode(atpCode);
         atp.setName(name);
         atp.setStartDate(startDate);
         atp.setEndDate(endDate);

@@ -61,6 +61,7 @@ public class TestAtpServiceJpaPersistenceImpl {
             AlreadyExistsException {
         // test atp create
         AtpInfo origA = new AtpInfo();
+        origA.setCode("CodeA");
         origA.setName("new Atp");
         origA.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         origA.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
@@ -77,6 +78,7 @@ public class TestAtpServiceJpaPersistenceImpl {
         assertEquals(origA.getTypeKey(), resultA.getTypeKey());
         assertEquals(origA.getStateKey(), resultA.getStateKey());
         assertEquals(origA.getName(), resultA.getName());
+        assertEquals(origA.getCode(), resultA.getCode());
         assertEquals(origA.getDescr().getPlain(), resultA.getDescr().getPlain());
         assertEquals(origA.getStartDate(), resultA.getStartDate());
         assertEquals(origA.getEndDate(), resultA.getEndDate());
@@ -99,6 +101,7 @@ public class TestAtpServiceJpaPersistenceImpl {
         assertEquals(origA.getTypeKey(), resultA.getTypeKey());
         assertEquals(origA.getStateKey(), resultA.getStateKey());
         assertEquals(origA.getName(), resultA.getName());
+        assertEquals(origA.getCode(), resultA.getCode());
         assertEquals(origA.getDescr().getPlain(), resultA.getDescr().getPlain());
         assertEquals(origA.getStartDate(), resultA.getStartDate());
         assertEquals(origA.getEndDate(), resultA.getEndDate());
@@ -124,6 +127,7 @@ public class TestAtpServiceJpaPersistenceImpl {
         assertEquals(origA.getTypeKey(), resultA.getTypeKey());
         assertEquals(origA.getStateKey(), resultA.getStateKey());
         assertEquals(origA.getName(), resultA.getName());
+        assertEquals(origA.getCode(), resultA.getCode());
         assertEquals(origA.getDescr().getPlain(), resultA.getDescr().getPlain());
         assertEquals(origA.getStartDate(), resultA.getStartDate());
         assertEquals(origA.getEndDate(), resultA.getEndDate());
