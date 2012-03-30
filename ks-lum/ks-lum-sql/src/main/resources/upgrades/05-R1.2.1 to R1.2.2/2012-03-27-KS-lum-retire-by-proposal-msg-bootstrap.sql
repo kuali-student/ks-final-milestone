@@ -1,10 +1,14 @@
 -- KSLAB 2583 Retire By Proposal Labels
 -- retireCourseProposalTitle
 INSERT INTO KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE, OBJ_ID, VER_NBR) 
-VALUES ('02989C6474164E06BC107884E4F765B1', 'retireCourseProposalTitle', 'en', 'course', 'Proposal Title', 'A28465B4BDF847BE9206367C58011DFB', 1)
+VALUES ('644E21680A474D5BA3E829514EB91BDD', 'courseProposedProposalTitle', 'en', 'course', 'Proposal Title', 'AF6D3266E1004ACC90AA44F1D08E97F0', 1) 
 /
 INSERT INTO KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE, OBJ_ID, VER_NBR) 
-VALUES ('5FD4DD432FEB4062874F05F86BF140A5', 'retireCourseProposalTitle-instruct', 'en', 'course', 'This title is used for identifying the proposal through the approval process.', '0BCF63A9063D4A8D948F52D06C1C7684', 1)
+VALUES ('37B066108559462F8580112E7165F111', 'courseProposedProposalTitle-instruct', 'en', 'course', 'This title is used for identifying the proposal through the approval process.', '723107AC3E54436A82AEF4775DDBD79D', 1)
+/
+-- courseProposedRetireInformation - Summary Section Label KSCM-977 KSCM-1744
+INSERT INTO KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE, OBJ_ID, VER_NBR) 
+VALUES ('83079F0F61B3490F98F9FA327CA36FB8', 'courseProposedRetireInformation', 'en', 'course', 'Retire Proposal Information', '98B2750755234ADFB7A5BDA611D613FD', 1)
 /
 -- courseProposedEndTerm
 INSERT INTO KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE, OBJ_ID, VER_NBR) 

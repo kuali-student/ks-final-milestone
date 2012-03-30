@@ -34,6 +34,7 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavCont
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer.EditHandler;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -82,7 +83,7 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
     public VerticalSectionView generateProposalSummarySection(boolean canEditSections) {
         tableSection.setEditable(canEditSections);
         tableSection.addSummaryTableFieldBlock(generateRetirementInfoSection());
-//        tableSection.addSummaryTableFieldBlock(generateCollaboratorSection());        
+        tableSection.addSummaryTableFieldBlock(generateCollaboratorSection());        
         tableSection.addSummaryTableFieldBlock(generateProposalDocumentsSection());
 
         if (   controller instanceof WorkflowEnhancedNavController
@@ -318,19 +319,33 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
     public SummaryTableFieldBlock generateRetirementInfoSection() {
         SummaryTableFieldBlock block = new SummaryTableFieldBlock();
         block.addEditingHandler(new EditHandler(CourseSections.COURSE_INFO));
+        block.setTitle(getLabel(LUUIConstants.PROPOSED_RETIRE_INFORMATION_LABEL_KEY));
         block.addSummaryTableFieldRow(getFieldRow(PROPOSAL_TITLE_PATH,
-                generateMessageInfo(LUUIConstants.PROPOSAL_TITLE_LABEL_KEY)));
-        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + RETIREMENT_RATIONALE,
+                generateMessageInfo(LUUIConstants.PROPOSED_PROPOSAL_TITLE_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(PROPOSAL + "/" + PROPOSED_RETIREMENT_RATIONALE,
                 generateMessageInfo(LUUIConstants.RETIREMENT_RATIONALE_LABEL_KEY)));
-        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + START_TERM, 
+        block.addSummaryTableFieldRow(getFieldRow(PROPOSAL + "/" + START_TERM, 
         		generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY)));
-        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + END_TERM,
-                generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY)));
-//        block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + OTHER_COMMENTS,
-//                generateMessageInfo(LUUIConstants.OTHER_COMMENTS_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(PROPOSAL + "/" + PROPOSED_END_TERM,
+                generateMessageInfo(LUUIConstants.PROPOSED_END_TERM_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(PROPOSAL + "/" + PROPOSED_LAST_TERM_OFFERED,
+                generateMessageInfo(LUUIConstants.PROPOSED_LAST_TERM_OFFERED_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(PROPOSAL + "/" + PROPOSED_LAST_COURSE_CATALOG_YEAR,
+                generateMessageInfo(LUUIConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR_LABEL_KEY)));
+        block.addSummaryTableFieldRow(getFieldRow(PROPOSAL + "/" + OTHER_COMMENTS,
+                generateMessageInfo(LUUIConstants.OTHER_COMMENTS_LABEL_KEY)));
 
         return block;
     }
+    
+    public SummaryTableFieldBlock generateCollaboratorSection() {
+        SummaryTableFieldBlock block = new SummaryTableFieldBlock();
+        block.addEditingHandler(new EditHandler(CourseSections.PEOPLE_PERMISSONS));
+        block.setTitle(getLabel(LUUIConstants.COLLABORATORS_LABEL_KEY));
+
+        return block;
+    }
+    
 
     
     protected VerticalSection generateReferenceDataSection() {
