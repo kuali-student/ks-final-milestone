@@ -371,7 +371,7 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
     private boolean isValidHolidayCalendar(HolidayCalendarInfo hc)throws Exception {
-        boolean valid = CommonUtils.isValidDateRange(hc.getStartDate(),hc.getEndDate());
+        boolean valid = true; //CommonUtils.isValidDateRange(hc.getStartDate(),hc.getEndDate());
         Date startDate = hc.getStartDate();
         Date endDate = hc.getEndDate();
 
