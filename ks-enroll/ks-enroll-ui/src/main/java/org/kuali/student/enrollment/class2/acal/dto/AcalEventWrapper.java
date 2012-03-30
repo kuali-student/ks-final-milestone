@@ -20,29 +20,12 @@ public class AcalEventWrapper extends TimeSetWrapper{
     public AcalEventWrapper(AcalEventInfo acalEventInfo){
         this.setAcalEventInfo(acalEventInfo);
         this.setStartDate(acalEventInfo.getStartDate());
+        this.setEndDate(acalEventInfo.getEndDate());
         this.setAllDay(acalEventInfo.getIsAllDay());
         this.setDateRange(acalEventInfo.getIsDateRange());
         this.setEventTypeKey(acalEventInfo.getTypeKey());
-        this.setEndDate(acalEventInfo.getEndDate());
 
-        //This is needed to display enddate for readonly view.
-        endDateUI = acalEventInfo.getEndDate();
-
-        // If not all day, set start/end time in the wrapper
-        if (!isAllDay()){
-            DateFormat dfm = new SimpleDateFormat("hh:mm");
-
-            setStartTime(dfm.format(acalEventInfo.getStartDate()));
-            setEndTime(dfm.format(acalEventInfo.getEndDate()));
-
-            dfm = new SimpleDateFormat("a");
-            setStartTimeAmPm(dfm.format(acalEventInfo.getStartDate()));
-            setEndTimeAmPm(dfm.format(acalEventInfo.getEndDate()));
-
-            if (!isDateRange()) {
-                setEndDate(null);
-            }
-        }
+        buildDateAndTime();
 
     }
 

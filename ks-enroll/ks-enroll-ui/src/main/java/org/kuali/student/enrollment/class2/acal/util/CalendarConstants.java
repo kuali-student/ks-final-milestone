@@ -64,4 +64,6 @@ public class CalendarConstants {
 
     public static final String KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD = "kuali.milestone.type.group.keydate";
     public static final String KEY_DATE_GROUP_TYPE_CURRICULUM = "kuali.milestone.type.group.curriculum";
+
+    public static final String DEFAULT_END_TIME = "11:59";
 }

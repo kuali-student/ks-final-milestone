@@ -43,7 +43,6 @@ import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
@@ -123,22 +122,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             holidayInfo.setStartDate(holidayWrapper.getStartDate());
             holidayInfo.setEndDate(holidayWrapper.getEndDate());
             holidayInfo.setName(holidayWrapper.getTypeName());
-
-            if (!holidayWrapper.isAllDay()){
-                holidayInfo.setStartDate(updateTime(holidayWrapper.getStartDate(),holidayWrapper.getStartTime(),holidayWrapper.getStartTimeAmPm()));
-                if (holidayWrapper.isDateRange()){
-                    holidayInfo.setEndDate(updateTime(holidayWrapper.getEndDate(),holidayWrapper.getEndTime(),holidayWrapper.getEndTimeAmPm()));
-                } else {
-                    holidayInfo.setEndDate(updateTime(holidayWrapper.getStartDate(),holidayWrapper.getEndTime(),holidayWrapper.getEndTimeAmPm()));
-                }
-            }else{
-                holidayInfo.setStartDate(updateTime(holidayWrapper.getStartDate(),"00:00",StringUtils.EMPTY ));
-                if (holidayWrapper.isDateRange()){
-                    holidayInfo.setEndDate(updateTime(holidayWrapper.getEndDate(),"00:00",StringUtils.EMPTY ));
-                }else{
-                    holidayInfo.setEndDate(null);
-                }
-            }
+            holidayInfo.setStartDate(getStartDateWithUpdatedTime(holidayWrapper));
+            holidayInfo.setEndDate(getEndDateWithUpdatedTime(holidayWrapper));
 
             if (StringUtils.isBlank(holidayInfo.getId())){
                 HolidayInfo createdHoliday = getAcalService().createHoliday(hcForm.getHolidayCalendarInfo().getId(), holidayWrapper.getTypeKey(), holidayInfo, getContextInfo());
@@ -504,7 +489,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             StateInfo hcState = getAcalService().getHolidayCalendarState(holidayCalendarInfo.getStateKey(), context);
             holidayCalendarWrapper.setStateName(hcState.getName());
 
-            try {
                 List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(holidayCalendarInfo.getId(), context);
                 for(HolidayInfo holidayInfo : holidayInfoList){
                     HolidayWrapper holiday = new HolidayWrapper(holidayInfo);
@@ -513,28 +497,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     holidays.add(holiday);
                 }
                 holidayCalendarWrapper.setHolidays(holidays);
-            }catch (DoesNotExistException dnee){
-                System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
-            }catch (InvalidParameterException ipe){
-                System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
-            }catch (MissingParameterException mpe){
-                System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
-            }catch (OperationFailedException ofe){
-                System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
-            }catch (PermissionDeniedException pde){
-                System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
-            }
-
-        }catch (DoesNotExistException dnee){
-            System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
-        }catch (InvalidParameterException ipe){
-            System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
-        }catch (MissingParameterException mpe){
-            System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
-        }catch (OperationFailedException ofe){
-            System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
-        }catch (PermissionDeniedException pde){
-            System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
+        }catch (Exception e){
+            throw new RuntimeException(e);
         }
 
         return holidayCalendarWrapper;
@@ -595,6 +559,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     private AcalEventInfo assembleEventInfoFromWrapper(AcalEventWrapper eventWrapper) throws Exception{
         AcalEventInfo eventInfo = eventWrapper.getAcalEventInfo();
+
         //create dummy descr for db MilestoneEntity.plain is not nullable
         RichTextInfo rti = new RichTextInfo();
         rti.setPlain(eventWrapper.getEventTypeKey());
@@ -605,74 +570,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         eventInfo.setEndDate(eventWrapper.getEndDate());
         eventInfo.setIsAllDay(eventWrapper.isAllDay());
         eventInfo.setIsDateRange(eventWrapper.isDateRange());
-
-        if (!eventWrapper.isAllDay()){
-            eventInfo.setStartDate(updateTime(eventWrapper.getStartDate(),eventWrapper.getStartTime(),eventWrapper.getStartTimeAmPm()));
-            if (eventWrapper.isDateRange()){
-                eventInfo.setEndDate(updateTime(eventWrapper.getEndDate(),eventWrapper.getEndTime(),eventWrapper.getEndTimeAmPm()));
-            } else {
-                eventInfo.setEndDate(updateTime(eventWrapper.getStartDate(),eventWrapper.getEndTime(),eventWrapper.getEndTimeAmPm()));
-            }
-        }else{
-            eventInfo.setStartDate(updateTime(eventWrapper.getStartDate(),"00:00",StringUtils.EMPTY ));
-            if (eventWrapper.isDateRange()){
-                eventInfo.setEndDate(updateTime(eventWrapper.getEndDate(),"00:00",StringUtils.EMPTY ));
-            }else{
-                eventInfo.setEndDate(null);
-            }
-        }
-
-        /*Date startDate = eventWrapper.getStartDate();
-        Date endDate = eventWrapper.getEndDate();
-        String startTime =  eventWrapper.getStartTime();
-        String endTime =   eventWrapper.getEndTime();
-
-        if (endDate == null && !endTime.isEmpty())
-            throw new Exception ("End Time can't be associated with an empty End Date.");
-
-        if (endDate == null)  {
-            eventInfo.setIsDateRange(false);
-        }else if(startDate.compareTo(endDate)>0)  {
-            throw new Exception("Error: Start Date can't be date after the End Date.");
-        }else if (startDate.compareTo(endDate) == 0) {
-            eventInfo.setIsDateRange(false);
-            endDate = null;
-        }else if (startDate.compareTo(endDate)<0)    {
-            eventInfo.setIsDateRange(true);
-        }
-        
-        if (startTime.isEmpty() & endTime.isEmpty())  {
-            eventInfo.setIsAllDay(true);
-        }else if (!startTime.isEmpty()) {
-            eventInfo.setIsAllDay(false);
-        }
-
-        if(startDate != null && !startTime.isEmpty())  {
-            String fullStartDateString = new SimpleDateFormat("MM/dd/yyyy").format(startDate);
-            fullStartDateString = fullStartDateString.concat(" "+startTime+" "+eventWrapper.getStartTimeAmPm());
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-            Date fullStartDate = formatter.parse(fullStartDateString);
-            eventInfo.setStartDate(fullStartDate);
-        }
-        else if (startTime.isEmpty()){
-            eventInfo.setStartDate(eventWrapper.getStartDate());
-        }
-
-        if (endDate == null) {
-            //DB schema does not allow a null value for the endDate -- therefore set EndDate = StartDate
-            eventInfo.setEndDate(eventWrapper.getStartDate());
-        }
-        else if (endDate != null && endTime.isEmpty()) {
-            eventInfo.setEndDate(eventWrapper.getEndDate());
-        }
-        else {
-            String fullEndDateString = new SimpleDateFormat("MM/dd/yyyy").format(endDate);
-            fullEndDateString = fullEndDateString.concat(" "+endTime+" "+eventWrapper.getEndTimeAmPm());
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-            Date fullEndDate = formatter.parse(fullEndDateString);
-            eventInfo.setEndDate(fullEndDate);
-        }*/
-
+        eventInfo.setStartDate(getStartDateWithUpdatedTime(eventWrapper));
+        eventInfo.setEndDate(getEndDateWithUpdatedTime(eventWrapper));
         return eventInfo;
     }
 
@@ -791,13 +690,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         ((SelectControl) field.getControl()).setOptions(keyValues);
 
-        KeyDateWrapper keyDateWrapper = (KeyDateWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE);
-        if (keyValues.size() == 1){
-            keyDateWrapper.setShowAddLine(false);
-        }else{
-            keyDateWrapper.setShowAddLine(true);
-        }
-
     }
 
     public void populateKeyDateGroupTypes(InputField field, AcademicCalendarForm acalForm) {
@@ -835,60 +727,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         }
     }
-
-//    public void validateKeyDates(AcademicTermWrapper termWrapper, ContextInfo context) throws Exception {
-//        for(KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapper.getKeyDatesGroupWrappers()){
-//            for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
-//
-//                //Check keydates start/end date/time filled out based on the flag
-//                if (keyDateWrapper.isDateRange() && keyDateWrapper.getEndDate() == null){
-//                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.endDate.empty",keyDateWrapper.getKeyDateNameUI());
-//                }
-//                if (!keyDateWrapper.isAllDay() &&
-//                        (StringUtils.isBlank(keyDateWrapper.getStartTime()) ||
-//                         StringUtils.isBlank(keyDateWrapper.getEndTime()) ||
-//                         StringUtils.isBlank(keyDateWrapper.getStartTimeAmPm()) ||
-//                         StringUtils.isBlank(keyDateWrapper.getEndTimeAmPm()))){
-//                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.time.empty",keyDateWrapper.getKeyDateNameUI());
-//                }
-//
-//            }
-//        }
-//    }
-//
-//    public void validateEvents(List<AcalEventWrapper> events, ContextInfo context) throws Exception {
-//        int index1 = 0;
-//        for (AcalEventWrapper event : events) {
-//            //Check keydates start/end date/time filled out based on the flag
-//            if (event.isDateRange() && event.getEndDate() == null){
-//                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.endDate.empty",event.getEventType());
-//            }
-//            if (!event.isAllDay() &&
-//                    (StringUtils.isBlank(event.getStartTime()) ||
-//                     StringUtils.isBlank(event.getEndTime()) ||
-//                     StringUtils.isBlank(event.getStartTimeAmPm()) ||
-//                     StringUtils.isBlank(event.getEndTimeAmPm()))){
-//                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.time.empty",event.getEventType());
-//            }
-//        }
-//    }
-//
-//    public void validateHolidays(List<HolidayWrapper> holidayWrappers, ContextInfo context) throws Exception {
-//        int index1 = 0;
-//        for (HolidayWrapper holidayWrapper : holidayWrappers) {
-//            //Check keydates start/end date/time filled out based on the flag
-//            if (holidayWrapper.isDateRange() && holidayWrapper.getEndDate() == null){
-//                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.endDate.empty",holidayWrapper.getTypeName());
-//            }
-//            if (!holidayWrapper.isAllDay() &&
-//                    (StringUtils.isBlank(holidayWrapper.getStartTime()) ||
-//                     StringUtils.isBlank(holidayWrapper.getEndTime()) ||
-//                     StringUtils.isBlank(holidayWrapper.getStartTimeAmPm()) ||
-//                     StringUtils.isBlank(holidayWrapper.getEndTimeAmPm()))){
-//                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.time.empty",holidayWrapper.getTypeName());
-//            }
-//        }
-//    }
 
     public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList,ContextInfo context)
     throws Exception {
@@ -964,22 +802,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     keyDate.setEndDate(keyDateWrapper.getEndDate());
                     keyDate.setIsAllDay(keyDateWrapper.isAllDay());
                     keyDate.setIsDateRange(keyDateWrapper.isDateRange());
-
-                    if (!keyDateWrapper.isAllDay()){
-                        keyDate.setStartDate(updateTime(keyDateWrapper.getStartDate(),keyDateWrapper.getStartTime(),keyDateWrapper.getStartTimeAmPm()));
-                        if (keyDateWrapper.isDateRange()){
-                            keyDate.setEndDate(updateTime(keyDateWrapper.getEndDate(),keyDateWrapper.getEndTime(),keyDateWrapper.getEndTimeAmPm()));
-                        } else {
-                            keyDate.setEndDate(updateTime(keyDateWrapper.getStartDate(),keyDateWrapper.getEndTime(),keyDateWrapper.getEndTimeAmPm()));
-                        }
-                    }else{
-                        keyDate.setStartDate(updateTime(keyDateWrapper.getStartDate(),"00:00",StringUtils.EMPTY ));
-                        if (keyDateWrapper.isDateRange()){
-                            keyDate.setEndDate(updateTime(keyDateWrapper.getEndDate(),"00:00",StringUtils.EMPTY ));
-                        }else{
-                            keyDate.setEndDate(null);
-                        }
-                    }
+                    keyDate.setStartDate(getStartDateWithUpdatedTime(keyDateWrapper));
+                    keyDate.setEndDate(getEndDateWithUpdatedTime(keyDateWrapper));
 
                     if (isNewKeyDate){
                         KeyDateInfo newKeyDate = getAcalService().createKeyDate(termWrapper.getTermInfo().getId(),keyDate.getTypeKey(),keyDate,context);
@@ -992,44 +816,50 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             }
         }
 
+    }
 
-        for (KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapper.getKeyDatesGroupWrappers()) {
-            for (KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()) {
-                if (keyDateWrapper.getKeyDateInfo().getTypeKey().equals(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)) {
-
-                }
-            }
+    private Date getStartDateWithUpdatedTime(TimeSetWrapper timeSetWrapper){
+        //If start time not blank, set that with the date. If it's empty, just update with default
+        if (!timeSetWrapper.isAllDay() && StringUtils.isNotBlank(timeSetWrapper.getStartTime())){
+            String startTime = timeSetWrapper.getStartTime();
+            String startTimeApPm = timeSetWrapper.getStartTimeAmPm();
+            return updateTime(timeSetWrapper.getStartDate(),startTime,startTimeApPm);
+        }else{
+            return updateTime(timeSetWrapper.getStartDate(),"00:00",StringUtils.EMPTY );
         }
+    }
 
-
-        //FIXME: Have to fix the exception thrown when there are not keydates added
-        try{
-//            termWrapper.setInstructionalDays(getAcalService().getInstructionalDaysForTerm(termWrapper.getTermInfo().getId(),context));
-        }catch(Exception e){
-//            e.printStackTrace();
-
-       }
-
+    private Date getEndDateWithUpdatedTime(TimeSetWrapper timeSetWrapper){
+        if (!timeSetWrapper.isAllDay()){
+            String startTime = timeSetWrapper.getStartTime();
+            String startTimeApPm = timeSetWrapper.getStartTimeAmPm();
+            if (StringUtils.isBlank(startTime)){
+                startTime = CalendarConstants.DEFAULT_END_TIME;
+                startTimeApPm = "PM";
+            }
+            return updateTime(timeSetWrapper.getStartDate(),startTime,startTimeApPm);
+        }else{
+            return updateTime(timeSetWrapper.getStartDate(),"00:00",StringUtils.EMPTY );
+        }
     }
 
     private Date updateTime(Date date,String time,String amPm){
-
-        //FIXME: Use Joda DateTime
-
         // Get Calendar object set to the date and time of the given Date object
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
         // Set time fields to zero
-        cal.set(Calendar.HOUR, Integer.parseInt(StringUtils.substringBefore(time,":")));
-        cal.set(Calendar.MINUTE, Integer.parseInt(StringUtils.substringAfter(time,":")));
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        if (StringUtils.isNotBlank(amPm)){
-            if (StringUtils.equalsIgnoreCase(amPm,"am")){
-                cal.set(Calendar.AM_PM,Calendar.AM);
-            }else {
-                cal.set(Calendar.AM_PM,Calendar.PM);
+        if (StringUtils.isNotBlank(time)){
+            cal.set(Calendar.HOUR, Integer.parseInt(StringUtils.substringBefore(time,":")));
+            cal.set(Calendar.MINUTE, Integer.parseInt(StringUtils.substringAfter(time,":")));
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            if (StringUtils.isNotBlank(amPm)){
+                if (StringUtils.equalsIgnoreCase(amPm,"am")){
+                    cal.set(Calendar.AM_PM,Calendar.AM);
+                }else {
+                    cal.set(Calendar.AM_PM,Calendar.PM);
+                }
             }
         }
 
@@ -1104,7 +934,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 newLine.setName(termType.getName() + " " + simpleDateformat.format(newLine.getStartDate()));
                 newLine.setTypeInfo(termType);
             } catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                throw new RuntimeException(e);
             }
         }else if (addLine instanceof KeyDatesGroupWrapper){
             KeyDatesGroupWrapper group = (KeyDatesGroupWrapper)addLine;
@@ -1113,7 +943,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 group.setKeyDateGroupNameUI(termType.getName());
                 group.setTypeInfo(termType);
             } catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                throw new RuntimeException(e);
             }
         }else if (addLine instanceof HolidayCalendarInfo) {
             HolidayCalendarInfo inputLine = (HolidayCalendarInfo)addLine;
@@ -1129,7 +959,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 inputLine.setStartDate(exists.getStartDate());
                 inputLine.setEndDate(exists.getEndDate());
             }catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                throw new RuntimeException(e);
             }
 
         }else if (addLine instanceof HolidayCalendarWrapper){
@@ -1144,36 +974,16 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 inputLine.setAdminOrgName(getAdminOrgNameById(hcInfo.getAdminOrgId()));
                 StateInfo hcState = getAcalService().getHolidayCalendarState(hcInfo.getStateKey(), getContextInfo());
                 inputLine.setStateName(hcState.getName());
-                try {
-                    List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
-                    for(HolidayInfo holidayInfo : holidayInfoList){
-                        HolidayWrapper holiday = new HolidayWrapper(holidayInfo);
-                        TypeInfo typeInfo = getAcalService().getHolidayType(holidayInfo.getTypeKey(), getContextInfo());
-                        holiday.setTypeName(typeInfo.getName());
-                        holidays.add(holiday);
-                    }
-                    inputLine.setHolidays(holidays);
-                }catch (DoesNotExistException dnee){
-                    System.out.println("call AcademicCalendarService.getHolidaysForHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
-                }catch (InvalidParameterException ipe){
-                    System.out.println("call AcademicCalendarService.getHolidaysForHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
-                }catch (MissingParameterException mpe){
-                    System.out.println("call AcademicCalendarService.getHolidaysForHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
-                }catch (OperationFailedException ofe){
-                    System.out.println("call AcademicCalendarService.getHolidaysForHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
-                }catch (PermissionDeniedException pde){
-                    System.out.println("call AcademicCalendarService.getHolidaysForHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
+                List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
+                for(HolidayInfo holidayInfo : holidayInfoList){
+                    HolidayWrapper holiday = new HolidayWrapper(holidayInfo);
+                    TypeInfo typeInfo = getAcalService().getHolidayType(holidayInfo.getTypeKey(), getContextInfo());
+                    holiday.setTypeName(typeInfo.getName());
+                    holidays.add(holiday);
                 }
-            }catch (DoesNotExistException dnee){
-                System.out.println("call AcademicCalendarService.getHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
-            }catch (InvalidParameterException ipe){
-                System.out.println("call AcademicCalendarService.getHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
-            }catch (MissingParameterException mpe){
-                System.out.println("call AcademicCalendarService.getHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
-            }catch (OperationFailedException ofe){
-                System.out.println("call AcademicCalendarService.getHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
-            }catch (PermissionDeniedException pde){
-                System.out.println("call AcademicCalendarService.getHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
+                inputLine.setHolidays(holidays);
+            }catch (Exception e){
+                throw new RuntimeException(e);
             }
 
         }else if (addLine instanceof AcalEventWrapper){
@@ -1182,7 +992,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 TypeInfo type = getTypeService().getType(acalEventWrapper.getEventTypeKey(), getContextInfo());
                 acalEventWrapper.setEventTypeName(type.getName());
             }catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                throw new RuntimeException(e);
             }
 
         }else if (addLine instanceof KeyDateWrapper){
@@ -1192,14 +1002,14 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 keydate.setKeyDateNameUI(type.getName());
                 keydate.setTypeInfo(type);
             } catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                throw new RuntimeException(e);
             }
         } else if (addLine instanceof HolidayWrapper){
             HolidayWrapper holiday = (HolidayWrapper)addLine;
             try {
                 holiday.setTypeName(getHolidayTypeName(holiday.getTypeKey()));
             } catch (Exception e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                throw new RuntimeException(e);
             }
         } else {
             super.processBeforeAddLine(view, collectionGroup, model, addLine);
