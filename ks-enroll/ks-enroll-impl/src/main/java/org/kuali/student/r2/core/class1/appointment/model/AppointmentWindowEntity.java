@@ -118,6 +118,7 @@ public class AppointmentWindowEntity extends MetaEntity {
     public AppointmentWindowEntity(AppointmentWindow apptWin) {
         super(apptWin);
         this.setId(apptWin.getId());
+        this.setApptWindowType(apptWin.getTypeKey());
         this.fromDto(apptWin);
     }
 
@@ -333,9 +334,8 @@ public class AppointmentWindowEntity extends MetaEntity {
             this.setDescrPlain(apptWin.getDescr().getPlain());
             this.setDescrFormatted(apptWin.getDescr().getFormatted());
         }
-        // The state/type keys are in every entity, but are not explicitly inherited
+        // The state keys are in every entity, but are not explicitly inherited
         this.setApptWindowState(apptWin.getStateKey());
-        this.setApptWindowType(apptWin.getTypeKey());
         // Add attributes individually
         this.setAttributes(new ArrayList<AppointmentWindowAttributeEntity>());
         if (null != apptWin.getAttributes()) {

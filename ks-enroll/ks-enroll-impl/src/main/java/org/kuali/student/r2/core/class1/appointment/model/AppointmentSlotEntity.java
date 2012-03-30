@@ -78,6 +78,7 @@ public class AppointmentSlotEntity extends MetaEntity {
     public AppointmentSlotEntity(AppointmentSlot apptSlot) {
         super(apptSlot);
         this.setId(apptSlot.getId()); // obj_id set separately via inheritance, id needs to explicitly set...(why?)
+        this.setApptSlotType(apptSlot.getTypeKey());
         this.fromDto(apptSlot);
     }
 
@@ -133,8 +134,7 @@ public class AppointmentSlotEntity extends MetaEntity {
         // AppointmentSlot specific fields set below
         this.setStartDate(apptSlot.getStartDate());
         this.setEndDate(apptSlot.getEndDate());
-        // Type/state are in every entity though, in this case, named to AppointmentSlot
-        this.setApptSlotType(apptSlot.getTypeKey());
+        // Type are in every entity though, in this case, named to AppointmentSlot
         this.setApptSlotState(apptSlot.getStateKey());
         // Add attributes individually
         this.setAttributes(new ArrayList<AppointmentSlotAttributeEntity>());
