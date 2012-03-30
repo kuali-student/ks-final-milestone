@@ -348,6 +348,8 @@ public class AppointmentWindowEntity extends MetaEntity {
     public AppointmentWindowInfo toDto() {
 
         AppointmentWindowInfo info = new AppointmentWindowInfo();
+        info.setStartDate(getStartDate());
+        info.setEndDate(getEndDate());
         // AppointmentWindow-specific updates
         AppointmentSlotRuleInfo appointmentSlotRuleInfo = new AppointmentSlotRuleInfo();
         info.setSlotRule(appointmentSlotRuleInfo);
