@@ -37,16 +37,16 @@ import java.util.List;
  */
 public class RegistrationHoldProposition extends AbstractLeafProposition {
 
-    private final String issueKey;
+    private final String issueId;
 
-    public RegistrationHoldProposition(String issueKey) {
-        this.issueKey = issueKey;
+    public RegistrationHoldProposition(String issueId) {
+        this.issueId = issueId;
     }
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
 
-        Term studentRegistrationHoldsTerm = new Term(RulesExecutionConstants.STUDENT_REGISTRATION_HOLDS_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.ISSUE_KEY_TERM_PROPERTY, issueKey));
+        Term studentRegistrationHoldsTerm = new Term(RulesExecutionConstants.STUDENT_REGISTRATION_HOLDS_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.ISSUE_KEY_TERM_PROPERTY, issueId));
         List<HoldInfo> studentRegistrationHolds = environment.resolveTerm(studentRegistrationHoldsTerm, this);
 
         PropositionResult result = null;

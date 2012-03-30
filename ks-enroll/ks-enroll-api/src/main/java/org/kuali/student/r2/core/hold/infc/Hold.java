@@ -35,14 +35,16 @@ public interface Hold
      * The Issue Id.
      * @name Issue Id
      * @required
+     * @readOnly
      */
-    public String getIssueKey();
+    public String getIssueId();
    
 
     /**
      * The Id of the Person.
      * @name Person Id
      * @required
+     * @readOnly
      */
     public String getPersonId();
       

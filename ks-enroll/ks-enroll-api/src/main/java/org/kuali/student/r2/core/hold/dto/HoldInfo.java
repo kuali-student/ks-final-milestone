@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name",
-                "descr", "issueKey", "personId",  "effectiveDate", "releasedDate", 
+                "descr", "issueId", "personId",  "effectiveDate", "releasedDate", 
                 "meta", "attributes", "_futureElements"})
 
 public class HoldInfo 
@@ -45,7 +45,7 @@ public class HoldInfo
     private String personId;
 
     @XmlElement
-    private String issueKey;
+    private String issueId;
 
     @XmlElement
     private Date effectiveDate;
@@ -73,7 +73,7 @@ public class HoldInfo
 
         if (hold != null) {
             this.personId = hold.getPersonId();
-            this.issueKey = hold.getIssueKey();
+            this.issueId = hold.getIssueId();
 
             if (hold.getEffectiveDate() != null) {
                 this.effectiveDate = new Date(hold.getEffectiveDate().getTime());
@@ -94,12 +94,12 @@ public class HoldInfo
     }
 
     @Override
-    public String getIssueKey() {
-        return issueKey;
+    public String getIssueId() {
+        return issueId;
     }
 
-    public void setIssueKey(String issueKey) {
-        this.issueKey = issueKey;
+    public void setIssueId(String issueId) {
+        this.issueId = issueId;
     }
 
     @Override

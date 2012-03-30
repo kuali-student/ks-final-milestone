@@ -209,7 +209,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             }
 
             if (check.getTypeKey().equals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY)) {
-                propositions.put(new RegistrationHoldProposition(check.getIssueKey()), instruction);
+                propositions.put(new RegistrationHoldProposition(check.getIssueId()), instruction);
             } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_ALIVE)) {
                 propositions.put(new PersonLivingProposition(), instruction);
             } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_NOT_SUMMER_TERM)) {

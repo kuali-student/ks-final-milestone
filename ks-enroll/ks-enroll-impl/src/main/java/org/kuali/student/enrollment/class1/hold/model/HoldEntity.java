@@ -24,34 +24,27 @@ import org.kuali.student.r2.core.hold.infc.Hold;
 @Entity
 @Table(name = "KSEN_HOLD")
 public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttributeEntity> {
+
     @Column(name = "NAME")
     private String name;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
     private HoldRichTextEntity descr;
-
     @Column(name = "TYPE_ID")
     private String holdType;
-
     @Column(name = "STATE_ID")
     private String holdState;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "RELEASED_DT")
     private Date releasedDate;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "ISSUE_ID")
     private IssueEntity issue;
-
     @Column(name = "PERS_ID")
     private String personId;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<HoldAttributeEntity> attributes;
 
@@ -60,72 +53,56 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         this.attributes = attributes;
     }
 
-    public HoldEntity() {}
+    public HoldEntity() {
+    }
 
     public HoldEntity(Hold hold) {
         super(hold);
-        try {
-            this.setId(hold.getId());
-            this.setName(hold.getName());
-            if (hold.getEffectiveDate() != null) {
-                this.setEffectiveDate(hold.getEffectiveDate());
-            }
+        this.setId(hold.getId());
+        this.setHoldType(hold.getTypeKey());
+        this.fromDto(hold);
+        this.setPersonId(hold.getPersonId());
+    }
 
-            if (hold.getReleasedDate() != null) {
-                this.setReleasedDate(hold.getReleasedDate());
-            }
-
-            this.setPersonId(hold.getPersonId());
-            if (hold.getDescr() != null) {
-                this.setDescr(new HoldRichTextEntity(hold.getDescr()));
-            }
-
-            if (hold.getStateKey() != null) {
-                this.setHoldState(hold.getStateKey());
-            }
-
-            this.setAttributes(new ArrayList<HoldAttributeEntity>());
-
-            if (null != hold.getAttributes()) {
-                for (Attribute att : hold.getAttributes()) {
-                    HoldAttributeEntity attEntity = new HoldAttributeEntity(att);
-                    this.getAttributes().add(attEntity);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void fromDto(Hold hold) {
+        this.setName(hold.getName());
+        this.setHoldState(hold.getStateKey());
+        this.setEffectiveDate(hold.getEffectiveDate());
+        this.setReleasedDate(hold.getReleasedDate());
+        if (hold.getDescr() != null) {
+            this.setDescr(new HoldRichTextEntity(hold.getDescr()));
+        }
+        else {
+            this.setDescr(null);
+        }
+        this.setAttributes(new ArrayList<HoldAttributeEntity>());
+        for (Attribute att : hold.getAttributes()) {
+            HoldAttributeEntity attEntity = new HoldAttributeEntity(att);
+            this.getAttributes().add(attEntity);
         }
     }
 
     public HoldInfo toDto() {
-        HoldInfo obj = new HoldInfo();
-        obj.setId(getId());
-        obj.setName(name);
-        obj.setEffectiveDate(effectiveDate);
-        obj.setReleasedDate(releasedDate);
-        obj.setPersonId(personId);
-        if (holdType != null) {
-            obj.setTypeKey(holdType);
-        }
-        if (holdState != null) {
-            obj.setStateKey(holdState);
-        }
+        HoldInfo info = new HoldInfo();
+        info.setId(getId());
+        info.setName(name);
+        info.setEffectiveDate(effectiveDate);
+        info.setReleasedDate(releasedDate);
+        info.setPersonId(personId);
+        info.setTypeKey(holdType);
+        info.setStateKey(holdState);
         if (issue != null) {
-            obj.setIssueKey(issue.getId());
+            info.setIssueId(issue.getId());
         }
-        obj.setMeta(super.toDTO());
         if (descr != null) {
-            obj.setDescr(descr.toDto());
+            info.setDescr(descr.toDto());
         }
-
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+        info.setMeta(super.toDTO());
         for (HoldAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
+            info.getAttributes().add(attInfo);
         }
-
-        obj.setAttributes(atts);
-        return obj;
+        return info;
     }
 
     public String getName() {

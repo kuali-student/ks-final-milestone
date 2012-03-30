@@ -80,7 +80,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
             }
         }
 
-        this.setIssueId(check.getIssueKey());
+        this.setIssueId(check.getIssueId());
         this.setMilestoneTypeId(check.getMilestoneTypeKey());
         this.setAgendaId(check.getAgendaId());
     }
@@ -107,7 +107,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
             obj.setProcessKey(process.getId());
         }
 
-        obj.setIssueKey(issueId);
+        obj.setIssueId(issueId);
         obj.setMilestoneTypeKey(milestoneTypeId);
         obj.setAgendaId(agendaId);
 

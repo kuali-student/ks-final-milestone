@@ -23,9 +23,9 @@ import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldServiceDecorator;
 
 public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator implements HoldsPermissionService {
+
     public static final String ENRLLMENT_NAMESPACE = "KS-ENROLL";
     public static final String SERVICE_NAME = "HoldService.";
-
     private PermissionService permissionService;
 
     @Override
@@ -107,14 +107,18 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
     }
 
     @Override
-    public HoldInfo createHold(HoldInfo holdInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public HoldInfo createHold(String personId,
+            String issueId,
+            String holdTypeKey,
+            HoldInfo holdInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createHold", null)) {
-            return getNextDecorator().createHold(holdInfo, context);
+            return getNextDecorator().createHold(personId, issueId, holdTypeKey, holdInfo, context);
         } else {
             throw new PermissionDeniedException();
         }
@@ -218,14 +222,14 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
     }
 
     @Override
-    public IssueInfo createIssue(IssueInfo issueInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public IssueInfo createIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createIssue", null)) {
-            return getNextDecorator().createIssue(issueInfo, context);
+            return getNextDecorator().createIssue(issueTypeKey, issueInfo, context);
         } else {
             throw new PermissionDeniedException();
         }
@@ -258,5 +262,4 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
             throw new PermissionDeniedException();
         }
     }
-
 }

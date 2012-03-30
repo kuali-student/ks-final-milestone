@@ -47,12 +47,12 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
 
     private IssueInfo _createIssue(String key, String name, String type, ContextInfo context) {
         IssueInfo issue = new IssueInfo();
-        issue.setKey(key);
+        issue.setId(key);
         issue.setName(name);
         issue.setTypeKey(type);
         issue.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
         try {
-            issue = this.createIssue(issue, context);
+            issue = this.createIssue(issue.getTypeKey(), issue, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating hold", ex);
         }
@@ -63,7 +63,7 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
         HoldInfo hold = new HoldInfo();
         hold.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         hold.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
-        hold.setIssueKey(issue.getKey());
+        hold.setIssueId(issue.getId());
         hold.setName(issue.getName());
         Date effDate = null;
         try {
@@ -74,7 +74,7 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
         hold.setEffectiveDate(effDate);
         hold.setPersonId(personId);
         try {
-            hold = this.createHold(hold, context);
+            hold = this.createHold(hold.getPersonId(), hold.getIssueId(), hold.getTypeKey(), hold, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating hold", ex);
         }

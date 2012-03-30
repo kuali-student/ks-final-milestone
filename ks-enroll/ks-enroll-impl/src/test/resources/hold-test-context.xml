@@ -21,7 +21,7 @@
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
-	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+    <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
 	    <!--  Preloaded data -->
     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
@@ -49,7 +49,8 @@
     </bean>
 
     <bean id="AtomikosUsrTx"
-        class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="systemPropertyConfigurer"></bean>
+        class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="systemPropertyConfigurer">
+    </bean>
 
     <bean id="JtaTxManager"
         class="org.springframework.transaction.jta.JtaTransactionManager" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
@@ -85,43 +86,42 @@
             <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" />-->
     </bean>
     
-   <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
+    <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
         <property name="persistenceUnitName" value="persistentUnit"/>
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml" />
         <property name="dataSource" ref="dataSource" />
-   </bean>
+    </bean>
     
     <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
     <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
-	  	<property name="issueDao" ref="issueDao"/>
-	  	<property name="holdDao" ref="holdDao"/>
-	  	<property name="dataDictionaryService" ref="dataDictionaryServiceForHold"/>
+        <property name="issueDao" ref="issueDao"/>
+        <property name="holdDao" ref="holdDao"/>
     </bean>
 	
     <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
-      <property name="nextDecorator" ref="holdService"/>
-      <property name="validator" ref="validator"/>
+        <property name="nextDecorator" ref="holdService"/>
+        <property name="validator" ref="validator"/>
     </bean>
  
     <bean id="holdServiceAuthDecorator" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceAuthorizationDecorator">
-		<property name="nextDecorator" ref="holdServiceValidation"/>
-		<property name="permissionService" ref="permissionService"/>
+        <property name="nextDecorator" ref="holdServiceValidation"/>
+        <property name="permissionService" ref="permissionService"/>
     </bean> 
             	
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
     <bean id="holdDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldDao">
-    	<property name="em" ref="entityManager"/>
+        <property name="em" ref="entityManager"/>
     </bean>
     
     <bean id="issueDao" class="org.kuali.student.enrollment.class1.hold.dao.IssueDao">
-    	<property name="em" ref="entityManager"/>
+        <property name="em" ref="entityManager"/>
     </bean>
     
-	<tx:annotation-driven transaction-manager="JtaTxManager"
+    <tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />
 		
 </beans>
