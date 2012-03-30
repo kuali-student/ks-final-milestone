@@ -83,18 +83,23 @@ public class StateServiceMockImpl
     }
 
     @Override
-    public List<String> getLifecycleKeysByRefObjectUri(String refObjectUri, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        List<String> ret = new ArrayList<String>();
-        for (LifecycleInfo lifecycle : this.lifecycles.values()) {
-            if (refObjectUri.equals(lifecycle.getRefObjectUri())) {
-                ret.add(lifecycle.getKey());
-            }
-        }
-
-        return ret;
+    public List<String> getLifecyclesByRefObjectUri(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+//    @Override
+//    public List<String> getLifecycleKeysByRefObjectUri(String refObjectUri, ContextInfo contextInfo)
+//        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+//
+//        List<String> ret = new ArrayList<String>();
+//        for (LifecycleInfo lifecycle : this.lifecycles.values()) {
+//            if (refObjectUri.equals(lifecycle.getRefObjectUri())) {
+//                ret.add(lifecycle.getKey());
+//            }
+//        }
+//
+//        return ret;
+//    }
 
     @Override
     public List<String> searchForLifecycleKeys(QueryByCriteria criteria, ContextInfo contextInfo) 

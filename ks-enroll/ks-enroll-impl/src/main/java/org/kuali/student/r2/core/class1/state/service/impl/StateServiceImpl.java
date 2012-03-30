@@ -3,6 +3,7 @@ package org.kuali.student.r2.core.class1.state.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
@@ -106,16 +107,21 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public List<String> getLifecycleKeysByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LifecycleEntity> lifecycles = lifecycleDao.getLifecyclesByRefObjectUri(refObjectUri);
-        List<String> result = new ArrayList<String>();
-        for (LifecycleEntity entity : lifecycles) {
-            if (entity != null) {
-                result.add(entity.getId());
-            }
-        }
-        return result;
+    public List<String> getLifecyclesByRefObjectUri(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+//    @Override
+//    public List<String> getLifecycleKeysByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+//        List<LifecycleEntity> lifecycles = lifecycleDao.getLifecyclesByRefObjectUri(refObjectUri);
+//        List<String> result = new ArrayList<String>();
+//        for (LifecycleEntity entity : lifecycles) {
+//            if (entity != null) {
+//                result.add(entity.getId());
+//            }
+//        }
+//        return result;
+//    }
 
     @Override
     public List<String> searchForLifecycleKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -314,4 +320,6 @@ public class StateServiceImpl implements StateService {
         deleteStatus.setSuccess(true);
         return deleteStatus;
     }
+
+
 }
