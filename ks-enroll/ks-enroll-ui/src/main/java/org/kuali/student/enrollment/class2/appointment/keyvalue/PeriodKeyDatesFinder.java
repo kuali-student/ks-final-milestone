@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PeriodKKeyDatesFinder extends UifKeyValuesFinderBase implements Serializable {
+public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Serializable {
     private static final long serialVersionUID = 1L;
     private transient AcademicCalendarService acalService;
 
