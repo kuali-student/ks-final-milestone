@@ -75,10 +75,10 @@ public class AppointmentSlotEntity extends MetaEntity {
 
     }
 
-    public AppointmentSlotEntity(AppointmentSlot apptSlot) {
+    public AppointmentSlotEntity(String appointmentSlotTypeKey, AppointmentSlot apptSlot) {
         super(apptSlot);
-        this.setId(apptSlot.getId()); // obj_id set separately via inheritance, id needs to explicitly set...(why?)
-        this.setApptSlotType(apptSlot.getTypeKey());
+        this.setId(apptSlot.getId());
+        this.setApptSlotType(appointmentSlotTypeKey);
         this.fromDto(apptSlot);
     }
 

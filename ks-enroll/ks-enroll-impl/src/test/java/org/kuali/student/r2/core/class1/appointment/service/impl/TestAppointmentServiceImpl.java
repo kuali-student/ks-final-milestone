@@ -304,8 +304,8 @@ public class TestAppointmentServiceImpl {
             Long retrievedMillis = retrieved.getSlotRule().getStartTimeOfDay().getMilliSeconds();
             assertEquals(startInMillis, retrievedMillis);
             // Then, update the startInMillis (rule is already inside apptWindowInfo
-            rule.setStartTimeOfDay(makeTimeOfDayInfo(SLOT_RULE_START_OF_DAY));
-            Long newStartInMillis = computeHoursInMillis(SLOT_RULE_START_OF_DAY);
+            rule.setStartTimeOfDay(makeTimeOfDayInfo(SLOT_RULE_START_OF_DAY+1));
+            Long newStartInMillis = computeHoursInMillis(SLOT_RULE_START_OF_DAY+1);
             appointmentService.updateAppointmentWindow(id, apptWindowInfo, contextInfo);
             // Now retrieve it again
             retrieved = appointmentService.getAppointmentWindow(id, contextInfo);

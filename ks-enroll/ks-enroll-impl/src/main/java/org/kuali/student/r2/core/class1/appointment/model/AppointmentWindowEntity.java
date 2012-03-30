@@ -115,10 +115,10 @@ public class AppointmentWindowEntity extends MetaEntity {
     public AppointmentWindowEntity() {
     }
 
-    public AppointmentWindowEntity(AppointmentWindow apptWin) {
+    public AppointmentWindowEntity(String appointmentWindowTypeKey, AppointmentWindow apptWin) {
         super(apptWin);
         this.setId(apptWin.getId());
-        this.setApptWindowType(apptWin.getTypeKey());
+        this.setApptWindowType(appointmentWindowTypeKey);
         this.fromDto(apptWin);
     }
 
