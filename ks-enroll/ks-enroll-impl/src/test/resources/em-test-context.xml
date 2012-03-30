@@ -124,6 +124,13 @@
         <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     </bean>
 
+    <bean id="appointmentWindowDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao"/>
+    <bean id="appointmentSlotDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao"/>
+    <bean id="appointmentWindowService" class="org.kuali.student.r2.core.class1.appointment.service.impl.AppointmentServiceImpl">
+        <property name="appointmentWindowDao" ref="appointmentWindowDao"/>
+        <property name="appointmentSlotDao" ref="appointmentSlotDao"/>
+    </bean>
+
     <bean id="enumServiceValidationDecorator"
           class="org.kuali.student.r2.core.class1.enumerationmanagement.service.decorators.EnumerationManagementServiceValidationDecorator">
       <property name="nextDecorator" ref="enumServiceImpl"/>

@@ -21,8 +21,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
@@ -66,7 +68,7 @@ public class TestAppointmentServiceImpl {
     private String slotId;
     private Date startDate;
 
-    @Before
+    // No longer @Before
     public void before() {
         contextInfo = new ContextInfo();
         makeAppointmentWindowInfo();
@@ -74,13 +76,19 @@ public class TestAppointmentServiceImpl {
     }
 
     private void makeAppointmentWindowInfo() {
-        // Setup (id is not set up)
+        String id = UUIDHelper.genStringUUID();
         apptWindowInfo = new AppointmentWindowInfo();
+        apptWindowInfo.setId(id);
         makeSlotRule();
         // Uses rule from makeSlotRule
         apptWindowInfo.setSlotRule(rule);
         apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY);
         apptWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ACTIVE_KEY);
+        //
+        Date startDate = createDate(2012, 3, 5, 12, 0);
+        Date endDate = createDate(2012, 3, 16, 14, 0);
+        apptWindowInfo.setStartDate(startDate);
+        apptWindowInfo.setEndDate(endDate);
     }
 
     private Date createDate(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
@@ -90,7 +98,7 @@ public class TestAppointmentServiceImpl {
         cal.clear();
 
         cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.MONTH, month - 1); // Java starts month at 0
         cal.set(Calendar.DATE, dayOfMonth);
         cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
         cal.set(Calendar.MINUTE, minute);
@@ -100,9 +108,9 @@ public class TestAppointmentServiceImpl {
 
     private void makeAppointmentSlotInfo() {
         apptSlotInfo = new AppointmentSlotInfo();
-        startDate = createDate(2011, 3, 1, 9, 0);
+        startDate = createDate(2012, 3, 5, 12, 0);
         apptSlotInfo.setStartDate(startDate);
-        Date endDate = createDate(2011, 3, 21, 5, 0);
+        Date endDate = createDate(2012, 3, 17, 17, 0);
         apptSlotInfo.setEndDate(endDate);
         slotId = UUIDHelper.genStringUUID();
         apptSlotInfo.setId(slotId);
@@ -124,9 +132,10 @@ public class TestAppointmentServiceImpl {
         rule = new AppointmentSlotRuleInfo();
         // According to DB definition, weekdays must be non-null, so add it
         List<Integer> weekdays = new ArrayList<Integer>();
-        weekdays.add(1);
-        weekdays.add(3);
-        weekdays.add(5);
+        // Sunday is 1, Monday is 2, so this is MWF.
+        weekdays.add(2);
+        weekdays.add(4);
+        weekdays.add(6);
         rule.setWeekdays(weekdays);
         TimeOfDayInfo startInfo = makeTimeOfDayInfo(9);
         startInMillis = startInfo.getMilliSeconds();
@@ -134,10 +143,108 @@ public class TestAppointmentServiceImpl {
         endInMillis = endInfo.getMilliSeconds();
         rule.setStartTimeOfDay(startInfo);
         rule.setEndTimeOfDay(endInfo);
+        // TODO: Eventually set the type once there is a type to set to
+        TimeAmountInfo tao = new TimeAmountInfo();
+        tao.setTimeQuantity("15"); // Every fifteen minutes
+        tao.setAtpDurationTypeKey(AtpServiceConstants.DURATION_MONTH_TYPE_KEY); // TODO: Not valid--waiting for MINUTE type to be created
+        rule.setSlotStartInterval(tao);
+    }
+    // ---------------------------------- IN SUPPORT OF TEST ---------------------------------------
+    private int _computeMinuteOffset(TimeOfDayInfo timeOfDay) {
+        long millis = timeOfDay.getMilliSeconds();
+        return (int) millis / 60000;
+    }
+    
+    private void _checkAppointmentSlots(List<AppointmentSlotInfo> slots, Date startWindow, Date endWindow, AppointmentSlotRuleInfo slotRule) {
+        AppointmentSlotInfo prev = null;
+        int startOfDayInMinutes = _computeMinuteOffset(slotRule.getStartTimeOfDay());
+        int startHour = startOfDayInMinutes / 60;
+        int startMinute = startOfDayInMinutes % 60;
+        int endOfDayInMinutes = _computeMinuteOffset(slotRule.getEndTimeOfDay());
+        int endHour = endOfDayInMinutes / 60;
+        int endMinute = endOfDayInMinutes % 60;
+        
+        Calendar startCal = Calendar.getInstance();
+        startCal.set(Calendar.HOUR_OF_DAY, startHour);
+        startCal.set(Calendar.MINUTE, startMinute);
+        startCal.set(Calendar.SECOND, 0);
+        startCal.set(Calendar.MILLISECOND, 0);
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.set(Calendar.HOUR_OF_DAY, endHour);
+        endCal.set(Calendar.MINUTE, endMinute);
+        endCal.set(Calendar.SECOND, 0);
+        endCal.set(Calendar.MILLISECOND, 0);
+        
+        for (AppointmentSlotInfo slotInfo: slots) {
+            Date slotStartDate = slotInfo.getStartDate();
+            // No slot assigned before startWindow
+            assert(!slotStartDate.before(startWindow));
+            // No slot assigned after endWindow
+            assert(!slotStartDate.after(endWindow));
+            // No slot before start of day
+            Calendar slotStartCal = Calendar.getInstance();
+            slotStartCal.setTime(slotInfo.getStartDate());
+
+            // Set the start of day to current date of slot
+            startCal.set(Calendar.YEAR, slotStartCal.get(Calendar.YEAR));
+            startCal.set(Calendar.MONTH, slotStartCal.get(Calendar.MONTH));
+            startCal.set(Calendar.DAY_OF_MONTH, slotStartCal.get(Calendar.DAY_OF_MONTH));
+
+            // Set the end of day to current date of slot
+            endCal.set(Calendar.YEAR, slotStartCal.get(Calendar.YEAR));
+            endCal.set(Calendar.MONTH, slotStartCal.get(Calendar.MONTH));
+            endCal.set(Calendar.DAY_OF_MONTH, slotStartCal.get(Calendar.DAY_OF_MONTH));
+
+            // Slots during business day
+            assert(!slotStartCal.before(startCal));
+            assert(!slotStartCal.after(endCal));
+        }
+    }
+    // --------------------------------------------------- TESTS ------------------------------------------------------
+    @Test
+    public void testGenerateMaxSlotsByWindow() {
+        before();
+        // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
+        try {
+            apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY);
+            AppointmentWindowInfo window = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY,
+                    apptWindowInfo, contextInfo);
+            List<AppointmentSlotInfo> slots =
+                    appointmentService.generateAppointmentSlotsByWindow(window.getId(), contextInfo);
+            AppointmentSlotRuleInfo slotRule = window.getSlotRule();
+            _checkAppointmentSlots(slots, window.getStartDate(), window.getEndDate(), slotRule);
+        } catch (Exception e) {
+            System.err.println("Exception");
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+
+    @Test
+    public void testGenerateOneSlotPerWindow() {
+        before();
+        // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
+        try {
+            apptWindowInfo.setId(UUIDHelper.genStringUUID());
+            AppointmentWindowInfo window = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY,
+                    apptWindowInfo, contextInfo);
+            List<AppointmentSlotInfo> slots =
+                    appointmentService.generateAppointmentSlotsByWindow(window.getId(), contextInfo);
+            assert(slots.size() == 1);
+            AppointmentSlotInfo oneSlot = slots.get(0);
+            assertEquals(oneSlot.getStartDate(), apptWindowInfo.getStartDate());
+            assertNull(oneSlot.getEndDate()); // TODO: Change for
+        } catch (Exception e) {
+            System.err.println("Exception");
+            e.printStackTrace();
+            assert(false);
+        }
     }
 
     @Test
     public void testApptWinCreate() {
+        before();
         String id = UUIDHelper.genStringUUID();
         apptWindowInfo.setId(id);
         try {
@@ -156,6 +263,7 @@ public class TestAppointmentServiceImpl {
 
     @Test
     public void testApptWinDelete() {
+        before();
         String id = UUIDHelper.genStringUUID();
         boolean shouldExist = true;
         apptWindowInfo.setId(id);
@@ -182,6 +290,7 @@ public class TestAppointmentServiceImpl {
 
     @Test
     public void testApptWinUpdate() {
+        before();
         String id = UUIDHelper.genStringUUID();
         apptWindowInfo.setId(id);
         try {
@@ -209,6 +318,7 @@ public class TestAppointmentServiceImpl {
 
     @Test
     public void testApptSlotCreate() {
+        before();
         // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
         String apptWinId = UUIDHelper.genStringUUID();
         apptWindowInfo.setId(apptWinId);
@@ -229,6 +339,7 @@ public class TestAppointmentServiceImpl {
 
     @Test
     public void testApptSlotDelete() {
+        before();
         // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
         String apptWinId = UUIDHelper.genStringUUID();
         boolean shouldExist = true;
@@ -257,6 +368,7 @@ public class TestAppointmentServiceImpl {
     
     @Test
     public void testAppSlotUpdate() {
+        before();
         // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
         String apptWinId = UUIDHelper.genStringUUID();
         apptWindowInfo.setId(apptWinId);
@@ -279,25 +391,6 @@ public class TestAppointmentServiceImpl {
             AppointmentSlotInfo retrieved = appointmentService.getAppointmentSlot(slotId, contextInfo);
             // Check that date matches the new start date
             assertEquals(newStartDate, retrieved.getStartDate());
-        } catch (Exception e) {
-            System.err.println("Exception");
-            e.printStackTrace();
-            assert(false);
-        }
-    }
-    
-    @Test
-    public void testGenerateSlotsByWindow() {
-        // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
-        try {
-            AppointmentWindowInfo window = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
-                    apptWindowInfo, contextInfo);
-            List<AppointmentSlotInfo> slots =
-                    appointmentService.generateAppointmentSlotsByWindow(window.getId(), contextInfo);
-            assert(slots.size() == 1);
-            AppointmentSlotInfo oneSlot = slots.get(0);
-            assertEquals(oneSlot.getStartDate(), apptWindowInfo.getStartDate());
-            assertNull(oneSlot.getEndDate());
         } catch (Exception e) {
             System.err.println("Exception");
             e.printStackTrace();
