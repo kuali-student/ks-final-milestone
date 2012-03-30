@@ -22,7 +22,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.r1.common.messages.dto.Message;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
@@ -30,6 +39,7 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
 
 
 @Daos( { @Dao(value = "org.kuali.student.r1.core.messages.dao.impl.MessageManagementDAOImpl", testDataFile = "classpath:messages-test-beans.xml") })
@@ -43,94 +53,239 @@ public class MessageServiceImplTest extends AbstractServiceTest{
     @Test
     public void testGetLocales()
     {
-    	List<String> locales = messageService.getLocales().getLocales();
-    	
-    	assertEquals(2, locales.size());
+        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+    	List<LocaleInfo> locales;
+        try {
+            locales = messageService.getLocales(contextInfo);
+            assertEquals(2, locales.size());
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }    	
     }
     
 	@Test
     public void testGetMessageGroup(){
-    	List<String> groups = messageService.getMessageGroupKeys().getMessageGroupKeys();
-
-    	assertEquals(2, groups.size());
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+    	List<String> groups;
+        try {
+            groups = messageService.getMessageGroupKeys(contextInfo);
+            assertEquals(2, groups.size());
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }    	
     }
 	
 	@Test
-	public void testGetMessage(){
-		Message message = messageService.getMessage("US", "Address", "State");
-		assertEquals(message.getLocale(), "US");
-		assertEquals(message.getGroupName(), "Address");
-		assertEquals(message.getId(), "State");
-		assertEquals(message.getValue(), "State:");
-		message = messageService.getMessage("CA", "Address", "State");
-		assertEquals(message.getLocale(), "CA");
-		assertEquals(message.getGroupName(), "Address");
-		assertEquals(message.getId(), "State");
-		assertEquals(message.getValue(), "Province:");
+	public void testGetMessage() {
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+	    LocaleInfo localeInfo = new LocaleInfo();
+	    localeInfo.setLocaleRegion("US");
+		MessageInfo message;
+        try {
+            message = messageService.getMessage(localeInfo, "Address", "State", contextInfo);
+            assertEquals(message.getLocale(), "US");
+            assertEquals(message.getGroupName(), "Address");
+            assertEquals(message.getKey(), "State");
+            assertEquals(message.getValue(), "State:");
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+		
+		LocaleInfo localeInfo1 = new LocaleInfo();
+        localeInfo1.setLocaleRegion("CA");
+		try {
+            message = messageService.getMessage(localeInfo1, "Address", "State", contextInfo);
+            assertEquals(message.getLocale(), "CA");
+            assertEquals(message.getGroupName(), "Address");
+            assertEquals(message.getKey(), "State");
+            assertEquals(message.getValue(), "Province:");
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }		
 	}
 	
 	@Test
 	public void testGetMessages(){
-		List<Message> messages = messageService.getMessages("US", "Address").getMessages();
-		assertEquals(2, messages.size());
-		for(Message m: messages){
-			assertEquals(m.getLocale(), "US");
-			assertEquals(m.getGroupName(), "Address");
-            assertTrue(m.getId().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
-		}
-		messages = messageService.getMessages("CA", "Address").getMessages();
-		assertEquals(2, messages.size());
-		for(Message m: messages){
-			assertEquals(m.getLocale(), "CA");
-			assertEquals(m.getGroupName(), "Address");
-            assertTrue(m.getId().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
-		}
-		messages = messageService.getMessages("US", "Name").getMessages();
-		assertEquals(1, messages.size());
-		for(Message m: messages){
-			assertEquals(m.getLocale(), "US");
-			assertEquals(m.getGroupName(), "Name");
-            assertEquals(m.getValue(), "Enter your last name:");
-		}
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+	    LocaleInfo localeInfo = new LocaleInfo();
+	    localeInfo.setLocaleRegion("US");
+		List<MessageInfo> messages;
+        try {
+            messages = messageService.getMessages(localeInfo, "Address", contextInfo);
+            assertEquals(2, messages.size());
+            for(MessageInfo m: messages){
+                assertEquals(m.getLocale(), "US");
+                assertEquals(m.getGroupName(), "Address");
+                assertTrue(m.getKey().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
+            }
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+		
+		LocaleInfo localeInfo1 = new LocaleInfo();
+		localeInfo1.setLocaleRegion("CA");
+		try {
+            messages = messageService.getMessages(localeInfo1, "Address", contextInfo);
+            assertEquals(2, messages.size());
+            for(MessageInfo m: messages){
+                assertEquals(m.getLocale(), "CA");
+                assertEquals(m.getGroupName(), "Address");
+                assertTrue(m.getKey().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
+            }
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+		
+		try {
+            messages = messageService.getMessages(localeInfo, "Name", contextInfo);
+            assertEquals(1, messages.size());
+            for(MessageInfo m: messages){
+                assertEquals(m.getLocale(), "US");
+                assertEquals(m.getGroupName(), "Name");
+                assertEquals(m.getValue(), "Enter your last name:");
+            }
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }		
 	}
 	
 	@Test
 	public void testGetMessagesByGroup(){
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 		List<String> groupKeys = new ArrayList<String>();
 		groupKeys.add("Address");
 		groupKeys.add("Name");
 		MessageGroupKeyList groupKeyList = new MessageGroupKeyList();
 		groupKeyList.setMessageGroupKeys(groupKeys);
-		List<Message> messages = messageService.getMessagesByGroups("US", groupKeyList).getMessages();
-		assertEquals(3, messages.size());
-		for(Message m: messages){
-			assertEquals(m.getLocale(), "US");
-			assertTrue(m.getGroupName().equals("Address") || m.getGroupName().equals("Name"));
-		}
-		
-		messages = messageService.getMessagesByGroups("CA", groupKeyList).getMessages();
-		assertEquals(3, messages.size());
-		for(Message m: messages){
-			assertEquals(m.getLocale(), "CA");
-			assertTrue(m.getGroupName().equals("Address") || m.getGroupName().equals("Name"));
-		}
+		LocaleInfo localeInfo = new LocaleInfo();
+		localeInfo.setLocaleRegion("US");
+		List<MessageInfo> messages;
+        try {
+            messages = messageService.getMessagesByGroups(localeInfo, groupKeyList.getMessageGroupKeys(), contextInfo);
+            assertEquals(3, messages.size());
+            for(MessageInfo m: messages){
+                assertEquals(m.getLocale(), "US");
+                assertTrue(m.getGroupName().equals("Address") || m.getGroupName().equals("Name"));
+            }
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+				
+		LocaleInfo localeInfo1 = new LocaleInfo();
+		localeInfo1.setLocaleRegion("CA");
+		try {
+            messages = messageService.getMessagesByGroups(localeInfo1, groupKeyList.getMessageGroupKeys(), contextInfo);
+            assertEquals(3, messages.size());
+            for(MessageInfo m: messages){
+                assertEquals(m.getLocale(), "CA");
+                assertTrue(m.getGroupName().equals("Address") || m.getGroupName().equals("Name"));
+            }
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        }		
 	}
 	
 	@Test
-	public void testUpdateMessage(){
-		Message m = new Message();
+	public void testUpdateMessage() {
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+		MessageInfo m = new MessageInfo();
+		LocaleInfo localeInfo = new LocaleInfo();
+		localeInfo.setLocaleRegion("US");
 		m.setGroupName("Course");
-		m.setLocale("US");
-		m.setId("Grading");
+		m.setKey("Grading");
 		m.setValue("Grading Scale");
 		
-		messageService.updateMessage("US", "Name", "Last", m);
-		Message result = messageService.getMessage("US", "Course", "Grading");
-		assertEquals(result.getLocale(), m.getLocale());
-		assertEquals(result.getId(), m.getId());
-		assertEquals(result.getValue(), m.getValue());
-		assertEquals(result.getGroupName(), m.getGroupName());
-		result = messageService.getMessage("US", "Name", "Last");
-		assertTrue(result == null);
+		try {
+            messageService.updateMessage(localeInfo, "Name", m, contextInfo);
+            MessageInfo result = messageService.getMessage(localeInfo, "Course", "Grading", contextInfo );
+            assertEquals(result.getLocale(), m.getLocale());
+            assertEquals(result.getKey(), m.getKey());
+            assertEquals(result.getValue(), m.getValue());
+            assertEquals(result.getGroupName(), m.getGroupName());
+            result = messageService.getMessage(localeInfo , "Name", "Last", contextInfo);
+            assertTrue(result == null);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (MissingParameterException e) {
+            e.printStackTrace();
+        } catch (OperationFailedException e) {
+            e.printStackTrace();
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();
+        } catch (ReadOnlyException e) {
+            e.printStackTrace();
+        } catch (VersionMismatchException e) {
+            e.printStackTrace();
+        }		
 	}
 }
