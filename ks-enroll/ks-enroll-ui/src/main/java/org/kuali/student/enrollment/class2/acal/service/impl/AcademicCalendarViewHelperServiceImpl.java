@@ -844,7 +844,15 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }
     }
 
-    private Date updateTime(Date date,String time,String amPm){
+    private Date updateTime(Date date,String time,String amPm) {
+
+        if (StringUtils.isBlank(time)) {
+            return date; // time is set to 12:00 am
+        }
+//        else
+//        if (StringUtils.isBlank(amPm)) {
+//            throw new Exception("Invalid arguments; time passed in without am/pm indicator.");
+//        }
         // Get Calendar object set to the date and time of the given Date object
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
