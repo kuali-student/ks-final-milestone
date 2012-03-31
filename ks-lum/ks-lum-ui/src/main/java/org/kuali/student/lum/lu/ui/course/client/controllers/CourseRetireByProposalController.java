@@ -3,6 +3,9 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.rice.StudentIdentityConstants;
@@ -16,11 +19,14 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
@@ -28,6 +34,7 @@ import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRetireByProposalConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseRetireProposalRpcService;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
@@ -176,4 +183,24 @@ public class CourseRetireByProposalController extends CourseProposalController {
     	return cfg.getState();
     }
 	
+	// KSLAB-2585: export Summary to PDF and DOC
+    @Override
+    public String getExportTemplateName() {
+        return "base.template";
+    }
+    
+    @Override
+    public List<ExportElement> getExportElementsFromView() {
+        List<ExportElement> exportElements = new ArrayList<ExportElement>();
+        if (this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {      
+            SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
+            ExportElement heading = new ExportElement();
+            heading.setFieldLabel("");
+            heading.setFieldValue("Retire Proposal");
+            exportElements.add(heading);
+            exportElements.addAll(ExportUtils.getDetailsForWidget(tableSection.getSummaryTable()));
+        }
+        return exportElements;
+    }
+
 }
