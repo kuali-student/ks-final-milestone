@@ -48,7 +48,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="CourseOfferingInfo.isWaitlistCheckinRequired"/>
                 <ref bean="CourseOfferingInfo.fundingSource"/>
                 <ref bean="CourseOfferingInfo.isFinancialAidEligible"/>
-                <ref bean="CourseOfferingInfo.registrationOrderTypeKey"/>
             </list>
         </property>
         <property name="complexAttributes">

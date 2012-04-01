@@ -28,9 +28,9 @@ public class TypeTypeRelationEntity extends MetaEntity {
     private Integer rank;
     @Column(name = "RELATED_TYPE_ID")
     private String relatedTypeId;
-    @Column(name = "TYPETYPE_RELATION_TYPE")
+    @Column(name = "TYPETYPE_RELTN_TYPE")
     private String type;
-    @Column(name = "TYPETYPE_RELATION_STATE")
+    @Column(name = "TYPETYPE_RELTN_STATE")
     private String state;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")

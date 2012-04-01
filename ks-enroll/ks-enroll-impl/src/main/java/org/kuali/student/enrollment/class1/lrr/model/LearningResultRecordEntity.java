@@ -22,10 +22,10 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
     @JoinColumn(name = "RT_DESCR_ID")
     private LrrRichTextEntity descr;
 
-    @Column(name = "LRR_TYPE")
+    @Column(name = "TYPE_ID")
     private String lrrType;
 
-    @Column(name = "LRR_STATE")
+    @Column(name = "STATE_ID")
     private String lrrState;
 
     @Column(name = "LPR_ID")

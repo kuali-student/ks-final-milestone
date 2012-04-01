@@ -43,13 +43,13 @@ public class MilestoneEntity extends MetaEntity {
     private String atpState;
 
     @Column(name = "IS_ALL_DAY", nullable = false)
-    private String isAllDay;
+    private boolean isAllDay;
 
     @Column(name = "IS_INSTRCT_DAY", nullable = false)
-    private String isInstructionalDay;
+    private boolean isInstructionalDay;
 
     @Column(name = "IS_DATE_RANGE", nullable = false)
-    private String isDateRange;
+    private boolean isDateRange;
 
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
@@ -58,7 +58,7 @@ public class MilestoneEntity extends MetaEntity {
     private String descrPlain;
 
     @Column(name = "IS_RELATIVE", nullable = false)
-    private String isRelative;
+    private boolean isRelative;
 
     @Column(name = "RELATIVE_ANCHOR_MSTONE_ID")
     private String relativeAnchorMilestoneId;
@@ -144,27 +144,27 @@ public class MilestoneEntity extends MetaEntity {
     }
 
     public boolean isAllDay() {
-        return toBoolean(isAllDay);
+        return isAllDay;
     }
 
     public void setAllDay(boolean isAllDay) {
-        this.isAllDay = toYN(isAllDay);
+        this.isAllDay = isAllDay;
     }
 
     public boolean isDateRange() {
-        return toBoolean(isDateRange);
+        return isDateRange;
     }
 
     public void setDateRange(boolean isDateRange) {
-        this.isDateRange = toYN(isDateRange);
+        this.isDateRange = isDateRange;
     }
 
     public boolean isRelative() {
-        return toBoolean(isRelative);
+        return isRelative;
     }
 
     public void setRelative(boolean relative) {
-        isRelative = toYN(relative);
+        isRelative = relative;
     }
 
     public String getRelativeAnchorMilestoneId() {
@@ -200,11 +200,11 @@ public class MilestoneEntity extends MetaEntity {
     }
 
     public boolean getIsInstructionalDay() {
-        return toBoolean(isInstructionalDay);
+        return isInstructionalDay;
     }
 
     public void setIsInstructionalDay(boolean isInstructionalDay) {
-        this.isInstructionalDay = toYN(isInstructionalDay);
+        this.isInstructionalDay = isInstructionalDay;
     }
     
 

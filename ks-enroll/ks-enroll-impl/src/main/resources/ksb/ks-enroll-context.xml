@@ -203,7 +203,7 @@
     <property name="lprService" ref="lprPersistenceService" />
   </bean>
 
-  <bean id="coMockService" class="org.kuali.student.enrollment.classII.courseoffering.service.CourseOfferingServiceMockImpl">
+  <bean id="coMockService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="courseService" ref="courseServiceImpl" />
   </bean>
 
@@ -266,12 +266,7 @@
 
   <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
     <property name="luiDao" ref="luiDao" />
-    <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
-    <property name="luiTypeDao" ref="luiTypeDao" />
-    <property name="luiRichTextDao" ref="luiRichTextDao" />
     <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
-    <property name="stateService" ref="stateService" />
-    <property name="atpService" ref="atpEnrService" />
   </bean>
 
   <bean id="statementServiceImpl" class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
@@ -307,14 +302,10 @@
 
   <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
     <property name="lprDao" ref="lprDao" />
-    <property name="luiDao" ref="luiDao" />
     <property name="lprRosterDao" ref="lprRosterDao" />
     <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
-    <property name="lprStateDao" ref="stateDao" />
-    <property name="lprTypeDao" ref="lprTypeDao" />
     <property name="lprTransDao" ref="lprTrasactionDao" />
     <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
-    <property name="stateService" ref="stateService" />
   </bean>
 
   <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
@@ -332,7 +323,6 @@
     <property name="resultValueDao" ref="resultValueDao" />
     <property name="resultScaleDao" ref="resultScaleDao" />
     <property name="stateService" ref="stateService" />
-    <property name="lrcTypeDao" ref="lrcTypeDao" />
   </bean>
 
   <bean id="ks.exp.LRCService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -433,9 +423,6 @@
       <property name="checkDao" ref="checkDao" />
       <property name="instructionDao" ref="instructionDao" />
       <property name="stateService" ref="stateService" />
-      <property name="processTypeDao" ref="processTypeDao" />
-      <property name="checkTypeDao" ref="checkTypeDao" />
-      <property name="instructionTypeDao" ref="instructionTypeDao" />
   </bean>
 
 </beans>
