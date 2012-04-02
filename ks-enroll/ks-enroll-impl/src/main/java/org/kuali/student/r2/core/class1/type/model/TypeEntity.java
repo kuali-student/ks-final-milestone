@@ -127,6 +127,7 @@ public class TypeEntity extends MetaEntity {
             this.setDescrPlain(type.getDescr().getPlain());
             this.setDescrFormatted(type.getDescr().getFormatted());
         }
+
         this.setRefObjectURI(type.getRefObjectUri());
         this.setEffectiveDate(type.getEffectiveDate());
         this.setExpirationDate(type.getExpirationDate());
@@ -143,7 +144,7 @@ public class TypeEntity extends MetaEntity {
         info.setRefObjectUri(refObjectURI);
         RichTextInfo rti = new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted);
         info.setDescr(rti);
-        info.setEffectiveDate(this.expirationDate);
+        info.setEffectiveDate(this.effectiveDate);
         info.setExpirationDate(this.expirationDate);
         info.setMeta(super.toDTO());
         if (attributes != null) {
