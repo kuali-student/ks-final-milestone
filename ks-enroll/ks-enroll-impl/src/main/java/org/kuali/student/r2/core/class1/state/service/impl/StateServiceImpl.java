@@ -107,21 +107,16 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public List<String> getLifecycleKeysByRefObjectUri(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<String> getLifecycleKeysByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LifecycleEntity> lifecycles = lifecycleDao.getLifecyclesByRefObjectUri(refObjectUri);
+        List<String> result = new ArrayList<String>();
+        for (LifecycleEntity entity : lifecycles) {
+            if (entity != null) {
+                result.add(entity.getId());
+            }
+        }
+        return result;
     }
-
-//    @Override
-//    public List<String> getLifecycleKeysByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-//        List<LifecycleEntity> lifecycles = lifecycleDao.getLifecyclesByRefObjectUri(refObjectUri);
-//        List<String> result = new ArrayList<String>();
-//        for (LifecycleEntity entity : lifecycles) {
-//            if (entity != null) {
-//                result.add(entity.getId());
-//            }
-//        }
-//        return result;
-//    }
 
     @Override
     public List<String> searchForLifecycleKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -320,6 +315,4 @@ public class StateServiceImpl implements StateService {
         deleteStatus.setSuccess(true);
         return deleteStatus;
     }
-
-
 }
