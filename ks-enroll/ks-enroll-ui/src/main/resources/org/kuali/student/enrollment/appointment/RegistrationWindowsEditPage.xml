@@ -121,11 +121,19 @@
                 </bean>
                 <bean parent="Uif-InputField"  p:label="Student Group"  p:propertyName="assignedPopulationName" p:required="true" p:style="font-weight:bold;">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="Uif-TextControl" p:size="40" />
                     </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.StudentGroupsFinder"/>
+                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />
+                    <property name="fieldLookup.fieldConversions">
+                        <map>
+                            <entry key="assignedPopulationName" value="id" />
+                        </map>
                     </property>
+                    <!--<property name="fieldSuggest.render" value="true" />-->
+                    <!--<property name="fieldSuggest.sourcePropertyName" value="name" />-->
+                    <!--<property name="fieldSuggest.suggestQuery.dataObjectClassName"-->
+                              <!--value="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />-->
+
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;" p:alternateDisplayPropertyName="startDateUI">
                     <property name="control">
