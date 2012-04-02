@@ -86,8 +86,6 @@
   <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
     <property name="luiDao" ref="luiDao" />
     <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
-    <property name="stateService" ref="stateService" />
-    <property name="atpService" ref="atpService" />
   </bean>
 
   <bean id="luiServiceValidation" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
@@ -204,12 +202,10 @@
 
   <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
     <property name="lprDao" ref="lprDao" />
-    <property name="luiDao" ref="luiDao" />
     <property name="lprRosterDao" ref="lprRosterDao" />
     <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
     <property name="lprTransDao" ref="lprTrasactionDao" />
     <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
-    <property name="stateService" ref="stateService" />
   </bean>
 
   <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.LRCServiceMockImpl" />

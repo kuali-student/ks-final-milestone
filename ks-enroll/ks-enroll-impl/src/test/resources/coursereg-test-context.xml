@@ -105,10 +105,8 @@
 
     <bean id="lprServiceImpl" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
         <property name="lprDao" ref="lprDao" />
-        <property name="luiDao" ref="luiDao" />
         <property name="lprTransDao" ref="lprTransDao" />
         <property name="lprRosterDao" ref="lprRosterDao" />
-        <property name="stateService" ref="stateService" />
         <property name="lprTransItemDao" ref="lprTransItemDao"/>
         <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
     </bean>

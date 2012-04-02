@@ -55,7 +55,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="lifecycleDao" ref="lifecycleDao" />
   </bean>
 
-  <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl"/>
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+        <property name="typeDao" ref="typeDao"/>
+        <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
+    </bean>
 
 
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
