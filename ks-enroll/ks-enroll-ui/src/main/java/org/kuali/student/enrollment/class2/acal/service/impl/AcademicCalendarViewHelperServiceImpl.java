@@ -832,27 +832,30 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     private Date getEndDateWithUpdatedTime(TimeSetWrapper timeSetWrapper){
         if (!timeSetWrapper.isAllDay()){
-            String startTime = timeSetWrapper.getStartTime();
-            String startTimeApPm = timeSetWrapper.getStartTimeAmPm();
-            if (StringUtils.isBlank(startTime)){
-                startTime = CalendarConstants.DEFAULT_END_TIME;
-                startTimeApPm = "PM";
+            String endTime = timeSetWrapper.getEndTime();
+            String endTimeApPm = timeSetWrapper.getEndTimeAmPm();
+            Date endDate = timeSetWrapper.getEndDate();
+            //If it's not date range..
+            if (!timeSetWrapper.isDateRange()){
+               endDate = timeSetWrapper.getStartDate();
             }
-            return updateTime(timeSetWrapper.getStartDate(),startTime,startTimeApPm);
+            if (StringUtils.isBlank(endTime)){
+                endTime = CalendarConstants.DEFAULT_END_TIME;
+                endTimeApPm = "PM";
+            }
+            return updateTime(endDate,endTime,endTimeApPm);
         }else{
-            return updateTime(timeSetWrapper.getStartDate(),"00:00",StringUtils.EMPTY );
+            if (timeSetWrapper.isDateRange()){
+                //just clearing out any time already set in end date
+                return updateTime(timeSetWrapper.getEndDate(),"00:00",StringUtils.EMPTY );
+            }else{
+                return null;
+            }
         }
     }
 
     private Date updateTime(Date date,String time,String amPm) {
 
-        if (StringUtils.isBlank(time)) {
-            return date; // time is set to 12:00 am
-        }
-//        else
-//        if (StringUtils.isBlank(amPm)) {
-//            throw new Exception("Invalid arguments; time passed in without am/pm indicator.");
-//        }
         // Get Calendar object set to the date and time of the given Date object
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
