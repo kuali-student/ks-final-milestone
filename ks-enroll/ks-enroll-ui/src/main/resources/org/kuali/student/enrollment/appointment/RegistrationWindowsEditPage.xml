@@ -126,7 +126,7 @@
                     <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />
                     <property name="fieldLookup.fieldConversions">
                         <map>
-                            <entry key="assignedPopulationName" value="id" />
+                            <entry key="id" value="assignedPopulationName" />
                         </map>
                     </property>
                     <!--<property name="fieldSuggest.render" value="true" />-->

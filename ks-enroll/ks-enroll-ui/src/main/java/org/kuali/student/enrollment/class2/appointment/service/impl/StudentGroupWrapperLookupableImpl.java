@@ -42,9 +42,9 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
         results.add(sg1);
 
         StudentGroupWrapper sg2 = new StudentGroupWrapper();
-        sg1.setDescription("Desc2");
-        sg1.setName("Name2");
-        sg1.setId("Id2");
+        sg2.setDescription("Desc2");
+        sg2.setName("Name2");
+        sg2.setId("Id2");
         results.add(sg2);
 
         return results;

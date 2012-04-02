@@ -76,6 +76,7 @@
                 <value>classpath:org/kuali/student/enrollment/appointment/RegistrationWindowsEditPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/appointment/SelectTermForRegWindowsPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/appointment/RegistrationWindowsManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/appointment/StudentPopulationLookupView.xml</value>
 
 			</list>
 		</property>
