@@ -36,7 +36,6 @@ import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -60,6 +59,7 @@ import java.util.*;
 public class AcademicCalendarController extends UifControllerBase {
 
     private AcademicCalendarService acalService;
+    private ContextInfo contextInfo;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -236,11 +236,8 @@ public class AcademicCalendarController extends UifControllerBase {
                              HttpServletRequest request, HttpServletResponse response) throws Exception{
         AcademicCalendarInfo academicCalendarInfo = academicCalendarForm.getAcademicCalendarInfo();
 
-        //TODO:Build real context.
-        ContextInfo context = TestHelper.getContext1();
-
         //Validate Term
-        getAcademicCalendarViewHelperService(academicCalendarForm).validateTerms(academicCalendarForm.getTermWrapperList(), context);
+        getAcademicCalendarViewHelperService(academicCalendarForm).validateTerms(academicCalendarForm.getTermWrapperList());
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 0){
            return getUIFModelAndView(academicCalendarForm);
@@ -271,13 +268,13 @@ public class AcademicCalendarController extends UifControllerBase {
 
         //Save Term and keydates
         for(AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
-            getAcademicCalendarViewHelperService(academicCalendarForm).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
+            getAcademicCalendarViewHelperService(academicCalendarForm).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId());
         }
 
         //Calculate instructional days (if HC exists)
         if (academicCalendarForm.getHolidayCalendarList() != null && !academicCalendarForm.getHolidayCalendarList().isEmpty()) {
             try{
-                getAcademicCalendarViewHelperService(academicCalendarForm).populateInstructionalDays(academicCalendarForm.getTermWrapperList(),context);
+                getAcademicCalendarViewHelperService(academicCalendarForm).populateInstructionalDays(academicCalendarForm.getTermWrapperList());
             }catch(Exception e){
                 //FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
                 e.printStackTrace();
@@ -313,9 +310,6 @@ public class AcademicCalendarController extends UifControllerBase {
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
 
-        //TODO:Build real context.
-        ContextInfo context = TestHelper.getContext1();
-
         if (termWrapper.getKeyDatesGroupWrappers() == null || termWrapper.getKeyDatesGroupWrappers().isEmpty()){
             GlobalVariables.getMessageMap().putError("termWrapperList","error.enroll.term.nokeydates",termWrapper.getTermNameForUI());
             return updateComponent(academicCalendarForm, result, request, response);
@@ -329,7 +323,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         try{
-            getAcademicCalendarViewHelperService(academicCalendarForm).setTermOfficial(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
+            getAcademicCalendarViewHelperService(academicCalendarForm).setTermOfficial(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId());
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS,"info.enroll.term.official",termWrapper.getTermNameForUI());
         }catch (Exception e){
             //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
@@ -376,12 +370,9 @@ public class AcademicCalendarController extends UifControllerBase {
             throw new RuntimeException("unable to determine the selected line index");
         }
 
-        //TODO:Build real context.
-        ContextInfo context = TestHelper.getContext1();
-
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
         try {
-            getAcademicCalendarViewHelperService(academicCalendarForm).deleteTerm(academicCalendarForm.getTermWrapperList(),selectedLineIndex,academicCalendarForm.getAcademicCalendarInfo().getId(),context);
+            getAcademicCalendarViewHelperService(academicCalendarForm).deleteTerm(academicCalendarForm.getTermWrapperList(),selectedLineIndex,academicCalendarForm.getAcademicCalendarInfo().getId());
         } catch (Exception e) {
             //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
             throw new RuntimeException(e);
@@ -410,9 +401,6 @@ public class AcademicCalendarController extends UifControllerBase {
             throw new RuntimeException("unable to determine the selected line index");
         }
 
-        //TODO:Build real context.
-        ContextInfo context = TestHelper.getContext1();
-
         String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath,"termWrapperList[","]");
         String selectedKeyDateGroup = StringUtils.substringBetween(selectedCollectionPath,"keyDatesGroupWrappers[","]");
 
@@ -420,7 +408,7 @@ public class AcademicCalendarController extends UifControllerBase {
         KeyDatesGroupWrapper keydateGroup = termWrapper.getKeyDatesGroupWrappers().get(Integer.parseInt(selectedKeyDateGroup));
         try {
 
-            getAcademicCalendarViewHelperService(academicCalendarForm).deleteKeyDate(keydateGroup,selectedLineIndex,context);
+            getAcademicCalendarViewHelperService(academicCalendarForm).deleteKeyDate(keydateGroup,selectedLineIndex);
         } catch (Exception e) {
             //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
             throw new RuntimeException(e);
@@ -449,14 +437,11 @@ public class AcademicCalendarController extends UifControllerBase {
             throw new RuntimeException("unable to determine the selected line index");
         }
 
-        //TODO:Build real context.
-        ContextInfo context = TestHelper.getContext1();
-
         String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath,"termWrapperList[","]");
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(Integer.parseInt(selectedTermIndex));
         try {
-            getAcademicCalendarViewHelperService(academicCalendarForm).deleteKeyDateGroup(termWrapper,selectedLineIndex,context);
+            getAcademicCalendarViewHelperService(academicCalendarForm).deleteKeyDateGroup(termWrapper,selectedLineIndex);
         } catch (Exception e) {
             //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
             throw new RuntimeException(e);
@@ -479,7 +464,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         acalForm.setEvents(events);
 
-        List<AcademicTermWrapper> termWrappers = getAcademicCalendarViewHelperService(acalForm).loadTerms(acalId,getContextInfo(acalForm));
+        List<AcademicTermWrapper> termWrappers = getAcademicCalendarViewHelperService(acalForm).loadTerms(acalId);
         acalForm.setTermWrapperList(termWrappers);
         
         List<HolidayCalendarWrapper> holidayCalendarWrapperList = getAcademicCalendarViewHelperService(acalForm).loadHolidayCalendars(acalInfo);
@@ -489,7 +474,7 @@ public class AcademicCalendarController extends UifControllerBase {
         //Calculate instructional days (if HC exists)
         if (acalForm.getHolidayCalendarList() != null && !acalForm.getHolidayCalendarList().isEmpty()) {
            try{
-                getAcademicCalendarViewHelperService(acalForm).populateInstructionalDays(acalForm.getTermWrapperList(),getContextInfo(acalForm));
+                getAcademicCalendarViewHelperService(acalForm).populateInstructionalDays(acalForm.getTermWrapperList());
             }catch(Exception e){
                 //FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
                 e.printStackTrace();
