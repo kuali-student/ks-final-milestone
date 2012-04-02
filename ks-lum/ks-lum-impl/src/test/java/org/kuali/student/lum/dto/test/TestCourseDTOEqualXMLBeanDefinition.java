@@ -1,6 +1,9 @@
 package org.kuali.student.lum.dto.test;
 
-import static org.junit.Assert.fail;
+import org.junit.Test;
+import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
+import org.kuali.student.r2.lum.course.dto.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -8,19 +11,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
-import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
-import org.kuali.student.r2.core.statement.dto.StatementInfo;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
-import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import static org.junit.Assert.fail;
 
 
 public class TestCourseDTOEqualXMLBeanDefinition {
@@ -52,16 +43,18 @@ public class TestCourseDTOEqualXMLBeanDefinition {
 	public void testCourseDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
-		startingClasses.add(ActivityInfo.class.getName());
-		startingClasses.add(CourseCrossListingInfo.class.getName());
-		startingClasses.add(CourseExpenditureInfo.class.getName());
-		startingClasses.add(CourseFeeInfo.class.getName());
+//		startingClasses.add(ActivityInfo.class.getName());
+//		startingClasses.add(CourseCrossListingInfo.class.getName());
+//		startingClasses.add(CourseExpenditureInfo.class.getName());
+//		startingClasses.add(CourseFeeInfo.class.getName());
+
 		startingClasses.add(CourseInfo.class.getName());//NullPointerException
-		startingClasses.add(CourseJointInfo.class.getName());
-		startingClasses.add(CourseRevenueInfo.class.getName());
-		startingClasses.add(CourseVariationInfo.class.getName());
-		startingClasses.add(FormatInfo.class.getName());
-		startingClasses.add(LoDisplayInfo.class.getName());
+
+//		startingClasses.add(CourseJointInfo.class.getName());
+//		startingClasses.add(CourseRevenueInfo.class.getName());
+//		startingClasses.add(CourseVariationInfo.class.getName());
+//		startingClasses.add(FormatInfo.class.getName());
+//		startingClasses.add(LoDisplayInfo.class.getName());
 		
 		String contextFile = "ks-courseInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
