@@ -50,7 +50,7 @@ public interface Lifecycle
      *
      * E.g http://student.kuali.org/luService/wsdl/CluInfo will be the
      *          //objectTypeURI for type 'kuali.lu.type.CreditCourse'
-
+     *
      * The refObjectURI has three parts:
      * <ol>
      *    <li>http://student.kuali.org/wsdl -- which is fixed
