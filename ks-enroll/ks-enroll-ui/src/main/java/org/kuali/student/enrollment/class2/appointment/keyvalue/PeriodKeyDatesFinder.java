@@ -62,6 +62,7 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
                 keyValue.setValue(period.getName());
                 keyValues.add(keyValue);
             }
+            keyValues.add(new ConcreteKeyValue("all", "All Registration Periods for this Term"));
         }
         return keyValues;
     }

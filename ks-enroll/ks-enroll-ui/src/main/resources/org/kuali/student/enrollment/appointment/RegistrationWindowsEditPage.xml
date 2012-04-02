@@ -60,20 +60,34 @@
         </property>
     </bean>
 
-    <bean id="KS-RegistrationWindows-PeriodSection" parent="Uif-HorizontalBoxSection" >
+    <bean id="KS-RegistrationWindows-PeriodSection" parent="Uif-VerticalBoxSection" >
         <property name="title" value="" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="Period"
-                      p:labelPlacement="TOP" p:labelField.renderColon="false"
-                      p:propertyName="periodName" p:labelField.style="display:block;">
-                    <property name="control">
-                        <!--<bean parent="Uif-TextControl" p:size="30" />-->
-                        <bean parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.PeriodKeyDatesFinder"/>
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:label="Period"
+                                  p:labelPlacement="TOP" p:labelField.renderColon="false"
+                                  p:propertyName="periodId" p:labelField.style="display:block;">
+                                <property name="control">
+                                    <!--<bean parent="Uif-TextControl" p:size="30" />-->
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.PeriodKeyDatesFinder"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="show" p:actionLabel="Show" p:clientSideValidate="true" />
+                        </list>
+                   </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="@{periodInfoDetails}" p:styleClasses="font-light12"/>
+                        </list>
                     </property>
                 </bean>
                 <!--<bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.adminOrgId"-->
@@ -105,7 +119,7 @@
         <property name="items">
             <list>
                 <!-- period, name, student group, start date, start time, am/pm -->
-                <bean parent="Uif-InputField" p:label="Period" p:propertyName="periodName" p:required="true" p:style="font-weight:bold;" >
+                <bean parent="Uif-InputField" p:label="Period" p:propertyName="periodKey" p:required="true" p:style="font-weight:bold;" p:render="@{#form.periodId =='all'}">
                     <property name="control">
                         <!--<bean parent="Uif-TextControl" p:size="30" />-->
                         <bean parent="Uif-DropdownControl"/>
@@ -114,6 +128,13 @@
                         <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.PeriodKeyDatesFinder"/>
                     </property>
                 </bean>
+
+                <bean parent="Uif-InputField" p:label="Period" p:propertyName="periodName" p:required="true" p:style="font-weight:bold;" p:render="@{#form.periodId !='all'}" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" />
+                    </property>
+                </bean>
+
                 <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="appointmentWindowInfo.name" p:required="true" p:style="font-weight:bold;">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" />

@@ -13,13 +13,16 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
     private TermInfo termInfo;
     private String termType;
     private String termYear;
+    private String periodId;
     private String periodName;
+    private String periodInfoDetails;
     private List<KeyDateInfo> periodMilestones;
     private List<AppointmentWindowWrapper> appointmentWindows;
 //    private Map<String, List<AppointmentWindowInfo>> periodAndWindowsMap;
 
     public RegistrationWindowsManagementForm(){
         termInfo = new TermInfo();
+        periodInfoDetails = new String();
         periodMilestones = new ArrayList<KeyDateInfo>();
         appointmentWindows = new ArrayList<AppointmentWindowWrapper>();
 //        periodAndWindowsMap = new HashMap<String, List<AppointmentWindowInfo>>();
@@ -49,12 +52,28 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
         this.termYear = termYear;
     }
 
+    public String getPeriodId() {
+        return periodId;
+    }
+
+    public void setPeriodId(String periodId) {
+        this.periodId = periodId;
+    }
+
     public String getPeriodName() {
         return periodName;
     }
 
     public void setPeriodName(String periodName) {
         this.periodName = periodName;
+    }
+
+    public String getPeriodInfoDetails() {
+        return periodInfoDetails;
+    }
+
+    public void setPeriodInfoDetails(String periodInfoDetails) {
+        this.periodInfoDetails = periodInfoDetails;
     }
 
     public List<KeyDateInfo> getPeriodMilestones() {

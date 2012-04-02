@@ -2,17 +2,22 @@ package org.kuali.student.enrollment.class2.appointment.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
@@ -21,6 +26,8 @@ import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsM
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,6 +46,9 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/registrationWindows")
 public class RegistrationWindowsController extends UifControllerBase {
+    
+    private AcademicCalendarService acalService;
+    private ContextInfo contextInfo;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -78,12 +88,54 @@ public class RegistrationWindowsController extends UifControllerBase {
         return getUIFModelAndView(searchForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
     }
 
+    @RequestMapping(params = "methodToCall=save")
+    public ModelAndView save(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=show")
+    public ModelAndView show(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String periodId = form.getPeriodId();
+        String periodInfoDetails = new String();
+        if (periodId != "all") {
+            KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
+            if (period.getName() != null) {
+                periodInfoDetails = period.getName()+" Start Date: "+period.getStartDate()+ "\n <br>"
+                                   + period.getName()+" End Date: "+period.getEndDate();
+            } else {
+                periodInfoDetails = period.getId()+" Start Date: "+period.getStartDate()+ "\n <br>"
+                        + period.getId()+" End Date: "+period.getEndDate();
+            }
+        }
+        System.out.println(periodInfoDetails);
+        form.setPeriodInfoDetails(periodInfoDetails);
+        return getUIFModelAndView(form);    
+    }
+
     private AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm){
         if (appointmentForm.getView().getViewHelperServiceClassName() != null){
             return (AppointmentViewHelperService)appointmentForm.getView().getViewHelperService();
         }else{
             return (AppointmentViewHelperService)appointmentForm.getPostedView().getViewHelperService();
         }
+    }
+
+    public AcademicCalendarService getAcalService() {
+        if(acalService == null) {
+            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.acalService;
+    }
+
+    private ContextInfo getContextInfo() {
+        if (null == contextInfo) {
+            //TODO - get real ContextInfo
+            contextInfo = TestHelper.getContext1();
+        }
+        return contextInfo;
     }
 
 }

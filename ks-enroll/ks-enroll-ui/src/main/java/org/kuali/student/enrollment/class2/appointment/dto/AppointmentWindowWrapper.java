@@ -7,6 +7,7 @@ import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 public class AppointmentWindowWrapper extends TimeSetWrapper {
     AppointmentWindowInfo appointmentWindowInfo;
     String periodName;
+    String periodKey;
     String assignedPopulationName;
     private String windowTypeKey;
 
@@ -28,6 +29,14 @@ public class AppointmentWindowWrapper extends TimeSetWrapper {
 
     public void setPeriodName(String periodName) {
         this.periodName = periodName;
+    }
+
+    public String getPeriodKey() {
+        return periodKey;
+    }
+
+    public void setPeriodKey(String periodKey) {
+        this.periodKey = periodKey;
     }
 
     public String getAssignedPopulationName() {
