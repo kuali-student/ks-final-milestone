@@ -77,14 +77,6 @@ ALTER TABLE KSEN_MSTONE MODIFY VER_NBR NUMBER(19) NOT NULL
 ALTER TABLE KSEN_MSTONE_ATTR RENAME COLUMN OWNER TO OWNER_ID
 /
 
-
------------------------------------------------
---- TYPE UPGRADES
------------------------------------------------
-
-INSERT INTO KSEN_TYPE (TYPE_KEY, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, EFF_DT, EXPIR_DT, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) (SELECT TYPE_KEY, OBJ_ID, NAME, TYPE_DESC, NULL, EFF_DT, EXPIR_DT, REF_OBJECT_URI, VER_NBR, TO_DATE('1-1-1970 00:00:00','MM-DD-YYYY HH24:Mi:SS'), 'SYSTEMLOADER', TO_DATE('1-1-1970 00:00:00','MM-DD-YYYY HH24:Mi:SS'), 'SYSTEMLOADER' FROM KSEN_ATP_TYPE)
-/
-
 -----------------------------------------------
 --- STATE UPGRADES
 -----------------------------------------------
@@ -145,7 +137,7 @@ END;
 /
 
 -----------------------------------------------
---- REFERENCE TYPES
+--- NEW ATP REFERENCE TYPES
 -----------------------------------------------
 
 INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,EXPIR_DT,REF_OBJECT_URI,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group', null, 'Group Type Type Relation','Types grouped together','Types grouped together', null, null, null, 0, to_date('2012-03-01', 'YYYY-MM-DD'), 'SYSTEMLOADER', null,null)
@@ -165,7 +157,7 @@ INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,E
 
 
 -----------------------------------------------
---- ATP TYPES
+--- NEW ATP TYPES
 -----------------------------------------------
 
 INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,EXPIR_DT,REF_OBJECT_URI,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.atp.milestone.LaborDay', null, 'Labor Day','','', null, null, 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0, to_date('2012-03-01', 'YYYY-MM-DD'), 'SYSTEMLOADER', null,null)
