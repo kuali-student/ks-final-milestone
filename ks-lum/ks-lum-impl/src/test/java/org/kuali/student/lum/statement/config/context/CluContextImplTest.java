@@ -390,7 +390,7 @@ public class CluContextImplTest {
         }
 
         @Override
-        public List<String> getAllowedLuLuRelationTypesForLuType(String luTypeKey, String relatedLuTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, org.kuali.student.r1.common.exceptions.DoesNotExistException, org.kuali.student.r1.common.exceptions.InvalidParameterException, org.kuali.student.r1.common.exceptions.MissingParameterException, org.kuali.student.r1.common.exceptions.OperationFailedException {
+        public List<String> getAllowedLuLuRelationTypesForLuType(String luTypeKey, String relatedLuTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
             // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
             return null;
         }

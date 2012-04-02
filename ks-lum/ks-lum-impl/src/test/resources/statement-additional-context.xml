@@ -183,7 +183,7 @@
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"
-                    value="org.kuali.student.r1.common.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
                 <entry
                     key="org.hibernate.exception.ConstraintViolationException"
                     value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />

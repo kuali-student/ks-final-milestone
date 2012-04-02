@@ -57,7 +57,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException,
 			DependentObjectsExistException, CircularRelationshipException,
-			AssemblyException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException, ReadOnlyException, org.kuali.student.r1.common.exceptions.DataValidationErrorException, org.kuali.student.r1.common.exceptions.DoesNotExistException, org.kuali.student.r1.common.exceptions.InvalidParameterException, org.kuali.student.r1.common.exceptions.MissingParameterException, org.kuali.student.r1.common.exceptions.OperationFailedException, org.kuali.student.r1.common.exceptions.PermissionDeniedException, org.kuali.student.r1.common.exceptions.VersionMismatchException, org.kuali.student.r1.common.exceptions.AlreadyExistsException {
+			AssemblyException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException, ReadOnlyException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
 
 	    // For Delete operation process the tree from bottom up
 	    if(NodeOperation.DELETE == results.getOperation()) {
@@ -109,7 +109,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			PermissionDeniedException, AssemblyException,
 			VersionMismatchException, DependentObjectsExistException,
 			CircularRelationshipException, UnsupportedActionException,
-			UnsupportedOperationException, CircularReferenceException, ReadOnlyException, org.kuali.student.r1.common.exceptions.DataValidationErrorException, org.kuali.student.r1.common.exceptions.DoesNotExistException, org.kuali.student.r1.common.exceptions.InvalidParameterException, org.kuali.student.r1.common.exceptions.MissingParameterException, org.kuali.student.r1.common.exceptions.OperationFailedException, org.kuali.student.r1.common.exceptions.PermissionDeniedException, org.kuali.student.r1.common.exceptions.VersionMismatchException, org.kuali.student.r1.common.exceptions.AlreadyExistsException {
+			UnsupportedOperationException, CircularReferenceException, ReadOnlyException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
 		Object nodeData = results.getNodeData();
 		if (nodeData == null) {
 			return;

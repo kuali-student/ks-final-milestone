@@ -1,6 +1,9 @@
 package org.kuali.student.lum.dto.test;
 
-import static org.junit.Assert.fail;
+import org.junit.Test;
+import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
+import org.kuali.student.r2.lum.clu.dto.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -8,47 +11,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
-import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
-import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
-import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementInfo;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo;
-import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
-import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
-import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
-import org.kuali.student.r2.lum.clu.dto.CluAccountingInfo;
-import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluCreditInfo;
-import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
-import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
-import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
-import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
-import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
-import org.kuali.student.r2.lum.clu.dto.FeeInfo;
-import org.kuali.student.r2.lum.clu.dto.FieldInfo;
-import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
-import org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo;
-import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
-import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
-import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
-import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import static org.junit.Assert.fail;
 
 public class TestCluDTOEqualXMLBeanDefinition {
 
@@ -75,7 +38,7 @@ public class TestCluDTOEqualXMLBeanDefinition {
 		}
 	}
 
-	//@Test
+	@Test
 	public void testCluDTOsAgainstDataDictionary() {
 		  System.out.println("testing statement dictionary");
 		  //TODO KSCM Correct errors below
