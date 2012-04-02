@@ -163,6 +163,7 @@ public class TestTypeServiceImpl {
         TypeInfo type1 = new TypeInfo();
         type1.setKey("kuali.atp.type.TestAtp1");
         type1.setName("ATP test create1");
+        type1.setDescr(new RichTextHelper().fromPlain("ATP description 1"));
         type1.setEffectiveDate(new Date());
         type1.setRefObjectUri(AtpServiceConstants.REF_OBJECT_URI_ATP);
         info = typeService.createType(type1.getKey(), type1, context);
@@ -170,6 +171,7 @@ public class TestTypeServiceImpl {
         TypeInfo type2 = new TypeInfo();
         type2.setKey("kuali.atp.type.TestAtp2");
         type2.setName("ATP test create2");
+        type2.setDescr(new RichTextHelper().fromPlain("ATP description 2"));
         type2.setEffectiveDate(new Date());
         type2.setRefObjectUri(AtpServiceConstants.REF_OBJECT_URI_ATP);
         info = typeService.createType(type2.getKey(), type2, context);
@@ -177,6 +179,7 @@ public class TestTypeServiceImpl {
         TypeInfo type3 = new TypeInfo();
         type3.setKey("kuali.atp.type.TestAtp3");
         type3.setName("ATP test create3");
+        type3.setDescr(new RichTextHelper().fromPlain("ATP description 3"));
         type3.setEffectiveDate(new Date());
         type3.setRefObjectUri(AtpServiceConstants.REF_OBJECT_URI_ATP);
         info = typeService.createType(type3.getKey(), type3, context);
