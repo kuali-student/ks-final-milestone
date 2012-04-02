@@ -66,7 +66,7 @@ public class TestAppointmentServiceImpl {
     private Long endInMillis; // end of appointment slot
     // For use with AppointmentSlot testing
     private AppointmentSlotInfo apptSlotInfo;
-    private String slotId;
+//    private String slotId;
     private Date startDate;
 
     // No longer @Before
@@ -77,9 +77,7 @@ public class TestAppointmentServiceImpl {
     }
 
     private void makeAppointmentWindowInfo() {
-        String id = UUIDHelper.genStringUUID();
         apptWindowInfo = new AppointmentWindowInfo();
-        apptWindowInfo.setId(id);
         makeSlotRule();
         // Uses rule from makeSlotRule
         apptWindowInfo.setSlotRule(rule);
@@ -113,8 +111,6 @@ public class TestAppointmentServiceImpl {
         apptSlotInfo.setStartDate(startDate);
         Date endDate = createDate(2012, 3, 17, 17, 0);
         apptSlotInfo.setEndDate(endDate);
-        slotId = UUIDHelper.genStringUUID();
-        apptSlotInfo.setId(slotId);
         apptSlotInfo.setAppointmentWindowId(apptWindowInfo.getId());
     }
 
@@ -215,6 +211,7 @@ public class TestAppointmentServiceImpl {
                     appointmentService.generateAppointmentSlotsByWindow(window.getId(), contextInfo);
             AppointmentSlotRuleInfo slotRule = window.getSlotRule();
             _checkAppointmentSlots(slots, window.getStartDate(), window.getEndDate(), slotRule);
+            List<AppointmentSlotInfo> slotInfoList = appointmentService.getAppointmentSlotsByWindow(window.getId(), contextInfo);
         } catch (Exception e) {
             System.err.println("Exception");
             e.printStackTrace();
@@ -227,7 +224,6 @@ public class TestAppointmentServiceImpl {
         before();
         // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
         try {
-            apptWindowInfo.setId(UUIDHelper.genStringUUID());
             AppointmentWindowInfo window = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY,
                     apptWindowInfo, contextInfo);
             List<AppointmentSlotInfo> slots =
@@ -246,15 +242,14 @@ public class TestAppointmentServiceImpl {
     @Test
     public void testApptWinCreate() {
         before();
-        String id = UUIDHelper.genStringUUID();
-        apptWindowInfo.setId(id);
         try {
-            appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL, 
+            AppointmentWindowInfo windowInfo = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
                                                         apptWindowInfo, new ContextInfo());
             // Now try to get it back
+            String id = windowInfo.getId();
             AppointmentWindowInfo info = appointmentService.getAppointmentWindow(id, contextInfo);
             assertNotNull(info);
-            assertEquals(id, info.getId());
+            // TODO: Add another test
         } catch (Exception e) {
             System.err.println("Exception caught ==========================");
             e.printStackTrace();
@@ -265,12 +260,11 @@ public class TestAppointmentServiceImpl {
     @Test
     public void testApptWinDelete() {
         before();
-        String id = UUIDHelper.genStringUUID();
         boolean shouldExist = true;
-        apptWindowInfo.setId(id);
         try {
-            appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
+            AppointmentWindowInfo windowInfo = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
                     apptWindowInfo, contextInfo);
+            String id = windowInfo.getId();
             // Fetch it
             AppointmentWindowInfo retrieved = appointmentService.getAppointmentWindow(id, contextInfo);
             assertNotNull(retrieved);
@@ -292,11 +286,10 @@ public class TestAppointmentServiceImpl {
     @Test
     public void testApptWinUpdate() {
         before();
-        String id = UUIDHelper.genStringUUID();
-        apptWindowInfo.setId(id);
         try {
-            appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
+            AppointmentWindowInfo windowInfo = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
                     apptWindowInfo, new ContextInfo());
+            String id = windowInfo.getId();
             // Fetch it
             AppointmentWindowInfo retrieved = appointmentService.getAppointmentWindow(id, contextInfo);
             assertNotNull(retrieved);
@@ -321,17 +314,16 @@ public class TestAppointmentServiceImpl {
     public void testApptSlotCreate() {
         before();
         // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
-        String apptWinId = UUIDHelper.genStringUUID();
-        apptWindowInfo.setId(apptWinId);
         try {
-            appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
+            AppointmentWindowInfo windowInfo = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
                     apptWindowInfo, contextInfo);
-            appointmentService.createAppointmentSlot(apptWinId, AppointmentServiceConstants.APPOINTMENT_SLOT_TYPE_OPEN_KEY,
+            String apptWinId = windowInfo.getId();
+            AppointmentSlotInfo created = appointmentService.createAppointmentSlot(apptWinId, AppointmentServiceConstants.APPOINTMENT_SLOT_TYPE_OPEN_KEY,
                     apptSlotInfo, contextInfo);
             // Now try to get it back
-            AppointmentSlotInfo info = appointmentService.getAppointmentSlot(slotId, contextInfo);
+            AppointmentSlotInfo info = appointmentService.getAppointmentSlot(created.getId(), contextInfo);
             assertNotNull(info);
-            assertEquals(slotId, info.getId());
+            assertEquals(created.getId(), info.getId());
         } catch (Exception e) {
             System.err.println("Exception");
             assert(false);
@@ -342,22 +334,22 @@ public class TestAppointmentServiceImpl {
     public void testApptSlotDelete() {
         before();
         // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
-        String apptWinId = UUIDHelper.genStringUUID();
         boolean shouldExist = true;
-        apptWindowInfo.setId(apptWinId);
         try {
-            appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
+            AppointmentWindowInfo windowInfo = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
                     apptWindowInfo, contextInfo);
-            appointmentService.createAppointmentSlot(apptWinId, AppointmentServiceConstants.APPOINTMENT_SLOT_TYPE_OPEN_KEY,
+            String apptWinId = windowInfo.getId();
+            AppointmentSlotInfo created = appointmentService.createAppointmentSlot(apptWinId, AppointmentServiceConstants.APPOINTMENT_SLOT_TYPE_OPEN_KEY,
                     apptSlotInfo, contextInfo);
+            String createdId = created.getId();
             // Now try to get it back
-            AppointmentSlotInfo info = appointmentService.getAppointmentSlot(slotId, contextInfo);
+            AppointmentSlotInfo info = appointmentService.getAppointmentSlot(createdId, contextInfo);
             assertNotNull(info);
             // Now try to delete it
             System.err.println("Getting ready to delete");
-            appointmentService.deleteAppointmentSlot(slotId, contextInfo);
+            appointmentService.deleteAppointmentSlot(info.getId(), contextInfo);
             shouldExist = false;
-            appointmentService.getAppointmentSlot(slotId, contextInfo); // should throw DoesNotExistException
+            appointmentService.getAppointmentSlot(createdId, contextInfo); // should throw DoesNotExistException
         } catch  (DoesNotExistException e) {
             System.err.println("DoesNotExistException caught ==========================");
             assert(!shouldExist); // We expect this exception if shouldExist is false
@@ -371,13 +363,13 @@ public class TestAppointmentServiceImpl {
     public void testAppSlotUpdate() {
         before();
         // This requires AppointmentWindow to be created so AppointmentSlot can refer to it
-        String apptWinId = UUIDHelper.genStringUUID();
-        apptWindowInfo.setId(apptWinId);
         try {
-            appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
+            AppointmentWindowInfo windowInfo = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
                     apptWindowInfo, contextInfo);
-            appointmentService.createAppointmentSlot(apptWinId, AppointmentServiceConstants.APPOINTMENT_SLOT_TYPE_OPEN_KEY,
+            String apptWinId = windowInfo.getId();
+            AppointmentSlotInfo slotInfo = appointmentService.createAppointmentSlot(apptWinId, AppointmentServiceConstants.APPOINTMENT_SLOT_TYPE_OPEN_KEY,
                     apptSlotInfo, contextInfo);
+            String slotId = slotInfo.getId();
             // Now try to get it back
             AppointmentSlotInfo info = appointmentService.getAppointmentSlot(slotId, contextInfo);
             // Check if the date in the retrieved data is the same

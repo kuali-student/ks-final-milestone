@@ -18,6 +18,12 @@ package org.kuali.student.r2.core.class1.appointment.dao;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
+import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
+
+import java.util.Date;
+import java.util.List;
+
+import static javax.persistence.TemporalType.DATE;
 
 /**
  * This class //TODO ...
@@ -25,4 +31,8 @@ import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
  * @author Kuali Student Team
  */
 public class AppointmentSlotDao extends GenericEntityDao<AppointmentSlotEntity>  {
+    public List<AppointmentSlotEntity> getSlotsByWindowId(String apptWindowId) {
+        return em.createQuery("from AppointmentSlotEntity a where a.apptWinEntity.id = :apptWindowId")
+                .setParameter("apptWindowId", apptWindowId).getResultList();
+    }
 }
