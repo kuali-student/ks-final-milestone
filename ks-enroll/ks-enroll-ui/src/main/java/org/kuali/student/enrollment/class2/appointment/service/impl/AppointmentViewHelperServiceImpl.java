@@ -19,11 +19,14 @@ package org.kuali.student.enrollment.class2.appointment.service.impl;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -131,6 +134,18 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 //            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get PermissionDeniedException:  "+pde.toString());
 //        }
 
+    }
+    
+    
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
+        if (addLine instanceof AppointmentWindowWrapper){
+            AppointmentWindowWrapper inputLine = (AppointmentWindowWrapper)addLine;
+            String periodId = form.getPeriodId();
+            if (periodId != "all" && !periodId.isEmpty()){
+                inputLine.setPeriodName(form.getPeriodName());
+            }
+        }
     }
 
     public AcademicCalendarService getAcalService() {

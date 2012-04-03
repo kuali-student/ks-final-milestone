@@ -37,13 +37,13 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
 
         StudentGroupWrapper sg1 = new StudentGroupWrapper();
         sg1.setDescription("Desc1");
-        sg1.setName("Name1");
+        sg1.setName("Athletes");
         sg1.setId("Id1");
         results.add(sg1);
 
         StudentGroupWrapper sg2 = new StudentGroupWrapper();
         sg2.setDescription("Desc2");
-        sg2.setName("Name2");
+        sg2.setName("Seniors");
         sg2.setId("Id2");
         results.add(sg2);
 

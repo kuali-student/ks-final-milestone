@@ -7,21 +7,12 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
-import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
-import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
-import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
@@ -98,20 +89,29 @@ public class RegistrationWindowsController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=show")
     public ModelAndView show(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
         String periodId = form.getPeriodId();
         String periodInfoDetails = new String();
-        if (periodId != "all") {
+        if (periodId != "all" && !periodId.isEmpty()) {
+            // display the period start/end time in details and the period name in the AddLine
+            AppointmentWindowWrapper addLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
             KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
             if (period.getName() != null) {
-                periodInfoDetails = period.getName()+" Start Date: "+period.getStartDate()+ "\n <br>"
+                periodInfoDetails = period.getName()+" Start Date: "+period.getStartDate()+ "<br>"
                                    + period.getName()+" End Date: "+period.getEndDate();
+                form.setPeriodName(period.getName());
+                addLine.setPeriodName(period.getName());
             } else {
-                periodInfoDetails = period.getId()+" Start Date: "+period.getStartDate()+ "\n <br>"
+                periodInfoDetails = period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
                         + period.getId()+" End Date: "+period.getEndDate();
+                form.setPeriodName(period.getId());
+                addLine.setPeriodName(period.getId());
             }
+            form.setPeriodInfoDetails(periodInfoDetails);
+
+            //TODO: pull out all windows for that period and add to the collection
         }
-        System.out.println(periodInfoDetails);
-        form.setPeriodInfoDetails(periodInfoDetails);
         return getUIFModelAndView(form);    
     }
 

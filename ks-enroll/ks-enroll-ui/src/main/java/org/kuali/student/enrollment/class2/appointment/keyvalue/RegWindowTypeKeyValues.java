@@ -6,9 +6,9 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 
-//import org.kuali.student.r2.common.dto.ContextInfo;
-//import org.kuali.student.r2.core.type.dto.TypeInfo;
-//import org.kuali.student.test.utilities.TestHelper;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.test.utilities.TestHelper;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 
@@ -39,8 +39,24 @@ public class RegWindowTypeKeyValues extends KeyValuesBase implements Serializabl
             keyValues.add(keyValue);
         }
 
+        //TODO:Build real context.
+//        ContextInfo context = TestHelper.getContext1();
+//
+//        try {
+//            List<TypeInfo> types = getAppointmentService().getAppointmentWindowTypes()??
+//            for (TypeInfo type : types) {
+//                ConcreteKeyValue keyValue = new ConcreteKeyValue();
+//                keyValue.setKey(type.getKey());
+//                keyValue.setValue(type.getName());
+//                keyValues.add(keyValue);
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+
         return keyValues;
     }
+
 
     public AppointmentService getAppointmentService() {
         if(appointmentService == null) {
