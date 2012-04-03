@@ -13,7 +13,6 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.enrollment.courseoffering.infc;
 
 import java.util.Date;
@@ -21,17 +20,24 @@ import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 
-
 /**
  * Individual activity offerings correspond to events in a scheduling
  * system, each with a meeting pattern.
  *
  * @author Kamal
  */
+public interface ActivityOffering
+        extends IdEntity {
 
-public interface ActivityOffering 
-    extends IdEntity {
-    
+    /**
+     * Format offering Id used to create this activity
+     *
+     * @name Format Offering Id
+     * @required
+     * @readonly
+     */
+    public String getFormatOfferingId();
+
     /**
      * Canonical activity whose instance is this activity offering.
      *
@@ -40,10 +46,11 @@ public interface ActivityOffering
      * @readonly
      */
     public String getActivityId();
-    
+
     /**
-     * Academic term the activity is being offered in. Should be the
-     * same as course offering term or a nested term of course
+     * Academic term the activity is being offered in. 
+     * 
+     * Same as course offering term or a nested term of course
      * offering.
      * 
      * @name Term Id
@@ -52,23 +59,23 @@ public interface ActivityOffering
      * @impl map to Lui.getAtpId
      */
     public String getTermId();
-   
+
     /**
      * Alphanumeric character that identifies the section of the
      * course offering.
      *
      * @name Activity Code
      */
-    public String getActivityCode();   
-    
+    public String getActivityCode();
+
     /**
      * Gets the schedule Id for this offering.
      *
      * @name Schedule Id
      * @impl maps to Scheduling service not implemented
      */
-    public String getScheduleId();    
-        
+    public String getScheduleId();
+
     /**
      * Indicates that the course is an Honors Course.
      *
@@ -76,7 +83,7 @@ public interface ActivityOffering
      * @required
      */
     public Boolean getIsHonorsOffering();
-    
+
     /**
      * The options/scales that indicate the allowable grades that can
      * be awarded.  If the value is set here then the canonical course
@@ -86,7 +93,7 @@ public interface ActivityOffering
      * @impl maps to Lui.gradingOptions
      */
     public List<String> getGradingOptionKeys();
-    
+
     /**
      * Instructors for the activity. This list should be constrained
      * by the instructors listed on the course offering.
@@ -95,40 +102,36 @@ public interface ActivityOffering
      * @impl maps to Lui.instructors
      */
     public List<? extends OfferingInstructor> getInstructors();
-       
 
     /********************** Final Exam Information ******************/
-    
     /**
      * Start time of final exam
      * @name Final Exam StartTime
      */
     public Date getFinalExamStartTime();
-    
+
     /**
      * End time of final exam.
      * @name Final Exam EndTime
      */
     public Date getFinalExamEndTime();
-    
+
     /**
      * Space code where final exam will be conducted
      * @name Final Exam Space Code
      */
     public String getFinalExamSpaceCode();
 
-
     /********************* Delivery Logistics **********************/
-    
     /**
      * When/for how long does the offering meet in class.  Calculated
      * by system based on meeting times; may be validated against
      * canonical.  The unit is hours.
      *
      * @name Weekly Inclass Contact Hours
-     */    
+     */
     public String getWeeklyInclassContactHours();
-    
+
     /**
      * When/for how long does the offering meet out of class.  Entered
      * by Scheduler. The unit is hours.
@@ -162,5 +165,5 @@ public interface ActivityOffering
      * @name Minimum  Enrollment
      * @impl maps to Lui.minimumEnrollment
      */
-    public Integer getMinimumEnrollment();    
+    public Integer getMinimumEnrollment();
 }

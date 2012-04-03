@@ -327,9 +327,11 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 
 	@Override
 	public ActivityOfferingInfo createActivityOffering(
-			String courseOfferingId,  String activityOfferingTypeKey,
+			String formatOfferingId, 
+                        String activityId, 
+                        String activityOfferingTypeKey,
 			ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
-			throws  DataValidationErrorException,
+			throws DoesNotExistException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -337,7 +339,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createActivityOffering", null)) {
-	        return getNextDecorator().createActivityOffering(courseOfferingId, activityOfferingTypeKey, activityOfferingInfo, context);
+	        return getNextDecorator().createActivityOffering(formatOfferingId, activityId, activityOfferingTypeKey, activityOfferingInfo, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -776,7 +778,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 
     @Override
     public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatId, String formatOfferingType,
-            FormatOfferingInfo formatOfferingInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException,
+            FormatOfferingInfo formatOfferingInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
               if (null == context) {
             throw new MissingParameterException();

@@ -23,7 +23,6 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -33,16 +32,11 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import org.w3c.dom.Element;
 
-/**
- * Individual activity offerings correspond to events in a scheduling
- * system, each with a meeting pattern.
- * 
- * @author Kuali Student Team (Kamal)
- */
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
+                "formatOfferingId",
                 "activityId", "termId",  "activityCode", "scheduleId", 
                 "isHonorsOffering", "gradingOptionKeys", "instructors",
                 "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
@@ -58,6 +52,9 @@ public class ActivityOfferingInfo
 
     private static final long serialVersionUID = 1L;
 
+    @XmlElement
+    private String formatOfferingId;
+    
     @XmlElement
     private String activityId;
         
@@ -126,6 +123,7 @@ public class ActivityOfferingInfo
             return;
         }
 
+        this.formatOfferingId = offering.getFormatOfferingId();
         this.activityId = offering.getActivityId();
         this.termId = offering.getTermId();
         this.scheduleId = offering.getScheduleId();
@@ -158,6 +156,16 @@ public class ActivityOfferingInfo
 
         this.finalExamSpaceCode = offering.getFinalExamSpaceCode();
     }
+
+    @Override
+    public String getFormatOfferingId() {
+        return formatOfferingId;
+    }
+
+    public void setFormatOfferingId(String formatOfferingId) {
+        this.formatOfferingId = formatOfferingId;
+    }
+    
     
     @Override
     public String getActivityId() {

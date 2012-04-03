@@ -355,6 +355,9 @@ public class CourseOfferingInfo
 
     @Override
     public List<OfferingInstructorInfo> getInstructors() {
+        if (instructors == null) {
+            instructors = new ArrayList<OfferingInstructorInfo> ();
+        }
         return instructors;
     }
 

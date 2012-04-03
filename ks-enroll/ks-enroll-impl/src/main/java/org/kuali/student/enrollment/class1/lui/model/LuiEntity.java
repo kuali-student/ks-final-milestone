@@ -20,6 +20,7 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.clu.infc.LuCode;
 
 @Entity
 @Table(name = "KSEN_LUI")
@@ -53,6 +54,8 @@ public class LuiEntity extends MetaEntity {
     private Date expirationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuiIdentifierEntity> identifiers;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
+    private List<LuCodeEntity> luiCodes;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiAttributeEntity> attributes;
 
@@ -84,7 +87,13 @@ public class LuiEntity extends MetaEntity {
             this.setDescrPlain(lui.getDescr().getPlain());
         }
 
+        this.setLuiCodes(new ArrayList<LuCodeEntity>());
+        for (LuCode luCode : lui.getLuiCodes()) {
+            this.getLuiCodes().add(new LuCodeEntity(luCode));
+        }
+
         // Lui Identifiers
+        // TODO: find the old matching one and update that one instead of clobbbering and resetting
         this.setIdentifiers(new ArrayList<LuiIdentifierEntity>());
         if (lui.getOfficialIdentifier() != null) {
             this.getIdentifiers().add(new LuiIdentifierEntity(lui.getOfficialIdentifier()));
@@ -115,6 +124,13 @@ public class LuiEntity extends MetaEntity {
         info.setMeta(super.toDTO());;
         info.setDescr(new RichTextHelper().toRichTextInfo(plain, formatted));
 
+        // lucCodes
+        if (luiCodes != null) {
+            for (LuCodeEntity luCode : luiCodes) {
+                info.getLuiCodes().add(luCode.toDto());
+            }
+        }
+
         // Identifiers
         if (identifiers != null) {
             for (LuiIdentifierEntity identifier : identifiers) {
@@ -125,7 +141,7 @@ public class LuiEntity extends MetaEntity {
                 }
             }
         }
-                
+
         // Attributes
         if (getAttributes() != null) {
             for (LuiAttributeEntity att : getAttributes()) {
@@ -285,8 +301,16 @@ public class LuiEntity extends MetaEntity {
     public void setPlain(String plain) {
         this.plain = plain;
     }
+
     /*
      * public List<LuiCluRelationEntity> getCluCluRelationIds() { return cluCluRelationIds; } public void
      * setCluCluRelationIds(List<LuiCluRelationEntity> cluCluRelationIds) { this.cluCluRelationIds = cluCluRelationIds; }
      */
+    public List<LuCodeEntity> getLuiCodes() {
+        return luiCodes;
+    }
+
+    public void setLuiCodes(List<LuCodeEntity> luiCodes) {
+        this.luiCodes = luiCodes;
+    }
 }

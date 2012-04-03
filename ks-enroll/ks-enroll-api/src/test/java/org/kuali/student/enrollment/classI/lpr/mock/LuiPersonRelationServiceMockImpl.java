@@ -405,8 +405,18 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     public List<String> getPersonIdsByLuiAndTypeAndState(String luiId, String luiPersonRelationTypeKey, String relationState,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        List<String> list = new ArrayList<String>  ();
+        for (LuiPersonRelationInfo info : this.lprCache.values()) {
+            if (info.getLuiId().equals(luiId)) {
+                if (info.getTypeKey().equals(luiPersonRelationTypeKey)) {
+                    if (info.getStateKey().equals (relationState)) {
+                        list.add (info.getPersonId());
+                    }
+                }
+            }
+        }
+        return list;
+        
     }
 
     @Override

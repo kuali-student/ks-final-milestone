@@ -134,7 +134,6 @@
 
     <bean id="courseOfferingService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="luiService" ref="luiService"/>
-        <property name="coAssembler" ref="coAssembler"/>
     </bean>
 
     <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
@@ -167,10 +166,6 @@
     <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao"/>
     <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao"/>
 
-    <bean id="coAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler">
-        <property name="lprService" ref="lprService"/>
-        <property name="luiService" ref="luiService"/>
-    </bean>
 
     <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao"></bean>
     <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao"></bean>

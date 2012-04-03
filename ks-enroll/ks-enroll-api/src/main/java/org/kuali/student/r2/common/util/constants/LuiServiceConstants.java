@@ -166,5 +166,10 @@ public class LuiServiceConstants {
      *  Registration ordering types?
      */
     public static final String ALL_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.all";
-//    public static final String SEQUENCED_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.sequenced";    
+//    public static final String SEQUENCED_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.sequenced";   
+    
+    /**
+     * known lu codes
+     */
+    public static final String HONORS_LU_CODE = "kuali.lu.code.honorsOffering";
 }

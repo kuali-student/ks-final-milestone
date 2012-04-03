@@ -13,13 +13,11 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.enrollment.courseoffering.infc;
 
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdEntity;
-
 
 /**
  * A Format Offering specifies the allowable Activity Offering Types
@@ -27,10 +25,9 @@ import org.kuali.student.r2.common.infc.IdEntity;
  *
  * @author tom
  */
+public interface FormatOffering
+        extends IdEntity {
 
-public interface FormatOffering 
-    extends IdEntity {
-    
     /**
      * The Course Offering Id to which this Format Offering belongs.
      *
@@ -48,6 +45,19 @@ public interface FormatOffering
      * @name Format Id
      */
     public String getFormatId();
+
+    /**
+     * Academic term the format is being offered in. 
+     * 
+     * Same as course offering term or a nested term of course
+     * offering.
+     * 
+     * @name Term Id
+     * @required
+     * @readonly
+     * @impl map to Lui.getAtpId
+     */
+    public String getTermId();
 
     /**
      * Gets a list of Activity Offering Types within this Format

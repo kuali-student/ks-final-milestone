@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
 
 public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
@@ -167,8 +168,11 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     String scheduleId = null;
                     activityOfferingInfo.setScheduleId(scheduleId);
 //                    activityOfferingInfo.setMeetingSchedules(generateFakeMeetingTimes());
+                    List<FormatOfferingInfo> formats = this. getCourseOfferingService().getFormatOfferingByCourseOfferingId(coi.getId(), new ContextInfo ());
+                    activityOfferingInfo.setFormatOfferingId(formats.get(0).getId ());
                     activityOfferingInfo = getCourseOfferingService().createActivityOffering
-                            (coi.getId (),
+                            (activityOfferingInfo.getFormatOfferingId(),
+                            activityOfferingInfo.getActivityId(),
                             activityOfferingInfo.getTypeKey(),
                             activityOfferingInfo, 
                             new ContextInfo());

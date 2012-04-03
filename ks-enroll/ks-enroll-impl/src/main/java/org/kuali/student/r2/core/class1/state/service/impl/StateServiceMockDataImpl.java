@@ -16,21 +16,10 @@
 
 package org.kuali.student.r2.core.class1.state.service.impl;
 
-import javax.jws.WebParam;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.kuali.student.r2.core.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.r2.core.state.service.StateService;
 
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 

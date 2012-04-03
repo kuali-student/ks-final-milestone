@@ -244,6 +244,8 @@ public interface CourseOfferingService {
 
     /**
      * Creates a new CourseOffering from a canonical course.
+     * 
+     * Fields in course offering will be initialized with data from the canonical.
      *
      * @param courseId     Canonical course Id of courseOffering Id that the
      *                     ActivityOffering will belong to
@@ -391,12 +393,14 @@ public interface CourseOfferingService {
      * @param formatOfferingInfo  The activity offering template info object
      * @return
      * @throws DataValidationErrorException
+     * @throws DoesNotExistException if courseOfferingId or formatId does not exist for the course in the course offering
      * @throws InvalidParameterException Invalid course offering id
      * @throws MissingParameterException     Missing course offering id, formatOfferingTemplate  or formatOfferingType
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException
      */
-    public FormatOfferingInfo createFormatOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "formatId") String formatId, @WebParam(name = "formatOfferingType") String formatOfferingType, @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public FormatOfferingInfo createFormatOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "formatId") String formatId, @WebParam(name = "formatOfferingType") String formatOfferingType, @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") ContextInfo context) 
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Update an activity offering template.
@@ -411,10 +415,14 @@ public interface CourseOfferingService {
      * @throws MissingParameterException Missing formatOffering or  formatOfferingId
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
+     * @throws VersionMismatchException stale version being updated
      */
-    public FormatOfferingInfo updateFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public FormatOfferingInfo updateFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, 
+            @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo,
+            @WebParam(name = "context") ContextInfo context) 
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
-    ;
 
     /**
         * Validates a format offering. Depending on the value of validationType,
@@ -603,20 +611,28 @@ public interface CourseOfferingService {
      *
      *
      * @param formatOfferingId       courseOffering that the ActivityOffering belongs to
+     * @param activityId  the canonical activity this is associated with
      * @param activityOfferingInfo Details of the ActivityOffering to be created
      * @param context              Context information containing the principalId and locale
      *                             information about the caller of service operation
      * @return newly created ActivityOffering
+     * @throws DoesNotExistException        if the format offering does not exist
      * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws InvalidParameterException    One or more parameters invalid
      * @throws MissingParameterException    One or more parameters missing
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public ActivityOfferingInfo createActivityOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "activityOfferingTypeKey") String activityOfferingTypeKey, @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ActivityOfferingInfo createActivityOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, 
+            @WebParam(name = "activityId") String activityId, 
+            @WebParam(name = "activityOfferingTypeKey") String activityOfferingTypeKey, 
+            @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, 
+            @WebParam(name = "context") ContextInfo context) 
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
 
     /**
-     * Generates actvity offerings based on a format offering.
+     * Generates activity offerings based on a format offering.
      *
      * @param formatOfferingId
      * @param context

@@ -48,9 +48,9 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     @Column(name = "RELATION_STATE_ID")
     private String personRelationStateId;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSEN_LPR_RV_GRP_RELTN", joinColumns = @JoinColumn(name = "LPR_ID"), inverseJoinColumns = @JoinColumn(name = "RV_GRP_ID"))
-    private List<ResultValuesGroupEntity> resultValuesGroups;
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "KSEN_LPR_RV_GRP_RELTN", joinColumns = @JoinColumn(name = "LPR_ID"), inverseJoinColumns = @JoinColumn(name = "RV_GRP_ID"))
+//    private List<ResultValuesGroupEntity> resultValuesGroups;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     // @JoinColumn(name = "LPR_ATTR_ID")
@@ -138,13 +138,13 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.personRelationStateId = personRelationStateId;
     }
 
-    public List<ResultValuesGroupEntity> getResultValuesGroups() {
-        return resultValuesGroups;
-    }
-
-    public void setResultValuesGroups(List<ResultValuesGroupEntity> resultValuesGroups) {
-        this.resultValuesGroups = resultValuesGroups;
-    }
+//    public List<ResultValuesGroupEntity> getResultValuesGroups() {
+//        return resultValuesGroups;
+//    }
+//
+//    public void setResultValuesGroups(List<ResultValuesGroupEntity> resultValuesGroups) {
+//        this.resultValuesGroups = resultValuesGroups;
+//    }
 
     @Override
     public List<LuiPersonRelationAttributeEntity> getAttributes() {
@@ -167,13 +167,15 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         lprInfo.setTypeKey(personRelationTypeId);
         lprInfo.setStateKey(personRelationStateId);
 
-        List<String> rvGroupIds = new ArrayList();
-        if (null != getResultValuesGroups()) {
-            for (ResultValuesGroupEntity rvGroup : getResultValuesGroups()) {
-                rvGroupIds.add(rvGroup.getId());
-            }
-        }
-        lprInfo.setResultValuesGroupKeys(rvGroupIds);
+        // TODO: fix this it was trying to use the entity from LRC directly here!
+        // instead need to create a new JPA entity to hold the lpr to rvg mapping
+//        List<String> rvGroupIds = new ArrayList();
+//        if (null != getResultValuesGroups()) {
+//            for (ResultValuesGroupEntity rvGroup : getResultValuesGroups()) {
+//                rvGroupIds.add(rvGroup.getId());
+//            }
+//        }
+//        lprInfo.setResultValuesGroupKeys(rvGroupIds);
 
         lprInfo.setMeta(super.toDTO());
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();

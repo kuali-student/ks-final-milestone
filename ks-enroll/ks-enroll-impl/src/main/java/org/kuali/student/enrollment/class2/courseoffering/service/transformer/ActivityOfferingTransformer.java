@@ -6,9 +6,7 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 
 public class ActivityOfferingTransformer {
-    public ActivityOfferingInfo transform(LuiInfo lui) {
-
-        ActivityOfferingInfo ao = new ActivityOfferingInfo();
+    public void lui2Activity(ActivityOfferingInfo ao, LuiInfo lui) {
         ao.setId(lui.getId());
         ao.setMeta(lui.getMeta());
         ao.setStateKey(lui.getStateKey());
@@ -17,19 +15,11 @@ public class ActivityOfferingTransformer {
         ao.setAttributes(lui.getAttributes());
         ao.setActivityId(lui.getCluId());
         ao.setTermId(lui.getAtpId());
-
-        // TODO: ao.setGradingOptionIds --- lui.getResultOptionIds() call
-        // LRCService.getResultValuesByIds
-
-        // rest fields no mapping doc
-
-        return ao;
-
+        ao.setMinimumEnrollment(lui.getMinimumEnrollment());
+        ao.setMaximumEnrollment(lui.getMaximumEnrollment());
     }
 
-    public LuiInfo transformActivityOfferingToLui(ActivityOfferingInfo ao) {
-
-        LuiInfo lui = new LuiInfo();
+    public void activity2Lui (ActivityOfferingInfo ao, LuiInfo lui) {
         lui.setId(ao.getId());
         lui.setTypeKey(ao.getTypeKey());
         lui.setStateKey(ao.getStateKey());
@@ -38,8 +28,8 @@ public class ActivityOfferingTransformer {
         lui.setAttributes(ao.getAttributes());
         lui.setCluId(ao.getActivityId());
         lui.setAtpId(ao.getTermId());
-        return lui;
-
+        lui.setMinimumEnrollment(ao.getMinimumEnrollment());
+        lui.setMaximumEnrollment(ao.getMaximumEnrollment());
     }
 
     public OfferingInstructorInfo transformInstructorForActivityOffering(LuiPersonRelationInfo lpr) {

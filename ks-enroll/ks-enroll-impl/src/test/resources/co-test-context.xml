@@ -149,19 +149,17 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl">
+<!--  <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl">
     <property name="lprService" ref="lprPersistenceService" />
     <property name="courseOfferingService" ref="coService" />
     <property name="gradeRosterAssembler" ref="grAssembler" />
-  </bean>
+  </bean>-->
 
    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
   </bean>
 
   <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="luiService" ref="luiService" />
-    <property name="coAssembler" ref="coAssembler" />
-    <property name="aoAssembler" ref="aoAssembler" />
     <property name="rgAssembler" ref="rgAssembler" />
     <property name="courseService" ref="courseServiceImpl" />
     <property name="acalService" ref="acalService" />
@@ -170,15 +168,6 @@
     <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
   </bean>
 
-  <bean id="coAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler">
-    <property name="luiService" ref="luiService" />
-    <property name="lprService" ref="lprPersistenceService" />
-  </bean>
-
-  <bean id="aoAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler">
-    <property name="lprService" ref="lprPersistenceService" />
-    <property name="activityTransformer" ref="activityTransformer"></property>
-  </bean>
 
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
     <property name="luiService" ref="luiService" />
