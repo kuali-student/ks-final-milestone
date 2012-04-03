@@ -142,7 +142,7 @@ public class TestAppointmentServiceImpl {
         rule.setEndTimeOfDay(endInfo);
         // TODO: Eventually set the type once there is a type to set to
         TimeAmountInfo tao = new TimeAmountInfo();
-        tao.setTimeQuantity("15"); // Every fifteen minutes
+        tao.setTimeQuantity(15); // Every fifteen minutes
         tao.setAtpDurationTypeKey(AtpServiceConstants.DURATION_MONTH_TYPE_KEY); // TODO: Not valid--waiting for MINUTE type to be created
         rule.setSlotStartInterval(tao);
     }

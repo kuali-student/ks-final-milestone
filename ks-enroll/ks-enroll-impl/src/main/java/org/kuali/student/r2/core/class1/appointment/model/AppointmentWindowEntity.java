@@ -290,7 +290,7 @@ public class AppointmentWindowEntity extends MetaEntity {
         TimeAmountInfo info = new TimeAmountInfo();
         info.setAtpDurationTypeKey(typeKey);
         if (quantity != null) {
-            info.setTimeQuantity("" + quantity);
+            info.setTimeQuantity(new Integer(quantity));
         }
         return info;
     }
@@ -321,12 +321,12 @@ public class AppointmentWindowEntity extends MetaEntity {
         // start interval could be null, duration
         if (slotRule.getSlotStartInterval() != null) {
             this.setStartIntervalDurationType(slotRule.getSlotStartInterval().getAtpDurationTypeKey());
-            this.setStartIntervalTimeQuantity(Integer.parseInt(slotRule.getSlotStartInterval().getTimeQuantity()));
+            this.setStartIntervalTimeQuantity(slotRule.getSlotStartInterval().getTimeQuantity());
         }
         // slot duration could be null
         if (slotRule.getSlotDuration() != null) {
             this.setDurationType(slotRule.getSlotDuration().getAtpDurationTypeKey());
-            this.setDurationTimeQuantity(Integer.parseInt(slotRule.getSlotDuration().getTimeQuantity()));
+            this.setDurationTimeQuantity(slotRule.getSlotDuration().getTimeQuantity());
         }
         // --- These getters/setters are for inherited fields
         this.setName(apptWin.getName());

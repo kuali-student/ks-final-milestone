@@ -81,7 +81,7 @@ public class TestLuiPersonRelationServiceImpl {
     // LPR Roster Constants
     private final static String ATP_DURATION_KEY = "semester1";
     private final static String LPR_TRANSACTION_NAME = "NEW TRANSACTION TEST";
-    private final static String TIME_QTY = "1";
+    private final static Integer TIME_QTY = new Integer(1);
     private final static String LPR_ROSTER_NAME = "LPR_ROSTER_TEST";
     private final static String LPR_ROSTER_DESC = "LPR ROSTER DESC";
     private final static String ATTRIBUTE_KEY = "Key";

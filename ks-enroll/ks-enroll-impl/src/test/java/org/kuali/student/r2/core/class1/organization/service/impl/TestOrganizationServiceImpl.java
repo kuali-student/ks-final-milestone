@@ -422,7 +422,7 @@ public class TestOrganizationServiceImpl {
         
         TimeAmountInfo stdDuration = new TimeAmountInfo();
         stdDuration.setAtpDurationTypeKey("ks.foreign.atp.key");
-        stdDuration.setTimeQuantity("123456");
+        stdDuration.setTimeQuantity(123456);
         
         OrgPositionRestrictionInfo orgPositionRestrictionInfo = new OrgPositionRestrictionInfo();
         RichTextInfo descr = new RichTextInfo();

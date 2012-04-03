@@ -19,9 +19,8 @@ package org.kuali.student.r2.common.infc;
 public interface TimeAmount {
 
     /**
-     * The kind of units associated with the time quantity.
-     * 
-     * For example months, days, week, semesters, years, minutes, seconds
+     * The kind of units associated with the quantity, such as
+     * Semesters.
      *
      * @name Academic Time Period Duration Type Key
      */
@@ -29,17 +28,9 @@ public interface TimeAmount {
 
     /**
      * The amount of time.
-     * 
-     * The general design of this is that it should normally contain integer quantity 
-     * and not hold fractions or decimals.  Instead the Duration Type should changed 
-     * to a shorter duration.
-     * 
-     * However this is a string to allow some implementing schools, if they wish, 
-     * to capture this information in fractional units which may be more natural.
      *
-     * @impl the data storage for the reference implementation is an integer
      * @name Time Quantity
      */
-    public String getTimeQuantity();
+    public Integer getTimeQuantity();
 }
 

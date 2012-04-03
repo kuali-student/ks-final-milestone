@@ -531,8 +531,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         TimeAmountInfo durationQuantityInfo = ruleInfo.getSlotDuration(); // Assume NULL for now
         // Check for start interval (assume minutes)
         // TODO: check if slot interval is required or optional and how to handle if optional
-        String timeQuantity = ruleInfo.getSlotStartInterval().getTimeQuantity();
-        int startIntervalDiffMinutes = (int) Float.parseFloat(timeQuantity); // Float written as a string--treat as an integer
+        int startIntervalDiffMinutes =  ruleInfo.getSlotStartInterval().getTimeQuantity();
 
         List<Integer> weekdays = ruleInfo.getWeekdays();
         // Assume weekdays 1 = Sunday, ..., 7 = Saturday
