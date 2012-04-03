@@ -3,12 +3,14 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSCharCount;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
@@ -107,14 +109,13 @@ public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
     protected Section generateRetirementInfoSection(Section section) {
     	
         addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUUIConstants.PROPOSED_PROPOSAL_TITLE_LABEL_KEY));
-        addField(section, PROPOSAL_PATH + "/" + PROPOSED_RETIREMENT_RATIONALE, // MAKE NEW ONES
-                generateMessageInfo(LUUIConstants.RETIREMENT_RATIONALE_LABEL_KEY));
+        addField(section, PROPOSAL_PATH + "/" + PROPOSED_RATIONALE, generateMessageInfo(LUUIConstants.RETIREMENT_RATIONALE_LABEL_KEY),
+                new KSCharCount(modelDefinition.getMetadata(QueryPath.parse(PROPOSAL_PATH + "/" + PROPOSED_RATIONALE))));        
         addReadOnlyField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
         addField(section, PROPOSAL_PATH + "/" + PROPOSED_END_TERM, generateMessageInfo(LUUIConstants.PROPOSED_END_TERM_LABEL_KEY));
         addField(section, PROPOSAL_PATH + "/" + PROPOSED_LAST_TERM_OFFERED, generateMessageInfo(LUUIConstants.PROPOSED_LAST_TERM_OFFERED_LABEL_KEY));
         addField(section, PROPOSAL_PATH + "/" + PROPOSED_LAST_COURSE_CATALOG_YEAR, generateMessageInfo(LUUIConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR_LABEL_KEY));
-        addField(section, PROPOSAL_PATH + "/" + OTHER_COMMENTS,
-                generateMessageInfo(LUUIConstants.OTHER_COMMENTS_LABEL_KEY));  
+        addField(section, PROPOSAL_PATH + "/" + OTHER_COMMENTS, generateMessageInfo(LUUIConstants.OTHER_COMMENTS_LABEL_KEY));  
         
         return section;
     }

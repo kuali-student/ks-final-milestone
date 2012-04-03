@@ -81,7 +81,7 @@ public class CourseSummaryConfigurer extends Configurer implements
         AffiliatedOrgInfoConstants, CreditCourseRevenueInfoConstants,
         CreditCourseExpenditureInfoConstants {
     // Override paths for course and proposal so they are root
-    public static final String PROPOSAL = "";
+    public static final String PROPOSAL = "proposal";    
     public static final String COURSE = "";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
 
