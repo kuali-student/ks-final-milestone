@@ -19,12 +19,14 @@
                 <ref bean="cluInfo.defaultMaximumEnrollment"/>
                 <ref bean="cluInfo.descr"/>
                 <ref bean="cluInfo.effectiveDate"/>
-                <ref bean="cluInfo.enrollable"/>
+                <ref bean="cluInfo.isEnrollable"/>
                 <ref bean="cluInfo.expectedFirstAtp"/>
+                <ref bean="cluInfo.expectedFirstAtpId"/>
                 <ref bean="cluInfo.expirationDate"/>
                 <ref bean="cluInfo.feeInfo"/>
+                <ref bean="cluInfo.isHasEarlyDropDeadline"/>
                 <ref bean="cluInfo.hasEarlyDropDeadline"/>
-                <ref bean="cluInfo.hazardousForDisabledStudents"/>
+                <ref bean="cluInfo.isHazardousForDisabledStudents"/>
                 <ref bean="cluInfo.id"/>
                 <ref bean="cluInfo.instructors"/>
                 <ref bean="cluInfo.intensity"/>
@@ -125,10 +127,10 @@
     </bean>
     <bean id="cluInfo.effectiveDate" parent="cluInfo.effectiveDate-parent"/>
 
-    <bean id="cluInfo.enrollable-parent" abstract="true" parent="baseBooleanRequired">
-        <property name="name" value="enrollable"/>
+    <bean id="cluInfo.isEnrollable-parent" abstract="true" parent="baseBooleanRequired">
+        <property name="name" value="isEnrollable"/>
     </bean>
-    <bean id="cluInfo.enrollable" parent="cluInfo.enrollable-parent"/>
+    <bean id="cluInfo.isEnrollable" parent="cluInfo.isEnrollable-parent"/>
 
     <bean id="constraint.lookup.atp"
           class="org.kuali.student.r1.common.dictionary.dto.LookupConstraint"
@@ -141,6 +143,12 @@
         <property name="lookupDefinition" ref="constraint.lookup.atp"/>
     </bean>
     <bean id="cluInfo.expectedFirstAtp" parent="cluInfo.expectedFirstAtp-parent"/>
+    
+     <bean id="cluInfo.expectedFirstAtpId-parent" abstract="true" parent="baseKualiType">
+        <property name="name" value="expectedFirstAtpId"/>
+        <property name="lookupDefinition" ref="constraint.lookup.atp"/>
+    </bean>
+    <bean id="cluInfo.expectedFirstAtpId" parent="cluInfo.expectedFirstAtpId-parent"/>
 
     <bean id="cluInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
         <property name="name" value="expirationDate"/>
@@ -153,17 +161,23 @@
     </bean>
     <bean id="cluInfo.feeInfo" parent="cluInfo.feeInfo-parent"/>
 
-    <bean id="cluInfo.hasEarlyDropDeadline-parent" abstract="true"
+    <bean id="cluInfo.isHasEarlyDropDeadline-parent" abstract="true"
+          parent="baseBoolean">
+        <property name="name" value="isHasEarlyDropDeadline"/>
+    </bean>
+    <bean id="cluInfo.isHasEarlyDropDeadline" parent="cluInfo.isHasEarlyDropDeadline-parent"/>
+
+<bean id="cluInfo.hasEarlyDropDeadline-parent" abstract="true"
           parent="baseBoolean">
         <property name="name" value="hasEarlyDropDeadline"/>
     </bean>
     <bean id="cluInfo.hasEarlyDropDeadline" parent="cluInfo.hasEarlyDropDeadline-parent"/>
 
-    <bean id="cluInfo.hazardousForDisabledStudents-parent" abstract="true"
+    <bean id="cluInfo.isHazardousForDisabledStudents-parent" abstract="true"
           parent="baseBoolean">
-        <property name="name" value="hazardousForDisabledStudents"/>
+        <property name="name" value="isHazardousForDisabledStudents"/>
     </bean>
-    <bean id="cluInfo.hazardousForDisabledStudents" parent="cluInfo.hazardousForDisabledStudents-parent"/>
+    <bean id="cluInfo.isHazardousForDisabledStudents" parent="cluInfo.isHazardousForDisabledStudents-parent"/>
 
     <!--  Example of a case when constraint application -->
     <bean id="cluInfo.id-parent" abstract="true" parent="baseKualiId">
@@ -837,7 +851,7 @@
     </bean>
 
     <bean id="cluInfo.versionInfo-parent" abstract="true" parent="baseComplex">
-        <property name="name" value="VersionInfo"/>
+        <property name="name" value="versionInfo"/>
         <property name="dataObjectStructure" ref="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
     </bean>
     <bean id="cluInfo.versionInfo" parent="cluInfo.versionInfo-parent"/>
@@ -1412,6 +1426,105 @@
     </bean>
     <bean id="resultOptionInfo.resultComponentId" parent="resultOptionInfo.resultComponentId-parent"/>
     
+
+<!-- CluSetTreeViewInfo-->
+ <bean id="org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo"/>
+  <property name="attributes">
+   <list>
+    <ref bean="cluSetTreeViewInfo.adminOrg"/>
+    <ref bean="cluSetTreeViewInfo.clus"/>
+    <ref bean="cluSetTreeViewInfo.cluSets"/>
+    <ref bean="cluSetTreeViewInfo.descr"/>
+    <ref bean="cluSetTreeViewInfo.effectiveDate"/>
+    <ref bean="cluSetTreeViewInfo.expirationDate"/>
+    <ref bean="cluSetTreeViewInfo.id"/>
+    <ref bean="cluSetTreeViewInfo.isReferenceable"/>
+    <ref bean="cluSetTreeViewInfo.isReusable"/>
+<!--     <ref bean="cluSetTreeViewInfo.membershipQuery"/> -->
+    <ref bean="cluSetTreeViewInfo.name"/>
+    <ref bean="cluSetTreeViewInfo.stateKey"/>
+    <ref bean="cluSetTreeViewInfo.typeKey"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="true"/>
+ </bean>
+ <bean id="org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo" parent="org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo-parent"/>
+
+ <bean id="cluSetTreeViewInfo.adminOrg-parent" abstract="true" parent="baseKualiOrgId">
+  <property name="name" value="adminOrg"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.adminOrg" parent="cluSetTreeViewInfo.adminOrg-parent"/>
+
+ <bean id="cluSetTreeViewInfo.clus-parent" abstract="true" parent="baseComplexRepeating">
+  <property name="name" value="clus"/>
+ <property name="dataObjectStructure"
+                  ref="org.kuali.student.r2.lum.clu.dto.CluInfo"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.clus" parent="cluSetTreeViewInfo.clus-parent"/>
+
+ <bean id="cluSetTreeViewInfo.cluSets-parent" abstract="true" parent="baseComplexRepeating">
+  <property name="name" value="cluSets"/>
+ <property name="dataObjectStructure"
+                  ref="org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.cluSets" parent="cluSetTreeViewInfo.cluSets-parent"/>
+
+ <bean id="cluSetTreeViewInfo.descr-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="descr"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.descr" parent="cluSetTreeViewInfo.descr-parent"/>
+
+ <bean id="cluSetTreeViewInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+  <property name="name" value="effectiveDate"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.effectiveDate" parent="cluSetTreeViewInfo.effectiveDate-parent"/>
+
+ <bean id="cluSetTreeViewInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+  <property name="name" value="expirationDate"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.expirationDate" parent="cluSetTreeViewInfo.expirationDate-parent"/>
+
+ <bean id="cluSetTreeViewInfo.id-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="id"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.id" parent="cluSetTreeViewInfo.id-parent"/>
+
+ <bean id="cluSetTreeViewInfo.isReferenceable-parent" abstract="true" parent="baseBoolean">
+  <property name="name" value="isReferenceable"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.isReferenceable" parent="cluSetTreeViewInfo.isReferenceable-parent"/>
+
+ <bean id="cluSetTreeViewInfo.isReusable-parent" abstract="true" parent="baseBoolean">
+  <property name="name" value="isReusable"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.isReusable" parent="cluSetTreeViewInfo.isReusable-parent"/>
+
+ <bean id="cluSetTreeViewInfo.membershipQuery-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="membershipQuery"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.membershipQuery" parent="cluSetTreeViewInfo.membershipQuery-parent"/>
+
+ <bean id="cluSetTreeViewInfo.name-parent" abstract="true" parent="baseKualiName">
+  <property name="name" value="name"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.name" parent="cluSetTreeViewInfo.name-parent"/>
+
+ <bean id="cluSetTreeViewInfo.stateKey-parent" abstract="true" parent="baseKualiState">
+  <property name="name" value="stateKey"/>
+  <property name="minOccurs" value="1"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.stateKey" parent="cluSetTreeViewInfo.stateKey-parent"/>
+
+ <bean id="cluSetTreeViewInfo.typeKey-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="typeKey"/>
+  <property name="minOccurs" value="1"/>
+ </bean>
+ <bean id="cluSetTreeViewInfo.typeKey" parent="cluSetTreeViewInfo.typeKey-parent"/>
+
+
 
 <!-- RevenueInfo-->
     <bean id="org.kuali.student.r2.lum.clu.dto.RevenueInfo-parent"
