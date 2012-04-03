@@ -1,20 +1,16 @@
 package org.kuali.student.r1.common.dictionary.service.impl;
 
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
+import java.util.*;
 
 @Deprecated
 public class ComplexSubstructuresHelper {
@@ -57,6 +53,9 @@ public class ComplexSubstructuresHelper {
 			Class<?> subClass = pd.getPropertyType();
 			// find the actual class and not the interface for the field
 			Field propertyField1 = findField(propertyName, fields);
+            // The following was added because of this behaviour, explained in the urls under this comment
+            // https://forums.oracle.com/forums/thread.jspa?threadID=1158697
+            // http://bugs.sun.com/view_bug.do?bug_id=6794807
 			if (propertyField1 != null) {
 				Class<?> subClassField =  propertyField1.getType();
 				subClass = subClassField;
