@@ -4,7 +4,7 @@
        http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
  <import resource="classpath:ks-cluInfo-dictionary-context.xml"/>
  <import resource="classpath:ks-loInfo-dictionary-context.xml"/>
- <import resource="classpath:ks-statement-dictionary-context.xml"/>
+ <import resource="classpath:ks-statement-dictionary-context-R1.xml"/>
  <import resource="classpath:ks-cluset-ui-object-dictionary-context.xml" />
  <import resource="classpath:ks-lu-search-dictionary-context.xml" />
 
@@ -2102,7 +2102,7 @@
 
  <bean id="programRequirementInfo.statement-parent" abstract="true" parent="baseComplex">
   <property name="name" value="statement"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo"/>
  </bean>
  <bean id="programRequirementInfo.statement" parent="programRequirementInfo.statement-parent"/>
 
