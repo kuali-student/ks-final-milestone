@@ -1,22 +1,22 @@
-
-//RichTextEntity
-INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-101', '<p>Desc 101</p>', 'Desc 101',0)
-
-
-//AtpEntity
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE, ATP_STATE, DESCR_PLAIN, VER_NBR) VALUES ('testAtpId1', 'testAtp1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-101', 0)
-
-//LuiEntity
-INSERT INTO KSEN_LUI (ID, NAME, ATP_ID, CLU_ID, LUI_TYPE, LUI_STATE,  EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-1', 'Lui one', 'testAtpId1','cluId1', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
-INSERT INTO KSEN_LUI (ID, NAME, CLU_ID,LUI_TYPE, LUI_STATE,  EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-2', 'Lui rwo', 'cluId2', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
-INSERT INTO KSEN_LUI (ID, NAME, CLU_ID,LUI_TYPE, LUI_STATE,  EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-3', 'Lui three', 'cluId3', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
-INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE,LUI_STATE,  EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-4', 'Lui four', 'cluId4', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
-INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE,LUI_STATE,  EFF_DT, EXP_DT, VER_NBR) VALUES ('luiFormat-1', 'TEST FORMAT OFFERING"', 'cluId4', 'kuali.lui.type.format.offering', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
-
-//LuiLuiRelationEntity
-INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, LUILUI_RELTN_STATE, LUI_ID, LUILUI_RELTN_TYPE, RELATED_LUI_ID) VALUES ('LUILUIREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-1', 'kuali.lui.lui.relation.associated', 'Lui-2')
-INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, LUILUI_RELTN_STATE, LUI_ID, LUILUI_RELTN_TYPE, RELATED_LUI_ID) VALUES ('LUILUIREL-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-3', 'kuali.lui.lui.relation.associated', 'Lui-4')
-
+--
+--//RichTextEntity
+--INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-101', '<p>Desc 101</p>', 'Desc 101',0)
+--
+--
+--//AtpEntity
+--INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE, ATP_STATE, DESCR_PLAIN, VER_NBR) VALUES ('testAtpId1', 'testAtp1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-101', 0)
+--
+--//LuiEntity
+--INSERT INTO KSEN_LUI (ID, NAME, ATP_ID, CLU_ID, LUI_TYPE, LUI_STATE,  EFF_DT, EXPIR_DT, VER_NBR) VALUES ('Lui-1', 'Lui one', 'testAtpId1','cluId1', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
+--INSERT INTO KSEN_LUI (ID, NAME, CLU_ID,LUI_TYPE, LUI_STATE,  EFF_DT, EXPIR_DT, VER_NBR) VALUES ('Lui-2', 'Lui rwo', 'cluId2', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
+--INSERT INTO KSEN_LUI (ID, NAME, CLU_ID,LUI_TYPE, LUI_STATE,  EFF_DT, EXPIR_DT, VER_NBR) VALUES ('Lui-3', 'Lui three', 'cluId3', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
+--INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE,LUI_STATE,  EFF_DT, EXPIR_DT, VER_NBR) VALUES ('Lui-4', 'Lui four', 'cluId4', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
+--INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE,LUI_STATE,  EFF_DT, EXPIR_DT, VER_NBR) VALUES ('luiFormat-1', 'TEST FORMAT OFFERING"', 'cluId4', 'kuali.lui.type.format.offering', 'kuali.lui.state.draft',  {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
+--
+--//LuiLuiRelationEntity
+--INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, LUILUI_RELTN_STATE, LUI_ID, LUILUI_RELTN_TYPE, RELATED_LUI_ID) VALUES ('LUILUIREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-1', 'kuali.lui.lui.relation.associated', 'Lui-2')
+--INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, LUILUI_RELTN_STATE, LUI_ID, LUILUI_RELTN_TYPE, RELATED_LUI_ID) VALUES ('LUILUIREL-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-3', 'kuali.lui.lui.relation.associated', 'Lui-4')
+--
 
 // CluInstructor
 INSERT INTO KSLU_CLU_INSTR (ID, ORG_ID, PERS_ID,VER_NBR) VALUES ('INSTR-1', 'ORG-1', 'PersonID',0)
@@ -357,7 +357,7 @@ insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, S
 insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VER_NBR) values ('LUI-3', 'CLU-1', 'ATP-2', 'MENG 329 section 112', 75, {ts '2000-08-25 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Active', 1)
 insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VER_NBR) values ('LUI-4', 'CLU-2', 'ATP-1', 'BENG 471 section 101', 75, {ts '2000-01-01 00:00:00.0'}, {ts '2000-06-01 00:00:00.0'}, 'Retired', 1)
 insert into KSLU_LUI (ID, CLU_ID, ATP_ID, LUI_CODE, MAX_SEATS, EFF_DT, EXP_DT, ST, VER_NBR) values ('luiFormat-1', 'CLU-1', 'ATP-2', 'MENG 329 section 102', 75, {ts '2000-08-25 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Approved', 1)
-SLU_CLU_SET (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, RT_DESCR_ID, TYPE, ST, ADMIN_ORG_ID, REUSABLE, REFERENCEABLE) VALUES ('CLUSET-6', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, {ts '2003-01-01 00:00:00.0'}, {ts '2004-01-01 00:00:00.0'}, 'Test CluSet search', 'RICHTEXT-801', 'kuali.cluSet.type.CreditCourse', 'active', '50', 1, 1)
+--SLU_CLU_SET (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, NAME, RT_DESCR_ID, TYPE, ST, ADMIN_ORG_ID, REUSABLE, REFERENCEABLE) VALUES ('CLUSET-6', 'CREATEID', {ts '2000-01-01 00:00:00.0'}, 'UPDATEID', {ts '2001-01-01 00:00:00.0'}, 0, {ts '2003-01-01 00:00:00.0'}, {ts '2004-01-01 00:00:00.0'}, 'Test CluSet search', 'RICHTEXT-801', 'kuali.cluSet.type.CreditCourse', 'active', '50', 1, 1)
 
 // Clu <-> CluSet join
 INSERT INTO KSLU_CLU_SET_JN_CLU (ID,CLU_SET_ID, CLU_VER_IND_ID) VALUES ('1','CLUSET-2', 'CLU-1')
@@ -452,24 +452,24 @@ insert into KSLU_RSLT_OPT (ID,CREATEID,CREATETIME,VER_NBR,RES_COMP_ID,ST ) Value
 insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('99efa3c1-de2b-4fae-a20f-24f08a457292','99080d6d-59ad-4159-95ee-35b39fb160d4');
 insert into KSLU_CLURES_JN_RESOPT ( CLU_RES_ID,RES_OPT_ID) values ('995e7e57-6565-4fb9-a231-5fc2e688bb0f','99238bf0-6ea4-4447-95cd-fd2010bd5b0d');
 
-// LuiPersonRelationStateEntity
-INSERT INTO KSEN_COMM_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.assigned', 'Assigned', 'The instructor is assigned to teach this course or section', 0)
-INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXP_DT,NAME,PROCESS_KEY) VALUES ('kuali.lpr.roster.state.ready',null,0,null,null,null,null,'Active Roster entry',null,null,'Assigned','kuali.lpr.roster.process.course.grading')
+--// LuiPersonRelationStateEntity
+--INSERT INTO KSEN_COMM_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.assigned', 'Assigned', 'The instructor is assigned to teach this course or section', 0)
+--INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXP_DT,NAME,PROCESS_KEY) VALUES ('kuali.lpr.roster.state.ready',null,0,null,null,null,null,'Active Roster entry',null,null,'Assigned','kuali.lpr.roster.process.course.grading')
+--
 
-
--- ------------------------------------------------------------------------------------------
--- REGISTRATION GROUP for TestCourseOfferingServiceImpl.testUpdateRegistrationGroup()
--- ------------------------------------------------------------------------------------------
--- course offering:
-INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, VER_NBR) VALUES ('LUI-CO-1-IDENT', 'CRSOFFER1', 'CRSOFFER', '1', 'Course Offering 1', 'Crs Offer 1', 1)
-INSERT INTO KSEN_LUI (ID, NAME, CLU_ID,  LUI_TYPE, LUI_STATE,   MAX_SEATS, ATP_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('LUI-CO-1', 'CO 1',  'CLU-1', 'kuali.lui.type.course.offering', 'kuali.lui.state.offered',  50, 'kuali.atp.type.winter', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 1)
--- activity #1
-INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, VER_NBR) VALUES ('LUI-ACT-1-IDENT', 'ACTIVITY1', 'ACTIVITY', '1', 'Activity 1', 'Actvty 1', 1)
-INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE, LUI_STATE, MAX_SEATS, ATP_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('LUI-ACT-1', 'Activity 1',  'CLU-ACT-1', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.offered', 20, 'kuali.atp.type.winter', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 1)
--- activity #2
-INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, VER_NBR) VALUES ('LUI-ACT-2-IDENT', 'ACTIVITY2', 'ACTIVITY', '2', 'Activity 2', 'Actvty 2', 1)
-INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE, LUI_STATE,   MAX_SEATS, ATP_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('LUI-ACT-2', 'Activity 2',  'CLU-ACT-2', 'kuali.lui.type.activity.offering.lab', 'kuali.lui.state.offered', 20, 'kuali.atp.type.winter', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 1)
--- registration group (associating only course offering and activity #1 - activity #2 is for update)
-INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE, LUI_STATE,  ATP_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('LUI-RG-1', 'RegGroup 1', '', 'kuali.lui.type.registration.group', 'kuali.lui.state.offered', 'kuali.atp.type.winter', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 1)
-INSERT INTO KSEN_LUILUI_RELTN (ID, LUI_ID, RELATED_LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, CREATETIME, VER_NBR) VALUES ('LUI-REL-RG1-CO1', 'LUI-RG-1', 'LUI-CO-1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', {ts '2011-01-01 00:00:00.0'}, 1)
-INSERT INTO KSEN_LUILUI_RELTN (ID, LUI_ID, RELATED_LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, CREATETIME, VER_NBR) VALUES ('LUI-REL-RG1-ACT1', 'LUI-RG-1', 'LUI-ACT-1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', {ts '2011-01-01 00:00:00.0'}, 1)
+---- ------------------------------------------------------------------------------------------
+---- REGISTRATION GROUP for TestCourseOfferingServiceImpl.testUpdateRegistrationGroup()
+---- ------------------------------------------------------------------------------------------
+---- course offering:
+--INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, VER_NBR) VALUES ('LUI-CO-1-IDENT', 'CRSOFFER1', 'CRSOFFER', '1', 'Course Offering 1', 'Crs Offer 1', 1)
+--INSERT INTO KSEN_LUI (ID, NAME, CLU_ID,  LUI_TYPE, LUI_STATE,   MAX_SEATS, ATP_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('LUI-CO-1', 'CO 1',  'CLU-1', 'kuali.lui.type.course.offering', 'kuali.lui.state.offered',  50, 'kuali.atp.type.winter', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 1)
+---- activity #1
+--INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, VER_NBR) VALUES ('LUI-ACT-1-IDENT', 'ACTIVITY1', 'ACTIVITY', '1', 'Activity 1', 'Actvty 1', 1)
+--INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE, LUI_STATE, MAX_SEATS, ATP_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('LUI-ACT-1', 'Activity 1',  'CLU-ACT-1', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.offered', 20, 'kuali.atp.type.winter', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 1)
+---- activity #2
+--INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, VER_NBR) VALUES ('LUI-ACT-2-IDENT', 'ACTIVITY2', 'ACTIVITY', '2', 'Activity 2', 'Actvty 2', 1)
+--INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE, LUI_STATE,   MAX_SEATS, ATP_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('LUI-ACT-2', 'Activity 2',  'CLU-ACT-2', 'kuali.lui.type.activity.offering.lab', 'kuali.lui.state.offered', 20, 'kuali.atp.type.winter', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 1)
+---- registration group (associating only course offering and activity #1 - activity #2 is for update)
+--INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE, LUI_STATE,  ATP_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('LUI-RG-1', 'RegGroup 1', '', 'kuali.lui.type.registration.group', 'kuali.lui.state.offered', 'kuali.atp.type.winter', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 1)
+--INSERT INTO KSEN_LUILUI_RELTN (ID, LUI_ID, RELATED_LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, CREATETIME, VER_NBR) VALUES ('LUI-REL-RG1-CO1', 'LUI-RG-1', 'LUI-CO-1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', {ts '2011-01-01 00:00:00.0'}, 1)
+--INSERT INTO KSEN_LUILUI_RELTN (ID, LUI_ID, RELATED_LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, CREATETIME, VER_NBR) VALUES ('LUI-REL-RG1-ACT1', 'LUI-RG-1', 'LUI-ACT-1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', {ts '2011-01-01 00:00:00.0'}, 1)
