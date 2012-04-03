@@ -44,7 +44,7 @@ public class TestCourseDTOEqualXMLBeanDefinition {
 		System.out.println("testing statement dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
 
-
+        startingClasses.add(CourseInfo.class.getName());
 
         startingClasses.add(ActivityInfo.class.getName());
 
@@ -53,7 +53,7 @@ public class TestCourseDTOEqualXMLBeanDefinition {
         startingClasses.add(CourseExpenditureInfo.class.getName());
         startingClasses.add(CourseFeeInfo.class.getName());
 
-        startingClasses.add(CourseInfo.class.getName());//NullPointerException
+        //NullPointerException
 
         startingClasses.add(CourseJointInfo.class.getName());
 		startingClasses.add(CourseRevenueInfo.class.getName());
