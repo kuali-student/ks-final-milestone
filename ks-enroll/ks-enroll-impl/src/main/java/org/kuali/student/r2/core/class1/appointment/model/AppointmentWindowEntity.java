@@ -283,14 +283,14 @@ public class AppointmentWindowEntity extends MetaEntity {
         return info;
     }
 
-    private TimeAmountInfo convertToTimeAmountInfo(String typeKey, String quantity) {
+    private TimeAmountInfo convertToTimeAmountInfo(String typeKey, Integer quantity) {
         if ((typeKey == null) && (quantity == null)) {
             return null;
         }
         TimeAmountInfo info = new TimeAmountInfo();
         info.setAtpDurationTypeKey(typeKey);
         if (quantity != null) {
-            info.setTimeQuantity(new Integer(quantity));
+            info.setTimeQuantity(quantity);
         }
         return info;
     }
@@ -362,8 +362,8 @@ public class AppointmentWindowEntity extends MetaEntity {
         appointmentSlotRuleInfo.setWeekdays(weekdays);
         appointmentSlotRuleInfo.setStartTimeOfDay(convertToTimeOfDayInfo(getStartTime()));
         appointmentSlotRuleInfo.setEndTimeOfDay(convertToTimeOfDayInfo(getEndTime()));
-        appointmentSlotRuleInfo.setSlotStartInterval(convertToTimeAmountInfo(getStartIntervalDurationType(), "" + getStartIntervalTimeQuantity()));
-        appointmentSlotRuleInfo.setSlotDuration(convertToTimeAmountInfo(getDurationType(), "" + getDurationTimeQuantity()));
+        appointmentSlotRuleInfo.setSlotStartInterval(convertToTimeAmountInfo(getStartIntervalDurationType(), getStartIntervalTimeQuantity()));
+        appointmentSlotRuleInfo.setSlotDuration(convertToTimeAmountInfo(getDurationType(), getDurationTimeQuantity()));
         info.setPeriodMilestoneId(getPeriodMilestoneId());
         info.setAssignedPopulationId(getAssignedPopulationId());
         info.setAssignedOrderTypeKey(getAssignedOrderType());
