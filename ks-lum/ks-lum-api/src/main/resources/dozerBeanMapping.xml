@@ -399,6 +399,22 @@
 			<b get-method="getVersionInfo"
 				set-method="setVersionInfo(org.kuali.student.r2.core.versionmanagement.dto.VersionInfo)">descr</b>
 		</field>
+		<field>
+			<a get-method="isEnrollable" set-method="setEnrollable">isEnrollable</a>
+			<b get-method="getIsEnrollable" set-method="setIsEnrollable">isEnrollable</b>
+		</field>
+		<field>
+			<a get-method="isHasEarlyDropDeadline" set-method="setHasEarlyDropDeadline">hasEarlyDropDeadline
+			</a>
+			<b get-method="getHasEarlyDropDeadline" set-method="setIsHasEarlyDropDeadline">hasEarlyDropDeadline
+			</b>
+		</field>
+		<field>
+			<a get-method="isHazardousForDisabledStudents" set-method="setHazardousForDisabledStudents">isHazardousForDisabledStudents
+			</a>
+			<b get-method="GetIsHazardousForDisabledStudents" set-method="setIsHazardousForDisabledStudents">isHazardousForDisabledStudents
+			</b>
+		</field>
 	</mapping>
 
 	<mapping>

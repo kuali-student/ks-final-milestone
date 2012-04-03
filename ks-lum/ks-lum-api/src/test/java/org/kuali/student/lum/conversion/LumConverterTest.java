@@ -283,6 +283,8 @@ public class LumConverterTest {
     public void testAffiliatedOrgInfo(){
     	org.kuali.student.r1.lum.lu.dto.AffiliatedOrgInfo r1 = R1TestDataUtil.getAffiliatedOrgInfoData();
     	AffiliatedOrgInfo r2 = R1R2ConverterUtil.convert(r1, AffiliatedOrgInfo.class);
+    	//No matching R1 field: r2.getAttributes()
+    	//No matching R1 field: r2.getMeta()
     	Assert.assertEquals(r1.getId(), r2.getId());
     	Assert.assertEquals(r1.getOrgId(), r2.getOrgId());
     	Assert.assertEquals(r1.getEffectiveDate(), r2.getEffectiveDate());
@@ -368,18 +370,36 @@ public class LumConverterTest {
         r1.setVersionInfo(R1TestDataUtil.getVersionInfoData());
         CluInfo r2 = R1R2ConverterUtil.convert(r1, CluInfo.class);
         Assert.assertEquals(r1.getAccountingInfo().getId(), r2.getAccountingInfo().getId());
+        Assert.assertEquals("R1-Value", r2.getAccountingInfo().getAttributes().get(0).getValue());
+        //No matching R1 property: r2.getAccountingInfo().getAffiliatedOrgs().get(0).getAttributes().get(0).getValue()
+        //No matching R1 property: r2.getAccountingInfo().getDescr()
         Assert.assertEquals(r1.getAccreditations().get(0).getId(), r2.getAccreditations().get(0).getId());
+        Assert.assertEquals("R1-Value", r2.getAccreditations().get(0).getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getAdminOrgs().get(0).getId(), r2.getAdminOrgs().get(0).getId());
+        Assert.assertEquals("R1-Value", r2.getAdminOrgs().get(0).getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getAlternateIdentifiers().get(0).getId(), r2.getAlternateIdentifiers().get(0).getId());
+        Assert.assertEquals("R1-Value", r2.getAlternateIdentifiers().get(0).getAttributes().get(0).getValue());
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.isCanCreateLui(), r2.getCanCreateLui());
+        Assert.assertEquals(r1.isEnrollable(), r2.getIsEnrollable());
+        Assert.assertEquals(r1.isHasEarlyDropDeadline(), r2.getHasEarlyDropDeadline());
+        Assert.assertEquals(r1.isHazardousForDisabledStudents(), r2.GetIsHazardousForDisabledStudents());
         Assert.assertEquals(r1.getDescr().getPlain(), r2.getDescr().getPlain());
         Assert.assertEquals(r1.getFeeInfo().getId(), r2.getFeeInfo().getId());
+        Assert.assertEquals("R1-Value", r2.getFeeInfo().getAttributes().get(0).getValue());
+        Assert.assertEquals("R1-Value", r2.getFeeInfo().getCluFeeRecords().get(0).getAttributes().get(0).getValue());
+        //No matching R1 property: r2.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgs().get(0).getAttributes().get(0).getValue()
+        Assert.assertEquals(r1.getFeeInfo().getCluFeeRecords().get(0).getFeeAmounts().get(0).getCurrencyTypeKey(), r2.getFeeInfo().getCluFeeRecords().get(0).getFeeAmounts().get(0).getCurrencyTypeKey());
         Assert.assertEquals(r1.getInstructors().get(0).getPersonId(), r2.getInstructors().get(0).getPersonId());
+        Assert.assertEquals("R1-Value", r2.getInstructors().get(0).getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getIntensity().getUnitType(), r2.getIntensity().getUnitTypeKey());
         Assert.assertEquals(r1.getLuCodes().get(0).getId(), r2.getLuCodes().get(0).getId());
+        Assert.assertEquals("R1-Value", r2.getLuCodes().get(0).getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
         Assert.assertEquals(r1.getOfficialIdentifier().getId(), r2.getOfficialIdentifier().getId());
+        Assert.assertEquals("R1-Value", r2.getOfficialIdentifier().getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getPrimaryInstructor().getPersonId(), r2.getPrimaryInstructor().getPersonId());
+        Assert.assertEquals("R1-Value", r2.getPrimaryInstructor().getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getStdDuration().getTimeQuantity(), r2.getStdDuration().getTimeQuantity());
         Assert.assertEquals(r1.getVersionInfo().getVersionIndId(), r2.getVersionInfo().getVersionIndId());
     }
@@ -655,6 +675,7 @@ public class LumConverterTest {
         Assert.assertEquals(r1.getLearningObjectives().get(0).getLoInfo().getId(), r2.getLearningObjectives().get(0).getLoInfo().getId());
         Assert.assertEquals(r1.getOrgCoreProgram().getId(), r2.getOrgCoreProgram().getId());
         Assert.assertEquals(r1.getPublishedInstructors().get(0).getOrgId(), r2.getPublishedInstructors().get(0).getOrgId());
+        Assert.assertEquals("R1-Value", r2.getPublishedInstructors().get(0).getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getStdDuration().getTimeQuantity(), r2.getStdDuration().getTimeQuantity());
         Assert.assertEquals(r1.getVariations().get(0).getId(), r2.getVariations().get(0).getId());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
