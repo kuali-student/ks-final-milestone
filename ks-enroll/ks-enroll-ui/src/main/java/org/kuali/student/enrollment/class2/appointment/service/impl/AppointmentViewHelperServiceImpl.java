@@ -136,15 +136,12 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
     }
     
-    
     protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
-        if (addLine instanceof AppointmentWindowWrapper){
-            AppointmentWindowWrapper inputLine = (AppointmentWindowWrapper)addLine;
-            String periodId = form.getPeriodId();
-            if (periodId != "all" && !periodId.isEmpty()){
-                inputLine.setPeriodName(form.getPeriodName());
-            }
+        AppointmentWindowWrapper newCollectionLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
+        String periodId = form.getPeriodId();
+        if (periodId != "all" && !periodId.isEmpty()){
+            newCollectionLine.setPeriodName(form.getPeriodName());
         }
     }
 
