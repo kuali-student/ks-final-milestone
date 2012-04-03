@@ -43,6 +43,7 @@ import org.kuali.student.r1.common.dictionary.dto.LookupConstraint;
 import org.kuali.student.r1.common.dictionary.dto.MustOccurConstraint;
 import org.kuali.student.r1.common.dictionary.dto.RequiredConstraint;
 import org.kuali.student.r1.common.dictionary.dto.WhenConstraint;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
@@ -426,7 +427,29 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                         // Pull the value from the dynamic attribute map
                         // TODO There needs to be some mapping from PropertyUtils to the KS path
                         // Until then, this will only work for root level properties
-                        Map<String, String> attributes = (Map<String, String>) PropertyUtils.getNestedProperty(rootData, "attributes");
+                        Map<String, String> attributes = null;
+                        if (rootData.getClass().getPackage().toString().contains(".r1.")){
+                        attributes = (Map<String, String>) PropertyUtils.getNestedProperty(rootData, "attributes");
+                        }
+
+                        if (rootData.getClass().getPackage().toString().contains(".r2."))
+                        {
+                            List<AttributeInfo> attToMap = (List<AttributeInfo>)PropertyUtils.getNestedProperty(rootData, "attributes");
+                            HashMap<String,String > getAllKEysOnR2 = new HashMap<String, String>();
+                            if (attToMap != null){
+                            for ( AttributeInfo atin : attToMap ){
+
+                                try {
+                                attributes.put(atin.getKey(),atin.getValue());
+                                }catch (Exception e)
+                                {
+                                    System.out.print("Failed at " + rootData.getClass().getName() + " for object attributes");
+
+                                }
+                            }
+                            }
+                        }
+
                         if (attributes != null) {
                             fieldValue = attributes.get(caseConstraint.getFieldPath().substring(1));
                         }

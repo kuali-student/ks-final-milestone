@@ -15,14 +15,16 @@
 
 package org.kuali.student.r1.common.validator;
 
+import org.apache.log4j.Logger;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
 
 @Deprecated
 public class BeanConstraintDataProvider implements ConstraintDataProvider {
@@ -64,7 +66,24 @@ public class BeanConstraintDataProvider implements ConstraintDataProvider {
 	
 	            // Extract dynamic attributes
 	            if(DYNAMIC_ATTRIBUTE.equals(pd.getName())) {
+                    if (o.getClass().getPackage().getName().contains(".r1.")){
 	                dataMap.putAll((Map<String, String>)value);
+                    }
+
+                    if (o.getClass().getPackage().getName().contains(".r2."))
+                    {
+
+                        List<AttributeInfo> attToMap = (List<AttributeInfo>)value;
+                        HashMap<String,String > getAllKEysOnR2 = new HashMap<String, String>();
+                        if (attToMap != null){
+                        for ( AttributeInfo atin : attToMap ){
+
+                            getAllKEysOnR2.put(atin.getKey(),atin.getValue());
+                        }
+                        dataMap.putAll(getAllKEysOnR2);
+                        }
+                    }
+
 	            } else {
 					dataMap.put(pd.getName(), value);
 	            }
