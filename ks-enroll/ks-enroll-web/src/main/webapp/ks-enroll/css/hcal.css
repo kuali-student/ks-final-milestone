@@ -3,6 +3,9 @@ td.col2, td.col4, th.col1, th.col3 { padding-bottom:0; padding-left:0; padding-r
 
 .ks-cell-align-center { text-align:center; }
 
+
+/**** REMAINDER NEEDS TO BE REFACTORED TO USE ELEMENT STYLE CLASSES AND NOT ID'S ****/
+
 /*-- Holiday Calendar View ----------------------------------------------------------------------*/
 #holidayCalendarViewPage_div h2.uif-header { border-bottom:solid 2px #000; margin-bottom:5px; }
 #KS-HolidayCalendar-View-Meta_div,

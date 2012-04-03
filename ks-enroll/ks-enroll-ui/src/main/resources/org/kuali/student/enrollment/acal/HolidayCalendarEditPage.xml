@@ -193,7 +193,7 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteHoliday" p:actionLabel="delete"/>
             </list>
-    </property>
+        </property>
 	</bean>
 
     <util:list id="hcorg-options">

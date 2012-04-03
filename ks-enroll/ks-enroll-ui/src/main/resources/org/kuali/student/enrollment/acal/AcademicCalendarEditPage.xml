@@ -56,7 +56,8 @@
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-MetaSection" parent="Uif-HorizontalBoxSection" >
+    <bean id="KS-AcademicCalendar-MetaSection" parent="Uif-HorizontalBoxSection">
+        <property name="id" value="KS-AcademicCalendar-MetaSection" />
         <property name="title" value="Calendar Information" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -75,7 +76,7 @@
                     </property>
                     <!-- <property name="optionsFinder">
                       <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.OrgKeyValues"/>
-                  </property>   -->
+                    </property>   -->
                 </bean>
                 <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP"
                       p:labelField.renderColon="false" p:labelField.style="display:block;"
