@@ -53,6 +53,7 @@
 
  <bean id="resultScaleInfo.resultValueRange-parent" abstract="true" parent="baseComplex">
   <property name="name" value="resultValueRange"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo"/>
  </bean>
  <bean id="resultScaleInfo.resultValueRange" parent="resultScaleInfo.resultValueRange-parent"/>
 
@@ -236,6 +237,7 @@
  
  <bean id="resultValuesGroupInfo.resultValueRange-parent" abstract="true" parent="baseComplex">
   <property name="name" value="resultValueRange"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo"/>
  </bean>
  <bean id="resultValuesGroupInfo.resultValueRange" parent="resultValuesGroupInfo.resultValueRange-parent"/>
  
