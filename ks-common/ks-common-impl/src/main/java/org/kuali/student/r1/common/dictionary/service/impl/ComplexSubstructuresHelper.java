@@ -34,6 +34,7 @@ public class ComplexSubstructuresHelper {
 		Class<?> clazz;
 		try {
 			clazz = Class.forName(className);
+			System.out.println(className);
 		} catch (ClassNotFoundException ex) {
 			System.out
 					.println("ComplexSubstructuresHelper: Could not process because the class must be a freestanding object: "
@@ -52,8 +53,15 @@ public class ComplexSubstructuresHelper {
 	    
 		for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
 			String propertyName = pd.getName();
-			System.out.println(propertyName);
+//			System.out.println(propertyName);
 			Class<?> subClass = pd.getPropertyType();
+			// find the actual class and not the interface for the field
+			Field propertyField1 = findField(propertyName, fields);
+			if (propertyField1 != null) {
+				Class<?> subClassField =  propertyField1.getType();
+				subClass = subClassField;
+			}
+			//
 			if (List.class.equals(subClass)) {
 				try {
 //					Field propertyField = clazz
