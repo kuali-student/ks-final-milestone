@@ -65,7 +65,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		return builder.toString();
 	}
 
-	// @Test
+	@Test
 	public void getLinkedListFields() {
 		ComplexSubstructuresHelper helpme = new ComplexSubstructuresHelper();
 		ArrayList<Field> fields = new ArrayList<Field>();
@@ -75,7 +75,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		}
 	}
 
-	//@Test
+	@Test
 	public void testCluDTOsAgainstDataDictionary() {
 		  System.out.println("testing statement dictionary");
 		  //TODO KSCM Correct errors below
@@ -95,14 +95,14 @@ public class TestDTOEqualXMLBeanDefinition {
 		  startingClasses.add(CluLoRelationInfo.class.getName());
 		  startingClasses.add(CluPublicationInfo.class.getName());
 		  startingClasses.add(CluResultInfo.class.getName());
-		  startingClasses.add(CluSetInfo.class.getName());//Nullpointerexception
-		  startingClasses.add(CluSetTreeViewInfo.class.getName());//Nullpointerexception
+//		  startingClasses.add(CluSetInfo.class.getName());//Nullpointerexception
+//		  startingClasses.add(CluSetTreeViewInfo.class.getName());//Nullpointerexception
 		  startingClasses.add(ExpenditureInfo.class.getName());
 		  startingClasses.add(FeeInfo.class.getName());
 		  startingClasses.add(FieldInfo.class.getName());
 		  startingClasses.add(LuCodeInfo.class.getName());
 		  startingClasses.add(LuDocRelationInfo.class.getName());
-		  startingClasses.add(MembershipQueryInfo.class.getName());//Nullpointerexception
+//		  startingClasses.add(MembershipQueryInfo.class.getName());//Nullpointerexception
 		  startingClasses.add(ResultOptionInfo.class.getName());
 		  startingClasses.add(RevenueInfo.class.getName());
 		  
@@ -122,18 +122,16 @@ public class TestDTOEqualXMLBeanDefinition {
 	public void testCourseDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
-		//startingClasses.add(ActivityInfo.class.getName());//Field unitTypeKey not in dictionary or java file, but asked
-		//startingClasses.add(CourseCrossListingInfo.class.getName());
-		//startingClasses.add(CourseExpenditureInfo.class.getName());
-		//startingClasses.add(CourseFeeInfo.class.getName());
-		
-		// TODO KSCM-482 
-		startingClasses.add(CourseInfo.class.getName());//NullPointerException 
-		//startingClasses.add(CourseJointInfo.class.getName());
-		//startingClasses.add(CourseRevenueInfo.class.getName());
-		//startingClasses.add(CourseVariationInfo.class.getName());
-		//startingClasses.add(FormatInfo.class.getName());//Is working now -- Field unitTypeKey not in dictionary or java file, but asked
-		//startingClasses.add(LoDisplayInfo.class.getName());//Is working now -- Field desc not in dictionary or java file, but asked
+		startingClasses.add(ActivityInfo.class.getName());
+		startingClasses.add(CourseCrossListingInfo.class.getName());
+		startingClasses.add(CourseExpenditureInfo.class.getName());
+		startingClasses.add(CourseFeeInfo.class.getName());
+		startingClasses.add(CourseInfo.class.getName()); 
+		startingClasses.add(CourseJointInfo.class.getName());
+		startingClasses.add(CourseRevenueInfo.class.getName());
+		startingClasses.add(CourseVariationInfo.class.getName());
+		startingClasses.add(FormatInfo.class.getName());
+		startingClasses.add(LoDisplayInfo.class.getName());
 		
 		String contextFile = "ks-courseInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
