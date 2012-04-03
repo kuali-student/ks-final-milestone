@@ -108,6 +108,13 @@
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startTime" p:label="Start Time"
                       p:progressiveRender="@{#lp.allDay eq false}">
+                    <!-- may work with Rice 2.2...
+                    <property name="dependencyConstraints">
+                        <list>
+                            <bean parent="PrerequisiteConstraint" p:propertyName="startTimeAmPm" />
+                        </list>
+                    </property>
+                    -->
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm"/>
                     </property>
@@ -126,14 +133,18 @@
                     </property>
                 </bean>
                 <!-- NOTE: for progressiveRender condition below, "dateRange eq true" DOESN'T WORK -->
-                <bean parent="Uif-InputField" p:propertyName="endDate"
+                <bean parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
                       p:label="End Date" p:required="@{#lp.dateRange eq true}"
                       p:progressiveRender="@{#lp.dateRange != false}">
                     <!-- BUG ALERT:
                         Without the conditional readOnly property, a "delete" action will
                         cause the endDate field ON THE NEXT LINE to be cleared.  Weird.
                     -->
+                    <!-- NOTE:
+                        For some reason for HC this disables the dateRange checkbox on the
+                        addline; same code seems to works in AcademicCalendarEditPage.xml
                     <property name="readOnly" value="@{#lp.dateRange eq false}"/>
+                    -->
                     <!-- END OF BUG ALERT -->
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy" />
