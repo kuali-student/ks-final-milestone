@@ -820,6 +820,7 @@
     
     <bean id="adminOrgInfo.descr-parent" abstract="true" parent="baseComplex">
         <property name="name" value="descr"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
     </bean>
     <bean id="adminOrgInfo.descr" parent="adminOrgInfo.descr-parent"/>
     
