@@ -21,6 +21,11 @@ import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
+import org.kuali.student.r2.lum.clu.dto.FieldInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
@@ -498,6 +503,68 @@ public class LumConverterTest {
 
     }
     
+    @Test
+    public void testFieldInfo(){
+    	org.kuali.student.r1.lum.lu.dto.FieldInfo r1 = R1TestDataUtil.getFieldInfoData();
+    	FieldInfo r2 = R1R2ConverterUtil.convert(r1, FieldInfo.class);
+    	 Assert.assertEquals(r1.getId(), r2.getId());
+    	 Assert.assertEquals(r1.getValue(), r2.getValue());
+    	
+    }
+    
+    @Test
+    public void testLuCodeInfo(){
+    	org.kuali.student.r1.lum.lu.dto.LuCodeInfo r1 = R1TestDataUtil.getLuCodeInfoData();
+    	LuCodeInfo r2 = R1R2ConverterUtil.convert(r1, LuCodeInfo.class);
+    	 Assert.assertEquals(r1.getId(), r2.getId());
+    	 Assert.assertEquals(r1.getValue(), r2.getValue());
+    	 Assert.assertEquals(r1.getType(), r2.getTypeKey());
+    	 Assert.assertEquals(r1.getDescr().getPlain(), r2.getDescr().getPlain());
+    	 Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+    	 Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+    	
+    }
+    
+    @Test
+    public void testLuDocRelationInfo(){
+    	org.kuali.student.r1.lum.lu.dto.LuDocRelationInfo r1 = R1TestDataUtil.getLuDocRelationInfoData();
+    	LuDocRelationInfo r2 = R1R2ConverterUtil.convert(r1, LuDocRelationInfo.class);
+    	 Assert.assertEquals(r1.getId(), r2.getId());
+    	 Assert.assertEquals(r1.getDocumentId(), r2.getDocumentId());
+    	 Assert.assertEquals(r1.getState(), r2.getStateKey());
+    	 Assert.assertEquals(r1.getTitle(), r2.getTitle());
+    	 Assert.assertEquals(r1.getCluId(), r2.getCluId());
+    	 Assert.assertEquals(r1.getType(), r2.getTypeKey());
+    	 Assert.assertEquals(r1.getExpirationDate(), r2.getExpirationDate());
+         Assert.assertEquals(r1.getEffectiveDate(), r2.getEffectiveDate());
+    	 Assert.assertEquals(r1.getDesc().getPlain(), r2.getDescr().getPlain());
+    	 Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+    	 Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+   	
+    }
+    
+    @Test
+    public void testMembershipQueryInfo(){
+    	 org.kuali.student.r1.lum.lu.dto.MembershipQueryInfo r1 = R1TestDataUtil.getMembershipQueryInfoData();
+    	 MembershipQueryInfo r2 = R1R2ConverterUtil.convert(r1, MembershipQueryInfo.class);
+    	 Assert.assertEquals(r1.getId(), r2.getId());
+    	 Assert.assertEquals(r1.getSearchTypeKey(), r2.getSearchTypeKey());
+    	 Assert.assertEquals(r1.getQueryParamValueList(), r2.getQueryParamValues());
+    }
+    
+    @Test
+    public void testResultOptionInfo(){
+    	 org.kuali.student.r1.lum.lu.dto.ResultOptionInfo r1 = R1TestDataUtil.getResultOptionInfoData();
+    	 ResultOptionInfo r2 = R1R2ConverterUtil.convert(r1, ResultOptionInfo.class);
+    	 Assert.assertEquals(r1.getId(), r2.getId());
+    	 Assert.assertEquals(r1.getResultComponentId(), r2.getResultComponentId());
+    	 Assert.assertEquals(r1.getResultUsageTypeKey(), r2.getResultUsageTypeKey());
+    	 Assert.assertEquals(r1.getState(), r2.getStateKey());
+    	 Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+    	 Assert.assertEquals(r1.getDesc().getPlain(), r2.getDescr().getPlain());
+    	 Assert.assertEquals(r1.getExpirationDate(), r2.getExpirationDate());
+         Assert.assertEquals(r1.getEffectiveDate(), r2.getEffectiveDate());
+    }
     
     @Test
     public void testCoreProgramInfo() {

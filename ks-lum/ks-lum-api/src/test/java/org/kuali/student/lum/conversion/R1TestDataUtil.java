@@ -45,6 +45,9 @@ import org.kuali.student.r1.lum.lu.dto.CluSetInfo;
 import org.kuali.student.r1.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.r1.lum.lu.dto.FieldInfo;
 import org.kuali.student.r1.lum.lu.dto.LuCodeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuDocRelationInfo;
+import org.kuali.student.r1.lum.lu.dto.MembershipQueryInfo;
+import org.kuali.student.r1.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.r1.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r1.lum.program.dto.ProgramVariationInfo;
 
@@ -84,13 +87,17 @@ public class R1TestDataUtil {
         return r1VersionInfo;
     }
 
-    public static List<FieldInfo> getFieldInfoData() {
+    public static List<FieldInfo> getFieldInfoDataList() {
     	List<FieldInfo> r1FieldInfoList = new ArrayList<FieldInfo>();
+    	r1FieldInfoList.add(R1TestDataUtil.getFieldInfoData());
+        return r1FieldInfoList;
+    }
+    
+    public static FieldInfo getFieldInfoData() {
     	FieldInfo r1FieldInfo = new FieldInfo();
     	r1FieldInfo.setId("R1 Field Id");
     	r1FieldInfo.setValue("R1 Field Value");	
-    	r1FieldInfoList.add(r1FieldInfo);
-        return r1FieldInfoList;
+        return r1FieldInfo;
     }
     
     public static CluInfo getCluInfoData() {
@@ -398,7 +405,7 @@ public class R1TestDataUtil {
     	r1CluPublicationInfo.setState("State");
     	r1CluPublicationInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
     	r1CluPublicationInfo.setType("Type");
-    	r1CluPublicationInfo.setVariants(R1TestDataUtil.getFieldInfoData());
+    	r1CluPublicationInfo.setVariants(R1TestDataUtil.getFieldInfoDataList());
    
         return r1CluPublicationInfo;
     }
@@ -480,6 +487,7 @@ public class R1TestDataUtil {
         return r1List;
     }
     
+    
     public static CluSetTreeViewInfo getCluSetTreeViewInfoData() {
     	CluSetTreeViewInfo r1CluSetTreeViewInfo = new CluSetTreeViewInfo();
     	r1CluSetTreeViewInfo.setClus(R1TestDataUtil.getCluInfoDataList());
@@ -498,6 +506,66 @@ public class R1TestDataUtil {
     	r1CluSetTreeViewInfo.setAdminOrg("Admin Org");
         return r1CluSetTreeViewInfo;
     }
+    
+    public static List<LuDocRelationInfo> getLuDocRelationInfoDataList() {
+        List<LuDocRelationInfo> r1List = new ArrayList<LuDocRelationInfo>();   
+        r1List.add(R1TestDataUtil.getLuDocRelationInfoData());
+        return r1List;
+    }
+    
+    
+    public static LuDocRelationInfo getLuDocRelationInfoData() {
+    	LuDocRelationInfo r1LuDocRelationInfo = new LuDocRelationInfo();
+    	r1LuDocRelationInfo.setDesc(R1TestDataUtil.getRichTextInfoData());
+    	r1LuDocRelationInfo.setTitle("Title");
+    	r1LuDocRelationInfo.setDocumentId("Document Id");
+    	r1LuDocRelationInfo.setCluId("Clud Id");
+    	r1LuDocRelationInfo.setEffectiveDate(new Date());
+    	r1LuDocRelationInfo.setExpirationDate(new Date());
+    	r1LuDocRelationInfo.setId("Id");
+    	r1LuDocRelationInfo.setState("State");
+    	r1LuDocRelationInfo.setAttributes(R1TestDataUtil.getAttributeData());
+    	r1LuDocRelationInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+    	r1LuDocRelationInfo.setType("Type");
+       return r1LuDocRelationInfo;
+    }
+    
+    public static List<MembershipQueryInfo> getMembershipQueryInfoDataList() {
+        List<MembershipQueryInfo> r1List = new ArrayList<MembershipQueryInfo>();   
+        r1List.add(R1TestDataUtil.getMembershipQueryInfoData());
+        return r1List;
+    }
+    
+    
+    public static MembershipQueryInfo getMembershipQueryInfoData() {
+    	MembershipQueryInfo r1MembershipQueryInfo = new MembershipQueryInfo();
+    	r1MembershipQueryInfo.setSearchTypeKey("searchTypeKey");
+    	r1MembershipQueryInfo.setId("Id");
+    	r1MembershipQueryInfo.setQueryParamValueList(null);
+    
+       return r1MembershipQueryInfo;
+    }
+    
+    public static List<ResultOptionInfo> getResultOptionInfoDataList() {
+        List<ResultOptionInfo> r1List = new ArrayList<ResultOptionInfo>();   
+        r1List.add(R1TestDataUtil.getResultOptionInfoData());
+        return r1List;
+    }
+    
+    
+    public static ResultOptionInfo getResultOptionInfoData() {
+    	ResultOptionInfo r1ResultOptionInfo = new ResultOptionInfo();
+    	r1ResultOptionInfo.setId("Id");
+    	r1ResultOptionInfo.setState("State");
+    	r1ResultOptionInfo.setResultComponentId("Result Component Id");
+    	r1ResultOptionInfo.setDesc(R1TestDataUtil.getRichTextInfoData());
+    	r1ResultOptionInfo.setEffectiveDate(new Date());
+    	r1ResultOptionInfo.setExpirationDate(new Date());
+    	r1ResultOptionInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+    	r1ResultOptionInfo.setResultUsageTypeKey("Result Usage TypeKey");
+       return r1ResultOptionInfo;
+    }
+    
     public static List<CourseJointInfo> getCourseJointInfoDataList() {
         List<CourseJointInfo> r1CourseJointInfoList = new ArrayList<CourseJointInfo>();
         CourseJointInfo r1CourseJointInfo = new CourseJointInfo();
@@ -783,6 +851,11 @@ public class R1TestDataUtil {
 
     public static List<LuCodeInfo> getLuCodeInfoDataList() {
         List<LuCodeInfo> r1List = new ArrayList<LuCodeInfo>();
+        r1List.add(getLuCodeInfoData());
+        return r1List;
+    }
+    
+    public static LuCodeInfo getLuCodeInfoData() {
         LuCodeInfo r1 = new LuCodeInfo();
         r1.setAttributes(R1TestDataUtil.getAttributeData());
         r1.setDescr(R1TestDataUtil.getRichTextInfoData());
@@ -790,8 +863,7 @@ public class R1TestDataUtil {
         r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
         r1.setType("R1 Type");
         r1.setValue("R1 Value");
-        r1List.add(r1);
-        return r1List;
+        return r1;
     }
     
     public static List<CluCluRelationInfo> getCluCluRelationInfo(){
