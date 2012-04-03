@@ -32,10 +32,18 @@ import org.kuali.student.r1.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.r1.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r1.lum.lu.dto.CluAccountingInfo;
+import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluFeeInfo;
 import org.kuali.student.r1.lum.lu.dto.CluFeeRecordInfo;
 import org.kuali.student.r1.lum.lu.dto.CluIdentifierInfo;
+import org.kuali.student.r1.lum.lu.dto.CluInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo;
+import org.kuali.student.r1.lum.lu.dto.CluPublicationInfo;
+import org.kuali.student.r1.lum.lu.dto.CluResultInfo;
+import org.kuali.student.r1.lum.lu.dto.CluSetInfo;
+import org.kuali.student.r1.lum.lu.dto.CluSetTreeViewInfo;
+import org.kuali.student.r1.lum.lu.dto.FieldInfo;
 import org.kuali.student.r1.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.r1.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r1.lum.program.dto.ProgramVariationInfo;
@@ -76,6 +84,54 @@ public class R1TestDataUtil {
         return r1VersionInfo;
     }
 
+    public static List<FieldInfo> getFieldInfoData() {
+    	List<FieldInfo> r1FieldInfoList = new ArrayList<FieldInfo>();
+    	FieldInfo r1FieldInfo = new FieldInfo();
+    	r1FieldInfo.setId("R1 Field Id");
+    	r1FieldInfo.setValue("R1 Field Value");	
+    	r1FieldInfoList.add(r1FieldInfo);
+        return r1FieldInfoList;
+    }
+    
+    public static CluInfo getCluInfoData() {
+    	CluInfo r1CluInfo= new CluInfo();
+    	r1CluInfo.setId("R1 Field Id");
+    	r1CluInfo.setAccountingInfo(R1TestDataUtil.getCluAccountingInfoData());	
+    	r1CluInfo.setAccreditations(R1TestDataUtil.getAccreditationInfoDataList());
+    	r1CluInfo.setAdminOrgs(R1TestDataUtil.getAdminOrgInfoDataList());
+    	r1CluInfo.setAlternateIdentifiers(getCluIdentifierInfoDataList());
+    	r1CluInfo.setAttributes(getAttributeData());
+    	r1CluInfo.setCampusLocations(null);
+    	r1CluInfo.setCanCreateLui(false);
+    	r1CluInfo.setDefaultEnrollmentEstimate(0);
+    	r1CluInfo.setDefaultMaximumEnrollment(0);
+    	r1CluInfo.setDescr(R1TestDataUtil.getRichTextInfoData());
+    	r1CluInfo.setEffectiveDate(new Date());
+    	r1CluInfo.setExpectedFirstAtp("Expected FirstAtp");
+    	r1CluInfo.setExpirationDate(new Date());
+    	r1CluInfo.setFeeInfo(getCluFeeInfoData());
+    	r1CluInfo.setHasEarlyDropDeadline(false);
+    	r1CluInfo.setHazardousForDisabledStudents(false);
+    	r1CluInfo.setInstructors(getCluInstructorInfoDataList());
+    	r1CluInfo.setIntensity(getAmountInfoData());
+    	r1CluInfo.setLastAdmitAtp("last AdmitAtp");
+    	r1CluInfo.setLastAtp("lastAtp");
+    	r1CluInfo.setLuCodes(getLuCodeInfoDataList());
+    	r1CluInfo.setMetaInfo(getMetadataInfoData());
+    	r1CluInfo.setNextReviewPeriod("next Review Period");
+    	r1CluInfo.setOfferedAtpTypes(null);
+    	r1CluInfo.setOfficialIdentifier(getCluIdentifierInfoData());
+    	r1CluInfo.setPrimaryInstructor(getCluInstructorInfoData());
+    	r1CluInfo.setReferenceURL("Reference URL");
+    	r1CluInfo.setState("state");
+    	r1CluInfo.setStdDuration(getTimeAmountInfoData());
+    	r1CluInfo.setStudySubjectArea("Study Subject Area");
+    	r1CluInfo.setType("Type");
+    	r1CluInfo.setVersionInfo(getVersionInfoData());
+    
+        return r1CluInfo;
+    }
+    
     public static List<LoDisplayInfo> getLoDisplayInfoDataList() {
         List<LoDisplayInfo> r1LoDisplayInfoList = new ArrayList<LoDisplayInfo>();
         r1LoDisplayInfoList.add(R1TestDataUtil.getLoDisplayInfoData());
@@ -190,15 +246,21 @@ public class R1TestDataUtil {
         r1CourseExpenditureInfo.setAffiliatedOrgs(R1TestDataUtil.getAffiliatedOrgInfoDataList());
         return r1CourseExpenditureInfo;
     }
-
-    public static List<AffiliatedOrgInfo> getAffiliatedOrgInfoDataList() {
-        List<AffiliatedOrgInfo> r1List = new ArrayList<AffiliatedOrgInfo>();
+    
+    public static AffiliatedOrgInfo getAffiliatedOrgInfoData() {
+    	
         AffiliatedOrgInfo r1AffilOrgInfo = new AffiliatedOrgInfo();
         r1AffilOrgInfo.setEffectiveDate(new Date());
         r1AffilOrgInfo.setExpirationDate(new Date());
         r1AffilOrgInfo.setId("R1 Id");
         r1AffilOrgInfo.setOrgId("R1 Org Id");
         r1AffilOrgInfo.setPercentage(Long.valueOf("1"));
+        return r1AffilOrgInfo; 
+    }
+
+    public static List<AffiliatedOrgInfo> getAffiliatedOrgInfoDataList() {
+        List<AffiliatedOrgInfo> r1List = new ArrayList<AffiliatedOrgInfo>();
+        AffiliatedOrgInfo r1AffilOrgInfo = R1TestDataUtil.getAffiliatedOrgInfoData();
         r1List.add(r1AffilOrgInfo);
         return r1List;
     }
@@ -297,6 +359,145 @@ public class R1TestDataUtil {
         return r1CluInstrInfo;
     }
     
+    public static List<CluLoRelationInfo> getCluLoRelationInfoDataList() {
+        List<CluLoRelationInfo> r1List = new ArrayList<CluLoRelationInfo>();
+        r1List.add(R1TestDataUtil.getCluLoRelationInfoData());
+        return r1List;
+    }
+    
+    public static CluLoRelationInfo getCluLoRelationInfoData() {
+    	CluLoRelationInfo r1CluLoRelationInfo= new CluLoRelationInfo();
+    	r1CluLoRelationInfo.setAttributes(R1TestDataUtil.getAttributeData());
+    	r1CluLoRelationInfo.setCluId("Clu Id");
+    	r1CluLoRelationInfo.setEffectiveDate(new Date());
+    	r1CluLoRelationInfo.setExpirationDate(new Date());
+    	r1CluLoRelationInfo.setId("Id");
+    	r1CluLoRelationInfo.setLoId("Lo ID");
+    	r1CluLoRelationInfo.setState("State");
+    	r1CluLoRelationInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+    	r1CluLoRelationInfo.setType("Type");
+    
+        return r1CluLoRelationInfo;
+    }
+    
+    public static List<CluPublicationInfo> getCluPublicationInfoDataList() {
+        List<CluPublicationInfo> r1List = new ArrayList<CluPublicationInfo>();
+        r1List.add(R1TestDataUtil.getCluPublicationInfoData());
+        return r1List;
+    }
+    
+    public static CluPublicationInfo getCluPublicationInfoData() {
+    	CluPublicationInfo r1CluPublicationInfo= new CluPublicationInfo();
+    	r1CluPublicationInfo.setAttributes(R1TestDataUtil.getAttributeData());
+    	r1CluPublicationInfo.setCluId("Clu Id");
+    	r1CluPublicationInfo.setEffectiveDate(new Date());
+    	r1CluPublicationInfo.setExpirationDate(new Date());
+    	r1CluPublicationInfo.setId("Id");
+    	r1CluPublicationInfo.setStartCycle("Start Cycle");
+    	r1CluPublicationInfo.setEndCycle("End Cycle");
+    	r1CluPublicationInfo.setState("State");
+    	r1CluPublicationInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+    	r1CluPublicationInfo.setType("Type");
+    	r1CluPublicationInfo.setVariants(R1TestDataUtil.getFieldInfoData());
+   
+        return r1CluPublicationInfo;
+    }
+    
+    public static List<CluResultInfo> getCluResultInfoDataList() {
+        List<CluResultInfo> r1List = new ArrayList<CluResultInfo>();
+        r1List.add(R1TestDataUtil.getCluResultInfoData());
+        return r1List;
+    }
+    
+    public static CluResultInfo getCluResultInfoData() {
+    	CluResultInfo r1CluResultInfo = new CluResultInfo();
+    	r1CluResultInfo.setCluId("Clu Id");
+    	r1CluResultInfo.setEffectiveDate(new Date());
+    	r1CluResultInfo.setExpirationDate(new Date());
+    	r1CluResultInfo.setId("Id");
+    	r1CluResultInfo.setState("State");
+    	r1CluResultInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+    	r1CluResultInfo.setType("Type");
+    	r1CluResultInfo.setDesc(R1TestDataUtil.getRichTextInfoData());
+    	r1CluResultInfo.setResultOptions(null);
+        return r1CluResultInfo;
+    }
+    
+    public static List<CluSetInfo> getCluSetInfoDataList() {
+        List<CluSetInfo> r1List = new ArrayList<CluSetInfo>();
+        r1List.add(R1TestDataUtil.getCluSetInfoData());
+        return r1List;
+    }
+    
+    public static CluSetInfo getCluSetInfoData() {
+    	CluSetInfo r1CluSetInfo = new CluSetInfo();
+    	r1CluSetInfo.setCluIds(null);
+    	r1CluSetInfo.setCluSetIds(null);
+    	r1CluSetInfo.setEffectiveDate(new Date());
+    	r1CluSetInfo.setExpirationDate(new Date());
+    	r1CluSetInfo.setId("Id");
+    	r1CluSetInfo.setState("State");
+    	r1CluSetInfo.setAttributes(R1TestDataUtil.getAttributeData());
+    	r1CluSetInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+    	r1CluSetInfo.setType("Type");
+    	r1CluSetInfo.setDescr(R1TestDataUtil.getRichTextInfoData());
+    	r1CluSetInfo.setIsReferenceable(false);
+    	r1CluSetInfo.setIsReusable(false);
+    	r1CluSetInfo.setName("Name");
+    	r1CluSetInfo.setAdminOrg(null);
+        return r1CluSetInfo;
+    }
+    
+    public static List<CluInfo> getCluInfoDataList() {
+        List<CluInfo> r1List = new ArrayList<CluInfo>();
+        r1List.add(R1TestDataUtil.getCluInfoData());
+        return r1List;
+    }
+    
+    private static List<CluSetTreeViewInfo> getNestedCluSetTreeViewInfoDataList() {
+        List<CluSetTreeViewInfo> r1NestedCluSetTreeViewInfoList = new ArrayList<CluSetTreeViewInfo>();
+        CluSetTreeViewInfo r1NestedCluSetTreeViewInfo = new CluSetTreeViewInfo();
+        r1NestedCluSetTreeViewInfo.setClus(R1TestDataUtil.getCluInfoDataList());
+        r1NestedCluSetTreeViewInfo.setCluSets(null);
+        r1NestedCluSetTreeViewInfo.setEffectiveDate(new Date());
+        r1NestedCluSetTreeViewInfo.setExpirationDate(new Date());
+        r1NestedCluSetTreeViewInfo.setId(" Nested Id");
+        r1NestedCluSetTreeViewInfo.setState("Nested State");
+    	r1NestedCluSetTreeViewInfo.setAttributes(R1TestDataUtil.getAttributeData());
+    	r1NestedCluSetTreeViewInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+    	r1NestedCluSetTreeViewInfo.setType("Nested Type");
+    	r1NestedCluSetTreeViewInfo.setDescr(R1TestDataUtil.getRichTextInfoData());
+    	r1NestedCluSetTreeViewInfo.setIsReferenceable(false);
+    	r1NestedCluSetTreeViewInfo.setIsReusable(false);
+    	r1NestedCluSetTreeViewInfo.setName("Nested Name");
+    	r1NestedCluSetTreeViewInfo.setAdminOrg("Nested Admin Org");
+
+        return r1NestedCluSetTreeViewInfoList;
+    }
+    public static List<CluSetTreeViewInfo> getCluSetTreeViewInfoDataList() {
+        List<CluSetTreeViewInfo> r1List = new ArrayList<CluSetTreeViewInfo>();   
+        r1List.add(R1TestDataUtil.getCluSetTreeViewInfoData());
+        return r1List;
+    }
+    
+    public static CluSetTreeViewInfo getCluSetTreeViewInfoData() {
+    	CluSetTreeViewInfo r1CluSetTreeViewInfo = new CluSetTreeViewInfo();
+    	r1CluSetTreeViewInfo.setClus(R1TestDataUtil.getCluInfoDataList());
+    	r1CluSetTreeViewInfo.setCluSets(R1TestDataUtil.getNestedCluSetTreeViewInfoDataList());
+    	r1CluSetTreeViewInfo.setEffectiveDate(new Date());
+    	r1CluSetTreeViewInfo.setExpirationDate(new Date());
+    	r1CluSetTreeViewInfo.setId("Id");
+    	r1CluSetTreeViewInfo.setState("State");
+    	r1CluSetTreeViewInfo.setAttributes(R1TestDataUtil.getAttributeData());
+    	r1CluSetTreeViewInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+    	r1CluSetTreeViewInfo.setType("Type");
+    	r1CluSetTreeViewInfo.setDescr(R1TestDataUtil.getRichTextInfoData());
+    	r1CluSetTreeViewInfo.setIsReferenceable(false);
+    	r1CluSetTreeViewInfo.setIsReusable(false);
+    	r1CluSetTreeViewInfo.setName("Name");
+    	r1CluSetTreeViewInfo.setAdminOrg("Admin Org");
+        return r1CluSetTreeViewInfo;
+    }
     public static List<CourseJointInfo> getCourseJointInfoDataList() {
         List<CourseJointInfo> r1CourseJointInfoList = new ArrayList<CourseJointInfo>();
         CourseJointInfo r1CourseJointInfo = new CourseJointInfo();
@@ -550,7 +751,15 @@ public class R1TestDataUtil {
         return r1;
     }
     
-    public static List<CluFeeRecordInfo> getCluFeeRecordInfoDataList() {
+    public static List<CluFeeInfo> getCluFeeInfoDataList() {
+    	List<CluFeeInfo> rCluFeeInfoList = new ArrayList<CluFeeInfo>();
+        CluFeeInfo rCluFeeInfo = R1TestDataUtil.getCluFeeInfoData();
+        rCluFeeInfoList.add(rCluFeeInfo);
+        return rCluFeeInfoList;
+        
+    }
+    
+    public static CluFeeRecordInfo getCluFeeRecordInfoData() {
         List<CluFeeRecordInfo> r1List = new ArrayList<CluFeeRecordInfo>();
         CluFeeRecordInfo r1 = new CluFeeRecordInfo();
         r1.setAffiliatedOrgs(R1TestDataUtil.getAffiliatedOrgInfoDataList());
@@ -561,6 +770,13 @@ public class R1TestDataUtil {
         r1.setId("R1 Id");
         r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
         r1.setRateType("R1 Rate Type");
+        r1List.add(r1);
+        return r1;
+    }
+    
+    public static List<CluFeeRecordInfo> getCluFeeRecordInfoDataList() {
+        List<CluFeeRecordInfo> r1List = new ArrayList<CluFeeRecordInfo>();
+        CluFeeRecordInfo r1 = R1TestDataUtil.getCluFeeRecordInfoData();
         r1List.add(r1);
         return r1List;
     }
@@ -577,5 +793,29 @@ public class R1TestDataUtil {
         r1List.add(r1);
         return r1List;
     }
+    
+    public static List<CluCluRelationInfo> getCluCluRelationInfo(){
+    	 List<CluCluRelationInfo> r1CluCluRelationInfoList = new ArrayList<CluCluRelationInfo>();
+    	 CluCluRelationInfo r1CluCluRelationInfo = R1TestDataUtil.getCluCluRelationInfoData();
+    	 r1CluCluRelationInfoList.add(r1CluCluRelationInfo);
+         return r1CluCluRelationInfoList;      
+ 
+    }
+    
+    public static CluCluRelationInfo getCluCluRelationInfoData() {
+    	CluCluRelationInfo r1CluCluRelationInfo= new CluCluRelationInfo();
+    	r1CluCluRelationInfo.setAttributes(R1TestDataUtil.getAttributeData());
+    	r1CluCluRelationInfo.setEffectiveDate(new Date());
+        r1CluCluRelationInfo.setExpirationDate(new Date());
+        r1CluCluRelationInfo.setId("R1 Id");
+        r1CluCluRelationInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1CluCluRelationInfo.setCluId("R1 Clu Id");
+        r1CluCluRelationInfo.setIsCluRelationRequired(false);
+        r1CluCluRelationInfo.setRelatedCluId(" E1 Related Clu Id");
+        r1CluCluRelationInfo.setState("R1 State");
+        r1CluCluRelationInfo.setType("R1 Type");
+        return r1CluCluRelationInfo;
+    }
+    
 
 }

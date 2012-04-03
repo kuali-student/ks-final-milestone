@@ -294,7 +294,56 @@
 			<b get-method="getIsPrimary" set-method="setIsPrimary">isPrimary</b>
 		</field>
 	</mapping>
-	
+
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluAccountingInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluAccountingInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo</class-b>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluFeeRecordInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.lu.dto.CluInfo</class-a>
 		<class-b>org.kuali.student.r2.lum.clu.dto.CluInfo</class-b>
@@ -366,6 +415,11 @@
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
 		</field>
+		<field>
+			<a>descr</a>
+			<b set-method="setDescr(org.kuali.student.r2.common.dto.RichTextInfo)"
+				get-method="getDescr">descr</b>
+		</field>
 	</mapping>
 
 	<mapping>
@@ -425,6 +479,126 @@
 		<field>
 			<a>type</a>
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluPublicationInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluPublicationInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluResultInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluResultInfo</class-b>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluSetInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluSetInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>descr</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.CluSetTreeViewInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>descr</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
 		</field>
 	</mapping>
 	<mapping>
