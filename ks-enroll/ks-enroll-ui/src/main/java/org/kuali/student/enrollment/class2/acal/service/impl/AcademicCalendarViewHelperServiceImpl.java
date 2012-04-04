@@ -435,8 +435,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                   keyDateWrapper.setTypeInfo(type);
                   keyDateWrapper.setKeyDateNameUI(type.getName());
 
-                  List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,null,context);
-                  List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,null,context);
+                  List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,null,context);
+                  List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,null,context);
 
                   if (isRelationExists(registrationRelations,orgKeyDateInfo.getTypeKey())){
                       registrationWrapper.getKeydates().add(keyDateWrapper);

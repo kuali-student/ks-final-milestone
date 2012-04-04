@@ -219,8 +219,8 @@
         <property name="actionFields">
             <list>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="Add Me" p:render="@{#isAddLine}" />
-                <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Preview Assignments" p:render="@{!#isAddLine}" />
-                <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Assign Students" p:render="@{!#isAddLine}" />
+                <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Preview Assignments" p:render="@{!#isAddLine}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
+                <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Assign Students" p:render="@{!#isAddLine}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="X" p:render="@{!#isAddLine}" />
             </list>
         </property>
