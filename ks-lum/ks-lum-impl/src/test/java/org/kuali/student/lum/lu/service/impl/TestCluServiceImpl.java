@@ -1165,7 +1165,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals(2, relatedClusByCluId.size());
 	}
 
-	/* TODO KSCM-342 LuiService not used in CM     @Test
+	/* LuiService not used in CM     @Test
 	public void testLuiLuiRelationCrud() throws Exception {
 	    
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
@@ -1488,7 +1488,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
         assertEquals("kuali.lu.lu.relation.type.hasCoreProgram", luLuRelTypeInfos.get(0).getKey());
 	}
 
-	/*TODO KSCM-342 LuiService not used in CM      @Test
+	/* LuiService not used in CM      @Test
 	public void testUpdateLuiState() throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			OperationFailedException, PermissionDeniedException,
