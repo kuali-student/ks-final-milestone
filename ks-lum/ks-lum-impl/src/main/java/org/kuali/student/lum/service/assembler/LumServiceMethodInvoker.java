@@ -259,7 +259,6 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			RefStatementRelationInfo relation = (RefStatementRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				// TODO KSCM
 				RefStatementRelationInfo created = statementService.createRefStatementRelation(relation);
 				relation.setMetaInfo(created.getMetaInfo());
 				break;
