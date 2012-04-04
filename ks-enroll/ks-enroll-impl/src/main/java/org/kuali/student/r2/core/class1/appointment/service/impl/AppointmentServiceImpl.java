@@ -191,8 +191,14 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentWindowInfo> getAppointmentWindowsByPeriod(@WebParam(name = "periodMilestoneId") String periodMilestoneId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<AppointmentWindowInfo> getAppointmentWindowsByPeriod(String periodMilestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<AppointmentWindowEntity> winEntList = appointmentWindowDao.getAppointmentWindowsByMilestoneId(periodMilestoneId);
+        List<AppointmentWindowInfo> winInfoList = new ArrayList<AppointmentWindowInfo>();
+        for (AppointmentWindowEntity entity: winEntList) {
+            AppointmentWindowInfo winInfo = entity.toDto();
+            winInfoList.add(winInfo);
+        }
+        return winInfoList;
     }
 
     @Override
@@ -246,6 +252,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         AppointmentWindowEntity apptWin = appointmentWindowDao.find(appointmentWindowId);
         if (null != apptWin) {
+            List<AppointmentSlotEntity> list = appointmentSlotDao.getSlotsByWindowId(appointmentWindowId);
+            if (list != null) {
+                for (AppointmentSlotEntity entity: list) {
+                    appointmentSlotDao.remove(entity); // TODO: Should this call deleteAppointmentSlot?
+                }
+            }
             appointmentWindowDao.remove(apptWin);
         } else {
             throw new DoesNotExistException(appointmentWindowId);
@@ -558,10 +570,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
     
-    private void _createAppointmentSlots(List<AppointmentSlotInfo> slotInfoList, String apptSlotTypeKey, String apptWinId, ContextInfo contextInfo) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+    private List<AppointmentSlotInfo> _createAppointmentSlots(List<AppointmentSlotInfo> slotInfoList, String apptSlotTypeKey, String apptWinId, ContextInfo contextInfo) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+        List<AppointmentSlotInfo> newSlotInfoList = new ArrayList<AppointmentSlotInfo>();
         for (AppointmentSlotInfo slotInfo: slotInfoList) {
-            createAppointmentSlot(apptWinId, apptSlotTypeKey, slotInfo, contextInfo);
+            AppointmentSlotInfo newSlotInfo = createAppointmentSlot(apptWinId, apptSlotTypeKey, slotInfo, contextInfo);
+            newSlotInfoList.add(newSlotInfo);
         }
+        return newSlotInfoList;
     }
 
     @Override
@@ -580,7 +595,8 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new UnsupportedOperationException("Only support one slot, max, and uniform slotting");
         }
         _assignApptWinIdToSlots(slotList, appointmentWindowId);
-        _createAppointmentSlots(slotList, apptWin.getApptWindowType(), appointmentWindowId, contextInfo);
+        // This returns created slots with appropriate IDs
+        slotList = _createAppointmentSlots(slotList, apptWin.getApptWindowType(), appointmentWindowId, contextInfo);
         return slotList;
     }
 

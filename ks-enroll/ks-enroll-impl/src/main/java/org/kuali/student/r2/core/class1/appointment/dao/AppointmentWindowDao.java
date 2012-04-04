@@ -19,10 +19,16 @@ package org.kuali.student.r2.core.class1.appointment.dao;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity;
 
+import java.util.List;
+
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
 public class AppointmentWindowDao extends GenericEntityDao<AppointmentWindowEntity> {
+    public List<AppointmentWindowEntity> getAppointmentWindowsByMilestoneId(String periodMilestoneId) {
+        return em.createQuery("from AppointmentWindowEntity a where a.periodMilestoneId = :periodMilestoneId")
+                .setParameter("periodMilestoneId", periodMilestoneId).getResultList();
+    }
 }
