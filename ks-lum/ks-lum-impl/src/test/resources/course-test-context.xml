@@ -215,7 +215,7 @@
 	</bean>
 
 	<bean id="emServiceImpl"
-		class="org.kuali.student.r1.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+		class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
 		<property name="enumDAO" ref="emDao" />
 		<property name="searchManager" ref="emSearchManager"/>
 	</bean>

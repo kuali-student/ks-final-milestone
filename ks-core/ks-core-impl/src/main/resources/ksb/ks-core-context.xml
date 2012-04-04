@@ -259,7 +259,7 @@
     </bean>
 
     <bean id="emServiceImpl"
-          class="org.kuali.student.r1.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+          class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
         <property name="enumDAO" ref="emDao"/>
         <property name="searchManager" ref="emSearchManager"/>
     </bean>
@@ -270,7 +270,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="emServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.r1.core.enumerationmanagement.service.EnumerationManagementService"/>
+                          value="org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService"/>
                 <property name="localServiceName" value="EnumerationManagementService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/enumerationmanagement"/>
                 <property name="busSecurity" value="${ks.core.bus.security}"/>
