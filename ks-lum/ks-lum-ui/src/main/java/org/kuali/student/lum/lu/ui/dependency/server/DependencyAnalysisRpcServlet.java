@@ -43,7 +43,7 @@ public class DependencyAnalysisRpcServlet extends RemoteServiceServlet implement
 	@Override
 	public ProgramRequirementInfo getProgramRequirement(String reqId) throws Exception {
 		//TODO fix null parameters?
-		ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(reqId, null, null, ContextUtils.getContextInfo());
+		ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(reqId, ContextUtils.getContextInfo());
 		
 		setProgReqNL(programRequirementInfo);
 		return programRequirementInfo;
