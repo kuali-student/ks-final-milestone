@@ -245,8 +245,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(core.getAttributes());
             assertTrue(core.getAttributes().size() ==2);
-           //TODO KSCM assertEquals("GINGER GEM", core.getAttributes().get("COOKIES"));
-            //TODO KSCM assertEquals("JAM TART", core.getAttributes().get("CAKES"));
+           //TODO KSCM-369 assertEquals("GINGER GEM", core.getAttributes().get("COOKIES"));
+            //TODO KSCM-369 assertEquals("JAM TART", core.getAttributes().get("CAKES"));
 
             assertNotNull(core.getMeta());
             assertEquals("1", core.getMeta().getVersionInd());
@@ -396,8 +396,8 @@ public class TestProgramServiceImpl {
             assertEquals(major.getUnitsFinancialControl().get(1), "47");
             assertNotNull(major.getAttributes());
             assertEquals(2, major.getAttributes().size());
-            //TODO KSCM    assertEquals("GINGER GEM", major.getAttributes().get("COOKIES"));
-            //TODO KSCM    assertEquals("JAM TART", major.getAttributes().get("CAKES"));
+            //TODO KSCM-369    assertEquals("GINGER GEM", major.getAttributes().get("COOKIES"));
+            //TODO KSCM-369    assertEquals("JAM TART", major.getAttributes().get("CAKES"));
 
             assertNotNull(major.getMeta());
             assertEquals("1", major.getMeta().getVersionInd());
@@ -615,8 +615,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getAttributes());
             assertTrue(createdMD.getAttributes().size() ==2);
-            //TODO KSCM    assertEquals("attributes-1", createdMD.getAttributes().get("attributes-1"));
-            //TODO KSCM     assertEquals("attributes-2", createdMD.getAttributes().get("attributes-2"));
+            //TODO KSCM-369    assertEquals("attributes-1", createdMD.getAttributes().get("attributes-1"));
+            //TODO KSCM-369     assertEquals("attributes-2", createdMD.getAttributes().get("attributes-2"));
 
             assertNotNull(createdMD.getMeta());
             assertEquals("0", createdMD.getMeta().getVersionInd());
@@ -716,7 +716,7 @@ public class TestProgramServiceImpl {
 		}
 
     	checkRichText(orig.getDescr(), created.getDescr());
-   //TODO KSCM 	checkStatementTreeView(orig.getStatement(), created.getStatement());
+   //TODO KSCM-420 	checkStatementTreeView(orig.getStatement(), created.getStatement());
 	}
 
 	private static void checkStatementTreeView(StatementTreeViewInfo statement,
@@ -754,7 +754,7 @@ public class TestProgramServiceImpl {
 		} else if (reqComponent.getId() != null) {
 			assertEquals(reqComponent.getId(), reqComponent2.getId());
 		}
-		//TODO KSCM checkRichText(reqComponent.getDesc(), reqComponent2.getDesc());
+		//TODO KSCM-575 checkRichText(reqComponent.getDesc(), reqComponent2.getDesc());
 		checkReqCompFields(reqComponent.getReqCompFields(), reqComponent.getReqCompFields());
 		// TODO checkReqComponentType(reqComponent.getRequiredComponentType(), reqComponent2.getRequiredComponentType());
 	}
@@ -893,31 +893,31 @@ public class TestProgramServiceImpl {
 
         // req components
         ReqComponentInfo rc1 = new ReqComponentInfo();
-       // TODO KSCM rc1.setDesc(toRichText("REQCOMP-1"));
+       // TODO KSCM-575 rc1.setDesc(toRichText("REQCOMP-1"));
         rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
         ReqComponentInfo rc2 = new ReqComponentInfo();
-     // TODO KSCM rc2.setDesc(toRichText("REQCOMP-2"));
+     // TODO KSCM-575 rc2.setDesc(toRichText("REQCOMP-2"));
         rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         ReqComponentInfo rc3 = new ReqComponentInfo();
-     // TODO KSCM  rc3.setDesc(toRichText("REQCOMP-3"));
+     // TODO KSCM-575  rc3.setDesc(toRichText("REQCOMP-3"));
         rc3.setTypeKey("kuali.reqComponent.type.course.courseset.completed.nof");
         ReqComponentInfo rc4 = new ReqComponentInfo();
-     // TODO KSCM   rc4.setDesc(toRichText("REQCOMP-4"));
+     // TODO KSCM-575   rc4.setDesc(toRichText("REQCOMP-4"));
         rc4.setTypeKey("kuali.reqComponent.type.course.permission.instructor.required");
 
         // statement tree views
         StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
-     // TODO KSCM  statementTree.setDesc(toRichText("STMT-1"));
+     // TODO KSCM-575  statementTree.setDesc(toRichText("STMT-1"));
         statementTree.setOperator(StatementOperatorTypeKey.OR);
         statementTree.setTypeKey("kuali.statement.type.program.entrance");
 
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
-     // TODO KSCM  subTree1.setDesc(toRichText("STMT-2"));
+     // TODO KSCM-575  subTree1.setDesc(toRichText("STMT-2"));
         subTree1.setOperator(StatementOperatorTypeKey.AND);
         subTree1.setTypeKey("kuali.statement.type.program.entrance");
 
         StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
-     // TODO KSCM   subTree2.setDesc(toRichText("STMT-3"));
+     // TODO KSCM-575   subTree2.setDesc(toRichText("STMT-3"));
         subTree2.setOperator(StatementOperatorTypeKey.AND);
         subTree2.setTypeKey("kuali.statement.type.program.entrance");
 
@@ -952,13 +952,13 @@ public class TestProgramServiceImpl {
 
         List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
         ReqComponentInfo rc1 = new ReqComponentInfo();
-     // TODO KSCM   rc1.setDesc(toRichText("REQCOMP-1"));
+     // TODO KSCM-575   rc1.setDesc(toRichText("REQCOMP-1"));
         rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
         ReqComponentInfo rc2 = new ReqComponentInfo();
-     // TODO KSCM  rc2.setDesc(toRichText("REQCOMP-2"));
+     // TODO KSCM-575  rc2.setDesc(toRichText("REQCOMP-2"));
         rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
-     // TODO KSCM   subTree1.setDesc(toRichText("STMT-5"));
+     // TODO KSCM-575   subTree1.setDesc(toRichText("STMT-5"));
         subTree1.setOperator(StatementOperatorTypeKey.AND);
         subTree1.setTypeKey("kuali.statement.type.program.entrance");
         reqCompList1.add(rc1);
@@ -1096,8 +1096,8 @@ public class TestProgramServiceImpl {
     	assertNotNull(updatedMD);
 
         assertEquals(3, updatedMD.getAttributes().size());
-        //TODO KSCM     assertNotNull(updatedMD.getAttributes().get("PIES"));
-        //TODO KSCM     assertEquals("APPLE", updatedMD.getAttributes().get("PIES"));
+        //TODO KSCM-575     assertNotNull(updatedMD.getAttributes().get("PIES"));
+        //TODO KSCM-575     assertEquals("APPLE", updatedMD.getAttributes().get("PIES"));
 
         assertEquals(3, updatedMD.getCampusLocations().size());
         assertEquals("NO", updatedMD.getCampusLocations().get(0));
@@ -1604,7 +1604,7 @@ public class TestProgramServiceImpl {
         
         assertNotNull(secondVersion);
         
-     // TODO KSCM  assertTrue(newCore.getVersionInfo(contextInfo).getSequenceNumber() != secondVersion.getVersionInfo(contextInfo).getSequenceNumber(), contextInfo);
+     // TODO KSCM-575  assertTrue(newCore.getVersionInfo(contextInfo).getSequenceNumber() != secondVersion.getVersionInfo(contextInfo).getSequenceNumber(), contextInfo);
         
     }
     
