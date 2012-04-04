@@ -659,7 +659,7 @@
                     <artifactItem>
                       <groupId>org.kuali.student.enroll</groupId>
                       <artifactId>ks-enroll-sql</artifactId>
-                      <version>2.0.0-M1-SNAPSHOT</version>
+                      <version>${project.version}</version>
                       <includes>**\/*.sql</includes>
                       <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
                     </artifactItem>
@@ -688,7 +688,7 @@
               <dependency>
                 <groupId>org.kuali.student.enroll</groupId>
                 <artifactId>ks-enroll-sql</artifactId>
-                <version>2.0.0-M1-SNAPSHOT</version>
+                <version>${project.version}</version>
               </dependency>
               <dependency>
                 <groupId>org.kuali.student.db</groupId>
