@@ -246,27 +246,6 @@ public class ValidationResultInfo_old implements Serializable {
 
 	}
 
-	//public static List<org.kuali.student.r2.common.dto.ValidationResultInfo> convertValidationResultInfoToR2(List<ValidationResultInfo> validationResults) {
-		// TODO KSCM-322
-	    
-	  //  org.kuali.student.r2.common.dto.ValidationResultInfo r2ValidationResultInfo =  new org.kuali.student.r2.common.dto.ValidationResultInfo(); 
-	    
-	  //  List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResultInfoList = (List<org.kuali.student.r2.common.dto.ValidationResultInfo>) new org.kuali.student.r2.common.dto.ValidationResultInfo(); 
-	    
-	   /* for (ValidationResultInfo validationResultInfo : validationResults) 
-	    {
-	        r2ValidationResultInfo.setElement(validationResultInfo.getElement()); 
-	        r2ValidationResultInfo.setMessage(validationResultInfo.getMessage());
-	        r2ValidationResultInfo.setLevel(convertR1toR2Level(validationResultInfo.getLevel()));
-	        r2ValidationResultInfo.setInvalidData(validationResultInfo.getInvalidData());
-	        
-	        r2ValidationResultInfoList.add(r2ValidationResultInfo); 
-	    }*/
-	    
-	 //   return r2ValidationResultInfoList;
-	
-	//}
-
 	public Object getInvalidData() {
         return invalidData;
     }
