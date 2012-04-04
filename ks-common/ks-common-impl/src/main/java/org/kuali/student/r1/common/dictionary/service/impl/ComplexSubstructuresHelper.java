@@ -78,8 +78,8 @@ public class ComplexSubstructuresHelper {
 			}
 			//
 			if (!MetaInfo.class.equals(subClass)
-					&& !Meta.class.equals(subClass)		// KSCM added coz it's a interface object
-					&& !RichText.class.equals(subClass)		// KSCM added coz it's a interface object					
+					&& !Meta.class.equals(subClass)		// added coz it's a interface object
+					&& !RichText.class.equals(subClass)		// added coz it's a interface object					
 					&& !Class.class.equals(subClass)
 					
 					&& !String.class.equals(subClass)
