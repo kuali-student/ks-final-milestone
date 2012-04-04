@@ -88,7 +88,6 @@ import javax.jws.WebParam;
 
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 
-// TODO KSCM-253
 public class ProgramServiceImpl implements ProgramService{
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 
