@@ -85,10 +85,10 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="id" />
-                <bean parent="Uif-InputField" p:propertyName="holidayCalendarInfo.name"/>
-                <bean parent="Uif-InputField" p:propertyName="holidayCalendarInfo.startDate" />
-                <bean parent="Uif-InputField" p:propertyName="holidayCalendarInfo.endDate" />
+                <bean parent="Uif-DataField" p:propertyName="id" />
+                <bean parent="Uif-DataField" p:propertyName="holidayCalendarInfo.name"/>
+                <bean parent="Uif-DataField" p:propertyName="holidayCalendarInfo.startDate" />
+                <bean parent="Uif-DataField" p:propertyName="holidayCalendarInfo.endDate" />
             </list>
         </property>
     </bean>

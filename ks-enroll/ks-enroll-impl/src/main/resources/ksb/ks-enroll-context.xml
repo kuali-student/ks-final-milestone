@@ -90,15 +90,15 @@
     <property name="criteriaLookupService" ref="criteriaLookupService"/>
   </bean>
 
-  <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar()
+  <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar() -->
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
       <property name="atpService" ref="atpEnrService" />
       <property name="nextDecorator" ref="acalServiceImpl" />
   </bean>
-  -->
+  <!-- -->
 
   <!-- change id to "acalServiceImpl" if the above bean is used -->
-  <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+  <bean id="acalServiceImpl" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpEnrService" />
     <property name="stateService" ref="stateService" />
     <property name="typeService" ref="typeService" />

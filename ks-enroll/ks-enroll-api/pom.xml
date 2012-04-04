@@ -1,32 +1,31 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ks-enroll-api</artifactId>
     <name>KS Enroll API</name>
-    <version>2.0.0-M1-SNAPSHOT</version>
+    <version>1.3.0-ec1-SNAPSHOT</version>
     <description>KS Enrollment API</description>
     <parent>
-           <groupId>org.kuali.student.enroll</groupId>
-           <artifactId>ks-enroll</artifactId>
-           <version>2.0.0-M1-SNAPSHOT</version>
-       </parent>
+        <groupId>org.kuali.student.enroll</groupId>
+        <artifactId>ks-enroll</artifactId>
+        <version>1.3.0-ec1-SNAPSHOT</version>
+    </parent>
     <dependencies>
-    <!-- <dependency> <groupId>com.sun</groupId> <artifactId>tools</artifactId> <version>1.6.0</version> <scope>system</scope> 
+    <!-- <dependency> <groupId>com.sun</groupId> <artifactId>tools</artifactId> <version>1.6.0</version> <scope>system</scope>
       <systemPath>${java.home}/../lib/tools.jar</systemPath> </dependency> -->
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-api</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-api</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.common</groupId>
             <artifactId>ks-common-api</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
@@ -45,7 +44,7 @@
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krad-web-framework</artifactId>
             <version>${kuali.rice.version}</version>
-        </dependency>         
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -77,11 +76,11 @@
             <version>${spring.version}</version>
         </dependency>
 
-    <!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-tx</artifactId> <version>3.0.5.RELEASE</version> 
-      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-orm</artifactId> <version>3.0.5.RELEASE</version> 
-      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-jdbc</artifactId> <version>3.0.5.RELEASE</version> 
-      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-web</artifactId> <version>3.0.5.RELEASE</version> 
-      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-webmvc</artifactId> <version>3.0.5.RELEASE</version> 
+    <!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-tx</artifactId> <version>3.0.5.RELEASE</version>
+      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-orm</artifactId> <version>3.0.5.RELEASE</version>
+      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-jdbc</artifactId> <version>3.0.5.RELEASE</version>
+      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-web</artifactId> <version>3.0.5.RELEASE</version>
+      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-webmvc</artifactId> <version>3.0.5.RELEASE</version>
       </dependency> -->
         <dependency>
             <groupId>org.kuali.rice</groupId>
@@ -97,7 +96,7 @@
             </resource>
             <resource>
                 <directory>${project.build.directory}/generated-sources/datadictionary</directory>
-            </resource>            
+            </resource>
         </resources>
         <plugins>
             <plugin>
@@ -105,21 +104,21 @@
                 <artifactId>maven-kscontractdoc-plugin</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
 <!-- For instructions see https://wiki.kuali.org/display/STUDENT/Understanding+the+Contract+Doc+Maven+Plugin  -->
-                <executions>  
+                <executions>
                     <!-- This generates the standard contract docs on the site-->
                     <execution>
-                        <id>generate-contract-documentation</id>                             
+                        <id>generate-contract-documentation</id>
                         <phase>${ks.contractdoc.phase}</phase>
                         <goals>
-                            <goal>kscontractdoc</goal>                      
+                            <goal>kscontractdoc</goal>
                         </goals>
                     </execution>
-                    <!-- This generates the the dictionary documentation docs on the site--> 
+                    <!-- This generates the the dictionary documentation docs on the site-->
                     <execution>
                         <id>generate-dictionary-documentation</id>
                         <phase>${ks.dictionarydoc.phase}</phase>
                         <goals>
-                            <goal>ksdictionarydoc</goal>                            
+                            <goal>ksdictionarydoc</goal>
                         </goals>
                         <configuration>
                             <inputFiles>
@@ -131,9 +130,11 @@
                                 <inputFile>ks-AcademicCalendarInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-AcalEventInfo-dictionary.xml</inputFile>                                  
                                 <inputFile>ks-HolidayCalendarInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-TermInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-HolidayInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-TermInfo-dictionary.xml</inputFile>    
-                                <inputFile>KeyDateInfo</inputFile>                           
+                                <inputFile>ks-AcalEventInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-KeyDateInfo-dictionary.xml</inputFile>
+                                <inputFile>KeyDateInfo</inputFile>
 <!--                                 Appointment -->
                                 <inputFile>ks-AppointmentWindowInfo-dictionary.xml</inputFile>
 <!--                                <inputFile>ks-AppointmentSlotInfo-dictionary.xml</inputFile>                                  -->
@@ -145,7 +146,7 @@
                                 <inputFile>ks-LprTransactionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprTransactionItemInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RequestOptionInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-LprTransactionItemResultInfo-dictionary.xml</inputFile>                           
+                                <inputFile>ks-LprTransactionItemResultInfo-dictionary.xml</inputFile>
 <!--                                Hold         -->
                                 <inputFile>ks-HoldInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-IssueInfo-dictionary.xml</inputFile>
@@ -162,6 +163,7 @@
                                 <inputFile>ks-LuiCapacityInfo-dictionary.xml</inputFile>
 <!--                                Course Offering      -->
                                 <inputFile>ks-CourseOfferingInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-CourseWaitlistEntryInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-FormatOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-OfferingInstructorInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityOfferingInfo-dictionary.xml</inputFile>
@@ -223,29 +225,29 @@
                                 <inputFile>ks-StateInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LifecycleInfo-dictionary.xml</inputFile>  -->
                             </inputFiles>
-                        </configuration>                                    
+                        </configuration>
                     </execution>
                     <!-- This generates the the ks-xxxx-generated.xml files in target/classes -->
                     <execution>
                         <id>generate-dictionary-files</id>
                         <phase>${ks.dictionarycreate.phase}</phase>
                         <goals>
-                            <goal>ksdictionarycreator</goal>                            
+                            <goal>ksdictionarycreator</goal>
                         </goals>
                         <configuration>
                             <writeManual>true</writeManual>
                             <classNames>
 <!--                                 Atp -->
-<!--                                <className>AtpInfo</className>                    
-                                <className>MilestoneInfo</className>                                    
-                                <className>AtpAtpRelationInfo</className>  -->
+                                <className>AtpInfo</className>
+                                <className>MilestoneInfo</className>
+                                <className>AtpAtpRelationInfo</className>
 <!--                                 Acal -->
-<!--                                <className>AcademicCalendarInfo</className>
-                                <className>AcalEventInfo</className>                                  
+                                <className>AcademicCalendarInfo</className>
+                                <className>AcalEventInfo</className>
                                 <className>HolidayCalendarInfo</className>
                                 <className>HolidayInfo</className>
-                                <className>TermInfo</className>    
-                                <className>KeyDateInfo</className>                           -->
+                                <className>TermInfo</className>
+                                <className>KeyDateInfo</className>
 <!--                                 Appointment -->
                                 <className>AppointmentWindowInfo</className>
                                 <className>AppointmentSlotInfo</className>                                  
@@ -257,7 +259,7 @@
                                 <className>LprTransactionInfo</className>
                                 <className>LprTransactionItemInfo</className>
                                 <className>RequestOptionInfo</className>
-                                <className>LprTransactionItemResultInfo</className>                           
+                                <className>LprTransactionItemResultInfo</className>
 <!--                                Hold         -->
                                 <className>HoldInfo</className>
                                 <className>IssueInfo</className>
@@ -303,9 +305,12 @@
 <!--                                <className>ResultValuesGroupInfo</className>
                                 <className>ResultValueInfo</className>
                                 <className>ResultScaleInfo</className>      -->
-                                <!-- Course --> 
-<!--                                <className>CourseInfo</className>  
-                                <className>CourseJointInfo</className>  
+                                <!-- Course -->
+<!--                                <className>CourseInfo</className>
+                                <className>FormatInfo</className>
+                                <className>ActivityInfo</className>
+                                <className>LoDisplayInfo</className>
+                                <className>CourseJointInfo</className>
                                 <className>CourseCrossListingInfo</className>  
                                 <className>CourseVariationInfo</className>  
                                 <className>CluInstructorInfo</className>   
@@ -319,7 +324,7 @@
                                 <className>LoCategoryInfo</className> -->
                                 <!-- Program -->
 <!--                                <className>CoreProgramInfo</className>
-                                <className>CredentialProgramInfo</className> 
+                                <className>CredentialProgramInfo</className>
                                 <className>HonorsProgramInfo</className>  
                                 <className>MajorDisciplineInfo</className> 
                                 <className>MinorDisciplineInfo</className>   
@@ -337,13 +342,13 @@
                                 <className>LifecycleInfo</className>                              -->
                             </classNames>                     
                         </configuration>
-                    </execution>                  
+                    </execution>
                 </executions>
                 <configuration>
                     <!-- this defines that location of the source code used for all contract docs executions -->
                     <sourceDirs>
                         <sourceDir>${project.basedir}/src/main/java</sourceDir>
-                    </sourceDirs>                    
+                    </sourceDirs>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -356,7 +361,7 @@
                                 <artifactId>spring-security-cas-client</artifactId>
                             </exclusion>
                         </exclusions>
-                    </dependency>                            
+                    </dependency>
                 </dependencies>
             </plugin>
             <plugin>

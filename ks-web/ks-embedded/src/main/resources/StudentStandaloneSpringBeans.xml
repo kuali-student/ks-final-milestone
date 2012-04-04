@@ -38,6 +38,7 @@
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
+                <value>classpath:UifKRADOverrideDefinitions.xml</value>
 				<value>classpath:UifKSDefinitions.xml</value>
 				<value>classpath:AcademicCalendarInfoUI.xml</value>
 				<value>classpath:TermInfoUI.xml</value>
@@ -60,15 +61,23 @@
                 <value>classpath:org/kuali/student/enrollment/main/EnrollmentHomeView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/CalendarSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarFlowView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarEditView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarCopyView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarEditPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarViewPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarCopyPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarLookupAndInquiryView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarWrapperMaintenance.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarWrapperLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarFlowView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarCopyView.xml</value>
-                <value>classpath:AcademicCalendarEditView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarCopyPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarEditPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/AcademicTermPage.xml</value>
                 <value>classpath:AcademicTermLookupView.xml</value>
+
+                <!-- Appointments -->
+                <value>classpath:org/kuali/student/enrollment/appointment/RegistrationWindowsEditPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/appointment/SelectTermForRegWindowsPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/appointment/RegistrationWindowsManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/appointment/StudentPopulationLookupView.xml</value>
+
 			</list>
 		</property>
 		<property name="packagePrefixes">
