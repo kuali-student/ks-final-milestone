@@ -76,7 +76,7 @@ public class LumConverterTest {
         org.kuali.student.r1.lum.course.dto.CourseInfo r1 = new org.kuali.student.r1.lum.course.dto.CourseInfo();
         r1.setAttributes(R1TestDataUtil.getAttributeData());
         r1.setCourseSpecificLOs(R1TestDataUtil.getLoDisplayInfoDataList());
-        //TODO KSCM-446 Don't know how to convert this
+        //TODO KSCM-567 Don't know how to convert this
         //r1.setCreditOptions(R1TestDataUtil.getResultComponentInfoDataList());
         r1.setCrossListings(R1TestDataUtil.getCourseCrossListingInfoDataList());
         r1.setDescr(R1TestDataUtil.getRichTextInfoData());
