@@ -33,7 +33,7 @@
       </property>
      <property name="actionFields">
       <list>
-        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Set as Official"  p:methodToCall="setTermOfficial" p:render="@{#line.readOnly eq false and #form.academicCalendarInfo.stateKey eq 'kuali.atp.state.Official'}"/>
+        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Set as Official"  p:methodToCall="setTermOfficial" p:render="@{!#line.readOnly and #form.academicCalendarInfo.stateKey eq 'kuali.atp.state.Official'}"/>
         <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete"/>
       </list>
     </property>
@@ -179,10 +179,11 @@
                       p:disabled="@{#empty(#lp|#line.startTime)}"/>
                       -->
              </property>
-         </bean>
+        </bean>
+        <!-- NOTE: for progressiveRender condition below, "dateRange eq true" DOESN'T WORK -->
         <bean parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
-              p:label="End Date" p:required="@{#lp.dateRange eq true}"
-              p:progressiveRender="@{#lp.dateRange != false}">
+              p:label="End Date" p:required="@{#lp.dateRange}"
+              p:progressiveRender="@{#lp.dateRange}">
             <!-- BUG ALERT:
                 Without the conditional readOnly property, a "delete" action will
                 cause the endDate field ON THE NEXT LINE to be cleared.  Weird.

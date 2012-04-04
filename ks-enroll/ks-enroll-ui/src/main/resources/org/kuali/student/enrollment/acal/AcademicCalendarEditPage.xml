@@ -165,13 +165,13 @@
                  </bean>
                 <!-- NOTE: for progressiveRender condition below, "dateRange eq true" DOESN'T WORK -->
                 <bean parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
-                      p:label="End Date" p:required="@{#lp.dateRange eq true}"
-                      p:progressiveRender="@{#lp.dateRange != false}">
+                      p:label="End Date" p:required="@{#lp.dateRange}"
+                      p:progressiveRender="@{#lp.dateRange}">
                     <!-- BUG ALERT:
                         Without the conditional readOnly property, a "delete" action will
                         cause the endDate field ON THE NEXT LINE to be cleared.  Weird.
                     -->
-                    <property name="readOnly" value="@{#lp.dateRange eq false}"/>
+                    <property name="readOnly" value="@{!#lp.dateRange}"/>
                     <!-- END OF BUG ALERT -->
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
@@ -210,7 +210,7 @@
                  <bean parent="Uif-InputField" p:propertyName="dateRange"
                        p:label="Date Range" p:alternateDisplayPropertyName="isDateRangeUI">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
+                        <bean parent="Uif-CheckboxControl" />
                     </property>
                  </bean>
 			</list>
