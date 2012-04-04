@@ -101,7 +101,7 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 	}
 
     // @Override
-    // TODO KSCM-429 how was this used in CM-1.2
+    // TODO KSCM-427 how was this used in CM-1.2
     public String getUserRealName(String userId) {
         Entity kimEntityInfo = identityService.getEntityByPrincipalId(userId);
         return getUserRealNameByEntityInfo(kimEntityInfo);
