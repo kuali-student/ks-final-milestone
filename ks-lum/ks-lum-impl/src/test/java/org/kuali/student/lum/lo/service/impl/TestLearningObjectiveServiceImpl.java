@@ -86,7 +86,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         loInfo.setLoRepositoryKey("kuali.loRepository.key.singleUse");
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("attrKey", "attrValue");
-        loInfo.setAttributes(attributes);
+        // TODO KSCM-369 loInfo.setAttributes(attributes);
         loInfo.setTypeKey("kuali.lo.type.singleUse");
         loInfo.setStateKey(DtoConstants.STATE_DRAFT);
 
