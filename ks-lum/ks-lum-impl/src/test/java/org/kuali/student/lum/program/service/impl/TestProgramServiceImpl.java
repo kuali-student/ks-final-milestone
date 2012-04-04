@@ -111,7 +111,7 @@ public class TestProgramServiceImpl {
 
     //@Test
     public void testGetProgramRequirement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", null, null, contextInfo);
+        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", contextInfo);
         assertNotNull(progReqInfo);
 
         checkTreeView(progReqInfo, false);
@@ -136,7 +136,7 @@ public class TestProgramServiceImpl {
     //@Test
     @Ignore // FIXME
     public void testGetProgramRequirementNL() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", "KUALI.RULE", "en", contextInfo);
+        ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", contextInfo);
         assertNotNull(progReqInfo);
 
         checkTreeView(progReqInfo, true);
@@ -180,12 +180,12 @@ public class TestProgramServiceImpl {
 
     //@Test(expected = MissingParameterException.class)
     public void testGetProgramRequirement_nullId() throws Exception {
-        programService.getProgramRequirement(null, null, null, contextInfo);
+        programService.getProgramRequirement(null, contextInfo);
     }
 
     //@Test(expected = DoesNotExistException.class)
     public void testGetProgramRequirement_badId() throws Exception {
-        programService.getProgramRequirement("CLU-XXX ", null, null, contextInfo);
+        programService.getProgramRequirement("CLU-XXX ", contextInfo);
     }
 
     //@Test
@@ -677,7 +677,7 @@ public class TestProgramServiceImpl {
     	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(null, progReq, contextInfo);
     	checkProgramRequirement(progReq, createdProgReq);
 
-    	ProgramRequirementInfo progReq2 = programService.getProgramRequirement(createdProgReq.getId(), null, null, contextInfo);
+    	ProgramRequirementInfo progReq2 = programService.getProgramRequirement(createdProgReq.getId(), contextInfo);
     	checkProgramRequirement(progReq, progReq2);
     }
 
@@ -967,7 +967,7 @@ public class TestProgramServiceImpl {
 
         StatementTreeViewInfo oldSubTree1 = treeView.getStatements().get(0);
         treeView.getStatements().set(0, subTree1);
-        ProgramRequirementInfo updated = programService.updateProgramRequirement(progReq, contextInfo);
+        ProgramRequirementInfo updated = programService.updateProgramRequirement(progReq.getId(), progReq.getTypeKey(), progReq, contextInfo);
         checkProgramRequirement(progReq, updated);
         statementService.getStatement(oldSubTree1.getId(), contextInfo);
 	}
@@ -1055,7 +1055,7 @@ public class TestProgramServiceImpl {
             major.setProgramRequirements(reqIds);
 
            //Perform the update
-            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(major, contextInfo);
+            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(major.getId(), major, contextInfo);
 
             //Verify the update
             verifyUpdate(updatedMD);
@@ -1079,13 +1079,13 @@ public class TestProgramServiceImpl {
             major.setProgramRequirements(reqIds);
 
            //Perform the update
-            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(major, contextInfo); // FIXME Updated version info isn't returned
+            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(major.getId(), major, contextInfo); // FIXME Updated version info isn't returned
             MajorDisciplineInfo retrievedMD = programService.getMajorDiscipline(major.getId(), contextInfo);
 
             // Test that we can remove the program requirements
             programService.deleteProgramRequirement(req1.getId(), contextInfo);
             retrievedMD.getProgramRequirements().clear();
-            MajorDisciplineInfo updatedMD2 = programService.updateMajorDiscipline(retrievedMD, contextInfo);
+            MajorDisciplineInfo updatedMD2 = programService.updateMajorDiscipline(retrievedMD.getId(), retrievedMD, contextInfo);
             assertEquals(0, updatedMD2.getProgramRequirements().size());
             retrievedMD = programService.getMajorDiscipline(major.getId(), contextInfo);
             assertEquals(0, retrievedMD.getProgramRequirements().size());
@@ -1172,7 +1172,7 @@ public class TestProgramServiceImpl {
             credentialProgramInfo.setInstitution(institution);
 
            //Perform the update
-            CredentialProgramInfo updatedCP = programService.updateCredentialProgram(credentialProgramInfo, contextInfo);
+            CredentialProgramInfo updatedCP = programService.updateCredentialProgram(credentialProgramInfo.getId(), credentialProgramInfo, contextInfo);
 
             //Verify the update
             verifyUpdate(updatedCP);
@@ -1246,7 +1246,7 @@ public class TestProgramServiceImpl {
         }
 
         // Perform the update
-        MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo, contextInfo);
+        MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo.getId(), majorDisciplineInfo, contextInfo);
         List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
         assertNotNull(updatedPvInfos);
             
@@ -1325,7 +1325,7 @@ public class TestProgramServiceImpl {
 
         // Perform the update: adding the new variation
         pvInfos.add(pvInfoT);
-        MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo, contextInfo);
+        MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo.getId(), majorDisciplineInfo, contextInfo);
         List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
         assertNotNull(updatedPvInfos);
         assertEquals(3, updatedPvInfos.size());
@@ -1357,7 +1357,7 @@ public class TestProgramServiceImpl {
             //Perform the update: remove a variation
             String var1 = pvInfos.get(1).getId();
             pvInfos.remove(1);
-            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo, contextInfo);
+            MajorDisciplineInfo updatedMD = programService.updateMajorDiscipline(majorDisciplineInfo.getId(), majorDisciplineInfo, contextInfo);
             List<ProgramVariationInfo> updatedPvInfos = updatedMD.getVariations();
             assertNotNull(updatedPvInfos);
             assertEquals(2, updatedPvInfos.size());
@@ -1380,7 +1380,7 @@ public class TestProgramServiceImpl {
     	ProgramRequirementInfo progReq = createProgramRequirementTestData();
     	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(null, progReq,  contextInfo);
 			programService.deleteProgramRequirement(createdProgReq.getId(), contextInfo);
-    	programService.getProgramRequirement(createdProgReq.getId(), null, null,  contextInfo);
+    	programService.getProgramRequirement(createdProgReq.getId(), contextInfo);
     }
 
     //@Test
@@ -1465,7 +1465,7 @@ public class TestProgramServiceImpl {
        	assertEquals("3", Integer.toString(createdProgReq.getMinCredits()));
     	assertEquals("45", Integer.toString(createdProgReq.getMaxCredits()));
 
-    	ProgramRequirementInfo progReq2 = programService.getProgramRequirement(createdProgReq.getId(), null, null, contextInfo);
+    	ProgramRequirementInfo progReq2 = programService.getProgramRequirement(createdProgReq.getId(), contextInfo);
        	assertEquals("3", Integer.toString(progReq2.getMinCredits()));
     	assertEquals("45", Integer.toString(progReq2.getMaxCredits()));
     }
