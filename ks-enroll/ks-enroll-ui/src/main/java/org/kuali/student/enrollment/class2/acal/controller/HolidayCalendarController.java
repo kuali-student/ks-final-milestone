@@ -346,6 +346,12 @@ public class HolidayCalendarController extends UifControllerBase {
 
     private ModelAndView updateHolidayCalendarForm(HolidayCalendarForm hcForm, String updateMsg) throws Exception {
 
+        getHolidayCalendarFormHelper(hcForm).validateHolidayCalendar(hcForm);
+
+        if (GlobalVariables.getMessageMap().getErrorCount() > 0){
+           return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        }
+
         if(isValidHolidayCalendar(hcForm.getHolidayCalendarInfo())){
 
             getHolidayCalendarFormHelper(hcForm).saveHolidayCalendar(hcForm);

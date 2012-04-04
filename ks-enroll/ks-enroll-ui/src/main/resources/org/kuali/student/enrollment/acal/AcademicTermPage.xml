@@ -147,7 +147,7 @@
          <bean parent="Uif-InputField" p:propertyName="keyDateType"
                p:readOnly="@{!#isAddLine}" p:alternateDisplayPropertyName="keyDateNameUI"
                p:label="Key Date Type" p:required="true"
-               p:finalizeMethodToCall="populateKeyDateTypes">
+               p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;">
              <property name="control">
                 <bean parent="Uif-DropdownControl"/>
              </property>

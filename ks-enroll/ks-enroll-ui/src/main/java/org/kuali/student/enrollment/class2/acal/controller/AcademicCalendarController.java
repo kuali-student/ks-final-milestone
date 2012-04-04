@@ -237,7 +237,7 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarInfo academicCalendarInfo = academicCalendarForm.getAcademicCalendarInfo();
 
         //Validate Term
-        getAcademicCalendarViewHelperService(academicCalendarForm).validateTerms(academicCalendarForm.getTermWrapperList());
+        getAcademicCalendarViewHelperService(academicCalendarForm).validateAcademicCalendar(academicCalendarForm);
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 0){
            return getUIFModelAndView(academicCalendarForm);

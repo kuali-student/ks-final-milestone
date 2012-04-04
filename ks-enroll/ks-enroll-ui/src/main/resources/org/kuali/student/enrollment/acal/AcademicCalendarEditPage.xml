@@ -121,18 +121,12 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="eventTypeKey" p:label="Event" p:required="true"
-                      p:render="@{#isAddLine}" p:style="font-weight:bold;" >
+                      p:readOnly="@{!#isAddLine}" p:style="font-weight:bold;" p:alternateDisplayPropertyName="eventTypeName">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues" />
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:propertyName="eventTypeName" p:label="" p:readOnly="true"
-                      p:render="@{!#isAddLine}" p:required="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="30" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true"
