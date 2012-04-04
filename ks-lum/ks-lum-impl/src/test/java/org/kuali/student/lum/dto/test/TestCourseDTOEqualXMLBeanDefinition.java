@@ -43,18 +43,11 @@ public class TestCourseDTOEqualXMLBeanDefinition {
 	public void testCourseDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
-
-        startingClasses.add(CourseInfo.class.getName());
-
         startingClasses.add(ActivityInfo.class.getName());
-
-
         startingClasses.add(CourseCrossListingInfo.class.getName());
         startingClasses.add(CourseExpenditureInfo.class.getName());
         startingClasses.add(CourseFeeInfo.class.getName());
-
-        //NullPointerException
-
+		startingClasses.add(CourseInfo.class.getName());//NullPointerException
         startingClasses.add(CourseJointInfo.class.getName());
 		startingClasses.add(CourseRevenueInfo.class.getName());
 		startingClasses.add(CourseVariationInfo.class.getName());
