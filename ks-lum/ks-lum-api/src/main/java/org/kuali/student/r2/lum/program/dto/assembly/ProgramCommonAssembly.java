@@ -17,7 +17,6 @@ package org.kuali.student.r2.lum.program.dto.assembly;
 import java.util.List;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.infc.Meta;
 
 /**
  * R1 implementation Compatibility
@@ -31,7 +30,7 @@ public interface ProgramCommonAssembly {
 
     public void setAttributes(List<AttributeInfo> attributes);
 
-    public Meta getMeta();
+    public MetaInfo getMeta();
 
     public void setMeta(MetaInfo meta);
 

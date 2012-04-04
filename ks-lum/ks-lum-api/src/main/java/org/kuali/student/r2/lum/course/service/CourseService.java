@@ -363,12 +363,12 @@ public interface CourseService {
      *             number from the one provided is marked current
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException 
+     * @throws IllegalVersionSequencingException 
      * @throws DataValidationErrorException 
      */
     public StatusInfo setCurrentCourseVersion(@WebParam(name = "courseVersionId") String courseVersionId, @WebParam(name = "currentVersionStart") Date currentVersionStart,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
-            OperationFailedException, PermissionDeniedException, org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException, DataValidationErrorException;
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+            OperationFailedException, PermissionDeniedException, IllegalVersionSequencingException, DataValidationErrorException;
     
     /**
      * Retrieves current version associated with the objectId.

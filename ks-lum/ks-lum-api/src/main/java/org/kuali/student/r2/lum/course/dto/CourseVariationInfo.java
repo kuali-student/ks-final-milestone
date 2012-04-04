@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.course.infc.CourseVariation;
 //import org.w3c.dom.Element;
 
-@XmlType(name = "CourseRevenueInfo", propOrder = {"id", "typeKey", "stateKey", "variationTitle", "subjectArea", "courseNumberSuffix", "variationCode", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "CourseVariationInfo", propOrder = {"id", "typeKey", "stateKey", "variationTitle", "subjectArea", "courseNumberSuffix", "variationCode", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseVariationInfo extends IdNamelessEntityInfo implements CourseVariation, Serializable {
 

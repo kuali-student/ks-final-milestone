@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.dto.EntityInfo;
 import org.kuali.student.r2.lum.course.infc.CourseJoint;
 //import org.w3c.dom.Element;
 
-@XmlType(name = "CourseJointInfo", propOrder = {"typeKey", "stateKey", "descr", "courseNumberSuffix", "courseTitle", "subjectArea", "courseId", "relationId", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+@XmlType(name = "CourseJointInfo", propOrder = {"typeKey", "stateKey", "name", "descr", "courseNumberSuffix", "courseTitle", "subjectArea", "courseId", "relationId", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseJointInfo extends EntityInfo implements CourseJoint, Serializable {

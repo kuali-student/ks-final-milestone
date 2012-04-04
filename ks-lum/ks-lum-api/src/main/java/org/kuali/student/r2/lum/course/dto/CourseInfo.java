@@ -82,8 +82,7 @@ import org.kuali.student.r2.lum.clu.infc.CluInstructor;
     "expirationDate",
     "versionInfo",
     "meta",
-    "attributes",
-    "versionInfo"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
     
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseInfo extends IdEntityInfo implements Course, Serializable {
@@ -156,6 +155,10 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 
+    public CourseInfo() {
+        super();
+    }
+    
     public CourseInfo(Course courseInfo) {
         super(courseInfo);
         if (courseInfo != null) {

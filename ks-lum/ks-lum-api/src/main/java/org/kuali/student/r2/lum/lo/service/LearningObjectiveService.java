@@ -15,14 +15,20 @@
 
 package org.kuali.student.r2.lum.lo.service;
 
+import java.util.List;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r1.common.dictionary.service.DictionaryService;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
 import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -39,13 +45,6 @@ import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo;
-
-import org.kuali.student.r1.common.search.service.SearchService;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import java.util.List;
 
 /**
  * The Learning Objective Service allows for the creation and management of Learning Objectives.
@@ -359,7 +358,11 @@ public interface LearningObjectiveService extends  SearchService // ,DictionaryS
      * @throws PermissionDeniedException    an authorization failure occurred
      * @throws ReadOnlyException            an attempt at supplying information designated as read only
      */
-    public LoInfo createLo (@WebParam(name = "loTypeKey") String loTypeKey, @WebParam(name = "loInfo") LoInfo loInfo, @WebParam(name="lo") String lo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public LoInfo createLo( @WebParam(name = "repositoryId")String repositoryId, @WebParam(name = "loType")String loType, 
+            @WebParam(name = "loInfo")LoInfo loInfo, @WebParam(name = "contextInfo")ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Lo. The Lo Id, Type, and Meta information may not be changed.
@@ -721,7 +724,12 @@ public interface LearningObjectiveService extends  SearchService // ,DictionaryS
      * @throws PermissionDeniedException    an authorization failure occurred
      * @throws ReadOnlyException            an attempt at supplying information designated as read only
      */
-    public LoLoRelationInfo createLoLoRelation (@WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "relatedLoId") String relatedLoId, @WebParam(name = "type") String type, @WebParam(name = "loLoRelationInfo") LoLoRelationInfo loLoRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public LoLoRelationInfo createLoLoRelation(@WebParam(name = "loLoRelationTypeKey")String loLoRelationTypeKey,
+            @WebParam(name = "loLoRelationInfo")LoLoRelationInfo loLoRelationInfo, @WebParam(name = "contextInfo")ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            ReadOnlyException;
 
     /**
      * Updates an existing LoLoRelation. The LoLoRelation Id, Type, and Meta information may not be changed.
@@ -888,90 +896,6 @@ public interface LearningObjectiveService extends  SearchService // ,DictionaryS
 	 * 
 	 * This method ...
 	 * 
-	 * @param loLoRelationId
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 */
-	public StatusInfo deleteLoLoRelation(@WebParam(name = "loLoRelationId")String loLoRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loLoRelationId
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 */
-	public LoLoRelationInfo getLoLoRelation(@WebParam(name = "loLoRelationId")String loLoRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loId
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 */
-	public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name = "loId")String loId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param relatedLoId
-	 * @param loLoRelationType
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 */
-	public List<LoInfo> getLosByRelatedLoId(@WebParam(name = "relatedLoId")String relatedLoId, @WebParam(name = "loLoRelationType")String loLoRelationType)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loId
-	 * @param loLoRelationTypeKey
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 */
-	public List<LoInfo> getRelatedLosByLoId(@WebParam(name = "loId")String loId,@WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
 	 * @param loCategoryTypeKey
 	 * @param contextInfo
 	 * @return
@@ -1012,79 +936,5 @@ public interface LearningObjectiveService extends  SearchService // ,DictionaryS
 	 */
 	public List<LoCategoryTypeInfo> getLoCategoryTypes()
 			throws OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loLoRelationTypeKey
-	 * @param loLoRelationInfo
-	 * @param contextInfo
-	 * @return
-	 * @throws DataValidationErrorException
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 * @throws ReadOnlyException
-	 */
-	public LoLoRelationInfo createLoLoRelation(@WebParam(name = "loLoRelationTypeKey")String loLoRelationTypeKey,
-			@WebParam(name = "loLoRelationInfo")LoLoRelationInfo loLoRelationInfo, @WebParam(name = "contextInfo")ContextInfo contextInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			ReadOnlyException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loTypeKey
-	 * @param loInfo
-	 * @param contextInfo
-	 * @return
-	 * @throws DataValidationErrorException
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 * @throws ReadOnlyException
-	 */
-	public LoInfo createLo(@WebParam(name = "loTypeKey")String loTypeKey, @WebParam(name = "loInfo")LoInfo loInfo, @WebParam(name = "contextInfo")ContextInfo contextInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			ReadOnlyException;
-
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param repositoryId
-	 * @param loType
-	 * @param loTypeKey
-	 * @param loInfo
-	 * @param contextInfo
-	 * @return
-	 * @throws DataValidationErrorException
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 * @throws ReadOnlyException
-	 */
-	public LoInfo createLo( @WebParam(name = "repositoryId")String repositoryId, @WebParam(name = "loType")String loType, @WebParam(name = "loTypeKey")String loTypeKey, 
-	        @WebParam(name = "loInfo")LoInfo loInfo, @WebParam(name = "contextInfo")ContextInfo contextInfo) throws DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, ReadOnlyException;
-	
-	
 
 }
