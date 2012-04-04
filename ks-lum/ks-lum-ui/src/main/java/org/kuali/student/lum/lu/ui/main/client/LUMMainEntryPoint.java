@@ -76,7 +76,7 @@ public class LUMMainEntryPoint implements EntryPoint{
     private void loadMessages(final ApplicationContext context) throws SerializationException {
         MessageList commonMessageList =  getMsgSerializedObject("commonMessages" );
         MessageList lumMessageList =  getMsgSerializedObject("luMessages" );
-        //TODO KSCM
+        //TODO KSCM-568
         // context.addMessages(commonMessageList.getMessages());
         //context.addMessages(lumMessageList.getMessages());
     }

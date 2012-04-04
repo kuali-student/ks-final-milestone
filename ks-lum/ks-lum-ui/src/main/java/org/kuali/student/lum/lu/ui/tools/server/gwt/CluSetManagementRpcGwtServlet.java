@@ -44,8 +44,6 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import org.apache.log4j.Logger;
 
-// TODO KSCM-429 import edu.emory.mathcs.backport.java.util.Collections;
-
 public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 		CluSetManagementRpcService {
 
