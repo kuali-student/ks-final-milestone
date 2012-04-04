@@ -284,11 +284,11 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		this.loService = loService;
 	}
 
-	public CluService getLuService() {
+	public CluService getCluService() {
 		return cluService;
 	}
 
-	public void setLuService(CluService cluService) {
+	public void setCluService(CluService cluService) {
 		this.cluService = cluService;
 	}
 
