@@ -44,7 +44,7 @@ public class AtpContextImpl extends BasicContextImpl {
 		}
 		try {
 			AtpDurationTypeInfo atpDurationType = null;
-			// TODO KSCM			this.atpService.getAtpDurationType(atpDurationTypeKey);
+			// TODO KSCM-504		this.atpService.getAtpDurationType(atpDurationTypeKey);
 			return atpDurationType;
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
