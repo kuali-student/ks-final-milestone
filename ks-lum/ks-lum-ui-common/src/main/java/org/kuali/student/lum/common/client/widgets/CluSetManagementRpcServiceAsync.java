@@ -20,7 +20,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-// TODO KSCM-242
 public interface CluSetManagementRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync{
 
     public void getCluSetInformation(String cluSetId, AsyncCallback<CluSetInformation> callback);
