@@ -72,7 +72,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) cpInfo, contextInfo);
-        	/* TODO KSCM-429 cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
+        	/* TODO KSCM-391 cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
         }
         
         return cpInfo;
@@ -93,7 +93,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 		CluInfo clu;
 		try {
 			
-			//TODO KSCMclu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(),contextInfo) : new CluInfo();
+			//TODO KSCM-391 clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(),contextInfo) : new CluInfo();
 			clu = (NodeOperation.UPDATE == operation) ? R1R2ConverterUtil.convert( cluService.getClu(businessDTO.getId(),contextInfo),new CluInfo()) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
@@ -129,7 +129,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
     }
 
     private void disassembleLearningObjectives(CoreProgramInfo core, NodeOperation operation, BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> result) throws AssemblyException {
-    	/* TODO KSCM-429try {
+    	/* TODO KSCM-391 try {
         	     List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(core.getId(), core.getState(),  (List<LoDisplayInfo>) core.getLearningObjectives() , operation,new ContextInfo());
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
