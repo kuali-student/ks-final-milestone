@@ -52,7 +52,7 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
 
     protected OrganizationService orgService;
 
-    // TODO KSCM
+    // TODO KSCM-577
     // @Override
     protected boolean performMatch(Map<String, String> inputQualification, Map<String, String> roleMemberQualifier, ContextInfo contextInfo) {
         // if no qualification is passed, then we have no basis to reject this
