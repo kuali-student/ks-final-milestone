@@ -39,6 +39,9 @@ public class MembershipQueryInfo implements Serializable, MembershipQuery {
 
     @XmlAttribute
     private String id;
+    
+    @XmlAttribute
+    private List<SearchParamInfo> queryParamValueList;
 
     @XmlElement
     private String searchTypeKey;

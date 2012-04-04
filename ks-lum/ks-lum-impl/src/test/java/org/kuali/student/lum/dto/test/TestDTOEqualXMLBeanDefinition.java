@@ -65,7 +65,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		return builder.toString();
 	}
 
-	//@Test
+	@Test
 	public void getLinkedListFields() {
 		ComplexSubstructuresHelper helpme = new ComplexSubstructuresHelper();
 		ArrayList<Field> fields = new ArrayList<Field>();
@@ -90,19 +90,19 @@ public class TestDTOEqualXMLBeanDefinition {
 		  startingClasses.add(CluFeeInfo.class.getName());
 		  startingClasses.add(CluFeeRecordInfo.class.getName()); 
 		  startingClasses.add(CluIdentifierInfo.class.getName());
-		  startingClasses.add(CluInfo.class.getName());
+	      startingClasses.add(CluInfo.class.getName());
 		  startingClasses.add(CluInstructorInfo.class.getName());
 		  startingClasses.add(CluLoRelationInfo.class.getName());
 		  startingClasses.add(CluPublicationInfo.class.getName());
 		  startingClasses.add(CluResultInfo.class.getName());
-//		  startingClasses.add(CluSetInfo.class.getName());//Nullpointerexception
+		  startingClasses.add(CluSetInfo.class.getName());//Nullpointerexception
 		  startingClasses.add(CluSetTreeViewInfo.class.getName());
 		  startingClasses.add(ExpenditureInfo.class.getName());
 		  startingClasses.add(FeeInfo.class.getName());
 		  startingClasses.add(FieldInfo.class.getName());
 		  startingClasses.add(LuCodeInfo.class.getName());
 		  startingClasses.add(LuDocRelationInfo.class.getName());
-//		  startingClasses.add(MembershipQueryInfo.class.getName());//Nullpointerexception
+		  startingClasses.add(MembershipQueryInfo.class.getName());//Nullpointerexception
 		  startingClasses.add(ResultOptionInfo.class.getName());
 		  startingClasses.add(RevenueInfo.class.getName());
 		  
@@ -118,7 +118,7 @@ public class TestDTOEqualXMLBeanDefinition {
 
 	}
 	
-	//@Test
+	@Test
 	public void testCourseDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
