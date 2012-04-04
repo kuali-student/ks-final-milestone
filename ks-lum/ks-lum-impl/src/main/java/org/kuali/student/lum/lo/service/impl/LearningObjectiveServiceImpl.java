@@ -756,7 +756,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			//do not checkForEmptyString
 		}
 	    
-	  //TODO KSCM-429 :ObjectStructureDefinition objStructure = this.getObjectStructure(LoInfo.class.getName(),contextInfo);
+	  //TODO KSCM-570 :ObjectStructureDefinition objStructure = this.getObjectStructure(LoInfo.class.getName(),contextInfo);
 	    Validator validator = validatorFactory.getValidator();
 	    //TODO KSCM-428 : return validator.validateObject(loInfo, objStructure,contextInfo);
 	    return null;
@@ -781,7 +781,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 //			//do not checkForEmptyString
 //		}
 
-	  //TODO KSCM-429 :   ObjectStructureDefinition objStructure = this.getObjectStructure(LoCategoryInfo.class.getName(),contextInfo);
+	  //TODO KSCM-570 :   ObjectStructureDefinition objStructure = this.getObjectStructure(LoCategoryInfo.class.getName(),contextInfo);
         Validator validator = validatorFactory.getValidator();
         //TODO KSCM-428 : return validator.validateObject(loCategoryInfo, objStructure,contextInfo);
         return null; 
@@ -793,7 +793,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 
-		//TODO KSCM-429 : ObjectStructureDefinition objStructure = this.getObjectStructure(LoLoRelationInfo.class.getName(),contextInfo);
+		//TODO KSCM-570 : ObjectStructureDefinition objStructure = this.getObjectStructure(LoLoRelationInfo.class.getName(),contextInfo);
         Validator validator = validatorFactory.getValidator();
         //TODO KSCM-428 : return validator.validateObject(loLoRelationInfo, objStructure,contextInfo);
         return null;
@@ -1020,7 +1020,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    LoLoRelationType type = loDao.fetch(LoLoRelationType.class, loLoRelationTypeKey);
 	    loLoRelationInfo.setLoId(loLoRelationInfo.getLoId());
 	    loLoRelationInfo.setRelatedLoId(loLoRelationInfo.getRelatedLoId());
-        //TODO KSCM-429 figure out what really needs to be passed here
+        //TODO KSCM-504 figure out what really needs to be passed here
 	    //loLoRelationInfo.setType(loLoRelationType);
         loLoRelationInfo.setTypeKey(loLoRelationInfo.getTypeKey());
 	    
