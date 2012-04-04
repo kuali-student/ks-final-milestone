@@ -684,6 +684,7 @@
         <property name="proposalReferenceType" value="kuali.proposal.referenceType.clu"/>
         <property name="defaultDocType" value="kuali.proposal.type.course.retire"/>
         <property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.RetireCourseProposalInfo"/>
+        <property name="idTranslator" ref="idTranslator"/>
         <property name="docTypeConfigs">
 	        <list>
 				<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">

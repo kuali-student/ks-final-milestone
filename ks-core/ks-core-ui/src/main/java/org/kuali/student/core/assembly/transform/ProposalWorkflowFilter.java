@@ -30,8 +30,10 @@ import org.kuali.student.common.assembly.transform.DataBeanMapper;
 import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
 import org.kuali.student.common.assembly.transform.DocumentTypeConfiguration;
 import org.kuali.student.common.assembly.transform.FilterException;
+import org.kuali.student.common.assembly.transform.IdTranslatorFilter;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.common.assembly.transform.TransformFilter;
+import org.kuali.student.common.assembly.util.IdTranslator;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
@@ -74,6 +76,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	private String proposalObjectType;
 	
 	List<DocumentTypeConfiguration> docTypeConfigs;
+	
+	private IdTranslator idTranslator;
 
 	/**
 	 *	This removes the proposal data from incoming data and saves it to be used by the outbound filter
@@ -161,7 +165,11 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		}	
 		
 		//Tack on proposal data to data returned to UI client
-		Data proposalData = mapper.convertFromBean(proposalInfo, getProposalMetadata());
+		Metadata proposalMetadata = getProposalMetadata();
+		Data proposalData = mapper.convertFromBean(proposalInfo, proposalMetadata);
+		if (idTranslator != null){
+			IdTranslatorFilter.translateIds(idTranslator, proposalData, proposalMetadata);
+		}
 		data.set("proposal", proposalData);		
 	}
 
@@ -435,4 +443,9 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	public void setMetadataService(MetadataServiceImpl metadataService) {
 		this.metadataService = metadataService;
     }
+
+	public void setIdTranslator(IdTranslator idTranslator) {
+		this.idTranslator = idTranslator;
+	}
+
 }

@@ -14,7 +14,7 @@ import org.kuali.student.common.assembly.util.IdTranslation;
 import org.kuali.student.common.assembly.util.IdTranslator;
 
 public class IdTranslatorFilter extends AbstractDataFilter {
-    final Logger LOG = Logger.getLogger(IdTranslatorFilter.class);
+    final static Logger LOG = Logger.getLogger(IdTranslatorFilter.class);
 
 	private IdTranslator idTranslator;
 
@@ -30,14 +30,17 @@ public class IdTranslatorFilter extends AbstractDataFilter {
 	@Override
 	public void applyOutboundDataFilter(Data data, Metadata metadata, Map<String,Object> properties) {
         if (data != null && metadata != null) {
-    		translateIds(data, metadata);
+    		translateIds(idTranslator, data, metadata);
         }
 	}
 
 
     /**
      * Uses the IdTranslator and Metadata to convert IDs into their display text and stores those translations in the
-     * _runtimeData node
+     * _runtimeData node.
+     * 
+     * This method is made public static to allow other filters to translate ids for additional appendeded data.
+     * See ProposalWorkflow filter
      *
      * @param data
      *            the Data instance containing IDs to be translated
@@ -45,7 +48,7 @@ public class IdTranslatorFilter extends AbstractDataFilter {
      *            the Metadata instance representing the data provided.
      * @throws AssemblyException
      */
- 	private void translateIds(Data data, Metadata metadata){
+ 	public static void translateIds(IdTranslator idTranslator, Data data, Metadata metadata){
  		try {
  			if (data != null && metadata != null) {
 				//Iterate through all the data;s properties
@@ -69,7 +72,7 @@ public class IdTranslatorFilter extends AbstractDataFilter {
 							Metadata listChildMetadata = fieldMetadata.getProperties().get("*");
 							//see if this is a list of data or a list of fields
 							if(DataType.DATA.equals(listChildMetadata.getDataType())){
-								translateIds((Data) prop.getValue(), listChildMetadata);
+								translateIds(idTranslator, (Data) prop.getValue(), listChildMetadata);
 							}else{
 								//its a list of fields so loop through and translate using the "index"
 								for(Iterator<Property> listIter = ((Data)fieldData).realPropertyIterator(); listIter.hasNext();){
@@ -113,7 +116,7 @@ public class IdTranslatorFilter extends AbstractDataFilter {
 							iter.remove();
 						} else {
 							//Otherwise just use the fieldMetadata
-							translateIds((Data) prop.getValue(), fieldMetadata);
+							translateIds(idTranslator,(Data) prop.getValue(), fieldMetadata);
 						}
 					} else if (fieldData != null && fieldData instanceof String) {
 						if (fieldMetadata.getInitialLookup() != null
