@@ -1505,10 +1505,10 @@ public class ProgramServiceImpl implements ProgramService{
 
 	private void validateMajorDisciplineAtps(MajorDisciplineInfo majorDisciplineInfo, List<ValidationResultInfo> validationResults,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		String startTerm = majorDisciplineInfo.getStartTerm();
-        //TODO KSCM-429 : note used method toGenericMap
-		//TODO KSCM-429		if(!isEmpty(majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"))){
-		//TODO KSCM-429			compareAtps(startTerm, majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term", "endInstAdmitTerm",contextInfo);
-		//TODO KSCM-429		}
+        //TODO KSCM-369 : note used method toGenericMap
+		//TODO KSCM-369		if(!isEmpty(majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"))){
+		//TODO KSCM-369			compareAtps(startTerm, majorDisciplineInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term", "endInstAdmitTerm",contextInfo);
+		//TODO KSCM-369		}
 		if(!isEmpty(majorDisciplineInfo.getEndProgramEntryTerm())){
 			compareAtps(startTerm, majorDisciplineInfo.getEndTerm(), validationResults, "End Program Entry Term", "endProgramEntryTerm",contextInfo);
 		}
@@ -1532,10 +1532,10 @@ public class ProgramServiceImpl implements ProgramService{
 		
 		String startTerm = programVariationInfo.getStartTerm();
 
-        //TODO KSCM-429 : note used method toGenericMap
-// TODO KSCM-429 		if(!isEmpty(programVariationInfo.getAttributes().get("endInstAdmitTerm"))){
-		// TODO KSCM-429 			compareAtps(startTerm, programVariationInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term",  "variations/" + idx + "/endInstAdmitTerm",contextInfo);
-		// TODO KSCM-429 		}
+        //TODO KSCM-369 : note used method toGenericMap
+// TODO KSCM-369 		if(!isEmpty(programVariationInfo.getAttributes().get("endInstAdmitTerm"))){
+		// TODO KSCM-369 			compareAtps(startTerm, programVariationInfo.getAttributes().get("endInstAdmitTerm"), validationResults, "End Inst Admin Term",  "variations/" + idx + "/endInstAdmitTerm",contextInfo);
+		// TODO KSCM-369 		}
 	
 		if(!isEmpty(programVariationInfo.getEndProgramEntryTerm())){
 			compareAtps(startTerm, programVariationInfo.getEndProgramEntryTerm(), validationResults, "End Program Entry Term", "variations/" + idx + "/endProgramEntryTerm",contextInfo);

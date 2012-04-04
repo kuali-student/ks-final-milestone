@@ -83,7 +83,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		}
 
 		if (isEmpty(progReq.getLearningObjectives())) {
-			/* TODO KSCM-429 progReq.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild,contextInfo)); */
+			/* TODO KSCM-391 progReq.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild,contextInfo)); */
 		}
 
 		progReq.setMetaInfo(clu.getMetaInfo());
@@ -208,7 +208,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 	private void disassembleLearningObjectives(ProgramRequirementInfo progReq,
 			NodeOperation operation,
 			BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
-		/* TODO KSCM-429try {
+		/* TODO KSCM-391 try {
         	
              List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(progReq.getId(), progReq.getState(),  progReq.getLearningObjectives(), operation,contextInfo);
             if (loResults != null) {
