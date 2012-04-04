@@ -41,7 +41,6 @@ public class TestCluDTOEqualXMLBeanDefinition {
 	@Test
 	public void testCluDTOsAgainstDataDictionary() {
 		  System.out.println("testing statement dictionary");
-		  //TODO KSCM Correct errors below
 		  Set<String> startingClasses = new LinkedHashSet();
 		  startingClasses.add(AcademicSubjectOrgInfo.class.getName());
 		  startingClasses.add(AccreditationInfo.class.getName());
@@ -53,19 +52,19 @@ public class TestCluDTOEqualXMLBeanDefinition {
 		  startingClasses.add(CluFeeInfo.class.getName());
 		  startingClasses.add(CluFeeRecordInfo.class.getName()); 
 		  startingClasses.add(CluIdentifierInfo.class.getName());
-		  //startingClasses.add(CluInfo.class.getName());//Nullpointerexception
+		  startingClasses.add(CluInfo.class.getName());
 		  startingClasses.add(CluInstructorInfo.class.getName());
 		  startingClasses.add(CluLoRelationInfo.class.getName());
 		  startingClasses.add(CluPublicationInfo.class.getName());
 		  startingClasses.add(CluResultInfo.class.getName());
-		  //startingClasses.add(CluSetInfo.class.getName());//Nullpointerexception
-		  //startingClasses.add(CluSetTreeViewInfo.class.getName());//Nullpointerexception
+		  startingClasses.add(CluSetInfo.class.getName());
+		  startingClasses.add(CluSetTreeViewInfo.class.getName());
 		  startingClasses.add(ExpenditureInfo.class.getName());
 		  startingClasses.add(FeeInfo.class.getName());
 		  startingClasses.add(FieldInfo.class.getName());
 		  startingClasses.add(LuCodeInfo.class.getName());
 		  startingClasses.add(LuDocRelationInfo.class.getName());
-		  //startingClasses.add(MembershipQueryInfo.class.getName());//Nullpointerexception
+		  startingClasses.add(MembershipQueryInfo.class.getName());
 		  startingClasses.add(ResultOptionInfo.class.getName());
 		  startingClasses.add(RevenueInfo.class.getName());
 		  
