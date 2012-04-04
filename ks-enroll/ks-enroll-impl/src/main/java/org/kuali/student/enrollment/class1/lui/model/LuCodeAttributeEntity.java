@@ -10,11 +10,11 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 
 @Entity
-@Table(name = "KSEN_LUI_LUCD_ATTR")
+@Table(name = "KSEN_LUI_LU_CD_ATTR")
 public class LuCodeAttributeEntity extends BaseAttributeEntity<LuCodeEntity> {
     
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private LuCodeEntity owner;
     
     public LuCodeAttributeEntity () {
