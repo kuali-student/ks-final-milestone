@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
@@ -29,15 +28,14 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.NavigationHandler;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
-import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 
 import com.google.gwt.core.client.GWT;
@@ -52,9 +50,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Hidden;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -76,25 +71,24 @@ public class ApplicationHeader extends Composite{
 
 	private KSHeader ksHeader = GWT.create(KSHeader.class);
 
-	private StylishDropDown navDropDown = new StylishDropDown("Select an area\u2026");
-	private Anchor versionAnchor = new Anchor(" ( Version ) ");
+	protected StylishDropDown navDropDown = new StylishDropDown("Select an area\u2026");
 	//private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 
 	private SimplePanel content = new SimplePanel();
-	private KSLightBox docSearchDialog = new KSLightBox();
+	protected KSLightBox docSearchDialog = new KSLightBox();
 
 	private Frame docSearch;
     private String docSearchUrl = "";
     private String appUrl = "..";
     private String lumAppUrl = "..";
-    private String riceURL ="..";
+    protected String riceURL ="..";
     private String riceLinkLabel="Rice";
     private String appVersion = "";
     private String codeServer = "";
 
     private boolean loaded = false;
 
-    private static class WrapperNavigationHandler extends NavigationHandler{
+    protected static class WrapperNavigationHandler extends NavigationHandler{
 		public WrapperNavigationHandler(String url) {
 			super(url);
 		}
@@ -108,6 +102,7 @@ public class ApplicationHeader extends Composite{
     }
 	public ApplicationHeader(){
 		this.initWidget(ksHeader);
+		//navDropDown.initialise("Select an area\u2026");
 	}
 	protected void onLoad() {
 		super.onLoad();
@@ -146,7 +141,7 @@ public class ApplicationHeader extends Composite{
 		createUserDropDown();
 		//headerBottomLinks.add(userDropDown);
 		ksHeader.setHiLabelText("Hi,");
-		ksHeader.setUserName(Application.getApplicationContext().getUserId());
+		ksHeader.setUserName(Application.getApplicationContext().getSecurityContext().getUserId());
 		Anchor logoutLink = new Anchor(getMessage("wrapperPanelLogout"));
 		logoutLink.addClickHandler(new WrapperNavigationHandler("j_spring_security_logout"));
 		ksHeader.addLogout(logoutLink);
@@ -169,7 +164,7 @@ public class ApplicationHeader extends Composite{
     	items.add(new KSMenuItemData(getMessage("wrapperPanelLogout"),new WrapperNavigationHandler("j_spring_security_logout")));
 	}
 
-	private void createNavDropDown() {
+	protected void createNavDropDown() {
 		navDropDown.setImageLocation(MenuImageLocation.LEFT);
 
 		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
@@ -206,7 +201,7 @@ public class ApplicationHeader extends Composite{
 
     	navDropDown.setItems(items);
     	navDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
-
+    	navDropDown.ensureDebugId("Application-Header");
 	}
 
 	public void setContent(Widget wrappedContent){
@@ -263,7 +258,7 @@ public class ApplicationHeader extends Composite{
     }
 
     //Method to build the light box for the doc search
-    private void buildDocSearchPanel(){
+    protected void buildDocSearchPanel(){
     	if (docSearch == null){
 	        docSearch = new Frame();
 	    	docSearch.setSize("700px", "500px");
@@ -284,7 +279,7 @@ public class ApplicationHeader extends Composite{
     	}
     }
 
-    private static String getMessage(final String messageId) {
+    protected static String getMessage(final String messageId) {
         return Application.getApplicationContext().getMessage(messageId);
     }
     

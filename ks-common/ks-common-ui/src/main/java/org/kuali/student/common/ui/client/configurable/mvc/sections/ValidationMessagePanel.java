@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class ValidationMessagePanel extends Composite{
 	
 	private VerticalFlowPanel container = new VerticalFlowPanel();

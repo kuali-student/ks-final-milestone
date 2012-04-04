@@ -19,10 +19,12 @@
 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/ks-ksb-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
     
 	<param name="ks.ignore.rice.login">true</param>
 	
     <param name="module.name">ks-lum-ui</param>
+    <param name="application.id">ks</param>
     <param name="db.vendor">derby</param>
 	<param name="jpa.vendor">hibernate</param>
 
@@ -39,6 +41,8 @@
     <param name="keystore.file">${user.home}/rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
+    
+    <param name="transaction.timeout">3600</param>
     
     <!-- Application dictionary -->
     <param name="ks.lum.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>

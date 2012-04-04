@@ -3,21 +3,26 @@ package org.kuali.student.lum.workflow;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.CircularReferenceException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.CircularReferenceException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+
+import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(noRollbackFor = { DoesNotExistException.class }, rollbackFor = { Throwable.class })
@@ -33,32 +38,27 @@ public class CourseStateChangeServiceImpl {
 	 * @return
 	 * @throws Exception
 	 */
-	public StatusInfo changeState(String courseId, String newState,	String prevEndTermAtpId) throws Exception {
+	public StatusInfo changeState(String courseId, String newState,	String prevEndTermAtpId,ContextInfo contextInfo) throws Exception {
 
-		CourseInfo courseInfo = courseService.getCourse(courseId);
+		CourseInfo courseInfo = courseService.getCourse(courseId,contextInfo);
 
 		StatusInfo ret = new StatusInfo();
-		try {
-			if (newState.equals(DtoConstants.STATE_ACTIVE)) {
-				if(courseInfo.isPilotCourse()){
-					//Pilot courses get Retired
-					//Add required fields for Retired State
-					courseInfo.getAttributes().put("retirementRationale", "Pilot Course");
-					courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
-					courseInfo.setState(DtoConstants.STATE_ACTIVE);
-					retireCourse(courseInfo);
-				}else{
-					activateCourse(courseInfo, prevEndTermAtpId);
-				}
-			} else if (newState.equals(DtoConstants.STATE_RETIRED)) {
-				retireCourse(courseInfo);
-			}
+		if (newState.equals(DtoConstants.STATE_ACTIVE)) {
+            if(courseInfo.isPilotCourse()){
+                //Pilot courses get Retired
+                //Add required fields for Retired State
+                courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", "Pilot Course"));
+                courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", courseInfo.getEndTerm()));
+                courseInfo.setStateKey(DtoConstants.STATE_ACTIVE);
+                retireCourse(courseInfo, contextInfo);
+            }else{
+                activateCourse(courseInfo, prevEndTermAtpId, contextInfo);
+            }
+        } else if (newState.equals(DtoConstants.STATE_RETIRED)) {
+            retireCourse(courseInfo, contextInfo);
+        }
 
-			ret.setSuccess(new Boolean(true));
-		} catch (Exception e) {
-			ret.setSuccess(new Boolean(false));
-			ret.setMessage(e.getMessage());
-		}
+        ret.setSuccess(new Boolean(true));
 
 		return ret;
 	}
@@ -69,20 +69,20 @@ public class CourseStateChangeServiceImpl {
 	 * @param courseToActivate
 	 * @param prevEndTermAtpId the end term we set on the current version
 	 */
-	protected void activateCourse(CourseInfo courseToActivate, String prevEndTermAtpId) throws Exception{
-    	CourseInfo currVerCourse = getCurrentVersionOfCourse(courseToActivate);
-    	String existingState = courseToActivate.getState();
-		String currVerState = currVerCourse.getState();
+	protected void activateCourse(CourseInfo courseToActivate, String prevEndTermAtpId,ContextInfo contextInfo) throws Exception{
+    	CourseInfo currVerCourse = getCurrentVersionOfCourse(courseToActivate,contextInfo);
+    	String existingState = courseToActivate.getStateKey();
+		String currVerState = currVerCourse.getStateKey();
 		boolean isCurrVer = (courseToActivate.getId().equals(currVerCourse.getId()));
 		
 		if (existingState.equals(DtoConstants.STATE_DRAFT)) {
 			// since this is approved if isCurrVer we can assume there are no previously active versions to deal with
 			if (isCurrVer) {
 				// setstate for thisVerCourse and setCurrentVersion(courseId)
-				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, null, true, prevEndTermAtpId);
+				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, null, true, prevEndTermAtpId,contextInfo);
 			} else if (currVerState.equals(DtoConstants.STATE_ACTIVE) ||
 					currVerState.equals(DtoConstants.STATE_SUSPENDED)) {
-				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, DtoConstants.STATE_SUPERSEDED, true, prevEndTermAtpId);
+				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, DtoConstants.STATE_SUPERSEDED, true, prevEndTermAtpId,contextInfo);
 			}
 		}
 	}
@@ -92,34 +92,34 @@ public class CourseStateChangeServiceImpl {
 	 * 
 	 * @param courseToRetire the course to retire
 	 */
-	protected void retireCourse(CourseInfo courseToRetire) throws Exception{
-    	String existingState = courseToRetire.getState();		
+	protected void retireCourse(CourseInfo courseToRetire,ContextInfo contextInfo) throws Exception{
+    	String existingState = courseToRetire.getStateKey();		
 		
     	if (existingState.equals(DtoConstants.STATE_ACTIVE) || existingState.equals(DtoConstants.STATE_SUSPENDED)){
-    		courseToRetire.setState(DtoConstants.STATE_RETIRED);
+    		courseToRetire.setStateKey(DtoConstants.STATE_RETIRED);
     		
-    		courseService.updateCourse(courseToRetire);
-			updateStatementTreeViewInfoState(courseToRetire);    		
+    		courseService.updateCourse(courseToRetire.getId(),courseToRetire,contextInfo);
+			updateStatementTreeViewInfoState(courseToRetire,contextInfo);
     	}
 	}
 	
 	/**
 	 * Get the current version of course from another version of course
 	 * 
-	 * @param verIndId
+	 *
 	 */
-	protected CourseInfo getCurrentVersionOfCourse(CourseInfo course)
+	protected CourseInfo getCurrentVersionOfCourse(CourseInfo course,ContextInfo contextInfo)
 			throws Exception {
 		// Get version independent id of course
 		String verIndId = course.getVersionInfo().getVersionIndId();
 
 		// Get id of current version of course given the versionindependen id
 		VersionDisplayInfo curVerDisplayInfo = courseService.getCurrentVersion(
-				CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId);
+		CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId,contextInfo);
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
-		CourseInfo currVerCourse = courseService.getCourse(curVerId);
+		CourseInfo currVerCourse = courseService.getCourse(curVerId,contextInfo);
 
 		return currVerCourse;
 	}
@@ -150,8 +150,8 @@ public class CourseStateChangeServiceImpl {
 	private void updateCourseVersionStates(CourseInfo thisVerCourse,
 			String thisVerNewState, CourseInfo currVerCourse,
 			String currVerNewState, boolean makeCurrent,
-			String prevEndTermAtpId) throws Exception {
-		String thisVerPrevState = thisVerCourse.getState();
+			String prevEndTermAtpId,ContextInfo contextInfo) throws Exception {
+		String thisVerPrevState = thisVerCourse.getStateKey();
 
 		// if already current, will throw error if you try to make the current
 		// version the current version.
@@ -163,24 +163,25 @@ public class CourseStateChangeServiceImpl {
 		if (thisVerNewState == null) {
 			throw new InvalidParameterException("new state cannot be null");
 		} else {
-			thisVerCourse.setState(thisVerNewState);
-			courseService.updateCourse(thisVerCourse);
-			updateStatementTreeViewInfoState(thisVerCourse);
+			thisVerCourse.setStateKey(thisVerNewState);
+            //TODO KSCM I added into      thisVerCourse.getId() to the method call
+			courseService.updateCourse(thisVerCourse.getId(),thisVerCourse,contextInfo);
+			updateStatementTreeViewInfoState(thisVerCourse,contextInfo);
 		}
 
 		// won't get called if previous exception was thrown
 		if (currVerNewState != null) {
-			currVerCourse.setState(currVerNewState);
+			currVerCourse.setStateKey(currVerNewState);
 			if(currVerCourse.getEndTerm()==null){
 				currVerCourse.setEndTerm(prevEndTermAtpId);
 			}
-			courseService.updateCourse(currVerCourse);
-			updateStatementTreeViewInfoState(currVerCourse);
+			courseService.updateCourse(currVerCourse.getId(),currVerCourse,contextInfo);
+			updateStatementTreeViewInfoState(currVerCourse,contextInfo);
 		}
 
 		if (makeCurrent == true) {
 			courseService.setCurrentCourseVersion(thisVerCourse.getId(),
-					null);
+					null,contextInfo);
 		}
 
 		// for all draft and approved courses set the state to superseded.
@@ -192,7 +193,7 @@ public class CourseStateChangeServiceImpl {
 
 			List<VersionDisplayInfo> versions = courseService.getVersions(
 					CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
-							.getVersionInfo().getVersionIndId());
+						.getVersionInfo().getVersionIndId(),contextInfo);
 			Long startSeq = new Long(1);
 
 			if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {
@@ -202,16 +203,16 @@ public class CourseStateChangeServiceImpl {
 			for (VersionDisplayInfo versionInfo : versions) {
 				if (versionInfo.getSequenceNumber() >= startSeq) {
 					CourseInfo otherCourse = courseService
-							.getCourse(versionInfo.getId());
-					if (otherCourse.getState().equals(
+							.getCourse(versionInfo.getId(),contextInfo);
+					if (otherCourse.getStateKey().equals(
 							DtoConstants.STATE_APPROVED)
-							|| otherCourse.getState().equals(
+							|| otherCourse.getStateKey().equals(
 									DtoConstants.STATE_SUBMITTED)
-							|| otherCourse.getState().equals(
+							|| otherCourse.getStateKey().equals(
 									DtoConstants.STATE_DRAFT)) {
-						otherCourse.setState(DtoConstants.STATE_SUPERSEDED);
-						courseService.updateCourse(otherCourse);
-						updateStatementTreeViewInfoState(otherCourse);
+						otherCourse.setStateKey(DtoConstants.STATE_SUPERSEDED);
+						courseService.updateCourse(otherCourse.getId(),otherCourse,contextInfo);
+						updateStatementTreeViewInfoState(otherCourse,contextInfo);
 					}
 				}
 			}
@@ -241,7 +242,7 @@ public class CourseStateChangeServiceImpl {
 	 * @throws CircularReferenceException
 	 * @throws VersionMismatchException
 	 */
-	public void updateStatementTreeViewInfoState(CourseInfo courseInfo)
+	public void updateStatementTreeViewInfoState(CourseInfo courseInfo,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, DataValidationErrorException,
@@ -250,19 +251,20 @@ public class CourseStateChangeServiceImpl {
 		// Call course web service to get all requirements/statements for this
 		// course
 		List<StatementTreeViewInfo> statementTreeViewInfos = courseService
-				.getCourseStatements(courseInfo.getId(), null, null);
+				.getCourseStatements(courseInfo.getId(), null, null,contextInfo);
 
-		// Recursively update state on all requirements/statements in the tree
-		for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos
-				.iterator(); it.hasNext();)
-			StatementUtil.updateStatementTreeViewInfoState(courseInfo
-					.getState(), it.next());
-
-		// Call the course web service and update the requirement/statement tree
-		// with the new state
-		for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos
-				.iterator(); it.hasNext();)
-			courseService.updateCourseStatement(courseInfo.getId(), it.next());
+		if(statementTreeViewInfos != null){
+            // Recursively update state on all requirements/statements in the tree
+            for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();){
+                StatementUtil.updateStatementTreeViewInfoState(courseInfo.getStateKey(), it.next());
+            }
+    
+            // Call the course web service and update the requirement/statement tree
+            // with the new state
+            for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();){
+                courseService.updateCourseStatement(courseInfo.getId(), null, it.next(), contextInfo);
+            }
+        }
 	}
 
 }

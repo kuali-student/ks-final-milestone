@@ -10,6 +10,7 @@ package org.kuali.student.common.ui.client.event;
 
 import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 
+@Deprecated
 public class ExportEvent extends ApplicationEvent<ExportEventHandler> {
     public static final Type<ExportEventHandler> TYPE = new Type<ExportEventHandler>();
     private Object currentView;

@@ -1,35 +1,40 @@
 package org.kuali.student.common.ui.server.gwt;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import java.net.URLDecoder;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.transform.AuthorizationFilter;
-import org.kuali.student.common.assembly.transform.MetadataFilter;
-import org.kuali.student.common.assembly.transform.TransformFilter;
-import org.kuali.student.common.assembly.transform.TransformFilter.TransformFilterAction;
-import org.kuali.student.common.assembly.transform.TransformationManager;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.rice.kew.api.document.DocumentDetail;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.server.gwt.DataService;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.transform.AuthorizationFilter;
+import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
+import org.kuali.student.r1.common.assembly.transform.TransformFilter;
+import org.kuali.student.r1.common.assembly.transform.TransformFilter.TransformFilterAction;
+import org.kuali.student.r1.common.assembly.transform.TransformationManager;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -41,28 +46,30 @@ public abstract class AbstractDataService implements DataService{
 
 	private TransformationManager transformationManager;
 	
-	private IdentityManagementService permissionService;
-
-    //TODO: why do we have this reference in the base class????
+	private PermissionService permissionService;
+	
+	//TODO: why do we have this reference in the base class????
 	private ProposalService proposalService;
+	
+	private WorkflowDocumentService workflowDocumentService;
 
 	@Override
-	public Data getData(String id) throws OperationFailedException {
-		Map<String, Object> filterProperties = getDefaultFilterProperties();
+	public Data getData(String id, ContextInfo contextInfo) throws OperationFailedException {
+		Map<String, Object> filterProperties = getDefaultFilterProperties(contextInfo);
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.GET);
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		
-		String dtoId = id;
+		String dtoId = URLDecoder.decode(id);
 		//First check if this is a proposal id
         //TODO: Igor : Why do we check for this when getting the data for programs?
 		try{
 			if (proposalService != null){
-				ProposalInfo proposalInfo = proposalService.getProposal(dtoId);
+			    ProposalInfo proposalInfo = proposalService.getProposal(dtoId, contextInfo);
 				filterProperties.put(ProposalWorkflowFilter.PROPOSAL_INFO, proposalInfo);
 				dtoId = proposalInfo.getProposalReference().get(0);
 			}			
 
-			Object dto = get(dtoId);
+			Object dto = get(dtoId, contextInfo);
 			if (dto != null){
 				return transformationManager.transform(dto, getDtoClass().getName(), filterProperties);
 			}
@@ -76,8 +83,8 @@ public abstract class AbstractDataService implements DataService{
 	}
 
 	@Override
-	public Metadata getMetadata(String id, Map<String, String> attributes) {
-		Map<String, Object> filterProperties = getDefaultFilterProperties();
+	public Metadata getMetadata(String id, Map<String, String> attributes,ContextInfo contextInfo) {
+		Map<String, Object> filterProperties = getDefaultFilterProperties(contextInfo);
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		
 		//Place id attributes into filter properties
@@ -121,8 +128,8 @@ public abstract class AbstractDataService implements DataService{
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException, VersionMismatchException{
-		Map<String, Object> filterProperties = getDefaultFilterProperties();
+	public DataSaveResult saveData(Data data, ContextInfo contextInfo) throws OperationFailedException, DataValidationErrorException, VersionMismatchException{
+		Map<String, Object> filterProperties = getDefaultFilterProperties(contextInfo);
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.SAVE);
 		
 		DataSaveResult saveResult = new DataSaveResult();
@@ -133,10 +140,10 @@ public abstract class AbstractDataService implements DataService{
 			//This calls save method for DataService impl, which makes the needed service calls to persist dto
 			//The service call should do it's own validation, any errors will cause DataValidationErrorException
 			//and is handled in the catch below.
-			dto = save(dto, filterProperties);
+			dto = save(dto, filterProperties, contextInfo);
 			
 			//Validate saved data again to get validation warnings that may exist on the data
-			List<ValidationResultInfo> validationResults = validate(dto);
+			List<ValidationResultInfo> validationResults = validate(dto, contextInfo);
 			
 			//Convert saved data object back to data object to send to UI
 			Data persistedData = transformationManager.transform(dto, getDtoClass().getName(), filterProperties);			
@@ -161,13 +168,14 @@ public abstract class AbstractDataService implements DataService{
 	
 
 	@Override
-	public List<ValidationResultInfo> validateData(Data data) throws OperationFailedException {
+	public List<ValidationResultInfo> validateData(Data data, ContextInfo contextInfo) throws OperationFailedException {
 		List<ValidationResultInfo> validationResults;
 		
 		try {
 			Metadata metadata = transformationManager.getUnfilteredMetadata(getDtoClass().getName());
-			Object dto = transformationManager.getMapper().convertFromData(data, getDtoClass(), metadata);
-			validationResults = validate(dto);
+			Object dto = null;
+			dto = transformationManager.getMapper().convertFromData(data, getDtoClass(), metadata);
+			validationResults = validate(dto, contextInfo);
 		} catch (Exception e) {
 			throw new OperationFailedException("Unable to validate data", e);
 		}
@@ -176,58 +184,79 @@ public abstract class AbstractDataService implements DataService{
 	}
 
 	@Override
-	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
-		String user = SecurityUtils.getCurrentUserId();
-		boolean result = false;
-		if (checkDocumentLevelPermissions()) {
-			if (type == null) {
-				return null;
-			}
-			String namespaceCode = type.getPermissionNamespace();
-			String permissionTemplateName = type.getPermissionTemplateName();
-			
-			AttributeSet roleQuals = new AttributeSet();
-			if (attributes != null) {				
-				if (proposalService != null){
-					ProposalInfo proposalInfo = null;
-					try {
-						if (attributes.containsKey(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString())){
-							proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()));
-						} else if (attributes.containsKey(IdAttributes.IdType.DOCUMENT_ID.toString())){
-							proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()));
-						}
-						if (proposalInfo != null){
-							attributes.put(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString(), proposalInfo.getId());
-							attributes.put(IdAttributes.IdType.DOCUMENT_ID.toString(), proposalInfo.getWorkflowId());
-							attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, proposalInfo.getType());
-						}
-					} catch (Exception e){
-						LOG.error("Could not retrieve proposal to determine permission qualifiers.");
-					}
-				}
-		        //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
-				attributes.put("RAND_NO_CACHE", UUID.randomUUID().toString());
+    public Boolean isAuthorized(PermissionType type, Map<String,String> attributes, ContextInfo contextInfo) {
+        String user = SecurityUtils.getCurrentUserId();
+        boolean result = false;
+        if (checkDocumentLevelPermissions()) {
+            if (type == null) {
+                return null;
+            }
+            String namespaceCode = type.getPermissionNamespace();
+            String permissionTemplateName = type.getPermissionTemplateName();
+            
+            Map<String,String> roleQuals = new LinkedHashMap<String,String>();
+            if (attributes != null) {
+                //Determine permission details and role qualifiers to pass into permission service.
+                //We will use same attributes for permission details and role qualifiers (never hurts to use more than needed)
+                
+                if (proposalService != null){
+                    ProposalInfo proposalInfo = null;
+                    try {
+                        //Retrieve the proposal info provided the proposal id (passed in as KS_JEW_OBJECT_ID) or the workflow id
+                        if (attributes.containsKey(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString())){
+                            proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()), contextInfo);
+                        } else if (attributes.containsKey(IdAttributes.IdType.DOCUMENT_ID.toString())){
+                            proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()), contextInfo);
+                        }
+                        
+                        //Check if the route status is in the list of allowed statuses
+                        DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(proposalInfo.getWorkflowId());
+                        //TODO KSCM-370 String routeStatusCode = docDetail.getDocRouteStatus(); 
 
-				roleQuals.putAll(attributes);
-			}
-			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
-				LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
-				result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
-			}
-			else {
-				LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");
-				return Boolean.TRUE;
-			}
-		}
-		else {
-			LOG.info("Will not check for document level permissions. Defaulting authorization to true.");
-			result = true;
-		}
-		LOG.info("Result of authorization check for user '" + user + "': " + result);
-		return Boolean.valueOf(result);
-	}
+                        //Populate attributes with additional attributes required for permission check
+                        if (proposalInfo != null){
+                            attributes.put(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString(), proposalInfo.getId());
+                            attributes.put(StudentIdentityConstants.QUALIFICATION_DATA_ID, proposalInfo.getId()); // this is what most of the permissions/roles check
+                            attributes.put(IdAttributes.IdType.DOCUMENT_ID.toString(), proposalInfo.getWorkflowId());
+                            attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, proposalInfo.getTypeKey());
+                            //TODO KSCM-370 attributes.put(StudentIdentityConstants.ROUTE_STATUS_CODE, routeStatusCode);
+                            
+                            //Call t his to add any additional attributes that child classes need
+                            addAdditionalAttributes(attributes,proposalInfo,docDetail);
+                        }
+                    } catch (Exception e){
+                        LOG.error("Could not retrieve proposal to determine permission qualifiers:" + e.toString());
+                    }
+                }
+                
+                //Put in additional random number for role qualifiers. This is to avoid this request from being cached. 
+                //Might want to do this only for specific templates to take advantage of caching
+                attributes.put("RAND_NO_CACHE", UUID.randomUUID().toString());
+                roleQuals.putAll(attributes);
+            }
+            if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
+                LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
+                result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
+            }
+            else {
+                LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");
+                return Boolean.TRUE;
+            }
+        }
+        else {
+            LOG.info("Will not check for document level permissions. Defaulting authorization to true.");
+            result = true;
+        }
+        LOG.info("Result of authorization check for user '" + user + "': " + result);
+        return Boolean.valueOf(result);
+    }
 	
-	public Map<String, Object> getDefaultFilterProperties(){
+	protected void addAdditionalAttributes(Map<String, String> attributes,
+            ProposalInfo proposalInfo, DocumentDetail docDetail) {
+        return;
+    }
+	
+	public Map<String, Object> getDefaultFilterProperties(ContextInfo contextInfo){
 		Map<String, Object> filterProperties = new HashMap<String,Object>();
 		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
 		filterProperties.put(ProposalWorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentUserId());
@@ -235,12 +264,12 @@ public abstract class AbstractDataService implements DataService{
 		return filterProperties;
 	}
 	
-	protected DataSaveResult _saveData(Data data, Map<String, Object> filterProperties) throws OperationFailedException{
+	protected DataSaveResult _saveData(Data data, Map<String, Object> filterProperties, ContextInfo contextInfo) throws OperationFailedException{
 		try {
 			filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("id"));	
 
 			Object dto = transformationManager.transform(data, getDtoClass(),filterProperties);
-			dto = save(dto, filterProperties);
+			dto = save(dto, filterProperties, contextInfo);
 				
 			Data persistedData = transformationManager.transform(dto,getDtoClass().getName(), filterProperties);
 			return new DataSaveResult(null, persistedData);
@@ -266,11 +295,11 @@ public abstract class AbstractDataService implements DataService{
 		this.transformationManager = transformationManager;
 	}
 
-	public IdentityManagementService getPermissionService() {
+	public PermissionService getPermissionService() {
 		return permissionService;
 	}
 
-	public void setPermissionService(IdentityManagementService permissionService) {
+	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
 	
@@ -281,7 +310,15 @@ public abstract class AbstractDataService implements DataService{
 	public void setProposalService(ProposalService proposalService) {
 		this.proposalService = proposalService;
 	}
+	
+	public WorkflowDocumentService getWorkflowDocumentService() {
+        return workflowDocumentService;
+    }
 
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
+    }
+	
 	protected abstract String getDefaultWorkflowDocumentType();
 	
 	protected abstract String getDefaultMetaDataState();
@@ -291,10 +328,11 @@ public abstract class AbstractDataService implements DataService{
 	 * by the get(Data) method before it invokes transformationManager to convert DTO to a Data map 
 	 * 
 	 * @param id DTO id
+	 * @param contextInfo
 	 * @return the dto retrieved by calling the appropriate service method
 	 * @throws Exception
 	 */
-	protected abstract Object get(String id) throws Exception;
+	protected abstract Object get(String id, ContextInfo contextInfo) throws Exception;
 	
 	/**
 	 * Implement this method to make a service call to get DTO object. The method is called	 
@@ -305,7 +343,7 @@ public abstract class AbstractDataService implements DataService{
 	 * @return the persisted dto object
 	 * @throws Exception
 	 */
-	protected abstract Object save(Object dto, Map<String, Object> properties) throws Exception;
+	protected abstract Object save(Object dto, Map<String, Object> properties, ContextInfo contextInfo) throws Exception;
 	
 	/**
 	 * Implement this method to make a service call to get DTO object. The method is called	 
@@ -315,7 +353,7 @@ public abstract class AbstractDataService implements DataService{
 	 * @return
 	 * @throws Exception
 	 */
-	protected abstract List<ValidationResultInfo> validate(Object dto) throws Exception;
+	protected abstract List<ValidationResultInfo> validate(Object dto, ContextInfo contextInfo) throws Exception;
 
 	/**
 	 * Implement this method to return the type of the dto object.
@@ -323,4 +361,5 @@ public abstract class AbstractDataService implements DataService{
 	 * @return The object type returned and expected by the get & save dto methods
 	 */
 	protected abstract Class<?> getDtoClass();
+    
 }

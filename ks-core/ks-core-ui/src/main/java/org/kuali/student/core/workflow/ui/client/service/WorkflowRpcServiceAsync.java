@@ -17,7 +17,7 @@ package org.kuali.student.core.workflow.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
+import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -45,8 +45,6 @@ public interface WorkflowRpcServiceAsync {
     public void returnDocumentWithId(String workflowId, String nodeName, AsyncCallback<Boolean> callback);
     public void getPreviousRouteNodeNames(String workflowId, AsyncCallback<List<String>> callback);
 	
-	public void adhocRequest(String workflowId, String recipientPrincipalId, ActionRequestType requestType, String annotation, AsyncCallback<Boolean> callback);
-	
-    public void isAuthorizedAddReviewer(String docId, AsyncCallback<Boolean> callback);
+	public void isAuthorizedAddReviewer(String docId, AsyncCallback<Boolean> callback);
     public void isAuthorizedRemoveReviewers(String docId, AsyncCallback<Boolean> callback);
 }

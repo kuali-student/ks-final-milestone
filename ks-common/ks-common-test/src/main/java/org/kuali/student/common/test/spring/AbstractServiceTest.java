@@ -102,6 +102,7 @@ import org.junit.runner.RunWith;
  * </pre>
  * 
  */
+@Deprecated
 @RunWith(ServiceTestClassRunner.class)
 public abstract class AbstractServiceTest {
 

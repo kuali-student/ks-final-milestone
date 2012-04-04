@@ -5,22 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+//import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 
 public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
 
     @Override
     public List<ValidationResultInfo> validateObject(FieldDefinition field,
             Object o, ObjectStructureDefinition objStructure,
-            Stack<String> elementStack) {
+            Stack<String> elementStack, ContextInfo contextInfo) {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
         String element = getElementXpath(elementStack) + "/" + field.getName();
@@ -30,26 +32,26 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
 
             if (field.getName().equalsIgnoreCase("unitsContentOwner") && null != majorDisciplineInfo.getUnitsContentOwner()
                     && !majorDisciplineInfo.getUnitsContentOwner().isEmpty()) {
-                validationResults = validateObject(element, majorDisciplineInfo.getUnitsContentOwner(), majorDisciplineInfo.getDivisionsContentOwner());
+                validationResults = validateObject(element, majorDisciplineInfo.getUnitsContentOwner(), majorDisciplineInfo.getDivisionsContentOwner(), contextInfo);
             } else if (field.getName().equalsIgnoreCase("unitsDeployment") && null != majorDisciplineInfo.getUnitsDeployment()
                     && !majorDisciplineInfo.getUnitsDeployment().isEmpty()) {
-                validationResults = validateObject(element, majorDisciplineInfo.getUnitsDeployment(), majorDisciplineInfo.getDivisionsDeployment());
+                validationResults = validateObject(element, majorDisciplineInfo.getUnitsDeployment(), majorDisciplineInfo.getDivisionsDeployment(), contextInfo);
             } else if (field.getName().equalsIgnoreCase("unitsFinancialControl") && null != majorDisciplineInfo.getUnitsFinancialControl()
                     && !majorDisciplineInfo.getUnitsFinancialControl().isEmpty()) {
-                validationResults = validateObject(element, majorDisciplineInfo.getUnitsFinancialControl(), majorDisciplineInfo.getDivisionsFinancialControl());
+                validationResults = validateObject(element, majorDisciplineInfo.getUnitsFinancialControl(), majorDisciplineInfo.getDivisionsFinancialControl(), contextInfo);
             } else if (field.getName().equalsIgnoreCase("unitsFinancialResources") && null != majorDisciplineInfo.getUnitsFinancialResources()
                     && !majorDisciplineInfo.getUnitsFinancialResources().isEmpty()) {
-                validationResults = validateObject(element, majorDisciplineInfo.getUnitsFinancialResources(), majorDisciplineInfo.getDivisionsFinancialResources());
+                validationResults = validateObject(element, majorDisciplineInfo.getUnitsFinancialResources(), majorDisciplineInfo.getDivisionsFinancialResources(), contextInfo);
             } else if (field.getName().equalsIgnoreCase("unitsStudentOversight") && null != majorDisciplineInfo.getUnitsStudentOversight()
                     && !majorDisciplineInfo.getUnitsStudentOversight().isEmpty()) {
-                validationResults = validateObject(element, majorDisciplineInfo.getUnitsStudentOversight(), majorDisciplineInfo.getDivisionsStudentOversight());
+                validationResults = validateObject(element, majorDisciplineInfo.getUnitsStudentOversight(), majorDisciplineInfo.getDivisionsStudentOversight(), contextInfo);
             }
         }
 
         return validationResults;
     }
 
-    public List<ValidationResultInfo> validateObject(String element, List<String> departmentIds, List<String> collegeIds) {
+    public List<ValidationResultInfo> validateObject(String element, List<String> departmentIds, List<String> collegeIds, ContextInfo contextInfo) {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
         List<String> departmentRelatedCollegeIds = getDepartmentRelatedColleges(departmentIds);
@@ -57,7 +59,7 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         if (null != collegeIds) {
             for (String collegeId : collegeIds) {
                 if (!departmentRelatedCollegeIds.contains(collegeId)) {
-                    validationResults.addAll(getValidationResultInfo(element, collegeId, departmentIds));
+                    validationResults.addAll(getValidationResultInfo(element, collegeId, departmentIds, contextInfo));
                 }
             }
         }
@@ -91,10 +93,10 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         return departmentRelatedCollegeIds;
     }
 
-    private List<ValidationResultInfo> getValidationResultInfo(String element, String collegeId, List<String> departmentIds) {
+    private List<ValidationResultInfo> getValidationResultInfo(String element, String collegeId, List<String> departmentIds, ContextInfo contextInfo) {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
-        String message = getMessage("validation.programManagingBodiesMatch");
+        String message = getMessage("validation.programManagingBodiesMatch", contextInfo );
         String collegeName = getCollegeName(collegeId);
         List<String> departments = getDepartments(departmentIds);
 

@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.core.atp.dto.AtpInfo;
+import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 public class ActiveDatesValidator extends DefaultValidatorImpl {
 	private AtpService atpService;
 
 	@Override
 	public List<ValidationResultInfo> validateObject(Object data,
-			ObjectStructureDefinition objStructure) {
+			ObjectStructureDefinition objStructure, ContextInfo contextInfo) {
 		// Custom validators are required to only override the other
 		// validateObject method
 		return null;
@@ -27,7 +27,7 @@ public class ActiveDatesValidator extends DefaultValidatorImpl {
 	@Override
 	public List<ValidationResultInfo> validateObject(FieldDefinition field,
 			Object o, ObjectStructureDefinition objStructure,
-			Stack<String> elementStack) {
+			Stack<String> elementStack, ContextInfo contextInfo) {
 		//Get ATPs and compare dates.  If the end is <= the start, throw a validation error.
 		List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 		if (o instanceof CourseInfo) {

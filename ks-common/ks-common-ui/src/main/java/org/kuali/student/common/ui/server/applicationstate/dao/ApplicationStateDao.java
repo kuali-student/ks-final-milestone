@@ -18,11 +18,11 @@ package org.kuali.student.common.ui.server.applicationstate.dao;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.student.common.dao.CrudDao;
-import org.kuali.student.common.dao.SearchableDao;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.ui.server.applicationstate.entity.ApplicationState;
+import org.kuali.student.r1.common.dao.CrudDao;
+import org.kuali.student.r1.common.dao.SearchableDao;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
 /**
  * This data access interface stores the GUI (page, section, widget, etc.) 

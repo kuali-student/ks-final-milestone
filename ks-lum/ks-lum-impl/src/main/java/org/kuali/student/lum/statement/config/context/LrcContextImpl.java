@@ -16,28 +16,28 @@
 package org.kuali.student.lum.statement.config.context;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List   ;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
-import org.kuali.student.lum.lrc.service.LrcService;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 /**
  * This class creates the template context for grade condition type.
  */
 public class LrcContextImpl extends BasicContextImpl {
 	
-	private LrcService lrcService;
+	private LRCService lrcService;
 	
 	/** Total credits template token */ 
 	public final static String GRADE_TOKEN = "grade";
     public final static String GRADE_TYPE_TOKEN = "gradeType";	
 
-	public void setLrcService(LrcService lrcService) {
+	public void setLrcService(LRCService lrcService) {
 		this.lrcService = lrcService;
 	}
 
@@ -46,7 +46,9 @@ public class LrcContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			return lrcService.getResultComponent(resultComponentId);
+
+
+			return  lrcService.getResultComponent(resultComponentId);
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
@@ -70,6 +72,7 @@ public class LrcContextImpl extends BasicContextImpl {
 		}
 		
 		try {
+
 			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes();
 			for(ResultComponentTypeInfo type : typeList) {
 				List<String> resultComponentIdList = lrcService.getResultComponentIdsByResultComponentType(type.getId());

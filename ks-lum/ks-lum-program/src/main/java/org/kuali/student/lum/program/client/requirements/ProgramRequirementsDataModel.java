@@ -16,13 +16,12 @@ package org.kuali.student.lum.program.client.requirements;
 
 import java.util.*;
 
-import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
@@ -31,7 +30,7 @@ import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -178,6 +177,8 @@ public class ProgramRequirementsDataModel {
         });     
     }
 
+    
+    
     public ProgramRequirementInfo updateRules(StatementTreeViewInfo newSubRule, Integer internalProgReqID, boolean isNewRule) {
 
         ProgramRequirementInfo affectedRule = progReqInfos.get(internalProgReqID);
@@ -203,8 +204,7 @@ public class ProgramRequirementsDataModel {
             stmtList.add(stmtTree);
             affectedTopTree.setStatements(stmtList);
         }
-
-        //now update the actual rule
+      //now update the actual rule
         List<StatementTreeViewInfo> affectedSubRules = affectedTopTree.getStatements();
         if (isNewRule) {
             affectedSubRules.add(newSubRule);
@@ -366,7 +366,7 @@ public class ProgramRequirementsDataModel {
     protected void setRuleState(ProgramRequirementInfo programReqInfo) {
         if (model != null) {
             String programState = ((DataModel) model).get(ProgramConstants.STATE);
-            programReqInfo.setState(programState);
+            programReqInfo.setStateKey(programState);
         }
     }
 
@@ -458,8 +458,8 @@ public class ProgramRequirementsDataModel {
             clonedProgReqInfo.setDescr(inProgReqInfo.getDescr());
             clonedProgReqInfo.setMinCredits(inProgReqInfo.getMinCredits());
             clonedProgReqInfo.setMaxCredits(inProgReqInfo.getMaxCredits());
-            clonedProgReqInfo.setState(inProgReqInfo.getState());
-            clonedProgReqInfo.setType(inProgReqInfo.getType());
+            clonedProgReqInfo.setStateKey(inProgReqInfo.getStateKey());
+            clonedProgReqInfo.setTypeKey(inProgReqInfo.getTypeKey());
             clonedProgReqInfo.setStatement(RulesUtil.clone(inProgReqInfo.getStatement()));
             //TODO clonedProgReqInfo.setAttributes();
             //TODO clonedProgReqInfo.setLearningObjectives();

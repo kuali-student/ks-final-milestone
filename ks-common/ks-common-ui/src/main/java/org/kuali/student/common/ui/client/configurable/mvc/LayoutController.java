@@ -43,8 +43,9 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -60,6 +61,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public abstract class LayoutController extends Controller implements ViewLayoutController, View {
 
 	protected Map<Enum<?>, View> viewMap = new LinkedHashMap<Enum<?>, View>();
@@ -143,37 +145,41 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
     }
     
     private void validate(DataModel model, final ValidateRequestEvent event) {
-    	if(event.validateSingleField()){
-    		model.validateField(event.getFieldDescriptor(), new Callback<List<ValidationResultInfo>>() {
+        if(event.validateSingleField()){
+            model.validateField(event.getFieldDescriptor(), new Callback<List<ValidationResultInfo>>() {
                 @Override
                 public void exec(List<ValidationResultInfo> result) {
-                	if(event.getFieldDescriptor() != null){
-                		//We dont need to traverse since it is single field, so don't do isValid call here
-                		//instead add the error messages directly
-                		FieldElement element = event.getFieldDescriptor().getFieldElement();
-                		if(element != null){
-	                		element.clearValidationErrors();
-	                		for(int i = 0; i < result.size(); i++){
-	                    		ValidationResultInfo vr = result.get(i);
-	                    		if(vr.getElement().equals(event.getFieldDescriptor().getFieldKey()) 
-	                    				&& event.getFieldDescriptor().hasHadFocus()){
-	    							element.processValidationResult(vr);
-	                    		}
-	                    	}
-                		}
-                	}
-                	
+                    if(event.getFieldDescriptor() != null) {
+                        // We dont need to traverse since it is single field, so don't do isValid call here
+                        // instead add the error messages directly
+                        FieldElement element = event.getFieldDescriptor().getFieldElement();
+                        Widget w = event.getFieldDescriptor().getFieldWidget();
+                        if(element != null) {
+                            element.clearValidationErrors();
+
+                            if ((w instanceof CanProcessValidationResults) && ((CanProcessValidationResults) w).doesOnTheFlyValidation()) {
+                                ((CanProcessValidationResults) w).Validate(event, result);
+                            } else {
+                                for(int i = 0; i < result.size(); i++) {
+                                    ValidationResultInfo vr = result.get(i);
+                                    if (vr.getElement().equals(event.getFieldDescriptor().getFieldKey()) && event.getFieldDescriptor().hasHadFocus()) {
+                                        element.processValidationResult(vr);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 }
-    		});
-    	}
-    	else{
+            });
+        } else {
             model.validate(new Callback<List<ValidationResultInfo>>() {
                 @Override
                 public void exec(List<ValidationResultInfo> result) {
                     isValid(result, false, true);
                 }
             });
-    	}
+        }
     }
     
     /**
@@ -502,6 +508,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 	/**
 	 * Shows warnings stored to the application context
+	 * (i.e: dark-yellow highlighting of conflicts during review of a Course Proposal)
 	 */
 	protected void showWarnings(){		
 		if (!Application.getApplicationContext().getValidationWarnings().isEmpty()){

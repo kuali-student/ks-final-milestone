@@ -21,27 +21,27 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
     <persistence-unit name="Document" transaction-type="JTA">
-        <class>org.kuali.student.common.entity.Type</class>
-        <class>org.kuali.student.common.entity.Attribute</class>
-        <class>org.kuali.student.common.entity.Meta</class>
-        <class>org.kuali.student.common.entity.MetaEntity</class>
-        <class>org.kuali.student.common.entity.RichText</class>
-        <class>org.kuali.student.common.entity.TimeAmount</class>
-        <class>org.kuali.student.core.document.entity.Document</class>
-        <class>org.kuali.student.core.document.entity.DocumentAttribute</class>
-        <class>org.kuali.student.core.document.entity.DocumentRichText</class>
-        <class>org.kuali.student.core.document.entity.DocumentType</class>
-        <class>org.kuali.student.core.document.entity.DocumentTypeAttribute</class>
-        <class>org.kuali.student.core.document.entity.DocumentCategory</class>
-        <class>org.kuali.student.core.document.entity.DocumentCategoryAttribute</class>
-        <class>org.kuali.student.core.document.entity.RefDocRelation</class>
-		<class>org.kuali.student.core.document.entity.RefDocRelationAttribute</class>
-		<class>org.kuali.student.core.document.entity.RefDocRelationType</class>
-		<class>org.kuali.student.core.document.entity.RefDocRelationTypeAttribute</class>
-		<class>org.kuali.student.core.document.entity.RefObjectSubType</class>
-		<class>org.kuali.student.core.document.entity.RefObjectSubTypeAttribute</class>
-		<class>org.kuali.student.core.document.entity.RefObjectType</class>
-		<class>org.kuali.student.core.document.entity.RefObjectTypeAttribute</class>
+        <class>org.kuali.student.r1.common.entity.Type</class>
+        <class>org.kuali.student.r1.common.entity.Attribute</class>
+        <class>org.kuali.student.r1.common.entity.Meta</class>
+        <class>org.kuali.student.r1.common.entity.MetaEntity</class>
+        <class>org.kuali.student.r1.common.entity.RichText</class>
+        <class>org.kuali.student.r1.common.entity.TimeAmount</class>
+        <class>org.kuali.student.r1.core.document.entity.Document</class>
+        <class>org.kuali.student.r1.core.document.entity.DocumentAttribute</class>
+        <class>org.kuali.student.r1.core.document.entity.DocumentRichText</class>
+        <class>org.kuali.student.r1.core.document.entity.DocumentType</class>
+        <class>org.kuali.student.r1.core.document.entity.DocumentTypeAttribute</class>
+        <class>org.kuali.student.r1.core.document.entity.DocumentCategory</class>
+        <class>org.kuali.student.r1.core.document.entity.DocumentCategoryAttribute</class>
+        <class>org.kuali.student.r1.core.document.entity.RefDocRelation</class>
+		<class>org.kuali.student.r1.core.document.entity.RefDocRelationAttribute</class>
+		<class>org.kuali.student.r1.core.document.entity.RefDocRelationType</class>
+		<class>org.kuali.student.r1.core.document.entity.RefDocRelationTypeAttribute</class>
+		<class>org.kuali.student.r1.core.document.entity.RefObjectSubType</class>
+		<class>org.kuali.student.r1.core.document.entity.RefObjectSubTypeAttribute</class>
+		<class>org.kuali.student.r1.core.document.entity.RefObjectType</class>
+		<class>org.kuali.student.r1.core.document.entity.RefObjectTypeAttribute</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
     </persistence-unit>
 </persistence>

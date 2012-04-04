@@ -11,12 +11,14 @@ package org.kuali.student.lum.program.server.metadata;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.ConstraintMetadata;
-import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.service.DictionaryService;
-import org.kuali.student.common.dto.DtoConstants.DtoState;
-import org.kuali.student.lum.lu.LUConstants;
+import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
+import org.kuali.student.r1.lum.lu.LUConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r1.common.dto.DtoConstants.DtoState;
+
 
 /**
  * This class provides metadata lookup for service dto objects.
@@ -33,7 +35,7 @@ public class ProgramMetadataServiceImpl extends MetadataServiceImpl {
         super(dictionaryServices);
     }
 
-    @Override
+
     protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState,
             String workflowNode, String documentTypeName) {
         List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
@@ -43,6 +45,7 @@ public class ProgramMetadataServiceImpl extends MetadataServiceImpl {
         if (!LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY.equals(documentTypeName)) {
             nextStateValue = getNextState(state);
         }
+
         updateConstraintMetadata(constraintMetadata, fd, type, getNonNullState(state), nextStateValue, workflowNode);
         constraints.add(constraintMetadata);
 

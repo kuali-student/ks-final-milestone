@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.dto;
 import java.io.Serializable;
 
 
+@Deprecated
 public class FileStatus implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

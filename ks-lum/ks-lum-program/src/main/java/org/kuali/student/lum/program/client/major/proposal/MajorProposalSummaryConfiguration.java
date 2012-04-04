@@ -1,26 +1,19 @@
 package org.kuali.student.lum.program.client.major.proposal;
 
-import java.util.List;
-
-import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
-import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.view.CatalogInformationViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.LearningObjectivesViewConfiguration;
@@ -31,10 +24,7 @@ import org.kuali.student.lum.program.client.major.view.ProposalChangeImpactViewC
 import org.kuali.student.lum.program.client.major.view.ProposalInformationViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.SpecializationsViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.SupportingDocsViewConfiguration;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -50,8 +40,9 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 
 	boolean showEditLinks = false;
 	
-	public MajorProposalSummaryConfiguration(boolean showEditLinks) {
+	public MajorProposalSummaryConfiguration(Configurer configurer, boolean showEditLinks) {
     	super();
+    	this.setConfigurer(configurer);
         this.showEditLinks = showEditLinks;
     }
 
@@ -67,7 +58,7 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 	        //WarnContainers initialized with buttons common to all states (error or otherwise)
 	        infoContainerHeader = generateWorkflowWidgetContainer(((WorkflowEnhancedNavController) controller)
 	                    .getWfUtilities().getWorkflowActionsWidget());
-	        rootSection = new VerticalSectionView(ProgramSections.SUMMARY, ProgramProperties.get().proposal_menu_sections_summary(), ProgramConstants.PROGRAM_MODEL_ID, true){
+	        rootSection = new VerticalSectionView(ProgramSections.SUMMARY, getLabel(ProgramMsgConstants.PROPOSAL_MENU_SECTIONS_SUMMARY), ProgramConstants.PROGRAM_MODEL_ID, true){
 	
 				@Override
 				public void beforeShow(final Callback<Boolean> onReadyCallback) {
@@ -78,9 +69,12 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 	                        if (result) {
 	                            // Make sure workflow actions and status updated before showing.
 	                            ((WorkflowEnhancedNavController) controller).getWfUtilities().refresh();
+	                         
+	                            
 	                            ((WorkflowEnhancedNavController) controller).getWfUtilities().requestAndSetupModel(new Callback<Boolean>(){
 									public void exec(Boolean modelReadyResult) {
 			                            // Show validation error if they exist
+										/*TODO KSCM-425
 			                            ((WorkflowEnhancedNavController) controller).getWfUtilities().doValidationCheck(new Callback<List<ValidationResultInfo>>() {
 	                                        @Override
 	                                        public void exec(List<ValidationResultInfo> validationResult) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
@@ -98,9 +92,11 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 	                                            }
 	                                        	onReadyCallback.exec(result);
 	                                        }
-	                                    });
+	                                    });*/
 									}
 								});
+	                            
+	                         
 	                        }else{
 	                        	onReadyCallback.exec(result);
 	                        }
@@ -116,7 +112,7 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
     	
     	
     	
-        ConfigurationManager configurationManager = new ConfigurationManager(configurer);
+        ConfigurationManager configurationManager = new ConfigurationManager();
     	
         // Initialize tabs on left of screen
         if (showEditLinks){
@@ -149,10 +145,10 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 						String versionedFromId = model.get("versionInfo/versionedFromId");
 						if(versionedFromId!=null && !versionedFromId.isEmpty()){
 							//Add the previous start term since we need it as a widget so it can act as a cross field constraint
-							workflowUtilities.addApproveDialogField("", "startTerm",  new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(), true, true);
-						    workflowUtilities.addApproveDialogField("proposal", "prevEndTerm", new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevEndTerm()), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
-							workflowUtilities.addApproveDialogField("proposal", "prevEndProgramEntryTerm", new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevEndProgramEntryTerm()), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
-							workflowUtilities.addApproveDialogField("proposal", "prevEndInstAdmitTerm", new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevEndInstAdmitTerm()), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
+							workflowUtilities.addApproveDialogField("", "startTerm",  generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_STARTTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(), true, true);
+							workflowUtilities.addApproveDialogField("proposal", "prevEndTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
+							workflowUtilities.addApproveDialogField("proposal", "prevEndProgramEntryTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDPROGRAMENTRYTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
+							workflowUtilities.addApproveDialogField("proposal", "prevEndInstAdmitTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDINSTADMITTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
 							workflowUtilities.updateApproveFields();
 							workflowUtilities.progressiveEnableFields();	
 						}else{
@@ -180,27 +176,27 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
      }
     
     protected void configureSectionsWithEditLinks(ConfigurationManager configurationManager){
-	    configurationManager.registerConfiguration(ProposalInformationViewConfiguration.createSpecial(controller));
-	    configurationManager.registerConfiguration(ProposalChangeImpactViewConfiguration.createSpecial(controller));
-	    configurationManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.createSpecial(controller));
-	    configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial(controller));
-	    configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial(controller));
-	    configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial(controller));
-	    configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(controller, true));
-	    configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.createSpecial(controller));
-	    configurationManager.registerConfiguration(SupportingDocsViewConfiguration.createSpecial(controller));
+	    configurationManager.registerConfiguration(ProposalInformationViewConfiguration.createSpecial(configurer, controller));
+	    configurationManager.registerConfiguration(ProposalChangeImpactViewConfiguration.createSpecial(configurer, controller));
+	    configurationManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.createSpecial(configurer, controller));
+	    configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial(configurer, controller));
+	    configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial(configurer, controller));
+	    configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial(configurer, controller));
+	    configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(configurer, controller, true));
+	    configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.createSpecial(configurer, controller));
+	    configurationManager.registerConfiguration(SupportingDocsViewConfiguration.createSpecial(configurer, controller));
     }
     
     protected void configureSectionsWithoutEditLinks(ConfigurationManager configurationManager){
-	    configurationManager.registerConfiguration(ProposalInformationViewConfiguration.create());
-	    configurationManager.registerConfiguration(ProposalChangeImpactViewConfiguration.create());
-	    configurationManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.create());
-	    configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.create());
-	    configurationManager.registerConfiguration(SpecializationsViewConfiguration.create());
-	    configurationManager.registerConfiguration(CatalogInformationViewConfiguration.create());
-	    configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(controller, false));
-	    configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.create());
-	    configurationManager.registerConfiguration(SupportingDocsViewConfiguration.create());    
+	    configurationManager.registerConfiguration(ProposalInformationViewConfiguration.create(configurer));
+	    configurationManager.registerConfiguration(ProposalChangeImpactViewConfiguration.create(configurer));
+	    configurationManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.create(configurer));
+	    configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.create(configurer));
+	    configurationManager.registerConfiguration(SpecializationsViewConfiguration.create(configurer));
+	    configurationManager.registerConfiguration(CatalogInformationViewConfiguration.create(configurer));
+	    configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(configurer, controller, false));
+	    configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.create(configurer));
+	    configurationManager.registerConfiguration(SupportingDocsViewConfiguration.create(configurer));    
     }    
     
     // Initializes a WarnContainer with Action options dropdown, and Curriculum Management link 
@@ -210,16 +206,16 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 
         warnContainer.add(w);
         w.addStyleName("ks-button-spacing");
-        warnContainer.add(new KSButton("Return to Curriculum Management",
-                ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
-
-                    @Override
-                    public void onClick(ClickEvent event) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
-                        Application
-                                .navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT
-                                        .getLocation());
-                    }
-                }));
+//        warnContainer.add(new KSButton("Return to Curriculum Management",
+//                ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+//
+//                    @Override
+//                    public void onClick(ClickEvent event) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
+//                        Application
+//                                .navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT
+//                                        .getLocation());
+//                    }
+//                }));
 
         // KSLAB-1985:  Warning logic/display moved to generateProposalSummarySection() where error states are established
 

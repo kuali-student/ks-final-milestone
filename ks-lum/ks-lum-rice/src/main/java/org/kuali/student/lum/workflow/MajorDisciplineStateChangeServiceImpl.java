@@ -1,23 +1,24 @@
 package org.kuali.student.lum.workflow;
 
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
+
+import org.kuali.student.r1.core.atp.dto.AtpInfo;
+import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.lum.program.service.ProgramService;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is called whenever the state of a major discipline changes.
@@ -43,14 +44,14 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * This method is called by workflow when the state changes.
      * 
      * @param majorDisciplineId
-     * @param state
+     * @param newState
      * @return
      * @throws Exception
      */
-    public void changeState(String majorDisciplineId, String newState) throws Exception {
+    public void changeState(String majorDisciplineId, String newState, ContextInfo contextInfo) throws Exception {
         // This method will be called from workflow.
         // Since we cannot activate a program from the workflow we do not need to add endEntryTerm and endEnrollTerm
-        changeState(null, null, null, majorDisciplineId, newState);
+        changeState(null, null, null, majorDisciplineId, newState, contextInfo);
     }
 
     /**
@@ -58,13 +59,13 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * 
      * @param endEntryTerm
      * @param endEnrollTerm
-     * @param programType
+     * @param contextInfo
      * @param majorDisciplineId
      * @param newState
      * @return
      * @throws Exception
      */
-    public void changeState(String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, String majorDisciplineId, String newState) throws Exception {
+    public void changeState(String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, String majorDisciplineId, String newState, ContextInfo contextInfo) throws Exception {
 
         // A null state is valid in some cases!
         // If rice work flow returned a code that LUM is not going to process, then
@@ -82,25 +83,25 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
         }
                    
         // The version selected in the UI
-        MajorDisciplineInfo selectedVersion = programService.getMajorDiscipline(majorDisciplineId);
+        MajorDisciplineInfo selectedVersion = programService.getMajorDiscipline(majorDisciplineId, contextInfo);
 
         // If we are activating this version we need to mark the previous version superseded,
         // update the previous version end terms, and make the selected version current.
         if (newState.equals(DtoConstants.STATE_ACTIVE)) {
 
             // Update previous versions to superseded and set end terms on previous current version.
-        	updatePreviousVersions(selectedVersion, endEntryTerm, endEnrollTerm, endInstAdmitTerm);
+        	updatePreviousVersions(selectedVersion, endEntryTerm, endEnrollTerm, endInstAdmitTerm, contextInfo);
 
             // Update state of all associated objects for current version
             // NOTE: we must update state BEFORE making the version current
-            updateMajorDisciplineInfoState(selectedVersion, newState);
+            updateMajorDisciplineInfoState(selectedVersion, newState, contextInfo);
 
             // Make this the current version
-            makeCurrent(selectedVersion);
+            makeCurrent(selectedVersion, contextInfo);
         } else {
 
             // Update state of all associated objects for current version
-            updateMajorDisciplineInfoState(selectedVersion, newState);
+            updateMajorDisciplineInfoState(selectedVersion, newState, contextInfo);
         }
 
       
@@ -111,40 +112,43 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * This method will update the state of this object and all associated objects.
      * <p>
      * It is needed because we need to make separate web service calls to update the state of these objects.
-     * 
+     *
      * @param majorDisciplineInfo
      * @param newState
+     * @param contextInfo
      */
-    private void updateMajorDisciplineInfoState(MajorDisciplineInfo majorDisciplineInfo, String newState) throws Exception {
+    private void updateMajorDisciplineInfoState(MajorDisciplineInfo majorDisciplineInfo, String newState, ContextInfo contextInfo) throws Exception {
         // Update the statement tree
         List<String> programRequirementIds = majorDisciplineInfo.getProgramRequirements();
-        updateRequirementsState(programRequirementIds, newState);
+        updateRequirementsState(programRequirementIds, newState, contextInfo);
 
         
         // Update any variations 
         List<ProgramVariationInfo> variationList = majorDisciplineInfo.getVariations();
-        updateVariationsRequirementsState(variationList, newState);
+        updateVariationsRequirementsState(variationList, newState, contextInfo);
         
         
         // Update major discipline
-        majorDisciplineInfo.setState(newState);
-        programService.updateMajorDiscipline(majorDisciplineInfo);
+        majorDisciplineInfo.setStateKey(newState);
+        programService.updateMajorDiscipline(majorDisciplineInfo.getId(), majorDisciplineInfo, contextInfo);
     }
 
     /**
      * This method will make this version of the major discipline the current one.
      * 
      * @param majorDisciplineInfo
+     * @param contextInfo
      */
-    private void makeCurrent(MajorDisciplineInfo majorDisciplineInfo) throws Exception {
+    private void makeCurrent(MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo) throws Exception {
 
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
-        VersionDisplayInfo currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId());
+        VersionDisplayInfo currentVersion = null;
+        currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersion().getVersionIndId(), contextInfo);
 
         // If this is not the current version, then make it current
-        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) {
-            programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null);
+        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersion().getSequenceNumber())) {
+            programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), currentVersion.getCurrentVersionStart(), contextInfo);
         }
     }
 
@@ -152,40 +156,43 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     /**
      * This method finds all previous versions of program and sets all previous ACTIVE,APPROVED,DRAFT versions to SUPERSEDED and
      * sets new end terms for previous current version.
- 
-     * @param majorDisciplineInfo The version of major discipline program being activated
+     *
+     * @param selectedVersion The version of major discipline program being activated
      * @param endEntryTerm The new end entry term to set on previous active version
      * @param endEnrollTerm The new end enroll term to set on previous active version
+     * @param contextInfo
      * @throws Exception
      */
-    private void updatePreviousVersions (MajorDisciplineInfo selectedVersion, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm) throws Exception {
+    private void updatePreviousVersions (MajorDisciplineInfo selectedVersion, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, ContextInfo contextInfo) throws Exception {
     	// Get the current version of major discipline given the selected version
-    	MajorDisciplineInfo currentVersion = getCurrentVersion(selectedVersion);
+    	MajorDisciplineInfo currentVersion = getCurrentVersion(selectedVersion, contextInfo);
     	
     	boolean isSelectedVersionCurrent = selectedVersion.getId().equals(currentVersion.getId());
     	
     	//Set the end terms on the current version of major discipline and update it's state to superseded
-    	setEndTerms(currentVersion, endEntryTerm, endEnrollTerm, endInstAdmitTerm);
-    	updateMajorDisciplineInfoState(currentVersion, DtoConstants.STATE_SUPERSEDED);
+    	setEndTerms(currentVersion, endEntryTerm, endEnrollTerm, endInstAdmitTerm, contextInfo);
+    	updateMajorDisciplineInfoState(currentVersion, DtoConstants.STATE_SUPERSEDED, contextInfo);
 
 		// Loop through all previous active or approved programs and set the state to superseded.
 		// We should only need to evaluated versions with sequence number
 		// higher than previous active program
 
-		List<VersionDisplayInfo> versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
-				selectedVersion.getVersionInfo().getVersionIndId());
+		List<VersionDisplayInfo> versions = null;
+		versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, selectedVersion.getVersion().getVersionIndId(), contextInfo);
+	
 		Long startSeq = new Long(1);
 
 		if (!isSelectedVersionCurrent) {
-			startSeq = currentVersion.getVersionInfo().getSequenceNumber() + 1;
+			startSeq = currentVersion.getVersion().getSequenceNumber() + 1;
 		}
 
 		for (VersionDisplayInfo versionInfo : versions) {
-			if (versionInfo.getSequenceNumber() >= startSeq  && versionInfo.getSequenceNumber() != selectedVersion.getVersionInfo().getSequenceNumber()) {
-				MajorDisciplineInfo otherProgram = programService.getMajorDiscipline(versionInfo.getId());
-				if (otherProgram.getState().equals(DtoConstants.STATE_APPROVED) ||
-					otherProgram.getState().equals(DtoConstants.STATE_ACTIVE)){
-			        updateMajorDisciplineInfoState(otherProgram, DtoConstants.STATE_SUPERSEDED);
+			if (versionInfo.getSequenceNumber() >= startSeq  && versionInfo.getSequenceNumber() != selectedVersion.getVersion().getSequenceNumber()) {
+				MajorDisciplineInfo otherProgram = null; 
+				otherProgram = programService.getMajorDiscipline(versionInfo.getId(), contextInfo);
+				if (otherProgram.getStateKey().equals(DtoConstants.STATE_APPROVED) ||
+					otherProgram.getStateKey().equals(DtoConstants.STATE_ACTIVE)){
+			        updateMajorDisciplineInfoState(otherProgram, DtoConstants.STATE_SUPERSEDED, contextInfo);
 				}		
 			}
 		}    	
@@ -195,20 +202,24 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	/**
 	 * Get the current version of program given the selected version of program
 	 * 
-	 * @param verIndId
+	 * @param majorDisciplineInfo
+     * @param contextInfo
 	 */
-	protected MajorDisciplineInfo getCurrentVersion(MajorDisciplineInfo majorDisciplineInfo)
+	protected MajorDisciplineInfo getCurrentVersion(MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo)
 			throws Exception {
 		// Get version independent id of program
-		String verIndId = majorDisciplineInfo.getVersionInfo().getVersionIndId();
+		String verIndId = majorDisciplineInfo.getVersion().getVersionIndId();
 
 		// Get id of current version of program given the version independent id
-		VersionDisplayInfo curVerDisplayInfo = programService.getCurrentVersion(
-				ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId);
-		String curVerId = curVerDisplayInfo.getId();
+		VersionDisplayInfo curVerDisplayInfo = null; 
+		curVerDisplayInfo =		programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId, contextInfo);
+	
+		String curVerId = null;
+				
+		curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
-		MajorDisciplineInfo currentVersion = programService.getMajorDiscipline(curVerId);
+		MajorDisciplineInfo currentVersion = programService.getMajorDiscipline(curVerId, contextInfo);
 
 		return currentVersion;
 	}
@@ -227,13 +238,13 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * @throws InvalidParameterException 
      * @throws DoesNotExistException 
      */
-    private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException {
-        
+    private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
+
     	//Set the end terms on the major discipline
-    	majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
-        majorDisciplineInfo.setEndTerm(endEnrollTerm);
-        majorDisciplineInfo.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
-        
+    	//TODO KSCM-388 majorDisciplineInfo.setEndProgramEntryTermId(endEntryTerm);
+    	//TODO KSCM-388 majorDisciplineInfo.setEndTermId(endEnrollTerm);
+        majorDisciplineInfo.getAttributes().add(new AttributeInfo("endInstAdmitTerm", endInstAdmitTerm));
+
         //Check if there are variations to process
         if(!majorDisciplineInfo.getVariations().isEmpty()){
         	
@@ -268,15 +279,16 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    			variation.setEndTerm(endEnrollTerm);
 	    		}
 	    		//compare dates to get the older of the two end terms
-	    		if(variation.getAttributes().get("endInstAdmitTerm") != null){
-	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributes().get("endInstAdmitTerm"));
-	    			Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();
-	    			if(majorEndInstAdmitTermEndDate.compareTo(variationEndInstAdmitEndDate)<=0){
-	    				variation.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
-	    			}
-	    		}else{
-	    			variation.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
-	    		}
+//	    		if(variation.getAttributeInfoValue(variation.getAttributes(),"endInstAdmitTerm") != null){
+//TODO KSCM
+//	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributeInfoValue(variation.getAttributes(),"endInstAdmitTerm"));
+//	    			Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();
+//	    			if(majorEndInstAdmitTermEndDate.compareTo(variationEndInstAdmitEndDate)<=0){
+//	    				variation.getAttributes().add(new AttributeInfo("endInstAdmitTerm", endInstAdmitTerm));
+//	    			}
+//	    		}else{
+//	    			variation.getAttributes().add(new AttributeInfo("endInstAdmitTerm", endInstAdmitTerm));
+//	    		} 
 	    		
 	        }
         }
@@ -287,16 +299,17 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * <p>
      * Note that it uses StatementUtil to update the statement tree.
      * 
-     * @param majorDisciplineInfo
+     * @param programRequirementIds
      * @param newState
+     * @param contextInfo
      * @throws Exception
      */
-    public void updateRequirementsState(List<String> programRequirementIds, String newState) throws Exception {
+    public void updateRequirementsState(List<String> programRequirementIds, String newState, ContextInfo contextInfo) throws Exception {
     
         for (String programRequirementId : programRequirementIds) {
 
             // Get program requirement from the program service
-            ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null);
+            ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(programRequirementId, contextInfo);
 
             // Look in the requirement for the statement tree
             StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();
@@ -305,10 +318,10 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
             StatementUtil.updateStatementTreeViewInfoState(newState, statementTree);
 
             // Update the state of the requirement object
-            programRequirementInfo.setState(newState);
+            programRequirementInfo.setStateKey(newState);
 
             // The write the requirement back to the program service
-            programService.updateProgramRequirement(programRequirementInfo);
+            programService.updateProgramRequirement(programRequirementId, programRequirementInfo.getTypeKey(), programRequirementInfo, contextInfo);
 
         }
     }
@@ -324,11 +337,11 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * this method isn't necessary.
      * <p>
      * 
-     * @param majorDisciplineInfo
+     * @param variationList
      * @param newState
      * @throws Exception
      */
-    public void updateVariationsRequirementsState(List<ProgramVariationInfo> variationList, String newState) throws Exception {
+    public void updateVariationsRequirementsState(List<ProgramVariationInfo> variationList, String newState, ContextInfo contextInfo) throws Exception {
 
         // Iterate over all variations
         for (ProgramVariationInfo variation : variationList) {
@@ -338,7 +351,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
             
             // Call the method that will update the requirements state for the program
             // This will also update the statement tree
-            updateRequirementsState(programRequirementIds, newState);
+            updateRequirementsState(programRequirementIds, newState, contextInfo);
          }
     }
     

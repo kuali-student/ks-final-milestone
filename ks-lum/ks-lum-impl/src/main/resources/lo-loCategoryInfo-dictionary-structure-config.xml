@@ -21,7 +21,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
 http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 ">
 <!-- *** Automatically Generated ***
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
@@ -32,10 +32,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.loCategoryInfo -->
 <!-- ****************************************** -->
 <!-- Detailed information about a learning objective category. -->
-<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoCategoryInfo" id="object.loCategoryInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" id="object.loCategoryInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.loCategoryInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoCategoryInfo" id="object.loCategoryInfo" parent="object.loCategoryInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" id="object.loCategoryInfo" parent="object.loCategoryInfo.abstract"/>
 
 <dict:type key="*" id="type.loCategoryInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -51,13 +51,13 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 
 <dict:state key="*" id="state.loCategoryInfo.abstract" abstract="true">
 	<dict:fieldRef bean="field.loCategoryInfo.name"/>
-	<dict:fieldRef bean="field.loCategoryInfo.desc"/>
+	<dict:fieldRef bean="field.loCategoryInfo.descr"/>
 	<dict:fieldRef bean="field.loCategoryInfo.loRepository"/>
 	<dict:fieldRef bean="field.loCategoryInfo.effectiveDate"/>
 	<dict:fieldRef bean="field.loCategoryInfo.expirationDate"/>
 	<dict:fieldRef bean="field.loCategoryInfo.metaInfo"/>
 	<dict:fieldRef bean="field.loCategoryInfo.type"/>
-	<dict:fieldRef bean="field.loCategoryInfo.state"/>
+	<dict:fieldRef bean="field.loCategoryInfo.stateKey"/>
 	<dict:fieldRef bean="field.loCategoryInfo.id"/>
 </dict:state>
 <dict:state key="*" id="state.loCategoryInfo" parent="state.loCategoryInfo.abstract"/>
@@ -81,67 +81,67 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="name" id="field.loCategoryInfo.name.cd" parent="field.loCategoryInfo.name.cd.abstract"/>
 
-<dict:field key="desc" id="field.loCategoryInfo.desc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.loCategoryInfo.desc.fd"/>
-	<dict:constraintDescriptorRef bean="field.loCategoryInfo.desc.cd"/>
+<dict:field key="descr" id="field.loCategoryInfo.descr.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.descr.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.descr.cd"/>
 </dict:field>
-<dict:field key="desc" id="field.loCategoryInfo.desc" parent="field.loCategoryInfo.desc.abstract"/>
-<dict:fieldDescriptor id="field.loCategoryInfo.desc.fd.abstract" abstract="true">
+<dict:field key="descr" id="field.loCategoryInfo.descr" parent="field.loCategoryInfo.descr.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.fd.abstract" abstract="true">
 	<dict:name>Learning Objective Category Description</dict:name>
 	<dict:desc>Narrative description of the learning objective category</dict:desc>
 	<dict:dataType>Complex</dict:dataType>
-		<dict:objectStructureRef bean="object.field.loCategoryInfo.desc"/>
+		<dict:objectStructureRef bean="object.field.loCategoryInfo.descr"/>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.loCategoryInfo.desc.fd" parent="field.loCategoryInfo.desc.fd.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.fd" parent="field.loCategoryInfo.descr.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating) -->
-<dict:constraintDescriptor id="field.loCategoryInfo.desc.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.loCategoryInfo.descr.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="desc" id="field.loCategoryInfo.desc.cd" parent="field.loCategoryInfo.desc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="field.loCategoryInfo.descr.cd" parent="field.loCategoryInfo.descr.cd.abstract"/>
 
 <!-- ************************************************************************* -->
-<!-- object structure for object.field.loCategoryInfo.desc.(default).(default) -->
+<!-- object structure for object.field.loCategoryInfo.descr.(default).(default) -->
 <!-- ************************************************************************* -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.loCategoryInfo.desc.abstract" abstract="true">
-	<dict:typeRef bean="type.field.loCategoryInfo.desc"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.loCategoryInfo.descr.abstract" abstract="true">
+	<dict:typeRef bean="type.field.loCategoryInfo.descr"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.loCategoryInfo.desc" parent="object.field.loCategoryInfo.desc.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.loCategoryInfo.descr" parent="object.field.loCategoryInfo.descr.abstract"/>
 
-<dict:type key="*" id="type.field.loCategoryInfo.desc.abstract" abstract="true">
+<dict:type key="*" id="type.field.loCategoryInfo.descr.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
 	<dict:desc>Default</dict:desc>
 	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
-	<dict:stateRef bean="state.field.loCategoryInfo.desc"/>
+	<dict:stateRef bean="state.field.loCategoryInfo.descr"/>
 </dict:type>
-<dict:type key="*" id="type.field.loCategoryInfo.desc" parent="type.field.loCategoryInfo.desc.abstract"/>
+<dict:type key="*" id="type.field.loCategoryInfo.descr" parent="type.field.loCategoryInfo.descr.abstract"/>
 
 <!-- ********************************************************************************* -->
-<!-- State for state.field.loCategoryInfo.desc.(default).(default).(default).(default) -->
+<!-- State for state.field.loCategoryInfo.descr.(default).(default).(default).(default) -->
 <!-- ********************************************************************************* -->
 
-<dict:state key="*" id="state.field.loCategoryInfo.desc.abstract" abstract="true">
-	<dict:fieldRef bean="field.loCategoryInfo.desc.plain"/>
-	<dict:fieldRef bean="field.loCategoryInfo.desc.formatted"/>
+<dict:state key="*" id="state.field.loCategoryInfo.descr.abstract" abstract="true">
+	<dict:fieldRef bean="field.loCategoryInfo.descr.plain"/>
+	<dict:fieldRef bean="field.loCategoryInfo.descr.formatted"/>
 </dict:state>
-<dict:state key="*" id="state.field.loCategoryInfo.desc" parent="state.field.loCategoryInfo.desc.abstract"/>
+<dict:state key="*" id="state.field.loCategoryInfo.descr" parent="state.field.loCategoryInfo.descr.abstract"/>
 
 
-<dict:field key="plain" id="field.loCategoryInfo.desc.plain.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.loCategoryInfo.desc.plain.fd"/>
-	<dict:constraintDescriptorRef bean="field.loCategoryInfo.desc.plain.cd"/>
+<dict:field key="plain" id="field.loCategoryInfo.descr.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.descr.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.descr.plain.cd"/>
 </dict:field>
-<dict:field key="plain" id="field.loCategoryInfo.desc.plain" parent="field.loCategoryInfo.desc.plain.abstract"/>
-<dict:fieldDescriptor id="field.loCategoryInfo.desc.plain.fd.abstract" abstract="true">
+<dict:field key="plain" id="field.loCategoryInfo.descr.plain" parent="field.loCategoryInfo.descr.plain.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.plain.fd.abstract" abstract="true">
 	<dict:name>Plain Text</dict:name>
 	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 	<dict:readOnly>true</dict:readOnly>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.loCategoryInfo.desc.plain.fd" parent="field.loCategoryInfo.desc.plain.fd.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.plain.fd" parent="field.loCategoryInfo.descr.plain.fd.abstract"/>
 <!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
-<dict:constraintDescriptor id="field.loCategoryInfo.desc.plain.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.loCategoryInfo.descr.plain.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.read.only"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.multi.line.text"/>
@@ -149,21 +149,21 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="plain" id="field.loCategoryInfo.desc.plain.cd" parent="field.loCategoryInfo.desc.plain.cd.abstract"/>
+<dict:constraintDescriptor key="plain" id="field.loCategoryInfo.descr.plain.cd" parent="field.loCategoryInfo.descr.plain.cd.abstract"/>
 
-<dict:field key="formatted" id="field.loCategoryInfo.desc.formatted.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.loCategoryInfo.desc.formatted.fd"/>
-	<dict:constraintDescriptorRef bean="field.loCategoryInfo.desc.formatted.cd"/>
+<dict:field key="formatted" id="field.loCategoryInfo.descr.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.descr.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.descr.formatted.cd"/>
 </dict:field>
-<dict:field key="formatted" id="field.loCategoryInfo.desc.formatted" parent="field.loCategoryInfo.desc.formatted.abstract"/>
-<dict:fieldDescriptor id="field.loCategoryInfo.desc.formatted.fd.abstract" abstract="true">
+<dict:field key="formatted" id="field.loCategoryInfo.descr.formatted" parent="field.loCategoryInfo.descr.formatted.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.formatted.fd.abstract" abstract="true">
 	<dict:name>Formatted Text</dict:name>
 	<dict:desc>Formatted version of the text.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.loCategoryInfo.desc.formatted.fd" parent="field.loCategoryInfo.desc.formatted.fd.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.formatted.fd" parent="field.loCategoryInfo.descr.formatted.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
-<dict:constraintDescriptor id="field.loCategoryInfo.desc.formatted.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.loCategoryInfo.descr.formatted.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.rich.text"/>
@@ -171,7 +171,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>(unbounded)</dict:maxLength>
 		</dict:constraint>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="formatted" id="field.loCategoryInfo.desc.formatted.cd" parent="field.loCategoryInfo.desc.formatted.cd.abstract"/>
+<dict:constraintDescriptor key="formatted" id="field.loCategoryInfo.descr.formatted.cd" parent="field.loCategoryInfo.descr.formatted.cd.abstract"/>
 
 <dict:field key="loRepository" id="field.loCategoryInfo.loRepository.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="field.loCategoryInfo.loRepository.fd"/>
@@ -257,10 +257,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.loCategoryInfo.metaInfo.(default).(default) -->
 <!-- ***************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loCategoryInfo.metaInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loCategoryInfo.metaInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.field.loCategoryInfo.metaInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loCategoryInfo.metaInfo" parent="object.field.loCategoryInfo.metaInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loCategoryInfo.metaInfo" parent="object.field.loCategoryInfo.metaInfo.abstract"/>
 
 <dict:type key="*" id="type.field.loCategoryInfo.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -410,7 +410,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldDescriptorRef bean="field.loCategoryInfo.state.fd"/>
 	<dict:constraintDescriptorRef bean="field.loCategoryInfo.state.cd"/>
 </dict:field>
-<dict:field key="state" id="field.loCategoryInfo.state" parent="field.loCategoryInfo.state.abstract"/>
+<dict:field key="state" id="field.loCategoryInfo.stateKey" parent="field.loCategoryInfo.state.abstract"/>
 <dict:fieldDescriptor id="field.loCategoryInfo.state.fd.abstract" abstract="true">
 	<dict:name>Learning Objective Category State</dict:name>
 	<dict:desc>The current status of the learning objective category. The values for this field are constrained to those in the loCategoryState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>

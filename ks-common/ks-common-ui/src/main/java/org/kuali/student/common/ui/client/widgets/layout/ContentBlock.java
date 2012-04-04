@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  * @see ContentBlockLayout
  */
+@Deprecated
 public class ContentBlock extends VerticalFlowPanel{
 	
 	private SectionTitle sectionTitle = SectionTitle.generateH2Title("");

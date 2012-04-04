@@ -31,7 +31,7 @@ public class UUIDHelper {
 			try {
 				return java.util.UUID.fromString(originalUUID).toString();
 			} catch (IllegalArgumentException e) {
-				LOG.warn("Given ID \""+originalUUID+"\" is not a valid UUID. ");
+				LOG.info("Given ID \""+originalUUID+"\" is not a valid UUID. ");
 			}
 			return originalUUID;
 		}

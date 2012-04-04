@@ -19,7 +19,7 @@
 
 
     <inherits name="org.kuali.student.common.ui.CommonUI"/>
-    <inherits name='org.kuali.student.common.search.Search'/>
+    <inherits name='org.kuali.student.r1.common.search.Search'/>
     <inherits name="org.kuali.student.lum.lu.ui.course.Course"/>
 	<inherits name="org.kuali.student.lum.lu.ui.dependency.Dependency"/>
 	<inherits name="org.kuali.student.lum.lu.ui.browseprogram.BrowseProgram"/>

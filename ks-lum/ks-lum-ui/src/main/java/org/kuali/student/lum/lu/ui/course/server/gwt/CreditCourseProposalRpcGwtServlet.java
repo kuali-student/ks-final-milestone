@@ -19,12 +19,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
         CreditCourseProposalRpcService {
@@ -38,7 +40,7 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	public DataSaveResult createCopyCourse(String originalCluId)
 			throws Exception {
 		try {
-			return copyCourseService.createCopyCourse(originalCluId);
+			return copyCourseService.createCopyCourse(originalCluId, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error("Error copying course with id:" + originalCluId, e);
 			throw e;
@@ -49,7 +51,7 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	public DataSaveResult createCopyCourseProposal(String originalProposalId)
 			throws Exception {
 		try {
-			return copyCourseService.createCopyCourseProposal(originalProposalId);
+			return copyCourseService.createCopyCourseProposal(originalProposalId, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error("Error copying proposal with id:" + originalProposalId, e);
 			throw e;
@@ -63,7 +65,8 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
     }
 
     @Override
-    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states, Map<Integer, StatementTreeViewInfo> rules) throws Exception {
+    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states,
+    			Map<Integer, StatementTreeViewInfo> rules) throws Exception {
     	throw new UnsupportedOperationException("This method is not implemented.");
     }
 

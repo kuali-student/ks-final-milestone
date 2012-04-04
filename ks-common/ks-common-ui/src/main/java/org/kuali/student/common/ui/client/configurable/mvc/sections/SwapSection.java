@@ -22,6 +22,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class SwapSection extends BaseSection implements HasSectionDeletion{
 	
 	private HashMap<String, Section> swapSectionMap = new HashMap<String, Section>();
@@ -32,6 +33,7 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 	private List<String> lastSelection = new ArrayList<String>();
 	private List<String> deletionParentKeys;
 	private SwapEventHandler swapEventHandler;
+	protected List<String> prevSelection = new ArrayList<String>();
 	
 	/**
 	 * Constructor for SwapSection, note that the SelectableWidget passed in is not added to the
@@ -65,6 +67,16 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 			}
 		});
 		
+		dialog.getCancelButton().addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                for (int i = 0; i < prevSelection.size(); i++) {
+                    SwapSection.this.selectableWidget.selectItem(prevSelection.get(i));
+                }
+            }
+        });
+		
 		selectableWidget.addSelectionChangeHandler(new SelectionChangeHandler(){
 
 			@Override
@@ -96,6 +108,8 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 				else{
 					handleSelection();
 				}
+				prevSelection.clear();              
+                prevSelection.addAll(lastSelection);
 				lastSelection.clear();
 				lastSelection.addAll(SwapSection.this.selectableWidget.getSelectedItems());
 			}

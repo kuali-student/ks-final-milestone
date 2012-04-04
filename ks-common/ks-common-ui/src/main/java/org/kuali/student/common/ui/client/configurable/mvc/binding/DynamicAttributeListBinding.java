@@ -17,15 +17,15 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Iterator;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.DataValue;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Data.StringValue;
-import org.kuali.student.common.assembly.data.Data.Value;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.DataValue;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.data.Data.StringValue;
+import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
 /**
  * Binding which can be used to bind a comma separated dynamic attribute list with KSAbstractSelectItem widgets
@@ -36,6 +36,7 @@ import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class DynamicAttributeListBinding extends ModelWidgetBindingSupport<HasDataValue>{
 
 	public static DynamicAttributeListBinding INSTANCE = new DynamicAttributeListBinding();

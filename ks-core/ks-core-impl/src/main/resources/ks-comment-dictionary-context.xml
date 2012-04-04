@@ -1,11 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
  <import resource="classpath:ks-base-dictionary-context.xml"/>
 
  <!-- CommentInfo-->
- <bean id="org.kuali.student.core.comment.dto.CommentInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.core.comment.dto.CommentInfo"/>
+ <bean id="org.kuali.student.r2.core.comment.dto.CommentInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.core.comment.dto.CommentInfo"/>
   <property name="attributes">
    <list>
     <ref bean="commentInfo.commentText"/>
@@ -14,17 +14,17 @@
     <ref bean="commentInfo.id"/>
     <ref bean="commentInfo.referenceId"/>
     <ref bean="commentInfo.referenceTypeKey"/>
-    <ref bean="commentInfo.state"/>
-    <ref bean="commentInfo.type"/>
+    <ref bean="commentInfo.stateKey"/>
+    <ref bean="commentInfo.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.core.comment.dto.CommentInfo" parent="org.kuali.student.core.comment.dto.CommentInfo-parent"/>
+ <bean id="org.kuali.student.r2.core.comment.dto.CommentInfo" parent="org.kuali.student.r2.core.comment.dto.CommentInfo-parent"/>
 
  <bean id="commentInfo.commentText-parent" abstract="true" parent="baseComplex">
   <property name="name" value="commentText"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
  <bean id="commentInfo.commentText" parent="commentInfo.commentText-parent"/>
 
@@ -53,20 +53,20 @@
  </bean>
  <bean id="commentInfo.referenceTypeKey" parent="commentInfo.referenceTypeKey-parent"/>
 
- <bean id="commentInfo.state-parent" abstract="true" parent="baseKualiStateRequired">
-  <property name="name" value="state"/>
+ <bean id="commentInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="commentInfo.state" parent="commentInfo.state-parent"/>
+ <bean id="commentInfo.stateKey" parent="commentInfo.stateKey-parent"/>
 
- <bean id="commentInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-  <property name="name" value="type"/>
+ <bean id="commentInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="commentInfo.type" parent="commentInfo.type-parent"/>
+ <bean id="commentInfo.typeKey" parent="commentInfo.typeKey-parent"/>
 
 
  <!-- TagInfo-->
- <bean id="org.kuali.student.core.comment.dto.TagInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.core.comment.dto.TagInfo"/>
+ <bean id="org.kuali.student.r2.core.comment.dto.TagInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.core.comment.dto.TagInfo"/>
   <property name="attributes">
    <list>
     <ref bean="tagInfo.effectiveDate"/>
@@ -76,14 +76,14 @@
     <ref bean="tagInfo.predicate"/>
     <ref bean="tagInfo.referenceId"/>
     <ref bean="tagInfo.referenceTypeKey"/>
-    <ref bean="tagInfo.state"/>
-    <ref bean="tagInfo.type"/>
+    <ref bean="tagInfo.stateKey"/>
+    <ref bean="tagInfo.typeKey"/>
     <ref bean="tagInfo.value"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.core.comment.dto.TagInfo" parent="org.kuali.student.core.comment.dto.TagInfo-parent"/>
+ <bean id="org.kuali.student.r2.core.comment.dto.TagInfo" parent="org.kuali.student.r2.core.comment.dto.TagInfo-parent"/>
 
  <bean id="tagInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate"/>
@@ -120,15 +120,15 @@
  </bean>
  <bean id="tagInfo.referenceTypeKey" parent="tagInfo.referenceTypeKey-parent"/>
 
- <bean id="tagInfo.state-parent" abstract="true" parent="baseKualiStateRequired">
-  <property name="name" value="state"/>
+ <bean id="tagInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="tagInfo.state" parent="tagInfo.state-parent"/>
+ <bean id="tagInfo.stateKey" parent="tagInfo.stateKey-parent"/>
 
- <bean id="tagInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-  <property name="name" value="type"/>
+ <bean id="tagInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="tagInfo.type" parent="tagInfo.type-parent"/>
+ <bean id="tagInfo.typeKey" parent="tagInfo.typeKey-parent"/>
 
  <bean id="tagInfo.value-parent" abstract="true" parent="baseString">
   <property name="name" value="value"/>

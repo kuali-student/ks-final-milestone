@@ -19,16 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.statement.config.context.util.NLCluSet;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 /**
  * This class creates the template context for course list types.
@@ -37,7 +39,7 @@ public class LuContextImpl extends BasicContextImpl {
     /**
      * Learning unit service.
      */
-	private LuService luService;
+	private CluService luService;
 
 	/**
 	 * <code>clu</code> token (key) references a Clu object used in templates.
@@ -64,7 +66,7 @@ public class LuContextImpl extends BasicContextImpl {
 	 *
 	 * @param luService LU service
 	 */
-    public void setLuService(LuService luService) {
+    public void setLuService(CluService luService) {
 		this.luService = luService;
 	}
 
@@ -80,8 +82,8 @@ public class LuContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId);
-			CluInfo clu = this.luService.getClu(versionInfo.getId());
+			VersionDisplayInfo versionInfo = R1R2ConverterUtil.convert( luService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI,  cluId, new ContextInfo()),VersionDisplayInfo.class);
+			CluInfo clu = 	this.luService.getClu(versionInfo.getId(),new ContextInfo());
 			return clu;
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
@@ -109,7 +111,8 @@ public class LuContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-	    	CluSetInfo cluSet = this.luService.getCluSetInfo(cluSetId);
+	    	CluSetInfo cluSet = null;
+            cluSet =    	this.luService.getCluSetInfo(cluSetId);
 	    	return cluSet;
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
@@ -130,9 +133,11 @@ public class LuContextImpl extends BasicContextImpl {
     	CluSetInfo cluSet = getCluSetInfo(cluSetId);
 		try {
 	    	List<CluInfo> list = new ArrayList<CluInfo>();
-	    	CluSetTreeViewInfo tree = luService.getCluSetTreeView(cluSetId);
+	    	CluSetTreeViewInfo tree = null;
+
+	    	tree = luService.getCluSetTreeView(cluSetId,new ContextInfo());
 	    	findClusInCluSet(tree, list);
-	    	return new NLCluSet(cluSet.getId(), list);
+	    	return new NLCluSet(cluSet.getId(), list, cluSet);
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}

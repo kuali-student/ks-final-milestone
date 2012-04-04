@@ -1,16 +1,15 @@
 package org.kuali.student.lum.program.client.rpc;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-
 import java.util.List;
 import java.util.Map;
+
+import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 /**

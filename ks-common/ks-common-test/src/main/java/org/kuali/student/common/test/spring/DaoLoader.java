@@ -21,6 +21,7 @@ package org.kuali.student.common.test.spring;
  * 
  *
  */
+@Deprecated
 public abstract class DaoLoader {
     Object dao;
     

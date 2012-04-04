@@ -1,28 +1,32 @@
 package org.kuali.student.lum.common.client.widgets;
 
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
@@ -39,7 +43,7 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
     private FlexTable detailsTable = new FlexTable();
     private boolean showClus;
     private Map<String, Boolean> showCluSetFlags = new HashMap<String, Boolean>();
-    private static final SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
+    //private static final SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
     private CluSetRetriever cluSetRetriever;
     // private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync;
     private BlockingTask retrievingTask = new BlockingTask("Retrieving details");
@@ -225,7 +229,10 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
                     Object value = searchParam.getValue();
                     String displayValue = "";
                     if (value instanceof Date) {
-                        displayValue = DT_FOMRAT.format((Date) value);
+                        DateTimeFormat DT_FORMAT =  com.google.gwt.i18n.client.DateTimeFormat.getFormat("MM/dd/yyyy") ;
+                        //java.text.SimpleDateFormat DT_FOMRAT = new  java.text.SimpleDateFormat("MM/dd/yyyy");
+
+                        displayValue = DT_FORMAT.format((Date) value);
                     } else {
                         displayValue = value.toString();
                     }
@@ -264,11 +271,37 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
             public void onClick(ClickEvent event) {
                 String url =  "http://" + Window.Location.getHost() + Window.Location.getPath();
                 if("kuali.lu.type.Variation".equals(clu.getType())){
-                    url += "?view=" + AppLocations.Locations.VIEW_VARIATION + "&idType=" + IdType.OBJECT_ID;
-                    url += "&docId=" + clu.getParentCluId() + "&variationId=" + clu.getVerIndependentId();
-                }else {
-                    url += "?view=" + AppLocations.Locations.VIEW_COURSE + "&idType=" + IdType.OBJECT_ID;
-                    url += "&docId=" + clu.getVerIndependentId();
+                    url += "?view=" + AppLocations.Locations.VIEW_VARIATION;
+                    url += "&docId=" + URL.encodeQueryString(clu.getParentCluId()) + "&variationId=" + URL.encodeQueryString(clu.getVerIndependentId());
+                    url += "&idType=" + IdType.OBJECT_ID;
+                }else if("kuali.lu.type.MajorDiscipline".equals(clu.getType())){
+                    url += "?view=" + AppLocations.Locations.VIEW_PROGRAM;
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
+                    url += "&idType=" + IdType.OBJECT_ID;                    
+                }else if("kuali.lu.type.CreditCourse".equals(clu.getType())){
+                    url += "?view=" + AppLocations.Locations.VIEW_COURSE;
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
+                    url += "&idType=" + IdType.OBJECT_ID;
+                }else if("kuali.lu.type.CoreProgram".equals(clu.getType())){
+                    url += "?view=" + AppLocations.Locations.VIEW_CORE_PROGRAM;
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
+                    url += "&idType=" + IdType.OBJECT_ID;
+                }else if("kuali.lu.type.credential.Baccalaureate".equals(clu.getType())){
+                    url += "?view=" + AppLocations.Locations.VIEW_BACC_PROGRAM;
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
+                    url += "&idType=" + IdType.OBJECT_ID;
+                }else if("kuali.lu.type.credential.Doctoral".equals(clu.getType())){
+                    url += "?view=" + AppLocations.Locations.VIEW_BACC_PROGRAM;
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
+                    url += "&idType=" + IdType.OBJECT_ID;
+                }else if("kuali.lu.type.credential.Masters".equals(clu.getType())){
+                    url += "?view=" + AppLocations.Locations.VIEW_BACC_PROGRAM;
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
+                    url += "&idType=" + IdType.OBJECT_ID;
+                }else{
+                    //show error, don't know how to handle Clu type
+                    KSNotifier.add(new KSNotification("This widget does not know how to open learning units of type "+clu.getType(), false, true, 5000));
+                    return;
                 }
                 String features = "height=600,width=960,dependent=0,directories=1," + "fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
                 Window.open(url, HTMLPanel.createUniqueId().replace("-", "_"), features);

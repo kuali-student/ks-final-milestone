@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.r1.common.dto.DtoConstants;
 
 /**
  * These are the constants that are used in the programs.

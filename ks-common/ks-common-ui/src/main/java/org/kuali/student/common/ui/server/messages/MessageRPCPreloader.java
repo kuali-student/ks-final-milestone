@@ -21,21 +21,25 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.student.common.messages.dto.Message;
-import org.kuali.student.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.common.messages.dto.MessageList;
-import org.kuali.student.common.messages.service.MessageService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet;
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
 import org.kuali.student.common.ui.server.serialization.SerializationUtils;
+import org.kuali.student.r1.common.messages.dto.Message;
+import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.r1.common.messages.dto.MessageList;
+import org.kuali.student.r2.common.messages.service.MessageService;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 import com.google.gwt.user.server.rpc.RPC;
 
+@Deprecated
 public class MessageRPCPreloader {
 	final Logger LOG = Logger.getLogger(MessageRPCPreloader.class);
-    private final String MESSAGE_SERVICE_MOCK = "ks.messageServiceMock";
+    private final String MESSAGE_SERVICE_MOCK = "ks.messageService";
 	private final String MESSAGE_SERVICE = "{http://student.kuali.org/wsdl/messages}MessageService";
     
     MessageService messageService;
@@ -48,7 +52,7 @@ public class MessageRPCPreloader {
         if (messageService == null){
             setMessageService((MessageService)GlobalResourceLoader.getService(MESSAGE_SERVICE_MOCK));
             if (messageService == null){
-                setMessageService((MessageService)GlobalResourceLoader.getService(MESSAGE_SERVICE));
+                setMessageService((MessageService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/messages","MessageService")));
             }
         }
         return messageService;
@@ -66,14 +70,14 @@ public class MessageRPCPreloader {
             MessageGroupKeyList messageGroupKeyList = new MessageGroupKeyList();
             messageGroupKeyList.setMessageGroupKeys(Arrays.asList(keys));
             
-            MessageList messageList = getMessageService().getMessagesByGroups(locale,messageGroupKeyList);
+            MessageList messageList = null; 
+       		// TODO KSCM-429            messageList = getMessageService().getMessagesByGroups(locale,messageGroupKeyList, ContextUtils.getContextInfo());
 
             Map<Class<?>, Boolean> whitelist = new HashMap<Class<?>, Boolean>();
             whitelist.put(MessageService.class, true);
             whitelist.put(MessageList.class, true);
             whitelist.put(MessageGroupKeyList.class,true);
             whitelist.put(Message.class,true);
-            whitelist.put(MessageGroupKeyList.class,true);
             
             KSSerializationPolicy myPolicy = new KSSerializationPolicy(whitelist);
             

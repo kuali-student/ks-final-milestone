@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class CollapsablePanel extends Composite implements ReportExportWidget {
     protected KSButton label;
     protected VerticalFlowPanel layout = new VerticalFlowPanel();
@@ -49,7 +50,7 @@ public class CollapsablePanel extends Composite implements ReportExportWidget {
     protected Image closedImage = Theme.INSTANCE.getCommonImages().getDisclosureClosedIcon();
     protected Image openedImage = Theme.INSTANCE.getCommonImages().getDisclosureOpenedIcon();
 
-    private ClickHandler openCloseClickHandler = new ClickHandler() {
+    protected ClickHandler openCloseClickHandler = new ClickHandler() {
 
         @Override
         public void onClick(ClickEvent event) {
@@ -149,6 +150,22 @@ public class CollapsablePanel extends Composite implements ReportExportWidget {
     }
 
     public CollapsablePanel(Widget label, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
+        init(label, content, isOpen, withImages, imagePosition);
+    }
+    
+    public void initialise(String label, Widget content, boolean isOpen) {
+        init(getButtonLabel(label), content, isOpen, true, ImagePosition.ALIGN_RIGHT);
+    }
+
+    public void initialise(String label, Widget content, boolean isOpen, boolean withImages) {
+        init(getButtonLabel(label), content, isOpen, withImages, ImagePosition.ALIGN_RIGHT);
+    }
+
+    public void initialise(String label, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
+        init(getButtonLabel(label), content, isOpen, withImages, imagePosition);
+    }
+
+    public void initialise(Widget label, Widget content, boolean isOpen, boolean withImages, ImagePosition imagePosition) {
         init(label, content, isOpen, withImages, imagePosition);
     }
 

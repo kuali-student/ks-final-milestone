@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class VerticalCollapsableDrawer extends Composite{
 		private static VerticalCollapsableDrawerBinder uiBinder = GWT
 		.create(VerticalCollapsableDrawerBinder.class);
@@ -24,36 +25,40 @@ public class VerticalCollapsableDrawer extends Composite{
 		}
 
 		@UiField
-		SimplePanel content;
+		public SimplePanel content;
 		
 		@UiField
-		KSButton drawerHandle;
+		public KSButton drawerHandle;
 		
 		@UiField
-		HTMLPanel container;
+		public HTMLPanel container;
 		
-		private boolean isOpen = true;
+		protected boolean isOpen = true;
 		private ContentAnimation animation = new ContentAnimation();
 		
 		public VerticalCollapsableDrawer(){
-			initWidget(uiBinder.createAndBindUi(this));
-			drawerHandle.setText("\u00AB");
-			drawerHandle.addClickHandler(new ClickHandler(){
-
-				@Override
-				public void onClick(ClickEvent event) {
-					if(isOpen){
-						close();
-						drawerHandle.setText("\u00BB");
-					}
-					else{
-						open();
-						drawerHandle.setText("\u00AB");
-					}
-					
-				}
-			});
+		    initialise();
 		}
+		
+		public void initialise(){
+            initWidget(uiBinder.createAndBindUi(this));
+            drawerHandle.setText("\u00AB");
+            drawerHandle.addClickHandler(new ClickHandler(){
+
+                @Override
+                public void onClick(ClickEvent event) {
+                    if(isOpen){
+                        close();
+                        drawerHandle.setText("\u00BB");
+                    }
+                    else{
+                        open();
+                        drawerHandle.setText("\u00AB");
+                    }
+                    
+                }
+            });
+        }
 		
 		@Override
 		protected void onLoad() {

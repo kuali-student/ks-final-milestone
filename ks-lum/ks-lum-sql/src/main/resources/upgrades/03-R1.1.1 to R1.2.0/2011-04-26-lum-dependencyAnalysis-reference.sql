@@ -240,11 +240,11 @@ insert into KSLU_CLU_SET_JN_CLU (CLU_SET_ID, CLU_VER_IND_ID, ID, VER_NBR, OBJ_ID
 /
 
 --
-insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, LNG_NAME, ORG_ID, SHRT_NAME, ST, SUFX_CD, TYPE, VARTN, OBJ_ID, VER_NBR) values ('14ea3c44-eebd-433c-950d-e5e28b4086a2', 'HIST313', 'HIST', null, null, null, null, 'Active', '313', 'kuali.lu.type.CreditCourse.identifier.crosslisting', null, '39d81a90-eb79-4e87-9850-3075e076ddfa', 4)
+insert into KSLU_CLU_IDENT (ID, CD, DIVISION, LVL, LNG_NAME, ORG_ID, SHRT_NAME, ST, SUFX_CD, TYPE, VARTN, OBJ_ID, VER_NBR) values ('14ea3c44-eebd-433c-950d-e5e28b4086a2', 'HIST313', 'HIST', null, null, null, null, 'Active', '313', 'kuali.lu.type.CreditCourse.identifier.crosslisting', null, '39d81a90-eb79-4e87-9850-3075e076ddfa', 4)
 /
-insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, LNG_NAME, ORG_ID, SHRT_NAME, ST, SUFX_CD, TYPE, VARTN, OBJ_ID, VER_NBR) values ('a8dff7a1-6773-46d6-9e0d-393111067efd', 'AASP122', 'AASP', null, null, null, null, 'Active', '122', 'kuali.lu.type.CreditCourse.identifier.crosslisting', null, '45fe58cf-7e39-4c19-be2e-ff500798f279', 5)
+insert into KSLU_CLU_IDENT (ID, CD, DIVISION, LVL, LNG_NAME, ORG_ID, SHRT_NAME, ST, SUFX_CD, TYPE, VARTN, OBJ_ID, VER_NBR) values ('a8dff7a1-6773-46d6-9e0d-393111067efd', 'AASP122', 'AASP', null, null, null, null, 'Active', '122', 'kuali.lu.type.CreditCourse.identifier.crosslisting', null, '45fe58cf-7e39-4c19-be2e-ff500798f279', 5)
 /
-insert into KSLU_CLU_IDENT (ID, CD, DIV, LVL, LNG_NAME, ORG_ID, SHRT_NAME, ST, SUFX_CD, TYPE, VARTN, OBJ_ID, VER_NBR) values ('a8dff7a1-6773-46d6-9e0d-393111067efc', 'AASP234', 'AASP', null, null, null, null, 'Active', '234', 'kuali.lu.type.CreditCourse.identifier.crosslisting', null, '45fe58cf-7e39-4c19-be2e-ff500798f27a', 5)
+insert into KSLU_CLU_IDENT (ID, CD, DIVISION, LVL, LNG_NAME, ORG_ID, SHRT_NAME, ST, SUFX_CD, TYPE, VARTN, OBJ_ID, VER_NBR) values ('a8dff7a1-6773-46d6-9e0d-393111067efc', 'AASP234', 'AASP', null, null, null, null, 'Active', '234', 'kuali.lu.type.CreditCourse.identifier.crosslisting', null, '45fe58cf-7e39-4c19-be2e-ff500798f27a', 5)
 /
 
 --

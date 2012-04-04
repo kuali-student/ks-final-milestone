@@ -8,11 +8,17 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import org.kuali.student.common.assembly.data.ConstraintMetadata;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -34,18 +40,16 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.statement.dto.*;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.widgets.EditableHeader;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 import java.util.*;
 
@@ -166,7 +170,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     protected void updateRequirementWidgets(ProgramRequirementInfo programReqInfo) {
-        if (programReqInfo != null) {
+    /* TODO KSCM-420 if (programReqInfo != null) {
             StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(programReqInfo.getStatement().getType());
             SpanPanel reqPanel = perProgramRequirementTypePanel.get(affectedStatementTypeInfo.getId());
 
@@ -187,7 +191,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                     break;
                 }
             }
-        }
+        }*/
     }
 
     public void displayRules() {
@@ -197,7 +201,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         //display 'Program Requirements' page title (don't add if read only because the section itself will display the title)
         if (!isReadOnly) {
-            SectionTitle pageTitle = SectionTitle.generateH2Title(ProgramProperties.get().programRequirements_summaryViewPageTitle());
+            SectionTitle pageTitle = SectionTitle.generateH2Title(getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGETITLE));
             //pageTitle.setStyleName("KS-Program-Requirements-Section-header");  //make the header orange
             pageTitle.addStyleName("ks-layout-header");// change the header to green
 
@@ -207,7 +211,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         //iterate and display rules for each Program Requirement type e.g. Entrance Requirements, Completion Requirements
         Boolean firstRequirement = true;
         perProgramRequirementTypePanel.clear();
-        for (StatementTypeInfo stmtTypeInfo : rules.getStmtTypes()) {
+      /* TODO KSCM-420  for (StatementTypeInfo stmtTypeInfo : rules.getStmtTypes()) {
 
             //create and display one type of program requirement section
             SpanPanel requirementsPanel = new SpanPanel();
@@ -221,7 +225,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 RulePreviewWidget rulePreviewWidget = addProgramRequirement(requirementsPanel, ruleInfo);
                 requirementsPanel.add(rulePreviewWidget);
             }
-        }
+        }*/
 
         //save and cancel buttons
         if (!isReadOnly) {
@@ -254,7 +258,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         //display "Add Rule" button if user is in 'edit' mode
         if (!isReadOnly) {
-            String addRuleLabel = ProgramProperties.get().programRequirements_summaryViewPageAddRule(stmtTypeInfo.getName());
+            String addRuleLabel = getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEADDRULE, stmtTypeInfo.getName());
             KSButton addProgramReqBtn = new KSButton(addRuleLabel, KSButtonAbstract.ButtonStyle.FORM_SMALL);
             addProgramReqBtn.addClickHandler(new ClickHandler() {
                 public void onClick(ClickEvent event) {
@@ -295,8 +299,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         rulePreviewWidget.addProgReqDeleteButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 final ConfirmationDialog dialog = new ConfirmationDialog(
-                        ProgramProperties.get().programRequirements_summaryViewPageDeleteRequirementDialogTitle(),
-                        ProgramProperties.get().programRequirements_summaryViewPageDeleteRequirementDialogMsg());
+                        getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEDELETEREQUIREMENTDIALOGTITLE),
+                        getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEDELETEREQUIREMENTDIALOGMSG));
 
                 dialog.getConfirmButton().addClickHandler(new ClickHandler() {
                     @Override
@@ -319,7 +323,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 final StatementTreeViewInfo newSubRule = new StatementTreeViewInfo();
                 newSubRule.setId(generateStatementTreeId());
                 newSubRule.setType(stmtTypeId);
-                RichTextInfo text = new RichTextInfo();
+                org.kuali.student.r1.common.dto.RichTextInfo text = new org.kuali.student.r1.common.dto.RichTextInfo();
                 text.setPlain("");
                 newSubRule.setDesc(text);
                 parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>() {
@@ -391,7 +395,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         boolean isAddProgReq = (internalProgReqID == null);
 
-        String addRuleText = (isAddProgReq ? ProgramProperties.get().programRequirements_summaryViewPageAddRule(rules.getStmtTypeName(stmtTypeId)) : "Edit " + rules.getStmtTypeName(stmtTypeId));
+        String addRuleText = (isAddProgReq ? getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEADDRULE, rules.getStmtTypeName(stmtTypeId)) : "Edit " + rules.getStmtTypeName(stmtTypeId));
         final KSLightBox dialog = new KSLightBox(addRuleText);
 
         final ButtonEnumerations.ButtonEnum actionButton = (isAddProgReq ? ButtonEnumerations.AddCancelEnum.ADD : ButtonEnumerations.UpdateCancelEnum.UPDATE);
@@ -561,13 +565,13 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         if (internalProgReqID == null) {
             progReqInfo = new ProgramRequirementInfo();
             progReqInfo.setId(NEW_PROG_REQ_ID + Integer.toString(tempStmtTreeID++));   //set unique id
-            progReqInfo.setType("kuali.lu.type.Requirement");
+            progReqInfo.setTypeKey("kuali.lu.type.Requirement");
 
             //create a top level statement tree
             StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
             stmtTree.setId(generateStatementTreeId());
             stmtTree.setType(stmtTypeId);
-            RichTextInfo text2 = new RichTextInfo();
+            org.kuali.student.r1.common.dto.RichTextInfo text2 = new org.kuali.student.r1.common.dto.RichTextInfo();
             text2.setPlain("");
             stmtTree.setDesc(text2);
             stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement
@@ -641,5 +645,15 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     static public String generateStatementTreeId() {
         return (NEW_STMT_TREE_ID + Integer.toString(tempStmtTreeID++));
+    }
+    
+    protected String getLabel(String messageKey) {
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey);
+    }
+    
+    protected String getLabel(String messageKey, String parameter) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("0", parameter);
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey, parameters);
     }
 }

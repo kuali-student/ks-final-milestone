@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dto.AmountInfo;
-import org.kuali.student.common.dto.TimeAmountInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.lum.course.dto.ActivityInfo;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 
 /**
  * Validates Subject COde usage
@@ -21,13 +22,14 @@ public class ActivityTypeValidator extends DefaultValidatorImpl {
 	
 	@Override
 	public List<ValidationResultInfo> validateObject(FieldDefinition field,	Object o, ObjectStructureDefinition objStructure,
-			Stack<String> elementStack) {
+			Stack<String> elementStack, ContextInfo contextInfo) {
 		
 		List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
 		if (o instanceof ActivityInfo && o != null) {
 			ActivityInfo activity = (ActivityInfo)o;
-			if (hasActivityData(activity) && !hasText(activity.getActivityType())){
+ 
+			if (hasActivityData(activity)) { // && !hasText(activity.getActivityType())){
 				ValidationResultInfo vr = new ValidationResultInfo();
 				String elementPath = getElementXpath(elementStack) + "/activityType";
 				vr.setElement(elementPath);
@@ -44,7 +46,7 @@ public class ActivityTypeValidator extends DefaultValidatorImpl {
 		
 		AmountInfo contactHours = activity.getContactHours();
 		if (contactHours != null){
-			hasData = hasData || hasText(contactHours.getUnitQuantity()) || hasText(contactHours.getUnitType());
+			hasData = hasData || hasText(contactHours.getUnitQuantity()) || hasText(contactHours.getUnitTypeKey());
 		}
 		
 		int enrollmentEstimate = activity.getDefaultEnrollmentEstimate();

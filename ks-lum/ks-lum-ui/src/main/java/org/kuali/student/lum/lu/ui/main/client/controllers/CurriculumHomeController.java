@@ -18,6 +18,7 @@ import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminControll
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminRetireController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminWithoutVersionController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseRetireByProposalController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.ViewCourseParentController;
 import org.kuali.student.lum.lu.ui.course.client.views.CategoryManagementView;
 import org.kuali.student.lum.lu.ui.course.client.views.CurriculumHomeView;
@@ -30,14 +31,16 @@ import org.kuali.student.lum.program.client.core.CoreManager;
 import org.kuali.student.lum.program.client.credential.CredentialManager;
 import org.kuali.student.lum.program.client.major.MajorManager;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.Window;
 
 /**
- * Curriculum home controller which controls the main LayoutController views of the lum application.  The
+ *   Curriculum home controller which controls the main LayoutController views of the lum application.  The
  * default view of this controller is the Curriculum Home Landing page.  The following views are views within
  * this controller's scope:<br>
  * 		COURSE_PROPOSAL<br>
+        COURSE_RETIRE_BY_PROPOSAL<br>
         VIEW_COURSE<br>
         PROGRAM_VIEW<br>
         PROGRAM_EDIT<br>
@@ -65,6 +68,7 @@ public class CurriculumHomeController extends LayoutController {
     private final SpanPanel panel = new SpanPanel();
 
     private CourseProposalController courseProposalController;
+    private CourseRetireByProposalController courseRetireByProposalController;
     private CourseAdminController courseAdminController;
     private CourseAdminWithoutVersionController courseAdminWithoutVersionController;
     private CourseAdminRetireController courseAdminRetireController;
@@ -81,6 +85,13 @@ public class CurriculumHomeController extends LayoutController {
         public void onFailure(Throwable reason) {
             Window.alert("Download failed.  Please try again.");
         }
+    }
+    
+    public CurriculumHomeController() {
+        super();
+        this.setDefaultView(LUMViews.DEFAULT);
+        this.initWidget(panel);
+        setupDefaultView();
     }
 
     public CurriculumHomeController(Controller controller, String name, Enum<?> viewType) {
@@ -113,6 +124,14 @@ public class CurriculumHomeController extends LayoutController {
 //                    }
 //                });
                 break;
+            case COURSE_RETIRE_BY_PROPOSAL:
+//              GWT.runAsync(new RunAsyncGetView() {
+//                  @Override
+//                  public void onSuccess() {
+                      callback.exec(getCourseRetirebyProposalController());
+//                  }
+//              });
+              break;  
             case COURSE_ADMIN:
 //                GWT.runAsync(new RunAsyncGetView() {
 //                    @Override
@@ -354,39 +373,44 @@ public class CurriculumHomeController extends LayoutController {
     }
 
 
-    private View getCategoryManagementController() {
+   protected View getCategoryManagementController() {
         return new CategoryManagementView(this, "Learning Objective Categories", LUMViews.LO_CATEGORIES);
     }
 
     private CourseProposalController getCourseProposalController() {
-        courseProposalController = new CourseProposalController();
+        courseProposalController = GWT.create(CourseProposalController.class);
         return courseProposalController;
+    }
+    
+    private CourseProposalController getCourseRetirebyProposalController(){
+        courseRetireByProposalController = GWT.create(CourseRetireByProposalController.class);
+        return courseRetireByProposalController;
     }
 
     private CourseAdminController getCourseAdminController() {
-        courseAdminController = new CourseAdminController();
+        courseAdminController = GWT.create(CourseAdminController.class);
         return courseAdminController;
     }
     
     private CourseAdminWithoutVersionController getCourseAdminRetireController(){
-        courseAdminRetireController = new CourseAdminRetireController();
+        courseAdminRetireController = GWT.create(CourseAdminRetireController.class);
         return courseAdminRetireController;
     }
 
     private CourseAdminWithoutVersionController getCourseAdminWithoutVersionController(){
-        courseAdminWithoutVersionController = new CourseAdminWithoutVersionController();
+        courseAdminWithoutVersionController = GWT.create(CourseAdminWithoutVersionController.class);
         return courseAdminWithoutVersionController;
     }
 
     private LayoutController getViewCourseController() {
         if (viewCourseController == null) {
-            viewCourseController = new ViewCourseParentController();
+            viewCourseController = GWT.create(ViewCourseParentController.class);
         }
         return this.viewCourseController;
     }
 
     private LayoutController getCluSetsController() {
-        manageCluSetsController = new CluSetsManagementController();
+        manageCluSetsController = GWT.create(CluSetsManagementController.class);
         return manageCluSetsController;
     }
 

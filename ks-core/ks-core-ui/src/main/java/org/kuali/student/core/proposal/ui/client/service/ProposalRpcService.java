@@ -16,7 +16,7 @@
 package org.kuali.student.core.proposal.ui.client.service;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

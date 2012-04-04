@@ -1,24 +1,24 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
  <import resource="classpath:common-lookup-context.xml"/>
  <bean id="objectStructureDefinition"
-       class="org.kuali.student.common.dictionary.dto.ObjectStructureDefinition"
+       class="org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition"
        abstract="true" />
  <bean id="constraint" abstract="true"
-       class="org.kuali.student.common.dictionary.dto.Constraint" />
+       class="org.kuali.student.r1.common.dictionary.dto.Constraint" />
  <bean id="caseConstraint" abstract="true"
-       class="org.kuali.student.common.dictionary.dto.CaseConstraint" />
+       class="org.kuali.student.r1.common.dictionary.dto.CaseConstraint" />
  <bean id="whenConstraint" abstract="true"
-       class="org.kuali.student.common.dictionary.dto.WhenConstraint" />
+       class="org.kuali.student.r1.common.dictionary.dto.WhenConstraint" />
  <!--TODO: rename the java dto to be requiresConstraint-->
  <bean id="requiresConstraint" abstract="true"
-       class="org.kuali.student.common.dictionary.dto.RequiredConstraint" />
+       class="org.kuali.student.r1.common.dictionary.dto.RequiredConstraint" />
 
 
  <bean id="ValidCharDefinition" abstract="true"
-       class="org.kuali.student.common.dictionary.dto.ValidCharsConstraint" />
+       class="org.kuali.student.r1.common.dictionary.dto.ValidCharsConstraint" />
 
  <bean id="alphanumericHyphenPeriod" parent="ValidCharDefinition">
   <property name="value" value="regex:[A-Za-z0-9.\-]*" />
@@ -86,11 +86,11 @@
        class="org.springframework.beans.factory.config.CustomEditorConfigurer">
   <property name="customEditors">
    <map>
-    <entry key="org.kuali.student.common.dictionary.dto.DataType">
+    <entry key="org.kuali.student.r1.common.dictionary.dto.DataType">
      <bean
       class="org.kuali.student.common.util.spring.SimpleEnumPropertyEditor">
       <constructor-arg
-       value="org.kuali.student.common.dictionary.dto.DataType" />
+       value="org.kuali.student.r1.common.dictionary.dto.DataType" />
      </bean>
     </entry>
    </map>
@@ -98,7 +98,7 @@
  </bean>
 
  <bean id="baseFieldDefinition"
-       class="org.kuali.student.common.dictionary.dto.FieldDefinition"
+       class="org.kuali.student.r1.common.dictionary.dto.FieldDefinition"
        abstract="true">
   <property name="maxOccurs" value="1" />
  </bean>
@@ -112,7 +112,7 @@
  </bean>
 
  <bean id="baseFieldDefinitionRepeatingRequired" parent="baseFieldDefinitionRepeating"
-       class="org.kuali.student.common.dictionary.dto.FieldDefinition"
+       class="org.kuali.student.r1.common.dictionary.dto.FieldDefinition"
        abstract="true">
   <property name="minOccurs" value="1" />
  </bean>
@@ -187,6 +187,11 @@
        abstract="true">
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="255" />
+ </bean>
+ <bean id="baseKualiAuth" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="22" />
  </bean>
  <bean id="baseStringRequired" parent="baseString"
        abstract="true">
@@ -346,8 +351,8 @@
   <property name="validChars" ref="gpa4.0"/>
  </bean>
  <!-- RichTextInfo-->
- <bean id="org.kuali.student.common.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.dto.RichTextInfo" />
+ <bean id="org.kuali.student.r2.common.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.common.dto.RichTextInfo" />
   <property name="attributes">
    <list>
     <ref bean="richTextInfo.formatted" />
@@ -355,7 +360,7 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.common.dto.RichTextInfo" parent="org.kuali.student.common.dto.RichTextInfo-parent" />
+ <bean id="org.kuali.student.r2.common.dto.RichTextInfo" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent" />
 
  <bean id="richTextInfo.formatted-parent" abstract="true" parent="baseKualiRichText">
   <property name="name" value="formatted" />
@@ -376,8 +381,8 @@
  </bean>
 
  <!-- VersionInfo-->
- <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>
+ <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
   <property name="attributes">
    <list>
     <ref bean="versionInfo.currentVersionEnd"/>
@@ -390,7 +395,7 @@
   </property>
   <property name="hasMetaData" value="false"/>
  </bean>
- <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo" parent="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent"/>
+ <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo" parent="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo-parent"/>
 
  <bean id="versionInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
   <property name="name" value="currentVersionEnd"/>
@@ -422,6 +427,66 @@
  </bean>
  <bean id="versionInfo.versionedFromId" parent="versionInfo.versionedFromId-parent"/>
 
+
+<!-- VersionDisplayInfo-->
+ <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo"/>
+  <property name="attributes">
+   <list>
+    <ref bean="VersionDisplayInfo.currentVersionEnd"/>
+    <ref bean="VersionDisplayInfo.currentVersionStart"/>
+    <ref bean="VersionDisplayInfo.sequenceNumber"/>
+    <ref bean="VersionDisplayInfo.versionComment"/>
+    <ref bean="VersionDisplayInfo.versionIndId"/>
+    <ref bean="VersionDisplayInfo.versionedFromId"/>
+    <ref bean="VersionDisplayInfo.id"/>
+    <ref bean="VersionDisplayInfo.refObjectUri"/>
+   </list>
+  </property>
+  <property name="hasMetaData" value="false"/>
+ </bean>
+ <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo" parent="org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo-parent"/>
+
+ <bean id="VersionDisplayInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
+  <property name="name" value="currentVersionEnd"/>
+ </bean>
+ <bean id="VersionDisplayInfo.currentVersionEnd" parent="VersionDisplayInfo.currentVersionEnd-parent"/>
+
+ <bean id="VersionDisplayInfo.currentVersionStart-parent" abstract="true" parent="baseDate">
+  <property name="name" value="currentVersionStart"/>
+ </bean>
+ <bean id="VersionDisplayInfo.currentVersionStart" parent="VersionDisplayInfo.currentVersionStart-parent"/>
+
+ <bean id="VersionDisplayInfo.sequenceNumber-parent" abstract="true" parent="baseLong">
+  <property name="name" value="sequenceNumber"/>
+ </bean>
+ <bean id="VersionDisplayInfo.sequenceNumber" parent="VersionDisplayInfo.sequenceNumber-parent"/>
+
+ <bean id="VersionDisplayInfo.versionComment-parent" abstract="true" parent="baseString">
+  <property name="name" value="versionComment"/>
+ </bean>
+ <bean id="VersionDisplayInfo.versionComment" parent="VersionDisplayInfo.versionComment-parent"/>
+
+ <bean id="VersionDisplayInfo.versionIndId-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="versionIndId"/>
+ </bean>
+ <bean id="VersionDisplayInfo.versionIndId" parent="VersionDisplayInfo.versionIndId-parent"/>
+
+ <bean id="VersionDisplayInfo.versionedFromId-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="versionedFromId"/>
+ </bean>
+ <bean id="VersionDisplayInfo.versionedFromId" parent="VersionDisplayInfo.versionedFromId-parent"/>
+
+
+ <bean id="VersionDisplayInfo.id-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="id"/>
+ </bean>
+ <bean id="VersionDisplayInfo.id" parent="VersionDisplayInfo.id-parent"/>
+ 
+  <bean id="VersionDisplayInfo.refObjectUri-parent" abstract="true" parent="baseKualiId">
+  <property name="name" value="refObjectUri"/>
+ </bean>
+ <bean id="VersionDisplayInfo.refObjectUri" parent="VersionDisplayInfo.refObjectUri-parent"/>
 </beans>
 
 

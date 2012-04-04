@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSRadioButtonList extends KSSelectItemWidgetAbstract implements HasBlurHandlers, HasFocusHandlers{
 	private KSRadioButtonListImpl selectItemWidget = GWT.create(KSRadioButtonListImpl.class);
 

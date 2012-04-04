@@ -24,9 +24,9 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
+import org.kuali.student.r1.common.assembly.data.Data;
 
 /**
  * This is a Jasper implimentation of the ScreenReportProcessor to generate documents in pdf, doc etc using the Jasper
@@ -34,6 +34,7 @@ import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
+@Deprecated
 public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
 
     final Logger LOG = Logger.getLogger(JasperScreenReportProcessorImpl.class);

@@ -4,7 +4,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
 http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 ">
 <!-- *** Automatically Generated ***
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
@@ -15,10 +15,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.StatementInfo -->
 <!-- ***************************************** -->
 <!-- Detailed information about a single statement. -->
-<dict:objectStructure key="org.kuali.student.core.statement.dto.StatementInfo" id="object.StatementInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.core.statement.dto.StatementInfo" id="object.StatementInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.StatementInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.statement.dto.StatementInfo" id="object.StatementInfo" parent="object.StatementInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.core.statement.dto.StatementInfo" id="object.StatementInfo" parent="object.StatementInfo.abstract"/>
 
 <dict:type key="*" id="type.StatementInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -88,10 +88,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.statementInfo.desc.(default).(default) -->
 <!-- ************************************************************************ -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.statementInfo.desc.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.statementInfo.desc.abstract" abstract="true">
 	<dict:typeRef bean="type.field.statementInfo.desc"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.statementInfo.desc" parent="object.field.statementInfo.desc.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.statementInfo.desc" parent="object.field.statementInfo.desc.abstract"/>
 
 <dict:type key="*" id="type.field.statementInfo.desc.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -243,10 +243,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.statementInfo.metaInfo.(default).(default) -->
 <!-- **************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.statementInfo.metaInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.statementInfo.metaInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.field.statementInfo.metaInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.statementInfo.metaInfo" parent="object.field.statementInfo.metaInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.statementInfo.metaInfo" parent="object.field.statementInfo.metaInfo.abstract"/>
 
 <dict:type key="*" id="type.field.statementInfo.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -408,7 +408,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="field.statementInfo.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.statement.states"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="state" id="field.statementInfo.state.cd" parent="field.statementInfo.state.cd.abstract"/>

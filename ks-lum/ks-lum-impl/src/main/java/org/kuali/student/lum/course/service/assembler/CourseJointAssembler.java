@@ -15,17 +15,17 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
-import org.kuali.student.common.assembly.BOAssembler;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.lum.course.dto.CourseJointInfo;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuService;
-
+import org.kuali.student.r1.common.assembly.BOAssembler;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r1.lum.course.dto.CourseJointInfo;
+import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
+import org.kuali.student.r1.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 /**
  * Assembles/Disassembles CourseJointInfo DTO from/to CluCluRelationInfo 
  * 
@@ -34,35 +34,36 @@ import org.kuali.student.lum.lu.service.LuService;
  */
 public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluCluRelationInfo> {
 		
-	LuService luService;		
+	CluService cluService;		
 	
 	/**
 	 * @return the luService
 	 */
-	public LuService getLuService() {
-		return luService;
+	public CluService getCluService() {
+		return cluService;
 	}
 
 	/**
 	 * @param luService the luService to set
 	 */
-	public void setLuService(LuService luService) {
-		this.luService = luService;
+	public void setCluService(CluService cluService) {
+		this.cluService = cluService;
 	}
 
 	@Override
-	public CourseJointInfo assemble(CluCluRelationInfo cluRel, CourseJointInfo jointInfo, boolean shallowBuild) throws AssemblyException {
+	public CourseJointInfo assemble(CluCluRelationInfo cluRel, CourseJointInfo jointInfo, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
 		if(null == cluRel) {
 			return null;
 		}
 		
 		CourseJointInfo joint = (jointInfo != null) ? jointInfo : new CourseJointInfo();
 
-		CluInfo clu;
+		CluInfo clu = null;
 		try {
-			clu = luService.getClu(cluRel.getRelatedCluId());
+			clu = R1R2ConverterUtil.convert(cluService.getClu(cluRel.getRelatedCluId() , contextInfo), org.kuali.student.r1.lum.lu.dto.CluInfo.class);
 
 			joint.setCourseId(clu.getId());
+
 			joint.setType(clu.getType());//FIXME is this ever used?
 			joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 			joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
@@ -76,27 +77,24 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 		return joint;
 	}
 
-	public CourseJointInfo assemble(CluCluRelationInfo cluRel, String cluId, CourseJointInfo jointInfo, boolean shallowBuild) throws AssemblyException {
+	
+	public CourseJointInfo assemble(CluCluRelationInfo cluRel, String cluId, CourseJointInfo jointInfo, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
 		if(null == cluRel) {
 			return null;
 		}
 		
 		CourseJointInfo joint = (jointInfo != null) ? jointInfo : new CourseJointInfo();
 
-		CluInfo clu;
+		CluInfo clu = null;
 		try {
-			clu = luService.getClu(cluId);
+			clu = R1R2ConverterUtil.convert(cluService.getClu(cluRel.getRelatedCluId() , contextInfo), org.kuali.student.r1.lum.lu.dto.CluInfo.class);
 			
-			if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
-				clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) {
-				joint.setCourseId(clu.getId());
-				joint.setType(clu.getType());//FIXME is this ever used?
-				joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
-				joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
-				joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
-				joint.setRelationId(cluRel.getId());
-			} else	
-				return null;
+			joint.setCourseId(clu.getId());
+            joint.setType(clu.getType());
+            joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
+            joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
+            joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
+            joint.setRelationId(cluRel.getId());
 			
 		} catch (Exception e) {
 			throw new AssemblyException("Error getting related clus", e);
@@ -107,7 +105,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 	@Override
 	public BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> disassemble(
-			CourseJointInfo joint, NodeOperation operation) throws AssemblyException {
+			CourseJointInfo joint, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
 		
 		if(null == joint){
 			//FIXME Unsure now if this is an exception or just return null or empty assemblyNode 
@@ -121,6 +119,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 		CluCluRelationInfo cluRel = new CluCluRelationInfo();
 		cluRel.setId(UUIDHelper.genStringUUID(joint.getRelationId()));
 		cluRel.setRelatedCluId(joint.getCourseId());
+				
 		cluRel.setType(CourseAssemblerConstants.JOINT_RELATION_TYPE);
 		result.setNodeData(cluRel);
 		// The caller is required to set the CluId on the cluCluRelation
