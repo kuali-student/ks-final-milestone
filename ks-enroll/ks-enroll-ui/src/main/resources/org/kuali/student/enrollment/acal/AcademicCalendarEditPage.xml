@@ -251,16 +251,23 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="Holiday Calendar ID" p:propertyName="id" p:render="@{#isAddLine}" p:id="hcal_id">
+                <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:render="@{#isAddLine}" p:refreshWhenChanged="academicCalendarInfo.startDate">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="60"/>
+                        <bean parent="Uif-DropdownControl"/>
                     </property>
-                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
-                    <property name="fieldLookup.fieldConversions">
-                        <map>
-                            <entry key="id" value="id" />
-                        </map>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayWrapperListFinder" />
                     </property>
+                    <!--<property name="control">-->
+                        <!--<bean parent="Uif-TextControl" p:size="60"/>-->
+                    <!--</property>-->
+                    <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />-->
+                    <!--<property name="fieldLookup.fieldConversions">-->
+                        <!--<map>-->
+                            <!--<entry key="id" value="id" />-->
+                        <!--</map>-->
+                    <!--</property>-->
+
                 </bean>
                 <bean parent="Uif-InputField"
                       p:propertyName="holidayCalendarInfo.name"
