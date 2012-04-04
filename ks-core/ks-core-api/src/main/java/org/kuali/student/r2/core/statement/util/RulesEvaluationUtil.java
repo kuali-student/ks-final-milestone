@@ -105,7 +105,7 @@ public class RulesEvaluationUtil {
 
         
         List<ResultEvent> events = null;
-        // TODO KSCM-429 
+        // TODO KSCM-504
         //events = results.getResultsOfType(ResultEvent.PROPOSITION_EVALUATED);
         for (ResultEvent e : events) {
             if (!e.getResult()) {
