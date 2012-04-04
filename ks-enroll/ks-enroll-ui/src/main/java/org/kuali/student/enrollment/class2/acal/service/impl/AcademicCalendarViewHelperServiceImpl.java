@@ -106,7 +106,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             holidayInfo.setStartDate(holidayWrapper.getStartDate());
             holidayInfo.setEndDate(holidayWrapper.getEndDate());
             holidayInfo.setName(holidayWrapper.getTypeName());
-            holidayInfo.setStartDate(getStartDateWithUpdatedTime(holidayWrapper));
+            holidayInfo.setStartDate(getStartDateWithUpdatedTime(holidayWrapper,true));
             holidayInfo.setEndDate(getEndDateWithUpdatedTime(holidayWrapper));
 
             if (StringUtils.isBlank(holidayInfo.getId())){
@@ -428,7 +428,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         eventInfo.setEndDate(eventWrapper.getEndDate());
         eventInfo.setIsAllDay(eventWrapper.isAllDay());
         eventInfo.setIsDateRange(eventWrapper.isDateRange());
-        eventInfo.setStartDate(getStartDateWithUpdatedTime(eventWrapper));
+        eventInfo.setStartDate(getStartDateWithUpdatedTime(eventWrapper,true));
         eventInfo.setEndDate(getEndDateWithUpdatedTime(eventWrapper));
         return eventInfo;
     }
@@ -580,12 +580,33 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 !CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getEndDate())){
                 GlobalVariables.getMessageMap().putErrorForSectionId("KS-HolidayCalendar-HolidaySection", "error.enroll.holiday.dateNotInHcal",holiday.getTypeName());
             }
-
-            if (!CommonUtils.isValidDateRange(holiday.getStartDate(),holiday.getEndDate())){
-                GlobalVariables.getMessageMap().putErrorForSectionId("KS-HolidayCalendar-HolidaySection", "error.enroll.daterange.invalid",holiday.getTypeName(),CommonUtils.formatDate(holiday.getStartDate()),CommonUtils.formatDate(holiday.getEndDate()));
-            }
         }
 
+    }
+
+    public void populateHolidayCalendarDefaults(HolidayCalendarForm hcForm){
+
+        for (HolidayWrapper holidayWrapper : hcForm.getHolidays()) {
+            holidayWrapper.getHolidayInfo().setStartDate(getStartDateWithUpdatedTime(holidayWrapper,false));
+            holidayWrapper.getHolidayInfo().setEndDate(getEndDateWithUpdatedTime(holidayWrapper));
+        }
+    }
+
+    public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm){
+
+        for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
+            eventWrapper.getAcalEventInfo().setStartDate(getStartDateWithUpdatedTime(eventWrapper,false));
+            eventWrapper.getAcalEventInfo().setEndDate(getEndDateWithUpdatedTime(eventWrapper));
+        }
+
+        for (AcademicTermWrapper academicTermWrapper : acalForm.getTermWrapperList()) {
+            for (KeyDatesGroupWrapper keyDatesGroupWrapper : academicTermWrapper.getKeyDatesGroupWrappers()){
+                for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
+                    keyDateWrapper.getKeyDateInfo().setStartDate(getStartDateWithUpdatedTime(keyDateWrapper,false));
+                    keyDateWrapper.getKeyDateInfo().setEndDate(getEndDateWithUpdatedTime(keyDateWrapper));
+                }
+            }
+        }
     }
 
     public void validateAcademicCalendar(AcademicCalendarForm acalForm){
@@ -696,9 +717,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
             for (KeyDatesGroupWrapper keyDatesGroupWrapper : academicTermWrapper.getKeyDatesGroupWrappers()){
                 for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
-                    if (!CommonUtils.isValidDateRange(keyDateWrapper.getStartDate(),keyDateWrapper.getEndDate())){
-                        GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydates", "error.enroll.daterange.invalid",keyDateWrapper.getKeyDateNameUI(),CommonUtils.formatDate(keyDateWrapper.getStartDate()),CommonUtils.formatDate(keyDateWrapper.getEndDate()));
-                    }
                     if (!CommonUtils.isDateWithinRange(academicTermWrapper.getStartDate(),academicTermWrapper.getEndDate(),keyDateWrapper.getStartDate()) ||
                         !CommonUtils.isDateWithinRange(academicTermWrapper.getStartDate(),academicTermWrapper.getEndDate(),keyDateWrapper.getEndDate())){
                         GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydates", "error.enroll.keydate.dateNotInTerm",keyDateWrapper.getKeyDateNameUI(),academicTermWrapper.getName());
@@ -765,7 +783,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             for (KeyDatesGroupWrapper groupWrapper : termWrapper.getKeyDatesGroupWrappers()){
                 for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
                     boolean isNewKeyDate = false;
-                    if (keyDateWrapper.getKeyDateInfo() == null){
+                    if (StringUtils.isBlank(keyDateWrapper.getKeyDateInfo().getId())){
                         isNewKeyDate = true;
                         KeyDateInfo keyDate = new KeyDateInfo();
                         keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
@@ -783,7 +801,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     keyDate.setEndDate(keyDateWrapper.getEndDate());
                     keyDate.setIsAllDay(keyDateWrapper.isAllDay());
                     keyDate.setIsDateRange(keyDateWrapper.isDateRange());
-                    keyDate.setStartDate(getStartDateWithUpdatedTime(keyDateWrapper));
+                    keyDate.setStartDate(getStartDateWithUpdatedTime(keyDateWrapper,true));
                     keyDate.setEndDate(getEndDateWithUpdatedTime(keyDateWrapper));
 
                     if (isNewKeyDate){
@@ -799,15 +817,22 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     }
 
-    private Date getStartDateWithUpdatedTime(TimeSetWrapper timeSetWrapper){
+    private Date getStartDateWithUpdatedTime(TimeSetWrapper timeSetWrapper,boolean isSaveAction){
         //If start time not blank, set that with the date. If it's empty, just update with default
         if (!timeSetWrapper.isAllDay() && StringUtils.isNotBlank(timeSetWrapper.getStartTime())){
             String startTime = timeSetWrapper.getStartTime();
             String startTimeApPm = timeSetWrapper.getStartTimeAmPm();
+            //On save to DB, have to replace 12AM to 00AM insead of DB considers as 12PM
+            if (isSaveAction && StringUtils.startsWith(startTime,"12:") && StringUtils.equalsIgnoreCase(startTimeApPm,"am")){
+                startTime = StringUtils.replace(startTime,"12:","00:");
+            }
             return updateTime(timeSetWrapper.getStartDate(),startTime,startTimeApPm);
         }else{
-            return updateTime(timeSetWrapper.getStartDate(),"00:00",StringUtils.EMPTY );
+            timeSetWrapper.setStartTime("12:00");
+            timeSetWrapper.setStartTimeAmPm("AM");
+            return updateTime(timeSetWrapper.getStartDate(),timeSetWrapper.getStartTime(),timeSetWrapper.getStartTimeAmPm());
         }
+
     }
 
     private Date getEndDateWithUpdatedTime(TimeSetWrapper timeSetWrapper){
@@ -817,11 +842,14 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             Date endDate = timeSetWrapper.getEndDate();
             //If it's not date range..
             if (!timeSetWrapper.isDateRange()){
-               endDate = timeSetWrapper.getStartDate();
+                endDate = timeSetWrapper.getStartDate();
+                timeSetWrapper.setEndDate(endDate);
             }
             if (StringUtils.isBlank(endTime)){
                 endTime = CalendarConstants.DEFAULT_END_TIME;
                 endTimeApPm = "PM";
+                timeSetWrapper.setEndTime(endTime);
+                timeSetWrapper.setEndTimeAmPm(endTimeApPm);
             }
             return updateTime(endDate,endTime,endTimeApPm);
         }else{
@@ -995,6 +1023,9 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 TypeInfo type = getTypeService().getType(keydate.getKeyDateType(),TestHelper.getContext1());
                 keydate.setKeyDateNameUI(type.getName());
                 keydate.setTypeInfo(type);
+                if (!CommonUtils.isValidDateRange(keydate.getStartDate(),keydate.getEndDate())){
+                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", "error.enroll.daterange.invalid",keydate.getKeyDateNameUI(),CommonUtils.formatDate(keydate.getStartDate()),CommonUtils.formatDate(keydate.getEndDate()));
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -1004,6 +1035,9 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 holiday.setTypeName(getHolidayTypeName(holiday.getTypeKey()));
             } catch (Exception e) {
                 throw new RuntimeException(e);
+            }
+            if (!CommonUtils.isValidDateRange(holiday.getStartDate(),holiday.getEndDate())){
+                GlobalVariables.getMessageMap().putWarningForSectionId("KS-HolidayCalendar-HolidaySection", "error.enroll.daterange.invalid",holiday.getTypeName(),CommonUtils.formatDate(holiday.getStartDate()),CommonUtils.formatDate(holiday.getEndDate()));
             }
         } else {
             super.processBeforeAddLine(view, collectionGroup, model, addLine);

@@ -236,6 +236,9 @@ public class AcademicCalendarController extends UifControllerBase {
                              HttpServletRequest request, HttpServletResponse response) throws Exception{
         AcademicCalendarInfo academicCalendarInfo = academicCalendarForm.getAcademicCalendarInfo();
 
+        //Populate default times
+        getAcademicCalendarViewHelperService(academicCalendarForm).populateAcademicCalendarDefaults(academicCalendarForm);
+
         //Validate Term
         getAcademicCalendarViewHelperService(academicCalendarForm).validateAcademicCalendar(academicCalendarForm);
 
@@ -281,6 +284,9 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         }
 
+        if (GlobalVariables.getMessageMap().getErrorCount() == 0){
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,"info.enroll.academiccalendar.saved",academicCalendarForm.getAcademicCalendarInfo().getName());
+        }
         return getUIFModelAndView(academicCalendarForm);
     }
 
@@ -569,7 +575,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
 
     private AcademicCalendarViewHelperService getAcademicCalendarViewHelperService(AcademicCalendarForm academicCalendarForm){
-        if (academicCalendarForm.getView().getViewHelperServiceClassName() != null){
+        if (academicCalendarForm.getView() != null && academicCalendarForm.getView().getViewHelperServiceClassName() != null){
             return (AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService();
         }else{
             return (AcademicCalendarViewHelperService)academicCalendarForm.getPostedView().getViewHelperService();

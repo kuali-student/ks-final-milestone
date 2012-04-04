@@ -79,6 +79,10 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public void validateHolidayCalendar(HolidayCalendarForm hcForm);
 
+    public void populateHolidayCalendarDefaults(HolidayCalendarForm hcForm);
+
+    public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm);
+
     public AcademicCalendarService getAcalService();
 
     public ContextInfo getContextInfo();

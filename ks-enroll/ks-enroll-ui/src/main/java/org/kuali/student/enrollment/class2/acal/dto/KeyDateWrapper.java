@@ -17,6 +17,7 @@ public class KeyDateWrapper extends TimeSetWrapper{
     public KeyDateWrapper(){
         setAllDay(false);
         setDateRange(true);
+        keyDateInfo = new KeyDateInfo();
     }
 
     public KeyDateWrapper(KeyDateInfo keydate){

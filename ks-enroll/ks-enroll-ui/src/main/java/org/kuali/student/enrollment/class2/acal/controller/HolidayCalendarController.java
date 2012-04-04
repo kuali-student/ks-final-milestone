@@ -346,6 +346,8 @@ public class HolidayCalendarController extends UifControllerBase {
 
     private ModelAndView updateHolidayCalendarForm(HolidayCalendarForm hcForm, String updateMsg) throws Exception {
 
+        getHolidayCalendarFormHelper(hcForm).populateHolidayCalendarDefaults(hcForm);
+
         getHolidayCalendarFormHelper(hcForm).validateHolidayCalendar(hcForm);
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 0){
@@ -473,7 +475,7 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
     private AcademicCalendarViewHelperService getHolidayCalendarFormHelper(HolidayCalendarForm hcForm) {
-        if (hcForm.getView().getViewHelperServiceClassName() != null){
+        if (hcForm.getView() != null && hcForm.getView().getViewHelperServiceClassName() != null){
             return (AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService();
         } else {
             return (AcademicCalendarViewHelperService)hcForm.getPostedView().getViewHelperService();
