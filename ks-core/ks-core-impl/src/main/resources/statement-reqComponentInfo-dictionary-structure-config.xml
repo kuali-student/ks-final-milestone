@@ -259,7 +259,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
 </dict:constraintDescriptor>
 <dict:constraintDescriptor key="expirationDate" id="field.reqComponentInfo.expirationDate.cd" parent="field.reqComponentInfo.expirationDate.cd.abstract"/>
-
+    .MetaInfo
 <dict:field key="metaInfo" id="field.reqComponentInfo.metaInfo.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="field.reqComponentInfo.metaInfo.fd"/>
 	<dict:constraintDescriptorRef bean="field.reqComponentInfo.metaInfo.cd"/>

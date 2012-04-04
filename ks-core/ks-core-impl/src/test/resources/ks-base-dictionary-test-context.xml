@@ -206,6 +206,6 @@
 		<property name="maxLength" value="60" />
 		<property name="validChars" ref="alphanumbericHyphenPeriod"/>
 	</bean>
-	
+
 
 </beans>

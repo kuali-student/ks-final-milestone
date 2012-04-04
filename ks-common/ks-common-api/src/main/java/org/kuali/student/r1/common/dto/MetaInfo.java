@@ -15,17 +15,16 @@
 
 package org.kuali.student.r1.common.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.io.Serializable;
+import java.util.Date;
 
 
 /**
  *Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
- */ 
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MetaInfo implements Serializable {
 
