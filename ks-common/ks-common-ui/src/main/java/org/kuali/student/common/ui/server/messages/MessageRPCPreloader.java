@@ -70,7 +70,6 @@ public class MessageRPCPreloader {
             MessageGroupKeyList messageGroupKeyList = new MessageGroupKeyList();
             messageGroupKeyList.setMessageGroupKeys(Arrays.asList(keys));
             
-         // TODO KSCM-266
             MessageList messageList = null; 
        		// TODO KSCM-429            messageList = getMessageService().getMessagesByGroups(locale,messageGroupKeyList, ContextUtils.getContextInfo());
 
