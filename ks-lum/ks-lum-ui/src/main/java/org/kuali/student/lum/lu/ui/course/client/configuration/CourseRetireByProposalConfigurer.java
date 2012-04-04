@@ -78,6 +78,10 @@ public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
         summaryConfigurer.init(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
         layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
         
+        //Specific buttons for certain views
+        //TODO people and permissions will use a different button than continue
+        layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
+        
         // Proposal Status
         layout.addContentWidget(layout.getWfUtilities().getProposalStatusLabel());
         

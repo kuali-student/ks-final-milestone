@@ -86,7 +86,9 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
     public VerticalSectionView generateProposalSummarySection(boolean canEditSections) {
         tableSection.setEditable(canEditSections);
         tableSection.addSummaryTableFieldBlock(generateRetirementInfoSection());
-        tableSection.addSummaryTableFieldBlock(generateCollaboratorSection());        
+        // FIXME: Need to decide if we are adding a collab section for retire, as there is not one in proposal
+        // KSCM-1774 covers this
+        // tableSection.addSummaryTableFieldBlock(generateCollaboratorSection());        
         tableSection.addSummaryTableFieldBlock(generateProposalDocumentsSection());
 
         if (   controller instanceof WorkflowEnhancedNavController
@@ -341,6 +343,9 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
         return block;
     }
     
+    
+    // FIXME: Need to decide if we are adding a collab section for retire, as there is not one in proposal
+    // KSCM-1774 covers this.  If so, this needs implenting, If not we can remove this method.
     public SummaryTableFieldBlock generateCollaboratorSection() {
         SummaryTableFieldBlock block = new SummaryTableFieldBlock();
         block.addEditingHandler(new EditHandler(CourseSections.PEOPLE_PERMISSONS));

@@ -651,8 +651,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     
     // KSCM-983 Setup the Retire lightbox from the drop-down
     // For Admins only.  Non-Admins will be directly sent to 
-    private void setupRetireCourseDialog(final ViewContext viewContext, final String retirePath, final DataModel model) {
-    	// FIXME change this to the new permission once created. 
+    private void setupRetireCourseDialog(final ViewContext viewContext, final String retirePath, final DataModel model) { 
     	Application.getApplicationContext().getSecurityContext().checkScreenPermission("cluRetireItem",
 				new Callback<Boolean>() {
 					@Override
