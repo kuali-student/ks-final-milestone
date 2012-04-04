@@ -2,9 +2,9 @@ package org.kuali.student.r2.common.dao;
 
 import java.util.List;
 
-// TODO KSCM-429 import org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationEntity;
+// TODO KSCM-504 import org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationEntity;
 
-// TODO KSCM-429 public class TypeTypeRelationDao extends GenericEntityDao<TypeTypeRelationEntity>{
+// TODO KSCM-504 public class TypeTypeRelationDao extends GenericEntityDao<TypeTypeRelationEntity>{
 	
 
    /* @SuppressWarnings("unchecked")
