@@ -62,7 +62,7 @@ public class MajorDisciplineDataService extends AbstractDataService {
             } else if (mdInfo.getId() == null){
                 mdInfo = programService.createMajorDiscipline(mdInfo.getId(), mdInfo, ContextUtils.getContextInfo());
             } else {
-            	mdInfo = programService.updateMajorDiscipline(mdInfo, ContextUtils.getContextInfo());
+            	mdInfo = programService.updateMajorDiscipline(mdInfo.getId(), mdInfo, ContextUtils.getContextInfo());
             }
             return mdInfo;
         } else {

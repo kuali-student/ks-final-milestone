@@ -314,7 +314,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 
             // Get program requirement from the program service
             ProgramRequirementInfo programRequirementInfo = null;
-            programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null,ContextUtils.getContextInfo());
+            programRequirementInfo = programService.getProgramRequirement(programRequirementId, ContextUtils.getContextInfo());
 
             // Look in the requirement for the statement tree
             StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();
@@ -326,7 +326,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
             programRequirementInfo.setStateKey(newState);
 
             // The write the requirement back to the program service
-            programService.updateProgramRequirement(programRequirementId, programRequirementId, programRequirementInfo,ContextUtils.getContextInfo());
+            programService.updateProgramRequirement(programRequirementId, programRequirementId, programRequirementInfo, ContextUtils.getContextInfo());
 
         }
     }

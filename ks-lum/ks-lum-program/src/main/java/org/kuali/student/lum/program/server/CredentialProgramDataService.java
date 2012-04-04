@@ -57,11 +57,11 @@ public class CredentialProgramDataService extends AbstractDataService {
             CredentialProgramInfo cpInfo = (CredentialProgramInfo) dto;
             if (cpInfo.getId() == null && cpInfo.getVersionInfo(ContextUtils.getContextInfo()) != null) {
             	String credentialVersionIndId = cpInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId();
-            	cpInfo = programService.createNewCredentialProgramVersion(credentialVersionIndId, "New credential program version",ContextUtils.getContextInfo());
+            	cpInfo = programService.createNewCredentialProgramVersion(credentialVersionIndId, "New credential program version", ContextUtils.getContextInfo());
             } else if (cpInfo.getId() == null) {
-                cpInfo = programService.createCredentialProgram(cpInfo.getId(),cpInfo,ContextUtils.getContextInfo());
+                cpInfo = programService.createCredentialProgram(cpInfo.getId(), cpInfo, ContextUtils.getContextInfo());
             } else {
-            	cpInfo = programService.updateCredentialProgram(cpInfo,ContextUtils.getContextInfo());
+            	cpInfo = programService.updateCredentialProgram(cpInfo.getId(), cpInfo, ContextUtils.getContextInfo());
             }
             return cpInfo;
         } else {

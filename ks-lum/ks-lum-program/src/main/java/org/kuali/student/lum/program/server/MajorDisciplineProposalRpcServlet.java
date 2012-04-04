@@ -60,7 +60,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
 
         for (String programReqId : programRequirementIds) {
             ProgramRequirementInfo rule = null;
-            rule = programService.getProgramRequirement(programReqId, null, null,ContextUtils.getContextInfo());
+            rule = programService.getProgramRequirement(programReqId, ContextUtils.getContextInfo());
             setProgReqNL(rule);
             programReqInfos.add(rule);
         }

@@ -97,7 +97,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
 
         for (String programReqId : programRequirementIds) {
             ProgramRequirementInfo rule = null;
-            rule = programService.getProgramRequirement(programReqId, null, null,ContextUtils.getContextInfo());
+            rule = programService.getProgramRequirement(programReqId, ContextUtils.getContextInfo());
             setProgReqNL(rule);
             programReqInfos.add(rule);
         }
