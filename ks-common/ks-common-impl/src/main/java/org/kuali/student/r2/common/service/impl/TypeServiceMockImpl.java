@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-// TODO KSCM-429 copy again
+// TODO KSCM-504 copy again
 public class TypeServiceMockImpl { 
-// TODO KSCM-429 implements TypeService{
+// TODO KSCM-504 implements TypeService{
 
     private Map<String, TypeInfo> allTypes = new HashMap<String, TypeInfo>();
     private Map<String, Map<String, TypeTypeRelationInfo>> relationOwners = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
