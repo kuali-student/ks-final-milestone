@@ -11,6 +11,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
@@ -93,7 +94,8 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         String periodId = form.getPeriodId();
         String periodInfoDetails = new String();
-        if (periodId != "all" && !periodId.isEmpty()) {
+
+        if (!periodId.isEmpty() && !periodId.equals("all")) {
             // display the period start/end time in details and the period name in the AddLine
             AppointmentWindowWrapper addLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
             KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
@@ -111,6 +113,26 @@ public class RegistrationWindowsController extends UifControllerBase {
             form.setPeriodInfoDetails(periodInfoDetails);
 
             //TODO: pull out all windows for that period and add to the collection
+        }
+        else if (periodId.equals("all")) {
+            List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
+            if(periodMilestones.isEmpty()) {
+                TermInfo term = form.getTermInfo();
+                if (term.getId() != null && !term.getId().isEmpty()) {
+                    ContextInfo context = TestHelper.getContext1();
+                    periodMilestones = getAcalService().getKeyDatesForTerm(term.getId(), context);
+                }
+            }
+            for (KeyDateInfo period : periodMilestones){
+                if (period.getName() != null) {
+                    periodInfoDetails = period.getName()+" Start Date: "+period.getStartDate()+ "<br>"
+                            + period.getName()+" End Date: "+period.getEndDate()+"<br>";
+                } else {
+                    periodInfoDetails = period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
+                            + period.getId()+" End Date: "+period.getEndDate()+"<br>";
+                }
+            }
+            form.setPeriodInfoDetails(periodInfoDetails);
         }
         return getUIFModelAndView(form);    
     }

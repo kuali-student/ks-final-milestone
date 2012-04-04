@@ -13,6 +13,7 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
     private TermInfo termInfo;
     private String termType;
     private String termYear;
+    //period drop-down field in Appointment Windows page
     private String periodId;
     private String periodName;
     private String periodInfoDetails;

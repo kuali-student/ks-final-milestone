@@ -125,7 +125,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.PeriodKeyDatesFinder"/>
+                        <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.PeriodForAppWindowKeyDatesFinder"/>
                     </property>
                 </bean>
 

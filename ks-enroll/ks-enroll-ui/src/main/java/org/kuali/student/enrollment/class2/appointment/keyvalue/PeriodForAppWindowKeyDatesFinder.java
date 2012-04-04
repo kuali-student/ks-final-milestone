@@ -5,7 +5,6 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -20,22 +19,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Serializable {
+public class PeriodForAppWindowKeyDatesFinder extends UifKeyValuesFinderBase implements Serializable {
     private static final long serialVersionUID = 1L;
     private transient AcademicCalendarService acalService;
 
-    /*
-     * try to generate key-value pairs based on minimal info from the form
-     */
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm)model;
+
         ContextInfo context = TestHelper.getContext1();
         try {
             TermInfo term = form.getTermInfo();
             if (term.getId() != null && !term.getId().isEmpty()) {
                 List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(term.getId(), context);
+                if (!keyDateInfoList.isEmpty())
+                    keyValues.add(new ConcreteKeyValue("", "Select Period..."));
                 for (KeyDateInfo keyDateInfo : keyDateInfoList) {
                     if (keyDateInfo.getTypeKey().equals("kuali.atp.milestone.RegistrationPeriod")){
                         ConcreteKeyValue keyValue = new ConcreteKeyValue();
@@ -44,10 +43,7 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
                         keyValues.add(keyValue);
                     }
                 }
-                if (!keyValues.isEmpty())
-                    keyValues.add(new ConcreteKeyValue("all", "All Registration Periods for this Term"));
             }
-
         }catch (DoesNotExistException dnee){
             System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get DoesNotExistException:  "+dnee.toString());
         }catch (InvalidParameterException ipe){
@@ -59,7 +55,6 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
         }catch (PermissionDeniedException pde){
             System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get PermissionDeniedException:  "+pde.toString());
         }
-
         return keyValues;
     }
 
