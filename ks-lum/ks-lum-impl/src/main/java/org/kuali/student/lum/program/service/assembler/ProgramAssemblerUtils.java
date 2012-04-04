@@ -120,7 +120,6 @@ public class ProgramAssemblerUtils {
         clu.setId(UUIDHelper.genStringUUID(program.getId()));
         
         // Default 
-        //TODO KSCM-429 determine if getState and getStateKey will be the same ?
         clu.setState(program.getState());
         clu.setMetaInfo(program.getMetaInfo());
         clu.setAttributes(program.getAttributes());
@@ -505,7 +504,7 @@ public class ProgramAssemblerUtils {
             resultTypes.add(ProgramAssemblerConstants.DEGREE_RESULTS);
             resultTypes.add(ProgramAssemblerConstants.CERTIFICATE_RESULTS);
 
-            /* TODO KSCM-429 resultOptions = cluAssemblerUtils.assembleCluResults(resultTypes, cluResults);*/
+            /* TODO KSCM-391 resultOptions = cluAssemblerUtils.assembleCluResults(resultTypes, cluResults);*/
 
         } catch (DoesNotExistException e){
         } catch (Exception e) {

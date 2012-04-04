@@ -56,7 +56,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         
         if (!shallowBuild) {
 	        programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) cpInfo, contextInfo);
-	        /* TODO KSCM-429 cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
+	        /* TODO KSCM-391 cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
 	        cpInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(baseDTO.getId(),contextInfo));
         }
         
@@ -138,7 +138,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
     }
 
     private void disassembleLearningObjectives(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
-    	/* TODO KSCM-429  try {
+    	/* TODO KSCM-391  try {
             List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(credential.getId(), credential.getState(), (List<LoDisplayInfo>) credential.getLearningObjectives(), operation,contextInfo);
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);

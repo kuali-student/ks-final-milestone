@@ -86,7 +86,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) mdInfo, contextInfo);
             mdInfo.setCredentialProgramId(programAssemblerUtils.getCredentialProgramID(baseDTO.getId(), contextInfo));
             mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(baseDTO.getId(), contextInfo));
-            /* TODO KSCM-429 mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));*/
+            /* TODO KSCM-391 mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));*/
             mdInfo.setVariations(assembleVariations(baseDTO.getId(), shallowBuild, contextInfo));
             mdInfo.setOrgCoreProgram(assembleCoreProgram(baseDTO.getId(), shallowBuild, contextInfo));
             try {
@@ -153,7 +153,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 		
 		CluInfo clu;
 		try {
-			//TODO KSCM-429 remove line belowe and  fix this line : clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
+			//TODO KSCM-931 remove line belowe and  fix this line : clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
 			clu = new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during major update", e);
@@ -219,7 +219,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     }
 
     private void disassembleLearningObjectives(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
-    	/* TODO KSCM-429try {
+    	/* TODO KSCM-391 try {
         	 List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(major.getId(), major.getState(),  major.getLearningObjectives(), operation,contextInfo);
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
