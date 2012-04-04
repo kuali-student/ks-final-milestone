@@ -74,7 +74,6 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * @author Kuali Student Team
  */
-// TODO KSCM-228
 public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseInfo> getCoursesByIds(@WebParam(name = "courseIds") List<String> courseIds,
