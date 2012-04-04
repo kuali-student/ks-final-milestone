@@ -135,13 +135,33 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 //        }
 
     }
-    
+
+    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if (addLine instanceof AppointmentWindowWrapper){
+            RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
+            List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
+            String periodKey = ((AppointmentWindowWrapper) addLine).getPeriodKey();
+            for (KeyDateInfo period : periodMilestones) {
+                if (periodKey.equals(period.getId())){
+                    if (period.getName() != null && !period.getName().isEmpty()){
+                        ((AppointmentWindowWrapper) addLine).setPeriodName(period.getName());
+                    }
+                    else{
+                        ((AppointmentWindowWrapper) addLine).setPeriodName(periodKey);
+                    }
+                    break;
+                }
+            }
+        }
+    }
     protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
-        AppointmentWindowWrapper newCollectionLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
-        String periodId = form.getPeriodId();
-        if (periodId != "all" && !periodId.isEmpty()){
-            newCollectionLine.setPeriodName(form.getPeriodName());
+        if (addLine instanceof AppointmentWindowWrapper) {
+            RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
+            AppointmentWindowWrapper newCollectionLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
+            String periodId = form.getPeriodId();
+            if (periodId != "all" && !periodId.isEmpty()){
+                newCollectionLine.setPeriodName(form.getPeriodName());
+            }
         }
     }
 
