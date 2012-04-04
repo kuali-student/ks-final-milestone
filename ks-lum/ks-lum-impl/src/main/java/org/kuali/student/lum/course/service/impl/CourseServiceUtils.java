@@ -37,7 +37,6 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
-// TODO KSCM-225
 public class CourseServiceUtils {
 	public static void resetIds(CourseInfo course) {
 		
