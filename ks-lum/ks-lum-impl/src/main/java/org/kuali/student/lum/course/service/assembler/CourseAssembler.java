@@ -80,14 +80,6 @@ import org.springframework.util.StringUtils;
  * 
  */
 
-// TODO KSCM-429 replaced
-// xyz.setTypeKey(...) - > xyz.setType(...);
-// xyz.setStateKey(...) -> xyz.setState();
-// xyz.getTypeKey(...) -> xyz.getType(...)
-// xyz.getStateKey(...) -> xyz.getState(...)
-// xyz.setMeta(...) -> xyz.setMetaInfo(...);
-
-
 public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
     final static Logger LOG = Logger.getLogger(CourseAssembler.class);
@@ -288,7 +280,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			}
 			
 			//Learning Objectives
-			/* TODO KSCM-429 course.getCourseSpecificLOs().addAll(cluAssemblerUtils.assembleLos(course.getId(), shallowBuild, contextInfo)); */
+			/* TODO KSCM-391 course.getCourseSpecificLOs().addAll(cluAssemblerUtils.assembleLos(course.getId(), shallowBuild, contextInfo)); */
 			
 		}
 
