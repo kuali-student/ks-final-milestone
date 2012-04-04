@@ -60,7 +60,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
-// TODO KSCM-244
 public class CategoryManagement extends Composite {
     private KSButton addButton = new KSButton("Create", ButtonStyle.SECONDARY);
     private KSButton deleteButton = new KSButton("Delete", ButtonStyle.SECONDARY);
