@@ -15,28 +15,26 @@
  */
 package org.kuali.student.lum.program.service.assembler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.lum.course.service.assembler.CourseAssembler;
+import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramAtpAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramBasicOrgAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramCodeAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramIdentifierAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramPublicationAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramRequirementAssembly;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.course.service.assembler.CourseAssembler;
-import org.kuali.student.r1.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r1.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.r1.lum.program.dto.assembly.*;
-import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramCommonAssembly;
-
-
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
 /**
  * @author KS
  *
@@ -68,7 +66,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 		}
 
         cpInfo.setDescr(baseDTO.getDescr());
-        cpInfo.setVersionInfo(baseDTO.getVersionInfo());
+        cpInfo.setVersion(baseDTO.getVersionInfo());
         
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) cpInfo, contextInfo);
@@ -99,7 +97,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
         } 
         
-        boolean stateChanged = NodeOperation.UPDATE == operation && businessDTO.getState() != null && !businessDTO.getState().equals(businessDTO.getState());
+        boolean stateChanged = NodeOperation.UPDATE == operation && businessDTO.getStateKey() != null && !businessDTO.getStateKey().equals(businessDTO.getStateKey());
         
         programAssemblerUtils.disassembleBasics(clu, (ProgramCommonAssembly) businessDTO);
         if (businessDTO.getId() == null)
@@ -141,7 +139,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
     }
     
     // Spring setter
-    public void setLuService(CluService cluService) {
+    public void setCluService(CluService cluService) {
         this.cluService = cluService;
     }
 

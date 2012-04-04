@@ -104,11 +104,11 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		return result;
 	}
 
-    public void setLuService(CluService cluService) {
+    public void setCluService(CluService cluService) {
         this.cluService = cluService;
     }
 
-    public CluService getLuService() {
+    public CluService getCluService() {
         return cluService;
     }
 

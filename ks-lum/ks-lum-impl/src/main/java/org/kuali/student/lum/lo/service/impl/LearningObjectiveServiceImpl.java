@@ -247,22 +247,12 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
     @Override
-    public LoLoRelationInfo getLoLoRelation(@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public List<LoLoRelationInfo> getLoLoRelationsByIds(@WebParam(name = "loLoRelationIds") List<String> loLoRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public List<String> getLoLoRelationIdsByType(@WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -281,7 +271,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
       */
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public LoInfo createLo (String repositoryId, String loType, String loTypeKey,  LoInfo loInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+	public LoInfo createLo (String repositoryId, String loType, LoInfo loInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
  
         checkForMissingParameter(repositoryId, "repositoryId");
 	    checkForMissingParameter(loType, "loType");
@@ -497,16 +487,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    List<Lo> los = loDao.getLosByLoCategory(loCategoryId);
 	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoInfos(los),LoInfo.class);
 	}
-
-    @Override
-    public List<LoInfo> getLosByRelatedLoId(@WebParam(name = "relatedLoId") String relatedLoId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<LoInfo> getRelatedLosByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 
     @Override
     public List<String> searchForLoIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -1041,62 +1021,38 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	  //TODO KSCM-419 :return LearningObjectiveServiceAssembler.toLoLoRelationInfo(relation);
 	    return null;
 	}
-
+	
 	@Override
-	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteLoLoRelation(String loLoRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+	@Transactional(readOnly=true)
+    public LoLoRelationInfo getLoLoRelation(@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    checkForMissingParameter(loLoRelationId, "loLoRelationId");
-	    
-	    loDao.deleteLoLoRelation(loLoRelationId);
-	    
-		return new StatusInfo();
-	}
-
-	@Override
-    @Transactional(readOnly=true)
-	public LoLoRelationInfo getLoLoRelation(String loLoRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-	    checkForMissingParameter(loLoRelationId, "loLoRelationId");
-	  //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoLoRelationInfo(loDao.fetch(LoLoRelation.class, loLoRelationId));
+	    //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoLoRelationInfo(loDao.fetch(LoLoRelation.class, loLoRelationId));
 	    return null;
-	}
-
+    }
+	
 	@Override
-    @Transactional(readOnly=true)
-	public List<LoLoRelationInfo> getLoLoRelationsByLoId(String loId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		List<LoLoRelation> llRelations = loDao.getLoLoRelationsByLoId(loId);
-		//TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations);
-		return null;
-	}
-
+	@Transactional(readOnly=true)
+    public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	    List<LoLoRelation> llRelations = loDao.getLoLoRelationsByLoId(loId);
+	    //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations);
+	    return null;
+    }
+	
 	@Override
-    @Transactional(readOnly=true)
-	public List<LoInfo> getLosByRelatedLoId(String relatedLoId,
-			String loLoRelationType) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		List<Lo> relatedLos = loDao.getLosByRelatedLoId(relatedLoId, loLoRelationType);
-		//TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
-		return null;
-	}
-
+	@Transactional(readOnly=true)
+    public List<LoInfo> getLosByRelatedLoId(@WebParam(name = "relatedLoId") String relatedLoId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	    List<Lo> relatedLos = loDao.getLosByRelatedLoId(relatedLoId, loLoRelationTypeKey);
+        //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
+        return null;
+    }
+	
 	@Override
-    @Transactional(readOnly=true)
-	public List<LoInfo> getRelatedLosByLoId(String loId, String loLoRelationTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-	    checkForMissingParameter(loId, "loId");
-	    checkForMissingParameter(loLoRelationTypeKey, "loLoRelationTypeKey");
+	@Transactional(readOnly=true)
+    public List<LoInfo> getRelatedLosByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    List<Lo> relatedLos = loDao.getRelatedLosByLoId(loId, loLoRelationTypeKey);
-	  //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
+	    //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
 	    return null;
-	}
+    }
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -1119,7 +1075,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 
     @Override
     public StatusInfo deleteLoLoRelation(@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        checkForMissingParameter(loLoRelationId, "loLoRelationId");
+        
+        loDao.deleteLoLoRelation(loLoRelationId);
+        
+        return new StatusInfo();
     }
 
     @Override
@@ -1201,27 +1161,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
-	public LoInfo createLo(String loTypeKey, LoInfo loInfo, String lo,
-			ContextInfo contextInfo) throws DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, ReadOnlyException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public LoLoRelationInfo createLoLoRelation(String loLoRelationTypeKey,
-			String relatedLoId, String type, LoLoRelationInfo loLoRelationInfo,
-			ContextInfo contextInfo) throws DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, ReadOnlyException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
         SearchResult result =  searchManager.search(searchRequest, loDao);
@@ -1275,17 +1214,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 				}
 			}
 		}
-	}
-
-	@Override
-	public LoInfo createLo(String loTypeKey, LoInfo loInfo,
-			ContextInfo contextInfo) throws DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, ReadOnlyException {
-		
-		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
-
 	}
 	
 }

@@ -22,7 +22,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r2.core.statement.service.StatementService;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;

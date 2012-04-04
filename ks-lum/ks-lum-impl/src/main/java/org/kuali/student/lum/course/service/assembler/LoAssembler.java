@@ -55,7 +55,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 			try {
 				List<LoInfo> childLos = null;
 				
-				loService.getRelatedLosByLoId(loId,CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
+				loService.getRelatedLosByLoId(loId, CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES, contextInfo);
 				for(LoInfo childLo:childLos){
 					LoDisplayInfo childLoDisplay = assemble(childLo, null, shallowBuild,contextInfo);
 					childLoDisplay.setParentLoRelationid(lo.getId());
@@ -185,7 +185,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		return results;
 	}
 
-	private List<BaseDTOAssemblyNode<?, ?>> disassembleChildLos(LoDisplayInfo loDisplay, NodeOperation operation,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AssemblyException, PermissionDeniedException{
+	private List<BaseDTOAssemblyNode<?, ?>> disassembleChildLos(LoDisplayInfo loDisplay, NodeOperation operation, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AssemblyException, PermissionDeniedException{
 		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 		Map<String,LoLoRelationInfo> currentLoRelations = new HashMap<String,LoLoRelationInfo>();
 		//Make lu lu relations
@@ -193,7 +193,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 			try {
 				List<LoLoRelationInfo> loRelations = null;
 				 
-				loService.getLoLoRelationsByLoId(loDisplay.getLoInfo().getId());
+				loService.getLoLoRelationsByLoId(loDisplay.getLoInfo().getId(), contextInfo);
 				for (LoLoRelationInfo loRelation : loRelations) {
 					//getLoLoRelationsByLoId returns if the lo is related or if it is the owner(this seems wrong)
 					

@@ -40,6 +40,7 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	final Logger LOG = Logger.getLogger(LumServiceMethodInvoker.class);
@@ -48,7 +49,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	private LearningObjectiveService loService;
 	private OrganizationService orgService;
 	private AtpService atpService;
-	private LrcService lrcService;
+	private LRCService lrcService;
 
 	@SuppressWarnings("unchecked")
 	public final void invokeServiceCalls(BaseDTOAssemblyNode results, ContextInfo contextInfo)
@@ -188,7 +189,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			LoInfo lo = (LoInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				LoInfo createdLo = loService.createLo(lo.getLoRepositoryKey(), lo, lo.getTypeKey(), contextInfo);
+				LoInfo createdLo = loService.createLo(lo.getLoRepositoryKey(), lo.getTypeKey(), lo, contextInfo);
 				if(null != results.getBusinessDTORef()) {
 					results.getAssembler().assemble(createdLo, results.getBusinessDTORef(), true, contextInfo);
 				}
@@ -207,13 +208,13 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			LoLoRelationInfo loRelation = (LoLoRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				loService.createLoLoRelation(loRelation.getLoId(), loRelation.getRelatedLoId(), loRelation.getTypeKey(), loRelation, contextInfo);
+				loService.createLoLoRelation(loRelation.getTypeKey(), loRelation, contextInfo);
 				break;
 			case UPDATE:
 				loService.updateLoLoRelation(loRelation.getId(), loRelation, contextInfo);
  				break;
 			case DELETE:
-				loService.deleteLoLoRelation(loRelation.getId());
+				loService.deleteLoLoRelation(loRelation.getId(), contextInfo);
 				break;
 			}
 		}else if(nodeData instanceof CluLoRelationInfo){
@@ -233,7 +234,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			ResultComponentInfo resultComponent = (ResultComponentInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				ResultComponentInfo createdResultComponent = lrcService.createResultComponent(resultComponent.getType(), resultComponent);
+				ResultComponentInfo createdResultComponent = lrcService.createResultComponent(resultComponent.getType(), resultComponent, contextInfo);
 				//Copy the created back to the reference Should there be an assembler for this?
 				if(results.getBusinessDTORef()!=null&& results.getBusinessDTORef() instanceof ResultComponentInfo){
 					ResultComponentInfo resultComponentToUpdate = (ResultComponentInfo) results.getBusinessDTORef();
@@ -249,7 +250,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				}
 				break;
 			case UPDATE:
-				lrcService.updateResultComponent(resultComponent.getId(), resultComponent);
+				lrcService.updateResultComponent(resultComponent.getId(), resultComponent, contextInfo);
 				break;
 			case DELETE:
 				lrcService.deleteResultComponent(resultComponent.getId());
@@ -342,12 +343,12 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 
 	}
 
-	public CluService getLuService() {
+	public CluService getCluService() {
 		return cluService;
 	}
 
-	public void setLuService(CluService luService) {
-		this.cluService = luService;
+	public void setCluService(CluService cluService) {
+		this.cluService = cluService;
 	}
 
 	public StatementService getStatementService() {
@@ -382,7 +383,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 		this.atpService = atpService;
 	}
 
-	public void setLrcService(LrcService lrcService) {
+	public void setLrcService(LRCService lrcService) {
 		this.lrcService = lrcService;
 	}
 

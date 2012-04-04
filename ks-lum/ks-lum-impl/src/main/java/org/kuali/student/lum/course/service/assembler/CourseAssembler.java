@@ -1234,41 +1234,40 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		return results;
 	}
 	
-	// TODO KSCM-392	
-//	public void setLuService(LuService luService) {
-//		this.luService = luService;
-//	}
-//
-//	public void setFormatAssembler(FormatAssembler formatAssembler) {
-//		this.formatAssembler = formatAssembler;
-//	}
-//
-//	public void setCourseJointAssembler(
-//			CourseJointAssembler courseJointAssembler) {
-//		this.courseJointAssembler = courseJointAssembler;
-//	}
-//
-//	public void setLoAssembler(LoAssembler loAssembler) {
-//		this.loAssembler = loAssembler;
-//	}
-//
-//	public void setLoService(LearningObjectiveService loService) {
-//		this.loService = loService;
-//	}
-//
-//    public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
-//        this.cluAssemblerUtils = cluAssemblerUtils;
-//    }
-//
-//	public void setLrcService(LrcService lrcService) {
-//		this.lrcService = lrcService;
-//	}
-//
-//	public void setAtpService(AtpService atpService) {
-//		this.atpService = atpService;
-//	}
-//
-//	public void setDefaultCreditIncrement(float defaultCreditIncrement) {
-//		this.defaultCreditIncrement = defaultCreditIncrement;
-//	}
+	public void setCluService(CluService cluService) {
+		this.cluService = cluService;
+	}
+
+	public void setFormatAssembler(FormatAssembler formatAssembler) {
+		this.formatAssembler = formatAssembler;
+	}
+
+	public void setCourseJointAssembler(
+			CourseJointAssembler courseJointAssembler) {
+		this.courseJointAssembler = courseJointAssembler;
+	}
+
+	public void setLoAssembler(LoAssembler loAssembler) {
+		this.loAssembler = loAssembler;
+	}
+
+	public void setLoService(LearningObjectiveService loService) {
+		this.loService = loService;
+	}
+
+    public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
+        this.cluAssemblerUtils = cluAssemblerUtils;
+    }
+
+	public void setLrcService(LRCService lrcService) {
+		this.lrcService = lrcService;
+	}
+
+	public void setAtpService(AtpService atpService) {
+		this.atpService = atpService;
+	}
+
+	public void setDefaultCreditIncrement(float defaultCreditIncrement) {
+		this.defaultCreditIncrement = defaultCreditIncrement;
+	}
 }

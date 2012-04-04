@@ -58,12 +58,12 @@
 		</property>
 	</bean>
     
-    <bean id="validator" class="org.kuali.student.r1.common.validator.DefaultValidatorImpl">
+    <bean id="validator" class="org.kuali.student.r2.common.validator.DefaultValidatorImpl">
     <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 
     <bean id="validatorFactory"
-          class="org.kuali.student.r1.common.validator.ValidatorFactory">
+          class="org.kuali.student.r2.common.validator.ValidatorFactory">
         <property name="defaultValidator" ref="validator"/>
     </bean>
 

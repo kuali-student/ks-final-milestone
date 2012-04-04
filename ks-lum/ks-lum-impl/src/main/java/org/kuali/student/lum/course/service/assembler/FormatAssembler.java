@@ -301,11 +301,11 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		this.activityAssembler = activityAssembler;
 	}
 
-	public CluService getLuService() {
+	public CluService getCluService() {
 		return luService;
 	}
 
-	public void setLuService(CluService luService) {
+	public void setCluService(CluService luService) {
 		this.luService = luService;
 	}
 }

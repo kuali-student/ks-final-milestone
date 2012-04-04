@@ -2067,7 +2067,7 @@ public class LuServiceImpl implements CluService {
         SearchRequest sr = new SearchRequest();
         sr.setSearchKey(query.getSearchTypeKey());
         sr.setParams(query.getQueryParamValueList());
-
+        
         SearchResult result = search(sr);
 
         Set<String> cluIds = new HashSet<String>();

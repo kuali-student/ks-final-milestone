@@ -15,25 +15,27 @@
  */
 package org.kuali.student.lum.program.service.assembler;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r1.common.dto.AmountInfo;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramAtpAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramBasicOrgAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramCodeAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramFullOrgAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramIdentifierAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramPublicationAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramRequirementAssembly;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r1.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r1.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.r1.lum.program.dto.assembly.*;
-import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
-
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
 /**
  * @author KS
  *
@@ -41,7 +43,7 @@ import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 public class ProgramVariationAssembler implements BOAssembler<ProgramVariationInfo, CluInfo> {
     final static Logger LOG = Logger.getLogger(ProgramVariationAssembler.class);
 
-    private CluService luService;
+    private CluService cluService;
     private CluAssemblerUtils cluAssemblerUtils;
     private ProgramAssemblerUtils programAssemblerUtils;
 
@@ -72,12 +74,12 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         	/* TODO KSCM-391  pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
         }
         
-        pvInfo.setIntensity((null != baseDTO.getIntensity()) ? baseDTO.getIntensity().getUnitType() : null);
+        pvInfo.setIntensity((null != baseDTO.getIntensity()) ? baseDTO.getIntensity().getUnitTypeKey() : null);
         pvInfo.setStdDuration(baseDTO.getStdDuration());
         pvInfo.setCampusLocations(baseDTO.getCampusLocations());
         pvInfo.setEffectiveDate(baseDTO.getEffectiveDate());
         pvInfo.setDescr(baseDTO.getDescr());
-        pvInfo.setVersionInfo(baseDTO.getVersionInfo());
+        pvInfo.setVersion(baseDTO.getVersionInfo());
 
         return pvInfo;
     }
@@ -96,14 +98,14 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 
 		CluInfo clu;
 		try {
-			clu = (NodeOperation.UPDATE == operation) ? R1R2ConverterUtil.convert(luService.getClu(businessDTO.getId(), contextInfo),new CluInfo()) : new CluInfo();
+			clu = (NodeOperation.UPDATE == operation) ? R1R2ConverterUtil.convert(cluService.getClu(businessDTO.getId(), contextInfo),new CluInfo()) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during variation update", e);
         } 
         
-        boolean stateChanged = NodeOperation.UPDATE == operation && businessDTO.getState() != null && !businessDTO.getState().equals(clu.getState());
+        boolean stateChanged = NodeOperation.UPDATE == operation && businessDTO.getStateKey() != null && !businessDTO.getStateKey().equals(clu.getStateKey());
         
-        clu.setState(businessDTO.getState());
+        clu.setStateKey(businessDTO.getStateKey());
         programAssemblerUtils.disassembleBasics(clu, (ProgramCommonAssembly) businessDTO);
         if (businessDTO.getId() == null)
             businessDTO.setId(clu.getId());
@@ -132,7 +134,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         clu.setCampusLocations(businessDTO.getCampusLocations());
         clu.setEffectiveDate(businessDTO.getEffectiveDate());
         clu.setDescr(businessDTO.getDescr());
-        clu.setVersionInfo(businessDTO.getVersionInfo());
+        clu.setVersionInfo(businessDTO.getVersion());
         
 		// Add the Clu to the result
 		result.setNodeData(clu);
@@ -155,15 +157,15 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     }
 
     private void disassembleResultOptions(ProgramVariationInfo variation, NodeOperation operation, BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
-        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(variation.getId(), variation.getState(), variation.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option", contextInfo);
+        BaseDTOAssemblyNode<?, ?> resultOptions = cluAssemblerUtils.disassembleCluResults(variation.getId(), variation.getStateKey(), variation.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option", contextInfo);
         if (resultOptions != null) {
             result.getChildNodes().add(resultOptions);           
         }
     }
     
     // Spring setter
-    public void setLuService(CluService luService) {
-        this.luService = luService;
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
     
     public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {

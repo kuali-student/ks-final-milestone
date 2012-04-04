@@ -6,6 +6,7 @@ package org.kuali.student.lum.program.service.impl;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.apache.commons.lang.StringUtils.isEmpty;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,14 +27,14 @@ import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r1.core.statement.service.assembler.StatementTreeViewAssembler;
 import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.r1.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.r1.lum.lu.dto.CluInfo;
-import org.kuali.student.r1.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 
 /**
@@ -86,8 +87,8 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 			/* TODO KSCM-391 progReq.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild,contextInfo)); */
 		}
 
-		progReq.setMetaInfo(clu.getMetaInfo());
-		progReq.setType(clu.getType());
+		progReq.setMeta(clu.getMeta());
+		progReq.setTypeKey(clu.getTypeKey());
 		progReq.setAttributes(clu.getAttributes());
 		progReq.setId(clu.getId());
 
@@ -152,7 +153,13 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         cluResult.setOperation(operation);
         result.getChildNodes().add(cluResult);
 
-        programAssemblerUtils.disassembleBasics(clu, progReq);
+        clu.setTypeKey(progReq.getTypeKey());
+        clu.setId(UUIDHelper.genStringUUID(progReq.getId()));
+        
+        // Default 
+        clu.setStateKey(progReq.getStateKey());
+        clu.setMeta(progReq.getMeta());
+        clu.setAttributes(progReq.getAttributes());
 
 		//disassembling minCredits & maxCredits
         disassembleCredits(clu, progReq,contextInfo);
@@ -164,10 +171,10 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         
         // We decided not to do null checks in the disassembler.  Instead we will just 
         // set state to whatever is passed into the method (I missed this change when working on 1834)      
-        official.setState(progReq.getState());
+        official.setStateKey(progReq.getStateKey());
         
         // gotta be this type
-        official.setType(ProgramAssemblerConstants.OFFICIAL);
+        official.setTypeKey(ProgramAssemblerConstants.OFFICIAL);
         clu.setOfficialIdentifier(official);
 
         clu.setDescr(progReq.getDescr());
@@ -221,31 +228,36 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 	}
 
 	private void disassembleCredits(CluInfo clu, ProgramRequirementInfo progReq,ContextInfo contextInfo){
-		Map<String,String> attributes = null != clu.getAttributes() ? clu.getAttributes() : new HashMap<String,String>();
+        List<AttributeInfo> attributes = null != clu.getAttributes() ? clu.getAttributes() : new ArrayList<AttributeInfo>();
 
 		if(progReq.getMinCredits() != null){
-			attributes.put(ProgramAssemblerConstants.MIN_CREDITS, Integer.toString(progReq.getMinCredits()));
+            attributes.add(new AttributeInfo(ProgramAssemblerConstants.MIN_CREDITS, Integer.toString(progReq.getMinCredits())));
 		}else{
-			attributes.put(ProgramAssemblerConstants.MIN_CREDITS, null);
+            attributes.add(new AttributeInfo(ProgramAssemblerConstants.MIN_CREDITS, null));
 		}
 		if(progReq.getMaxCredits() != null) {
-			attributes.put(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMaxCredits()));
+            attributes.add(new AttributeInfo(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMinCredits())));
 		}else{
-			attributes.put(ProgramAssemblerConstants.MAX_CREDITS, null);
+            attributes.add(new AttributeInfo(ProgramAssemblerConstants.MAX_CREDITS, null));
 		}
 			
 		clu.setAttributes(attributes);
 	}
 
 	private void assembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
-		Map<String,String> attributes = clu.getAttributes();
-		if(attributes != null){
-			String minCredits = attributes.get(ProgramAssemblerConstants.MIN_CREDITS);
-			String maxCredits = attributes.get(ProgramAssemblerConstants.MAX_CREDITS);
+        if (clu.getAttributes() != null) {
+            for (AttributeInfo attribute : clu.getAttributes()) {
+                if (attribute.getKey().equals(ProgramAssemblerConstants.MIN_CREDITS)) {
+                    String minCredits = attribute.getValue();
 			progReq.setMinCredits(isEmpty(minCredits)?null:Integer.parseInt(minCredits));
+                }
+                if (attribute.getKey().equals(ProgramAssemblerConstants.MAX_CREDITS)) {
+                    String maxCredits = attribute.getValue();
 			progReq.setMaxCredits(isEmpty(maxCredits)?null:Integer.parseInt(maxCredits));
 		}
 	}
+        }
+    }
 
 	public StatementTreeViewAssembler getStatementTreeViewAssembler() {
 		return statementTreeViewAssembler;

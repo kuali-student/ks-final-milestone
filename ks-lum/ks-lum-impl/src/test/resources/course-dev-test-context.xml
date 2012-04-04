@@ -64,7 +64,7 @@
 	
 	<!-- CourseService -->
 	<bean id="courseServiceImpl" class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
-		<property name="luService" ref="cluClient"/>
+		<property name="cluService" ref="cluClient"/>
 		<property name="courseAssembler" ref="courseAssembler"/>
 		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
 		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
@@ -72,7 +72,7 @@
 	</bean>
 	
 	<bean id="courseServiceMethodInvoker" class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
-		<property name="luService" ref="cluClient"/>
+		<property name="cluService" ref="cluClient"/>
 	</bean>
 	
 	<bean id="courseAssembler" class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
@@ -87,11 +87,11 @@
 	</bean>
 	
 	<bean id="activityAssembler" class="org.kuali.student.lum.course.service.assembler.ActivityAssembler">
-		<property name="luService" ref="cluClient"/>
+		<property name="cluService" ref="cluClient"/>
 	</bean>
 
 	<bean id="courseJointAssembler" class="org.kuali.student.lum.course.service.assembler.CourseJointAssembler">
-		<property name="luService" ref="cluClient"/>
+		<property name="cluService" ref="cluClient"/>
 	</bean>
 	
 	<bean id="dictionaryService" class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">

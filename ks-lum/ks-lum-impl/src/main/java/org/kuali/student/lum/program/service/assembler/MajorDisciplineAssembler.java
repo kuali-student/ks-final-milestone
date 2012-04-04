@@ -20,28 +20,36 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.lum.course.service.assembler.CourseAssembler;
+import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r1.common.dto.AmountInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramAtpAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramBasicOrgAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramCodeAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramCredentialAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramFullOrgAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramIdentifierAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramPublicationAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.ProgramRequirementAssembly;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.lum.course.service.assembler.CourseAssembler;
-import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.r1.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r1.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.r1.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.r1.lum.program.dto.assembly.*;
-import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
+import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
 
 
 /**
@@ -51,7 +59,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo, CluInfo> {
     final static Logger LOG = Logger.getLogger(CourseAssembler.class);
 
-    private CluService luService;
+    private CluService cluService;
 
     private ProgramVariationAssembler programVariationAssembler;
     private CoreProgramAssembler coreProgramAssembler;
@@ -72,14 +80,14 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         programAssemblerUtils.assembleAtps(baseDTO, (ProgramAtpAssembly) mdInfo);
         programAssemblerUtils.assembleLuCodes(baseDTO, (ProgramCodeAssembly) mdInfo);
 
-        mdInfo.setIntensity((null != baseDTO.getIntensity()) ? baseDTO.getIntensity().getUnitType() : null);
+        mdInfo.setIntensity((null != baseDTO.getIntensity()) ? baseDTO.getIntensity().getUnitTypeKey() : null);
         mdInfo.setStdDuration(baseDTO.getStdDuration());
         mdInfo.setPublishedInstructors(baseDTO.getInstructors());
         mdInfo.setCampusLocations(baseDTO.getCampusLocations());
         mdInfo.setAccreditingAgencies(baseDTO.getAccreditations());
         mdInfo.setEffectiveDate(baseDTO.getEffectiveDate());
         mdInfo.setDescr(baseDTO.getDescr());
-        mdInfo.setVersionInfo(baseDTO.getVersionInfo());
+        mdInfo.setVersion(baseDTO.getVersionInfo());
         mdInfo.setNextReviewPeriod(baseDTO.getNextReviewPeriod());
 
         if (!shallowBuild) {
@@ -159,7 +167,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 			throw new AssemblyException("Error getting existing learning unit during major update", e);
         } 
         
-        boolean stateChanged = NodeOperation.UPDATE == operation && businessDTO.getState() != null && !businessDTO.getState().equals(clu.getState());
+        boolean stateChanged = NodeOperation.UPDATE == operation && businessDTO.getStateKey() != null && !businessDTO.getStateKey().equals(clu.getStateKey());
         
         programAssemblerUtils.disassembleBasics(clu, (ProgramCommonAssembly) businessDTO);
         if (businessDTO.getId() == null)
@@ -208,7 +216,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
         clu.setAccreditations(businessDTO.getAccreditingAgencies());
         clu.setNextReviewPeriod(businessDTO.getNextReviewPeriod());
-        clu.setState(businessDTO.getState());
+        clu.setStateKey(businessDTO.getStateKey());
 
 		// Add the Clu to the result
 		result.setNodeData(clu);
@@ -233,7 +241,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     private void disassembleResultOptions(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
         //TODO Check for ProgramAssemblerConstants.CERTIFICATE_RESULTS too
         
-        BaseDTOAssemblyNode<?, ?> degreeResults = cluAssemblerUtils.disassembleCluResults(major.getId(), major.getState(), major.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option", contextInfo);
+        BaseDTOAssemblyNode<?, ?> degreeResults = cluAssemblerUtils.disassembleCluResults(major.getId(), major.getStateKey(), major.getResultOptions(), operation, ProgramAssemblerConstants.DEGREE_RESULTS, "Result options", "Result option", contextInfo);
         if (degreeResults != null) {
             result.getChildNodes().add(degreeResults);
         }
@@ -263,7 +271,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     	// Loop through all the variations in this MD
         for (ProgramVariationInfo variation : major.getVariations()) {
             BaseDTOAssemblyNode<?,?> variationNode;
-            variation.setState(major.getState());
+            variation.setStateKey(major.getStateKey());
             try {
 	            if (NodeOperation.UPDATE.equals(operation) && variation.getId() != null
 						&& (currentRelations != null && currentRelations.containsKey(variation.getId()))) {
@@ -299,7 +307,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 				//TODO KSCM-421 : Converstion R1 to R2 remove line below and replace it with this one : variationClu = luService.getClu(variationId,contextInfo);
 				variationClu = new CluInfo();
 				ProgramVariationInfo delVariation = programVariationAssembler.assemble(variationClu, null, true, contextInfo);
-				delVariation.setState(DtoConstants.STATE_SUSPENDED);
+				delVariation.setStateKey(DtoConstants.STATE_SUSPENDED);
 				BaseDTOAssemblyNode<?,?> variationNode = programVariationAssembler.disassemble(delVariation , NodeOperation.UPDATE, contextInfo);
 				if (variationNode != null) nodes.add(variationNode);
 			} catch (Exception e) {
@@ -312,7 +320,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
         BaseDTOAssemblyNode<?,?> coreResults;
         try {
-        	major.getOrgCoreProgram().setState(major.getState());
+        	major.getOrgCoreProgram().setStateKey(major.getStateKey());
             coreResults = coreProgramAssembler.disassemble((CoreProgramInfo) major.getOrgCoreProgram(), operation, contextInfo);
             if (coreResults != null) {
                 result.getChildNodes().add(coreResults);
@@ -323,8 +331,8 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     }
 
     // Setters for Spring
-    public void setLuService(CluService luService) {
-        this.luService = luService;
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 
 	public void setProgramVariationAssembler(ProgramVariationAssembler programVariationAssembler) {
