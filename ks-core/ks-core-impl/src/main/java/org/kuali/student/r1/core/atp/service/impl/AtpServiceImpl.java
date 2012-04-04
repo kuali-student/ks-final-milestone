@@ -31,8 +31,8 @@ import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.validator.Validator;
-import org.kuali.student.r1.common.validator.ValidatorFactory;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.atp.dao.AtpDao;
 import org.kuali.student.r1.core.atp.dto.AtpDurationTypeInfo;
 import org.kuali.student.r1.core.atp.dto.AtpInfo;
@@ -494,7 +494,7 @@ public class AtpServiceImpl implements AtpService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(AtpInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(atpInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(atpInfo, objStructure, null);
         return validationResults;
     }
 
@@ -505,7 +505,7 @@ public class AtpServiceImpl implements AtpService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(DateRangeInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(dateRangeInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(dateRangeInfo, objStructure, null);
         return validationResults;
     }
 
@@ -516,7 +516,7 @@ public class AtpServiceImpl implements AtpService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(MilestoneInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(milestoneInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(milestoneInfo, objStructure, null);
         return validationResults;
     }
 

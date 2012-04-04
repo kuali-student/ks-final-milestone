@@ -41,8 +41,8 @@ import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.validator.Validator;
-import org.kuali.student.r1.common.validator.ValidatorFactory;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.proposal.dao.ProposalDao;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.proposal.dto.ProposalTypeInfo;
@@ -293,7 +293,7 @@ public class ProposalServiceImpl implements ProposalService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(ProposalInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(proposalInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(proposalInfo, objStructure, null);
         return validationResults;         
     }
 

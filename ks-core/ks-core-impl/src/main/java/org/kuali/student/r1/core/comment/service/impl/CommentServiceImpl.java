@@ -35,8 +35,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.validator.Validator;
-import org.kuali.student.r1.common.validator.ValidatorFactory;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.comment.dao.CommentDao;
 import org.kuali.student.r1.core.comment.dto.CommentInfo;
 import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
@@ -425,7 +425,7 @@ public class CommentServiceImpl implements CommentService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CommentInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(commentInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(commentInfo, objStructure, null);
         return validationResults;         
     }
 
@@ -449,7 +449,7 @@ public class CommentServiceImpl implements CommentService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(TagInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(tagInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(tagInfo, objStructure, null);
         return validationResults;         
     }
     

@@ -30,7 +30,7 @@
  	<bean id="documentServiceValidator" class="org.kuali.student.r1.core.dictionary.service.MockDefaultValidatorImpl"/>
 
 	<bean id="validatorFactory"
-  		class="org.kuali.student.r1.common.validator.ValidatorFactory">
+  		class="org.kuali.student.r2.common.validator.ValidatorFactory">
   	 <property name="defaultValidator" ref="documentServiceValidator"/>
   	</bean>
 

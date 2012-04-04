@@ -46,8 +46,8 @@ import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.validator.Validator;
-import org.kuali.student.r1.common.validator.ValidatorFactory;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.statement.dao.StatementDao;
 import org.kuali.student.r1.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
@@ -658,7 +658,7 @@ public class StatementServiceImpl implements StatementService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(ReqComponentInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(reqComponentInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(reqComponentInfo, objStructure, null);
 
         return validationResults;
     }
@@ -670,7 +670,7 @@ public class StatementServiceImpl implements StatementService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(StatementInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementInfo, objStructure, null);
 
         return validationResults;
     }
@@ -971,7 +971,7 @@ public class StatementServiceImpl implements StatementService {
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         ObjectStructureDefinition objStructure = this.getObjectStructure(RefStatementRelationInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(refStatementRelationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(refStatementRelationInfo, objStructure, null);
 
 		return validationResults;
 	}

@@ -37,6 +37,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
 
@@ -49,7 +50,7 @@ import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
  */
 @WebService(name = "StatementService", targetNamespace = org.kuali.student.r2.core.constants.StatementServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface StatementService {
+public interface StatementService extends SearchService {
 
     /**
      * Retrieves the list of base types which can be connected to a document.

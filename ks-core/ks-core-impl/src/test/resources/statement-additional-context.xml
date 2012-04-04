@@ -251,10 +251,10 @@
         <property name="searchManager" ref="statementSearchManager"/>
     </bean>
     
-    <bean id="serviceValidator" class="org.kuali.student.r1.common.validator.DefaultValidatorImpl"/>
+    <bean id="serviceValidator" class="org.kuali.student.r2.common.validator.DefaultValidatorImpl"/>
 
     <bean id="validatorFactory"
-          class="org.kuali.student.r1.common.validator.ValidatorFactory">
+          class="org.kuali.student.r2.common.validator.ValidatorFactory">
         <property name="defaultValidator" ref="serviceValidator"/>
     </bean>       
     

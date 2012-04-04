@@ -33,8 +33,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.validator.Validator;
-import org.kuali.student.r1.common.validator.ValidatorFactory;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.document.dao.DocumentDao;
 import org.kuali.student.r1.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.r1.core.document.dto.DocumentInfo;
@@ -273,7 +273,7 @@ public class DocumentServiceImpl implements DocumentService {
         
         ObjectStructureDefinition objStructure = this.getObjectStructure(DocumentInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(documentInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(documentInfo, objStructure, null);
         return validationResults;        
     }
 
@@ -285,7 +285,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(RefDocRelationInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(refDocRelationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(refDocRelationInfo, objStructure, null);
         return validationResults;        
     }
 

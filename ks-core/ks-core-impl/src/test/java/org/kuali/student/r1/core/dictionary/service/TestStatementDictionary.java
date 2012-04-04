@@ -1,23 +1,26 @@
 package org.kuali.student.r1.core.dictionary.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import static org.junit.Assert.*;
 
 public class TestStatementDictionary {
 
@@ -61,7 +64,7 @@ public class TestStatementDictionary {
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		StatementInfo info = new StatementInfo();
 		ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
-		List<ValidationResultInfo> validationResults = val.validateObject(info,	os);
+		List<ValidationResultInfo> validationResults = val.validateObject(info,	os, null);
 		System.out.println("h3. With just a blank StatementInfo");
 		for (ValidationResultInfo vr : validationResults)
   {
@@ -79,7 +82,7 @@ public class TestStatementDictionary {
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		ReqComponentInfo info = new ReqComponentInfo();
 		ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
-		List<ValidationResultInfo> validationResults = val.validateObject(info,	os);
+		List<ValidationResultInfo> validationResults = val.validateObject(info,	os, null);
 		System.out.println("h3. With just a blank ReqComponentInfo");
 		for (ValidationResultInfo vr : validationResults)
   {
@@ -91,7 +94,7 @@ public class TestStatementDictionary {
   fieldInfo.setType ("kuali.reqComponent.field.type.gradeType.id");
   fieldInfo.setValue ("kuali.resultComponent.grade.letter");
   info.setReqCompFields (Arrays.asList (fieldInfo));
-  validationResults = val.validateObject(info,	os);
+  validationResults = val.validateObject(info,	os, null);
 		System.out.println("h3. With just a blank ReqComponentInfo");
 		for (ValidationResultInfo vr : validationResults)
   {
@@ -103,7 +106,7 @@ public class TestStatementDictionary {
   fieldInfo.setType ("kuali.reqComponent.field.type.gradeType.id");
   fieldInfo.setValue ("bad with an embedded space in value");
   info.setReqCompFields (Arrays.asList (fieldInfo));
-  validationResults = val.validateObject(info,	os);
+  validationResults = val.validateObject(info, os, null);
 		System.out.println("h3. With just a blank ReqComponentInfo");
 		for (ValidationResultInfo vr : validationResults)
   {

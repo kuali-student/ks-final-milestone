@@ -8,7 +8,7 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r1.core.atp.dto.AtpInfo;
 import org.kuali.student.r1.core.atp.dto.DateRangeInfo;
@@ -59,7 +59,7 @@ public class TestAtpDictionary {
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		AtpInfo info = new AtpInfo ();
 		ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
-		List<ValidationResultInfo> validationResults = val.validateObject(info,	os);
+		List<ValidationResultInfo> validationResults = val.validateObject(info,	os, null);
 		System.out.println("h3. With just a blank StatementInfo");
 		for (ValidationResultInfo vr : validationResults)
   {

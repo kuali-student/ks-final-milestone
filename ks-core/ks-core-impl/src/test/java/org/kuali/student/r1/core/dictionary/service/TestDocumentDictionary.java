@@ -1,20 +1,23 @@
 package org.kuali.student.r1.core.dictionary.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.junit.Test;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r1.core.document.dto.DocumentInfo;
 import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import static org.junit.Assert.*;
 
 public class TestDocumentDictionary {
 
@@ -52,7 +55,7 @@ public class TestDocumentDictionary {
         val.setSearchDispatcher(new MockSearchDispatcher());
         DocumentInfo info = new DocumentInfo();
         ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
-        List<ValidationResultInfo> validationResults = val.validateObject(info, os);
+        List<ValidationResultInfo> validationResults = val.validateObject(info, os, null);
         System.out.println("h3. With just a blank");
         for (ValidationResultInfo vr : validationResults) {
             System.out.println(vr.getElement() + " " + vr.getMessage());
