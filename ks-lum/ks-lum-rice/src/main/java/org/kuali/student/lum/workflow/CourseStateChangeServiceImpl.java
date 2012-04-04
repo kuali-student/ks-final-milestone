@@ -164,7 +164,6 @@ public class CourseStateChangeServiceImpl {
 			throw new InvalidParameterException("new state cannot be null");
 		} else {
 			thisVerCourse.setStateKey(thisVerNewState);
-            //TODO KSCM I added into      thisVerCourse.getId() to the method call
 			courseService.updateCourse(thisVerCourse.getId(),thisVerCourse,contextInfo);
 			updateStatementTreeViewInfoState(thisVerCourse,contextInfo);
 		}

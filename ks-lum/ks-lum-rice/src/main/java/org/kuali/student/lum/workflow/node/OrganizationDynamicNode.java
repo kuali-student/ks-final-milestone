@@ -191,13 +191,13 @@ public class OrganizationDynamicNode implements DynamicNode {
     }
 
     @Override
-    //TODO KSCM
+    //TODO KSCM-541
     public DynamicResult transitioningInto(RouteContext routeContext, RouteNodeInstance routeNodeInstance, RouteHelper routeHelper) throws Exception {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    //TODO KSCM
+    //TODO KSCM-541
     public DynamicResult transitioningOutOf(RouteContext routeContext, RouteHelper routeHelper) throws Exception {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -252,7 +252,7 @@ public class OrganizationDynamicNode implements DynamicNode {
         Set<String> relatedOrgIds = new HashSet<String>();
         try {
             List<OrgOrgRelationInfo> relatedOrgRelationInfos = null;
-         // TODO KSCM-429 relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(currentNodeOrgId, contextInfo);
+         // TODO KSCM-541 relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(currentNodeOrgId, contextInfo);
             for (OrgOrgRelationInfo orgOrgRelationInfo : relatedOrgRelationInfos) {
                 if (StringUtils.equals("Active", orgOrgRelationInfo.getStateKey())) {
                     if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getTypeKey())) {
