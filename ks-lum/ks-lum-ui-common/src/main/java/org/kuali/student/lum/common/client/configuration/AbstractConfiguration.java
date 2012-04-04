@@ -9,7 +9,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
  *
  * @author Igor
  */
-// TODO KSCM-243
 public abstract class AbstractConfiguration implements Configuration {
 
     protected Configurer configurer;
