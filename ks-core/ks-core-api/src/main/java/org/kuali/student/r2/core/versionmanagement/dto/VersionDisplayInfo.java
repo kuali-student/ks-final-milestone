@@ -137,7 +137,7 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
     // TODO KSCM-392
     @Deprecated
 	public String getId() {
-        //TODO KSCM- investigate how Id related to R1 Entities since the lost of it might inflict problems when saving version
+        //TODO KSCM-392- investigate how Id related to R1 Entities since the lost of it might inflict problems when saving version
 
 
         // Please note this was null before I put this.versionInId as the return value... this needs to be investigated...
