@@ -64,11 +64,12 @@ public class TestHoldServiceImplConformance {
         ContextInfo context = getContext();
         // create
         HoldInfo info = new HoldInfo();
+        info.setIssueId("my.issue");
         info.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         info.setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
         info.setPersonId("person1");
         Date before = new Date();
-        HoldInfo result = service.createHold(info, context);
+        HoldInfo result = service.createHold(info.getPersonId(), info.getIssueId(), info.getTypeKey(), info, context);
         Date after = new Date();
         if (result == info) {
             fail("returned object should not be the same as the one passed in");
@@ -148,12 +149,12 @@ public class TestHoldServiceImplConformance {
         ContextInfo context = getContext();
         // create
         IssueInfo info = new IssueInfo();
-        info.setKey(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE);
+        info.setId(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE);
         info.setTypeKey(HoldServiceConstants.OVERDUE_LIBRARY_MATERIALS_ISSUE_TYPE_KEY);
         info.setStateKey(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY);
         info.setName("overdue books");
         Date before = new Date();
-        IssueInfo result = service.createIssue(info, context);
+        IssueInfo result = service.createIssue(info.getTypeKey(), info, context);
         Date after = new Date();
         if (result == info) {
             fail("returned object should not be the same as the one passed in");
@@ -180,8 +181,8 @@ public class TestHoldServiceImplConformance {
         // READ/get
         info = new IssueInfo(result);
 
-        result = service.getIssue(info.getKey(), context);
-        assertEquals(result.getKey(), info.getKey ());
+        result = service.getIssue(info.getId(), context);
+        assertEquals(result.getId(), info.getId ());
         assertEquals(result.getTypeKey(), info.getTypeKey());
         assertEquals(result.getStateKey(), info.getStateKey());
         assertEquals(info.getName(), result.getName());        
@@ -197,12 +198,12 @@ public class TestHoldServiceImplConformance {
         info.setName("new issue name");
         context.setPrincipalId(TEST_PRINCIPAL_ID2);
         before = new Date();
-        result = service.updateIssue(info.getKey(), info, context);
+        result = service.updateIssue(info.getId(), info, context);
         after = new Date();
         if (result == info) {
             fail("returned object should not be the same as the one passed in");
         }
-        assertEquals(info.getKey(), result.getKey());
+        assertEquals(info.getId(), result.getId());
         assertEquals(info.getTypeKey(), result.getTypeKey());
         assertEquals(info.getStateKey(), result.getStateKey());
         assertEquals(info.getName(), result.getName());

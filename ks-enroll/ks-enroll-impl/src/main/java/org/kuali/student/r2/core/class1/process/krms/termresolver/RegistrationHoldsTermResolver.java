@@ -79,13 +79,13 @@ public class RegistrationHoldsTermResolver implements TermResolver<List<HoldInfo
     public List<HoldInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String issueKey = parameters.get(RulesExecutionConstants.ISSUE_KEY_TERM_PROPERTY);
+        String issueId = parameters.get(RulesExecutionConstants.ISSUE_KEY_TERM_PROPERTY);
 
         List<HoldInfo> studentHolds;
 
         // get all the active holds for the student and the given issue
         try {
-            studentHolds = holdService.getActiveHoldsByIssueAndPerson(issueKey, studentId, context);
+            studentHolds = holdService.getActiveHoldsByIssueAndPerson(issueId, studentId, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {

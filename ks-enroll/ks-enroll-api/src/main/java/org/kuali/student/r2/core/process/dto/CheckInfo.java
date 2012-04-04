@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CheckInfo", propOrder = { "key", "typeKey", "stateKey", "name",
-                "descr", "issueKey", "milestoneTypeKey", 
+                "descr", "issueId", "milestoneTypeKey", 
                 "agendaId", "processKey", "meta", "attributes",
 		"_futureElements" })
 
@@ -41,7 +41,7 @@ public class CheckInfo extends KeyEntityInfo
     private static final long serialVersionUID = 1L;
     
     @XmlElement 
-    private String issueKey;
+    private String issueId;
 
     @XmlElement 
     private String milestoneTypeKey;
@@ -71,7 +71,7 @@ public class CheckInfo extends KeyEntityInfo
         super(check);
 
         if (check != null) {
-            this.issueKey = check.getIssueKey();
+            this.issueId = check.getIssueId();
             this.milestoneTypeKey = check.getMilestoneTypeKey();
             this.agendaId = check.getAgendaId();
             this.processKey = check.getProcessKey();
@@ -79,12 +79,12 @@ public class CheckInfo extends KeyEntityInfo
     }
 
     @Override
-    public String getIssueKey() {
-        return this.issueKey;
+    public String getIssueId() {
+        return this.issueId;
     }
 
-    public void setIssueKey(String issueKey) {
-        this.issueKey = issueKey;
+    public void setIssueId(String issueId) {
+        this.issueId = issueId;
     }
 
     @Override

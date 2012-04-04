@@ -12,14 +12,10 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="stateProcessDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
+    <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-            
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
@@ -55,14 +51,6 @@
     <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
- 
-    <bean id="restrictionDao" class="org.kuali.student.enrollment.class1.hold.dao.RestrictionDao">
-    	<property name="em" ref="enrollEntityManager"/>
-    </bean> 
-    
-    <bean id="holdTypeDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldTypeDao">
-    	<property name="em" ref="enrollEntityManager"/>
-    </bean>
     
     <bean id="holdRichTextDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldRichTextDao">
     	<property name="em" ref="enrollEntityManager"/>
@@ -79,15 +67,7 @@
      <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>   
-    
-    <bean id="luiRichTextDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao">
-    	<property name="em" ref="enrollEntityManager"/>
-    </bean>   
-    
-    <bean id="luiTypeDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao">
-    	<property name="em" ref="enrollEntityManager"/>
-    </bean> 
-    
+
    <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
@@ -100,14 +80,6 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-     <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="lrrTypeDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrTypeDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
    <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
@@ -117,10 +89,6 @@
     </bean>
 
     <bean id="resultScaleDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="lrcTypeDao" class="org.kuali.student.enrollment.class1.lrc.dao.LrcTypeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
@@ -149,18 +117,6 @@
     </bean>
 
     <bean id="checkDao" class="org.kuali.student.r2.core.class1.process.dao.CheckDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="checkTypeDao" class="org.kuali.student.r2.core.class1.process.dao.CheckTypeDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="instructionTypeDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionTypeDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="processTypeDao" class="org.kuali.student.r2.core.class1.process.dao.ProcessTypeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 

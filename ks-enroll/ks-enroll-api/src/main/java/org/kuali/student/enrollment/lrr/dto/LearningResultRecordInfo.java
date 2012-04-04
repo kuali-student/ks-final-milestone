@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
  * Information about the Learning Result Record Info.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LearningResultRecordInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "lprId", "resultValueKey", "resultSourceIdList", "meta", "attributes", "_futureElements"})
+@XmlType(name = "LearningResultRecordInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "lprId", "resultValueKey", "resultSourceIds", "meta", "attributes", "_futureElements"})
 public class LearningResultRecordInfo extends IdEntityInfo implements LearningResultRecord, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public class LearningResultRecordInfo extends IdEntityInfo implements LearningRe
     private String resultValueKey;
 
     @XmlElement
-    private List<String> resultSourceIdList;
+    private List<String> resultSourceIds;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -50,7 +50,7 @@ public class LearningResultRecordInfo extends IdEntityInfo implements LearningRe
         super();
         this.lprId = null;
         this.resultValueKey = null;
-        this.resultSourceIdList = new ArrayList<String>();
+        this.resultSourceIds = new ArrayList<String>();
     }
 
     /**
@@ -64,9 +64,9 @@ public class LearningResultRecordInfo extends IdEntityInfo implements LearningRe
         this.lprId = lrr.getLprId();
         this.resultValueKey = lrr.getResultValueKey();
 
-        resultSourceIdList = new ArrayList<String>();
+        resultSourceIds = new ArrayList<String>();
 
-        Collections.copy(resultSourceIdList, lrr.getResultSourceIdList());
+        Collections.copy(resultSourceIds, lrr.getResultSourceIds());
 
     }
 
@@ -81,11 +81,11 @@ public class LearningResultRecordInfo extends IdEntityInfo implements LearningRe
     }
 
     @Override
-    public List<String> getResultSourceIdList() {
-        if (null == resultSourceIdList) {
-            resultSourceIdList = new ArrayList<String>(0);
+    public List<String> getResultSourceIds() {
+        if (null == resultSourceIds) {
+            resultSourceIds = new ArrayList<String>(0);
         }
-        return resultSourceIdList;
+        return resultSourceIds;
     }
 
     public void setLprId(String lprId) {
@@ -96,7 +96,7 @@ public class LearningResultRecordInfo extends IdEntityInfo implements LearningRe
         this.resultValueKey = resultValueId;
     }
 
-    public void setResultSourceIdList(List<String> resultSourceIdList) {
-        this.resultSourceIdList = resultSourceIdList;
+    public void setResultSourceIds(List<String> resultSourceIds) {
+        this.resultSourceIds = resultSourceIds;
     }
 }

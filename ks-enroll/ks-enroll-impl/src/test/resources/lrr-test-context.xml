@@ -85,12 +85,12 @@
 
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
-    <bean id="lrrService" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
+     <bean id="lrrService" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
         <property name="lrrDao" ref="lrrDao"/>
-        <property name="lrrTypeDao" ref="lrrTypeDao"/>
+        <property name="resultSourceDao" ref="resultSourceDao"/>
     </bean>
 
     <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao"/>
-    <bean id="lrrTypeDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrTypeDao"/>
+    <bean id="resultSourceDao" class="org.kuali.student.enrollment.class1.lrr.dao.ResultSourceDao"/>
 
 </beans>

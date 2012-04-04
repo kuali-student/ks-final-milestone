@@ -19,14 +19,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
-import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 
 /**
  * This class //TODO ...
@@ -38,30 +36,27 @@ public class AcademicCalendarForm extends UifFormBase {
     private static final long serialVersionUID = 4898118410378641665L;
 
     private AcademicCalendarInfo academicCalendarInfo;
-    private AcademicCalendarInfo orgAcalInfo;
     private String adminOrgName;
     private String updateTimeString;
 
     private List<AcalEventWrapper> events;
-    private List<HolidayCalendarWrapper> holidayCalendarList;
+    private List<HolidayCalendarInfo> holidayCalendarList;
     private List<AcademicTermWrapper> termWrapperList;
+
+    //used by copy for creating a new
+    private String newCalendarName;
+    private Date newCalendarStartDate;
+    private Date newCalendarEndDate;
 
     //used by copying
     private boolean official;
     private boolean delete;
 
-    //This is useful when user edit term from calendar search. User should see the term tab. By default, info tab
-    private String defaultTabToShow;
-
     public AcademicCalendarForm() {
         super();
-        academicCalendarInfo = new AcademicCalendarInfo();
         termWrapperList = new ArrayList<AcademicTermWrapper>();
         events = new ArrayList<AcalEventWrapper>();
-        holidayCalendarList = new ArrayList<HolidayCalendarWrapper>();
-        official = false;
-        delete = false;
-        defaultTabToShow = CalendarConstants.ACAL_INFO_TAB;
+        holidayCalendarList = new ArrayList<HolidayCalendarInfo>();
     }
 
     public AcademicCalendarInfo getAcademicCalendarInfo() {
@@ -72,14 +67,6 @@ public class AcademicCalendarForm extends UifFormBase {
         this.academicCalendarInfo = academicCalendarInfo;
     }
 
-    public AcademicCalendarInfo getOrgAcalInfo() {
-        return orgAcalInfo;
-    }
-
-    public void setOrgAcalInfo(AcademicCalendarInfo orgAcalInfo) {
-        this.orgAcalInfo = orgAcalInfo;
-    }
-
     public String getAdminOrgName() {
         return adminOrgName;
     }
@@ -88,11 +75,11 @@ public class AcademicCalendarForm extends UifFormBase {
         this.adminOrgName = adminOrgName;
     }
 
-    public void setHolidayCalendarList(List<HolidayCalendarWrapper> holidayCalendarList) {
+    public void setHolidayCalendarList(List<HolidayCalendarInfo> holidayCalendarList) {
         this.holidayCalendarList = holidayCalendarList;
     }
 
-    public List<HolidayCalendarWrapper> getHolidayCalendarList() {
+    public List<HolidayCalendarInfo> getHolidayCalendarList() {
         return holidayCalendarList;
     }
 
@@ -106,9 +93,7 @@ public class AcademicCalendarForm extends UifFormBase {
 
     public String getUpdateTimeString(){
         updateTimeString = new String("");
-        if (getAcademicCalendarInfo() == null ||
-            getAcademicCalendarInfo().getId()== null ||
-            getAcademicCalendarInfo().getId().isEmpty()){
+        if (getAcademicCalendarInfo() == null){
             return updateTimeString;
         }
         else {
@@ -128,6 +113,30 @@ public class AcademicCalendarForm extends UifFormBase {
         this.events = events;
     }
 
+    public String getNewCalendarName() {
+        return newCalendarName;
+    }
+
+    public void setNewCalendarName(String newCalendarName) {
+        this.newCalendarName = newCalendarName;
+    }
+
+    public Date getNewCalendarStartDate() {
+        return newCalendarStartDate;
+    }
+
+    public void setNewCalendarStartDate(Date newCalendarStartDate) {
+        this.newCalendarStartDate = newCalendarStartDate;
+    }
+
+    public Date getNewCalendarEndDate() {
+        return newCalendarEndDate;
+    }
+
+    public void setNewCalendarEndDate(Date newCalendarEndDate) {
+        this.newCalendarEndDate = newCalendarEndDate;
+    }
+
     public boolean isOfficial() {
         return official;
     }
@@ -143,21 +152,5 @@ public class AcademicCalendarForm extends UifFormBase {
     public void setDelete(boolean delete) {
         this.delete = delete;
     }
-
-    public String getDefaultTabToShow() {
-        return defaultTabToShow;
-    }
-
-    public void setDefaultTabToShow(String defaultTabToShow) {
-        this.defaultTabToShow = defaultTabToShow;
-    }
-
-    public int getDefaultSelectedTabIndex() {
-        if (StringUtils.equals(defaultTabToShow,CalendarConstants.ACAL_TERM_TAB)){
-            return 1;
-        }
-        return 0;
-    }
-
-
+    
 }

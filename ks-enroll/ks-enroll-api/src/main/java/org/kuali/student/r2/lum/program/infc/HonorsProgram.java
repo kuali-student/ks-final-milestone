@@ -2,14 +2,14 @@ package org.kuali.student.r2.lum.program.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 /**
  * Detailed information about a single honors program
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-public interface HonorsProgram extends IdEntity {
+public interface HonorsProgram extends IdNamelessEntity {
     /**
      * Identifier of the credential program under which the honors belongs
      * 
@@ -19,8 +19,9 @@ public interface HonorsProgram extends IdEntity {
     public String getCredentialProgramId();
 
     /**
+     * Identifiers of the requirements associated with this honors program.
      * 
-     * @name Honors Program Requirements.
+     * @name Honors Program Requirement Ids
      */
     public List<String> getProgramRequirements();
 

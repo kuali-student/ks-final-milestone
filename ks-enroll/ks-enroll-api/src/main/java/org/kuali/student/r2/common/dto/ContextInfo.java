@@ -25,10 +25,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.infc.Context;
-import org.kuali.student.r2.common.infc.Locale;
 import org.w3c.dom.Element;
 
 /**
@@ -37,10 +34,13 @@ import org.w3c.dom.Element;
  * @author Kamal
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ContextInfo", propOrder = {
-                "authenticatedPrincipalId", "principalId",
-                "currentDate", "locale", "timeZone",
-                "attributes", "_futureElements"})
+@XmlType(name = "ContextInfo", propOrder = {"authenticatedPrincipalId", 
+                "principalId",
+                "currentDate", 
+                "locale", 
+                "timeZone",
+                "attributes", 
+                "_futureElements"})
 
 public class ContextInfo
         extends HasAttributesInfo

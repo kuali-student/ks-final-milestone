@@ -6,7 +6,6 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -21,7 +20,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
-import org.kuali.student.r2.core.service.util.ValidationUtils;
+import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
 public class LuiServiceValidationDecorator extends LuiServiceDecorator implements HoldsValidator, HoldsDataDictionaryService{
     private DataDictionaryValidator validator;
@@ -82,13 +81,13 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
     }
 	
 	@Override
-	public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo,
+	public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo,
 			ContextInfo context) throws AlreadyExistsException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		_luiFullValidation(luiInfo, context);
-		return getNextDecorator().createLui(cluId,atpId,luiInfo, context);
+		return getNextDecorator().createLui(cluId,atpId,luiTypeKey, luiInfo, context);
 	}
 
 	@Override

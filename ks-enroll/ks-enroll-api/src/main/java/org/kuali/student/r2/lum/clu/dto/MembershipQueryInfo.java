@@ -15,8 +15,7 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r2.common.dto.SearchParamInfo;
-import org.kuali.student.r2.common.infc.SearchParam;
+
 import org.kuali.student.r2.lum.clu.infc.MembershipQuery;
 
 import javax.xml.bind.Element;
@@ -29,6 +28,8 @@ import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.infc.SearchParam;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MembershipQueryInfo", propOrder = {"id", "searchTypeKey", "queryParamValues", "_futureElements"})

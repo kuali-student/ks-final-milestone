@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Sat Dec 31 12:02:11 EST 2011
+		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -45,8 +45,9 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Registration Group"/>
 		<property name="objectDescription">
 			<value>
-Registration group are the physical entities that students will try to register into. A RegistrationGroup is used to group
-individual activity offerings based on the canonical format.
+Registration group are the physical entities that students will try
+to register into. A RegistrationGroup is used to group individual
+activity offerings based on the canonical format.
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>
@@ -102,11 +103,12 @@ Activity Offerings for the registration group.
 		<property name="elementLabel" value="Activity Offering Id"/>
 		<property name="description">
 			<value>
-Activity Offerings for the registration group. This list should be constrained by the canonical 
-format and the activity offerings listed in the course offering
+Activity Offerings for the registration group. This list should
+be constrained by the canonical format and the activity
+offerings listed in the course offering.
 			</value>
 		</property>
-		<property name="minOccurs" value="0"/>
+		<property name="minOccurs" value="1"/>
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
@@ -115,13 +117,13 @@ format and the activity offerings listed in the course offering
 		<property name="shortLabel" value="Course Offering Id"/>
 		<property name="summary">
 			<value>
-Course offering for this registration group
+Course offering for this registration group.
 			</value>
 		</property>
 		<property name="label" value="CourseOffering Id"/>
 		<property name="description">
 			<value>
-Course offering for this registration group
+Course offering for this registration group.
 			</value>
 		</property>
 		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
@@ -137,13 +139,15 @@ Course offering for this registration group
 		<property name="shortLabel" value="Registration Code"/>
 		<property name="summary">
 			<value>
-Uniquely identifies an instance of the course for the purposes of registration
+Uniquely identifies an instance of the course for the purposes
+of registration.
 			</value>
 		</property>
 		<property name="label" value="Registration Code"/>
 		<property name="description">
 			<value>
-Uniquely identifies an instance of the course for the purposes of registration
+Uniquely identifies an instance of the course for the purposes
+of registration.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -154,14 +158,16 @@ Uniquely identifies an instance of the course for the purposes of registration
 		<property name="shortLabel" value="Term Id"/>
 		<property name="summary">
 			<value>
-Academic term the registration group is being offered in. 
+Academic term the registration group is being offered
+in. 
 			</value>
 		</property>
 		<property name="label" value="Term id"/>
 		<property name="description">
 			<value>
-Academic term the registration group is being offered in. Should be same as CourseOffering unless changed, then must 
-be nested term of courseOffering
+Academic term the registration group is being offered
+in. Should be same as CourseOffering unless changed, then must
+be nested term of courseOffering.
 			</value>
 		</property>
 		<property name="required" value="true"/>
@@ -189,16 +195,16 @@ Canonical format to which this registration group belong to.
 		<property name="shortLabel" value="Is Honors Offering"/>
 		<property name="summary">
 			<value>
-Indicates that the entire course offering is an Honors Course
+Indicates that the entire course offering is an Honors Course.
 			</value>
 		</property>
 		<property name="label" value="Is Honors Offering"/>
 		<property name="description">
 			<value>
-Indicates that the entire course offering is an Honors Course
+Indicates that the entire course offering is an Honors Course.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="RegistrationGroupInfo.maximumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
@@ -206,13 +212,16 @@ Indicates that the entire course offering is an Honors Course
 		<property name="shortLabel" value="Maximum Enrollment"/>
 		<property name="summary">
 			<value>
-Total maximum number of &quot;seats&quot; or enrollment slots that can be filled for the offering. 
+Total maximum number of &quot;seats&quot; or enrollment slots that can be
+filled for the offering. 
 			</value>
 		</property>
 		<property name="label" value="Maximum Enrollment"/>
 		<property name="description">
 			<value>
-Total maximum number of &quot;seats&quot; or enrollment slots that can be filled for the offering. Constrained by smallest activity enrollment
+Total maximum number of &quot;seats&quot; or enrollment slots that can be
+filled for the offering. Constrained by smallest activity
+enrollment.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -223,13 +232,16 @@ Total maximum number of &quot;seats&quot; or enrollment slots that can be filled
 		<property name="shortLabel" value="Minimum Enrollment"/>
 		<property name="summary">
 			<value>
-Total minimum number of seats that must be filled for the offering not to be canceled. 
+Total minimum number of seats that must be filled for the
+offering not to be canceled. 
 			</value>
 		</property>
 		<property name="label" value="Minimum  Enrollment"/>
 		<property name="description">
 			<value>
-Total minimum number of seats that must be filled for the offering not to be canceled. Constrained by smallest activity enrollment
+Total minimum number of seats that must be filled for the
+offering not to be canceled. Constrained by smallest activity
+enrollment.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -240,16 +252,16 @@ Total minimum number of seats that must be filled for the offering not to be can
 		<property name="shortLabel" value="Has Waitlist"/>
 		<property name="summary">
 			<value>
-Indicates whether a RegistrationGroup has a waitlist
+Indicates whether a RegistrationGroup has a waitlist.
 			</value>
 		</property>
 		<property name="label" value="Has Waitlist"/>
 		<property name="description">
 			<value>
-Indicates whether a RegistrationGroup has a waitlist
+Indicates whether a RegistrationGroup has a waitlist.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="RegistrationGroupInfo.waitlistTypeKey-generated" abstract="true" parent="BaseKuali.string">
@@ -257,13 +269,15 @@ Indicates whether a RegistrationGroup has a waitlist
 		<property name="shortLabel" value="Waitlist Type Key"/>
 		<property name="summary">
 			<value>
-Indicates the type of waitlist as it relates to processing students on and off
+Indicates the type of waitlist as it relates to processing
+students on and off.
 			</value>
 		</property>
 		<property name="label" value="Waitlist Type"/>
 		<property name="description">
 			<value>
-Indicates the type of waitlist as it relates to processing students on and off
+Indicates the type of waitlist as it relates to processing
+students on and off.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -274,13 +288,13 @@ Indicates the type of waitlist as it relates to processing students on and off
 		<property name="shortLabel" value="Waitlist Maximum"/>
 		<property name="summary">
 			<value>
-Maximum number of students to be allowed on the wait list
+Maximum number of students to be allowed on the wait list.
 			</value>
 		</property>
 		<property name="label" value="Waitlist Maximum"/>
 		<property name="description">
 			<value>
-Maximum number of students to be allowed on the wait list
+Maximum number of students to be allowed on the wait list.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -291,16 +305,16 @@ Maximum number of students to be allowed on the wait list
 		<property name="shortLabel" value="Is Waitlist Checkin Required"/>
 		<property name="summary">
 			<value>
-Indicates if the waitlist requires checkin
+Indicates if the waitlist requires checkin.
 			</value>
 		</property>
 		<property name="label" value="Is Waitlist Checkin Required"/>
 		<property name="description">
 			<value>
-Indicates if the waitlist requires checkin
+Indicates if the waitlist requires checkin.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="RegistrationGroupInfo.waitlistCheckinFrequency-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -308,13 +322,13 @@ Indicates if the waitlist requires checkin
 		<property name="shortLabel" value="Waitlist Checkin Frequency"/>
 		<property name="summary">
 			<value>
-Frequency for the waitlist checkin
+Frequency for the waitlist checkin.
 			</value>
 		</property>
 		<property name="label" value="Waitlist Checkin Frequency"/>
 		<property name="description">
 			<value>
-Frequency for the waitlist checkin
+Frequency for the waitlist checkin.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -325,7 +339,7 @@ Frequency for the waitlist checkin
 				<property name="objectLabel" value="Waitlist Checkin Frequency"/>
 				<property name="objectDescription">
 					<value>
-Frequency for the waitlist checkin
+Frequency for the waitlist checkin.
 					</value>
 				</property>
 
@@ -354,30 +368,43 @@ Frequency for the waitlist checkin
 		<property name="shortLabel" value="Atp Duration Type Key"/>
 		<property name="summary">
 			<value>
-The kind of units associated with the quantity, such as Semesters
+The kind of units associated with the time quantity.
+
+
 			</value>
 		</property>
 		<property name="label" value="Academic Time Period Duration Type Key"/>
 		<property name="description">
 			<value>
-The kind of units associated with the quantity, such as Semesters
+The kind of units associated with the time quantity.
+
+For example months, days, week, semesters, years, minutes, seconds
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.waitlistCheckinFrequency.timeQuantity-generated" abstract="true" parent="BaseKuali.integer">
+	<bean id="RegistrationGroupInfo.waitlistCheckinFrequency.timeQuantity-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="timeQuantity"/>
 		<property name="shortLabel" value="Time Quantity"/>
 		<property name="summary">
 			<value>
-The amount of time
+The amount of time.
+
+
 			</value>
 		</property>
 		<property name="label" value="Time Quantity"/>
 		<property name="description">
 			<value>
-The amount of time
+The amount of time.
+
+The general design of this is that it should normally contain integer quantity 
+and not hold fractions or decimals.  Instead the Duration Type should changed 
+to a shorter duration.
+
+However this is a string to allow some implementing schools, if they wish, 
+to capture this information in fractional units which may be more natural.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -461,7 +488,7 @@ A description of the entity.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -481,7 +508,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional

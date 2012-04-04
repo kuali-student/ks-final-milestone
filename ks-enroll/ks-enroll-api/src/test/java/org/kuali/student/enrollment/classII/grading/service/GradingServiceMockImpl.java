@@ -265,19 +265,19 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIdList,
+    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIds,
             String rosterTypeKey, ContextInfo context) throws AlreadyExistsException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         GradeRosterInfo gradeRoster = new GradeRosterInfo();
         gradeRoster.setId(String.valueOf(Math.random()));
         gradeRoster.setTypeKey(rosterTypeKey);
-        List<GradeRosterEntryInfo> gradeEntries = new ArrayList<GradeRosterEntryInfo>(activityOfferingIdList.size());
+        List<GradeRosterEntryInfo> gradeEntries = new ArrayList<GradeRosterEntryInfo>(activityOfferingIds.size());
         int i = 0;
         for (GradeRosterEntryInfo gradeEntry : gradeEntries) {
             gradeEntry = new GradeRosterEntryInfo();
             gradeEntry.setId(String.valueOf(Math.random()));
-            gradeEntry.setActivityOfferingId(activityOfferingIdList.get(i));
+            gradeEntry.setActivityOfferingId(activityOfferingIds.get(i));
             i++;
             gradeRosterEntriesCache.put(gradeEntry.getId(), gradeEntry);
             gradeRoster.getGradeRosterEntryIds().add(gradeEntry.getId());
@@ -334,12 +334,12 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIdList(List<String> gradeRosterEntryIdList,
+    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIds(List<String> gradeRosterEntryIds,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<GradeRosterEntryInfo> allRosterEntries = new ArrayList<GradeRosterEntryInfo>();
-        for (String id : gradeRosterEntryIdList) {
+        for (String id : gradeRosterEntryIds) {
             allRosterEntries.add(getGradeRosterEntry(id, context));
 
         }
@@ -353,7 +353,7 @@ public class GradingServiceMockImpl implements GradingService {
             OperationFailedException, PermissionDeniedException {
 
         GradeRosterInfo gradeRoster = gradeRostersCache.get(gradeRosterId);
-        return getGradeRosterEntriesByIdList(gradeRoster.getGradeRosterEntryIds(), context);
+        return getGradeRosterEntriesByIds(gradeRoster.getGradeRosterEntryIds(), context);
 
     }
 
@@ -410,7 +410,7 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public List<GradeValuesGroupInfo> getGradeGroupsByKeyList(List<String> gradeGroupIdList, ContextInfo context)
+    public List<GradeValuesGroupInfo> getGradeGroupsByKeyList(List<String> gradeGroupIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS

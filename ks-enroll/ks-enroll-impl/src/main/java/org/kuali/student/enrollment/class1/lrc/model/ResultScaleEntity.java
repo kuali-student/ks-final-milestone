@@ -1,17 +1,25 @@
 package org.kuali.student.enrollment.class1.lrc.model;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "KSEN_LRC_RES_SCALE")
@@ -24,13 +32,11 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
     @JoinColumn(name = "RT_DESCR_ID")
     private ResultScaleRichTextEntity descr;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "TYPE_ID")
-    private LrcTypeEntity type;
+    @Column(name = "TYPE_ID")
+    private String type;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "STATE_ID")
-    private StateEntity state;
+    @Column(name = "STATE_ID")
+    private String state;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date effectiveDate;
@@ -50,11 +56,11 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
     @Column(name = "INCR")
     private String increment;
 
-    public ResultScaleEntity(){
+    public ResultScaleEntity() {
 
     }
 
-    public ResultScaleEntity(ResultScaleInfo dto){
+    public ResultScaleEntity(ResultScaleInfo dto) {
         super(dto);
         this.setName(dto.getName());
         this.setId(dto.getKey());
@@ -64,9 +70,9 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
         }
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setExpirationDate(dto.getExpirationDate());
-
+        this.setState(dto.getStateKey());
         //No Entity available (not needed) for ResultValueRangeInfo as it's a 1-1 for ResultValuesGroup. But, Service contract has the ResultValueRangeInfo object
-        if (dto.getResultValueRange() != null){
+        if (dto.getResultValueRange() != null) {
             this.setMinValue(dto.getResultValueRange().getMinValue());
             this.setMaxValue(dto.getResultValueRange().getMaxValue());
             this.setIncrement(dto.getResultValueRange().getIncrement());
@@ -97,19 +103,19 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
         this.descr = descr;
     }
 
-    public LrcTypeEntity getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(LrcTypeEntity type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public StateEntity getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(StateEntity state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -165,32 +171,32 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
 
     public ResultScaleInfo toDto() {
 
-         ResultScaleInfo info = new ResultScaleInfo();
+        ResultScaleInfo info = new ResultScaleInfo();
 
-         info.setKey(getId());
-         info.setName(getName());
+        info.setKey(getId());
+        info.setName(getName());
 
-         if (getDescr() != null){
+        if (getDescr() != null) {
             info.setDescr(getDescr().toDto());
-         }
+        }
 
-         if (getState() != null){
-            info.setStateKey(getState().getId());
-         }
+        if (getState() != null) {
+            info.setStateKey(getState());
+        }
 
-         if (getType() != null){
-            info.setTypeKey(getType().getId());
-         }
+        if (getType() != null) {
+            info.setTypeKey(getType());
+        }
 
-         info.setEffectiveDate(getEffectiveDate());
-         info.setExpirationDate(getExpirationDate());
+        info.setEffectiveDate(getEffectiveDate());
+        info.setExpirationDate(getExpirationDate());
 
-         //No Entity available (not needed) for ResultValueRangeInfo as it's a 1-1 for ResultValuesGroup. But, Service contract has the ResultValueRangeInfo object
-         ResultValueRangeInfo resultValueRange = new ResultValueRangeInfo();
-         resultValueRange.setMaxValue(getMaxValue());
-         resultValueRange.setMinValue(getMinValue());
-         resultValueRange.setIncrement(getIncrement());
-         info.setResultValueRange(resultValueRange);
+        //No Entity available (not needed) for ResultValueRangeInfo as it's a 1-1 for ResultValuesGroup. But, Service contract has the ResultValueRangeInfo object
+        ResultValueRangeInfo resultValueRange = new ResultValueRangeInfo();
+        resultValueRange.setMaxValue(getMaxValue());
+        resultValueRange.setMinValue(getMinValue());
+        resultValueRange.setIncrement(getIncrement());
+        info.setResultValueRange(resultValueRange);
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (ResultScaleAttributeEntity att : getAttributes()) {
@@ -201,5 +207,5 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
         info.setMeta(super.toDTO());
 
         return info;
-     }
+    }
 }

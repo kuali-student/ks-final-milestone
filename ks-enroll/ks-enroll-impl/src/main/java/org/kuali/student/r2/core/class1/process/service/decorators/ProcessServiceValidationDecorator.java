@@ -205,8 +205,8 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         if (StringUtils.isBlank(checkInfo.getMilestoneTypeKey())){
             throw new InvalidParameterException("Check milestoneTypeKey is required");
         }
-        if (StringUtils.isBlank(checkInfo.getIssueKey())){
-            throw new InvalidParameterException("Check issueKey is required");
+        if (StringUtils.isBlank(checkInfo.getIssueId())){
+            throw new InvalidParameterException("Check issueId is required");
         }
         if (StringUtils.isBlank(checkInfo.getAgendaId())){
             throw new InvalidParameterException("Check agendaId is required");
@@ -249,8 +249,8 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         if (StringUtils.isBlank(checkInfo.getMilestoneTypeKey())){
             throw new InvalidParameterException("Check milestoneTypeKey is required");
         }
-        if (StringUtils.isBlank(checkInfo.getIssueKey())){
-            throw new InvalidParameterException("Check issueKey is required");
+        if (StringUtils.isBlank(checkInfo.getIssueId())){
+            throw new InvalidParameterException("Check issueId is required");
         }
         if (StringUtils.isBlank(checkInfo.getAgendaId())){
             throw new InvalidParameterException("Check agendaId is required");

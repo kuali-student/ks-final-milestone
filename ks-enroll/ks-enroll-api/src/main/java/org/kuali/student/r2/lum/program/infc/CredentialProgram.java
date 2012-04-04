@@ -1,6 +1,6 @@
 package org.kuali.student.r2.lum.program.infc;
 
-import org.kuali.student.r2.lum.lu.infc.AdminOrg;
+import org.kuali.student.r2.lum.clu.infc.AdminOrg;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-public interface CredentialProgram extends ProgramAttributes {
+public interface CredentialProgram extends CommonWithCredentialProgram {
 
     /**
      * List of core programs related to this credential program
@@ -19,16 +19,6 @@ public interface CredentialProgram extends ProgramAttributes {
      */
 
     public List<String> getCoreProgramIds();
-
-
-
-    /**
-     * Unique identifier for a learning unit type. Once set at create time, this
-     * field may not be updated.
-     * 
-     * @name Credential Program Type
-     */
-    public String getCredentialProgramType();
 
     /**
      * A code that indicates whether this is Graduate, Undergraduage etc

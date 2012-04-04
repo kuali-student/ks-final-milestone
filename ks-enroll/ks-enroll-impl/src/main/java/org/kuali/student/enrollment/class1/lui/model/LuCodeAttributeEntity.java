@@ -16,7 +16,7 @@ public class LuCodeAttributeEntity extends BaseAttributeEntity<LuCodeEntity> {
     @ManyToOne
     @JoinColumn(name = "OWNER")
     private LuCodeEntity owner;
-
+    
     public LuCodeAttributeEntity () {
     }
     
@@ -37,5 +37,4 @@ public class LuCodeAttributeEntity extends BaseAttributeEntity<LuCodeEntity> {
     public LuCodeEntity getOwner() {
         return owner;
     }
-
 }

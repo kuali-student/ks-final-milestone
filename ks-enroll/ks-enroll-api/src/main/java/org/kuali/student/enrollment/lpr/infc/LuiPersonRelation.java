@@ -54,9 +54,12 @@ public interface LuiPersonRelation extends Relationship {
     public Float getCommitmentPercent();
 
     /**
-     * Result options of the LPR, the length of this list is always two
+     * The keys of the result values groups to be applied to this LPR
      * 
-     * @return
+     * For example, setting the grading option to pass/fail or the credits to 3
+     * for this course.
+     * 
+     * @name Result Values Group Keys
      */
     public List<String> getResultValuesGroupKeys();
 }

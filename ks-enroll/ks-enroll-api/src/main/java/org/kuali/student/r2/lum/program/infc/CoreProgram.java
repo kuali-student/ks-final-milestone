@@ -1,29 +1,16 @@
 package org.kuali.student.r2.lum.program.infc;
 
-import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.lum.course.infc.LoDisplay;
-
-import java.util.List;
-
 /**
  * Detailed information about a core program requirements associated with
- * Credential Programs
+ * Credential Programs.
+ * 
+ * Core program requirements are often referred to as General Education Requirements
+ * or university requirements.
+ * 
+ * Core program requirements may also be associated with a school within the university.
  * 
  * @author Kuali Student Team (Sambit)
  */
-public interface CoreProgram extends ProgramAttributes {
-
-    
-
-    /**
-     * An URL for additional information about the Core Requirement.
-     * 
-     * @name reference URL
-     */
-
-    public String getReferenceURL();
-
-   
+public interface CoreProgram extends CommonWithCoreProgram {
 
 }

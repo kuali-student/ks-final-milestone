@@ -132,7 +132,7 @@ public enum PersonEnum {
     FACULTY48("FCLTY", "999990048", "faculty48", "bfowler@kuali.edu", "faculty48", "bfowler", true, "History", "Bobby", "H", "Fowler", "Male", "Mr.", "", "89 Eshamy Bay Drive", "Framingham", "MA", "01701"),
     FACULTY49("FCLTY", "999990049", "faculty49", "rherrera@kuali.edu", "faculty49", "rherrera", true, "Linguistics", "Ruby", "Q", "Herrera", "Female", "Ms.", "", "216 Trisha Avenue", "Boston", "MA", "02201"),
     FACULTY50("FCLTY", "999990050", "faculty50", "njackson@kuali.edu", "faculty50", "njackson", true, "Mathematics", "Nancy", "Q", "Jackson", "Female", "Ms.", "", "96 The Sun Loft Drive", "Middleboro", "MA", "02349"),
-    FACULTY51("FCLTY", "999990051", "faculty51", "rdavidson@kuali.edu", "faculty51", "rdavidson", true, "Mechanical", "Raymond", "M", "Davidson", "Male", "Mr.", "", "273 Nash Street", "Middlesex Essex Gmf", "MA", "01889"),
+    FACULTY51("FCLTY", "999990051", "faculty51", "rdavIdson@kuali.edu", "faculty51", "rdavIdson", true, "Mechanical", "Raymond", "M", "DavIdson", "Male", "Mr.", "", "273 Nash Street", "Middlesex Essex Gmf", "MA", "01889"),
     FACULTY52("FCLTY", "999990052", "faculty52", "slane@kuali.edu", "faculty52", "slane", true, "Music", "Shane", "D", "Lane", "Male", "Mr.", "", "37 Colchis Street", "West Medford", "MA", "02156"),
     FACULTY53("FCLTY", "999990053", "faculty53", "rmueller@kuali.edu", "faculty53", "rmueller", true, "Philosophy", "Raquel", "T", "Mueller", "Female", "Ms.", "", "237 Young Drive", "East Taunton", "MA", "02718"),
     FACULTY54("FCLTY", "999990054", "faculty54", "rnunez@kuali.edu", "faculty54", "rnunez", true, "Physics", "Randall", "M", "Nunez", "Male", "Mr.", "", "146 Atkinson Circle", "Hadley", "MA", "01035"),

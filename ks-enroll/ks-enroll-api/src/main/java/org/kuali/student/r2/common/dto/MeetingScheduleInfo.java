@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeetingScheduleInfo", propOrder = {
-                "id", "spaceId", "timePeriods",
+                "id", "spaceId", "scheduleId",
                 "_futureElements"})
 
 public class MeetingScheduleInfo 
@@ -52,7 +52,7 @@ public class MeetingScheduleInfo
     private String spaceId;
 
     @XmlElement
-    private String timePeriods;
+    private String scheduleId;
 
     @XmlAnyElement
     private List<Element> _futureElements;    
@@ -74,7 +74,7 @@ public class MeetingScheduleInfo
         if (null != meetingSchedule) {
             this.id = meetingSchedule.getId();
             this.spaceId = meetingSchedule.getSpaceId();
-            this.timePeriods = meetingSchedule.getTimePeriods();
+            this.scheduleId = meetingSchedule.getScheduleId();
         }
     }
 
@@ -97,11 +97,12 @@ public class MeetingScheduleInfo
     }
 
     @Override
-    public String getTimePeriods() {
-        return timePeriods;
+    public String getScheduleId() {
+        return scheduleId;
     }
 
-    public void setTimePeriods(String timePeriods) {
-        this.timePeriods = timePeriods;
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
     }
+
 }

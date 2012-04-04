@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchParamInfo", propOrder = {
                 "key", "values", "_futureElements"})
-
+@Deprecated
 public class SearchParamInfo 
     implements SearchParam, Serializable {
 

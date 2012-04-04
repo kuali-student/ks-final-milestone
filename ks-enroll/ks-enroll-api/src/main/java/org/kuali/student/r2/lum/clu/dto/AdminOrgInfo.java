@@ -8,7 +8,6 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.lum.clu.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
@@ -31,23 +30,23 @@ import java.util.List;
 public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String orgId;
     @XmlElement
-    private boolean isPrimary;
+    private Boolean isPrimary;
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public AdminOrgInfo() {
-
     }
 
     public AdminOrgInfo(AdminOrg adminOrg) {
         super(adminOrg);
         if (adminOrg != null) {
             this.orgId = adminOrg.getOrgId();
-            this.isPrimary = adminOrg.isPrimary();
+            if (adminOrg.getIsPrimary() != null) {
+                this.isPrimary = adminOrg.getIsPrimary();
+            }
         }
     }
 
@@ -61,12 +60,11 @@ public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable
     }
 
     @Override
-    public Boolean isPrimary() {
+    public Boolean getIsPrimary() {
         return isPrimary;
     }
 
-    public void setPrimary(boolean isPrimary) {
+    public void setIsPrimary(Boolean isPrimary) {
         this.isPrimary = isPrimary;
     }
-
 }

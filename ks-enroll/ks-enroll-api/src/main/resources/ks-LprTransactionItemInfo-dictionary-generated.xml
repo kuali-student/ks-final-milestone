@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
+		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -45,18 +45,21 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Lpr Transaction Item"/>
 		<property name="objectDescription">
 			<value>
-null
+A transaction item represents a request for creating a new relation of a
+person (student) to a LUI. The transaction item also handle removing,
+updating, swapping out an old LUI for a new LUI for a person.
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
-				<value>personId</value>
+				<value>id</value>
 			</list>
 		</property>
 
 		<property name="attributes">
 			<list>
+				<ref bean="LprTransactionItemInfo.id"/>
 				<ref bean="LprTransactionItemInfo.personId"/>
 				<ref bean="LprTransactionItemInfo.newLuiId"/>
 				<ref bean="LprTransactionItemInfo.existingLuiId"/>
@@ -82,18 +85,22 @@ null
 		</property>
 	</bean>
 
+	<bean id="LprTransactionItemInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
 	<bean id="LprTransactionItemInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
 		<property name="name" value="personId"/>
 		<property name="shortLabel" value="Person Id"/>
 		<property name="summary">
 			<value>
-The person id for the relation request.
+The person id for whom this request is to generate or update the lpr
 			</value>
 		</property>
 		<property name="label" value="Person Id"/>
 		<property name="description">
 			<value>
-The person id for the relation request.
+The person id for whom this request is to generate or update the lpr
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -107,7 +114,7 @@ The person id for the relation request.
 The LUI id for a new relation request.
 			</value>
 		</property>
-		<property name="label" value="New Lui Id"/>
+		<property name="label" value="New LUI Id"/>
 		<property name="description">
 			<value>
 The LUI id for a new relation request.
@@ -133,19 +140,26 @@ The existing LUI id for an existing relation remove or change requests.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LprTransactionItemInfo.resultOptionKeys-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="resultOptionKeys"/>
-		<property name="shortLabel" value="Result Option Keys"/>
+	<bean id="LprTransactionItemInfo.resultValuesGroupKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="resultValuesGroupKeys"/>
+		<property name="shortLabel" value="Result Values Group Keys"/>
 		<property name="summary">
 			<value>
-Specify the grading and credit options for the course.
+The keys of the result values groups to be applied to the LPR
+once created.
+
+
 			</value>
 		</property>
-		<property name="label" value="Result Option Keys"/>
-		<property name="elementLabel" value="Result Option Key"/>
+		<property name="label" value="Result Values Group Keys"/>
+		<property name="elementLabel" value="Result Values Group Key"/>
 		<property name="description">
 			<value>
-Specify the grading and credit options for the course.
+The keys of the result values groups to be applied to the LPR
+once created.
+
+For example, setting the grading option to pass/fail or the credits to 3
+for a course.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -178,13 +192,13 @@ relationship.
 		<property name="shortLabel" value="Lpr Transaction Item Result"/>
 		<property name="summary">
 			<value>
-Returns the transaction item result for this transaction item.
+Returns the result for this transaction item once it has been processed.
 			</value>
 		</property>
-		<property name="label" value="Lpr Transaction Item Result"/>
+		<property name="label" value="LPR Transaction Item Result"/>
 		<property name="description">
 			<value>
-Returns the transaction item result for this transaction item.
+Returns the result for this transaction item once it has been processed.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -192,10 +206,10 @@ Returns the transaction item result for this transaction item.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="lprTransactionItemResult"/>
 				<property name="dataObjectClass" value="org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo"/>
-				<property name="objectLabel" value="Lpr Transaction Item Result"/>
+				<property name="objectLabel" value="LPR Transaction Item Result"/>
 				<property name="objectDescription">
 					<value>
-Returns the transaction item result for this transaction item.
+Returns the result for this transaction item once it has been processed.
 					</value>
 				</property>
 
@@ -335,14 +349,18 @@ A description of the entity.
 		<property name="shortLabel" value="Type Key"/>
 		<property name="summary">
 			<value>
-The possible types of the LPR transaction item e.g. 
+The type of the transaction item.
+
+
 			</value>
 		</property>
 		<property name="label" value="Type Key"/>
 		<property name="description">
 			<value>
-The possible types of the LPR transaction item e.g. ADD, UPDATE, DROP,
-SWAP
+The type of the transaction item.
+
+The types of LPR transaction item  are things like ADD, UPDATE, DROP,
+and SWAP
 			</value>
 		</property>
 		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
@@ -358,14 +376,19 @@ SWAP
 		<property name="shortLabel" value="State Key"/>
 		<property name="summary">
 			<value>
-The possible states of the LPR transaction item e.g. 
+The state of this transaction item
+
+The states of the LPR transaction item are things like DRAFT, SUBMITTED,
+and FAILED. etc
 			</value>
 		</property>
 		<property name="label" value="State Key"/>
 		<property name="description">
 			<value>
-The possible states of the LPR transaction item e.g. DRAFT, SUBMITTED,
-FAILED etc
+The state of this transaction item
+
+The states of the LPR transaction item are things like DRAFT, SUBMITTED,
+and FAILED. etc
 			</value>
 		</property>
 		<property name="required" value="true"/>
@@ -379,7 +402,7 @@ FAILED etc
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -399,7 +422,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional
@@ -463,15 +486,22 @@ being thrown.
 		<property name="shortLabel" value="Group Id"/>
 		<property name="summary">
 			<value>
-The transaction item group id to link the LPR transaction items of the
+A transaction item group id used to link together LPR transaction items of the
 related LUIs (if any) created as part of a single transaction item.
+
+
 			</value>
 		</property>
 		<property name="label" value="Group Id"/>
 		<property name="description">
 			<value>
-The transaction item group id to link the LPR transaction items of the
+A transaction item group id used to link together LPR transaction items of the
 related LUIs (if any) created as part of a single transaction item.
+
+Note: this field is deprecated
+It was added at the last minute for core-slice as a way to group together 
+the resulting LPRs so they can be searched later but this 
+approach will be refactored out.
 			</value>
 		</property>
 		<property name="required" value="false"/>

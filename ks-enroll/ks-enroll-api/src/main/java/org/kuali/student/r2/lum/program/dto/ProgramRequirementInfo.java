@@ -20,8 +20,9 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.infc.ProgramRequirement;
 import org.w3c.dom.Element;
@@ -31,54 +32,70 @@ import org.w3c.dom.Element;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-
-@XmlType(name = "ProgramRequirementInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "learningObjectives", "statement", "minCredits", "maxCredits", "meta",
-        "attributes", "_futureElements"})
+@XmlType(name = "ProgramRequirementInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "descr",
+    "shortTitle",
+    "longTitle",
+    "learningObjectives",
+    "statement",
+    "minCredits",
+    "maxCredits",
+    "meta",
+    "attributes",
+    "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequirement, Serializable {
+public class ProgramRequirementInfo extends IdNamelessEntityInfo implements ProgramRequirement, Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @XmlElement
+    private RichTextInfo descr;
     @XmlElement
     private String shortTitle;
-
     @XmlElement
     private String longTitle;
-
     @XmlElement
     private List<LoDisplayInfo> learningObjectives;
-
     @XmlElement
     private StatementTreeViewInfo statement;
-
     @XmlElement
     private Integer minCredits;
-
     @XmlElement
     private Integer maxCredits;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public ProgramRequirementInfo() {
-
     }
 
     public ProgramRequirementInfo(ProgramRequirement programRequirement) {
         super(programRequirement);
         if (programRequirement != null) {
+            if (programRequirement.getDescr() != null) {
+                this.descr = new RichTextInfo (programRequirement.getDescr());
+            }
             this.shortTitle = programRequirement.getShortTitle();
             this.longTitle = programRequirement.getLongTitle();
             this.statement = programRequirement.getStatement();
             this.minCredits = programRequirement.getMinCredits();
             this.maxCredits = programRequirement.getMaxCredits();
-            List<LoDisplayInfo> learningObjectives = new ArrayList<LoDisplayInfo>();
+            List<LoDisplayInfo> los = new ArrayList<LoDisplayInfo>();
             if (programRequirement.getLearningObjectives() != null) {
                 for (LoDisplayInfo loDisplay : programRequirement.getLearningObjectives()) {
-                    learningObjectives.add(new LoDisplayInfo(loDisplay));
+                    los.add(new LoDisplayInfo(loDisplay));
                 }
             }
         }
+    }
+
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
     }
 
     @Override

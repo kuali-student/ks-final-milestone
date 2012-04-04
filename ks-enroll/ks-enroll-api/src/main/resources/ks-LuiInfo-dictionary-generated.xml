@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
+		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -356,7 +356,7 @@ Identifier.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -376,7 +376,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional
@@ -533,7 +533,7 @@ clu. This allows them to be put into categories.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.lum.lu.dto.LuCodeInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.LuCodeInfo"/>
 	</bean>
 
 	<bean id="LuiInfo.maximumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
@@ -594,15 +594,15 @@ The reference URL for this LUI.
 		<property name="shortLabel" value="Units Content Owner"/>
 		<property name="summary">
 			<value>
-Organization(s) that is responsible for the academic content of
+Identifiers for Organization(s) that is responsible for the academic content of
 the Lui as approved in its canonical form.
 			</value>
 		</property>
-		<property name="label" value="Units Content Owner"/>
+		<property name="label" value="Units Content Owner Org Id"/>
 		<property name="elementLabel" value="Units Content Owner"/>
 		<property name="description">
 			<value>
-Organization(s) that is responsible for the academic content of
+Identifiers for Organization(s) that is responsible for the academic content of
 the Lui as approved in its canonical form.
 			</value>
 		</property>
@@ -615,15 +615,15 @@ the Lui as approved in its canonical form.
 		<property name="shortLabel" value="Units Deployment"/>
 		<property name="summary">
 			<value>
-Organization(s) that is responsible for the delivery - and all
+Identifiers for Organization(s) that is responsible for the delivery - and all
 associated logistics - of the Lui.
 			</value>
 		</property>
-		<property name="label" value="Units Deployment"/>
+		<property name="label" value="Units Deployment Org Id"/>
 		<property name="elementLabel" value="Units Deployment"/>
 		<property name="description">
 			<value>
-Organization(s) that is responsible for the delivery - and all
+Identifiers for Organization(s) that is responsible for the delivery - and all
 associated logistics - of the Lui.
 			</value>
 		</property>
@@ -637,7 +637,9 @@ associated logistics - of the Lui.
 		<property name="summary">
 			<value>
 The options/scales that indicate the allowable grades that can
-be awarded.  
+be awarded or credits applied.  
+
+
 			</value>
 		</property>
 		<property name="label" value="Result Values Group Keys"/>
@@ -645,11 +647,34 @@ be awarded.
 		<property name="description">
 			<value>
 The options/scales that indicate the allowable grades that can
-be awarded.  If the value is set here then the Clu must have a
-grading option set on the canonical activity.
+be awarded or credits applied.  
+
+If the value is set here then the Clu must have a
+grading option or credit options set on the canonical activity.
 
 ResultValuesGroup will contain grade values valid for this
-course offering
+course offering.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="LuiInfo.relatedLuiTypes-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="relatedLuiTypes"/>
+		<property name="shortLabel" value="Related Lui Types"/>
+		<property name="summary">
+			<value>
+These are the related lui types which may be related to this lui, e.g., activty
+ offering types to format offering
+			</value>
+		</property>
+		<property name="label" value="Related Lui Types"/>
+		<property name="elementLabel" value="Related Lui Type"/>
+		<property name="description">
+			<value>
+These are the related lui types which may be related to this lui, e.g., activty
+ offering types to format offering
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -672,7 +697,7 @@ The fees associated with the course offering.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.lum.lu.dto.FeeInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.FeeInfo"/>
 	</bean>
 
 	<bean id="LuiInfo.revenues-generated" abstract="true" parent="CollectionDefinition">
@@ -693,7 +718,7 @@ the course.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.lum.lu.dto.RevenueInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.RevenueInfo"/>
 	</bean>
 
 	<bean id="LuiInfo.expenditure-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -716,7 +741,7 @@ course.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="expenditure"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.lum.lu.dto.ExpenditureInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.ExpenditureInfo"/>
 				<property name="objectLabel" value="Expenditure"/>
 				<property name="objectDescription">
 					<value>
@@ -766,7 +791,7 @@ List of affiliated organizations.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.lum.lu.dto.AffiliatedOrgInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo"/>
 	</bean>
 
 	<bean id="LuiInfo.expenditure.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -777,7 +802,7 @@ List of affiliated organizations.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -797,7 +822,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional
@@ -864,7 +889,7 @@ being thrown.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -884,7 +909,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional

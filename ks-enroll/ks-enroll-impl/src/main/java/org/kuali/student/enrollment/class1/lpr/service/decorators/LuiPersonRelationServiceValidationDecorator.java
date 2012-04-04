@@ -32,7 +32,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
-import org.kuali.student.r2.core.service.util.ValidationUtils;
+import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
 /**
  * An example Validation decorator for the {@link LuiPersonRelationService}.
@@ -125,16 +125,16 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
     }
 
     @Override
-    public LprTransactionInfo createLprTransaction(
-            @WebParam(name = "lprTransactionInfo") LprTransactionInfo lprTransactionInfo,
-            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+    public LprTransactionInfo createLprTransaction(String lprTransactionTypeKey,
+        LprTransactionInfo lprTransactionInfo,
+            ContextInfo context) throws DataValidationErrorException,
             AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         if (lprTransactionInfo.getId() != null) {
             throw new DataValidationErrorException("Id is not allowed to be supplied on a create");
         }
 
-        return getNextDecorator().createLprTransaction(lprTransactionInfo, context);
+        return getNextDecorator().createLprTransaction(lprTransactionTypeKey, lprTransactionInfo, context);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
     }
 
     @Override
-    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList,
+    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIds,
                 String relationState, String luiPersonRelationTypeKey,
                 LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, DisabledIdentifierException,
@@ -159,7 +159,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         if (null == personId || personId.isEmpty()) {
             throw new MissingParameterException("Person ID is required");
         }
-        if (null == luiIdList || luiIdList.isEmpty()) {
+        if (null == luiIds || luiIds.isEmpty()) {
             throw new MissingParameterException("A list of LUI's is required");
         }
         if (null == luiPersonRelationTypeKey || luiPersonRelationTypeKey.isEmpty()) {
@@ -173,7 +173,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         }
 
         return getNextDecorator().createBulkRelationshipsForPerson(
-                personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
+                personId, luiIds, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
     }
 
 

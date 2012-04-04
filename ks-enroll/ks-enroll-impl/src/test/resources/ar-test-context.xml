@@ -85,12 +85,7 @@
 
   <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
     <property name="luiDao" ref="luiDao" />
-    <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
-    <property name="luiTypeDao" ref="luiTypeDao" />
-    <property name="luiRichTextDao" ref="luiRichTextDao" />
     <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
-    <property name="stateService" ref="stateService" />
-    <property name="atpService" ref="atpService" />
   </bean>
 
   <bean id="luiServiceValidation" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
@@ -103,37 +98,24 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="luiRichTextDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao">
-    <property name="em" ref="entityManager" />
-  </bean>
-
-  <bean id="luiTypeDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao">
-    <property name="em" ref="entityManager" />
-  </bean>
+ 
 
   <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
-    <property name="em" ref="entityManager" />
-  </bean>
+ 
 
   <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
     <property name="stateDao" ref="stateDao" />
-    <property name="spDao" ref="stateProcessDao" />
-    <property name="sprDao" ref="stateProcessRelationDao" />
+    <property name="lifecycleDao" ref="lifecycleDao" />
   </bean>
 
   <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="stateProcessDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
-    <property name="em" ref="entityManager" />
-  </bean>
-
-  <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
+  <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
     <property name="em" ref="entityManager" />
   </bean>
 
@@ -142,8 +124,6 @@
     <property name="atpRelDao" ref="atpAtpRelationDao" />
     <property name="milestoneDao" ref="milestoneDao" />
     <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
-    <property name="stateService" ref="stateService" />
-    <property name="dataDictionaryService" ref="dataDictionaryServiceForAtp" />
   </bean>
 
   <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
@@ -170,23 +150,11 @@
 
   <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="luiService" ref="luiService" />
-    <property name="coAssembler" ref="coAssembler" />
-    <property name="aoAssembler" ref="aoAssembler" />
     <property name="rgAssembler" ref="rgAssembler" />
     <property name="courseService" ref="courseServiceImpl" />
     <property name="acalService" ref="acalService" />
     <property name="stateService" ref="stateService" />
     <property name="lprService" ref="lprPersistenceService" />
-  </bean>
-
-  <bean id="coAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler">
-    <property name="luiService" ref="luiService" />
-    <property name="lprService" ref="lprPersistenceService" />
-  </bean>
-
-  <bean id="aoAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler">
-    <property name="lprService" ref="lprPersistenceService" />
-    <property name="activityTransformer" ref="activityTransformer" />
   </bean>
 
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
@@ -222,14 +190,10 @@
 
   <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
     <property name="lprDao" ref="lprDao" />
-    <property name="luiDao" ref="luiDao" />
     <property name="lprRosterDao" ref="lprRosterDao" />
     <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
-    <property name="lprStateDao" ref="stateDao" />
-    <property name="lprTypeDao" ref="lprTypeDao" />
     <property name="lprTransDao" ref="lprTrasactionDao" />
     <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
-    <property name="stateService" ref="stateService" />
   </bean>
 
   <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.LRCServiceMockImpl" />
@@ -238,14 +202,9 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="lprStateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
-    <property name="em" ref="entityManager" />
-  </bean>
 
-  <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao">
-    <property name="em" ref="entityManager" />
-  </bean>
 
+ 
   <bean id="lprRosterDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao">
     <property name="em" ref="entityManager" />
   </bean>

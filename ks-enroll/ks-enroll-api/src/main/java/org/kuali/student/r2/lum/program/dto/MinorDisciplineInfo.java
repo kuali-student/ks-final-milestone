@@ -12,6 +12,7 @@ package org.kuali.student.r2.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -20,63 +21,67 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.program.infc.MinorDiscipline;
 import org.w3c.dom.Element;
 
-/**
- * This is a description of what this class does - sambit don't forget to fill
- * this in.
- * 
- * @author Kuali Student Team (sambitpa@kuali.org)
- */
 
-@XmlType(name = "MinorDisciplineInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "credentialProgramId", "programRequirements", "meta", "attributes", "_futureElements"})
+@XmlType(name = "MinorDisciplineInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "credentialProgramId",
+    "programRequirements",
+    "meta",
+    "attributes",
+    "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MinorDisciplineInfo extends IdEntityInfo implements MinorDiscipline, Serializable {
-
+public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDiscipline, Serializable {
+    
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String credentialProgramId;
-
     @XmlElement
     private List<String> programRequirements;
-
     @XmlAnyElement
     private List<Element> _futureElements;
-
+    
     public MinorDisciplineInfo() {
-
+        this.programRequirements = new ArrayList<String>();
     }
-
+    
     public MinorDisciplineInfo(MinorDiscipline minorDiscipline) {
-        super(minorDiscipline);
+        super (minorDiscipline);
         if (minorDiscipline != null) {
             this.credentialProgramId = minorDiscipline.getCredentialProgramId();
-            this.programRequirements = new ArrayList<String>(minorDiscipline.getProgramRequirements());
+            this.programRequirements = minorDiscipline.getProgramRequirements() != null 
+                    ? new ArrayList<String>(minorDiscipline.getProgramRequirements()) 
+                    : new ArrayList<String>();
         }
     }
 
+    /**
+     * Identifier of the credential program under which the honors belongs
+     */
     @Override
     public String getCredentialProgramId() {
         return credentialProgramId;
     }
-
+    
     public void setCredentialProgramId(String credentialProgramId) {
         this.credentialProgramId = credentialProgramId;
     }
-
+    
     @Override
     public List<String> getProgramRequirements() {
         if (programRequirements == null) {
-            programRequirements = new ArrayList<String>();
+            programRequirements = new ArrayList<String>(0);
         }
         return programRequirements;
     }
-
+    
     public void setProgramRequirements(List<String> programRequirements) {
         this.programRequirements = programRequirements;
     }
 
+  
 }

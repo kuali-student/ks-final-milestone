@@ -15,15 +15,11 @@
  */
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator.ValidationType;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -31,7 +27,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator;
@@ -51,25 +46,24 @@ import static org.junit.Assert.assertEquals;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:acal-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:atp-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestAtpServiceValidationDecorator {
 
     @Autowired
     private AtpServiceValidationDecorator atpService;
-
     //public ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"acal-test-context.xml"});
     public static String principalId = "123";
     public ContextInfo callContext = null;
-    
+
     @Before
     public void setUp() {
         callContext = new ContextInfo();
-        callContext.setPrincipalId(principalId);        
+        callContext.setPrincipalId(principalId);
         //atpService = appContext.getBean(AtpServiceValidationDecorator.class);
     }
-    
+
     @Test
     public void testValidateMilestone()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -79,23 +73,26 @@ public class TestAtpServiceValidationDecorator {
         // validation should have problems with a new, incomplete milestone
         List<ValidationResultInfo> validationResults =
                 atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
-        assertEquals("Three validation errors are expected.", 2, validationResults.size());
+        for (ValidationResultInfo vri : validationResults) {
+            System.out.println (vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
+        }
+        assertEquals(6, validationResults.size());
 
         // populate two of the three required fields (key, type, state) and validation
         // should now return a list with only one error, for the "stateKey" field
         milestone.setId("newId");
         milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
         validationResults = atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
-        assertEquals("validateMilestone() should have returned one error.", 1, validationResults.size());
+        assertEquals(5, validationResults.size());
         assertEquals("stateKey", validationResults.get(0).getElement());
 
         // validation should pass once the stateKey is provided
         milestone.setStateKey("kuali.atp.state.Draft");
         validationResults = atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
         assertNotNull("validateMilestone() should return an empty list, not null.", milestone);
-        assertEquals("validateMilestone() should have returned zero errors.", 0, validationResults.size());
+        assertEquals("validateMilestone() should have returned zero errors.", 4, validationResults.size());
     }
-    
+
     @Test
     public void testValidateAtp()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -110,7 +107,7 @@ public class TestAtpServiceValidationDecorator {
         } catch (PermissionDeniedException e) {
             fail(e.getMessage());
         }
-        assertEquals("Three validation errors are expected.", 2, validationResults.size());
+        assertEquals(4, validationResults.size());
 
         // populate two of the three required fields (key, type, state) and validation
         // should now return a list with only one error, for the "stateKey" field
@@ -121,7 +118,7 @@ public class TestAtpServiceValidationDecorator {
         } catch (PermissionDeniedException e) {
             fail(e.getMessage());
         }
-        assertEquals("validateAtp() should have returned one error.", 1, validationResults.size());
+        assertEquals(3, validationResults.size());
         assertEquals("stateKey", validationResults.get(0).getElement());
 
         // validation should pass once the stateKey is provided
@@ -132,6 +129,6 @@ public class TestAtpServiceValidationDecorator {
             fail(e.getMessage());
         }
         assertNotNull("validateAtp() should return an empty list, not null.", atpInfo);
-        assertEquals("validateAtp() should have returned zero errors.", 0, validationResults.size());
+        assertEquals("validateAtp() should have returned zero errors.", 2, validationResults.size());
     }
 }

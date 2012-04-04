@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
+		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -107,7 +107,7 @@ plus any of its dependencies -->
 The LPR Roster Id this LPR roster entry is a part of.
 			</value>
 		</property>
-		<property name="label" value="Lpr Roster Id"/>
+		<property name="label" value="Lui Person Relation Roster Id"/>
 		<property name="description">
 			<value>
 The LPR Roster Id this LPR roster entry is a part of.
@@ -124,7 +124,7 @@ The LPR Roster Id this LPR roster entry is a part of.
 The LPR that this roster entry represents.
 			</value>
 		</property>
-		<property name="label" value="Lpr Id"/>
+		<property name="label" value="Lui Person Relation Id"/>
 		<property name="description">
 			<value>
 The LPR that this roster entry represents.
@@ -133,21 +133,35 @@ The LPR that this roster entry represents.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LprRosterEntryInfo.position-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="LprRosterEntryInfo.position-generated" abstract="true" parent="BaseKuali.integer">
 		<property name="name" value="position"/>
 		<property name="shortLabel" value="Position"/>
 		<property name="summary">
 			<value>
-The position of this entry in the LPR Roster.
+The position of this entry within the LPR Roster.
+
+
 			</value>
 		</property>
 		<property name="label" value="Position"/>
 		<property name="description">
 			<value>
-The position of this entry in the LPR Roster.
+The position of this entry within the LPR Roster.
+
+If not supplied when the entry is created the service should set it to the next 
+sequential number available.
+
+The service does not have to guarantee uniqueness of this field within a roster.
+
+This field cannot be relied upon to determine exactly how many people are 
+ahead of a person in the roster because the sequence may contain
+gaps (because of deletes) or duplicates.  Moreover a particular roster may 
+order entries using different algorithms, for example it may be FIFO or LIFO or 
+it may take other factors into account, such as the state, to determine which entry 
+process next.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="LprRosterEntryInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -158,7 +172,7 @@ The position of this entry in the LPR Roster.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -178,7 +192,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional

@@ -12,7 +12,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.lum.clu.infc;
 
 import org.kuali.student.r2.common.infc.Amount;
@@ -22,6 +21,7 @@ import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.core.versionmanagement.infc.Version;
 
 import java.util.List;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * Detailed information about a single CLU.
@@ -30,6 +30,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 public interface Clu extends IdNamelessEntity, HasEffectiveDates {
+
     /**
      * Information related to the official identification of the clu, typically
      * in human readable form. Used to officially reference or publish.
@@ -39,6 +40,13 @@ public interface Clu extends IdNamelessEntity, HasEffectiveDates {
      * @required
      */
     public CluIdentifier getOfficialIdentifier();
+
+    /**
+     * Narrative description of the CLU, used for the catalog.
+     *
+     * @name Description
+     */
+    public RichText getDescr();
 
     /**
      * Information related to alternate identifications of the clu, typically in
@@ -69,9 +77,9 @@ public interface Clu extends IdNamelessEntity, HasEffectiveDates {
     /**
      * Places where this clu might be offered
      *
-     * @name Campus Locations
+     * @name Campus Location Keys
      */
-    public List<String> getCampusKeys();
+    public List<String> getCampusLocations();
 
     /**
      * Admin Orgs associated with this clu
@@ -98,9 +106,9 @@ public interface Clu extends IdNamelessEntity, HasEffectiveDates {
     public List<? extends CluInstructor> getInstructors();
 
     /*
-    * The expected level of time commitment between the student and the CLU meetings.
-    * @name Intensity
-    */
+     * The expected level of time commitment between the student and the CLU meetings.
+     * @name Intensity
+     */
     public Amount getIntensity();
 
     /**
@@ -210,7 +218,6 @@ public interface Clu extends IdNamelessEntity, HasEffectiveDates {
      *
      * @name Version Info
      */
-
     public Version getVersionInfo();
 
     /**
@@ -236,5 +243,4 @@ public interface Clu extends IdNamelessEntity, HasEffectiveDates {
      * @name Last Admit Atp
      */
     public String getLastAdmitAtp();
-
 }

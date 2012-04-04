@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Sat Dec 31 12:02:11 EST 2011
+		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -45,7 +45,8 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Meeting Schedule"/>
 		<property name="objectDescription">
 			<value>
-Captures space and time information associated with a meeting or event.
+Information about a MeetingSchedule. This will move into the
+Scheduling service.
 			</value>
 		</property>
 		<property name="primaryKeys">
@@ -58,7 +59,7 @@ Captures space and time information associated with a meeting or event.
 			<list>
 				<ref bean="MeetingScheduleInfo.id"/>
 				<ref bean="MeetingScheduleInfo.spaceId"/>
-				<ref bean="MeetingScheduleInfo.timePeriods"/>
+				<ref bean="MeetingScheduleInfo.scheduleId"/>
 			</list>
 		</property>
 
@@ -82,21 +83,21 @@ Captures space and time information associated with a meeting or event.
 		<property name="shortLabel" value="Space Id"/>
 		<property name="summary">
 			<value>
-Space code where the meeting is going to take place
+Space code where the meeting is going to take place.
 			</value>
 		</property>
 		<property name="label" value="Space Code"/>
 		<property name="description">
 			<value>
-Space code where the meeting is going to take place
+Space code where the meeting is going to take place.
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="MeetingScheduleInfo.timePeriods-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="timePeriods"/>
-		<property name="shortLabel" value="Time Periods"/>
+	<bean id="MeetingScheduleInfo.scheduleId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="scheduleId"/>
+		<property name="shortLabel" value="Schedule Id"/>
 		<property name="summary">
 			<value>
 Date and Time The date and time values for all vCalendar properties are
@@ -104,7 +105,7 @@ formatted as a string consistent with the ISO 8601 representation for
 combinations of dates and times. 
 			</value>
 		</property>
-		<property name="label" value="Time"/>
+		<property name="label" value="Schedule Id"/>
 		<property name="description">
 			<value>
 Date and Time The date and time values for all vCalendar properties are

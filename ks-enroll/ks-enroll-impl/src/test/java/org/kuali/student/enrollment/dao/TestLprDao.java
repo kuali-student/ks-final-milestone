@@ -23,7 +23,6 @@ import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao;
 import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.enrollment.class1.lpr.service.utilities.Constants;
 import org.kuali.student.r2.core.class1.state.dao.StateDao;
@@ -37,8 +36,6 @@ public class TestLprDao extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.r2.core.class1.state.dao.StateDao")
     private StateDao stateDao;
 
-    @Dao(value = "org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao")
-    private LprTypeDao lprTypeDao;
 
     private static String LUIID2 = "testLuiId2";
     private static String PERSONID2 = "testPersonId2";
@@ -104,8 +101,8 @@ public class TestLprDao extends AbstractTransactionalDaoTest {
         LuiPersonRelationEntity returnLpr = new LuiPersonRelationEntity();
         returnLpr.setLuiId(LUIID2);
         returnLpr.setPersonId(PERSONID2);
-        returnLpr.setPersonRelationState(stateDao.find("kuali.lpr.state.registered"));
-        returnLpr.setPersonRelationType(lprTypeDao.find("kuali.lpr.type.registrant"));
+        returnLpr.setPersonRelationStateId("kuali.lpr.state.registered");
+        returnLpr.setPersonRelationTypeId("kuali.lpr.type.registrant");
         return returnLpr;
     }
 

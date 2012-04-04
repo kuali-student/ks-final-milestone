@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
@@ -12,7 +11,6 @@ import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import javax.xml.namespace.QName;
@@ -39,34 +37,32 @@ public class HolidayCalendarWrapperLookupableImpl extends LookupableImpl {
         try{
             holidayCalendarInfoList = getAcademicCalendarService().getHolidayCalendarsByStartYear(theStartYear, context);
             for(HolidayCalendarInfo holidayCalendarInfo:holidayCalendarInfoList){
-                if (StringUtils.equals(holidayCalendarInfo.getStateKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)){
-                    HolidayCalendarWrapper holidayCalendarWrapper = new HolidayCalendarWrapper();
-                    holidayCalendarWrapper.setHolidayCalendarInfo(holidayCalendarInfo);
-                    holidayCalendarWrapper.setId(holidayCalendarInfo.getId());
-                    holidayCalendarWrapper.setAcalStartYear(theStartYear.toString());
-                    try {
-                        List<HolidayInfo> holidayInfoList = getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarInfo.getId(), context);
-                        for(HolidayInfo holidayInfo : holidayInfoList){
-                            HolidayWrapper holiday = new HolidayWrapper();
-                            holiday.setHolidayInfo(holidayInfo);
-                            TypeInfo typeInfo = getAcademicCalendarService().getHolidayType(holidayInfo.getTypeKey(), context);
-                            holiday.setTypeName(typeInfo.getName());
-                            holidays.add(holiday);
-                        }
-                        holidayCalendarWrapper.setHolidays(holidays);
-                    }catch (DoesNotExistException dnee){
-                        System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
-                    }catch (InvalidParameterException ipe){
-                        System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
-                    }catch (MissingParameterException mpe){
-                        System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
-                    }catch (OperationFailedException ofe){
-                        System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
-                    }catch (PermissionDeniedException pde){
-                        System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
+                HolidayCalendarWrapper holidayCalendarWrapper = new HolidayCalendarWrapper();
+                holidayCalendarWrapper.setHolidayCalendarInfo(holidayCalendarInfo);
+                holidayCalendarWrapper.setId(holidayCalendarInfo.getId());
+                holidayCalendarWrapper.setAcalStartYear(theStartYear.toString());
+                try {
+                    List<HolidayInfo> holidayInfoList = getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarInfo.getId(), context);
+                    for(HolidayInfo holidayInfo : holidayInfoList){
+                        HolidayWrapper holiday = new HolidayWrapper();
+                        holiday.setHolidayInfo(holidayInfo);
+                        TypeInfo typeInfo = getAcademicCalendarService().getHolidayType(holidayInfo.getTypeKey(), context);
+                        holiday.setTypeName(typeInfo.getName());
+                        holidays.add(holiday);
                     }
-                    holidayCalendarWrapperList.add(holidayCalendarWrapper);
+                    holidayCalendarWrapper.setHolidays(holidays);
+                }catch (DoesNotExistException dnee){
+                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
+                }catch (InvalidParameterException ipe){
+                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
+                }catch (MissingParameterException mpe){
+                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
+                }catch (OperationFailedException ofe){
+                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
+                }catch (PermissionDeniedException pde){
+                    System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
                 }
+                holidayCalendarWrapperList.add(holidayCalendarWrapper);
             }
             
             return holidayCalendarWrapperList;

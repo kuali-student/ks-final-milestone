@@ -102,20 +102,20 @@ public class TestLuiPersonRelationServiceSearchConformance {
 
     private void loadData() throws Exception {
         String personId = "personId1";
-        List<String> luiIdList = new ArrayList<String>();
-        luiIdList.add("luiId1");
-        luiIdList.add("luiId2");
-        luiIdList.add("luiId3");
-        luiIdList.add("luiId4");
-        luiIdList.add("luiId5");
-        luiIdList.add("luiId6");
+        List<String> luiIds = new ArrayList<String>();
+        luiIds.add("luiId1");
+        luiIds.add("luiId2");
+        luiIds.add("luiId3");
+        luiIds.add("luiId4");
+        luiIds.add("luiId5");
+        luiIds.add("luiId6");
         String relationState = LuiPersonRelationServiceConstants.APPLIED_STATE_KEY;
         String luiPersonRelationType = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
         LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
         lpr.setEffectiveDate(parseDate("2010-01-01"));
         ContextInfo context = getContext1();
         getService().createBulkRelationshipsForPerson(personId,
-                luiIdList,
+                luiIds,
                 relationState,
                 luiPersonRelationType,
                 lpr, context);

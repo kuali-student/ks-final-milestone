@@ -22,14 +22,14 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.HasAttributesInfo;
 import org.kuali.student.r2.lum.course.infc.CourseExpenditure;
-import org.kuali.student.r2.lum.lu.dto.AffiliatedOrgInfo;
-import org.kuali.student.r2.lum.lu.infc.AffiliatedOrg;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.infc.AffiliatedOrg;
 import org.w3c.dom.Element;
 
 /**
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-@XmlType(name = "CourseCrossListingInfo", propOrder = {"affiliatedOrgs", "attributes", "_futureElements"})
+@XmlType(name = "CourseExpenditureInfo", propOrder = {"affiliatedOrgs", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseExpenditureInfo extends HasAttributesInfo implements CourseExpenditure, Serializable {
 
