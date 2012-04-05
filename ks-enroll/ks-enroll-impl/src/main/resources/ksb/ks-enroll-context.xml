@@ -418,4 +418,23 @@
       <property name="stateService" ref="stateService" />
   </bean>
 
+    <!-- Appointment Service -->
+    <bean id="appointmentWindowService" class="org.kuali.student.r2.core.class1.appointment.service.impl.AppointmentServiceImpl">
+        <property name="appointmentWindowDao" ref="appointmentWindowDao"/>
+        <property name="appointmentSlotDao" ref="appointmentSlotDao"/>
+    </bean>
+
+    <bean id="ks.exp.appointmentWindowService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="appointmentWindowService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.appointment.service.AppointmentService" />
+                <property name="localServiceName" value="AppointmentService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/appointment" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
 </beans>
