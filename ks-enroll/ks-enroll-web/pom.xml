@@ -67,7 +67,7 @@
         <dependency>
             <groupId>org.kuali.student.common</groupId>
             <artifactId>ks-jta</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
+            <version>1.3.0-merge-SNAPSHOT</version>
             <type>pom</type>
         </dependency>
 
