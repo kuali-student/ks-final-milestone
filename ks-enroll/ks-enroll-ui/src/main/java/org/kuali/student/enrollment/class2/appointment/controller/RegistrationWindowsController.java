@@ -1,10 +1,5 @@
 package org.kuali.student.enrollment.class2.appointment.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -17,8 +12,11 @@ import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrap
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
-
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
+import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
+import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
+import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -27,6 +25,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +44,8 @@ import java.util.List;
 public class RegistrationWindowsController extends UifControllerBase {
     
     private AcademicCalendarService acalService;
+
+    private AppointmentService appointmentService;
     private ContextInfo contextInfo;
 
     @Override
@@ -84,7 +90,82 @@ public class RegistrationWindowsController extends UifControllerBase {
     public ModelAndView save(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        //Loop through the form's appointment windows and create/update them using the appointmentService
+        if(form.getAppointmentWindows()!=null){
+
+            for(AppointmentWindowWrapper appointmentWindowWrapper:form.getAppointmentWindows()){
+
+                //Copy the form data from the wrapper to the bean. //TODO(should this be done in the wrapper bean?)
+                AppointmentWindowInfo appointmentWindowInfo = appointmentWindowWrapper.getAppointmentWindowInfo();
+                appointmentWindowInfo.setTypeKey(appointmentWindowWrapper.getWindowTypeKey());
+                appointmentWindowInfo.setPeriodMilestoneId(appointmentWindowWrapper.getPeriodKey());
+                appointmentWindowInfo.setAssignedPopulationId(appointmentWindowWrapper.getAssignedPopulationName());//TODO, should this be ID or name?
+                appointmentWindowInfo.setStartDate(_updateTime(appointmentWindowWrapper.getStartDate(), appointmentWindowWrapper.getStartTime(), appointmentWindowWrapper.getStartTimeAmPm()));
+                appointmentWindowInfo.setEndDate(_updateTime(appointmentWindowWrapper.getEndDate(), appointmentWindowWrapper.getEndTime(), appointmentWindowWrapper.getEndTimeAmPm()));
+
+                //TODO Periods are not working since the term search isn't working. Delete this block when fixed
+                if(appointmentWindowInfo.getPeriodMilestoneId() == null || appointmentWindowInfo.getPeriodMilestoneId().isEmpty()){
+                    appointmentWindowInfo.setPeriodMilestoneId("DUMMY_ID");
+                }
+
+                //TODO Default to some value if nothing is entered(Service team needs to make up some real types or make not nullable)
+                if(appointmentWindowInfo.getAssignedOrderTypeKey() == null || appointmentWindowInfo.getAssignedOrderTypeKey().isEmpty()){
+                    appointmentWindowInfo.setAssignedOrderTypeKey("DUMMY_ID");
+                }
+
+                //Default to single slot type if nothing is entered
+                if(appointmentWindowInfo.getTypeKey() == null || appointmentWindowInfo.getTypeKey().isEmpty()){
+                    appointmentWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY);
+                }
+
+                if(appointmentWindowInfo.getId()==null||appointmentWindowInfo.getId().isEmpty()){
+                    //Default the state to active
+                    appointmentWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
+
+                    //Default the Weekdays to a value since the DB schema does not allow null values
+                    appointmentWindowInfo.setSlotRule(new AppointmentSlotRuleInfo());
+                    appointmentWindowInfo.getSlotRule().setWeekdays(new ArrayList<Integer>());
+                    appointmentWindowInfo.getSlotRule().getWeekdays().add(new Integer(1));
+
+                    appointmentWindowInfo = getAppointmentService().createAppointmentWindow(appointmentWindowInfo.getTypeKey(),appointmentWindowInfo,new ContextInfo());
+                }else{
+                    appointmentWindowInfo = getAppointmentService().updateAppointmentWindow(appointmentWindowInfo.getId(),appointmentWindowInfo,new ContextInfo());
+                }
+
+                //Reset the windowInfo from the service's returned value
+                appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
+
+            }
+        }
+
         return getUIFModelAndView(form);
+    }
+
+    //Copied from AcademicCalendarViewHelperServiceImpl //TODO(should be moved into common util class)
+    private Date _updateTime(Date date,String time,String amPm){
+
+        //FIXME: Use Joda DateTime
+
+        // Get Calendar object set to the date and time of the given Date object
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        // Set time fields to zero
+        cal.set(Calendar.HOUR, Integer.parseInt(StringUtils.substringBefore(time,":")));
+        cal.set(Calendar.MINUTE, Integer.parseInt(StringUtils.substringAfter(time,":")));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        if (StringUtils.isNotBlank(amPm)){
+            if (StringUtils.equalsIgnoreCase(amPm,"am")){
+                cal.set(Calendar.AM_PM,Calendar.AM);
+            }else if(StringUtils.equalsIgnoreCase(amPm,"pm")){
+                cal.set(Calendar.AM_PM,Calendar.PM);
+            }else{
+                throw new RuntimeException("Unknown AM/PM format.");
+            }
+        }
+
+        return cal.getTime();
     }
 
     @RequestMapping(params = "methodToCall=show")
@@ -151,6 +232,16 @@ public class RegistrationWindowsController extends UifControllerBase {
         }
         return this.acalService;
     }
+
+
+    public AppointmentService getAppointmentService() {
+        if(appointmentService == null) {
+            appointmentService = (AppointmentService) GlobalResourceLoader.getService(new QName(AppointmentServiceConstants.NAMESPACE, AppointmentServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return appointmentService;
+    }
+
+
 
     private ContextInfo getContextInfo() {
         if (null == contextInfo) {
