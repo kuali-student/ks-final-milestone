@@ -751,9 +751,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     public void saveTerm(AcademicTermWrapper termWrapper, String acalId) throws Exception {
 
         boolean isNewTerm = false;
-        if (termWrapper.getTermInfo() == null){
-            TermInfo newTerm = new TermInfo();
-            termWrapper.setTermInfo(newTerm);
+        if (StringUtils.isBlank(termWrapper.getTermInfo().getId())){
+            TermInfo newTerm = termWrapper.getTermInfo();
             newTerm.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
             newTerm.setId(UUIDHelper.genStringUUID());
             RichTextInfo desc = new RichTextInfo();
@@ -819,18 +818,25 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     private Date getStartDateWithUpdatedTime(TimeSetWrapper timeSetWrapper,boolean isSaveAction){
         //If start time not blank, set that with the date. If it's empty, just update with default
-        if (!timeSetWrapper.isAllDay() && StringUtils.isNotBlank(timeSetWrapper.getStartTime())){
-            String startTime = timeSetWrapper.getStartTime();
-            String startTimeApPm = timeSetWrapper.getStartTimeAmPm();
-            //On save to DB, have to replace 12AM to 00AM insead of DB considers as 12PM
-            if (isSaveAction && StringUtils.startsWith(startTime,"12:") && StringUtils.equalsIgnoreCase(startTimeApPm,"am")){
-                startTime = StringUtils.replace(startTime,"12:","00:");
+        if (!timeSetWrapper.isAllDay()){
+            if (StringUtils.isNotBlank(timeSetWrapper.getStartTime())){
+                String startTime = timeSetWrapper.getStartTime();
+                String startTimeApPm = timeSetWrapper.getStartTimeAmPm();
+                //On save to DB, have to replace 12AM to 00AM insead of DB considers as 12PM
+                if (isSaveAction && StringUtils.startsWith(startTime,"12:") && StringUtils.equalsIgnoreCase(startTimeApPm,"am")){
+                    startTime = StringUtils.replace(startTime,"12:","00:");
+                }
+                return updateTime(timeSetWrapper.getStartDate(),startTime,startTimeApPm);
+            }else{
+                timeSetWrapper.setStartTime("12:00");
+                timeSetWrapper.setStartTimeAmPm("AM");
+                return updateTime(timeSetWrapper.getStartDate(),timeSetWrapper.getStartTime(),timeSetWrapper.getStartTimeAmPm());
             }
-            return updateTime(timeSetWrapper.getStartDate(),startTime,startTimeApPm);
+//                    return updateTime(timeSetWrapper.getStartDate(),startTime,startTimeApPm);
         }else{
-            timeSetWrapper.setStartTime("12:00");
-            timeSetWrapper.setStartTimeAmPm("AM");
-            return updateTime(timeSetWrapper.getStartDate(),timeSetWrapper.getStartTime(),timeSetWrapper.getStartTimeAmPm());
+//            timeSetWrapper.setStartTime("12:00");
+//            timeSetWrapper.setStartTimeAmPm("AM");
+            return timeSetWrapper.getStartDate();
         }
 
     }
@@ -857,7 +863,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 //just clearing out any time already set in end date
                 return updateTime(timeSetWrapper.getEndDate(),"00:00",StringUtils.EMPTY );
             }else{
-                return null;
+                return updateTime(timeSetWrapper.getStartDate(),"00:00",StringUtils.EMPTY );
             }
         }
     }
@@ -909,11 +915,11 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     public void deleteTerm(List<AcademicTermWrapper> termWrapperList,int selectedIndex, String acalId) throws Exception{
         AcademicTermWrapper termWrapper = termWrapperList.get(selectedIndex);
-        if (termWrapper.getTermInfo() != null){
+        if (StringUtils.isNotBlank(termWrapper.getTermInfo().getId())){
             if (termWrapper.getKeyDatesGroupWrappers() != null){
                 for (KeyDatesGroupWrapper groupWrapper : termWrapper.getKeyDatesGroupWrappers()){
                     for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
-                        if (keyDateWrapper.getKeyDateInfo() != null){
+                        if (StringUtils.isNotBlank(keyDateWrapper.getKeyDateInfo().getId())){
                             getAcalService().deleteKeyDate(keyDateWrapper.getKeyDateInfo().getId(),getContextInfo());
                         }
                     }
@@ -937,7 +943,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     public void deleteKeyDate(KeyDatesGroupWrapper keyDatesGroup,int selectedIndex) throws Exception{
         KeyDateWrapper keydate = keyDatesGroup.getKeydates().get(selectedIndex);
-        if (keydate.getKeyDateInfo() != null){
+        if (StringUtils.isNotBlank(keydate.getKeyDateInfo().getId())){
             getAcalService().deleteKeyDate(keydate.getKeyDateInfo().getId(),getContextInfo());
         }
         keyDatesGroup.getKeydates().remove(selectedIndex);
