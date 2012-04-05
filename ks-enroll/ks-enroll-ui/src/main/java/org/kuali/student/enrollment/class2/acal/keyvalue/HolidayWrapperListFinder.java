@@ -36,17 +36,17 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         AcademicCalendarForm acalForm = (AcademicCalendarForm)model;
-        Date startDate = acalForm.getAcademicCalendarInfo().getStartDate();
+        Date startDate = acalForm.getAcademicCalendarInfo().getStartDate(); 
+        if (startDate == null) {
+            startDate = new Date();
+        }
+
         if (startDate != null){
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy");
             Integer theStartYear = new Integer(simpleDateformat.format(startDate));
-//            Integer theStartYear = new Integer ("2011");
-//            System.out.println(">>>theStartYear ="+theStartYear);
-            List<HolidayCalendarInfo> holidayCalendarInfoList = new ArrayList<HolidayCalendarInfo>();
-
             ContextInfo context = new ContextInfo();
             try{
-                holidayCalendarInfoList = getAcalService().getHolidayCalendarsByStartYear(theStartYear, context);
+                List<HolidayCalendarInfo> holidayCalendarInfoList = getAcalService().getHolidayCalendarsByStartYear(theStartYear, context);
                 for(HolidayCalendarInfo holidayCalendarInfo:holidayCalendarInfoList){
                     ConcreteKeyValue keyValue = new ConcreteKeyValue();
                     keyValue.setKey(holidayCalendarInfo.getId());
@@ -65,34 +65,7 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
                 System.out.println("call AcademicCalendarService.getHolidayCalendarsByStartYear(startYear, context), and get PermissionDeniedException:  "+pde.toString());
             }
         }
-        else{
-            Integer theStartYear = new Integer ("2011");
-            System.out.println(">>>theStartYear ="+theStartYear);
-            List<HolidayCalendarInfo> holidayCalendarInfoList = new ArrayList<HolidayCalendarInfo>();
 
-            ContextInfo context = new ContextInfo();
-            try{
-                holidayCalendarInfoList = getAcalService().getHolidayCalendarsByStartYear(theStartYear, context);
-                for(HolidayCalendarInfo holidayCalendarInfo:holidayCalendarInfoList){
-                    ConcreteKeyValue keyValue = new ConcreteKeyValue();
-                    keyValue.setKey(holidayCalendarInfo.getId());
-                    keyValue.setValue(holidayCalendarInfo.getName());
-                    keyValues.add(keyValue);
-                }
-                return keyValues;
-
-            }catch (InvalidParameterException ipe){
-                System.out.println("call AcademicCalendarService.getHolidayCalendarsByStartYear(startYear, context), and get InvalidParameterException:  "+ipe.toString());
-            }catch (MissingParameterException mpe){
-                System.out.println("call AcademicCalendarService.getHolidayCalendarsByStartYear(startYear, context), and get MissingParameterException:  "+mpe.toString());
-            }catch (OperationFailedException ofe){
-                System.out.println("call AcademicCalendarService.getHolidayCalendarsByStartYear(startYear, context), and get OperationFailedException:  "+ofe.toString());
-            }catch (PermissionDeniedException pde){
-                System.out.println("call AcademicCalendarService.getHolidayCalendarsByStartYear(startYear, context), and get PermissionDeniedException:  "+pde.toString());
-            }
-
-
-        }
         return keyValues;
     }
 

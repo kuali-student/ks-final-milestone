@@ -992,10 +992,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             HolidayCalendarWrapper inputLine = (HolidayCalendarWrapper)addLine;
             List<HolidayWrapper> holidays = new ArrayList<HolidayWrapper>();
             try {
-                System.out.println("HC id =" +inputLine.getId());
-
                 HolidayCalendarInfo hcInfo = getAcalService().getHolidayCalendar(inputLine.getId(), getContextInfo());
-
                 inputLine.setHolidayCalendarInfo(hcInfo);
                 inputLine.setAdminOrgName(getAdminOrgNameById(hcInfo.getAdminOrgId()));
                 StateInfo hcState = getAcalService().getHolidayCalendarState(hcInfo.getStateKey(), getContextInfo());
