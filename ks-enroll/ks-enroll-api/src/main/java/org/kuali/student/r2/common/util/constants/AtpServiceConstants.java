@@ -277,4 +277,6 @@ public class AtpServiceConstants {
     public static final String[] ATP_MILESTONE_RELATION_PROCESS_STATE_KEYS = {ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY, ATP_MILESTONE_RELATION_INACTIVE_STATE_KEY};
 
     public static final String CAMPUS_LOCATION = "CampusLocation";
+    
+    public static final String MILESTONE_KEYDATE_GROUP = "kuali.milestone.type.group.keydate";
 }

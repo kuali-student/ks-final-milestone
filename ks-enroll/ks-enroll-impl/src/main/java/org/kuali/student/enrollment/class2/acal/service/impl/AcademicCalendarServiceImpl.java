@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebParam;
 
 import org.apache.commons.lang.StringUtils;
@@ -902,10 +904,27 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<TypeInfo> getKeyDateTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<TypeInfo> getKeyDateTypesForTermType(String termTypeKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<TypeInfo>();
+        List<TypeInfo> types = null;
+        try {
+            // TODO: change this when the new contract gets merged in because it does not have the refobject uri as a parameter
+            types = this.typeService.getAllowedTypesForType(termTypeKey, AtpServiceConstants.REF_OBJECT_URI_MILESTONE, context);
+        } catch (PermissionDeniedException ex) {
+           throw new OperationFailedException ("TODO: change the contract to allow this method, getKeyDateTypesForTermType, to throw the PermissionDeniedException", ex);
+        }
+        // filter by ref object uri
+        List<TypeInfo> list = new ArrayList<TypeInfo> (types.size());
+        for (TypeInfo type: types) {
+            if (type.getRefObjectUri() == null) {
+                throw new NullPointerException (type.getKey());
+            }
+            if (type.getRefObjectUri().equals(AtpServiceConstants.REF_OBJECT_URI_MILESTONE)) {
+                list.add (type);
+            }
+        }
+        return list;
     }
 
     @Override
