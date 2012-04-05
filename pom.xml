@@ -99,7 +99,7 @@
     </profile>
   </profiles>
   <scm>
-    <connection>scm:svn:http://svn.kuali.org/repos/student/branches/ks-1.3i-merge</connection>
+    <connection>scm:svn:http://svn.kuali.org/repos/student/branches/ks-1.3-merge</connection>
     <developerConnection>scm:svn:http://svn.kuali.org/repos/student/branches/ks-1.3-merge</developerConnection>
     <url>http://svn.kuali.org/repos/student/branches/ks-1.3-merge</url>
   </scm>
