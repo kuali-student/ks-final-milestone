@@ -157,7 +157,7 @@ public class CoreConverterTest {
         Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     
-    @Test
+    /*@Test
     public void testEnumerationInfo() {
         org.kuali.student.r1.core.enumerationmanagement.dto.EnumerationInfo r1 = new org.kuali.student.r1.core.enumerationmanagement.dto.EnumerationInfo();
         r1.setAttributes(R1TestDataUtil.getAttributeData());
@@ -169,7 +169,7 @@ public class CoreConverterTest {
         Assert.assertEquals(r1.getAttributes().get("R1-Key"), r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getContextDescriptors().get(0), r2.getContextDescriptors().get(0));
         Assert.assertEquals(r1.getDescr(), r2.getDescr().getPlain());
-    }
+    }*/
     
     @Test
     public void testOrgCodeInfo() {

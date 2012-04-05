@@ -544,15 +544,15 @@
 	</bean>
 
    <bean id="EnumMetaCampus"
-   		class="org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration">
-		<property name="descr"	value="kuali.lu.campusLocation" />
+   		class="org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity">
+		<property name="descrPlain"	value="kuali.lu.campusLocation" />
 		<property name="id"	value="kuali.lu.campusLocation" />
 		<property name="name"	value="kuali.lu.campusLocation" />
 		<property name="versionNumber" value="0" />
 	</bean>
 
 	<bean id="northCampus"
-		class="org.kuali.student.r1.core.enumerationmanagement.entity.EnumeratedValue">
+		class="org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity">
 		<property name="id" value="33" />
 		<property name="abbrevValue" value="North" />
 		<property name="code" value="NO" />
@@ -562,7 +562,7 @@
 		<property name="versionNumber" value="0" />
 	</bean>
 	<bean id="southCampus"
-		class="org.kuali.student.r1.core.enumerationmanagement.entity.EnumeratedValue">
+		class="org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity">
 		<property name="id" value="34" />
 		<property name="abbrevValue" value="South" />
 		<property name="code" value="SO" />
