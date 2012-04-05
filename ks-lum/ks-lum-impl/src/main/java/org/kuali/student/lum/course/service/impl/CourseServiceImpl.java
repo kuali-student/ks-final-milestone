@@ -299,11 +299,13 @@ public class CourseServiceImpl implements CourseService {
         return validationResults;
     }
 
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
+    @Override
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey){
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
-    public List<String> getObjectTypes() {
+    @Override
+    public List<String> getObjectTypes(){
         return dictionaryServiceDelegate.getObjectTypes();
     }
 

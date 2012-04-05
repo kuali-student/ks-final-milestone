@@ -11,6 +11,7 @@ import javax.xml.ws.ResponseWrapper;
 
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 @WebService(name = "DictionaryService", targetNamespace = "http://student.kuali.org/wsdl/dictionary")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
