@@ -304,11 +304,6 @@
         MSG_VALUE="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later."
         OBJ_ID="fb501239-fd83-4caa-8264-90e8feffa070" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="20CE6F47CC1647CF92C5231E15026B4F" LOCALE="en"
-        MSG_ID="validation.validChars.numeric.range"
-        MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="6666471DFDBA4F319EEB7C470BFE5D1D" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
         ID="22082b32-ba8c-4eb7-85dd-dd0811327ce1" LOCALE="en"
         MSG_ID="validation.validChars.digits"
         MSG_VALUE="Can only contain digits."
@@ -643,11 +638,6 @@
         ID="498a1161-5c72-49a3-b8ee-aaf1ae1307ab" LOCALE="en"
         MSG_ID="cluAddFormat" MSG_VALUE="Add Additional Format"
         OBJ_ID="50a3a3dd-9942-4210-8e40-88c63af0c676" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="4B8A393B79DC4622922ADA6D7DA0FDB4" LOCALE="en"
-        MSG_ID="validation.validChars.positive.numeric.range"
-        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="928E7FA37F7844CFBA04FCA7B4A1A823" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="4a91dd4f-c41d-48cc-88cf-e2830d15adbb" LOCALE="en"
         MSG_ID="cluAddAnotherFee" MSG_VALUE="Add another Fee"
@@ -1378,6 +1368,16 @@
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
         OBJ_ID="3388D5EE-A5A0-4549-8974-9DB22E7DEEA2" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="BCF3A65CE9611FC0E040C60AF05B5B49" LOCALE="en"
+        MSG_ID="validation.validChars.numeric.range"
+        MSG_VALUE="Single number or numeric range separated by a dash"
+        OBJ_ID="BCF3A65CE9621FC0E040C60AF05B5B49" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="BCF3A65CE9631FC0E040C60AF05B5B49" LOCALE="en"
+        MSG_ID="validation.validChars.positive.numeric.range"
+        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
+        OBJ_ID="BCF3A65CE9641FC0E040C60AF05B5B49" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
         MSG_ID="reqActivate" MSG_VALUE="Required for Activate"
