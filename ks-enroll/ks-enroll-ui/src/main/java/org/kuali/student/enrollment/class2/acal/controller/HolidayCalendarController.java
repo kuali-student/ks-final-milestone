@@ -24,6 +24,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
@@ -75,7 +76,7 @@ public class HolidayCalendarController extends UifControllerBase {
                             boolean duplicated = isDuplicateHoliday(newHoliday, holiday);
                             if(duplicated){
                                 //TODO:change to  putError, when error reload fixed
-                                //GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.holiday.duplicate", newHoliday.getHolidayInfo().getName());
+                                //GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, AcademicCalendarServiceConstants.HOLIDAY_MSG_ERROR_DUPLICATE, newHoliday.getHolidayInfo().getName());
                                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: The holiday being added is already in the collection.");
                                 return updateComponent(form, result, request, response);
                             }
@@ -239,8 +240,8 @@ public class HolidayCalendarController extends UifControllerBase {
         form.getHolidayCalendarInfo().setDescr(CommonUtils.buildDesc(form.getNewCalendarName()));
         form.setHolidays(newHolidays);
         form.setHcId(null);
-        form.setOfficial(false);
-        form.setDelete(true);
+        form.setOfficialButtonVisible(false);
+        form.setDeleteButtonVisible(true);
 
         return getUIFModelAndView(form, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
     }
@@ -266,8 +267,8 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setHcId(null);
         hcForm.setHolidayCalendarInfo( new HolidayCalendarInfo());
         hcForm.setHolidays(new ArrayList<HolidayWrapper>());
-        hcForm.setOfficial(false);
-        hcForm.setDelete(false);
+        hcForm.setOfficialButtonVisible(false);
+        hcForm.setDeleteButtonVisible(false);
         return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
     }
 
@@ -289,7 +290,7 @@ public class HolidayCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return updateHolidayCalendarForm(hcForm, "info.enroll.holidaycalendar.saved");
+        return updateHolidayCalendarForm(hcForm, AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_MSG_INFO_SAVED);
     }
 
      /**
@@ -312,7 +313,7 @@ public class HolidayCalendarController extends UifControllerBase {
      public ModelAndView setOfficial(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                                HttpServletRequest request, HttpServletResponse response) throws Exception {
          hcForm.getHolidayCalendarInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-         return updateHolidayCalendarForm(hcForm, "info.enroll.holidaycalendar.official");
+         return updateHolidayCalendarForm(hcForm, AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_MSG_INFO_OFFICIAL);
      }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteHoliday")
@@ -361,8 +362,8 @@ public class HolidayCalendarController extends UifControllerBase {
             HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
             hcForm.setAdminOrgName(getAdminOrgNameById(hCalInfo.getAdminOrgId()));
             hcForm.setStateName(getHolidayCalendarFormHelper(hcForm).getHolidayCalendarState(hCalInfo.getStateKey()));
-            hcForm.setOfficial(hCalInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
-            hcForm.setDelete(true);
+            hcForm.setOfficialButtonVisible( ! hCalInfo.getStateKey().equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY));
+            hcForm.setDeleteButtonVisible(true);
             hcForm.setHcId(hCalInfo.getId());
             GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hCalInfo.getName());
 
@@ -385,7 +386,7 @@ public class HolidayCalendarController extends UifControllerBase {
 
         if(startDate.after(endDate)) {
             //TODO:change to  putError, when error reload fixed
-            //GlobalVariables.getMessageMap().putError("holidayCalendarInfo.name","error.enroll.holidaycalendar.invalidDates", hc.getName());
+            //GlobalVariables.getMessageMap().putError("holidayCalendarInfo.name", AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_MSG_ERROR_DATE, hc.getName());
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: " +  hc.getName() + "start date should not be later than the end date.");
             valid = false;
         }
@@ -398,8 +399,8 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setHolidayCalendarInfo(hcInfo);
         hcForm.setAdminOrgName(getAdminOrgNameById(hcInfo.getAdminOrgId()));
         hcForm.setStateName(getHolidayCalendarFormHelper(hcForm).getHolidayCalendarState(hcInfo.getStateKey()));
-        hcForm.setOfficial(hcInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
-        hcForm.setDelete(true);
+        hcForm.setOfficialButtonVisible( ! hcInfo.getStateKey().equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY));
+        hcForm.setDeleteButtonVisible(true);
         //List<HolidayWrapper> holidays = getHolidayCalendarFormHelper(hcForm).getHolidaysForHolidayCalendar(hcForm);
         List<HolidayWrapper> holidays =
                 getHolidayCalendarFormHelper(hcForm).getHolidayWrappersForHolidayCalendar(hcInfo.getId());
