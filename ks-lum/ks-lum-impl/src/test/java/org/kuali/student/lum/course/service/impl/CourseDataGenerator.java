@@ -1,22 +1,17 @@
 package org.kuali.student.lum.course.service.impl;
 
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import java.util.*;
 
 /**
  * Use this class to generate test data for a course (it may need improvements for creating real relationships for more
@@ -41,18 +36,19 @@ public class CourseDataGenerator {
 
     public CourseInfo getCourseTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException {
         CourseInfo testData = generateTestData(CourseInfo.class, 0, 0, null);
-        // TODO KSCM-212
-        // testData.getAttributes().put("proposalTitle", "proposalTitle-1");
-        // testData.getAttributes().put("proposalRationale", "proposalRationale");
-        // testData.getCreditOptions().get(0).getResultValues().set(0, "1");
-        // testData.getCreditOptions().get(0).getResultValues().set(1, "2");
-        // testData.getCreditOptions().get(1).getResultValues().set(0, "3");
-        // testData.getCreditOptions().get(1).getResultValues().set(1, "4");
-        // for (ResultComponentInfo resultComponent : testData.getCreditOptions()) {
-        // resultComponent.getAttributes().put("minCreditValue", "2");
-        // resultComponent.getAttributes().put("maxCreditValue", "5");
-        // resultComponent.getAttributes().put("fixedCreditValue", "11");
-        // }
+
+         testData.getAttributes().add(new AttributeInfo("proposalTitle", "proposalTitle-1"));
+         testData.getAttributes().add(new AttributeInfo("proposalRationale", "proposalRationale"));
+//TODO KSCM-583  CourseInfo contains
+//        testData.getCreditOptions().get(0).getResultValues().set(0, "1");
+//         testData.getCreditOptions().get(0).getResultValues().set(1, "2");
+//         testData.getCreditOptions().get(1).getResultValues().set(0, "3");
+//         testData.getCreditOptions().get(1).getResultValues().set(1, "4");
+//         for (ResultComponentInfo resultComponent : testData.getCreditOptions()) {
+//         resultComponent.getAttributes().put("minCreditValue", "2");
+//         resultComponent.getAttributes().put("maxCreditValue", "5");
+//         resultComponent.getAttributes().put("fixedCreditValue", "11");
+//         }
         return testData;
     }
 
