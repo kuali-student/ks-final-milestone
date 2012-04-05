@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -27,6 +28,8 @@ import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+
+import javax.jws.WebParam;
 
 public class CourseServiceDecorator implements CourseService {
     
@@ -150,5 +153,14 @@ public class CourseServiceDecorator implements CourseService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-    
+
+    @Override
+    public List<String> getObjectTypes() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public ObjectStructureDefinition getObjectStructure(@WebParam(name = "objectTypeKey") String objectTypeKey) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
