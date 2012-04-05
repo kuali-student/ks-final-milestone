@@ -428,25 +428,21 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                         // TODO There needs to be some mapping from PropertyUtils to the KS path
                         // Until then, this will only work for root level properties
                         Map<String, String> attributes = null;
-                        if (rootData.getClass().getPackage().toString().contains(".r1.")){
-                        attributes = (Map<String, String>) PropertyUtils.getNestedProperty(rootData, "attributes");
-                        }
+                        Object atts = PropertyUtils.getNestedProperty(rootData, "attributes");
+                        if (atts instanceof Map<?, ?>) {
+                            attributes = (Map<String, String>) atts;
+                        } else {
+                            List<AttributeInfo> attToMap = (List<AttributeInfo>) atts;
+                            if (attToMap != null) {
+                                for (AttributeInfo atin : attToMap) {
 
-                        if (rootData.getClass().getPackage().toString().contains(".r2."))
-                        {
-                            List<AttributeInfo> attToMap = (List<AttributeInfo>)PropertyUtils.getNestedProperty(rootData, "attributes");
-                            HashMap<String,String > getAllKEysOnR2 = new HashMap<String, String>();
-                            if (attToMap != null){
-                            for ( AttributeInfo atin : attToMap ){
+                                    try {
+                                        attributes.put(atin.getKey(), atin.getValue());
+                                    } catch (Exception e) {
+                                        System.out.print("Failed at " + rootData.getClass().getName() + " for object attributes");
 
-                                try {
-                                attributes.put(atin.getKey(),atin.getValue());
-                                }catch (Exception e)
-                                {
-                                    System.out.print("Failed at " + rootData.getClass().getName() + " for object attributes");
-
+                                    }
                                 }
-                            }
                             }
                         }
 
