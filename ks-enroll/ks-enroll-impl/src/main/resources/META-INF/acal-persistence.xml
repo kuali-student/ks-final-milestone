@@ -115,6 +115,12 @@
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceRichTextEntity</class>
 
+        <!-- Appointment Window Entities -->
+        <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity</class>
+        <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity</class>
+        <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotAttributeEntity</class>
+
     <!--class>org.kuali.student.r2.core.class1.process.model.CheckAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.CheckEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.CheckRichTextEntity</class>
