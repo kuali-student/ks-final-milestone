@@ -58,7 +58,6 @@
         <module>ks-core</module>
         <module>ks-lum</module>
         <module>ks-web</module>
-        <module>ks-conversion</module>
       </modules>
     </profile>
     <profile>
@@ -69,7 +68,6 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
-        <module>ks-conversion</module>
       </modules>
       <properties>
         <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
@@ -83,7 +81,6 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
-        <module>ks-conversion</module>
       </modules>
     </profile>
     <profile>
