@@ -229,8 +229,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
             // ProposalWorkflowFilter.applyOutboundDataFilter().  Set on line 130-131.  Use these for reference ID.
            
             // Ask the proposal service to return a list of proposals with this reference id    
-            List<ProposalInfo> proposals = null;
-         // TODO KSCM-390           proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId,ContextUtils.getContextInfo());
+            List<ProposalInfo> proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId,ContextUtils.getContextInfo());
             
             // If at least one proposal is returned, this is a proposal, so return true
             if (proposals != null && proposals.size() >= 1){

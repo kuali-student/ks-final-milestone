@@ -48,20 +48,20 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
  * service has basic CRUD operations to touch various concepts that
  * exist to model learning results e.g Result Value, Result Value
  * Group, and Result Value Range.
- * 
+ *
  * @Author sambit
  * @Since Tue May 10 14:09:46 PDT 2011
  */
 @WebService(name = "LRCService", targetNamespace = LrcServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface LRCService  extends SearchService, DictionaryService {
+public interface LRCService extends SearchService, DictionaryService {
 
     /**
      * Retrieves existing result component by an identifier.
-     * 
+     *
      * @param resultValuesGroupId identifiers for resultValuesGroup to be retrieved
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
      * @return details of the results for these Ids
@@ -71,13 +71,13 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ResultValuesGroupInfo getResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ResultValuesGroupInfo getResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves result components by a list of identifiers.
-     * 
+     *
      * @param resultValuesGroupIds  identifiers for result component
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
      * @return result component list
@@ -87,13 +87,13 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByIds(@WebParam(name = "resultValuesGroupIds") List<String> resultValuesGroupIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByIds(@WebParam(name = "resultValuesGroupIds") List<String> resultValuesGroupIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of existing result components that a result value is tied to.
-     * 
+     *
      * @param resultValueId identifier for result value
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
      * @return details of the results for these Ids
@@ -103,14 +103,14 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of result group identifiers for a specified
      * result component type.
-     * 
+     *
      * @param resultValueGroupTypeKey identifier for the result group type
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
      * @return list of result group identifiers
@@ -120,14 +120,14 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure     
      */
-    public List<String> getResultValuesGroupIdsByType(@WebParam(name = "resultValuesGroupTypeKey") String resultValuesGroupTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getResultValuesGroupIdsByType(@WebParam(name = "resultValuesGroupTypeKey") String resultValuesGroupTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a new result Component.
-     * 
+     *
      * @param gradeValuesGroupInfo information about the result component 
      *        being created
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
      * @return create result component information
@@ -139,14 +139,14 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ResultValuesGroupInfo createResultValuesGroup(@WebParam(name = "resultGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ResultValuesGroupInfo createResultValuesGroup(@WebParam(name = "resultGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates an existing result component.
-     * 
+     *
      * @param resultValuesGroupId identifier of the result component to update
      * @param resultGroupInfo updated information about the result component
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
      * @return updated result component information
@@ -162,13 +162,13 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws VersionMismatchException action was attempted on an out of 
      *                                  date version
      */
-    public ResultValuesGroupInfo updateResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "resultValuesGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public ResultValuesGroupInfo updateResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "resultValuesGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /**
      * Deletes an existing result component.
-     * 
+     *
      * @param resultValuesGroupId identifier of the result component to update
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
      * @return status of the operation
@@ -178,17 +178,17 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a result component. Depending on the value of
      * validationType, this validation could be limited to tests on
      * just the current object and its directly contained sub-objects
      * or expanded to perform all tests related to this object. 
-     * 
+     *
      * @param validationType Identifier of the extent of validation
      * @param gradeValuesGroupInfo Result component to be validated
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
      * @return
@@ -198,13 +198,13 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws MissingParameterException missing validationType, resultValuesGroupInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultInfo> validateResultValuesGroup(@WebParam(name = "validationType") String validationType, @WebParam(name = "resultGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateResultValuesGroup(@WebParam(name = "validationType") String validationType, @WebParam(name = "resultGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves result value by its id.
-     * 
+     *
      * @param resultValueId identifier for the result
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation      
      * @return details about a result value
@@ -214,13 +214,13 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure 
      */
-    public ResultValueInfo getResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ResultValueInfo getResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of result value objects for a list of identifiers. 
-     * 
+     *
      * @param resultValueIds identifier for the result
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation      
      * @return list of result group identifiers
@@ -230,14 +230,14 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure 
      */
-    public List<ResultValueInfo> getResultValuesByIds(@WebParam(name = "resultValueIds") List<String> resultValueIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ResultValueInfo> getResultValuesByIds(@WebParam(name = "resultValueIds") List<String> resultValueIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of result value objects for a specified result
      * component. It is sorted by the scale inside the component.
-     * 
+     *
      * @param resultValuesGroupId identifier for the result component
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
      * @return list of result group identifiers
@@ -247,12 +247,12 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure     
      */
-    public List<ResultValueInfo> getResultValuesForResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ResultValueInfo> getResultValuesForResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Create a new result value 
      * @param resultValueInfo
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
      * @return newly created resultValue
@@ -264,13 +264,13 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ResultValueInfo createResultValue(@WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ResultValueInfo createResultValue(@WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Update a result value
      * @param resultValueId resultValueId to be updated
      * @param resultValueInfo update information for the result value
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
      * @return updated information about the result value
@@ -284,12 +284,12 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws VersionMismatchException action was attempted on an out of 
      *                                  date version
      */
-    public ResultValueInfo updateResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public ResultValueInfo updateResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /**
      * Delete a result value. This should not be allowed if any result component is still referencing the result value.
      * @param resultValueId result value to be deleted
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
      * @return status of the delete operation
@@ -299,7 +299,7 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a Result Value. Depending on the value of
@@ -319,7 +319,7 @@ public interface LRCService  extends SearchService, DictionaryService {
      *
      * @param validationType  Identifier of the extent of validation
      * @param resultValueInfo Result value to be validated
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
      * @return a ValidationResultInfo
@@ -329,13 +329,13 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws MissingParameterException missing validationType or resultValueInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultInfo> validateResultValue(@WebParam(name = "validationType") String validationType, @WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateResultValue(@WebParam(name = "validationType") String validationType, @WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves result scale by an identifier.
-     * 
+     *
      * @param resultScaleId identifiers for result scale to be retrieved
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
      * @return details of the result scale for the id
@@ -345,14 +345,14 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ResultScaleInfo getResultScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ResultScaleInfo getResultScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * 
+     *
      * Retrieves result values by result scale key.
-     * 
+     *
      * @param resultScaleKey
-     * @param context Context information containing the principalId
+     * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
      * @return a list of result values for the scale
@@ -362,64 +362,143 @@ public interface LRCService  extends SearchService, DictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ResultValueInfo> getResultValuesForScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ResultValueInfo> getResultValuesForScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     *
+     * @param resultComponentId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
     @Deprecated
-	public ResultComponentInfo getResultComponent(String resultComponentId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
+    public ResultComponentInfo getResultComponent(@WebParam(name = "resultComponentId") String resultComponentId, @WebParam(name = "contextInfo") ContextInfo contextInfo)	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    /**
+     *
+     * @param scaleKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
     @Deprecated
-	public ScaleInfo getScale(String scaleKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException;
+    public ScaleInfo getScale(@WebParam(name = "scaleKey") String scaleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,	OperationFailedException;
 
-	@Deprecated
-	public List<String> getResultComponentIdsByResult(String resultValueId,
-			String resultComponentTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException;
+    /**
+     *
+     * @param resultValueId
+     * @param resultComponentTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Deprecated
+    public List<String> getResultComponentIdsByResult(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "resultComponentTypeKey") String resultComponentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-	@Deprecated
-	public List<String> getResultComponentIdsByResultComponentType(
-			String resultComponentTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException;
+    /**
+     *
+     * @param resultComponentTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Deprecated
+    public List<String> getResultComponentIdsByResultComponentType(@WebParam(name = "resultComponentTypeKey") String resultComponentTypeKey, @WebParam(name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-	@Deprecated
-	public ResultComponentTypeInfo getResultComponentType(String resultComponentTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
+    /**
+     *
+     * @param resultComponentTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Deprecated
+    public ResultComponentTypeInfo getResultComponentType(@WebParam(name = "resultComponentTypeKey") String resultComponentTypeKey, @WebParam(name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-	@Deprecated
-	public List<ResultComponentTypeInfo> getResultComponentTypes()
-			throws OperationFailedException;
+    /**
+     *
+     * @param contextInfo
+     * @return
+     * @throws OperationFailedException
+     */
+    @Deprecated
+    public List<ResultComponentTypeInfo> getResultComponentTypes(@WebParam(name = "contextInfo")  ContextInfo contextInfo) throws OperationFailedException;
 
-	@Deprecated
-	public ResultComponentInfo updateResultComponent(String resultComponentId,
-			ResultComponentInfo resultComponentInfo, ContextInfo contextInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException;
+    /**
+     *
+     * @param resultComponentId
+     * @param resultComponentInfo
+     * @param contextInfo
+     * @return
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws VersionMismatchException
+     */
+    @Deprecated
+    public ResultComponentInfo updateResultComponent(@WebParam(name = "resultComponentId") String resultComponentId, @WebParam(name = "resultComponentInfo") ResultComponentInfo resultComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)  throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
-	//@Deprecated
-	//public ObjectStructureDefinition getObjectStructure(String objectTypeKey);
+    /**
+     *
+     * @param objectTypeKey
+     * @return
+     */
+//    @Deprecated
+//    public ObjectStructureDefinition getObjectStructure(String objectTypeKey);
 
-	@Deprecated
-	public List<String> getObjectTypes();
+    /**
+     *
+     * @return
+     */
+    @Deprecated
+    public List<String> getObjectTypes();
 
-	@Deprecated
-	public StatusInfo deleteResultComponent(String resultComponentId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
+    /**
+     *
+     * @param resultComponentId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    @Deprecated
+    public StatusInfo deleteResultComponent(@WebParam(name = "resultComponentId") String resultComponentId, @WebParam(name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-	@Deprecated
-	public ResultComponentInfo createResultComponent(String resultComponentTypeKey,
-			ResultComponentInfo resultComponentInfo, ContextInfo contextInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException;
+    /**
+     *
+     * @param resultComponentTypeKey
+     * @param resultComponentInfo
+     * @param contextInfo
+     * @return
+     * @throws AlreadyExistsException
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    @Deprecated
+    public ResultComponentInfo createResultComponent(@WebParam(name = "resultComponentTypeKey") String resultComponentTypeKey, @WebParam(name = "resultComponentInfo") ResultComponentInfo resultComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

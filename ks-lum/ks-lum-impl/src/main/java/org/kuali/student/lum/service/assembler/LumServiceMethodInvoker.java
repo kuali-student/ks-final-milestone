@@ -253,7 +253,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				lrcService.updateResultComponent(resultComponent.getId(), resultComponent, contextInfo);
 				break;
 			case DELETE:
-				lrcService.deleteResultComponent(resultComponent.getId());
+				lrcService.deleteResultComponent(resultComponent.getId(), contextInfo);
 				break;
 			}
 		} else if(nodeData instanceof RefStatementRelationInfo){

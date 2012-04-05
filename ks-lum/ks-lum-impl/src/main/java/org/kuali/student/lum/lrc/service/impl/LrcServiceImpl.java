@@ -111,7 +111,7 @@ public class LrcServiceImpl implements LRCService {
 	 */
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteResultComponent(String resultComponentId)
+	public StatusInfo deleteResultComponent(String resultComponentId, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -283,7 +283,7 @@ public class LrcServiceImpl implements LRCService {
 	 */
 	@Override
     @Transactional(readOnly=true)
-	public ResultComponentInfo getResultComponent(String resultComponentId)
+	public ResultComponentInfo getResultComponent(String resultComponentId, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(resultComponentId, "resultComponentId");
@@ -306,7 +306,7 @@ public class LrcServiceImpl implements LRCService {
 	@Override
     @Transactional(readOnly=true)
 	public List<String> getResultComponentIdsByResult(String resultValueId,
-			String resultComponentTypeKey) throws DoesNotExistException,
+			String resultComponentTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    checkForMissingParameter(resultValueId, "resultValueId");
@@ -321,7 +321,7 @@ public class LrcServiceImpl implements LRCService {
 	@Override
     @Transactional(readOnly=true)
 	public List<String> getResultComponentIdsByResultComponentType(
-			String resultComponentTypeKey) throws DoesNotExistException,
+			String resultComponentTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
@@ -335,7 +335,7 @@ public class LrcServiceImpl implements LRCService {
 	@Override
     @Transactional(readOnly=true)
 	public ResultComponentTypeInfo getResultComponentType(
-			String resultComponentTypeKey) throws DoesNotExistException,
+			String resultComponentTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
@@ -348,7 +348,7 @@ public class LrcServiceImpl implements LRCService {
 	 */
 	@Override
     @Transactional(readOnly=true)
-	public List<ResultComponentTypeInfo> getResultComponentTypes()
+	public List<ResultComponentTypeInfo> getResultComponentTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
 		List<ResultComponentType> rct = lrcDao.find(ResultComponentType.class);
 		return LrcServiceAssembler.toResultComponentTypeInfos(rct);
@@ -359,7 +359,7 @@ public class LrcServiceImpl implements LRCService {
 	 */
 	@Override
     @Transactional(readOnly=true)
-	public ScaleInfo getScale(String scaleKey) throws DoesNotExistException,
+	public ScaleInfo getScale(String scaleKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(scaleKey, "scaleKey");

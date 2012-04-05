@@ -47,6 +47,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -60,6 +61,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testResultComponentCrud() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
         ResultComponentInfo rci = new ResultComponentInfo();
         rci.setName("New Result Component");
         RichTextInfo richText = new RichTextInfo();
@@ -108,12 +110,12 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             assertEquals("resultComponentType.grade", newRci.getType());
             assertEquals("Active", newRci.getState());
 
-            rci = client.getResultComponent(id);
+            rci = client.getResultComponent(id, contextInfo);
             rci.getResultValues().add("LRC-RESULT_VALUE-GRADE-2");
             try {
             	
                 client.updateResultComponent(id, rci, ContextInfoTestUtility.getEnglishContextInfo());
-                newRci = client.getResultComponent(newRci.getId());
+                newRci = client.getResultComponent(newRci.getId(), contextInfo);
                 assertNotNull(newRci);
                 assertNotNull(newRci.getId());
                 rti = R1R2ConverterUtil.convert(newRci.getDesc(), org.kuali.student.r2.common.dto.RichTextInfo.class);
@@ -146,7 +148,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             	assertTrue(true);
             }
             
-            rci = client.getResultComponent(id);
+            rci = client.getResultComponent(id, contextInfo);
             rci.getResultValues().add("LRC-RESULT_VALUE-CREDIT-1");
             try {
                 client.updateResultComponent(id, rci, ContextInfoTestUtility.getEnglishContextInfo());
@@ -160,7 +162,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             
             
 
-            StatusInfo statusInfo = client.deleteResultComponent(id);
+            StatusInfo statusInfo = client.deleteResultComponent(id, contextInfo);
             assertTrue(statusInfo.getSuccess());
 
         } catch (AlreadyExistsException e) {
@@ -225,7 +227,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         }
 
         try {
-            client.deleteResultComponent("xx1");
+            client.deleteResultComponent("xx1", contextInfo);
             assertTrue(false);
         } catch (DoesNotExistException e) {
             assertTrue(true);
@@ -233,7 +235,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             assertTrue(false);
         }
         try {
-            client.deleteResultComponent(null);
+            client.deleteResultComponent(null, contextInfo);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
@@ -244,19 +246,20 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetResultComponent() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        ResultComponentInfo rci = client.getResultComponent("LRC-RESCOMP-1");
+        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+        ResultComponentInfo rci = client.getResultComponent("LRC-RESCOMP-1", contextInfo);
         assertNotNull(rci);
         assertEquals(4, rci.getResultValues().size());
 
         try {
-            rci = client.getResultComponent("LRC-RESCOMP-1x");
+            rci = client.getResultComponent("LRC-RESCOMP-1x", contextInfo);
             assertTrue(false);
         } catch (DoesNotExistException e) {
             assertTrue(true);
         }
 
         try {
-            rci = client.getResultComponent(null);
+            rci = client.getResultComponent(null, contextInfo);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
@@ -265,24 +268,25 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetResultComponentIdsByResult() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<String> rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credential");
+        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+        List<String> rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credential", contextInfo);
         assertNotNull(rcis);
         assertEquals(1, rcis.size());
 
-        rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1x", "resultComponentType.credential");
+        rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1x", "resultComponentType.credential", contextInfo);
         assertEquals(0,rcis.size());
      
-        rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credentialx");
+        rcis = client.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credentialx", contextInfo);
         assertEquals(0,rcis.size());
 
         try {
-            rcis = client.getResultComponentIdsByResult(null, "resultComponentType.credentialx");
+            rcis = client.getResultComponentIdsByResult(null, "resultComponentType.credentialx", contextInfo);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
         }
         try {
-            rcis = client.getResultComponentIdsByResult("a", null);
+            rcis = client.getResultComponentIdsByResult("a", null, contextInfo);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
@@ -291,15 +295,16 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testGetResultComponentIdsByResultComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<String> rcis = client.getResultComponentIdsByResultComponentType("resultComponentType.credential");
+        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+        List<String> rcis = client.getResultComponentIdsByResultComponentType("resultComponentType.credential", contextInfo);
         assertNotNull(rcis);
         assertEquals(1, rcis.size());
 
-        rcis = client.getResultComponentIdsByResultComponentType("resultComponentType.credentialx");
+        rcis = client.getResultComponentIdsByResultComponentType("resultComponentType.credentialx", contextInfo);
         assertEquals(0,rcis.size());
 
         try {
-            rcis = client.getResultComponentIdsByResultComponentType(null);
+            rcis = client.getResultComponentIdsByResultComponentType(null, contextInfo);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
@@ -309,18 +314,20 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
 
     @Test
     public void getResultComponentTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<ResultComponentTypeInfo> rctis = client.getResultComponentTypes();
+        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+        List<ResultComponentTypeInfo> rctis = client.getResultComponentTypes(contextInfo);
         assertNotNull(rctis);
         assertEquals(7, rctis.size());
     }
 
     @Test
     public void testGetResultComponentType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        ResultComponentTypeInfo rcti = client.getResultComponentType("resultComponentType.credential");
+        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+        ResultComponentTypeInfo rcti = client.getResultComponentType("resultComponentType.credential", contextInfo);
         assertNotNull(rcti);
 
         try {
-            rcti = client.getResultComponentType("resultComponentType.credentialYYY");
+            rcti = client.getResultComponentType("resultComponentType.credentialYYY", contextInfo);
             assertTrue(false);
         } catch (DoesNotExistException e) {
             assertTrue(true);
