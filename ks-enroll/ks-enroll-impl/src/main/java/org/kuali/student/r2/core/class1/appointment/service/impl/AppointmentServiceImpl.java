@@ -40,8 +40,10 @@ import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao;
 import org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao;
 import org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao;
+import org.kuali.student.r2.core.class1.appointment.model.AppointmentEntity;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity;
 
@@ -68,6 +70,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     private AppointmentWindowDao appointmentWindowDao;
     @Resource
     private AppointmentSlotDao appointmentSlotDao;
+    @Resource
+    private AppointmentDao appointmentDao;
+
 //    @Resource
 //    private AtpService atpService;
     
@@ -91,6 +96,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         this.appointmentSlotDao = appointmentSlotDao;
     }
 
+    public AppointmentDao getAppointmentDao() {
+        return appointmentDao;
+    }
+
+    public void setAppointmentDao(AppointmentDao appointmentDao) {
+        this.appointmentDao = appointmentDao;
+    }
     @Override
     public AppointmentInfo getAppointment(@WebParam(name = "appointmentId") String appointmentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -138,7 +150,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public AppointmentInfo createAppointment(@WebParam(name = "personId") String personId, @WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "appointmentTypeKey") String appointmentTypeKey, @WebParam(name = "appointmentInfo") AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        AppointmentEntity  appointmentEntity = new AppointmentEntity();
+        appointmentEntity.fromDto(appointmentInfo);
+        // TODO: Determine if there should be a check between apptType/slotId and apptInfo counterparts
+        appointmentEntity.setApptType(appointmentTypeKey);
+        appointmentEntity.setSlotId(appointmentSlotId);
+        appointmentEntity.setCreateId(contextInfo.getPrincipalId());
+        appointmentEntity.setCreateTime(contextInfo.getCurrentDate());
+        appointmentEntity.setUpdateId(contextInfo.getPrincipalId());
+        appointmentEntity.setUpdateTime(contextInfo.getCurrentDate());
+        appointmentDao.persist(appointmentEntity);
+        return appointmentEntity.toDto();
     }
 
     @Override
@@ -148,7 +170,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public AppointmentInfo updateAppointment(@WebParam(name = "appointmentId") String appointmentId, @WebParam(name = "appointmentInfo") AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        AppointmentEntity appointmentEntity = appointmentDao.find(appointmentId);
+        if (null != appointmentEntity) {
+            appointmentEntity.fromDto(appointmentInfo);
+            appointmentEntity.setUpdateId(contextInfo.getPrincipalId());
+            appointmentEntity.setUpdateTime(contextInfo.getCurrentDate());
+            appointmentDao.merge(appointmentEntity);
+            return appointmentEntity.toDto();
+        } else {
+            throw new DoesNotExistException(appointmentId);
+        }
     }
 
     @Override

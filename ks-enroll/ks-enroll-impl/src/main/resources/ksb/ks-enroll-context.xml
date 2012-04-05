@@ -422,6 +422,7 @@
     <bean id="appointmentWindowService" class="org.kuali.student.r2.core.class1.appointment.service.impl.AppointmentServiceImpl">
         <property name="appointmentWindowDao" ref="appointmentWindowDao"/>
         <property name="appointmentSlotDao" ref="appointmentSlotDao"/>
+        <property name="appointmentDao" ref="appointmentDao"/>
     </bean>
 
     <bean id="ks.exp.appointmentWindowService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
