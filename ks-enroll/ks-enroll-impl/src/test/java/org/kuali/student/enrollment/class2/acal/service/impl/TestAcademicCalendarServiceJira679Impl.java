@@ -70,7 +70,7 @@ public class TestAcademicCalendarServiceJira679Impl {
         orig.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         orig.setHolidayCalendarIds(holidayCalendarIds);
         AcademicCalendarInfo info = acalService.createAcademicCalendar(orig.getTypeKey(), orig, callContext);
-        assertNotNull(st info);
+        assertNotNull(info);
         assertNotNull(info.getId());
         assertEquals (orig.getName(), info.getName());
         assertEquals (orig.getHolidayCalendarIds().size(), info.getHolidayCalendarIds().size());
