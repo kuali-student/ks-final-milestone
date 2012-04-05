@@ -18,6 +18,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -55,7 +56,7 @@ import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
  */
 @WebService(name = "CourseService", targetNamespace = CourseServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseService {
+public interface CourseService extends DictionaryService {
     /**
      * Retrieves a Course
      * 
