@@ -1,24 +1,27 @@
 package org.kuali.student.lum.course.service.impl;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 import org.junit.Test;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
-import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import static org.junit.Assert.*;
+
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class TestCluInfoDictionary {
 
@@ -60,61 +63,61 @@ public class TestCluInfoDictionary {
 
         List<ValidationResultInfo> validationResults = val.validateObject(info, os, contextInfo);
         System.out.println("h3. With just a blank CluInfo");
-        // for (ValidationResultInfo vr : validationResults)
-        // {
-        // System.out.println (vr.getElement () + " " + vr.getMessage ());
-        // }
-        assertEquals(2, validationResults.size());
+         for (ValidationResultInfo vr : validationResults)
+         {
+         System.out.println (vr.getElement () + " " + vr.getMessage ());
+         }
+        assertEquals(3, validationResults.size());
 
         // test that we validate substructures
         info.setOfficialIdentifier(new CluIdentifierInfo());
         validationResults = val.validateObject(info, os, contextInfo);
-        // for (ValidationResultInfo vr : validationResults)
-        // {
-        // System.out.println (vr.getElement () + " " + vr.getMessage ());
-        // }
+        for (ValidationResultInfo vr : validationResults)
+        {
+        System.out.println (vr.getElement () + " " + vr.getMessage ());
+        }
         // should now require type and state of the identifier structure too
-        assertEquals(4, validationResults.size());
+        assertEquals(5, validationResults.size());
 
         // test that we can put completely blank timeAmountInfo structures
         info.setStdDuration(new TimeAmountInfo());
         validationResults = val.validateObject(info, os, contextInfo);
-        // for (ValidationResultInfo vr : validationResults)
-        // {
-        // System.out.println (vr.getElement () + " " + vr.getMessage ());
-        // }
-        assertEquals(4, validationResults.size());
+        for (ValidationResultInfo vr : validationResults)
+        {
+        System.out.println (vr.getElement () + " " + vr.getMessage ());
+        }
+        assertEquals(5, validationResults.size());
 
         // test the requires constraint
         // that requires a durationType if we have a timeQuantity
         info.getStdDuration().setTimeQuantity(1);
         validationResults = val.validateObject(info, os, contextInfo);
-        // for (ValidationResultInfo vr : validationResults)
-        // {
-        // System.out.println (vr.getElement () + " " + vr.getMessage ());
-        // }
-        assertEquals(6, validationResults.size());
+        for (ValidationResultInfo vr : validationResults)
+        {
+        System.out.println (vr.getElement () + " " + vr.getMessage ());
+        }
+        assertEquals(7, validationResults.size());
 
         // test that we can put completely blank timeAmountInfo structures
         info.setIntensity(new AmountInfo());
         validationResults = val.validateObject(info, os, contextInfo);
-        // System.out.println ("validation results adding a blank CluIdentifierInfo");
-        // for (ValidationResultInfo vr : validationResults)
-        // {
-        // System.out.println (vr.getElement () + " " + vr.getMessage ());
-        // }
-        assertEquals(6, validationResults.size());
+        System.out.println ("validation results adding a blank CluIdentifierInfo");
+        for (ValidationResultInfo vr : validationResults)
+        {
+        System.out.println (vr.getElement () + " " + vr.getMessage ());
+        }
+        assertEquals(7, validationResults.size());
 
         // test the requires constraint
         // that requires a unity if we have a unitQuantity
         info.getIntensity().setUnitQuantity("1");
         validationResults = val.validateObject(info, os, contextInfo);
-        // System.out.println ("validation results adding a blank CluIdentifierInfo");
-        // for (ValidationResultInfo vr : validationResults)
-        // {
-        // System.out.println (vr.getElement () + " " + vr.getMessage ());
-        // }
-        assertEquals(8, validationResults.size());
+        System.out.println ("validation results adding a blank CluIdentifierInfo");
+        for (ValidationResultInfo vr : validationResults)
+        {
+        System.out.println (vr.getElement () + " " + vr.getMessage ());
+        }
+        assertEquals(9, validationResults.size());
 
     }
 }

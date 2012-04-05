@@ -522,7 +522,9 @@
         <property name="name" value="formatted" />
     </bean>
 
+    <bean id="richTextInfo.formatted" parent="richTextInfo.formatted-parent" />
 
+    <bean id="richTextInfo.plain" parent="richTextInfo.plain-parent" />
 
 
 
