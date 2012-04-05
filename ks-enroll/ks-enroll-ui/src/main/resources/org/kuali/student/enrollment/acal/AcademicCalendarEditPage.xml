@@ -362,7 +362,7 @@
                 <bean parent="Uif-TextControl"/>
              </property>
          </bean>
-         <bean parent="Uif-InputField" p:propertyName="isNonInstructional" p:label="Non Instructional"
+         <bean parent="Uif-InputField" p:propertyName="holidayInfo.isInstructionalDay" p:label="Instructional"
                p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;">
              <property name="control">
                 <bean parent="Uif-CheckboxControl"/>
