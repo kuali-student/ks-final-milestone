@@ -578,7 +578,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         for (HolidayWrapper holiday : hcForm.getHolidays()) {
             if (!CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getStartDate()) ||
                 !CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getEndDate())){
-                GlobalVariables.getMessageMap().putErrorForSectionId("KS-HolidayCalendar-HolidaySection", "error.enroll.holiday.dateNotInHcal",holiday.getTypeName());
+                GlobalVariables.getMessageMap().putInfoForSectionId("KS-HolidayCalendar-HolidaySection", "error.enroll.holiday.dateNotInHcal",holiday.getTypeName());
             }
         }
 
@@ -626,7 +626,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
             if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),eventWrapper.getStartDate()) ||
                 !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),eventWrapper.getEndDate())){
-                GlobalVariables.getMessageMap().putErrorForSectionId("acal-info-event", "error.enroll.event.dateNotInAcal",eventWrapper.getEventTypeName());
+                GlobalVariables.getMessageMap().putInfoForSectionId("acal-info-event", "error.enroll.event.dateNotInAcal",eventWrapper.getEventTypeName());
             }
         }
 
@@ -719,7 +719,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
                     if (!CommonUtils.isDateWithinRange(academicTermWrapper.getStartDate(),academicTermWrapper.getEndDate(),keyDateWrapper.getStartDate()) ||
                         !CommonUtils.isDateWithinRange(academicTermWrapper.getStartDate(),academicTermWrapper.getEndDate(),keyDateWrapper.getEndDate())){
-                        GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydates", "error.enroll.keydate.dateNotInTerm",keyDateWrapper.getKeyDateNameUI(),academicTermWrapper.getName());
+                        GlobalVariables.getMessageMap().putInfoForSectionId("acal-term-keydates", "error.enroll.keydate.dateNotInTerm",keyDateWrapper.getKeyDateNameUI(),academicTermWrapper.getName());
                     }
                 }
             }
