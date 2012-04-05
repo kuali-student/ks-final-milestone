@@ -1401,9 +1401,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             for (String relatedKey : relatedAtpIds) {
                 if (!currentRelIds.containsKey(relatedKey))
                     createAtpAtpRelations(atpId, relatedKey, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, context);
-                //Commenting out the update method for now as it's a blocker (KSENROLL-679)
-//                else
-//                    updateAtpAtpRelations(currentRelIds.get(relatedKey), context);
             }
 
         } catch (DoesNotExistException e) {
@@ -1429,27 +1426,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             throw new OperationFailedException("Error creating atp-atp relation", e);
         } catch (ReadOnlyException e) {
             throw new OperationFailedException("Error creating atp-atp relation", e);
-        }
-    }
-
-    private void updateAtpAtpRelations(String atpAtpRelationId, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
-        AtpAtpRelationInfo atpRel;
-        try {
-            atpRel = new AtpAtpRelationInfo(atpService.getAtpAtpRelation(atpAtpRelationId, context));
-            // TODO:what to update? should state same as atpRel.atp?
-            // atpRel.setStateKey(state);
-            try {
-                atpService.updateAtpAtpRelation(atpAtpRelationId, atpRel, context);
-            } catch (DoesNotExistException e) {
-                throw new DoesNotExistException(atpAtpRelationId);
-            } catch (VersionMismatchException e) {
-                throw new VersionMismatchException(atpAtpRelationId);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("Error upating ATP-ATP relation", e);
-            }
-        } catch (DoesNotExistException e1) {
-            throw new DoesNotExistException(atpAtpRelationId);
         }
     }
 
