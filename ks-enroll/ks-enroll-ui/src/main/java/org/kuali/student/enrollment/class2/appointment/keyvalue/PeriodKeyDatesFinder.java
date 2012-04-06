@@ -13,6 +13,10 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.type.service.TypeService;
 import org.kuali.student.test.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
@@ -23,6 +27,8 @@ import java.util.List;
 public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Serializable {
     private static final long serialVersionUID = 1L;
     private transient AcademicCalendarService acalService;
+    private transient TypeService typeService;
+    private ContextInfo contextInfo;
 
     /*
      * try to generate key-value pairs based on minimal info from the form
@@ -36,14 +42,31 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
             TermInfo term = form.getTermInfo();
             if (term.getId() != null && !term.getId().isEmpty()) {
                 List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(term.getId(), context);
-                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
-                    if (keyDateInfo.getTypeKey().equals("kuali.atp.milestone.RegistrationPeriod")){
-                        ConcreteKeyValue keyValue = new ConcreteKeyValue();
-                        keyValue.setKey(keyDateInfo.getId());
-                        keyValue.setValue(keyDateInfo.getName());
-                        keyValues.add(keyValue);
+
+                try{
+                    List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydateforapp","kuali.atp.atp.relation.associated",context);
+                    for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+                         for (TypeTypeRelationInfo relationInfo : relations) {
+                            String relatedTypeKey = relationInfo.getRelatedTypeKey();
+                            if (keyDateInfo.getTypeKey().equals(relatedTypeKey))  {
+                                keyValues.add(new ConcreteKeyValue(keyDateInfo.getId(), keyDateInfo.getName()));
+                                break;
+                            }
+                        }
                     }
+
+                }catch (Exception e){
+                    //ToDo
                 }
+
+//                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+//                    if (keyDateInfo.getTypeKey().equals("kuali.atp.milestone.RegistrationPeriod")){
+//                        ConcreteKeyValue keyValue = new ConcreteKeyValue();
+//                        keyValue.setKey(keyDateInfo.getId());
+//                        keyValue.setValue(keyDateInfo.getName());
+//                        keyValues.add(keyValue);
+//                    }
+//                }
                 if (!keyValues.isEmpty())
                     keyValues.add(new ConcreteKeyValue("all", "All Registration Periods for this Term"));
             }
@@ -68,5 +91,19 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.acalService;
+    }
+    public TypeService getTypeService() {
+        if(typeService == null) {
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, "TypeService"));
+        }
+        return this.typeService;
+    }
+
+    private ContextInfo getContextInfo() {
+        if (null == contextInfo) {
+            //TODO - get real ContextInfo
+            contextInfo = TestHelper.getContext1();
+        }
+        return contextInfo;
     }
 }

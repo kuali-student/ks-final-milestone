@@ -236,7 +236,10 @@ public class TypeServiceMockImpl implements TypeService {
         typeArrays.add(new String[] {"kuali.atp.milestone.FinalExamPeriod", "Final Exam Period", "Final Exam Period", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.GradesDue", "Grades Due", "Grades Due", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.InstructionalPeriod", "Instructional Period", "Instructional Period", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
-
+        // for Appointment
+        typeArrays.add(new String[] {"kuali.atp.milestone.RegistrationPeriod1", "Registration Period 1", "Registration Period 1", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.RegistrationPeriod2", "Registration Period 2", "Registration Period 2", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.RegistrationPeriod3", "Registration Period 3", "Registration Period 3", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         //curriculum
         typeArrays.add(new String[] {"kuali.atp.milestone.CoordinatorsKickoffMeeting", "Coordinators Kickoff Meeting", "Coordinators Kickoff Meeting", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.ProposalPeriod", "Proposal Period", "Proposal Period", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
@@ -257,6 +260,9 @@ public class TypeServiceMockImpl implements TypeService {
         keydateGroup.add(getType("kuali.atp.milestone.DropDeadlineWithoutRecord"));
         keydateGroup.add(getType("kuali.atp.milestone.FinalExamPeriod"));
         keydateGroup.add(getType("kuali.atp.milestone.GradesDue"));
+        keydateGroup.add(getType("kuali.atp.milestone.RegistrationPeriod1"));
+        keydateGroup.add(getType("kuali.atp.milestone.RegistrationPeriod2"));
+        keydateGroup.add(getType("kuali.atp.milestone.RegistrationPeriod3"));
         for (TypeInfo type : keydateGroup) {
             createTypeTypeRelationInfo(keydateGroupType, type);
         }
@@ -270,6 +276,18 @@ public class TypeServiceMockImpl implements TypeService {
         curriculumGroup.add(getType("kuali.atp.milestone.ReviewPeriod"));
         for (TypeInfo type : curriculumGroup) {
             createTypeTypeRelationInfo(curriculumGroupType, type);
+        }
+
+        //keyDate types for Appointment grouping
+        Set<TypeInfo> keydateForAppGroup = new HashSet<TypeInfo>();
+        TypeInfo keydateForAppGroupType = createTypeInfo("kuali.milestone.type.group.keydateforapp", "Registration Periods for Appointments");
+
+        keydateForAppGroup.add(getType("kuali.atp.milestone.RegistrationPeriod1"));
+        keydateForAppGroup.add(getType("kuali.atp.milestone.RegistrationPeriod2"));
+        keydateForAppGroup.add(getType("kuali.atp.milestone.RegistrationPeriod3"));
+
+        for (TypeInfo type : keydateForAppGroup) {
+            createTypeTypeRelationInfo(keydateForAppGroupType, type);
         }
 
         //Holiday types Grouping

@@ -960,6 +960,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     KeyDateInfo keyDate = keyDateWrapper.getKeyDateInfo();
 
                     keyDate.setTypeKey(keyDateWrapper.getKeyDateType());
+                    //Add by Bonnie
+                    keyDate.setName(keyDateWrapper.getKeyDateNameUI());
                     keyDate.setStartDate(keyDateWrapper.getStartDate());
                     keyDate.setEndDate(keyDateWrapper.getEndDate());
                     keyDate.setIsAllDay(keyDateWrapper.isAllDay());
