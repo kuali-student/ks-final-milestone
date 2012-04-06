@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.appointment.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
@@ -54,6 +55,28 @@ public class RegistrationWindowsController extends UifControllerBase {
     }
 
     @Override
+    public ModelAndView deleteLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+
+        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
+
+        //Get the index of the selected line that is to be deleted
+        int selectedLineIndex = -1;
+        String selectedLine = uifForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        //Add the window id to the list of ids to be deleted
+        if(selectedLineIndex>=0){
+            AppointmentWindowWrapper window = theForm.getAppointmentWindows().get(selectedLineIndex);
+            if(window.getAppointmentWindowInfo().getId() != null){
+                theForm.getAppointmentWindowIdsToDelete().add(window.getAppointmentWindowInfo().getId());
+            }
+        }
+        return super.deleteLine(uifForm, result, request, response);
+    }
+
+    @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
@@ -89,6 +112,12 @@ public class RegistrationWindowsController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        //Delete anything that needs to be deleted
+        for(String windowId:form.getAppointmentWindowIdsToDelete()){
+            getAppointmentService().deleteAppointmentWindow(windowId, new ContextInfo());
+        }
+        form.getAppointmentWindowIdsToDelete().clear();
 
         //Loop through the form's appointment windows and create/update them using the appointmentService
         if(form.getAppointmentWindows()!=null){
@@ -143,6 +172,10 @@ public class RegistrationWindowsController extends UifControllerBase {
 
     //Copied from AcademicCalendarViewHelperServiceImpl //TODO(should be moved into common util class)
     private Date _updateTime(Date date,String time,String amPm){
+
+        if(date == null || time == null || amPm == null){
+            return null;
+        }
 
         //FIXME: Use Joda DateTime
 
