@@ -155,6 +155,34 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_KEY="kuali.atp.milestone.VeteransDayObserved" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        NAME="Academic Calendar"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.type.AcademicCalendar" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        NAME="Fall Term"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.type.Fall" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        NAME="Holiday Calendar"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.type.HolidayCalendar" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        NAME="Spring Term"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.type.Spring" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        NAME="Summer Term"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.type.Summer" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        NAME="Winter Term"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.type.Winter" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="The list of Terms that are associated with an academic calendar"
+        DESCR_PLAIN="The list of Terms that are associated with an academic calendar"
+        NAME="Term Group" TYPE_KEY="kuali.atp.type.group.term" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for academic calendar events"
         DESCR_PLAIN="The list of milestone types that are used for academic calendar events"
         NAME="Event Group" TYPE_KEY="kuali.milestone.type.group.event" VER_NBR="0"/>
@@ -166,7 +194,8 @@
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for Key Dates that are associated with a term"
         DESCR_PLAIN="The list of milestone types that are used for Key Dates that are associated with a term"
-        NAME="Event Group" TYPE_KEY="kuali.milestone.type.group.keydate" VER_NBR="0"/>
+        NAME="Key Date Group"
+        TYPE_KEY="kuali.milestone.type.group.keydate" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Type specifies which types can go together"
         DESCR_PLAIN="Type specifies which types can go together"
