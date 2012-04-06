@@ -16,6 +16,8 @@
         <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationAttributeEntity</class>
 
+        <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentEntity</class>
+
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity</class>
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowAttributeEntity</class>
 

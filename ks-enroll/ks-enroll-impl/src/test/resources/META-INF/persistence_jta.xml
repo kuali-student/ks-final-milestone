@@ -28,6 +28,8 @@
         <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationAttributeEntity</class>
 
+        <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentEntity</class>
+
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity</class>
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowAttributeEntity</class>
 

@@ -17,6 +17,9 @@ package org.kuali.student.r2.core.class1.appointment.dao;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentEntity;
+import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
+
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -24,5 +27,8 @@ import org.kuali.student.r2.core.class1.appointment.model.AppointmentEntity;
  * @author Kuali Student Team
  */
 public class AppointmentDao extends GenericEntityDao<AppointmentEntity> {
-
+    public List<AppointmentEntity> getAppointmentsBySlotId(String apptSlotId) {
+        return em.createQuery("from AppointmentEntity a where a.slotEntity.id = :apptSlotId")
+                .setParameter("apptSlotId", apptSlotId).getResultList();
+    }
 }

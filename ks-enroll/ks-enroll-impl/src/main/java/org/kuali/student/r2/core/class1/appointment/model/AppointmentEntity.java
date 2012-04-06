@@ -44,10 +44,9 @@ public class AppointmentEntity extends MetaEntity {
     @Column(name = "PERS_ID")
     String personId;
 
-    @ManyToOne()
-    @JoinTable(name = "KSEN_APPT_SLOT", joinColumns = @JoinColumn(name = "ID"))
-    @Column(name = "SLOT_ID")
-    String slotId;
+    @ManyToOne
+    @JoinColumn(name = "SLOT_ID")
+    AppointmentSlotEntity slotEntity;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -63,15 +62,16 @@ public class AppointmentEntity extends MetaEntity {
     }
 
     public AppointmentEntity(Appointment appointment) {
+        super(appointment);
+        // TODO: This seems like a lot to set...services team should look
         this.setApptState(appointment.getStateKey());
         this.setApptType(appointment.getTypeKey());
         this.setPersonId(appointment.getPersonId());
-        this.setSlotId(appointment.getSlotId());
         this.setEffectiveDate(appointment.getEffectiveDate());
         this.setExpirationDate(appointment.getExpirationDate());
+
+        this.fromDto(appointment);
     }
-
-
 
     public String getApptType() {
         return apptType;
@@ -97,12 +97,12 @@ public class AppointmentEntity extends MetaEntity {
         this.personId = personId;
     }
 
-    public String getSlotId() {
-        return slotId;
+    public AppointmentSlotEntity getSlotEntity() {
+        return slotEntity;
     }
 
-    public void setSlotId(String slotId) {
-        this.slotId = slotId;
+    public void setSlotEntity(AppointmentSlotEntity slotEntity) {
+        this.slotEntity = slotEntity;
     }
 
     public Date getEffectiveDate() {
@@ -124,7 +124,7 @@ public class AppointmentEntity extends MetaEntity {
     public AppointmentInfo toDto() {
         AppointmentInfo appointmentInfo = new AppointmentInfo();
         appointmentInfo.setPersonId(appointmentInfo.getPersonId());
-        appointmentInfo.setSlotId(this.getSlotId());
+        appointmentInfo.setSlotId(this.getSlotEntity().getId());
         appointmentInfo.setEffectiveDate(this.getEffectiveDate());
         appointmentInfo.setExpirationDate(this.getExpirationDate());
         return appointmentInfo;
@@ -133,9 +133,12 @@ public class AppointmentEntity extends MetaEntity {
     public void fromDto(Appointment appt) {
         this.setApptState(appt.getStateKey());
         this.setApptType(appt.getTypeKey());
-        this.setSlotId(appt.getSlotId());
         this.setPersonId(appt.getPersonId());
-
+        // Note: apptSlotEntity can't be set from appt which only contains the
+        // id (which is a string) for AppointmentSlot.  When constructing an AppointmentEntity
+        // in AppointmentServiceImpl, one needs to use the appointmentSlotDao to "find" (call the find
+        // method) to get the AppointmentSlotEntity and call setSlotEntity to set the value
+        // separately
     }
 
 }
