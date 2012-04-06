@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebParam;
 
 import org.apache.commons.lang.StringUtils;
@@ -902,10 +904,27 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<TypeInfo> getKeyDateTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<TypeInfo> getKeyDateTypesForTermType(String termTypeKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<TypeInfo>();
+        List<TypeInfo> types = null;
+        try {
+            // TODO: change this when the new contract gets merged in because it does not have the refobject uri as a parameter
+            types = this.typeService.getAllowedTypesForType(termTypeKey, context);
+        } catch (PermissionDeniedException ex) {
+           throw new OperationFailedException ("TODO: change the contract to allow this method, getKeyDateTypesForTermType, to throw the PermissionDeniedException", ex);
+        }
+        // filter by ref object uri
+        List<TypeInfo> list = new ArrayList<TypeInfo> (types.size());
+        for (TypeInfo type: types) {
+            if (type.getRefObjectUri() == null) {
+                throw new NullPointerException (type.getKey());
+            }
+            if (type.getRefObjectUri().equals(AtpServiceConstants.REF_OBJECT_URI_MILESTONE)) {
+                list.add (type);
+            }
+        }
+        return list;
     }
 
     @Override
@@ -1401,9 +1420,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             for (String relatedKey : relatedAtpIds) {
                 if (!currentRelIds.containsKey(relatedKey))
                     createAtpAtpRelations(atpId, relatedKey, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, context);
-                //Commenting out the update method for now as it's a blocker (KSENROLL-679)
-//                else
-//                    updateAtpAtpRelations(currentRelIds.get(relatedKey), context);
             }
 
         } catch (DoesNotExistException e) {
@@ -1428,27 +1444,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             throw new OperationFailedException("Error creating atp-atp relation", e);
         } catch (ReadOnlyException e) {
             throw new OperationFailedException("Error creating atp-atp relation", e);
-        }
-    }
-
-    private void updateAtpAtpRelations(String atpAtpRelationId, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
-        AtpAtpRelationInfo atpRel;
-        try {
-            atpRel = new AtpAtpRelationInfo(atpService.getAtpAtpRelation(atpAtpRelationId, context));
-            // TODO:what to update? should state same as atpRel.atp?
-            // atpRel.setStateKey(state);
-            try {
-                atpService.updateAtpAtpRelation(atpAtpRelationId, atpRel, context);
-            } catch (DoesNotExistException e) {
-                throw new DoesNotExistException(atpAtpRelationId);
-            } catch (VersionMismatchException e) {
-                throw new VersionMismatchException(atpAtpRelationId);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("Error upating ATP-ATP relation", e);
-            }
-        } catch (DoesNotExistException e1) {
-            throw new DoesNotExistException(atpAtpRelationId);
         }
     }
 

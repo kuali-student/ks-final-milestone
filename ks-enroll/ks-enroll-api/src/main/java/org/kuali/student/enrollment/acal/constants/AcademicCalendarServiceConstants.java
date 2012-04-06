@@ -79,4 +79,18 @@ public class AcademicCalendarServiceConstants {
     public static final String HOLIDAY_CALENDAR_DRAFT_STATE_KEY = AtpServiceConstants.ATP_DRAFT_STATE_KEY;
     public static final String HOLIDAY_CALENDAR_OFFICIAL_STATE_KEY = AtpServiceConstants.ATP_OFFICIAL_STATE_KEY;
 
+    // messages defined in KSEnroll-ApplicationResources.properties
+    public static final String ACADEMIC_CALENDAR_MSG_INFO_SAVED = "info.enroll.academiccalendar.saved";
+    public static final String ACADEMIC_CALENDAR_MSG_INFO_OFFICIAL = "info.enroll.academiccalendar.official";
+
+    /**
+     * Holiday Calendar constants
+     */
+    // messages defined in KSEnroll-ApplicationResources.properties
+    public static final String HOLIDAY_CALENDAR_MSG_INFO_SAVED = "info.enroll.holidaycalendar.saved";
+    public static final String HOLIDAY_CALENDAR_MSG_INFO_OFFICIAL = "info.enroll.holidaycalendar.official";
+    public static final String HOLIDAY_CALENDAR_MSG_ERROR_DATE = "error.enroll.holidaycalendar.invalidDates";
+    public static final String HOLIDAY_MSG_ERROR_DATE = "error.enroll.holiday.invalidDates";
+    public static final String HOLIDAY_MSG_ERROR_DUPLICATE = "error.enroll.holiday.duplicate";
+
 }

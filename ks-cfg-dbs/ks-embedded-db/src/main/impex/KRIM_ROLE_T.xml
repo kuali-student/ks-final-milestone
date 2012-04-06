@@ -24,8 +24,8 @@
         ROLE_NM="Kuali Orgainzation Membership" VER_NBR="2"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role maintains KRMS agendas and rules."
-        KIM_TYP_ID="1" LAST_UPDT_DT="20120405222533" NMSPC_CD="KR-RULE"
-        OBJ_ID="BCFB323E75F1BFA7E040C60AF05B6A7F" ROLE_ID="10003"
+        KIM_TYP_ID="1" LAST_UPDT_DT="20120312145920" NMSPC_CD="KR-RULE"
+        OBJ_ID="BB1228AA751E54DEE040C60AF05B20D7" ROLE_ID="10003"
         ROLE_NM="Kuali Rules Management System Administrator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with that have received an action request for a given document."

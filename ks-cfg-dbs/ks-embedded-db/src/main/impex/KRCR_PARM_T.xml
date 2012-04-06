@@ -91,7 +91,7 @@
         PARM_DESC_TXT="The maximum number of role or group members to display at once on their documents. If the number is above this value, the document will switch into a paging mode with only this many rows displayed at a time."
         PARM_NM="MAX_MEMBERS_PER_PAGE" PARM_TYP_CD="CONFG" VAL="20" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="Document" EVAL_OPRTR_CD="A"
-        NMSPC_CD="KR-NS" OBJ_ID="BCFB323E75D0BFA7E040C60AF05B6A7F"
+        NMSPC_CD="KR-NS" OBJ_ID="BB1228AA74FD54DEE040C60AF05B20D7"
         PARM_DESC_TXT="Controls whether the nervous system will show the blanket approve button to a user who is authorized for blanket approval but is neither the initiator of the particular document nor the recipient of an active, pending, approve action request."
         PARM_NM="ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND"
         PARM_TYP_CD="CONFG" VAL="N" VER_NBR="1"/>

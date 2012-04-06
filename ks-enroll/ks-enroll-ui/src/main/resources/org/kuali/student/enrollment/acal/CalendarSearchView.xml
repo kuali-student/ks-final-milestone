@@ -29,7 +29,7 @@
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm"/>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>/ks-enroll/css/calendar.css</value>
+                <value>/ks-enroll/css/hcal.css</value>
             </list>
         </property>
     </bean>
