@@ -73,7 +73,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="AcademicCalendarInfoUI.startDate" parent="AcademicCalendarInfo.startDate-parent">
         <property name="label" value="Start Date" />
         <property name="required" value="true"/>
-        <property name="minLength" value="10" />        
+        <property name="minLength" value="8"  />
         <property name="controlField">
             <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
@@ -84,7 +84,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="AcademicCalendarInfoUI.endDate" parent="AcademicCalendarInfo.endDate-parent">
         <property name="label" value="End Date" />
         <property name="required" value="true"/>
-        <property name="minLength" value="10" />        
+        <property name="minLength" value="8"  />
         <property name="controlField">
             <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>

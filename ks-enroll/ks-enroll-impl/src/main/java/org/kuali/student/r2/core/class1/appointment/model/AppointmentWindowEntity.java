@@ -278,6 +278,9 @@ public class AppointmentWindowEntity extends MetaEntity {
     }
 
     private TimeOfDayInfo convertToTimeOfDayInfo(Long time) {
+        if(time == null){
+            return null;
+        }
         TimeOfDayInfo info = new TimeOfDayInfo();
         info.setMilliSeconds(time);
         return info;
@@ -305,28 +308,44 @@ public class AppointmentWindowEntity extends MetaEntity {
         this.setEndDate(apptWin.getEndDate());
         this.setMaxAppointmentsPerSlot(apptWin.getMaxAppointmentsPerSlot());
 
-        // Generate comma delimited days of week to save (max length is 13 characters)
-        List<Integer> weekdays = apptWin.getSlotRule().getWeekdays(); // not null
-        StringBuilder weekdaysStr = new StringBuilder();
-        for (Integer day : weekdays) {
-            if (weekdaysStr.length() > 0) {
-                weekdaysStr.append(",");
-            }
-            weekdaysStr.append(day);
-        }
-        this.setWeekdays(weekdaysStr.toString());
         AppointmentSlotRule slotRule = apptWin.getSlotRule();
-        this.setStartTime(slotRule.getStartTimeOfDay().getMilliSeconds());
-        this.setEndTime(slotRule.getEndTimeOfDay().getMilliSeconds());
-        // start interval could be null, duration
-        if (slotRule.getSlotStartInterval() != null) {
-            this.setStartIntervalDurationType(slotRule.getSlotStartInterval().getAtpDurationTypeKey());
-            this.setStartIntervalTimeQuantity(slotRule.getSlotStartInterval().getTimeQuantity());
-        }
-        // slot duration could be null
-        if (slotRule.getSlotDuration() != null) {
-            this.setDurationType(slotRule.getSlotDuration().getAtpDurationTypeKey());
-            this.setDurationTimeQuantity(slotRule.getSlotDuration().getTimeQuantity());
+
+        if(slotRule != null){
+            if(slotRule.getWeekdays() != null){
+                // Generate comma delimited days of week to save (max length is 13 characters)
+                List<Integer> weekdays = slotRule.getWeekdays(); // not null
+                StringBuilder weekdaysStr = new StringBuilder();
+                for (Integer day : weekdays) {
+                    if (weekdaysStr.length() > 0) {
+                        weekdaysStr.append(",");
+                    }
+                    weekdaysStr.append(day);
+                }
+                this.setWeekdays(weekdaysStr.toString());
+            }else{
+                this.setWeekdays(null);
+            }
+
+            this.setStartTime(slotRule.getStartTimeOfDay()==null?null:slotRule.getStartTimeOfDay().getMilliSeconds());
+            this.setEndTime(slotRule.getEndTimeOfDay()==null?null:slotRule.getEndTimeOfDay().getMilliSeconds());
+
+            // start interval could be null, duration
+            if (slotRule.getSlotStartInterval() != null) {
+                this.setStartIntervalDurationType(slotRule.getSlotStartInterval().getAtpDurationTypeKey());
+                this.setStartIntervalTimeQuantity(slotRule.getSlotStartInterval().getTimeQuantity());
+            }
+            // slot duration could be null
+            if (slotRule.getSlotDuration() != null) {
+                this.setDurationType(slotRule.getSlotDuration().getAtpDurationTypeKey());
+                this.setDurationTimeQuantity(slotRule.getSlotDuration().getTimeQuantity());
+            }
+        }else{
+            //Default the slot rule info to null
+            this.setWeekdays(null);
+            this.setStartTime(null);
+            this.setEndTime(null);
+            this.setDurationType(null);
+            this.setDurationTimeQuantity(null);
         }
         // --- These getters/setters are for inherited fields
         this.setName(apptWin.getName());
@@ -354,12 +373,16 @@ public class AppointmentWindowEntity extends MetaEntity {
         AppointmentSlotRuleInfo appointmentSlotRuleInfo = new AppointmentSlotRuleInfo();
         info.setSlotRule(appointmentSlotRuleInfo);
         // Set weekdays which takes comma delimited string of numbers and creates List<Integer>
-        String[] numArr = getWeekdays().split(",");
-        List<Integer> weekdays = new ArrayList<Integer>();
-        for (String s : numArr) {
-            weekdays.add(Integer.parseInt(s));
+        if(getWeekdays()!=null){
+            String[] numArr = getWeekdays().split(",");
+            List<Integer> weekdays = new ArrayList<Integer>();
+            for (String s : numArr) {
+                weekdays.add(Integer.parseInt(s));
+            }
+            appointmentSlotRuleInfo.setWeekdays(weekdays);
+        }else{
+            appointmentSlotRuleInfo.setWeekdays(null);
         }
-        appointmentSlotRuleInfo.setWeekdays(weekdays);
         appointmentSlotRuleInfo.setStartTimeOfDay(convertToTimeOfDayInfo(getStartTime()));
         appointmentSlotRuleInfo.setEndTimeOfDay(convertToTimeOfDayInfo(getEndTime()));
         appointmentSlotRuleInfo.setSlotStartInterval(convertToTimeAmountInfo(getStartIntervalDurationType(), getStartIntervalTimeQuantity()));

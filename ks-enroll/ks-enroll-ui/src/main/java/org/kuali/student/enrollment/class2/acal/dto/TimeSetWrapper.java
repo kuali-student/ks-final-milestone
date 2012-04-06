@@ -15,6 +15,11 @@
  */
 package org.kuali.student.enrollment.class2.acal.dto;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -29,6 +34,11 @@ public class TimeSetWrapper {
     private String startTimeAmPm;
     private String endTime;
     private String endTimeAmPm;
+    private boolean allDay;
+    private boolean dateRange;
+
+    //This is needed for view purpose as we're setting the end date as null sothat it wont display in the ui
+    protected Date endDateUI;
 
     public Date getStartDate() {
         return startDate;
@@ -76,5 +86,61 @@ public class TimeSetWrapper {
 
     public void setEndTimeAmPm(String endTimeAmPm) {
         this.endTimeAmPm = endTimeAmPm;
+    }
+
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
+    }
+
+    public boolean isDateRange() {
+        return dateRange;
+    }
+
+    public void setDateRange(boolean dateRange) {
+        this.dateRange = dateRange;
+    }
+
+    //This is for UI display purpose
+    public String getIsAllDayUI(){
+        return StringUtils.capitalize(BooleanUtils.toStringYesNo(isAllDay()));
+    }
+
+    //This is for UI display purpose
+    public String getIsDateRangeUI(){
+        return StringUtils.capitalize(BooleanUtils.toStringYesNo(isDateRange()));
+    }
+
+    public String getStartDateUI(){
+        if (getStartDate() != null) {
+            if (!isAllDay()){
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+                return formatter.format(getStartDate());
+            }else{
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                return formatter.format(getStartDate());
+            }
+        }else{
+            return StringUtils.EMPTY;
+        }
+
+    }
+
+    public String getEndDateUI(){
+        if (endDateUI != null) {
+            if (!isAllDay()){
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+                return formatter.format(endDateUI);
+            }else{
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                return formatter.format(endDateUI);
+            }
+        }else{
+            return StringUtils.EMPTY;
+        }
+
     }
 }

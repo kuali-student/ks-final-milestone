@@ -7,7 +7,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
@@ -108,7 +107,7 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
         if (StringUtils.isNotBlank(year)){
             try {
-                //FIXME: Find some better option to check the year
+                //FIXME: Find some better way to check the year
                 Predicate startDatePredicate = and(greaterThanOrEqual(START_DATE, new SimpleDateFormat("MM/dd/yyyy").parse("01/01/" + year)),
                                                    lessThanOrEqual(START_DATE, new SimpleDateFormat("MM/dd/yyyy").parse("12/31/" + year)));
 
@@ -132,7 +131,7 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
         return qBuilder;
     }
 
-    public Properties buildTermURLParameters(TermInfo term,String methodToCall,ContextInfo context){
+    public Properties buildTermURLParameters(TermInfo term, String methodToCall, boolean readOnlyView, ContextInfo context){
 
         String acalId = null;
         try {
@@ -146,30 +145,54 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put("id",acalId);
-        props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_EDIT_VIEW);
+        props.put(CalendarConstants.CALENDAR_ID,acalId);
+        props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
+        props.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
+        props.put(CalendarConstants.SELECT_TAB,CalendarConstants.ACAL_TERM_TAB);
+
+        if (readOnlyView){
+            props.put(CalendarConstants.READ_ONLY_VIEW,""+ true);
+        }
 
         return props;
 
     }
 
-    public Properties buildACalURLParameters(AcademicCalendarInfo acal,String methodToCall,ContextInfo context){
+    public Properties buildACalURLParameters(AcademicCalendarInfo acal, String methodToCall, boolean readOnlyView, ContextInfo context){
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put("id",acal.getId());
-        props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_EDIT_VIEW);
+        props.put(CalendarConstants.CALENDAR_ID,acal.getId());
+        props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
+
+        if (StringUtils.equals(methodToCall,CalendarConstants.AC_COPY_METHOD)){
+           props.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE);
+        } else {
+           props.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
+        }
+
+        if (readOnlyView){
+            props.put(CalendarConstants.READ_ONLY_VIEW,""+ true);
+        }
 
         return props;
 
     }
 
-    public Properties buildHCalURLParameters(HolidayCalendarInfo hcInfo,String methodToCall,ContextInfo context){
+    public Properties buildHCalURLParameters(HolidayCalendarInfo hcInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put("id",hcInfo.getId());
-        props.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        props.put(CalendarConstants.CALENDAR_ID, hcInfo.getId());
+        props.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
+
+        if (StringUtils.equals(methodToCall,CalendarConstants.HC_COPY_METHOD)){
+           props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_COPYPAGE);
+        }else if (StringUtils.equals(methodToCall,CalendarConstants.HC_VIEW_METHOD) && readOnlyView){
+            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
+        } else {
+           props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        }
 
         return props;
 

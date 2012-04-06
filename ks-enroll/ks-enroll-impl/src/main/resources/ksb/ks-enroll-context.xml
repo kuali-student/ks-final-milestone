@@ -90,15 +90,15 @@
     <property name="criteriaLookupService" ref="criteriaLookupService"/>
   </bean>
 
-  <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar()
+  <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar() -->
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
       <property name="atpService" ref="atpEnrService" />
       <property name="nextDecorator" ref="acalServiceImpl" />
   </bean>
-  -->
+  <!-- -->
 
   <!-- change id to "acalServiceImpl" if the above bean is used -->
-  <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+  <bean id="acalServiceImpl" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpEnrService" />
     <property name="stateService" ref="stateService" />
     <property name="typeService" ref="typeService" />
@@ -417,5 +417,25 @@
       <property name="instructionDao" ref="instructionDao" />
       <property name="stateService" ref="stateService" />
   </bean>
+
+    <!-- Appointment Service -->
+    <bean id="appointmentWindowService" class="org.kuali.student.r2.core.class1.appointment.service.impl.AppointmentServiceImpl">
+        <property name="appointmentWindowDao" ref="appointmentWindowDao"/>
+        <property name="appointmentSlotDao" ref="appointmentSlotDao"/>
+        <property name="appointmentDao" ref="appointmentDao"/>
+    </bean>
+
+    <bean id="ks.exp.appointmentWindowService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="appointmentWindowService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.appointment.service.AppointmentService" />
+                <property name="localServiceName" value="AppointmentService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/appointment" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
 
 </beans>

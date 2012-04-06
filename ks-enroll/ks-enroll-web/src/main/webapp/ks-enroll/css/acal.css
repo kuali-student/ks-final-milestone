@@ -7,7 +7,14 @@
     font-weight:bold;
 }
 
-.ks-borderBottom {
+.ks-borderBottom1 {
+    border-bottom: 1px solid #666666;
+    padding-top:10px;
+    padding-bottom:10px;
+    text-align: left;
+}
+
+.ks-borderBottom2 {
     border-bottom: 2px solid #666666;
     padding-top:10px;
     padding-bottom:10px;

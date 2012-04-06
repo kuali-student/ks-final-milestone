@@ -391,7 +391,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public HolidayCalendarInfo copyHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        throw new OperationFailedException("Method implemented in calculation decorator.");
     }
 
     @Override
@@ -1401,8 +1401,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             for (String relatedKey : relatedAtpIds) {
                 if (!currentRelIds.containsKey(relatedKey))
                     createAtpAtpRelations(atpId, relatedKey, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, context);
-                else
-                    updateAtpAtpRelations(currentRelIds.get(relatedKey), context);
+                //Commenting out the update method for now as it's a blocker (KSENROLL-679)
+//                else
+//                    updateAtpAtpRelations(currentRelIds.get(relatedKey), context);
             }
 
         } catch (DoesNotExistException e) {

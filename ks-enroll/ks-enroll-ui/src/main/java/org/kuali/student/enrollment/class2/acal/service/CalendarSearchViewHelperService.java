@@ -17,10 +17,10 @@ public interface CalendarSearchViewHelperService  extends ViewHelperService {
 
     public List<AcademicCalendarInfo> searchForAcademicCalendars(String name, String year,ContextInfo context)throws Exception;
 
-    public Properties buildTermURLParameters(TermInfo term,String methodToCall,ContextInfo context);
+    public Properties buildTermURLParameters(TermInfo term,String methodToCall,boolean readOnlyView, ContextInfo context);
 
-    public Properties buildACalURLParameters(AcademicCalendarInfo acal,String methodToCall,ContextInfo context) ;
+    public Properties buildACalURLParameters(AcademicCalendarInfo acal,String methodToCall,boolean readOnlyView, ContextInfo context) ;
 
-    public Properties buildHCalURLParameters(HolidayCalendarInfo hcInfo,String methodToCall,ContextInfo context) ;
+    public Properties buildHCalURLParameters(HolidayCalendarInfo hcInfo,String methodToCall,boolean readOnlyView, ContextInfo context) ;
 
 }

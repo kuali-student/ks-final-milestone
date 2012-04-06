@@ -124,4 +124,14 @@
     	<property name="entityManager" ref="enrollEntityManager"/>
   	</bean>
 
+    <bean id="appointmentWindowDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+    <bean id="appointmentSlotDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+    <bean id="appointmentDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
 </beans>

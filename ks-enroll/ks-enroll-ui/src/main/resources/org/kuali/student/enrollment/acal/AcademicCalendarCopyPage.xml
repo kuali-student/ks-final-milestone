@@ -15,20 +15,6 @@
         <property name="header">
             <bean parent="Uif-HeaderField-Two"/>
         </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase"
-                  p:id="KS-AcademicCalendar-CopyView-footer">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-SecondaryActionButton"
-                              p:methodToCall="copy"
-                              p:actionLabel="Copy Academic Calendar"
-                              p:render="@{academicCalendarInfo != null}"
-                              p:id="KS-AcademicCalendar-CopyView-CopyButton"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
         <property name="header.items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup"
@@ -57,6 +43,20 @@
                 </bean>
             </list>
         </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase"
+                  p:id="KS-AcademicCalendar-CopyView-footer">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton"
+                              p:methodToCall="copy"
+                              p:actionLabel="Copy Academic Calendar"
+                              p:render="@{academicCalendarInfo != null}"
+                              p:id="KS-AcademicCalendar-CopyView-CopyButton"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean id="KS-AcademicCalendar-CopyView-From" parent="Uif-VerticalBoxSubSection"
@@ -68,11 +68,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup"
-                      p:render="@{academicCalendarInfo != null}">
+                      p:render="@{orgAcalInfo != null}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField"
-                                  p:propertyName="academicCalendarInfo.name"
+                                  p:propertyName="orgAcalInfo.name"
                                   p:style="font-size:125%;font-weight:bold;"
                                   p:showLabel="false"
                                   p:readOnly="true">
@@ -81,7 +81,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField"
-                                  p:propertyName="academicCalendarInfo.startDate"
+                                  p:propertyName="orgAcalInfo.startDate"
                                   p:label="Start Date"
                                   p:readOnly="true">
                                 <property name="control">
@@ -89,7 +89,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField"
-                                  p:propertyName="academicCalendarInfo.endDate"
+                                  p:propertyName="orgAcalInfo.endDate"
                                   p:label="End Date"
                                   p:readOnly="true">
                                 <property name="control">
@@ -101,13 +101,13 @@
                 </bean>
                 <bean parent="Uif-MessageField"
                       p:messageText="A recent academic calendar could not be found."
-                      p:render="@{academicCalendarInfo == null}"/>
+                      p:render="@{orgAcalInfo == null}"/>
                 <bean parent="Uif-VerticalBoxGroup"
                       p:id="KS-AcademicCalendar-CopyView-From-SearchInfo">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ActionLink"
-                                  p:actionLabel="@{academicCalendarInfo != null ? 'Choose a Different Calendar' : 'Choose a Calendar'}">
+                            <bean parent="Uif-ActionLink" p:methodToCall="search"
+                                  p:actionLabel="@{orgAcalInfo != null ? 'Choose a Different Calendar' : 'Choose a Calendar'}">
                             </bean>
                         </list>
                     </property>
@@ -118,7 +118,7 @@
 
     <bean id="KS-AcademicCalendar-CopyView-To" parent="Uif-VerticalBoxSubSection"
           p:title="Copy To:"
-          p:render="@{academicCalendarInfo != null}"
+          p:render="@{orgAcalInfo != null}"
           p:id="KS-AcademicCalendar-CopyView-To">
         <property name="header">
             <bean parent="Uif-HeaderField-Four"/>
@@ -134,7 +134,7 @@
                             <bean parent="Uif-InputField"
                                   p:label="Name"
                                   p:required="true"
-                                  p:propertyName="newCalendarName"
+                                  p:propertyName="academicCalendarInfo.name"
                                   p:labelField.width="15%">
                                 <property name="validCharactersConstraint">
                                     <bean parent="AlphaNumericPatternConstraint"
@@ -149,7 +149,7 @@
                             <bean parent="Uif-InputField"
                                   p:label="Start Date"
                                   p:required="true"
-                                  p:propertyName="newCalendarStartDate">
+                                  p:propertyName="academicCalendarInfo.startDate">
                                 <property name="validCharactersConstraint">
                                     <bean parent="BasicDatePatternConstraint" />
                                 </property>
@@ -160,7 +160,7 @@
                             <bean parent="Uif-InputField"
                                   p:label="End Date"
                                   p:required="true"
-                                  p:propertyName="newCalendarEndDate">
+                                  p:propertyName="academicCalendarInfo.endDate">
                                 <property name="validCharactersConstraint">
                                     <bean parent="BasicDatePatternConstraint" />
                                 </property>

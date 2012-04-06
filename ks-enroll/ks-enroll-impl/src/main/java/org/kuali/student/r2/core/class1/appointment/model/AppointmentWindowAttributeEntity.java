@@ -30,7 +30,7 @@ import javax.persistence.Table;
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSEN_APPT_SLOT_WINDOW_ATTR")
+@Table(name = "KSEN_APPT_WINDOW_ATTR")
 public class AppointmentWindowAttributeEntity  extends BaseAttributeEntityNew<AppointmentWindowEntity>{
 
     @ManyToOne

@@ -83,11 +83,13 @@
         <property name="dataSource" ref="dataSource" />
    </bean>
 
+    <bean id="appointmentDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao"/>
     <bean id="appointmentWindowDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao"/>
     <bean id="appointmentSlotDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao"/>
     <bean id="appointmentWindowService" class="org.kuali.student.r2.core.class1.appointment.service.impl.AppointmentServiceImpl">
         <property name="appointmentWindowDao" ref="appointmentWindowDao"/>
         <property name="appointmentSlotDao" ref="appointmentSlotDao"/>
+        <property name="appointmentDao" ref="appointmentDao"/>
     </bean>
 
 	<tx:annotation-driven transaction-manager="JtaTxManager"
