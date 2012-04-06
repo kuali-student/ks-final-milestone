@@ -18,9 +18,6 @@
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_DESC="Drop Period Ends"
         TYPE_KEY="kuali.atp.milestone.DropDate" VER_NBR="0"/>
-    <KSEN_ATP_TYPE NAME="Fall Break"
-        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
-        TYPE_DESC="Fall Break" TYPE_KEY="kuali.atp.milestone.FallBreak" VER_NBR="0"/>
     <KSEN_ATP_TYPE NAME="Final Exam Period "
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_DESC="Final Examinations"
@@ -28,37 +25,14 @@
     <KSEN_ATP_TYPE NAME="Grades Due"
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_DESC="Grades Due" TYPE_KEY="kuali.atp.milestone.GradesDue" VER_NBR="0"/>
-    <KSEN_ATP_TYPE NAME="IndependenceDay Observed"
-        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
-        TYPE_DESC="IndependenceDay Observed"
-        TYPE_KEY="kuali.atp.milestone.IndependenceDayObserved" VER_NBR="0"/>
     <KSEN_ATP_TYPE NAME="Instructional Period"
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_DESC="Dates between which classes should meet"
         TYPE_KEY="kuali.atp.milestone.InstructionalPeriod" VER_NBR="0"/>
-    <KSEN_ATP_TYPE NAME="Labor Day"
-        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
-        TYPE_DESC="Labor Day" TYPE_KEY="kuali.atp.milestone.LaborDay" VER_NBR="0"/>
-    <KSEN_ATP_TYPE NAME="MLKDay Observed"
-        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
-        TYPE_DESC="MLKDay Observed"
-        TYPE_KEY="kuali.atp.milestone.MLKDayObserved" VER_NBR="0"/>
-    <KSEN_ATP_TYPE NAME="MemorialDay Observed"
-        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
-        TYPE_DESC="MemorialDay Observed"
-        TYPE_KEY="kuali.atp.milestone.MemorialDayObserved" VER_NBR="0"/>
     <KSEN_ATP_TYPE NAME="Registration Period"
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_DESC="Registration Period"
         TYPE_KEY="kuali.atp.milestone.RegistrationPeriod" VER_NBR="0"/>
-    <KSEN_ATP_TYPE NAME="Spring Break"
-        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
-        TYPE_DESC="Spring Break"
-        TYPE_KEY="kuali.atp.milestone.SpringBreak" VER_NBR="0"/>
-    <KSEN_ATP_TYPE NAME="Thanksgiving Break"
-        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
-        TYPE_DESC="Thanksgiving Break"
-        TYPE_KEY="kuali.atp.milestone.ThanksgivingBreak" VER_NBR="0"/>
     <KSEN_ATP_TYPE NAME="Owns"
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/AtpMilestoneRelationInfo"
         TYPE_DESC="Indicates the ATP owns the specified milestone"
