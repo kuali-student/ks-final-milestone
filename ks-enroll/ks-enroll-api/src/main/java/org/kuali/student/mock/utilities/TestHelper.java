@@ -1,4 +1,4 @@
-package org.kuali.student.test.utilities;
+package org.kuali.student.mock.utilities;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 

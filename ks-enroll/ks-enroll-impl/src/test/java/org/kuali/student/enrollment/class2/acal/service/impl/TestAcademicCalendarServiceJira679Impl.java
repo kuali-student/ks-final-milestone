@@ -27,6 +27,8 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -43,6 +45,11 @@ public class TestAcademicCalendarServiceJira679Impl {
     @Autowired
     @Qualifier("acalServiceAuthDecorator")
     private AcademicCalendarService acalService;
+
+    @Autowired
+    @Qualifier("atpServiceAuthorization")
+    private AtpService atpService;
+
     public static String principalId = "123";
     public ContextInfo callContext = null;
 
@@ -51,6 +58,18 @@ public class TestAcademicCalendarServiceJira679Impl {
         principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
+        try {
+            loadData();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private void loadData() throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            DataValidationErrorException, ReadOnlyException, VersionMismatchException, AlreadyExistsException {
+        AtpTestDataLoader loader = new AtpTestDataLoader(this.atpService);
+        loader.loadData();
     }
 
     @Test

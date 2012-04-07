@@ -42,7 +42,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsLprService;
 import org.kuali.student.r2.common.infc.HoldsLuiService;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
-import org.kuali.student.test.utilities.MockHelper;
+import org.kuali.student.mock.utilities.MockHelper;
 
 /**
  * @author nwright

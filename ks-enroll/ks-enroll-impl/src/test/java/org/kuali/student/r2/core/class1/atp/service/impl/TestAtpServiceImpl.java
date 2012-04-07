@@ -755,7 +755,7 @@ public class TestAtpServiceImpl {
         assertTrue(atpIds.contains("testAtpId1"));
         assertTrue(atpIds.contains("termRelationTestingAcal1"));
 
-        String expectedEmptyAtpType = AtpServiceConstants.ATP_SESSION_G2_TYPE_KEY;
+        String expectedEmptyAtpType = "kuali.atp.type.SessionG2";
         atpIds = atpService.getAtpIdsByType(expectedEmptyAtpType, callContext);
         assertTrue(atpIds.isEmpty());
 

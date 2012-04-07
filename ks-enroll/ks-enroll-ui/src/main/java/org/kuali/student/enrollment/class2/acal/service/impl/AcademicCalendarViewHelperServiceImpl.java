@@ -51,7 +51,7 @@ import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
-import org.kuali.student.test.utilities.TestHelper;
+import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
@@ -1076,8 +1076,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     keyDateWrapper.setTypeInfo(type);
                     keyDateWrapper.setKeyDateNameUI(type.getName());
 
-                    List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,null,getContextInfo());
-                    List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,null,getContextInfo());
+                    List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD, null, getContextInfo());
+                    List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM, null, getContextInfo());
 
                     if (isRelationExists(registrationRelations,keyDateInfo.getTypeKey())){
                         registrationWrapper.getKeydates().add(keyDateWrapper);
