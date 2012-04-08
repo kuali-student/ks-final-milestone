@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.classII.grading.conformance.tests;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +13,7 @@ import org.junit.Test;
 import org.kuali.student.enrollment.classII.grading.service.GradingServiceMockImpl;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
-import org.kuali.student.test.utilities.TestHelper;
+import org.kuali.student.mock.utilities.TestHelper;
 
 
 /**

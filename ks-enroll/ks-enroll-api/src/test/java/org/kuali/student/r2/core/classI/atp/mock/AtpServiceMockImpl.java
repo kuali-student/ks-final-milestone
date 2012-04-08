@@ -10,18 +10,15 @@
  */
 package org.kuali.student.r2.core.classI.atp.mock;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.test.utilities.MockHelper;
+import org.kuali.student.mock.utilities.MockHelper;
 
 import javax.jws.WebParam;
 import java.util.*;

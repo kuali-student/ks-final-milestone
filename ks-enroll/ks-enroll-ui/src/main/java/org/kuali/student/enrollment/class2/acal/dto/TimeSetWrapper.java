@@ -40,6 +40,30 @@ public class TimeSetWrapper {
     //This is needed for view purpose as we're setting the end date as null sothat it wont display in the ui
     protected Date endDateUI;
 
+    protected void buildDateAndTime(){
+
+        //This is needed to display enddate for readonly view (not needed for edit mode).
+        endDateUI = getEndDate();
+
+        // If not all day, set start/end time in the wrapper
+        if (!isAllDay()){
+
+            DateFormat dfm = new SimpleDateFormat("hh:mm");
+
+            setStartTime(dfm.format(getStartDate()));
+            setEndTime(dfm.format(getEndDate()));
+
+            dfm = new SimpleDateFormat("a");
+            setStartTimeAmPm(dfm.format(getStartDate()));
+            setEndTimeAmPm(dfm.format(getEndDate()));
+
+            //As start and end date are going to be same when it's not daterange, just set NULL sothat the same date wont display in the UI (Edit mode).
+            if (!isDateRange()) {
+                setEndDate(null);
+            }
+        }
+    }
+
     public Date getStartDate() {
         return startDate;
     }
@@ -114,6 +138,7 @@ public class TimeSetWrapper {
         return StringUtils.capitalize(BooleanUtils.toStringYesNo(isDateRange()));
     }
 
+    //This is for UI display purpose
     public String getStartDateUI(){
         if (getStartDate() != null) {
             if (!isAllDay()){
@@ -129,6 +154,7 @@ public class TimeSetWrapper {
 
     }
 
+    //This is for UI display purpose
     public String getEndDateUI(){
         if (endDateUI != null) {
             if (!isAllDay()){

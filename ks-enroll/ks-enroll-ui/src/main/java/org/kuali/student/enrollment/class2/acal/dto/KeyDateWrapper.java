@@ -14,41 +14,21 @@ public class KeyDateWrapper extends TimeSetWrapper{
     private KeyDateInfo keyDateInfo;
     private TypeInfo typeInfo;
 
-    //UI related
-    private boolean showAddLine;
-
     public KeyDateWrapper(){
         setAllDay(false);
         setDateRange(true);
-        setShowAddLine(true);
+        keyDateInfo = new KeyDateInfo();
     }
 
     public KeyDateWrapper(KeyDateInfo keydate){
         this.setKeyDateInfo(keydate);
         this.setStartDate(keydate.getStartDate());
+        this.setEndDate(keydate.getEndDate());
         this.setAllDay(keydate.getIsAllDay());
         this.setDateRange(keydate.getIsDateRange());
         this.setKeyDateType(keydate.getTypeKey());
-        this.setEndDate(keydate.getEndDate());
 
-        //This is needed to display enddate for readonly view.
-        endDateUI = keydate.getEndDate();
-
-        // If not all day, set start/end time in the wrapper
-        if (!isAllDay()){
-            DateFormat dfm = new SimpleDateFormat("hh:mm");
-
-            setStartTime(dfm.format(keydate.getStartDate()));
-            setEndTime(dfm.format(keydate.getEndDate()));
-
-            dfm = new SimpleDateFormat("a");
-            setStartTimeAmPm(dfm.format(keydate.getStartDate()));
-            setEndTimeAmPm(dfm.format(keydate.getEndDate()));
-
-            if (!isDateRange()) {
-                setEndDate(null);
-            }
-        }
+        buildDateAndTime();
     }
 
     public void copy(KeyDateInfo keydate){
@@ -103,14 +83,6 @@ public class KeyDateWrapper extends TimeSetWrapper{
 
     public void setTypeInfo(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;
-    }
-
-    public boolean isShowAddLine() {
-        return showAddLine;
-    }
-
-    public void setShowAddLine(boolean showAddLine) {
-        this.showAddLine = showAddLine;
     }
 
 }

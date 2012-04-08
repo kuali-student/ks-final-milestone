@@ -19,7 +19,6 @@ package org.kuali.student.enrollment.class2.appointment.service.impl;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
@@ -31,12 +30,8 @@ import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrap
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.core.type.service.TypeService;
-import org.kuali.student.test.utilities.TestHelper;
+import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
@@ -52,7 +47,6 @@ import java.util.List;
  */
 public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl implements AppointmentViewHelperService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AppointmentViewHelperServiceImpl.class);
-    private transient TypeService typeService;
 
     @Override
     public RegistrationWindowsManagementForm searchForTerm(String typeKey, String year, RegistrationWindowsManagementForm form) throws Exception {
@@ -115,10 +109,17 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         ContextInfo context = TestHelper.getContext1();
 //        try {
             TermInfo term = getAcalService().getTerm(termId, context);
-            
             if (term.getId() != null && !term.getId().isEmpty()) {
                 form.setTermInfo(term);
-                loadPeriods(termId, form);
+                List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
+                List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(term.getId(), context);
+                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+                    if (AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+                        System.out.println(">>>find "+keyDateInfo.getName());
+                        periodMilestones.add (keyDateInfo);
+                    }
+                }
+                form.setPeriodMilestones(periodMilestones);
             }
 //        }catch (DoesNotExistException dnee){
 //            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get DoesNotExistException:  "+dnee.toString());
@@ -132,24 +133,6 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 //            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get PermissionDeniedException:  "+pde.toString());
 //        }
 
-    }
-
-    public void loadPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {
-        ContextInfo context = TestHelper.getContext1();
-        List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
-        List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(termId, context);
-        List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydateforapp","kuali.atp.atp.relation.associated",context);
-        for (KeyDateInfo keyDateInfo : keyDateInfoList) {
-            for (TypeTypeRelationInfo relationInfo : relations) {
-                String relatedTypeKey = relationInfo.getRelatedTypeKey();
-                if (keyDateInfo.getTypeKey().equals(relatedTypeKey))  {
-                    periodMilestones.add(keyDateInfo);
-                    break;
-                }
-            }
-        }
-
-        form.setPeriodMilestones(periodMilestones);
     }
 
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
@@ -183,12 +166,5 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
     public AcademicCalendarService getAcalService() {
         return (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
-    }
-
-    public TypeService getTypeService() {
-        if(typeService == null) {
-            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, "TypeService"));
-        }
-        return this.typeService;
     }
 }

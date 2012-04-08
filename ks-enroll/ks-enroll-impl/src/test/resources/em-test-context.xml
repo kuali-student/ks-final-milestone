@@ -124,11 +124,19 @@
         <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     </bean>
 
-    <bean id="appointmentWindowDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao"/>
-    <bean id="appointmentSlotDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao"/>
+    <bean id="appointmentWindowDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    <bean id="appointmentSlotDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    <bean id="appointmentDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
     <bean id="appointmentWindowService" class="org.kuali.student.r2.core.class1.appointment.service.impl.AppointmentServiceImpl">
         <property name="appointmentWindowDao" ref="appointmentWindowDao"/>
         <property name="appointmentSlotDao" ref="appointmentSlotDao"/>
+        <property name="appointmentDao" ref="appointmentDao"/>
     </bean>
 
     <bean id="enumServiceValidationDecorator"

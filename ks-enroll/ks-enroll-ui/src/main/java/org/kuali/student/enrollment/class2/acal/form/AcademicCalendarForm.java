@@ -47,8 +47,8 @@ public class AcademicCalendarForm extends UifFormBase {
     private List<AcademicTermWrapper> termWrapperList;
 
     //used by copying
-    private boolean official;
-    private boolean delete;
+    private boolean officialButtonVisible;
+    private boolean deleteButtonVisible;
 
     //This is useful when user edit term from calendar search. User should see the term tab. By default, info tab
     private String defaultTabToShow;
@@ -59,8 +59,8 @@ public class AcademicCalendarForm extends UifFormBase {
         termWrapperList = new ArrayList<AcademicTermWrapper>();
         events = new ArrayList<AcalEventWrapper>();
         holidayCalendarList = new ArrayList<HolidayCalendarWrapper>();
-        official = false;
-        delete = false;
+        officialButtonVisible = false;
+        deleteButtonVisible = false;
         defaultTabToShow = CalendarConstants.ACAL_INFO_TAB;
     }
 
@@ -128,20 +128,20 @@ public class AcademicCalendarForm extends UifFormBase {
         this.events = events;
     }
 
-    public boolean isOfficial() {
-        return official;
+    public boolean isOfficialButtonVisible() {
+        return officialButtonVisible;
     }
 
-    public void setOfficial(boolean official) {
-        this.official = official;
+    public void setOfficialButtonVisible(boolean officialButtonVisible) {
+        this.officialButtonVisible = officialButtonVisible;
     }
 
-    public boolean isDelete() {
-        return delete;
+    public boolean isDeleteButtonVisible() {
+        return deleteButtonVisible;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setDeleteButtonVisible(boolean deleteButtonVisible) {
+        this.deleteButtonVisible = deleteButtonVisible;
     }
 
     public String getDefaultTabToShow() {
