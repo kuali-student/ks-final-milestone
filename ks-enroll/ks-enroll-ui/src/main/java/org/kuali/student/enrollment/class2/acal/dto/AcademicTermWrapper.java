@@ -29,6 +29,7 @@ public class AcademicTermWrapper {
 
     public AcademicTermWrapper(){
         keyDatesGroupWrappers = new ArrayList();
+        termInfo = new TermInfo();
     }
 
     public AcademicTermWrapper(TermInfo termInfo){

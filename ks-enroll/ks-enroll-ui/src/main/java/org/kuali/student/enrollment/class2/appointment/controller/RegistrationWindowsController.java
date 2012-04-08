@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.appointment.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
@@ -18,7 +17,7 @@ import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstan
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
-import org.kuali.student.test.utilities.TestHelper;
+import org.kuali.student.mock.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,28 +51,6 @@ public class RegistrationWindowsController extends UifControllerBase {
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new RegistrationWindowsManagementForm();
-    }
-
-    @Override
-    public ModelAndView deleteLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-
-        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
-
-        //Get the index of the selected line that is to be deleted
-        int selectedLineIndex = -1;
-        String selectedLine = uifForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        //Add the window id to the list of ids to be deleted
-        if(selectedLineIndex>=0){
-            AppointmentWindowWrapper window = theForm.getAppointmentWindows().get(selectedLineIndex);
-            if(window.getAppointmentWindowInfo().getId() != null){
-                theForm.getAppointmentWindowIdsToDelete().add(window.getAppointmentWindowInfo().getId());
-            }
-        }
-        return super.deleteLine(uifForm, result, request, response);
     }
 
     @Override
@@ -112,12 +89,6 @@ public class RegistrationWindowsController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        //Delete anything that needs to be deleted
-        for(String windowId:form.getAppointmentWindowIdsToDelete()){
-            getAppointmentService().deleteAppointmentWindow(windowId, new ContextInfo());
-        }
-        form.getAppointmentWindowIdsToDelete().clear();
 
         //Loop through the form's appointment windows and create/update them using the appointmentService
         if(form.getAppointmentWindows()!=null){
@@ -173,10 +144,6 @@ public class RegistrationWindowsController extends UifControllerBase {
     //Copied from AcademicCalendarViewHelperServiceImpl //TODO(should be moved into common util class)
     private Date _updateTime(Date date,String time,String amPm){
 
-        if(date == null || time == null || amPm == null){
-            return null;
-        }
-
         //FIXME: Use Joda DateTime
 
         // Get Calendar object set to the date and time of the given Date object
@@ -229,25 +196,24 @@ public class RegistrationWindowsController extends UifControllerBase {
             //TODO: pull out all windows for that period and add to the collection
         }
         else if (periodId.equals("all")) {
-            List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
-            TermInfo term = form.getTermInfo();
-            if (term.getId() != null && !term.getId().isEmpty()) {
-                getViewHelperService(form).loadPeriods(term.getId(), form);
-                periodMilestones = form.getPeriodMilestones();
-
-
-                for (KeyDateInfo period : periodMilestones){
-                    if (period.getName() != null) {
-                        periodInfoDetails = periodInfoDetails.concat(
-                                period.getName()+" Start Date: "+period.getStartDate()+ "<br>"
-                                + period.getName()+" End Date: "+period.getEndDate()+"<br>");
-                    } else {
-                        periodInfoDetails = periodInfoDetails.concat(period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
-                                + period.getId()+" End Date: "+period.getEndDate()+"<br>");
-                    }
+            List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
+            if(periodMilestones.isEmpty()) {
+                TermInfo term = form.getTermInfo();
+                if (term.getId() != null && !term.getId().isEmpty()) {
+                    ContextInfo context = TestHelper.getContext1();
+                    periodMilestones = getAcalService().getKeyDatesForTerm(term.getId(), context);
                 }
-                form.setPeriodInfoDetails(periodInfoDetails);
             }
+            for (KeyDateInfo period : periodMilestones){
+                if (period.getName() != null) {
+                    periodInfoDetails = period.getName()+" Start Date: "+period.getStartDate()+ "<br>"
+                            + period.getName()+" End Date: "+period.getEndDate()+"<br>";
+                } else {
+                    periodInfoDetails = period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
+                            + period.getId()+" End Date: "+period.getEndDate()+"<br>";
+                }
+            }
+            form.setPeriodInfoDetails(periodInfoDetails);
         }
         return getUIFModelAndView(form);    
     }

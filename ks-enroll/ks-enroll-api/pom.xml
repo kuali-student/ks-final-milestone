@@ -1,31 +1,32 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ks-enroll-api</artifactId>
     <name>KS Enroll API</name>
-    <version>1.3.0-ec1-SNAPSHOT</version>
+    <version>2.0.0-M1-SNAPSHOT</version>
     <description>KS Enrollment API</description>
     <parent>
         <groupId>org.kuali.student.enroll</groupId>
         <artifactId>ks-enroll</artifactId>
-        <version>1.3.0-ec1-SNAPSHOT</version>
+        <version>2.0.0-M1-SNAPSHOT</version>
     </parent>
     <dependencies>
-    <!-- <dependency> <groupId>com.sun</groupId> <artifactId>tools</artifactId> <version>1.6.0</version> <scope>system</scope>
+    <!-- <dependency> <groupId>com.sun</groupId> <artifactId>tools</artifactId> <version>1.6.0</version> <scope>system</scope> 
       <systemPath>${java.home}/../lib/tools.jar</systemPath> </dependency> -->
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-api</artifactId>
-            <version>${project.version}</version>
+            <version>1.3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-api</artifactId>
-            <version>${project.version}</version>
+            <version>1.3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.common</groupId>
             <artifactId>ks-common-api</artifactId>
-            <version>${project.version}</version>
+            <version>1.3.0-SNAPSHOT</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
@@ -44,7 +45,7 @@
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krad-web-framework</artifactId>
             <version>${kuali.rice.version}</version>
-        </dependency>
+        </dependency>         
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -76,11 +77,11 @@
             <version>${spring.version}</version>
         </dependency>
 
-    <!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-tx</artifactId> <version>3.0.5.RELEASE</version>
-      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-orm</artifactId> <version>3.0.5.RELEASE</version>
-      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-jdbc</artifactId> <version>3.0.5.RELEASE</version>
-      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-web</artifactId> <version>3.0.5.RELEASE</version>
-      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-webmvc</artifactId> <version>3.0.5.RELEASE</version>
+    <!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-tx</artifactId> <version>3.0.5.RELEASE</version> 
+      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-orm</artifactId> <version>3.0.5.RELEASE</version> 
+      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-jdbc</artifactId> <version>3.0.5.RELEASE</version> 
+      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-web</artifactId> <version>3.0.5.RELEASE</version> 
+      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-webmvc</artifactId> <version>3.0.5.RELEASE</version> 
       </dependency> -->
         <dependency>
             <groupId>org.kuali.rice</groupId>
@@ -96,7 +97,7 @@
             </resource>
             <resource>
                 <directory>${project.build.directory}/generated-sources/datadictionary</directory>
-            </resource>
+            </resource>            
         </resources>
         <plugins>
             <plugin>
@@ -104,42 +105,36 @@
                 <artifactId>maven-kscontractdoc-plugin</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
 <!-- For instructions see https://wiki.kuali.org/display/STUDENT/Understanding+the+Contract+Doc+Maven+Plugin  -->
-                <executions>
+                <executions>  
                     <!-- This generates the standard contract docs on the site-->
                     <execution>
-                        <id>generate-contract-documentation</id>
+                        <id>generate-contract-documentation</id>                             
                         <phase>${ks.contractdoc.phase}</phase>
                         <goals>
-                            <goal>kscontractdoc</goal>
+                            <goal>kscontractdoc</goal>                      
                         </goals>
                     </execution>
-                    <!-- This generates the the dictionary documentation docs on the site-->
+                    <!-- This generates the the dictionary documentation docs on the site--> 
                     <execution>
                         <id>generate-dictionary-documentation</id>
                         <phase>${ks.dictionarydoc.phase}</phase>
                         <goals>
-                            <goal>ksdictionarydoc</goal>
+                            <goal>ksdictionarydoc</goal>                            
                         </goals>
                         <configuration>
                             <inputFiles>
-                                <!--                                 Atp -->
-                                <inputFile>ks-AtpInfo-dictionary.xml</inputFile>                    
-                                <inputFile>ks-MilestoneInfo-dictionary.xml</inputFile>                                    
-                                <inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>  
-<!--                                 Acal -->
+                               <!-- ATP -->
+                                <inputFile>ks-AtpInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-MilestoneInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>
+                               <!-- ACAL -->
                                 <inputFile>ks-AcademicCalendarInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-AcalEventInfo-dictionary.xml</inputFile>                                  
                                 <inputFile>ks-HolidayCalendarInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-TermInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-HolidayInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-AcalEventInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-AcalEventInfo-dictionary.xml</inputFile>                                
                                 <inputFile>ks-KeyDateInfo-dictionary.xml</inputFile>
-                                <inputFile>KeyDateInfo</inputFile>
-<!--                                 Appointment -->
-                                <inputFile>ks-AppointmentWindowInfo-dictionary.xml</inputFile>
-<!--                                <inputFile>ks-AppointmentSlotInfo-dictionary.xml</inputFile>                                  -->
-                                <inputFile>ks-AppointmentInfo-dictionary.xml</inputFile>                      
-<!--                                LPR -->
+                                <!-- LPR -->
                                 <inputFile>ks-LuiPersonRelationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprRosterInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprRosterEntryInfo-dictionary.xml</inputFile>
@@ -147,10 +142,10 @@
                                 <inputFile>ks-LprTransactionItemInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RequestOptionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprTransactionItemResultInfo-dictionary.xml</inputFile>
-<!--                                Hold         -->
+                                <!-- Hold -->        
                                 <inputFile>ks-HoldInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-IssueInfo-dictionary.xml</inputFile>
-<!--                                LUI                 -->
+                                <!-- LUI -->                
                                 <inputFile>ks-LuiInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiIdentifierInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuCodeInfo-dictionary.xml</inputFile>
@@ -161,16 +156,14 @@
                                 <inputFile>ks-MeetingScheduleInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiLuiRelationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiCapacityInfo-dictionary.xml</inputFile>
-<!--                                Course Offering      -->
+                                <!-- Course Offering -->      
                                 <inputFile>ks-CourseOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-CourseWaitlistEntryInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-FormatOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-OfferingInstructorInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegistrationGroupInfo-dictionary.xml</inputFile>
-<!--                                <inputFile>ks-RegistrationGroupTemplateInfo-dictionary.xml</inputFile>-->
                                 <inputFile>ks-SeatPoolDefinitionInfo-dictionary.xml</inputFile>
-<!--                                 Course registration -->
+                                <!-- Course Registration  -->
                                 <inputFile>ks-CourseRegistrationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityRegistrationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegGroupRegistrationInfo-dictionary.xml</inputFile>
@@ -178,80 +171,44 @@
                                 <inputFile>ks-RegRequestItemInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegResponseInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegResponseItemInfo-dictionary.xml</inputFile>
-<!--                                 Exemption -->
+                                <!-- Exemption -->
                                 <inputFile>ks-ExemptionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ExemptionRequestInfo-dictionary.xml</inputFile>
-<!--                                 Grading -->
+                                <!-- Grading -->
                                 <inputFile>ks-GradeRosterInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-GradeRosterEntryInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-GradeValuesGroupInfo-dictionary.xml</inputFile>
-<!--                                 LRR -->
+                                <!-- LRR -->
                                 <inputFile>ks-LearningResultRecordInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ResultSourceInfo-dictionary.xml</inputFile>
-<!--                                 LRC -->
+                                <!-- LRC -->
                                 <inputFile>ks-ResultValuesGroupInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ResultValueInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-ResultScaleInfo-dictionary.xml</inputFile>      
-                                <!-- Course -->
-                                <inputFile>ks-CourseInfo-dictionary.xml</inputFile>  
-                                <inputFile>ks-CourseJointInfo-dictionary.xml</inputFile>  
-                                <inputFile>ks-CourseCrossListingInfo-dictionary.xml</inputFile>  
-                                <inputFile>ks-CourseVariationInfo-dictionary.xml</inputFile>  
-                                <inputFile>ks-CluInstructorInfo-dictionary.xml</inputFile>   
-                                <inputFile>ks-CourseFeeInfo-dictionary.xml</inputFile>      
-                                <inputFile>ks-CurrencyAmountInfo-dictionary.xml</inputFile>   
-                                <inputFile>ks-CourseRevenueInfo-dictionary.xml</inputFile>   
-                                <inputFile>ks-CourseExpenditureInfo-dictionary.xml</inputFile>  
-                                <inputFile>ks-FormatInfo-dictionary.xml</inputFile>  
-                                <inputFile>ks-ActivityInfo-dictionary.xml</inputFile>  
-                                <inputFile>ks-LoDisplayInfo-dictionary.xml</inputFile>   
-                                <inputFile>ks-LoCategoryInfo-dictionary.xml</inputFile> 
-<!--                                 Program 
-                                <inputFile>ks-CoreProgramInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-CredentialProgramInfo-dictionary.xml</inputFile> 
-                                <inputFile>ks-HonorsProgramInfo-dictionary.xml</inputFile>  
-                                <inputFile>ks-MajorDisciplineInfo-dictionary.xml</inputFile>  
-                                <inputFile>ks-MinorDisciplineInfo-dictionary.xml</inputFile> 
-                                <className>ks-AccreditationInfo-dictionary.xml</className>  
-                                <inputFile>ks-ProgramRequirementInfo-dictionary.xml</inputFile>   
-                                <className>ks-StatementTreeViewInfo-dictionary.xml</className>   
-                                <inputFile>ks-ReqComponentInfo-dictionary.xml</inputFile>   
-                                <inputFile>ks-ReqCompFieldInfo-dictionary.xml</inputFile>  
-                                <inputFile>ks-ProgramVariationInfo-dictionary.xml</inputFile> 
-                                 Type 
-                                <inputFile>ks-TypeInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-TypeTypeRelationInfo-dictionary.xml</inputFile>
-                                 State 
-                                <inputFile>ks-StateInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-LifecycleInfo-dictionary.xml</inputFile>  -->
+                                <inputFile>ks-ResultScaleInfo-dictionary.xml</inputFile>
                             </inputFiles>
-                        </configuration>
+                        </configuration>                                    
                     </execution>
                     <!-- This generates the the ks-xxxx-generated.xml files in target/classes -->
                     <execution>
                         <id>generate-dictionary-files</id>
                         <phase>${ks.dictionarycreate.phase}</phase>
                         <goals>
-                            <goal>ksdictionarycreator</goal>
+                            <goal>ksdictionarycreator</goal>                            
                         </goals>
                         <configuration>
                             <writeManual>true</writeManual>
                             <classNames>
 <!--                                 Atp -->
-                                <className>AtpInfo</className>
-                                <className>MilestoneInfo</className>
-                                <className>AtpAtpRelationInfo</className>
+                                <className>AtpInfo</className>                    
+                                <className>MilestoneInfo</className>                                    
+                                <className>AtpAtpRelationInfo</className>  
 <!--                                 Acal -->
                                 <className>AcademicCalendarInfo</className>
-                                <className>AcalEventInfo</className>
+                                <className>AcalEventInfo</className>                                  
                                 <className>HolidayCalendarInfo</className>
                                 <className>HolidayInfo</className>
-                                <className>TermInfo</className>
-                                <className>KeyDateInfo</className>
-<!--                                 Appointment -->
-                                <className>AppointmentWindowInfo</className>
-                                <className>AppointmentSlotInfo</className>                                  
-                                <className>AppointmentInfo</className>                      
+                                <className>TermInfo</className>    
+                                <className>KeyDateInfo</className>                           
 <!--                                LPR -->
                                 <className>LuiPersonRelationInfo</className>
                                 <className>LprRosterInfo</className>
@@ -259,7 +216,7 @@
                                 <className>LprTransactionInfo</className>
                                 <className>LprTransactionItemInfo</className>
                                 <className>RequestOptionInfo</className>
-                                <className>LprTransactionItemResultInfo</className>
+                                <className>LprTransactionItemResultInfo</className>                           
 <!--                                Hold         -->
                                 <className>HoldInfo</className>
                                 <className>IssueInfo</className>
@@ -276,12 +233,10 @@
                                 <className>LuiCapacityInfo</className>
 <!--                                Course Offering      -->
                                 <className>CourseOfferingInfo</className>
-                                <className>FormatOfferingInfo</className>
                                 <className>CourseWaitlistEntryInfo</className>
                                 <className>OfferingInstructorInfo</className>
                                 <className>ActivityOfferingInfo</className>
                                 <className>RegistrationGroupInfo</className>
-<!--                                <className>RegistrationGroupTemplateInfo</className>-->
                                 <className>SeatPoolDefinitionInfo</className>
                                 <!-- Course registration -->
                                 <className>CourseRegistrationInfo</className>
@@ -292,63 +247,46 @@
                                 <className>RegResponseInfo</className>
                                 <className>RegResponseItemInfo</className>
                                 <!-- Exemption -->
-<!--                                <className>ExemptionInfo</className>
-                                <className>ExemptionRequestInfo</className>-->
+                                <className>ExemptionInfo</className>
+                                <className>ExemptionRequestInfo</className>
                                 <!-- Grading -->
-<!--                                <className>GradeRosterInfo</className>
+                                <className>GradeRosterInfo</className>
                                 <className>GradeRosterEntryInfo</className>
-                                <className>GradeValuesGroupInfo</className>-->
+                                <className>GradeValuesGroupInfo</className>
                                 <!-- LRR -->
-<!--                                <className>LearningResultRecordInfo</className>
-                                <className>ResultSourceInfo</className>-->
+                                <className>LearningResultRecordInfo</className>
+                                <className>ResultSourceInfo</className>
                                 <!-- LRC -->
-<!--                                <className>ResultValuesGroupInfo</className>
+                                <className>ResultValuesGroupInfo</className>
                                 <className>ResultValueInfo</className>
-                                <className>ResultScaleInfo</className>      -->
-                                <!-- Course -->
-<!--                                <className>CourseInfo</className>
-                                <className>FormatInfo</className>
-                                <className>ActivityInfo</className>
-                                <className>LoDisplayInfo</className>
-                                <className>CourseJointInfo</className>
-                                <className>CourseCrossListingInfo</className>  
-                                <className>CourseVariationInfo</className>  
-                                <className>CluInstructorInfo</className>   
-                                <className>CourseFeeInfo</className>      
-                                <className>CurrencyAmountInfo</className>   
-                                <className>CourseRevenueInfo</className>   
-                                <className>CourseExpenditureInfo</className>  
+                                <className>ResultScaleInfo</className>      
+                                <!-- Course --> 
+                                <className>CourseInfo</className>  
                                 <className>FormatInfo</className>  
                                 <className>ActivityInfo</className>  
-                                <className>LoDisplayInfo</className>   
-                                <className>LoCategoryInfo</className> -->
+                                <className>LoDisplayInfo</className> 
                                 <!-- Program -->
-<!--                                <className>CoreProgramInfo</className>
-                                <className>CredentialProgramInfo</className>
+                                <className>CoreProgramInfo</className>
+                                <className>CredentialProgramInfo</className> 
                                 <className>HonorsProgramInfo</className>  
-                                <className>MajorDisciplineInfo</className> 
-                                <className>MinorDisciplineInfo</className>   
-                                <className>AccreditationInfo</className>  
+                                <className>MajorDisciplineInfo</className>  
                                 <className>ProgramRequirementInfo</className>  
-                                <className>StatementTreeViewInfo</className>   
-                                <className>ReqComponentInfo</className>   
-                                <className>ReqCompFieldInfo</className>   
-                                <className>ProgramVariationInfo</className> -->
+                                <className>ProgramVariationInfo</className> 
                                 <!-- Type -->
-<!--                                <className>TypeInfo</className>
-                                <className>TypeTypeRelationInfo</className>-->
+                                <className>TypeInfo</className>
+                                <className>TypeTypeRelationInfo</className>
                                 <!-- State -->
-<!--                                <className>StateInfo</className>
-                                <className>LifecycleInfo</className>                              -->
+                                <className>StateInfo</className>
+                                <className>LifecycleInfo</className>                              
                             </classNames>                     
                         </configuration>
-                    </execution>
+                    </execution>                  
                 </executions>
                 <configuration>
                     <!-- this defines that location of the source code used for all contract docs executions -->
                     <sourceDirs>
                         <sourceDir>${project.basedir}/src/main/java</sourceDir>
-                    </sourceDirs>
+                    </sourceDirs>                    
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -361,7 +299,7 @@
                                 <artifactId>spring-security-cas-client</artifactId>
                             </exclusion>
                         </exclusions>
-                    </dependency>
+                    </dependency>                            
                 </dependencies>
             </plugin>
             <plugin>
@@ -386,18 +324,6 @@
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
                             <className>org.kuali.student.enrollment.academicrecord.service.AcademicRecordService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>appointmentService-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.appointment.service.AppointmentService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -552,6 +478,18 @@
                         </goals>
                     </execution>
                     <execution>
+                        <id>luService-wsdl</id>
+                        <phase>${ks.java2ws.phase}</phase>
+                        <configuration>
+                            <className>org.kuali.student.r2.lum.lu.service.LuService</className>
+                            <genWsdl>true</genWsdl>
+                            <verbose>true</verbose>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>luiService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
@@ -603,7 +541,7 @@
                         <id>processService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.r2.core.process.service.ProcessService</className>
+                            <className>org.kuali.student.r2.core.class1.process.service.ProcessService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -635,18 +573,6 @@
                             <goal>java2ws</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>schedulingService-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.r2.core.scheduling.service.SchedulingService</className>
-                            <genWsdl>true</genWsdl>
-                            <verbose>true</verbose>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution> 
                     <execution>
                         <id>searchService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>

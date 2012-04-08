@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.kuali.student.enrollment.classI.lrr.mock.LRRServiceMockImpl;
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.dto.ResultSourceInfo;
-import org.kuali.student.test.utilities.TestHelper;
+import org.kuali.student.mock.utilities.TestHelper;
 
 public class TestLRRServiceConformance {
 

@@ -84,10 +84,6 @@
         ID="RICHTEXT-TRT-8" PLAIN="Desc term rich text 8" VER_NBR="0"/>
     <KSEN_RICH_TEXT_T FORMATTED="&lt;p>Desc term rich text 9&lt;/p>"
         ID="RICHTEXT-TRT-9" PLAIN="Desc term rich text 9" VER_NBR="0"/>
-    <KSEN_RICH_TEXT_T FORMATTED="&lt;p>2012 Labor Day&lt;/p>"
-        ID="RICHTEXT-hc-1" PLAIN="2012 Labor Day" VER_NBR="0"/>
-    <KSEN_RICH_TEXT_T FORMATTED="&lt;p>2012 Fall Break&lt;/p>"
-        ID="RICHTEXT-hc-2" PLAIN="2012 Fall Break" VER_NBR="0"/>
     <KSEN_RICH_TEXT_T FORMATTED="&lt;p>Not yet ready&lt;/p>"
         ID="ResultSource1" PLAIN="NA" VER_NBR="0"/>
     <KSEN_RICH_TEXT_T FORMATTED="&lt;p>2011 Spring Term&lt;/p>"
