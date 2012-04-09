@@ -39,7 +39,7 @@
     </property>
      <property name="items">
        <list>
-         <bean parent="Uif-InputField" p:propertyName="termType" p:label="Term" p:required="true" p:render="@{#isAddLine}">
+         <bean parent="Uif-InputField" p:propertyName="termType" p:label="Term Type" p:required="true" p:render="@{#isAddLine}">
              <property name="control">
                 <bean parent="Uif-DropdownControl"/>
              </property>
