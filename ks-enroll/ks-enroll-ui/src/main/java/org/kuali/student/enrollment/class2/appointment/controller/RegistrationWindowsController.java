@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.appointment.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
@@ -12,12 +13,12 @@ import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrap
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
+import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
-import org.kuali.student.mock.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,7 +43,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/registrationWindows")
 public class RegistrationWindowsController extends UifControllerBase {
-    
+
     private AcademicCalendarService acalService;
 
     private AppointmentService appointmentService;
@@ -51,6 +52,28 @@ public class RegistrationWindowsController extends UifControllerBase {
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new RegistrationWindowsManagementForm();
+    }
+
+    @Override
+    public ModelAndView deleteLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+
+        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
+
+        //Get the index of the selected line that is to be deleted
+        int selectedLineIndex = -1;
+        String selectedLine = uifForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        //Add the window id to the list of ids to be deleted
+        if(selectedLineIndex>=0){
+            AppointmentWindowWrapper window = theForm.getAppointmentWindows().get(selectedLineIndex);
+            if(window.getAppointmentWindowInfo().getId() != null){
+                theForm.getAppointmentWindowIdsToDelete().add(window.getAppointmentWindowInfo().getId());
+            }
+        }
+        return super.deleteLine(uifForm, result, request, response);
     }
 
     @Override
@@ -77,7 +100,7 @@ public class RegistrationWindowsController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=searchForTerm")
     public ModelAndView searchForTerm(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm searchForm, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         String termType = searchForm.getTermType();
         String termYear = searchForm.getTermYear();
 
@@ -89,6 +112,12 @@ public class RegistrationWindowsController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        //Delete anything that needs to be deleted
+        for(String windowId:form.getAppointmentWindowIdsToDelete()){
+            getAppointmentService().deleteAppointmentWindow(windowId, new ContextInfo());
+        }
+        form.getAppointmentWindowIdsToDelete().clear();
 
         //Loop through the form's appointment windows and create/update them using the appointmentService
         if(form.getAppointmentWindows()!=null){
@@ -143,6 +172,10 @@ public class RegistrationWindowsController extends UifControllerBase {
 
     //Copied from AcademicCalendarViewHelperServiceImpl //TODO(should be moved into common util class)
     private Date _updateTime(Date date,String time,String amPm){
+
+        if(date == null || time == null || amPm == null){
+            return null;
+        }
 
         //FIXME: Use Joda DateTime
 
@@ -215,7 +248,7 @@ public class RegistrationWindowsController extends UifControllerBase {
             }
             form.setPeriodInfoDetails(periodInfoDetails);
         }
-        return getUIFModelAndView(form);    
+        return getUIFModelAndView(form);
     }
 
     private AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm){

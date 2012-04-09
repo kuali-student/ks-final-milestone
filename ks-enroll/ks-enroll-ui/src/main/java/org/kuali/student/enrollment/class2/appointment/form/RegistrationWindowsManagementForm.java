@@ -19,6 +19,9 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
     private String periodInfoDetails;
     private List<KeyDateInfo> periodMilestones;
     private List<AppointmentWindowWrapper> appointmentWindows;
+
+    private List<String> appointmentWindowIdsToDelete;
+
 //    private Map<String, List<AppointmentWindowInfo>> periodAndWindowsMap;
 
     public RegistrationWindowsManagementForm(){
@@ -26,6 +29,7 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
         periodInfoDetails = new String();
         periodMilestones = new ArrayList<KeyDateInfo>();
         appointmentWindows = new ArrayList<AppointmentWindowWrapper>();
+        appointmentWindowIdsToDelete = new ArrayList<String>();
 //        periodAndWindowsMap = new HashMap<String, List<AppointmentWindowInfo>>();
     }
 
@@ -91,5 +95,13 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
 
     public void setAppointmentWindows(List<AppointmentWindowWrapper> appointmentWindows){
         this.appointmentWindows = appointmentWindows;
+    }
+
+    public List<String> getAppointmentWindowIdsToDelete() {
+        return appointmentWindowIdsToDelete;
+    }
+
+    public void setAppointmentWindowIdsToDelete(List<String> appointmentWindowIdsToDelete) {
+        this.appointmentWindowIdsToDelete = appointmentWindowIdsToDelete;
     }
 }
