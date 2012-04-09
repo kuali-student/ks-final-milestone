@@ -5,38 +5,28 @@
 package org.kuali.student.r2.core.class1.process;
 
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.jws.WebParam;
-
+import org.kuali.rice.core.api.criteria.AndPredicate;
+import org.kuali.rice.core.api.criteria.LikePredicate;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
+import javax.jws.WebParam;
+import java.util.*;
+
 public class ProcessPocPopulationServiceMockImpl implements PopulationService {
 
     private static Map<String, PopulationInfo> populations;
     private static Map<String, Set<String>> caches;
+    private List<PopulationInfo> populationInfos;
 
     public ProcessPocPopulationServiceMockImpl() {
         initialize();
@@ -49,14 +39,41 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService {
 
             final String ALL_STUDENTS = PopulationServiceConstants.EVERYONE_POPULATION_KEY;
             final String SUMMER_ONLY_STUDENTS = PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY;
+            final String SENIOR_ONLY_STUDENTS = "kuali.population.senior.only.student";
+            final String ATHLETES_ONLY_STUDENTS = "kuali.population.athletes.only.student";
 
             PopulationInfo allStudentsPopulation = new PopulationInfo();
             allStudentsPopulation.setKey(ALL_STUDENTS);
+            allStudentsPopulation.setName("All students");
+            RichTextInfo allStudDesc = new RichTextInfo();
+            allStudDesc.setPlain("All students population");
+            allStudentsPopulation.setDescr(allStudDesc);
             createPopulation(allStudentsPopulation, new ContextInfo());
 
             PopulationInfo summerOnlyStudentsPopulation = new PopulationInfo();
             summerOnlyStudentsPopulation.setKey(SUMMER_ONLY_STUDENTS);
+            summerOnlyStudentsPopulation.setName("Summer only students");
+            RichTextInfo summerDesc = new RichTextInfo();
+            summerDesc.setPlain("Summer only students population");
+            summerOnlyStudentsPopulation.setDescr(summerDesc);
             createPopulation(summerOnlyStudentsPopulation, new ContextInfo());
+
+            PopulationInfo seniorsOnlyStudentsPopulation = new PopulationInfo();
+            seniorsOnlyStudentsPopulation.setKey(SENIOR_ONLY_STUDENTS);
+            seniorsOnlyStudentsPopulation.setName("Senior students");
+            RichTextInfo seniorsDesc = new RichTextInfo();
+            seniorsDesc.setPlain("Senior only students");
+            seniorsOnlyStudentsPopulation.setDescr(seniorsDesc);
+            createPopulation(seniorsOnlyStudentsPopulation, new ContextInfo());
+
+            PopulationInfo athletesOnlyStudentsPopulation = new PopulationInfo();
+            athletesOnlyStudentsPopulation.setKey(ATHLETES_ONLY_STUDENTS);
+            athletesOnlyStudentsPopulation.setName("Athletes only students");
+            RichTextInfo athletesDesc = new RichTextInfo();
+            athletesDesc.setPlain("Athletes students population");
+            athletesOnlyStudentsPopulation.setDescr(athletesDesc);
+            createPopulation(athletesOnlyStudentsPopulation, new ContextInfo());
+
 
             caches.get(SUMMER_ONLY_STUDENTS).add("2155");
 
@@ -151,7 +168,30 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService {
 
     @Override
     public List<PopulationInfo> searchForPopulations(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
+        //throw new OperationFailedException("Method not implemented.");
+        String name="",desc="";
+        if(criteria == null){
+            throw new MissingParameterException("SearchCriteria is null");
+        }
+        AndPredicate predicate = (AndPredicate)criteria.getPredicate();
+        Set<Predicate> predicates = predicate.getPredicates();
+        for(Predicate simplePredicate:predicates){
+            if(((LikePredicate)simplePredicate).getPropertyPath().equalsIgnoreCase("name")){
+                name = ((LikePredicate)simplePredicate).getValue().getValue().toString();
+            } else{
+                desc = ((LikePredicate)simplePredicate).getValue().getValue().toString();
+            }
+        }
+        List<PopulationInfo> populationInfos = new ArrayList<PopulationInfo>();
+        for(String key:populations.keySet()){
+            if(key!=null){
+                PopulationInfo populationInfo = populations.get(key);
+                if(populationInfo.getName().toLowerCase().indexOf(name.toLowerCase())>=0 && populationInfo.getDescr().getPlain().toLowerCase().indexOf(desc.toLowerCase())>=0){
+                    populationInfos.add(populationInfo);
+                }
+            }
+        }
+        return populationInfos;
     }
 
     @Override
@@ -250,5 +290,5 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService {
         throw new OperationFailedException("Method not implemented.");
     }
 
-   
+
 }

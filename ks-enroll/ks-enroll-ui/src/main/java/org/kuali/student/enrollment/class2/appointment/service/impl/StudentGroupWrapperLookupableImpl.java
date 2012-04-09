@@ -16,13 +16,24 @@
  */
 package org.kuali.student.enrollment.class2.appointment.service.impl;
 
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.population.dto.PopulationInfo;
+import org.kuali.student.r2.core.population.service.PopulationService;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
 /**
  * This class //TODO ...
@@ -30,23 +41,60 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
-
+    private transient PopulationService populationService;
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<StudentGroupWrapper> results = new ArrayList<StudentGroupWrapper>();
+        ContextInfo context = new ContextInfo();
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> pList = new ArrayList<Predicate>();
+        Predicate p;
 
-        StudentGroupWrapper sg1 = new StudentGroupWrapper();
-        sg1.setDescription("Desc1");
-        sg1.setName("Athletes");
-        sg1.setId("Id1");
-        results.add(sg1);
+        qBuilder.setPredicates();
+        for(String key : fieldValues.keySet()){
+            if(key.equalsIgnoreCase("name")){
+                Predicate grpName = like(key,fieldValues.get(key));
+                pList.add(grpName);
+            } else{
+                Predicate words = like(key,fieldValues.get(key));
+                pList.add(words);
+            }
+        }
+        if (!pList.isEmpty()){
+            Predicate[] preds = new Predicate[pList.size()];
+            pList.toArray(preds);
+            qBuilder.setPredicates(and(preds));
+        }
 
-        StudentGroupWrapper sg2 = new StudentGroupWrapper();
-        sg2.setDescription("Desc2");
-        sg2.setName("Seniors");
-        sg2.setId("Id2");
-        results.add(sg2);
-
+        try {
+            java.util.List<PopulationInfo> populationInfos = getPopulationService().searchForPopulations(qBuilder.build(), context);
+            if(populationInfos.isEmpty()){
+                int i = 1;
+                for(PopulationInfo populationInfo:populationInfos){
+                    StudentGroupWrapper studentGroupWrapper = new StudentGroupWrapper();
+                    studentGroupWrapper.setId("id" + i); i++;
+                    studentGroupWrapper.setName(populationInfo.getName());
+                    studentGroupWrapper.setDescription(populationInfo.getDescr().getPlain());
+                    results.add(studentGroupWrapper);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         return results;
+    }
+
+    protected PopulationService getPopulationService() {
+        if(populationService == null) {
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"population", "PopulationService"));
+
+        }
+        return populationService;
+    }
+
+    public static void main(String[] args){
+        StudentGroupWrapperLookupableImpl studentWrapper = new StudentGroupWrapperLookupableImpl();
+        studentWrapper.getPopulationService();
+
     }
 }
