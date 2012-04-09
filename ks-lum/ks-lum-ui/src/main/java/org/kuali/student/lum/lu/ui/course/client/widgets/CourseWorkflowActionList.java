@@ -353,7 +353,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 			public void onClick(ClickEvent event) {
 				if (radioOptionAdminRetire.getValue()){
 					viewContext.setId((String)model.get(CreditCourseConstants.ID));
-					viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+					viewContext.setIdType(IdType.OBJECT_ID);
 					Application.navigate(AppLocations.Locations.COURSE_RETIRE.getLocation(), viewContext);
 				} else if (radioOptionRetireByProposal.getValue()){
 					 checkLatestVersionRetire(viewContext, retirePath, model);										    			    
