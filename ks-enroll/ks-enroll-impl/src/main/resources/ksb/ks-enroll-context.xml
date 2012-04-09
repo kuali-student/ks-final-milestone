@@ -163,6 +163,22 @@
     </property>
   </bean>
 
+    <bean id="populationService" class="org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl">
+    </bean>
+
+    <bean id="ks.exp.populationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="populationService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.population.service.PopulationService" />
+                <property name="localServiceName" value="PopulationService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/population" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
 
