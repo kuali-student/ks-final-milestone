@@ -181,7 +181,8 @@ public class CluAssemblerUtils {
             for (CluLoRelationInfo cluLoRelation : cluLoRelations) {
                 String loId = cluLoRelation.getLoId();
                 LoInfo lo = loService.getLo(loId, contextInfo);
-                // TODO KSCM-421 loInfos.add(loAssembler.assemble(R1R2ConverterUtil.convert(lo, org.kuali.student.r1.lum.lo.dto.LoInfo.class), null, shallowBuild, contextInfo));
+                org.kuali.student.r1.lum.course.dto.LoDisplayInfo loDisplayInfoTemp = loAssembler.assemble(R1R2ConverterUtil.convert(lo, org.kuali.student.r1.lum.lo.dto.LoInfo.class), null, shallowBuild, contextInfo);
+                loInfos.add(R1R2ConverterUtil.convert(loDisplayInfoTemp, LoDisplayInfo.class));
             }
         } catch (Exception e) {
             throw new AssemblyException("Error getting learning objectives", e);
