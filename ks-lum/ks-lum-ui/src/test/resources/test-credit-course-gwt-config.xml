@@ -122,7 +122,7 @@
 	</bean>
 
 	<!-- Filter manager that targets the credit course proposal assembler -->
-	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.common.assembly.old.AssemblerFilterManager">
+	<bean id="creditCourseProposalAssemblerFilterManager" class="org.kuali.student.r1.common.assembly.old.AssemblerFilterManager">
 		<constructor-arg ref="creditCourseProposalAssembler"/>
 		<property name="filters">
 			<list>
@@ -145,7 +145,7 @@
 		<property name="assembler" ref="courseAssemblerFilterManager"/>
 	</bean>
 
-	<bean id="courseAssemblerFilterManager" class="org.kuali.student.common.assembly.old.AssemblerFilterManager">
+	<bean id="courseAssemblerFilterManager" class="org.kuali.student.r1.common.assembly.old.AssemblerFilterManager">
 		<constructor-arg ref="courseAssembler"/>
 	</bean>
 
@@ -257,7 +257,7 @@
 
 	<bean id="messageClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/MessageService?wsdl"/>
-		<property name="serviceEndpointInterface" value="org.kuali.student.common.messages.service.MessageService" />
+		<property name="serviceEndpointInterface" value="org.kuali.student.r1.common.messages.service.MessageService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/messages}MessageService" />
 	</bean>
 
