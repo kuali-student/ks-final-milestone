@@ -185,7 +185,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 		this.stateChangeService = stateChangeService;
 	}
 
-	public void seCluService(CluService cluService) {
+	public void setCluService(CluService cluService) {
 		this.cluService = cluService;
 	}
 }

@@ -272,7 +272,7 @@ public class CopyCourseServiceImpl {
 		this.courseService = courseService;
 	}
 
-	public void setLuService(CluService cluService) {
+	public void setCluService(CluService cluService) {
 		this.cluService = cluService;
 	}
 
