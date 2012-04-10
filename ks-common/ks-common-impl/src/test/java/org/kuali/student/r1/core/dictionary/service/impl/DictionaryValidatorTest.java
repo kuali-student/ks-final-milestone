@@ -20,58 +20,58 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.junit.Test;
-//import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
-//import org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl;
-//import org.kuali.student.common.dictionary.service.old.DictionaryService;
-//import org.kuali.student.common.validation.dto.ValidationResultInfo;
-//import org.kuali.student.common.validator.old.ServerDateParser;
-//import org.kuali.student.common.validator.old.Validator;
+import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl;
+import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validator.old.ServerDateParser;
+import org.kuali.student.r1.common.validator.old.Validator;
 
 // TODO KSCM-428 
 public class DictionaryValidatorTest {
-//
-//	DictionaryService sampleDict = new DictionaryServiceSpringImpl("classpath:mockaddr-dictionary-config.xml");
-//
-//	Validator val = null;
-//	
-//	public DictionaryValidatorTest() {
-//		val = new Validator();
-//		val.setDateParser(new ServerDateParser());
-//		val.setMessageService(null);
-//	}
-//	
-//    @Test
-//    public void testRequiredValidation() {
-//    	MockDictAddress addr1 = buildAddress1();
-//
-//    	ObjectStructure o = sampleDict.getObjectStructure("MockAddrInfo");
-//    	    	
-//    	List<ValidationResultInfo> results = val.validateTypeStateObject(addr1, o);    
-//    	assertEquals(results.size(), 4);
-//
-//    	assertEquals(results.get(2).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
-//    	assertEquals(results.get(2).getMessage(), "validation.required");
-//    }
-//    
-//    
-//    private MockDictAddress buildAddress1() {
-//    	MockDictAddress addr = new MockDictAddress();
-//    
-//    	addr.setId("Addr1");
-//    	addr.setType("homeaddr");
-//    	addr.setState("submitted");    	
-//    	addr.setPostalCode("wrong");
-//    	return addr;
-//    }
-//    
-//    private MockDictAddress buildAddress2() {
-//    	MockDictAddress addr = new MockDictAddress();
-//    	addr.setId("addr2");
-//    	addr.setType("homeaddr");
-//    	addr.setState("submitted");
-//    	addr.setLine1("line1");
-//    	return addr;
-//    }
-//    
-//    
+
+	DictionaryService sampleDict = new DictionaryServiceSpringImpl("classpath:mockaddr-dictionary-config.xml");
+
+	Validator val = null;
+	
+	public DictionaryValidatorTest() {
+		val = new Validator();
+		val.setDateParser(new ServerDateParser());
+		val.setMessageService(null);
+	}
+	
+    @Test
+    public void testRequiredValidation() {
+    	MockDictAddress addr1 = buildAddress1();
+
+    	ObjectStructure o = sampleDict.getObjectStructure("MockAddrInfo");
+    	    	
+    	List<ValidationResultInfo> results = val.validateTypeStateObject(addr1, o);    
+    	assertEquals(results.size(), 4);
+
+    	assertEquals(results.get(2).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
+    	assertEquals(results.get(2).getMessage(), "validation.required");
+    }
+    
+    
+    private MockDictAddress buildAddress1() {
+    	MockDictAddress addr = new MockDictAddress();
+    
+    	addr.setId("Addr1");
+    	addr.setType("homeaddr");
+    	addr.setState("submitted");    	
+    	addr.setPostalCode("wrong");
+    	return addr;
+    }
+    
+    private MockDictAddress buildAddress2() {
+    	MockDictAddress addr = new MockDictAddress();
+    	addr.setId("addr2");
+    	addr.setType("homeaddr");
+    	addr.setState("submitted");
+    	addr.setLine1("line1");
+    	return addr;
+    }
+    
+    
 }
