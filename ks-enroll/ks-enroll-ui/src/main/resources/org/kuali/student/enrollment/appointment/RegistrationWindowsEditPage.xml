@@ -149,6 +149,7 @@
                     <property name="fieldLookup.fieldConversions">
                         <map>
                             <entry key="name" value="assignedPopulationName" />
+                            <entry key="id" value="appointmentWindowInfo.assignedPopulationId" />
                         </map>
                     </property>
                     <!--<property name="fieldSuggest.render" value="true" />-->

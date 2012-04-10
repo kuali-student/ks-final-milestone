@@ -137,7 +137,6 @@ public class RegistrationWindowsController extends UifControllerBase {
                 AppointmentWindowInfo appointmentWindowInfo = appointmentWindowWrapper.getAppointmentWindowInfo();
                 appointmentWindowInfo.setTypeKey(appointmentWindowWrapper.getWindowTypeKey());
                 appointmentWindowInfo.setPeriodMilestoneId(appointmentWindowWrapper.getPeriodKey());
-                appointmentWindowInfo.setAssignedPopulationId(appointmentWindowWrapper.getAssignedPopulationName());//TODO, should this be ID or name?
                 appointmentWindowInfo.setStartDate(_updateTime(appointmentWindowWrapper.getStartDate(), appointmentWindowWrapper.getStartTime(), appointmentWindowWrapper.getStartTimeAmPm()));
                 appointmentWindowInfo.setEndDate(_updateTime(appointmentWindowWrapper.getEndDate(), appointmentWindowWrapper.getEndTime(), appointmentWindowWrapper.getEndTimeAmPm()));
 
