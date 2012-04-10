@@ -57,7 +57,7 @@ public class CoreCredentialProgramFilter extends AbstractDataFilter {
         }
     }
 
-    public void setLuService(CluService cluService) {
+    public void setCluService(CluService cluService) {
         this.cluService = cluService;
     }
 
