@@ -391,6 +391,7 @@ public class AppointmentWindowEntity extends MetaEntity {
         info.setAssignedPopulationId(getAssignedPopulationId());
         info.setAssignedOrderTypeKey(getAssignedOrderType());
         info.setMaxAppointmentsPerSlot(getMaxAppointmentsPerSlot()); // could be null
+        info.setName(getName());
         // -------------------------------------------------
         // Stuff that is updated for nearly all entities
         info.setId(getId());

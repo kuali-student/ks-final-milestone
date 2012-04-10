@@ -29,9 +29,13 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
+import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
@@ -88,13 +92,23 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         //Get the milestones and filter out anything that is not registration period
         List<KeyDateInfo> keyDates = academicCalendarService.getKeyDatesForTerm(term.getId(), null);
         if(keyDates != null){
+
+            //Get the valid period types
+            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydate","kuali.type.type.relation.type.group",new ContextInfo());
+            List<String> validMilestoneTypes = new ArrayList<String>();
+            for(TypeTypeRelationInfo milestoneTypeRelation:milestoneTypeRelations){
+                validMilestoneTypes.add(milestoneTypeRelation.getRelatedTypeKey());
+            }
+
+            //Add in only valid milestones that are registration periods
             List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
             for(KeyDateInfo keyDate:keyDates){
-                if(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDate.getTypeKey())){//TODO  what types do we filter on?
+                if(validMilestoneTypes.contains(keyDate.getTypeKey())){
                     periodMilestones.add(keyDate);
                 }
             }
             form.setPeriodMilestones(periodMilestones);
+
         }
 
         //Check if there are no periods (might want to handle this somewhere else and surface to the user)
@@ -166,5 +180,9 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
     public AcademicCalendarService getAcalService() {
         return (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+    }
+
+    public TypeService getTypeService() {
+        return (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeService.class.getSimpleName()));
     }
 }

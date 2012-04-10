@@ -43,7 +43,7 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
                 List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(term.getId(), context);
 
                 try{
-                    List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydateforapp","kuali.atp.atp.relation.associated",context);
+                    List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydate","kuali.type.type.relation.type.group",context);
                     for (KeyDateInfo keyDateInfo : keyDateInfoList) {
                          for (TypeTypeRelationInfo relationInfo : relations) {
                             String relatedTypeKey = relationInfo.getRelatedTypeKey();
