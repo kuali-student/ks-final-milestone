@@ -523,7 +523,7 @@ public interface ProgramService extends  SearchService ,  VersionManagementServi
      */
     public CoreProgramInfo createCoreProgram(@WebParam(name = "coreProgramTypeKey") String coreProgramTypeKey, @WebParam(name = "coreProgramInfo") CoreProgramInfo coreProgramInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
+            OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /**
      * Creates a new Core Program version based on the current Core Program

@@ -1184,7 +1184,7 @@ public class ProgramServiceImpl implements ProgramService{
         return status;
 	}
 
-    private CoreProgramInfo processCoreProgramInfo(CoreProgramInfo coreProgramInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
+    private CoreProgramInfo processCoreProgramInfo(CoreProgramInfo coreProgramInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
 
         BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results = coreProgramAssembler.disassemble(coreProgramInfo, operation, contextInfo);
         invokeServiceCalls(results);
@@ -1193,8 +1193,7 @@ public class ProgramServiceImpl implements ProgramService{
 
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CoreProgramInfo createCoreProgram(String coreProgramTypeKey, CoreProgramInfo coreProgramInfo,ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,            OperationFailedException, PermissionDeniedException
-    {
+	public CoreProgramInfo createCoreProgram(String coreProgramTypeKey, CoreProgramInfo coreProgramInfo,ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         checkForMissingParameter(coreProgramInfo, "CoreProgramInfo");
         
         // Validate
