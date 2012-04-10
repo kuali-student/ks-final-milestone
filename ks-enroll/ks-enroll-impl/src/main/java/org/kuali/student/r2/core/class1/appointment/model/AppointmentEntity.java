@@ -93,7 +93,7 @@ public class AppointmentEntity extends MetaEntity {
         return personId;
     }
 
-    public void setPersonId(String persId) {
+    public void setPersonId(String personId) {
         this.personId = personId;
     }
 
@@ -123,10 +123,17 @@ public class AppointmentEntity extends MetaEntity {
 
     public AppointmentInfo toDto() {
         AppointmentInfo appointmentInfo = new AppointmentInfo();
-        appointmentInfo.setPersonId(appointmentInfo.getPersonId());
+        appointmentInfo.setPersonId(this.getPersonId());
         appointmentInfo.setSlotId(this.getSlotEntity().getId());
         appointmentInfo.setEffectiveDate(this.getEffectiveDate());
         appointmentInfo.setExpirationDate(this.getExpirationDate());
+        // -------------------------------------------------
+        // Stuff that is updated for nearly all entities
+        appointmentInfo.setId(getId()); // id is assumed not null
+        appointmentInfo.setTypeKey(getApptType()); // type is assumed not null
+        appointmentInfo.setStateKey(getApptState()); // state is assumed not null
+        appointmentInfo.setMeta(super.toDTO());
+        // TODO: Attributes have not been implemented for Appointments since not needed right now.
         return appointmentInfo;
     }
 
@@ -134,6 +141,7 @@ public class AppointmentEntity extends MetaEntity {
         this.setApptState(appt.getStateKey());
         this.setApptType(appt.getTypeKey());
         this.setPersonId(appt.getPersonId());
+        //
         // Note: apptSlotEntity can't be set from appt which only contains the
         // id (which is a string) for AppointmentSlot.  When constructing an AppointmentEntity
         // in AppointmentServiceImpl, one needs to use the appointmentSlotDao to "find" (call the find

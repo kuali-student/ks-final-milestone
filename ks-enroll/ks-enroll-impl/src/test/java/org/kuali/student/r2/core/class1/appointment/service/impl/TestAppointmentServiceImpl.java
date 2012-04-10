@@ -84,7 +84,7 @@ public class TestAppointmentServiceImpl {
         // Uses rule from makeSlotRule
         apptWindowInfo.setSlotRule(rule);
         apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY);
-        apptWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ACTIVE_KEY);
+        apptWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
         //
         Date startDate = createDate(2012, 3, 5, 12, 0);
         Date endDate = createDate(2012, 3, 16, 14, 0);
@@ -106,7 +106,7 @@ public class TestAppointmentServiceImpl {
         // Uses rule from makeSlotRule
         apptWindowInfo.setSlotRule(rule);
         apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY);
-        apptWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ACTIVE_KEY);
+        apptWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
         //
         Date startDate = createDate(2012, 3, 5 + offset, 12, 0);
         Date endDate = createDate(2012, 3, 16 + offset, 14, 0);
@@ -247,7 +247,129 @@ public class TestAppointmentServiceImpl {
 //            assert(false);
 //        }
 //    }
-    
+    @Test
+    public void testDeleteAppointmentsByWindow() {
+        // One slot case--deletes only appointments, but not the slot.
+        before();
+        try {
+            // Set up the basics (window, slot, appts for the slot)
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+            // Now fetch the appointments by the slot
+            String slotId = slotInfoList.get(0).getId();
+            List<AppointmentInfo> apptList =
+                    appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            assert(apptList.size() > 0);
+            // And now delete the appointments, by window
+            appointmentService.deleteAppointmentsByWindow(windowInfo.getId(), contextInfo);
+            // Try fetching it again
+            apptList = appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            assertEquals(0, apptList.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+
+    @Test
+    public void testDeleteAppointmentsBySlot() {
+        // One slot case--deletes only appointments, but not the slot.
+        before();
+        try {
+            // Set up the basics (window, slot, appts for the slot)
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+            // Now fetch the appointments by the slot
+            String slotId = slotInfoList.get(0).getId();
+            List<AppointmentInfo> apptList =
+                    appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            assert(apptList.size() > 0);
+            // And now delete the appointments
+            appointmentService.deleteAppointmentsBySlot(slotId, contextInfo);
+            // Try fetching it again
+            apptList = appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            assertEquals(0, apptList.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+
+    @Test
+    public void testDeleteOneAppointmentById() {
+        before();
+        try {
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            AppointmentInfo info = new AppointmentInfo();
+            String slotId = slotInfoList.get(0).getId();
+            info.setSlotId(slotId);
+            String personId = UUIDHelper.genStringUUID();
+            info.setPersonId(personId);
+            info.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
+            info.setTypeKey(AppointmentServiceConstants.APPOINTMENT_TYPE_REGISTRATION);
+            AppointmentInfo createdApptInfo =
+                    appointmentService.createAppointment(info.getPersonId(), info.getSlotId(), AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY, info, contextInfo);
+            List<AppointmentInfo> apptList =
+                    appointmentService.getAppointmentsBySlot(slotInfoList.get(0).getId(), contextInfo);
+            assertEquals(1, apptList.size()); // should only get one appt back
+            assertEquals(slotId, apptList.get(0).getSlotId()); // check slot ID matches
+            assertEquals(personId, apptList.get(0).getPersonId());
+            appointmentService.deleteAppointment(createdApptInfo.getId(), contextInfo);
+            // now try to get the appointments by slot again
+            apptList = appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            assert(apptList.isEmpty()); // should be empty
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+
+    @Test
+    public void testDeleteAppointmentWindowWithAppts() {
+        // One slot case
+        before();
+        try {
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+            // Check slots/appts are being generated
+            // ...first fetch slots to make sure we can fetch
+            List<AppointmentSlotInfo> fetchedSlotInfoList =
+                    appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            assertEquals(1, fetchedSlotInfoList.size());
+            // ...then, check for appointments
+            AppointmentSlotInfo slotInfo = slotInfoList.get(0);
+            String slotId = slotInfo.getId();
+            List<AppointmentInfo> apptInfoList =
+                    appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            for (AppointmentInfo apptInfo: apptInfoList) {
+                assertEquals(apptInfo.getSlotId(), slotInfo.getId());
+            }
+            // Now delete the window
+            appointmentService.deleteAppointmentsByWindow(windowInfo.getId(), contextInfo);
+            // Verify there are no slots
+            List<AppointmentSlotInfo> fetchedSlots = appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            assert(fetchedSlots.isEmpty());
+            // Verify there are no appointments
+            List<AppointmentInfo> apptList = appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            assert(apptList.isEmpty());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+
     @Test
     public void testGenerateAppointmentsByWindow() {
         before();

@@ -163,8 +163,10 @@ public class AppointmentSlotEntity extends MetaEntity {
         slotInfo.setTypeKey(getApptSlotType()); // type is assumed not null
         slotInfo.setStateKey(getApptSlotState()); // state is assumed not null
         slotInfo.setMeta(super.toDTO());
-        for (AppointmentSlotAttributeEntity att : getAttributes()) {
-            slotInfo.getAttributes().add(att.toDto());
+        if (getAttributes() != null) {
+            for (AppointmentSlotAttributeEntity att : getAttributes()) {
+                slotInfo.getAttributes().add(att.toDto());
+            }
         }
         return slotInfo;
     }

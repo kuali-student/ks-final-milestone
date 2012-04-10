@@ -158,7 +158,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
                 if(appointmentWindowInfo.getId()==null||appointmentWindowInfo.getId().isEmpty()){
                     //Default the state to active
-                    appointmentWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
+                    appointmentWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
 
                     //Default the Weekdays to a value since the DB schema does not allow null values
                     appointmentWindowInfo.setSlotRule(new AppointmentSlotRuleInfo());
