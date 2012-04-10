@@ -83,7 +83,7 @@ public class CredentialProgramDataService extends AbstractDataService {
         this.programService = programService;
     }
 
-    public void setLuService(CluService cluService) {
+    public void setCluService(CluService cluService) {
         this.cluService = cluService;
     }
 

@@ -129,7 +129,7 @@ public class StatementDataService implements StatementRpcService{
         this.statementService = statementService;
     }
 
-    public void setLuService(CluService cluService) {
+    public void setCluService(CluService cluService) {
         this.cluService = cluService;
     }
 

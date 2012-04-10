@@ -287,7 +287,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
 
     }
     
-	public void setLuService(CluService cluService) {
+	public void setCluService(CluService cluService) {
 		this.cluService = cluService;
 	}	
 

@@ -260,7 +260,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
         this.proposalService = proposalService;
     }
     
-	public void setLuService(CluService cluService) {
+	public void setCluService(CluService cluService) {
 		this.cluService = cluService;
 	}
     
