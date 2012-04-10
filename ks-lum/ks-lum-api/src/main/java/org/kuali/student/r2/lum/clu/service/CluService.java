@@ -2063,7 +2063,7 @@ public interface CluService extends VersionManagementService ,SearchService {
             InvalidParameterException, MissingParameterException,
             OperationFailedException;
     @Deprecated
-    public CluSetInfo getCluSetInfo(String cluSetId)throws DoesNotExistException, InvalidParameterException,
+    public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo)throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException;
 }
