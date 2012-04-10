@@ -54,16 +54,16 @@ public class EnumeratedValueEntity extends MetaEntity{
     @JoinColumn(name = "ENUM_KEY")
     private EnumerationEntity enumeration;
 
-    @Column(name = "SORT_KEY")
-    private String sortKey;
+ // kscm-313@Column(name = "SORT_KEY")
+ // kscm-313private String sortKey;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EFF_DT")
-    private Date effectiveDate;
+ // kscm-313@Temporal(TemporalType.TIMESTAMP)
+ // kscm-313 @Column(name = "EFF_DT")
+ // kscm-313 private Date effectiveDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIR_DT")
-    private Date expirationDate;
+ // kscm-313 @Temporal(TemporalType.TIMESTAMP)
+ // kscm-313 @Column(name = "EXPIR_DT")
+ // kscm-313 private Date expirationDate;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "KSEM_CTX_JN_ENUM_VAL_T", joinColumns = @JoinColumn(name = "ENUM_VAL_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "CTX_ID", referencedColumnName = "ID"))
@@ -115,11 +115,12 @@ public class EnumeratedValueEntity extends MetaEntity{
     }
 
     public String getSortKey() {
-        return sortKey;
+     // kscm-313return sortKey;
+        return null;
     }
 
     public void setSortKey(String sortKey) {
-        this.sortKey = sortKey;
+     // kscm-313this.sortKey = sortKey;
     }
 
     public List<EnumContextValueEntity> getContextValueEntities() {
@@ -139,19 +140,21 @@ public class EnumeratedValueEntity extends MetaEntity{
     }
 
     public Date getEffectiveDate() {
-        return effectiveDate;
+     // kscm-313return effectiveDate;
+        return null;
     }
 
     public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
+     // kscm-313 this.effectiveDate = effectiveDate;
     }
 
     public Date getExpirationDate() {
-        return expirationDate;
+     // kscm-313  return expirationDate;
+        return null;
     }
 
     public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
+     // kscm-313 this.expirationDate = expirationDate;
     }
     
     public EnumeratedValueInfo toDto() {

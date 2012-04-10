@@ -1,12 +1,9 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the Educational Community
- * License, Version 2.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
- * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or
- * agreed to in writing, software distributed under the License is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Copyright 2010 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
 package org.kuali.student.r2.common.entity;
@@ -32,17 +29,17 @@ public abstract class MetaEntity extends BaseVersionEntity {
     // @Version
     // private long versionInd;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable = false)
-    private Date createTime;
+    // kscm-313@Temporal(TemporalType.TIMESTAMP)
+    // kscm-313@Column(updatable = false)
+ // kscm-313private Date createTime;
 
-    @Column(updatable = false)
-    private String createId;
+    // kscm-313 @Column(updatable = false)
+ // kscm-313private String createId;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateTime;
+    // kscm-313@Temporal(TemporalType.TIMESTAMP)
+ // kscm-313private Date updateTime;
 
-    private String updateId;
+ // kscm-313private String updateId;
 
     // public long getVersionInd() {
     // return versionInd;
@@ -72,35 +69,39 @@ public abstract class MetaEntity extends BaseVersionEntity {
     }
 
     public Date getCreateTime() {
-        return createTime;
+     // kscm-313return createTime;
+        return null;
     }
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+     // kscm-313this.createTime = createTime;
     }
 
     public String getCreateId() {
-        return createId;
+     // kscm-313return createId;
+        return null;
     }
 
     public void setCreateId(String createId) {
-        this.createId = createId;
+     // kscm-313this.createId = createId;
     }
 
     public Date getUpdateTime() {
-        return updateTime;
+     // kscm-313return updateTime;
+        return null;
     }
 
     public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+     // kscm-313this.updateTime = updateTime;
     }
 
     public String getUpdateId() {
-        return updateId;
+     // kscm-313return updateId;
+        return null;
     }
 
     public void setUpdateId(String updateId) {
-        this.updateId = updateId;
+     // kscm-313this.updateId = updateId;
     }
 
     @Override
