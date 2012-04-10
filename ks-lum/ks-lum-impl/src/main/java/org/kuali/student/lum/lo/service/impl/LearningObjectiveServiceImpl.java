@@ -602,11 +602,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         if (!String.valueOf(lo.getVersionNumber()).equals(loInfo.getMeta().getVersionInd())){
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
-        
-       //TODO KSCM-419 : lo = LearningObjectiveServiceAssembler.toLo(true, lo, loInfo, loDao);
+        lo = LearningObjectiveServiceAssembler.toLo(true, lo, R1R2ConverterUtil.convert(loInfo,org.kuali.student.r1.lum.lo.dto.LoInfo.class), loDao);
         loDao.update(lo);
-       //TODO KSCM-419 :return LearningObjectiveServiceAssembler.toLoInfo(lo);
-        return null;
+        return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoInfo(lo), LoInfo.class);
 	}
 
 	/* (non-Javadoc)

@@ -141,7 +141,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         // Detecting expected errors
         loInfo = new LoInfo();
         try {
-            client.createLo("kuali.lo.type.singleUse", "", loInfo, contextInfo);
+            client.createLo("", "kuali.lo.type.singleUse", loInfo, contextInfo);
             fail("MissingParameterException expected for loRepositoryId");
         } catch (MissingParameterException e) {}
         try {
@@ -236,7 +236,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         loInfo.setName("Lo with Empty Desc");
         RichTextInfo richText = new RichTextInfo();
         richText.setFormatted("<p>new Desc </p>");
-        richText.setPlain("New Desc");
+        richText.setPlain(" ");
         loInfo.setDescr(richText);
         Date date = new Date();
         loInfo.setEffectiveDate(date);
