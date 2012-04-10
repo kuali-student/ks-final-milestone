@@ -22,20 +22,19 @@ import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.dto.AmountInfo;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramAtpAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramBasicOrgAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramCodeAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramFullOrgAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramIdentifierAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramPublicationAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramRequirementAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.*;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
+
+import java.util.List;
+
 /**
  * @author KS
  *
@@ -50,7 +49,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 
 
     @Override
-    public ProgramVariationInfo assemble(CluInfo baseDTO, ProgramVariationInfo businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
+    public ProgramVariationInfo assemble(CluInfo baseDTO, ProgramVariationInfo businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException {
 
         ProgramVariationInfo pvInfo = (null != businessDTO) ? businessDTO : new ProgramVariationInfo();
 
@@ -61,17 +60,12 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.assembleFullOrgs(baseDTO, (ProgramFullOrgAssembly) pvInfo);
         programAssemblerUtils.assembleAtps(baseDTO, (ProgramAtpAssembly) pvInfo);
         programAssemblerUtils.assembleLuCodes(baseDTO, (ProgramCodeAssembly) pvInfo);
-        try {
-			programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) pvInfo, contextInfo);
-		} catch (PermissionDeniedException e) {
-			// // TODO KSCM-421 could not add this to BoAssembler interface, since it is r2 exception and not a R1
-			e.printStackTrace();
-		}
+        programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) pvInfo, contextInfo);
         
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) pvInfo, contextInfo);
         	pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(baseDTO.getId(), contextInfo));
-        	/* TODO KSCM-391  pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
+            pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));
         }
         
         pvInfo.setIntensity((null != baseDTO.getIntensity()) ? baseDTO.getIntensity().getUnitTypeKey() : null);
@@ -145,15 +139,15 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     }
 
     private void disassembleLearningObjectives(ProgramVariationInfo variation, NodeOperation operation, BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
-    	/* TODO KSCM-391 try {
-            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(variation.getId(), variation.getState(), (List<LoDisplayInfo>) variation.getLearningObjectives(), operation,contextInfo);
+    	try {
+            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(variation.getId(), variation.getStateKey(), (List<LoDisplayInfo>) variation.getLearningObjectives(), operation,contextInfo);
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
             }
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling los", e);
-        } */
+        }
     }
 
     private void disassembleResultOptions(ProgramVariationInfo variation, NodeOperation operation, BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
