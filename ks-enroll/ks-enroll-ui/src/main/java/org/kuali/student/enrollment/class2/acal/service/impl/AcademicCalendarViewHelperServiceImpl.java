@@ -532,7 +532,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         if (groupWrapper != null && StringUtils.isNotBlank(groupWrapper.getKeyDateGroupType())){
             try {
-                List<TypeTypeRelationInfo> types = getTypeService().getTypeTypeRelationsByOwnerAndType(groupWrapper.getKeyDateGroupType(),"kuali.atp.atp.relation.associated",getContextInfo());
+                List<TypeTypeRelationInfo> types = getTypeService().getTypeTypeRelationsByOwnerAndType(groupWrapper.getKeyDateGroupType(),"kuali.type.type.relation.type.group",getContextInfo());
                 for (TypeTypeRelationInfo relationInfo : types) {
                     TypeInfo type = getTypeService().getType(relationInfo.getRelatedTypeKey(),contextInfo);
                     if (!existingKeyDateTypes.contains(type.getKey())){
