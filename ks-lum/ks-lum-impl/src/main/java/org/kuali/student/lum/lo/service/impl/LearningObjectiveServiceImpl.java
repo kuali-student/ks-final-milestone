@@ -602,6 +602,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         if (!String.valueOf(lo.getVersionNumber()).equals(loInfo.getMeta().getVersionInd())){
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
+        
         lo = LearningObjectiveServiceAssembler.toLo(true, lo, R1R2ConverterUtil.convert(loInfo,org.kuali.student.r1.lum.lo.dto.LoInfo.class), loDao);
         loDao.update(lo);
         return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoInfo(lo), LoInfo.class);
@@ -668,12 +669,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         if ( ! loCategory.getLoCategoryType().getId().equals(loCategoryInfo.getTypeKey()) ) {
         	loCategory = cloneLoCategory(loCategory, loCategoryInfo,contextInfo);
         } else {
-        	//TODO KSCM-419 : loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
-        	
+        	loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, R1R2ConverterUtil.convert(loCategoryInfo,org.kuali.student.r1.lum.lo.dto.LoCategoryInfo.class), loDao);
 	        loDao.update(loCategory);
         }
-        //TODO : return LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
-        return null;
+       return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory),LoCategoryInfo.class) ;
+
 	}
 
     // inactivate current LoCategory & clone it w/ its relationships,
@@ -689,11 +689,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     	}
         	
     	// clone the existing LO
-    	//TODO KSCM-419 :LoCategoryInfo newLoCategoryInfo = LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
-    	LoCategoryInfo newLoCategoryInfo = new LoCategoryInfo(); // Remove this line if the TODO is done above
+    	LoCategoryInfo newLoCategoryInfo = R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory),LoCategoryInfo.class);
     	newLoCategoryInfo.setTypeKey(catType.getId());
     	newLoCategoryInfo.setName(loCategoryInfo.getName());
-    	LoCategory newLoCategory = new LoCategory(); //TODO KSCM-419 : loDao.create(LearningObjectiveServiceAssembler.toLoCategory(newLoCategoryInfo, loDao));
+    	LoCategory newLoCategory = loDao.create(LearningObjectiveServiceAssembler.toLoCategory(R1R2ConverterUtil.convert(newLoCategoryInfo,org.kuali.student.r1.lum.lo.dto.LoCategoryInfo.class),loDao));
         	
     	// clone Lo-LoCategory relations
     	List<Lo> catsLos = loDao.getLosByLoCategory(loCategory.getId());         	
@@ -1003,21 +1002,21 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         loLoRelationInfo.setTypeKey(loLoRelationInfo.getTypeKey());
 	    
 	    LoLoRelation relation = null;
-	  //TODO KSCM-419 :
-//	    try {
-//	    	//KSCM-419 :   relation = LearningObjectiveServiceAssembler.toLoLoRelation(false, loLoRelationInfo, loDao);
-//	    } catch (VersionMismatchException vme) {
-//	    	// should never happen in a create call, but
-//	    	throw new OperationFailedException("VersionMismatchException caught during LoLoRelation creation");
-//	    }
+
+	    try {
+	    	relation = LearningObjectiveServiceAssembler.toLoLoRelation(false,  R1R2ConverterUtil.convert(loLoRelationInfo,org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo.class ), loDao);
+	    } catch (VersionMismatchException vme) {
+	    	// should never happen in a create call, but
+	    	throw new OperationFailedException("VersionMismatchException caught during LoLoRelation creation");
+	    }
 	    relation.setLo(lo);
 	    relation.setRelatedLo(relatedLo);
 	    relation.setLoLoRelationType(type);
 	    
 	    relation = loDao.create(relation);
 	    
-	  //TODO KSCM-419 :return LearningObjectiveServiceAssembler.toLoLoRelationInfo(relation);
-	    return null;
+	  return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoLoRelationInfo(relation),LoLoRelationInfo.class );
+	
 	}
 	
 	@Override
@@ -1093,7 +1092,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		List<ValidationResultInfo> val = validateLoCategory("SYSTEM", loCategoryInfo,contextInfo);
 
         //kslum-136 - don't allow dups w/ same name (case insensitive), type, state & repository
-		//TODO KSCM-419 :
         if (doesLoCategoryExist(loCategoryInfo.getLoRepositoryKey(), loCategoryInfo, null,contextInfo)) {
             ValidationResultInfo vr = new ValidationResultInfo();
             vr.setElement("LO Category Name");
@@ -1107,15 +1105,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throw new DataValidationErrorException("Validation error!", val);
 			
 		}
-
-      //TODO KSCM-419 : LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(loCategoryInfo, loDao);
+        
+	    LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(R1R2ConverterUtil.convert(loCategoryInfo,org.kuali.student.r1.lum.lo.dto.LoCategoryInfo.class),loDao);
 	    LoCategoryType loCatType = loDao.fetch(LoCategoryType.class, loCategoryTypeKey);
-	  //TODO KSCM-419 : category.setLoCategoryType(loCatType);
+	    category.setLoCategoryType(loCatType);
 	    LoRepository loRepository = loDao.fetch(LoRepository.class, loCategoryInfo.getLoRepositoryKey() );
-	  //TODO KSCM-419 :category.setLoRepository(loRepository);
-	  //TODO KSCM-419 :loDao.create(category);
-	    //TODO KSCM-419 :return LearningObjectiveServiceAssembler.toLoCategoryInfo(category);
-	    return null;
+	    category.setLoRepository(loRepository);
+	    loDao.create(category);
+		return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoCategoryInfo(category), LoCategoryInfo.class);
 	}
 
 	@Override
