@@ -68,7 +68,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
 
     @Override
-    public MajorDisciplineInfo assemble(CluInfo baseDTO, MajorDisciplineInfo businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
+    public MajorDisciplineInfo assemble(CluInfo baseDTO, MajorDisciplineInfo businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException {
 
         MajorDisciplineInfo mdInfo = (null != businessDTO) ? businessDTO : new MajorDisciplineInfo();
 
@@ -94,15 +94,10 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) mdInfo, contextInfo);
             mdInfo.setCredentialProgramId(programAssemblerUtils.getCredentialProgramID(baseDTO.getId(), contextInfo));
             mdInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(baseDTO.getId(), contextInfo));
-            /* TODO KSCM-391 mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));*/
+            mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));
             mdInfo.setVariations(assembleVariations(baseDTO.getId(), shallowBuild, contextInfo));
             mdInfo.setOrgCoreProgram(assembleCoreProgram(baseDTO.getId(), shallowBuild, contextInfo));
-            try {
-				programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) mdInfo, contextInfo);
-			} catch (PermissionDeniedException e) {
-				// TODO KSCM-421 - Could not add it to BO assembler
-				e.printStackTrace();
-			}
+            programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) mdInfo, contextInfo);
         }
         
        return mdInfo;
@@ -113,8 +108,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     private CoreProgramInfo assembleCoreProgram(String cluId, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
         CoreProgramInfo coreProgramInfo = null;
         try {
-            //TODO KSCM-421 remove line below and replace it with this one :List<CluInfo> corePrograms = luService.getRelatedClusByCluId(cluId, ProgramAssemblerConstants.HAS_CORE_PROGRAM);
-        	List<CluInfo> corePrograms = new ArrayList<CluInfo>();
+            List<CluInfo> corePrograms = cluService.getRelatedClusByCluId(cluId, ProgramAssemblerConstants.HAS_CORE_PROGRAM);
             // TODO - is it an error if there's more than one core program?                                                                           on
             if (corePrograms.size() == 1) {
                 coreProgramInfo = coreProgramAssembler.assemble(corePrograms.get(0), null, shallowBuild, contextInfo);
@@ -136,8 +130,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         	
         	if(currentRelations != null && !currentRelations.isEmpty()){
         		for (String variationId : currentRelations.keySet()) {
-        			//TODO KSCM-421 remove line below and replace it with this one :CluInfo variationClu = luService.getClu(variationId, contextInfo);
-        			CluInfo variationClu = new CluInfo();
+                    CluInfo variationClu = cluService.getClu(variationId, contextInfo);
         			variations.add(programVariationAssembler.assemble(variationClu, null, shallowBuild, contextInfo));
         		}
         	}
@@ -161,8 +154,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 		
 		CluInfo clu;
 		try {
-			//TODO KSCM-931 remove line belowe and  fix this line : clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
-			clu = new CluInfo();
+			clu = (NodeOperation.UPDATE == operation) ? cluService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during major update", e);
         } 
@@ -227,15 +219,15 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     }
 
     private void disassembleLearningObjectives(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
-    	/* TODO KSCM-391 try {
-        	 List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(major.getId(), major.getState(),  major.getLearningObjectives(), operation,contextInfo);
+    	try {
+        	 List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(major.getId(), major.getStateKey(),  major.getLearningObjectives(), operation,contextInfo);
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
             }
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling los", e);
-        } */
+        }
     }
 
     private void disassembleResultOptions(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
@@ -304,8 +296,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     	for (String variationId : currentRelations.keySet()) {
 			CluInfo variationClu;
 			try {
-				//TODO KSCM-421 : Converstion R1 to R2 remove line below and replace it with this one : variationClu = luService.getClu(variationId,contextInfo);
-				variationClu = new CluInfo();
+                variationClu = cluService.getClu(variationId,contextInfo);
 				ProgramVariationInfo delVariation = programVariationAssembler.assemble(variationClu, null, true, contextInfo);
 				delVariation.setStateKey(DtoConstants.STATE_SUSPENDED);
 				BaseDTOAssemblyNode<?,?> variationNode = programVariationAssembler.disassemble(delVariation , NodeOperation.UPDATE, contextInfo);
