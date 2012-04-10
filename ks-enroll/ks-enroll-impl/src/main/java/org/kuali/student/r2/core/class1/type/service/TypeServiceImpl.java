@@ -24,6 +24,7 @@ import org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.springframework.transaction.annotation.Transactional;
 
 public class TypeServiceImpl implements TypeService {
 
@@ -47,6 +48,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public TypeInfo getType(String typeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         TypeEntity entity = typeDao.find(typeKey);
@@ -57,6 +59,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<TypeInfo> getTypesByKeys(List<String> typeKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<TypeInfo> typeInfoList = new ArrayList<TypeInfo>();
@@ -67,6 +70,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeTypeRelationInfo> rels = getTypeTypeRelationsByOwnerAndType(ownerTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, contextInfo);
@@ -97,6 +101,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<TypeInfo> getTypesForGroupType(String groupTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeTypeRelationInfo> rels = getTypeTypeRelationsByOwnerAndType(groupTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
         List<TypeInfo> typeInfoList = new ArrayList<TypeInfo>(rels.size());
@@ -115,6 +120,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public TypeInfo createType(String typeKey, TypeInfo typeInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         TypeEntity entity = typeDao.find(typeKey);
@@ -135,6 +141,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public TypeInfo updateType(String typeKey, TypeInfo typeInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         TypeEntity entity = typeDao.find(typeKey);
@@ -149,6 +156,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteType(String typeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
@@ -163,6 +171,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public TypeTypeRelationInfo getTypeTypeRelation(String typeTypeRelationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         TypeTypeRelationEntity entity = typeTypeRelationDao.find(typeTypeRelationKey);
@@ -173,6 +182,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerAndType(String ownerTypeKey, String relationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeTypeRelationEntity> typeTypeEntities = typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationType(ownerTypeKey, relationTypeKey);
@@ -190,6 +200,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public TypeTypeRelationInfo createTypeTypeRelation(String typeTypeRelationTypeKey,
             String ownerTypeKey,
             String relatedTypeKey,
@@ -219,6 +230,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public TypeTypeRelationInfo updateTypeTypeRelation(String typeTypeRelationKey, TypeTypeRelationInfo typeTypeRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
@@ -235,6 +247,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteTypeTypeRelation(String typeTypeRelationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         TypeTypeRelationEntity typeEntityToRemove = typeTypeRelationDao.find(typeTypeRelationKey);
@@ -248,6 +261,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> getRefObjectUris(ContextInfo contextInfo) 
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return typeDao.getAllRefObjectUris();
@@ -255,7 +269,8 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) 
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<TypeEntity> typeEntities = typeDao.getTypesByRefObjectUri(refObjectUri);
@@ -267,7 +282,8 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public List<TypeTypeRelationInfo> getTypeTypeRelationsByIds(List<String> typeTypeRelationIds, ContextInfo contextInfo) 
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByIds(List<String> typeTypeRelationIds, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeTypeRelationInfo> typeRelationInfos = new ArrayList<TypeTypeRelationInfo>();
