@@ -1,15 +1,5 @@
 package org.kuali.student.lum.course.service.assembler;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
@@ -21,12 +11,11 @@ import org.kuali.student.r1.lum.lo.dto.LoInfo;
 import org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 
 public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
@@ -46,9 +35,9 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 			String loId = lo.getId();
 			try {
 				List<LoCategoryInfo> loCategories = null;
-// TODO KSCM-391 				loService.getLoCategoriesForLo(loId);
+                loService.getLoCategoriesForLo(loId, contextInfo);
 				loDisplay.setLoCategoryInfoList(loCategories);
-				// TODO KSCM			} catch (DoesNotExistException e) {
+			} catch (DoesNotExistException e) {
 			} catch (Exception e) {
 				throw new AssemblyException("Error getting learning objective categories", e);
 			}
@@ -137,7 +126,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
 				List<LoCategoryInfo> categories = null;
-				// TODO KSCM-391 loService.getLoCategoriesForLo(loDisplay.getLoInfo().getId());
+				loService.getLoCategoriesForLo(loDisplay.getLoInfo().getId(), contextInfo);
 				for (LoCategoryInfo category : categories) {
 					currentCategoryIds.add(category.getId());
 				}
