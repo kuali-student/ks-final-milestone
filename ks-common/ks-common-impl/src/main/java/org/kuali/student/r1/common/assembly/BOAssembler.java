@@ -18,7 +18,7 @@ package org.kuali.student.r1.common.assembly;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 
 
 /**
@@ -54,7 +54,7 @@ public interface BOAssembler<E, T> {
 	 * @return Assembled business DTO
 	 * @throws AssemblyException 
 	 */
-	public E assemble(T baseDTO, E businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException;
+	public E assemble(T baseDTO, E businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException;
 
 	/**
 	 * 
@@ -74,5 +74,5 @@ public interface BOAssembler<E, T> {
 	 * @throws PermissionDeniedException 
 	 */
 	public BaseDTOAssemblyNode<E,	T> disassemble(
-			E businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException;
+			E businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException;
 }
