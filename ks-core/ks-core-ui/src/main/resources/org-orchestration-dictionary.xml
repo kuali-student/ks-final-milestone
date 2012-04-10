@@ -20,7 +20,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<bean id="constraint" abstract="true"
-		class="org.kuali.student.common.assembly.data.ConstraintMetadata" />
+		class="org.kuali.student.r1.common.assembly.data.ConstraintMetadata" />
 	<bean id="lookup" abstract="true"
 		class="org.kuali.student.common.assembly.data.LookupMetadata" />
 	<bean id="dataObjectStructure" abstract="true"
@@ -36,7 +36,7 @@
 	<bean id="param" abstract="true"
 		class="org.kuali.student.common.assembly.data.LookupParamMetadata" />
 	<bean id="result" abstract="true"
-		class="org.kuali.student.common.assembly.data.LookupResultMetadata" />
+		class="org.kuali.student.r1.common.assembly.data.LookupResultMetadata" />
 	<bean id="lookupQos" abstract="true"
 		class="org.kuali.student.common.assembly.data.LookupQosMetadata" />
 	<bean id="datatype.StringValue" abstract="true"
