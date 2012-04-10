@@ -1,9 +1,8 @@
 package org.kuali.student.r2.lum.course.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -14,7 +13,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 
-import javax.jws.WebParam;
 import java.util.Date;
 import java.util.List;
 
@@ -119,6 +117,20 @@ public class CourseServiceDecorator implements CourseService {
         return getNextDecorator().createCourse(courseInfo, contextInfo);
     }
 
+    @Deprecated
+    @Override
+    public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Deprecated
+    @Override
+    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         try {
@@ -127,34 +139,15 @@ public class CourseServiceDecorator implements CourseService {
             return null;
         }
 
-	@Deprecated
-	@Override
-	public List<VersionDisplayInfo> getVersions(String refObjectTypeURI,
-			String refObjectId, ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    }
 
     @Override
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
-            try {
-                return getNextDecorator().getObjectStructure(objectTypeKey);
-            } catch (OperationFailedException e) {
-                return null;
-            }
-
+    public List<String> getObjectTypes() {
+        try {
+            return getNextDecorator().getObjectTypes();
+        } catch (OperationFailedException e) {
+            return null;
         }
-
-        @Override
-        public List<String> getObjectTypes() {
-            try {
-                return getNextDecorator().getObjectTypes();
-            } catch (OperationFailedException e) {
-                return null;
-            }
-        }
+    }
 
 }
