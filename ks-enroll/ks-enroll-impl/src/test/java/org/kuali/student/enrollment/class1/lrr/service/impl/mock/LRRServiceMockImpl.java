@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.classI.lrr.mock;
+package org.kuali.student.enrollment.class1.lrr.service.impl.mock;
 
 import java.util.ArrayList;
 import java.util.HashMap;

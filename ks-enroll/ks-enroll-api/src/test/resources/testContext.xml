@@ -6,7 +6,7 @@
     <import resource="classpath:ks-rice-dictionary-validation-service-configuration.xml"/>
     <import resource="classpath:ks-mock-lpr-service-configuration.xml"/>
     <bean id="mockLuiService" class="org.kuali.student.enrollment.classI.lui.mock.LuiServiceMockImpl" />
-    <bean id="mockHoldService" class="org.kuali.student.enrollment.classI.hold.mock.HoldServiceMockImpl" />
+    <bean id="mockHoldService" class="org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl" />
 
     <bean id="testAtpInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-test-AtpInfo-dictionary.xml" />

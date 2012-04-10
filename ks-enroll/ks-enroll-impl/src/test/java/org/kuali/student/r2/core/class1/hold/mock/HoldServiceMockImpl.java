@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.classI.hold.mock;
+package org.kuali.student.r2.core.class1.hold.mock;
 
 import java.util.ArrayList;
 import java.util.Date;

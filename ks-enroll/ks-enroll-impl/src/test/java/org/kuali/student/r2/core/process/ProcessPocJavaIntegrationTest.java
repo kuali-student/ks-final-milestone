@@ -11,7 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.student.enrollment.classI.hold.mock.HoldServiceMockImpl;
+import org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceMockImpl;
 import org.kuali.student.kim.permission.mock.IdentityServiceMockImpl;
@@ -25,13 +25,11 @@ import org.kuali.student.r2.core.class1.process.ProcessPocExemptionServiceDecora
 import org.kuali.student.r2.core.class1.process.ProcessPocHoldServiceDecorator;
 import org.kuali.student.r2.core.class1.process.ProcessPocIdentityServiceDecorator;
 import org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl;
-import org.kuali.student.r2.core.class1.process.ProcessPocProcessServiceDecorator;
 import org.kuali.student.r2.core.classI.atp.mock.AtpServiceMockImpl;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.exemption.service.ExemptionServiceMockImpl;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.core.population.service.PopulationService;
-import org.kuali.student.r2.core.process.service.ProcessServiceMockImpl;
 
 import java.util.ArrayList;
 import java.util.List;

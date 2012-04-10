@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.classI.hold.conformance.tests;
+package org.kuali.student.r2.core.class1.hold.conformance.tests;
 
 import java.util.Date;
 import org.junit.After;
@@ -10,7 +10,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 
-import org.kuali.student.enrollment.classI.hold.mock.HoldServiceMockImpl;
+import org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;

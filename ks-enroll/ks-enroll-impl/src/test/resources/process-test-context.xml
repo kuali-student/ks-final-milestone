@@ -138,7 +138,7 @@
         <constructor-arg ref="holdServiceMock"/>
     </bean>
 
-    <bean id="holdServiceMock" class="org.kuali.student.enrollment.classI.hold.mock.HoldServiceMockImpl"/>
+    <bean id="holdServiceMock" class="org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl"/>
 
 	<tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 

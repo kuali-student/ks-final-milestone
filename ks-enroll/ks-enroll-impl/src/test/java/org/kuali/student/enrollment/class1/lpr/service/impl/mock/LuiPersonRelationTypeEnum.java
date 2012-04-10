@@ -5,7 +5,7 @@
  * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
  * implied. See the License for the specific language governing permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.classI.lpr.mock;
+package org.kuali.student.enrollment.class1.lpr.service.impl.mock;
 
 import java.io.Serializable;
 import java.text.ParseException;

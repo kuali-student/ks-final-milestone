@@ -11,7 +11,7 @@
     <bean id="mockLuiService" class="org.kuali.student.enrollment.classI.lui.mock.LuiServiceMockImpl" />
     <bean id="mockPermissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
-    <bean id="mockLprPersistenceService" class="org.kuali.student.enrollment.classI.lpr.mock.LuiPersonRelationServiceMockImpl"/>
+    <bean id="mockLprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.mock.LuiPersonRelationServiceMockImpl"/>
         
 
     <bean id="lprDataDictionaryService" class="org.kuali.student.enrollment.classI.lpr.mock.LuiPersonRelationServiceDataDictionaryImpl">
