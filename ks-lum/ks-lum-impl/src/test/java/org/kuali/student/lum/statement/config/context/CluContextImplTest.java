@@ -1,64 +1,22 @@
 package org.kuali.student.lum.statement.config.context;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.student.lum.statement.config.context.util.NLCluSet;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
-import org.kuali.student.r1.lum.lu.dto.CluLoRelationTypeInfo;
-import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
-import org.kuali.student.r1.lum.lu.dto.CluResultTypeInfo;
-import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
-import org.kuali.student.r1.lum.lu.dto.CluSetTypeInfo;
-import org.kuali.student.r1.lum.lu.dto.DeliveryMethodTypeInfo;
-import org.kuali.student.r1.lum.lu.dto.InstructionalFormatTypeInfo;
-import org.kuali.student.r1.lum.lu.dto.LuCodeTypeInfo;
-import org.kuali.student.r1.lum.lu.dto.LuLuRelationTypeInfo;
-import org.kuali.student.r1.lum.lu.dto.LuPublicationTypeInfo;
-import org.kuali.student.r1.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.r1.lum.lu.dto.LuiInfo;
-import org.kuali.student.r1.lum.lu.dto.LuiLuiRelationInfo;
-import org.kuali.student.r1.lum.lu.dto.ResultUsageTypeInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.lum.statement.config.context.util.NLCluSet;
-import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+
+import java.util.*;
 
 public class CluContextImplTest {
 
@@ -175,7 +133,7 @@ public class CluContextImplTest {
 
 	@Before
 	public void beforeMethod() {
-		cluContext.setLuService(cluService);
+		cluContext.setCluService(cluService);
 		setupReqComponent1();
 		setupReqComponent2();
 	}
