@@ -57,11 +57,11 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         this.cluService = cluService;
     }
 
-    public LRCService getLRCService() {
+    public LRCService getLrcService() {
         return lrcService;
     }
 
-    public void setLRCService(LRCService lrcService) {
+    public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
     }
     

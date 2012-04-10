@@ -38,11 +38,11 @@ Questions please contact Norm Wright.
 	<bean id="constraint" abstract="true"
 		class="org.kuali.student.r1.common.assembly.data.ConstraintMetadata" />
 	<bean id="lookup" abstract="true"
-		class="org.kuali.student.common.assembly.data.LookupMetadata" />
+		class="org.kuali.student.r1.common.assembly.data.LookupMetadata" />
 	<bean id="dataObjectStructure" abstract="true"
-		class="org.kuali.student.common.assembly.dictionary.old.DataObjectStructure" />
+		class="org.kuali.student.r1.common.assembly.dictionary.old.DataObjectStructure" />
 	<bean id="dataFieldDescriptor" abstract="true"
-		class="org.kuali.student.common.assembly.dictionary.old.DataFieldDescriptor">
+		class="org.kuali.student.r1.common.assembly.dictionary.old.DataFieldDescriptor">
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="canUnmask" value="false" />
 		<property name="canEdit" value="true" />
@@ -50,13 +50,13 @@ Questions please contact Norm Wright.
 		<property name="onChangeRefreshMetadata" value="false" />
 	</bean>
 	<bean id="param" abstract="true"
-		class="org.kuali.student.common.assembly.data.LookupParamMetadata" />
+		class="org.kuali.student.r1.common.assembly.data.LookupParamMetadata" />
 	<bean id="result" abstract="true"
 		class="org.kuali.student.r1.common.assembly.data.LookupResultMetadata" />
 	<bean id="lookupQos" abstract="true"
-		class="org.kuali.student.common.assembly.data.LookupQosMetadata" />
+		class="org.kuali.student.r1.common.assembly.data.LookupQosMetadata" />
 	<bean id="datatype.StringValue" abstract="true"
-		class="org.kuali.student.common.assembly.data.Data$StringValue" />
+		class="org.kuali.student.r1.common.assembly.data.Data$StringValue" />
 
 
 	<bean id="constraint.defaultVarCharLength" parent="constraint">

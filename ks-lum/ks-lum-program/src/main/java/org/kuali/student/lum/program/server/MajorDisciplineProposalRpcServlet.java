@@ -25,7 +25,7 @@ import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r2.core.statement.service.StatementService;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
