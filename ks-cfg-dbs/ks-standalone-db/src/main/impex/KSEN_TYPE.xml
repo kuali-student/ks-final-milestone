@@ -183,6 +183,11 @@
         DESCR_PLAIN="The list of Terms that are associated with an academic calendar"
         NAME="Term Group" TYPE_KEY="kuali.atp.type.group.term" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="The list of milestone types that are used for Key Dates that are associated with a term"
+        DESCR_PLAIN="The list of milestone types that are used for Key Dates that are associated with a term"
+        NAME="Key Date Curriculum Group"
+        TYPE_KEY="kuali.milestone.type.group.curriculum" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for academic calendar events"
         DESCR_PLAIN="The list of milestone types that are used for academic calendar events"
         NAME="Event Group" TYPE_KEY="kuali.milestone.type.group.event" VER_NBR="0"/>
