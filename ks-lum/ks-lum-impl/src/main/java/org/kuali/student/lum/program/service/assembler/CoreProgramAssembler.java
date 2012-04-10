@@ -16,25 +16,23 @@
 package org.kuali.student.lum.program.service.assembler;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramAtpAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramBasicOrgAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramCodeAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramIdentifierAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramPublicationAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramRequirementAssembly;
+import org.kuali.student.r1.lum.program.dto.assembly.*;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
+
+import java.util.List;
+
 /**
  * @author KS
  *
@@ -48,7 +46,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 
 
     @Override
-    public CoreProgramInfo assemble(CluInfo baseDTO, CoreProgramInfo businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
+    public CoreProgramInfo assemble(CluInfo baseDTO, CoreProgramInfo businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException {
 
         CoreProgramInfo cpInfo = (null != businessDTO) ? businessDTO : new CoreProgramInfo();
 
@@ -58,19 +56,14 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         programAssemblerUtils.assembleBasicAdminOrgs(baseDTO, (ProgramBasicOrgAssembly) cpInfo);
         programAssemblerUtils.assembleAtps(baseDTO, (ProgramAtpAssembly) cpInfo);
         programAssemblerUtils.assembleLuCodes(baseDTO, (ProgramCodeAssembly) cpInfo);
-        try {
-			programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) cpInfo, contextInfo);
-		} catch (PermissionDeniedException e) {
-			// TODO KSCM-421 could not add this to BoAssembler interface, since it is r2 exception and not a R1
-			e.printStackTrace();
-		}
+        programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) cpInfo, contextInfo);
 
         cpInfo.setDescr(baseDTO.getDescr());
         cpInfo.setVersion(baseDTO.getVersionInfo());
         
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) cpInfo, contextInfo);
-        	/* TODO KSCM-391 cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
+        	cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));
         }
         
         return cpInfo;
@@ -78,7 +71,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 
 
     @Override
-    public BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> disassemble(CoreProgramInfo businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
+    public BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> disassemble(CoreProgramInfo businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
     	BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> result = new BaseDTOAssemblyNode<CoreProgramInfo, CluInfo>(this);
     	
     	if (businessDTO == null) {
@@ -90,9 +83,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 
 		CluInfo clu;
 		try {
-			
-			//TODO KSCM-391 clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(),contextInfo) : new CluInfo();
-			clu = (NodeOperation.UPDATE == operation) ? R1R2ConverterUtil.convert( cluService.getClu(businessDTO.getId(),contextInfo),new CluInfo()) : new CluInfo();
+			clu = (NodeOperation.UPDATE == operation) ? cluService.getClu(businessDTO.getId(),contextInfo) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
         } 
@@ -126,16 +117,16 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 
     }
 
-    private void disassembleLearningObjectives(CoreProgramInfo core, NodeOperation operation, BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> result) throws AssemblyException {
-    	/* TODO KSCM-391 try {
-        	     List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(core.getId(), core.getState(),  (List<LoDisplayInfo>) core.getLearningObjectives() , operation,new ContextInfo());
+    private void disassembleLearningObjectives(CoreProgramInfo core, NodeOperation operation, BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> result) throws AssemblyException, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    	try {
+            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(core.getId(), core.getStateKey(),  (List<LoDisplayInfo>) core.getLearningObjectives() , operation,new ContextInfo());
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
             }
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling los", e);
-        }*/
+        }
     }
     
     // Spring setter
