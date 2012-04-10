@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -63,6 +64,7 @@ import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo;
 import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.FieldInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 
 @Daos({@Dao(value = "org.kuali.student.lum.lo.dao.impl.LoDaoImpl", testSqlFile = "classpath:ks-lo.sql")})
@@ -84,9 +86,13 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         loInfo.setEffectiveDate(date);
         loInfo.setExpirationDate(date);
         loInfo.setLoRepositoryKey("kuali.loRepository.key.singleUse");
-        Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put("attrKey", "attrValue");
-       //TODO KSCM  loInfo.setAttributes(attributes);
+        //Map<String, String> attributes = new HashMap<String, String>();
+        AttributeInfo rAttributeInfo= new AttributeInfo();
+        rAttributeInfo.setKey("attrKey");
+        rAttributeInfo.setValue("attrValue");	
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+        attributes.add(rAttributeInfo);
+        loInfo.setAttributes(attributes);
         loInfo.setTypeKey("kuali.lo.type.singleUse");
         loInfo.setStateKey(DtoConstants.STATE_DRAFT);
 
@@ -202,7 +208,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		newCatInfo.setStateKey(catState);
 		newCatInfo.setLoRepositoryKey(catRepo);
 		
-		newCatInfo = client.createLoCategory(/* TODO KSCM catRepo, catType, */null,newCatInfo, contextInfo);
+		newCatInfo = client.createLoCategory(/* TODO KSCM catRepo, catType, */catType,newCatInfo, contextInfo);
 		
 		LoCategoryInfo dupCatInfo = new LoCategoryInfo();
 		dupCatInfo.setName(catName);
@@ -212,7 +218,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		
 		
 		try {
-			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, dupCatInfo,contextInfo);
+			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, dupCatInfo,contextInfo);
 			// delete the two (one erroneously) created so as to not mess up other tests
 			client.deleteLoCategory(newCatInfo.getId(), contextInfo);
 			client.deleteLoCategory(dupCatInfo.getId(), contextInfo);
@@ -229,21 +235,24 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         LoInfo loInfo = new LoInfo();
         loInfo.setName("Lo with Empty Desc");
         RichTextInfo richText = new RichTextInfo();
-        richText.setFormatted("<p> </p>");
-        richText.setPlain(" ");
+        richText.setFormatted("<p>new Desc </p>");
+        richText.setPlain("New Desc");
         loInfo.setDescr(richText);
         Date date = new Date();
         loInfo.setEffectiveDate(date);
         loInfo.setExpirationDate(date);
         loInfo.setLoRepositoryKey("kuali.loRepository.key.singleUse");
-        Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put("attrKey", "attrValue");
-      //TODO KSCM  loInfo.setAttributes(attributes);
+        AttributeInfo rAttributeInfo= new AttributeInfo();
+        rAttributeInfo.setKey("attrKey");
+        rAttributeInfo.setValue("attrValue");	
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+        attributes.add(rAttributeInfo);
+        loInfo.setAttributes(attributes);
         loInfo.setTypeKey("kuali.lo.type.singleUse");
         loInfo.setStateKey(DtoConstants.STATE_DRAFT);
 
         try {
-        	 LoInfo created = client.createLo(/*TODO KSCM loInfo.getLoRepositoryKey (), loInfo.getTypeKey (),*/ "", null, loInfo, contextInfo);
+        	 LoInfo created = client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo, contextInfo);
         	 assertNotNull(created);
         	
           // delete the one erroneously created so as to not mess up other tests
@@ -276,7 +285,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	      newCatInfo.setDescr(richText);
 		
 		try{
-				newCatInfo = client.createLoCategory(/*catRepo, catType,*/null,  newCatInfo, contextInfo);
+				newCatInfo = client.createLoCategory(/*catRepo, catType,*/catType,  newCatInfo, contextInfo);
 				assertNotNull(newCatInfo);
 	        	
 	          // delete the one erroneously created so as to not mess up other tests
@@ -307,7 +316,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		newCatInfo.setLoRepositoryKey(catRepo);
 		
 		try{				
-			newCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, newCatInfo, contextInfo);
+			newCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, newCatInfo, contextInfo);
 			newCatInfo = client.getLoCategory(newCatInfo.getId(), contextInfo);
 			newCatInfo.getName();
 			catRepo = newCatInfo.getLoRepositoryKey();
@@ -326,7 +335,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		
 		
 		try {
-			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, dupCatInfo, contextInfo);
+			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, dupCatInfo, contextInfo);
 			dupCatInfo = client.getLoCategory(dupCatInfo.getId(), contextInfo);
 			dupCatName = dupCatInfo.getName();
 			
@@ -366,10 +375,10 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		catInfo2.setLoRepositoryKey(catRepo);
 		
 		try{				
-			catInfo1 = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, catInfo1, contextInfo);
+			catInfo1 = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, catInfo1, contextInfo);
 			catId1 = catInfo1.getId();
 			
-			catInfo2 = client.createLoCategory(/*TODO KSCM catRepo, catType,*/null, catInfo2, contextInfo);
+			catInfo2 = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, catInfo2, contextInfo);
 			catId2 = catInfo2.getId();
 		} catch (OperationFailedException ofe) {
 			System.err.println(ofe.getMessage());
@@ -700,9 +709,12 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         category.setEffectiveDate(date);
         category.setExpirationDate(date);
         category.setName("BOB, THE AMAAAAAAZING WONDER LLAMA!!");
-        Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put("attrKey", "attrValue");
-      //TODO KSCM  category.setAttributes(attributes);
+        AttributeInfo rAttributeInfo= new AttributeInfo();
+        rAttributeInfo.setKey("attrKey");
+        rAttributeInfo.setValue("attrValue");	
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+        attributes.add(rAttributeInfo);
+        category.setAttributes(attributes);
         
         
         String categoryId = "550e8400-e29b-41d4-a716-446655440000";
