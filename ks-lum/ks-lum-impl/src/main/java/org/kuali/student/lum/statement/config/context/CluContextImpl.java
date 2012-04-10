@@ -67,7 +67,7 @@ public class CluContextImpl extends BasicContextImpl {
 	 *
 	 * @param luService LU service
 	 */
-    public void setLuService(CluService cluService) {
+    public void setCluService(CluService cluService) {
 		this.cluService = cluService;
 	}
 

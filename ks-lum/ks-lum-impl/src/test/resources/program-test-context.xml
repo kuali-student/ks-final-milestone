@@ -466,7 +466,7 @@
                 <ref bean="luServiceImpl"/>
                 <ref bean="lrcServiceImpl"/>
                 <ref bean="orgServiceImpl"/>
-                <ref bean="emServiceImpl"/>
+                <!-- ref bean="emServiceImpl"/-->
             </list>
         </property>
     </bean>

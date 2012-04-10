@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="constraint" abstract="true"
-		class="org.kuali.student.common.assembly.data.ConstraintMetadata" />
+		class="org.kuali.student.r1.common.assembly.data.ConstraintMetadata" />
 
 
 	<bean id="constraint.defaultVarCharLength" parent="constraint">
