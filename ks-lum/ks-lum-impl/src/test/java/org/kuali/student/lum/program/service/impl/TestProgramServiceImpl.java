@@ -221,8 +221,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(core.getAttributes());
             assertTrue(core.getAttributes().size() ==2);
-           //TODO KSCM-369 assertEquals("GINGER GEM", core.getAttributes().get("COOKIES"));
-            //TODO KSCM-369 assertEquals("JAM TART", core.getAttributes().get("CAKES"));
+            assertEquals("GINGER GEM", core.getAttributeInfoValue(core.getAttributes(),"COOKIES"));
+            assertEquals("JAM TART", core.getAttributeInfoValue(core.getAttributes(),"CAKES"));
 
             assertNotNull(core.getMeta());
             assertEquals("1", core.getMeta().getVersionInd());
@@ -372,8 +372,8 @@ public class TestProgramServiceImpl {
             assertEquals(major.getUnitsFinancialControl().get(1), "47");
             assertNotNull(major.getAttributes());
             assertEquals(2, major.getAttributes().size());
-            //TODO KSCM-369    assertEquals("GINGER GEM", major.getAttributes().get("COOKIES"));
-            //TODO KSCM-369    assertEquals("JAM TART", major.getAttributes().get("CAKES"));
+            assertEquals("GINGER GEM", major.getAttributeInfoValue(major.getAttributes(),"COOKIES"));
+            assertEquals("JAM TART", major.getAttributeInfoValue(major.getAttributes(),"CAKES"));
 
             assertNotNull(major.getMeta());
             assertEquals("1", major.getMeta().getVersionInd());
@@ -591,8 +591,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getAttributes());
             assertTrue(createdMD.getAttributes().size() ==2);
-            //TODO KSCM-369    assertEquals("attributes-1", createdMD.getAttributes().get("attributes-1"));
-            //TODO KSCM-369     assertEquals("attributes-2", createdMD.getAttributes().get("attributes-2"));
+            assertEquals("attributes-1", createdMD.getAttributeInfoValue(createdMD.getAttributes(),"attributes-1"));
+            assertEquals("attributes-2", createdMD.getAttributeInfoValue(createdMD.getAttributes(),"attributes-2"));
 
             assertNotNull(createdMD.getMeta());
             assertEquals("0", createdMD.getMeta().getVersionInd());

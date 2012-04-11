@@ -279,16 +279,15 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    			variation.setEndTerm(endEnrollTerm);
 	    		}
 	    		//compare dates to get the older of the two end terms
-//	    		if(variation.getAttributeInfoValue(variation.getAttributes(),"endInstAdmitTerm") != null){
-//TODO KSCM-369
-//	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributeInfoValue(variation.getAttributes(),"endInstAdmitTerm"));
-//	    			Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();
-//	    			if(majorEndInstAdmitTermEndDate.compareTo(variationEndInstAdmitEndDate)<=0){
-//	    				variation.getAttributes().add(new AttributeInfo("endInstAdmitTerm", endInstAdmitTerm));
-//	    			}
-//	    		}else{
-//	    			variation.getAttributes().add(new AttributeInfo("endInstAdmitTerm", endInstAdmitTerm));
-//	    		} 
+	    		if(variation.getAttributeInfoValue(variation.getAttributes(),"endInstAdmitTerm") != null){
+	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributeInfoValue(variation.getAttributes(),"endInstAdmitTerm"));
+	    			Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();
+	    			if(majorEndInstAdmitTermEndDate.compareTo(variationEndInstAdmitEndDate)<=0){
+	    				variation.getAttributes().add(new AttributeInfo("endInstAdmitTerm", endInstAdmitTerm));
+	    			}
+	    		}else{
+	    			variation.getAttributes().add(new AttributeInfo("endInstAdmitTerm", endInstAdmitTerm));
+	    		} 
 	    		
 	        }
         }

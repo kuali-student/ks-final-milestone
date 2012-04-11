@@ -44,11 +44,10 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
         // update the program state based on the route status
     	// Mainly used to approve a proposal
         String programId = getProgramId(proposalInfo);
-        //TODO KSCM-369
-        //String endEntryTerm = proposalInfo.getAttributes().get("prevEndProgramEntryTerm");
-        //String endEnrollTerm = proposalInfo.getAttributes().get("prevEndTerm");
-        //String endInstAdmitTerm = proposalInfo.getAttributes().get("prevEndInstAdmitTerm");
-        //getStateChangeService().changeState(endEntryTerm, endEnrollTerm, endInstAdmitTerm, programId, getCluStateForRouteStatus("",statusChangeEvent.getNewRouteStatus()), contextInfo);
+        String endEntryTerm = proposalInfo.getAttributeInfoValue(proposalInfo.getAttributes(),"prevEndProgramEntryTerm");
+        String endEnrollTerm = proposalInfo.getAttributeInfoValue(proposalInfo.getAttributes(),"prevEndTerm");
+        String endInstAdmitTerm = proposalInfo.getAttributeInfoValue(proposalInfo.getAttributes(),"prevEndInstAdmitTerm");
+        getStateChangeService().changeState(endEntryTerm, endEnrollTerm, endInstAdmitTerm, programId, getCluStateForRouteStatus("",statusChangeEvent.getNewRouteStatus()), contextInfo);
         return true;
     }
 
