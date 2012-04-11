@@ -185,12 +185,6 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/AtpInfo"
         TYPE_KEY="kuali.atp.type.group.term" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="The list of milestone types that are used for Key Dates that are associated with a term"
-        DESCR_PLAIN="The list of milestone types that are used for Key Dates that are associated with a term"
-        NAME="Key Date Curriculum Group"
-        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
-        TYPE_KEY="kuali.milestone.type.group.curriculum" VER_NBR="0"/>
-    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for academic calendar events"
         DESCR_PLAIN="The list of milestone types that are used for academic calendar events"
         NAME="Event Group"
@@ -204,10 +198,16 @@
         TYPE_KEY="kuali.milestone.type.group.holiday" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for Key Dates that are associated with a term"
-        DESCR_PLAIN="The list of milestone types that are used for Key Dates that are associated with a term"
-        NAME="Key Date Group"
+        DESCR_PLAIN="The list of milestone types that are used for Instructional Key Dates that are associated with a term"
+        NAME="Key Date Instructional Group"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
-        TYPE_KEY="kuali.milestone.type.group.keydate" VER_NBR="0"/>
+        TYPE_KEY="kuali.milestone.type.group.instructional" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="The list of milestone types that are used for Key Dates that are associated with a term"
+        DESCR_PLAIN="The list of milestone types that are used for Registration Key Dates that are associated with a term"
+        NAME="Key Date Registration Group"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.milestone.type.group.registration" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Type specifies which types can go together"
         DESCR_PLAIN="Type specifies which types can go together"
