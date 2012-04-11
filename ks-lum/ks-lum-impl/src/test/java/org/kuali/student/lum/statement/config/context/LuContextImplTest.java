@@ -25,8 +25,8 @@ public class LuContextImplTest {
 
 	private ReqComponentInfo reqComponent1;
 	private ReqComponentInfo reqComponent2;
-	
-	
+
+
 	private void setupReqComponent1() {
 		reqComponent1 = new ReqComponentInfo();
         List<ReqCompFieldInfo> reqCompFieldList = new ArrayList<ReqCompFieldInfo>();
@@ -53,7 +53,7 @@ public class LuContextImplTest {
         reqCompField4.setValue("CLU-NL-1");
         reqCompFieldList.add(reqCompField4);
 		reqComponent1.setReqCompFields(reqCompFieldList);
-		
+
 		ReqCompFieldInfo reqCompField5 = new ReqCompFieldInfo();
         reqCompField5.setType(ReqComponentFieldTypes.CLUSET_KEY.getId());
         reqCompField5.setValue("CLUSET-NL-1");
@@ -105,7 +105,7 @@ public class LuContextImplTest {
         reqCompField4.setValue(null);
         reqCompFieldList.add(reqCompField4);
 		reqComponent2.setReqCompFields(reqCompFieldList);
-		
+
 		ReqCompFieldInfo reqCompField5 = new ReqCompFieldInfo();
         reqCompField5.setType(ReqComponentFieldTypes.CLUSET_KEY.getId());
         reqCompField5.setValue(null);
@@ -165,7 +165,7 @@ public class LuContextImplTest {
 		NLCluSet programCluSet = (NLCluSet) contextMap.get(LuContextImpl.PROGRAM_CLU_SET_TOKEN);
 		NLCluSet testCluSet = (NLCluSet) contextMap.get(LuContextImpl.TEST_CLU_SET_TOKEN);
 
-		
+
 		Assert.assertNotNull(contextMap);
 		Assert.assertEquals("CLUSET-NL-1", cluSet.getCluSetId());
 		Assert.assertEquals("CLUSET-NL-1", courseCluSet.getCluSetId());
@@ -181,7 +181,7 @@ public class LuContextImplTest {
 		Assert.assertEquals("MATH180", cluSet.getCluAsCode(1));
 		Assert.assertEquals("MATH 180", cluSet.getCluAsShortName(1));
 	}
-	
+
 	@Test
     public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
 		Map<String, Object> contextMap = cluContext.createContextMap(reqComponent2);
@@ -211,7 +211,7 @@ public class LuContextImplTest {
 		private Map<String, CluInfo> cluMap = new HashMap<String, CluInfo>();
 		private Map<String, CluSetInfo> cluSetMap = new HashMap<String, CluSetInfo>();
 		private Map<String, CluSetTreeViewInfo> cluSetTreeViewMap = new HashMap<String, CluSetTreeViewInfo>();
-		
+
 		public LuServiceMock() {
 			CluInfo clu1 = new CluInfo();
 			clu1.setId("CLU-NL-1");
@@ -234,12 +234,12 @@ public class LuContextImplTest {
 			cluIdent2.setLongName("MATH 180 Differential Calculus with Physical Applications");
 			clu2.setOfficialIdentifier(cluIdent2);
 			cluMap.put("CLU-NL-3", clu1);
-			
+
 			CluSetInfo cluSet = new CluSetInfo();
 			cluSet.setId("CLUSET-NL-1");
 			cluSet.setCluIds(Arrays.asList(new String[] {"CLU-NL-1", "CLU-NL-3"}));
 			cluSetMap.put("CLUSET-NL-1", cluSet);
-			
+
 			CluSetTreeViewInfo treeView = new CluSetTreeViewInfo();
 			treeView.setClus(Arrays.asList(new CluInfo[] {clu1, clu2}));
 			cluSetTreeViewMap.put("CLUSET-NL-1", treeView);
@@ -924,10 +924,9 @@ public class LuContextImplTest {
         }
 
         @Override
-        public CluSetInfo getCluSetInfo(String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-            // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-            return null;
+        public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
-		
+
 	}
 }

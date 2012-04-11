@@ -924,9 +924,8 @@ public class CluContextImplTest {
         }
 
         @Override
-        public CluSetInfo getCluSetInfo(String cluSetId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-            // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-            return null;
+        public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
 		
 	}

@@ -1,69 +1,45 @@
 package org.kuali.student.lum.program.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.beans.IntrospectionException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
+import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.statement.service.StatementService;
+import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
-import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
-import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
-import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.dto.*;
 import org.kuali.student.r2.lum.program.service.ProgramService;
-import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
-import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:program-test-context.xml"})
@@ -1196,7 +1172,7 @@ public class TestProgramServiceImpl {
     }
 
     //@Test
-    public void testCreateCoreProgram() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testCreateCoreProgram() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
     	CoreProgramDataGenerator generator = new CoreProgramDataGenerator();
     	CoreProgramInfo coreProgramInfo = null;
             assertNotNull(coreProgramInfo = generator.getCoreProgramTestData());
