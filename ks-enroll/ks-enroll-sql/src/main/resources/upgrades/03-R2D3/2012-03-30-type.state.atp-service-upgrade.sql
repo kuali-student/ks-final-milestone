@@ -1,5 +1,5 @@
 -----------------------------------------------
---- ATP UPGRADES
+--- ATP UPGRADES --
 -----------------------------------------------
 
 UPDATE KSEN_ATP SET CREATEID='SYSTEMLOADER' WHERE CREATEID IS NULL
