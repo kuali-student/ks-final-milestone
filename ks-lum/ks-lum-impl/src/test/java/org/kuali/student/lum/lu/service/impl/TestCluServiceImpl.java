@@ -59,7 +59,6 @@ import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultCell;
 import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
@@ -116,19 +115,19 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			OperationFailedException, PermissionDeniedException {
 		// getClu
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
-		CluInfo clu = R1R2ConverterUtil.convert(client.getClu("CLU-1", contextInfo),CluInfo.class) ;
+		CluInfo clu = client.getClu("CLU-1", contextInfo);
 		assertNotNull(clu);
 		assertEquals(clu.getId(), "CLU-1");
 
 		try {
-			clu = R1R2ConverterUtil.convert(client.getClu("CLX-1", contextInfo), CluInfo.class) ;
+			clu = client.getClu("CLX-1", contextInfo);
 			assertTrue(false);
 		} catch (DoesNotExistException e) {
 			assertTrue(true);
 		}
 
 		try {
-			clu = R1R2ConverterUtil.convert(client.getClu(null, contextInfo), CluInfo.class);
+			clu = client.getClu(null, contextInfo);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -137,17 +136,17 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		// getClusByIdList
 		List<String> ids = new ArrayList<String>(1);
 		ids.add("CLU-2");
-		List<CluInfo> clus = R1R2ConverterUtil.convertLists(client.getClusByIds(ids, contextInfo), CluInfo.class);
+		List<CluInfo> clus = client.getClusByIds(ids, contextInfo);
 		assertNotNull(clus);
 		assertEquals(1, clus.size());
 
 		ids.clear();
 		ids.add("CLX-42");
-		clus = R1R2ConverterUtil.convertLists(client.getClusByIds(ids, contextInfo),CluInfo.class );
+		clus = client.getClusByIds(ids, contextInfo);
 		assertTrue(clus == null || clus.size() == 0);
 
 		try {
-			clus = R1R2ConverterUtil.convertLists(client.getClusByIds(null, contextInfo), CluInfo.class ) ;
+			clus = client.getClusByIds(null, contextInfo);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -179,25 +178,25 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		}
 
 		// getClusByLuType
-		clus =  R1R2ConverterUtil.convertLists(client.getClusByLuType("luType.shell.program", "STATE2", contextInfo), CluInfo.class );
+		clus = client.getClusByLuType("luType.shell.program", "STATE2", contextInfo);
 		assertTrue(null != clus);
 		assertEquals(1, clus.size());
 		assertEquals("CLU-2", clus.get(0).getId());
 
-		clus = R1R2ConverterUtil.convertLists(client.getClusByLuType("LUTYPE-1X", "STATE1", contextInfo), CluInfo.class );
+		clus = client.getClusByLuType("LUTYPE-1X", "STATE1", contextInfo);
 		assertTrue(clus == null || clus.size() == 0);
-		clus = R1R2ConverterUtil.convertLists(client.getClusByLuType("luType.shell.course", "STATE1X", contextInfo), CluInfo.class );
+		clus = client.getClusByLuType("luType.shell.course", "STATE1X", contextInfo);
 		assertTrue(clus == null || clus.size() == 0);
 
 		try {
-			clus =  R1R2ConverterUtil.convertLists(client.getClusByLuType(null, "STATE1", contextInfo), CluInfo.class );
+			clus = client.getClusByLuType(null, "STATE1", contextInfo);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
 		}
 
 		try {
-			clus = R1R2ConverterUtil.convertLists(client.getClusByLuType("luType.shell.course", null, contextInfo), CluInfo.class );
+			clus = client.getClusByLuType("luType.shell.course", null, contextInfo);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -210,21 +209,21 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			OperationFailedException, PermissionDeniedException {
 		// getCluSetInfo
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
-		CluSetInfo csi =  R1R2ConverterUtil.convert(client.getCluSet("CLUSET-2", contextInfo), CluSetInfo.class);
+		CluSetInfo csi = client.getCluSet("CLUSET-2", contextInfo);
 		assertNotNull(csi);
 
-		csi = R1R2ConverterUtil.convert(client.getCluSet("CLUSET-1", contextInfo), CluSetInfo.class);
+		csi = client.getCluSet("CLUSET-1", contextInfo);
 		assertNotNull(csi);
 
 		try {
-			csi =  R1R2ConverterUtil.convert(client.getCluSet("CLUSETXX-42", contextInfo), CluSetInfo.class);
+			csi = client.getCluSet("CLUSETXX-42", contextInfo);
 			assertTrue(false);
 		} catch (DoesNotExistException e1) {
 			assertTrue(true);
 		}
 
 		try {
-			csi = R1R2ConverterUtil.convert(client.getCluSet(null, contextInfo), CluSetInfo.class);
+			csi = client.getCluSet(null, contextInfo);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -233,16 +232,16 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		// getCluSetInfoByIdList
 		List<String> ids = new ArrayList<String>(1);
 		ids.add("CLUSET-2");
-		List<CluSetInfo> cluSets = R1R2ConverterUtil.convertLists(client.getCluSetsByIds(ids, contextInfo),CluSetInfo.class) ;
+		List<CluSetInfo> cluSets = client.getCluSetsByIds(ids, contextInfo);
 		assertEquals(1, cluSets.size());
 
 		ids.clear();
 		ids.add("CLUSETXXX-42");
-		cluSets =  R1R2ConverterUtil.convertLists(client.getCluSetsByIds(ids, contextInfo),CluSetInfo.class);
+		cluSets = client.getCluSetsByIds(ids, contextInfo);
 		assertTrue(cluSets == null || cluSets.size() == 0);
 
 		try {
-			cluSets =  R1R2ConverterUtil.convertLists(client.getCluSetsByIds(null, contextInfo),CluSetInfo.class);
+			cluSets = client.getCluSetsByIds(null, contextInfo);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -268,12 +267,12 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		}
 
 		// getAllClusInCluSet
-		List<CluInfo> clus = R1R2ConverterUtil.convertLists(client.getClusFromCluSet("CLUSET-2", contextInfo), CluInfo.class);
+		List<CluInfo> clus = client.getClusFromCluSet("CLUSET-2", contextInfo);
 		assertEquals(2, clus.size());
 		assertEquals("CLU-1", clus.get(0).getId());
 
 		try {
-			clus = R1R2ConverterUtil.convertLists(client.getClusFromCluSet("CLUSETXXX-42", contextInfo), CluInfo.class);
+			clus = client.getClusFromCluSet("CLUSETXXX-42", contextInfo);
 			assertTrue(false);
 		} catch (DoesNotExistException e) {
 			assertTrue(true);
@@ -286,7 +285,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 
-		clus = R1R2ConverterUtil.convertLists(client.getAllClusInCluSet("CLUSET-4", contextInfo),CluInfo.class);
+		clus = client.getAllClusInCluSet("CLUSET-4", contextInfo);
 		assertEquals(2, clus.size());
 
 		try {
@@ -296,7 +295,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			assertTrue(true);
 		}
 
-		clus = R1R2ConverterUtil.convertLists(client.getAllClusInCluSet("CLUSET-2", contextInfo),CluInfo.class) ;
+		clus = client.getAllClusInCluSet("CLUSET-2", contextInfo);
 		assertEquals(3, clus.size());
 
 		// isCluInCluSet
@@ -2455,7 +2454,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	public void testGetCluSetTreeView() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    
-	    CluSetTreeViewInfo treeView = R1R2ConverterUtil.convert(client.getCluSetTreeView("CLUSET-2", contextInfo), CluSetTreeViewInfo.class) ;
+	    CluSetTreeViewInfo treeView = client.getCluSetTreeView("CLUSET-2", contextInfo);
 		assertNotNull(treeView);
 		assertEquals(2, treeView.getCluSets().size());
 
