@@ -55,7 +55,7 @@
         <property name="jaxWsService" value="true" />
         <property name="service" ref="ks.subjectCodeService" />
         <property name="serviceInterface"
-          value="org.kuali.student.core.subjectcode.service.SubjectCodeService" />
+          value="org.kuali.student.r1.core.subjectcode.service.SubjectCodeService" />
         <property name="localServiceName" value="SubjectCodeService" />
         <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/subjectCode" />
         <property name="busSecurity" value="false" />
