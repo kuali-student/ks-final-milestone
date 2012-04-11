@@ -17,28 +17,29 @@ import java.util.Date;
  */
 public class DateUtil {
 
-    private static DateFormat startOfday = new SimpleDateFormat("yyyy-MM-dd");
- private static DateFormat endOfDay = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
-    
+    private static DateFormat JUST_DATE = new SimpleDateFormat("yyyy-MM-dd");
+    private static DateFormat END_OF_DAY = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
+
     public static Date startOfDay(Date date) {
         if (date == null) {
             return null;
         }
-        String dateStr = startOfday.format(date);
+        String dateStr = JUST_DATE.format(date);
         try {
-            Date newDate = startOfday.parse(dateStr);
+            Date newDate = JUST_DATE.parse(dateStr);
             return newDate;
         } catch (ParseException ex) {
             throw new IllegalArgumentException(dateStr);
         }
     }
+
     public static Date endOfDay(Date date) {
         if (date == null) {
             return null;
         }
-        String dateStr = startOfday.format(date);
+        String dateStr = JUST_DATE.format(date);
         try {
-            Date newDate = endOfDay.parse(dateStr + " 24:59:59.9");
+            Date newDate = END_OF_DAY.parse(dateStr + " 23:59:59.9");
             return newDate;
         } catch (ParseException ex) {
             throw new IllegalArgumentException(dateStr);
@@ -74,7 +75,8 @@ public class DateUtil {
         }
         return DateUtil.startOfDay(date);
     }
-        /**
+
+    /**
      * truncates date if is all day
      * 
      * For explanation See https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates

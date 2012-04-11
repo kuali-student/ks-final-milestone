@@ -14,8 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarInfo, AtpInfo> {
-  private AtpService atpService;
-    
+
+    private AtpService atpService;
+
     public AtpService getAtpService() {
         return atpService;
     }
@@ -24,10 +25,9 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
         this.atpService = atpService;
     }
 
-
     @Override
     public AcademicCalendarInfo assemble(AtpInfo atp, ContextInfo context) throws AssemblyException {
-        
+
         AcademicCalendarInfo acal = new AcademicCalendarInfo();
         acal.setId(atp.getId());
         acal.setName(atp.getName());
@@ -37,27 +37,28 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
         acal.setTypeKey(atp.getTypeKey());
         acal.setStateKey(atp.getStateKey());
         acal.setMeta(atp.getMeta());
-        acal.setAttributes(atp.getAttributes());
+        acal.getAttributes().addAll(atp.getAttributes());
         acal.setAdminOrgId(atp.getAdminOrgId());
-
-        acal.setHolidayCalendarIds(assembleRelations(atp.getId(), AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY, context));
+        acal.getHolidayCalendarIds().addAll(assembleHolidayCalendarIdsFromRelations(atp.getId(),
+                AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY,
+                context));
         return acal;
     }
 
-    
-    public List<String> assembleRelations(String atpId, String relatedAtpType, ContextInfo context) throws AssemblyException {
-        List<String> ccKeys = new ArrayList<String>();
+    private List<String> assembleHolidayCalendarIdsFromRelations(String atpId,
+            String relatedAtpType,
+            ContextInfo context)
+            throws AssemblyException {
+        List<String> holidayCalendarIds = new ArrayList<String>();
         List<AtpAtpRelationInfo> atpRels;
         try {
             atpRels = atpService.getAtpAtpRelationsByAtp(atpId, context);
-            
-            if(atpRels != null && !atpRels.isEmpty()){                  
-                for(AtpAtpRelationInfo atpRelInfo : atpRels){
-                    if(atpRelInfo.getAtpId().equals(atpId)){
-                        if(atpRelInfo.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY)){
-                            AtpInfo thisAtp = atpService.getAtp(atpRelInfo.getRelatedAtpId(), context);
-                            if(thisAtp != null && thisAtp.getTypeKey().equals(relatedAtpType))
-                            ccKeys.add(atpRelInfo.getRelatedAtpId());
+            for (AtpAtpRelationInfo atpRelInfo : atpRels) {
+                if (atpRelInfo.getAtpId().equals(atpId)) {
+                    if (atpRelInfo.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY)) {
+                        AtpInfo atp = atpService.getAtp(atpRelInfo.getRelatedAtpId(), context);
+                        if (atp.getTypeKey().equals(relatedAtpType)) {
+                            holidayCalendarIds.add(atpRelInfo.getRelatedAtpId());
                         }
                     }
                 }
@@ -65,9 +66,9 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
         } catch (Exception e) {
             throw new AssemblyException(e.getMessage());
         }
-        
-        return ccKeys;
+        return holidayCalendarIds;
     }
+
     @Override
     public AtpInfo disassemble(AcademicCalendarInfo acal, ContextInfo context) throws AssemblyException {
         AtpInfo atp = new AtpInfo();
@@ -80,15 +81,8 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
         atp.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         atp.setStateKey(acal.getStateKey());
         atp.setMeta(acal.getMeta());
-
-        List<AttributeInfo> attributes = (null != acal.getAttributes() ? acal.getAttributes() : new ArrayList<AttributeInfo>());
-
-       
-        atp.setAttributes(attributes);
+        atp.getAttributes().addAll(acal.getAttributes());
 
         return atp;
     }
-
-   
-
 }

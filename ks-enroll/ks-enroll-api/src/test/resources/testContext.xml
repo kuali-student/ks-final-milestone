@@ -40,5 +40,5 @@
         <property name="riceDataDictionaryService" ref="testDataDictionaryServiceForAllUsedByRice" />
         <property name="riceDictionaryValidationService" ref="riceDictionaryValidationService" />
     </bean>       
-    <bean id="mockAtpService" class="org.kuali.student.r2.core.classI.atp.mock.AtpServiceMockImpl"/>
+    <bean id="mockAtpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl"/>
 </beans>

@@ -25,7 +25,7 @@ import org.kuali.student.r2.core.class1.process.ProcessPocExemptionServiceDecora
 import org.kuali.student.r2.core.class1.process.ProcessPocHoldServiceDecorator;
 import org.kuali.student.r2.core.class1.process.ProcessPocIdentityServiceDecorator;
 import org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl;
-import org.kuali.student.r2.core.classI.atp.mock.AtpServiceMockImpl;
+import org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.exemption.service.ExemptionServiceMockImpl;
 import org.kuali.student.r2.core.hold.service.HoldService;
