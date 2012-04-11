@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Feb 02 22:30:34 EST 2012
+		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -179,18 +179,25 @@ A description of the entity.
 		<property name="shortLabel" value="Code"/>
 		<property name="summary">
 			<value>
-The composite string that is used to officially reference or publish the
-CLU. 
+Identifier used to officially reference or publish the
+course.
+
+
 			</value>
 		</property>
-		<property name="label" value="Code"/>
+		<property name="label" value="code"/>
 		<property name="description">
 			<value>
-The composite string that is used to officially reference or publish the
-CLU. Note it may have an internal structure that each Institution may
+Identifier used to officially reference or publish the
+course.
+
+The code is typically unique within a specified context or time period but 
+it is not intended as a database key or id.
+
+It may have an internal structure that each Institution may
 want to enforce. This structure may be composed from the other parts of
 the structure such as Level amp; Division, but may include items such as
-cluType.
+the type of the course and whether it has a lab or not.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -278,14 +285,14 @@ publish.
 		<property name="shortLabel" value="Formats"/>
 		<property name="summary">
 			<value>
-???
+Course Formats
 			</value>
 		</property>
 		<property name="label" value="Formats"/>
 		<property name="elementLabel" value="Format"/>
 		<property name="description">
 			<value>
-???
+Course Formats
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -398,14 +405,14 @@ The amount of time.
 		<property name="shortLabel" value="Joints"/>
 		<property name="summary">
 			<value>
-???
+Joint Courses
 			</value>
 		</property>
 		<property name="label" value="Joints"/>
 		<property name="elementLabel" value="Joint"/>
 		<property name="description">
 			<value>
-???
+Joint Courses
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -417,14 +424,14 @@ The amount of time.
 		<property name="shortLabel" value="Cross Listings"/>
 		<property name="summary">
 			<value>
-???
+Cross Listed Courses
 			</value>
 		</property>
 		<property name="label" value="Cross Listings"/>
 		<property name="elementLabel" value="Cross Listing"/>
 		<property name="description">
 			<value>
-???
+Cross Listed Courses
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -436,14 +443,14 @@ The amount of time.
 		<property name="shortLabel" value="Variations"/>
 		<property name="summary">
 			<value>
-???
+Variations
 			</value>
 		</property>
 		<property name="label" value="Variations"/>
 		<property name="elementLabel" value="Variation"/>
 		<property name="description">
 			<value>
-???
+Variations
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -498,7 +505,7 @@ The expected level of out of class time commitment between the student
 and the course.
 			</value>
 		</property>
-		<property name="label" value="Out Of Class Hours"/>
+		<property name="label" value="Out of Class Hours"/>
 		<property name="description">
 			<value>
 The expected level of out of class time commitment between the student
@@ -510,7 +517,7 @@ and the course.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="outOfClassHours"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.AmountInfo"/>
-				<property name="objectLabel" value="Out Of Class Hours"/>
+				<property name="objectLabel" value="Out of Class Hours"/>
 				<property name="objectDescription">
 					<value>
 The expected level of out of class time commitment between the student
@@ -582,13 +589,13 @@ as well as the string &quot;unbounded&quot;.
 		<property name="shortLabel" value="Primary Instructor"/>
 		<property name="summary">
 			<value>
-Primary potential instructor for the clu. 
+Primary potential instructor for the course. 
 			</value>
 		</property>
 		<property name="label" value="Primary Instructor"/>
 		<property name="description">
 			<value>
-Primary potential instructor for the clu. This is primarily for use in
+Primary potential instructor for the course. This is primarily for use in
 advertising the course and may not be the actual instructor.
 			</value>
 		</property>
@@ -600,7 +607,7 @@ advertising the course and may not be the actual instructor.
 				<property name="objectLabel" value="Primary Instructor"/>
 				<property name="objectDescription">
 					<value>
-Primary potential instructor for the clu. This is primarily for use in
+Primary potential instructor for the course. This is primarily for use in
 advertising the course and may not be the actual instructor.
 					</value>
 				</property>
@@ -717,14 +724,14 @@ Instructors associated with this course.
 		<property name="shortLabel" value="Units Deployment"/>
 		<property name="summary">
 			<value>
-???
+Units Responsible for Deploying this course
 			</value>
 		</property>
 		<property name="label" value="Units Deployment"/>
 		<property name="elementLabel" value="Units Deployment"/>
 		<property name="description">
 			<value>
-???
+Units Responsible for Deploying this course
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -790,14 +797,14 @@ Narrative description of overall course fee justification.
 		<property name="shortLabel" value="Units Content Owner"/>
 		<property name="summary">
 			<value>
-???
+Units Responsible for overseeing the content of this course
 			</value>
 		</property>
 		<property name="label" value="Units Content Owner"/>
 		<property name="elementLabel" value="Units Content Owner"/>
 		<property name="description">
 			<value>
-???
+Units Responsible for overseeing the content of this course
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -914,7 +921,7 @@ List of affiliated organizations.
 Learning Objectives associated with this Course.
 			</value>
 		</property>
-		<property name="label" value="Course Specific L Os"/>
+		<property name="label" value="Course Specific Learning Objectives"/>
 		<property name="elementLabel" value="Course Specific L O"/>
 		<property name="description">
 			<value>
@@ -925,35 +932,35 @@ Learning Objectives associated with this Course.
 		<property name="dataObjectClass" value="org.kuali.student.r2.lum.course.dto.LoDisplayInfo"/>
 	</bean>
 
-	<bean id="CourseInfo.gradingOptionIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="gradingOptionIds"/>
-		<property name="shortLabel" value="Grading Option Ids"/>
+	<bean id="CourseInfo.gradingOptions-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="gradingOptions"/>
+		<property name="shortLabel" value="Grading Options"/>
 		<property name="summary">
 			<value>
-Grading opitons available for the course
+Grading options available for the course
 			</value>
 		</property>
-		<property name="label" value="Grading Option Ids"/>
-		<property name="elementLabel" value="Grading Option Id"/>
+		<property name="label" value="Grading Options"/>
+		<property name="elementLabel" value="Grading Option"/>
 		<property name="description">
 			<value>
-Grading opitons available for the course
+Grading options available for the course
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="CourseInfo.creditOptionKeys-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="creditOptionKeys"/>
-		<property name="shortLabel" value="Credit Option Keys"/>
+	<bean id="CourseInfo.creditOptions-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="creditOptions"/>
+		<property name="shortLabel" value="Credit Options"/>
 		<property name="summary">
 			<value>
 Credit outcomes from taking the course
 			</value>
 		</property>
-		<property name="label" value="Credit Option Keys"/>
-		<property name="elementLabel" value="Credit Option Key"/>
+		<property name="label" value="Credit Options"/>
+		<property name="elementLabel" value="Credit Option"/>
 		<property name="description">
 			<value>
 Credit outcomes from taking the course
@@ -971,7 +978,7 @@ Credit outcomes from taking the course
 Flag to indicate the course as a special topics course
 			</value>
 		</property>
-		<property name="label" value="Special Topics Course"/>
+		<property name="label" value="Special Topics Course?"/>
 		<property name="description">
 			<value>
 Flag to indicate the course as a special topics course
@@ -989,7 +996,7 @@ Flag to indicate a one-time or pilot course, which is likely to have
 expedited approval process
 			</value>
 		</property>
-		<property name="label" value="Pilot Course"/>
+		<property name="label" value="Pilot Course?"/>
 		<property name="description">
 			<value>
 Flag to indicate a one-time or pilot course, which is likely to have
@@ -1046,13 +1053,13 @@ The last academic time period that this Course would be effective.
 		<property name="shortLabel" value="Version Info"/>
 		<property name="summary">
 			<value>
-This method ...
+Version of this course
 			</value>
 		</property>
-		<property name="label" value="Version Info"/>
+		<property name="label" value="Version"/>
 		<property name="description">
 			<value>
-This method ...
+Version of this course
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -1060,10 +1067,10 @@ This method ...
 			<bean parent="DataObjectEntry">
 				<property name="name" value="versionInfo"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
-				<property name="objectLabel" value="Version Info"/>
+				<property name="objectLabel" value="Version"/>
 				<property name="objectDescription">
 					<value>
-This method ...
+Version of this course
 					</value>
 				</property>
 

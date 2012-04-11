@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
+		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -51,13 +51,13 @@ Information about an Issue.
 		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
-				<value>key</value>
+				<value>id</value>
 			</list>
 		</property>
 
 		<property name="attributes">
 			<list>
-				<ref bean="IssueInfo.key"/>
+				<ref bean="IssueInfo.id"/>
 				<ref bean="IssueInfo.typeKey"/>
 				<ref bean="IssueInfo.stateKey"/>
 				<ref bean="IssueInfo.name"/>
@@ -78,8 +78,8 @@ Information about an Issue.
 		</property>
 	</bean>
 
-	<bean id="IssueInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="IssueInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="IssueInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">

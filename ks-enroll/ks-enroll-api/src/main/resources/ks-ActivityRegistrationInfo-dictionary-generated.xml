@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
+		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -125,6 +125,7 @@ Returns the activity offering id for the activity registration.
 						<ref bean="ActivityRegistrationInfo.activityOffering.typeKey"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.stateKey"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.name"/>
+						<ref bean="ActivityRegistrationInfo.activityOffering.formatOfferingId"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.activityId"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.termId"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.activityCode"/>
@@ -227,6 +228,23 @@ A description of the entity.
 		<property name="name" value="formatted"/>
 	</bean>
 
+	<bean id="ActivityRegistrationInfo.activityOffering.formatOfferingId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="formatOfferingId"/>
+		<property name="shortLabel" value="Format Offering Id"/>
+		<property name="summary">
+			<value>
+Format offering Id used to create this activity
+			</value>
+		</property>
+		<property name="label" value="Format Offering Id"/>
+		<property name="description">
+			<value>
+Format offering Id used to create this activity
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
 	<bean id="ActivityRegistrationInfo.activityOffering.activityId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="activityId"/>
 		<property name="shortLabel" value="Activity Id"/>
@@ -250,13 +268,16 @@ Canonical activity whose instance is this activity offering.
 		<property name="summary">
 			<value>
 Academic term the activity is being offered in. 
+
+
 			</value>
 		</property>
 		<property name="label" value="Term Id"/>
 		<property name="description">
 			<value>
-Academic term the activity is being offered in. Should be the
-same as course offering term or a nested term of course
+Academic term the activity is being offered in. 
+
+Same as course offering term or a nested term of course
 offering.
 			</value>
 		</property>

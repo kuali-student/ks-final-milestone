@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
+		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -63,8 +63,6 @@ Information about a Hold.
 				<ref bean="HoldInfo.name"/>
 				<ref bean="HoldInfo.issueId"/>
 				<ref bean="HoldInfo.personId"/>
-				<ref bean="HoldInfo.isWarning"/>
-				<ref bean="HoldInfo.isOverridable"/>
 				<ref bean="HoldInfo.effectiveDate"/>
 				<ref bean="HoldInfo.releasedDate"/>
 			</list>
@@ -155,7 +153,7 @@ A description of the entity.
 
 	<bean id="HoldInfo.issueId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="issueId"/>
-		<property name="shortLabel" value="Issue Key"/>
+		<property name="shortLabel" value="Issue Id"/>
 		<property name="summary">
 			<value>
 The Issue Id.
@@ -167,6 +165,11 @@ The Issue Id.
 The Issue Id.
 			</value>
 		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="true"/>
 	</bean>
 
@@ -184,43 +187,12 @@ The Id of the Person.
 The Id of the Person.
 			</value>
 		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="true"/>
-	</bean>
-
-	<bean id="HoldInfo.isWarning-generated" abstract="true" parent="BaseKuali.boolean">
-		<property name="name" value="isWarning"/>
-		<property name="shortLabel" value="Is Warning"/>
-		<property name="summary">
-			<value>
-Indicates whether this hold is a warning or should result in a
-block.
-			</value>
-		</property>
-		<property name="label" value="is Warning"/>
-		<property name="description">
-			<value>
-Indicates whether this hold is a warning or should result in a
-block.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="HoldInfo.isOverridable-generated" abstract="true" parent="BaseKuali.boolean">
-		<property name="name" value="isOverridable"/>
-		<property name="shortLabel" value="Is Overridable"/>
-		<property name="summary">
-			<value>
-Indicates whether an exception can override this hold.
-			</value>
-		</property>
-		<property name="label" value="Is Overridable"/>
-		<property name="description">
-			<value>
-Indicates whether an exception can override this hold.
-			</value>
-		</property>
-		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="HoldInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">

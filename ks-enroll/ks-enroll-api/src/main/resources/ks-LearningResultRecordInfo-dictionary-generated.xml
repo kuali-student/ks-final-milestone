@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Feb 02 22:30:33 EST 2012
+		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -183,20 +183,20 @@ Result Value (Grade, Credits, etc). References a unique Id in the LRC service
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LearningResultRecordInfo.resultSourceIdList-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="resultSourceIdList"/>
-		<property name="shortLabel" value="Result Source Id List"/>
+	<bean id="LearningResultRecordInfo.resultSourceIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="resultSourceIds"/>
+		<property name="shortLabel" value="Result Source Ids"/>
 		<property name="summary">
 			<value>
-List of source record ids that were responsible in generating the result value. 
+List of source record Ids that were responsible in generating the result value. 
 
 			</value>
 		</property>
 		<property name="label" value="Result Source"/>
-		<property name="elementLabel" value="Result Source Id List"/>
+		<property name="elementLabel" value="Result Source Id"/>
 		<property name="description">
 			<value>
-List of source record ids that were responsible in generating the result value. 
+List of source record Ids that were responsible in generating the result value. 
 E.g Manual Entry, Articulation or Result transformation
 			</value>
 		</property>

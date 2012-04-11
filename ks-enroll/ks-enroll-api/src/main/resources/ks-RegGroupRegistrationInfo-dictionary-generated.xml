@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
+		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -447,43 +447,32 @@ Frequency for the waitlist checkin.
 		<property name="shortLabel" value="Atp Duration Type Key"/>
 		<property name="summary">
 			<value>
-The kind of units associated with the time quantity.
-
-
+The kind of units associated with the quantity, such as
+Semesters.
 			</value>
 		</property>
 		<property name="label" value="Academic Time Period Duration Type Key"/>
 		<property name="description">
 			<value>
-The kind of units associated with the time quantity.
-
-For example months, days, week, semesters, years, minutes, seconds
+The kind of units associated with the quantity, such as
+Semesters.
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegGroupRegistrationInfo.registrationGroup.waitlistCheckinFrequency.timeQuantity-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="RegGroupRegistrationInfo.registrationGroup.waitlistCheckinFrequency.timeQuantity-generated" abstract="true" parent="BaseKuali.integer">
 		<property name="name" value="timeQuantity"/>
 		<property name="shortLabel" value="Time Quantity"/>
 		<property name="summary">
 			<value>
 The amount of time.
-
-
 			</value>
 		</property>
 		<property name="label" value="Time Quantity"/>
 		<property name="description">
 			<value>
 The amount of time.
-
-The general design of this is that it should normally contain integer quantity 
-and not hold fractions or decimals.  Instead the Duration Type should changed 
-to a shorter duration.
-
-However this is a string to allow some implementing schools, if they wish, 
-to capture this information in fractional units which may be more natural.
 			</value>
 		</property>
 		<property name="required" value="false"/>

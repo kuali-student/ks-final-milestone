@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
+		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -168,7 +168,7 @@ Window start date (&quot;Aug 05, 2012&quot;)
 Window start date (&quot;Aug 05, 2012&quot;)
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="AppointmentWindowInfo.endDate-generated" abstract="true" parent="BaseKuali.endDate">
@@ -202,7 +202,7 @@ Slot rules for appointment slot generation
 Slot rules for appointment slot generation
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="slotRule"/>
@@ -251,7 +251,7 @@ The weekday codes (&quot;MWF = 2,4,6&quot;)
 The weekday codes (&quot;MWF = 2,4,6&quot;)
 			</value>
 		</property>
-		<property name="minOccurs" value="1"/>
+		<property name="minOccurs" value="0"/>
 		<property name="dataObjectClass" value="java.lang.Integer"/>
 	</bean>
 
@@ -430,43 +430,32 @@ Interval between start times of two consecutive appointment slots (&quot;30 mins
 		<property name="shortLabel" value="Atp Duration Type Key"/>
 		<property name="summary">
 			<value>
-The kind of units associated with the time quantity.
-
-
+The kind of units associated with the quantity, such as
+Semesters.
 			</value>
 		</property>
 		<property name="label" value="Academic Time Period Duration Type Key"/>
 		<property name="description">
 			<value>
-The kind of units associated with the time quantity.
-
-For example months, days, week, semesters, years, minutes, seconds
+The kind of units associated with the quantity, such as
+Semesters.
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="AppointmentWindowInfo.slotRule.slotStartInterval.timeQuantity-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="AppointmentWindowInfo.slotRule.slotStartInterval.timeQuantity-generated" abstract="true" parent="BaseKuali.integer">
 		<property name="name" value="timeQuantity"/>
 		<property name="shortLabel" value="Time Quantity"/>
 		<property name="summary">
 			<value>
 The amount of time.
-
-
 			</value>
 		</property>
 		<property name="label" value="Time Quantity"/>
 		<property name="description">
 			<value>
 The amount of time.
-
-The general design of this is that it should normally contain integer quantity 
-and not hold fractions or decimals.  Instead the Duration Type should changed 
-to a shorter duration.
-
-However this is a string to allow some implementing schools, if they wish, 
-to capture this information in fractional units which may be more natural.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -523,43 +512,32 @@ Duration of the appointment slot (&quot;20 mins&quot;) - advertised duration of 
 		<property name="shortLabel" value="Atp Duration Type Key"/>
 		<property name="summary">
 			<value>
-The kind of units associated with the time quantity.
-
-
+The kind of units associated with the quantity, such as
+Semesters.
 			</value>
 		</property>
 		<property name="label" value="Academic Time Period Duration Type Key"/>
 		<property name="description">
 			<value>
-The kind of units associated with the time quantity.
-
-For example months, days, week, semesters, years, minutes, seconds
+The kind of units associated with the quantity, such as
+Semesters.
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="AppointmentWindowInfo.slotRule.slotDuration.timeQuantity-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="AppointmentWindowInfo.slotRule.slotDuration.timeQuantity-generated" abstract="true" parent="BaseKuali.integer">
 		<property name="name" value="timeQuantity"/>
 		<property name="shortLabel" value="Time Quantity"/>
 		<property name="summary">
 			<value>
 The amount of time.
-
-
 			</value>
 		</property>
 		<property name="label" value="Time Quantity"/>
 		<property name="description">
 			<value>
 The amount of time.
-
-The general design of this is that it should normally contain integer quantity 
-and not hold fractions or decimals.  Instead the Duration Type should changed 
-to a shorter duration.
-
-However this is a string to allow some implementing schools, if they wish, 
-to capture this information in fractional units which may be more natural.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -579,12 +557,7 @@ Appointment period milestone
 Appointment period milestone
 			</value>
 		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="AppointmentWindowInfo.assignedPopulationId-generated" abstract="true" parent="BaseKuali.string">
@@ -601,12 +574,7 @@ The Population Id to which the appointment window is assigned.
 The Population Id to which the appointment window is assigned.
 			</value>
 		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="AppointmentWindowInfo.assignedOrderTypeKey-generated" abstract="true" parent="BaseKuali.string">
@@ -623,12 +591,7 @@ Ordering for appointment slots assignment (&quot;random&quot;/&quot;last name&qu
 Ordering for appointment slots assignment (&quot;random&quot;/&quot;last name&quot;/&quot;GPA&quot;)
 			</value>
 		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="AppointmentWindowInfo.maxAppointmentsPerSlot-generated" abstract="true" parent="BaseKuali.integer">
