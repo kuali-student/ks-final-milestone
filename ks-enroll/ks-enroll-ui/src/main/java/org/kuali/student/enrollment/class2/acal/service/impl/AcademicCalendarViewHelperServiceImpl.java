@@ -532,11 +532,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         if (groupWrapper != null && StringUtils.isNotBlank(groupWrapper.getKeyDateGroupType())){
             try {
-                List<TypeTypeRelationInfo> types = getTypeService().getTypeTypeRelationsByOwnerAndType(groupWrapper.getKeyDateGroupType(),"kuali.type.type.relation.type.group",getContextInfo());
-                for (TypeTypeRelationInfo relationInfo : types) {
-                    TypeInfo type = getTypeService().getType(relationInfo.getRelatedTypeKey(),contextInfo);
+                List<TypeInfo> types = getTypeService().getTypesForGroupType(groupWrapper.getKeyDateGroupType(), getContextInfo());
+                for (TypeInfo type : types) {
                     if (!existingKeyDateTypes.contains(type.getKey())){
-                        keyValues.add(new ConcreteKeyValue(relationInfo.getRelatedTypeKey(), type.getName()));
+                        keyValues.add(new ConcreteKeyValue(type.getKey(), type.getName()));
                     }
                 }
             } catch (Exception e) {
@@ -550,14 +549,26 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     public void populateKeyDateGroupTypes(InputField field, AcademicCalendarForm acalForm) {
 
+        //As the keydate type select wont display for all the colletion lines, skip if it's not add row.
+        boolean isAddLine = BooleanUtils.toBoolean((Boolean)field.getContext().get(UifConstants.ContextVariableNames.IS_ADD_LINE));
+        if (!isAddLine) {
+            return;
+        }
+
         List keyValues = new ArrayList();
-
-        //TODO
-        //Use getKeyDateTypesForTermType
-
         keyValues.add(new ConcreteKeyValue("", ""));
-        keyValues.add(new ConcreteKeyValue("kuali.milestone.type.group.keydate","Registration Period"));
-        keyValues.add(new ConcreteKeyValue("kuali.milestone.type.group.curriculum","Curriculum"));
+
+        CollectionGroup collectionGroup = (CollectionGroup)field.getContext().get(UifConstants.ContextVariableNames.COLLECTION_GROUP);
+        AcademicTermWrapper termWrapper = ObjectPropertyUtils.getPropertyValue(acalForm,collectionGroup.getBindingInfo().getBindByNamePrefix());
+
+        try {
+            List<TypeInfo> keyDateGroupTypes = getAcalService().getKeyDateTypesForTermType(termWrapper.getTermType(),getContextInfo());
+            for (TypeInfo keyDateGroupType : keyDateGroupTypes) {
+                keyValues.add(new ConcreteKeyValue(keyDateGroupType.getKey(),keyDateGroupType.getName()));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         ((SelectControl) field.getControl()).setOptions(keyValues);
 
@@ -967,7 +978,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }else if (addLine instanceof KeyDatesGroupWrapper){
             KeyDatesGroupWrapper group = (KeyDatesGroupWrapper)addLine;
             try {
-                TypeInfo termType = getTypeService().getType(group.getKeyDateGroupType(),TestHelper.getContext1());
+                TypeInfo termType = getTypeService().getType(group.getKeyDateGroupType(),getContextInfo());
                 group.setKeyDateGroupNameUI(termType.getName());
                 group.setTypeInfo(termType);
             } catch (Exception e) {
@@ -1063,12 +1074,9 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
                 //Populate keydates
                 List<KeyDateInfo> keydateList = getAcalService().getKeyDatesForTerm(termInfo.getId(),getContextInfo());
+                List<TypeInfo> keyDateTypes = getTypeService().getAllowedTypesForType(termInfo.getTypeKey(),getContextInfo());
 
-                TypeInfo registrationGroup = getTypeService().getType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,getContextInfo());
-                TypeInfo curriculumGroup = getTypeService().getType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,getContextInfo());
-
-                KeyDatesGroupWrapper registrationWrapper = new KeyDatesGroupWrapper(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,registrationGroup.getName());
-                KeyDatesGroupWrapper curriculumWrapper = new KeyDatesGroupWrapper(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,curriculumGroup.getName());
+                Map<String,KeyDatesGroupWrapper> keyDateGroup = new HashMap();
 
                 for (KeyDateInfo keyDateInfo : keydateList) {
                     KeyDateWrapper keyDateWrapper = new KeyDateWrapper(keyDateInfo);
@@ -1076,22 +1084,13 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     keyDateWrapper.setTypeInfo(type);
                     keyDateWrapper.setKeyDateNameUI(type.getName());
 
-                    List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD, null, getContextInfo());
-                    List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM, null, getContextInfo());
+                    addKeyDateGroup(keyDateTypes,keyDateWrapper,keyDateGroup);
+                }
 
-                    if (isRelationExists(registrationRelations,keyDateInfo.getTypeKey())){
-                        registrationWrapper.getKeydates().add(keyDateWrapper);
-                    }else if (isRelationExists(curriculumRelations,keyDateInfo.getTypeKey())){
-                        curriculumWrapper.getKeydates().add(keyDateWrapper);
+                for (KeyDatesGroupWrapper group : keyDateGroup.values()) {
+                    if (!group.getKeydates().isEmpty()){
+                        termWrapper.getKeyDatesGroupWrappers().add(group);
                     }
-                }
-
-                if (!registrationWrapper.getKeydates().isEmpty()){
-                    termWrapper.getKeyDatesGroupWrappers().add(registrationWrapper);
-                }
-
-                if (!curriculumWrapper.getKeydates().isEmpty()){
-                    termWrapper.getKeyDatesGroupWrappers().add(curriculumWrapper);
                 }
 
                 termWrappers.add(termWrapper);
@@ -1102,8 +1101,27 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }
 
         return termWrappers;
+    }
 
-
+    private void addKeyDateGroup(List<TypeInfo> keyDateTypes,KeyDateWrapper keyDateWrapper,Map<String,KeyDatesGroupWrapper> keyDateGroup){
+        for (TypeInfo keyDateType : keyDateTypes) {
+            try {
+                List<TypeInfo> allowedTypes = getTypeService().getTypesForGroupType(keyDateType.getKey(),getContextInfo());
+                for (TypeInfo allowedType : allowedTypes) {
+                    if (StringUtils.equals(allowedType.getKey(),keyDateWrapper.getKeyDateType())){
+                        KeyDatesGroupWrapper keyDatesGroup = keyDateGroup.get(keyDateType.getKey());
+                        if (keyDatesGroup == null){
+                            keyDatesGroup = new KeyDatesGroupWrapper(keyDateType.getKey(),keyDateType.getName());
+                            keyDateGroup.put(keyDateType.getKey(),keyDatesGroup);
+                        }
+                        keyDatesGroup.getKeydates().add(keyDateWrapper);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private boolean isRelationExists(List<TypeTypeRelationInfo> registrationRelations,String keyDateType){
