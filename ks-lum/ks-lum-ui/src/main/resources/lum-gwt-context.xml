@@ -896,7 +896,7 @@
 
     <bean id="cluClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.clu.service.CluService"/>
-        <property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/clu}CluService"/>
     </bean>
 
     <bean id="commentClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -1030,7 +1030,8 @@
 	<bean id="metadataMethodCacheAdvisor" class="org.kuali.student.r1.common.assembly.util.spring.MetadataMethodEhcacheAdvice">
 		<property name="cacheName" value="metadataCache" />
 		<property name="cacheManager" ref="ksLumGwtCacheManager"/>
-		<property name="enabled" value="${ks.lum.gwt.metadata.enable.caching}"/>
+		<!-- kscm-313 property name="enabled" value="${ks.lum.gwt.metadata.enable.caching}"/ -->
+		<property name="enabled" value="false"/>
 	</bean>
 	
 	<aop:config>
