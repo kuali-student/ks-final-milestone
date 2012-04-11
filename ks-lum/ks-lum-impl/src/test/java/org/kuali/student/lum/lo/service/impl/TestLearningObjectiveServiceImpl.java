@@ -109,9 +109,9 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertEquals("New ResultComponent", desc.getPlain());
         assertEquals(date.toString(), created.getEffectiveDate().toString());
         assertEquals(date.toString(), created.getExpirationDate().toString());
-      //TODO KSCM   Map<String, String> newAttributes = created.getAttributes();
-      //TODO KSCM assertNotNull(newAttributes);
-      //TODO KSCM   assertEquals("attrValue", newAttributes.get("attrKey"));
+        assertNotNull(created.getAttributes());
+        assertEquals("attrValue", created.getAttributes().get(0).getValue());
+        assertEquals("attrKey", created.getAttributes().get(0).getKey());
         assertEquals("kuali.lo.type.singleUse", created.getTypeKey()); 
         assertEquals(DtoConstants.STATE_DRAFT, created.getStateKey());
 
@@ -127,9 +127,9 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertEquals("New ResultComponent", desc.getPlain());
         assertEquals(date.toString(), updated.getEffectiveDate().toString());
         assertEquals(date.toString(), updated.getExpirationDate().toString());
-      //TODO KSCM   newAttributes = updated.getAttributes();
-      //TODO KSCM    assertNotNull(newAttributes);
-      //TODO KSCM    assertEquals("attrValue", newAttributes.get("attrKey"));
+        assertNotNull(updated.getAttributes());
+        assertEquals("attrValue", updated.getAttributes().get(0).getValue());
+        assertEquals("attrKey", updated.getAttributes().get(0).getKey());
         assertEquals("kuali.lo.type.singleUse", updated.getTypeKey()); 
         assertEquals(DtoConstants.STATE_DRAFT, updated.getStateKey());
 
@@ -217,15 +217,15 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		dupCatInfo.setLoRepositoryKey(catRepo);
 		
 		
-//		try {
-//			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, dupCatInfo,contextInfo);
-//			// delete the two (one erroneously) created so as to not mess up other tests
-//			client.deleteLoCategory(newCatInfo.getId(), contextInfo);
-//			client.deleteLoCategory(dupCatInfo.getId(), contextInfo);
-//            fail("DataValidationErrorException expected when creating LoCategory with the same name, type and state");
-//		} catch (DataValidationErrorException e) {
-//			// expected result
-//		}
+		try {
+			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, dupCatInfo,contextInfo);
+			// delete the two (one erroneously) created so as to not mess up other tests
+			client.deleteLoCategory(newCatInfo.getId(), contextInfo);
+			client.deleteLoCategory(dupCatInfo.getId(), contextInfo);
+            fail("DataValidationErrorException expected when creating LoCategory with the same name, type and state");
+		} catch (DataValidationErrorException e) {
+			// expected result
+		}
 		// delete the one created so as to not mess up other tests
 		client.deleteLoCategory(newCatInfo.getId(), contextInfo);
 	}	
@@ -334,18 +334,18 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		dupCatInfo.setLoRepositoryKey(catRepo);
 		
 		
-//		try {
-//			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, dupCatInfo, contextInfo);
-//			dupCatInfo = client.getLoCategory(dupCatInfo.getId(), contextInfo);
-//			dupCatName = dupCatInfo.getName();
-//			
-//			// delete the two (one erroneously) created so as to not mess up other tests
-//			client.deleteLoCategory(newCatInfo.getId(), contextInfo);
-//			client.deleteLoCategory(dupCatInfo.getId(), contextInfo);
-//            fail("DataValidationErrorException expected when creating LoCategory with the same name, type and state");
-//		} catch (DataValidationErrorException e) {
-//			// expected result
-//		}
+		try {
+			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, dupCatInfo, contextInfo);
+			dupCatInfo = client.getLoCategory(dupCatInfo.getId(), contextInfo);
+			dupCatName = dupCatInfo.getName();
+			
+			// delete the two (one erroneously) created so as to not mess up other tests
+			client.deleteLoCategory(newCatInfo.getId(), contextInfo);
+			client.deleteLoCategory(dupCatInfo.getId(), contextInfo);
+            fail("DataValidationErrorException expected when creating LoCategory with the same name, type and state");
+		} catch (DataValidationErrorException e) {
+			// expected result
+		}
 		// delete the one created so as to not mess up other tests
 		client.deleteLoCategory(newCatInfo.getId(), contextInfo);
 	}	
@@ -375,10 +375,10 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		catInfo2.setLoRepositoryKey(catRepo);
 		
 		try{				
-			catInfo1 = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, catInfo1, contextInfo);
+			catInfo1 = client.createLoCategory(catType, catInfo1, contextInfo);
 			catId1 = catInfo1.getId();
 			
-			catInfo2 = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, catInfo2, contextInfo);
+			catInfo2 = client.createLoCategory(catType, catInfo2, contextInfo);
 			catId2 = catInfo2.getId();
 		} catch (OperationFailedException ofe) {
 			System.err.println(ofe.getMessage());
@@ -441,7 +441,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		boolean found = false;
 		String  repoId = "kuali.loRepository.key.state";
 		for (LoRepositoryInfo loRInfo : repos) {
-			if (loRInfo.getRootLoId().equals(repoId)) {
+			if (loRInfo.getId().equals(repoId)) {
 				found = true;
 			}
 		}
@@ -469,8 +469,16 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     
     @Test
     public void testGetLoCategoryTypes() throws DoesNotExistException, InvalidParameterException, OperationFailedException {
-    	//List<LoCategoryTypeInfo> loCatTypeInfos = TypeService?????
-    	//assertEquals(3, loCatTypeInfos.size());
+    	
+    	List<LoCategoryTypeInfo> loCatTypeInfos = null;
+    	
+     	try {
+     		loCatTypeInfos = client.getLoCategoryTypes();
+    	} catch (Exception e) {
+            fail("Exception caught when calling LearningObjectiveService.getLoCategoryTypes(): " + e.getMessage());
+    	}
+    	assertNotNull(loCatTypeInfos);
+    	assertEquals(3, loCatTypeInfos.size());
     }
     	
     @Test
@@ -614,11 +622,11 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	assertEquals(DtoConstants.STATE_DRAFT, llrInfo.getStateKey());
         // Detecting expected errors
         try {
-    		client.createLoLoRelation("bar", llrInfo, contextInfo);
+    		client.createLoLoRelation("bar", null, contextInfo);
             fail("MissingParameterException expected for loId");
         } catch (MissingParameterException e) {}
         try {
-    		client.createLoLoRelation("bar", llrInfo, contextInfo);
+    		client.createLoLoRelation(null, llrInfo, contextInfo);
             fail("MissingParameterException expected for relatedLoId");
         } catch (MissingParameterException e) {}
         try {

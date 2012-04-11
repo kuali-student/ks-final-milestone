@@ -970,18 +970,19 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public LoLoRelationInfo  createLoLoRelation ( String loLoRelationTypeKey,  LoLoRelationInfo loLoRelationInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-	    checkForMissingParameter(loLoRelationInfo.getLoId(), "loId");
+		checkForMissingParameter(loLoRelationInfo, "loLoRelationInfo");
+		checkForMissingParameter(loLoRelationTypeKey, "loLoRelationTypeKey");
+		checkForMissingParameter(loLoRelationInfo.getLoId(), "loId");
 	    checkForMissingParameter(loLoRelationInfo.getRelatedLoId(), "relatedLoId");
 	    checkForMissingParameter(loLoRelationInfo.getTypeKey(), "loLoRelationType");
-	    checkForMissingParameter(loLoRelationInfo, "loLoRelationInfo");
-	    
+	   
 		// Validate LoLoRelation
 		List<ValidationResultInfo> val = validateLoLoRelation("SYSTEM", loLoRelationInfo,contextInfo);
 		if(null != val && val.size() > 0) {
 			for (ValidationResultInfo result : val) {
 				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
 			}
-			//TODO KSCM-428 :throw new DataValidationErrorException("Validation error!", val);
+		
 			throw new DataValidationErrorException("Validation error!");
 		}
 	    

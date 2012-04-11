@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Date;
 
-@XmlType(name = "LoRepositoryInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "rootLoId", "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "LoRepositoryInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "rootLoId", "effectiveDate", "expirationDate","id", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoRepositoryInfo extends KeyEntityInfo implements LoRepository, Serializable {
 
@@ -39,6 +39,9 @@ public class LoRepositoryInfo extends KeyEntityInfo implements LoRepository, Ser
 
     @XmlElement
     private Date expirationDate;
+    
+    @Deprecated //for the convention until only have R2
+    private String id;
 
     public LoRepositoryInfo(){
 
@@ -79,5 +82,15 @@ public class LoRepositoryInfo extends KeyEntityInfo implements LoRepository, Ser
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
+    
+    @Deprecated
+	public String getId() {
+		return id;
+	}
+   
+    @Deprecated
+	public void setId(String id) {
+		this.id = id;
+	}
 
 }
