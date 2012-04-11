@@ -152,10 +152,10 @@ INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,E
 INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,EXPIR_DT,REF_OBJECT_URI,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.milestone.type.group.event', null, 'Event Group','The list of milestone types that are used for academic calendar events','The list of milestone types that are used for academic calendar events', null, null, 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0, to_date('2012-03-01', 'YYYY-MM-DD'), 'SYSTEMLOADER', null,null)
 /
 
-INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,EXPIR_DT,REF_OBJECT_URI,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.milestone.type.group.keydate', null, 'Key Date Group','The list of milestone types that are used for Key Dates that are associated with a term','The list of milestone types that are used for Key Dates that are associated with a term', null, null, 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0, to_date('2012-03-01', 'YYYY-MM-DD'), 'SYSTEMLOADER', null,null)
+INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,EXPIR_DT,REF_OBJECT_URI,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.milestone.type.group.instructional', null, 'Key Date Instructional Group','The list of milestone types that are used for Instructional Key Dates that are associated with a term','The list of milestone types that are used for Key Dates that are associated with a term', null, null, 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0, to_date('2012-03-01', 'YYYY-MM-DD'), 'SYSTEMLOADER', null,null)
 /
 
-INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,EXPIR_DT,REF_OBJECT_URI,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.milestone.type.group.curriculum', null, 'Key Date Curriculum Group','The list of milestone types that are used for Key Dates that are associated with a term','The list of milestone types that are used for Key Dates that are associated with a term', null, null, 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0, to_date('2012-03-01', 'YYYY-MM-DD'), 'SYSTEMLOADER', null,null)
+INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,EXPIR_DT,REF_OBJECT_URI,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.milestone.type.group.registration', null, 'Key Date Registration Group','The list of milestone types that are used for Registration Key Dates that are associated with a term','The list of milestone types that are used for Key Dates that are associated with a term', null, null, 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0, to_date('2012-03-01', 'YYYY-MM-DD'), 'SYSTEMLOADER', null,null)
 /
 
 INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,EXPIR_DT,REF_OBJECT_URI,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.atp.type.group.term', null, 'Term Group','The list of Terms that are associated with an academic calendar','The list of Terms that are associated with an academic calendar', null, null, 'http://student.kuali.org/wsdl/atp/AtpInfo', 0, to_date('2012-03-01', 'YYYY-MM-DD'), 'SYSTEMLOADER', null,null)
@@ -289,12 +289,6 @@ INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,E
 INSERT INTO KSEN_TYPE (TYPE_KEY,OBJ_ID,NAME,DESCR_PLAIN,DESCR_FORMATTED,EFF_DT,EXPIR_DT,REF_OBJECT_URI,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.atp.milestone.GradingPeriod', null, 'Grading Period','Dates between which grades can be submitted','Dates between which grades can be submitted', null, null, 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0, to_date('2012-03-01', 'YYYY-MM-DD'), 'SYSTEMLOADER', null,null)
 /
 
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.holiday.kuali.atp.milestone.LaborDay', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.holiday', 'kuali.atp.milestone.LaborDay', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.holiday.kuali.atp.milestone.ColumbusDay', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.holiday', 'kuali.atp.milestone.ColumbusDay', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
 
 -----------------------------------------------
 --- NEW ATP TYPE TYPE RELATIONS  - TERM GROUPING
@@ -317,6 +311,11 @@ INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_S
 --- NEW ATP TYPE TYPE RELATIONS - HOLIDAY GROUPING
 -----------------------------------------------
 
+INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.holiday.kuali.atp.milestone.LaborDay', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.holiday', 'kuali.atp.milestone.LaborDay', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
+
+INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.holiday.kuali.atp.milestone.ColumbusDay', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.holiday', 'kuali.atp.milestone.ColumbusDay', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+/
 
 INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.holiday.kuali.atp.milestone.VeteransDay', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.holiday', 'kuali.atp.milestone.VeteransDay', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
@@ -370,53 +369,8 @@ INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_ST
 
 
 -----------------------------------------------
---- NEW ATP TYPE TYPE RELATIONS - KEYDATE GROUPING
------------------------------------------------
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.RegistrationOpen', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.RegistrationOpen', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.RegistrationPeriod1', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.RegistrationPeriod1', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.RegistrationPeriod2', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.RegistrationPeriod2', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.RegistrationPeriod3', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.RegistrationPeriod3', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.RegistrationPeriod4', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.RegistrationPeriod4', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.RegistrationPeriod5', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.RegistrationPeriod5', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.RegistrationPeriod6', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.RegistrationPeriod6', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.AddDropPeriod1', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.AddDropPeriod1', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.AddDropPeriod2', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.AddDropPeriod2', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.AddDropPeriod3', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.AddDropPeriod3', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.InstructionalPeriod', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.InstructionalPeriod', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.FinalExamPeriod', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.FinalExamPeriod', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.keydate.kuali.atp.milestone.GradingPeriod', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.keydate', 'kuali.atp.milestone.GradingPeriod', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
-/
-
-
------------------------------------------------
 --- NEW ATP TYPE TYPE RELATIONS - REGISTRATION KEYDATE GROUPING
 -----------------------------------------------
-
 
 INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE,TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.group.kuali.milestone.type.group.registration.kuali.atp.milestone.RegistrationOpen', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.registration', 'kuali.atp.milestone.RegistrationOpen', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
@@ -484,16 +438,16 @@ INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_S
 --- NEW ATP TYPE TYPE RELATIONS - ALLOWED KEYDATE GROUP FOR TERMS
 -----------------------------------------------
 
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Fall.kuali.milestone.type.group.keydate', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Fall', 'kuali.milestone.type.group.keydate', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Fall.kuali.milestone.type.group.registration', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Fall', 'kuali.milestone.type.group.registration', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
 
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Winter.kuali.milestone.type.group.keydate', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Winter', 'kuali.milestone.type.group.keydate', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Winter.kuali.milestone.type.group.registration', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Winter', 'kuali.milestone.type.group.registration', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
 
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Spring.kuali.milestone.type.group.keydate', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Spring', 'kuali.milestone.type.group.keydate', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Spring.kuali.milestone.type.group.registration', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Spring', 'kuali.milestone.type.group.registration', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
 
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Summer.kuali.milestone.type.group.keydate', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Summer', 'kuali.milestone.type.group.keydate', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Summer.kuali.milestone.type.group.registration', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Summer', 'kuali.milestone.type.group.registration', 0, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
 
 
@@ -501,14 +455,14 @@ INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_S
 --- NEW ATP TYPE TYPE RELATIONS - ALLOWED CIRRICULUM GROUP FOR TERMS
 -----------------------------------------------
 
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Fall.kuali.milestone.type.group.curriculum', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Fall', 'kuali.milestone.type.group.curriculum', 1, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Fall.kuali.milestone.type.group.instructional', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Fall', 'kuali.milestone.type.group.instructional', 1, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
 
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Winter.kuali.milestone.type.group.curriculum', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Winter', 'kuali.milestone.type.group.curriculum', 1, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Winter.kuali.milestone.type.group.instructional', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Winter', 'kuali.milestone.type.group.instructional', 1, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
 
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Spring.kuali.milestone.type.group.curriculum', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Spring', 'kuali.milestone.type.group.curriculum', 1, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Spring.kuali.milestone.type.group.instructional', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Spring', 'kuali.milestone.type.group.instructional', 1, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
 
-INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Summer.kuali.milestone.type.group.curriculum', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Summer', 'kuali.milestone.type.group.curriculum', 1, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
+INSERT INTO KSEN_TYPETYPE_RELTN (ID,OBJ_ID,TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE,EFF_DT,EXPIR_DT,OWNER_TYPE_ID,RELATED_TYPE_ID,RANK,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.type.type.relation.type.allowed.kuali.atp.type.Summer.kuali.milestone.type.group.instructional', null, 'kuali.type.type.relation.type.allowed', 'kuali.type.type.relation.state.active',null,null, 'kuali.atp.type.Summer', 'kuali.milestone.type.group.instructional', 1, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
