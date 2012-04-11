@@ -241,8 +241,8 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
 
     	//Set the end terms on the major discipline
-    	//TODO KSCM-388 majorDisciplineInfo.setEndProgramEntryTermId(endEntryTerm);
-    	//TODO KSCM-388 majorDisciplineInfo.setEndTermId(endEnrollTerm);
+    	majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
+    	majorDisciplineInfo.setEndTerm(endEnrollTerm);
         majorDisciplineInfo.getAttributes().add(new AttributeInfo("endInstAdmitTerm", endInstAdmitTerm));
 
         //Check if there are variations to process
