@@ -3,6 +3,10 @@ package org.kuali.student.enrollment.class2.appointment.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.util.ComponentFactory;
+import org.kuali.rice.krad.uif.util.UifWebUtils;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
@@ -61,6 +65,30 @@ public class RegistrationWindowsController extends UifControllerBase {
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new RegistrationWindowsManagementForm();
+    }
+
+    @RequestMapping(params = "methodToCall=assignStudents")
+    public ModelAndView assignStudents(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
+
+        //Get the index of the selected line that is to be deleted
+        int selectedLineIndex = -1;
+        String selectedLine = uifForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        //Add the window id to the list of ids to be deleted
+        if(selectedLineIndex>=0){
+            AppointmentWindowWrapper window = theForm.getAppointmentWindows().get(selectedLineIndex);
+            getAppointmentService().generateAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
+            getAppointmentService().generateAppointmentsByWindow(window.getAppointmentWindowInfo().getId(), window.getAppointmentWindowInfo().getTypeKey(), new ContextInfo());
+            //TODO change the state of the window to assigned, or update the window from the service if the service does this
+        }
+
+        return updateComponent(uifForm, result, request, response);
     }
 
     @Override
