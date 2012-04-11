@@ -19,7 +19,7 @@ public class LprDao extends GenericEntityDao<LuiPersonRelationEntity> {
     }
 
     public List<LuiPersonRelationEntity> getLprsByPersonAndType(String personId,String typeKey){
-        return em.createQuery("from LuiPersonRelationEntity lpr where lpr.personId=:personId and lpr.personRelationType.id=:typeKey").setParameter("personId", personId).setParameter("typeKey", typeKey).getResultList();
+        return em.createQuery("from LuiPersonRelationEntity lpr where lpr.personId=:personId and lpr.personRelationTypeId=:typeKey").setParameter("personId", personId).setParameter("typeKey", typeKey).getResultList();
     }
     
     
@@ -29,7 +29,7 @@ public class LprDao extends GenericEntityDao<LuiPersonRelationEntity> {
     
     @SuppressWarnings("unchecked")
 	public List<String> getPersonIdsByLui(String luiId, String typeKey, String stateKey){
-    	return em.createQuery("select lpr.personId from LuiPersonRelationEntity lpr where lpr.luiId=:luiId and lpr.personRelationType.id=:typeKey and lpr.personRelationState.id=:stateKey")
+    	return em.createQuery("select lpr.personId from LuiPersonRelationEntity lpr where lpr.luiId=:luiId and lpr.personRelationTypeId=:typeKey and lpr.personRelationStateId=:stateKey")
     		.setParameter("luiId", luiId)
     		.setParameter("typeKey", typeKey)
     		.setParameter("stateKey", stateKey)
@@ -45,7 +45,7 @@ public class LprDao extends GenericEntityDao<LuiPersonRelationEntity> {
     }
 
     public List<LuiPersonRelationEntity> getLprsByLuiPersonAndState(String personId, String luiId, String stateKey) {
-        return em.createQuery("from LuiPersonRelationEntity lpr where lpr.personId=:personId and lpr.luiId=:luiId and lpr.personRelationState.id=:stateKey")
+        return em.createQuery("from LuiPersonRelationEntity lpr where lpr.personId=:personId and lpr.luiId=:luiId and lpr.personRelationStateId=:stateKey")
                 .setParameter("personId", personId)
                 .setParameter("luiId", luiId)
                 .setParameter("stateKey", stateKey)

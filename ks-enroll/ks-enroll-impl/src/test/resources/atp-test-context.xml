@@ -24,8 +24,8 @@
 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
 	<import resource="classpath:search-test-context.xml"/>
 	
-	    <!--  Preloaded data -->
-    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+	    <!--  Preloaded data None -->
+<!--    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
         <property name="shouldLoadData" value="true"/>
         <property name="preloadMap">
@@ -35,7 +35,7 @@
                 </entry>
             </map>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="systemPropertyConfigurer"
         class="org.kuali.student.common.util.SystemPropertyConfigurer">
@@ -87,11 +87,11 @@
             <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" />-->
     </bean>
     
-   <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
-        <property name="persistenceUnitName" value="Acal"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml" />
+    <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
+        <property name="persistenceUnitName" value="persistentUnit"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-persistence.xml" />
         <property name="dataSource" ref="dataSource" />
-   </bean>
+    </bean>
     
    <!--<bean id="entityManagerFactory"
         class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" autowire-candidate="false" autowire="byType">
@@ -108,9 +108,6 @@
 	  	<property name="atpRelDao" ref="atpAtpRelationDao"/>
 	  	<property name="milestoneDao" ref="milestoneDao"/>
 	  	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
-    	<property name="stateService" ref="stateService"/>
-        <property name="typeService" ref="typeService" />
-    	<property name="dataDictionaryService" ref="dataDictionaryServiceForAtp"/>
     	<property name="criteriaLookupService" ref="atpCriteriaLookupService"/>
     </bean>
 
@@ -148,30 +145,32 @@
     <bean id="atpMilestoneRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao">
         <property name="em" ref="entityManager"/>
     </bean>
-    
+
+    <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
     <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
 	<bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
         <property name="stateDao" ref="stateDao"/>
-        <property name="spDao" ref="stateProcessDao"/>
-        <property name="sprDao" ref="stateProcessRelationDao"/>
+        <property name="lifecycleDao" ref="lifecycleDao"/>
     </bean>
     
     <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="stateProcessDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
+    <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
-        <property name="em" ref="entityManager"/>
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+        <property name="typeDao" ref="typeDao"/>
+        <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     </bean>
-    
-    <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
 
 	<tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />

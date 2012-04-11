@@ -41,7 +41,6 @@ public interface Type
      * Friendly name of the Type.
      *
      * @name Name
-     * @readOnly
      * @required
      */
     public String getName();
@@ -51,7 +50,6 @@ public interface Type
      * Narrative description of the type.
      *
      * @name Description
-     * @readOnly
      */
     public RichText getDescr();        
         
@@ -66,7 +64,6 @@ public interface Type
      * </ol>
      *
      * @name Reference Object Uri
-     * @readOnly
      */
     public String getRefObjectUri();
 }

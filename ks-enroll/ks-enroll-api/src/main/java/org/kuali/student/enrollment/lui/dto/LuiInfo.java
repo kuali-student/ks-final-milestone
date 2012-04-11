@@ -31,13 +31,13 @@ import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.infc.MeetingSchedule;
-import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
-import org.kuali.student.r2.lum.lu.dto.FeeInfo;
-import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
-import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
-import org.kuali.student.r2.lum.lu.infc.Fee;
-import org.kuali.student.r2.lum.lu.infc.LuCode;
-import org.kuali.student.r2.lum.lu.infc.Revenue;
+import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
+import org.kuali.student.r2.lum.clu.dto.FeeInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
+import org.kuali.student.r2.lum.clu.infc.Fee;
+import org.kuali.student.r2.lum.clu.infc.LuCode;
+import org.kuali.student.r2.lum.clu.infc.Revenue;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -47,6 +47,7 @@ import org.w3c.dom.Element;
     "cluCluRelationIds", "atpId", "luiCodes",
     "maximumEnrollment", "minimumEnrollment", "referenceURL",
     "unitsContentOwner", "unitsDeployment", "resultValuesGroupKeys",
+    "relatedLuiTypes",
     "fees", "revenues", "expenditure",
     "meta", "attributes", "meetingSchedules", "_futureElements"})
 public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
@@ -81,43 +82,29 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
     @XmlElement
     private List<String> resultValuesGroupKeys;
     @XmlElement
+    private List<String> relatedLuiTypes;
+    @XmlElement
     private List<FeeInfo> fees;
     @XmlElement
     private List<RevenueInfo> revenues;
     @XmlElement
     private ExpenditureInfo expenditure;
     @XmlElement
-    private List<MeetingScheduleInfo> meetingSchedules;    
+    private List<MeetingScheduleInfo> meetingSchedules;
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public LuiInfo() {
-        super();
-
-        effectiveDate = null;
-        expirationDate = null;
-
-        officialIdentifier = null;
-        alternateIdentifiers = null;
-        cluId = null;
-        cluCluRelationIds = null;
-        atpId = null;
-        luiCodes = null;
-
-        maximumEnrollment = null;
-        minimumEnrollment = null;
-        referenceURL = null;
+        alternateIdentifiers = new ArrayList<LuiIdentifierInfo>();
+        cluCluRelationIds = new ArrayList<String>();
+        luiCodes = new ArrayList<LuCodeInfo>();
         unitsDeployment = new ArrayList<String>();
         unitsContentOwner = new ArrayList<String>();
         resultValuesGroupKeys = new ArrayList<String>();
-
+        relatedLuiTypes = new ArrayList<String>();
         fees = new ArrayList<FeeInfo>();
         revenues = new ArrayList<RevenueInfo>();
-        expenditure = null;
-
         this.meetingSchedules = new ArrayList<MeetingScheduleInfo>();
-        
-        _futureElements = null;
     }
 
     public LuiInfo(Lui lui) {
@@ -141,7 +128,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         }
 
         this.cluId = lui.getCluId();
-        this.cluCluRelationIds = null != lui.getCluCluRelationIds() ? new ArrayList<String>(getCluCluRelationIds()) : new ArrayList<String>();
+        this.cluCluRelationIds = (null != lui.getCluCluRelationIds() ? new ArrayList<String>(lui.getCluCluRelationIds()) : new ArrayList<String>());
         this.atpId = lui.getAtpId();
 
         this.luiCodes = new ArrayList<LuCodeInfo>();
@@ -159,6 +146,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         }
         this.unitsDeployment = new ArrayList<String>(lui.getUnitsDeployment());
         this.resultValuesGroupKeys = new ArrayList<String>(lui.getResultValuesGroupKeys());
+        this.relatedLuiTypes = new ArrayList<String>(lui.getRelatedLuiTypes());
 
         this.fees = new ArrayList<FeeInfo>();
         if (lui.getFees() != null) {
@@ -178,13 +166,13 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
             this.expenditure = new ExpenditureInfo(lui.getExpenditure());
         }
 
-        this.meetingSchedules = new ArrayList<MeetingScheduleInfo>();        
-        if(null != lui.getMeetingSchedules()) {
-            for(MeetingSchedule m : lui.getMeetingSchedules()) {
+        this.meetingSchedules = new ArrayList<MeetingScheduleInfo>();
+        if (null != lui.getMeetingSchedules()) {
+            for (MeetingSchedule m : lui.getMeetingSchedules()) {
                 this.meetingSchedules.add(new MeetingScheduleInfo(m));
             }
         }
-        
+
         this._futureElements = null;
     }
 
@@ -217,6 +205,9 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
     @Override
     public List<LuiIdentifierInfo> getAlternateIdentifiers() {
+        if (alternateIdentifiers == null) {
+            alternateIdentifiers = new ArrayList<LuiIdentifierInfo>();
+        }
         return alternateIdentifiers;
     }
 
@@ -235,6 +226,9 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
     @Override
     public List<String> getCluCluRelationIds() {
+        if (cluCluRelationIds == null) {
+            cluCluRelationIds = new ArrayList<String>();
+        }
         return cluCluRelationIds;
     }
 
@@ -253,6 +247,9 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
     @Override
     public List<LuCodeInfo> getLuiCodes() {
+        if (luiCodes == null) {
+            luiCodes = new ArrayList<LuCodeInfo>();
+        }
         return luiCodes;
     }
 
@@ -298,6 +295,9 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
     @Override
     public List<String> getUnitsContentOwner() {
+        if (unitsDeployment == null) {
+            unitsDeployment = new ArrayList<String>();
+        }
         return unitsContentOwner;
     }
 
@@ -307,6 +307,9 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
     @Override
     public List<String> getResultValuesGroupKeys() {
+        if (resultValuesGroupKeys == null) {
+            resultValuesGroupKeys = new ArrayList<String>();
+        }
         return resultValuesGroupKeys;
     }
 
@@ -315,7 +318,22 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
     }
 
     @Override
+    public List<String> getRelatedLuiTypes() {
+        if (relatedLuiTypes == null) {
+            relatedLuiTypes = new ArrayList<String>();
+        }
+        return relatedLuiTypes;
+    }
+
+    public void setRelatedLuiTypes(List<String> relatedLuiTypes) {
+        this.relatedLuiTypes = relatedLuiTypes;
+    }
+
+    @Override
     public List<FeeInfo> getFees() {
+        if (fees == null) {
+            fees = new ArrayList<FeeInfo>();
+        }
         return fees;
     }
 
@@ -325,6 +343,9 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
     @Override
     public List<RevenueInfo> getRevenues() {
+        if (revenues == null) {
+            revenues = new ArrayList<RevenueInfo>();
+        }
         return revenues;
     }
 
@@ -340,13 +361,16 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
     public void setExpenditure(ExpenditureInfo expenditure) {
         this.expenditure = expenditure;
     }
-    
+
     @Override
     public List<MeetingScheduleInfo> getMeetingSchedules() {
+        if (meetingSchedules == null) {
+            meetingSchedules = new ArrayList<MeetingScheduleInfo>();
+        }
         return this.meetingSchedules;
     }
 
     public void setMeetingSchedules(List<MeetingScheduleInfo> meetingSchedules) {
         this.meetingSchedules = meetingSchedules;
-    }    
+    }
 }

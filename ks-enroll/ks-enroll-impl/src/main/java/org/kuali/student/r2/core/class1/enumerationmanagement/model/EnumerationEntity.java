@@ -36,14 +36,14 @@ import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.infc.Enumeration;
 
 @Entity
-@Table(name = "KSEM_ENUM_T")
+@Table(name = "KSEN_ENUM_T")
 @AttributeOverrides({
     @AttributeOverride(name="id", column=@Column(name="ENUM_KEY"))})
 public class EnumerationEntity extends MetaEntity implements AttributeOwner<EnumerationAttributeEntity> {
-    
+
     @Column(name = "NAME")
     private String name;
-    
+
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String formatted;
 
@@ -58,9 +58,8 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<EnumerationAttributeEntity> attributes = new ArrayList<EnumerationAttributeEntity>();
-    
-    public EnumerationEntity() {
-    }
+
+    public EnumerationEntity() {}
 
     public EnumerationEntity(Enumeration enumeration) {
         super(enumeration);
@@ -70,7 +69,9 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
             this.setDescrFormatted(enumeration.getDescr().getFormatted());
             this.setDescrPlain(enumeration.getDescr().getPlain());
         }
-        
+        if (enumeration.getStateKey() != null) {
+            this.setEnumerationState(enumeration.getStateKey());
+        }
         this.setAttributes(new ArrayList<EnumerationAttributeEntity>());
         if (null != enumeration.getAttributes()) {
             for (Attribute att : enumeration.getAttributes()) {
@@ -86,7 +87,7 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public String getDescrFormatted() {
         return formatted;
     }
@@ -118,7 +119,7 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
     public void setEnumerationState(String enumerationState) {
         this.enumerationState = enumerationState;
     }
-    
+
     @Override
     public void setAttributes(List<EnumerationAttributeEntity> attributes) {
         this.attributes = attributes;
@@ -128,7 +129,7 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
     public List<EnumerationAttributeEntity> getAttributes() {
         return attributes;
     }
-   
+
     public EnumerationInfo toDto() {
         EnumerationInfo enumeration = new EnumerationInfo();
         enumeration.setKey(getId());

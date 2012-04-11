@@ -19,25 +19,36 @@ package org.kuali.student.enrollment.class2.acal.keyvalue;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.test.utilities.TestHelper;
+import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-public class AcalEventTypeKeyValues extends KeyValuesBase implements Serializable {
+public class AcalEventTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private transient AcademicCalendarService acalService;
 
-    public List<KeyValue> getKeyValues() {
+    public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        List<String> alreadyAddedTypes = new ArrayList();
+
+        AcademicCalendarForm acalForm = (AcademicCalendarForm)model;
+
+        for (AcalEventWrapper eventWrapper : acalForm.getEvents()){
+            alreadyAddedTypes.add(eventWrapper.getEventTypeKey());
+        }
 
         //Hard code "Select Event Type"
         ConcreteKeyValue topKeyValue = new ConcreteKeyValue();
@@ -51,10 +62,12 @@ public class AcalEventTypeKeyValues extends KeyValuesBase implements Serializabl
         try {
             List<TypeInfo> types = getAcalService().getAcalEventTypes(context);
             for (TypeInfo type : types) {
-                ConcreteKeyValue keyValue = new ConcreteKeyValue();
-                keyValue.setKey(type.getKey());
-                keyValue.setValue(type.getName());
-                keyValues.add(keyValue);
+                if (!alreadyAddedTypes.contains(type.getKey())){
+                    ConcreteKeyValue keyValue = new ConcreteKeyValue();
+                    keyValue.setKey(type.getKey());
+                    keyValue.setValue(type.getName());
+                    keyValues.add(keyValue);
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

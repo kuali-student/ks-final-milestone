@@ -258,7 +258,7 @@ public interface CommentService {
      * @param tagIds      list of Tags to be retrieved
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
-     * @return list of Tag information for the given list of Tag ids
+     * @return list of Tag information for the given list of Tag Ids
      * @throws DoesNotExistException     an tagKey in list not found
      * @throws InvalidParameterException invalid tagKey
      * @throws MissingParameterException tagIds, contextInfo not specified
@@ -273,7 +273,7 @@ public interface CommentService {
      * @param tagTypeKey  type to be retrieved
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
-     * @return a list of Tag ids
+     * @return a list of Tag Ids
      * @throws InvalidParameterException invalid tagTypeKey
      * @throws MissingParameterException tagTypeKey, contextInfo not specified
      * @throws OperationFailedException  unable to complete request

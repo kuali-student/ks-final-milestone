@@ -10,15 +10,15 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
 import org.kuali.student.enrollment.lpr.infc.RequestOption;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprTransactionItemInfo", propOrder = {"personId", "newLuiId", "existingLuiId", "resultOptionKeys", "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey",
+@XmlType(name = "LprTransactionItemInfo", propOrder = {"id","personId", "newLuiId", "existingLuiId", "resultValuesGroupKeys", "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey",
         "stateKey", "meta", "attributes", "groupId", "_futureElements"})
-public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransactionItem, Serializable {
+public class LprTransactionItemInfo extends IdEntityInfo implements LprTransactionItem, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,7 +35,7 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
     private String groupId;
 
     @XmlElement
-    private List<String> resultOptionKeys;
+    private List<String> resultValuesGroupKeys;
 
     @XmlElement
     private List<RequestOptionInfo> requestOptions;
@@ -52,15 +52,14 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
         this.newLuiId = null;
         this.existingLuiId = null;
         this.requestOptions = new ArrayList<RequestOptionInfo>();
-        this.resultOptionKeys = new ArrayList<String>();
+        this.resultValuesGroupKeys = new ArrayList<String>();
         this._futureElements = null;
     }
 
-    public LprTransactionItemInfo(LPRTransactionItem lprTransactionItem) {
+    public LprTransactionItemInfo(LprTransactionItem lprTransactionItem) {
 
         super(lprTransactionItem);
         if (null != lprTransactionItem) {
-            this.setId(lprTransactionItem.getId());
             this.personId = lprTransactionItem.getPersonId();
             this.newLuiId = lprTransactionItem.getNewLuiId();
             this.existingLuiId = lprTransactionItem.getExistingLuiId();
@@ -72,9 +71,9 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
                 }
             }
 
-            this.resultOptionKeys = new ArrayList<String>();
-            if (null != lprTransactionItem.getResultOptionKeys()) {
-                resultOptionKeys.addAll(lprTransactionItem.getResultOptionKeys());
+            this.resultValuesGroupKeys = new ArrayList<String>();
+            if (null != lprTransactionItem.getResultValuesGroupKeys()) {
+                resultValuesGroupKeys.addAll(lprTransactionItem.getResultValuesGroupKeys());
             }
 
             this.lprTransactionItemResult = new LprTransactionItemResultInfo(lprTransactionItem.getLprTransactionItemResult());
@@ -129,12 +128,12 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
     }
 
     @Override
-    public List<String> getResultOptionKeys() {
-        return resultOptionKeys;
+    public List<String> getResultValuesGroupKeys() {
+        return resultValuesGroupKeys;
     }
 
-    public void setResultOptionKeys(List<String> resultOptions) {
-        this.resultOptionKeys = resultOptions;
+    public void setResultValuesGroupKeys(List<String> resultValuesGroupKeys) {
+        this.resultValuesGroupKeys = resultValuesGroupKeys;
     }
 
     public void setLprTransactionItemResult(LprTransactionItemResultInfo lprTransactionItemResult) {

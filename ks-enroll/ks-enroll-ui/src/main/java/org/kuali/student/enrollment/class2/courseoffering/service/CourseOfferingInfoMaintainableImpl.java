@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
 
 public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
@@ -71,42 +72,34 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         // TODO - this entire method needs more complete exception handling; then remove this
         if (null == course) return;
 
-        //form the formatIdList
-        List<String> formatIdList = new ArrayList<String>();
+        //form the formatIds
+        List<String> formatIds = new ArrayList<String>();
         /*
                             List<FormatInfo> formatList = course.getFormats();
                             for (FormatInfo format : formatList){
-                                formatIdList.add(format.getId());
+                                formatIds.add(format.getId());
                             }
             */
         FormatInfo firstFormat = null;
         // only pick the first format based on Larry's suggestion to simplify core slice development
         if (course != null) {
             firstFormat = course.getFormats().get(0);
-            formatIdList.add(firstFormat.getId());
+            formatIds.add(firstFormat.getId());
         }
 
-        CourseOfferingInfo coi = null;
+        CourseOfferingInfo coi = new CourseOfferingInfo ();
+        coi.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
+        coi.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         try {
             //create a CourseOfferingInfo coi
-            coi = getCourseOfferingService().createCourseOfferingFromCanonical(courseId, termId, formatIdList, new ContextInfo());
-        } catch (OperationFailedException ofe) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get OperationFailedException:  " + ofe.toString());
-        } catch (InvalidParameterException ipe) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get InvalidParameterException:  " + ipe.toString());
-        } catch (DoesNotExistException dnee) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get DoesNotExistException:  " + dnee.toString());
-        } catch (PermissionDeniedException pde) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get PermissionDeniedException:  " + pde.toString());
-        } catch (MissingParameterException mpe) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get MissingParameterException:  " + mpe.toString());
-        } catch (AlreadyExistsException aee) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get AlreadyExistsException:  " + aee.toString());
-        } catch (DataValidationErrorException dvee) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get DataValidationErrorException:  " + dvee.toString());
+            coi = getCourseOfferingService().createCourseOffering(courseId, 
+                    termId, 
+                    coi.getTypeKey(), 
+                    coi, 
+                    new ContextInfo());
+        } catch (Exception ex) {
+          throw new RuntimeException (ex);
         }
-        // TODO - this entire method needs more complete exception handling; then remove this
-        if (null == coi) return;
 
         //If grading options not present in course, set a default one in CO
         if (coi.getGradingOptionKeys() == null || coi.getGradingOptionKeys().isEmpty()){
@@ -146,11 +139,11 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         }
 
         //create a list of ActivityOfferingInfo based on activities defined in the format of the course
-        List<String> courseOfferingIdList = new ArrayList<String>();
-        courseOfferingIdList.add(coi.getId());
+        List<String> courseOfferingIds = new ArrayList<String>();
+        courseOfferingIds.add(coi.getId());
 
         List<ActivityOfferingInfo> activityOfferingInfoList = new ArrayList<ActivityOfferingInfo>();
-        List<String> activityOfferingIdList = new ArrayList<String>();
+        List<String> activityOfferingIds = new ArrayList<String>();
         if (firstFormat != null) {
             List<ActivityInfo> activities = firstFormat.getActivities();
             for (ActivityInfo activity : activities) {
@@ -171,17 +164,27 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     activityOfferingInfo.setTypeKey(activityOfferingTypes.get(0).getKey());
                     activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
                      //TODO remove this fake generation when we are getting real times from the form
-                    activityOfferingInfo.setMeetingSchedules(generateFakeMeetingTimes());
-                    activityOfferingInfo = getCourseOfferingService().createActivityOffering(courseOfferingIdList, activityOfferingInfo, new ContextInfo());
+                    // TODO: fix this to set the schedule id from the schedule service
+                    String scheduleId = null;
+                    activityOfferingInfo.setScheduleId(scheduleId);
+//                    activityOfferingInfo.setMeetingSchedules(generateFakeMeetingTimes());
+                    List<FormatOfferingInfo> formats = this. getCourseOfferingService().getFormatOfferingByCourseOfferingId(coi.getId(), new ContextInfo ());
+                    activityOfferingInfo.setFormatOfferingId(formats.get(0).getId ());
+                    activityOfferingInfo = getCourseOfferingService().createActivityOffering
+                            (activityOfferingInfo.getFormatOfferingId(),
+                            activityOfferingInfo.getActivityId(),
+                            activityOfferingInfo.getTypeKey(),
+                            activityOfferingInfo, 
+                            new ContextInfo());
 
                     activityOfferingInfoList.add(activityOfferingInfo);
-                    activityOfferingIdList.add(activityOfferingInfo.getId());
+                    activityOfferingIds.add(activityOfferingInfo.getId());
 
                     //create a RegiistrationGroup after successfully create all activityOfferingInfos
                     RegistrationGroupInfo registrationGroupInfo = new RegistrationGroupInfo();
                     registrationGroupInfo.setCourseOfferingId(coi.getId());
                     registrationGroupInfo.setMaximumEnrollment(courseOfferingInfo.getMaximumEnrollment());
-                    registrationGroupInfo.setActivityOfferingIds(activityOfferingIdList);
+                    registrationGroupInfo.setActivityOfferingIds(activityOfferingIds);
                     registrationGroupInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
                     registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
                     try {
@@ -196,8 +199,6 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                         System.out.println("call courseOfferingService.createRegistrationGroup() method, and get PermissionDeniedException:  " + pde.toString());
                     } catch (MissingParameterException mpe) {
                         System.out.println("call courseOfferingService.createRegistrationGroup() method, and get MissingParameterException:  " + mpe.toString());
-                    } catch (AlreadyExistsException aee) {
-                        System.out.println("call courseOfferingService.createRegistrationGroup() method, and get AlreadyExistsException:  " + aee.toString());
                     } catch (DataValidationErrorException dvee) {
                         System.out.println("call courseOfferingService.createRegistrationGroup() method, and get DataValidationErrorException:  " + dvee.toString());
                     }
@@ -210,8 +211,6 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     System.out.println("call courseOfferingService.createActivityOffering() method, and get PermissionDeniedException:  " + pde.toString());
                 } catch (MissingParameterException mpe) {
                     System.out.println("call courseOfferingService.getActivityOfferingTypesForActivityType() or createActivityOffering() method, and get MissingParameterException:  " + mpe.toString());
-                } catch (AlreadyExistsException aee) {
-                    System.out.println("call courseOfferingService.createActivityOffering() method, and get AlreadyExistsException:  " + aee.toString());
                 } catch (DataValidationErrorException dvee) {
                     System.out.println("call courseOfferingService.createActivityOffering() method, and get DataValidationErrorException:  " + dvee.toString());
                 } catch (DoesNotExistException dnee) {
@@ -313,12 +312,12 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
 
         String time = daysString + ";" + generateHours();
         MeetingScheduleInfo m1 = new MeetingScheduleInfo();
-        m1.setTimePeriods(time);
+        m1.setScheduleId(time);
         infos.add(m1);
         if (StringUtils.isNotBlank(daysString2)) {
             String time2 = daysString2 + ";" + generateHours();
             MeetingScheduleInfo m2 = new MeetingScheduleInfo();
-            m2.setTimePeriods(time2);
+            m2.setScheduleId(time2);
             infos.add(m2);
         }
         return infos;

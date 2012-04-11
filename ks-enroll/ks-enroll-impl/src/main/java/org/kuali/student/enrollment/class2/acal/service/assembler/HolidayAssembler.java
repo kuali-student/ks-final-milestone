@@ -49,9 +49,12 @@ public class HolidayAssembler  implements DTOAssembler<HolidayInfo, MilestoneInf
 
         msInfo.setStartDate(holidayInfo.getStartDate());
         msInfo.setEndDate(holidayInfo.getEndDate());
+
         msInfo.setIsAllDay(holidayInfo.getIsAllDay());
         msInfo.setIsDateRange(holidayInfo.getIsDateRange());
         msInfo.setIsInstructionalDay(holidayInfo.getIsInstructionalDay());
+        msInfo.setIsRelative(false);
+
         msInfo.setStateKey(holidayInfo.getStateKey());
         msInfo.setTypeKey(holidayInfo.getTypeKey());
 

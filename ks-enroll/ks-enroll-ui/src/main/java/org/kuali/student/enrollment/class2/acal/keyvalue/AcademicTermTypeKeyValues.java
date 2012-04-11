@@ -12,7 +12,6 @@ import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.test.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -48,7 +47,7 @@ public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements
         }
 
         //TODO:Build real context.
-        ContextInfo context = TestHelper.getContext1();
+        ContextInfo context = new ContextInfo();
         List<TypeInfo> types = null;
         try {
             //FIXME: Should not call services for each collection row. Get all the available types once at the start.. not sure the init method to do that...

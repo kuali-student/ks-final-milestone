@@ -59,8 +59,10 @@ public class EnumeratedValueInfo implements EnumeratedValue, Serializable {
     private Date effectiveDate;
     @XmlElement
     private Date expirationDate;
+   
     @XmlElement
     private MetaInfo meta;
+    
     @XmlAnyElement
     private List<Element> _futureElements;
 

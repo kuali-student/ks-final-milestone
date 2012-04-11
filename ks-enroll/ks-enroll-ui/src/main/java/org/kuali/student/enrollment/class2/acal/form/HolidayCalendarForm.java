@@ -39,15 +39,15 @@ public class HolidayCalendarForm  extends UifFormBase {
     private Date newCalendarStartDate;
     private Date newCalendarEndDate;
     private String hcId;
-    private boolean official;
-    private boolean delete;
+    private boolean officialButtonVisible;
+    private boolean deleteButtonVisible;
 
     public HolidayCalendarForm() {
         super();
         holidayCalendarInfo = new HolidayCalendarInfo();
         holidays = new ArrayList<HolidayWrapper>();
-        official = false;
-        delete = false;
+        officialButtonVisible = false;
+        deleteButtonVisible = false;
     }
 
     public HolidayCalendarInfo getHolidayCalendarInfo() {
@@ -109,19 +109,19 @@ public class HolidayCalendarForm  extends UifFormBase {
         this.hcId = hcId;
     }
 
-    public boolean isOfficial() {
-        return official;
+    public boolean isDeleteButtonVisible() {
+        return deleteButtonVisible;
     }
 
-    public void setOfficial(boolean official) {
-        this.official = official;
+    public void setDeleteButtonVisible(boolean deleteButtonVisible) {
+        this.deleteButtonVisible = deleteButtonVisible;
     }
 
-    public boolean isDelete() {
-        return delete;
+    public boolean isOfficialButtonVisible() {
+        return officialButtonVisible;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setOfficialButtonVisible(boolean officialButtonVisible) {
+        this.officialButtonVisible = officialButtonVisible;
     }
 }

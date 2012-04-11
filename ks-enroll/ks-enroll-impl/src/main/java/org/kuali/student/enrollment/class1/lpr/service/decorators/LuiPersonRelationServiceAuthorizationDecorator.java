@@ -46,17 +46,17 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 
 	
 	@Override
-	public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIds, String relationState, String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
 		List<String> bulkRelationshipValues = new ArrayList<String>();
 		System.out.println("Inside authorization impl for createBulkRelationshipsForPerson" );
 		//Simulating unknown exception behavior
 		if(personId != null){
-			bulkRelationshipValues.addAll(getNextDecorator().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context));
+			bulkRelationshipValues.addAll(getNextDecorator().createBulkRelationshipsForPerson(personId, luiIds, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context));
 		}else {
 			throw new NullPointerException("person id is null");
 		}
-		return super.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);		
+		return super.createBulkRelationshipsForPerson(personId, luiIds, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);		
 	}
 
     @Override
@@ -86,13 +86,11 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
      */
 
 	protected boolean isAuthorized(String principal, String permissionName, String qualifier) {
-		Map<String, String> permissionDetails = null;
 		Map<String, String> qualifierDetails = new HashMap<String,String>();
 		qualifierDetails.put("qualifierKey", qualifier);
 		return this.permissionService.isAuthorized(principal,
 				ENRLLMENT_NAMESPACE,
 				permissionName,
-				permissionDetails,
 				qualifierDetails);
 	}
 

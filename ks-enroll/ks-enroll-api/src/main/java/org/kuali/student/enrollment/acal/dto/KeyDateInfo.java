@@ -116,7 +116,7 @@ public class KeyDateInfo
         return relativeAnchorKeyDateId;
     }
     
-    public void setRelativeAnchirKeyDateId(String relativeAnchorKeyDateId) {
+    public void setRelativeAnchorKeyDateId(String relativeAnchorKeyDateId) {
         this.relativeAnchorKeyDateId = relativeAnchorKeyDateId;
     }
     

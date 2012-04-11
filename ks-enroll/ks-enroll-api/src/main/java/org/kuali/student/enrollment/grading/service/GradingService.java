@@ -160,7 +160,7 @@ public interface GradingService {
      * figure out which students from the activity offerings will be in the
      * roster
      * 
-     * @param activityOfferingIdList
+     * @param activityOfferingIds
      * @param rosterTypeKey
      * @param context Context information containing the principalId and locale
      *            information about the caller of service operation
@@ -171,8 +171,8 @@ public interface GradingService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException authorization failure
      */
-    public GradeRosterInfo buildInterimGradeRosterByType(@WebParam(name = "activityOfferingIdList") String courseOfferingId,
-            @WebParam(name = "activityOfferingIdList") List<String> activityOfferingIdList, @WebParam(name = "rosterTypeKey") String rosterTypeKey, @WebParam(name = "context") ContextInfo context)
+    public GradeRosterInfo buildInterimGradeRosterByType(@WebParam(name = "activityOfferingIds") String courseOfferingId,
+            @WebParam(name = "activityOfferingIds") List<String> activityOfferingIds, @WebParam(name = "rosterTypeKey") String rosterTypeKey, @WebParam(name = "context") ContextInfo context)
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -265,10 +265,10 @@ public interface GradingService {
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve a list of grade roster entries based on their ids. The method
+     * Retrieve a list of grade roster entries based on their Ids. The method
      * should fail if there is an error in retrieving any id from the list.
      * 
-     * @param gradeRosterEntryIdList
+     * @param gradeRosterEntryIds list of grade roster entry Ids
      * @param context Context information containing the principalId and locale
      *            information about the caller of service operation
      * @return
@@ -278,7 +278,7 @@ public interface GradingService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException authorization failure
      */
-    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIdList(@WebParam(name = "gradeRosterEntryIdList") List<String> gradeRosterEntryIdList, @WebParam(name = "context") ContextInfo context)
+    public List<GradeRosterEntryInfo> getGradeRosterEntriesByIds(@WebParam(name = "gradeRosterEntryIds") List<String> gradeRosterEntryIds, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -301,7 +301,7 @@ public interface GradingService {
     /**
      * Based on the id list, return {@link GradeValuesGroupInfo}.
      * 
-     * @param gradeRosterEntryIdList
+     * @param gradeRosterEntryIds
      * @param rosterId
      * @param context
      * @return

@@ -16,43 +16,59 @@ import java.util.List;
 import javax.xml.bind.annotation.*;
 
 
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramPublicationAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
 import org.kuali.student.r2.lum.program.infc.CoreProgram;
 import org.w3c.dom.Element;
 
-@XmlType(name = "CoreProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "transcriptTitle", "code", "universityClassification", "startTermId",
-        "endTermId", "endProgramEntryTermId", "programRequirements", "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight", "referenceURL",
-        "catalogDescr", "catalogPublicationTargets", "learningObjectives", "cip2000Code", "diplomaTitle", "hegisCode", "selectiveEnrollmentCode", "cip2010Code", "meta", "attributes",
-        "_futureElements"})
+@XmlType(name = "CoreProgramInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "version",
+    "descr",
+    "code",
+    "shortTitle",
+    "longTitle",
+    "transcriptTitle",
+    "universityClassification",
+    "startTerm",
+    "endTerm",
+    "endProgramEntryTerm",
+    "divisionsContentOwner",
+    "divisionsStudentOversight",
+    "unitsContentOwner",
+    "unitsStudentOversight",
+    "learningObjectives",
+    "programRequirements",
+    "referenceURL",
+    "catalogDescr",
+    "catalogPublicationTargets",
+    "meta",
+    "attributes",
+    "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CoreProgramInfo extends ProgramAttributesInfo implements CoreProgram, Serializable {
+public class CoreProgramInfo extends CommonWithCoreProgramInfo
+        implements CoreProgram,
+        ProgramCommonAssembly,
+        ProgramBasicOrgAssembly,
+        ProgramAtpAssembly,
+        ProgramIdentifierAssembly,
+        ProgramPublicationAssembly,
+        ProgramRequirementAssembly,
+        Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private String referenceURL;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public CoreProgramInfo() {
-
     }
 
-    public CoreProgramInfo(CoreProgram coreProgram) {
-        super(coreProgram);
-        if (coreProgram != null) {
-            this.referenceURL = coreProgram.getReferenceURL();
-
-        }
+    public CoreProgramInfo(CoreProgram input) {
+        super(input);
     }
-
-    @Override
-    public String getReferenceURL() {
-        return referenceURL;
-    }
-
-    public void setReferenceURL(String referenceURL) {
-        this.referenceURL = referenceURL;
-    }
-
 }

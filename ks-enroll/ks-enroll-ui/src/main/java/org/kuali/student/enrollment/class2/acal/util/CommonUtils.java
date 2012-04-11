@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.acal.util;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.kuali.student.enrollment.class2.acal.dto.TimeSetWrapper;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 
@@ -49,6 +50,28 @@ public class CommonUtils {
             timeSetWrapper.setEndTimeAmPm(timeStr[2].toLowerCase());
 
         }
+    }
+
+    public static boolean isValidDateRange(Date startDate,Date endDate){
+        if(startDate != null && endDate != null) {
+            if (startDate.after(endDate) || endDate.before(startDate)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static String formatDate(Date date){
+        return DateFormatUtils.format(date, CalendarConstants.DEFAULT_DATE_FORMAT);
+    }
+
+    public static boolean isDateWithinRange(Date startDate,Date endDate,Date checkDate){
+        if(startDate != null && endDate != null && checkDate != null) {
+            if (checkDate.before(startDate) || checkDate.after(endDate)){
+                return false;
+            }
+        }
+        return true;
     }
 
     public static RichTextInfo buildDesc(String descr){

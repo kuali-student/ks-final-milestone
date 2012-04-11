@@ -97,8 +97,8 @@ public interface LearningResultRecordService {
 
 
     /** 
-     * Retrieves a list of learning result records for Lui Person Relation ids
-     * @param lprIdList List of Lui person relation identifier
+     * Retrieves a list of learning result records for Lui Person Relation Ids
+     * @param lprIds List of Lui person relation identifier
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -108,11 +108,11 @@ public interface LearningResultRecordService {
      * @throws MissingParameterException personId not specified
      * @throws OperationFailedException unable to complete request
      */
-    public List<LearningResultRecordInfo> getLearningResultRecordsForLprIdList(@WebParam(name="lprIdList")List<String> lprIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LearningResultRecordInfo> getLearningResultRecordsForLprIds(@WebParam(name="lprIds")List<String> lprIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves a list of learning result records by source Id
-     * @param lprIdList List of Lui person relation identifier
+     * @param lprIds List of Lui person relation identifier
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -122,7 +122,7 @@ public interface LearningResultRecordService {
      * @throws MissingParameterException personId not specified
      * @throws OperationFailedException unable to complete request
      */
-    public List<LearningResultRecordInfo> getLearningResultRecordsBySourceId(@WebParam(name="lprIdList")List<String> sourceIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LearningResultRecordInfo> getLearningResultRecordsBySourceId(@WebParam(name="lprIds")List<String> sourceIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
     
     
     /** 
@@ -208,20 +208,20 @@ public interface LearningResultRecordService {
 
 
     /** 
-     * Retrieves a list of result sources for a list of ids
+     * Retrieves a list of result sources for a list of Ids
      * 
-     * @param resultSourceIdList result source Id list
+     * @param resultSourceIds result source Id list
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
      * @return list of result sources
      * @throws DoesNotExistException result source not found
-     * @throws InvalidParameterException invalid resultSourceIdList
-     * @throws MissingParameterException resultSourceIdList not specified
+     * @throws InvalidParameterException invalid resultSourceIds
+     * @throws MissingParameterException resultSourceIds not specified
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure 
      */
-    public List<ResultSourceInfo> getResultSourcesByIdList(@WebParam(name="resultSourceIdList")List <String> resultSourceIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ResultSourceInfo> getResultSourcesByIds(@WebParam(name="resultSourceIds")List <String> resultSourceIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     /** 
      * Retrieves a list of result sources by type

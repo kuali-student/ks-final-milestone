@@ -19,14 +19,21 @@
         <property name="items">
             <list>
                 <ref bean="KS-AcademicCalendar-CopyPage"/>
-                <!--<ref bean="KS-HolidayCalendar-EditPage"/>-->
-                <!--<ref bean="KS-HolidayCalendar-ViewPage"/>-->
+                <ref bean="KS-AcademicCalendar-EditPage"/>
+                <!--<ref bean="KS-AcademicCalendar-ViewPage"/>-->
             </list>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm"/>
+        <!--<property name="defaultBindingObjectPath" value=""/>-->
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>/ks-enroll/css/calendar.css</value>
+                <value>/ks-enroll/css/acal.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>/ks-enroll/scripts/common.js</value>
+                <value>/ks-enroll/scripts/acal.js</value>
             </list>
         </property>
     </bean>

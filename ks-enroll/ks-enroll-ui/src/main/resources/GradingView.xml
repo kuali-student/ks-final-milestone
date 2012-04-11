@@ -213,10 +213,10 @@ limitations under the License.
    <bean id="Grading_Footer_gradeRosterPage" parent="Uif-FooterBase">
       <property name="items">
         <list>
-          <bean parent="Uif-SecondaryActionButton" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{readOnly eq false}"/>
-          <bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit" p:render="@{readOnly eq false}" p:methodToCall="submit"/>
-          <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close"/>
-          <bean parent="Uif-ActionLink" p:methodToCall="backToGrading" p:actionLabel="Back to Grading" p:style="text-align:center;"/>
+              <bean parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true" p:render="@{readOnly eq false}"/>
+              <bean parent="Uif-SecondaryActionButton" p:actionLabel="Submit" p:render="@{readOnly eq false}" p:methodToCall="submit"/>
+              <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close"/>
+              <bean parent="Uif-ActionLink" p:methodToCall="backToGrading" p:actionLabel="Back to Grading" p:style="text-align:center;"/>
         </list>
 
       </property>

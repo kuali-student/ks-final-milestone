@@ -166,11 +166,11 @@ CREATE UNIQUE INDEX KSEN_ATPMSTONE_RELTN_P ON KSEN_ATPMSTONE_RELTN
 /
 
 CREATE  INDEX KSEN_ATPMSTONE_RELTN_IF1 ON KSEN_ATPMSTONE_RELTN
-(ATP_ID   ASC);
+(ATP_ID   ASC)
 /
 
 CREATE  INDEX KSEN_ATPMSTONE_RELTN_IF2 ON KSEN_ATPMSTONE_RELTN
-(MSTONE_ID   ASC
+(MSTONE_ID   ASC)
 /
 
 -----------------------------------------------------------------------------
@@ -584,25 +584,6 @@ CREATE TABLE KSEN_STATEPROCESS_RELTN
 /
 
 -----------------------------------------------------------------------------
--- KSEN_STATE_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_STATE_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_STATE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_STATE_ATTR 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			ATTR_KEY VARCHAR2(255), 
-			ATTR_VALUE VARCHAR2(2000), 
-			OWNER VARCHAR2(255)
-   )
-/
-
------------------------------------------------------------------------------
 -- KSEN_STATE_PROCESS
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
@@ -624,35 +605,6 @@ CREATE TABLE KSEN_STATE_PROCESS
 			EFF_DT TIMESTAMP (6), 
 			EXPIR_DT TIMESTAMP (6), 
 			NAME VARCHAR2(255)
-   )
-/
-
------------------------------------------------------------------------------
--- KSEN_TYPETYPE_RELTN
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_TYPETYPE_RELTN';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_TYPETYPE_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_TYPETYPE_RELTN 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			VER_NBR NUMBER(19,0), 
-			CREATEID VARCHAR2(255), 
-			CREATETIME TIMESTAMP (6), 
-			UPDATEID VARCHAR2(255), 
-			UPDATETIME TIMESTAMP (6), 
-			EFF_DT TIMESTAMP (6), 
-			EXPIR_DT TIMESTAMP (6), 
-			NAME VARCHAR2(255), 
-			OWNER_TYPE_ID VARCHAR2(255), 
-			RANK NUMBER(10,0), 
-			RELATED_TYPE_ID VARCHAR2(255), 
-			TYPETYPE_RELATION_TYPE VARCHAR2(255), 
-			RT_DESCR_ID VARCHAR2(255)
    )
 /
 

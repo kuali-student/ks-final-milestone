@@ -23,6 +23,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import javax.jws.WebParam;
+
 
 public class LuiServiceDecorator implements LuiService
 {	
@@ -51,11 +53,11 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
-    public List<LuiInfo> getLuisByIdList(List<String> luiIdList, ContextInfo context) 
+    public List<LuiInfo> getLuisByIds(List<String> luiIds, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getLuisByIdList(luiIdList, context);
+        return getNextDecorator().getLuisByIds(luiIds, context);
     }
 
     @Override
@@ -81,6 +83,12 @@ public class LuiServiceDecorator implements LuiService
 
         return getNextDecorator().getLuiIdsByCluId(cluId, context);
     }
+
+    @Override
+    public List<String> getLuiIdsByAtpAndType(@WebParam(name = "atpId") String atpId, String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+        {
+            return getNextDecorator().getLuiIdsByAtpAndType(atpId, typeKey, context);
+        }
 
     @Override
     public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId, ContextInfo context) 
@@ -147,13 +155,13 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
-    public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo, ContextInfo context) 
+    public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo context) 
         throws AlreadyExistsException, DataValidationErrorException, 
                DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
 
-        return getNextDecorator().createLui(cluId,atpId,luiInfo, context);
+        return getNextDecorator().createLui(cluId,atpId,luiTypeKey,luiInfo, context);
     }
 
     @Override
@@ -193,11 +201,11 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(List<String> luiLuiRelationIdList, ContextInfo context) 
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(List<String> luiLuiRelationIds, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getLuiLuiRelationsByIdList(luiLuiRelationIdList, context);
+        return getNextDecorator().getLuiLuiRelationsByIds(luiLuiRelationIds, context);
     }
 
     @Override
@@ -278,13 +286,21 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
-    public List<LuiCapacityInfo> getLuiCapacitiesByIdList(List<String> luiCapacityIdList, ContextInfo context) 
+    public List<LuiCapacityInfo> getLuiCapacitiesByIds(List<String> luiCapacityIds, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getLuiCapacitiesByIdList(luiCapacityIdList, context);
+        return getNextDecorator().getLuiCapacitiesByIds(luiCapacityIds, context);
     }
 
+    @Override
+    public List<LuiCapacityInfo> getLuiCapacitiesByLui(String luiId, ContextInfo context) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getLuiCapacitiesByLui(luiId, context);
+    }
+
+    
+    
     @Override
     public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 

@@ -8,7 +8,6 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.versionmanagement.dto;
 
 import org.kuali.student.r2.core.versionmanagement.infc.VersionDisplay;
@@ -22,45 +21,48 @@ import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "VersionDisplayInfo", propOrder = {"versionIndId", "refObjectUri", "sequenceNumber", "currentVersionEnd", "currentVersionStart", "versionComment", "versionedFromId", "_futureElements"})
+@XmlType(name = "VersionDisplayInfo", propOrder = {"id",
+    "versionIndId",
+    "refObjectUri",
+    "sequenceNumber",
+    "currentVersionEnd",
+    "currentVersionStart",
+    "versionComment",
+    "versionedFromId",
+    "_futureElements"})
 public class VersionDisplayInfo implements VersionDisplay, Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @XmlAttribute
+    private String id;
     @XmlElement
     private String versionIndId;
-
     @XmlElement
     private String refObjectUri;
-
     @XmlElement
     private Long sequenceNumber;
-
     @XmlElement
     private Date currentVersionStart;
-
     @XmlElement
     private Date currentVersionEnd;
-
     @XmlElement
     private String versionComment;
-
     @XmlElement
     private String versionedFromId;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public VersionDisplayInfo() {
-
     }
 
     public VersionDisplayInfo(VersionDisplay versionDisplay) {
         super();
 
         if (null != versionDisplay) {
+            this.id = versionDisplay.getId();
             this.versionIndId = versionDisplay.getVersionIndId();
             this.sequenceNumber = versionDisplay.getSequenceNumber();
             this.currentVersionStart = (null != versionDisplay.getCurrentVersionStart()) ? new Date(versionDisplay.getCurrentVersionStart().getTime()) : null;
@@ -68,6 +70,15 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
             this.versionComment = versionDisplay.getVersionComment();
             this.versionedFromId = versionDisplay.getVersionedFromId();
         }
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

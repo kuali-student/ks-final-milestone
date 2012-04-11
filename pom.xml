@@ -19,7 +19,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.3.0-MyPlan</version>
+  <version>1.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <description>
@@ -51,7 +51,7 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <!--<module>ks-cfg-dbs</module>-->
+        <module>ks-cfg-dbs</module>
         <module>ks-common</module>
         <module>ks-security</module>
         <module>ks-admin</module>
@@ -118,7 +118,7 @@
     <kuali.javadoc.link.9>http://ws.apache.org/wss4j/apidocs/</kuali.javadoc.link.9>
 
     <!-- artifact versions -->
-    <aspectj.version>1.5.4</aspectj.version>
+    <aspectj.version>1.6.8</aspectj.version>
     <atomikos.version>3.4.1</atomikos.version>
     <cxf.version>2.3.8</cxf.version>
     <!-- For some reason the 2.2.9 javadocs for CXF weren't published -->
@@ -132,7 +132,7 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.10</junit.version>
-    <kuali.rice.version>2.0.0-rc1</kuali.rice.version>
+    <kuali.rice.version>2.0.0</kuali.rice.version>
     <log4j.version>1.2.16</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
@@ -144,7 +144,7 @@
     <velocity.tools.version>2.0</velocity.tools.version>
     <xalan.version>2.7.1</xalan.version>
     <xercesImpl.version>2.9.1</xercesImpl.version>
-    <oracle.ojdbc.version>11.2.0.2.0</oracle.ojdbc.version>
+    <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
     <mysql.connector.version>5.1.18</mysql.connector.version>
     <backport-util-concurrent.version>3.1</backport-util-concurrent.version>
     <jsr107cache.version>1.0</jsr107cache.version>
@@ -1011,7 +1011,7 @@
           -->
           <exclusion>
             <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
+            <artifactId>ojdbc14</artifactId>
           </exclusion>
           <exclusion>
             <groupId>mysql</groupId>
@@ -1069,7 +1069,7 @@
       </dependency>
       <dependency>
         <groupId>com.oracle</groupId>
-        <artifactId>ojdbc6</artifactId>
+        <artifactId>ojdbc14</artifactId>
         <version>${oracle.ojdbc.version}</version>
       </dependency>
       <dependency>
