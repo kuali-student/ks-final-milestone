@@ -28,6 +28,6 @@ public class CluServiceConstants {
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "clu";
     public static final String REF_OBJECT_URI_CLU = NAMESPACE + "/" + CluInfo.class.getSimpleName();
     
-    public static final String LU_NAMESPACE = "http://student.kuali.org/wsdl/lu";
-    public static final String CLU_NAMESPACE_URI = "{" + LU_NAMESPACE + "}cluInfo";
+    public static final String CLU_NAMESPACE = "http://student.kuali.org/wsdl/clu";
+    public static final String CLU_NAMESPACE_URI = "{" + CLU_NAMESPACE + "}cluInfo";
 }

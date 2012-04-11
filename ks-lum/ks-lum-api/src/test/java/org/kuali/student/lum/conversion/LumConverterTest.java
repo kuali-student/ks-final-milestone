@@ -5,11 +5,11 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
-import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
-import org.kuali.student.r2.lum.clu.dto.CluAccountingInfo;
 import org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.CluAccountingInfo;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
 import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
@@ -400,7 +400,9 @@ public class LumConverterTest {
         Assert.assertEquals("R1-Value", r2.getOfficialIdentifier().getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getPrimaryInstructor().getPersonId(), r2.getPrimaryInstructor().getPersonId());
         Assert.assertEquals("R1-Value", r2.getPrimaryInstructor().getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
         Assert.assertEquals(r1.getStdDuration().getTimeQuantity(), r2.getStdDuration().getTimeQuantity());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
         Assert.assertEquals(r1.getVersionInfo().getVersionIndId(), r2.getVersionInfo().getVersionIndId());
     }
     

@@ -23,14 +23,14 @@ import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.statement.config.context.util.NLCluSet;
 import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r1.lum.lu.service.LuServiceConstants;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 
 /**
@@ -83,7 +83,7 @@ public class CluContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			VersionDisplayInfo versionInfo = R1R2ConverterUtil.convert(cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId, null), VersionDisplayInfo.class);
+			VersionDisplayInfo versionInfo = R1R2ConverterUtil.convert(cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluId, null), VersionDisplayInfo.class);
 			CluInfo clu = this.cluService.getClu(versionInfo.getId(), contextInfo);
 			return clu;
 		} catch(Exception e) {
