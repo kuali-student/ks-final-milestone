@@ -248,6 +248,111 @@ public class TestAppointmentServiceImpl {
 //        }
 //    }
     @Test
+    public void testGenerateTwice() {
+        // If generateAppointmentSlotsByWindow is called twice, it should delete the previous slots/assignments
+        before();
+        try {
+            // Set up the basics (window, slot, appts for the slot)
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            // Use windowInfo afterwards since it has the ID
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+            // Check we have assignments
+            String slotId = slotInfoList.get(0).getId();
+            List<AppointmentInfo> apptList =
+                    appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            assert(apptList.size() > 0);
+            // Now, generate appointment slots a second time
+            slotInfoList = appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            // Then, check if we still only have one slot
+            List<AppointmentSlotInfo> fetchedSlotList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            assertEquals(1, fetchedSlotList.size());
+            // And check we have no assignments
+            List<AppointmentInfo> fetchedApptList =
+                    appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            assertEquals(0, fetchedApptList.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+    @Test
+    public void testDeleteAppointmentSlotsByWindowWithAssign() {
+        // Test case for deleting appointment slots with assignments made (one slot case)
+        // Test #3 
+        before();
+        try {
+            // Set up the basics (window, slot, appts for the slot)
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            // Use windowInfo afterwards since it has the ID
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+            // Testing for state change
+            AppointmentWindowInfo fetchedWindowInfo =
+                    appointmentService.getAppointmentWindow(windowInfo.getId(), contextInfo);
+            assertEquals(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY, fetchedWindowInfo.getStateKey());
+            assertEquals(1, slotInfoList.size());
+            String slotId = slotInfoList.get(0).getId();
+            List<AppointmentInfo> apptList =
+                    appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            assert(apptList.size() > 0);
+            appointmentService.deleteAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            // Testing we're back in DRAFT mode
+            fetchedWindowInfo =
+                    appointmentService.getAppointmentWindow(windowInfo.getId(), contextInfo);
+            assertEquals(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY, fetchedWindowInfo.getStateKey());
+            List<AppointmentSlotInfo> fetchedSlotInfoList =
+                    appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            assertEquals(0, fetchedSlotInfoList.size());
+            List<AppointmentInfo> fetchedApptList =
+                    appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            assertEquals(0, fetchedApptList.size());
+            // Make sure slot is really gone
+            try {
+                appointmentService.getAppointmentSlot(slotId, contextInfo);
+                assert(false);
+            } catch (DoesNotExistException e) {
+                assert(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+    
+    @Test
+    public void testDeleteAppointmentSlotsByWindowNoAssign() {
+        // Test case for deleting appointment slots with no assignments made (one slot case)
+        // Test #3 
+        before();
+        try {
+            // Set up the basics (window, slot, appts for the slot)
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            // Use windowInfo afterwards since it has the ID
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            // Check we're still in draft mode
+            AppointmentWindowInfo fetchedWindowInfo =
+                    appointmentService.getAppointmentWindow(windowInfo.getId(), contextInfo);
+            assertEquals(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY, fetchedWindowInfo.getStateKey());
+            // Check there's only one slot (one slot case)
+            assertEquals(1, slotInfoList.size());
+            appointmentService.deleteAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            List<AppointmentSlotInfo> fetchedSlotInfoList =
+                    appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            assertEquals(0, fetchedSlotInfoList.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+    @Test
     public void testDeleteAppointmentsByWindow() {
         // One slot case--deletes only appointments, but not the slot.
         before();
@@ -490,15 +595,18 @@ public class TestAppointmentServiceImpl {
 
     @Test
     public void testApptWinCreate() {
+        // Test for #1 in https://wiki.kuali.org/display/STUDENT/Appointment+Service+Impl+Decisions
+        // createAppointmentWindow
         before();
         try {
             AppointmentWindowInfo windowInfo = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
-                                                        apptWindowInfo, new ContextInfo());
+                                                        apptWindowInfo, contextInfo);
             // Now try to get it back
             String id = windowInfo.getId();
             AppointmentWindowInfo info = appointmentService.getAppointmentWindow(id, contextInfo);
             assertNotNull(info);
-            // TODO: Add another test
+            // Check we're in draft state
+            assertEquals(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY, info.getStateKey());
         } catch (Exception e) {
             System.err.println("Exception caught ==========================");
             e.printStackTrace();
@@ -534,6 +642,7 @@ public class TestAppointmentServiceImpl {
 
     @Test
     public void testApptWinUpdate() {
+        // Test #2 in https://wiki.kuali.org/display/STUDENT/Appointment+Service+Impl+Decisions
         before();
         try {
             AppointmentWindowInfo windowInfo = appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
@@ -552,6 +661,8 @@ public class TestAppointmentServiceImpl {
             // Now retrieve it again
             retrieved = appointmentService.getAppointmentWindow(id, contextInfo);
             assertEquals(newStartInMillis, retrieved.getSlotRule().getStartTimeOfDay().getMilliSeconds());
+            // Make sure we're still in draft state
+            assertEquals(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY, retrieved.getStateKey());
         } catch (Exception e) {
             System.err.println("Exception caught ==========================");
             e.printStackTrace();
