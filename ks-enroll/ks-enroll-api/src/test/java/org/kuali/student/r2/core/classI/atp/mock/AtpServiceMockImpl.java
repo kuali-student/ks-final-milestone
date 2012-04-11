@@ -10,18 +10,15 @@
  */
 package org.kuali.student.r2.core.classI.atp.mock;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.test.utilities.MockHelper;
+import org.kuali.student.mock.utilities.MockHelper;
 
 import javax.jws.WebParam;
 import java.util.*;
@@ -37,7 +34,6 @@ public class AtpServiceMockImpl implements AtpService {
     private Map<String, MilestoneInfo> milestoneCache = new HashMap<String, MilestoneInfo>();
     private Map<String, AtpAtpRelationInfo> atpAtpRltnCache = new HashMap<String, AtpAtpRelationInfo>();
     private Map<String, Set<String>> milestonesForAtp = new HashMap<String, Set<String>>();
-
 
     @Override
     public AtpInfo getAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -134,18 +130,18 @@ public class AtpServiceMockImpl implements AtpService {
 
     @Override
     public List<String> getAtpIdsByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> atpIdList = new ArrayList<String>();
+        List<String> atpIds = new ArrayList<String>();
 
         Set<String> keys = atpCache.keySet();
 
         for (String key : keys) {
             AtpInfo atp = atpCache.get(key);
             if (atp.getTypeKey().equalsIgnoreCase(atpTypeKey)) {
-                atpIdList.add(atp.getId());
+                atpIds.add(atp.getId());
             }
         }
 
-        return atpIdList;
+        return atpIds;
     }
 
     @Override
@@ -154,13 +150,12 @@ public class AtpServiceMockImpl implements AtpService {
         return new ArrayList<AtpInfo>();
     }
 
-
     @Override
-    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException,
+    public List<AtpInfo> getAtpsByIds(List<String> atpIds, ContextInfo context) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<AtpInfo> atpList = new ArrayList<AtpInfo>();
 
-        for (String key : atpIdList) {
+        for (String key : atpIds) {
             atpList.add(this.getAtp(key, context));
         }
 
@@ -208,7 +203,7 @@ public class AtpServiceMockImpl implements AtpService {
     public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "milestoneTypeKey") String milestoneTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null; // To change body of implemented methods use File |
-                     // Settings | File Templates.
+        // Settings | File Templates.
     }
 
     @Override
@@ -235,11 +230,11 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<MilestoneInfo> milestoneList = new ArrayList<MilestoneInfo>();
 
-        for (String key : milestoneIdList) {
+        for (String key : milestoneIds) {
             milestoneList.add(this.getMilestone(key, context));
         }
 
@@ -249,18 +244,18 @@ public class AtpServiceMockImpl implements AtpService {
     @Override
     public List<String> getMilestoneIdsByType(String milestoneTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<String> milestoneIdList = new ArrayList<String>();
+        List<String> milestoneIds = new ArrayList<String>();
 
         Set<String> keys = milestoneCache.keySet();
 
         for (String key : keys) {
             MilestoneInfo milestone = milestoneCache.get(key);
             if (milestone.getTypeKey().equalsIgnoreCase(milestoneTypeKey)) {
-                milestoneIdList.add(milestone.getId());
+                milestoneIds.add(milestone.getId());
             }
         }
 
-        return milestoneIdList;
+        return milestoneIds;
     }
 
     @Override
@@ -282,7 +277,10 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public AtpInfo createAtp(AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public AtpInfo createAtp(String atpTypeKey,
+            AtpInfo atpInfo,
+            ContextInfo context)
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         MockHelper helper = new MockHelper();
         AtpInfo atp = new AtpInfo(atpInfo);
@@ -353,7 +351,10 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public MilestoneInfo createMilestone(MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public MilestoneInfo createMilestone(String milestoneTypeKey,
+            MilestoneInfo milestoneInfo, ContextInfo context)
+            throws DataValidationErrorException, InvalidParameterException,
+            MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         MilestoneInfo existing = this.milestoneCache.get(milestoneInfo.getId());
         if (existing != null) {
@@ -528,8 +529,14 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public AtpAtpRelationInfo createAtpAtpRelation(String atpId, String atpPeerId, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo contextInfo) throws DoesNotExistException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public AtpAtpRelationInfo createAtpAtpRelation(String atpId,
+            String relatedAtpId,
+            String atpAtpRelationTypeKey,
+            AtpAtpRelationInfo atpAtpRelationInfo,
+            ContextInfo contextInfo)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException {
         MockHelper helper = new MockHelper();
         AtpAtpRelationInfo aarInfo = new AtpAtpRelationInfo(atpAtpRelationInfo);
         aarInfo.setMeta(helper.createMeta(contextInfo));

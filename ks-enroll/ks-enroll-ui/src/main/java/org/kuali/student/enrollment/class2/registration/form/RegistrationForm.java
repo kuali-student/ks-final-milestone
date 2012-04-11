@@ -120,8 +120,10 @@ public class RegistrationForm extends UifFormBase {
                 if(regGroupRegistrationInfo.getStateKey().equals(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY)){
                     for (ActivityRegistrationInfo activityRegistrationInfo : regGroupRegistrationInfo.getActivityRegistrations()) {
                         ActivityOfferingInfo activityOfferingInfo = activityRegistrationInfo.getActivityOffering();
-                        for (MeetingScheduleInfo meetingScheduleInfo : activityOfferingInfo.getMeetingSchedules()) {
-                            MeetingScheduleWrapper meetingScheduleWrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
+                        // TODO: fix this to get the meeting schedule from the schedule Id and the schedule service
+                        List<MeetingScheduleInfo> list = new ArrayList<MeetingScheduleInfo> ();
+                        for (MeetingScheduleInfo info : list) {
+                            MeetingScheduleWrapper meetingScheduleWrapper = new MeetingScheduleWrapper(info);
                             meetingScheduleWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                             meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
                             meetingScheduleWrapper.setItemId(regGroupRegistrationInfo.getId());

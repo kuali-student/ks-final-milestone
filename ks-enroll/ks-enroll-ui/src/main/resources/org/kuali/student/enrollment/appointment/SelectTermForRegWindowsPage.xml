@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="KS-RegistrationWindowsManagement-SelectTermPage" parent="Uif-Page" p:disclosure.render="false">
+        <property name="id" value="selectTermForRegWindows"/>
+        <property name="title" value=" "/>
+        <property name="header">
+            <bean parent="Uif-HeaderField-Two"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="termType" p:label="Term" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="termYear" p:label="Year">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="4"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="searchForTerm"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+</beans>

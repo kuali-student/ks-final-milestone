@@ -22,6 +22,6 @@ public interface AdminOrg extends IdEntity {
     /**
      * @name Primary
      */
-    public Boolean isPrimary();
+    public Boolean getIsPrimary();
 
 }

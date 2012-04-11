@@ -12,7 +12,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.lum.clu.dto;
 
 import org.kuali.student.r2.common.dto.AmountInfo;
@@ -36,116 +35,124 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CluInfo", propOrder = {"id", "typeKey", "stateKey", "officialIdentifier", "alternateIdentifiers", "studySubjectArea", "campusKeys", "accreditations", "adminOrgs", "primaryInstructor", "instructors",
-        "expectedFirstAtp", "lastAtp", "lastAdmitAtp", "intensity", "stdDuration", "canCreateLui", "referenceURL", "luCodes", "nextReviewPeriod", "isEnrollable", "offeredAtpTypes", "hasEarlyDropDeadline", "defaultEnrollmentEstimate",
-        "defaultMaximumEnrollment", "isHazardousForDisabledStudents", "feeInfo", "accountingInfo", "versionInfo", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "CluInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "descr",
+    "officialIdentifier",
+    "alternateIdentifiers",
+    "studySubjectArea",
+    "campusLocations",
+    "accreditations",
+    "adminOrgs",
+    "primaryInstructor",
+    "instructors",
+    "expectedFirstAtp",
+    "lastAtp",
+    "lastAdmitAtp",
+    "intensity",
+    "stdDuration",
+    "canCreateLui",
+    "referenceURL",
+    "luCodes",
+    "nextReviewPeriod",
+    "isEnrollable",
+    "offeredAtpTypes",
+    "hasEarlyDropDeadline",
+    "defaultEnrollmentEstimate",
+    "defaultMaximumEnrollment",
+    "isHazardousForDisabledStudents",
+    "feeInfo",
+    "accountingInfo",
+    "versionInfo",
+    "effectiveDate",
+    "expirationDate",
+    "meta",
+    "attributes",
+    "_futureElements"})
 public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
 
     private static final long serialVersionUID = 1L;
-
+    @XmlElement 
+    private RichTextInfo descr;
     @XmlElement
     private CluIdentifierInfo officialIdentifier;
-
     @XmlElement
     private List<CluIdentifierInfo> alternateIdentifiers;
-
     @XmlElement
     private String studySubjectArea;
-
     @XmlElement
-    private List<String> campusKeys;
-
+    private List<String> campusLocations;
     @XmlElement
     private List<AccreditationInfo> accreditations;
-
     @XmlElement
     private List<AdminOrgInfo> adminOrgs;
-
     @XmlElement
     private CluInstructorInfo primaryInstructor;
-
     @XmlElement
     private List<CluInstructorInfo> instructors;
-
     @XmlElement
     private String expectedFirstAtp;
-
     @XmlElement
     private String lastAtp;
-
     @XmlElement
     private String lastAdmitAtp;
-
     @XmlElement
     private AmountInfo intensity;
-
     @XmlElement
     private TimeAmountInfo stdDuration;
-
     @XmlElement
     private Boolean canCreateLui;
-
     @XmlElement
     private String referenceURL;
-
     @XmlElement
     private List<LuCodeInfo> luCodes;
-
     @XmlElement
     private String nextReviewPeriod;
-
     @XmlElement
     private Boolean isEnrollable;
-
     @XmlElement
     private List<String> offeredAtpTypes;
-
     @XmlElement
     private Boolean hasEarlyDropDeadline;
-
     @XmlElement
     private int defaultEnrollmentEstimate;
-
     @XmlElement
     private int defaultMaximumEnrollment;
-
     @XmlElement
     private Boolean isHazardousForDisabledStudents;
-
     @XmlElement
     private CluFeeInfo feeInfo;
-
     @XmlElement
     private CluAccountingInfo accountingInfo;
-
     @XmlElement
     private VersionInfo versionInfo;
-
     @XmlElement
     private Date effectiveDate;
-
     @XmlElement
     private Date expirationDate;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public CluInfo() {
-
     }
 
     public CluInfo(Clu clu) {
         super(clu);
         if (null != clu) {
+            if (clu.getDescr() != null) {
+                this.descr = new RichTextInfo (clu.getDescr());
+            }
             this.officialIdentifier = (null != clu.getOfficialIdentifier()) ? new CluIdentifierInfo(clu.getOfficialIdentifier()) : null;
             this.alternateIdentifiers = new ArrayList<CluIdentifierInfo>();
             for (CluIdentifier cluIdentifier : clu.getAlternateIdentifiers()) {
                 this.alternateIdentifiers.add(new CluIdentifierInfo(cluIdentifier));
             }
             this.studySubjectArea = clu.getStudySubjectArea();
-            this.campusKeys = (null != clu.getCampusKeys()) ? new ArrayList<String>(clu.getCampusKeys()) : null;
+            this.campusLocations = (null != clu.getCampusLocations()) ? new ArrayList<String>(clu.getCampusLocations()) : null;
             this.accreditations = new ArrayList<AccreditationInfo>();
             for (Accreditation accreditation : clu.getAccreditations()) {
                 this.accreditations.add(new AccreditationInfo(accreditation));
@@ -186,6 +193,15 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
     }
 
     @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+
+    @Override
     public CluIdentifierInfo getOfficialIdentifier() {
         return officialIdentifier;
     }
@@ -205,7 +221,6 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
     public void setAlternateIdentifiers(List<CluIdentifierInfo> alternateIdentifiers) {
         this.alternateIdentifiers = alternateIdentifiers;
     }
-
 
     @Override
     public String getStudySubjectArea() {
@@ -229,15 +244,15 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
     }
 
     @Override
-    public List<String> getCampusKeys() {
-        if (campusKeys == null) {
-            campusKeys = new ArrayList<String>();
+    public List<String> getCampusLocations() {
+        if (campusLocations == null) {
+            campusLocations = new ArrayList<String>();
         }
-        return campusKeys;
+        return campusLocations;
     }
 
-    public void setCampusKeys(List<String> campusKeys) {
-        this.campusKeys = campusKeys;
+    public void setCampusLocations(List<String> campusLocations) {
+        this.campusLocations = campusLocations;
     }
 
     @Override
@@ -404,7 +419,6 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
     public void setAccountingInfo(CluAccountingInfo accountingInfo) {
         this.accountingInfo = accountingInfo;
     }
-
 
     @Override
     public VersionInfo getVersionInfo() {

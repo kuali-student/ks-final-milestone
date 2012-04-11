@@ -23,14 +23,13 @@ import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.GradingServiceConstants;
-import org.kuali.student.test.utilities.TestHelper;
+import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CourseOfferingForGradingKeyValues extends KeyValuesBase {

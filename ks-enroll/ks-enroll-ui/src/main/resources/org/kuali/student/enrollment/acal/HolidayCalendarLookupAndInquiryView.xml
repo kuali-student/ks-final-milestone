@@ -65,7 +65,7 @@
     <bean id="HolidayCalendarInfoUI.startDate" parent="HolidayCalendarInfo.startDate-parent">
         <property name="label" value="Start Date" />
         <property name="required" value="true"/>
-        <property name="minLength" value="10" />
+        <property name="minLength" value="8" />
         <property name="controlField">
             <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
@@ -76,7 +76,7 @@
     <bean id="HolidayCalendarInfoUI.endDate" parent="HolidayCalendarInfo.endDate-parent">
         <property name="label" value="End Date" />
         <property name="required" value="true"/>
-        <property name="minLength" value="10" />
+        <property name="minLength" value="8" />
         <property name="controlField">
             <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>

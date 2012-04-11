@@ -10,27 +10,21 @@ import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 public class AtpMilestoneRelationDao extends GenericEntityDao<AtpMilestoneRelationEntity> {
 
     @SuppressWarnings("unchecked")
-    public List<AtpMilestoneRelationEntity> getByTypeId(String atpMilestoneRelationType) {
-        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.atpType=:atpType")
-                .setParameter("atpType", atpMilestoneRelationType).getResultList();
-    }
-
-    @SuppressWarnings("unchecked")
     public List<AtpMilestoneRelationEntity> getByMilestoneId(String milestoneId) {
-        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.milestone.id=:milestoneId")
+        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.milestoneId=:milestoneId")
                 .setParameter("milestoneId", milestoneId).getResultList();
     }
 
     @SuppressWarnings("unchecked")
     public List<AtpMilestoneRelationEntity> getByAtpId(String atpId) {
-        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.atp.id=:atpId")
+        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.atpId=:atpId")
                 .setParameter("atpId", atpId).getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public List<AtpMilestoneRelationEntity> getByAtpAndMilestone(String atpId, String milestoneId) {
+    public List<String> getIdsByAtpAndMilestone(String atpId, String milestoneId) {
         Query query = em
-                .createQuery("from AtpMilestoneRelationEntity amRel where amRel.atp.id=:atpId and amRel.milestone.id=:milestoneId");
+                .createQuery("select amRel.id from AtpMilestoneRelationEntity amRel where amRel.atpId=:atpId and amRel.milestoneId=:milestoneId");
         query.setParameter("atpId", atpId);
         query.setParameter("milestoneId", milestoneId);
         return query.getResultList();

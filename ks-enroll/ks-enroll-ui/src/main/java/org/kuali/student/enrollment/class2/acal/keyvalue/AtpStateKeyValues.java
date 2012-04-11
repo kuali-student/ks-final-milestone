@@ -27,7 +27,7 @@ import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.test.utilities.TestHelper;
+import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;

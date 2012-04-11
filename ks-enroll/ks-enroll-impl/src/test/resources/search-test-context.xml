@@ -52,5 +52,7 @@
     		</list>
     	</property>
   	</bean>
-  			
+        <bean id="coCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+           <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        </bean>  			
 </beans>

@@ -1,17 +1,19 @@
 /*
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.r2.core.hold.dto;
 
 import java.io.Serializable;
@@ -30,45 +32,49 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name",
-    "descr", "issueKey", "personId", "isWarning", "isOverridable",
-    "effectiveDate", "releasedDate", "meta", "attributes",
-    "_futureElements"})
-public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
+                "descr", "issueId", "personId",  "effectiveDate", "releasedDate", 
+                "meta", "attributes", "_futureElements"})
+
+public class HoldInfo 
+    extends IdEntityInfo 
+    implements Hold, Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @XmlElement
     private String personId;
+
     @XmlElement
-    private String issueKey;
-    @XmlElement
-    private Boolean isWarning;
-    @XmlElement
-    private Boolean isOverridable;
+    private String issueId;
+
     @XmlElement
     private Date effectiveDate;
+
     @XmlElement
     private Date releasedDate;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
+
+    /**
+     *  Constructs a new HoldInfo.
+     */
     public HoldInfo() {
-        super();
-        personId = null;
-        isWarning = false;
-        isOverridable = false;
-        issueKey = null;
-        effectiveDate = null;
-        releasedDate = null;
-        _futureElements = null;
     }
 
+    /**
+     *  Constructs a new HoldInfo from anotehr Hold.
+     *
+     *  @param hold the hold to copy
+     */
     public HoldInfo(Hold hold) {
         super(hold);
-        if (null != hold) {
+
+        if (hold != null) {
             this.personId = hold.getPersonId();
-            this.isWarning = hold.getIsWarning();
-            this.isOverridable = hold.getIsOverridable();
-            this.issueKey = hold.getIssueKey();
+            this.issueId = hold.getIssueId();
+
             if (hold.getEffectiveDate() != null) {
                 this.effectiveDate = new Date(hold.getEffectiveDate().getTime());
             }
@@ -76,8 +82,6 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
                 this.releasedDate = new Date(hold.getReleasedDate().getTime());
             }
         }
-
-        _futureElements = null;
     }
 
     @Override
@@ -90,30 +94,12 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     }
 
     @Override
-    public String getIssueKey() {
-        return issueKey;
+    public String getIssueId() {
+        return issueId;
     }
 
-    public void setIssueKey(String issueKey) {
-        this.issueKey = issueKey;
-    }
-
-    @Override
-    public Boolean getIsWarning() {
-        return isWarning;
-    }
-
-    public void setIsWarning(Boolean isWarning) {
-        this.isWarning = isWarning;
-    }
-
-    @Override
-    public Boolean getIsOverridable() {
-        return isOverridable;
-    }
-
-    public void setIsOverridable(Boolean isOverridable) {
-        this.isOverridable = isOverridable;
+    public void setIssueId(String issueId) {
+        this.issueId = issueId;
     }
 
     @Override

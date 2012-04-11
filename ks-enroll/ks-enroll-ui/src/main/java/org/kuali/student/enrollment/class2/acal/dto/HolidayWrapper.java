@@ -15,6 +15,8 @@
  */
 package org.kuali.student.enrollment.class2.acal.dto;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 
 /**
@@ -23,10 +25,29 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
  * @author Kuali Student Team
  */
 public class HolidayWrapper extends TimeSetWrapper {
+
     private String typeName;
     private HolidayInfo holidayInfo;
+    private boolean instructional;
+    private String typeKey;
 
-    public HolidayWrapper(){}
+    public HolidayWrapper(){
+        holidayInfo = new HolidayInfo();
+        setAllDay(true);
+        setInstructional(false);
+        setDateRange(false);
+    }
+
+    public HolidayWrapper(HolidayInfo holidayInfo){
+        this.setHolidayInfo(holidayInfo);
+        this.setStartDate(holidayInfo.getStartDate());
+        this.setEndDate(holidayInfo.getEndDate());
+        this.setAllDay(holidayInfo.getIsAllDay());
+        this.setDateRange(holidayInfo.getIsDateRange());
+        this.setTypeKey(holidayInfo.getTypeKey());
+        this.setInstructional(holidayInfo.getIsInstructionalDay());
+        buildDateAndTime();
+    }
 
     public String getTypeName() {
         return typeName;
@@ -42,5 +63,29 @@ public class HolidayWrapper extends TimeSetWrapper {
 
     public void setHolidayInfo(HolidayInfo holidayInfo) {
         this.holidayInfo = holidayInfo;
+    }
+
+    //This is for UI display purpose
+    public String getIsNonInstructional(){
+        if (holidayInfo != null){
+            return StringUtils.capitalize(BooleanUtils.toStringYesNo(!holidayInfo.getIsInstructionalDay()));
+        }
+        return StringUtils.capitalize(BooleanUtils.toStringYesNo(true));
+    }
+
+    public boolean isInstructional() {
+        return instructional;
+    }
+
+    public void setInstructional(boolean instructional) {
+        this.instructional = instructional;
+    }
+
+    public String getTypeKey() {
+        return typeKey;
+    }
+
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
     }
 }

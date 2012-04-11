@@ -117,13 +117,13 @@ public interface PopulationService {
 
     /** 
      * Retrieves a list of Populations corresponding to the given list
-     * of Population ids.
+     * of Population Ids.
      *
      * @param populationKeys list of Populationss to be retrieved
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return a list of Population ids of the given type
+     * @return a list of Population Ids of the given type
      * @throws DoesNotExistException an populationKey in list not found
      * @throws InvalidParameterException invalid populationKey or contextInfo
      * @throws MissingParameterException missing populationKey or contextInfo
@@ -133,13 +133,13 @@ public interface PopulationService {
     public List<PopulationInfo> getPopulationsByIds(@WebParam(name = "populationKeys") List<String> populationKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Population ids of the specified type.
+     * Retrieves a list of Population Ids of the specified type.
      *
      * @param populationTypeId a Population type to be retrieved
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return a list of Population ids
+     * @return a list of Population Ids
      * @throws InvalidParameterException invalid populationTypeId or
      *         contextInfo
      * @throws MissingParameterException missing populationTypeId or

@@ -163,18 +163,18 @@ public class ExemptionServiceMockImpl implements ExemptionService {
     }
 
     @Override
-    public List<ExemptionRequestInfo> getExemptionRequestsByIdList(List<String> exemptionRequestIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ExemptionRequestInfo> list = new ArrayList<ExemptionRequestInfo>(exemptionRequestIdList.size());
-        for (String id : exemptionRequestIdList) {
+    public List<ExemptionRequestInfo> getExemptionRequestsByIds(List<String> exemptionRequestIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ExemptionRequestInfo> list = new ArrayList<ExemptionRequestInfo>(exemptionRequestIds.size());
+        for (String id : exemptionRequestIds) {
             list.add(this.getExemptionRequest(id, context));
         }
         return list;
     }
 
     @Override
-    public List<ExemptionInfo> getExemptionsByIdList(List<String> exemptionIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>(exemptionIdList.size());
-        for (String id : exemptionIdList) {
+    public List<ExemptionInfo> getExemptionsByIds(List<String> exemptionIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>(exemptionIds.size());
+        for (String id : exemptionIds) {
             list.add(this.getExemption(id, context));
         }
         return list;

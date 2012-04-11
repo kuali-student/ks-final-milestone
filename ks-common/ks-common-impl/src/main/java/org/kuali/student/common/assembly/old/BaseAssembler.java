@@ -70,7 +70,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
             Map<String,String> qualification = getQualification(idType, id);
             Map<String,String> permissionDetails = new LinkedHashMap <String,String> ();
             permissionDetails.put ("dtoName", dtoName);
-//            List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
+//            List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplate(principalId,
 //            		PermissionType.FIELD_ACCESS.getPermissionNamespace(), PermissionType.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
             Map<String, String> permMap = new HashMap<String, String>();
 //            if (permissions != null) {
@@ -114,7 +114,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
             Map<String,String> qualification = getQualification(idType, id);
         	String currentUser = SecurityUtils.getCurrentUserId();
-//	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
+//	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplate(currentUser, PermissionType.EDIT.getPermissionNamespace(),
 //	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
 //			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
 //					+ "' for user '" + currentUser + "': " + authorized);

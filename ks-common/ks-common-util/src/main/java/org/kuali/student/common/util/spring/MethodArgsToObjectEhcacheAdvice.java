@@ -29,6 +29,9 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 	private CacheManager cacheManager;
 	private String cacheName;
 	private boolean enabled;
+	
+	
+	
 
 	/**
 	 * 
@@ -75,7 +78,7 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 
 			}
 		}
-		String cacheKey = getCacheKey(pjp);
+		String cacheKey = generateCacheKey(pjp);
 
 		Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
 		Object result = null;
@@ -91,15 +94,27 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 		return result;
 	}
 
-	private String getCacheKey(ProceedingJoinPoint pjp) {
+	/**
+	 * Generate cache key based on the ProceedingJonPoint. Other advices can extend and override this method to implement their own strategy for key generation
+	 */
+	protected String generateCacheKey(ProceedingJoinPoint pjp) {
 		final StringBuffer cacheKey = new StringBuffer(pjp.getSignature().getName());
 		cacheKey.append("(");
 		for (int i = 0; i < pjp.getArgs().length; i++) {
-			cacheKey.append(pjp.getArgs()[i].toString());
+			
+			if(null == pjp.getArgs()[i]) {
+				// FIXME: This will result in inconsistent behvior if the value is the literal '<null>' vs being null
+				cacheKey.append("<null>");
+			} else {
+				cacheKey.append(pjp.getArgs()[i].toString());
+			}
+			
 			if (i + 1 != pjp.getArgs().length) {
 				cacheKey.append(",");
 			}
 		}
+		
+		cacheKey.append(")");
 		return cacheKey.toString();
 	}
 

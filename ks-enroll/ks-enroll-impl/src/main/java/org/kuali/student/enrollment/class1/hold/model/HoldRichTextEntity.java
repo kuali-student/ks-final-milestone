@@ -12,8 +12,7 @@ import org.kuali.student.r2.common.infc.RichText;
 @Table(name = "KSEN_HOLD_RICH_TEXT")
 public class HoldRichTextEntity extends RichTextEntity {
 
-    public HoldRichTextEntity() {
-        
+    public HoldRichTextEntity() {        
     }
     
     public HoldRichTextEntity(String plain, String formatted){
@@ -34,5 +33,4 @@ public class HoldRichTextEntity extends RichTextEntity {
         rti.setFormatted(getFormatted());
         return rti;
     }
-    
 }

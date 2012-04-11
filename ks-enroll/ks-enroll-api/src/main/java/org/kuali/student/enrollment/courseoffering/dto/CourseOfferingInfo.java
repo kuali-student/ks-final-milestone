@@ -1,13 +1,19 @@
 /*
- * Copyright 2007 The Kuali Foundation Licensed under the Educational Community
- * License, Version 1.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
- * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Copyright 2011 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 1.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.enrollment.courseoffering.dto;
 
 import java.util.ArrayList;
@@ -20,12 +26,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
-import org.kuali.student.r2.lum.lu.dto.FeeInfo;
-import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
+import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
+import org.kuali.student.r2.lum.clu.dto.FeeInfo;
+import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 import org.w3c.dom.Element;
 
 /**
@@ -33,13 +40,16 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "courseId",
-        "formatIds", "termId", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
+        "termId", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
         "instructors", "subjectArea", "unitsDeployment", "unitsContentOwner", "hasFinalExam", "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "creditOptions", "gradingOptionKeys", "gradeRosterLevelTypeKey",
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
-        "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", "registrationOrderTypeKey",
+        "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", 
         "meta", "attributes", "_futureElements"})
-public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
+
+public class CourseOfferingInfo 
+    extends IdEntityInfo 
+    implements CourseOffering {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,7 +57,16 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private String courseId;
 
     @XmlElement
-    private List<String> formatIds;
+    private String termId;
+
+    @XmlElement
+    private String courseTitle;
+
+    @XmlElement
+    private String courseOfferingCode;
+
+    @XmlElement
+    private String courseNumberSuffix;
 
     @XmlElement
     private String subjectArea;
@@ -65,6 +84,12 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private List<String> unitsContentOwner;
 
     @XmlElement
+    private ResultValuesGroupInfo creditOptions;
+
+    @XmlElement
+    private List<String> gradingOptionKeys;
+
+    @XmlElement
     private Boolean hasFinalExam;
 
     @XmlElement
@@ -74,18 +99,6 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private Integer waitlistMaximum;
 
     @XmlElement
-    private String termId;
-
-    @XmlElement
-    private String courseOfferingCode;
-
-    @XmlElement
-    private String courseNumberSuffix;
-
-    @XmlElement
-    private String courseTitle;
-
-    @XmlElement
     private Integer maximumEnrollment;
 
     @XmlElement
@@ -93,12 +106,6 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
 
     @XmlElement
     private List<String> jointOfferingIds;
-
-    @XmlElement
-    private ResultValuesGroupInfo creditOptions;
-
-    @XmlElement
-    private List<String> gradingOptionKeys;
 
     @XmlElement
     private String gradeRosterLevelTypeKey;
@@ -127,58 +134,73 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     @XmlElement
     private Boolean isFinancialAidEligible;
 
-    @XmlElement
-    private String registrationOrderTypeKey;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
 
+    /**
+     * Constructs a new CourseOfferingInfo.
+     */
     public CourseOfferingInfo() {
     }
 
-    public CourseOfferingInfo(CourseOffering course) {
+    /**
+     * Constructs a new CourseOfferingInfo from another
+     * CourseOffering.
+     *
+     * @param offering the course offering to copy
+     */
+    public CourseOfferingInfo(CourseOffering offering) {
 
-        super(course);
+        super(offering);
 
-        if (null == course)
+        if (offering == null) {
             return;
+        }
 
-        this.courseId = course.getCourseId();
-        this.formatIds = (null != course.getFormatIds()) ? new ArrayList<String>(course.getFormatIds()) : null;
-        this.subjectArea = course.getSubjectArea();
-        this.isHonorsOffering = course.getIsHonorsOffering();
-        this.instructors = (null != course.getInstructors()) ? new ArrayList<OfferingInstructorInfo>(
-                ((List<OfferingInstructorInfo>) course.getInstructors())) : new ArrayList<OfferingInstructorInfo>();
-        this.unitsContentOwner = course.getUnitsContentOwner();
-        this.hasFinalExam = course.getHasFinalExam();
-        this.waitlistTypeKey = course.getWaitlistTypeKey();
-        this.waitlistMaximum = course.getWaitlistMaximum();
-        this.termId = course.getTermId();
-        this.courseOfferingCode = course.getCourseOfferingCode();
-        this.courseNumberSuffix = course.getCourseNumberSuffix();
-        this.courseTitle = course.getCourseTitle();
-        this.maximumEnrollment = course.getMaximumEnrollment();
-        this.minimumEnrollment = course.getMinimumEnrollment();
-        this.jointOfferingIds = (null != course.getJointOfferingIds()) ? new ArrayList<String>(
-                course.getJointOfferingIds()) : null;
-        this.creditOptions = (null != course.getCreditOptions()) ? new ResultValuesGroupInfo(course.getCreditOptions())
-                : null;
-        this.gradingOptionKeys = (null != course.getGradingOptionKeys()) ? new ArrayList<String>(
-                course.getGradingOptionKeys()) : null;
-        this.gradeRosterLevelTypeKey = course.getGradeRosterLevelTypeKey();
-        this.hasWaitlist = (null != course.getHasWaitlist()) ? new Boolean(course.getHasWaitlist()) : null;
-        this.isWaitlistCheckinRequired = course.getIsWaitlistCheckinRequired();
-        this.waitlistCheckinFrequency = (null != course.getWaitlistCheckinFrequency()) ? new TimeAmountInfo(
-                course.getWaitlistCheckinFrequency()) : null;
-        this.fundingSource = course.getFundingSource();
-        this.fees = (null != course.getFees()) ? new ArrayList<FeeInfo>((List<FeeInfo>) course.getFees()) : null;
+        this.courseId = offering.getCourseId();
+        this.termId = offering.getTermId();
+        
+
+        this.courseTitle = offering.getCourseTitle();
+        this.courseOfferingCode = offering.getCourseOfferingCode();
+        this.courseNumberSuffix = offering.getCourseNumberSuffix();
+        this.subjectArea = offering.getSubjectArea();
+        this.isHonorsOffering = offering.getIsHonorsOffering();
+
+        this.instructors = new ArrayList<OfferingInstructorInfo>();
+        for (OfferingInstructor instructor : offering.getInstructors()) {
+            this.instructors.add(new OfferingInstructorInfo(instructor));
+        }
+
+        this.unitsDeployment = offering.getUnitsDeployment();
+        this.unitsContentOwner = offering.getUnitsContentOwner();
+        this.creditOptions = new ResultValuesGroupInfo(offering.getCreditOptions());
+        this.gradingOptionKeys = (null != offering.getGradingOptionKeys()) ? new ArrayList<String>(
+                offering.getGradingOptionKeys()) : null;
+
+        this.hasFinalExam = offering.getHasFinalExam();
+        this.waitlistTypeKey = offering.getWaitlistTypeKey();
+        this.waitlistMaximum = offering.getWaitlistMaximum();
+        this.maximumEnrollment = offering.getMaximumEnrollment();
+        this.minimumEnrollment = offering.getMinimumEnrollment();
+
+        this.jointOfferingIds = (null != offering.getJointOfferingIds()) ? new ArrayList<String>(
+                offering.getJointOfferingIds()) : null;
+
+
+        this.gradeRosterLevelTypeKey = offering.getGradeRosterLevelTypeKey();
+        this.hasWaitlist = (null != offering.getHasWaitlist()) ? new Boolean(offering.getHasWaitlist()) : null;
+        this.isWaitlistCheckinRequired = offering.getIsWaitlistCheckinRequired();
+        this.waitlistCheckinFrequency = (null != offering.getWaitlistCheckinFrequency()) ? new TimeAmountInfo(
+                offering.getWaitlistCheckinFrequency()) : null;
+        this.fundingSource = offering.getFundingSource();
+        this.fees = (null != offering.getFees()) ? new ArrayList<FeeInfo>((List<FeeInfo>) offering.getFees()) : null;
         // TODO: Change this to r2 revenue with null check
-        this.revenues = course.getRevenues();
+        this.revenues = offering.getRevenues();
         // TODO: Change this to r2 expenditure with null;
-        this.expenditure = course.getExpenditure();
-        this.isFinancialAidEligible = course.getIsFinancialAidEligible();
-        this.registrationOrderTypeKey = course.getRegistrationOrderTypeKey();
+        this.expenditure = offering.getExpenditure();
+        this.isFinancialAidEligible = offering.getIsFinancialAidEligible();
     }
 
     @Override
@@ -186,10 +208,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         return this.courseId;
     }
 
-    @Override
-    public List<String> getFormatIds() {
-        return formatIds;
-    }
+
 
     @Override
     public String getSubjectArea() {
@@ -330,17 +349,15 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     }
 
     @Override
-    public String getRegistrationOrderTypeKey() {
-        return this.registrationOrderTypeKey;
-    }
-
-    @Override
     public List<String> getGradingOptionKeys() {
         return this.gradingOptionKeys;
     }
 
     @Override
     public List<OfferingInstructorInfo> getInstructors() {
+        if (instructors == null) {
+            instructors = new ArrayList<OfferingInstructorInfo> ();
+        }
         return instructors;
     }
 
@@ -350,10 +367,6 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
-    }
-
-    public void setFormatIds(List<String> formatIds) {
-        this.formatIds = formatIds;
     }
 
     public void setSubjectArea(String subjectArea) {
@@ -454,9 +467,5 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
 
     public void setIsFinancialAidEligible(Boolean isFinancialAidEligible) {
         this.isFinancialAidEligible = isFinancialAidEligible;
-    }
-
-    public void setRegistrationOrderTypeKey(String registrationOrderTypeKey) {
-        this.registrationOrderTypeKey = registrationOrderTypeKey;
     }
 }

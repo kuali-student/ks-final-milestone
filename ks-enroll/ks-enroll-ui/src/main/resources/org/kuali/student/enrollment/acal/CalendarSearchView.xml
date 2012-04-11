@@ -29,12 +29,12 @@
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm"/>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>/ks-enroll/css/calendar.css</value>
+                <value>/ks-enroll/css/hcal.css</value>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CalendarSearch-Page" parent="Uif-Page" p:disclosure.render="false" p:style="width: 110%">
+    <bean id="KS-CalendarSearch-Page" parent="Uif-Page" p:disclosure.render="false">
         <property name="items">
             <list>
                 <ref bean="KS-CalendarSearch-CriteriaSection"/>
@@ -43,11 +43,15 @@
         </property>
     </bean>
 
-    <bean id="KS-CalendarSearch-CriteriaSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CalendarSearch-CriteriaSection" parent="Uif-HorizontalBoxSection">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="Search for Calendar or Term">
+                <bean parent="Uif-GridSubSection" p:title="Search for Calendar or Term" p:layoutManager.numberOfColumns="2">
+                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                     <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField-LabelTop" p:propertyName="calendarType" p:label="Search For">
@@ -70,11 +74,14 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="actions" p:labelField.render="false">
+                            <bean parent="Uif-HorizontalFieldGroup">
                     <property name="items">
                         <list>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
                             <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
+                        </list>
+                    </property>
+                </bean>
                         </list>
                     </property>
                 </bean>
@@ -104,7 +111,14 @@
 		<property name="propertyName" value="holidayCalendars" />
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.componentOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+            </map>
+        </property>
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
@@ -126,12 +140,15 @@
                 </bean>
             </list>
 		</property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
+        </property>
         <property name="actionFields">
               <list>
-                  <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -142,7 +159,14 @@
 		<property name="propertyName" value="academicCalendars" />
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.componentOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+            </map>
+        </property>
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
@@ -164,12 +188,15 @@
                 </bean>
             </list>
 		</property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
+        </property>
         <property name="actionFields">
               <list>
-                  <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -180,7 +207,14 @@
 		<property name="propertyName" value="terms" />
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.componentOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+            </map>
+        </property>
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
@@ -202,11 +236,14 @@
                 </bean>
             </list>
 		</property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
+        </property>
         <property name="actionFields">
               <list>
-                  <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                  <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>

@@ -125,10 +125,10 @@ public interface OrganizationService {
 
     /**
      * Retrieves a list of OrgHierarchies from a list of OrgHierarchy
-     * ids. The returned list may be in any order and if duplicate ids
+     * Ids. The returned list may be in any order and if duplicate Ids
      * are supplied, a unique set may or may not be returned.
      * 
-     * @param orgHierarchyIds a list of OrgHierarchy ids
+     * @param orgHierarchyIds a list of OrgHierarchy Ids
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of OrgHierarchies
@@ -142,13 +142,13 @@ public interface OrganizationService {
     public List<OrgHierarchyInfo> getOrgHierarchiesByIds(@WebParam(name = "orgHierarchyIds") List<String> orgHierarchyIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of OrgHierarchy ids by OrgHierarchy Type.
+     * Retrieves a list of OrgHierarchy Ids by OrgHierarchy Type.
      * 
      * @param orgHierarchyTypeKey an identifier for the OrgHierarchy
      *        type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of OrgHierarchy ids matching orgHierarchyTypeKey
+     * @return a list of OrgHierarchy Ids matching orgHierarchyTypeKey
      *         or an empty list if none found
      * @throws InvalidParameterException contextInfo is invalid
      * @throws MissingParameterException orgHierarchyTypeKey or
@@ -212,8 +212,8 @@ public interface OrganizationService {
     public OrgInfo getOrg(@WebParam(name = "orgId") String orgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Orgs from a list of Org ids. The returned
-     * list may be in any order and if duplicate ids are supplied, a
+     * Retrieves a list of Orgs from a list of Org Ids. The returned
+     * list may be in any order and if duplicate Ids are supplied, a
      * unique set may or may not be returned.  identifiers.
      *
      * @param orgIds a list of Org Ids
@@ -230,12 +230,12 @@ public interface OrganizationService {
     public List<OrgInfo> getOrgsByIds(@WebParam(name = "orgIds") List<String> orgIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of Org ids by Org Type.
+     * Retrieves a list of Org Ids by Org Type.
      * 
      * @param orgTypeKey an identifier for the Org type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of Org ids matching orgTypeKey or an empty list
+     * @return a list of Org Ids matching orgTypeKey or an empty list
      *         if none found
      * @throws InvalidParameterException contextInfo is invalid
      * @throws MissingParameterException orgTypeKey or contextInfo is
@@ -250,7 +250,7 @@ public interface OrganizationService {
     //
 
     /**
-     * Searches for Org ids that meet the given search criteria.
+     * Searches for Org Ids that meet the given search criteria.
      * 
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
@@ -636,7 +636,7 @@ public interface OrganizationService {
 
     /**
      * Creates a new OrgOrgRelation. The OrgOrgRelation Id, Type, Org
-     * ids, and Meta information may not be set in the supplied data.
+     * Ids, and Meta information may not be set in the supplied data.
      * 
      * @param orgId a peer of the relationship
      * @param orgPeerId a peer of the relationship
@@ -662,7 +662,7 @@ public interface OrganizationService {
 
     /**
      * Updates an Org Milestone Relationship. The OrgOrgRelation Id,
-     * Type, Org ids, and Meta information may not be changed.
+     * Type, Org Ids, and Meta information may not be changed.
      * 
      * @param orgOrgRelationId the identifier for the OrgOrgRelation updated
      * @param orgOrgRelationInfo the new data for the OrgOrgRelation
@@ -937,7 +937,7 @@ public interface OrganizationService {
     //
 
     /**
-     * Searches for OrgPersonRelation ids that meet the given search
+     * Searches for OrgPersonRelation Ids that meet the given search
      * criteria.
      * 
      * @param criteria the search criteria
@@ -1009,7 +1009,7 @@ public interface OrganizationService {
 
     /**
      * Creates a new OrgPersonRelation. The OrgPersonRelation Id, Type, Org
-     * ids, and Meta information may not be set in the supplied data.
+     * Ids, and Meta information may not be set in the supplied data.
      * 
      * @param orgId a peer of the relationship
      * @param personId a peer of the relationship
@@ -1036,7 +1036,7 @@ public interface OrganizationService {
 
     /**
      * Updates an Org Milestone Relationship. The OrgPersonRelation Id,
-     * Type, Org ids, and Meta information may not be changed.
+     * Type, Org Ids, and Meta information may not be changed.
      * 
      * @param orgPersonRelationId the identifier for the
      *        OrgPersonRelation updated
@@ -1101,11 +1101,11 @@ public interface OrganizationService {
 
     /**
      * Retrieves a list of OrgPositionRestrictions from a list of
-     * OrgPositionRestriction ids. The returned list may be in any
-     * order and if duplicate ids are supplied, a unique set may or
+     * OrgPositionRestriction Ids. The returned list may be in any
+     * order and if duplicate Ids are supplied, a unique set may or
      * may not be returned.
      * 
-     * @param orgPositionRestrictionIds a list of OrgPositionRestriction ids
+     * @param orgPositionRestrictionIds a list of OrgPositionRestriction Ids
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of OrgPositionRestrictions
@@ -1128,7 +1128,7 @@ public interface OrganizationService {
      *        type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of OrgPositionRestriction ids matching
+     * @return a list of OrgPositionRestriction Ids matching
      *         orgPersonRelationTypeKey or an empty list if none found
      * @throws InvalidParameterException contextInfo is invalid
      * @throws MissingParameterException orgPersonRelationTypeKey or contextInfo is
@@ -1160,7 +1160,7 @@ public interface OrganizationService {
     //
 
     /**
-     * Searches for OrgPositionRestriction ids that meet the given
+     * Searches for OrgPositionRestriction Ids that meet the given
      * search criteria.
      * 
      * @param criteria the search criteria

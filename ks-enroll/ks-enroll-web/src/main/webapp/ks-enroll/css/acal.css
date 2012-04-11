@@ -1,3 +1,10 @@
+/* override theme-krad.css style; padding-right matches base.css */
+td.col2, td.col4, th.col1, th.col3 {
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 1em;
+}
+
 .ks-header-boldWithLine {
     border-bottom: 2px solid #666666;
     padding-top:10px;
@@ -7,9 +14,28 @@
     font-weight:bold;
 }
 
-.ks-borderBottom {
+.ks-borderBottom1 {
+    border-bottom: 1px solid #666666;
+    padding-top:10px;
+    padding-bottom:10px;
+    text-align: left;
+}
+
+.ks-borderBottom2 {
     border-bottom: 2px solid #666666;
     padding-top:10px;
     padding-bottom:10px;
     text-align: left;
+}
+
+.ks-tablecollection-table thead th {
+    padding-bottom: 5px;;
+    text-align: left;
+}
+.ks-tablecollection-table tbody td {
+    font-weight: normal;
+}
+
+.ks-tablecollection-header-center thead th {
+    text-align: center;
 }

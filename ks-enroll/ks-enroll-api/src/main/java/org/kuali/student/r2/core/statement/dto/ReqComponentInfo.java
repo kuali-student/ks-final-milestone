@@ -12,7 +12,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.statement.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
@@ -30,19 +29,30 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 /**
  * Information about a requirement component.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ReqComponentInfo", propOrder = {"id", "typeKey", "stateKey",
-        "reqCompFields", "naturalLanguageTranslation", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "ReqComponentInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "descr",
+    "reqCompFields",
+    "naturalLanguageTranslation",
+    "effectiveDate",
+    "expirationDate",
+    "meta",
+    "attributes",
+    "_futureElements"})
 public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqComponent, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private List<ReqCompFieldInfo> reqCompFields;
+    @XmlElement
+    private RichTextInfo descr;
     @XmlAttribute
     private String naturalLanguageTranslation;
     @XmlElement
@@ -52,20 +62,22 @@ public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqCompone
     @XmlAnyElement
     private List<Element> _futureElements;
 
-
     public ReqComponentInfo() {
     }
 
-    public ReqComponentInfo(ReqComponent reqComponent) {
-        super(reqComponent);
-        if (null != reqComponent) {
+    public ReqComponentInfo(ReqComponent input) {
+        super(input);
+        if (null != input) {
             this.reqCompFields = new ArrayList<ReqCompFieldInfo>();
-            for (ReqCompField reqCompField : reqComponent.getReqCompFields()) {
+            for (ReqCompField reqCompField : input.getReqCompFields()) {
                 this.reqCompFields.add(new ReqCompFieldInfo(reqCompField));
             }
-            this.effectiveDate = (null != reqComponent.getEffectiveDate()) ? new Date(reqComponent.getEffectiveDate().getTime()) : null;
-            this.expirationDate = (null != reqComponent.getExpirationDate()) ? new Date(reqComponent.getExpirationDate().getTime()) : null;
-            this.naturalLanguageTranslation = reqComponent.getNaturalLanguageTranslation();
+            if (input.getDescr() != null) {
+                this.descr = new RichTextInfo(input.getDescr());
+            }
+            this.effectiveDate = (null != input.getEffectiveDate()) ? new Date(input.getEffectiveDate().getTime()) : null;
+            this.expirationDate = (null != input.getExpirationDate()) ? new Date(input.getExpirationDate().getTime()) : null;
+            this.naturalLanguageTranslation = input.getNaturalLanguageTranslation();
         }
     }
 
@@ -97,6 +109,15 @@ public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqCompone
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
     }
 
     @Override

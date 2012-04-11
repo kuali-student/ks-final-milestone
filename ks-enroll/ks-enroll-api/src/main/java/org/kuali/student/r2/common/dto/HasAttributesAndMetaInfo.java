@@ -66,7 +66,7 @@ public abstract class HasAttributesAndMetaInfo
         return this.meta;
     }
     
-    public void setMeta(MetaInfo metaInfo) {
-        this.meta = metaInfo;
+    public void setMeta(MetaInfo meta) {
+        this.meta = meta;
     }
 }

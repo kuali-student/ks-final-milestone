@@ -11,7 +11,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.enrollment.classI.hold.mock.HoldServiceMockImpl;
+import org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.class1.process.ProcessPocConstants;
 import org.kuali.student.r2.core.class1.process.ProcessPocHoldServiceDecorator;

@@ -7,12 +7,14 @@
 
     <bean id="KS-HolidayCalendar-FlowView" parent="KSFormView">
         <property name="id" value="holidayCalendarFlowView"/>
-        <property name="title" value="Holiday Calendar"/>
         <property name="entryPageId" value="holidayCalendarCopyPage"/>
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
+        <property name="header.render" value="false"/>
+        <!-- header is rendered by the page bean
+        <property name="title" value="Holiday Calendar"/>
         <property name="header">
             <bean parent="Uif-HeaderField-Two"/>
-        </property>
+        </property> -->
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>
@@ -26,7 +28,13 @@
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm"/>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>/ks-enroll/css/calendar.css</value>
+                <value>/ks-enroll/css/hcal.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>/ks-enroll/scripts/common.js</value>
+                <value>/ks-enroll/scripts/hcal.js</value>
             </list>
         </property>
     </bean>

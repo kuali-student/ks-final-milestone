@@ -5,15 +5,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
 import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_LUI_ATTR")
-public class LuiAttributeEntity extends BaseAttributeEntity<LuiEntity> {
+public class LuiAttributeEntity extends BaseAttributeEntityNew<LuiEntity> {
     
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private LuiEntity owner;
 
     public LuiAttributeEntity () {

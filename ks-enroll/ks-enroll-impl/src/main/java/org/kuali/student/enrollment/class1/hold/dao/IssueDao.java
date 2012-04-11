@@ -24,13 +24,11 @@ import org.kuali.student.enrollment.dao.GenericEntityDao;
  * This is a description of what this class does - andy don't forget to fill this in. 
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
- *
  */
 public class IssueDao extends GenericEntityDao<IssueEntity> {
 
     @SuppressWarnings("unchecked")
     public List<IssueEntity> getByOrganizationId(String orgId) {
         return em.createQuery("from IssueEntity i where i.organizationId=:orgId").setParameter("orgId", orgId).getResultList();
-    }
-    
+    }    
 }

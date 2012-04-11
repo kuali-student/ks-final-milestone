@@ -14,161 +14,171 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.infc.LuiLuiRelation;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
+import org.kuali.student.r2.common.util.RichTextHelper;
 
 @Entity
 @Table(name = "KSEN_LUILUI_RELTN")
-public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<LuiLuiRelationAttributeEntity>{
+public class LuiLuiRelationEntity extends MetaEntity {
+
     @Column(name = "NAME")
     private String name;
-    
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private LuiRichTextEntity descr;   
-    
-	@ManyToOne
-	@JoinColumn(name = "LUI_ID")
-	private LuiEntity lui;
-
-	@ManyToOne
-	@JoinColumn(name = "RELATED_LUI_ID")
-	private LuiEntity relatedLui;
-
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "TYPE_ID")
-    private LuiTypeEntity luiLuiRelationType;
-
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "STATE_ID")
-    private StateEntity luiLuiRelationState;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EFF_DT")
-	private Date effectiveDate;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXP_DT")
-	private Date expirationDate;
-
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String formatted;
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String plain;
+    @ManyToOne
+    @JoinColumn(name = "LUI_ID")
+    private LuiEntity lui;
+    @ManyToOne
+    @JoinColumn(name = "RELATED_LUI_ID")
+    private LuiEntity relatedLui;
+    @Column(name = "LUILUI_RELTN_TYPE")
+    private String luiLuiRelationType;
+    @Column(name = "LUILUI_RELTN_STATE")
+    private String luiLuiRelationState;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "EFF_DT")
+    private Date effectiveDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "EXPIR_DT")
+    private Date expirationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiLuiRelationAttributeEntity> attributes;
-    
-    public LuiLuiRelationEntity(){}
-    
-    public LuiLuiRelationEntity(LuiLuiRelation luiLuiRelation){
+
+    public LuiLuiRelationEntity() {
+    }
+
+    public LuiLuiRelationEntity(LuiLuiRelation luiLuiRelation) {
         this.setId(luiLuiRelation.getId());
+        this.setLuiLuiRelationType(luiLuiRelation.getTypeKey());
+        fromDto(luiLuiRelation);
+    }
+
+    public void fromDto(LuiLuiRelation luiLuiRelation) {
         this.setEffectiveDate(luiLuiRelation.getEffectiveDate());
         this.setExpirationDate(luiLuiRelation.getExpirationDate());
-        
-        this.setAttributes(new ArrayList<LuiLuiRelationAttributeEntity>());
-        if (null != luiLuiRelation.getAttributes()) {
-            for (Attribute att : luiLuiRelation.getAttributes()) {
-                this.getAttributes().add(new LuiLuiRelationAttributeEntity(att));
-            }
-        }    	
-    }
-    
-    public LuiLuiRelationInfo toDto() {
-    	LuiLuiRelationInfo obj = new LuiLuiRelationInfo();
-    	obj.setId(getId());
-    	obj.setLuiId(lui.getId());
-    	obj.setRelatedLuiId(relatedLui.getId());
-        obj.setEffectiveDate(effectiveDate);
-        obj.setExpirationDate(expirationDate);
-        obj.setStateKey(luiLuiRelationState.getId());
-        obj.setTypeKey(luiLuiRelationType.getId());
-        obj.setMeta(super.toDTO());
-        
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (LuiLuiRelationAttributeEntity att : getAttributes()) {
-        	AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
+        this.setLuiLuiRelationState(luiLuiRelation.getStateKey());
+        if (luiLuiRelation.getDescr() == null) {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
+        } else {
+            this.setDescrFormatted(luiLuiRelation.getDescr().getFormatted());
+            this.setDescrPlain(luiLuiRelation.getDescr().getPlain());
         }
-        obj.setAttributes(atts);
-        
-        return obj;
+        this.setAttributes(new ArrayList<LuiLuiRelationAttributeEntity>());
+        for (Attribute att : luiLuiRelation.getAttributes()) {
+            this.getAttributes().add(new LuiLuiRelationAttributeEntity(att));
+        }
     }
-    
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public LuiLuiRelationInfo toDto() {
+        LuiLuiRelationInfo info = new LuiLuiRelationInfo();
+        info.setId(getId());
+        if (lui != null) {
+            info.setLuiId(lui.getId());
+        }
+        if (relatedLui != null) {
+            info.setRelatedLuiId(relatedLui.getId());
+        }
+        info.setEffectiveDate(effectiveDate);
+        info.setExpirationDate(expirationDate);
+        info.setStateKey(luiLuiRelationState);
+        info.setTypeKey(luiLuiRelationType);
+        info.setMeta(super.toDTO());
+        info.setDescr(new RichTextHelper().toRichTextInfo(plain, formatted));
+        if (getAttributes() != null) {
+            for (LuiLuiRelationAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                info.getAttributes().add(attInfo);
+            }
+        }
+        return info;
+    }
 
-	public LuiRichTextEntity getDescr() {
-		return descr;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setDescr(LuiRichTextEntity descr) {
-		this.descr = descr;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public LuiEntity getLui() {
-		return lui;
-	}
+    public String getDescrFormatted() {
+        return formatted;
+    }
 
-	public void setLui(LuiEntity lui) {
-		this.lui = lui;
-	}
+    public void setDescrFormatted(String formatted) {
+        this.formatted = formatted;
+    }
 
-	public LuiEntity getRelatedLui() {
-		return relatedLui;
-	}
+    public String getDescrPlain() {
+        return plain;
+    }
 
-	public void setRelatedLui(LuiEntity relatedLui) {
-		this.relatedLui = relatedLui;
-	}
+    public void setDescrPlain(String plain) {
+        this.plain = plain;
+    }
 
-	public LuiTypeEntity getLuiLuiRelationType() {
-		return luiLuiRelationType;
-	}
+    public LuiEntity getLui() {
+        return lui;
+    }
 
-	public void setLuiLuiRelationType(LuiTypeEntity luiLuiRelationType) {
-		this.luiLuiRelationType = luiLuiRelationType;
-	}
+    public void setLui(LuiEntity lui) {
+        this.lui = lui;
+    }
 
-	public StateEntity getLuiLuiRelationState() {
-		return luiLuiRelationState;
-	}
+    public LuiEntity getRelatedLui() {
+        return relatedLui;
+    }
 
-	public void setLuiLuiRelationState(StateEntity luiLuiRelationState) {
-		this.luiLuiRelationState = luiLuiRelationState;
-	}
+    public void setRelatedLui(LuiEntity relatedLui) {
+        this.relatedLui = relatedLui;
+    }
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
+    public String getLuiLuiRelationType() {
+        return luiLuiRelationType;
+    }
 
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
+    public void setLuiLuiRelationType(String luiLuiRelationType) {
+        this.luiLuiRelationType = luiLuiRelationType;
+    }
 
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
+    public String getLuiLuiRelationState() {
+        return luiLuiRelationState;
+    }
 
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
+    public void setLuiLuiRelationState(String luiLuiRelationState) {
+        this.luiLuiRelationState = luiLuiRelationState;
+    }
 
-	@Override
-	public void setAttributes(List<LuiLuiRelationAttributeEntity> attributes) {
-		this.attributes = attributes;
-		
-	}
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
 
-	@Override
-	public List<LuiLuiRelationAttributeEntity> getAttributes() {
-		return attributes;
-	}
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
 
-	
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public void setAttributes(List<LuiLuiRelationAttributeEntity> attributes) {
+        this.attributes = attributes;
+
+    }
+
+    public List<LuiLuiRelationAttributeEntity> getAttributes() {
+        return attributes;
+    }
 }

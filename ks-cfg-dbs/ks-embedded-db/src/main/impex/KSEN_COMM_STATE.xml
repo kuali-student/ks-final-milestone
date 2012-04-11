@@ -168,37 +168,6 @@
         DESCR="Indicates that this milestone has been established"
         ID="kuali.milestone.state.Official" NAME="Official"
         PROCESS_KEY="kuali.milestone.process" VER_NBR="0"/>
-    <KSEN_COMM_STATE
-        DESCR="Indicates that this Check is disabled across all Processes and should be skipped with a success."
-        ID="kuali.process.check.state.disabled" NAME="Disabled"
-        PROCESS_KEY="kuali.process.check.lifecycle" VER_NBR="0"/>
-    <KSEN_COMM_STATE
-        DESCR="Indicates that this Check is active and should be checked across all Processes."
-        ID="kuali.process.check.state.enabled" NAME="Enabled"
-        PROCESS_KEY="kuali.process.check.lifecycle" VER_NBR="0"/>
-    <KSEN_COMM_STATE
-        DESCR="Indicates that this Check is inactive (out to pasture) across all Processes and should fail."
-        ID="kuali.process.check.state.inactive" NAME="Inactive"
-        PROCESS_KEY="kuali.process.check.lifecycle" VER_NBR="0"/>
-    <KSEN_COMM_STATE
-        DESCR="Indicates that this Instruction is disabled and should be skipped."
-        ID="kuali.process.instruction.state.disabled" NAME="Disabled"
-        PROCESS_KEY="kuali.process.instruction.lifecycle" VER_NBR="0"/>
-    <KSEN_COMM_STATE
-        DESCR="Indicates that this Instruction is active and enabled."
-        ID="kuali.process.instruction.state.enabled" NAME="Enabled"
-        PROCESS_KEY="kuali.process.instruction.lifecycle" VER_NBR="0"/>
-    <KSEN_COMM_STATE
-        DESCR="Indicates that this Process is disabled and should be skipped resulting in success."
-        ID="kuali.process.process.state.disabled" NAME="Disabled"
-        PROCESS_KEY="kuali.process.process.lifecycle" VER_NBR="0"/>
-    <KSEN_COMM_STATE DESCR="Indicates that this Process is enabled."
-        ID="kuali.process.process.state.enabled" NAME="Enabled"
-        PROCESS_KEY="kuali.process.process.lifecycle" VER_NBR="0"/>
-    <KSEN_COMM_STATE
-        DESCR="Indicates that this Process is inactive because it was put out to pasture. Any checks for this process should fail."
-        ID="kuali.process.process.state.inactive" NAME="Inactive"
-        PROCESS_KEY="kuali.process.process.lifecycle" VER_NBR="0"/>
     <KSEN_COMM_STATE DESCR="Approved"
         ID="kuali.result.scale.state.approved"
         NAME="The result scale has been approved to be used and awarded" PROCESS_KEY="kuali.result.scale.process"/>

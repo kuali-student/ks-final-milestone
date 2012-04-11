@@ -126,13 +126,13 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         return info;
     }
 
-    private CheckInfo _createCheck(String key, String type, String issueKey, String milestoneTypeKey, String agendaId, String processKey, String name, String descr, ContextInfo context) {
+    private CheckInfo _createCheck(String key, String type, String issueId, String milestoneTypeKey, String agendaId, String processKey, String name, String descr, ContextInfo context) {
         CheckInfo info = new CheckInfo();
         info.setKey(key);
         info.setTypeKey(type);
         info.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ENABLED);
         info.setName(name);
-        info.setIssueKey(_toNull(issueKey));
+        info.setIssueId(_toNull(issueId));
         info.setMilestoneTypeKey(_toNull(milestoneTypeKey));
         info.setAgendaId(_toNull(agendaId));
         info.setProcessKey(_toNull(processKey));

@@ -56,10 +56,10 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		PermissionService permService = KimApiServiceLocator.getPermissionService();
 		for (Map.Entry<String, Boolean> entry : existingPermissions.entrySet()) {
 			if ( (entry.getValue() != null) && (entry.getValue().booleanValue()) ) {
-				assertTrue("Principal Id '" + principalId + "' should have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), null, makeMap(KimConstants.AttributeConstants.DOCUMENT_NUMBER, ""+documentId)));
+				assertTrue("Principal Id '" + principalId + "' should have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), makeMap(KimConstants.AttributeConstants.DOCUMENT_NUMBER, ""+documentId)));
 			}
 			else {
-				assertFalse("Principal Id '" + principalId + "' should not have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), null, makeMap(KimConstants.AttributeConstants.DOCUMENT_NUMBER, ""+documentId)));
+				assertFalse("Principal Id '" + principalId + "' should not have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), makeMap(KimConstants.AttributeConstants.DOCUMENT_NUMBER, ""+documentId)));
 			}
 		}
 	}

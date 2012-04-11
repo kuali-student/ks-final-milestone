@@ -12,19 +12,20 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.statement.infc;
 
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 import java.util.List;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 /**
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface ReqComponent extends IdNamelessEntity, HasEffectiveDates{
+public interface ReqComponent extends IdNamelessEntity, HasEffectiveDates {
+
     /**
      * Detailed information about a requirement component field value.
      *
@@ -42,4 +43,11 @@ public interface ReqComponent extends IdNamelessEntity, HasEffectiveDates{
      * @required
      */
     String getNaturalLanguageTranslation();
+
+    /**
+     * Narrative description of this requirement component
+     * 
+     * @name Description
+     */
+    public RichTextInfo getDescr();
 }

@@ -41,7 +41,6 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.dto.IssueInfo;
-import org.kuali.student.r2.core.hold.dto.RestrictionInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -66,7 +65,6 @@ public class TestServiceDictionaries {
 //      Hold Service
         inputFiles.add(calculateXmlFileName(HoldInfo.class));
         inputFiles.add(calculateXmlFileName(IssueInfo.class));
-        inputFiles.add(calculateXmlFileName(RestrictionInfo.class));
 //      Academic Time Period (ATP) Service
         inputFiles.add(calculateXmlFileName(AtpInfo.class));
         inputFiles.add(calculateXmlFileName(MilestoneInfo.class));

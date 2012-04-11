@@ -46,10 +46,9 @@ public class TestEnumerationDao extends AbstractTransactionalDaoTest{
         
         EnumerationEntity returnedEntity = list.get(0);
         
-        assertEquals(returnedEntity.getName(), "Subject Area Enumeration");
         assertEquals(returnedEntity.getId(), "kuali.lu.subjectArea");
-        assertEquals(returnedEntity.getDescrPlain(), "Subject Area Enumeration");
-       
+        assertEquals(returnedEntity.getName(), "Subject Area Enumeration");
+        assertEquals(returnedEntity.getDescrPlain(), "subjectArea.descr");
     }    
 
     @Test

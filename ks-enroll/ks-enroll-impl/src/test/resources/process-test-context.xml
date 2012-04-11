@@ -97,11 +97,8 @@
     
     <bean id="processServiceImpl" class="org.kuali.student.r2.core.class1.process.service.impl.ProcessServiceImpl">
         <property name="checkDao" ref="checkDao"/>
-        <property name="checkTypeDao" ref="checkTypeDao"/>
         <property name="instructionDao" ref="instructionDao"/>
-        <property name="instructionTypeDao" ref="instructionTypeDao"/>
         <property name="processDao" ref="processDao"/>
-        <property name="processTypeDao" ref="processTypeDao"/>
         <property name="stateService" ref="stateService"/>
     </bean>
 
@@ -120,42 +117,28 @@
     <bean id="checkDao" class="org.kuali.student.r2.core.class1.process.dao.CheckDao">
         <property name="em" ref="entityManager"/>
     </bean>
-    <bean id="checkTypeDao" class="org.kuali.student.r2.core.class1.process.dao.CheckTypeDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
+  
     <bean id="instructionDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-    <bean id="instructionTypeDao" class="org.kuali.student.r2.core.class1.process.dao.InstructionTypeDao">
         <property name="em" ref="entityManager"/>
     </bean>
     <bean id="processDao" class="org.kuali.student.r2.core.class1.process.dao.ProcessDao">
         <property name="em" ref="entityManager"/>
     </bean>
-    <bean id="processTypeDao" class="org.kuali.student.r2.core.class1.process.dao.ProcessTypeDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-
     <bean id="stateService" class=" org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
         <property name="stateDao" ref="stateDao"/>
-        <property name="spDao" ref="stateProcessDao"/>
-        <property name="sprDao" ref="stateProcessRelationDao"/>
+        <property name="lifecycleDao" ref="lifecycleDao"/>
     </bean>
     <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
         <property name="em" ref="entityManager"/>
     </bean>
-    <bean id="stateProcessDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
+    <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
         <property name="em" ref="entityManager"/>
     </bean>
-    <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-
     <bean id="holdService" class="org.kuali.student.r2.core.class1.process.ProcessPocHoldServiceDecorator">
         <constructor-arg ref="holdServiceMock"/>
     </bean>
 
-    <bean id="holdServiceMock" class="org.kuali.student.enrollment.classI.hold.mock.HoldServiceMockImpl"/>
+    <bean id="holdServiceMock" class="org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl"/>
 
 	<tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 

@@ -127,7 +127,7 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
     }
 
     @Override
-    public RegResponseInfo dropStudentsFromRegGroups(List<String> regGroupIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public RegResponseInfo dropStudentsFromRegGroups(List<String> regGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -172,7 +172,7 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
     }
 
     @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsByIdList(List<String> courseRegistrationIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<CourseRegistrationInfo> getCourseRegistrationsByIds(List<String> courseRegistrationIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -240,7 +240,7 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
     }
 
     @Override
-    public List<RegRequestInfo> getRegRequestsByIdList(List<String> regRequestIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RegRequestInfo> getRegRequestsByIds(List<String> regRequestIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
