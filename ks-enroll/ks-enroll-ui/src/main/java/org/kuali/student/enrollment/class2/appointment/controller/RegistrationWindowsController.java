@@ -71,21 +71,24 @@ public class RegistrationWindowsController extends UifControllerBase {
     public ModelAndView assignStudents(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
-
-        //Get the index of the selected line that is to be deleted
-        int selectedLineIndex = -1;
-        String selectedLine = uifForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        //Add the window id to the list of ids to be deleted
-        if(selectedLineIndex>=0){
-            AppointmentWindowWrapper window = theForm.getAppointmentWindows().get(selectedLineIndex);
+        AppointmentWindowWrapper window = _getSelectedWindow(uifForm);
+        if(window!=null){
             getAppointmentService().generateAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
             getAppointmentService().generateAppointmentsByWindow(window.getAppointmentWindowInfo().getId(), window.getAppointmentWindowInfo().getTypeKey(), new ContextInfo());
             //TODO change the state of the window to assigned, or update the window from the service if the service does this
+        }
+
+        return updateComponent(uifForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=breakAppointments")
+    public ModelAndView breakAppointments(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
+        AppointmentWindowWrapper window = _getSelectedWindow(uifForm);
+        if(window!=null){
+            getAppointmentService().deleteAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
         }
 
         return updateComponent(uifForm, result, request, response);
@@ -96,6 +99,16 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
 
+        AppointmentWindowWrapper window = _getSelectedWindow(theForm);
+        if(window!=null&&window.getAppointmentWindowInfo().getId() != null && !theForm.getAppointmentWindowIdsToDelete().contains(window.getAppointmentWindowInfo().getId())){
+            //Add to the list of windows to delete
+            theForm.getAppointmentWindowIdsToDelete().add(window.getAppointmentWindowInfo().getId());
+        }
+
+        return super.deleteLine(uifForm, result, request, response);
+    }
+
+    private AppointmentWindowWrapper _getSelectedWindow(RegistrationWindowsManagementForm uifForm) {
         //Get the index of the selected line that is to be deleted
         int selectedLineIndex = -1;
         String selectedLine = uifForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
@@ -105,12 +118,10 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         //Add the window id to the list of ids to be deleted
         if(selectedLineIndex>=0){
-            AppointmentWindowWrapper window = theForm.getAppointmentWindows().get(selectedLineIndex);
-            if(window.getAppointmentWindowInfo().getId() != null){
-                theForm.getAppointmentWindowIdsToDelete().add(window.getAppointmentWindowInfo().getId());
-            }
+            AppointmentWindowWrapper window = uifForm.getAppointmentWindows().get(selectedLineIndex);
+            return window;
         }
-        return super.deleteLine(uifForm, result, request, response);
+        return null;
     }
 
     @Override
@@ -247,6 +258,8 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         //Clear all the windows
         form.getAppointmentWindows().clear();
+        form.getAppointmentWindowIdsToDelete().clear();
+
 
         if (!periodId.isEmpty() && !periodId.equals("all")) {
 
