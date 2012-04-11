@@ -4,7 +4,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice;
 
-@Deprecated
 public class MetadataMethodEhcacheAdvice extends MethodArgsToObjectEhcacheAdvice {
 
 	@Override
