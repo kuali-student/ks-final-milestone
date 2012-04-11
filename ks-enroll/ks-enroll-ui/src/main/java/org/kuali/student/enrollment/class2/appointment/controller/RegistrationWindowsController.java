@@ -3,10 +3,8 @@ package org.kuali.student.enrollment.class2.appointment.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.util.ComponentFactory;
-import org.kuali.rice.krad.uif.util.UifWebUtils;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
@@ -19,9 +17,11 @@ import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHe
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
+import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
@@ -73,9 +73,15 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         AppointmentWindowWrapper window = _getSelectedWindow(uifForm);
         if(window!=null){
-            getAppointmentService().generateAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
-            getAppointmentService().generateAppointmentsByWindow(window.getAppointmentWindowInfo().getId(), window.getAppointmentWindowInfo().getTypeKey(), new ContextInfo());
-            //TODO change the state of the window to assigned, or update the window from the service if the service does this
+            List<AppointmentSlotInfo> slots = getAppointmentService().generateAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
+            StatusInfo status = getAppointmentService().generateAppointmentsByWindow(window.getAppointmentWindowInfo().getId(), window.getAppointmentWindowInfo().getTypeKey(), new ContextInfo());
+            if(status.getIsSuccess()){
+                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                        AppointmentServiceConstants.APPOINTMENT_MSG_INFO_ASSIGNED,window.getAppointmentWindowInfo().getName(), status.getMessage(), String.valueOf(slots.size()));
+            }else{
+                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                        AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_TOO_MANY_STUDENTS, status.getMessage());
+            }
         }
 
         return updateComponent(uifForm, result, request, response);
@@ -212,6 +218,8 @@ public class RegistrationWindowsController extends UifControllerBase {
                 appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
 
             }
+            GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                    AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
         }
 
         return getUIFModelAndView(form);
