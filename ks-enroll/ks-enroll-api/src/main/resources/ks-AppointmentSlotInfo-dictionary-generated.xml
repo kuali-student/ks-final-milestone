@@ -120,7 +120,7 @@ Appointment end date and time (&quot;Aug 05,2012 9:20am&quot;)
 Appointment end date and time (&quot;Aug 05,2012 9:20am&quot;)
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="AppointmentSlotInfo.appointmentWindowId-generated" abstract="true" parent="BaseKuali.string">

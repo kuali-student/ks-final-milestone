@@ -37,11 +37,15 @@ public interface AppointmentSlot extends IdNamelessEntity {
     /**
      * Appointment end date and time ("Aug 05,2012 9:20am")
      *
+     * If null then it means it has no end but in practice the
+     * logic that checks to see if the student can register needs to also
+     * check the milestone for the overall registration period to see 
+     * if the date is not past that date.
+     * 
      * @impl Duration can be used here instead. However, since duration is in
      * AppointmentWindow, it is more useful to have actual end date and time on
      * an individual appointment
      * @name End Date Time
-     * @required
      */
     public Date getEndDate();
 
