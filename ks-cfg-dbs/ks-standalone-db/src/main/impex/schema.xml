@@ -861,18 +861,18 @@
         <column name="NAME" required="true" size="255" type="VARCHAR"/>
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
-        <column name="START_DT" required="true" type="TIMESTAMP"/>
+        <column name="START_DT" type="TIMESTAMP"/>
         <column name="END_DT" type="TIMESTAMP"/>
-        <column name="SR_WEEKDAYS" required="true" size="255" type="VARCHAR"/>
+        <column name="SR_WEEKDAYS" size="255" type="VARCHAR"/>
         <column name="SR_START_TIME_MS" size="22" type="DECIMAL"/>
         <column name="SR_END_TIME_MS" size="22" type="DECIMAL"/>
         <column name="SR_START_INTVL_DUR_TYPE" size="255" type="VARCHAR"/>
         <column name="SR_START_INTVL_TIME_QTY" size="22" type="DECIMAL"/>
         <column name="SR_DUR_TYPE" size="255" type="VARCHAR"/>
         <column name="SR_DUR_TIME_QTY" size="22" type="DECIMAL"/>
-        <column name="PRD_MSTONE_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="ASSIGNED_POPULATION_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="ASSIGNED_ORDER_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="PRD_MSTONE_ID" size="255" type="VARCHAR"/>
+        <column name="ASSIGNED_POPULATION_ID" size="255" type="VARCHAR"/>
+        <column name="ASSIGNED_ORDER_TYPE" size="255" type="VARCHAR"/>
         <column name="MAX_APPT_PER_SLOT" size="22" type="DECIMAL"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CREATETIME" required="true" type="TIMESTAMP"/>

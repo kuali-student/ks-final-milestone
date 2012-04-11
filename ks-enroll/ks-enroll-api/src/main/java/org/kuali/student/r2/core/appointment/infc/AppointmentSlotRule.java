@@ -30,9 +30,9 @@ public interface AppointmentSlotRule {
     /**
      * The weekday codes ("MWF = 2,4,6")
      *
-     * @impl Java standard: Sunday=1 to Saturday=7
      * @name Weekdays
-     * @required
+     * @impl Java standard: Sunday=1 to Saturday=7
+     * @impl When AppointmentSlotRule is specified, this list is expected to have a value.
      */
     List<Integer> getWeekdays();
 

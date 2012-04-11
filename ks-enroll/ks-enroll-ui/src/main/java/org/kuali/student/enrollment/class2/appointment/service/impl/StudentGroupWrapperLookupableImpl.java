@@ -21,7 +21,6 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -47,19 +46,19 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<StudentGroupWrapper> results = new ArrayList<StudentGroupWrapper>();
         ContextInfo context = new ContextInfo();
+
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
-        Predicate p;
-
         qBuilder.setPredicates();
+        // create predicates for search parameters
         for(String key : fieldValues.keySet()){
             if(key.equalsIgnoreCase("name")){
                 Predicate grpName = like(key,fieldValues.get(key));
                 pList.add(grpName);
-              } else{
-                     Predicate words = like(key,fieldValues.get(key));
-                     pList.add(words);
-                }
+            } else{
+                Predicate words = like(key,fieldValues.get(key));
+                pList.add(words);
+            }
         }
         if (!pList.isEmpty()){
             Predicate[] preds = new Predicate[pList.size()];
@@ -68,31 +67,32 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
         }
 
         try {
+            // method returns list of populationinfos.
             java.util.List<PopulationInfo> populationInfos = getPopulationService().searchForPopulations(qBuilder.build(), context);
-            if(populationInfos.isEmpty()){
-                   int i = 1;
-                   for(PopulationInfo populationInfo:populationInfos){
-                       StudentGroupWrapper studentGroupWrapper = new StudentGroupWrapper();
-                       studentGroupWrapper.setId("id" + i); i++;
-                       studentGroupWrapper.setName(populationInfo.getName());
-                       studentGroupWrapper.setDescription(populationInfo.getDescr().getPlain());
-                       results.add(studentGroupWrapper);
-                   }
+            if(!populationInfos.isEmpty()){
+                for(PopulationInfo populationInfo:populationInfos){
+                    StudentGroupWrapper studentGroupWrapper = new StudentGroupWrapper();
+                    studentGroupWrapper.setId(populationInfo.getKey());
+                    studentGroupWrapper.setName(populationInfo.getName());
+                    studentGroupWrapper.setDescription(populationInfo.getDescr().getPlain());
+                    results.add(studentGroupWrapper);
+                }
             }
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException("Error Performing Search",e); //To change body of catch statement use File | Settings | File Templates.
         }
         return results;
     }
 
     protected PopulationService getPopulationService() {
+        //populationService is retrieved using global resource loader which is wired in ks-enroll-context.xml
         if(populationService == null) {
             populationService = (PopulationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"population", "PopulationService"));
 
         }
         return populationService;
     }
-    
+
     public static void main(String[] args){
         StudentGroupWrapperLookupableImpl studentWrapper = new StudentGroupWrapperLookupableImpl();
         studentWrapper.getPopulationService();

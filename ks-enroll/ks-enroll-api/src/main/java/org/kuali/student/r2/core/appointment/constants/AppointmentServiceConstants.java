@@ -49,8 +49,10 @@ public class AppointmentServiceConstants {
     public static final String APPOINTMENT_TYPE_ADVISING = "kuali.appointment.type.advising";
 
     public static final String APPOINTMENT_WINDOW_LIFECYCLE = "kuali.appointment.window.lifecycle";
-    public static final String APPOINTMENT_WINDOW_STATE_ACTIVE_KEY = "kuali.appointment.window.state.active";
-    public static final String[] APPOINTMENT_WINDOW_LIFECYCLE_STATES = {APPOINTMENT_WINDOW_STATE_ACTIVE_KEY};
+    // public static final String APPOINTMENT_WINDOW_STATE_ACTIVE_KEY = "kuali.appointment.window.state.active";
+    public static final String APPOINTMENT_WINDOW_STATE_DRAFT_KEY = "kuali.appointment.window.state.draft";
+    public static final String APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY = "kuali.appointment.window.state.assigned";
+    public static final String[] APPOINTMENT_WINDOW_LIFECYCLE_STATES = {APPOINTMENT_WINDOW_STATE_DRAFT_KEY, APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY};
 
     public static final String APPOINTMENT_SLOTS_LIFECYCLE = "kuali.appointment.slots.lifecycle";
     public static final String APPOINTMENT_SLOTS_STATE_ACTIVE_KEY = "kuali.appointment.slots.state.active";

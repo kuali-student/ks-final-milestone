@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class2.acal.service.assembler;
 
-
-
+import java.util.ArrayList;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
@@ -10,14 +9,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HolidayCalendarAssembler implements DTOAssembler<HolidayCalendarInfo, AtpInfo> {
 
     @Override
     public HolidayCalendarInfo assemble(AtpInfo atp, ContextInfo context) throws AssemblyException {
-        if(atp != null){
+        if (atp != null) {
             HolidayCalendarInfo holidayCalendarInfo = new HolidayCalendarInfo();
             holidayCalendarInfo.setId(atp.getId());
             holidayCalendarInfo.setName(atp.getName());
@@ -28,19 +24,22 @@ public class HolidayCalendarAssembler implements DTOAssembler<HolidayCalendarInf
             holidayCalendarInfo.setTypeKey(atp.getTypeKey());
             holidayCalendarInfo.setStateKey(atp.getStateKey());
             holidayCalendarInfo.setMeta(atp.getMeta());
-//            TODO: assemble CampusKeys as a dynamic attribute
-//            use AtpServiceConstants.CAMPUS_KEY_DYNAMIC_ATTRIBUTE_KEY
-            holidayCalendarInfo.setAttributes(atp.getAttributes());
-      
+            for (AttributeInfo attr : atp.getAttributes()) {
+                if (attr.getKey().equals(AtpServiceConstants.CAMPUS_LOCATION)) {
+                    holidayCalendarInfo.getCampusKeys().add(attr.getValue());
+                } else {
+                    holidayCalendarInfo.getAttributes().add(attr);
+                }
+            }
             return holidayCalendarInfo;
-        }
-        else
+        } else {
             return null;
+        }
     }
 
     @Override
-    public AtpInfo disassemble(HolidayCalendarInfo holidayCalendarInfo, ContextInfo context) throws AssemblyException{
-        if (holidayCalendarInfo != null){
+    public AtpInfo disassemble(HolidayCalendarInfo holidayCalendarInfo, ContextInfo context) throws AssemblyException {
+        if (holidayCalendarInfo != null) {
             AtpInfo atp = new AtpInfo();
             atp.setId(holidayCalendarInfo.getId());
             atp.setName(holidayCalendarInfo.getName());
@@ -51,21 +50,21 @@ public class HolidayCalendarAssembler implements DTOAssembler<HolidayCalendarInf
             atp.setTypeKey(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY);
             atp.setStateKey(holidayCalendarInfo.getStateKey());
             atp.setMeta(holidayCalendarInfo.getMeta());
-
-//            TODO: disassemble CampusKeys as a dynamic attribute 
-//            use AtpServiceConstants.CAMPUS_KEY_DYNAMIC_ATTRIBUTE_KEY
-            List<AttributeInfo> attributes = (null != holidayCalendarInfo.getAttributes() ? holidayCalendarInfo.getAttributes() : new ArrayList<AttributeInfo>());
-
-         
-            atp.setAttributes(attributes);
-
+            atp.getAttributes().addAll(holidayCalendarInfo.getAttributes());
+            // TODO: fix this essentially flawed mechanism -- that happens because of the assembler structure
+//            it really should take in as a paraemter the existing ATP, if there is one
+//            and find/match the campus keys there and update the set of attributes not replacing them
+//            doing it this way we lose the original id of attribute on update 
+            // the making it hard (wrong?) to store it later
+            for (String campusKey : holidayCalendarInfo.getCampusKeys()) {
+                AttributeInfo attr = new AttributeInfo();
+                attr.setKey(AtpServiceConstants.CAMPUS_LOCATION);
+                attr.setValue(campusKey);
+                atp.getAttributes().add(attr);
+            }
             return atp;
         }
 
         return null;
     }
-
-
-
-
 }

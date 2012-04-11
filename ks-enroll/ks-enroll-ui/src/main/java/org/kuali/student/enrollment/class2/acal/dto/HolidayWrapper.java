@@ -19,9 +19,6 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 /**
  * This class //TODO ...
  *
@@ -44,31 +41,12 @@ public class HolidayWrapper extends TimeSetWrapper {
     public HolidayWrapper(HolidayInfo holidayInfo){
         this.setHolidayInfo(holidayInfo);
         this.setStartDate(holidayInfo.getStartDate());
+        this.setEndDate(holidayInfo.getEndDate());
         this.setAllDay(holidayInfo.getIsAllDay());
         this.setDateRange(holidayInfo.getIsDateRange());
         this.setTypeKey(holidayInfo.getTypeKey());
-        this.setEndDate(holidayInfo.getEndDate());
         this.setInstructional(holidayInfo.getIsInstructionalDay());
-
-        //This is needed to display enddate for readonly view.
-        endDateUI = holidayInfo.getEndDate();
-
-        // If not all day, set start/end time in the wrapper
-        if (!isAllDay()){
-            DateFormat dfm = new SimpleDateFormat("hh:mm");
-
-            setStartTime(dfm.format(holidayInfo.getStartDate()));
-            setEndTime(dfm.format(holidayInfo.getEndDate()));
-
-            dfm = new SimpleDateFormat("a");
-            setStartTimeAmPm(dfm.format(holidayInfo.getStartDate()));
-            setEndTimeAmPm(dfm.format(holidayInfo.getEndDate()));
-
-            if (!isDateRange()){
-                setEndDate(null);
-            }
-        }
-
+        buildDateAndTime();
     }
 
     public String getTypeName() {

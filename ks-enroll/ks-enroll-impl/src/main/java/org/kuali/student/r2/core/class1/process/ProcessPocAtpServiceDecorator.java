@@ -51,6 +51,10 @@ public class ProcessPocAtpServiceDecorator extends AtpServiceDecorator {
         milestone.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         milestone.setStartDate(parseDate(start));
         milestone.setEndDate(parseDate(end));
+        milestone.setIsAllDay(Boolean.TRUE);
+        milestone.setIsDateRange(Boolean.TRUE);
+        milestone.setIsInstructionalDay(Boolean.TRUE);
+        milestone.setIsRelative(Boolean.FALSE);
         milestone.setName("Registration Period for " + atp.getName());
         try {
             MilestoneInfo createdMilestone = this.createMilestone(milestone.getTypeKey(), milestone, context);

@@ -19,7 +19,6 @@ package org.kuali.student.enrollment.class2.appointment.service.impl;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
@@ -30,13 +29,13 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
+import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
-import org.kuali.student.test.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
@@ -52,7 +51,6 @@ import java.util.List;
  */
 public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl implements AppointmentViewHelperService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AppointmentViewHelperServiceImpl.class);
-    private transient TypeService typeService;
 
     @Override
     public RegistrationWindowsManagementForm searchForTerm(String typeKey, String year, RegistrationWindowsManagementForm form) throws Exception {
@@ -94,13 +92,23 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         //Get the milestones and filter out anything that is not registration period
         List<KeyDateInfo> keyDates = academicCalendarService.getKeyDatesForTerm(term.getId(), null);
         if(keyDates != null){
+
+            //Get the valid period types
+            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydate","kuali.type.type.relation.type.group",new ContextInfo());
+            List<String> validMilestoneTypes = new ArrayList<String>();
+            for(TypeTypeRelationInfo milestoneTypeRelation:milestoneTypeRelations){
+                validMilestoneTypes.add(milestoneTypeRelation.getRelatedTypeKey());
+            }
+
+            //Add in only valid milestones that are registration periods
             List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
             for(KeyDateInfo keyDate:keyDates){
-                if(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDate.getTypeKey())){//TODO  what types do we filter on?
+                if(validMilestoneTypes.contains(keyDate.getTypeKey())){
                     periodMilestones.add(keyDate);
                 }
             }
             form.setPeriodMilestones(periodMilestones);
+
         }
 
         //Check if there are no periods (might want to handle this somewhere else and surface to the user)
@@ -115,10 +123,17 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         ContextInfo context = TestHelper.getContext1();
 //        try {
             TermInfo term = getAcalService().getTerm(termId, context);
-            
             if (term.getId() != null && !term.getId().isEmpty()) {
                 form.setTermInfo(term);
-                loadPeriods(termId, form);
+                List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
+                List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(term.getId(), context);
+                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+                    if (AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+                        System.out.println(">>>find "+keyDateInfo.getName());
+                        periodMilestones.add (keyDateInfo);
+                    }
+                }
+                form.setPeriodMilestones(periodMilestones);
             }
 //        }catch (DoesNotExistException dnee){
 //            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get DoesNotExistException:  "+dnee.toString());
@@ -132,24 +147,6 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 //            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get PermissionDeniedException:  "+pde.toString());
 //        }
 
-    }
-
-    public void loadPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {
-        ContextInfo context = TestHelper.getContext1();
-        List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
-        List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(termId, context);
-        List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydateforapp","kuali.atp.atp.relation.associated",context);
-        for (KeyDateInfo keyDateInfo : keyDateInfoList) {
-            for (TypeTypeRelationInfo relationInfo : relations) {
-                String relatedTypeKey = relationInfo.getRelatedTypeKey();
-                if (keyDateInfo.getTypeKey().equals(relatedTypeKey))  {
-                    periodMilestones.add(keyDateInfo);
-                    break;
-                }
-            }
-        }
-
-        form.setPeriodMilestones(periodMilestones);
     }
 
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
@@ -186,9 +183,6 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     }
 
     public TypeService getTypeService() {
-        if(typeService == null) {
-            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, "TypeService"));
-        }
-        return this.typeService;
+        return (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeService.class.getSimpleName()));
     }
 }

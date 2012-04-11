@@ -19,57 +19,72 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface AcademicCalendarViewHelperService extends ViewHelperService {
+
     //HC
     public void saveHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
-//    public HolidayCalendarInfo createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
+
     public HolidayCalendarInfo getHolidayCalendar(String hcId) throws Exception;
+
     public HolidayCalendarInfo getNewestHolidayCalendar() throws Exception;
-//    public HolidayCalendarInfo updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
+
     public List<HolidayWrapper> getHolidayWrappersForHolidayCalendar(String holidayCalendarId) throws Exception;
-//    public void createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayWrapper holiday) throws Exception;
-//    public void updateHoliday(String holidayId, HolidayWrapper holiday) throws Exception;
+
     public void deleteHoliday(int selectedIndex,HolidayCalendarForm hcForm) throws Exception;
+
     public String getHolidayTypeName(String holidayTypeKey) throws Exception;
+
     public String getHolidayCalendarState(String holidayCalendarStateKey) throws Exception;
+
     public void deleteHolidayCalendar(String holidayCalendarId) throws Exception;
+
     public void populateHolidayTypes(InputField field, HolidayCalendarForm hcForm);
 
     //Acal
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
+
     public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception;
+
     public AcademicCalendarInfo copyToCreateAcademicCalendar(AcademicCalendarForm form) throws Exception;
+
     public List<AcalEventWrapper> getEventsForAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
+
     public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception;
+
     public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception;
+
     public void deleteEvent(String eventId) throws Exception;
+
     public List<HolidayCalendarWrapper> loadHolidayCalendars (AcademicCalendarInfo acalInfo) throws Exception;
 
     //Terms
-    public void saveTerm(AcademicTermWrapper termWrapper, String acalId, ContextInfo context) throws Exception;
+    public void saveTerm(AcademicTermWrapper termWrapper, String acalId) throws Exception;
 
-    public void setTermOfficial(AcademicTermWrapper termWrapper, String acalId, ContextInfo context) throws Exception;
+    public void setTermOfficial(AcademicTermWrapper termWrapper, String acalId) throws Exception;
 
-    public void deleteTerm(List<AcademicTermWrapper> termWrapper,int selectedIndex, String acalId,ContextInfo context) throws Exception;
+    public void deleteTerm(List<AcademicTermWrapper> termWrapper,int selectedIndex, String acalId) throws Exception;
 
-    public void deleteKeyDate(KeyDatesGroupWrapper keyDatesGroup,int selectedIndex,ContextInfo context) throws Exception;
+    public void deleteKeyDate(KeyDatesGroupWrapper keyDatesGroup,int selectedIndex) throws Exception;
 
     public void populateKeyDateTypes(InputField field, AcademicCalendarForm acalForm);
 
-    public void deleteKeyDateGroup(AcademicTermWrapper termWrapper,int selectedIndex,ContextInfo context) throws Exception;
+    public void deleteKeyDateGroup(AcademicTermWrapper termWrapper,int selectedIndex) throws Exception;
 
     public void populateKeyDateGroupTypes(InputField field, AcademicCalendarForm acalForm) throws Exception;
 
-    public void validateTerms(List<AcademicTermWrapper> termWrapper, ContextInfo context) throws Exception;
+    public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList)throws Exception;
 
-    public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList,ContextInfo context)throws Exception;
+    public List<AcademicTermWrapper> loadTerms(String acalId);
 
-    public List<AcademicTermWrapper> loadTerms(String acalId,ContextInfo context);
+    public void validateAcademicCalendar(AcademicCalendarForm acalForm);
+
+    public void validateHolidayCalendar(HolidayCalendarForm hcForm);
+
+    public void populateHolidayCalendarDefaults(HolidayCalendarForm hcForm);
+
+    public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm);
 
     public AcademicCalendarService getAcalService();
 
-//    public void validateEvents(List<AcalEventWrapper> events, ContextInfo context) throws Exception;
-//
-//    public void validateHolidays(List<HolidayWrapper> holidayWrappers, ContextInfo context) throws Exception;
-//
-//    public void validateKeyDates(AcademicTermWrapper termWrapper, ContextInfo context) throws Exception;
+    public ContextInfo getContextInfo();
+
 }

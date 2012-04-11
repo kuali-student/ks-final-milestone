@@ -13,12 +13,16 @@ import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrap
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
+import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
-import org.kuali.student.test.utilities.TestHelper;
+import org.kuali.student.r2.core.population.dto.PopulationInfo;
+import org.kuali.student.r2.core.population.service.PopulationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +33,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,10 +49,13 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/registrationWindows")
 public class RegistrationWindowsController extends UifControllerBase {
-    
+
     private AcademicCalendarService acalService;
 
     private AppointmentService appointmentService;
+
+    private PopulationService populationService;
+
     private ContextInfo contextInfo;
 
     @Override
@@ -100,7 +109,7 @@ public class RegistrationWindowsController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=searchForTerm")
     public ModelAndView searchForTerm(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm searchForm, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         String termType = searchForm.getTermType();
         String termYear = searchForm.getTermYear();
 
@@ -128,7 +137,6 @@ public class RegistrationWindowsController extends UifControllerBase {
                 AppointmentWindowInfo appointmentWindowInfo = appointmentWindowWrapper.getAppointmentWindowInfo();
                 appointmentWindowInfo.setTypeKey(appointmentWindowWrapper.getWindowTypeKey());
                 appointmentWindowInfo.setPeriodMilestoneId(appointmentWindowWrapper.getPeriodKey());
-                appointmentWindowInfo.setAssignedPopulationId(appointmentWindowWrapper.getAssignedPopulationName());//TODO, should this be ID or name?
                 appointmentWindowInfo.setStartDate(_updateTime(appointmentWindowWrapper.getStartDate(), appointmentWindowWrapper.getStartTime(), appointmentWindowWrapper.getStartTimeAmPm()));
                 appointmentWindowInfo.setEndDate(_updateTime(appointmentWindowWrapper.getEndDate(), appointmentWindowWrapper.getEndTime(), appointmentWindowWrapper.getEndTimeAmPm()));
 
@@ -149,7 +157,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
                 if(appointmentWindowInfo.getId()==null||appointmentWindowInfo.getId().isEmpty()){
                     //Default the state to active
-                    appointmentWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
+                    appointmentWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
 
                     //Default the Weekdays to a value since the DB schema does not allow null values
                     appointmentWindowInfo.setSlotRule(new AppointmentSlotRuleInfo());
@@ -209,48 +217,117 @@ public class RegistrationWindowsController extends UifControllerBase {
         String periodId = form.getPeriodId();
         String periodInfoDetails = new String();
 
+        //Clear all the windows
+        form.getAppointmentWindows().clear();
+
         if (!periodId.isEmpty() && !periodId.equals("all")) {
+
+            //Lookup the period information
+            KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
+
+            //pull in the windows for this period
+            List<KeyDateInfo> periods = new ArrayList<KeyDateInfo>();
+            periods.add(period);
+            _loadWindowsInfoForm(periods, form);
+
             // display the period start/end time in details and the period name in the AddLine
             AppointmentWindowWrapper addLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
-            KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
+
             if (period.getName() != null) {
                 periodInfoDetails = period.getName()+" Start Date: "+period.getStartDate()+ "<br>"
                                    + period.getName()+" End Date: "+period.getEndDate();
                 form.setPeriodName(period.getName());
+                form.setPeriodId(period.getId());
                 addLine.setPeriodName(period.getName());
+                addLine.setPeriodKey(period.getId());
             } else {
                 periodInfoDetails = period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
                         + period.getId()+" End Date: "+period.getEndDate();
                 form.setPeriodName(period.getId());
+                form.setPeriodId(period.getId());
                 addLine.setPeriodName(period.getId());
+                addLine.setPeriodKey(period.getId());
             }
             form.setPeriodInfoDetails(periodInfoDetails);
 
             //TODO: pull out all windows for that period and add to the collection
         }
         else if (periodId.equals("all")) {
-            List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
-            TermInfo term = form.getTermInfo();
-            if (term.getId() != null && !term.getId().isEmpty()) {
-                getViewHelperService(form).loadPeriods(term.getId(), form);
-                periodMilestones = form.getPeriodMilestones();
-
-
-                for (KeyDateInfo period : periodMilestones){
-                    if (period.getName() != null) {
-                        periodInfoDetails = periodInfoDetails.concat(
-                                period.getName()+" Start Date: "+period.getStartDate()+ "<br>"
-                                + period.getName()+" End Date: "+period.getEndDate()+"<br>");
-                    } else {
-                        periodInfoDetails = periodInfoDetails.concat(period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
-                                + period.getId()+" End Date: "+period.getEndDate()+"<br>");
-                    }
+            List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
+            if(periodMilestones.isEmpty()) {
+                TermInfo term = form.getTermInfo();
+                if (term.getId() != null && !term.getId().isEmpty()) {
+                    ContextInfo context = TestHelper.getContext1();
+                    periodMilestones = getAcalService().getKeyDatesForTerm(term.getId(), context);
                 }
-                form.setPeriodInfoDetails(periodInfoDetails);
+            }
+            for (KeyDateInfo period : periodMilestones){
+                if (period.getName() != null) {
+                    periodInfoDetails = period.getName()+" Start Date: "+period.getStartDate()+ "<br>"
+                            + period.getName()+" End Date: "+period.getEndDate()+"<br>";
+                } else {
+                    periodInfoDetails = period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
+                            + period.getId()+" End Date: "+period.getEndDate()+"<br>";
+                }
+            }
+            form.setPeriodInfoDetails(periodInfoDetails);
+            _loadWindowsInfoForm(periodMilestones, form);
+        }
+        return getUIFModelAndView(form);
+    }
+
+    private void _loadWindowsInfoForm(List<KeyDateInfo> periods, RegistrationWindowsManagementForm form) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        for(KeyDateInfo period:periods){
+            List<AppointmentWindowInfo> windows = getAppointmentService().getAppointmentWindowsByPeriod(period.getId(), new ContextInfo());
+            if(windows!=null){
+                for(AppointmentWindowInfo window:windows){
+
+                    //Look up the population
+                    PopulationInfo population = getPopulationService().getPopulation(window.getAssignedPopulationId(), new ContextInfo());
+
+                    AppointmentWindowWrapper windowWrapper = new AppointmentWindowWrapper();
+
+                    windowWrapper.setAppointmentWindowInfo(window);
+                    windowWrapper.setPeriodKey(window.getPeriodMilestoneId());
+                    windowWrapper.setPeriodName(period.getName());
+
+                    windowWrapper.setAssignedPopulationName(population.getName());
+                    windowWrapper.setWindowTypeKey(window.getTypeKey());
+
+                    windowWrapper.setStartDate(_parseDate(window.getStartDate()));
+                    windowWrapper.setStartTime(_parseTime(window.getStartDate()));
+                    windowWrapper.setStartTimeAmPm(_parseAmPm(window.getStartDate()));
+
+                    windowWrapper.setEndDate(_parseDate(window.getEndDate()));
+                    windowWrapper.setEndTime(_parseTime(window.getEndDate()));
+                    windowWrapper.setEndTimeAmPm(_parseAmPm(window.getEndDate()));
+
+                    form.getAppointmentWindows().add(windowWrapper);
+                }
             }
         }
-        return getUIFModelAndView(form);    
     }
+
+    private String _parseAmPm(Date date) {
+        if(date==null){
+            return null;
+        }
+        DateFormat df = new SimpleDateFormat("a");
+        return df.format(date);
+    }
+
+    private String _parseTime(Date date) {
+        if(date==null){
+            return null;
+        }
+        DateFormat df = new SimpleDateFormat("hh:mm");
+        return df.format(date);
+    }
+
+    private Date _parseDate(Date date) {
+        return date;
+    }
+
 
     private AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm){
         if (appointmentForm.getView().getViewHelperServiceClassName() != null){
@@ -259,7 +336,6 @@ public class RegistrationWindowsController extends UifControllerBase {
             return (AppointmentViewHelperService)appointmentForm.getPostedView().getViewHelperService();
         }
     }
-
     public AcademicCalendarService getAcalService() {
         if(acalService == null) {
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -275,6 +351,12 @@ public class RegistrationWindowsController extends UifControllerBase {
         return appointmentService;
     }
 
+    public PopulationService getPopulationService() {
+        if(populationService == null) {
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationService.class.getSimpleName()));
+        }
+        return populationService;
+    }
 
 
     private ContextInfo getContextInfo() {

@@ -30,7 +30,8 @@ public class TypeServiceConstants {
     /**
      * Reference Object URIs
      */
-    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "type";
+    public static final String SERVICE_NAME_LOCAL_PART = "type";
+    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + SERVICE_NAME_LOCAL_PART;
     public static final String REF_OBJECT_URI_DEFAULT = NAMESPACE + "COMMON/DEFAULT";
     public static final String REF_OBJECT_URI_TYPE = NAMESPACE + "/" + TypeInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_TYPE_TYPE_RELATION = NAMESPACE + "/" + TypeTypeRelationInfo.class.getSimpleName();

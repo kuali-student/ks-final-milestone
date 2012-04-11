@@ -20,7 +20,7 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.process.ProcessPocAtpServiceDecorator;
 import org.kuali.student.r2.core.class1.process.ProcessPocConstants;
-import org.kuali.student.r2.core.classI.atp.mock.AtpServiceMockImpl;
+import org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import java.text.SimpleDateFormat;

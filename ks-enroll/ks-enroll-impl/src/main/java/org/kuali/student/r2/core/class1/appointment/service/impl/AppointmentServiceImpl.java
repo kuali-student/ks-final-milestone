@@ -17,9 +17,7 @@
 package org.kuali.student.r2.core.class1.appointment.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.exceptions.*;
 import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -29,17 +27,12 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao;
 import org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao;
 import org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao;
@@ -56,7 +49,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.student.r2.core.population.service.PopulationService;
-import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -167,6 +159,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    @Transactional
     public AppointmentInfo createAppointment(String personId, String appointmentSlotId, String appointmentTypeKey, AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentEntity  appointmentEntity = new AppointmentEntity();
         appointmentEntity.fromDto(appointmentInfo);
@@ -182,32 +175,55 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentEntity.toDto();
     }
 
+    private void _generateAppointmentsOneSlotCase(String populationId, List<AppointmentSlotInfo> slotInfoList, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException {
+        List<String> studentIds = populationService.getMembers(populationId, contextInfo);
+        String slotId = slotInfoList.get(0).getId();
+        for (String studentId: studentIds) {
+            AppointmentInfo apptInfo = new AppointmentInfo();
+            apptInfo.setPersonId(studentId);
+            apptInfo.setSlotId(slotId);
+            apptInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_TYPE_REGISTRATION);
+            apptInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
+            createAppointment(studentId, slotId, AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY, apptInfo, contextInfo);
+        }
+    }
+
+    private void _generateAppointmentsUniformCase() {
+        // TODO: Stubbed out case
+    }
+
+    private void _generateAppointmentsMaxCase() {
+        // TODO: Stubbed out case
+    }
+
     @Override
+    @Transactional
     public StatusInfo generateAppointmentsByWindow(String appointmentWindowId, String appointmentTypeKey, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         StatusInfo statusInfo = null;
         AppointmentWindowEntity entity = appointmentWindowDao.find(appointmentWindowId);
+        if (entity == null) {
+            throw new DoesNotExistException(appointmentWindowId);
+        }
         String populationId = entity.getAssignedPopulationId();
         List<AppointmentSlotInfo> slotInfoList = getAppointmentSlotsByWindow(appointmentWindowId, contextInfo);
+        statusInfo = new StatusInfo();
         if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY)) {
-            List<String> studentIds = populationService.getMembers(populationId, contextInfo);
-            String slotId = slotInfoList.get(0).getId();
-            for (String studentId: studentIds) {
-                AppointmentInfo apptInfo = new AppointmentInfo();
-                apptInfo.setPersonId(studentId);
-                apptInfo.setSlotId(slotId);
-                apptInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_TYPE_REGISTRATION);
-                apptInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
-                createAppointment(studentId, slotId, AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY, apptInfo, contextInfo);
-            }
-            statusInfo = new StatusInfo();
-            statusInfo.setSuccess(true);
+            _generateAppointmentsOneSlotCase(populationId, slotInfoList, contextInfo);
+        } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY)) {
+            _generateAppointmentsUniformCase();  // TODO: Finish
+        } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY)) {
+            _generateAppointmentsMaxCase(); // TODO: Finish
         } else {
-            throw new OperationFailedException("Only one slot per window supported");
+            throw new OperationFailedException("Manual window allocation not supported");
         }
+        AppointmentWindowInfo winInfo = entity.toDto();
+        winInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY);
+        statusInfo.setSuccess(true);
         return statusInfo;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
+    @Transactional
     public AppointmentInfo updateAppointment(@WebParam(name = "appointmentId") String appointmentId, @WebParam(name = "appointmentInfo") AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         AppointmentEntity appointmentEntity = appointmentDao.find(appointmentId);
         if (null != appointmentEntity) {
@@ -222,18 +238,49 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    @Transactional
     public StatusInfo deleteAppointment(String appointmentId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        AppointmentEntity appt = appointmentDao.find(appointmentId);
+        if (null != appt) {
+            appointmentDao.remove(appt);
+        } else {
+            throw new DoesNotExistException(appointmentId);
+        }
+        // TODO: Figure out what else to put in status
+        return status;
     }
 
     @Override
-    public StatusInfo deleteAppointmentsBySlot(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    @Transactional
+    public StatusInfo deleteAppointmentsBySlot(String appointmentSlotId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        AppointmentSlotEntity apptSlot = appointmentSlotDao.find(appointmentSlotId);
+        if (null != apptSlot) {
+            _deleteAppointmentBySlot(appointmentSlotId);
+        } else {
+            throw new DoesNotExistException(appointmentSlotId);
+        }
+        // TODO: Figure out what else to put in status
+        return status;
     }
 
     @Override
-    public StatusInfo deleteAppointmentsByWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public StatusInfo deleteAppointmentsByWindow(String appointmentWindowId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        AppointmentWindowEntity apptWin = appointmentWindowDao.find(appointmentWindowId);
+        if (null != apptWin) {
+            _deleteAppointmentsByWindow(apptWin.getId(), false); // don't delete the slots
+        } else {
+            throw new DoesNotExistException(apptWin.getId());
+        }
+        return status;
     }
 
     @Override
@@ -314,6 +361,59 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
 
+    private List<AppointmentSlotEntity> _fetchSlotEntitiesByWindows(String apptWinId) {
+        List<AppointmentSlotEntity> list = appointmentSlotDao.getSlotsByWindowId(apptWinId);
+        return list;
+    }
+
+    private void _deleteAppointmentSlots(List<AppointmentSlotEntity> slotList) {
+        if (slotList != null) {
+            for (AppointmentSlotEntity entity: slotList) {
+                // Use dao since deleteAppointmentSlot is transactional per slot deletion (we want the entire
+                // delete operation to be one big transaction (cclin asks: correct?)
+                appointmentSlotDao.remove(entity);
+            }
+        }
+    }
+
+    private int _deleteAppointmentBySlot(String slotId) {
+        List<AppointmentEntity> apptList = appointmentDao.getAppointmentsBySlotId(slotId);
+        if (apptList != null) {
+            for (AppointmentEntity appt: apptList) {
+                appointmentDao.remove(appt);
+            }
+            return apptList.size();
+        }
+        return -1; // didn't find any appointments (does this really happen?)
+    }
+    /**
+     * Deletes all appointments associated with this slot list.
+     * @param slotList Assume not-null
+     */
+    private void _deleteAppointmentsBySlotList(List<AppointmentSlotEntity> slotList) {
+        for (AppointmentSlotEntity slotEntity: slotList) {
+            _deleteAppointmentBySlot(slotEntity.getId());
+        }
+    }
+
+    /**
+     * Helper that is used both by deleteAppointmentWindow and deleteAppointmentSlotsByWindow
+     * @param apptWinId
+     */
+    private void _deleteAppointmentsByWindow(String apptWinId, boolean shouldDeleteSlots) {
+        List<AppointmentSlotEntity> slotList = _fetchSlotEntitiesByWindows(apptWinId);
+        if (slotList != null) {
+            // Delete appointments, if any
+            _deleteAppointmentsBySlotList(slotList);
+            // Delete slots, if any
+            _deleteAppointmentSlots(slotList);
+        }
+    }
+
+    private void _deleteAppointmentSlotsByWindow(String apptWinId) {
+        _deleteAppointmentsByWindow(apptWinId, true); // also, delete slots
+    }
+
     @Override
     @Transactional
     public StatusInfo deleteAppointmentWindow(String appointmentWindowId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -322,12 +422,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         AppointmentWindowEntity apptWin = appointmentWindowDao.find(appointmentWindowId);
         if (null != apptWin) {
-            List<AppointmentSlotEntity> list = appointmentSlotDao.getSlotsByWindowId(appointmentWindowId);
-            if (list != null) {
-                for (AppointmentSlotEntity entity: list) {
-                    appointmentSlotDao.remove(entity); // TODO: Should this call deleteAppointmentSlot?
-                }
-            }
+            _deleteAppointmentSlotsByWindow(appointmentWindowId);
             appointmentWindowDao.remove(apptWin);
         } else {
             throw new DoesNotExistException(appointmentWindowId);

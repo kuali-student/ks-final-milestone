@@ -88,4 +88,10 @@ public class GenericEntityDao<T> implements EntityDao<T> {
     public void setEm(EntityManager em) {
         this.em = em;
     }
+
+    public EntityManager getEm() {
+        return em;
+    }
+    
+    
 }
