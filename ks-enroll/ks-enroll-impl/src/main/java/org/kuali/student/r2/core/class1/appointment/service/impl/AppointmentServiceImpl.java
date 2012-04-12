@@ -40,10 +40,7 @@ import org.kuali.student.r2.core.class1.appointment.model.AppointmentEntity;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import javax.annotation.Resource;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -165,15 +162,16 @@ public class AppointmentServiceImpl implements AppointmentService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public AppointmentInfo createAppointment(String personId, String appointmentSlotId, String appointmentTypeKey, AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    /*
+     * This is pulled out so other methods can call this without the transactional behavior.
+     */
+    private AppointmentInfo _createAppointmentNoTransact(String personId, String appointmentSlotId, String appointmentTypeKey, AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentEntity  appointmentEntity = new AppointmentEntity();
         appointmentEntity.fromDto(appointmentInfo);
         // TODO: Determine if there should be a check between apptType/slotId and apptInfo counterparts
         // Need to manually set the entity since appointmentInfo only has an id for its corresponding AppointmentSlot
         AppointmentSlotEntity slotEntity = appointmentSlotDao.find(appointmentSlotId);
-        if(null == slotEntity) {
+        if (null == slotEntity) {
             throw new DoesNotExistException(appointmentSlotId);
         }
         appointmentEntity.setSlotEntity(slotEntity); // This completes the initialization of appointmentSlotEntity
@@ -182,9 +180,14 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentEntity.toDto();
     }
 
-    private void _generateAppointmentsOneSlotCase(String populationId, List<AppointmentSlotInfo> slotInfoList, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException {
-        List<String> studentIds = populationService.getMembers(populationId, contextInfo);
-        String slotId = slotInfoList.get(0).getId();
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public AppointmentInfo createAppointment(String personId, String appointmentSlotId, String appointmentTypeKey, AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return _createAppointmentNoTransact(personId, appointmentSlotId, appointmentTypeKey, appointmentInfo, contextInfo);
+    }
+
+    private void _generateAppointmentsOneSlotCase(List<String> studentIds, List<AppointmentSlotInfo> slotInfoList, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException {
+        String slotId = slotInfoList.get(0).getId();  // Only one slot in the one slot case
         for (String studentId: studentIds) {
             AppointmentInfo apptInfo = new AppointmentInfo();
             apptInfo.setPersonId(studentId);
@@ -203,6 +206,54 @@ public class AppointmentServiceImpl implements AppointmentService {
         // TODO: Stubbed out case
     }
 
+    private void _generateAppointments(String appointmentTypeKey, List<String> students, 
+                                       List<AppointmentSlotInfo> slotInfoList, ContextInfo contextInfo,
+                                       StatusInfo statusInfo) throws OperationFailedException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException {
+        // May want to adjust message in the status info
+        if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY)) {
+            _generateAppointmentsOneSlotCase(students, slotInfoList, contextInfo);
+        } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY)) {
+            _generateAppointmentsUniformCase();  // TODO: Finish
+        } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY)) {
+            _generateAppointmentsMaxCase(); // TODO: Finish
+        } else {
+            throw new OperationFailedException("Manual window allocation not supported");
+        }
+    }
+
+    private List<AppointmentSlotInfo> _sortSlotInfoListByStartDate(List<AppointmentSlotInfo> slotInfoList) {
+        // Check if slots are already in chronological order--no need to sort if they are
+        boolean isSorted = true;
+        AppointmentSlotInfo prev = null;
+        for (AppointmentSlotInfo slotInfo: slotInfoList) {
+            if (prev != null) {
+                if (prev.getStartDate().after(slotInfo.getStartDate())) {
+                    isSorted = false;
+                    break;
+                }
+                prev = slotInfo;
+            }
+        }
+        if (isSorted) {
+            return slotInfoList;
+        }
+        // Not sorted, so use Collections.sort to sort
+        Collections.sort(slotInfoList, new Comparator<AppointmentSlotInfo>() {
+            @Override
+            public int compare(AppointmentSlotInfo first, AppointmentSlotInfo second) {
+                if (first.getStartDate().before(second.getStartDate())) {
+                    return -1;
+                } else if (first.getStartDate().after(second.getStartDate())) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+        return slotInfoList; // Technically, don't need to return (since original list is mutated,
+                             // but I like it better with a return
+    }
+    
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo generateAppointmentsByWindow(String appointmentWindowId, String appointmentTypeKey, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
@@ -213,20 +264,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
         String populationId = entity.getAssignedPopulationId();
         List<AppointmentSlotInfo> slotInfoList = getAppointmentSlotsByWindow(appointmentWindowId, contextInfo);
+        slotInfoList = _sortSlotInfoListByStartDate(slotInfoList); // Make sure it's sorted
         statusInfo = new StatusInfo();
-        if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY)) {
-            _generateAppointmentsOneSlotCase(populationId, slotInfoList, contextInfo);
-        } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY)) {
-            _generateAppointmentsUniformCase();  // TODO: Finish
-        } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY)) {
-            _generateAppointmentsMaxCase(); // TODO: Finish
-        } else {
-            throw new OperationFailedException("Manual window allocation not supported");
-        }
+        // Get the population
+        List<String> studentIds = populationService.getMembers(populationId, contextInfo);
+        // Generate appointments based on appointmentTypeKey
+        _generateAppointments(appointmentTypeKey, studentIds, slotInfoList, contextInfo, statusInfo);
+        // Change state from draft to assigned
         _changeApptWinState(entity, AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY);
         statusInfo.setSuccess(true);
         return statusInfo;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -376,7 +425,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     private List<AppointmentSlotEntity> _fetchSlotEntitiesByWindows(String apptWinId) {
-        List<AppointmentSlotEntity> list = appointmentSlotDao.getSlotsByWindowId(apptWinId);
+        List<AppointmentSlotEntity> list = appointmentSlotDao.getSlotsByWindowIdSorted(apptWinId);
         return list;
     }
 
@@ -479,7 +528,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     @Transactional(readOnly = true)
     public List<AppointmentSlotInfo> getAppointmentSlotsByWindow(String appointmentWindowId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<AppointmentSlotEntity> entities = appointmentSlotDao.getSlotsByWindowId(appointmentWindowId);
+        List<AppointmentSlotEntity> entities = appointmentSlotDao.getSlotsByWindowIdSorted(appointmentWindowId);
         List<AppointmentSlotInfo> infoList = new ArrayList<AppointmentSlotInfo>();
         for (AppointmentSlotEntity entity: entities) {
             AppointmentSlotInfo slotInfo = entity.toDto();

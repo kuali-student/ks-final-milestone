@@ -31,8 +31,8 @@ import static javax.persistence.TemporalType.DATE;
  * @author Kuali Student Team
  */
 public class AppointmentSlotDao extends GenericEntityDao<AppointmentSlotEntity>  {
-    public List<AppointmentSlotEntity> getSlotsByWindowId(String apptWindowId) {
-        return em.createQuery("from AppointmentSlotEntity a where a.apptWinEntity.id = :apptWindowId")
+    public List<AppointmentSlotEntity> getSlotsByWindowIdSorted(String apptWindowId) {
+        return em.createQuery("from AppointmentSlotEntity a where a.apptWinEntity.id = :apptWindowId order by a.startDate asc")
                 .setParameter("apptWindowId", apptWindowId).getResultList();
     }
 }
