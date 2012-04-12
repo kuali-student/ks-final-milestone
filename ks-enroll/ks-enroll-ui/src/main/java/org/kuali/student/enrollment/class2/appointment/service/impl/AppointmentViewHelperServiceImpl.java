@@ -146,7 +146,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         ContextInfo context = TestHelper.getContext1();
         List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
         List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(termId, context);
-        List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydateforapp","kuali.atp.atp.relation.associated",context);
+        List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.registration","kuali.type.type.relation.type.group",context);
         for (KeyDateInfo keyDateInfo : keyDateInfoList) {
             for (TypeTypeRelationInfo relationInfo : relations) {
                 String relatedTypeKey = relationInfo.getRelatedTypeKey();
