@@ -28,10 +28,10 @@ import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.r1.lum.lu.dto.CluPublicationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluResultInfo;
-import org.kuali.student.r1.lum.lu.dto.FieldInfo;
+import org.kuali.student.r2.lum.clu.dto.FieldInfo;
 import org.kuali.student.r1.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
@@ -555,16 +555,16 @@ public class ProgramAssemblerUtils {
         }
 
         try {
-            List<CluPublicationInfo> cluPublications = R1R2ConverterUtil.convert(cluService.getCluPublicationsByClu(clu.getId(), contextInfo),new ArrayList<CluPublicationInfo>());
+            List<CluPublicationInfo> cluPublications = cluService.getCluPublicationsByClu(clu.getId(), contextInfo);
 
             List<String> targets = new ArrayList<String>();
 
             for (CluPublicationInfo cluPublication : cluPublications) {
-                if (cluPublication.getType().equals(ProgramAssemblerConstants.CATALOG)) {
+                if (cluPublication.getTypeKey().equals(ProgramAssemblerConstants.CATALOG)) {
                     assembleCatalogDescr(program, cluPublication);
                 }
                 else {
-                    targets.add(cluPublication.getType());
+                    targets.add(cluPublication.getTypeKey());
                 }
             }
 
@@ -605,7 +605,7 @@ public class ProgramAssemblerUtils {
              if (!NodeOperation.CREATE.equals(operation)) {
                  List<CluPublicationInfo> pubs = R1R2ConverterUtil.convert(cluService.getCluPublicationsByClu(program.getId(), contextInfo),new ArrayList<CluPublicationInfo>());
                  for (CluPublicationInfo pubInfo : pubs) {
-                     if (pubInfo.getType().equals(ProgramAssemblerConstants.CATALOG)) {
+                     if (pubInfo.getTypeKey().equals(ProgramAssemblerConstants.CATALOG)) {
                          currentPubInfo = pubInfo;
                      }
                  }
@@ -617,7 +617,7 @@ public class ProgramAssemblerUtils {
                          || (NodeOperation.UPDATE == operation && currentPubInfo == null )) {
                      // the description does not exist, so create
                      CluPublicationInfo pubInfo = buildCluPublicationInfo(program.getId(), ProgramAssemblerConstants.CATALOG);
-                     pubInfo.setState(program.getStateKey());
+                     pubInfo.setStateKey(program.getStateKey());
                      FieldInfo variant = new FieldInfo();
                      variant.setId(ProgramAssemblerConstants.CATALOG_DESCR);
                      variant.setValue(program.getCatalogDescr() .getPlain());
@@ -633,7 +633,7 @@ public class ProgramAssemblerUtils {
                          && currentPubInfo != null) {
 
                      CluPublicationInfo pubInfo = currentPubInfo;
-                     pubInfo.setState(program.getStateKey());
+                     pubInfo.setStateKey(program.getStateKey());
                      for (FieldInfo fieldInfo : pubInfo.getVariants()) {
                          if (fieldInfo.getId().equals(ProgramAssemblerConstants.CATALOG_DESCR)) {
                              fieldInfo.setValue(program.getCatalogDescr() .getPlain());
@@ -725,7 +725,7 @@ public class ProgramAssemblerUtils {
             try {
                 List<CluCluRelationInfo> cluRelations = R1R2ConverterUtil.convert(cluService.getCluCluRelationsByClu(program.getId(),contextInfo), new ArrayList<CluCluRelationInfo>());
                 for (CluCluRelationInfo cluRelation : cluRelations) {
-                    if (relationType.equals(cluRelation.getType()) ) {
+                    if (relationType.equals(cluRelation.getTypeKey()) ) {
                         currentRelations.put(cluRelation.getRelatedCluId(), cluRelation.getId());
                     }
                 }
@@ -745,10 +745,10 @@ public class ProgramAssemblerUtils {
             CluCluRelationInfo relation = new CluCluRelationInfo();
             relation.setCluId(program.getCredentialProgramId());
             relation.setRelatedCluId(program.getId());
-            relation.setType(relationType);
+            relation.setTypeKey(relationType);
             // We are hard coding this to active since relations can only be active/suspended
             // DO NOT propagate states such as DRAFT etc to the relations.
-            relation.setState(DtoConstants.STATE_ACTIVE);
+            relation.setStateKey(DtoConstants.STATE_ACTIVE);
 
             BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
                     null);
@@ -870,10 +870,10 @@ public class ProgramAssemblerUtils {
         Map<String, String> currentRelations = new HashMap<String, String>();
 
             try {
-                List<CluCluRelationInfo> cluRelations = R1R2ConverterUtil.convert(cluService.getCluCluRelationsByClu(cluId, contextInfo), new ArrayList<CluCluRelationInfo>() );
+                List<CluCluRelationInfo> cluRelations = cluService.getCluCluRelationsByClu(cluId, contextInfo);
                
                 for (CluCluRelationInfo cluRelation : cluRelations) {
-                    if (relationType.equals(cluRelation.getType())) {
+                    if (relationType.equals(cluRelation.getTypeKey())) {
                         currentRelations.put(cluRelation.getRelatedCluId(), cluRelation.getId());
                     }
                 }
@@ -891,10 +891,10 @@ public class ProgramAssemblerUtils {
         Map<String, CluCluRelationInfo> currentRelations = new HashMap<String, CluCluRelationInfo>();
 
             try {
-                List<CluCluRelationInfo> cluRelations =  R1R2ConverterUtil.convert(cluService.getCluCluRelationsByClu(cluId,contextInfo),new ArrayList<CluCluRelationInfo>());
+                List<CluCluRelationInfo> cluRelations = cluService.getCluCluRelationsByClu(cluId,contextInfo);
 
                 for (CluCluRelationInfo cluRelation : cluRelations) {
-                    if (relationType.equals(cluRelation.getType()) && (!cluRelation.getState().isEmpty() && cluRelation.getState().equalsIgnoreCase(DtoConstants.STATE_ACTIVE))) {
+                    if (relationType.equals(cluRelation.getTypeKey()) && (!cluRelation.getStateKey().isEmpty() && cluRelation.getStateKey().equalsIgnoreCase(DtoConstants.STATE_ACTIVE))) {
                         currentRelations.put(cluRelation.getRelatedCluId(), cluRelation);
                     }
                 }
@@ -912,12 +912,12 @@ public class ProgramAssemblerUtils {
         CluCluRelationInfo relation = new CluCluRelationInfo();
         relation.setCluId(cluId);
         relation.setRelatedCluId(relatedCluId);
-        relation.setType(relationType);
+        relation.setTypeKey(relationType);
         
         // Relations can only be in state Active or Suspended
         // DO NOT set state on relations to Draft, Approved, etc
         // We will default to Active
-        relation.setState(DtoConstants.STATE_ACTIVE);
+        relation.setStateKey(DtoConstants.STATE_ACTIVE);
 
         BaseDTOAssemblyNode<Object, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
                 null);
@@ -946,7 +946,7 @@ public class ProgramAssemblerUtils {
         for (Map.Entry<String, CluCluRelationInfo> entry : currentRelations.entrySet()) {
             CluCluRelationInfo suspendedRelation = new CluCluRelationInfo();
             suspendedRelation = entry.getValue();
-            suspendedRelation.setState(DtoConstants.STATE_SUSPENDED);
+            suspendedRelation.setStateKey(DtoConstants.STATE_SUSPENDED);
             BaseDTOAssemblyNode<Object, CluCluRelationInfo> suspendedRelationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
                     null);
             suspendedRelationNode.setNodeData(suspendedRelation);
@@ -986,9 +986,9 @@ public class ProgramAssemblerUtils {
             try {
                 List<CluPublicationInfo> cluPubs = R1R2ConverterUtil.convert(cluService.getCluPublicationsByClu(program.getId(),contextInfo), new ArrayList<CluPublicationInfo>() );
                 for(CluPublicationInfo cluPub : cluPubs){
-                    cluPub.setState(program.getStateKey());
-                    if (!cluPub.getType().equals(ProgramAssemblerConstants.CATALOG)) {
-                        currentPubs.put(cluPub.getType(), cluPub);                        
+                    cluPub.setStateKey(program.getStateKey());
+                    if (!cluPub.getTypeKey().equals(ProgramAssemblerConstants.CATALOG)) {
+                        currentPubs.put(cluPub.getTypeKey(), cluPub);                        
                     }
                 }
             } catch (DoesNotExistException e) {
@@ -1006,7 +1006,7 @@ public class ProgramAssemblerUtils {
                     CluPublicationInfo pubInfo = buildCluPublicationInfo(program.getId(), publicationType);
                     
                     // Set the publication type state to match the program state.
-                    pubInfo.setState(program.getStateKey());
+                    pubInfo.setStateKey(program.getStateKey());
                     BaseDTOAssemblyNode<Object, CluPublicationInfo> pubNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
                             null);
                     pubNode.setNodeData(pubInfo);
@@ -1019,7 +1019,7 @@ public class ProgramAssemblerUtils {
                     // program state. To do this we need to remove the publication
                     // type and create a new node with the update operation
                     CluPublicationInfo pubInfo = currentPubs.remove(publicationType);
-                    pubInfo.setState(program.getStateKey());
+                    pubInfo.setStateKey(program.getStateKey());
                     BaseDTOAssemblyNode<Object, CluPublicationInfo> pubNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
                                null);
                     pubNode.setNodeData(pubInfo);
@@ -1054,7 +1054,7 @@ public class ProgramAssemblerUtils {
     private CluPublicationInfo buildCluPublicationInfo(String programId, String publicationType) throws AssemblyException {
 
         CluPublicationInfo pubInfo = new CluPublicationInfo();
-        pubInfo.setType(publicationType);
+        pubInfo.setTypeKey(publicationType);
         pubInfo.setCluId(programId);
 
         return pubInfo;

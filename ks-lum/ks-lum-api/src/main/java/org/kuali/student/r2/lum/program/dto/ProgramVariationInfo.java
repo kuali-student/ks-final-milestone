@@ -16,6 +16,14 @@ import java.util.List;
 import javax.xml.bind.annotation.*;
 
 
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCredentialAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramFullOrgAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramPublicationAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
 import org.kuali.student.r2.lum.program.infc.ProgramVariation;
 //import org.w3c.dom.Element;
 
@@ -68,7 +76,8 @@ import org.kuali.student.r2.lum.program.infc.ProgramVariation;
     "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
     
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProgramVariationInfo extends CommonWithProgramVariationInfo implements ProgramVariation, Serializable {
+public class ProgramVariationInfo extends CommonWithProgramVariationInfo implements ProgramVariation, ProgramCommonAssembly, ProgramIdentifierAssembly, 
+    ProgramFullOrgAssembly, ProgramAtpAssembly, ProgramCodeAssembly, ProgramPublicationAssembly, ProgramRequirementAssembly, Serializable {
 
     private static final long serialVersionUID = 1L;
 //    TODO KSCM-372: Non-GWT translatable code

@@ -181,8 +181,7 @@ public class CluAssemblerUtils {
             for (CluLoRelationInfo cluLoRelation : cluLoRelations) {
                 String loId = cluLoRelation.getLoId();
                 LoInfo lo = loService.getLo(loId, contextInfo);
-                org.kuali.student.r1.lum.course.dto.LoDisplayInfo loDisplayInfoTemp = loAssembler.assemble(R1R2ConverterUtil.convert(lo, org.kuali.student.r1.lum.lo.dto.LoInfo.class), null, shallowBuild, contextInfo);
-                loInfos.add(R1R2ConverterUtil.convert(loDisplayInfoTemp, LoDisplayInfo.class));
+                loInfos.add(loAssembler.assemble(lo, null, shallowBuild, contextInfo));
             }
         } catch (Exception e) {
             throw new AssemblyException("Error getting learning objectives", e);
@@ -222,7 +221,7 @@ public class CluAssemblerUtils {
                 // Assemble and add the lo
 		    	loDisplay.getLoInfo().setId(null);
 		    	loDisplay.getLoInfo().setStateKey(cluState);
-                BaseDTOAssemblyNode<org.kuali.student.r1.lum.course.dto.LoDisplayInfo, org.kuali.student.r1.lum.lo.dto.LoInfo> loNode = loAssembler.disassemble(R1R2ConverterUtil.convert(loDisplay, org.kuali.student.r1.lum.course.dto.LoDisplayInfo.class), NodeOperation.CREATE, contextInfo);
+                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler.disassemble(loDisplay, NodeOperation.CREATE, contextInfo);
                 results.add(loNode);
 
                 // Create the relationship and add it as well
@@ -247,7 +246,7 @@ public class CluAssemblerUtils {
 				// On update, we need to change the state of the LO to
                 // match the state of the parent program
                 loDisplay.getLoInfo().setStateKey(cluState);
-                BaseDTOAssemblyNode<org.kuali.student.r1.lum.course.dto.LoDisplayInfo, org.kuali.student.r1.lum.lo.dto.LoInfo> loNode = loAssembler.disassemble(R1R2ConverterUtil.convert(loDisplay, org.kuali.student.r1.lum.course.dto.LoDisplayInfo.class), NodeOperation.UPDATE, contextInfo);
+                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler.disassemble(loDisplay, NodeOperation.UPDATE, contextInfo);
 				results.add(loNode);
 
 				// remove this entry from the map so we can tell what needs to
@@ -264,7 +263,7 @@ public class CluAssemblerUtils {
                 relationToDeleteNode.setOperation(NodeOperation.DELETE);
                 results.add(relationToDeleteNode);
 
-                BaseDTOAssemblyNode<org.kuali.student.r1.lum.course.dto.LoDisplayInfo, org.kuali.student.r1.lum.lo.dto.LoInfo> loNode = loAssembler.disassemble(R1R2ConverterUtil.convert(loDisplay, org.kuali.student.r1.lum.course.dto.LoDisplayInfo.class), NodeOperation.DELETE, contextInfo);
+                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler.disassemble(loDisplay, NodeOperation.DELETE, contextInfo);
                 results.add(loNode);
 
                 // remove this entry from the map so we can tell what needs to
@@ -286,8 +285,8 @@ public class CluAssemblerUtils {
             results.add(relationToDeleteNode);
 
             LoInfo loToDelete = loToDelete = loService.getLo(entry.getKey(), contextInfo);
-            LoDisplayInfo loDisplayToDelete = R1R2ConverterUtil.convert(loAssembler.assemble(R1R2ConverterUtil.convert(loToDelete, org.kuali.student.r1.lum.lo.dto.LoInfo.class), null, false, contextInfo), org.kuali.student.r2.lum.course.dto.LoDisplayInfo.class);
-            BaseDTOAssemblyNode<org.kuali.student.r1.lum.course.dto.LoDisplayInfo, org.kuali.student.r1.lum.lo.dto.LoInfo> loNode = loAssembler.disassemble(R1R2ConverterUtil.convert(loDisplayToDelete, org.kuali.student.r1.lum.course.dto.LoDisplayInfo.class), NodeOperation.DELETE, contextInfo);
+            LoDisplayInfo loDisplayToDelete = R1R2ConverterUtil.convert(loAssembler.assemble(loToDelete, null, false, contextInfo), org.kuali.student.r2.lum.course.dto.LoDisplayInfo.class);
+            BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler.disassemble(loDisplayToDelete, NodeOperation.DELETE, contextInfo);
             results.add(loNode);
         }
 

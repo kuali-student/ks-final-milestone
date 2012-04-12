@@ -54,7 +54,6 @@ import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.r2.lum.program.infc.CredentialProgram;
 import org.kuali.student.r2.lum.program.service.ProgramService;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
@@ -78,11 +77,8 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException ;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException; 
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import javax.jws.WebParam;
 
@@ -659,7 +655,7 @@ public class ProgramServiceImpl implements ProgramService{
                 throw new DoesNotExistException("Specified CLU is not a Credential Program");
             }
             ;
-            credentialProgramInfo = R1R2ConverterUtil.convert(credentialProgramAssembler.assemble(clu, null, false,contextInfo), new CredentialProgramInfo());
+            credentialProgramInfo = credentialProgramAssembler.assemble(clu, null, false,contextInfo);
         } catch (AssemblyException e) {
             LOG.error("Error assembling CredentialProgram", e);
             throw new OperationFailedException("Error assembling CredentialProgram");
@@ -720,7 +716,7 @@ public class ProgramServiceImpl implements ProgramService{
             if ( ! ProgramAssemblerConstants.MAJOR_DISCIPLINE.equals(clu.getTypeKey()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Major Discipline");
             }
-            majorDiscipline = R1R2ConverterUtil.convert(majorDisciplineAssembler.assemble(clu, null, false,contextInfo),new MajorDisciplineInfo());
+            majorDiscipline = majorDisciplineAssembler.assemble(clu, null, false,contextInfo);
         } catch (AssemblyException e) {
             LOG.error("Error assembling MajorDiscipline", e);
             throw new OperationFailedException("Error assembling MajorDiscipline");
@@ -775,7 +771,7 @@ public class ProgramServiceImpl implements ProgramService{
 			throw new DoesNotExistException("Specified CLU is not a Program Requirement");
 		}
 		try {
-			ProgramRequirementInfo progReqInfo = R1R2ConverterUtil.convert( programRequirementAssembler.assemble(clu, null, false, contextInfo),new ProgramRequirementInfo());
+			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(clu, null, false, contextInfo);
 			return progReqInfo;
 		} catch (AssemblyException e) {
             LOG.error("Error assembling program requirement", e);
@@ -796,7 +792,7 @@ public class ProgramServiceImpl implements ProgramService{
 
 		        if(clus != null && clus.size() > 0){
 		        	for(CluInfo clu : clus){
-		        		ProgramVariationInfo pvInfo = R1R2ConverterUtil.convert( majorDisciplineAssembler.getProgramVariationAssembler().assemble(clu, null, false,contextInfo), new ProgramVariationInfo());
+		        		ProgramVariationInfo pvInfo = majorDisciplineAssembler.getProgramVariationAssembler().assemble(clu, null, false,contextInfo);
 		        		if(pvInfo != null){
 		        			pvInfos.add(pvInfo);
 		        		}

@@ -5,11 +5,12 @@ import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.dto.DtoConstants;
-import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r1.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.r1.lum.lo.dto.LoInfo;
-import org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r2.lum.lo.dto.LoInfo;
+import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
@@ -42,9 +43,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 				throw new AssemblyException("Error getting learning objective categories", e);
 			}
 			try {
-				List<LoInfo> childLos = null;
-				
-				loService.getRelatedLosByLoId(loId, CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES, contextInfo);
+				List<LoInfo> childLos = loService.getRelatedLosByLoId(loId, CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES, contextInfo);
 				for(LoInfo childLo:childLos){
 					LoDisplayInfo childLoDisplay = assemble(childLo, null, shallowBuild,contextInfo);
 					childLoDisplay.setParentLoRelationid(lo.getId());
@@ -85,7 +84,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		
 		//Default these values
 				
-		loDisplay.getLoInfo().setType(CourseAssemblerConstants.COURSE_LO_TYPE);
+		loDisplay.getLoInfo().setTypeKey(CourseAssemblerConstants.COURSE_LO_TYPE);
 		 
 		loDisplay.getLoInfo().setLoRepositoryKey(CourseAssemblerConstants.COURSE_LO_REPOSITORY_KEY);
 		
@@ -186,7 +185,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 				for (LoLoRelationInfo loRelation : loRelations) {
 					//getLoLoRelationsByLoId returns if the lo is related or if it is the owner(this seems wrong)
 					
-					if(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES.equals(loRelation.getType())&&
+					if(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES.equals(loRelation.getTypeKey())&&
 							!loDisplay.getLoInfo().getId().equals(loRelation.getRelatedLoId())){
 						currentLoRelations.put(loRelation.getRelatedLoId(), loRelation);
 					}
@@ -204,7 +203,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		    // LO. This end up propagating the program state to all of the LOs,
 		    // since we set parent LO state to program state earlier in the code
 					    
-			childDisplay.getLoInfo().setState(loDisplay.getLoInfo().getState());
+			childDisplay.getLoInfo().setStateKey(loDisplay.getLoInfo().getStateKey());
 		    
 			// If this is a format create/new activity update then all activities will be created
 		    if (NodeOperation.CREATE == operation
@@ -222,13 +221,13 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
                 relation.setLoId(loDisplay.getLoInfo().getId());
                 relation.setRelatedLoId(loNode.getNodeData().getId());
              
-                relation.setType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
+                relation.setTypeKey(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
                 
                 // Relations can only have states of Active or SUSPENDED
                 // DO NOT use states like Approve, Draft, etc on relations
                 // Will default to Active
                         
-                relation.setState(DtoConstants.STATE_ACTIVE);
+                relation.setStateKey(DtoConstants.STATE_ACTIVE);
                 
 
                 BaseDTOAssemblyNode<LoDisplayInfo, LoLoRelationInfo> relationNode = new BaseDTOAssemblyNode<LoDisplayInfo, LoLoRelationInfo>(
@@ -281,10 +280,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
             relationToDeleteNode.setOperation(NodeOperation.DELETE);
             results.add(relationToDeleteNode);
             
-
-            org.kuali.student.r2.lum.lo.dto.LoInfo loToDelete = loService.getLo(entry.getKey() , new ContextInfo());
-            LoInfo temploTODelete = null; 
-            temploTODelete = temploTODelete.convertR2toR1(loToDelete);
+            LoInfo temploTODelete = loService.getLo(entry.getKey(), new ContextInfo());
             LoDisplayInfo loDisplayToDelete = this.assemble(temploTODelete, null, false,contextInfo);
             BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = this.disassemble(loDisplayToDelete, NodeOperation.DELETE,contextInfo);
             results.add(loNode);                                            
@@ -302,8 +298,20 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		@Override
 		public int compare(LoDisplayInfo o1, LoDisplayInfo o2) {
 			
-			String o1Sequence = o1.getLoInfo().getAttributes().get(CourseAssemblerConstants.COURSE_LO_SEQUENCE);
-			String o2Sequence = o1.getLoInfo().getAttributes().get(CourseAssemblerConstants.COURSE_LO_SEQUENCE);
+		    String o1Sequence = null;
+		    for(AttributeInfo attribute : o1.getLoInfo().getAttributes()){
+		        if (attribute.getKey().equals(CourseAssemblerConstants.COURSE_LO_SEQUENCE)){
+		            o1Sequence = attribute.getValue(); 
+		        }
+		    }
+		    
+		    String o2Sequence = null;
+            for(AttributeInfo attribute : o2.getLoInfo().getAttributes()){
+                if (attribute.getKey().equals(CourseAssemblerConstants.COURSE_LO_SEQUENCE)){
+                    o1Sequence = attribute.getValue(); 
+                }
+            }
+			
 			if(o1Sequence!=null){
 				return o1Sequence.compareTo(o2Sequence);
 			}else if(o2Sequence!=null){

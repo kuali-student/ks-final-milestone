@@ -18,6 +18,7 @@ import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
@@ -55,7 +56,14 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
             }
         }
         programAssemblerUtils.assembleAtps(baseDTO, (ProgramAtpAssembly) cpInfo);
-        programAssemblerUtils.assembleLuCodes(baseDTO, (ProgramCodeAssembly) cpInfo);
+        
+        if (baseDTO.getLuCodes() != null) {
+            for (LuCodeInfo codeInfo : baseDTO.getLuCodes()) {
+                if (ProgramAssemblerConstants.UNIVERSITY_CLASSIFICATION.equals(codeInfo.getType())) {
+                    cpInfo.setUniversityClassification(codeInfo.getValue());
+                } 
+            }
+        }
         
         if (!shallowBuild) {
 	        programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) cpInfo, contextInfo);
