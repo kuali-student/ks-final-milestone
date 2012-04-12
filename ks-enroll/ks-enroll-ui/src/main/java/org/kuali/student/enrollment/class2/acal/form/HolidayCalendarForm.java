@@ -18,6 +18,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +42,7 @@ public class HolidayCalendarForm  extends UifFormBase {
     private String hcId;
     private boolean officialButtonVisible;
     private boolean deleteButtonVisible;
+    private String updateTimeString;
 
     public HolidayCalendarForm() {
         super();
@@ -123,5 +125,21 @@ public class HolidayCalendarForm  extends UifFormBase {
 
     public void setOfficialButtonVisible(boolean officialButtonVisible) {
         this.officialButtonVisible = officialButtonVisible;
+    }
+
+    public String getUpdateTimeString(){
+        updateTimeString = new String("");
+        if (getHolidayCalendarInfo() == null ||
+            getHolidayCalendarInfo().getId()== null ||
+            getHolidayCalendarInfo().getId().isEmpty()){
+            return updateTimeString;
+        }
+        else {
+            Date updateTime = getHolidayCalendarInfo().getMeta().getUpdateTime();
+            if (updateTime != null){
+                updateTimeString = "Last saved at "+new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(updateTime);
+            }
+            return updateTimeString;
+        }
     }
 }
