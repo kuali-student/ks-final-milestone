@@ -94,7 +94,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         if(keyDates != null){
 
             //Get the valid period types
-            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydate","kuali.type.type.relation.type.group",new ContextInfo());
+            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.registration","kuali.type.type.relation.type.group",new ContextInfo());
             List<String> validMilestoneTypes = new ArrayList<String>();
             for(TypeTypeRelationInfo milestoneTypeRelation:milestoneTypeRelations){
                 validMilestoneTypes.add(milestoneTypeRelation.getRelatedTypeKey());

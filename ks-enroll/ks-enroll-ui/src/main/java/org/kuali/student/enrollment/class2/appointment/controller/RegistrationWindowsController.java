@@ -71,6 +71,10 @@ public class RegistrationWindowsController extends UifControllerBase {
     public ModelAndView assignStudents(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        ///First save all the windows
+        _saveWindows(uifForm);
+
+        //Now do the assignments of slots and students
         AppointmentWindowWrapper window = _getSelectedWindow(uifForm);
         if(window!=null){
             List<AppointmentSlotInfo> slots = getAppointmentService().generateAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
@@ -79,6 +83,7 @@ public class RegistrationWindowsController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
                         AppointmentServiceConstants.APPOINTMENT_MSG_INFO_ASSIGNED,window.getAppointmentWindowInfo().getName(), status.getMessage(), String.valueOf(slots.size()));
             }else{
+                //There was an error
                 GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
                         AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_TOO_MANY_STUDENTS, status.getMessage());
             }
@@ -91,7 +96,6 @@ public class RegistrationWindowsController extends UifControllerBase {
     public ModelAndView breakAppointments(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
         AppointmentWindowWrapper window = _getSelectedWindow(uifForm);
         if(window!=null){
             getAppointmentService().deleteAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
@@ -124,8 +128,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         //Add the window id to the list of ids to be deleted
         if(selectedLineIndex>=0){
-            AppointmentWindowWrapper window = uifForm.getAppointmentWindows().get(selectedLineIndex);
-            return window;
+            return uifForm.getAppointmentWindows().get(selectedLineIndex);
         }
         return null;
     }
@@ -174,6 +177,13 @@ public class RegistrationWindowsController extends UifControllerBase {
         form.getAppointmentWindowIdsToDelete().clear();
 
         //Loop through the form's appointment windows and create/update them using the appointmentService
+         _saveWindows(form);
+
+
+        return getUIFModelAndView(form);
+    }
+
+    private void _saveWindows(RegistrationWindowsManagementForm form) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException {
         if(form.getAppointmentWindows()!=null){
 
             for(AppointmentWindowWrapper appointmentWindowWrapper:form.getAppointmentWindows()){
@@ -207,7 +217,7 @@ public class RegistrationWindowsController extends UifControllerBase {
                     //Default the Weekdays to a value since the DB schema does not allow null values
                     appointmentWindowInfo.setSlotRule(new AppointmentSlotRuleInfo());
                     appointmentWindowInfo.getSlotRule().setWeekdays(new ArrayList<Integer>());
-                    appointmentWindowInfo.getSlotRule().getWeekdays().add(new Integer(1));
+                    appointmentWindowInfo.getSlotRule().getWeekdays().add(1);
 
                     appointmentWindowInfo = getAppointmentService().createAppointmentWindow(appointmentWindowInfo.getTypeKey(),appointmentWindowInfo,new ContextInfo());
                 }else{
@@ -218,11 +228,10 @@ public class RegistrationWindowsController extends UifControllerBase {
                 appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
 
             }
+            //Add a success message
             GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
                     AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
         }
-
-        return getUIFModelAndView(form);
     }
 
     //Copied from AcademicCalendarViewHelperServiceImpl //TODO(should be moved into common util class)
@@ -262,7 +271,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
 
         String periodId = form.getPeriodId();
-        String periodInfoDetails = new String();
+        String periodInfoDetails = "";
 
         //Clear all the windows
         form.getAppointmentWindows().clear();
