@@ -177,6 +177,13 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                     break;
                 }
             }
+//            String windowTypeKey = ((AppointmentWindowWrapper) addLine).getWindowTypeKey();
+//            try {
+//               TypeInfo type = getTypeService().getType(windowTypeKey, new ContextInfo());
+//               ((AppointmentWindowWrapper) addLine).setWindowTypeName(type.getName());
+//            }catch (Exception e){
+//
+//            }
         }
     }
     protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {

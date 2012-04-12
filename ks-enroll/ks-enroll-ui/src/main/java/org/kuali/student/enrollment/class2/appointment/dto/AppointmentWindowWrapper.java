@@ -9,7 +9,8 @@ public class AppointmentWindowWrapper extends TimeSetWrapper {
     String periodName;
     String periodKey;
     String assignedPopulationName;
-    private String windowTypeKey;
+    String windowTypeKey;
+    String windowTypeName;
 
     public AppointmentWindowWrapper() {
         appointmentWindowInfo = new AppointmentWindowInfo();
@@ -53,5 +54,13 @@ public class AppointmentWindowWrapper extends TimeSetWrapper {
 
     public void setWindowTypeKey(String windowTypeKey) {
         this.windowTypeKey = windowTypeKey;
+    }
+
+    public String getWindowTypeName() {
+        return windowTypeName;
+    }
+
+    public void setWindowTypeName(String windowTypeName) {
+        this.windowTypeName = windowTypeName;
     }
 }

@@ -338,9 +338,11 @@ public class RegistrationWindowsController extends UifControllerBase {
     }
     
     private String _getSimpleDate(Date date) {
+        if (date == null)
+            return new String();
+
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         return df.format(date);
-
     }
 
     private void _loadWindowsInfoForm(List<KeyDateInfo> periods, RegistrationWindowsManagementForm form) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {

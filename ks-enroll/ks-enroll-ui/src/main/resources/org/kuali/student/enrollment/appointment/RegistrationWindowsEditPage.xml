@@ -141,7 +141,8 @@
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:label="Student Group"  p:propertyName="assignedPopulationName" p:required="true" p:style="font-weight:bold;">
+                <bean parent="Uif-InputField"  p:label="Student Group"  p:propertyName="assignedPopulationName" p:required="true"
+                      p:render="@{#isAddLine}" p:style="font-weight:bold;">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="16" />
                     </property>
@@ -157,6 +158,12 @@
                     <!--<property name="fieldSuggest.suggestQuery.dataObjectClassName"-->
                               <!--value="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />-->
 
+                </bean>
+                <bean parent="Uif-InputField"  p:label="Student Group"  p:propertyName="assignedPopulationName" p:required="true" p:readOnly="true"
+                      p:render="@{!#isAddLine}" p:style="font-weight:bold;">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" />
+                    </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;" p:alternateDisplayPropertyName="startDateUI">
                     <property name="control">
@@ -209,6 +216,12 @@
                         <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.RegWindowTypeKeyValues" />
                     </property>
                 </bean>
+                <!--<bean parent="Uif-InputField"  p:label="Slot Allocation Method"  p:propertyName="windowTypeName" p:required="true" p:readOnly="true"-->
+                      <!--p:render="{!#isAddLine}" p:style="font-weight:bold;">-->
+                    <!--<property name="control">-->
+                        <!--<bean parent="Uif-TextControl" p:size="30" />-->
+                    <!--</property>-->
+                <!--</bean>-->
                 <bean parent="Uif-InputField"  p:label="Max #"  p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot" p:refreshWhenChanged="#lp.windowTypeKey"
                       p:readOnly = "@{#lp.windowTypeKey !='kuali.appointment.window.type.slotted.max' }"  p:style="font-weight:bold;">
                     <property name="control">
