@@ -94,7 +94,7 @@
     </bean>
 
     <bean id="KS-HolidayCalendarWrapper-InquiryView" parent="KSInquiryView">
-        <property name="title" value="Holiday Calendar Wrapper Inquiry"/>
+        <property name="title" value="Holiday Calendar Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper"/>
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarWrapperInquiryViewHelperServiceImpl" />
 
