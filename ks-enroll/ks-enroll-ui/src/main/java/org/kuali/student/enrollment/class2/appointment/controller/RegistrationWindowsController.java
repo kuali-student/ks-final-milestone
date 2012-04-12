@@ -294,15 +294,15 @@ public class RegistrationWindowsController extends UifControllerBase {
             AppointmentWindowWrapper addLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
 
             if (period.getName() != null) {
-                periodInfoDetails = period.getName()+" Start Date: "+period.getStartDate()+ "<br>"
-                                   + period.getName()+" End Date: "+period.getEndDate();
+                periodInfoDetails = period.getName()+" Start Date: "+_getSimpleDate(period.getStartDate())+ "<br>"
+                                   + period.getName()+" End Date: "+_getSimpleDate(period.getEndDate());
                 form.setPeriodName(period.getName());
                 form.setPeriodId(period.getId());
                 addLine.setPeriodName(period.getName());
                 addLine.setPeriodKey(period.getId());
             } else {
-                periodInfoDetails = period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
-                        + period.getId()+" End Date: "+period.getEndDate();
+                periodInfoDetails = period.getId()+" Start Date: "+_getSimpleDate(period.getStartDate())+ "<br>"
+                        + period.getId()+" End Date: "+_getSimpleDate(period.getEndDate());
                 form.setPeriodName(period.getId());
                 form.setPeriodId(period.getId());
                 addLine.setPeriodName(period.getId());
@@ -317,23 +317,30 @@ public class RegistrationWindowsController extends UifControllerBase {
             if(periodMilestones.isEmpty()) {
                 TermInfo term = form.getTermInfo();
                 if (term.getId() != null && !term.getId().isEmpty()) {
-                    ContextInfo context = TestHelper.getContext1();
-                    periodMilestones = getAcalService().getKeyDatesForTerm(term.getId(), context);
+                    getViewHelperService(form).loadPeriods(term.getId(), form);
+                    periodMilestones = form.getPeriodMilestones();
                 }
             }
             for (KeyDateInfo period : periodMilestones){
+                
                 if (period.getName() != null) {
-                    periodInfoDetails = period.getName()+" Start Date: "+period.getStartDate()+ "<br>"
-                            + period.getName()+" End Date: "+period.getEndDate()+"<br>";
+                    periodInfoDetails = periodInfoDetails.concat(period.getName()+" Start Date: "+_getSimpleDate(period.getStartDate())+ "<br>"
+                            + period.getName()+" End Date: "+_getSimpleDate(period.getEndDate())+"<br>");
                 } else {
-                    periodInfoDetails = period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
-                            + period.getId()+" End Date: "+period.getEndDate()+"<br>";
+                    periodInfoDetails = periodInfoDetails.concat(period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
+                            + period.getId()+" End Date: "+_getSimpleDate(period.getEndDate())+"<br>");
                 }
             }
             form.setPeriodInfoDetails(periodInfoDetails);
             _loadWindowsInfoForm(periodMilestones, form);
         }
         return getUIFModelAndView(form);
+    }
+    
+    private String _getSimpleDate(Date date) {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        return df.format(date);
+
     }
 
     private void _loadWindowsInfoForm(List<KeyDateInfo> periods, RegistrationWindowsManagementForm form) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
