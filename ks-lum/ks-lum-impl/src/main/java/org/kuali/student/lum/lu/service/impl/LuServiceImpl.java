@@ -1304,10 +1304,11 @@ public class LuServiceImpl implements CluService {
         }
 
         // Validate CluCluRelationInfo
-        /*KSCM-571 List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
+          List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM",cluId, relatedCluId, cluCluRelationTypeKey, cluCluRelationInfo, contextInfo);
+       
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         Clu clu = luDao.fetch(Clu.class, cluId);
         Clu relatedClu = luDao.fetch(Clu.class, relatedCluId);
@@ -1347,11 +1348,10 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
         // Validate CluCluRelationInfo
-/* TODO KSCM-571
-        List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
+        List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM",cluCluRelationInfo.getCluId(), cluCluRelationInfo.getRelatedCluId(), cluCluRelationInfo.getTypeKey(), cluCluRelationInfo, contextInfo);
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         final CluCluRelation cluCluRelation = luDao.fetch(CluCluRelation.class,
                 cluCluRelationId);
@@ -1423,15 +1423,15 @@ public class LuServiceImpl implements CluService {
 
         // Validate CLU
         List<ValidationResultInfo> val;
-        /* TODO KSCM-571 try {
-        	
-        	val = validateCluPublication("SYSTEM", cluPublicationInfo);
+        
+        try { 	
+        	val = validateCluPublication("SYSTEM",cluId,luPublicationTypeKey, cluPublicationInfo, contextInfo);
         	if(null != val && val.size() > 0) {
         		throw new DataValidationErrorException("Validation error!", val);
         	}
         } catch (DoesNotExistException e) {
         	throw new OperationFailedException("Error creating clu",e);
-        }*/
+        }
 
         CluPublication cluPub = new CluPublication();
         Clu clu;
@@ -1475,14 +1475,15 @@ public class LuServiceImpl implements CluService {
 
         // Validate CLU
         List<ValidationResultInfo> val;
-        /* TODO KSCM-571  try {
-        	val = validateCluPublication("SYSTEM", cluPublicationInfo);
+        
+        try {
+        	val = validateCluPublication("SYSTEM",cluPublicationInfo.getCluId(),cluPublicationInfo.getTypeKey(), cluPublicationInfo, contextInfo);
         	if(null != val && val.size() > 0) {
         		throw new DataValidationErrorException("Validation error!", val);
         	}
         } catch (DoesNotExistException e) {
         	throw new OperationFailedException("Error creating clu",e);
-        }*/
+        }
 
         CluPublication cluPub = luDao.fetch(CluPublication.class, cluPublicationId);
 
@@ -1596,10 +1597,10 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
         // Validate CluResult
-        /* TODO KSCM-571List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo);
+         List<ValidationResultInfo> val = validateCluResult("SYSTEM",cluId,cluResultTypeKey,cluResultInfo, contextInfo);
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         cluResultInfo.setTypeKey(cluResultTypeKey);
         cluResultInfo.setCluId(cluId);
@@ -1650,10 +1651,10 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
         // Validate CluResult
-        /* TODO KSCM-571 List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo);
+          List<ValidationResultInfo> val = validateCluResult("SYSTEM",cluResultInfo.getCluId(), cluResultInfo.getTypeKey(),cluResultInfo,contextInfo);
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         CluResult result = luDao.fetch(CluResult.class, cluResultId);
         if (!String.valueOf(result.getVersionNumber()).equals(
@@ -1758,10 +1759,10 @@ public class LuServiceImpl implements CluService {
         checkForEmptyList(cluLoRelationInfo, "cluLoRelationInfo");
 
         // Validate CluLoRelation
-        /* TODO KSCM-571List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
+       List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM",cluId, loId,cluLoRelationTypeKey,cluLoRelationInfo, contextInfo);
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         Clu clu = luDao.fetch(Clu.class, cluId);
         if (clu == null) {
@@ -1809,10 +1810,10 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluLoRelationInfo, "cluLoRelationInfo");
 
         // Validate CluLoRelation
-        /* TODO KSCM-571List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
+         List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM",cluLoRelationInfo.getCluId(), cluLoRelationInfo.getLoId(),cluLoRelationInfo.getTypeKey(),cluLoRelationInfo, contextInfo);
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        } */
+        } 
 
         CluLoRelation reltn = luDao.fetch(CluLoRelation.class, cluLoRelationId);
 
@@ -1915,14 +1916,15 @@ public class LuServiceImpl implements CluService {
 
         // Validate CluSet
         List<ValidationResultInfo> val;
-        /* TODO KSCM-571 try {
-        	val = validateCluSet("SYSTEM", cluSetInfo);
+
+        try {
+        	val = validateCluSet("SYSTEM", cluSetTypeKey,cluSetInfo,contextInfo);
         } catch (DoesNotExistException e) {
         	throw new DataValidationErrorException("Validation error! " + e.getMessage());
         }
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        }*/
+        }
 
         List<String> cluIdList = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
 
@@ -2003,10 +2005,10 @@ public class LuServiceImpl implements CluService {
         checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
         // Validate CluSet
-        /* TODO KSCM-571  List<ValidationResultInfo> val = validateCluSet("SYSTEM", cluSetInfo);
+         List<ValidationResultInfo> val = validateCluSet("SYSTEM", cluSetInfo.getTypeKey(),cluSetInfo,contextInfo);
         if(null != val && val.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", val);
-        } */
+        } 
 
         cluSetInfo.setId(cluSetId);
 
