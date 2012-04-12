@@ -557,7 +557,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     }
 
     @Override
-    public Boolean isSpecialTopicsCourse() {
+    public boolean isSpecialTopicsCourse() {
         return specialTopicsCourse;
     }
 
@@ -566,7 +566,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     }
 
     @Override
-    public Boolean isPilotCourse() {
+    public boolean isPilotCourse() {
         return pilotCourse;
     }
 
