@@ -794,6 +794,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AppointmentSlotInfo> generateAppointmentSlotsByWindow(String appointmentWindowId, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
                     MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
