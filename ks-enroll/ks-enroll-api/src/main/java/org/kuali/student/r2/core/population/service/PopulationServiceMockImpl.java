@@ -7,7 +7,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -20,6 +19,7 @@ import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 
+import org.kuali.student.common.util.UUIDHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,24 +59,21 @@ public class PopulationServiceMockImpl implements PopulationService {
     public StatusInfo applyPopulationRuleToPopulation(String populationRuleId, String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         this.populationToRule.put(populationKey, populationRuleId);
         return newStatus();
-
     }
 
     @Override
-    public PopulationInfo createPopulation(PopulationInfo populationInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        if (populations.containsKey(populationInfo.getKey())) {
-            throw new AlreadyExistsException(populationInfo.getKey());
-        }
+    public PopulationInfo createPopulation(PopulationInfo populationInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         PopulationInfo copy = new PopulationInfo(populationInfo);
         copy.setMeta(newMeta(contextInfo));
-        populations.put(copy.getKey(), copy);
+        copy.setId(UUIDHelper.genStringUUID());
+        populations.put(copy.getId(), copy);
         return new PopulationInfo(copy);
     }
 
     @Override
-    public PopulationRuleInfo createPopulationRule(PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public PopulationRuleInfo createPopulationRule(PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo) throws  DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         PopulationRuleInfo copy = new PopulationRuleInfo(populationRuleInfo);
-        copy.setId(populationRules.size() + "");
+        copy.setId(UUIDHelper.genStringUUID());
         copy.setMeta(newMeta(contextInfo));
         populationRules.put(copy.getId(), copy);
         return new PopulationRuleInfo(copy);
@@ -204,7 +201,7 @@ public class PopulationServiceMockImpl implements PopulationService {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
-        this.populations.put(populationInfo.getKey(), copy);
+        this.populations.put(populationInfo.getId(), copy);
         return new PopulationInfo(copy);
     }
 
