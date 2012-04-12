@@ -9,7 +9,7 @@
 
     <bean id="KS-AcademicCalendar-CopyPage" parent="Uif-Page"
           p:id="academicCalendarCopyPage"
-          p:title="Create New AcademicCalendar Calendar"
+          p:title="Create New Academic Calendar"
           p:header.id="KS-AcademicCalendar-CopyView-header"
           p:disclosure.render="false">
         <property name="header">
