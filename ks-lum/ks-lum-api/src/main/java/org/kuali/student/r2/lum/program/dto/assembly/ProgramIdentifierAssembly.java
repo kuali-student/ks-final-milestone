@@ -40,9 +40,10 @@ public interface ProgramIdentifierAssembly extends ProgramCommonAssembly {
 
     public void setTranscriptTitle(String transcriptTitle);
 
- // TODO
-//    public String getDiplomaTitle();
-//
-//    public void setDiplomaTitle(String diplomaTitle);
+    //KSCM-313 Should be removed, see https://wiki.kuali.org/display/STUDENT/R1+to+R2+Change+Log
+    public String getDiplomaTitle();
+    
+    //KSCM-313 Should be removed, see https://wiki.kuali.org/display/STUDENT/R1+to+R2+Change+Log
+    public void setDiplomaTitle(String diplomaTitle);
 
 }

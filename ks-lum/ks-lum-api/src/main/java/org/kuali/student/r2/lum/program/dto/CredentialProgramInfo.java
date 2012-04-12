@@ -159,5 +159,17 @@ public class CredentialProgramInfo extends CommonWithCredentialProgramInfo imple
 		// TODO KSCM-392 what to repalce with
 		return null;
 	}
+
+    //KSCM-313 Should be removed, see https://wiki.kuali.org/display/STUDENT/R1+to+R2+Change+Log 
+    @Override
+    public String getDiplomaTitle() {
+        return null;
+    }
+
+    //KSCM-313 Should be removed, see https://wiki.kuali.org/display/STUDENT/R1+to+R2+Change+Log
+    @Override
+    public void setDiplomaTitle(String diplomaTitle) {
+        
+    }
     
 }

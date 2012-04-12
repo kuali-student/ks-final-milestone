@@ -74,4 +74,16 @@ public class CoreProgramInfo extends CommonWithCoreProgramInfo
         super(input);
     }
 
+    //KSCM-313 Should be removed, see https://wiki.kuali.org/display/STUDENT/R1+to+R2+Change+Log
+    @Override
+    public String getDiplomaTitle() {
+        return null;
+    }
+
+    //KSCM-313 Should be removed, see https://wiki.kuali.org/display/STUDENT/R1+to+R2+Change+Log
+    @Override
+    public void setDiplomaTitle(String diplomaTitle) {
+        
+    }
+
 }
