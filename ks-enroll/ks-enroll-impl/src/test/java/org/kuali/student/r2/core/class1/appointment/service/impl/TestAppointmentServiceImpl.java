@@ -16,10 +16,12 @@
  */
 package org.kuali.student.r2.core.class1.appointment.service.impl;
 
+import com.sun.corba.se.spi.ior.MakeImmutable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -39,9 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * This class //TODO ...
@@ -245,6 +245,91 @@ public class TestAppointmentServiceImpl {
 //        }
 //    }
     @Test
+    public void testGoodMaxSlotGenerationWithEndDate() {
+        // This tests if there are too few slots for the number of students
+        before();
+        try {
+            // Want to adjust to create four slots (assuming 15 minutes between slots)
+            Date startDate = createDate(2012, 3, 5, 12, 0);
+            Date endDate = createDate(2012, 3, 5, 12, 45);
+            apptWindowInfo.setStartDate(startDate);
+            apptWindowInfo.setEndDate(endDate);
+            int maxPerSlot = 4;
+            apptWindowInfo.setMaxAppointmentsPerSlot(maxPerSlot); // Currently, there are 9 students.  This would fill two slot
+                                                         // in full, and 1 additional in a third slot.
+            // Change slot generation type
+            apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY);
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            // Use windowInfo afterwards since it has the ID
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            assertEquals(4, slotInfoList.size());
+            // Now assign students
+            StatusInfo statusInfo =
+                    appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+            // Should be fine
+            assertTrue(statusInfo.getIsSuccess());
+            // Now check to make sure assignments were made
+            HashSet<String> studentIdSet = new HashSet<String>();
+            int studentIdsCount = 0; // How many appointments we have
+            int numMaxFilledSlots = 0;
+            for (AppointmentSlotInfo slotInfo: slotInfoList) {
+                List<AppointmentInfo> apptList = appointmentService.getAppointmentsBySlot(slotInfo.getId(), contextInfo);
+                for (AppointmentInfo apptInfo: apptList) {
+                    studentIdSet.add(apptInfo.getPersonId());
+                }
+                // Make sure slots are less than or equal to maximum
+                assert(apptList.size() <= maxPerSlot);
+                if (apptList.size() == maxPerSlot) {
+                    numMaxFilledSlots++;
+                }
+                studentIdsCount += apptList.size();
+            }
+            // Check we have as many unique students as appointments
+            assertEquals(studentIdsCount, studentIdSet.size());
+            // Check we are filling slots to max as needed
+            assertEquals(studentIdsCount / maxPerSlot, numMaxFilledSlots);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+    @Test
+    public void testBadMaxSlotGenerationWithEndDate() {
+        // This tests if there are too few slots for the number of students
+        before();
+        try {
+            // Want to adjust to create three slots (assuming 15 minutes between slots)
+            Date startDate = createDate(2012, 3, 5, 12, 0);
+            Date endDate = createDate(2012, 3, 5, 12, 30);
+            apptWindowInfo.setStartDate(startDate);
+            apptWindowInfo.setEndDate(endDate);
+            apptWindowInfo.setMaxAppointmentsPerSlot(2); // Make it very small
+            // Change slot generation type
+            apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY);
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            // Use windowInfo afterwards since it has the ID
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            assertEquals(3, slotInfoList.size());
+            // Now assign students
+            StatusInfo statusInfo =
+                    appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+            // Should fail due to not enough slots
+            assertFalse(statusInfo.getIsSuccess());
+            // Now check to make sure no assignments were made
+            for (AppointmentSlotInfo slotInfo: slotInfoList) {
+                List<AppointmentInfo> apptList = appointmentService.getAppointmentsBySlot(slotInfo.getId(), contextInfo);
+                assertEquals(0, apptList.size());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+    @Test
     public void testUniformSlotGeneration() {
         // If generateAppointmentSlotsByWindow is called twice, it should delete the previous slots/assignments
         before();
@@ -264,17 +349,25 @@ public class TestAppointmentServiceImpl {
             assertEquals(3, slotInfoList.size());
             // Now assign students
             appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
-            // Go through the slots to check most of them are the same
+            // Go through the slots to check most of them are the same.  Also check the IDs are unique
             HashMap<Integer, Integer> slotSizeVsFrequency = new HashMap<Integer, Integer>();
+            HashSet<String> studentIdSet = new HashSet<String>();
+            int studentIdsCount = 0; // How many appointments we have
             for (AppointmentSlotInfo slotInfo: slotInfoList) {
                 List<AppointmentInfo> apptList =
                         appointmentService.getAppointmentsBySlot(slotInfo.getId(), contextInfo);
+                studentIdsCount += apptList.size();
+                for (AppointmentInfo appt: apptList) {
+                    studentIdSet.add(appt.getPersonId());
+                }
                 if (!slotSizeVsFrequency.containsKey(apptList.size())) {
                     slotSizeVsFrequency.put(apptList.size(), 1); // We've seen this number of students once
                 } else { // Increment
                     slotSizeVsFrequency.put(apptList.size(), slotSizeVsFrequency.get(apptList.size()) + 1);
                 }
             }
+            // Should have same number of students as appointments (thus, we didn't duplicate any studnets)
+            assertEquals(studentIdsCount, studentIdSet.size());
             // Should either be all the same size, or all but 1 the same size (thus two distinct sizes)
             assert(slotSizeVsFrequency.size() <= 2);
             assert(slotSizeVsFrequency.size() > 0);
