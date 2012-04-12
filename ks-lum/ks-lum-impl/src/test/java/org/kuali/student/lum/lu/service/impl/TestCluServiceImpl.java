@@ -109,7 +109,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	private static final SimpleDateFormat DF = new SimpleDateFormat("yyyyMMdd");
 	final Logger LOG = Logger.getLogger(TestCluServiceImpl.class);
 
-	//@Test
+	@Test
 	public void testClu() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
