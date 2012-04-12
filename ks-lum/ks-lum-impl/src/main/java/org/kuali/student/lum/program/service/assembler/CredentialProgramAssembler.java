@@ -1,12 +1,19 @@
 package org.kuali.student.lum.program.service.assembler;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.r1.lum.program.dto.assembly.*;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
@@ -14,9 +21,6 @@ import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
-
-import java.util.List;
-import java.util.Map;
 
 public class CredentialProgramAssembler implements BOAssembler<CredentialProgramInfo, CluInfo> {
     final static Logger LOG = Logger.getLogger(CredentialProgramAssembler.class);

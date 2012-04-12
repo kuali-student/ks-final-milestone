@@ -27,20 +27,20 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.dto.DtoConstants;
-import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluResultInfo;
 import org.kuali.student.r1.lum.lu.dto.FieldInfo;
 import org.kuali.student.r1.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramAtpAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramBasicOrgAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramCodeAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramCredentialAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramFullOrgAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramIdentifierAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramPublicationAssembly;
-import org.kuali.student.r1.lum.program.dto.assembly.ProgramRequirementAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCredentialAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramFullOrgAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramPublicationAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -135,7 +135,7 @@ public class ProgramAssemblerUtils {
 
             if (requirements != null && !requirements.isEmpty()) {
             	if (stateChanged){
-            		addUpdateRequirementStateNodes(requirements, program.getState(), result, contextInfo);
+            		addUpdateRequirementStateNodes(requirements, program.getStateKey(), result, contextInfo);
             	}
             	
                	Map<String, String> currentRelations = null;
@@ -250,7 +250,7 @@ public class ProgramAssemblerUtils {
         official.setCode(program.getCode());
         official.setLongName(program.getLongTitle());
         official.setShortName(program.getShortTitle());
-        official.setStateKey(program.getState());
+        official.setStateKey(program.getStateKey());
         // gotta be this type
         official.setTypeKey(ProgramAssemblerConstants.OFFICIAL);
 
@@ -268,17 +268,17 @@ public class ProgramAssemblerUtils {
             CluIdentifierInfo cluIdentifier = iter.next();
             if (ProgramAssemblerConstants.DIPLOMA.equals(cluIdentifier.getTypeKey())) {
                 diplomaInfo = cluIdentifier;
-                diplomaInfo.setStateKey(program.getState());
+                diplomaInfo.setStateKey(program.getStateKey());
             } else if (ProgramAssemblerConstants.TRANSCRIPT.equals(cluIdentifier.getTypeKey())) {
                 transcriptInfo = cluIdentifier;
-                transcriptInfo.setStateKey(program.getState());
+                transcriptInfo.setStateKey(program.getStateKey());
             }
         }
-
+        
         if (program.getDiplomaTitle() != null) {
             if (diplomaInfo == null) {
                 diplomaInfo = new CluIdentifierInfo();
-                diplomaInfo.setStateKey(program.getState());
+                diplomaInfo.setStateKey(program.getStateKey());
                 clu.getAlternateIdentifiers().add(diplomaInfo);
             }
             diplomaInfo.setCode(official.getCode());
@@ -289,7 +289,7 @@ public class ProgramAssemblerUtils {
         if (program.getTranscriptTitle() != null) {
             if (transcriptInfo == null) {
                 transcriptInfo = new CluIdentifierInfo();
-                transcriptInfo.setStateKey(program.getState());
+                transcriptInfo.setStateKey(program.getStateKey());
                 clu.getAlternateIdentifiers().add(transcriptInfo);
             }
             transcriptInfo.setCode(official.getCode());
@@ -617,7 +617,7 @@ public class ProgramAssemblerUtils {
                          || (NodeOperation.UPDATE == operation && currentPubInfo == null )) {
                      // the description does not exist, so create
                      CluPublicationInfo pubInfo = buildCluPublicationInfo(program.getId(), ProgramAssemblerConstants.CATALOG);
-                     pubInfo.setState(program.getState());
+                     pubInfo.setState(program.getStateKey());
                      FieldInfo variant = new FieldInfo();
                      variant.setId(ProgramAssemblerConstants.CATALOG_DESCR);
                      variant.setValue(program.getCatalogDescr() .getPlain());
@@ -633,7 +633,7 @@ public class ProgramAssemblerUtils {
                          && currentPubInfo != null) {
 
                      CluPublicationInfo pubInfo = currentPubInfo;
-                     pubInfo.setState(program.getState());
+                     pubInfo.setState(program.getStateKey());
                      for (FieldInfo fieldInfo : pubInfo.getVariants()) {
                          if (fieldInfo.getId().equals(ProgramAssemblerConstants.CATALOG_DESCR)) {
                              fieldInfo.setValue(program.getCatalogDescr() .getPlain());
@@ -682,7 +682,7 @@ public class ProgramAssemblerUtils {
     public CluInfo disassemblePublications(CluInfo clu, ProgramPublicationAssembly program, NodeOperation operation, BaseDTOAssemblyNode<?, ?> result, ContextInfo contextInfo) throws AssemblyException {
 
         clu.setReferenceURL(program.getReferenceURL());
-        clu.setStateKey(program.getState());
+        clu.setStateKey(program.getStateKey());
 
         List<BaseDTOAssemblyNode<?, ?>> targetResults = disassemblePublicationTargets(program, operation, contextInfo);
         if (targetResults != null && targetResults.size()> 0) {
@@ -986,7 +986,7 @@ public class ProgramAssemblerUtils {
             try {
                 List<CluPublicationInfo> cluPubs = R1R2ConverterUtil.convert(cluService.getCluPublicationsByClu(program.getId(),contextInfo), new ArrayList<CluPublicationInfo>() );
                 for(CluPublicationInfo cluPub : cluPubs){
-                    cluPub.setState(program.getState());
+                    cluPub.setState(program.getStateKey());
                     if (!cluPub.getType().equals(ProgramAssemblerConstants.CATALOG)) {
                         currentPubs.put(cluPub.getType(), cluPub);                        
                     }
@@ -1006,7 +1006,7 @@ public class ProgramAssemblerUtils {
                     CluPublicationInfo pubInfo = buildCluPublicationInfo(program.getId(), publicationType);
                     
                     // Set the publication type state to match the program state.
-                    pubInfo.setState(program.getState());
+                    pubInfo.setState(program.getStateKey());
                     BaseDTOAssemblyNode<Object, CluPublicationInfo> pubNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
                             null);
                     pubNode.setNodeData(pubInfo);
@@ -1019,7 +1019,7 @@ public class ProgramAssemblerUtils {
                     // program state. To do this we need to remove the publication
                     // type and create a new node with the update operation
                     CluPublicationInfo pubInfo = currentPubs.remove(publicationType);
-                    pubInfo.setState(program.getState());
+                    pubInfo.setState(program.getStateKey());
                     BaseDTOAssemblyNode<Object, CluPublicationInfo> pubNode = new BaseDTOAssemblyNode<Object, CluPublicationInfo>(
                                null);
                     pubNode.setNodeData(pubInfo);
