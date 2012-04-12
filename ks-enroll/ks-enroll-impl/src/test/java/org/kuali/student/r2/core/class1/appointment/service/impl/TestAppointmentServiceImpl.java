@@ -37,10 +37,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -247,6 +244,56 @@ public class TestAppointmentServiceImpl {
 //            assert(false);
 //        }
 //    }
+    @Test
+    public void testUniformSlotGeneration() {
+        // If generateAppointmentSlotsByWindow is called twice, it should delete the previous slots/assignments
+        before();
+        try {
+            // Want to adjust to create three slots (assuming 15 minutes between slots)
+            Date startDate = createDate(2012, 3, 5, 12, 0);
+            Date endDate = createDate(2012, 3, 5, 12, 30);
+            apptWindowInfo.setStartDate(startDate);
+            apptWindowInfo.setEndDate(endDate);
+            // Change slot generation type
+            apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY);
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            // Use windowInfo afterwards since it has the ID
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            assertEquals(3, slotInfoList.size());
+            // Now assign students
+            appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+            // Go through the slots to check most of them are the same
+            HashMap<Integer, Integer> slotSizeVsFrequency = new HashMap<Integer, Integer>();
+            for (AppointmentSlotInfo slotInfo: slotInfoList) {
+                List<AppointmentInfo> apptList =
+                        appointmentService.getAppointmentsBySlot(slotInfo.getId(), contextInfo);
+                if (!slotSizeVsFrequency.containsKey(apptList.size())) {
+                    slotSizeVsFrequency.put(apptList.size(), 1); // We've seen this number of students once
+                } else { // Increment
+                    slotSizeVsFrequency.put(apptList.size(), slotSizeVsFrequency.get(apptList.size()) + 1);
+                }
+            }
+            // Should either be all the same size, or all but 1 the same size (thus two distinct sizes)
+            assert(slotSizeVsFrequency.size() <= 2);
+            assert(slotSizeVsFrequency.size() > 0);
+            // Make sure one of them is unique
+            if (slotSizeVsFrequency.size() == 2) {
+                boolean found = false;
+                for (Integer key: slotSizeVsFrequency.keySet()) {
+                    int frequency = slotSizeVsFrequency.get(key);
+                    if (frequency == 1) {
+                        found = true;
+                    }
+                }
+                assertEquals(true, found);
+             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
     @Test
     public void testGenerateTwice() {
         // If generateAppointmentSlotsByWindow is called twice, it should delete the previous slots/assignments

@@ -199,14 +199,36 @@ public class AppointmentServiceImpl implements AppointmentService {
         String slotId = slotInfoList.get(0).getId();  // Only one slot in the one slot case
         for (String studentId: studentIds) {
             AppointmentInfo apptInfo = _createAppointmentInfo(studentId, slotId);
-            _createAppointmentNoTransact(studentId, slotId, AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY, apptInfo, contextInfo);
+            _createAppointmentNoTransact(studentId, slotId, apptInfo.getTypeKey(), apptInfo, contextInfo);
         }
     }
 
-    private void _generateAppointmentsUniformCase(List<String> studentIds, List<AppointmentSlotInfo> slotInfoList, ContextInfo contextInfo) {
+    /*
+     * Precondition: At least one slot in the slotInfoList
+     */
+    private void _generateAppointmentsUniformCase(List<String> studentIds, List<AppointmentSlotInfo> slotInfoList, ContextInfo contextInfo) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
         int numSlots = slotInfoList.size();
         int numStudents = studentIds.size();
         int studentsPerSlot = numStudents / numSlots + 1; // Need to add 1, or we'll not have enough
+
+        int count = 0;
+        for (AppointmentSlotInfo slotInfo: slotInfoList) {
+            List<String> sublist = null;
+            if (count < numSlots - 1) {
+                // Grab sublist of students
+                sublist = studentIds.subList(count * studentsPerSlot, (count + 1) * studentsPerSlot);
+            } else {
+                // Special case: last group can be much smaller, so go to end of list
+                sublist = studentIds.subList(count * studentsPerSlot, numStudents);
+            }
+            count++;
+            // Make the assignments
+            for (String studentId: sublist) {
+                String slotId = slotInfo.getId();
+                AppointmentInfo apptInfo = _createAppointmentInfo(studentId, slotId);
+                _createAppointmentNoTransact(studentId, slotId, apptInfo.getTypeKey(), apptInfo, contextInfo);
+            }
+        }
     }
 
     private void _generateAppointmentsMaxCase() {
@@ -216,11 +238,14 @@ public class AppointmentServiceImpl implements AppointmentService {
     private void _generateAppointments(String appointmentTypeKey, List<String> students, 
                                        List<AppointmentSlotInfo> slotInfoList, ContextInfo contextInfo,
                                        StatusInfo statusInfo) throws OperationFailedException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException {
+        if (slotInfoList.isEmpty()) {
+            throw new OperationFailedException("No slots");
+        }
         // May want to adjust message in the status info
         if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY)) {
             _generateAppointmentsOneSlotCase(students, slotInfoList, contextInfo);
         } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY)) {
-            // TODO: Finish
+            _generateAppointmentsUniformCase(students, slotInfoList, contextInfo);
         } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY)) {
             _generateAppointmentsMaxCase(); // TODO: Finish
         } else {
