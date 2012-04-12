@@ -199,13 +199,13 @@
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for Key Dates that are associated with a term"
         DESCR_PLAIN="The list of milestone types that are used for Instructional Key Dates that are associated with a term"
-        NAME="Key Date Instructional Group"
+        NAME="Instructional"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_KEY="kuali.milestone.type.group.instructional" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for Key Dates that are associated with a term"
         DESCR_PLAIN="The list of milestone types that are used for Registration Key Dates that are associated with a term"
-        NAME="Key Date Registration Group"
+        NAME="Registration"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_KEY="kuali.milestone.type.group.registration" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
