@@ -33,7 +33,8 @@ public interface AppointmentSlotRule {
      *
      * @name Weekdays
      * @impl Java standard: Sunday=1 to Saturday=7
-     * @impl When AppointmentSlotRule is specified, this list is expected to have a value.
+     * @impl When AppointmentSlotRule is specified, this list is
+     *       expected to have a value.
      */
     List<Integer> getWeekdays();
 
@@ -41,7 +42,9 @@ public interface AppointmentSlotRule {
      * Window start time ("9am")
      *
      * @name Start Time Of Day
-     * @impl If the slot is open ended, then startTimeOfDay applies only for the first day and it is time portion of the window start date
+     * @impl If the slot is open ended, then startTimeOfDay applies
+     *       only for the first day and it is time portion of the
+     *       window start date
      */
     TimeOfDay getStartTimeOfDay();
 
@@ -49,23 +52,30 @@ public interface AppointmentSlotRule {
      * Window end time ("5pm")
      *
      * @name End Time Of Day
-     * @impl If the slot is open ended, then endTimeOfDay applies only for the last day and it is time portion of the window end date
+     * @impl If the slot is open ended, then endTimeOfDay applies only
+     *       for the last day and it is time portion of the window end
+     *       date
      */
     TimeOfDay getEndTimeOfDay();
 
     /**
-     * Interval between start times of two consecutive appointment slots ("30 mins")
+     * Interval between start times of two consecutive appointment
+     * slots ("30 mins")
      *
      * @name Slot Start Interval
-     * @impl For the one-slot Appointment Window the slotStartInterval is null
+     * @impl For the one-slot Appointment Window the slotStartInterval
+     *       is null
      */
     TimeAmount getSlotStartInterval();
 
     /**
-     * Duration of the appointment slot ("20 mins") - advertised duration of the slot. The slot duration is not constrained by the window end date/time
+     * Duration of the appointment slot ("20 mins") - advertised
+     * duration of the slot. The slot duration is not constrained by
+     * the window end date/time
      *
      * @name Slot Duration
-     * @impl For the one-slot Appointment Window the slotDuration is null
+     * @impl For the one-slot Appointment Window the slotDuration is
+     *       null
      */
     TimeAmount getSlotDuration();
 }

@@ -19,7 +19,8 @@ package org.kuali.student.r2.core.appointment.infc;
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**
- * Information about the person to time slot and appointment window relation
+ * Information about the person to time slot and appointment window
+ * relation.
  *
  * @Version 1.0
  * @Author Sri komandur@uw.edu
