@@ -186,20 +186,27 @@ public class AppointmentServiceImpl implements AppointmentService {
         return _createAppointmentNoTransact(personId, appointmentSlotId, appointmentTypeKey, appointmentInfo, contextInfo);
     }
 
+    private AppointmentInfo _createAppointmentInfo(String studentId, String slotId) {
+        AppointmentInfo apptInfo = new AppointmentInfo();
+        apptInfo.setPersonId(studentId);
+        apptInfo.setSlotId(slotId);
+        apptInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_TYPE_REGISTRATION);
+        apptInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
+        return apptInfo;
+    }
+
     private void _generateAppointmentsOneSlotCase(List<String> studentIds, List<AppointmentSlotInfo> slotInfoList, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException {
         String slotId = slotInfoList.get(0).getId();  // Only one slot in the one slot case
         for (String studentId: studentIds) {
-            AppointmentInfo apptInfo = new AppointmentInfo();
-            apptInfo.setPersonId(studentId);
-            apptInfo.setSlotId(slotId);
-            apptInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_TYPE_REGISTRATION);
-            apptInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_STATE_ACTIVE_KEY);
-            createAppointment(studentId, slotId, AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY, apptInfo, contextInfo);
+            AppointmentInfo apptInfo = _createAppointmentInfo(studentId, slotId);
+            _createAppointmentNoTransact(studentId, slotId, AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY, apptInfo, contextInfo);
         }
     }
 
-    private void _generateAppointmentsUniformCase() {
-        // TODO: Stubbed out case
+    private void _generateAppointmentsUniformCase(List<String> studentIds, List<AppointmentSlotInfo> slotInfoList, ContextInfo contextInfo) {
+        int numSlots = slotInfoList.size();
+        int numStudents = studentIds.size();
+        int studentsPerSlot = numStudents / numSlots + 1; // Need to add 1, or we'll not have enough
     }
 
     private void _generateAppointmentsMaxCase() {
@@ -213,7 +220,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY)) {
             _generateAppointmentsOneSlotCase(students, slotInfoList, contextInfo);
         } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY)) {
-            _generateAppointmentsUniformCase();  // TODO: Finish
+            // TODO: Finish
         } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY)) {
             _generateAppointmentsMaxCase(); // TODO: Finish
         } else {
