@@ -15,86 +15,26 @@
 
 package org.kuali.student.lum.lu.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-
+import edu.emory.mathcs.backport.java.util.Collections;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.r2.common.dto.AmountInfo;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.common.test.spring.Client;
-import org.kuali.student.common.test.spring.Dao;
-import org.kuali.student.common.test.spring.Daos;
-import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.common.test.spring.*;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
-import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
-import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
-import org.kuali.student.r2.lum.clu.dto.CluAccountingInfo;
-import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
-import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
-import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
-import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
-import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
-import org.kuali.student.r2.lum.clu.dto.FieldInfo;
-import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.lum.lu.dto.LuLuRelationTypeInfo;
-import org.kuali.student.r1.lum.lu.dto.LuiInfo;
-import org.kuali.student.r1.lum.lu.dto.LuiLuiRelationInfo;
-import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
-import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r1.lum.lu.dto.ResultUsageTypeInfo;
-import org.kuali.student.r1.lum.lu.service.LuService;
 import org.kuali.student.r1.lum.lu.service.LuServiceConstants;
+import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.dto.*;
+import org.kuali.student.r2.lum.clu.service.CluService;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql" /*
 																										 * ,
@@ -339,7 +279,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		desc.setFormatted("<p>Formatted Desc</p>");
 		desc.setPlain("plain");
 		cluSetInfo.setTypeKey("kuali.cluSet.type.CreditCourse");
-  cluSetInfo.setStateKey ("draft");
+        cluSetInfo.setStateKey ("draft");
 		cluSetInfo.setAdminOrg("uuid-1234");
 		cluSetInfo.setDescr(desc);
 		cluSetInfo.setEffectiveDate(DF.parse("20080101"));
@@ -349,6 +289,10 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cluSetInfo.getCluIds().add("CLU-2");
 //		cluSetInfo.getCluSetIds().add("CLUSET-1");
 //		cluSetInfo.getCluSetIds().add("CLUSET-2");
+
+        if(cluSetInfo.getAttributes() == null) {
+            cluSetInfo.setAttributes(new ArrayList<AttributeInfo>());
+        }
 		cluSetInfo.getAttributes().add(new AttributeInfo("cluSet1ArrtKey1", "cluSet1ArrtValue1"));
 		cluSetInfo.getAttributes().add(new AttributeInfo("cluSet1ArrtKey2", "cluSet1ArrtValue2"));
 
@@ -382,7 +326,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 //		createdSet1.getCluSetIds().remove(1);
 //		createdSet1.getCluSetIds().add("CLUSET-3");
 		createdSet1.getAttributes().add(new AttributeInfo("cluSet1ArrtKey1", "UPcluSet1ArrtValue1"));
-		createdSet1.getAttributes().remove("cluSet1ArrtKey2");
+		createdSet1.getAttributes().remove(1);
 		createdSet1.getAttributes().add(new AttributeInfo("cluSet1ArrtKey3", "cluSet1ArrtValue3"));
 
 		CluSetInfo updatedSet1 = client.updateCluSet(createdSet1.getId(), createdSet1, contextInfo);
@@ -1085,6 +1029,10 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cluCluRelationInfo.setExpirationDate(expirationDate);
 		cluCluRelationInfo.setIsCluRelationRequired(true);
 		cluCluRelationInfo.setStateKey("hello");
+
+        if(cluCluRelationInfo.getAttributes() == null) {
+            cluCluRelationInfo.setAttributes(new ArrayList<AttributeInfo>());
+        }
 		cluCluRelationInfo.getAttributes().add(new AttributeInfo("clucluAttrKey1", "clucluAttrValue1"));
 		cluCluRelationInfo.getAttributes().add(new AttributeInfo("clucluAttrKey2", "clucluAttrValue2"));
 		cluCluRelationInfo.getAttributes().add(new AttributeInfo("clucluAttrKey3", "clucluAttrValue3"));
@@ -1455,7 +1403,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			client.getLuLuRelationType(null, contextInfo);
 			fail("LuService.getLuLuRelationTypeInfo() did not throw MissingParameterException for null LuLuRelationType key");
 		} catch (MissingParameterException e) {
-		}
+        }
 		luLuRelTypeInfo = client.getLuLuRelationType("luLuType.type1", contextInfo);
 		assertEquals("bob", luLuRelTypeInfo.getName());
 		luLuRelTypeInfo = client.getLuLuRelationType("luLuType.type2", contextInfo);
@@ -2928,6 +2876,10 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		CluInfo clu = new CluInfo();
 
 		CluAccountingInfo accountingInfo = new CluAccountingInfo();
+
+        if(accountingInfo.getAttributes() == null) {
+            accountingInfo.setAttributes(new ArrayList<AttributeInfo>());
+        }
 		accountingInfo.getAttributes().add(new AttributeInfo("AccountingAttrKey1","AccountingAttrValue1"));
 		accountingInfo.getAttributes().add(new AttributeInfo("AccountingAttrKey2","AccountingAttrValue2"));
 		clu.setAccountingInfo(accountingInfo);
@@ -2971,6 +2923,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		cluId2.setOrgId("cluId2-orgid");
 		clu.getAlternateIdentifiers().add(cluId2);
 
+        if(clu.getAttributes() == null) {
+            clu.setAttributes(new ArrayList<AttributeInfo>());
+        }
 		clu.getAttributes().add(new AttributeInfo("cluAttrKey1", "cluAttrValue1"));
 		clu.getAttributes().add(new AttributeInfo("cluAttrKey2", "cluAttrValue2"));
 

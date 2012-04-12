@@ -2089,7 +2089,7 @@ public class LuServiceImpl implements CluService {
         }
 
         BeanUtils.copyProperties(cluSetInfo, cluSet, new String[]{"descr",
-                "attributes", "metaInfo", "membershipQuery"}); 
+                "attributes", "meta", "membershipQuery"});
         cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(
         		CluSetAttribute.class, R1R2ConverterUtil.convert(cluSetInfo, org.kuali.student.r1.lum.lu.dto.CluSetInfo.class).getAttributes(), cluSet, luDao)); 
         cluSet.setDescr(LuServiceAssembler.toRichText(LuRichText.class, R1R2ConverterUtil.convert(cluSetInfo, org.kuali.student.r1.lum.lu.dto.CluSetInfo.class).getDescr()));
