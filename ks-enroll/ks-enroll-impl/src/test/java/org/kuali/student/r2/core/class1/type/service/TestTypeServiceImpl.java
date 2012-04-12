@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import static junit.framework.Assert.*;
 
 /**
- * This class //TODO ...
+ * Unit tester for the type service impl
  *
  * @author Kuali Student Team
  */
@@ -38,15 +38,15 @@ public class TestTypeServiceImpl {
     private TypeService typeService;
 
     @Test
-    public void testCRUD() throws DoesNotExistException, 
-    AlreadyExistsException, 
-    OperationFailedException, 
-    DataValidationErrorException, 
-    InvalidParameterException, 
-    MissingParameterException, 
-    PermissionDeniedException, 
-    ReadOnlyException, 
-    VersionMismatchException {
+    public void testCRUD() throws DoesNotExistException,
+            AlreadyExistsException,
+            OperationFailedException,
+            DataValidationErrorException,
+            InvalidParameterException,
+            MissingParameterException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("testUser1");
         context.setCurrentDate(new Date());
@@ -225,7 +225,7 @@ public class TestTypeServiceImpl {
         assertNotNull(infoRel.getMeta().getUpdateId());
         assertNotNull(infoRel.getMeta().getUpdateTime());
         assertNotNull(infoRel.getMeta().getVersionInd());
-        
+
         // test get relation
         origRel = infoRel;
         infoRel = typeService.getTypeTypeRelation(origRel.getId(), context);
@@ -248,10 +248,10 @@ public class TestTypeServiceImpl {
         assertNotNull(infoRel.getMeta().getUpdateTime());
         assertNotNull(infoRel.getMeta().getVersionInd());
 
-          // test update relation
+        // test update relation
         origRel = infoRel;
         origRel.setRank(2);
-        origRel.setEffectiveDate(new Date (new Date ().getTime() - 1000));
+        origRel.setEffectiveDate(new Date(new Date().getTime() - 1000));
         infoRel = typeService.updateTypeTypeRelation(origRel.getId(), origRel, context);
         assertNotNull(infoRel);
         assertEquals(origRel.getEffectiveDate(), infoRel.getEffectiveDate());
@@ -271,8 +271,8 @@ public class TestTypeServiceImpl {
         assertNotNull(infoRel.getMeta().getUpdateId());
         assertNotNull(infoRel.getMeta().getUpdateTime());
         assertNotNull(infoRel.getMeta().getVersionInd());
-        
-        
+
+
         origRel = new TypeTypeRelationInfo();
         origRel.setEffectiveDate(new Date());
         origRel.setTypeKey(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY);
@@ -299,6 +299,11 @@ public class TestTypeServiceImpl {
                 origRel,
                 context);
 
+        // should be the current state of relationships
+        // owner related
+        // 1        2 allowed
+        // 3        1 group
+        // 3        2 group
         types = typeService.getAllowedTypesForType(type1.getKey(), context);
         assertNotNull(types);
         assertEquals(1, types.size());
@@ -320,5 +325,24 @@ public class TestTypeServiceImpl {
         }
         assertNotNull(found1);
         assertNotNull(found2);
+        
+        // https://jira.kuali.org/browse/KSENROLL-821
+        // test reverse lookup
+        List<TypeTypeRelationInfo> rels =
+                typeService.getTypeTypeRelationsByRelatedTypeAndType(type2.getKey(),
+                TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, context);
+        assertEquals(1, rels.size());
+        assertEquals(TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, rels.get(0).getTypeKey());
+        assertEquals(type1.getKey(), rels.get(0).getOwnerTypeKey());
+        assertEquals(type2.getKey(), rels.get(0).getRelatedTypeKey());
+
+        rels = typeService.getTypeTypeRelationsByRelatedTypeAndType(type2.getKey(),
+                TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
+        assertEquals(1, rels.size());
+        assertEquals(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, rels.get(0).getTypeKey());
+        assertEquals(type3.getKey(), rels.get(0).getOwnerTypeKey());
+        assertEquals(type2.getKey(), rels.get(0).getRelatedTypeKey());
+
+
     }
 }
