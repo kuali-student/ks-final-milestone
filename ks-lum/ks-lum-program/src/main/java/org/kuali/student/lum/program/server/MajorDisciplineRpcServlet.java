@@ -196,11 +196,11 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
             // retrieve all req. component LEAFS
         	for (int i = 0; i < reqComponentInfos.size(); i++) {
-        		ReqComponentInfoUi reqUi = null;
-        		// TODO KSCM-420 reqUi = RulesUtil.clone(reqComponentInfos.get(i));
-        		// TODO KSCM-420 reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en",ContextUtils.getContextInfo()));
-        		// TODO KSCM-420 reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en",ContextUtils.getContextInfo()));
-        		// TODO KSCM-420 reqComponentInfos.set(i, reqUi);
+        		ReqComponentInfoUi reqUi = null; 
+        		reqUi = RulesUtil.clone(reqComponentInfos.get(i));
+        		reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en"));
+        		reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en"));
+        		reqComponentInfos.set(i, reqUi);
         	}
         }
     }

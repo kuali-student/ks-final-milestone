@@ -22,7 +22,7 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r2.core.statement.service.StatementService;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
@@ -692,7 +692,7 @@ public class TestProgramServiceImpl {
 		}
 
     	checkRichText(orig.getDescr(), created.getDescr());
-   //TODO KSCM-420 	checkStatementTreeView(orig.getStatement(), created.getStatement());
+        checkStatementTreeView(R1R2ConverterUtil.convert(orig.getStatement(), StatementTreeViewInfo.class), R1R2ConverterUtil.convert(created.getStatement(), StatementTreeViewInfo.class));
 	}
 
 	private static void checkStatementTreeView(StatementTreeViewInfo statement,
@@ -945,7 +945,7 @@ public class TestProgramServiceImpl {
         treeView.getStatements().set(0, subTree1);
         ProgramRequirementInfo updated = programService.updateProgramRequirement(progReq.getId(), progReq.getTypeKey(), progReq, contextInfo);
         checkProgramRequirement(progReq, updated);
-        statementService.getStatement(oldSubTree1.getId(), contextInfo);
+        statementService.getStatement(oldSubTree1.getId());
 	}
 
     //@Test

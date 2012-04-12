@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel.requirementState;
@@ -23,8 +24,8 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
@@ -147,12 +148,6 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
         setReqCompNL(programRequirementInfo.getStatement());
     }
 
-    //TODO KSCM-420 This method was created to fix 
-    private void setReqCompNL(
-			org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo statement) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	private void setReqCompNL(StatementTreeViewInfo tree) throws Exception {
         List<StatementTreeViewInfo> statements = tree.getStatements();
@@ -167,10 +162,10 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
             // retrieve all req. component LEAFS
         	for (int i = 0; i < reqComponentInfos.size(); i++) {
         		ReqComponentInfoUi reqUi = null;
-        		// TODO KSCM-420 reqUi = RulesUtil.clone(reqComponentInfos.get(i));
-        		// TODO KSCM-420 reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en",ContextUtils.getContextInfo()));
-        		// TODO KSCM-420 reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en",ContextUtils.getContextInfo()));
-        		// TODO KSCM-420 reqComponentInfos.set(i, reqUi);
+        		reqUi = RulesUtil.clone(reqComponentInfos.get(i));
+        		reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en"));
+        		reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en"));
+        		reqComponentInfos.set(i, reqUi);
         	}
         }
     }

@@ -298,7 +298,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                             newStatementTreeViewInfo.getReqComponents().add(reqComp);
                             rule.getStatements().add(newStatementTreeViewInfo);
                         } else {
-                        	// TODO KSCM-420 rule.getReqComponents().add(reqComp);
+                        	rule.getReqComponents().add(reqComp);
                             //set default operator between req. components of the rule
                          if (rule.getOperator() == null) {
                          // TODO KSCM-425 wait for ks-core-ui/paul                                rule.setOperator(StatementOperatorTypeKey.AND);
@@ -327,23 +327,23 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     };
 
     private void retrieveAndSetupReqCompTypes() {
-    	//TODO KSCM-420
-//       statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
-//            public void handleFailure(Throwable cause) {
-//            	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
-//            	Window.alert("Failed to get req. component types for statement of type:" + rule.getType());
-//            }
-//
-//            public void onSuccess(final List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
-//                if (reqComponentTypeInfoList == null || reqComponentTypeInfoList.size() == 0) {
-//                    GWT.log("Missing Requirement Component Types", null);
-//                    Window.alert("Missing Requirement Component Types");
-//                    return;
-//                }
-//                editReqCompWidget.setReqCompList(reqComponentTypeInfoList);
-//                editReqCompWidget.setCustomWidgets(getCustomWidgets(reqComponentTypeInfoList));                
-//            }
-//        },ContextUtils.getContextInfo());
+    
+       statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
+            public void handleFailure(Throwable cause) {
+            	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
+            	Window.alert("Failed to get req. component types for statement of type:" + rule.getType());
+            }
+
+            public void onSuccess(final List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
+                if (reqComponentTypeInfoList == null || reqComponentTypeInfoList.size() == 0) {
+                    GWT.log("Missing Requirement Component Types", null);
+                    Window.alert("Missing Requirement Component Types");
+                    return;
+                }
+                editReqCompWidget.setReqCompList(reqComponentTypeInfoList);
+                editReqCompWidget.setCustomWidgets(getCustomWidgets(reqComponentTypeInfoList));                
+            }
+        });
     }
 
     private Map<String, Widget> getCustomWidgets(List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
@@ -436,17 +436,16 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
      protected Callback<ReqComponentInfo> retrieveCompositionTemplateCallback = new Callback<ReqComponentInfo>(){
        public void exec(final ReqComponentInfo reqComp) {
     	   
-    	   //TODO KSCM-420
-//    	   statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
-//                public void handleFailure(Throwable caught) {
-//                    Window.alert(caught.getMessage());
-//                    GWT.log("translateReqComponentToNL failed for req. comp. type: '" + reqComp.getType() + "'",caught);
-//                }
-//
-//                public void onSuccess(final String compositionTemplate) {
-//                    editReqCompWidget.displayFieldsStart(compositionTemplate);
-//                }
-//            },ContextUtils.getContextInfo());
+    	   statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+                public void handleFailure(Throwable caught) {
+                    Window.alert(caught.getMessage());
+                    GWT.log("translateReqComponentToNL failed for req. comp. type: '" + reqComp.getType() + "'",caught);
+                }
+
+                public void onSuccess(final String compositionTemplate) {
+                    editReqCompWidget.displayFieldsStart(compositionTemplate);
+                }
+            });
         }
     };
 

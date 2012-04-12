@@ -38,9 +38,7 @@ public class StatementDataService implements StatementRpcService{
     public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
     
         List<StatementTypeInfo> allStatementTypes = new ArrayList<StatementTypeInfo>();
-        //TODO KSCM-420 List Types does not match, I commented this out and did  initialize the List as ArrayList
-        //      List<String> topStatementTypes = statementService.getStatementTypesForStatementType(statementTypeKey,ContextUtils.getContextInfo());
-        List<String> topStatementTypes = new ArrayList<String>() ;
+              List<String> topStatementTypes = statementService.getStatementTypesForStatementType(statementTypeKey);
         
         // loop through top statement types like enrollment eligibility and credit constraints
         for (String topStatementType : topStatementTypes) {           
@@ -61,10 +59,7 @@ public class StatementDataService implements StatementRpcService{
     @Transactional(readOnly=true)
     public List<StatementTypeInfo> getStatementTypesForStatementType(String statementTypeKey) throws Exception {
     	
-    	//TODO KSCM-420: Need to rewire this logic to fit the new List types
-        //List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey,ContextUtils.getContextInfo());
-    	// I have instantiated statenames as null
-    	List<String> statementTypeNames = null;
+        List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
         List<StatementTypeInfo> statementTypes = new ArrayList<StatementTypeInfo>();
         for (String statementTypeName : statementTypeNames) {
             statementTypes.add(statementService.getStatementType(statementTypeName));
@@ -106,7 +101,8 @@ public class StatementDataService implements StatementRpcService{
     public List<String> translateReqComponentToNLs(ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys, String language) throws Exception {
     	List<String> nls = new ArrayList<String>(nlUsageTypeKeys.length);
     	for (String typeKey : nlUsageTypeKeys) {
-    		// TODO KSCM-420: nls.add(statementService.translateReqComponentToNL(reqComponentInfo, typeKey, language,contextInfo));
+  
+    		nls.add(statementService.translateReqComponentToNL(reqComponentInfo, typeKey, language));
     	}
     	return nls;
     }
