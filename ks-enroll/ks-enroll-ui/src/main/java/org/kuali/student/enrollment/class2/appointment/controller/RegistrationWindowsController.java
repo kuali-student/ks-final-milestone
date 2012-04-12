@@ -79,6 +79,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         if(window!=null){
             List<AppointmentSlotInfo> slots = getAppointmentService().generateAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
             StatusInfo status = getAppointmentService().generateAppointmentsByWindow(window.getAppointmentWindowInfo().getId(), window.getAppointmentWindowInfo().getTypeKey(), new ContextInfo());
+            //TODO update window state
             if(status.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
                         AppointmentServiceConstants.APPOINTMENT_MSG_INFO_ASSIGNED,window.getAppointmentWindowInfo().getName(), status.getMessage(), String.valueOf(slots.size()));
@@ -99,6 +100,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         AppointmentWindowWrapper window = _getSelectedWindow(uifForm);
         if(window!=null){
             getAppointmentService().deleteAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
+            //TODO update window state
         }
 
         return updateComponent(uifForm, result, request, response);
