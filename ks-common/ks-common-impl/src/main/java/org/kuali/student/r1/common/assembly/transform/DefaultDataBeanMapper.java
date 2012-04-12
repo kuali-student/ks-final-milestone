@@ -27,9 +27,9 @@ import org.kuali.student.r1.common.assembly.data.Data.Key;
 import org.kuali.student.r1.common.assembly.data.Data.Property;
 import org.kuali.student.r1.common.assembly.data.Data.StringKey;
 import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 
 
-@Deprecated
 public class DefaultDataBeanMapper implements DataBeanMapper {
 	public static DataBeanMapper INSTANCE = new DefaultDataBeanMapper();
 	final Logger LOG = Logger.getLogger(DefaultDataBeanMapper.class);	
@@ -250,10 +250,11 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	 * @param value
 	 */
 	protected void setDataAttributes(Data data, Object value, Metadata metadata) {
-		@SuppressWarnings("unchecked")
-		Map<String, String> attributes = (Map<String, String>)value;
 		
-		for (Entry<String, String> entry:attributes.entrySet()){
+	    @SuppressWarnings("unchecked")
+		List<AttributeInfo> attributes = (List<AttributeInfo>)value; //KSCM Merge - if classcastexception still exist, we need to cater for both.
+		
+		for (AttributeInfo entry:attributes){
         	Metadata fieldMetadata = null;
         	if (metadata != null) {
         		fieldMetadata = metadata.getProperties().get(entry.getKey());
