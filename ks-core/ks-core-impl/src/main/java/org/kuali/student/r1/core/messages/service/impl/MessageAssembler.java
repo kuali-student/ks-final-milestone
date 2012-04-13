@@ -22,7 +22,6 @@ import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.r1.core.messages.entity.MessageEntity;
 
-@Deprecated
 public class MessageAssembler {
 
     final static Logger logger = Logger.getLogger(MessageAssembler.class);
@@ -45,8 +44,9 @@ public class MessageAssembler {
 	public static List<Message> toMessageList(List<MessageEntity> messages,
 			Class<Message> message) {
 		List<Message> result = new ArrayList<Message>();
-		Message m1 = new Message();
+		Message m1;
 		for (MessageEntity e : messages) {
+		    m1 = new Message();
 			toMessage(e, m1);
 			result.add(m1);
 		}
