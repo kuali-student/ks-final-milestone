@@ -85,7 +85,7 @@ public class CoreCredentialProgramFilter extends AbstractDataFilter {
         request.setParams(searchParams);
 
         SearchResult searchResult = null;
-        // TODO KSCM-371 searchResult = cluService.search(request, ContextUtils.getContextInfo());
+        searchResult = cluService.search(request);
         if (searchResult.getRows().size() > 0) {
             for (SearchResultRow srrow : searchResult.getRows()) {
                 List<SearchResultCell> srCells = srrow.getCells();

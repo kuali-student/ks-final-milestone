@@ -29,7 +29,7 @@ public abstract class OrgsOfTypeValuesFinder extends StudentKeyValuesBase {
 		searchRequest.setSortDirection(SortDirection.ASC);
 		try {
 			SearchResult results = null;
-			// TODO KSCM-371 results = getOrganizationService().search(searchRequest, null);	// TODO KSCM-371
+			results = getOrganizationService().search(searchRequest);
 
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = "";
