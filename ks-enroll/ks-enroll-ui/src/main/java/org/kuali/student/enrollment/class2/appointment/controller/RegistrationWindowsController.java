@@ -54,6 +54,8 @@ import java.util.List;
 @RequestMapping(value = "/registrationWindows")
 public class RegistrationWindowsController extends UifControllerBase {
 
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RegistrationWindowsController.class);
+
     private AcademicCalendarService acalService;
 
     private AppointmentService appointmentService;
@@ -77,12 +79,17 @@ public class RegistrationWindowsController extends UifControllerBase {
         //Now do the assignments of slots and students
         AppointmentWindowWrapper window = _getSelectedWindow(uifForm);
         if(window!=null){
+
+            //Create the appointment slots and assign students
             List<AppointmentSlotInfo> slots = getAppointmentService().generateAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
             StatusInfo status = getAppointmentService().generateAppointmentsByWindow(window.getAppointmentWindowInfo().getId(), window.getAppointmentWindowInfo().getTypeKey(), new ContextInfo());
-            //TODO update window state
+
+            //Get feedback to the user6
             if(status.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
                         AppointmentServiceConstants.APPOINTMENT_MSG_INFO_ASSIGNED,window.getAppointmentWindowInfo().getName(), status.getMessage(), String.valueOf(slots.size()));
+                //Update window state
+                window.getAppointmentWindowInfo().setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY);
             }else{
                 //There was an error
                 GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
@@ -96,11 +103,26 @@ public class RegistrationWindowsController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=breakAppointments")
     public ModelAndView breakAppointments(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ///First save all the windows
+        _saveWindows(uifForm);
 
+        //Break appointments
         AppointmentWindowWrapper window = _getSelectedWindow(uifForm);
         if(window!=null){
-            getAppointmentService().deleteAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
-            //TODO update window state
+
+            //Delete the appointment slots and appointments for this window
+            StatusInfo status = getAppointmentService().deleteAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
+            if(status.getIsSuccess()){
+                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                        AppointmentServiceConstants.APPOINTMENT_MSG_INFO_BREAK_APPOINTMENTS_SUCCESS);
+
+                //Update window state back to draft
+                window.getAppointmentWindowInfo().setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
+            }else{
+                //There was an error
+                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                        AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE, status.getMessage());
+            }
         }
 
         return updateComponent(uifForm, result, request, response);
@@ -111,6 +133,13 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
 
+        ///First save all the windows
+        try{
+            _saveWindows(theForm);
+        }catch (Exception e){
+            throw new RuntimeException("Error saving Appointment Window.",e);
+        }
+
         AppointmentWindowWrapper window = _getSelectedWindow(theForm);
         if(window!=null&&window.getAppointmentWindowInfo().getId() != null && !theForm.getAppointmentWindowIdsToDelete().contains(window.getAppointmentWindowInfo().getId())){
             //Add to the list of windows to delete
@@ -118,6 +147,21 @@ public class RegistrationWindowsController extends UifControllerBase {
         }
 
         return super.deleteLine(uifForm, result, request, response);
+    }
+
+    //Overridden to save the model after user clicks add line
+    @Override
+    public ModelAndView addLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
+
+        ///First save all the windows
+        try{
+            _saveWindows(theForm);
+        }catch (Exception e){
+            throw new RuntimeException("Error saving Appointment Window.",e);
+        }
+
+        return super.addLine(uifForm, result, request, response);
     }
 
     private AppointmentWindowWrapper _getSelectedWindow(RegistrationWindowsManagementForm uifForm) {
@@ -190,17 +234,12 @@ public class RegistrationWindowsController extends UifControllerBase {
 
             for(AppointmentWindowWrapper appointmentWindowWrapper:form.getAppointmentWindows()){
 
-                //Copy the form data from the wrapper to the bean. //TODO(should this be done in the wrapper bean?)
+                //Copy the form data from the wrapper to the bean.
                 AppointmentWindowInfo appointmentWindowInfo = appointmentWindowWrapper.getAppointmentWindowInfo();
                 appointmentWindowInfo.setTypeKey(appointmentWindowWrapper.getWindowTypeKey());
                 appointmentWindowInfo.setPeriodMilestoneId(appointmentWindowWrapper.getPeriodKey());
                 appointmentWindowInfo.setStartDate(_updateTime(appointmentWindowWrapper.getStartDate(), appointmentWindowWrapper.getStartTime(), appointmentWindowWrapper.getStartTimeAmPm()));
                 appointmentWindowInfo.setEndDate(_updateTime(appointmentWindowWrapper.getEndDate(), appointmentWindowWrapper.getEndTime(), appointmentWindowWrapper.getEndTimeAmPm()));
-
-                //TODO Periods are not working since the term search isn't working. Delete this block when fixed
-                if(appointmentWindowInfo.getPeriodMilestoneId() == null || appointmentWindowInfo.getPeriodMilestoneId().isEmpty()){
-                    appointmentWindowInfo.setPeriodMilestoneId("DUMMY_ID");
-                }
 
                 //TODO Default to some value if nothing is entered(Service team needs to make up some real types or make not nullable)
                 if(appointmentWindowInfo.getAssignedOrderTypeKey() == null || appointmentWindowInfo.getAssignedOrderTypeKey().isEmpty()){
