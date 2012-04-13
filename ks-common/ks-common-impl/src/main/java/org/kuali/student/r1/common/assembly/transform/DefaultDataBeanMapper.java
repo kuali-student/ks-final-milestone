@@ -251,6 +251,10 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	 */
 	protected void setDataAttributes(Data data, Object value, Metadata metadata) {
 		
+	    if (value == null){
+	        return;
+	    }
+	    
 	    @SuppressWarnings("unchecked")
 		List<AttributeInfo> attributes = (List<AttributeInfo>)value; //KSCM Merge - if classcastexception still exist, we need to cater for both.
 		
