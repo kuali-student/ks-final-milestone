@@ -54,7 +54,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 				if(loDisplay.getLoDisplayInfoList().size()>1){
 					Collections.sort(loDisplay.getLoDisplayInfoList(), LoDisplayComparator.getInstance());
 				}
-						} catch (DoesNotExistException e) {
+			} catch (DoesNotExistException e) {
 			} catch (Exception e) {
 				throw new AssemblyException("Error getting learning objective", e);
 			}
@@ -308,7 +308,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		    String o2Sequence = null;
             for(AttributeInfo attribute : o2.getLoInfo().getAttributes()){
                 if (attribute.getKey().equals(CourseAssemblerConstants.COURSE_LO_SEQUENCE)){
-                    o1Sequence = attribute.getValue(); 
+                    o2Sequence = attribute.getValue(); 
                 }
             }
 			
