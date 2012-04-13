@@ -111,7 +111,7 @@
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
-    <bean id="enumDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao">
+    <bean id="enumerationDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao">
         <property name="em" ref="entityManager"/>
     </bean>
 
@@ -124,7 +124,7 @@
     </bean>
 
     <bean id="enumerationServiceImpl" class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
-        <property name="enumDao" ref="enumDao"/>
+        <property name="enumDao" ref="enumerationDao"/>
         <property name="enumValueDao" ref="enumValueDao"/>
         <property name="enumContextValueDao" ref="enumContextValueDao"/>
     </bean>

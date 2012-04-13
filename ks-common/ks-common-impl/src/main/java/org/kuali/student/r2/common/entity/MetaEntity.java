@@ -8,18 +8,13 @@
 
 package org.kuali.student.r2.common.entity;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.infc.HasMeta;
 import org.kuali.student.r2.common.infc.Meta;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @MappedSuperclass
 @Embeddable
@@ -29,17 +24,17 @@ public abstract class MetaEntity extends BaseVersionEntity {
     // @Version
     // private long versionInd;
 
-    // kscm-313@Temporal(TemporalType.TIMESTAMP)
-    // kscm-313@Column(updatable = false)
- // kscm-313private Date createTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = false)
+    private Date createTime;
 
-    // kscm-313 @Column(updatable = false)
- // kscm-313private String createId;
+    @Column(updatable = false)
+    private String createId;
 
-    // kscm-313@Temporal(TemporalType.TIMESTAMP)
- // kscm-313private Date updateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateTime;
 
- // kscm-313private String updateId;
+    private String updateId;
 
     // public long getVersionInd() {
     // return versionInd;
@@ -69,39 +64,37 @@ public abstract class MetaEntity extends BaseVersionEntity {
     }
 
     public Date getCreateTime() {
-     // kscm-313return createTime;
-        return null;
+        return createTime;
     }
 
     public void setCreateTime(Date createTime) {
-     // kscm-313this.createTime = createTime;
+        this.createTime = createTime;
     }
 
     public String getCreateId() {
-     // kscm-313return createId;
-        return null;
+        return createId;
     }
 
     public void setCreateId(String createId) {
-     // kscm-313this.createId = createId;
+        this.createId = createId;
     }
 
     public Date getUpdateTime() {
-     // kscm-313return updateTime;
-        return null;
+        return updateTime;
+
     }
 
     public void setUpdateTime(Date updateTime) {
-     // kscm-313this.updateTime = updateTime;
+        this.updateTime = updateTime;
     }
 
     public String getUpdateId() {
-     // kscm-313return updateId;
-        return null;
+        return updateId;
+
     }
 
     public void setUpdateId(String updateId) {
-     // kscm-313this.updateId = updateId;
+        this.updateId = updateId;
     }
 
     @Override

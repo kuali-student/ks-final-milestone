@@ -15,17 +15,6 @@
 
 package org.kuali.student.r2.core.class1.enumerationmanagement.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -35,30 +24,34 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.infc.Enumeration;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "KSEM_ENUM_T")
 @AttributeOverrides({
-    @AttributeOverride(name="id", column=@Column(name="ENUM_KEY"))})
+        @AttributeOverride(name = "id", column = @Column(name = "ENUM_KEY"))})
 public class EnumerationEntity extends MetaEntity implements AttributeOwner<EnumerationAttributeEntity> {
-    
+
     @Column(name = "NAME")
     private String name;
-    
- // kscm-313@Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
- // kscm-313private String formatted;
 
- // kscm-313@Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
- // kscm-313private String plain;
-    
- // kscm-313@Column(name = "ENUM_TYPE", nullable = false)
- // kscm-313private String enumerationType;
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String formatted;
 
- // kscm-313@Column(name = "ENUM_STATE", nullable = false)
- // kscm-313private String enumerationState;
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
+    private String plain;
 
- // kscm-313@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
- // kscm-313private List<EnumerationAttributeEntity> attributes = new ArrayList<EnumerationAttributeEntity>();
-    
+    @Column(name = "ENUM_TYPE", nullable = false)
+    private String enumerationType;
+
+    @Column(name = "ENUM_STATE", nullable = false)
+    private String enumerationState;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<EnumerationAttributeEntity> attributes;
+
     public EnumerationEntity() {
     }
 
@@ -70,7 +63,7 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
             this.setDescrFormatted(enumeration.getDescr().getFormatted());
             this.setDescrPlain(enumeration.getDescr().getPlain());
         }
-        
+
         this.setAttributes(new ArrayList<EnumerationAttributeEntity>());
         if (null != enumeration.getAttributes()) {
             for (Attribute att : enumeration.getAttributes()) {
@@ -86,60 +79,60 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public String getDescrFormatted() {
-     // kscm-313 return formatted;
-        return null;
+        return formatted;
+
     }
 
     public void setDescrFormatted(String formatted) {
-     // kscm-313this.formatted = formatted;
+        this.formatted = formatted;
     }
 
     public String getDescrPlain() {
-     // kscm-313return plain;
-        return null;
+        return plain;
+
     }
 
     public void setDescrPlain(String plain) {
-     // kscm-313 this.plain = plain;
+        this.plain = plain;
     }
-    
+
     public String getEnumerationType() {
-     // kscm-313  return enumerationType;
-        return null;
+        return enumerationType;
+
     }
 
     public void setEnumerationType(String enumerationType) {
-     // kscm-313  this.enumerationType = enumerationType;
+        this.enumerationType = enumerationType;
     }
 
     public String getEnumerationState() {
-     // kscm-313 return enumerationState;
-        return null;
+        return enumerationState;
+
     }
 
     public void setEnumerationState(String enumerationState) {
-     // kscm-313 this.enumerationState = enumerationState;
+        this.enumerationState = enumerationState;
     }
-    
+
     @Override
     public void setAttributes(List<EnumerationAttributeEntity> attributes) {
-     // kscm-313this.attributes = attributes;
+        this.attributes = attributes;
     }
 
     @Override
     public List<EnumerationAttributeEntity> getAttributes() {
-     // kscm-313return attributes;
-        return null;
+        return attributes;
+
     }
-   
+
     public EnumerationInfo toDto() {
         EnumerationInfo enumeration = new EnumerationInfo();
         enumeration.setKey(getId());
         enumeration.setName(name);
-     // kscm-313enumeration.setTypeKey(enumerationType);
-     // kscm-313enumeration.setStateKey(enumerationState);
+        enumeration.setTypeKey(enumerationType);
+        enumeration.setStateKey(enumerationState);
         enumeration.setMeta(super.toDTO());
 
         RichTextInfo rti = new RichTextInfo();
@@ -153,7 +146,7 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
             enumerations.add(attInfo);
         }
         enumeration.setAttributes(enumerations);
-        
+
         return enumeration;
     }
 

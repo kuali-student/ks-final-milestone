@@ -208,7 +208,7 @@
         <property name="entityManagerFactory" ref="emEntityManagerFactory" />
     </bean>
 
-    <bean id="enumDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao">
+    <bean id="enumerationDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao">
         <property name="em" ref="emEntityManager"/>
     </bean>
 
@@ -222,7 +222,7 @@
 
     <bean id="emServiceImpl"
         class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
-        <property name="enumDao" ref="enumDao" />
+        <property name="enumDao" ref="enumerationDao" />
         <property name="enumValueDao" ref="enumValueDao"/>
         <property name="enumContextValueDao" ref="enumContextValueDao"/>
     </bean>

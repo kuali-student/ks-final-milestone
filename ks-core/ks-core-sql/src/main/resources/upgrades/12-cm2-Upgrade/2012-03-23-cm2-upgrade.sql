@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------------------------------------
--- *These scripts was used TO laod DB -  do normal load via impex
+-- *These scripts was used TO load DB -  do normal load via impex
 --  and then apply the following 2 *
 ---------------------------------------------------------------------------------------------------------
 --1---
@@ -112,3 +112,15 @@ CREATE TABLE KSLU_CLU_IDENT
 )
 /
 
+
+ALTER TABLE KSEM_CTX_T ADD (CREATEID VARCHAR2(255) NOT NULL, CREATETIME TIMESTAMP(6) NOT NULL, UPDATEID VARCHAR2(255) NULL, UPDATETIME TIMESTAMP(6) NULL)
+/
+ALTER TABLE KSEM_ENUM_T ADD (CREATEID VARCHAR2(255) NOT NULL, CREATETIME TIMESTAMP(6) NOT NULL, UPDATEID VARCHAR2(255) NULL, UPDATETIME TIMESTAMP(6) NULL)
+/
+ALTER TABLE KSEM_ENUM_VAL_T ADD (CREATEID VARCHAR2(255) NOT NULL, CREATETIME TIMESTAMP(6) NOT NULL, UPDATEID VARCHAR2(255) NULL, UPDATETIME TIMESTAMP(6) NULL)
+/
+ALTER TABLE KSEM_ENUM_T RENAME COLUMN DESCR TO DESCR_PLAIN
+/
+ALTER TABLE KSEM_ENUM_T ADD (ENUM_TYPE VARCHAR2(255) NULL, ENUM_STATE VARCHAR2(255) NULL)
+/
+-- TODO CJB change KSEM_ENUM_VAL_T.SORT_KEY to a varchar
