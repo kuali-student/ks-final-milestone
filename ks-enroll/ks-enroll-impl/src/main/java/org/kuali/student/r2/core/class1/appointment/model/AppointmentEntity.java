@@ -16,18 +16,19 @@
 
 package org.kuali.student.r2.core.class1.appointment.model;
 
+import java.util.ArrayList;
 import org.kuali.student.r2.core.appointment.infc.Appointment;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.r2.common.infc.Attribute;
 
 
 /**
- * This class //TODO ...
+ * JPA Entity for the appointment table
  *
  * @author Kuali Student Team
  */
@@ -39,7 +40,6 @@ public class AppointmentEntity extends MetaEntity {
     String apptType;
     @Column(name = "APPT_STATE")
     String apptState;
-
 
     @Column(name = "PERS_ID")
     String personId;
@@ -56,6 +56,8 @@ public class AppointmentEntity extends MetaEntity {
     @Column(name = "EXPIR_DT")
     Date expirationDate;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<AppointmentAttributeEntity> attributes = new ArrayList<AppointmentAttributeEntity>();
 
     public AppointmentEntity() {
 
@@ -63,12 +65,9 @@ public class AppointmentEntity extends MetaEntity {
 
     public AppointmentEntity(Appointment appointment) {
         super(appointment);
-        // TODO: This seems like a lot to set...services team should look
-        this.setApptState(appointment.getStateKey());
+        this.setId(appointment.getId());
         this.setApptType(appointment.getTypeKey());
         this.setPersonId(appointment.getPersonId());
-        this.setEffectiveDate(appointment.getEffectiveDate());
-        this.setExpirationDate(appointment.getExpirationDate());
 
         this.fromDto(appointment);
     }
@@ -121,32 +120,49 @@ public class AppointmentEntity extends MetaEntity {
         this.expirationDate = expirationDate;
     }
 
+    public List<AppointmentAttributeEntity> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<AppointmentAttributeEntity> attributes) {
+        this.attributes = attributes;
+    }
+    
     public AppointmentInfo toDto() {
-        AppointmentInfo appointmentInfo = new AppointmentInfo();
-        appointmentInfo.setPersonId(this.getPersonId());
-        appointmentInfo.setSlotId(this.getSlotEntity().getId());
-        appointmentInfo.setEffectiveDate(this.getEffectiveDate());
-        appointmentInfo.setExpirationDate(this.getExpirationDate());
+        AppointmentInfo info = new AppointmentInfo();
         // -------------------------------------------------
         // Stuff that is updated for nearly all entities
-        appointmentInfo.setId(getId()); // id is assumed not null
-        appointmentInfo.setTypeKey(getApptType()); // type is assumed not null
-        appointmentInfo.setStateKey(getApptState()); // state is assumed not null
-        appointmentInfo.setMeta(super.toDTO());
-        // TODO: Attributes have not been implemented for Appointments since not needed right now.
-        return appointmentInfo;
+        info.setId(getId()); // id is assumed not null
+        info.setTypeKey(getApptType()); // type is assumed not null
+        info.setStateKey(getApptState()); // state is assumed not null
+        info.setPersonId(this.getPersonId());
+        info.setSlotId(this.getSlotEntity().getId());
+        info.setEffectiveDate(this.getEffectiveDate());
+        info.setExpirationDate(this.getExpirationDate());
+        info.setMeta(super.toDTO());
+        if (getAttributes() != null) {
+            for (AppointmentAttributeEntity att : getAttributes()) {
+                info.getAttributes().add(att.toDto());
+            }
+        }
+        return info;
     }
 
     public void fromDto(Appointment appt) {
         this.setApptState(appt.getStateKey());
-        this.setApptType(appt.getTypeKey());
-        this.setPersonId(appt.getPersonId());
+        this.setEffectiveDate(appt.getEffectiveDate());
+        this.setExpirationDate(appt.getExpirationDate());
         //
         // Note: apptSlotEntity can't be set from appt which only contains the
         // id (which is a string) for AppointmentSlot.  When constructing an AppointmentEntity
         // in AppointmentServiceImpl, one needs to use the appointmentSlotDao to "find" (call the find
         // method) to get the AppointmentSlotEntity and call setSlotEntity to set the value
         // separately
+        // Add attributes individually
+        this.setAttributes(new ArrayList<AppointmentAttributeEntity>());
+        for (Attribute att : appt.getAttributes()) {
+            this.getAttributes().add(new AppointmentAttributeEntity(att, this));
+        }
     }
 
 }

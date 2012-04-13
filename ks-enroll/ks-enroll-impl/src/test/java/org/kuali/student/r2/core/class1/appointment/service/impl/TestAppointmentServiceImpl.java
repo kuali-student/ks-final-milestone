@@ -16,7 +16,6 @@
  */
 package org.kuali.student.r2.core.class1.appointment.service.impl;
 
-import com.sun.corba.se.spi.ior.MakeImmutable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.util.UUIDHelper;

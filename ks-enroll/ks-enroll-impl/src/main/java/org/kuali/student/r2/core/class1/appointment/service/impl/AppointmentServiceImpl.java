@@ -106,13 +106,22 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     @Transactional(readOnly = true)
     public AppointmentInfo getAppointment(@WebParam(name = "appointmentId") String appointmentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+      AppointmentEntity entity = this.appointmentDao.find(appointmentId);
+      if (entity == null) {
+          throw new DoesNotExistException (appointmentId);
+      }
+      return entity.toDto();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<AppointmentInfo> getAppointmentsByIds(@WebParam(name = "appointmentIds") List<String> appointmentIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<AppointmentEntity> entities = this.appointmentDao.findByIds(appointmentIds);
+        List<AppointmentInfo> list = new ArrayList<AppointmentInfo> (entities.size());
+        for (AppointmentEntity entity : entities) {
+          list.add (entity.toDto());
+        }
+        return list;
     }
 
     @Override
@@ -170,8 +179,12 @@ public class AppointmentServiceImpl implements AppointmentService {
      * This is pulled out so other methods can call this without the transactional behavior.
      */
     private AppointmentInfo _createAppointmentNoTransact(String personId, String appointmentSlotId, String appointmentTypeKey, AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        AppointmentEntity  appointmentEntity = new AppointmentEntity();
-        appointmentEntity.fromDto(appointmentInfo);
+        AppointmentEntity  appointmentEntity = new AppointmentEntity(appointmentInfo);
+        appointmentEntity.setCreateId(contextInfo.getPrincipalId());
+        appointmentEntity.setCreateTime(contextInfo.getCurrentDate());
+        appointmentEntity.setUpdateId(contextInfo.getPrincipalId());
+        appointmentEntity.setUpdateTime(contextInfo.getCurrentDate());
+        
         // TODO: Determine if there should be a check between apptType/slotId and apptInfo counterparts
         // Need to manually set the entity since appointmentInfo only has an id for its corresponding AppointmentSlot
         AppointmentSlotEntity slotEntity = appointmentSlotDao.find(appointmentSlotId);
@@ -651,7 +664,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public AppointmentSlotInfo createAppointmentSlot(String appointmentWindowId, String appointmentSlotTypeKey, AppointmentSlotInfo appointmentSlotInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentSlotEntity appointmentSlotEntity = new AppointmentSlotEntity(appointmentSlotTypeKey, appointmentSlotInfo);
-        appointmentSlotEntity.fromDto(appointmentSlotInfo);
+        appointmentSlotEntity.setCreateId(contextInfo.getPrincipalId());
+        appointmentSlotEntity.setCreateTime(contextInfo.getCurrentDate());
+        appointmentSlotEntity.setUpdateId(contextInfo.getPrincipalId());
+        appointmentSlotEntity.setUpdateTime(contextInfo.getCurrentDate());
         // Need to manually set the entity since appointmentSlotInfo only has an id for its corresponding AppointmentWindow
         AppointmentWindowEntity windowEntity = appointmentWindowDao.find(appointmentWindowId);
         if(null == windowEntity) {
@@ -960,18 +976,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentSlotInfo updateAppointmentSlot(String appointmentSlotId, AppointmentSlotInfo appointmentSlotInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         AppointmentSlotEntity appointmentSlotEntity = appointmentSlotDao.find(appointmentSlotId);
         if (null != appointmentSlotEntity) {
-            String apptWinId = appointmentSlotEntity.getApptWinEntity().getId();
-            AppointmentWindowEntity appointmentWindowEntity = appointmentWindowDao.find(apptWinId);
-            if (null != appointmentWindowEntity) {
                 appointmentSlotEntity.fromDto(appointmentSlotInfo);
                 appointmentSlotEntity.setUpdateId(contextInfo.getPrincipalId());
                 appointmentSlotEntity.setUpdateTime(contextInfo.getCurrentDate());
                 appointmentSlotDao.merge(appointmentSlotEntity);
                 return appointmentSlotEntity.toDto();
-            } else {
-                // Prefixing this since this refers to an appointment window
-                throw new DoesNotExistException("appointmentWindowEntity:" + apptWinId);
-            }
         } else {
             throw new DoesNotExistException(appointmentSlotId);
         }
@@ -985,6 +994,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         AppointmentSlotEntity apptSlot = appointmentSlotDao.find(appointmentSlotId);
         if (null != apptSlot) {
+            appointmentSlotDao.remove(apptSlot);
+            // TODO: remove this cascading delete it is not how the contract is specified should throw DependentObjectsExistsException
             _deleteAppointmentsBySlot(apptSlot.getId());
         } else {
             throw new DoesNotExistException(appointmentSlotId);

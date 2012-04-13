@@ -182,7 +182,9 @@ public abstract class AppointmentServiceDecorator implements AppointmentService 
     }
 
     @Override
-    public StatusInfo deleteAppointmentWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteAppointmentWindow(String appointmentWindowId, ContextInfo contextInfo) throws
+            DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteAppointmentWindow(appointmentWindowId, contextInfo);
     }
 
