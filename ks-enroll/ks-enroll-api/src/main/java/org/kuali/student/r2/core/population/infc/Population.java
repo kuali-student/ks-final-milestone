@@ -15,7 +15,9 @@
 
 package org.kuali.student.r2.core.population.infc;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
+import java.util.List;
+
+import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
@@ -25,5 +27,37 @@ import org.kuali.student.r2.common.infc.KeyEntity;
  * @since Thu Nov 21 14:22:34 EDT 2011
  */ 
 
-public interface Population extends KeyEntity {
+public interface Population extends IdEntity {
+
+    /**
+     * Gets the valid sort order keys that can be used to sort the
+     * members of the Population. The valid sort order keys correspond
+     * to the underlying rule sorting capabilities and are surfaced
+     * here to assist with service operations.
+     *
+     * @name Sort Order Type Keys
+     * @readonly
+     */
+    public List<String> getSortOrderTypeKeys();
+
+    /**
+     * Tests to see if the Population can vary by time. Some
+     * underlying rules may provide the caopability for a Population
+     * to vary by time where membership may be queried for a specific
+     * time in the past or future.
+     *
+     * @name Varies By Time
+     * @readonly
+     */
+    public Boolean getVariesByTime();
+
+    /**
+     * Gets a list of Populations contained within this
+     * Population. This is an informational field derived from the
+     * corresponding PopulationRule.
+     *
+     * @name Sub Population Ids
+     * @readonly
+     */
+    public List<String> getSubPopulationIds();
 }

@@ -17,11 +17,3 @@ function tabToNextInput(e) {
         }
     }
 }
-
-function confirmDeletion(msg){
-    var response = confirm(msg);
-
-    if( response == true ){
-      submitForm();
-    }
-}

@@ -4401,7 +4401,7 @@
         <column name="APPT_SLOT_TYPE" required="true" size="255" type="VARCHAR"/>
         <column name="APPT_SLOT_STATE" required="true" size="255" type="VARCHAR"/>
         <column name="START_DT" required="true" type="TIMESTAMP"/>
-        <column name="END_DT" type="TIMESTAMP"/>
+        <column name="END_DT" required="true" type="TIMESTAMP"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CREATETIME" required="true" type="TIMESTAMP"/>
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>

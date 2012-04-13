@@ -94,7 +94,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         if(keyDates != null){
 
             //Get the valid period types
-            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.registration","kuali.type.type.relation.type.group",new ContextInfo());
+            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydate","kuali.type.type.relation.type.group",new ContextInfo());
             List<String> validMilestoneTypes = new ArrayList<String>();
             for(TypeTypeRelationInfo milestoneTypeRelation:milestoneTypeRelations){
                 validMilestoneTypes.add(milestoneTypeRelation.getRelatedTypeKey());
@@ -122,12 +122,19 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     public void loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {
         ContextInfo context = TestHelper.getContext1();
 //        try {
-        TermInfo term = getAcalService().getTerm(termId, context);
-
-        if (term.getId() != null && !term.getId().isEmpty()) {
-            form.setTermInfo(term);
-            loadPeriods(termId, form);
-        }
+            TermInfo term = getAcalService().getTerm(termId, context);
+            if (term.getId() != null && !term.getId().isEmpty()) {
+                form.setTermInfo(term);
+                List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
+                List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(term.getId(), context);
+                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+                    if (AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+                        System.out.println(">>>find "+keyDateInfo.getName());
+                        periodMilestones.add (keyDateInfo);
+                    }
+                }
+                form.setPeriodMilestones(periodMilestones);
+            }
 //        }catch (DoesNotExistException dnee){
 //            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get DoesNotExistException:  "+dnee.toString());
 //        }catch (InvalidParameterException ipe){
@@ -141,25 +148,6 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 //        }
 
     }
-
-    public void loadPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {
-        ContextInfo context = TestHelper.getContext1();
-        List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
-        List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(termId, context);
-        List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.registration","kuali.type.type.relation.type.group",context);
-        for (KeyDateInfo keyDateInfo : keyDateInfoList) {
-            for (TypeTypeRelationInfo relationInfo : relations) {
-                String relatedTypeKey = relationInfo.getRelatedTypeKey();
-                if (keyDateInfo.getTypeKey().equals(relatedTypeKey))  {
-                    periodMilestones.add(keyDateInfo);
-                    break;
-                }
-            }
-        }
-
-        form.setPeriodMilestones(periodMilestones);
-    }
-
 
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof AppointmentWindowWrapper){
@@ -186,7 +174,6 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             String periodId = form.getPeriodId();
             if (periodId != "all" && !periodId.isEmpty()){
                 newCollectionLine.setPeriodName(form.getPeriodName());
-                newCollectionLine.setPeriodKey(form.getPeriodId());
             }
         }
     }

@@ -9,7 +9,7 @@
 
     <bean id="KS-AcademicCalendar-CopyPage" parent="Uif-Page"
           p:id="academicCalendarCopyPage"
-          p:title="Create New Academic Calendar"
+          p:title="Create New AcademicCalendar Calendar"
           p:header.id="KS-AcademicCalendar-CopyView-header"
           p:disclosure.render="false">
         <property name="header">
@@ -22,7 +22,8 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField"
-                                  p:messageText="When copying an Academic Calendar, all term and milestone names, as well as dates and times from the source calendar are copied."/>
+                                  p:messageText="Information from the existing calendar will copied over. Dates will recalculated to accurately reflect the new calendar's start date."
+                                  p:id="KS-AcademicCalendar-CopyView-header-text" />
                             <bean parent="Uif-ActionLink" p:methodToCall="toCreate" p:actionLabel="Start a blank calendar instead?" p:style="text-align:center;"/>
                         </list>
                     </property>

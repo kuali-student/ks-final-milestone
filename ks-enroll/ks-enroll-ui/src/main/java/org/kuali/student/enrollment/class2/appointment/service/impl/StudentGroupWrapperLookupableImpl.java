@@ -72,7 +72,7 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
             if(!populationInfos.isEmpty()){
                 for(PopulationInfo populationInfo:populationInfos){
                     StudentGroupWrapper studentGroupWrapper = new StudentGroupWrapper();
-                    studentGroupWrapper.setId(populationInfo.getKey());
+                    studentGroupWrapper.setId(populationInfo.getId());
                     studentGroupWrapper.setName(populationInfo.getName());
                     studentGroupWrapper.setDescription(populationInfo.getDescr().getPlain());
                     results.add(studentGroupWrapper);

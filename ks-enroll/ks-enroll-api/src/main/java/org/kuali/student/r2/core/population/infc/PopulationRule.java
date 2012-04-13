@@ -1,8 +1,9 @@
 /**
- * Copyright 2011 The Kuali Foundation Licensed under the Educational
- * Community License, Version 2.0 (the "License"); you may not use
- * this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Copyright 2011 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
@@ -25,11 +26,15 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
  * Information about a Population Rule to set up a Population. Each
  * "rule" defined in this interface adds to the population.
  *
+ * The Population Rule Type determines the "operator" of how these
+ * elements are combined.
+ *
  * @author tom
  * @since Thu Nov 21 14:22:34 EDT 2011
  */ 
 
-public interface PopulationRule extends IdEntity {
+public interface PopulationRule 
+    extends IdEntity {
 
     /**
      * The search criteria to be used in building this
@@ -40,11 +45,11 @@ public interface PopulationRule extends IdEntity {
     public QueryByCriteria getSearchCriteria();
 
     /**
-     * A Statement Ids to be used in building this population.
+     * Agenda Ids to be used in building this population.
      *
-     * @name Statement Ids
+     * @name Agenda Ids
      */
-    public List<String> getStatementIds();
+    public List<String> getAgendaIds();
 
     /**
      * A list of Group Ids to be used in building this population.
@@ -62,9 +67,27 @@ public interface PopulationRule extends IdEntity {
 
     /**
      * A list of Population Ids to be used in building this
-     * population.
+     * population. The operation is determined by the PopuationRule
+     * Type.
      *
      * @name Population Ids
      */
-    public List<String> getPopulationKeys();
+    public List<String> getPopulationIds();
+
+    /**
+     * A Popiulation Id to be used as a reference population for the
+     * PopulationRule Type.
+     *
+     * @name Reference Population Id
+     */
+    public String getReferencePopulationId();
+
+    /**
+     * Gets the valid sort order keys that can be used to sort the
+     * members of the Population. The valid sort order keys correspond
+     * to the underlying rule sorting capabilities.
+     *
+     * @name Sort Order Type Keys
+     */
+    public List<String> getSortOrderTypeKeys();
 }

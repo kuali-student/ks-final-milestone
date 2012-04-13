@@ -35,11 +35,13 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PopulationRuleInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "searchCriteria", "statementIds", 
-                "groupIds", "personIds", "populationKeys", "meta", "attributes",
-		"_futureElements" })
+                "stateKey", "name", "descr", "searchCriteria", "agendaIds", 
+                "groupIds", "personIds", "populationIds", 
+                "referencePopulationId", "sortOrderTypeKeys", 
+                "meta", "attributes", "_futureElements" })
 
-public class PopulationRuleInfo extends IdEntityInfo 
+public class PopulationRuleInfo 
+    extends IdEntityInfo 
     implements PopulationRule, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,7 +50,7 @@ public class PopulationRuleInfo extends IdEntityInfo
     private QueryByCriteria searchCriteria;
 
     @XmlElement
-    private List<String> statementIds;
+    private List<String> agendaIds;
 
     @XmlElement
     private List<String> groupIds;
@@ -57,7 +59,13 @@ public class PopulationRuleInfo extends IdEntityInfo
     private List<String> personIds;
 
     @XmlElement
-    private List<String> populationKeys;
+    private List<String> populationIds;
+
+    @XmlElement
+    private String referencePopulationId;
+
+    @XmlElement
+    private List<String> sortOrderTypeKeys;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -80,8 +88,8 @@ public class PopulationRuleInfo extends IdEntityInfo
 
         if (populationRule != null) {
             this.searchCriteria = populationRule.getSearchCriteria(); /* fix */
-            if (populationRule.getStatementIds() != null) {
-                this.statementIds = new ArrayList<String>(populationRule.getStatementIds());
+            if (populationRule.getAgendaIds() != null) {
+                this.agendaIds = new ArrayList<String>(populationRule.getAgendaIds());
             }
             
             if (populationRule.getGroupIds() != null) {
@@ -92,9 +100,15 @@ public class PopulationRuleInfo extends IdEntityInfo
                 this.personIds = new ArrayList<String>(populationRule.getPersonIds());
             }
             
-            if (populationRule.getPopulationKeys() != null) {
-                this.populationKeys = new ArrayList<String>(populationRule.getPopulationKeys());
+            if (populationRule.getPopulationIds() != null) {
+                this.populationIds = new ArrayList<String>(populationRule.getPopulationIds());
             }
+
+            this.referencePopulationId = populationRule.getReferencePopulationId();
+
+            if (populationRule.getSortOrderTypeKeys() != null) {
+                this.sortOrderTypeKeys = new ArrayList<String>(populationRule.getSortOrderTypeKeys());
+            }            
         }
     }
 
@@ -108,16 +122,16 @@ public class PopulationRuleInfo extends IdEntityInfo
     }
 
     @Override
-    public List<String> getStatementIds() {
-        if (this.statementIds == null) {
-            this.statementIds = new ArrayList<String>();
+    public List<String> getAgendaIds() {
+        if (this.agendaIds == null) {
+            this.agendaIds = new ArrayList<String>();
         }
 
-        return this.statementIds;
+        return this.agendaIds;
     }
 
-    public void setStatementIds(List<String> statementIds) {
-        this.statementIds = statementIds;
+    public void setAgendaIds(List<String> agendaIds) {
+        this.agendaIds = agendaIds;
     }
 
     @Override
@@ -147,15 +161,38 @@ public class PopulationRuleInfo extends IdEntityInfo
     }
 
     @Override
-    public List<String> getPopulationKeys() {
-        if (this.populationKeys == null) {
-            this.populationKeys = new ArrayList<String>();
+    public List<String> getPopulationIds() {
+        if (this.populationIds == null) {
+            this.populationIds = new ArrayList<String>();
         }
 
-        return this.populationKeys;
+        return this.populationIds;
     }
 
-    public void setPopulationKeys(List<String> populationKeys) {
-        this.populationKeys = populationKeys;
+    public void setPopulationIds(List<String> populationIds) {
+        this.populationIds = populationIds;
+    }
+
+
+    @Override
+    public String getReferencePopulationId() {
+        return this.referencePopulationId;
+    }
+
+    public void setReferencePopulationId(String referencePopulationId) {
+        this.referencePopulationId = referencePopulationId;
+    }
+
+    @Override
+    public List<String> getSortOrderTypeKeys() {
+        if (this.sortOrderTypeKeys == null) {
+            this.sortOrderTypeKeys = new ArrayList<String>();
+        }
+
+        return this.sortOrderTypeKeys;
+    }
+
+    public void setSortOrderTypeKeys(List<String> sortOrderTypeKeys) {
+        this.sortOrderTypeKeys = sortOrderTypeKeys;
     }
 }
