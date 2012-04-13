@@ -54,7 +54,7 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
                 theStartYear = new Integer(simpleDateformat.format(startDate));
             else
                 theStartYear = new Integer(simpleDateformat.format(endDate));
-            holidayCalendarInfoList = _buildHolidayCalendarInfoList (theStartYear);
+            holidayCalendarInfoList = _buildOfficialHolidayCalendarInfoList (theStartYear);
         }
 
         //When the user inputs both startDate and endDate,
@@ -63,12 +63,12 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
             Integer theEndYear = new Integer(simpleDateformat.format(endDate));
             if (theEndYear <= theStartYear){
                 //only query HC based on theStartYear
-                holidayCalendarInfoList = _buildHolidayCalendarInfoList (theStartYear);   
+                holidayCalendarInfoList = _buildOfficialHolidayCalendarInfoList (theStartYear);   
                 
             }else{
                 for (int year=theStartYear.intValue(); year<=theEndYear.intValue(); year++ ){
                     try{
-                        holidayCalendarInfoList.addAll(_buildHolidayCalendarInfoList(new Integer(year)));
+                        holidayCalendarInfoList.addAll(_buildOfficialHolidayCalendarInfoList(new Integer(year)));
                     }catch (Exception e){
                         //ToDo:
                     }
@@ -87,11 +87,17 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
 
     }
 
-    //Question: Should we filter out HC that is not official???
-    private List<HolidayCalendarInfo> _buildHolidayCalendarInfoList (Integer theStartYear){
+    //Only return HCs that are official
+    private List<HolidayCalendarInfo> _buildOfficialHolidayCalendarInfoList (Integer theStartYear){
         List<HolidayCalendarInfo> hcList = new ArrayList<HolidayCalendarInfo>();
+        List<HolidayCalendarInfo> hcOfficialList = new ArrayList<HolidayCalendarInfo>();
         try{
             hcList = getAcalService().getHolidayCalendarsByStartYear(theStartYear, new ContextInfo());
+            for(HolidayCalendarInfo hc : hcList) {
+                if (StringUtils.equals(hc.getStateKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)){
+                    hcOfficialList.add(hc);
+                }
+            }
         }catch (InvalidParameterException ipe){
             System.out.println("call AcademicCalendarService.getHolidayCalendarsByStartYear(startYear, context), and get InvalidParameterException:  "+ipe.toString());
         }catch (MissingParameterException mpe){
@@ -101,7 +107,7 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
         }catch (PermissionDeniedException pde){
             System.out.println("call AcademicCalendarService.getHolidayCalendarsByStartYear(startYear, context), and get PermissionDeniedException:  "+pde.toString());
         }
-        return  hcList;
+        return  hcOfficialList;
         
     }
 
