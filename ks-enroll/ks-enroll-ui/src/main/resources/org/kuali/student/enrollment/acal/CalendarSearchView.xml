@@ -32,6 +32,11 @@
                 <value>/ks-enroll/css/hcal.css</value>
             </list>
         </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>/ks-enroll/scripts/common.js</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-CalendarSearch-Page" parent="Uif-Page" p:disclosure.render="false">
@@ -148,7 +153,7 @@
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
