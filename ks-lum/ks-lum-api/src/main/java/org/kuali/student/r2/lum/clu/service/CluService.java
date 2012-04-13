@@ -1916,7 +1916,6 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws UnsupportedActionException CLU set is dynamically determined
      */
     public StatusInfo removeCluFromCluSet(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
-//TODO KSCM-371 - This method was need to fix  MajorDisciplineProposalRpcServlet 
 	public SearchResult search(SearchRequest request) throws MissingParameterException;
 
 	/**
