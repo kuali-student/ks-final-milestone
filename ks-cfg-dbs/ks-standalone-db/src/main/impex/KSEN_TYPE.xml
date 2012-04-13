@@ -215,6 +215,12 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/AtpInfo"
         TYPE_KEY="kuali.atp.type.group.term" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="The list of milestone types that are used for Registration Key Dates in Registration Appointments"
+        DESCR_PLAIN="The list of milestone types that are used for Registration Key Dates in Registration Appointments"
+        NAME="Registration Periods for Registration Appointments"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.milestone.type.group.appt.regperiods" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for academic calendar events"
         DESCR_PLAIN="The list of milestone types that are used for academic calendar events"
         NAME="Event Group"
