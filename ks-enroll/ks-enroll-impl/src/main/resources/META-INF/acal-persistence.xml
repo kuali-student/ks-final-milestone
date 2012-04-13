@@ -121,6 +121,7 @@
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity</class>
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentEntity</class>
+        <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentAttributeEntity</class>
     <!--class>org.kuali.student.r2.core.class1.process.model.CheckAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.CheckEntity</class>
     <class>org.kuali.student.r2.core.class1.process.model.CheckRichTextEntity</class>
