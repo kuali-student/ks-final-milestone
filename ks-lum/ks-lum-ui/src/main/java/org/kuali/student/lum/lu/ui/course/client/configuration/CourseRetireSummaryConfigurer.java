@@ -135,13 +135,13 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
                                     @Override
                                     public void exec(List<ValidationResultInfo> validationResults) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
 
-                                        tableSection.enableValidation(showingValidation);   //  I think passing true here turns on all validation highlighting automatically (i.e: without requiring "click to show") [KSCM-250]
+                                        tableSection.enableValidation(showingValidation);   //  I think passing true here turns on all validation highlighting automatically (i.e: without requiring "click to show") 
                                         
                                         initializeHeaders(validationResults);
                                         resolveMissingFieldsWarnings();
                                         // proposal submission warnings resolution moved to overridden processValidationResults below.
                                         
-                                        onReadyCallback.exec(result);   // calls CourseProposalController.showView.finalView [KSCM-250]
+                                        onReadyCallback.exec(result);   // calls CourseProposalController.showView.finalView 
                                     }
                                 });
                             } else {
@@ -227,7 +227,7 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
                     }
                 }
 
-                @Override   //overridden from BaseSection to handle conflict warnings   [KSCM-250]
+                @Override   //overridden from BaseSection to handle conflict warnings   
                 public ErrorLevel processValidationResults(List<ValidationResultInfo> validationResults) {                    
 
                     tableSection.processValidationResults(validationResults, false);
@@ -238,7 +238,7 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
                 
                 /* 
                  * Shows proposal submission warnings if appropriate.
-                 *  i.e: If conflict warnings exist //[KSCM-250]
+                 *  i.e: If conflict warnings exist 
                  */
                 public void resolveProposalSubmissionWarnings(){
                     

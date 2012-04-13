@@ -342,7 +342,7 @@ public class DataModel implements Model {
      * @param callback
      */
     public void validateNextState(final Callback<List<ValidationResultInfo>> callback) {
-        List<ValidationResultInfo> result = validator.validateNextState(this);  // loads missingField result info [KSCM-250]
+        List<ValidationResultInfo> result = validator.validateNextState(this);  // loads missingField result info 
         callback.exec(result);
     }
 

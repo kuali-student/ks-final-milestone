@@ -927,7 +927,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	public <V extends Enum<?>> void showView(final V viewType, final Callback<Boolean> onReadyCallback) {
 		Callback<Boolean> finalizeView = new Callback<Boolean>(){
 		    
-			public void exec(Boolean result) {   // Called from at least CourseSumamryConfigurer.generateProposalSummarySection.verticalSection.beforeShow.exec [KSCM-250]
+			public void exec(Boolean result) {   // Called from at least CourseSumamryConfigurer.generateProposalSummarySection.verticalSection.beforeShow.exec
 				
 			    //Update cross constraints
 				for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
