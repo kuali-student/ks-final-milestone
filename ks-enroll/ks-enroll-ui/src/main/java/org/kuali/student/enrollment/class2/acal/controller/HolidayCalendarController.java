@@ -393,7 +393,7 @@ public class HolidayCalendarController extends UifControllerBase {
             hcForm.setHcId(hCalInfo.getId());
             GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hCalInfo.getName());
 
-            if (from.equals("setOfficial")) {
+            if (from.equals(CalendarConstants.HC_UPDATE_SETOFFICIAL)) {
                 return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
             }
         }
