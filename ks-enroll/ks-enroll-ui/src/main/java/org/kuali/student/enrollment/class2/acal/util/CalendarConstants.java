@@ -53,7 +53,7 @@ public class CalendarConstants {
     public static final String AC_COPY_METHOD = "copyForNew";
     public static final String HC_EDIT_METHOD = KRADConstants.START_METHOD;
     public static final String HC_VIEW_METHOD = KRADConstants.START_METHOD;
-    public static final String HC_COPY_METHOD = "startNew";
+    public static final String HC_COPY_METHOD = "copyForNew";
 
     public static final String CALENDAR_ID = "id";
     public static final String PAGE_ID = "pageId";
@@ -68,4 +68,6 @@ public class CalendarConstants {
     public static final String DEFAULT_END_TIME = "11:59";
     public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
 
+    public static final String HC_UPDATE_SETOFFICIAL = "setOfficial";
+    public static final String HC_UPDATE_SAVE = "save";
 }
