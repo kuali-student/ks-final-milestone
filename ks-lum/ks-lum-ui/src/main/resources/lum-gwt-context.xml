@@ -804,7 +804,7 @@
 
     <bean id="messagesServiceGwt"
           class="org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet">
-        <!-- KSCM-313 property name="serviceImpl" ref="messageClient" / -->
+        <property name="serviceImpl" ref="messageClient" />
     </bean>
 
     <bean id="CommentRpcGwtServlet"
@@ -926,7 +926,7 @@
     </bean>
 
     <bean id="messageClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.common.messages.service.MessageService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.common.messages.service.MessageService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/message}MessageService"/>
     </bean>
 
@@ -1030,8 +1030,7 @@
 	<bean id="metadataMethodCacheAdvisor" class="org.kuali.student.r1.common.assembly.util.spring.MetadataMethodEhcacheAdvice">
 		<property name="cacheName" value="metadataCache" />
 		<property name="cacheManager" ref="ksLumGwtCacheManager"/>
-		<!-- kscm-313 property name="enabled" value="${ks.lum.gwt.metadata.enable.caching}"/ -->
-		<property name="enabled" value="false"/>
+		<property name="enabled" value="${ks.lum.gwt.metadata.enable.caching}"/>
 	</bean>
 	
 	<aop:config>
