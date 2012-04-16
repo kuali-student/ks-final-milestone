@@ -25,3 +25,8 @@ function confirmDeletion(msg){
       submitForm();
     }
 }
+
+function stepBrowserBack(){
+    window.history.back(-2);
+}
+

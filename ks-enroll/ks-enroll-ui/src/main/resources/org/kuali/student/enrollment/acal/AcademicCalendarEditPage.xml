@@ -36,7 +36,7 @@
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true"  p:render="@{!#view.readOnly}"/>
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:render="@{officialButtonVisible and !#view.readOnly}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Close" p:methodToCall="close"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Close" p:clientSideJs="stepBrowserBack()"/>
                         <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{deleteButtonVisible and !#view.readOnly}"/>
                     </list>
                 </property>

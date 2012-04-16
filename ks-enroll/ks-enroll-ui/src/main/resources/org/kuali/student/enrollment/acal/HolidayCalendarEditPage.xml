@@ -27,8 +27,8 @@
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true" />
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:clientSideJs="submitForm();" p:render="@{officialButtonVisible}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{deleteButtonVisible}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:render="@{deleteButtonVisible}"/>
                     </list>
                 </property>
             </bean>
