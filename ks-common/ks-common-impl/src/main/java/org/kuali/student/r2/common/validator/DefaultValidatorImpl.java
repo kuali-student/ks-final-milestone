@@ -21,13 +21,17 @@ import java.util.Stack;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.MessageUtils;
+import org.kuali.student.r1.common.dictionary.dto.CaseConstraint;
 import org.kuali.student.r1.common.dictionary.dto.CommonLookupParam;
+import org.kuali.student.r1.common.dictionary.dto.Constraint;
 import org.kuali.student.r1.common.dictionary.dto.DataType;
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.LookupConstraint;
+import org.kuali.student.r1.common.dictionary.dto.MustOccurConstraint;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.dto.RequiredConstraint;
 import org.kuali.student.r1.common.dictionary.dto.ValidCharsConstraint;
-import org.kuali.student.r1.common.messages.dto.Message;
-import org.kuali.student.r1.common.messages.service.MessageService;
+import org.kuali.student.r1.common.dictionary.dto.WhenConstraint;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
@@ -37,16 +41,18 @@ import org.kuali.student.r1.common.validator.ConstraintDataProvider;
 import org.kuali.student.r1.common.validator.DateParser;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r1.common.validator.ValidatorUtils;
-import org.kuali.student.r1.common.dictionary.dto.CaseConstraint;
-import org.kuali.student.r1.common.dictionary.dto.Constraint;
-import org.kuali.student.r1.common.dictionary.dto.LookupConstraint;
-import org.kuali.student.r1.common.dictionary.dto.MustOccurConstraint;
-import org.kuali.student.r1.common.dictionary.dto.RequiredConstraint;
-import org.kuali.student.r1.common.dictionary.dto.WhenConstraint;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
+import org.kuali.student.r2.common.messages.service.MessageService;
 import org.springframework.beans.BeanUtils;
 
 // This class is a special case, this class/equivelent doesn't exist in R2
@@ -1027,7 +1033,23 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             return messageId;
         }
 
-        Message msg = messageService.getMessage(messageLocaleKey, messageGroupKey, messageId);
+        // TODO: this need to be properly implemented.
+        LocaleInfo locale = new LocaleInfo();
+        locale.setLocaleLanguage(messageLocaleKey);
+        MessageInfo msg = null;
+        try {
+            msg = messageService.getMessage(locale, messageGroupKey, messageId, contextInfo);
+        } catch (DoesNotExistException e) {
+            return "";
+        } catch (InvalidParameterException e) {
+            return "";
+        } catch (MissingParameterException e) {
+            return "";
+        } catch (OperationFailedException e) {
+            return "";
+        } catch (PermissionDeniedException e) {
+            return "";
+        }
 
         return msg.getValue();
     }

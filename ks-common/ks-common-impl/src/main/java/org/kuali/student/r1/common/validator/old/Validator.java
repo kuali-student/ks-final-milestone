@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.r1.common.dictionary.old.dto.CaseConstraint;
 import org.kuali.student.r1.common.dictionary.old.dto.ConstraintDescriptor;
 import org.kuali.student.r1.common.dictionary.old.dto.ConstraintSelector;
@@ -37,10 +38,16 @@ import org.kuali.student.r1.common.dictionary.old.dto.Type;
 import org.kuali.student.r1.common.dictionary.old.dto.TypeStateCaseConstraint;
 import org.kuali.student.r1.common.dictionary.old.dto.ValidCharsConstraint;
 import org.kuali.student.r1.common.dictionary.old.dto.WhenConstraint;
-import org.kuali.student.r1.common.messages.dto.Message;
-import org.kuali.student.r1.common.messages.service.MessageService;
+import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.common.util.MessageUtils;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
+import org.kuali.student.r2.common.messages.service.MessageService;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 @Deprecated
 public class Validator {
@@ -987,8 +994,24 @@ public class Validator {
 			return messageId;
 		}
 
-		Message msg = messageService.getMessage(messageLocaleKey,
-				messageGroupKey, messageId);
+		// TODO: this need to be properly implemented.
+        LocaleInfo locale = new LocaleInfo();
+        locale.setLocaleLanguage(messageLocaleKey);
+		MessageInfo msg;
+        try {
+            msg = messageService.getMessage(locale,
+            		messageGroupKey, messageId, ContextUtils.getContextInfo());
+        } catch (DoesNotExistException e) {
+            return "";
+        } catch (InvalidParameterException e) {
+            return "";
+        } catch (MissingParameterException e) {
+            return "";
+        } catch (OperationFailedException e) {
+            return "";
+        } catch (PermissionDeniedException e) {
+            return "";
+        }
 
 		return msg.getValue();
 	}
