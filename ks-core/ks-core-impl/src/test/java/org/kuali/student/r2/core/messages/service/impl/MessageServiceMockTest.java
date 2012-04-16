@@ -25,9 +25,18 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.r1.common.messages.dto.Message;
-import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.r1.core.messages.service.impl.MessageServiceMock;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.core.messages.service.impl.MessageServiceMock;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
 
 /**
@@ -38,86 +47,105 @@ import org.kuali.student.r1.core.messages.service.impl.MessageServiceMock;
  */
 public class MessageServiceMockTest {
     MessageServiceMock messageService;
+    ContextInfo contextInfo;
     
     @Before
     public void setup(){
+        contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
         messageService = new MessageServiceMock();
         List<String> messageFiles = Arrays.asList("classpath:messages-test-beans.xml");
         messageService.setMessageFiles(messageFiles);        
     }
     
     @Test
-    public void testGetLocales()
+    public void testGetLocales() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
     {
-        List<String> locales = messageService.getLocales().getLocales();
+        List<LocaleInfo> locales = messageService.getLocales(contextInfo);
         
         assertEquals(2, locales.size());
     }
     
     @Test
-    public void testGetMessageGroup(){
-        List<String> groups = messageService.getMessageGroups().getMessageGroupKeys();
+    public void testGetMessageGroup() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        List<String> groups = messageService.getMessageGroupKeys(contextInfo);
 
         assertEquals(2, groups.size());
     }
     
     @Test
-    public void testGetMessage(){
-        Message message = messageService.getMessage("US", "Address", "State");
-        assertEquals(message.getLocale(), "US");
+    public void testGetMessage() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        LocaleInfo usLocale = new LocaleInfo();
+        usLocale.setLocaleLanguage("US");
+        
+        LocaleInfo caLocale = new LocaleInfo();
+        caLocale.setLocaleLanguage("CA");
+        
+        MessageInfo message = messageService.getMessage(usLocale, "Address", "State", contextInfo);
+        assertEquals(message.getLocale().getLocaleLanguage(), "US");
         assertEquals(message.getGroupName(), "Address");
-        assertEquals(message.getId(), "State");
+        assertEquals(message.getKey(), "State");
         assertEquals(message.getValue(), "State:");
-        message = messageService.getMessage("CA", "Address", "State");
-        assertEquals(message.getLocale(), "CA");
+        message = messageService.getMessage(caLocale, "Address", "State", contextInfo);
+        assertEquals(message.getLocale().getLocaleLanguage(), "CA");
         assertEquals(message.getGroupName(), "Address");
-        assertEquals(message.getId(), "State");
+        assertEquals(message.getKey(), "State");
         assertEquals(message.getValue(), "Province:");
     }
     
     @Test
-    public void testGetMessages(){
-        List<Message> messages = messageService.getMessages("US", "Address").getMessages();
+    public void testGetMessages() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        LocaleInfo usLocale = new LocaleInfo();
+        usLocale.setLocaleLanguage("US");
+        
+        LocaleInfo caLocale = new LocaleInfo();
+        caLocale.setLocaleLanguage("CA");
+        
+        List<MessageInfo> messages = messageService.getMessages(usLocale, "Address", contextInfo);
         assertEquals(2, messages.size());
-        for(Message m: messages){
-            assertEquals(m.getLocale(), "US");
+        for(MessageInfo m: messages){
+            assertEquals(m.getLocale().getLocaleLanguage(), "US");
             assertEquals(m.getGroupName(), "Address");
-            assertTrue(m.getId().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
+            assertTrue(m.getKey().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
         }
-        messages = messageService.getMessages("CA", "Address").getMessages();
+        messages = messageService.getMessages(caLocale, "Address", contextInfo);
         assertEquals(2, messages.size());
-        for(Message m: messages){
-            assertEquals(m.getLocale(), "CA");
+        for(MessageInfo m: messages){
+            assertEquals(m.getLocale().getLocaleLanguage(), "CA");
             assertEquals(m.getGroupName(), "Address");
-            assertTrue(m.getId().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
+            assertTrue(m.getKey().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
         }
-        messages = messageService.getMessages("US", "Name").getMessages();
+        messages = messageService.getMessages(usLocale, "Name", contextInfo);
         assertEquals(1, messages.size());
-        for(Message m: messages){
-            assertEquals(m.getLocale(), "US");
+        for(MessageInfo m: messages){
+            assertEquals(m.getLocale().getLocaleLanguage(), "US");
             assertEquals(m.getGroupName(), "Name");
             assertEquals(m.getValue(), "Enter your last name:");
         }
     }
     
     @Test
-    public void testGetMessagesByGroup(){
+    public void testGetMessagesByGroup() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        LocaleInfo usLocale = new LocaleInfo();
+        usLocale.setLocaleLanguage("US");
+        
+        LocaleInfo caLocale = new LocaleInfo();
+        caLocale.setLocaleLanguage("CA");
+        
         List<String> groupKeys = new ArrayList<String>();
         groupKeys.add("Address");
         groupKeys.add("Name");
-        MessageGroupKeyList groupKeyList = new MessageGroupKeyList();
-        groupKeyList.setMessageGroupKeys(groupKeys);
-        List<Message> messages = messageService.getMessagesByGroups("US", groupKeyList).getMessages();
+        
+        List<MessageInfo> messages = messageService.getMessagesByGroups(usLocale, groupKeys, contextInfo);
         assertEquals(3, messages.size());
-        for(Message m: messages){
-            assertEquals(m.getLocale(), "US");
+        for(MessageInfo m: messages){
+            assertEquals(m.getLocale().getLocaleLanguage(), "US");
             assertTrue(m.getGroupName().equals("Address") || m.getGroupName().equals("Name"));
         }
         
-        messages = messageService.getMessagesByGroups("CA", groupKeyList).getMessages();
+        messages = messageService.getMessagesByGroups(caLocale, groupKeys, contextInfo);
         assertEquals(3, messages.size());
-        for(Message m: messages){
-            assertEquals(m.getLocale(), "CA");
+        for(MessageInfo m: messages){
+            assertEquals(m.getLocale().getLocaleLanguage(), "CA");
             assertTrue(m.getGroupName().equals("Address") || m.getGroupName().equals("Name"));
         }
     }
@@ -126,20 +154,23 @@ public class MessageServiceMockTest {
     @Ignore
     //This test (copied from service test impl) is updating message key fields in addition to message
     //Is this the behavior we want?
-    public void testUpdateMessage(){
-        Message m = new Message();
+    public void testUpdateMessage() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException{
+        LocaleInfo localeInfo = new LocaleInfo();
+        localeInfo.setLocaleLanguage("US");
+        
+        MessageInfo m = new MessageInfo();
         m.setGroupName("Course");
-        m.setLocale("US");
-        m.setId("Grading");
+        m.setLocale(localeInfo);
+        m.setKey("Grading");
         m.setValue("Grading Scale");
         
-        messageService.updateMessage("US", "Name", "Last", m);
-        Message result = messageService.getMessage("US", "Course", "Grading");
-        assertEquals(result.getLocale(), m.getLocale());
-        assertEquals(result.getId(), m.getId());
+        messageService.updateMessage(localeInfo, "Name", m, contextInfo);
+        MessageInfo result = messageService.getMessage(localeInfo, "Course", "Grading", contextInfo);
+        assertEquals(result.getLocale().getLocaleLanguage(), m.getLocale());
+        assertEquals(result.getKey(), m.getKey());
         assertEquals(result.getValue(), m.getValue());
         assertEquals(result.getGroupName(), m.getGroupName());
-        result = messageService.getMessage("US", "Name", "Last");
+        result = messageService.getMessage(localeInfo, "Name", "Last", contextInfo);
         assertTrue(result == null);
     }
 }

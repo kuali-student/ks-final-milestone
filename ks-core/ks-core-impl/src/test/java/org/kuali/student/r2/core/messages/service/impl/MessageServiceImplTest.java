@@ -22,6 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.kuali.student.common.test.spring.AbstractServiceTest;
+import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.Daos;
+import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -32,14 +39,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
-import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.r2.common.messages.service.MessageService;
-import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.common.test.spring.Client;
-import org.kuali.student.common.test.spring.Dao;
-import org.kuali.student.common.test.spring.Daos;
-import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.common.test.util.ContextInfoTestUtility;
 
 
 @Daos( { @Dao(value = "org.kuali.student.r1.core.messages.dao.impl.MessageManagementDAOImpl", testDataFile = "classpath:messages-test-beans.xml") })
@@ -207,13 +207,11 @@ public class MessageServiceImplTest extends AbstractServiceTest{
 		List<String> groupKeys = new ArrayList<String>();
 		groupKeys.add("Address");
 		groupKeys.add("Name");
-		MessageGroupKeyList groupKeyList = new MessageGroupKeyList();
-		groupKeyList.setMessageGroupKeys(groupKeys);
 		LocaleInfo localeInfo = new LocaleInfo();
 		localeInfo.setLocaleRegion("US");
 		List<MessageInfo> messages;
         try {
-            messages = messageService.getMessagesByGroups(localeInfo, groupKeyList.getMessageGroupKeys(), contextInfo);
+            messages = messageService.getMessagesByGroups(localeInfo, groupKeys, contextInfo);
             assertEquals(3, messages.size());
             for(MessageInfo m: messages){
                 assertEquals(m.getLocale(), "US");
@@ -234,7 +232,7 @@ public class MessageServiceImplTest extends AbstractServiceTest{
 		LocaleInfo localeInfo1 = new LocaleInfo();
 		localeInfo1.setLocaleRegion("CA");
 		try {
-            messages = messageService.getMessagesByGroups(localeInfo1, groupKeyList.getMessageGroupKeys(), contextInfo);
+            messages = messageService.getMessagesByGroups(localeInfo1, groupKeys, contextInfo);
             assertEquals(3, messages.size());
             for(MessageInfo m: messages){
                 assertEquals(m.getLocale(), "CA");
