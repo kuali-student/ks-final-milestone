@@ -19,6 +19,11 @@ package org.kuali.student.r2.core.organization.service;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -365,5 +370,59 @@ public class OrganizationServiceDecorator
     @Override
     public List<OrgTreeInfo> getOrgTree(String rootOrgId, String orgHierarchyId, int maxLevels, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getOrgTree(rootOrgId, orgHierarchyId, maxLevels, contextInfo);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        return null;
     }
 }
