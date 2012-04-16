@@ -36,8 +36,9 @@ public class MessagesRpcGwtServlet extends RemoteServiceServlet implements Messa
 
     @Override
     public StatusInfo addMessage(Message messageInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO fix merge fix localeinfo, messageInfo
-        return serviceImpl.addMessage(new LocaleInfo(), messageInfo.getId(), new MessageInfo(), ContextUtils.getContextInfo());
+        LocaleInfo localeInfo = new LocaleInfo();
+        localeInfo.setLocaleLanguage(messageInfo.getLocale());
+        return serviceImpl.addMessage(localeInfo, messageInfo.getId(), new MessageInfo(), ContextUtils.getContextInfo());
 
     }
 
@@ -48,8 +49,9 @@ public class MessagesRpcGwtServlet extends RemoteServiceServlet implements Messa
 
     @Override
     public MessageInfo getMessage(String localeKey, String messageGroupKey, String messageKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO fix merge fix localeinfo
-        return serviceImpl.getMessage(new LocaleInfo(), messageGroupKey, messageKey, ContextUtils.getContextInfo());
+        LocaleInfo localeInfo = new LocaleInfo();
+        localeInfo.setLocaleLanguage(localeKey);
+        return serviceImpl.getMessage(localeInfo, messageGroupKey, messageKey, ContextUtils.getContextInfo());
     }
 
     // TODO fix merge
@@ -60,20 +62,23 @@ public class MessagesRpcGwtServlet extends RemoteServiceServlet implements Messa
 
     @Override
     public List<MessageInfo> getMessages(String localeKey, String messageGroupKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO fix merge fix localeinfo
-        return serviceImpl.getMessages(new LocaleInfo(), messageGroupKey, ContextUtils.getContextInfo());
+        LocaleInfo localeInfo = new LocaleInfo();
+        localeInfo.setLocaleLanguage(localeKey);
+        return serviceImpl.getMessages(localeInfo, messageGroupKey, ContextUtils.getContextInfo());
     }
 
     @Override
     public List<MessageInfo> getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO fix merge fix localeinfo
-        return serviceImpl.getMessagesByGroups(new LocaleInfo(), messageGroupKeyList.getMessageGroupKeys(), ContextUtils.getContextInfo());
+        LocaleInfo localeInfo = new LocaleInfo();
+        localeInfo.setLocaleLanguage(localeKey);
+        return serviceImpl.getMessagesByGroups(localeInfo, messageGroupKeyList.getMessageGroupKeys(), ContextUtils.getContextInfo());
     }
 
     @Override
     public MessageInfo updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        // TODO fix merge fix localeinfo, messageInfo
-        return serviceImpl.updateMessage(new LocaleInfo(), messageKey, new MessageInfo(), ContextUtils.getContextInfo());
+        LocaleInfo localeInfo = new LocaleInfo();
+        localeInfo.setLocaleLanguage(localeKey);
+        return serviceImpl.updateMessage(localeInfo, messageKey, new MessageInfo(), ContextUtils.getContextInfo());
     }
 
     public MessageService getServiceImpl() {

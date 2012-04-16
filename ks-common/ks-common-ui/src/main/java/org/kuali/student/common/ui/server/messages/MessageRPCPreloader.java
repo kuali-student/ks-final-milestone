@@ -19,6 +19,7 @@ package org.kuali.student.common.ui.server.messages;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -28,9 +29,10 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet;
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
 import org.kuali.student.common.ui.server.serialization.SerializationUtils;
-import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.r1.common.messages.dto.MessageList;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.r2.common.util.ContextUtils;
 
@@ -65,24 +67,26 @@ public class MessageRPCPreloader {
     public String getMessagesByGroupsEncodingString(String locale, String[] keys){
         Method serviceMethod;
         try {
-            serviceMethod = MessagesRpcGwtServlet.class.getMethod("getMessagesByGroups", String.class,MessageGroupKeyList.class);
+            serviceMethod = MessagesRpcGwtServlet.class.getMethod("getMessagesByGroups", String.class, MessageGroupKeyList.class);
             
             MessageGroupKeyList messageGroupKeyList = new MessageGroupKeyList();
             messageGroupKeyList.setMessageGroupKeys(Arrays.asList(keys));
             
-            MessageList messageList = null; 
-       		// TODO KSCM-568            messageList = getMessageService().getMessagesByGroups(locale,messageGroupKeyList, ContextUtils.getContextInfo());
-
+            LocaleInfo localeInfo = new LocaleInfo();
+            localeInfo.setLocaleLanguage(locale);
+            
+            List<MessageInfo> messages = getMessageService().getMessagesByGroups(localeInfo, messageGroupKeyList.getMessageGroupKeys(), ContextUtils.getContextInfo());
+            
             Map<Class<?>, Boolean> whitelist = new HashMap<Class<?>, Boolean>();
             whitelist.put(MessageService.class, true);
-            whitelist.put(MessageList.class, true);
             whitelist.put(MessageGroupKeyList.class,true);
-            whitelist.put(Message.class,true);
+            whitelist.put(MessageInfo.class,true);
+            whitelist.put(LocaleInfo.class,true);
             
             KSSerializationPolicy myPolicy = new KSSerializationPolicy(whitelist);
             
             //String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messageList,KSSerializationPolicy.getInstance());
-            String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messageList,myPolicy);
+            String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messages, myPolicy);
             
             
             return SerializationUtils.escapeForSingleQuotedJavaScriptString(serializedData);
