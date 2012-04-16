@@ -67,7 +67,7 @@
         <property name="defaultValidator" ref="validator"/>
     </bean>
 
-	<bean id="ks.messageServiceMock" class="org.kuali.student.r1.core.messages.service.impl.MessageServiceMock">
+	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
 			<list>
  				<value>classpath:gwt-messages.xml</value>				
