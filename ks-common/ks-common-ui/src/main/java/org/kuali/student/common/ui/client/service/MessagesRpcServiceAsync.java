@@ -15,10 +15,13 @@
 
 package org.kuali.student.common.ui.client.service;
 
+import java.util.List;
+
 import org.kuali.student.r1.common.messages.dto.LocaleKeyList;
 import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.r1.common.messages.dto.MessageList;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -32,25 +35,25 @@ public interface MessagesRpcServiceAsync {
             String localeKey, 
             String messageGroupKey, 
             String messageKey, 
-            AsyncCallback<Message> callback);
+            AsyncCallback<MessageInfo> callback);
     
     public void getMessages(
             String localeKey, 
             String messageGroupKey, 
-            AsyncCallback<MessageList> callback);
+            AsyncCallback<List<MessageInfo>> callback);
     
     public void getMessagesByGroups(
             String localeKey, 
             MessageGroupKeyList messageGroupKeyList, 
-            AsyncCallback<MessageList> callback);
+            AsyncCallback<List<MessageInfo>> callback);
     
     public void updateMessage(
             String localeKey, 
             String messageGroupKey, 
             String messageKey,
             Message messageInfo, 
-            AsyncCallback<Message> callback);
+            AsyncCallback<MessageInfo> callback);
     
     public void addMessage(Message messageInfo, 
-            AsyncCallback<Message> callback);
+            AsyncCallback<MessageInfo> callback);
 }
