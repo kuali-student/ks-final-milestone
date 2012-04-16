@@ -75,9 +75,7 @@ public class HolidayCalendarController extends UifControllerBase {
                         for(HolidayWrapper holiday : holidays){
                             boolean duplicated = isDuplicateHoliday(newHoliday, holiday);
                             if(duplicated){
-                                //TODO:change to  putError, when error reload fixed
-                                //GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, AcademicCalendarServiceConstants.HOLIDAY_MSG_ERROR_DUPLICATE, newHoliday.getHolidayInfo().getName());
-                                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: The holiday being added is already in the collection.");
+                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: The holiday being added is already in the collection.");
                                 return updateComponent(form, result, request, response);
                             }
                         }
@@ -249,9 +247,7 @@ public class HolidayCalendarController extends UifControllerBase {
         }
 
         for (HolidayWrapper holidayWrapper : newHolidays) {
-            // blank out the start & end dates (leave times intact)
-            holidayWrapper.setStartDate(null);
-            holidayWrapper.setEndDate(null);
+            // decision #14, copy over all information (types, dates, times, flags, etc) for Holidays from the source calendar
             holidayWrapper.getHolidayInfo().setId(null); // else the old rcd will be updated
         }
 
@@ -409,9 +405,7 @@ public class HolidayCalendarController extends UifControllerBase {
         Date endDate = hc.getEndDate();
 
         if(startDate.after(endDate)) {
-            //TODO:change to  putError, when error reload fixed
-            //GlobalVariables.getMessageMap().putError("holidayCalendarInfo.name", AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_MSG_ERROR_DATE, hc.getName());
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: " +  hc.getName() + "start date should not be later than the end date.");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: " +  hc.getName() + "start date should not be later than the end date.");
             valid = false;
         }
 
