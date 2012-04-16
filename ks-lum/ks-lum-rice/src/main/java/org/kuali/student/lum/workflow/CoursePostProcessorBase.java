@@ -5,6 +5,7 @@ package org.kuali.student.lum.workflow;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -41,33 +42,84 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
         LOG.info("Will set CLU state to '" + DtoConstants.STATE_NOT_APPROVED + "'");
         CourseInfo courseInfo = getCourseService().getCourse(getCourseId(proposalInfo));
-        updateCourse(actionTakenEvent, DtoConstants.STATE_NOT_APPROVED, courseInfo);
+        updateCourse(actionTakenEvent, DtoConstants.STATE_NOT_APPROVED, courseInfo, proposalInfo);
     }
 
     @Override
     protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTakenValue actionTaken, ProposalInfo proposalInfo) throws Exception {
         String cluId = getCourseId(proposalInfo);
         CourseInfo courseInfo = getCourseService().getCourse(cluId);
-        
-        updateCourse(actionTakenEvent, null, courseInfo);
+        // blanket approve action taken comes through here.        
+        updateCourse(actionTakenEvent, null, courseInfo, proposalInfo);
         return true;
     }
 
-    @Override
+   /**
+    * This method takes a clu proposal, determines what the "new state"
+    * of the clu should be, then routes the clu I, and the new state
+    * to CourseStateChangeServiceImpl.java
+    */
+    @Override   
     protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
-        // update the course state if the cluState value is not null (allows for clearing of the state)
-        String courseId = getCourseId(proposalInfo);
+
+    	String courseId = getCourseId(proposalInfo);        
         String prevEndTermAtpId = proposalInfo.getAttributes().get("prevEndTerm");
+        
+        // Get the current "existing" courseInfo
         CourseInfo courseInfo = getCourseService().getCourse(courseId);
-        String courseState = getCluStateForRouteStatus(courseInfo.getState(), statusChangeEvent.getNewRouteStatus(), proposalInfo.getType());
+        
+        // Get the new state the course should now change to        
+        String newCourseState = getCluStateForRouteStatus(courseInfo.getState(), statusChangeEvent.getNewRouteStatus(), proposalInfo.getType());
+        
         //Use the state change service to update to active and update preceding versions  
-        if(DtoConstants.STATE_ACTIVE.equals(courseState)){
-        	//Change the state using the effective date as the version start date
-        	getCourseStateChangeService().changeState(courseId, courseState, prevEndTermAtpId);
-        }else{
-        	updateCourse(statusChangeEvent, courseState, courseInfo);
+        if(DtoConstants.STATE_ACTIVE.equals(newCourseState)){     
+        	
+        	// Change the state using the effective date as the version start date
+        	// update course and save it for retire if state = retire        	
+        	getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId);
+        } else
+        	
+        	// Retire By Proposal will come through here, extra data will need 
+        	// to be copied from the proposalInfo to the courseInfo fields before 
+        	// the save happens.        	
+        	if(DtoConstants.STATE_RETIRED.equals(newCourseState)){
+        		retireCourseByProposalCopyAndSave(newCourseState, courseInfo, proposalInfo);
+        	    getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId);
+        }
+          else{
+        	updateCourse(statusChangeEvent, newCourseState, courseInfo, proposalInfo);
         }
         return true;
+    }
+
+    /**
+     * This method copies data from the custom Retire By Proposal Fields
+     * into the courseInfo object so that upon save it will pass validation.
+     * 
+     * @param courseInfo
+     * @param proposalInfo
+     */
+    protected void retireCourseByProposalCopyAndSave(String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
+        
+    	// Copy the data to the object - 
+    	// These Proposal Attribs need to go back to courseInfo Object 
+    	// to pass validation.
+        if (DtoConstants.STATE_RETIRED.equals(courseState)){
+        	if ((proposalInfo != null) && (proposalInfo.getAttributes() != null))
+        	{
+           	String rationale = proposalInfo.getRationale();
+        	String proposedEndTerm = proposalInfo.getAttributes().get("proposedEndTerm");      	
+        	String proposedLastTermOffered = proposalInfo.getAttributes().get("proposedLastTermOffered");
+        	String proposedLastCourseCatalogYear = proposalInfo.getAttributes().get("proposedLastCourseCatalogYear");
+        	      
+        	courseInfo.setEndTerm(proposedEndTerm);            	
+            courseInfo.getAttributes().put("retirementRationale", rationale);
+            courseInfo.getAttributes().put("lastTermOffered", proposedLastTermOffered);
+            courseInfo.getAttributes().put("lastPublicationYear", proposedLastCourseCatalogYear);
+        	}
+        }
+        // Save the Data to the DB
+        getCourseService().updateCourse(courseInfo);
     }
 
     protected String getCourseId(ProposalInfo proposalInfo) throws OperationFailedException {
@@ -78,35 +130,45 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         return proposalInfo.getProposalReference().get(0);
     }
 
-    /**
+    /** This method returns the state a clu should go to, based on 
+     *  the Proposal's docType and the newWorkflow StatusCode 
+     *  which are passed in.
+     * 
      * @param currentCluState - the current state set on the CLU
      * @param newWorkflowStatusCode - the new route status code that is getting set on the workflow document
+     * @param docType - The doctype of the proposal which kicked off this workflow.
      * @return the CLU state to set or null if the CLU does not need it's state changed
      */
     protected String getCluStateForRouteStatus(String currentCluState, String newWorkflowStatusCode, String docType) {
-        if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
-        } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_NOT_APPROVED);
-        } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
-        } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
-            /* current requirements state that on a Withdraw (which is a KEW Disapproval) the 
-             * CLU state should be submitted so no special handling required here
-             */
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_NOT_APPROVED);
-        } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
-        	if (LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(docType)){
-        		return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_RETIRED);
-        	} else {
-        		return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_ACTIVE);
-        	}
-        } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
-        } else {
-            // no status to set
-            return null;
-        }
+    	if (LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(docType)) {
+    		// This is for Retire Proposal, Course State should remain active for
+    		// all other route statuses.
+    		if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)){
+    			return DtoConstants.STATE_RETIRED;
+    		}	
+    		return null;
+    	} else {
+            //  The following is for Create, Modify, and Admin Modify proposals.   	
+	    	if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
+	            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
+	        } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
+	            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_NOT_APPROVED);
+	        } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
+	            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
+	        } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
+	            /* current requirements state that on a Withdraw (which is a KEW Disapproval) the 
+	             * CLU state should be submitted so no special handling required here
+	             */
+	            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_NOT_APPROVED);
+	        } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
+	      		return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_ACTIVE);
+	        } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
+	            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
+	        } else {
+	            // no status to set
+	            return null;
+	        }
+    	}
     }
 
     /**
@@ -121,14 +183,17 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     }
 
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-    protected void updateCourse(IDocumentEvent iDocumentEvent, String courseState, CourseInfo courseInfo) throws Exception {
+    protected void updateCourse(IDocumentEvent iDocumentEvent, String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
         // only change the state if the course is not currently set to that state
         boolean requiresSave = false;
         if (courseState != null) {
             if (LOG.isInfoEnabled()) {
                 LOG.info("Setting state '" + courseState + "' on CLU with cluId='" + courseInfo.getId() + "'");
             }
+ 
+            
             courseInfo.setState(courseState);
+            
             requiresSave = true;
         }
         if (LOG.isInfoEnabled()) {

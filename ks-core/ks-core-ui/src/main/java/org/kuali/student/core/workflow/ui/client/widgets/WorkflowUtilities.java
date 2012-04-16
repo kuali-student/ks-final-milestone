@@ -256,6 +256,7 @@ public class WorkflowUtilities{
         }
         
 		//Add a new field to the workflow widget
+        if (meta != null){
 		if(approveDialogView != null){
 	        if(forceAdd || 
 	        		(meta.isCanEdit() && 
@@ -271,6 +272,7 @@ public class WorkflowUtilities{
 	            return approveFd;
 	        }
 		}
+        }
 		return null;
 	}
 	
