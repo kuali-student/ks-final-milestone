@@ -451,7 +451,7 @@
     </bean>
 
     <bean id="messageServiceImpl"
-          class="org.kuali.student.r1.core.messages.service.impl.MessageServiceImpl">
+          class="org.kuali.student.core.messages.service.impl.MessageServiceImpl">
         <property name="messageDAO" ref="messageDao"/>
     </bean>
 
@@ -460,7 +460,7 @@
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="messageServiceImpl"/>
-                <property name="serviceInterface" value="org.kuali.student.r1.common.messages.service.MessageService"/>
+                <property name="serviceInterface" value="org.kuali.student.r2.common.messages.service.MessageService"/>
                 <property name="localServiceName" value="MessageService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/messages"/>
                 <property name="busSecurity" value="${ks.core.bus.security}"/>
@@ -590,7 +590,7 @@
                     pointcut="execution(* org.kuali.student.r1.core.atp.service.*.*(..))"
                     method="afterThrowing" throwing="ex"/>
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.r1.core.messages.service.*.*(..))"
+                    pointcut="execution(* org.kuali.student.core.messages.service.*.*(..))"
                     method="afterThrowing" throwing="ex"/>
             <aop:after-throwing
                     pointcut="execution(* org.kuali.student.r1.core.proposal.service.*.*(..))"
