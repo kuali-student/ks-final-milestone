@@ -70,4 +70,15 @@ public class CalendarConstants {
 
     public static final String HC_UPDATE_SETOFFICIAL = "setOfficial";
     public static final String HC_UPDATE_SAVE = "save";
+
+    // Error & Information message constants (defined in KSEnroll-ApplicationResources.properties)
+    public static final String MSG_INFO_ACADEMIC_CALENDAR_OFFICIAL = "info.enroll.academiccalendar.official";
+    public static final String MSG_INFO_ACADEMIC_CALENDAR_SAVED = "info.enroll.academiccalendar.saved";
+    public static final String MSG_INFO_HOLIDAY_CALENDAR_OFFICIAL = "info.enroll.holidaycalendar.official";
+    public static final String MSG_INFO_HOLIDAY_CALENDAR_SAVED = "info.enroll.holidaycalendar.saved";
+    public static final String MSG_ERROR_DATE_END_REQUIRED = "error.enroll.date.end.required";
+    public static final String MSG_ERROR_HOLIDAY_CALENDAR_DATE = "error.enroll.holidaycalendar.invalidDates";
+    public static final String MSG_ERROR_HOLIDAY_DATE = "error.enroll.holiday.invalidDates";
+    public static final String MSG_ERROR_HOLIDAY_DUPLICATE = "error.enroll.holiday.duplicate";
+    public static final String MSG_ERROR_TIME_AMPM_REQUIRED = "error.enroll.time.ampm.required";
 }

@@ -316,7 +316,8 @@ public class HolidayCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return updateHolidayCalendarForm(hcForm, AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_MSG_INFO_SAVED, CalendarConstants.HC_UPDATE_SAVE);
+        return updateHolidayCalendarForm(hcForm, CalendarConstants.MSG_INFO_HOLIDAY_CALENDAR_SAVED,
+                CalendarConstants.HC_UPDATE_SETOFFICIAL);
     }
 
      /**
@@ -339,7 +340,8 @@ public class HolidayCalendarController extends UifControllerBase {
      public ModelAndView setOfficial(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                                HttpServletRequest request, HttpServletResponse response) throws Exception {
          hcForm.getHolidayCalendarInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-         return updateHolidayCalendarForm(hcForm, AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_MSG_INFO_OFFICIAL, CalendarConstants.HC_UPDATE_SETOFFICIAL);
+         return updateHolidayCalendarForm(hcForm, CalendarConstants.MSG_INFO_HOLIDAY_CALENDAR_OFFICIAL,
+                 CalendarConstants.HC_UPDATE_SAVE);
      }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteHoliday")
@@ -373,9 +375,9 @@ public class HolidayCalendarController extends UifControllerBase {
 
     private ModelAndView updateHolidayCalendarForm(HolidayCalendarForm hcForm, String updateMsg, String from) throws Exception {
 
-        getHolidayCalendarFormHelper(hcForm).populateHolidayCalendarDefaults(hcForm);
-
+//        getHolidayCalendarFormHelper(hcForm).populateHolidayCalendarDefaults(hcForm);
         getHolidayCalendarFormHelper(hcForm).validateHolidayCalendar(hcForm);
+        getHolidayCalendarFormHelper(hcForm).populateHolidayCalendarDefaults(hcForm);
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 0){
            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);

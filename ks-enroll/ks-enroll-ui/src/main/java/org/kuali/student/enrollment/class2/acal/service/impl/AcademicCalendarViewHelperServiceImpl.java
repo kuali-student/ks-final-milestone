@@ -54,6 +54,7 @@ import org.kuali.student.r2.core.type.service.TypeService;
 import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -582,14 +583,32 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }
 
         if (!CommonUtils.isValidDateRange(hcInfo.getStartDate(),hcInfo.getEndDate())){
-            GlobalVariables.getMessageMap().putErrorForSectionId("KS-HolidayCalendar-MetaSection", "error.enroll.daterange.invalid","Calendar",CommonUtils.formatDate(hcInfo.getStartDate()),CommonUtils.formatDate(hcInfo.getEndDate()));
+            GlobalVariables.getMessageMap().putErrorForSectionId("KS-HolidayCalendar-MetaSection",
+                    "error.enroll.daterange.invalid", "Calendar",
+                    CommonUtils.formatDate(hcInfo.getStartDate()), CommonUtils.formatDate(hcInfo.getEndDate()));
         }
 
         //Validate Events
+        HolidayInfo holidayInfo;
         for (HolidayWrapper holiday : hcForm.getHolidays()) {
             if (!CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getStartDate()) ||
                 !CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getEndDate())){
-                GlobalVariables.getMessageMap().putInfoForSectionId("KS-HolidayCalendar-HolidaySection", "error.enroll.holiday.dateNotInHcal",holiday.getTypeName());
+                GlobalVariables.getMessageMap().putErrorForSectionId("KS-HolidayCalendar-HolidaySection",
+                        "error.enroll.holiday.dateNotInHcal", holiday.getTypeName());
+            }
+
+            // NOTE: next 2 edits not needed if KRAD validation is working properly
+            // KRAD 2.0 bug where endDate not filled but gets prior value anyway; gets past this edit
+            if (holiday.isDateRange() && (null == holiday.getEndDate())) {
+                GlobalVariables.getMessageMap().putErrorForSectionId( "KS-HolidayCalendar-HolidaySection",
+                        CalendarConstants.MSG_ERROR_DATE_END_REQUIRED, holiday.getTypeName());
+            }
+            if (!holiday.isAllDay()) { // time fields are enabled and can be filled in
+                if ( (!StringUtils.isEmpty(holiday.getStartTime()) && StringUtils.isEmpty(holiday.getStartTimeAmPm()))
+                ||   (!StringUtils.isEmpty(holiday.getEndTime()) && StringUtils.isEmpty(holiday.getEndTimeAmPm())) ) {
+                    GlobalVariables.getMessageMap().putError( "holidays",
+                            CalendarConstants.MSG_ERROR_TIME_AMPM_REQUIRED, holiday.getTypeName());
+                }
             }
         }
 
@@ -860,7 +879,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             String endTimeApPm = timeSetWrapper.getEndTimeAmPm();
             Date endDate = timeSetWrapper.getEndDate();
             //If it's not date range..
-            if (!timeSetWrapper.isDateRange()){
+            //if (!timeSetWrapper.isDateRange()) { // endDate should never be null, but...
+            if (!timeSetWrapper.isDateRange() || (null == endDate)) {
                 endDate = timeSetWrapper.getStartDate();
                 timeSetWrapper.setEndDate(endDate);
             }
@@ -872,7 +892,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             }
             return updateTime(endDate,endTime,endTimeApPm);
         }else{
-            if (timeSetWrapper.isDateRange()){
+            //if (timeSetWrapper.isDateRange()) { // endDate should never be null, but...
+            if (timeSetWrapper.isDateRange() && (null != timeSetWrapper.getEndDate())) {
                 //just clearing out any time already set in end date
                 return updateTime(timeSetWrapper.getEndDate(),"00:00",StringUtils.EMPTY );
             }else{

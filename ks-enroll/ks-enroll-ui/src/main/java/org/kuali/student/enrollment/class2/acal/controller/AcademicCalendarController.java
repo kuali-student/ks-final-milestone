@@ -286,9 +286,9 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
-            GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                                                     AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_MSG_INFO_SAVED,
-                                                     academicCalendarForm.getAcademicCalendarInfo().getName());
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,
+                    CalendarConstants.MSG_INFO_ACADEMIC_CALENDAR_SAVED,
+                    academicCalendarForm.getAcademicCalendarInfo().getName());
         }
         return getUIFModelAndView(academicCalendarForm);
     }
@@ -472,9 +472,9 @@ public class AcademicCalendarController extends UifControllerBase {
         acalForm.setAcademicCalendarInfo(acalInfo);
         acalForm.setOfficialButtonVisible(false);
 
-        GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES, //"academicCalendarInfo.name",
-                                                 AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_MSG_INFO_OFFICIAL,
-                                                 acalForm.getAcademicCalendarInfo().getName());
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, //"academicCalendarInfo.name",
+                CalendarConstants.MSG_INFO_ACADEMIC_CALENDAR_OFFICIAL,
+                acalForm.getAcademicCalendarInfo().getName());
         return refresh(acalForm, result, request, response);
     }
 
