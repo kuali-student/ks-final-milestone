@@ -36,6 +36,7 @@ import org.kuali.student.common.ui.client.validator.ValidationMessageKeys;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
 import com.google.gwt.core.client.GWT;
 
@@ -53,7 +54,7 @@ public class ApplicationContext {
 	
 	private Map<String, Map<String, String>> messages = new HashMap<String, Map<String,String>>();
 	private Map<String, String> flatMessages = new HashMap<String, String>();
-	private List<Message> messagesList = new ArrayList<Message>();
+	private List<MessageInfo> messagesList = new ArrayList<MessageInfo>();
 	
 	private SecurityContext securityContext;
 	private String applicationContextUrl;
@@ -96,17 +97,17 @@ public class ApplicationContext {
      * Adds the messages in the list of messages to the map of the messages
      * @param messages
      */
-    public void addMessages(List<Message> messages) {
+    public void addMessages(List<MessageInfo> messages) {
 		messagesList.addAll(messages);
-	    for (Message m : messages) {
+	    for (MessageInfo m : messages) {
 	        String groupName = m.getGroupName();
 	        Map<String, String> group = this.messages.get(groupName);
 	        if (group == null) {
 	            group = new HashMap<String, String>();
 	            this.messages.put(groupName, group);
 	        }
-	        group.put(m.getId(), m.getValue());
-	        flatMessages.put(m.getId(), m.getValue());
+	        group.put(m.getKey(), m.getValue());
+	        flatMessages.put(m.getKey(), m.getValue());
 	    }
 	}
 	
@@ -120,7 +121,7 @@ public class ApplicationContext {
 	/**
 	 * Returns all the messages in the ApplicationContext
 	 */
-	public List<Message> getMessages() {
+	public List<MessageInfo> getMessages() {
 	    return messagesList;
     }
     
