@@ -116,7 +116,7 @@
     </bean>
 
     <bean id="messageServiceImpl"
-        class="org.kuali.student.r1.core.messages.service.impl.MessageServiceImpl">
+        class="org.kuali.student.core.messages.service.impl.MessageServiceImpl">
         <property name="messageDAO" ref="messageDAO" />
     </bean>
 <!-- <bean id="mapExceptionAdvisor"
