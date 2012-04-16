@@ -25,6 +25,7 @@
                               p:actionLabel="Copy Holiday Calendar"
                               p:render="@{holidayCalendarInfo != null}"
                               p:id="KS-HolidayCalendar-CopyPage-CopyButton"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()"/>
                     </list>
                 </property>
             </bean>

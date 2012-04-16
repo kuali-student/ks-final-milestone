@@ -52,6 +52,7 @@
                               p:actionLabel="Copy Academic Calendar"
                               p:render="@{academicCalendarInfo != null}"
                               p:id="KS-AcademicCalendar-CopyView-CopyButton"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()"/>
                     </list>
                 </property>
             </bean>
