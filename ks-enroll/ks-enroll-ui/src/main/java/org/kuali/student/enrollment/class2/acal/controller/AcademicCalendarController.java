@@ -100,8 +100,9 @@ public class AcademicCalendarController extends UifControllerBase {
         acalForm.setEvents(new ArrayList<AcalEventWrapper>());
         acalForm.setHolidayCalendarList(new ArrayList<HolidayCalendarWrapper>());
         acalForm.setTermWrapperList(new ArrayList<AcademicTermWrapper>());
-        acalForm.setOfficialButtonVisible(false);
-        acalForm.setDeleteButtonVisible(false);
+//test
+//        acalForm.setOfficialButtonVisible(false);
+//        acalForm.setDeleteButtonVisible(false);
         return getUIFModelAndView(acalForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
     }
 
@@ -165,8 +166,9 @@ public class AcademicCalendarController extends UifControllerBase {
 
         try {
            getAcademicCalendarViewHelperService(acalForm).copyToCreateAcademicCalendar(acalForm);
-           acalForm.setOfficialButtonVisible(false);
-           acalForm.setDeleteButtonVisible(true);
+//test
+//           acalForm.setOfficialButtonVisible(false);
+//           acalForm.setDeleteButtonVisible(true);
         }catch (Exception ex) {
 
         }
@@ -285,11 +287,12 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         }
 
-        if (GlobalVariables.getMessageMap().getErrorCount() == 0) {
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,
-                    CalendarConstants.MSG_INFO_ACADEMIC_CALENDAR_SAVED,
-                    academicCalendarForm.getAcademicCalendarInfo().getName());
-        }
+        academicCalendarForm.setNewCalendar(false);
+
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,
+                CalendarConstants.MSG_INFO_ACADEMIC_CALENDAR_SAVED,
+                academicCalendarForm.getAcademicCalendarInfo().getName());
+
         return getUIFModelAndView(academicCalendarForm);
     }
 
@@ -463,14 +466,17 @@ public class AcademicCalendarController extends UifControllerBase {
     /**
      * Method used to set Acal as official
      */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=setOfficial")
-    public ModelAndView setOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=makeOfficial")
+    public ModelAndView makeOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         acalInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY);
         getAcalService().updateAcademicCalendar(acalInfo.getId(), acalInfo, getContextInfo(acalForm));
         acalForm.setAcademicCalendarInfo(acalInfo);
-        acalForm.setOfficialButtonVisible(false);
+//test
+//        acalForm.setOfficialButtonVisible(false);
+        acalForm.setNewCalendar(false);
+        acalForm.setOfficialCalendar(true);
 
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, //"academicCalendarInfo.name",
                 CalendarConstants.MSG_INFO_ACADEMIC_CALENDAR_OFFICIAL,
@@ -484,7 +490,10 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarInfo acalInfo = getAcalService().getAcademicCalendar(acalId,getContextInfo(acalForm));
         acalForm.setAcademicCalendarInfo(acalInfo);
         acalForm.setAdminOrgName(getAdminOrgNameById(acalInfo.getAdminOrgId()));
-        acalForm.setOfficialButtonVisible( ! acalInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY));
+//test
+//        acalForm.setOfficialButtonVisible( ! acalInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY));
+        acalForm.setNewCalendar(false);
+        acalForm.setOfficialCalendar(acalInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY));
 
         List<AcalEventWrapper> events = getAcademicCalendarViewHelperService(acalForm).getEventsForAcademicCalendar(acalForm);
         if (events.size() == 0){

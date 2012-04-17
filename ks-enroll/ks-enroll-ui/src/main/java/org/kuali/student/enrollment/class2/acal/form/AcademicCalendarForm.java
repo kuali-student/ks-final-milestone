@@ -47,8 +47,11 @@ public class AcademicCalendarForm extends UifFormBase {
     private List<AcademicTermWrapper> termWrapperList;
 
     //used by copying
-    private boolean officialButtonVisible;
-    private boolean deleteButtonVisible;
+//test
+//    private boolean officialButtonVisible;
+//    private boolean deleteButtonVisible;
+    private boolean newCalendar;
+    private boolean officialCalendar;
 
     //This is useful when user edit term from calendar search. User should see the term tab. By default, info tab
     private String defaultTabToShow;
@@ -59,8 +62,11 @@ public class AcademicCalendarForm extends UifFormBase {
         termWrapperList = new ArrayList<AcademicTermWrapper>();
         events = new ArrayList<AcalEventWrapper>();
         holidayCalendarList = new ArrayList<HolidayCalendarWrapper>();
-        officialButtonVisible = false;
-        deleteButtonVisible = false;
+//test
+//        officialButtonVisible = false;
+//        deleteButtonVisible = false;
+        newCalendar = true;
+        officialCalendar = false;
         defaultTabToShow = CalendarConstants.ACAL_INFO_TAB;
     }
 
@@ -128,20 +134,37 @@ public class AcademicCalendarForm extends UifFormBase {
         this.events = events;
     }
 
-    public boolean isOfficialButtonVisible() {
-        return officialButtonVisible;
+//test
+//    public boolean isOfficialButtonVisible() {
+//        return officialButtonVisible;
+//    }
+//
+//    public void setOfficialButtonVisible(boolean officialButtonVisible) {
+//        this.officialButtonVisible = officialButtonVisible;
+//    }
+//
+//    public boolean isDeleteButtonVisible() {
+//        return deleteButtonVisible;
+//    }
+//
+//    public void setDeleteButtonVisible(boolean deleteButtonVisible) {
+//        this.deleteButtonVisible = deleteButtonVisible;
+//    }
+
+    public boolean isNewCalendar() {
+        return newCalendar;
     }
 
-    public void setOfficialButtonVisible(boolean officialButtonVisible) {
-        this.officialButtonVisible = officialButtonVisible;
+    public void setNewCalendar(boolean newCalendar) {
+        this.newCalendar = newCalendar;
     }
 
-    public boolean isDeleteButtonVisible() {
-        return deleteButtonVisible;
+    public boolean isOfficialCalendar() {
+        return officialCalendar;
     }
 
-    public void setDeleteButtonVisible(boolean deleteButtonVisible) {
-        this.deleteButtonVisible = deleteButtonVisible;
+    public void setOfficialCalendar(boolean officialCalendar) {
+        this.officialCalendar = officialCalendar;
     }
 
     public String getDefaultTabToShow() {
