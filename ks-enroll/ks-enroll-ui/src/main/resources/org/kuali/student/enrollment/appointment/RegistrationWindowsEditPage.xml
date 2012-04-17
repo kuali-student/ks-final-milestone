@@ -134,7 +134,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="appointmentWindowInfo.name" p:required="true" p:style="font-weight:bold;" p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="appointmentWindowInfo.name" p:required="true" p:style="font-weight:bold;" p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
@@ -212,7 +212,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:label="Slot Allocation Method" p:propertyName="windowTypeKey" p:required="true" p:style="font-weight:bold;"
-                      p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                      p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -227,17 +227,19 @@
                     <!--</property>-->
                 <!--</bean>-->
                 <bean parent="Uif-InputField"  p:label="Max #"  p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot" p:refreshWhenChanged="#lp.windowTypeKey"
-                      p:readOnly = "@{#lp.windowTypeKey !='kuali.appointment.window.type.slotted.max' and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  p:style="font-weight:bold;">
+                      p:readOnly = "@{#lp.windowTypeKey !='kuali.appointment.window.type.slotted.max' or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  p:style="font-weight:bold;">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5" />
                     </property>
                 </bean>
+            <!--<bean parent="Uif-DataField"  p:label=""  p:propertyName="id" p:render="@{#lp.id != null and !#isAddLine}" />-->
             </list>
         </property>
         <property name="actionFields">
             <list>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="Add Me" p:render="@{#isAddLine}" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="assignStudents" p:actionLabel="Assign Students" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.draft'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="view" p:actionLabel="View Detail" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="breakAppointments" p:actionLabel="Break Appointments" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="X" p:render="@{!#isAddLine}" />
             </list>
