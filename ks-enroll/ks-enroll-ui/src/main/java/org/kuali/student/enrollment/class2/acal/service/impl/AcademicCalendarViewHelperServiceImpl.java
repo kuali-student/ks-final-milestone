@@ -92,13 +92,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             hcForm.setHolidayCalendarInfo(updatedHCal);
         }
 
-        //Delete holidays which are already deleted by the user
-        for (HolidayWrapper holidayWrapper : hcForm.getHolidaysToDeleteOnSave()){
-            getAcalService().deleteHoliday(holidayWrapper.getHolidayInfo().getId(),getContextInfo());
-        }
-
-        hcForm.getHolidaysToDeleteOnSave().clear();
-
         //Save holidays
         List<HolidayWrapper> holidays = hcForm.getHolidays();
 
