@@ -150,19 +150,19 @@ public class RegistrationWindowsController extends UifControllerBase {
     }
 
     //Overridden to save the model after user clicks add line
-    @Override
-    public ModelAndView addLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
-
-        ///First save all the windows
-        try{
-            _saveWindows(theForm);
-        }catch (Exception e){
-            throw new RuntimeException("Error saving Appointment Window.",e);
-        }
-
-        return super.addLine(uifForm, result, request, response);
-    }
+//    @Override
+//    public ModelAndView addLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+//        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
+//
+//        ///First save all the windows
+//        try{
+//            _saveWindows(theForm);
+//        }catch (Exception e){
+//            throw new RuntimeException("Error saving Appointment Window.",e);
+//        }
+//
+//        return super.addLine(uifForm, result, request, response);
+//    }
 
     private AppointmentWindowWrapper _getSelectedWindow(RegistrationWindowsManagementForm uifForm) {
         //Get the index of the selected line that is to be deleted
