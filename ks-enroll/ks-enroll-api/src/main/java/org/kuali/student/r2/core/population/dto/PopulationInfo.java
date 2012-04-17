@@ -13,7 +13,6 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.population.dto;
 
 import java.io.Serializable;
@@ -32,29 +31,30 @@ import org.kuali.student.r2.core.population.infc.Population;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PopulationInfo", propOrder = { "id", "typeKey", "stateKey", 
-                 "name", "descr", "sortOrderTypeKeys", "variesByTime", 
-                 "subPopulationIds", "meta", "attributes",
-                "_futureElements" })
-
-public class PopulationInfo 
-    extends IdEntityInfo 
-    implements Population, Serializable {
+@XmlType(name = "PopulationInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "name", 
+    "descr",
+    "sortOrderTypeKeys",
+    "variesByTime",
+    "supportsGetMembers",
+    "meta",
+    "attributes",
+    "_futureElements"})
+public class PopulationInfo
+        extends IdEntityInfo
+        implements Population, Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @XmlElement
     private List<String> sortOrderTypeKeys;
-
     @XmlElement
     private Boolean variesByTime;
-
     @XmlElement
-    private List<String> subPopulationIds;
-
+    private Boolean supportsGetMembers;
     @XmlAnyElement
     private List<Element> _futureElements;
-    
 
     /**
      * Constructs a new PopulationInfo.
@@ -76,10 +76,8 @@ public class PopulationInfo
             }
 
             this.variesByTime = population.getVariesByTime();
+            this.supportsGetMembers = population.getSupportsGetMembers();
 
-            if (population.getSubPopulationIds() != null) {
-                this.subPopulationIds = new ArrayList<String>(population.getSubPopulationIds());
-            }
         }
     }
 
@@ -95,7 +93,7 @@ public class PopulationInfo
     public void setSortOrderTypeKeys(List<String> sortOrderTypeKeys) {
         this.sortOrderTypeKeys = sortOrderTypeKeys;
     }
-    
+
     @Override
     public Boolean getVariesByTime() {
         return this.variesByTime;
@@ -106,15 +104,11 @@ public class PopulationInfo
     }
 
     @Override
-    public List<String> getSubPopulationIds() {
-        if (this.subPopulationIds == null) {
-            this.subPopulationIds = new ArrayList<String>();
-        }
-
-        return this.subPopulationIds;
+    public Boolean getSupportsGetMembers() {
+        return supportsGetMembers;
     }
 
-    public void setSubPopulationIds(List<String> subPopulationIds) {
-        this.subPopulationIds = subPopulationIds;
-    }    
+    public void setSupportsGetMembers(Boolean supportsGetMembers) {
+        this.supportsGetMembers = supportsGetMembers;
+    }
 }

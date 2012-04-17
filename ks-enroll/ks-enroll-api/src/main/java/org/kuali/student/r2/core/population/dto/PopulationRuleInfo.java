@@ -12,11 +12,9 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.population.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,42 +32,48 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PopulationRuleInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "searchCriteria", "agendaIds", 
-                "groupIds", "personIds", "populationIds", 
-                "referencePopulationId", "sortOrderTypeKeys", 
-                "meta", "attributes", "_futureElements" })
-
-public class PopulationRuleInfo 
-    extends IdEntityInfo 
-    implements PopulationRule, Serializable {
+@XmlType(name = "PopulationRuleInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "name",
+    "descr",
+    "searchCriteria",
+    "agendaIds",
+    "groupIds",
+    "personIds",
+    "childPopulationIds",
+    "referencePopulationId",
+    "sortOrderTypeKeys",
+    "variesByTime",
+    "supportsGetMembers",
+    "meta",
+    "attributes",
+    "_futureElements"})
+public class PopulationRuleInfo
+        extends IdEntityInfo
+        implements PopulationRule, Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @XmlElement
     private QueryByCriteria searchCriteria;
-
     @XmlElement
     private List<String> agendaIds;
-
     @XmlElement
     private List<String> groupIds;
-
     @XmlElement
     private List<String> personIds;
-
     @XmlElement
-    private List<String> populationIds;
-
+    private List<String> childPopulationIds;
     @XmlElement
     private String referencePopulationId;
-
     @XmlElement
     private List<String> sortOrderTypeKeys;
-
+    @XmlElement
+    private Boolean variesByTime;
+    @XmlElement
+    private Boolean supportsGetMembers;
     @XmlAnyElement
     private List<Element> _futureElements;
-    
 
     /**
      * Constructs a new PopulationRuleInfo.
@@ -91,29 +95,32 @@ public class PopulationRuleInfo
             if (populationRule.getAgendaIds() != null) {
                 this.agendaIds = new ArrayList<String>(populationRule.getAgendaIds());
             }
-            
+
             if (populationRule.getGroupIds() != null) {
                 this.groupIds = new ArrayList<String>(populationRule.getGroupIds());
             }
-            
+
             if (populationRule.getPersonIds() != null) {
                 this.personIds = new ArrayList<String>(populationRule.getPersonIds());
             }
-            
-            if (populationRule.getPopulationIds() != null) {
-                this.populationIds = new ArrayList<String>(populationRule.getPopulationIds());
+
+            if (populationRule.getChildPopulationIds() != null) {
+                this.childPopulationIds = new ArrayList<String>(populationRule.getChildPopulationIds());
             }
 
             this.referencePopulationId = populationRule.getReferencePopulationId();
 
             if (populationRule.getSortOrderTypeKeys() != null) {
                 this.sortOrderTypeKeys = new ArrayList<String>(populationRule.getSortOrderTypeKeys());
-            }            
+            }
+
+            this.variesByTime = populationRule.getVariesByTime();
+            this.supportsGetMembers = populationRule.getSupportsGetMembers();
         }
     }
 
     @Override
-    public QueryByCriteria getSearchCriteria() {        
+    public QueryByCriteria getSearchCriteria() {
         return this.searchCriteria;
     }
 
@@ -161,18 +168,17 @@ public class PopulationRuleInfo
     }
 
     @Override
-    public List<String> getPopulationIds() {
-        if (this.populationIds == null) {
-            this.populationIds = new ArrayList<String>();
+    public List<String> getChildPopulationIds() {
+        if (this.childPopulationIds == null) {
+            this.childPopulationIds = new ArrayList<String>();
         }
 
-        return this.populationIds;
+        return this.childPopulationIds;
     }
 
-    public void setPopulationIds(List<String> populationIds) {
-        this.populationIds = populationIds;
+    public void setChildPopulationIds(List<String> childPopulationIds) {
+        this.childPopulationIds = childPopulationIds;
     }
-
 
     @Override
     public String getReferencePopulationId() {
@@ -194,5 +200,23 @@ public class PopulationRuleInfo
 
     public void setSortOrderTypeKeys(List<String> sortOrderTypeKeys) {
         this.sortOrderTypeKeys = sortOrderTypeKeys;
+    }
+
+    @Override
+    public Boolean getVariesByTime() {
+        return this.variesByTime;
+    }
+
+    public void setVariesByTime(Boolean variesByTime) {
+        this.variesByTime = variesByTime;
+    }
+
+    @Override
+    public Boolean getSupportsGetMembers() {
+        return supportsGetMembers;
+    }
+
+    public void setSupportsGetMembers(Boolean supportsGetMembers) {
+        this.supportsGetMembers = supportsGetMembers;
     }
 }
