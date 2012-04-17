@@ -61,7 +61,6 @@ public class PopulationServiceMockImplTest {
         PopulationInfo info = new PopulationInfo();
         info.setTypeKey(PopulationServiceConstants.POPULATION_TYPE_KEY);
         info.setStateKey(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
-        info.setKey(PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY);
         info.setName("Summer Only Studetns");
         Date before = new Date();
         PopulationInfo result = instance.createPopulation(info, context);
@@ -69,7 +68,6 @@ public class PopulationServiceMockImplTest {
         if (result == info) {
             fail("returned object should not be the same as the one passed in");
         }
-        assertEquals(info.getKey(), result.getKey());
         assertEquals(info.getTypeKey(), result.getTypeKey());
         assertEquals(info.getStateKey(), result.getStateKey());
         assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
@@ -91,8 +89,7 @@ public class PopulationServiceMockImplTest {
         // READ/get
         info = new PopulationInfo(result);
 
-        result = instance.getPopulation(info.getKey(), context);
-        assertEquals(result.getKey(), info.getKey());
+        result = instance.getPopulation(info.getId(), context);
         assertEquals(result.getTypeKey(), info.getTypeKey());
         assertEquals(result.getStateKey(), info.getStateKey());
         assertEquals(result.getMeta().getCreateId(), info.getMeta().getCreateId());
@@ -107,12 +104,11 @@ public class PopulationServiceMockImplTest {
         info.setName("new name");
         context.setPrincipalId(TEST_PRINCIPAL_ID2);
         before = new Date();
-        result = instance.updatePopulation(info.getKey(), info, context);
+        result = instance.updatePopulation(info.getId(), info, context);
         after = new Date();
         if (result == info) {
             fail("returned object should not be the same as the one passed in");
         }
-        assertEquals(info.getKey(), result.getKey());
         assertEquals(info.getTypeKey(), result.getTypeKey());
         assertEquals(info.getStateKey(), result.getStateKey());
         assertEquals(info.getName(), result.getName());
