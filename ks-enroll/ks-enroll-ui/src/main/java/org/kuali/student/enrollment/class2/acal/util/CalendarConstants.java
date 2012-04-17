@@ -68,7 +68,7 @@ public class CalendarConstants {
     public static final String DEFAULT_END_TIME = "11:59";
     public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
 
-    public static final String HC_UPDATE_SETOFFICIAL = "setOfficial";
+    public static final String HC_UPDATE_MAKEOFFICIAL = "makeOfficial";
     public static final String HC_UPDATE_SAVE = "save";
 
     // Error & Information message constants (defined in KSEnroll-ApplicationResources.properties)

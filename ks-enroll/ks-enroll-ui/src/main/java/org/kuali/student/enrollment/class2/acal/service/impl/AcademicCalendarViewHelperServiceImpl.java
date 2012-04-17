@@ -94,10 +94,13 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         //Save holidays
         List<HolidayWrapper> holidays = hcForm.getHolidays();
+        // save list of new holiday IDs here:
+        List<String> newHolidayIdList = new ArrayList<String>(holidays.size());
 
+        HolidayInfo holidayInfo, storedHolidayInfo;
         for (HolidayWrapper holidayWrapper : holidays){
 
-            HolidayInfo holidayInfo = holidayWrapper.getHolidayInfo();
+            holidayInfo = holidayWrapper.getHolidayInfo();
             holidayWrapper.setTypeName(getHolidayTypeName(holidayWrapper.getTypeKey()));
             holidayInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
             holidayInfo.setDescr(CommonUtils.buildDesc("no description"));
@@ -111,14 +114,25 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             holidayInfo.setEndDate(getEndDateWithUpdatedTime(holidayWrapper));
 
             if (StringUtils.isBlank(holidayInfo.getId())){
-                HolidayInfo createdHoliday = getAcalService().createHoliday(hcForm.getHolidayCalendarInfo().getId(), holidayWrapper.getTypeKey(), holidayInfo, getContextInfo());
-                holidayWrapper.setHolidayInfo(getAcalService().getHoliday(createdHoliday.getId(),getContextInfo()));
+                storedHolidayInfo = getAcalService().createHoliday(hcForm.getHolidayCalendarInfo().getId(), holidayWrapper.getTypeKey(), holidayInfo, getContextInfo());
             }else{
-                HolidayInfo updatedHoliday = getAcalService().updateHoliday(holidayInfo.getId(),holidayInfo, getContextInfo());
-                holidayWrapper.setHolidayInfo(getAcalService().getHoliday(updatedHoliday.getId(),getContextInfo()));
+                storedHolidayInfo = getAcalService().updateHoliday(holidayInfo.getId(),holidayInfo, getContextInfo());
             }
+            //holidayWrapper.setHolidayInfo(getAcalService().getHoliday(storedHolidayInfo.getId(),getContextInfo()));
+            holidayWrapper.setHolidayInfo(storedHolidayInfo);
+            newHolidayIdList.add(storedHolidayInfo.getId());
         }
 
+        if ( ! StringUtils.isBlank(hcInfo.getId())) { // calendar already exists
+            // remove all old holidays that are not contained in the list of new holidays
+            List<HolidayInfo> oldHolidayList =
+                    getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
+            for (HolidayInfo oldHoliday : oldHolidayList) {
+                if ( ! newHolidayIdList.contains(oldHoliday.getId())) {
+                    getAcalService().deleteHoliday(oldHoliday.getId(), getContextInfo());
+                }
+            }
+        }
     }
 
     public HolidayCalendarInfo getHolidayCalendar(String hcId) throws Exception{
@@ -177,10 +191,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     }
 
     public void deleteHoliday(int selectedIndex,HolidayCalendarForm hcForm) throws Exception{
-        HolidayInfo holidayInfo = hcForm.getHolidays().get(selectedIndex).getHolidayInfo();
-        if (StringUtils.isNotBlank(holidayInfo.getId())){
-            getAcalService().deleteHoliday(holidayInfo.getId(), getContextInfo());
-        }
         hcForm.getHolidays().remove(selectedIndex);
     }
 

@@ -309,7 +309,7 @@ public class HolidayCalendarController extends UifControllerBase {
     public ModelAndView save(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
         return updateHolidayCalendarForm(hcForm, CalendarConstants.MSG_INFO_HOLIDAY_CALENDAR_SAVED,
-                CalendarConstants.HC_UPDATE_SAVE);
+                CalendarConstants.HC_UPDATE_MAKEOFFICIAL);
     }
 
      /**
@@ -333,7 +333,7 @@ public class HolidayCalendarController extends UifControllerBase {
                                                HttpServletRequest request, HttpServletResponse response) throws Exception {
          hcForm.getHolidayCalendarInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
          return updateHolidayCalendarForm(hcForm, CalendarConstants.MSG_INFO_HOLIDAY_CALENDAR_OFFICIAL,
-                 CalendarConstants.HC_UPDATE_SETOFFICIAL);
+                 CalendarConstants.HC_UPDATE_MAKEOFFICIAL);
      }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteHoliday")
@@ -374,24 +374,27 @@ public class HolidayCalendarController extends UifControllerBase {
            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         }
 
-        if(isValidHolidayCalendar(hcForm.getHolidayCalendarInfo())){
-
-            getHolidayCalendarFormHelper(hcForm).saveHolidayCalendar(hcForm);
-
-            HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
-            hcForm.setAdminOrgName(getAdminOrgNameById(hCalInfo.getAdminOrgId()));
-            hcForm.setStateName(getHolidayCalendarFormHelper(hcForm).getHolidayCalendarState(hCalInfo.getStateKey()));
-            hcForm.setNewCalendar(false);
-            hcForm.setOfficialCalendar(hCalInfo.getStateKey().equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY));
-            hcForm.setHcId(hCalInfo.getId());
-            GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hCalInfo.getName());
-
-            if (from.equals(CalendarConstants.HC_UPDATE_SETOFFICIAL)) {
-                return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
-            }
+        if (!isValidHolidayCalendar(hcForm.getHolidayCalendarInfo())) {
+           return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         }
 
-        return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        // passed edits, so update the holiday calendar
+        getHolidayCalendarFormHelper(hcForm).saveHolidayCalendar(hcForm);
+
+        HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
+        hcForm.setAdminOrgName(getAdminOrgNameById(hCalInfo.getAdminOrgId()));
+        hcForm.setStateName(getHolidayCalendarFormHelper(hcForm).getHolidayCalendarState(hCalInfo.getStateKey()));
+        hcForm.setNewCalendar(false);
+        hcForm.setOfficialCalendar(hCalInfo.getStateKey().equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY));
+        hcForm.setHcId(hCalInfo.getId());
+        GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hCalInfo.getName());
+
+        if (from.equals(CalendarConstants.HC_UPDATE_MAKEOFFICIAL)) {
+            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
+        }
+        else {
+            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        }
     }
 
     private boolean isValidHolidayCalendar(HolidayCalendarInfo hc)throws Exception {
