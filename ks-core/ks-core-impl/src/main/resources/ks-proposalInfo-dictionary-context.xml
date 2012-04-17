@@ -388,6 +388,7 @@
 	       	        <list>
 	                  <value>ENROUTE</value>
 	                  <value>APPROVED</value>
+	                  <value>RETIRED</value>
 	       		    </list>
 	              </property>
 	      		  <property name="constraint">
