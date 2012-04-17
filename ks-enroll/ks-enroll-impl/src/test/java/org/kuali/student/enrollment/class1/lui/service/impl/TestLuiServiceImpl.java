@@ -299,13 +299,13 @@ public class TestLuiServiceImpl {
         rtf.setPlain("fee.plain");
         rtf.setFormatted("fee.formatted");
         fee.setDescr(rtf);
-        modified.getFees().add(fee);
+        //        modified.getFees().add(fee);
 
-        RevenueInfo revenue = new RevenueInfo();
-        modified.getRevenues().add(revenue);
+        //        RevenueInfo revenue = new RevenueInfo();
+        //        modified.getRevenues().add(revenue);
 
-        ExpenditureInfo expenditure = new ExpenditureInfo();
-        modified.setExpenditure(expenditure);
+        //        ExpenditureInfo expenditure = new ExpenditureInfo();
+        // modified.setExpenditure(expenditure);
 
         LuiInfo updated = luiService.updateLui("Lui-1", modified, callContext);
 
@@ -338,9 +338,9 @@ public class TestLuiServiceImpl {
         assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-3"));
 
         assertEquals(2, updated.getLuiCodes().size());
-        assertEquals(4, updated.getFees().size());
-        assertEquals(3, updated.getRevenues().size());
-        assertTrue(!"LUI-Expen-1".equals(updated.getExpenditure().getId()));
+        //        assertEquals(4, updated.getFees().size());
+        //        assertEquals(3, updated.getRevenues().size());
+        //        assertTrue(!"LUI-Expen-1".equals(updated.getExpenditure().getId()));
 
     }
 

@@ -40,10 +40,7 @@ public class CourseOfferingTransformer {
         co.setUnitsDeployment(lui.getUnitsDeployment());
         co.setUnitsContentOwner(lui.getUnitsContentOwner());
 
-        co.setFees(lui.getFees());
-        co.setRevenues(lui.getRevenues());
         co.setGradingOptionKeys(lui.getResultValuesGroupKeys());
-        co.setExpenditure(lui.getExpenditure());
 
         LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
         if (identifier == null) {
@@ -132,10 +129,6 @@ public class CourseOfferingTransformer {
         lui.setMinimumEnrollment(co.getMinimumEnrollment());
         lui.setResultValuesGroupKeys(co.getGradingOptionKeys());
 
-        lui.setFees(co.getFees());
-        lui.setExpenditure(co.getExpenditure());
-        lui.setRevenues(co.getRevenues());
-
         LuiIdentifierInfo oi = lui.getOfficialIdentifier();
         if (oi == null) {
             oi = new LuiIdentifierInfo();
@@ -183,8 +176,6 @@ public class CourseOfferingTransformer {
             courseOfferingInfo.setCreditOptions(new R1ToR2CopyHelper().copyResultValuesGroup(courseInfo.getCreditOptions().get(0)));
         }
         courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
-        courseOfferingInfo.setExpenditure(new R1ToR2CopyHelper().copyCourseExpenditure(courseInfo.getExpenditure()));
-        courseOfferingInfo.setFees(new R1ToR2CopyHelper().copyCourseFeeList(courseInfo.getFees()));
         courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));
     }
 
