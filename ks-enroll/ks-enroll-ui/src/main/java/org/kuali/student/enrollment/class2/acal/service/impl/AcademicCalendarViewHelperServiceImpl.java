@@ -92,6 +92,13 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             hcForm.setHolidayCalendarInfo(updatedHCal);
         }
 
+        //Delete holidays which are already deleted by the user
+        for (HolidayWrapper holidayWrapper : hcForm.getHolidaysToDeleteOnSave()){
+            getAcalService().deleteHoliday(holidayWrapper.getHolidayInfo().getId(),getContextInfo());
+        }
+
+        hcForm.getHolidaysToDeleteOnSave().clear();
+
         //Save holidays
         List<HolidayWrapper> holidays = hcForm.getHolidays();
 
@@ -280,22 +287,16 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
           List<TermInfo> orgTermInfoList = getAcalService().getTermsForAcademicCalendar(orgAcalInfo.getId(), context);
           List<AcademicTermWrapper> newTermList = new ArrayList<AcademicTermWrapper>();
           for(TermInfo orgTermInfo : orgTermInfoList){              
-              TermInfo newTermInfo = new TermInfo();
-              newTermInfo.setTypeKey(orgTermInfo.getTypeKey());
-              AcademicTermWrapper newTermWrapper = new AcademicTermWrapper(newTermInfo);
-              newTermWrapper.setTermType(orgTermInfo.getTypeKey());
-              TypeInfo type = getAcalService().getTermType(newTermInfo.getTypeKey(),context);
+              AcademicTermWrapper newTermWrapper = new AcademicTermWrapper();
+              newTermWrapper.copy(orgTermInfo);
+              TypeInfo type = getAcalService().getTermType(orgTermInfo.getTypeKey(),context);
               newTermWrapper.setTypeInfo(type);
               newTermWrapper.setTermNameForUI(type.getName());
 
               //Populate keydates and copy over
               List<KeyDateInfo> keydateList = getAcalService().getKeyDatesForTerm(orgTermInfo.getId(),context);
-
-              TypeInfo registrationGroup = getTypeService().getType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,context);
-              TypeInfo curriculumGroup = getTypeService().getType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,context);
-
-              KeyDatesGroupWrapper registrationWrapper = new KeyDatesGroupWrapper(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,registrationGroup.getName());
-              KeyDatesGroupWrapper curriculumWrapper = new KeyDatesGroupWrapper(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,curriculumGroup.getName());
+              List<TypeInfo> keyDateTypes = getTypeService().getAllowedTypesForType(orgTermInfo.getTypeKey(),getContextInfo());
+              Map<String,KeyDatesGroupWrapper> keyDateGroup = new HashMap();
 
               for (KeyDateInfo orgKeyDateInfo : keydateList) {
                   KeyDateWrapper keyDateWrapper = new KeyDateWrapper();
@@ -303,36 +304,20 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                   type = getTypeService().getType(orgKeyDateInfo.getTypeKey(),context);
                   keyDateWrapper.setTypeInfo(type);
                   keyDateWrapper.setKeyDateNameUI(type.getName());
+                  addKeyDateGroup(keyDateTypes,keyDateWrapper,keyDateGroup);
 
-                  List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(CalendarConstants.KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD,null,context);
-                  List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerAndType(CalendarConstants.KEY_DATE_GROUP_TYPE_CURRICULUM,null,context);
-
-                  if (isRelationExists(registrationRelations,orgKeyDateInfo.getTypeKey())){
-                      registrationWrapper.getKeydates().add(keyDateWrapper);
-                  }else if (isRelationExists(curriculumRelations,orgKeyDateInfo.getTypeKey())){
-                      curriculumWrapper.getKeydates().add(keyDateWrapper);
-                  }
               }
 
-              if (!registrationWrapper.getKeydates().isEmpty()){
-                  newTermWrapper.getKeyDatesGroupWrappers().add(registrationWrapper);
-              }
-
-              if (!curriculumWrapper.getKeydates().isEmpty()){
-                  newTermWrapper.getKeyDatesGroupWrappers().add(curriculumWrapper);
-              }
+              for (KeyDatesGroupWrapper group : keyDateGroup.values()) {
+                    if (!group.getKeydates().isEmpty()){
+                        newTermWrapper.getKeyDatesGroupWrappers().add(group);
+                    }
+                }
 
               newTermList.add(newTermWrapper);
           }
          form.setTermWrapperList(newTermList);
 
-          // 3. do NOT copy over any AC-HC relationship
-//        AcademicCalendarInfo newAcalInfo =
-//                getAcalService().copyAcademicCalendar(form.getAcademicCalendarInfo().getId(), form.getNewCalendarStartDate(),
-//                        form.getNewCalendarEndDate(), getContextInfo());
-//        if (null != newAcalInfo) {
-//            newAcalInfo.setName(form.getNewCalendarName());
-//        }
         return newAcalInfo;
     }
 
@@ -426,7 +411,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         eventInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         eventInfo.setTypeKey(eventWrapper.getEventTypeKey());
         eventInfo.setStartDate(eventWrapper.getStartDate());
-        eventInfo.setEndDate(eventWrapper.getEndDate());
         eventInfo.setIsAllDay(eventWrapper.isAllDay());
         eventInfo.setIsDateRange(eventWrapper.isDateRange());
         eventInfo.setStartDate(getStartDateWithUpdatedTime(eventWrapper,true));
@@ -593,7 +577,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         for (HolidayWrapper holiday : hcForm.getHolidays()) {
             if (!CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getStartDate()) ||
                 !CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getEndDate())){
-                GlobalVariables.getMessageMap().putErrorForSectionId("KS-HolidayCalendar-HolidaySection",
+                GlobalVariables.getMessageMap().putWarningForSectionId("KS-HolidayCalendar-HolidaySection",
                         "error.enroll.holiday.dateNotInHcal", holiday.getTypeName());
             }
 
@@ -656,7 +640,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
             if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),eventWrapper.getStartDate()) ||
                 !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),eventWrapper.getEndDate())){
-                GlobalVariables.getMessageMap().putInfoForSectionId("acal-info-event", "error.enroll.event.dateNotInAcal",eventWrapper.getEventTypeName());
+                GlobalVariables.getMessageMap().putWarning("acal-info-event", "error.enroll.event.dateNotInAcal",eventWrapper.getEventTypeName());
+            }
+            if (!CommonUtils.isValidDateRange(eventWrapper.getStartDate(),eventWrapper.getEndDate())){
+                GlobalVariables.getMessageMap().putWarning("acal-info-event", "error.enroll.daterange.invalid",eventWrapper.getEventTypeName(),CommonUtils.formatDate(eventWrapper.getStartDate()),CommonUtils.formatDate(eventWrapper.getEndDate()));
             }
         }
 
@@ -742,14 +729,14 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
             if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),academicTermWrapper.getStartDate()) ||
                 !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),academicTermWrapper.getEndDate())){
-                GlobalVariables.getMessageMap().putErrorForSectionId("acal-term", "error.enroll.term.dateNotInAcal",academicTermWrapper.getName());
+                GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", "error.enroll.term.dateNotInAcal",academicTermWrapper.getName());
             }
 
             for (KeyDatesGroupWrapper keyDatesGroupWrapper : academicTermWrapper.getKeyDatesGroupWrappers()){
                 for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
                     if (!CommonUtils.isDateWithinRange(academicTermWrapper.getStartDate(),academicTermWrapper.getEndDate(),keyDateWrapper.getStartDate()) ||
                         !CommonUtils.isDateWithinRange(academicTermWrapper.getStartDate(),academicTermWrapper.getEndDate(),keyDateWrapper.getEndDate())){
-                        GlobalVariables.getMessageMap().putInfoForSectionId("acal-term-keydates", "error.enroll.keydate.dateNotInTerm",keyDateWrapper.getKeyDateNameUI(),academicTermWrapper.getName());
+                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", "error.enroll.keydate.dateNotInTerm",keyDateWrapper.getKeyDateNameUI(),academicTermWrapper.getName());
                     }
                 }
             }
@@ -805,6 +792,13 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }else{
             TermInfo updatedTerm = getAcalService().updateTerm(term.getId(),term,getContextInfo());
             termWrapper.setTermInfo(getAcalService().getTerm(updatedTerm.getId(),getContextInfo()));
+        }
+
+        //Delete keydates which are deleted by the user from the ui
+        if (!isNewTerm){
+            for (KeyDateWrapper keyDateWrapper : termWrapper.getKeyDatesToDeleteOnSave()){
+                getAcalService().deleteKeyDate(keyDateWrapper.getKeyDateInfo().getId(),getContextInfo());
+            }
         }
 
         //Keydates

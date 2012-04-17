@@ -53,8 +53,8 @@ public class AcalEventWrapper extends TimeSetWrapper{
            }catch (Exception e){
                //TODO
            }
-           setStartDate(null);
-           setEndDate(null);
+           setStartDate(acalEventInfo.getStartDate());
+           setEndDate(acalEventInfo.getEndDate());
 
         //Copy only start/end time
         if (!isAllDay()){

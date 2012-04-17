@@ -15,7 +15,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-TabSection" >
+                <bean parent="Uif-TabGroup" >
                     <property name="items">
                         <list>
                             <ref bean="KS-AcademicCalendar-EditSection"/>
@@ -110,7 +110,7 @@
     </bean>
 
 	<bean id="KS-AcademicCalendar-EventSection" parent="Uif-Disclosure-TableCollectionSection"
-		  p:layoutManager.numberOfColumns="@{#view.readOnly ? 5 : 9}" p:id="acal-info-event">
+		  p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 9}" p:id="acal-info-event">
 		<property name="title" value="Events" />
         <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
         <property name="instructionalText" value="Adding events is optional. If events are added, Event type and Start Date are required fields."/>
@@ -202,14 +202,12 @@
                               -->
                     </property>
                  </bean>
-                 <bean parent="Uif-InputField" p:propertyName="allDay"
-                       p:label="All Day" p:alternateDisplayPropertyName="isAllDayUI">
+                 <bean parent="Uif-InputField" p:propertyName="allDay" p:label="All Day" p:render="@{!#view.readOnly}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                  </bean>
-                 <bean parent="Uif-InputField" p:propertyName="dateRange"
-                       p:label="Date Range" p:alternateDisplayPropertyName="isDateRangeUI">
+                 <bean parent="Uif-InputField" p:propertyName="dateRange" p:label="Date Range" p:render="@{!#view.readOnly}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" />
                     </property>

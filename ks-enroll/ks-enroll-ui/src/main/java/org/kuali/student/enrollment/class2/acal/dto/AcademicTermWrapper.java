@@ -27,9 +27,12 @@ public class AcademicTermWrapper {
 
     private TypeInfo typeInfo;
 
+    private List<KeyDateWrapper> keyDatesToDeleteOnSave;
+
     public AcademicTermWrapper(){
         keyDatesGroupWrappers = new ArrayList();
         termInfo = new TermInfo();
+        keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
     }
 
     public AcademicTermWrapper(TermInfo termInfo){
@@ -38,7 +41,16 @@ public class AcademicTermWrapper {
         this.endDate = termInfo.getEndDate();
         this.termInfo = termInfo;
         this.termType = termInfo.getTypeKey();
-        keyDatesGroupWrappers = new ArrayList();
+        this.keyDatesGroupWrappers = new ArrayList();
+        this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
+    }
+
+    public void copy(TermInfo termInfo){
+        this.startDate = termInfo.getStartDate();
+        this.endDate = termInfo.getEndDate();
+        this.termType = termInfo.getTypeKey();
+        this.keyDatesGroupWrappers = new ArrayList();
+        this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
     }
 
     public String getName() {
@@ -118,6 +130,14 @@ public class AcademicTermWrapper {
         this.keyDatesGroupWrappers = keyDatesGroupWrappers;
     }
 
+    public List<KeyDateWrapper> getKeyDatesToDeleteOnSave() {
+        return keyDatesToDeleteOnSave;
+    }
+
+    public void setKeyDatesToDeleteOnSave(List<KeyDateWrapper> keyDatesToDeleteOnSave) {
+        this.keyDatesToDeleteOnSave = keyDatesToDeleteOnSave;
+    }
+
     public void clear(){
         setEndDate(null);
         setStartDate(null);
@@ -125,6 +145,7 @@ public class AcademicTermWrapper {
 //        setKeydates( new ArrayList<KeyDateWrapper>());
         setName(null);
         setTypeInfo(null);
+        keyDatesToDeleteOnSave.clear();
     }
 
     public TypeInfo getTypeInfo() {

@@ -28,10 +28,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
@@ -272,6 +269,13 @@ public class AcademicCalendarController extends UifControllerBase {
             createEvents(acalInfo.getId(), academicCalendarForm);
         }
 
+        //Delete terms which are deleted by the user in the ui
+        for (AcademicTermWrapper termWrapper : academicCalendarForm.getTermsToDeleteOnSave()){
+             getAcalService().deleteTerm(termWrapper.getTermInfo().getId(),getContextInfo(academicCalendarForm));
+        }
+
+        academicCalendarForm.getTermsToDeleteOnSave().clear();
+
         //Save Term and keydates
         for(AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
             getAcademicCalendarViewHelperService(academicCalendarForm).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId());
@@ -301,7 +305,7 @@ public class AcademicCalendarController extends UifControllerBase {
                                         HttpServletRequest request, HttpServletResponse response) {
 
         if(academicCalendarForm.getAcademicCalendarInfo() == null || !StringUtils.equals(academicCalendarForm.getAcademicCalendarInfo().getStateKey(),AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY)){
-             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Academic calendar must be set as 'official'.");
+             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Academic calendar must be set as official first.");
              return updateComponent(academicCalendarForm, result, request, response);
         }
 
@@ -383,12 +387,12 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
-        try {
-            getAcademicCalendarViewHelperService(academicCalendarForm).deleteTerm(academicCalendarForm.getTermWrapperList(),selectedLineIndex,academicCalendarForm.getAcademicCalendarInfo().getId());
-        } catch (Exception e) {
-            //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
-            throw new RuntimeException(e);
+
+        if (StringUtils.isNotBlank(termWrapper.getTermInfo().getId())){
+            academicCalendarForm.getTermsToDeleteOnSave().add(termWrapper);
         }
+
+        academicCalendarForm.getTermWrapperList().remove(selectedLineIndex);
 
         return updateComponent(academicCalendarForm, result, request, response);
 
@@ -418,13 +422,13 @@ public class AcademicCalendarController extends UifControllerBase {
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(Integer.parseInt(selectedTermIndex));
         KeyDatesGroupWrapper keydateGroup = termWrapper.getKeyDatesGroupWrappers().get(Integer.parseInt(selectedKeyDateGroup));
-        try {
+        KeyDateWrapper keyDateWrapper = keydateGroup.getKeydates().get(selectedLineIndex);
 
-            getAcademicCalendarViewHelperService(academicCalendarForm).deleteKeyDate(keydateGroup,selectedLineIndex);
-        } catch (Exception e) {
-            //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
-            throw new RuntimeException(e);
+        if (StringUtils.isNotBlank(keyDateWrapper.getKeyDateInfo().getId())){
+            termWrapper.getKeyDatesToDeleteOnSave().add(keyDateWrapper);
         }
+
+        keydateGroup.getKeydates().remove(selectedLineIndex);
 
         return updateComponent(academicCalendarForm, result, request, response);
 
@@ -452,12 +456,14 @@ public class AcademicCalendarController extends UifControllerBase {
         String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath,"termWrapperList[","]");
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(Integer.parseInt(selectedTermIndex));
-        try {
-            getAcademicCalendarViewHelperService(academicCalendarForm).deleteKeyDateGroup(termWrapper,selectedLineIndex);
-        } catch (Exception e) {
-            //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
-            throw new RuntimeException(e);
+        KeyDatesGroupWrapper keydateGroup = termWrapper.getKeyDatesGroupWrappers().get(selectedLineIndex);
+        for (KeyDateWrapper keyDateWrapper : keydateGroup.getKeydates()) {
+            if (StringUtils.isNotBlank(keyDateWrapper.getKeyDateInfo().getId())){
+                termWrapper.getKeyDatesToDeleteOnSave().add(keyDateWrapper);
+            }
         }
+
+        termWrapper.getKeyDatesGroupWrappers().remove(keydateGroup);
 
         return updateComponent(academicCalendarForm, result, request, response);
 
@@ -466,8 +472,8 @@ public class AcademicCalendarController extends UifControllerBase {
     /**
      * Method used to set Acal as official
      */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=makeOfficial")
-    public ModelAndView makeOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=setAcalOfficial")
+    public ModelAndView setAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         acalInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY);

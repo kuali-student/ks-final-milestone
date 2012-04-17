@@ -129,21 +129,16 @@ public class TimeSetWrapper {
     }
 
     //This is for UI display purpose
-    public String getIsAllDayUI(){
-        return StringUtils.capitalize(BooleanUtils.toStringYesNo(isAllDay()));
-    }
-
-    //This is for UI display purpose
-    public String getIsDateRangeUI(){
-        return StringUtils.capitalize(BooleanUtils.toStringYesNo(isDateRange()));
-    }
-
-    //This is for UI display purpose
     public String getStartDateUI(){
         if (getStartDate() != null) {
             if (!isAllDay()){
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-                return formatter.format(getStartDate());
+                String formattedDate = formatter.format(getStartDate());
+                if (StringUtils.endsWithIgnoreCase(formattedDate,"12:00 am")){
+                    return StringUtils.removeEndIgnoreCase(formattedDate,"12:00 am");
+                }else {
+                    return formattedDate;
+                }
             }else{
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 return formatter.format(getStartDate());
@@ -159,7 +154,12 @@ public class TimeSetWrapper {
         if (endDateUI != null) {
             if (!isAllDay()){
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-                return formatter.format(endDateUI);
+                String formattedDate = formatter.format(endDateUI);
+                if (StringUtils.endsWithIgnoreCase(formattedDate,"11:59 pm")){
+                    return StringUtils.removeEndIgnoreCase(formattedDate,"11:59 pm");
+                }else {
+                    return formattedDate;
+                }
             }else{
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 return formatter.format(endDateUI);

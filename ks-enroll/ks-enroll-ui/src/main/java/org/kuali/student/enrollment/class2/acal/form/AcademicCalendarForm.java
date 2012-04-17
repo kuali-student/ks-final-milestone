@@ -56,6 +56,9 @@ public class AcademicCalendarForm extends UifFormBase {
     //This is useful when user edit term from calendar search. User should see the term tab. By default, info tab
     private String defaultTabToShow;
 
+    private List<AcalEventWrapper> eventsToDeleteOnSave;
+    private List<AcademicTermWrapper> termsToDeleteOnSave;
+
     public AcademicCalendarForm() {
         super();
         academicCalendarInfo = new AcademicCalendarInfo();
@@ -68,6 +71,8 @@ public class AcademicCalendarForm extends UifFormBase {
         newCalendar = true;
         officialCalendar = false;
         defaultTabToShow = CalendarConstants.ACAL_INFO_TAB;
+        eventsToDeleteOnSave = new ArrayList<AcalEventWrapper>();
+        termsToDeleteOnSave = new ArrayList<AcademicTermWrapper>();
     }
 
     public AcademicCalendarInfo getAcademicCalendarInfo() {
@@ -173,6 +178,22 @@ public class AcademicCalendarForm extends UifFormBase {
 
     public void setDefaultTabToShow(String defaultTabToShow) {
         this.defaultTabToShow = defaultTabToShow;
+    }
+
+    public List<AcalEventWrapper> getEventsToDeleteOnSave() {
+        return eventsToDeleteOnSave;
+    }
+
+    public void setEventsToDeleteOnSave(List<AcalEventWrapper> eventsToDeleteOnSave) {
+        this.eventsToDeleteOnSave = eventsToDeleteOnSave;
+    }
+
+    public List<AcademicTermWrapper> getTermsToDeleteOnSave() {
+        return termsToDeleteOnSave;
+    }
+
+    public void setTermsToDeleteOnSave(List<AcademicTermWrapper> termsToDeleteOnSave) {
+        this.termsToDeleteOnSave = termsToDeleteOnSave;
     }
 
     public int getDefaultSelectedTabIndex() {

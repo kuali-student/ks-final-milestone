@@ -119,7 +119,7 @@
 
    <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection"
          p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}"
-         p:layoutManager.numberOfColumns="@{#view.readOnly ? 5 : 9}">
+         p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 9}">
      <property name="title" value="" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
      <property name="layoutManager.style" value="margin-top:1em; width:100%;"/>
@@ -218,14 +218,12 @@
                       -->
             </property>
         </bean>
-        <bean parent="Uif-InputField" p:propertyName="allDay" p:alternateDisplayPropertyName="isAllDayUI"
-              p:label="All Day">
+        <bean parent="Uif-InputField" p:propertyName="allDay" p:render="@{!#view.readOnly}" p:label="All Day">
             <property name="control">
                 <bean parent="Uif-CheckboxControl"/>
             </property>
         </bean>
-        <bean parent="Uif-InputField" p:propertyName="dateRange" p:alternateDisplayPropertyName="isDateRangeUI"
-              p:label="Date Range">
+        <bean parent="Uif-InputField" p:propertyName="dateRange" p:render="@{!#view.readOnly}" p:label="Date Range">
             <property name="control">
                 <bean parent="Uif-CheckboxControl"/>
             </property>
