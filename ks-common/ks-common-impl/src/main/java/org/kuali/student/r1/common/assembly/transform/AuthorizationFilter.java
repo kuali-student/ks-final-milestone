@@ -152,8 +152,9 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         	//If doc level permissions are enabled, lookup "Edit Document" permission for this object for this user. 
             Map<String, String> qualification = getQualification(idType, id, docType);
         	String currentUser = SecurityUtils.getCurrentUserId();
+        	
         	editDocumentAllowed = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
-	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
+	        		PermissionType.EDIT.getPermissionTemplateName(), new LinkedHashMap<String,String>(), qualification));
 			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
 					+ "' for user '" + currentUser + "': " + editDocumentAllowed);	        
         }  else {
