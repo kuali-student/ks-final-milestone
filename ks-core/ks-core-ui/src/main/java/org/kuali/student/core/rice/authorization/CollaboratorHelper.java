@@ -186,12 +186,13 @@ public class CollaboratorHelper implements Serializable {
 	        				person.setLastName(name.getLastName());
 	        			}
 	        			
+	        			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
 	        			boolean editAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(actionRequest.getPrincipalId(), PermissionType.EDIT.getPermissionNamespace(),
-	        					PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
+	        					PermissionType.EDIT.getPermissionTemplateName(), permissionDetails, qualification));
 	        			boolean openAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(actionRequest.getPrincipalId(), PermissionType.OPEN.getPermissionNamespace(),
-	        					PermissionType.OPEN.getPermissionTemplateName(), null, qualification));
+	        					PermissionType.OPEN.getPermissionTemplateName(), permissionDetails, qualification));
 	        			boolean commentAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(actionRequest.getPrincipalId(), PermissionType.ADD_COMMENT.getPermissionNamespace(),
-	        					PermissionType.ADD_COMMENT.getPermissionTemplateName(), null, qualification));
+	        					PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, qualification));
 
 	        			if(editAuthorized){
 	        				person.setPermission(PermissionType.EDIT.getCode());
