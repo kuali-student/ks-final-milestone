@@ -34,7 +34,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="makeOfficial"
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="makeAcalOfficial"
                               p:actionLabel="Make Official" p:disabled="@{newCalendar}" 
                               p:render="@{!officialCalendar and !#view.readOnly}"/>
                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:render="@{!#view.readOnly}"

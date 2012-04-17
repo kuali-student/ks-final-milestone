@@ -472,8 +472,8 @@ public class AcademicCalendarController extends UifControllerBase {
     /**
      * Method used to set Acal as official
      */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=setAcalOfficial")
-    public ModelAndView setAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=makeAcalOfficial")
+    public ModelAndView makeAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         acalInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY);
