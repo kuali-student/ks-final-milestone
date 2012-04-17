@@ -39,7 +39,9 @@ import org.w3c.dom.Element;
                 "processingOrder", "effectiveDate", "expirationDate", 
                 "meta", "attributes", "_futureElements" })
 
-public class LuiCapacityInfo extends IdEntityInfo implements Serializable, LuiCapacity {
+public class LuiCapacityInfo 
+    extends IdEntityInfo 
+    implements Serializable, LuiCapacity {
 
     private static final long serialVersionUID = 1L;
 
@@ -60,17 +62,18 @@ public class LuiCapacityInfo extends IdEntityInfo implements Serializable, LuiCa
     
     @XmlAnyElement
     private List<Element> _futureElements;
-    
+
+    /**
+     * Constructs a new LuiCapacityInfo.
+     */    
     public LuiCapacityInfo() {
-	super();
-	luiIds = null;
-	maximumSeatCount = null;
-	processingOrder = null;
-	effectiveDate = null;
-	expirationDate = null;
-	_futureElements = null;
     }
     
+    /**
+     *  Constructs a new LuiCapacityInfo from another LuiCapacity.
+     *
+     *  @param lc the LioCapacity to copy
+     */
     public LuiCapacityInfo(LuiCapacity lc) {
 	super(lc);
 	this.luiIds = new ArrayList(lc.getLuiIds());
@@ -78,7 +81,6 @@ public class LuiCapacityInfo extends IdEntityInfo implements Serializable, LuiCa
 	this.processingOrder = lc.getProcessingOrder();
 	this.effectiveDate = null != lc.getEffectiveDate() ? new Date(lc.getEffectiveDate().getTime()) : null;
 	this.expirationDate = null != lc.getExpirationDate() ? new Date(lc.getExpirationDate().getTime()) : null;
-	this._futureElements = null;
     }
     
     @Override

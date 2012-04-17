@@ -57,8 +57,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
  * 
  * @version 1.0 (Dev)
  *
- * @Author Tom
- * @Since Wed Mar 2 15:18:59 EST 2011
+ * @author tom
  */
 
 @WebService(name = "LuiService", serviceName ="LuiService", portName = "LuiService", targetNamespace = LuiServiceConstants.NAMESPACE)

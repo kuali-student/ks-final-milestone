@@ -1,18 +1,19 @@
 /*
  * Copyright 2011 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may	obtain a copy of the License at
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at
  *
  * 	http://www.osedu.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.enrollment.lui.infc;
 
 import java.util.List;
@@ -28,19 +29,20 @@ import org.kuali.student.r2.lum.clu.infc.Revenue;
 /**
  * Detailed information about a single LUI.
  */
-public interface Lui extends IdEntity, HasEffectiveDates {
+public interface Lui 
+    extends IdEntity, HasEffectiveDates {
 
     /**
-     *  The LUI identifier.
+     * The LUI identifier.
      *
-     *  @name: Lui Identifier
+     * @name: Lui Identifier
      */
     public LuiIdentifier getOfficialIdentifier();
 
     /**
-     *  The alternate LUI identifiers.
+     * The alternate LUI identifiers.
      *
-     *  @name: Lui Alternate Identifiers
+     * @name: Lui Alternate Identifiers
      */
     public List<? extends LuiIdentifier> getAlternateIdentifiers();
 
@@ -49,6 +51,8 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      * (CLU) of which this is an instance.
      *
      * @name Clu Id
+     * @readonly
+     * @required
      */
     public String getCluId();
 
@@ -67,8 +71,26 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      * for which this instance is offered.
      *
      * @name Atp Id
+     * @readonly
+     * @required
      */
     public String getAtpId();
+
+    /**
+     * Places where this LUI is offered. This is a temporary field
+     * that parallels the campus enumeration in CLU. It may evolve
+     * into a list of Campus Ids when we work that out.
+     *
+     * @name Campus Location Keys
+     */
+    public List<String> getCampusLocations();
+
+    /**
+     * The Schedule Id.
+     *
+     * @name Schedule Id
+     */
+    public String getScheduleId();
 
     /**
      * List of LU code info structures. These are structures so that
@@ -135,39 +157,7 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      *  These are the related lui types which may be related to this lui, e.g., activty
      *  offering types to format offering
      *
-      * @name Related Lui Types
+     * @name Related Lui Types
      */
     public List<String> getRelatedLuiTypes();
-
-    
-    /**
-     * The fees associated with the course offering. 
-     *
-     * @name Fees
-     */    
-    public List<? extends Fee> getFees();
-    
-    /**
-     * The organization that receives the revenue associated with
-     * the course.
-     *
-     * @name Revenues
-     */
-    public List<? extends Revenue> getRevenues();
-        
-    /**
-     * The organization that incurs the cost associated with the
-     * course.
-     *
-     * @name Expenditure
-     */
-    public Expenditure getExpenditure();
-
-
-    /**
-     * Meeting schedules for the Lui
-     * 
-     * @name Meeting Schedule
-     */
-    public List<? extends MeetingSchedule> getMeetingSchedules();
 }

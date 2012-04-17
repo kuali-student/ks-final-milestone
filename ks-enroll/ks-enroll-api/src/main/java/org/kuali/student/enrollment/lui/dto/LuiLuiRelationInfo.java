@@ -34,79 +34,83 @@ import org.w3c.dom.Element;
 @XmlType(name = "LuiLuiRelationInfo", propOrder = { "id", "typeKey",
 		"stateKey", "name", "descr", "luiId", "relatedLuiId", "effectiveDate",
 		"expirationDate", "meta", "attributes", "_futureElements" })
-public class LuiLuiRelationInfo extends IdEntityInfo implements Serializable,
-		LuiLuiRelation {
+public class LuiLuiRelationInfo 
+    extends IdEntityInfo 
+    implements Serializable, LuiLuiRelation {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    
+    @XmlElement
+    private String luiId;
+    
+    @XmlElement
+    private String relatedLuiId;
+    
+    @XmlElement
+    private Date effectiveDate;
+    
+    @XmlElement
+    private Date expirationDate;
+    
+    @XmlAnyElement
+    private List<Element> _futureElements;
+    
 
-	@XmlElement
-	private String luiId;
+    /**
+     * Constructs a new LuiLuiRelationInfo.
+     */
+    public LuiLuiRelationInfo() {
+    }
 
-	@XmlElement
-	private String relatedLuiId;
-
-	@XmlElement
-	private Date effectiveDate;
-
-	@XmlElement
-	private Date expirationDate;
-
-	@XmlAnyElement
-	private List<Element> _futureElements;
-
-	public LuiLuiRelationInfo() {
-		super();
-		luiId = null;
-		relatedLuiId = null;
-		effectiveDate = null;
-		expirationDate = null;
-		_futureElements = null;
-	}
-
-	public LuiLuiRelationInfo(LuiLuiRelation llr) {
-		super(llr);
-		this.luiId = llr.getLuiId();
-		this.relatedLuiId = llr.getRelatedLuiId();
-		this.effectiveDate = null != llr.getEffectiveDate() ? new Date(llr.getEffectiveDate().getTime()) : null;
-		this.expirationDate = null != llr.getExpirationDate() ? new Date(llr.getExpirationDate().getTime()) : null;
-		this._futureElements = null;
-	}
-
-	@Override
-	public String getLuiId() {
-		return luiId;
-	}
-
-	public void setLuiId(String luiId) {
-		this.luiId = luiId;
-	}
-
-	@Override
-	public String getRelatedLuiId() {
-		return relatedLuiId;
-	}
-
-	public void setRelatedLuiId(String relatedLuiId) {
-		this.relatedLuiId = relatedLuiId;
-	}
-
+    /**
+     * Constructs a new LuiLuiRelationInfo from another LuiLuiRelation.
+     *
+     * @param llr the LuiLuiRelation to copy.
+     */
+    public LuiLuiRelationInfo(LuiLuiRelation llr) {
+        super(llr);
+        this.luiId = llr.getLuiId();
+        this.relatedLuiId = llr.getRelatedLuiId();
+        this.effectiveDate = null != llr.getEffectiveDate() ? new Date(llr.getEffectiveDate().getTime()) : null;
+        this.expirationDate = null != llr.getExpirationDate() ? new Date(llr.getExpirationDate().getTime()) : null;
+        this._futureElements = null;
+    }
+    
     @Override
-	public Date getEffectiveDate() {
-		return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		if (effectiveDate != null)
-			this.effectiveDate = new Date(effectiveDate.getTime());
-	}
-
-	@Override
-	public Date getExpirationDate() {
-		return expirationDate != null ? new Date(expirationDate.getTime()) : null;
-	}
-
-	public void setExpirationDate(Date expirationDate) {
-		if (expirationDate != null)
-			this.expirationDate = new Date(expirationDate.getTime());
-	}
+    public String getLuiId() {
+        return luiId;
+    }
+    
+    public void setLuiId(String luiId) {
+        this.luiId = luiId;
+    }
+    
+    @Override
+    public String getRelatedLuiId() {
+        return relatedLuiId;
+    }
+    
+    public void setRelatedLuiId(String relatedLuiId) {
+        this.relatedLuiId = relatedLuiId;
+    }
+    
+    @Override
+    public Date getEffectiveDate() {
+        return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
+    }
+    
+    public void setEffectiveDate(Date effectiveDate) {
+        if (effectiveDate != null)
+            this.effectiveDate = new Date(effectiveDate.getTime());
+    }
+    
+    @Override
+    public Date getExpirationDate() {
+        return expirationDate != null ? new Date(expirationDate.getTime()) : null;
+    }
+    
+    public void setExpirationDate(Date expirationDate) {
+        if (expirationDate != null)
+            this.expirationDate = new Date(expirationDate.getTime());
+    }
 }

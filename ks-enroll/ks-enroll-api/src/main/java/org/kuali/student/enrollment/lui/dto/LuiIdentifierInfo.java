@@ -35,7 +35,9 @@ import org.w3c.dom.Element;
         "code", "shortName", "longName", "division", "suffixCode", 
         "variation", "meta", "attributes", "_futureElements" })
 
-public class LuiIdentifierInfo extends TypeStateEntityInfo implements LuiIdentifier, Serializable {
+public class LuiIdentifierInfo 
+    extends TypeStateEntityInfo 
+    implements LuiIdentifier, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,20 +66,17 @@ public class LuiIdentifierInfo extends TypeStateEntityInfo implements LuiIdentif
     private List<Element> _futureElements;
 
 
+    /**
+     *  Constructs a new LuiIdentifierInfo.
+     */
     public LuiIdentifierInfo() {
-        super();
-
-        id = null;
-        code = null;
-        shortName = null;
-        longName = null;
-        division = null;
-        suffixCode = null;
-        variation = null;
-
-        _futureElements = null;
     }
 
+    /**
+     *  Constructs a new LuiIdentifierInfo from another LuiIdentifier.
+     *
+     *  @param luiIdentifier the LuiIdentifier to copy
+     */
     public LuiIdentifierInfo(LuiIdentifier luiIdentifier) {
         super(luiIdentifier);
 
@@ -92,8 +91,6 @@ public class LuiIdentifierInfo extends TypeStateEntityInfo implements LuiIdentif
         this.division = luiIdentifier.getDivision();
         this.suffixCode = luiIdentifier.getSuffixCode();
         this.variation = luiIdentifier.getVariation();
-
-        this._futureElements = null;
     }
 
     @Override
