@@ -309,7 +309,7 @@ public class HolidayCalendarController extends UifControllerBase {
     public ModelAndView save(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
         return updateHolidayCalendarForm(hcForm, CalendarConstants.MSG_INFO_HOLIDAY_CALENDAR_SAVED,
-                CalendarConstants.HC_UPDATE_SETOFFICIAL);
+                CalendarConstants.HC_UPDATE_SAVE);
     }
 
      /**
@@ -333,7 +333,7 @@ public class HolidayCalendarController extends UifControllerBase {
                                                HttpServletRequest request, HttpServletResponse response) throws Exception {
          hcForm.getHolidayCalendarInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
          return updateHolidayCalendarForm(hcForm, CalendarConstants.MSG_INFO_HOLIDAY_CALENDAR_OFFICIAL,
-                 CalendarConstants.HC_UPDATE_SAVE);
+                 CalendarConstants.HC_UPDATE_SETOFFICIAL);
      }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteHoliday")

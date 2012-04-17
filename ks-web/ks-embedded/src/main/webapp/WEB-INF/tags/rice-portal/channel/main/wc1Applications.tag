@@ -30,7 +30,7 @@
     <strong>Academic Calendar</strong>
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Create Academic Calendar" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&pageId=academicCalendarEditPage&methodToCall=start" /></li>
-        <li><portal:portalLink displayTitle="true" title="Copy Academic Calendar" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&pageId=academicCalendarCopyPage&methodToCall=copyForNew" /></li>
+        <li><portal:portalLink displayTitle="true" title="Copy Academic Calendar" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&pageId=academicCalendarCopyPage&methodToCall=startNew" /></li>
 
     </ul>
 

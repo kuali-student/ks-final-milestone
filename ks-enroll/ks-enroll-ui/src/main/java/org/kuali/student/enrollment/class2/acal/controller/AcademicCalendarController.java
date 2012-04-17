@@ -105,8 +105,8 @@ public class AcademicCalendarController extends UifControllerBase {
 
     // if acalId is not empty, use the acalInfo of that acalId as the template for copying
     //otherwise, find the latest acal and use it as the template for copying
-    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=copyForNew")
-    public ModelAndView copyForNew( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startNew")
+    public ModelAndView startNew( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
 
         AcademicCalendarInfo acalInfo = null;
@@ -149,6 +149,60 @@ public class AcademicCalendarController extends UifControllerBase {
         }
         //return super.start(acalForm, result, request, response);
         return getUIFModelAndView(acalForm);
+    }
+
+        @RequestMapping(params = "methodToCall=toEdit")
+    public ModelAndView toEdit(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response){
+        acalForm.getView().setReadOnly(false);
+
+        return copy(acalForm, result, request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=copyForNew")
+    public ModelAndView copyForNew( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) {
+
+        AcademicCalendarInfo acalInfo = null;
+
+        String acalId = request.getParameter(CalendarConstants.CALENDAR_ID);
+        if (acalId != null && !acalId.trim().isEmpty()) {
+            String pageId = request.getParameter(CalendarConstants.PAGE_ID);
+            if (CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE.equals(pageId)) {
+
+                try {
+                    acalInfo= getAcalService().getAcademicCalendar(acalId, getContextInfo(acalForm));
+                    acalForm.setOrgAcalInfo(acalInfo);
+
+                } catch (Exception ex) {
+                    //TODO: handle exception properly
+                }
+            }
+        }
+        else {
+            // try to get the latest AC from DB
+            try {
+                acalInfo = getAcademicCalendarViewHelperService(acalForm).getLatestAcademicCalendar();
+                acalForm.setOrgAcalInfo(acalInfo);
+            }
+            catch (Exception x) {
+                //TODO - what to do here?
+            }
+
+        }
+        return copy(acalForm, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=toCopy")
+    public ModelAndView toCopy(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response){
+        AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
+        acalForm.setOrgAcalInfo(acalInfo);
+        acalForm.setAcademicCalendarInfo(new AcademicCalendarInfo());
+        acalForm.setOfficialCalendar(false);
+        acalForm.setNewCalendar(true);
+        acalForm.getView().setReadOnly(false);
+        return copy(acalForm, result, request, response);
     }
 
     //copy over from the existing AcalInfo to create a new
@@ -487,6 +541,7 @@ public class AcademicCalendarController extends UifControllerBase {
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, //"academicCalendarInfo.name",
                 CalendarConstants.MSG_INFO_ACADEMIC_CALENDAR_OFFICIAL,
                 acalForm.getAcademicCalendarInfo().getName());
+        acalForm.getView().setReadOnly(true);
         return refresh(acalForm, result, request, response);
     }
 

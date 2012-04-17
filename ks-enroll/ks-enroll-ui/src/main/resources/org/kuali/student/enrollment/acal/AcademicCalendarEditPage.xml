@@ -13,6 +13,13 @@
         <property name="header">
             <bean parent="Uif-HeaderField-Two"/>
         </property>
+        <property name="header.items">
+            <list>
+                <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
+                <bean parent="Uif-ActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete this academic calendar?')" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-TabGroup" >
@@ -44,7 +51,7 @@
                               p:actionLabel="@{officialCalendar ? 'Delete Calendar' : 'Delete Draft'}"
                               p:clientSideJs="confirmDeletion('Are you sure you want to delete this academic calendar?')"
                               p:render="@{!newCalendar and !#view.readOnly}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()" p:render="@{!#view.readOnly}"/>
                     </list>
                 </property>
             </bean>
