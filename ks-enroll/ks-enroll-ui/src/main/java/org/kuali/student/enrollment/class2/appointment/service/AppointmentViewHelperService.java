@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class2.appointment.service;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
 
 /**
  * This class //TODO ...
@@ -30,5 +31,6 @@ public interface AppointmentViewHelperService extends ViewHelperService {
     public RegistrationWindowsManagementForm searchForTerm(String name, String year, RegistrationWindowsManagementForm form)throws Exception;
     public void loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception;
     public void loadPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception;
-
+    public void saveWindows(RegistrationWindowsManagementForm form) throws InvalidParameterException, DataValidationErrorException, MissingParameterException,
+                    DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException;
 }
