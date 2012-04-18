@@ -4,6 +4,7 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
@@ -57,9 +58,9 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     public List<HolidayCalendarWrapper> loadHolidayCalendars (AcademicCalendarInfo acalInfo) throws Exception;
 
     //Terms
-    public void saveTerm(AcademicTermWrapper termWrapper, String acalId) throws Exception;
+    public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial) throws Exception;
 
-    public void setTermOfficial(AcademicTermWrapper termWrapper, String acalId) throws Exception;
+//    public void setTermOfficial(AcademicTermWrapper termWrapper, String acalId) throws Exception;
 
     public void deleteTerm(List<AcademicTermWrapper> termWrapper,int selectedIndex, String acalId) throws Exception;
 
@@ -73,15 +74,21 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList)throws Exception;
 
+    public void populateInstructionalDays(AcademicTermWrapper termWrapper) throws Exception;
+
     public List<AcademicTermWrapper> loadTerms(String acalId);
 
     public void validateAcademicCalendar(AcademicCalendarForm acalForm);
 
     public void validateHolidayCalendar(HolidayCalendarForm hcForm);
 
+    public void validateTerm(List<AcademicTermWrapper> termWrapper,int termToValidateIndex,AcademicCalendarInfo acal);
+
     public void populateHolidayCalendarDefaults(HolidayCalendarForm hcForm);
 
     public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm);
+
+    public AcademicTermWrapper createAndLoadTermWrapper(TermInfo termInfo);
 
     public AcademicCalendarService getAcalService();
 

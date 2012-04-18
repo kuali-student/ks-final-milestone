@@ -13,8 +13,7 @@
      <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
      <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.termNameForUI}"/>
      <property name="propertyName" value="termWrapperList" />
-     <property name="layoutManager.lineGroupPrototype.instructionalText" value="@{#line.termNameForUI} Term Information"/>
-     <property name="layoutManager.lineGroupPrototype.readOnly" value="@{#line.readOnly}"/>
+     <property name="layoutManager.lineGroupPrototype.instructionalText" value="@{#line.termNameForUI} Information"/>
      <property name="addLineLabelField.labelText" value=""/>
      <property name="layoutManager.lineGroupPrototype.instructionalMessageField.styleClasses">
       <list merge="true">
@@ -33,8 +32,9 @@
       </property>
      <property name="actionFields">
       <list>
-        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Set as Official"  p:methodToCall="setTermOfficial" p:render="@{!#line.readOnly and #form.academicCalendarInfo.stateKey eq 'kuali.atp.state.Official'}"/>
-        <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{!#line.official ? 'Make Official' : 'Update Official'}"  p:disabled="@{!(#form.academicCalendarInfo.stateKey eq 'kuali.atp.state.Official')}" p:methodToCall="makeTermOfficial" p:render="@{!#view.readOnly}"/>
+        <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="@{!#line.official ? 'Delete Draft' : 'Delete Term'}" p:render="@{!#view.readOnly and !#line.new}"/>
+        <bean parent="Uif-ActionLink" p:methodToCall="cancelTerm" p:actionLabel="Cancel"/>
       </list>
     </property>
      <property name="items">

@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
@@ -23,16 +24,24 @@ public class AcademicTermWrapper {
 
     private String termNameForUI;
     private List<KeyDatesGroupWrapper> keyDatesGroupWrappers;
-    private boolean readOnly = false;
 
     private TypeInfo typeInfo;
 
     private List<KeyDateWrapper> keyDatesToDeleteOnSave;
 
+    private boolean enableMakeOfficialButton;
+    private String makeOfficialButtonText;
+
+    private boolean isOfficial;
+    private boolean isAlreadySaved;
+
+
     public AcademicTermWrapper(){
         keyDatesGroupWrappers = new ArrayList();
         termInfo = new TermInfo();
         keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
+        enableMakeOfficialButton = false;
+        makeOfficialButtonText = "Make Official";
     }
 
     public AcademicTermWrapper(TermInfo termInfo){
@@ -91,11 +100,6 @@ public class AcademicTermWrapper {
 
     public void setTermInfo(TermInfo termInfo) {
         this.termInfo = termInfo;
-        if (termInfo != null){
-            if (StringUtils.equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,termInfo.getStateKey())){
-                readOnly = true;
-            }
-        }
     }
 
     public int getInstructionalDays() {
@@ -114,14 +118,6 @@ public class AcademicTermWrapper {
         this.termNameForUI = termNameForUI;
     }
 
-    public boolean isReadOnly() {
-        return readOnly;
-    }
-
-    public void setReadOnly(boolean readOnly) {
-        this.readOnly = readOnly;
-    }
-
     public List<KeyDatesGroupWrapper> getKeyDatesGroupWrappers() {
         return keyDatesGroupWrappers;
     }
@@ -136,6 +132,22 @@ public class AcademicTermWrapper {
 
     public void setKeyDatesToDeleteOnSave(List<KeyDateWrapper> keyDatesToDeleteOnSave) {
         this.keyDatesToDeleteOnSave = keyDatesToDeleteOnSave;
+    }
+
+    public boolean isEnableMakeOfficialButton() {
+        return enableMakeOfficialButton;
+    }
+
+    public void setEnableMakeOfficialButton(boolean enableMakeOfficialButton) {
+        this.enableMakeOfficialButton = enableMakeOfficialButton;
+    }
+
+    public String getMakeOfficialButtonText() {
+        return makeOfficialButtonText;
+    }
+
+    public void setMakeOfficialButtonText(String makeOfficialButtonText) {
+        this.makeOfficialButtonText = makeOfficialButtonText;
     }
 
     public void clear(){
@@ -155,4 +167,13 @@ public class AcademicTermWrapper {
     public void setTypeInfo(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;
     }
+
+    public boolean isOfficial() {
+        return StringUtils.equals(termInfo.getStateKey(), AcademicCalendarServiceConstants.TERM_OFFICIAL_STATE_KEY);
+    }
+
+    public boolean isNew() {
+        return StringUtils.isBlank(termInfo.getId());
+    }
+
 }
