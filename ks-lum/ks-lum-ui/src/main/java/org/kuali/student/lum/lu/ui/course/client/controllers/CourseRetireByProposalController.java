@@ -17,12 +17,14 @@ import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
@@ -64,6 +66,21 @@ public class CourseRetireByProposalController extends CourseProposalController {
    				CourseProposalConfigurer.CourseSections.WF_APPROVE_DIALOG,"", cfg.getModelId());//TODO make msg
    		cfg.setState(DtoConstants.STATE_DRAFT);   		
    		cfg.setNextState(DtoConstants.STATE_RETIRED);
+   		
+   		//Add an extra menu item to copy the proposal to a new proposal.
+   		workflowUtil.getAdditionalItems().add(new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent event) {
+			    if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
+		    		getViewContext().setId((String)cluProposalModel.get(cfg.getProposalPath()+"/id"));
+		    		getViewContext().setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
+		    		getViewContext().getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
+		    		cluProposalModel.resetRoot(); // Reset the root so that the model can be reloaded from the copied proposal.
+		        }
+                HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_RETIRE_BY_PROPOSAL", getViewContext());
+			}
+		}));
+   		
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
    		super.addStyleName("ks-course-admin");  

@@ -45,7 +45,7 @@ public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
     @Override
     public void configure(final CourseProposalController layout) {
         type = "course";
-        state = DtoConstants.STATE_RETIRED;
+        state = DtoConstants.STATE_DRAFT;
         nextState = DtoConstants.STATE_RETIRED;
 
         groupName = LUUIConstants.COURSE_GROUP_NAME;
