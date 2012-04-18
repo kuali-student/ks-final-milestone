@@ -18,7 +18,7 @@ public class AppointmentWindowWrapper extends TimeSetWrapper {
     //Assignment Info
     Integer numberOfStudents;
     Integer numberOfSlots;
-    Integer meanStudentsPerSlot;
+    Float meanStudentsPerSlot;
     Date lastSlotPopulated;
     Date assignmentsCreated;
 
@@ -114,11 +114,11 @@ public class AppointmentWindowWrapper extends TimeSetWrapper {
         this.numberOfSlots = numberOfSlots;
     }
 
-    public Integer getMeanStudentsPerSlot() {
+    public Float getMeanStudentsPerSlot() {
         return meanStudentsPerSlot;
     }
 
-    public void setMeanStudentsPerSlot(Integer meanStudentsPerSlot) {
+    public void setMeanStudentsPerSlot(Float meanStudentsPerSlot) {
         this.meanStudentsPerSlot = meanStudentsPerSlot;
     }
 

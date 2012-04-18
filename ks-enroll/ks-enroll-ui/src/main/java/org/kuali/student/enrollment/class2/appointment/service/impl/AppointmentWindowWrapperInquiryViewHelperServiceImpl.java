@@ -13,6 +13,7 @@ import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
+import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -37,6 +38,8 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
     public AppointmentWindowWrapper retrieveDataObject(Map<String, String> parameters) {
 
         AppointmentWindowWrapper appointmentWindowWrapper = new AppointmentWindowWrapper();
+        AppointmentService appointmentService = getAppointmentService();
+        ContextInfo context = getContextInfo();
         try{
             //need to retrieve AppointmentWindowInfo and all info related to slots and assignments to form the AppointmentWindowWrapper.
             String windowId = parameters.get(WINDOW_WRAPPER_KEY);
@@ -47,20 +50,43 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             else {
                 System.out.println(">>>windowId ="+windowId);
             }
-            AppointmentWindowInfo appointmentWindowInfo = getAppointmentService().getAppointmentWindow(windowId,getContextInfo());
+            //populate Window Info section
+            AppointmentWindowInfo appointmentWindowInfo = appointmentService.getAppointmentWindow(windowId, context);
             appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
             appointmentWindowWrapper.setId(appointmentWindowInfo.getId());
-            KeyDateInfo period = getAcalService().getKeyDate(appointmentWindowInfo.getPeriodMilestoneId(),getContextInfo());
+            KeyDateInfo period = getAcalService().getKeyDate(appointmentWindowInfo.getPeriodMilestoneId(),context);
             appointmentWindowWrapper.setPeriodName(period.getName());
-            PopulationInfo populationInfo = getPopulationService().getPopulation(appointmentWindowInfo.getAssignedPopulationId(),getContextInfo());
+            PopulationInfo populationInfo = getPopulationService().getPopulation(appointmentWindowInfo.getAssignedPopulationId(),context);
             appointmentWindowWrapper.setAssignedPopulationName(populationInfo.getName());
-            TypeInfo type = getTypeService().getType(appointmentWindowInfo.getTypeKey(), getContextInfo());
+            TypeInfo type = getTypeService().getType(appointmentWindowInfo.getTypeKey(), context);
             appointmentWindowWrapper.setWindowTypeName(type.getName());
 
-            List<AppointmentSlotInfo> slots = getAppointmentService().getAppointmentSlotsByWindow(appointmentWindowInfo.getId(),getContextInfo());
-            appointmentWindowWrapper.setNumberOfSlots(slots.size());
+            //populate Assignment Info section
+            if(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY.equals(appointmentWindowInfo.getStateKey())) {
+                int numberOfStudents = 0;
+                List<AppointmentSlotInfo> slots = appointmentService.getAppointmentSlotsByWindow(appointmentWindowInfo.getId(),context);
+                appointmentWindowWrapper.setNumberOfSlots(slots.size());
 
+                if(!slots.isEmpty()) {
+                    for(AppointmentSlotInfo slot : slots){
+                        List<AppointmentInfo> appointments = appointmentService.getAppointmentsBySlot(slot.getId(),context);
+                        numberOfStudents = numberOfStudents+appointments.size();
+                    }
+                    appointmentWindowWrapper.setNumberOfStudents(numberOfStudents);
+                    
+                    float meanStudentsPerSlot = numberOfStudents/slots.size();
+                    appointmentWindowWrapper.setMeanStudentsPerSlot(new Float(meanStudentsPerSlot));
 
+                    AppointmentSlotInfo slot = slots.get(slots.size()-1);
+                    appointmentWindowWrapper.setLastSlotPopulated(slot.getMeta().getCreateTime());
+                    
+                    List<AppointmentInfo> appointments = appointmentService.getAppointmentsBySlot(slot.getId(),context);
+                    if(!appointments.isEmpty()){
+                        AppointmentInfo appointment = appointments.get(appointments.size()-1);
+                        appointmentWindowWrapper.setAssignmentsCreated(appointment.getMeta().getCreateTime());
+                    }
+                }
+            }
 
             return appointmentWindowWrapper;
 
