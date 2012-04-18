@@ -295,6 +295,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
               TypeInfo type = getAcalService().getTermType(orgTermInfo.getTypeKey(),context);
               newTermWrapper.setTypeInfo(type);
               newTermWrapper.setTermNameForUI(type.getName());
+              newTermWrapper.setName(type.getName());
 
               //Populate keydates and copy over
               List<KeyDateInfo> keydateList = getAcalService().getKeyDatesForTerm(orgTermInfo.getId(),context);
