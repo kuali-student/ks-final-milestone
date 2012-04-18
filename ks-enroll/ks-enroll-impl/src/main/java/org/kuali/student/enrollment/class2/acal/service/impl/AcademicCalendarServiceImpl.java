@@ -1943,11 +1943,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             List<HolidayInfo> holidays = getHolidaysByDateForAcademicCalendar(acal.getId(), instructionalPeriodKeyDate.getStartDate(), instructionalPeriodKeyDate.getEndDate(), contextInfo);
 
             for (HolidayInfo holiday : holidays) {
-
-                Period holidayPeriod = new Period(holiday.getStartDate().getTime(), holiday.getEndDate().getTime());
-
-                numberOfHolidayDays = numberOfHolidayDays + holidayPeriod.toStandardDays().getDays();
-
+                Period holidayPeriod;
+                if (holiday.getIsDateRange()){
+                    holidayPeriod = new Period(holiday.getStartDate().getTime(), holiday.getEndDate().getTime());
+                    numberOfHolidayDays = numberOfHolidayDays + holidayPeriod.toStandardDays().getDays();
+                }else{
+                    numberOfHolidayDays = numberOfHolidayDays + 1;
+                }
             }
         }
         return numberOfHolidayDays;
@@ -1988,8 +1990,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             List<HolidayInfo> holidays = getHolidaysForHolidayCalendar(holidayCalendarId, contextInfo);
 
             for (HolidayInfo holiday : holidays) {
-                if (holiday.getStartDate().after(startDate) && holiday.getEndDate().before(endDate)) {
-                    holidaysForAcal.add(holiday);
+                if (holiday.getStartDate().after(startDate)){
+                    if (holiday.getIsDateRange()){
+                        if (holiday.getEndDate().before(endDate)){
+                           holidaysForAcal.add(holiday);
+                        }
+                    }else{
+                        holidaysForAcal.add(holiday);
+                    }
                 }
             }
 
