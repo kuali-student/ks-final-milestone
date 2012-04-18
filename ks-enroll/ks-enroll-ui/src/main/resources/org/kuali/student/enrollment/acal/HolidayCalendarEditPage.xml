@@ -81,7 +81,7 @@
 					</property>
 				</bean>
                 <!-- NOTE:
-                        This hidden button defeats a KRAD bug which causes Enter to fire the next action
+                        This hidden button defeats a KRAD 2.0 bug which causes Enter to fire the next action
                         found - in this case, the "add" button of the addline for the Holidays collection.
                 -->
                 <bean parent="Uif-SecondaryActionButton-Small" p:style="visibility:hidden;width:2px;" p:clientSideJs="void(0);"/>

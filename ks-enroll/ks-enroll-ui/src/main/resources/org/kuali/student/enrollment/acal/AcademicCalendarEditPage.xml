@@ -76,15 +76,14 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="Academic Calendar Name"
-                      p:labelPlacement="TOP" p:labelField.renderColon="false"
-                      p:propertyName="academicCalendarInfo.name" p:labelField.style="display:block;">
+                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.name"
+                      p:label="Academic Calendar Name" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.adminOrgId"
-                      p:label="Organization" p:labelField.renderColon="false" p:labelField.style="display:block;">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="academicCalendarInfo.adminOrgId"
+                      p:label="Organization" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="org-options"/>
                     </property>
@@ -92,9 +91,8 @@
                       <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.OrgKeyValues"/>
                     </property>   -->
                 </bean>
-                <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP"
-                      p:labelField.renderColon="false" p:labelField.style="display:block;"
-                      p:propertyName="academicCalendarInfo.startDate">
+                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.startDate"
+                      p:label="Start Date" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy" />
                     </property>
@@ -102,9 +100,8 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:labelField.style="display:block;"
-                      p:labelField.styleClasses="labelTop" p:labelField.renderColon="false"
-                      p:propertyName="academicCalendarInfo.endDate">
+                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.endDate"
+                      p:label="End Date" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
                     </property>
@@ -112,6 +109,12 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
+                <!-- NOTE:
+                        This hidden button defeats a KRAD 2.0 bug which causes Enter to fire the next action
+                        found - in this case, the "add" button of the addline for the Holidays collection.
+                -->
+                <bean parent="Uif-SecondaryActionButton-Small" p:style="visibility:hidden;width:2px;" p:clientSideJs="void(0);"/>
+                <!-- END OF KRAD WORK-AROUND -->
             </list>
         </property>
     </bean>
@@ -375,7 +378,8 @@
              </property>
          </bean>
          <bean parent="Uif-InputField" p:propertyName="holidayInfo.isInstructionalDay" p:label="Instructional"
-               p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;">
+               p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;"
+               p:alternateDisplayValue="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}">
              <property name="control">
                 <bean parent="Uif-CheckboxControl"/>
              </property>
