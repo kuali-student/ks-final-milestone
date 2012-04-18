@@ -15,6 +15,7 @@ import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrap
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
+import org.kuali.student.enrollment.class2.appointment.util.AppointmentSlotRuleTypeConversion;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -22,7 +23,6 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
-import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -255,10 +255,10 @@ public class RegistrationWindowsController extends UifControllerBase {
                     //Default the state to active
                     appointmentWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
 
-                    //Default the Weekdays to a value since the DB schema does not allow null values
-                    appointmentWindowInfo.setSlotRule(new AppointmentSlotRuleInfo());
-                    appointmentWindowInfo.getSlotRule().setWeekdays(new ArrayList<Integer>());
-                    appointmentWindowInfo.getSlotRule().getWeekdays().add(1);
+                    //Converting appointment rule type code to AppointmentSlotRuleInfo object
+                    appointmentWindowInfo.setSlotRule(AppointmentSlotRuleTypeConversion.convToAppointmentSlotRuleInfo(appointmentWindowWrapper.getSlotRuleEnumType()));
+                    //appointmentWindowInfo.getSlotRule().setWeekdays(new ArrayList<Integer>());
+                    //appointmentWindowInfo.getSlotRule().getWeekdays().add(1);
 
                     appointmentWindowInfo = getAppointmentService().createAppointmentWindow(appointmentWindowInfo.getTypeKey(),appointmentWindowInfo,new ContextInfo());
                 }else{
@@ -398,7 +398,7 @@ public class RegistrationWindowsController extends UifControllerBase {
                     windowWrapper.setAppointmentWindowInfo(window);
                     windowWrapper.setPeriodKey(window.getPeriodMilestoneId());
                     windowWrapper.setPeriodName(period.getName());
-
+                    windowWrapper.setSlotRuleEnumType(AppointmentSlotRuleTypeConversion.convTotAppointmentSlotRuleCode(window.getSlotRule()));
                     windowWrapper.setAssignedPopulationName(population.getName());
                     windowWrapper.setWindowTypeKey(window.getTypeKey());
 

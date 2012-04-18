@@ -21,7 +21,10 @@ public class AppointmentWindowWrapper extends TimeSetWrapper {
     Float meanStudentsPerSlot;
     Date lastSlotPopulated;
     Date assignmentsCreated;
-
+    
+    //Appt rule type
+    String slotRuleEnumType;
+    
     public String getTermType() {
         return termType;
     }
@@ -136,5 +139,13 @@ public class AppointmentWindowWrapper extends TimeSetWrapper {
 
     public void setAssignmentsCreated(Date assignmentsCreated) {
         this.assignmentsCreated = assignmentsCreated;
+    }
+    
+    public void setSlotRuleEnumType(String slotRuleEnumType){
+        this.slotRuleEnumType = slotRuleEnumType;
+    }
+    
+    public String getSlotRuleEnumType() {
+        return slotRuleEnumType;
     }
 }

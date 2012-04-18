@@ -134,4 +134,9 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
+    <!-- Enumeration Dao -->
+    <bean id="enumValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
 </beans>

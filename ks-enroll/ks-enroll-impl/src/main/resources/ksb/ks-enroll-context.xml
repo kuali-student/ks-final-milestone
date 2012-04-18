@@ -456,4 +456,9 @@
         </property>
     </bean>
 
+    <!-- enumeration service for Appt Rule Types -->
+    <bean id="enumerationService" class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+        <property name="enumValueDao" ref="enumValueDao" />
+    </bean>
+
 </beans>

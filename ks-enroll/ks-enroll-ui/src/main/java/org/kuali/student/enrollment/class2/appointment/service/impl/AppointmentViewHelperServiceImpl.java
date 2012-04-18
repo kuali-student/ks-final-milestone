@@ -32,19 +32,17 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
+import org.kuali.student.enrollment.class2.appointment.util.AppointmentSlotRuleTypeConversion;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
+import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
-import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
@@ -66,7 +64,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         DateFormat df = new SimpleDateFormat("yyyy");
         Date minBoundDate = df.parse(year);
         Date maxBoundDate = df.parse(Integer.toString(Integer.parseInt(year)+1));
-        
+
         //Build up a term search criteria
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
@@ -90,7 +88,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         if(terms.size()>1){
             LOG.error("Too many terms!");
         }
-        
+
         TermInfo term = terms.get(0);
 
         //Populate the result form
@@ -122,7 +120,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         if(form.getPeriodMilestones()==null||form.getPeriodMilestones().isEmpty()){
             throw new Exception("No periods exist for term");//TODO what happens in this case
         }
-        
+
         return form;
     }
 
@@ -197,16 +195,16 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             //  2) a window end date is required for uniform             
             String windowTypeKey = apptWindow.getWindowTypeKey();
             if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)){
-               if(apptWindow.getEndDate() == null)   {
-                   GlobalVariables.getMessageMap().putError( KRADConstants.GLOBAL_MESSAGES,
-                           "Last Date is a required field and can't be null when Slot Allocation Method is Uniform");
-                   isValid = false;
-               }
-               if(apptWindow.getEndTime() == null){
-                   GlobalVariables.getMessageMap().putError( KRADConstants.GLOBAL_MESSAGES,
-                           "Closing Time is a required field and can't be null when Slot Allocation Method is Uniform");
-                   isValid = false;
-               }
+                if(apptWindow.getEndDate() == null)   {
+                    GlobalVariables.getMessageMap().putError( KRADConstants.GLOBAL_MESSAGES,
+                            "Last Date is a required field and can't be null when Slot Allocation Method is Uniform");
+                    isValid = false;
+                }
+                if(apptWindow.getEndTime() == null){
+                    GlobalVariables.getMessageMap().putError( KRADConstants.GLOBAL_MESSAGES,
+                            "Closing Time is a required field and can't be null when Slot Allocation Method is Uniform");
+                    isValid = false;
+                }
             }
             // 3) when start/end date is not null, start/end date should be in the date range of the selected period
             String periodId = apptWindow.getPeriodKey();
@@ -247,7 +245,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
         return isValid;
     }
-    
+
     protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof AppointmentWindowWrapper) {
             //in the AddLine (/inputLine) when the periodId is not all, need to set the selected periodId and periodName
@@ -284,10 +282,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             //Default the state to active
             appointmentWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
 
-            //Default the Weekdays to a value since the DB schema does not allow null values
-            appointmentWindowInfo.setSlotRule(new AppointmentSlotRuleInfo());
-            appointmentWindowInfo.getSlotRule().setWeekdays(new ArrayList<Integer>());
-            appointmentWindowInfo.getSlotRule().getWeekdays().add(1);
+            //Converting appointment rule type code to AppointmentSlotRuleInfo object
+            appointmentWindowInfo.setSlotRule(AppointmentSlotRuleTypeConversion.convToAppointmentSlotRuleInfo(appointmentWindowWrapper.getSlotRuleEnumType()));
 
             appointmentWindowInfo = getAppointmentService().createAppointmentWindow(appointmentWindowInfo.getTypeKey(),appointmentWindowInfo,new ContextInfo());
         }else{

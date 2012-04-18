@@ -49,3 +49,34 @@ INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCL
 INSERT INTO KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) VALUES ('kuali.appointment.state.active', null, 'Active','Appointment is Active','Appointment is Active', 'kuali.appointment.lifecycle', null, null, 0, to_date('2012-03-01', 'YYYY-MM_DD'), 'SYSTEMLOADER', null,null)
 /
 
+---------------------------------------------
+ --- APPT. RULE TYPES
+---------------------------------------------
+
+
+delete from KSEM_ENUM_VAL_T where obj_id = '04112012221'
+/
+delete from KSEM_ENUM_VAL_T where obj_id = '04112012222'
+/
+delete from KSEM_ENUM_VAL_T where obj_id = '04112012223'
+/
+delete from KSEM_ENUM_VAL_T where obj_id = '04112012224'
+/
+delete from ksem_enum_t where obj_id = 'enroll'
+/
+
+insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME, OBJ_ID, VER_NBR)
+values ('kuali.enum.type.slotrule', 'Slot Code', sysdate, null, 'Slot Codes', 'enroll', 1)
+/
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, EXPIR_DT, SORT_KEY, VAL, ENUM_KEY, OBJ_ID, VER_NBR)
+values ('04112012221', 'Undergrad Standard', '05', sysdate, null, 1, '0,3,4;8;4;kuali.duration.type.minutes;15;kuali.duration.type.minutes;0', 'kuali.enum.type.slotrule', '04112012221', 1)
+/
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, EXPIR_DT, SORT_KEY, VAL, ENUM_KEY, OBJ_ID, VER_NBR)
+values ('04112012222', 'Undergrad Special', '06', sysdate, null, 2, '1,2,5;9;5;kuali.duration.type.minutes;30;kuali.duration.type.minutes;0', 'kuali.enum.type.slotrule', '04112012222', 1)
+/
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, EXPIR_DT, SORT_KEY, VAL, ENUM_KEY, OBJ_ID, VER_NBR)
+values ('04112012223', 'AdvancedRegistration', '07', sysdate, null, 1, '2,3,6;10;6;kuali.duration.type.minutes;45;kuali.duration.type.minutes;0', 'kuali.enum.type.slotrule', '04112012223', 1)
+/
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, EXPIR_DT, SORT_KEY, VAL, ENUM_KEY, OBJ_ID, VER_NBR)
+values ('04112012224', 'Graduate/Profession', '08', sysdate, null, 1, '1,2,3,4;8;5;kuali.duration.type.minutes;20;kuali.duration.type.minutes;0', 'kuali.enum.type.slotrule', '04112012224', 1)
+/
