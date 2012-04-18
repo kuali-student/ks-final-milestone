@@ -199,12 +199,12 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)){
                if(apptWindow.getEndDate() == null)   {
                    GlobalVariables.getMessageMap().putError( KRADConstants.GLOBAL_MESSAGES,
-                           "End Date is a required field and can't be null");
+                           "Last Date is a required field and can't be null when Slot Allocation Method is Uniform");
                    isValid = false;
                }
                if(apptWindow.getEndTime() == null){
                    GlobalVariables.getMessageMap().putError( KRADConstants.GLOBAL_MESSAGES,
-                           "End Time is a required field and can't be null");
+                           "Closing Time is a required field and can't be null when Slot Allocation Method is Uniform");
                    isValid = false;
                }
             }
@@ -227,17 +227,22 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, "Fail to find periods for a selected term.");
                 isValid = false;
             }
-            try {
-                //need to persist the window that has passed the validation to DB
-                _saveApptWindow((AppointmentWindowWrapper)addLine);
-                //Add a success message
-                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                        AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
-            } catch (Exception e) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES,"Fail to create a window.");
-                isValid = false;
+
+            if(isValid) {
+                try {
+                    //need to persist the window that has passed the validation to DB
+                    _saveApptWindow((AppointmentWindowWrapper)addLine);
+                    //Add a success message
+                    GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                            AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
+                } catch (Exception e) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES,"Fail to create a window.");
+                    isValid = false;
+                }
             }
 
+        } else {
+            super.performAddLineValidation(view, collectionGroup, model, addLine);
         }
 
         return isValid;
