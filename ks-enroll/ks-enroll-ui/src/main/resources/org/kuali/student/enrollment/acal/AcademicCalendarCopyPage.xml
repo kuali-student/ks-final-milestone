@@ -136,10 +136,10 @@
                                   p:required="true"
                                   p:propertyName="academicCalendarInfo.name"
                                   p:labelField.width="15%">
-                                <property name="validCharactersConstraint">
-                                    <bean parent="AlphaNumericPatternConstraint"
-                                          p:allowWhitespace="true" />
-                                </property>
+                                <!--<property name="validCharactersConstraint">-->
+                                    <!--<bean parent="AlphaNumericPatternConstraint"-->
+                                          <!--p:allowWhitespace="true" />-->
+                                <!--</property>-->
                                 <property name="control">
                                     <bean parent="Uif-TextControl"
                                           p:size="40"

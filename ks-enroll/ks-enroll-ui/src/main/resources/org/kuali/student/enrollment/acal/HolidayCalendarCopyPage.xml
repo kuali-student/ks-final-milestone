@@ -135,10 +135,10 @@
                                   p:propertyName="newCalendarName"
                                   p:labelField.width="15%"
                                   p:id="KS-HolidayCalendar-CopyPage-To-name">
-                                <property name="validCharactersConstraint">
-                                    <bean parent="AlphaNumericPatternConstraint"
-                                          p:allowWhitespace="true" />
-                                </property>
+                                <!--<property name="validCharactersConstraint">-->
+                                    <!--<bean parent="AlphaNumericPatternConstraint"-->
+                                          <!--p:allowWhitespace="true" />-->
+                                <!--</property>-->
                                 <property name="control">
                                     <bean parent="Uif-TextControl"
                                           p:size="40"
