@@ -25,12 +25,12 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="makeOfficial"
-                              p:actionLabel="Make Official"
-                              p:disabled="@{newCalendar}" p:render="@{!officialCalendar}"/>
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="save"
-                              p:actionLabel="@{officialCalendar ? 'Update Official' : 'Save'}"
-                              p:clientSideValidate="true" />
+                        <bean parent="Uif-PrimaryActionButton"
+                              p:methodToCall="@{officialCalendar ? 'save' : 'makeOfficial'}"
+                              p:actionLabel="@{officialCalendar ? 'Update Official' : 'Make Official'}"
+                              p:disabled="@{newCalendar}" p:clientSideValidate="@{officialCalendar}" />
+                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                              p:clientSideValidate="true" p:render="@{!officialCalendar}"/>
                         <bean parent="Uif-ActionLink" p:methodToCall="delete"
                               p:actionLabel="@{officialCalendar ? 'Delete Calendar' : 'Delete Draft'}"
                               p:clientSideJs="confirmDeletion('Are you sure you want to delete this holiday calendar?')"
