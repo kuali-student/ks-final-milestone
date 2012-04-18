@@ -309,7 +309,7 @@ public class HolidayCalendarController extends UifControllerBase {
     public ModelAndView save(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
         return updateHolidayCalendarForm(hcForm, CalendarConstants.MSG_INFO_HOLIDAY_CALENDAR_SAVED,
-                CalendarConstants.HC_UPDATE_MAKEOFFICIAL);
+                CalendarConstants.HC_UPDATE_SAVE);
     }
 
      /**
