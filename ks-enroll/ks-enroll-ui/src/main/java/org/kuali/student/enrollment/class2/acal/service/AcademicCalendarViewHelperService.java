@@ -43,6 +43,8 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     //Acal
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
 
+    public void deleteAcademicCalendar(String academicCalendarId) throws Exception;
+
     public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception;
 
     public AcademicCalendarInfo copyToCreateAcademicCalendar(AcademicCalendarForm form) throws Exception;

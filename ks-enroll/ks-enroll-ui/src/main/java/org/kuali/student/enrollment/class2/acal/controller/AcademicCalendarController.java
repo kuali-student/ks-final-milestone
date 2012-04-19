@@ -27,6 +27,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.*;
@@ -34,6 +35,7 @@ import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
@@ -99,9 +101,6 @@ public class AcademicCalendarController extends UifControllerBase {
         acalForm.setEvents(new ArrayList<AcalEventWrapper>());
         acalForm.setHolidayCalendarList(new ArrayList<HolidayCalendarWrapper>());
         acalForm.setTermWrapperList(new ArrayList<AcademicTermWrapper>());
-//test
-//        acalForm.setOfficialButtonVisible(false);
-//        acalForm.setDeleteButtonVisible(false);
         return getUIFModelAndView(acalForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
     }
 
@@ -219,9 +218,6 @@ public class AcademicCalendarController extends UifControllerBase {
 
         try {
            getAcademicCalendarViewHelperService(acalForm).copyToCreateAcademicCalendar(acalForm);
-//test
-//           acalForm.setOfficialButtonVisible(false);
-//           acalForm.setDeleteButtonVisible(true);
         }catch (Exception ex) {
 
         }
@@ -354,6 +350,24 @@ public class AcademicCalendarController extends UifControllerBase {
                 academicCalendarForm.getAcademicCalendarInfo().getName());
 
         return getUIFModelAndView(academicCalendarForm);
+    }
+
+    /**
+     * Method used to delete AcademicCalendar
+     */
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=delete")
+    public ModelAndView delete(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+        getAcademicCalendarViewHelperService(acalForm).deleteAcademicCalendar(
+                acalForm.getAcademicCalendarInfo().getId());
+
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,
+                CalendarConstants.MSG_INFO_SEARCH_DELETE_SUCCESS, acalForm.getAcademicCalendarInfo().getName());
+
+        Properties urlParameters = new  Properties();
+        urlParameters.put("viewId", CalendarConstants.ENROLLMENT_HOME_VIEW);
+        urlParameters.put("methodToCall", KRADConstants.START_METHOD);
+        return performRedirect(acalForm, request.getRequestURL().toString(), urlParameters);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelTerm")
@@ -592,8 +606,6 @@ public class AcademicCalendarController extends UifControllerBase {
         acalInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY);
         getAcalService().updateAcademicCalendar(acalInfo.getId(), acalInfo, getContextInfo(acalForm));
         acalForm.setAcademicCalendarInfo(acalInfo);
-//test
-//        acalForm.setOfficialButtonVisible(false);
         acalForm.setNewCalendar(false);
         acalForm.setOfficialCalendar(true);
 
@@ -610,8 +622,6 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarInfo acalInfo = getAcalService().getAcademicCalendar(acalId,getContextInfo(acalForm));
         acalForm.setAcademicCalendarInfo(acalInfo);
         acalForm.setAdminOrgName(getAdminOrgNameById(acalInfo.getAdminOrgId()));
-//test
-//        acalForm.setOfficialButtonVisible( ! acalInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY));
         acalForm.setNewCalendar(false);
         acalForm.setOfficialCalendar(acalInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY));
 

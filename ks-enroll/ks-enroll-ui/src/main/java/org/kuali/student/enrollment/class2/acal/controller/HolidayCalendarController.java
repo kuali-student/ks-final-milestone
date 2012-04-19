@@ -320,7 +320,7 @@ public class HolidayCalendarController extends UifControllerBase {
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
         getHolidayCalendarFormHelper(hcForm).deleteHolidayCalendar(hcForm.getHolidayCalendarInfo().getId());
         Properties urlParameters = new  Properties();
-        urlParameters.put("viewId", "enrollmentHomeView");
+        urlParameters.put("viewId", CalendarConstants.ENROLLMENT_HOME_VIEW);
         urlParameters.put("methodToCall", "start");
         return performRedirect(hcForm, request.getRequestURL().toString(), urlParameters);
     }

@@ -23,6 +23,10 @@ import org.kuali.rice.krad.util.KRADConstants;
  * @author Kuali Student Team
  */
 public class CalendarConstants {
+
+    // Enrollment home page
+    public static final String ENROLLMENT_HOME_VIEW = "enrollmentHomeView";
+
     //HolidayCalendar pages
     public static final String HOLIDAYCALENDAR_COPYPAGE = "holidayCalendarCopyPage";
     public static final String HOLIDAYCALENDAR_EDITPAGE = "holidayCalendarEditPage";
@@ -76,6 +80,7 @@ public class CalendarConstants {
     public static final String MSG_INFO_ACADEMIC_CALENDAR_SAVED = "info.enroll.academiccalendar.saved";
     public static final String MSG_INFO_HOLIDAY_CALENDAR_OFFICIAL = "info.enroll.holidaycalendar.official";
     public static final String MSG_INFO_HOLIDAY_CALENDAR_SAVED = "info.enroll.holidaycalendar.saved";
+    public static final String MSG_INFO_SEARCH_DELETE_SUCCESS = "info.enroll.search.delete.success";
     public static final String MSG_ERROR_DATE_END_REQUIRED = "error.enroll.date.end.required";
     public static final String MSG_ERROR_HOLIDAY_CALENDAR_DATE = "error.enroll.holidaycalendar.invalidDates";
     public static final String MSG_ERROR_HOLIDAY_DATE = "error.enroll.holiday.invalidDates";

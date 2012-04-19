@@ -253,6 +253,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         return newAcal;
     }
 
+    public void deleteAcademicCalendar(String academicCalendarId) throws Exception {
+        getAcalService().deleteAcademicCalendar(academicCalendarId, getContextInfo());
+    }
+
     public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         List<AcademicCalendarInfo> academicCalendarInfoList =
