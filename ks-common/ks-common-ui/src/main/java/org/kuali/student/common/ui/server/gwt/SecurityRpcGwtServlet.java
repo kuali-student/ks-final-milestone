@@ -69,7 +69,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		Map<String, String> permDetails = new LinkedHashMap<String, String>();
 		HashMap<String,Boolean> permissions = new HashMap<String,Boolean>();
 		for (String permissionName:permissionNames){
-			boolean hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails, permDetails);
+			boolean hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails);
 			permissions.put(permissionName, hasAccess);
 		}
 				
@@ -85,7 +85,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
         Map<String, String> permDetails = new LinkedHashMap<String, String>();
         permDetails.put(StudentIdentityConstants.SCREEN_COMPONENT, screenName);
         boolean hasAccess = false;
-        hasAccess = getPermissionService().isAuthorizedByTemplateName(principalId, 
+        hasAccess = getPermissionService().isAuthorizedByTemplate(principalId, 
 					PermissionType.USE_SCREEN.getPermissionNamespace(), 
 					PermissionType.USE_SCREEN.getPermissionTemplateName(), permDetails, 
 					permDetails);
@@ -105,7 +105,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		//TODO: Do we need to worry about permission details when checking by permission name
 		Map<String, String> permDetails = new LinkedHashMap<String, String>();
 		boolean hasAccess = false;
-		hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails, permDetails);
+		hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails);
 		
 		LOG.debug(principalId + " access : " + hasAccess);
 		
@@ -127,7 +127,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for " + principalId);
  
 		Map<String, String> permDetails = new LinkedHashMap<String, String>();
-		List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplateName(
+		List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplate(
 				principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(), permDetails, permDetails);
 
 		for (Permission permissionInfo:permissions){
