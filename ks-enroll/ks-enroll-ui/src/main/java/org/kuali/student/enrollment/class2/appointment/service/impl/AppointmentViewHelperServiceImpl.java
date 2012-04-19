@@ -58,7 +58,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AppointmentViewHelperServiceImpl.class);
 
     @Override
-    public RegistrationWindowsManagementForm searchForTerm(String typeKey, String year, RegistrationWindowsManagementForm form) throws Exception {
+    public void searchForTerm(String typeKey, String year, RegistrationWindowsManagementForm form) throws Exception {
 
         //Parse the year to a date and the next year's date to compare against the startTerm
         DateFormat df = new SimpleDateFormat("yyyy");
@@ -79,12 +79,11 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         List<TermInfo> terms = academicCalendarService.searchForTerms(criteria, null);
 
         //Check for exceptions
-        if(terms == null){
-            return null; //Nothing found and null
+        if(terms == null || terms.isEmpty()){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES,AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_NO_TERMS_FOUND);
+            return; //Nothing found
         }
-        if(terms.isEmpty()){
-            return null; //Nothing found
-        }
+
         if(terms.size()>1){
             LOG.error("Too many terms!");
         }
@@ -118,10 +117,9 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
         //Check if there are no periods (might want to handle this somewhere else and surface to the user)
         if(form.getPeriodMilestones()==null||form.getPeriodMilestones().isEmpty()){
-            throw new Exception("No periods exist for term");//TODO what happens in this case
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
         }
 
-        return form;
     }
 
     public void loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {

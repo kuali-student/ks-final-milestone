@@ -21,9 +21,12 @@
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="termYear" p:label="Year">
+                <bean parent="Uif-InputField" p:propertyName="termYear" p:label="Year" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
                     </property>
                 </bean>
             </list>
@@ -32,7 +35,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="searchForTerm"/>
+                        <bean parent="Uif-SecondaryActionButton" p:clientSideValidate="true" p:actionLabel="Search" p:methodToCall="searchForTerm"/>
                     </list>
                 </property>
             </bean>

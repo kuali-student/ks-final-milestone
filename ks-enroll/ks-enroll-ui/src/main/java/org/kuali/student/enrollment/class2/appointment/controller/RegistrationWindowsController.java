@@ -209,6 +209,11 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         // resetForm(searchForm);
         getViewHelperService(searchForm).searchForTerm(termType, termYear, searchForm);
+
+        if (GlobalVariables.getMessageMap().hasErrors()){
+            return getUIFModelAndView(searchForm, AppointmentConstants.SELECT_TERM_PAGE);
+        }
+
         return getUIFModelAndView(searchForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
     }
 

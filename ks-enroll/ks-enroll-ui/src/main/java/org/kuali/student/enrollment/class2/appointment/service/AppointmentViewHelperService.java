@@ -28,7 +28,7 @@ import org.kuali.student.r2.common.exceptions.*;
  */
 public interface AppointmentViewHelperService extends ViewHelperService {
 
-    public RegistrationWindowsManagementForm searchForTerm(String name, String year, RegistrationWindowsManagementForm form)throws Exception;
+    public void searchForTerm(String name, String year, RegistrationWindowsManagementForm form)throws Exception;
     public void loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception;
     public void loadPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception;
     public void saveWindows(RegistrationWindowsManagementForm form) throws InvalidParameterException, DataValidationErrorException, MissingParameterException,
