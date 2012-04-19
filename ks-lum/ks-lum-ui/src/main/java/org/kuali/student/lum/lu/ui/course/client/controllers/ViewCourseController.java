@@ -57,6 +57,7 @@ import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
+import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController.Views;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
@@ -79,7 +80,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ViewCourseController extends TabMenuController implements DocumentLayoutController, HasRequirements, RequiresAuthorization{
-    private final DataModel cluModel = new DataModel(); 
+    protected final DataModel cluModel = new DataModel(); 
    
     private WorkQueue modelRequestQueue;
 
@@ -99,19 +100,14 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	
 	private final List<CourseWorkflowActionList> actionDropDownWidgets = new ArrayList<CourseWorkflowActionList>();
 
-    private final CourseRequirementsDataModel reqDataModel;
+    private  CourseRequirementsDataModel reqDataModel;
     
     final ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
 	            
-    public ViewCourseController(Enum<?> viewType){
+    public ViewCourseController(){
     	super(CourseProposalController.class.getName());
-        initialize();
-        addStyleName("courseView");
-        reqDataModel = new CourseRequirementsDataModel(this);
-        this.tabPanel.addStyleName("standard-content-padding");
-        this.setViewEnum(viewType);
     }
-    
+  
     @Override
     public void setViewContext(ViewContext viewContext) {
     	super.setViewContext(viewContext);
@@ -121,7 +117,11 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     	}
     }
     
-    private void initialize() {
+    public void initialize(Enum<?> viewType) {   
+        addStyleName("courseView");
+        reqDataModel = new CourseRequirementsDataModel(this);
+        this.tabPanel.addStyleName("standard-content-padding");
+        this.setViewEnum(viewType);
         super.setDefaultModelId(CourseProposalConfigurer.COURSE_PROPOSAL_MODEL);
         super.registerModel(CourseProposalConfigurer.COURSE_PROPOSAL_MODEL, new ModelProvider<DataModel>() {
 
@@ -408,7 +408,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     	WindowTitleUtils.setContextTitle(title);
     }
     
-    private void updateStatus() {
+    protected void updateStatus() {
     	if(cluModel.get("state") != null){
             statusLabel.setText(getMessage("courseStatusLabel") + ": " + cluModel.get("state"));
     	}

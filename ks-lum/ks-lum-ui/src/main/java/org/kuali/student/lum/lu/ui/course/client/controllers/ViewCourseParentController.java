@@ -6,6 +6,8 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 
+import com.google.gwt.core.client.GWT;
+
 public class ViewCourseParentController extends BasicLayout{
 	
 	public static enum Views{VIEW, VERSIONS}
@@ -18,9 +20,11 @@ public class ViewCourseParentController extends BasicLayout{
         this.setDefaultView(Views.VIEW);
         setupDefaultView();
     }
+	
 
     private void setupDefaultView() {
-        view = new ViewCourseController(Views.VIEW);
+        view = GWT.create(ViewCourseController.class);  
+        view.initialize(Views.VIEW);
         view.setParentController(this);
         versions = new VersionsController(Views.VERSIONS);
         view.setParentController(this);
