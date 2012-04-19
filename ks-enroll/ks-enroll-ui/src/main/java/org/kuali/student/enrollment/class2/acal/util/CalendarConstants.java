@@ -72,8 +72,8 @@ public class CalendarConstants {
     public static final String DEFAULT_END_TIME = "11:59";
     public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
 
-    public static final String HC_UPDATE_MAKEOFFICIAL = "makeOfficial";
-    public static final String HC_UPDATE_SAVE = "save";
+    public static final String UPDATE_MAKEOFFICIAL = "makeOfficial";
+    public static final String UPDATE_SAVE = "save";
 
     // Error & Information message constants (defined in KSEnroll-ApplicationResources.properties)
     public static final String MSG_INFO_ACADEMIC_CALENDAR_OFFICIAL = "info.enroll.academiccalendar.official";
