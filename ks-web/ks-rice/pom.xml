@@ -45,6 +45,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
+          <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>          
           <dependentWarExcludes>WEB-INF/lib/**</dependentWarExcludes>
         </configuration>
       </plugin>
@@ -65,24 +66,12 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>org.kuali.student.db</groupId>
-      <artifactId>ks-rice-db</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-web</artifactId>
       <version>${kuali.rice.version}</version>
       <type>war</type>
       <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-it-internal-tools</artifactId>
-      <version>${kuali.rice.version}</version>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
       <groupId>org.kuali.student.admin</groupId>
       <artifactId>ks-admin</artifactId>
@@ -92,7 +81,19 @@
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
       <version>${kuali.rice.version}</version>
+      <exclusions>
+        <exclusion>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-cas-client</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+    <!-- dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-it-internal-tools</artifactId>
+      <version>${kuali.rice.version}</version>
+      <scope>test</scope>      
+    </dependency-->
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-api</artifactId>
