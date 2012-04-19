@@ -47,7 +47,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
                 }
             }
             //fall through
-            throw new IllegalArgumentException("The value " + kimName + " is not enumerated in PermissionEnum");
+            throw new IllegalArgumentException("The value " + kimName + " is not enumerated in Permission"); 
         }
     }
 	
@@ -146,8 +146,8 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         if (checkDocumentLevelPermissions(docLevelPerm) && StringUtils.isNotBlank(id)) {
         	//If doc level permissions are enabled, lookup "Edit Document" permission for this object for this user. 
             Map<String, String> qualification = getQualification(idType, id, docType);
-        	String currentUser = SecurityUtils.getCurrentPrincipalId();
-        	editDocumentAllowed = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
+        	String currentUser = SecurityUtils.getCurrentUserId();
+        	editDocumentAllowed = Boolean.valueOf(permissionService.isAuthorizedByTemplate(currentUser, PermissionType.EDIT.getPermissionNamespace(),
 	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
 			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
 					+ "' for user '" + currentUser + "': " + editDocumentAllowed);	        
@@ -196,12 +196,11 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
     protected Map<String, String> getFieldAccessPermissions(String dtoName, String idType, String id, String docType) {
         try {
             //get permissions and turn into a map of fieldName=>access
-            String principalId = SecurityUtils.getCurrentPrincipalId();
+            String principalId = SecurityUtils.getCurrentUserId();
             Map<String, String> qualification = getQualification(idType, id, docType);
             Map<String, String> permissionDetails = new LinkedHashMap<String, String>();
             permissionDetails.put ("dtoName", dtoName);
-
-            List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
+            List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplate(principalId,
             		PermissionType.FIELD_ACCESS.getPermissionNamespace(),
                         PermissionType.FIELD_ACCESS.getPermissionTemplateName(),
                         permissionDetails,
@@ -251,8 +250,6 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         Map<String, String> qualification = new LinkedHashMap<String, String>();
         qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
         qualification.put(idType, id);
-        //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
-        qualification.put("RAND_NO_CACHE", UUID.randomUUID().toString());
         return qualification;
     }
 
