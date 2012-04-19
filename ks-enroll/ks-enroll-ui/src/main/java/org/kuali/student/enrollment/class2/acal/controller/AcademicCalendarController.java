@@ -152,20 +152,24 @@ public class AcademicCalendarController extends UifControllerBase {
         return getUIFModelAndView(acalForm);
     }
 
-        @RequestMapping(params = "methodToCall=toEdit")
+    @RequestMapping(params = "methodToCall=toEdit")
     public ModelAndView toEdit(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response){
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         AcademicCalendarInfo orgAcalInfo = acalForm.getOrgAcalInfo();
 
-        if (StringUtils.isBlank(acalInfo.getId())){
-            acalForm.setAcademicCalendarInfo(orgAcalInfo);
+        if (StringUtils.isBlank(acalInfo.getId()) && StringUtils.isNotBlank(orgAcalInfo.getId())){
+            try{
+                loadAcademicCalendar(orgAcalInfo.getId(), acalForm);
+             } catch (Exception ex) {
+                 throw new RuntimeException("unable to getAcademicCalendar");
+            }
             acalForm.setOrgAcalInfo(new AcademicCalendarInfo());
         }
 
         acalForm.getView().setReadOnly(false);
 
-        return copy(acalForm, result, request, response);
+        return getUIFModelAndView(acalForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=copyForNew")
@@ -206,7 +210,8 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView toCopy(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response){
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
-        acalForm.setOrgAcalInfo(acalInfo);
+        if(acalForm.getOrgAcalInfo() == null || StringUtils.isBlank(acalForm.getOrgAcalInfo().getId()))
+            acalForm.setOrgAcalInfo(acalInfo);
         acalForm.setAcademicCalendarInfo(new AcademicCalendarInfo());
         acalForm.setOfficialCalendar(false);
         acalForm.setNewCalendar(true);
