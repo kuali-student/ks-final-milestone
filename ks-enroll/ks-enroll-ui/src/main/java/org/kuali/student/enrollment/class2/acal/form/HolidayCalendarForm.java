@@ -40,6 +40,7 @@ public class HolidayCalendarForm  extends UifFormBase {
     private Date newCalendarStartDate;
     private Date newCalendarEndDate;
     private String hcId;
+    private String orgHcId;
     private String updateTimeString;
     private boolean newCalendar;
     private boolean officialCalendar;
@@ -109,6 +110,14 @@ public class HolidayCalendarForm  extends UifFormBase {
 
     public void setHcId(String hcId) {
         this.hcId = hcId;
+    }
+
+    public String getOrgHcId() {
+        return orgHcId;
+    }
+
+    public void setOrgHcId(String orgHcId) {
+        this.orgHcId = orgHcId;
     }
 
     public boolean isNewCalendar() {
