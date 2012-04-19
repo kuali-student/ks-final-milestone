@@ -107,6 +107,10 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper" />
         <property name="propertyName" value="appointmentWindows" />
         <!--<property name="layoutManager.sequencePropertyName" value="name" />-->
+        <!--<property name="collectionLookup.quickfinderActionField.render" value="false" />-->
+        <property name="collectionLookup" >
+            <null/>
+        </property>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
@@ -233,8 +237,11 @@
                     </property>
                 </bean>
                 <!-- bean entry for dropdown Appt rule type-->
+                <!--<bean parent="Uif-InputField" p:label="APPT. RULE TYPE/INTERVAL" p:propertyName="slotRuleEnumType" p:required="true" p:style="font-weight:bold;"  p:refreshWhenChanged="#lp.windowTypeKey"-->
+                      <!--p:readOnly="@{!#isAddLine or #lp.windowTypeKey =='kuali.appointment.window.type.one.slot' or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >-->
                 <bean parent="Uif-InputField" p:label="APPT. RULE TYPE/INTERVAL" p:propertyName="slotRuleEnumType" p:required="true" p:style="font-weight:bold;"
-                      p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >
+                      p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >
+
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -245,6 +252,8 @@
                     </property>
                 </bean>
             <!--<bean parent="Uif-DataField"  p:label=""  p:propertyName="id" p:render="@{#lp.id != null and !#isAddLine}" />-->
+            <!--<bean parent="Uif-InputField"  p:readOnly="true" p:label=""  p:propertyName="id" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" />-->
+
             </list>
         </property>
         <property name="actionFields">
