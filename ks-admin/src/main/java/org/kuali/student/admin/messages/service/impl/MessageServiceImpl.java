@@ -1,19 +1,7 @@
 package org.kuali.student.admin.messages.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
-import com.google.common.collect.MapMaker;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.student.common.messages.dto.LocaleKeyList;
@@ -25,16 +13,28 @@ import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
 import org.kuali.student.core.messages.bo.MessageEntity;
 import org.springframework.beans.factory.InitializingBean;
 
+import javax.jws.WebService;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
+
 @WebService(endpointInterface = "org.kuali.student.common.messages.service.MessageService", serviceName = "MessageService", portName = "MessageService", targetNamespace = "http://student.kuali.org/wsdl/messages")
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+// TODO: RICE-M7 UPGRADE figure out why this soap binding stuff was here in the first place
+//@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class MessageServiceImpl implements MessageService, InitializingBean {
 
 	protected boolean cachingEnabled = false;
 	protected int msgsCacheMaxSize = 20;
 	protected int msgsCacheMaxAgeSeconds = 90;
-	//protected Map<String,MaxAgeSoftReference<MessageList>> msgsCache;
-	protected Map<String,MessageList> msgsCache;
-
+    protected Cache<String, MessageList> msgsCache;
+	
     private BusinessObjectService businessObjectService;
 
     public Message addMessage(Message messageInfo) {
@@ -98,12 +98,26 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
     }
 
     @SuppressWarnings("unchecked")
-    public MessageList getMessages(String localeKey, String messageGroupKey) {
-        if(cachingEnabled){
-            return msgsCache.get("localeKey="+localeKey+", messageGroupKey="+messageGroupKey);
+    public MessageList getMessages(final String localeKey, final String messageGroupKey) {
+        
+    	if(cachingEnabled){
+            try {
+                return msgsCache.get("localeKey="+localeKey+", messageGroupKey="+messageGroupKey, new Callable<MessageList>() {
+                    @Override
+                    public MessageList call() throws Exception {
+                        return getMessagesHelper(localeKey, messageGroupKey);
+                    }
+                });
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return getMessagesHelper(localeKey, messageGroupKey);
         }
+    }
 
-        Map<String,String> fieldValues = new HashMap<String,String>();
+    private MessageList getMessagesHelper(String localeKey, String messageGroupKey) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("locale", localeKey);
         fieldValues.put("groupName", messageGroupKey);
 
@@ -111,16 +125,12 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 
         List<Message> messages = new ArrayList<Message>();
 
-        for(MessageEntity messageEntity: messageEntityList){
+        for (MessageEntity messageEntity : messageEntityList) {
             messages.add(toMessage(messageEntity));
         }
 
         MessageList messageList = new MessageList();
         messageList.setMessages(messages);
-
-        if(cachingEnabled){
-            msgsCache.put("localeKey="+localeKey+", messageGroupKey="+messageGroupKey, messageList );
-        }
 
         return messageList;
     }
@@ -192,7 +202,11 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-			msgsCache = new MapMaker().expireAfterAccess(msgsCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(msgsCacheMaxSize).softValues().makeMap();
+            msgsCache = CacheBuilder.newBuilder()
+                    .expireAfterAccess(msgsCacheMaxAgeSeconds, TimeUnit.SECONDS)
+                    .maximumSize(msgsCacheMaxSize)
+                    .softValues()
+                    .build();
 		}
 	}
 

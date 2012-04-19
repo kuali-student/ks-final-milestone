@@ -284,7 +284,8 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-            searchCache = new MapMaker().expireAfterAccess(searchCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(searchCacheMaxSize).softValues().makeMap();
+            //searchCache = new MapMaker().expireAfterAccess(searchCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(searchCacheMaxSize).softValues().makeMap();
+            searchCache = new MapMaker().expiration(searchCacheMaxAgeSeconds, TimeUnit.SECONDS).softValues().makeMap();
 		}
 	}
 	
