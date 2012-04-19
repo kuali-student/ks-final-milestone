@@ -451,6 +451,21 @@ public class AppointmentServiceImpl implements AppointmentService {
             slotList = helper.createOneSlotPerWindow(apptWin, contextInfo);
         } else if (apptWin.getApptWindowType().equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY) ||
                    apptWin.getApptWindowType().equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY)) {
+            AppointmentSlotRuleInfo slotRule = apptWinInfo.getSlotRule();
+            if (slotRule == null) {
+                throw new MissingParameterException("Missing slot rule");
+            } else if (slotRule.getStartTimeOfDay() == null) {
+                throw new MissingParameterException("Missing start time of day in slot rule");
+            } else if (slotRule.getEndTimeOfDay() == null) {
+                throw new MissingParameterException("Missing end time of day in slot rule");
+            } else if (slotRule.getStartTimeOfDay().getMilliSeconds() >= slotRule.getEndTimeOfDay().getMilliSeconds()) {
+                throw new InvalidParameterException("End time of day should be AFTER start time of day");
+            } else if (slotRule.getStartTimeOfDay().getMilliSeconds() < 1L * MINUTES_IN_HOUR * MILLIS_IN_MINUTE) {
+                throw new InvalidParameterException("Start time should be 1 AM or after");
+            } else if (slotRule.getEndTimeOfDay().getMilliSeconds() < 1L * MINUTES_IN_HOUR * MILLIS_IN_MINUTE) {
+                throw new InvalidParameterException("End time should be 1 AM or after");
+            }
+
             Object [] result = helper.createMultiSlots(apptWinInfo, contextInfo);
             slotList = (List<AppointmentSlotInfo>) result[0];
         } else {
