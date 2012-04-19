@@ -205,7 +205,7 @@ public abstract class AbstractDataService implements DataService{
 			}
 			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
 				LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
-				result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
+				result = getPermissionService().isAuthorizedByTemplate(user, namespaceCode, permissionTemplateName, null, roleQuals);
 			}
 			else {
 				LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");
@@ -223,7 +223,7 @@ public abstract class AbstractDataService implements DataService{
 	public Map<String, Object> getDefaultFilterProperties(){
 		Map<String, Object> filterProperties = new HashMap<String,Object>();
 		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
-		filterProperties.put(ProposalWorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentPrincipalId());
+		filterProperties.put(ProposalWorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentUserId());
 		
 		return filterProperties;
 	}

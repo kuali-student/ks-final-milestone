@@ -53,7 +53,7 @@ public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements 
             permDetails = new LinkedHashMap<String,String>(permissionDetails);
         }
 
-		return  Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, namespace, permissionTemplateName, permDetails, roleQuals));
+		return  Boolean.valueOf(permissionService.isAuthorizedByTemplate(currentUser, namespace, permissionTemplateName, permDetails, roleQuals));
 	}
 
 	protected String getCurrentUser() {
