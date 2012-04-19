@@ -27,24 +27,27 @@ public interface LuiCapacity
     extends IdEntity, HasEffectiveDates {
 
     /**
-     * Name: Lui Ids
      * A list of LUI identifiers to which this capacity definition
      * applies.
+     *
+     * @ame Lui Ids
      */
     public List<String> getLuiIds();
    
     /**
-     * Name: Maximum Seat Count
      * Maximum number of "seats" that the LUI will hold for
      * registration.
+     *
+     * @name Maximum Seat Count
      */
     public Integer getMaximumSeatCount();
 
     /**
-     * Name: Processing Order
      * The order in which this capacity definition should be applied
      * when there are multiple capacity definitions for the primary
      * LUI.
+     *
+     * @name Processing Order
      */
     public Integer getProcessingOrder();
 }

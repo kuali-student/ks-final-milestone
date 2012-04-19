@@ -11,14 +11,25 @@ import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
 import javax.jws.WebParam;
 
-public class CourseOfferingServiceValidationDecorator extends CourseOfferingServiceDecorator implements HoldsValidator, HoldsDataDictionaryService {
+public class CourseOfferingServiceValidationDecorator 
+    extends CourseOfferingServiceDecorator 
+    implements HoldsValidator, HoldsDataDictionaryService {
 
     private DataDictionaryValidator validator;
     private DataDictionaryService dataDictionaryService;
@@ -95,7 +106,7 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
     public FormatOfferingInfo updateFormatOffering(String formatOfferingId, FormatOfferingInfo formatOfferingInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
             MissingParameterException, OperationFailedException, PermissionDeniedException,
-            VersionMismatchException {
+                   ReadOnlyException, VersionMismatchException {
         try {
             List<ValidationResultInfo> errors = this.validateFormatOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formatOfferingInfo, context);
             if (errors != null) {
@@ -114,7 +125,7 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
-            VersionMismatchException {
+                   ReadOnlyException, VersionMismatchException {
         _courseOfferingFullValidation(courseOfferingInfo, context);
         return getNextDecorator().updateCourseOffering(courseOfferingId, courseOfferingInfo, context);
     }
@@ -123,8 +134,9 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
     @Override
     public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey,
             CourseOfferingInfo coInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, AlreadyExistsException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
+                   MissingParameterException, OperationFailedException, PermissionDeniedException, 
+                   ReadOnlyException {
         CourseOfferingInfo courseOfferingInfo = getCourseOffering(courseId, context);
         _courseOfferingFullValidation(courseOfferingInfo, context);
         return getNextDecorator().createCourseOffering(courseId, termId, courseOfferingTypeKey, coInfo, context);
@@ -211,7 +223,7 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
     public FormatOfferingInfo createFormatOffering(
             String courseOfferingId, String formatId, String formatOfferingType, FormatOfferingInfo formatOfferingInfo,
             ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+                                        OperationFailedException, PermissionDeniedException, ReadOnlyException  {
         try {
             List<ValidationResultInfo> errors = this.validateFormatOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formatOfferingInfo, context);
             if (errors != null) {

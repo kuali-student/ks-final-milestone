@@ -54,6 +54,4 @@ public interface TimeSlot extends IdEntity {
      * @required
      */
     public TimeAmount getDuration();
-
-
 }

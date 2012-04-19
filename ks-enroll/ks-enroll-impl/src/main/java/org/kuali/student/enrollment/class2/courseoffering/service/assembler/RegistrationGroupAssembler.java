@@ -15,6 +15,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 public class RegistrationGroupAssembler {
@@ -38,19 +39,19 @@ public class RegistrationGroupAssembler {
         this.luiService = luiService;
     }
 
-    public RegistrationGroupInfo assemble(LuiInfo lui, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public RegistrationGroupInfo assemble(LuiInfo lui, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (lui != null) {
             RegistrationGroupInfo rg = regGroupTransformer.transform(lui);
-
             assembleLuiLuiRelations(rg, lui.getId(), context);
-
             return rg;
-        } else
+        } else {
             return null;
+        }
     }
 
-    private void assembleLuiLuiRelations(RegistrationGroupInfo rg, String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+    private void assembleLuiLuiRelations(RegistrationGroupInfo rg, String luiId, ContextInfo context) 
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+               OperationFailedException, PermissionDeniedException {
         String courseOfferingId = null;
         ;
         List<String> activityIds = new ArrayList<String>();
@@ -82,11 +83,7 @@ public class RegistrationGroupAssembler {
     }
 
     public LuiInfo disassemble(RegistrationGroupInfo rg, ContextInfo context) {
-
         LuiInfo lui = regGroupTransformer.transform(rg);
-
         return lui;
-
     }
-
 }

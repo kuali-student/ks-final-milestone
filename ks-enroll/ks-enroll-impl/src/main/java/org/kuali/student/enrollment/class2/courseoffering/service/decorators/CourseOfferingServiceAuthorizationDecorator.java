@@ -10,13 +10,13 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
@@ -162,13 +162,16 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 	}
 
 	@Override
-	public CourseOfferingInfo createCourseOffering(
-            String courseId, String termId, String courseOfferingTypeKey,
-            CourseOfferingInfo courseOfferingInfo,
-            ContextInfo context) throws AlreadyExistsException,
-			DoesNotExistException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
+	public CourseOfferingInfo createCourseOffering(String courseId, 
+                                                       String termId, 
+                                                       String courseOfferingTypeKey,
+                                                       CourseOfferingInfo courseOfferingInfo,
+                                                       ContextInfo context) 
+            throws DoesNotExistException, DataValidationErrorException,
+                   InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException,
+                   ReadOnlyException {
+
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -187,7 +190,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
+                               ReadOnlyException, VersionMismatchException {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -206,7 +209,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
+                        VersionMismatchException {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -326,14 +329,15 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 	}
 
 	@Override
-	public ActivityOfferingInfo createActivityOffering(
-			String formatOfferingId, 
-                        String activityId, 
-                        String activityOfferingTypeKey,
-			ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
-			throws DoesNotExistException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
+	public ActivityOfferingInfo createActivityOffering(String formatOfferingId, 
+                                                           String activityId, 
+                                                           String activityOfferingTypeKey,
+                                                           ActivityOfferingInfo activityOfferingInfo, 
+                                                           ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException,
+                   InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException,
+                   ReadOnlyException {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -347,13 +351,13 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 	}
 
     @Override
-	public ActivityOfferingInfo updateActivityOffering(
+    public ActivityOfferingInfo updateActivityOffering(
 			String activityOfferingId,
 			ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
+                               ReadOnlyException, VersionMismatchException {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -518,7 +522,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
+                        ReadOnlyException, VersionMismatchException {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -588,9 +592,10 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 	@Override
 	public SeatPoolDefinitionInfo createSeatPoolDefinition(
 			SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
+			throws DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
+                               OperationFailedException, PermissionDeniedException,
+                               ReadOnlyException  {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -610,6 +615,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
+                               ReadOnlyException, 
 			VersionMismatchException {
         if (null == context) {
             throw new MissingParameterException();
@@ -779,7 +785,8 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
     @Override
     public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatId, String formatOfferingType,
             FormatOfferingInfo formatOfferingInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+                                                                               MissingParameterException, OperationFailedException, PermissionDeniedException,
+                                                                               ReadOnlyException  {
               if (null == context) {
             throw new MissingParameterException();
         }

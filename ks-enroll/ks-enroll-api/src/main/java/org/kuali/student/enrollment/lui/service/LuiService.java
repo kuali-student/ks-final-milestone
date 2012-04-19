@@ -32,7 +32,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -41,6 +40,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -66,121 +66,352 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 public interface LuiService {
 
     /**
-     * Retrieves information about a LUI.
+     * Retrieves a single Lui by a Lui Id.
      *
-     * @param luiId identifier of the LUI
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return information about a LUI
-     * @throws DoesNotExistException lui not found
-     * @throws InvalidParameterException invalid luiId
-     * @throws MissingParameterException missing luiId
+     * @param luiId the identifier for the Lui to be retrieved
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the Lui requested
+     * @throws DoesNotExistException luiId not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiId or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public LuiInfo getLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public LuiInfo getLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves information about LUIs from a list of Ids.
+     * Retrieves a list of Luis from a list of Lui Ids. The
+     * returned list may be in any order and if duplicates Ids are
+     * supplied, a unique set may or may not be returned.
      *
-     * @param luiIds List of LUI identifiers
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return information about a list of LUIs
-     * @throws DoesNotExistException One or more luis not found
-     * @throws InvalidParameterException One or more invalid luiIds
-     * @throws MissingParameterException missing luiIds
+     * @param luiIds a list of Lui identifiers
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Luis
+     * @throws DoesNotExistException a luiId in the list was not found
+     * @throws InvalidParameterException contextInfo is not valud
+     * @throws MissingParameterException luiIds, an Id in luiIds, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LuiInfo> getLuisByIds(@WebParam(name = "luiIds") List<String> luiIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LuiInfo> getLuisByIds(@WebParam(name = "luiIds") List<String> luiIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of LUI Ids by LUI Type.
+     * Retrieves a list of Lui Ids by Lui Type.
      *
-     * @param luiTypeKey a unique identifier for a LUI Type
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return information about a list of LUIs
-     * @throws DoesNotExistException luiTypeKey not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
+     * @param luiTypeKey an identifier for a Lui Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Lui identifiers matching luiTypeKey or an
+     *         empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiTypeKey or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getLuiIdsByType(@WebParam(name = "luiTypeKey") String luiTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getLuiIdsByType(@WebParam(name = "luiTypeKey") String luiTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of Lui Ids by Clu.
+     * (the pattern says this should return the objects).
+     *
+     * @param cluId an identifier for the Clu
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of Lui Ids for the Clu
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException cluId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getLuiIdsByClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves the list of LUI Ids for the specified CLU.
+     * Retrieves the list of Lui Ids for the specified atp and Lui
+     * Type.
      *
-     * @param cluId identifier of the CLU
+     * @param atpId an identifier for the Atp
+     * @param luiTypeKey an identifier for the Lui Type
+     * @param contextInfo information containing the principalId and
+     *       locale information about the caller of service operation
+     * @return a list of identifiers of Luis offered in the given Atp
+     *         of the specified luiType
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException atpId, luiTypeKey, or contextInfo
+     *         is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getLuiIdsByAtpAndType(@WebParam(name = "atpId") String atpId, @WebParam(name = "luiTypeKey") String luiTypeKey, @WebParam(name = "contextInfo") ContextInfo context ) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of Lui Ids for the specified Clu and Time
+     * period.
+     *
+     * @param cluId an identifier for the Clu
+     * @param atpId an identifier for the Atp
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of identifiers of Luis offered in atpId and
+     *         related to cluId
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException cluId, atpId, or contextInfo
+     *         is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getLuiIdsByAtpAndClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of Luis for the specified Clu and Atp.
+     *
+     * @param cluId an identifier for the Clu
+     * @param atpId an identifier for the Atp
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Luis offered in atpId and related to cluId
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException cluId, atpId, or contextInfo
+     *         is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<LuiInfo> getLuisByAtpAndClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Luis that meet the given search criteria and
+     * returns a list of Lui identifiers that meet the criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Lui Ids matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForLuiIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Luis that meet the given search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Luis matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<LuiInfo> searchForLuis(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates a Lui. Depending on the value of validationType, this
+     * validation could be limited to tests on just the current Lui
+     * and its directly contained sub-objects or expanded to perform
+     * all tests related to this Lui. If an identifier is present for
+     * the Lui (and/or one of its contained sub-objects) and a record
+     * is found for that identifier, the validation checks if the Lui
+     * can be updated to the new values. If an identifier is not
+     * present or a record does not exist, the validation checks if
+     * the object with the given data can be created.
+     *
+     * @param validationTypeKet the identifier for the validation Type
+     * @param cluId the identifier for the Clu to which the Lui is
+     *        attached
+     * @param atpId the identifier for the Atp to which the Lui if
+     *        offered
+     * @param luiTypeKey the identifier for the Lui Type
+     * @param luiInfo the object to be validated
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of validation results or an empty list if
+     *         validation succeeded
+     * @throws DoesNotExistException validationTypeKey, cluId, atpId,
+     *         or luiTypeKey is not found
+     * @throws InvalidParameterException luiInfo or contextInfo is not
+     *         valid
+     * @throws MissingParameterException validationTypeKey, cluId,
+     *         atpId, luiTypeKey, luiInfo, or contextInfo is missing
+     *         or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateLui(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "cluId") String cluId, @WebParam(name="atpId") String atpId, @WebParam(name = "luiTypeKey") String luiTypeKey, @WebParam(name = "luiInfo") LuiInfo luiInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;;
+
+    /**
+     * Creates a new LUI. The Lui Id, Type, Clu Id, Atp Id, and Meta
+     * information may not be set in the supplied data.
+     *
+     * @param cluId the identifier for the Clu
+     * @param atpId the identifier for the Atp
+     * @param luiTypeKey an identifier for the Type of the new Lui
+     * @param luiInfo the data with which to create the Lui
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the new Lui
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException cluId, atpId, or luiTypeKey is
+     *         not found
+     * @throws InvalidParameterExceptionluiInfo or contextInfo is not valid
+     * @throws MissingParameterException cluId, atpId, luiTypeKey,
+     *         luiInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
+     */
+    public LuiInfo createLui(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpId") String atpId, @WebParam(name = "luiTypeKey") String luiTypeKey, @WebParam(name = "luiInfo") LuiInfo luiInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates an existing Lui. The Lui Id, Type, Clu Id, Atp Id, and
+     * Meta information may not be changed.
+     *
+     * @param luiId the identifier for the LUI to be updated
+     * @param luiInfo the new data for the Lui
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the updated Lui
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException luiId not found
+     * @throws InvalidParameterException luiInfo or contextInfo is not valid
+     * @throws MissingParameterException luiId, luiInfo, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at changing information
+     *         designated as read only
+     * @throws VersionMismatchException optimistic locking failure or
+     *         the action was attempted on an out of date version
+     */
+    public LuiInfo updateLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiInfo") LuiInfo luiInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Deletes an existing Lui.
+     *
+     * @param luiId the identifier for the LUI to be deleted
+     * @param contextInfoinformation containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DependentObjectsExistException the delete operation
+     *         would leave orphaned objects or violate integrity
+     *         constraints
+     * @throws DoesNotExistException luiId not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a single LuiLuiRelation by a LuiLuiRelation Id.
+     *
+     * @param luiLuiRelationId a unique identifier for the
+     *        LuiLuiRelation to be retrieved
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the LuiLuiRelation requested
+     * @throws DoesNotExistException luiLuiRelationId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiLuiRetaionId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public LuiLuiRelationInfo getLuiLuiRelation(@WebParam(name = "luiLuiRelationId") String luiLuiRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LuiLuiRelations from a list of
+     * LuiLuiRelation Ids. The returned list may be in any order and
+     * if duplicates Ids are supplied, a unique set may or may not be
+     * returned.
+     *
+     * @param luiLuiRelationIds a list of LuiLuiRelation identifiers
      * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return list of LUI identifiers
-     * @throws DoesNotExistException     clu not found
-     * @throws InvalidParameterException invalid cluId
-     * @throws MissingParameterException missing cluId
-     * @throws OperationFailedException  unable to complete request
+     *                and locale information about the caller of
+     *                service operation
+     * @return information about a list of LuiLuiRelations
+     * @throws DoesNotExistException a luiLuiRelationId in the list
+     *         was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiLuiRelationIds, a
+     *         luiLuiRelationId in luiLuiRelationIds, or contextInfo
+     *         is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getLuiIdsByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-     /**
-     * Retrieves the list of LUI Ids for the specified atp.
-     *
-     *
-      * @param atpId identifier of the
-      * @param context Context information containing the principalId
-      *        and locale information about the caller of service
-      *        operation
-      * @param typeKey
-      * @return list of LUI identifiers
-     * @throws DoesNotExistException     clu not found
-     * @throws InvalidParameterException invalid cluId
-     * @throws MissingParameterException missing cluId
-     * @throws OperationFailedException  unable to complete request
-     */
-    public List<String> getLuiIdsByAtpAndType(@WebParam(name = "atpId") String atpId, @WebParam(name = "typeKey")String typeKey, @WebParam(name = "context") ContextInfo context ) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(@WebParam(name = "luiLuiRelationIds") List<String> luiLuiRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves the list of LUI Ids for the specified CLU and Time period.
+     * Retrieves a list of LuiLuiRelation Ids by a LuiLuiRelation
+     * Type.
      *
-     * @param cluId identifier of the CLU
-     * @param atpId identifier for the academic time period
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return list of LUI identifiers
-     * @throws DoesNotExistException     clu, atp not found
-     * @throws InvalidParameterException invalid cluId, atpId
-     * @throws MissingParameterException missing cluId, atpId
-     * @throws OperationFailedException  unable to complete request
+     * @param luiLuiRelationTypeKey an identifier for a LuiLuiRelation
+     *                              Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of LuiLuiRelation identifiers
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiLuiRelationTypeKey or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getLuiIdsInAtpByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getLuiLuiRelationIdsByType(@WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves the list of LUIs for the specified CLU and period.
+     * Retrieves all LuiLuiRelations to the given Lui.
      *
-     * @param cluId identifier of the CLU
-     * @param atpId identifier for the academic time period
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return list of LUI information
-     * @throws DoesNotExistException     clu, atp not found
-     * @throws InvalidParameterException invalid cluId, atpId
-     * @throws MissingParameterException missing cluId, atpId
-     * @throws OperationFailedException  unable to complete request
+     * @param luiId a unique identifier of the LUI
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the LuiLuiRelations to the Lui
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LuiInfo> getLuisInAtpByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves the list of LUI Ids for the specified related LUI Id
+     * Retrieves all LuiLuiRelations between the given Luis.
+     *
+     * @param luiId a unique identifier of the LUI
+     * @param relatedLuiId a unique identifier of another LUI
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the LuiLuiRelations netween the given Luis
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiId, relatedLuiid, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLuis(@WebParam(name = "luiId") String luiId, @WebParam(name="relatedLuiId") String relatedLuiId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LUI Ids for the specified related LUI Id
      * and LU to LU relation type (getRelatedLuiIdsByLuiId from the
-     * other direction).
+     * other direction). 
+     *
+     * (??? this method seems unnecessary)
      *
      * @param relatedLuiId identifier of the LUI
-     * @param luLuRelationTypeKey the LU to LU relation type
+     * @param luiLuiRelationTypeKey the LU to LU relation type
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
@@ -188,17 +419,17 @@ public interface LuiService {
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getLuiIdsByRelation(@WebParam(name = "relatedLuiId") String relatedLuiId, @WebParam(name = "luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getLuiIdsByRelation(@WebParam(name = "relatedLuiId") String relatedLuiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /**
+    /** TODO 
      * Retrieves the list of LUI information for the LUIs related to
      * the specified LUI Id with a certain LU to LU relation type.
-     * <p/>
      * (getRelatedLuisByLuiId from the other direction)
      *
      * @param relatedLuiId identifier of the LUI
-     * @param luLuRelationTypeKey the LU to LU relation type
+     * @param luiLuiRelationTypeKey the LU to LU relation type
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
@@ -206,16 +437,17 @@ public interface LuiService {
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing paremeter
      * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LuiInfo> getLuisByRelation(@WebParam(name = "relatedLuiId") String relatedLuiId, @WebParam(name = "luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LuiInfo> getLuisByRelation(@WebParam(name = "relatedLuiId") String relatedLuiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /**
+    /** TODO ???
      * Retrieves the list of related LUI Ids for the specified LUI Id
      * and LU to LU relation type. (getLuiIdsByRelation from the other
      * direction).
      *
      * @param luiId identifier of the LUI
-     * @param luLuRelationTypeKey the LU to LU relation type
+     * @param luiLuiRelationTypeKey the LU to LU relation type
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
@@ -223,238 +455,45 @@ public interface LuiService {
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getRelatedLuiIdsByLuiId(@WebParam(name = "luiId") String luiId, @WebParam(name = "luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getRelatedLuiIdsByLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /**
+    /** TODO ???
      * Retrieves the list of related LUI information for the specified
      * LUI Id and LU to LU relation type (getLuisByRelation from the
      * other direction).
      *
      * @param luiId identifier of the LUI
-     * @param luLuRelationTypeKey the LU to LU relation type
+     * @param luiLuiRelationTypeKey the LU to LU relation type
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
      * @return list of LUI information, empty list if none found
-     * @throws InvalidParameterException invalid luiId, luLuRelationTypeKey
-     * @throws MissingParameterException missing luiId, luLuRelationTypeKey
+     * @throws InvalidParameterException invalid luiId, luiLuiRelationTypeKey
+     * @throws MissingParameterException missing luiId, luiLuiRelationTypeKey
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LuiInfo> getRelatedLuisByLuiId(@WebParam(name = "luiId") String luiId, @WebParam(name = "luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LuiInfo> getRelatedLuisByLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Searches for Luis that meet the search criteria and returns a
-     * list of Lui identifiers that meet the criteria.
-     * 
-     * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of lui Ids
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
+     * Retrieves all LuiLuiRelations between a Lui and Luis of the
+     * given Lui Type.
+     *
+     * @param luiId a unique identifier for the Lui
+     * @param relatedLuiTypeKey a unique identifier for a Lui Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of LuiLuiRelations between luiId and Luis of
+     *         relatedLuiTypeKey
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiId, relatedLuiTypeKey, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForLuiIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for Luis that meet the search criteria and returns
-     * a list of Luis that meet the criteria.
-     * 
-     * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of luis
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<LuiInfo> searchForLuis(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Validates a LUI. Depending on the value of validationType, this
-     * validation could be limited to tests on just the current object
-     * and its directly contained sub-objects or expanded to perform
-     * all tests related to this object. If an identifier is present
-     * for the LUI (and/or one of its contained sub-objects) and a
-     * record is found for that identifier, the validation checks if
-     * the LUI can be shifted to the new values. If an identifier is
-     * not present or a record cannot be found for the identifier, it
-     * is assumed that the record does not exist and as such, the
-     * checks performed will be much shallower, typically mimicking
-     * those performed by setting the validationType to the current
-     * object.
-     *
-     * @param validationType identifier of the extent of validation
-     * @param luiInfo LUI information to be tested.
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, luiInfo
-     * @throws MissingParameterException missing validationTypeKey, luiInfo
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<ValidationResultInfo> validateLui(@WebParam(name = "validationType") String validationType, @WebParam(name = "luiInfo") LuiInfo luiInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Creates a new LUI.
-     *
-     * @param cluId   identifier of the CLU for the LUI being created
-     * @param atpId  identifier of the academic time period for the
-     *                LUI being created
-     * @param luiTypeKey type of lui to be created
-     * @param luiInfo information about the LUI being created
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return the created LUI information
-     * @throws AlreadyExistsException LUI already exists
-     * @throws DataValidationErrorException One or more values invalid
-     *                                      for this operation
-     * @throws DoesNotExistException clu, atp not found
-     * @throws InvalidParameterException invalid cluId, atpId, luiInfo
-     * @throws MissingParameterException missing cluId, atpId, luiInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public LuiInfo createLui(@WebParam(name = "cluId") String cluId, 
-            @WebParam(name = "atpId") String atpId, 
-            @WebParam(name = "luiTypeKey") String luiTypeKey, 
-            @WebParam(name = "luiInfo") LuiInfo luiInfo, 
-            @WebParam(name = "context") ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException, 
-            DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Updates an existing LUI.
-     *
-     * @param luiId identifier for the LUI to be updated
-     * @param luiInfo updated information about the LUI
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return the updated LUI information
-     * @throws DataValidationErrorException One or more values invalid
-     *                                      for this operation
-     * @throws DoesNotExistException        lui not found
-     * @throws InvalidParameterException    invalid luiId, luiInfo
-     * @throws MissingParameterException    missing luiId, luiInfo
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    authorization failure
-     * @throws VersionMismatchException     The action was attempted on an
-     *                                      out of date version.
-     */
-    public LuiInfo updateLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiInfo") LuiInfo luiInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
-    /**
-     * Deletes a LUI record.
-     *
-     * @param luiId   identifier for the LUI to be deleted
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return status of the operation
-     * @throws DependentObjectsExistException delete would leave
-     *         orphaned objects or violate integrity constraints
-     * @throws DoesNotExistException          lui not found
-     * @throws InvalidParameterException      invalid luiId
-     * @throws MissingParameterException      missing luiId
-     * @throws OperationFailedException       unable to complete request
-     * @throws PermissionDeniedException      authorization failure
-     */
-    public StatusInfo deleteLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Updates the state of the LUI.
-     *
-     * @param luiId   identifier for the LUI to be updated
-     * @param luState New state for LUI. Value is expected to be
-     *                constrained to those in the luState enumeration.
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return the updated LUI information
-     * @throws DataValidationErrorException New state not valid for
-     *                                      existing state of LUI
-     * @throws DoesNotExistException        lui, luState not found
-     * @throws InvalidParameterException    invalid luiId, luState
-     * @throws MissingParameterException    missing luiId, luState
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    authorization failure
-     */
-    public LuiInfo updateLuiState(@WebParam(name = "luiId") String luiId, @WebParam(name = "luState") String luState, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves the relationship information between LUIs given a
-     * specific relation instance.
-     *
-     * @param luiLuiRelationId identifier of LUI to LUI relatio
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of
-     *                service operation
-     * @return information on the relation between two LUIs
-     * @throws DoesNotExistException luiLuiRelation not found
-     * @throws InvalidParameterException invalid luiLuiRelationId
-     * @throws MissingParameterException missing luiLuiRelationId
-     * @throws OperationFailedException unable to complete request
-     */
-    public LuiLuiRelationInfo getLuiLuiRelation(@WebParam(name = "luiLuiRelationId") String luiLuiRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves information about LuiLuiRelationss from a list of
-     * Ids.
-     *
-     * @param luiLuiRelationIds a list of LuiLuiRelation identifiers
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of
-     *                service operation
-     * @return information about a list of LuiLuiRelations
-     * @throws DoesNotExistException One or more luiLuiRelationIds not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(@WebParam(name = "luiLuiRelationIds") List<String> luiLuiRelationIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves a list of LUI LUI Relation Ids by LUI LUI Relation
-     * Type.
-     *
-     * @param luiLuiRelationTypeKey a unique identifier for a LUI LUI
-     *                              Relation Type
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return information about a list of LUIs
-     * @throws DoesNotExistException luiLuiRelationTypeKey not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<String> getLuiLuiRelationIdsByType(@WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves the list of relationship information for the
-     * specified LUI.
-     *
-     * @param luiId   identifier of the LUI
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of LUI to LUI relation information
-     * @throws DoesNotExistException lui not found
-     * @throws InvalidParameterException invalid luiId
-     * @throws MissingParameterException missing luiId
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LuiInfo> getLuiLuiRelationsByLuiAndLuiType(@WebParam(name = "luiId") String luiId, @WebParam(name = "relatedLuiTypeKey") String relatedLuiTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for LuiLuiRelations that meet the search criteria and
@@ -462,193 +501,207 @@ public interface LuiService {
      * criteria.
      * 
      * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of lui lui relation Ids
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
+     * @param contextInfoinformation containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of LuiLuiRelationIds
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing os null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForLuiLuiRelationIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForLuiLuiRelationIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for LuiLuiRelations that meet the search criteria and
      * returns a list of LuiLuiRelations that meet the criteria.
      * 
      * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of lui lui relations
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of LuiLuiRelations
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing os null
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LuiLuiRelationInfo> searchForLuiLuiRelations(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<LuiLuiRelationInfo> searchForLuiLuiRelations(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Validates a relationship between LUIs. Depending on the value
-     * of validationType, this validation could be limited to tests on
-     * just the current object and its directly contained sub-objects
-     * or expanded to perform all tests related to this object. If an
-     * identifier is present for the relationship (and/or one of its
-     * contained sub-objects) and a record is found for that
-     * identifier, the validation checks if the relationship can be
-     * shifted to the new values. If an identifier is not present or a
-     * record cannot be found for the identifier, it is assumed that
-     * the record does not exist and as such, the checks performed
-     * will be much shallower, typically mimicking those performed by
-     * setting the validationType to the current object.
+     * Validates a LuiLuiRelations. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current LuiLuiRelation and its directly contained
+     * sub-objects or expanded to perform all tests related to this
+     * LuiLuiRelation. If an identifier is present for the
+     * LuiLuiRelation (and/or one of its contained sub-objects) and a
+     * record is found for that identifier, the validation checks if
+     * the LuiLuiRelation can be updated to the new values. If an
+     * identifier is not present or a record does not exist, the
+     * validation checks if the object with the given data can be
+     * created.
      *
-     * @param validationType     identifier of the extent of validation
-     * @param luiLuiRelationInfo LUI to LUI relationship information
-     *                           to be tested.
-     * @param context            Context information containing the principalId
-     *        and locale information about the caller of service operation
-     * @return results from performing the validation
-     * @throws DoesNotExistException     validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey,
-     *                                   luiLuiRelationInfo
-     * @throws MissingParameterException missing validationTypeKey,
-     *                                   luiLuiRelationInfo
-     * @throws OperationFailedException  unable to complete request
+     * @param validationTypeKey the identifier for the validation Type
+     * @param luiId the identifier for the Lui 
+     * @param relatedLuiId the identifier for the related Lui 
+     * @param luiLuiRelationTypeKey the identifier for LuiLuiRelation Type
+     * @param luiLuiRelationInfo the LuiLuiRelation to ve validated
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of validation results or an empty list if
+     *         validation succeeded
+     * @throws DoesNotExistException validationTypeKey, luiId,
+     *         relatedLuiId, or luiLuiRelationTypeKey is not found
+     * @throws InvalidParameterException luiLuiRelationInfo or
+     *         contextInfo is missing or null
+     * @throws MissingParameterException validationTypeKey, luiId,
+     *         relatedLuiId, luiLuiRelationTypeKey,
+     *         luiLuiRelationInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateLuiLuiRelation(@WebParam(name = "validationType") String validationType, @WebParam(name = "luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateLuiLuiRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "luiId") String luiId, @WebParam(name = "relatedLuiId") String relatedLuiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;;
 
     /**
-     * Create a relationship between two LUIs.
+     * Create new LuiLuiRelation. The LuiLuiRelation Id, Type, luiId,
+     * relatedLuiId, and Meta information may not be set in the
+     * supplied data.
      *
      * @param luiId identifier of the first LUI in the relationship
      * @param relatedLuiId identifier of the second LUI in the
-     *        relationship to be related to
-     * @param luLuRelationTypeKey the LU to LU relationship type of the
-     *        relationship
-     * @param luiLuiRelationInfo information about the relationship
-     *        between the two LUIs
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return the created LUI to LUI relation information
-     * @throws AlreadyExistsException        relationship already exists
-     * @throws CircularRelationshipException luiId equals relatedLuiId
-     * @throws DataValidationErrorException  One or more values invalid
-     *                                       for this operation
-     * @throws DoesNotExistException         luiId, relatedLuiId,
-     *                                       luLuRelationTypeKey not found
-     * @throws InvalidParameterException     invalid luiIds,
-     *                                       luLuRelationTypeKey, luiLuiRelationInfo
-     * @throws MissingParameterException     missing luiIds,
-     *                                       luLuRelationTypeKey, luiLuiRelationInfo
-     * @throws OperationFailedException      unable to complete request
-     * @throws PermissionDeniedException     authorization failure
+     *        relationship to be related
+     * @param luiLuiRelationTypeKey a unique key fo rthe Type or new
+     *        LuiLuiRelation
+     * @param luiLuiRelationInfo the data with which to create the
+     *        LuiLuiRelation
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the new LuiLuiRelation
+     * @throws CircularRelationshipException luiId equals relatedLuiId 
+     *         (why is this a contract failure?)
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException luiId, relatedLuiId, or
+     *         luiLuiRelationTypeKey is not found
+     * @throws InvalidParameterException luiLuiRelationInfo ro
+     *         contextInfo is not valid
+     * @throws MissingParameterException luiId, relatedLuiId,
+     *         luiLuiRelationTypeKey, luiLuiRelationInfo, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
      */
-    public LuiLuiRelationInfo createLuiLuiRelation(@WebParam(name = "luiId") String luiId,  @WebParam(name = "relatedLuiId") String relatedLuiId, @WebParam(name = "luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name = "luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LuiLuiRelationInfo createLuiLuiRelation(@WebParam(name = "luiId") String luiId,  @WebParam(name = "relatedLuiId") String relatedLuiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
-     * Updates a relationship between two LUIs.
+     * Updates an existing LuiLuiRelation. The LuiLuiRelation Id,
+     * luiId, relatedLuiId, and Meta information may not be changed.
      *
-     * @param luiLuiRelationId identifier of the LUI to LUI relation to update
-     * @param luiLuiRelationInfo changed information about the
-     *                           relationship between the two LUIs
-     * @param context Context information containing the principalId
-     *                        and locale information about the caller
-     *                        of service operation
-     * @return the update LUI to LUI relation information
-     * @throws DataValidationErrorException One or more values invalid
-     *                                      for this operation
-     * @throws DoesNotExistException        luiLuiRelation not found
-     * @throws InvalidParameterException    invalid luiLuiRelationId,
-     *                                      luiLuiRelationInfo
-     * @throws MissingParameterException    missing luiLuiRelationId,
-     *                                      luiLuiRelationInfo
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    authorization failure
-     * @throws VersionMismatchException     The action was attempted on an
-     *                                      out of date version.
-     */
-    public LuiLuiRelationInfo updateLuiLuiRelation(@WebParam(name = "luiLuiRelationId") String luiLuiRelationId, @WebParam(name = "luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
-    /**
-     * Deletes a relationship between two LUIs.
-     *
-     * @param luiLuiRelationId identifier of the LUI to LUI relation
-     *                         to delete
-     * @param context          Context information containing the principalId
-     *                         and locale information about the caller of service
-     *                         operation
-     * @return status of the operation (success or failure)
-     * @throws DoesNotExistException luiLuiRelation not found
-     * @throws InvalidParameterException invalid luiLuiRelationId
-     * @throws MissingParameterException missing luiLuiRelationId
+     * @param luiLuiRelationId the identifier for the LuiLuirelation
+     *        to be updated
+     * @param luiLuiRelationInfo the new data for the LuiLuiRelation
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the updated LuiLuiRelation
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException luiLuiRelationId is not found
+     * @throws InvalidParameterException luiLuiRelationInfo or contextInfo
+     *         is not valid
+     * @throws MissingParameterExceptionluiLuiRelationId,
+     *         luiLuiRelationInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at changing information
+     *         designated as read only
+     * @throws VersionMismatchException optimistic locking failure or
+     *         the action was attempted on an out of date version
      */
-    public StatusInfo deleteLuiLuiRelation(@WebParam(name = "luiLuiRelationId") String luiLuiRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LuiLuiRelationInfo updateLuiLuiRelation(@WebParam(name = "luiLuiRelationId") String luiLuiRelationId, @WebParam(name = "luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
-     * Retrieves information about a LuiCapacity.
+     * Deletes an existing LuiLuiRelation.
      *
-     * @param luiCapacityId   identifier of the LuiCapacity
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return information about a LuiCapacity
-     * @throws DoesNotExistException luiCapacity not found
-     * @throws InvalidParameterException invalid luiCapacityId
-     * @throws MissingParameterException missing luiCapacityId
+     * @param luiLuiRelationId identifier or the LuiLuirelation to be
+     *        deleted
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DoesNotExistException luiLuiRelationId not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiLuiRelationId
+     *         or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public LuiCapacityInfo getLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public StatusInfo deleteLuiLuiRelation(@WebParam(name = "luiLuiRelationId") String luiLuiRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves information about LuiCapacities from a list of Ids.
+     * Retrieves a single LuiCapacity by a LuiCapacity Id.
      *
-     * @param luiCapacityIds List of LuiCapacity identifiers
-     * @param context   Context information containing the principalId
-     *                  and locale information about the caller of service
-     *                  operation
-     * @return information about a list of LuiCapacities
-     * @throws DoesNotExistException One or more lui capacities not found
-     * @throws InvalidParameterException One or more invalid luiCapacityIds
-     * @throws MissingParameterException missing luiCapacityIds
+     * @param luiCapacityId the identifier for the LuiCapacity to be
+     *        retrieved
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the LuiCapacity requested
+     * @throws DoesNotExistException luiCapacityId not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiCapacityId or contextInfo
+     *         is missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LuiCapacityInfo> getLuiCapacitiesByIds(@WebParam(name = "luiCapacityIds") List<String> luiCapacityIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
-  /**
-     * Retrieves LuiCapacities associated with a Lui
+    public LuiCapacityInfo getLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LuiCapacity from a list of LuiCapacity
+     * Ids. The returned list may be in any order and if duplicate Ids
+     * are supplied, a unique set may or may not be returned.
      *
-     * @param luiId     Learning Unit Instance identifier
-     * @param context   Context information containing the principalId
-     *                  and locale information about the caller of service
-     *                  operation
+     * @param luiCapacityIds a list of LuiCapacity identifiers
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
      * @return a list of LuiCapacities
-     * @throws DoesNotExistException One or more lui capacities not found
-     * @throws InvalidParameterException One or more invalid luiCapacityIds
-     * @throws MissingParameterException missing luiCapacityIds
+     * @throws DoesNotExistException a luiCapacityId in the list was
+     *         not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiCapacityIds, an Id in
+     *         luiCapacityIds, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LuiCapacityInfo> getLuiCapacitiesByLui(@WebParam(name = "luiId") String luiId, 
-            @WebParam(name = "context") ContextInfo context) 
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
+    public List<LuiCapacityInfo> getLuiCapacitiesByIds(@WebParam(name = "luiCapacityIds") List<String> luiCapacityIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
     /**
      * Retrieves a list of LuiCapacity Ids by LuiCapacity Type.
      *
-     * @param luiCapacityTypeKey  a unique identifier for a LuiCapacity Type
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param luiCapacityTypeKey a unique identifier for a LuiCapacity Type
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
      * @return information about a list of Lui Capacities
-     * @throws DoesNotExistException luiCapacityTypeKey not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiCapacityTypeKey or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getLuiCapacityIdsByType(@WebParam(name = "luiCapacityTypeKey") String luiCapacityTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getLuiCapacityIdsByType(@WebParam(name = "luiCapacityTypeKey") String luiCapacityTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves LuiCapacities associated with a Lui.
+     *
+     * @param luiId a unique identifier for a Lui
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of LuiCapacities associated with the given Lui
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException luiId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<LuiCapacityInfo> getLuiCapacitiesByLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for LuiCapacities that meet the search criteria and
@@ -656,116 +709,126 @@ public interface LuiService {
      * criteria.
      * 
      * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of lui capacity Ids
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of LuiCapacity Ids
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForLuiCapacityIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForLuiCapacityIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for LuiCapacities that meet the search criteria and
      * returns a list of LuiCapacities that meet the criteria.
      * 
      * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of lui capacitiess
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of LuiCapacitiess
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LuiCapacityInfo> searchForLuiCapacities(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<LuiCapacityInfo> searchForLuiCapacities(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Validates a LuiCapacity. Depending on the value of
-     * validationType, this validation could be limited to tests on
-     * just the current object and its directly contained sub-objects
-     * or expanded to perform all tests related to this object. If an
-     * identifier is present for the LuiCapacity (and/or one of its
-     * contained sub-objects) and a record is found for that
-     * identifier, the validation checks if the LuiCapacity can be
-     * shifted to the new values. If an identifier is not present or a
-     * record cannot be found for the identifier, it is assumed that
-     * the record does not exist and as such, the checks performed
-     * will be much shallower, typically mimicking those performed by
-     * setting the validationType to the current object.
+     *  Validates a LuiCapacity. Depending on the value of
+     *  validationType, this validation could be limited to tests on
+     *  just the current LuiCapacity and its directly contained
+     *  sub-objects or expanded to perform all tests related to this
+     *  LuiCapacity. If an identifier is present for the LuiCapacity
+     *  (and/or one of its contained sub-objects) and a record is
+     *  found for that identifier, the validation checks if the
+     *  LuiCpacity can be updated to the new values. If an identifier
+     *  is not present or a record does not exist, the validation
+     *  checks if the object with the given data can be created.
      *
-     * @param validationType identifier of the extent of validation
-     * @param luiCapacityInfo LuiCapacityInfoinformation to be tested.
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of
-     *                service operation
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, luiInfo
-     * @throws MissingParameterException missing validationTypeKey, luiInfo
-     * @throws OperationFailedException unable to complete request
+     * @param validationTypeKey the identifier for the validation Type
+     * @param luiCapacityInfo the LuiCapacity to be validated
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or
+     *        luiCapacityTypeKey not found
+     * @throws InvalidParameterException luiInfo or contextInfo is not
+     *         valid
+     * @throws MissingParameterException validationTypeKey, luiInfo,
+     *         or contextInfo is missing or null
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateLuiCapacity(@WebParam(name = "validationType") String validationType, @WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateLuiCapacity(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "luiCapacityTypeKey") String luiCapacityTypeKey, @WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates a new LuiCapacity.
+     * Creates a new LuiCapacity. The LuiCapacity Id, Type, and Meta
+     * information may not be set in the supplied data.
      *
-     * @param luiCapacityInfo identifier for the LuiCapacity being created
-     * @param luiCapacityInfo information about the LuiCapacity being created
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return the created LuiCapacity information
-     * @throws AlreadyExistsException  LuiCapacity already exists
-     * @throws DataValidationErrorException One or more values invalid
-     *                                      for this operation
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
+     * @param luiCapacityTypeKey an identifier for the Type of the new
+     *        LuiCapacity
+     * @param luiCapacityInfo the data with which to create the
+     *        LuiCapacity
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the new LuiCapacity
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException luiCapacityTypeKey not found
+     * @throws InvalidParameterException luiCapacityInfo or
+     *         contextInfo is not valid
+     * @throws MissingParameterException luiCapacityTypeKey,
+     *         luiCapacityInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws DoesNotExistException if any associated luiIds do not exist
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
      */
-    public LuiCapacityInfo createLuiCapacity(@WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LuiCapacityInfo createLuiCapacity(@WebParam(name = "luiCapacityTypeKey") String luiCapacityTypeKey, @WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
-     * Updates an existing LuiCapacity.
+     * Updates an existing LuiCapacity. The LuiCapacity Id, Type, and
+     * Meta information may not be changed.
      *
-     * @param luiCapacityId identifier for the LuiCapacity to be updated
-     * @param luiCapacityInfo updated information about the LuiCapacity
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return the updated LuiCapacity information
-     * @throws DataValidationErrorException One or more values invalid
-     *         for this operation
+     * @param luiCapacityId the identifier for the LuiCapacity to be
+     *        updated
+     * @param luiCapacityInfo the new data for the LuiCapacity
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the updated LuiCapacity
+     * @throws DataValidationErrorException supplied data is invalid
      * @throws DoesNotExistException luiCapacityId not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
+     * @throws InvalidParameterException luiCapacityInfo or contextInfo
+     *         is not valid
+     * @throws MissingParameterException luiCapacityId,
+     *         luiCapacityInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an
-     *         out of date version.
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at changing information
+     *         designated as read only
+     * @throws VersionMismatchException optimistic locking failure or
+     *         the action was attempted on an out of date version
      */
-    public LuiCapacityInfo updateLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public LuiCapacityInfo updateLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
-     * Deletes a LuiCapacity record.
+     * Deletes an existing LuiCapacity.
      *
-     * @param luiCapacityId identifier for the LuiCapacity to be deleted
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return status of the operation
-     * @throws DoesNotExistException luiCapacity not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
+     * @param luiCapacityId the identifier for the LuiCapacity to be
+     *        deleted
+     * @param context information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the delete operation. This must always be
+     *         true.
+     * @throws DoesNotExistException luiCapacityId not found
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException luiCapacityId or contextInfo
+     *         is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws DependentObjectsExistException delete would leave
-     *         orphaned objects or violate integrity constraints
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "context") ContextInfo context) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

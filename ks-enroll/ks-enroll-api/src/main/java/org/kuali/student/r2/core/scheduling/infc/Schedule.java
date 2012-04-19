@@ -51,7 +51,8 @@ public interface Schedule extends IdEntity {
      * ScheduleComponent is skipped.
      *
      * @name Blackout Dates
-     * @deprecated  Should this point to a shared set (think about the common case of lectures usually having the same non-instructional days)?
+     * @deprecated Should this point to a shared set (not really
+     *              deprecated, but ignoreable for now.
      */
     public List<? extends DateRange> getBlackoutDates();
 
