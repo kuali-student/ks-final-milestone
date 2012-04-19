@@ -155,6 +155,14 @@ public class AcademicCalendarController extends UifControllerBase {
         @RequestMapping(params = "methodToCall=toEdit")
     public ModelAndView toEdit(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response){
+        AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
+        AcademicCalendarInfo orgAcalInfo = acalForm.getOrgAcalInfo();
+
+        if (StringUtils.isBlank(acalInfo.getId())){
+            acalForm.setAcademicCalendarInfo(orgAcalInfo);
+            acalForm.setOrgAcalInfo(new AcademicCalendarInfo());
+        }
+
         acalForm.getView().setReadOnly(false);
 
         return copy(acalForm, result, request, response);
