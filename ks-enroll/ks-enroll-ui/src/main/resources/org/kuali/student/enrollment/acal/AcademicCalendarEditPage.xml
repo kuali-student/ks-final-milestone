@@ -58,7 +58,7 @@
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-Page" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
+    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
         <property name="title" value="Information" />
         <property name="items">
             <list>
