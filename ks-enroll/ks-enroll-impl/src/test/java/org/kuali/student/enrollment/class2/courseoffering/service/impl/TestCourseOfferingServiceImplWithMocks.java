@@ -20,13 +20,13 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -70,9 +70,9 @@ public class TestCourseOfferingServiceImplWithMocks {
     }
 
     @Test
-    public void testCRUD() throws AlreadyExistsException, DoesNotExistException,
+    public void testCRUD() throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, VersionMismatchException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException,
             DependentObjectsExistException {
         CourseOfferingInfo co = this.testCRUDCourseOffering();
         FormatOfferingInfo fo = this.testCRUDFormatOffering(co);
@@ -80,9 +80,9 @@ public class TestCourseOfferingServiceImplWithMocks {
         this.testDeletes(co, fo, ao);
     }
 
-    public CourseOfferingInfo testCRUDCourseOffering() throws AlreadyExistsException, DoesNotExistException,
+    public CourseOfferingInfo testCRUDCourseOffering() throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, VersionMismatchException {
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         // get course
         CourseInfo course;
         try {
@@ -213,7 +213,7 @@ public class TestCourseOfferingServiceImplWithMocks {
             throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DataValidationErrorException,
-            AlreadyExistsException, VersionMismatchException, DependentObjectsExistException {
+                   VersionMismatchException, ReadOnlyException, DependentObjectsExistException {
         FormatOfferingInfo orig = new FormatOfferingInfo();
         orig.setCourseOfferingId(co.getId());
         orig.setFormatId("COURSE1-FORMAT1");
@@ -260,7 +260,7 @@ public class TestCourseOfferingServiceImplWithMocks {
             throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DataValidationErrorException,
-            AlreadyExistsException, VersionMismatchException {
+            ReadOnlyException, VersionMismatchException {
 
         ActivityOfferingInfo orig = new ActivityOfferingInfo();
         orig.setFormatOfferingId(fo.getId());

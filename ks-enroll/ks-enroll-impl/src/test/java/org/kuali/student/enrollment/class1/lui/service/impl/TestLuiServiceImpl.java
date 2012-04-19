@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -72,7 +73,7 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-    public void testGetLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public void testGetLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         try {
             luiService.getLui("Lui-blah", callContext);
@@ -80,6 +81,7 @@ public class TestLuiServiceImpl {
         } catch (DoesNotExistException ex) {
             // expected
         }
+
         LuiInfo obj = luiService.getLui("Lui-1", callContext);
         assertNotNull(obj);
         assertEquals("Lui one", obj.getName());
@@ -157,7 +159,7 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-    public void testCreateLui() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testCreateLui() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         LuiInfo orig = new LuiInfo();
         orig.setName("Test lui one");
         orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
@@ -254,7 +256,7 @@ public class TestLuiServiceImpl {
 
     @Test
     @Ignore
-    public void testUpdateLui() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public void testUpdateLui() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         LuiInfo info = luiService.getLui("Lui-1", callContext);
         assertNotNull(info);
         assertEquals("Lui-1", info.getId());
@@ -347,7 +349,7 @@ public class TestLuiServiceImpl {
 
     @Test
 //    @Ignore
-    public void testUpdateLuiLuiRelation() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public void testUpdateLuiLuiRelation() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         LuiLuiRelationInfo info = luiService.getLuiLuiRelation("LUILUIREL-2", callContext);
         assertNotNull(info);
         info.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_INACTIVE_STATE_KEY);
@@ -357,7 +359,7 @@ public class TestLuiServiceImpl {
 
     @Test
 //    @Ignore
-    public void testGetLuiLuiRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public void testGetLuiLuiRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
             LuiLuiRelationInfo obj = luiService.getLuiLuiRelation("LUILUIREL-1", callContext);
             assertNotNull(obj);
@@ -371,19 +373,16 @@ public class TestLuiServiceImpl {
 
     @Test
 //    @Ignore
-    public void testGetLuiLuiRelationsByLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        try {
-            luiService.getLuiLuiRelationsByLui("Lui-Lui-Blah", callContext);
-        } catch (DoesNotExistException enee) {
-        }
+    public void testGetLuiLuiRelationsByLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
+        luiService.getLuiLuiRelationsByLui("Lui-Lui-Blah", callContext);
         List<LuiLuiRelationInfo> objs = luiService.getLuiLuiRelationsByLui("Lui-1", callContext);
         assertNotNull(objs);
         assertEquals(1, objs.size());
     }
 
     @Test
-    public void testCreateLuiLuiRelation() throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testCreateLuiLuiRelation() throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         LuiInfo info = new LuiInfo();
         info.setCluId("testCluId");
         info.setAtpId("testAtpId1");
@@ -452,10 +451,7 @@ public class TestLuiServiceImpl {
         StatusInfo status = luiService.deleteLui("Lui-3", callContext);
         assertTrue(status.getIsSuccess());
 
-        try {
-            luiService.getLuiLuiRelationsByLui("Lui-3", callContext);
-        } catch (DoesNotExistException ee) {
-        }
+        luiService.getLuiLuiRelationsByLui("Lui-3", callContext);
 
         try {
             luiService.getLui("Lui-3", callContext);

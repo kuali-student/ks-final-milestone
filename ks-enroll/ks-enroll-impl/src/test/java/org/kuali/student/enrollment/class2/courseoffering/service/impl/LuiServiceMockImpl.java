@@ -1,7 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Copyright 2010 The Kuali Foundation
+ *
+ *  Licensed under the the Educational Community License, Version 1.0
+ * (the "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl1.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import java.util.ArrayList;
@@ -10,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -18,7 +31,7 @@ import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -27,67 +40,21 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 /**
- *
  * @author nwright
  */
-public class LuiServiceMockImpl implements LuiService {
+
+public class LuiServiceMockImpl 
+    implements LuiService {
 
     private Map<String, LuiInfo> luis = new LinkedHashMap<String, LuiInfo>();
     private Map<String, LuiLuiRelationInfo> luiLuiRelations = new LinkedHashMap<String, LuiLuiRelationInfo>();
-
+    
     @Override
-    public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LuiInfo copy = new LuiInfo(luiInfo);
-        if (copy.getId() == null) {
-            copy.setId(luis.size() + "");
-        }
-        luis.put(copy.getId(), copy);
-        return new LuiInfo(copy);
-    }
-
-    @Override
-    public LuiCapacityInfo createLuiCapacity(LuiCapacityInfo luiCapacityInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context) throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LuiLuiRelationInfo copy = new LuiLuiRelationInfo(luiLuiRelationInfo);
-        if (copy.getId() == null) {
-            copy.setId(luiLuiRelations.size() + "");
-        }
-        luiLuiRelations.put(copy.getId(), copy);
-        return new LuiLuiRelationInfo(copy);
-    }
-
-    @Override
-    public StatusInfo deleteLui(String luiId, ContextInfo context) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        this.getLui(luiId, context);
-        luis.remove(luiId);
-        StatusInfo status = new StatusInfo();
-        status.setSuccess(Boolean.TRUE);
-        return status;
-    }
-
-    @Override
-    public StatusInfo deleteLuiCapacity(String luiCapacityId, ContextInfo context) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        this.getLuiLuiRelation(luiLuiRelationId, context);
-        luiLuiRelations.remove(luiLuiRelationId);
-        StatusInfo status = new StatusInfo();
-        status.setSuccess(Boolean.TRUE);
-        return status;
-    }
-
-    @Override
-    public LuiInfo getLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public LuiInfo getLui(String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (!luis.containsKey(luiId)) {
             throw new DoesNotExistException(luiId);
         }
@@ -95,27 +62,38 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<LuiCapacityInfo> getLuiCapacitiesByIds(List<String> luiCapacityIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<LuiInfo> getLuisByIds(List<String> luiIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LuiInfo> list = new ArrayList<LuiInfo>();
+        for (String id : luiIds) {
+            list.add (this.getLui(id, contextInfo));
+        }
+        return list;
     }
 
     @Override
-    public List<LuiCapacityInfo> getLuiCapacitiesByLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<String> getLuiIdsByType(String luiTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
+        for (LuiInfo info : this.luis.values()) {
+            if (info.getTypeKey().equals(luiTypeKey)) {
+                list.add(info.getId());
+            }
+        }
+        return list;
     }
 
     @Override
-    public LuiCapacityInfo getLuiCapacity(String luiCapacityId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<String> getLuiIdsByClu(String cluId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
+        for (LuiInfo info : this.luis.values()) {
+            if (info.getAtpId().equals(cluId)) {
+                list.add(info.getId());
+            }
+        }
+        return list;
     }
 
     @Override
-    public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<String> getLuiIdsByAtpAndType(String atpId, String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<String> getLuiIdsByAtpAndType(String atpId, String typeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> list = new ArrayList<String>();
         for (LuiInfo info : this.luis.values()) {
             if (info.getAtpId().equals(atpId)) {
@@ -128,43 +106,7 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<String> getLuiIdsByCluId(String cluId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<String> list = new ArrayList<String>();
-        for (LuiInfo info : this.luis.values()) {
-            if (info.getAtpId().equals(cluId)) {
-                list.add(info.getId());
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<String> getLuiIdsByRelation(String relatedLuiId, String luLuRelationTypeKey, ContextInfo context) 
-            throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<String> list = new ArrayList<String>();
-        for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
-            if (info.getRelatedLuiId().equals(relatedLuiId)) {
-                if (info.getTypeKey().equals(luLuRelationTypeKey)) {
-                    list.add(info.getLuiId());
-                }
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<String> getLuiIdsByType(String luiTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<String> list = new ArrayList<String>();
-        for (LuiInfo info : this.luis.values()) {
-            if (info.getTypeKey().equals(luiTypeKey)) {
-                list.add(info.getId());
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<String> getLuiIdsByAtpAndClu(String cluId, String atpId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> list = new ArrayList<String>();
         for (LuiInfo info : this.luis.values()) {
             if (info.getAtpId().equals(atpId)) {
@@ -177,7 +119,60 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<LuiInfo> getLuisByAtpAndClu(String cluId, String atpId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        try {
+            return this.getLuisByIds(this.getLuiIdsByAtpAndClu(cluId, atpId, contextInfo), contextInfo);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
+    }
+
+    @Override
+    public List<String> searchForLuiIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<LuiInfo> searchForLuis(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLui(String validationTypeKey, String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return new ArrayList<ValidationResultInfo>();
+    }
+
+    @Override
+    public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        LuiInfo copy = new LuiInfo(luiInfo);
+        if (copy.getId() == null) {
+            copy.setId(luis.size() + "");
+        }
+        luis.put(copy.getId(), copy);
+        return new LuiInfo(copy);
+    }
+
+    @Override
+    public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        if (!luis.containsKey(luiId)) {
+            throw new DoesNotExistException(luiId);
+        }
+        LuiInfo copy = new LuiInfo(luiInfo);
+        luis.put(luiId, copy);
+        return new LuiInfo(copy);
+    }
+
+    @Override
+    public StatusInfo deleteLui(String luiId, ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        this.getLui(luiId, contextInfo);
+        luis.remove(luiId);
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        return status;
+    }
+
+    @Override
+    public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (!this.luiLuiRelations.containsKey(luiLuiRelationId)) {
             throw new DoesNotExistException(luiLuiRelationId);
         }
@@ -185,18 +180,7 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<String> list = new ArrayList<String>();
-        for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
-            if (info.getTypeKey().equals(luiLuiRelationTypeKey)) {
-                list.add(info.getId());
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(List<String> luiLuiRelationIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(List<String> luiLuiRelationIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiLuiRelationInfo> list = new ArrayList<LuiLuiRelationInfo>();
         for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
             if (luiLuiRelationIds.contains(info.getId())) {
@@ -207,7 +191,18 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
+        for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
+            if (info.getTypeKey().equals(luiLuiRelationTypeKey)) {
+                list.add(info.getId());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiLuiRelationInfo> list = new ArrayList<LuiLuiRelationInfo>();
         for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
             if (info.getLuiId().equals(luiId)) {
@@ -218,40 +213,55 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<LuiInfo> getLuisByIds(List<String> luiIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<LuiInfo> list = new ArrayList<LuiInfo>();
-        for (String id : luiIds) {
-            list.add (this.getLui(id, context));
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLuis(String luiId, String relatedLuiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LuiLuiRelationInfo> list = new ArrayList<LuiLuiRelationInfo>();
+        for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
+            if (info.getLuiId().equals(luiId) && 
+                info.getRelatedLuiId().equals(relatedLuiId)) {
+                list.add(info);
+            }
         }
         return list;
     }
 
     @Override
-    public List<LuiInfo> getLuisByRelation(String relatedLuiId, String luLuRelationTypeKey, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<LuiInfo> getLuiLuiRelationsByLuiAndLuiType(String luiId, String relatedLuiTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO
+        return null;
+    }
+
+
+    @Override
+    public List<String> getLuiIdsByRelation(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) 
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
+        for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
+            if (info.getRelatedLuiId().equals(relatedLuiId)) {
+                if (info.getTypeKey().equals(luiLuiRelationTypeKey)) {
+                    list.add(info.getLuiId());
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<LuiInfo> getLuisByRelation(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
-            List<String> ids = this.getLuiIdsByRelation(relatedLuiId, luLuRelationTypeKey, context);
-            return this.getLuisByIds(ids, context);
+            List<String> ids = this.getLuiIdsByRelation(relatedLuiId, luiLuiRelationTypeKey, contextInfo);
+            return this.getLuisByIds(ids, contextInfo);
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("unexpected", ex);
         }
     }
 
-    @Override
-    public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        try {
-            return this.getLuisByIds(this.getLuiIdsInAtpByCluId(cluId, atpId, context), context);
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        }
-    }
 
     @Override
-    public List<String> getRelatedLuiIdsByLuiId(String luiId, String luLuRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<String> getRelatedLuiIdsByLui(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         Set<String> set = new HashSet<String>();
         for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
             if (info.getLuiId().equals(luiId)) {
-                if (info.getTypeKey().equals(luLuRelationTypeKey)) {
+                if (info.getTypeKey().equals(luiLuiRelationTypeKey)) {
                     set.add(info.getRelatedLuiId());
                 }
             }
@@ -260,61 +270,41 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<LuiInfo> getRelatedLuisByLuiId(String luiId, String luLuRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<LuiInfo> getRelatedLuisByLui(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
-            return this.getLuisByIds(this.getRelatedLuiIdsByLuiId(luiId, luLuRelationTypeKey, context), context);
+            return this.getLuisByIds(this.getRelatedLuiIdsByLui(luiId, luiLuiRelationTypeKey, contextInfo), contextInfo);
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("unexpected", ex);
         }
     }
 
     @Override
-    public List<LuiCapacityInfo> searchForLuiCapacities(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<String> searchForLuiCapacityIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LuiLuiRelationInfo> searchForLuiLuiRelations(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<String> searchForLuiIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<ValidationResultInfo> validateLuiLuiRelation(String validationTypeKey, String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
-    public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<LuiLuiRelationInfo> searchForLuiLuiRelations(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<LuiInfo> searchForLuis(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        if (!luis.containsKey(luiId)) {
-            throw new DoesNotExistException(luiId);
+    public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        LuiLuiRelationInfo copy = new LuiLuiRelationInfo(luiLuiRelationInfo);
+        if (copy.getId() == null) {
+            copy.setId(luiLuiRelations.size() + "");
         }
-        LuiInfo copy = new LuiInfo(luiInfo);
-        luis.put(luiId, copy);
-        return new LuiInfo(copy);
+        luiLuiRelations.put(copy.getId(), copy);
+        return new LuiLuiRelationInfo(copy);
     }
 
     @Override
-    public LuiCapacityInfo updateLuiCapacity(String luiCapacityId, LuiCapacityInfo luiCapacityInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         if (!luiLuiRelations.containsKey(luiLuiRelationId)) {
             throw new DoesNotExistException(luiLuiRelationId);
         }
@@ -324,28 +314,61 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public LuiInfo updateLuiState(String luiId, String luState, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LuiInfo info = this.getLui(luiId, context);
-        info.setStateKey(luState);
-        try {
-            return this.updateLui(luiId, info, context);
-        } catch (VersionMismatchException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        }
+    public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        this.getLuiLuiRelation(luiLuiRelationId, contextInfo);
+        luiLuiRelations.remove(luiLuiRelationId);
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        return status;
     }
 
     @Override
-    public List<ValidationResultInfo> validateLui(String validationType, LuiInfo luiInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public LuiCapacityInfo getLuiCapacity(String luiCapacityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<LuiCapacityInfo> getLuiCapacitiesByIds(List<String> luiCapacityIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<LuiCapacityInfo> getLuiCapacitiesByLui(String luiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<LuiCapacityInfo> searchForLuiCapacities(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> searchForLuiCapacityIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLuiCapacity(String validationTypeKey, String luiCapacityTypeKey, LuiCapacityInfo luiCapacityInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
-    public List<ValidationResultInfo> validateLuiCapacity(String validationType, LuiCapacityInfo luiCapacityInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return new ArrayList<ValidationResultInfo>();
+    public LuiCapacityInfo createLuiCapacity(String luiCapacityTypeKey, LuiCapacityInfo luiCapacityInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<ValidationResultInfo> validateLuiLuiRelation(String validationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return new ArrayList<ValidationResultInfo>();
+    public LuiCapacityInfo updateLuiCapacity(String luiCapacityId, LuiCapacityInfo luiCapacityInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public StatusInfo deleteLuiCapacity(String luiCapacityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.class1.lui.service.impl.LuiTestDataLoader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -16,6 +17,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -23,7 +25,9 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
@@ -169,7 +173,7 @@ public class TestCourseOfferingServiceImpl {
     @Test
     public void testCreateCourseOffering() throws AlreadyExistsException, DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+                                                  OperationFailedException, PermissionDeniedException, ReadOnlyException {
         String formatId = null;
         CourseOfferingInfo coInfo = new CourseOfferingInfo();
         CourseOfferingInfo created = courseOfferingService.createCourseOffering("CLU-1", "testAtpId1", formatId, coInfo, callContext);
@@ -195,7 +199,7 @@ public class TestCourseOfferingServiceImpl {
     @Test
     public void testUpdateCourseOffering() throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, VersionMismatchException {
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         try {
             CourseOfferingInfo coi = courseOfferingService.getCourseOffering("Lui-1", callContext);
             assertNotNull(coi);
@@ -256,7 +260,7 @@ public class TestCourseOfferingServiceImpl {
     @Test
     public void testDeleteCourseOffering() throws AlreadyExistsException, DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+                                                  OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // Create a CO
         String formatId = null;
         CourseOfferingInfo coInfo = new CourseOfferingInfo();
@@ -421,7 +425,7 @@ public class TestCourseOfferingServiceImpl {
     }
 
     @Test
-    public void testUpdateRegistrationGroup() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, VersionMismatchException, PermissionDeniedException, OperationFailedException {
+    public void testUpdateRegistrationGroup() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, VersionMismatchException, PermissionDeniedException, OperationFailedException, ReadOnlyException {
         final String regGroupId = "LUI-RG-1";
         final String coId = "LUI-CO-1";
         final String aoId_1 = "LUI-ACT-1";
