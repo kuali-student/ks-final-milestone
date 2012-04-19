@@ -469,7 +469,8 @@
         <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="filters">
             <list>
-                <!-- <ref bean="authzFilter"/> -->
+                <!-- Order of filters is important -->
+                <ref bean="authzFilter"/>
                 <ref bean="idTranslatorFilter"/>
             </list>
         </property>
@@ -911,6 +912,7 @@
         <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}permissionService"/>
     </bean>
 
+    <!-- TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release -->
     <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService"/>
         <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}identityService"/>
