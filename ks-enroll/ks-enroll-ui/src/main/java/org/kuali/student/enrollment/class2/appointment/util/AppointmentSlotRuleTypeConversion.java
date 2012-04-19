@@ -31,6 +31,11 @@ import java.util.List;
  */
 public class AppointmentSlotRuleTypeConversion {
 
+    public static int SECOND_IN_MILLIS = 1000;
+    public static int MINUTE_IN_SECS =  60;
+    public static int HOUR_IN_MINUTES = 60;
+    public static String DELIMITER = ";";
+
     //Converting appt. rule type code to object
     // Ex: 1,3,4;8;4;kuali.type.duration.minutes;15;kuali.type.duration.minutes;0
     public static AppointmentSlotRuleInfo convToAppointmentSlotRuleInfo(String slotRuleTypeCode){
@@ -44,8 +49,10 @@ public class AppointmentSlotRuleTypeConversion {
             }
             slotRule.setWeekdays(weekdays);
         }
-        slotRule.setStartTimeOfDay(convertToTimeOfDayInfo(Long.parseLong(codeWords[1])));
-        slotRule.setEndTimeOfDay(convertToTimeOfDayInfo(Long.parseLong(codeWords[2])));
+        
+        slotRule.setStartTimeOfDay(convertToTimeOfDayInfo(convertToMilliSecs(codeWords[1])));
+        codeWords[2] = String.valueOf(Integer.parseInt(codeWords[2]) + 12);
+        slotRule.setEndTimeOfDay(convertToTimeOfDayInfo(convertToMilliSecs(codeWords[2])));
         slotRule.setSlotStartInterval(convertToTimeAmountInfo(codeWords[3],Integer.parseInt(codeWords[4])));
         slotRule.setSlotDuration(convertToTimeAmountInfo(codeWords[5],Integer.parseInt(codeWords[6])));
         return slotRule;
@@ -67,12 +74,12 @@ public class AppointmentSlotRuleTypeConversion {
                     tempSlotRule.append(day);
                 }
             }
-            tempSlotRule.append(";"+slotRuleInfo.getStartTimeOfDay().getMilliSeconds());
-            tempSlotRule.append(";"+slotRuleInfo.getEndTimeOfDay().getMilliSeconds());
-            tempSlotRule.append(";"+slotRuleInfo.getSlotStartInterval().getAtpDurationTypeKey());
-            tempSlotRule.append(";"+slotRuleInfo.getSlotStartInterval().getTimeQuantity());
-            tempSlotRule.append(";"+slotRuleInfo.getSlotDuration().getAtpDurationTypeKey());
-            tempSlotRule.append(";"+slotRuleInfo.getSlotDuration().getTimeQuantity());
+            tempSlotRule.append(DELIMITER + convertToHrs(slotRuleInfo.getStartTimeOfDay().getMilliSeconds()));
+            tempSlotRule.append(DELIMITER + convertToHrs(slotRuleInfo.getEndTimeOfDay().getMilliSeconds()));
+            tempSlotRule.append(DELIMITER + slotRuleInfo.getSlotStartInterval().getAtpDurationTypeKey());
+            tempSlotRule.append(DELIMITER + slotRuleInfo.getSlotStartInterval().getTimeQuantity());
+            tempSlotRule.append(DELIMITER + slotRuleInfo.getSlotDuration().getAtpDurationTypeKey());
+            tempSlotRule.append(DELIMITER + slotRuleInfo.getSlotDuration().getTimeQuantity());
             slotRule = tempSlotRule.toString();
         }
         return slotRule;
@@ -97,6 +104,35 @@ public class AppointmentSlotRuleTypeConversion {
             info.setTimeQuantity(quantity);
         }
         return info;
+    }
+    
+    private static Long convertToMilliSecs(String time_in_hrs){
+        String[] timeSplit = time_in_hrs.split(":");  // hours and minutes
+        Long time_in_millis = 0L;
+        if(timeSplit.length>1) {
+            timeSplit[0] = timeSplit[0].trim();
+            timeSplit[1] = timeSplit[1].trim();
+            time_in_millis = Long.parseLong(timeSplit[0]) * HOUR_IN_MINUTES * MINUTE_IN_SECS * SECOND_IN_MILLIS;
+            time_in_millis = time_in_millis + Long.parseLong(timeSplit[1]) * MINUTE_IN_SECS * SECOND_IN_MILLIS;
+        } else {
+                time_in_millis = Long.parseLong(timeSplit[0]) * HOUR_IN_MINUTES * MINUTE_IN_SECS * SECOND_IN_MILLIS;
+        }
+        return time_in_millis;
+    }
+
+    private static String convertToHrs(Long milliSecs){
+        String hrs = "";
+        if(milliSecs%(SECOND_IN_MILLIS * MINUTE_IN_SECS * HOUR_IN_MINUTES)==0){
+            int temp =  (int)(milliSecs/(SECOND_IN_MILLIS * MINUTE_IN_SECS * HOUR_IN_MINUTES));
+            if(temp > 12) temp = temp -12;
+            hrs = String.valueOf(temp);
+        }else{
+            int temp = (int)(milliSecs/(SECOND_IN_MILLIS * MINUTE_IN_SECS));
+            int temp1 = temp/60; int temp2 = temp%60;
+            if(temp1 > 12) temp1 = temp1-12;
+            hrs = String.valueOf(temp1) + ":" + String.valueOf(temp2);
+        }
+        return hrs;
     }
 
 }
