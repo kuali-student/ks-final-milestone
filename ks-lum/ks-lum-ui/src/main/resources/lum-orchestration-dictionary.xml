@@ -33,7 +33,7 @@ Questions please contact Norm Wright.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="constraint" abstract="true"
 		class="org.kuali.student.common.assembly.data.ConstraintMetadata" />
@@ -1314,7 +1314,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
 					<property name="name" value="Organizations"/>
@@ -1323,7 +1323,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long organization name."/>
@@ -1333,7 +1333,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLocation"/>
 								<property name="name" value="Location"/>
 								<property name="desc" value="Organization location."/>
@@ -1343,7 +1343,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="TEXT_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short organization name."/>
@@ -1353,7 +1353,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalId"/>
 								<property name="name" value="Id"/>
 								<property name="desc" value="Unique identifier for an organization."/>
@@ -1362,7 +1362,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of an organization."/>
@@ -1384,21 +1384,21 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgId"/>
 								<property name="name" value="Organization Identifier"/>
 								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short name for the organization, recorded as the default listing"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long name for the organization, recorded as the default listing."/>
@@ -1725,7 +1725,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced.courseproposal"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Courses and Proposals"/>
@@ -1734,7 +1734,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Course title."/>
@@ -1744,7 +1744,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course number"/>
@@ -1754,7 +1754,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDescr"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Course description"/>
@@ -1763,7 +1763,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalStudySubjectArea"/>
 								<property name="name" value="Subject Area"/>
 								<property name="desc" value="Study Subject Area"/>
@@ -1772,7 +1772,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of a course"/>
@@ -1806,45 +1806,45 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.cluId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Title for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course number."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalStudySubjectArea"/>
 								<property name="name" value="Subject Area"/>
 								<property name="desc" value="Study Subject Area."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalState"/>
 								<property name="name" value="State"/>
 								<property name="desc" value="Course or proposal state."/>
 								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="false"/>
+								<property name="hidden" value="true"/>
 							</bean>
 						</list>
 					</property>
 				</bean>
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced.coursesonly"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Courses Only"/>
@@ -1853,7 +1853,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Course title."/>
@@ -1863,7 +1863,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course number"/>
@@ -1873,7 +1873,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDescr"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Course description"/>
@@ -1882,7 +1882,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalStudySubjectArea"/>
 								<property name="name" value="Subject Area"/>
 								<property name="desc" value="Study Subject Area"/>
@@ -1891,7 +1891,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>							
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of a course"/>
@@ -1921,45 +1921,45 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.cluId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Title for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>							
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course number."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalStudySubjectArea"/>
 								<property name="name" value="Subject Area"/>
 								<property name="desc" value="Study Subject Area."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalState"/>
 								<property name="name" value="State"/>
 								<property name="desc" value="Course or proposal state."/>
 								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="false"/>
+								<property name="hidden" value="true"/>
 							</bean>
 						</list>
 					</property>
 				</bean>
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced.proposalsonly"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Proposals Only"/>
@@ -1968,7 +1968,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Course title."/>
@@ -1978,7 +1978,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course number"/>
@@ -1988,7 +1988,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDescr"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Course description"/>
@@ -1997,7 +1997,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalStudySubjectArea"/>
 								<property name="name" value="Subject Area"/>
 								<property name="desc" value="Study Subject Area"/>
@@ -2006,7 +2006,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>							
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of a course"/>
@@ -2039,40 +2039,40 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.cluId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Title for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>							
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course number."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalStudySubjectArea"/>
 								<property name="name" value="Subject Area"/>
 								<property name="desc" value="Study Subject Area."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalState"/>
 								<property name="name" value="State"/>
 								<property name="desc" value="Course or proposal state."/>
 								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="false"/>
+								<property name="hidden" value="true"/>
 							</bean>
 						</list>
 					</property>
@@ -3314,7 +3314,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lo.lookup.SingleUseLo.description.advanced1"/>
 					<property name="searchTypeId" value="lo.search.loByDescCrossSearch"/>
 					<property name="name" value="keyword in Learning Objective"/>
@@ -3323,7 +3323,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.queryParam.loDescPlain"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Description of learning objective."/>
@@ -3340,21 +3340,21 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="lo.resultColumn.loDescPlain"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loId"/>
 								<property name="name" value="LO Identifier"/>
 								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loDescPlain"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Description of learning objective."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loCluCode"/>
 								<property name="name" value="Course Code"/>
 								<property name="desc" value="Course code"/>
@@ -3364,7 +3364,7 @@ Questions please contact Norm Wright.
 						</list>
 					</property>
 				</bean>
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lo.lookup.SingleUseLo.description.advanced2"/>
 					<property name="searchTypeId" value="lo.search.loByCategory"/>		<!-- once is cross search working use: lo.search.loByDescCrossSearch   -->
 					<property name="name" value="by Category"/>
@@ -3372,7 +3372,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.queryParam.loOptionalCategoryName"/>
 								<property name="name" value="Category"/>
 								<property name="desc" value="Category."/>
@@ -3389,28 +3389,28 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="lo.resultColumn.loDescPlain"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loId"/>
 								<property name="name" value="LO Identifier"/>
 								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loDescPlain"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Description of learning objective."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loCluCode"/>
 								<property name="name" value="Course Code"/>
 								<property name="desc" value="Course code"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.categoryName"/>
 								<property name="name" value="Category"/>
 								<property name="desc" value="LO Category"/>
@@ -3420,7 +3420,7 @@ Questions please contact Norm Wright.
 						</list>
 					</property>
 				</bean>
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lo.lookup.SingleUseLo.description.advanced3"/>
 					<property name="searchTypeId" value="lo.search.loByCluCode"/>		<!-- once is cross search working use: lo.search.loByDescCrossSearch   -->
 					<property name="name" value="by a Course"/>
@@ -3428,7 +3428,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.queryParam.cluOfficialIdentifier.cluCode"/>
 								<property name="name" value="Course Code"/>
 								<property name="desc" value="Course Code"/>
@@ -3445,21 +3445,21 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="lo.resultColumn.loDescPlain"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loId"/>
 								<property name="name" value="LO Identifier"/>
 								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loDescPlain"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Description of learning objective."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loCluCode"/>
 								<property name="name" value="Course Code"/>
 								<property name="desc" value="Course code"/>
@@ -4261,7 +4261,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
 					<property name="name" value="Organizations"/>
@@ -4270,7 +4270,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long organization name."/>
@@ -4280,7 +4280,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLocation"/>
 								<property name="name" value="Location"/>
 								<property name="desc" value="Organization location."/>
@@ -4290,7 +4290,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="TEXT_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short organization name."/>
@@ -4300,7 +4300,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalId"/>
 								<property name="name" value="Id"/>
 								<property name="desc" value="Unique identifier for an organization."/>
@@ -4309,7 +4309,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of an organization."/>
@@ -4331,21 +4331,21 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgId"/>
 								<property name="name" value="Organization Identifier"/>
 								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short name for the organization, recorded as the default listing"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long name for the organization, recorded as the default listing."/>
@@ -4802,7 +4802,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
 					<property name="name" value="Organizations"/>
@@ -4811,7 +4811,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long organization name."/>
@@ -4821,7 +4821,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLocation"/>
 								<property name="name" value="Location"/>
 								<property name="desc" value="Organization location."/>
@@ -4831,7 +4831,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="TEXT_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short organization name."/>
@@ -4841,7 +4841,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalId"/>
 								<property name="name" value="Id"/>
 								<property name="desc" value="Unique identifier for an organization."/>
@@ -4850,7 +4850,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of an organization."/>
@@ -4872,21 +4872,21 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgId"/>
 								<property name="name" value="Organization Identifier"/>
 								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short name for the organization, recorded as the default listing"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long name for the organization, recorded as the default listing."/>
@@ -5908,7 +5908,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.admin.departments.advanced"/>
 					<property name="searchTypeId" value="org.search.generic"/>
 					<property name="name" value="Organizations"/>
@@ -5917,7 +5917,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long organization name."/>
@@ -5927,7 +5927,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalLocation"/>
 								<property name="name" value="Location"/>
 								<property name="desc" value="Organization location."/>
@@ -5937,7 +5937,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="TEXT_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short organization name."/>
@@ -5947,7 +5947,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalId"/>
 								<property name="name" value="Id"/>
 								<property name="desc" value="Unique identifier for an organization."/>
@@ -5956,7 +5956,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.queryParam.orgOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of an organization."/>
@@ -5978,21 +5978,21 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgId"/>
 								<property name="name" value="Organization Identifier"/>
 								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgShortName"/>
 								<property name="name" value="Short Name"/>
 								<property name="desc" value="Short name for the organization, recorded as the default listing"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="org.resultColumn.orgOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long name for the organization, recorded as the default listing."/>
@@ -6136,7 +6136,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
@@ -6145,7 +6145,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Course title."/>
@@ -6155,7 +6155,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course number."/>
@@ -6165,7 +6165,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDescr"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Course description"/>
@@ -6174,7 +6174,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>							
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLevel"/>
 								<property name="name" value="Level"/>
 								<property name="desc" value="Course level."/>
@@ -6183,7 +6183,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of a course"/>
@@ -6214,28 +6214,28 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value=""/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.cluId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Code"/>
 								<property name="desc" value="Course code."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLevel"/>
 								<property name="name" value="Level"/>
 								<property name="desc" value="Course level."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long name for the course."/>
@@ -6325,7 +6325,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
@@ -6334,7 +6334,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Course title."/>
@@ -6344,7 +6344,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course number."/>
@@ -6354,7 +6354,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDescr"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Course description"/>
@@ -6363,7 +6363,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>							
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLevel"/>
 								<property name="name" value="Level"/>
 								<property name="desc" value="Course level."/>
@@ -6372,7 +6372,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of a course"/>
@@ -6401,28 +6401,28 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value=""/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.cluId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Code"/>
 								<property name="desc" value="Course code."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLevel"/>
 								<property name="name" value="Level"/>
 								<property name="desc" value="Course level."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long name for the course."/>
@@ -6577,7 +6577,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCluSet.advanced"/>
 					<property name="searchTypeId" value="cluset.search.generic"/>
 					<property name="name" value="Clu Set"/>
@@ -6586,7 +6586,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="cluset.queryParam.optionalName"/>
 								<property name="name" value="Name"/>
 								<property name="desc" value="Name of the Clu Set."/>
@@ -6596,7 +6596,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="cluset.queryParam.optionalDescription"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Clu Set Description."/>
@@ -6606,7 +6606,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
 								<property name="name" value="Course Name"/>
 								<property name="desc" value="Course Name"/>
@@ -6616,7 +6616,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="cluset.queryParam.optionalSubCluSetName"/>
 								<property name="name" value="Clu Set Name"/>
 								<property name="desc" value="Clu Set Name"/>
@@ -6642,14 +6642,14 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="cluset.resultColumn.name"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="cluset.resultColumn.cluSetId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for the Clu Set."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="cluset.resultColumn.name"/>
 								<property name="name" value="Name"/>
 								<property name="desc" value="Clu Set Name."/>
@@ -6691,7 +6691,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="courseNumberRangeParameters"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course Number"/>
@@ -6706,7 +6706,7 @@ Questions please contact Norm Wright.
 					</property>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDivision"/>
 								<property name="name" value="Department"/>
 								<property name="desc" value="Department"/>
@@ -6715,7 +6715,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCrsNoRange"/>
 								<property name="name" value="Course Number Range"/>
 								<property name="desc" value="Course Number Range"/>
@@ -6731,14 +6731,14 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Code of the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
 								<property name="name" value="Long Name of the course"/>
 								<property name="desc" value="Long Name of the course"/>
@@ -6749,7 +6749,7 @@ Questions please contact Norm Wright.
 					</property>
 				</bean>
 				<!-- 2nd type of search -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lo.lookup.SingleUseLo.description.advanced1"/>
 					<property name="searchTypeId" value="lo.search.loByDescCrossSearch"/>
 					<property name="name" value="Learning Objective"/>
@@ -6764,7 +6764,7 @@ Questions please contact Norm Wright.
 					</property>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.queryParam.loDescPlain"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Description of learning objective."/>
@@ -6781,21 +6781,21 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="lo.resultColumn.loDescPlain"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loId"/>
 								<property name="name" value="LO Identifier"/>
 								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loCluCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course code"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loCluOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Title of Clu."/>
@@ -6806,7 +6806,7 @@ Questions please contact Norm Wright.
 					</property>
 				</bean>
 				<!-- 3rd type of search -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="effectiveDateRangeParameters"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Effective Date Range"/>
@@ -6821,7 +6821,7 @@ Questions please contact Norm Wright.
 					</property>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalEffectiveDate1"/>
 								<property name="name" value="Effective From"/>
 								<property name="desc" value="Effective Date a course."/>
@@ -6830,7 +6830,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalEffectiveDate2"/>
 								<property name="name" value="Effective To"/>
 								<property name="desc" value="Effective Date a course."/>
@@ -6846,14 +6846,14 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Code of the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
 								<property name="name" value="Long Name of the course"/>
 								<property name="desc" value="Long Name of the course"/>
@@ -6890,7 +6890,7 @@ Questions please contact Norm Wright.
 			<list>
 				<!-- definition of advanced search window -->
 				<!-- lu.search.generic -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="courseNumberRangeParameters"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course Number"/>
@@ -6905,7 +6905,7 @@ Questions please contact Norm Wright.
 					</property>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDivision"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course Number"/>
@@ -6914,7 +6914,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCrsNoRange"/>
 								<property name="name" value="Course Number Range"/>
 								<property name="desc" value="Course Number Range"/>
@@ -6923,7 +6923,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalEffectiveDate1"/>
 								<property name="name" value="Effective From"/>
 								<property name="desc" value="Effective Date a course."/>
@@ -6932,7 +6932,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="ADVANCED"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalEffectiveDate2"/>
 								<property name="name" value="Effective To"/>
 								<property name="desc" value="Effective Date a course."/>
@@ -6948,14 +6948,14 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Code of the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
 								<property name="name" value="Long Name of the course"/>
 								<property name="desc" value="Long Name of the course"/>
@@ -6966,7 +6966,7 @@ Questions please contact Norm Wright.
 					</property>
 				</bean>
 				<!-- lo.search.loByDescCrossSearch -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lo.lookup.SingleUseLo.description.advanced1"/>
 					<property name="searchTypeId" value="lo.search.loByDescCrossSearch"/>
 					<property name="name" value="Learning Objective"/>
@@ -6981,7 +6981,7 @@ Questions please contact Norm Wright.
 					</property>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.queryParam.loDescPlain"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Description of learning objective."/>
@@ -6998,21 +6998,21 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="lo.resultColumn.loDescPlain"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loId"/>
 								<property name="name" value="LO Identifier"/>
 								<property name="desc" value="Identifier for the organization"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loCluCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course code"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lo.resultColumn.loCluOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Title of Clu."/>
@@ -7295,7 +7295,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Course"/>
@@ -7304,7 +7304,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Course title."/>
@@ -7315,7 +7315,7 @@ Questions please contact Norm Wright.
 								<property name="widget" value="SUGGEST_BOX"/>
      								<property name="childLookup" ref="kuali.lu.lookup.findCourse.longName" />								
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course number."/>
@@ -7325,7 +7325,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDescr"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Course description"/>
@@ -7334,7 +7334,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>							
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLevel"/>
 								<property name="name" value="Level"/>
 								<property name="desc" value="Course level."/>
@@ -7343,7 +7343,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of a course"/>
@@ -7360,28 +7360,28 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.cluId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Code"/>
 								<property name="desc" value="Course code."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLevel"/>
 								<property name="name" value="Level"/>
 								<property name="desc" value="Course level."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long name for the course."/>
@@ -7467,7 +7467,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCourse.advanced"/>
 					<property name="searchTypeId" value="lu.search.mostCurrent.union"/>
 					<property name="name" value="Course"/>
@@ -7476,7 +7476,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
 								<property name="name" value="Name"/>
 								<property name="desc" value="Course title."/>
@@ -7486,7 +7486,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCode"/>
 								<property name="name" value="Course Number"/>
 								<property name="desc" value="Course number."/>
@@ -7496,7 +7496,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalStudySubjectArea"/>
 								<property name="name" value="Department Code"/>
 								<property name="desc" value="Department Code."/>
@@ -7506,7 +7506,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDescr"/>
 								<property name="name" value="Phrase in Description"/>
 								<property name="desc" value="Course description"/>
@@ -7515,7 +7515,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>							
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLevel"/>
 								<property name="name" value="Level"/>
 								<property name="desc" value="Course level."/>
@@ -7524,7 +7524,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>							
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalStatus"/>
 								<property name="name" value="Status"/>
 								<property name="desc" value="Course level."/>
@@ -7533,7 +7533,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of a course"/>
@@ -7568,70 +7568,70 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.cluId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
 								<property name="name" value="Name"/>
 								<property name="desc" value="Long name for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Code"/>
 								<property name="desc" value="Course code."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalState"/>
 								<property name="name" value="State"/>
 								<property name="desc" value="State of the course."/>
 								<property name="dataType" value="STRING"/>
-								<property name="hidden" value="false"/>
+								<property name="hidden" value="true"/>
 							</bean>			
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLevel"/>
 								<property name="name" value="Level"/>
 								<property name="desc" value="Course level."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalVersionIndId"/>
 								<property name="name" value="VersionIndId"/>
 								<property name="desc" value="Version Independent Id of this course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalVersionedFromId"/>
 								<property name="name" value="VersionedFromId"/>
 								<property name="desc" value="Id of this course this was versioned from."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalVersionStartDate"/>
 								<property name="name" value="VersionStartDate"/>
 								<property name="desc" value="Version Start Date"/>
 								<property name="dataType" value="DATE"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalVersionEndDate"/>
 								<property name="name" value="VersionEndDate"/>
 								<property name="desc" value="Version End Date"/>
 								<property name="dataType" value="DATE"/>
 								<property name="hidden" value="true"/>
 							</bean>												
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalDescr"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Description for the course."/>
@@ -7669,7 +7669,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.proposal.lookup.Proposals"/>
 					<property name="searchTypeId" value="proposal.search.generic"/>
 					<property name="name" value="Proposal"/>
@@ -7678,7 +7678,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="proposal.queryParam.proposalId"/>
 								<property name="name" value="Id"/>
 								<property name="desc" value="Unique identifier for a proposal."/>
@@ -7687,7 +7687,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="false"/>
 								<property name="usage" value="DEFAULT"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="proposal.queryParam.proposalOptionalName"/>
 								<property name="name" value="Name"/>
 								<property name="desc" value="Name."/>
@@ -7704,14 +7704,14 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="proposal.resultColumn.proposalOptionalName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="proposal.resultColumn.proposalId"/>
 								<property name="name" value="Id"/>
 								<property name="desc" value="Id for the proposal."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="proposal.resultColumn.proposalOptionalName"/>
 								<property name="name" value="Name"/>
 								<property name="desc" value="Name for the proposal."/>
@@ -7808,7 +7808,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCluSet.advanced"/>
 					<property name="searchTypeId" value="cluset.search.generic"/>
 					<property name="name" value="Clu Set"/>
@@ -7817,7 +7817,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="cluset.queryParam.optionalName"/>
 								<property name="name" value="Name"/>
 								<property name="desc" value="Name of the Clu Set."/>
@@ -7827,7 +7827,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="cluset.queryParam.optionalDescription"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Clu Set Description."/>
@@ -7837,7 +7837,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
 								<property name="name" value="Course Name"/>
 								<property name="desc" value="Course Name"/>
@@ -7847,7 +7847,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="cluset.queryParam.optionalSubCluSetName"/>
 								<property name="name" value="Clu Set Name"/>
 								<property name="desc" value="Clu Set Name"/>
@@ -7872,14 +7872,14 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="cluset.resultColumn.name"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="cluset.resultColumn.cluSetId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for the Clu Set."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="cluset.resultColumn.name"/>
 								<property name="name" value="Name"/>
 								<property name="desc" value="Clu Set Name."/>
@@ -7908,7 +7908,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findCluSet.advanced"/>
 					<property name="searchTypeId" value="lu.search.clusInCluset"/>
 					<property name="name" value="Clu in Clu Set"/>
@@ -7917,7 +7917,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="cluset.queryParam.optionalId"/>
 								<property name="name" value="Clu Set Id"/>
 								<property name="desc" value="Id of the Clu Set."/>
@@ -7934,14 +7934,14 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="lu.resultColumn.cluOfficialIdentifier.longName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.cluId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for Clu."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.cluOfficialIdentifier.longName"/>
 								<property name="name" value="Name"/>
 								<property name="desc" value="Clu Name."/>
@@ -8021,7 +8021,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findProgram.advanced"/>
 					<property name="searchTypeId" value="lu.search.generic"/>
 					<property name="name" value="Program"/>
@@ -8030,7 +8030,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName"/>
 								<property name="name" value="Title"/>
 								<property name="desc" value="Program title."/>
@@ -8040,7 +8040,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCode"/>
 								<property name="name" value="Program Number"/>
 								<property name="desc" value="Program number."/>
@@ -8050,7 +8050,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalDescr"/>
 								<property name="name" value="Description"/>
 								<property name="desc" value="Program description"/>
@@ -8059,7 +8059,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 							</bean>							
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLevel"/>
 								<property name="name" value="Level"/>
 								<property name="desc" value="Program level."/>
@@ -8068,7 +8068,7 @@ Questions please contact Norm Wright.
 								<property name="caseSensitive" value="true"/>
 								<property name="usage" value="CUSTOM"/>
 							</bean>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalType"/>
 								<property name="name" value="Type"/>
 								<property name="desc" value="Type of a program"/>
@@ -8085,28 +8085,28 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.cluId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for the program"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Code"/>
 								<property name="desc" value="Program code."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLevel"/>
 								<property name="name" value="Level"/>
 								<property name="desc" value="Program level."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalLongName"/>
 								<property name="name" value="Long Name"/>
 								<property name="desc" value="Long name for the program."/>
@@ -8146,7 +8146,7 @@ Questions please contact Norm Wright.
 		<property name="additionalLookups">
 			<list>
 				<!-- definition of advanced search window -->
-				<bean parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="id" value="kuali.lu.lookup.findMajor.advanced"/>
 					<property name="searchTypeId" value="lu.search.union.majors"/>
 					<property name="name" value="Majors"/>
@@ -8155,7 +8155,7 @@ Questions please contact Norm Wright.
 					<property name="widget" value="ADVANCED_LIGHTBOX"/>
 					<property name="params">
 						<list>
-							<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalCode"/>
 								<property name="name" value="Code"/>
 								<property name="desc" value="Major Code."/>
@@ -8165,7 +8165,7 @@ Questions please contact Norm Wright.
 								<property name="usage" value="ADVANCED_CUSTOM"/>
 								<property name="widget" value="SUGGEST_BOX"/>
 							</bean>	
-                            <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+                            <bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.queryParam.luOptionalLongName" />
 								<property name="name" value="Title" />
 								<property name="desc" value="Long title" />
@@ -8206,42 +8206,42 @@ Questions please contact Norm Wright.
 					<property name="resultSortKey" value="lu.resultColumn.luOptionalCode"/>
 					<property name="results">
 						<list>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.cluId"/>
 								<property name="name" value="Identifier"/>
 								<property name="desc" value="Identifier for the course."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="true"/>
 							</bean>
-							<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+							<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalCode"/>
 								<property name="name" value="Code"/>
 								<property name="desc" value="Course code."/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-                            <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+                            <bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalState"/>
 								<property name="name" value="Program Status"/>
 								<property name="desc" value="State of the Major Discipline"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-                            <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+                            <bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalMajorName"/>
 								<property name="name" value="Major"/>
 								<property name="desc" value="Long Major name"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-                            <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+                            <bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalVariationName"/>
 								<property name="name" value="Specialization"/>
 								<property name="desc" value="Long name of Variation"/>
 								<property name="dataType" value="STRING"/>
 								<property name="hidden" value="false"/>
 							</bean>
-	                            <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+	                            <bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 								<property name="key" value="lu.resultColumn.luOptionalType"/>
 								<property name="name" value="Clu Type"/>
 								<property name="desc" value="Type of this CLU"/>
@@ -8392,7 +8392,7 @@ Questions please contact Norm Wright.
 		</property>
 	</bean>
 	<!-- definition of advanced search window -->
-	<bean id="kuali.lu.lookup.admin.departments.advanced" parent="lookup" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+	<bean id="kuali.lu.lookup.admin.departments.advanced" parent="lookup" autowire-candidate="default" autowire="default" lazy-init="default">
 		<property name="searchTypeId" value="org.search.generic"/>
 		<property name="name" value="Organizations"/>
 		<property name="desc" value="Search for administrative department organization"/>
@@ -8400,7 +8400,7 @@ Questions please contact Norm Wright.
 		<property name="widget" value="ADVANCED_LIGHTBOX"/>
 		<property name="params">
 			<list>
-				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalLongName"/>
 					<property name="name" value="Long Name"/>
 					<property name="desc" value="Long organization name."/>
@@ -8410,7 +8410,7 @@ Questions please contact Norm Wright.
 					<property name="usage" value="ADVANCED_CUSTOM"/>
 					<property name="widget" value="SUGGEST_BOX"/>
 				</bean>
-				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalLocation"/>
 					<property name="name" value="Location"/>
 					<property name="desc" value="Organization location."/>
@@ -8420,7 +8420,7 @@ Questions please contact Norm Wright.
 					<property name="usage" value="ADVANCED_CUSTOM"/>
 					<property name="widget" value="TEXT_BOX"/>
 				</bean>
-				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalShortName"/>
 					<property name="name" value="Short Name"/>
 					<property name="desc" value="Short organization name."/>
@@ -8430,7 +8430,7 @@ Questions please contact Norm Wright.
 					<property name="usage" value="ADVANCED_CUSTOM"/>
 					<property name="widget" value="SUGGEST_BOX"/>
 				</bean>
-				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalId"/>
 					<property name="name" value="Id"/>
 					<property name="desc" value="Unique identifier for an organization."/>
@@ -8439,7 +8439,7 @@ Questions please contact Norm Wright.
 					<property name="caseSensitive" value="true"/>
 					<property name="usage" value="CUSTOM"/>
 				</bean>
-				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalType"/>
 					<property name="name" value="Type"/>
 					<property name="desc" value="Type of an organization."/>
@@ -8461,21 +8461,21 @@ Questions please contact Norm Wright.
 		<property name="resultSortKey" value="org.resultColumn.orgShortName"/>
 		<property name="results">
 			<list>
-				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.resultColumn.orgId"/>
 					<property name="name" value="Organization Identifier"/>
 					<property name="desc" value="Identifier for the organization"/>
 					<property name="dataType" value="STRING"/>
 					<property name="hidden" value="true"/>
 				</bean>
-				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.resultColumn.orgShortName"/>
 					<property name="name" value="Short Name"/>
 					<property name="desc" value="Short name for the organization, recorded as the default listing"/>
 					<property name="dataType" value="STRING"/>
 					<property name="hidden" value="false"/>
 				</bean>
-				<bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.resultColumn.orgOptionalLongName"/>
 					<property name="name" value="Long Name"/>
 					<property name="desc" value="Long name for the organization, recorded as the default listing."/>

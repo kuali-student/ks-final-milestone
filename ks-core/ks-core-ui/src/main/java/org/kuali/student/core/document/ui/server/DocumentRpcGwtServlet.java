@@ -58,7 +58,7 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 
 	@Override
     public Boolean isAuthorizedUploadDocuments(String id, String referenceTypeKey) {
-		if (id != null && (!"".equals(id.trim()))) {
+        if (id != null && (!"".equals(id.trim()))) {
 			String user = getCurrentUser();
             Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
             permissionDetails.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);
@@ -68,6 +68,7 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 	            return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(user, PermissionType.UPLOAD_DOCUMENTS.getPermissionNamespace(), PermissionType.UPLOAD_DOCUMENTS.getPermissionTemplateName(), permissionDetails, roleQuals));
 	        }
 		}
+
 		return Boolean.TRUE;
     }
 

@@ -18,8 +18,8 @@ package org.kuali.student.core.personsearch.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
@@ -40,8 +40,6 @@ public class PersonSearch {
 
         List<Person> people = new ArrayList<Person>();
 
-        // TODO: map the old call parameters into the criteria parametsrs
-//        identityService.lookupEntityDefault(criteria, unbounded);
         QueryByCriteria queryByCriteria = null;
         EntityDefaultQueryResults results = identityService.findEntityDefaults(queryByCriteria);
         List<EntityDefault> entities = results.getResults();
@@ -57,9 +55,6 @@ public class PersonSearch {
             }
         }
 
-//        if (entities instanceof CollectionIncomplete) {
-//            return new CollectionIncomplete(people, ((CollectionIncomplete) entities).getActualSizeIfTruncated());
-//        }
         return people;
     }
 

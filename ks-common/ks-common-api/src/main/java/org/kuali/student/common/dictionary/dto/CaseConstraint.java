@@ -13,6 +13,8 @@ public class CaseConstraint {
 	@XmlElement
 	protected String fieldPath;
 	@XmlElement
+	protected String fieldPathMessageId;
+	@XmlElement
 	protected String operator;
 	@XmlElement
 	protected boolean caseSensitive;
@@ -48,4 +50,14 @@ public class CaseConstraint {
     public void setCaseSensitive(boolean caseSensitive) {
         this.caseSensitive = caseSensitive;
     }
+
+	public String getFieldPathMessageId() {
+		return fieldPathMessageId;
+	}
+
+	public void setFieldPathMessageId(String fieldPathMessageId) {
+		this.fieldPathMessageId = fieldPathMessageId;
+	}
+
+
 }

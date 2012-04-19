@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.common.messages.service.MessageService", serviceName = "MessageService", portName = "MessageService", targetNamespace = "http://student.kuali.org/wsdl/messages")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class MessageServiceImpl implements MessageService{
     
@@ -52,6 +51,7 @@ public class MessageServiceImpl implements MessageService{
         this.messageDAO = messageDAO;
     }
 
+    @Transactional(readOnly=true)
 	public LocaleKeyList getLocales() {
         
 		List<String> locales = this.messageDAO.getLocales();
@@ -62,6 +62,7 @@ public class MessageServiceImpl implements MessageService{
 		return keyList;
 	}
 	
+    @Transactional(readOnly=true)
 	public MessageGroupKeyList getMessageGroups() {
 		List<String> groups = this.messageDAO.getMessageGroups();
 		
@@ -71,6 +72,7 @@ public class MessageServiceImpl implements MessageService{
 		return keyList;
 	}
 
+    @Transactional(readOnly=true)
 	public Message getMessage(String localeKey, String messageGroupKey, String messageKey) {
 		Message message = null;
 		if(localeKey == null || messageGroupKey == null || messageKey == null){
@@ -86,6 +88,7 @@ public class MessageServiceImpl implements MessageService{
 		return message;
 	}
 
+    @Transactional(readOnly=true)
 	public MessageList getMessages(String localeKey, String messageGroupKey) {
 		if(localeKey == null || messageGroupKey == null){
 			return new MessageList();
@@ -100,6 +103,7 @@ public class MessageServiceImpl implements MessageService{
 		}
 	}
 
+    @Transactional(readOnly=true)
 	public MessageList getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) {
 		if(localeKey == null || messageGroupKeyList == null){
 			return new MessageList();
@@ -113,7 +117,7 @@ public class MessageServiceImpl implements MessageService{
 		}
 	}
 
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public Message updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) {
 		
 		if(localeKey == null || messageGroupKey == null || messageKey == null || messageInfo == null){
@@ -128,7 +132,7 @@ public class MessageServiceImpl implements MessageService{
 		}        
 	}
 
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public Message addMessage(Message messageInfo) {
 		if(messageInfo != null)	{
 			MessageEntity messageEntity = new MessageEntity();    

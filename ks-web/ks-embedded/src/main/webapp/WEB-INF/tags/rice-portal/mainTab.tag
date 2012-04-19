@@ -18,13 +18,12 @@
 
 <td class="content" valign="top">
 	<mainChannel:ksApplications/>
-    <mainChannel:wc1Applications/>
-    <mainChannel:ec1Applications/>
-	<mainChannel:ksR2Applications/>
 </td>
-<td class="content" valign="top">
-    <mainChannel:ksMaintenance />
-</td>
+<c:if test="${ConfigProperties.ks.embedded.context eq 'classpath:ks-embedded-admin-context.xml'}">
+	<td class="content" valign="top">
+	    <mainChannel:ksMaintenance />
+	</td>
+</c:if>
 <td class="content" valign="top">
 	<mainChannel:workflow />
 	<mainChannel:notification />

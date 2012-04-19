@@ -38,7 +38,8 @@ import org.kuali.student.common.entity.MetaEntity;
 @Entity
 @Table(name="KSOR_ORG")
 @NamedQueries({
-	@NamedQuery(name="Org.getOrganizationsByIdList", query="SELECT o FROM Org o WHERE o.id IN (:orgIdList)")
+	@NamedQuery(name="Org.getOrganizationsByIdList", query="SELECT o FROM Org o WHERE o.id IN (:orgIdList)"),
+	@NamedQuery(name = "Org.getOrgByRelatedOrgAndType", query = "SELECT oor.org FROM OrgOrgRelation oor WHERE oor.relatedOrg.id = :relatedOrgId AND oor.type.id = :relationTypeKey")
 })
 public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	

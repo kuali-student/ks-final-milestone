@@ -17,10 +17,13 @@ package org.kuali.student.common.validator;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.student.common.dictionary.dto.DataType;
 import org.kuali.student.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 public class ValidatorUtils {
 
@@ -230,6 +233,42 @@ public class ValidatorUtils {
     private static String[] getPathTokens(String fieldPath) {
         return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
     }
+
+	/**
+	 * Inspect the validation result to determine if there are any errors.
+	 * 
+	 * @param validationResults
+	 * @return true if at least one validation result is an error. 
+	 */
+	public static boolean hasErrors(List<ValidationResultInfo> validationResults){
+		if (validationResults !=null){
+			for (ValidationResultInfo vr:validationResults){
+				if (vr.getErrorLevel() == ErrorLevel.ERROR){
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Inspect the validation result to determine if there are any errors.
+	 * 
+	 * @param validationResults
+	 * @return true if at least one validation result is an error. 
+	 */
+	public static boolean hasWarnings(List<ValidationResultInfo> validationResults){
+		if (validationResults !=null){
+			for (ValidationResultInfo vr:validationResults){
+				if (vr.getErrorLevel() == ErrorLevel.WARN){
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
 
 }
 

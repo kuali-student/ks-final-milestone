@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="SubjectCode" parent="SubjectCode-parentBean" />
+    <bean id="SubjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.student.core.subjectcode.bo.SubjectCode" />
+        <property name="titleAttribute" value="id" />
+        <property name="objectLabel" value="Subject Code" />
+        <property name="lookupDefinition">
+            <ref bean="SubjectCode-lookupDefinition" />
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="SubjectCode-inquiryDefinition" />
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="SubjectCode-id" />
+                <ref bean="SubjectCode-name" />
+                <ref bean="SubjectCode-code" />
+                <ref bean="SubjectCode-state" />
+                <ref bean="SubjectCode-createId" />
+                <ref bean="SubjectCode-createDate" />
+                <ref bean="SubjectCode-updateId" />
+                <ref bean="SubjectCode-updateDate" />
+                <ref bean="SubjectCode-typeId" />
+            </list>
+        </property>
+        <property name="collections">
+            <list>
+                <bean parent="CollectionDefinition" p:name="orgs" p:shortLabel="Departments"
+                    p:summary="Associated Departments" p:label="Associated Department List"
+                    p:description="Departments associated with this subject code" />
+            </list>
+        </property>
+    </bean>
+
+    <alias alias="SubjectCode-id" name="CoreAttributeReference-id" />
+
+    <bean id="SubjectCode-name" parent="SubjectCode-name-parentBean" />
+    <bean id="SubjectCode-name-parentBean" abstract="true" parent="CoreAttributeReference-name">
+    </bean>
+
+    <bean id="SubjectCode-code" parent="SubjectCode-code-parentBean" />
+    <bean id="SubjectCode-code-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+	  <property name="summary" value="Subject Code"/>
+	  <property name="name" value="code"/>
+	  <property name="label" value="Subject Code"/>
+	  <property name="description" value="Subject Code"/>
+	  <property name="unique" value="true"/>
+	  <property name="forceUppercase" value="true"/>
+	  <property name="validationPattern">
+	  <bean class="org.kuali.rice.kns.datadictionary.validation.charlevel.CharsetValidationPattern">
+	  	<property name="validChars" value="ABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
+	  	<property name="exactLength" value="4"/>
+	  </bean>
+	  </property>
+	</bean>
+
+    <bean id="SubjectCode-state" parent="SubjectCode-state-parentBean" />
+    <bean id="SubjectCode-state-parentBean" abstract="true" parent="CoreAttributeReference-state"/>
+
+    <alias alias="SubjectCode-createId" name="CoreAttributeReference-createId" />
+    <alias alias="SubjectCode-createDate" name="CoreAttributeReference-createDate" />
+    <alias alias="SubjectCode-updateId" name="CoreAttributeReference-updateId" />
+    <alias alias="SubjectCode-updateDate" name="CoreAttributeReference-updateDate" />
+
+    <bean id="SubjectCode-typeId" parent="SubjectCode-typeId-parentBean" />
+    <bean id="SubjectCode-typeId-parentBean" abstract="true" parent="CoreAttributeReference-typeId">
+    	<property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.subjectcode.bo.options.SubjectCodeTypeValuesFinder"/>
+	    </property>
+    </bean>
+
+    <bean id="SubjectCode-lookupDefinition" parent="SubjectCode-lookupDefinition-parentBean" />
+    <bean id="SubjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="code" />
+                <bean parent="FieldDefinition" p:attributeName="typeId" />
+                <bean parent="FieldDefinition" p:attributeName="state" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="id" />
+                <bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="code" />
+                <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name" />
+                <bean parent="FieldDefinition" p:attributeName="state" />
+            </list>
+        </property>
+        <property name="title" value="Subject Code Lookup" />
+    </bean>
+
+    <bean id="SubjectCode-inquiryDefinition" parent="SubjectCode-inquiryDefinition-parentBean" />
+    <bean id="SubjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Subject Code Inquiry" />
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="SubjectCode" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="id" />
+                            <bean parent="FieldDefinition" p:attributeName="name" />
+                            <bean parent="FieldDefinition" p:attributeName="code" />
+                            <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="type.name" />
+                            <bean parent="FieldDefinition" p:attributeName="state" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Departments" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="orgs" />
+                                <property name="businessObjectClass"
+                                    value="org.kuali.student.core.subjectcode.bo.SubjectCodeJoinOrg" />
+                                <property name="numberOfColumns" value="1" />
+                                <property name="summaryTitle" value="Org" />
+                                <property name="inquiryFields">
+                                    <list>
+                                    	<bean parent="FieldDefinition" p:attributeName="orgId" />
+                                    	<bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+                                    	<bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="SubjectCode-inquirySection-metaInformation" />
+            </list>
+        </property>
+    </bean>
+    
+    <alias alias="SubjectCode-inquirySection-metaInformation" name="CoreAttributeReference-inquirySection-metaInformation" />
+
+</beans>

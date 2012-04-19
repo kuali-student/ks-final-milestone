@@ -11,7 +11,7 @@
         DESC_TXT="This role is for use with administrative privilege for Organization"
         KIM_TYP_ID="1" LAST_UPDT_DT="20090821035258" NMSPC_CD="KS_SYS"
         OBJ_ID="27C403CC-3188-DF45-795D-2D6CC1DB0BDA" ROLE_ID="10000"
-        ROLE_NM="Kuali Student Admin" VER_NBR="2"/>
+        ROLE_NM="Kuali Student Org Admin" VER_NBR="2"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role is for use with all access permission for Organization with attached qualifiers"
         KIM_TYP_ID="114" LAST_UPDT_DT="20090821035258" NMSPC_CD="KS_SYS"
@@ -22,11 +22,6 @@
         KIM_TYP_ID="114" LAST_UPDT_DT="20090821035258" NMSPC_CD="KS_SYS"
         OBJ_ID="89AA5AFF-4891-ADAA-FBE0-5D8CC7DCBA0F" ROLE_ID="10002"
         ROLE_NM="Kuali Orgainzation Membership" VER_NBR="2"/>
-    <KRIM_ROLE_T ACTV_IND="Y"
-        DESC_TXT="This role maintains KRMS agendas and rules."
-        KIM_TYP_ID="1" LAST_UPDT_DT="20120405222533" NMSPC_CD="KR-RULE"
-        OBJ_ID="BCFB323E75F1BFA7E040C60AF05B6A7F" ROLE_ID="10003"
-        ROLE_NM="Kuali Rules Management System Administrator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with that have received an action request for a given document."
         KIM_TYP_ID="42" LAST_UPDT_DT="20081114141017"
@@ -57,6 +52,15 @@
         KIM_TYP_ID="43" LAST_UPDT_DT="20081114141017"
         NMSPC_CD="KR-WKFLW" OBJ_ID="5BABFACC4F65A8EEE0404F8189D8770F"
         ROLE_ID="67" ROLE_NM="Router" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" DESC_TXT="Derived Role : Affiliation"
+        KIM_TYP_ID="3001" LAST_UPDT_DT="20110719170249"
+        NMSPC_CD="KS-SYS" OBJ_ID="c6699d07-33a3-4cf4-b1b6-030a3ca6a05d"
+        ROLE_ID="7000" ROLE_NM="Derived Role : Affiliation" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role provides adminstrative privileges to KS CM application.(eg. Admin Screens)"
+        KIM_TYP_ID="1" LAST_UPDT_DT="20110719170249" NMSPC_CD="KS-SYS"
+        OBJ_ID="7f49d87c-5837-4b15-959e-ea2e3fd7dfe6" ROLE_ID="7001"
+        ROLE_NM="Kuali Student CM Admin" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Open Document permission for a given document type.,"
         KIM_TYP_ID="60" LAST_UPDT_DT="20090113192616" NMSPC_CD="KR-NS"
@@ -72,10 +76,11 @@
         KIM_TYP_ID="42" LAST_UPDT_DT="20090121130203"
         NMSPC_CD="KR-WKFLW" OBJ_ID="6102F3FA08CF45CFE0404F8189D8317E"
         ROLE_ID="89" ROLE_NM="FYI Request Recipient" VER_NBR="1"/>
-    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="1"
-        LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
+    <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="General Kuali Student Curriculum Management User"
+        KIM_TYP_ID="1" LAST_UPDT_DT="20091130171545" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPARUUUNTADMINREVIEWER00000ROLE" ROLE_ID="899"
-        ROLE_NM="Student System User Role" VER_NBR="1"/>
+        ROLE_NM="Kuali Student CM User" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role represents the KR System User, that is the user ID RICE uses when it takes programmed actions."
         KIM_TYP_ID="1" LAST_UPDT_DT="20090806170249" NMSPC_CD="KR-SYS"
@@ -221,6 +226,10 @@
         LAST_UPDT_DT="20091130171546" NMSPC_CD="KS-SYS"
         OBJ_ID="DEPARTQAZTRDMINREVIEWER00800ROLE" ROLE_ID="935"
         ROLE_NM="Initiator" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="117"
+        LAST_UPDT_DT="20110729152143" NMSPC_CD="KS-LUM"
+        OBJ_ID="ORGCURRMANGREDERIVED000000000ROLE" ROLE_ID="936"
+        ROLE_NM="Org Curriculum Manager" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Initiate Document permission for a given document type."
         KIM_TYP_ID="66" LAST_UPDT_DT="20090806170249" NMSPC_CD="KR-SYS"

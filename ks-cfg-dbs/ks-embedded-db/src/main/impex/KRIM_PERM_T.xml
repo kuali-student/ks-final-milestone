@@ -4,9 +4,12 @@
 <dataset>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows creation and modification of agendas via the agenda editor"
-        NM="Maintain KRMS Agenda" NMSPC_CD="KR-RULE-TEST"
-        OBJ_ID="BCFB323E75EFBFA7E040C60AF05B6A7F" PERM_ID="10000"
+        NM="Maintain KRMS Agenda" NMSPC_CD="KR-RULE"
+        OBJ_ID="B73CB83E74928455E040C60AF05B5393" PERM_ID="10000"
         PERM_TMPL_ID="10000" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y" NM="Create Program By Proposal"
+        NMSPC_CD="KS-SYS" OBJ_ID="KS_SYS_CREATE_PROGRAM_PROPOSAL"
+        PERM_ID="10001" PERM_TMPL_ID="10" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows users to access the Document Operation screen."
         NM="Use Document Operation Screen" NMSPC_CD="KR-WKFLW"
@@ -302,25 +305,25 @@
         OBJ_ID="5B4F0974494BCF33E0R04EX189E8ABAA" PERM_ID="3113"
         PERM_TMPL_ID="67" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Open Document, with status FINAL"
+        NM="Open Document FINAL" NMSPC_CD="KS-SYS"
+        OBJ_ID="2357893b-31e3-43d6-9aa2-d615dab32751" PERM_ID="3200"
+        PERM_TMPL_ID="60" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Determine availability of admin screens"
+        NM="KS Admin Screens" NMSPC_CD="KS-SYS"
+        OBJ_ID="068ab713-372d-4bff-94e2-8806bb54b003" PERM_ID="3201"
+        PERM_TMPL_ID="4001" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Determine availability of Course Workflow Action List"
+        NM="KS Admin Course Workflow" NMSPC_CD="KS-SYS"
+        OBJ_ID="7983fc6e-50ec-4278-8009-03dc7d2f777e" PERM_ID="3202"
+        PERM_TMPL_ID="4001" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows use of the cache administration screen"
         NM="Use Cache Adminstration Screen" NMSPC_CD="KR-SYS"
-        OBJ_ID="BCFB323E75F6BFA7E040C60AF05B6A7F" PERM_ID="3114"
+        OBJ_ID="B73CB83E74998455E040C60AF05B5393" PERM_ID="3114"
         PERM_TMPL_ID="29" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y"
-        DESC_TXT="Allows user to create a new Term maintainence document"
-        NM="Create Term Maintenance Document" NMSPC_CD="KR-NS"
-        OBJ_ID="0dbce939-4f22-4e9b-a4bb-1615c0f411a2" PERM_ID="3115"
-        PERM_TMPL_ID="42" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y"
-        DESC_TXT="Allows user to create a new Context maintainence document"
-        NM="Create Context Maintenance Document" NMSPC_CD="KR-NS"
-        OBJ_ID="cefeed6d-b5e2-40aa-9034-137db317b532" PERM_ID="3116"
-        PERM_TMPL_ID="42" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y"
-        DESC_TXT="Allows user to create a new TermSpecification maintainence document"
-        NM="Create TermSpecification Maintenance Document"
-        NMSPC_CD="KR-NS" OBJ_ID="02bd9acd-48d9-4fec-acbd-6a441c5ea8c2"
-        PERM_ID="3117" PERM_TMPL_ID="42" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send FYI ad hoc requests for Kuali Documents"
         NM="Send FYI Request Kuali Document" NMSPC_CD="KR-SYS"

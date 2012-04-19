@@ -15,8 +15,8 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.views;
 
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.ModelDefinition;
@@ -24,10 +24,14 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -46,11 +50,18 @@ public abstract class SectionView extends BaseSection implements View {
 
     private List<View> views = new ArrayList<View>();
 
+    public SectionView() {}
+
     /**
      * @param viewEnum Enumeration of this view - id used for navigation, history, and showing a view
      * @param viewName Name of this view - what this view is called in the breadcrumb
      */
     public SectionView(Enum<?> viewEnum, String viewName) {
+        this.viewEnum = viewEnum;
+        this.viewName = viewName;
+    }
+    
+    public void init(Enum<?> viewEnum, String viewName) {
         this.viewEnum = viewEnum;
         this.viewName = viewName;
     }
@@ -80,17 +91,18 @@ public abstract class SectionView extends BaseSection implements View {
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
-        super.clearValidation();
+        super.clearValidationErrors();
+        
         if (getController() != null) {
             getController().requestModel(modelId, new ModelRequestCallback<DataModel>() {
 
                 @Override
-                public void onRequestFail(Throwable cause) {
-                    Window.alert("Failed to get model: " + getName());
+                public void onRequestFail(Throwable cause) {	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
+                    Window.alert("Failed to get model: "  + modelId + " for SectionView " + getName());
                     onReadyCallback.exec(false);
                 }
 
-                @Override
+                @Override	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
                 public void onModelReady(DataModel m) {
                     model = m;
                     updateWidgetData(m);
@@ -104,7 +116,7 @@ public abstract class SectionView extends BaseSection implements View {
         for (Section section : sections) {
             if (section instanceof SectionView) {
                 ((SectionView) section).beforeShow(new Callback<Boolean>() {
-                    @Override
+                    @Override	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
                     public void exec(Boolean result) {
                     }
                 });
@@ -265,4 +277,10 @@ public abstract class SectionView extends BaseSection implements View {
     public boolean isExportButtonActive() {
         return false;
     }
+
+	@Override
+	public void showExport(boolean show) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -19,7 +19,12 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
@@ -38,10 +43,19 @@ public class CatalogBrowserController extends TabMenuController
 	private Controller controller;
 	private static KSTitleContainerImpl container = new KSTitleContainerImpl("Catalog Browser");
 	private BlockingTask initializingTask = new BlockingTask("Loading");
+	
+	//enum is necessary for the page to be added to breadcrumbs
+	public enum CatalogBrowserViews {
+		COURSE_CATALOG
+    };
 
 	public CatalogBrowserController (Controller controller)	{
 		super(CatalogBrowserController.class.getName());
 		this.controller = controller;
+		//sets the name of the page to be used in breadcrumbs
+		super.setName("Course Catalog");
+		//sets enum
+		setViewEnum(CatalogBrowserViews.COURSE_CATALOG);
 		initialize();
 	}
 
@@ -99,7 +113,7 @@ public class CatalogBrowserController extends TabMenuController
 	}
 
 	private void configure (DataModelDefinition modelDefinition)	{
-		CatalogBrowserConfigurer cfg = new CatalogBrowserConfigurer ();
+		CatalogBrowserConfigurer cfg = GWT.create(CatalogBrowserConfigurer.class);
 		cfg.setModelDefinition (modelDefinition);
 		cfg.setController (controller);
 		cfg.configureCatalogBrowser (this);
@@ -120,7 +134,7 @@ public class CatalogBrowserController extends TabMenuController
 					onReadyCallback.exec (false);
 				}
 			}
-
+			
 		});
 	}
 

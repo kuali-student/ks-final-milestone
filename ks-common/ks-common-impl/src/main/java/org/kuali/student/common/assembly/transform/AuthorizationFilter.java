@@ -1,9 +1,6 @@
 package org.kuali.student.common.assembly.transform;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
@@ -201,12 +198,12 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
             //get permissions and turn into a map of fieldName=>access
             String principalId = SecurityUtils.getCurrentUserId();
             Map<String, String> qualification = getQualification(idType, id, docType);
-            Map<String, String> permissionDetails = new LinkedHashMap<String, String> ();
+            Map<String, String> permissionDetails = new LinkedHashMap<String, String>();
             permissionDetails.put ("dtoName", dtoName);
             List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplate(principalId,
-            		PermissionType.FIELD_ACCESS.getPermissionNamespace(), 
-                        PermissionType.FIELD_ACCESS.getPermissionTemplateName(), 
-                        permissionDetails, 
+            		PermissionType.FIELD_ACCESS.getPermissionNamespace(),
+                        PermissionType.FIELD_ACCESS.getPermissionTemplateName(),
+                        permissionDetails,
                         qualification);
             Map<String, String> permMap = new HashMap<String, String>();
             if (permissions != null) {
@@ -215,6 +212,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
                     String fieldAccessLevel = permission.getAttributes().get("fieldAccessLevel");
                     permMap.put(dtoFieldKey, fieldAccessLevel);
                 }
+
             }
             return permMap;
         } catch (Exception e) {
