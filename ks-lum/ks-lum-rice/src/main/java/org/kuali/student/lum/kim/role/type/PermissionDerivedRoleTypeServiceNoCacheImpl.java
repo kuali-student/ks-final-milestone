@@ -1,6 +1,7 @@
 package org.kuali.student.lum.kim.role.type;
 
-import org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl;
+import org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl;
+
 
 /**
  * Just like PermissionDerivedRoleTypeServiceImpl but without caching
