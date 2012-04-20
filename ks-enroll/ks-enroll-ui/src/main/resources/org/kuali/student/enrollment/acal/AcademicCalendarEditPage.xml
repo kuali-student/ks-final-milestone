@@ -9,7 +9,7 @@
 
     <bean id="KS-AcademicCalendar-EditPage" parent="Uif-Page" p:disclosure.render="false">
         <property name="id" value="academicCalendarEditPage"/>
-        <property name="title" value="@{academicCalendarInfo.name != null? academicCalendarInfo.name : 'New Academic Calendar'}"/>
+        <property name="title" value="@{!newCalendar ? academicCalendarInfo.name : 'New Academic Calendar'}"/>
         <property name="header">
             <bean parent="Uif-HeaderField-Two"/>
         </property>

@@ -212,10 +212,7 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         if(acalForm.getOrgAcalInfo() == null || StringUtils.isBlank(acalForm.getOrgAcalInfo().getId()))
             acalForm.setOrgAcalInfo(acalInfo);
-        acalForm.setAcademicCalendarInfo(new AcademicCalendarInfo());
-        acalForm.setOfficialCalendar(false);
-        acalForm.setNewCalendar(true);
-        acalForm.getView().setReadOnly(false);
+        acalForm.reset();
         return copy(acalForm, result, request, response);
     }
 

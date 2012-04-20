@@ -180,5 +180,15 @@ public class AcademicCalendarForm extends UifFormBase {
         return 0;
     }
 
+    public void reset(){
+        setAcademicCalendarInfo(new AcademicCalendarInfo());
+        setOfficialCalendar(false);
+        getView().setReadOnly(false);
+        setEvents(new ArrayList<AcalEventWrapper>());
+        setHolidayCalendarList(new ArrayList<HolidayCalendarWrapper>());
+        setEventsToDeleteOnSave(new ArrayList<AcalEventWrapper>());
+        setTermsToDeleteOnSave(new ArrayList<AcademicTermWrapper>());
+        setNewCalendar(false);
+    }
 
 }
