@@ -47,9 +47,6 @@ public class AcademicCalendarForm extends UifFormBase {
     private List<AcademicTermWrapper> termWrapperList;
 
     //used by copying
-//test
-//    private boolean officialButtonVisible;
-//    private boolean deleteButtonVisible;
     private boolean newCalendar;
     private boolean officialCalendar;
 
@@ -65,9 +62,6 @@ public class AcademicCalendarForm extends UifFormBase {
         termWrapperList = new ArrayList<AcademicTermWrapper>();
         events = new ArrayList<AcalEventWrapper>();
         holidayCalendarList = new ArrayList<HolidayCalendarWrapper>();
-//test
-//        officialButtonVisible = false;
-//        deleteButtonVisible = false;
         newCalendar = true;
         officialCalendar = false;
         defaultTabToShow = CalendarConstants.ACAL_INFO_TAB;
@@ -138,23 +132,6 @@ public class AcademicCalendarForm extends UifFormBase {
     public void setEvents(List<AcalEventWrapper> events) {
         this.events = events;
     }
-
-//test
-//    public boolean isOfficialButtonVisible() {
-//        return officialButtonVisible;
-//    }
-//
-//    public void setOfficialButtonVisible(boolean officialButtonVisible) {
-//        this.officialButtonVisible = officialButtonVisible;
-//    }
-//
-//    public boolean isDeleteButtonVisible() {
-//        return deleteButtonVisible;
-//    }
-//
-//    public void setDeleteButtonVisible(boolean deleteButtonVisible) {
-//        this.deleteButtonVisible = deleteButtonVisible;
-//    }
 
     public boolean isNewCalendar() {
         return newCalendar;
