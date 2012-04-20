@@ -138,7 +138,16 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="appointmentWindowInfo.name" p:required="true" p:style="font-weight:bold;" p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="appointmentWindowInfo.name" p:required="true" p:style="font-weight:bold;" 
+                      p:render="@{#isAddLine}"
+                      p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="windowName" p:required="true" p:style="font-weight:bold;"
+                      p:render="@{!#isAddLine}"
+                      p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
@@ -241,7 +250,6 @@
                       <!--p:readOnly="@{!#isAddLine or #lp.windowTypeKey =='kuali.appointment.window.type.one.slot' or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >-->
                 <bean parent="Uif-InputField" p:label="APPT. RULE TYPE/INTERVAL" p:propertyName="slotRuleEnumType" p:required="true" p:style="font-weight:bold;"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >
-
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>

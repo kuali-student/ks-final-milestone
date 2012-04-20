@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
@@ -122,6 +123,14 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
     }
 
+//    public Properties buildWindowWrapperURLParameters(AppointmentWindowWrapper windowWrapper,String methodToCall,boolean readOnlyView, ContextInfo context){
+//        Properties props = new Properties();
+//        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+//        props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, "org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper");
+//        props.put("id", windowWrapper.getId());
+//        return props;
+//    }
+
     public void loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {
         ContextInfo context = TestHelper.getContext1();
 //        try {
@@ -180,6 +189,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                     break;
                 }
             }
+            String windowName =  ((AppointmentWindowWrapper) addLine).getAppointmentWindowInfo().getName();
+            ((AppointmentWindowWrapper) addLine).setWindowName(windowName);
         }
     }
 

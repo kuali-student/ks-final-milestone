@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.appointment.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -39,10 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class //TODO ...
@@ -67,6 +65,45 @@ public class RegistrationWindowsController extends UifControllerBase {
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new RegistrationWindowsManagementForm();
+    }
+
+    /**
+     * Method used to view the AppointmentWindowWrapper
+     */
+    @RequestMapping(params = "methodToCall=view")
+    public ModelAndView view(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        AppointmentWindowWrapper windowWrapper = getSelectedWindow(uifForm, "view");
+        String controllerPath = "inquiry";
+        Properties urlParameters = new Properties();
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
+        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, "org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper");
+        urlParameters.put("id", windowWrapper.getId());
+//      urlParameters = getViewHelperService(uifForm).buildWindowWrapperURLParameters((AppointmentWindowWrapper) windowWrapper, KRADConstants.START_METHOD, true, getContextInfo());
+        return super.performRedirect(uifForm,controllerPath, urlParameters);
+    }
+
+    private AppointmentWindowWrapper getSelectedWindow(RegistrationWindowsManagementForm theForm, String actionLink){
+        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("Selected collection was not set for " + actionLink);
+        }
+
+        int selectedLineIndex = -1;
+        String selectedLine = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("Selected line index was not set");
+        }
+
+        Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(theForm, selectedCollectionPath);
+        Object window = ((List<Object>) collection).get(selectedLineIndex);
+
+        return (AppointmentWindowWrapper)window;
     }
 
     @RequestMapping(params = "methodToCall=assignStudents")
@@ -401,6 +438,8 @@ public class RegistrationWindowsController extends UifControllerBase {
                     AppointmentWindowWrapper windowWrapper = new AppointmentWindowWrapper();
 
                     windowWrapper.setAppointmentWindowInfo(window);
+                    windowWrapper.setId(window.getId());
+                    windowWrapper.setWindowName(window.getName());
                     windowWrapper.setPeriodKey(window.getPeriodMilestoneId());
                     windowWrapper.setPeriodName(period.getName());
                     windowWrapper.setSlotRuleEnumType(AppointmentSlotRuleTypeConversion.convTotAppointmentSlotRuleCode(window.getSlotRule()));
