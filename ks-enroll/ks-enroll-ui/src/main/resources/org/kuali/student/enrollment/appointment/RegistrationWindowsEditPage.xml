@@ -18,7 +18,7 @@
                     <property name="items">
                         <list>
                             <ref bean="KS-RegistrationWindows-EditSection"/>
-                            <ref bean="KS-RegistrationAppointments-EditSection"/>
+                            <!--<ref bean="KS-RegistrationAppointments-EditSection"/>-->
                         </list>
                     </property>
                     <!--<property name="tabsWidget.componentOptionsJSString">-->
@@ -274,12 +274,12 @@
     </bean>
 
 
-    <bean id="KS-RegistrationAppointments-EditSection" parent="Uif-Page" p:disclosure.render="false" p:style="min-width:70em;" >
-        <property name="title" value="Registration Appointments" />
-        <property name="items">
-            <list>
-                <bean parent="Uif-MessageField" p:messageText="This is the Registration Appointments tab" p:styleClasses="font-light12"/>
-            </list>
-        </property>
-    </bean>
+    <!--<bean id="KS-RegistrationAppointments-EditSection" parent="Uif-Page" p:disclosure.render="false" p:style="min-width:70em;" >-->
+        <!--<property name="title" value="Registration Appointments" />-->
+        <!--<property name="items">-->
+            <!--<list>-->
+                <!--<bean parent="Uif-MessageField" p:messageText="This is the Registration Appointments tab" p:styleClasses="font-light12"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
 </beans>
