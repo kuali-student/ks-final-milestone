@@ -19,12 +19,14 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 
+import java.util.Date;
+
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
-public class HolidayWrapper extends TimeSetWrapper {
+public class HolidayWrapper extends TimeSetWrapper implements Comparable<HolidayWrapper> {
 
     private String typeName;
     private HolidayInfo holidayInfo;
@@ -88,4 +90,42 @@ public class HolidayWrapper extends TimeSetWrapper {
     public void setTypeKey(String typeKey) {
         this.typeKey = typeKey;
     }
+
+
+    /**
+     * Allow Collections.sort() to sort by startDate & endDate
+     */
+    public int compareTo(HolidayWrapper holidayToCompare) {
+        int compareValue = compareDates(this.getStartDate(), holidayToCompare.getStartDate());
+        if (compareValue == 0) {
+            // startDates are equal so compare endDates
+            compareValue = compareDates(this.getEndDate(), holidayToCompare.getEndDate());
+        }
+        return compareValue;
+    }
+
+    private int compareDates(Date thisDate, Date compareToDate) {
+        // unfortunately, Date.before() & .after() are not null friendly
+
+        if (null == thisDate) {
+            if (null == compareToDate) {
+                return 0; // both dates are null and therefore equal
+            }
+            return -1; // compare-date is later than this-date (which is null)
+        }
+
+        if (null == compareToDate) {
+            return 1; // this-date (which is valid) is after the compare-date (which is null)
+        }
+
+        // safe to use .before() and .after() methods to do the comparison
+        if (thisDate.before(compareToDate)) {
+            return -1;
+        }
+        if (thisDate.after(compareToDate)) {
+            return 1;
+        }
+        return 0; // dates are equal
+    }
+
 }

@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -61,6 +62,7 @@ public class HolidayCalendarWrapper {
     }
     
     public List<HolidayWrapper> getHolidays() {
+        Collections.sort(holidays);
         return holidays;
     }
 

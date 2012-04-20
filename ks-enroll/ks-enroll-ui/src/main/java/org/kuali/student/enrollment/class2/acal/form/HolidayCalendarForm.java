@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -61,6 +62,9 @@ public class HolidayCalendarForm  extends UifFormBase {
     }
 
     public List<HolidayWrapper> getHolidays() {
+        // Putting sort here causes list to be sorted when addLine "add" clicked, instead of having
+        // the new row added to the top of the collection as desired.  Just so you know.
+        //Collections.sort(holidays);
         return holidays;
     }
 

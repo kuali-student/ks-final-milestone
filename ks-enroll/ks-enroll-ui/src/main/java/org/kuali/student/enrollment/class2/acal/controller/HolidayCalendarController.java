@@ -405,6 +405,10 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setNewCalendar(false);
         hcForm.setOfficialCalendar(hCalInfo.getStateKey().equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY));
         hcForm.setHcId(hCalInfo.getId());
+
+        // sort holidays again, in case any were added
+        Collections.sort(hcForm.getHolidays());
+
         GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hCalInfo.getName());
 
         if (from.equals(CalendarConstants.UPDATE_MAKEOFFICIAL)) {
@@ -438,6 +442,7 @@ public class HolidayCalendarController extends UifControllerBase {
         //List<HolidayWrapper> holidays = getHolidayCalendarFormHelper(hcForm).getHolidaysForHolidayCalendar(hcForm);
         List<HolidayWrapper> holidays =
                 getHolidayCalendarFormHelper(hcForm).getHolidayWrappersForHolidayCalendar(hcInfo.getId());
+        Collections.sort(holidays);
         hcForm.setHolidays(holidays);
     }
 
