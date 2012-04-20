@@ -358,12 +358,16 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
 
     
     protected VerticalSection generateReferenceDataSection() {
-        VerticalSection section = new VerticalSection(SectionTitle.generateH2Title(getLabel("ReferenceData")));
+        SectionTitle title = SectionTitle.generateH4Title("Reference Data");
+        title.addStyleName("text-underline");
+
+        VerticalSection section = new VerticalSection(title);
         section.addStyleName("readOnlySection");
-        section.addStyleName("readOnlyNeedsToBeOnTheRight");
+        section.addStyleName("KS-Data-Box-ReadOnlyNeedsToBeOnTheRight");
+        section.addStyleName("KS-Add-Data-Box");
         
-        addReadOnlyFieldJustText(section, COURSE + "/" + CreditCourseConstants.COURSE_TITLE, generateMessageInfo(LUUIConstants.COURSE_TITLE_LABEL_KEY));
-        addReadOnlyFieldJustText(section, COURSE + "/" + CreditCourseConstants.COURSE_CODE, generateMessageInfo(LUUIConstants.COURSE_NUMBER_LABEL_KEY));
+        addReadOnlyFieldJustTextStyle(section, COURSE + "/" + CreditCourseConstants.COURSE_TITLE, generateMessageInfo(LUUIConstants.COURSE_TITLE_LABEL_KEY), "ks-form-module-single-line-margin-narrow");
+        addReadOnlyFieldJustTextStyle(section, COURSE + "/" + CreditCourseConstants.COURSE_CODE, generateMessageInfo(LUUIConstants.COURSE_NUMBER_LABEL_KEY), "ks-form-module-single-line-margin-narrow");
         
         //Add the crosslisted/joint Reference Data with custom binding
         FieldDescriptorReadOnly xlistsAndJoints = new FieldDescriptorReadOnly(CreditCourseConstants.CROSSLISTED_AND_JOINTS, generateMessageInfo(LUUIConstants.CROSSLISTED_AND_JOINTS_LABEL_KEY), null, new KSLabel());
@@ -396,9 +400,10 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
 			}
         	
         });
+        xlistsAndJoints.getFieldElement().addStyleName("ks-form-module-single-line-margin-narrow");
         section.addField(xlistsAndJoints);
         
-        addReadOnlyFieldJustText(section, COURSE + "/" + CreditCourseConstants.CURRICULUM_OVERSIGHT_ORGS_, generateMessageInfo(LUUIConstants.ACADEMIC_SUBJECT_ORGS_KEY));
+        addReadOnlyFieldJustTextStyle(section, COURSE + "/" + CreditCourseConstants.CURRICULUM_OVERSIGHT_ORGS_, generateMessageInfo(LUUIConstants.ACADEMIC_SUBJECT_ORGS_KEY), "ks-form-module-single-line-margin-narrow");
         
         return section;
     }
@@ -412,5 +417,14 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
         fd.getFieldElement().setConstraintText(null);
     	return fd;
     }
-    
+
+    protected FieldDescriptor addReadOnlyFieldJustTextStyle(Section section, String fieldKey, MessageKeyInfo messageKey, String styleName){
+    	FieldDescriptor fd = addReadOnlyField(section, fieldKey, messageKey);
+        fd.getFieldElement().setHelp(null);
+        fd.getFieldElement().setInstructions(null);
+        fd.getFieldElement().setExamples(null);
+        fd.getFieldElement().setConstraintText(null);
+        fd.getFieldElement().addStyleName(styleName);
+    	return fd;
+    }
 }
