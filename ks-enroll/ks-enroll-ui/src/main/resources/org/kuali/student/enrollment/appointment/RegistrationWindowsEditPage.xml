@@ -137,14 +137,15 @@
                         <bean parent="Uif-TextControl" p:size="30" />
                     </property>
                 </bean>
-
-                <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="appointmentWindowInfo.name" p:required="true" p:style="font-weight:bold;" 
+        <!--p:render="@{#isAddLine or (!#isAddLine and #lp.appointmentWindowInfo.stateKey!='kuali.appointment.window.state.assigned')}"-->
+                <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="appointmentWindowInfo.name" p:required="true" p:style="font-weight:bold;"
                       p:render="@{#isAddLine}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
                 </bean>
+                <!--p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"-->
                 <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="windowName" p:required="true" p:style="font-weight:bold;"
                       p:render="@{!#isAddLine}"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
@@ -268,7 +269,6 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="Add Me" p:render="@{#isAddLine}" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="assignStudents" p:actionLabel="Assign Students" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.draft'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="view" p:actionLabel="View Detail" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="breakAppointments" p:actionLabel="Break Appointments" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="X" p:render="@{!#isAddLine}" />
             </list>
