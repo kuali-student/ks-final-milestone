@@ -176,7 +176,7 @@ public class AppointmentServiceImplHelper {
         Calendar endDate = _convertDateToCalendar(apptWinInfo.getEndDate());
         int maxPerSlot = apptWinInfo.getMaxAppointmentsPerSlot() == null ? 0 : apptWinInfo.getMaxAppointmentsPerSlot();
         int totalStudents = -1;
-        if (apptWinInfo.getTypeKey() == AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY) {
+        if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY.equals(apptWinInfo.getTypeKey())) {
             totalStudents = _computeTotalStudents(apptWinInfo, contextInfo);
         }
 
