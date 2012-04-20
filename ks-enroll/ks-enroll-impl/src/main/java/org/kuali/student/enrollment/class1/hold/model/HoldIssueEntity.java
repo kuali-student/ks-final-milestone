@@ -27,7 +27,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -41,52 +43,61 @@ import org.kuali.student.r2.core.hold.infc.Issue;
  *
  */
 @Entity
-@Table(name = "KSEN_ISSUE")
-public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttributeEntity> {
+@Table(name = "KSEN_HOLD_ISSUE")
+public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIssueAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
+
     @Column(name = "ORG_ID")
     private String organizationId;
-    @Column(name = "TYPE_ID")
-    private String issueType;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "RT_DESCR_ID")
-    private HoldRichTextEntity descr;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<IssueAttributeEntity> attributes;
-    @Column(name = "STATE_ID")
-    private String issueState;
 
-    public IssueEntity() {
+    @Column(name = "HOLD_ISSUE_TYPE")
+    private String holdIssueType;
+
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
+    private String descrPlain;
+
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrFormatted;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<HoldIssueAttributeEntity> attributes;
+
+    @Column(name = "HOLD_ISSUE_STATE")
+    private String holdIssueState;
+
+    public HoldIssueEntity() {
     }
 
-    public IssueEntity(Issue issue) {
+    public HoldIssueEntity(Issue issue) {
         super(issue);
-        this.setId(this.getId());
-        this.setIssueType(issue.getTypeKey());
+        this.setId(issue.getId());
+        this.setHoldIssueType(issue.getTypeKey());
         this.fromDto(issue);
     }
 
     public void fromDto(Issue issue) {
         setName(issue.getName());
         setOrganizationId(issue.getOrganizationId());
-        setIssueState(issue.getStateKey());
-        setDescr(new HoldRichTextEntity(issue.getDescr()));
-        this.setAttributes(new ArrayList<IssueAttributeEntity>());
+        setHoldIssueState(issue.getStateKey());
+        setHoldIssueType(issue.getTypeKey());
+        setDescrFormatted(issue.getDescr().getFormatted());
+        setDescrPlain(issue.getDescr().getPlain());
+        this.setAttributes(new ArrayList<HoldIssueAttributeEntity>());
         for (Attribute att : issue.getAttributes()) {
-            IssueAttributeEntity attEntity = new IssueAttributeEntity(att);
+            HoldIssueAttributeEntity attEntity = new HoldIssueAttributeEntity(att);
             this.getAttributes().add(attEntity);
         }
     }
 
     @Override
-    public void setAttributes(List<IssueAttributeEntity> attributes) {
+    public void setAttributes(List<HoldIssueAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<IssueAttributeEntity> getAttributes() {
+    public List<HoldIssueAttributeEntity> getAttributes() {
         return attributes;
     }
 
@@ -106,40 +117,50 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
         this.organizationId = organizationId;
     }
 
-    public String getIssueType() {
-        return issueType;
+    public String getHoldIssueType() {
+        return holdIssueType;
     }
 
-    public void setIssueType(String issueType) {
-        this.issueType = issueType;
+    public void setHoldIssueType(String issueType) {
+        this.holdIssueType = issueType;
     }
 
-    public String getIssueState() {
-        return issueState;
+    public String getHoldIssueState() {
+        return holdIssueState;
     }
 
-    public void setIssueState(String issueState) {
-        this.issueState = issueState;
+    public void setHoldIssueState(String issueState) {
+        this.holdIssueState = issueState;
     }
 
-    public HoldRichTextEntity getDescr() {
-        return descr;
+    public String getDescrPlain() {
+        return descrPlain;
     }
 
-    public void setDescr(HoldRichTextEntity descr) {
-        this.descr = descr;
+    public void setDescrPlain(String plain) {
+        this.descrPlain = plain;
+    }
+
+    public String getDescrFormatted() {
+        return descrFormatted;
+    }
+
+    public void setDescrFormatted(String formatted) {
+        this.descrFormatted = formatted;
     }
 
     public IssueInfo toDto() {
         IssueInfo info = new IssueInfo();
         info.setId(getId());
         info.setName(getName());
-        info.setTypeKey(getIssueType());
-        info.setStateKey(getIssueState());
+        info.setTypeKey(getHoldIssueType());
+        info.setStateKey(getHoldIssueState());
         info.setOrganizationId(getOrganizationId());
-        info.setDescr(getDescr().toDto());
+        if (descrPlain != null) {
+            info.setDescr(new RichTextInfo(descrPlain, descrFormatted));
+        }
         info.setMeta(super.toDTO());
-        for (IssueAttributeEntity att : getAttributes()) {
+        for (HoldIssueAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             info.getAttributes().add(attInfo);
         }

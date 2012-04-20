@@ -15,46 +15,38 @@
  */
 package org.kuali.student.enrollment.class1.hold.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.jws.WebService;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.hold.dao.HoldDao;
-import org.kuali.student.enrollment.class1.hold.dao.IssueDao;
+import org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao;
 import org.kuali.student.enrollment.class1.hold.model.HoldEntity;
-import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
+import org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.WebService;
+import java.util.ArrayList;
+import java.util.List;
+
 @WebService(name = "HoldService", serviceName = "HoldService", portName = "HoldService", targetNamespace = "http://student.kuali.org/wsdl/hold")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class HoldServiceImpl implements HoldService {
 
-    private IssueDao issueDao;
+    private HoldIssueDao holdIssueDao;
     private HoldDao holdDao;
 
-    public IssueDao getIssueDao() {
-        return issueDao;
+    public HoldIssueDao getHoldIssueDao() {
+        return holdIssueDao;
     }
 
-    public void setIssueDao(IssueDao issueDao) {
-        this.issueDao = issueDao;
+    public void setHoldIssueDao(HoldIssueDao holdIssueDao) {
+        this.holdIssueDao = holdIssueDao;
     }
 
     public HoldDao getHoldDao() {
@@ -119,8 +111,8 @@ public class HoldServiceImpl implements HoldService {
             throw new InvalidParameterException(holdTypeKey + " does not match the hold type key in the object " + holdInfo.getTypeKey());
         }
         HoldEntity entity = new HoldEntity(holdInfo);
-        entity.setIssue(issueDao.find(issueId));
-        if (entity.getIssue() == null) {
+        entity.setHoldIssue(holdIssueDao.find(issueId));
+        if (entity.getHoldIssue() == null) {
             throw new InvalidParameterException(issueId);
         }
         entity.setCreateId(context.getPrincipalId());
@@ -182,7 +174,7 @@ public class HoldServiceImpl implements HoldService {
     @Override
     public IssueInfo getIssue(String issueId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        IssueEntity entity = issueDao.find(issueId);
+        HoldIssueEntity entity = holdIssueDao.find(issueId);
         if (entity == null) {
             throw new DoesNotExistException(issueId);
         }
@@ -198,12 +190,12 @@ public class HoldServiceImpl implements HoldService {
     @Override
     public List<IssueInfo> getIssuesByOrg(String organizationId, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<IssueEntity> issues = issueDao.getByOrganizationId(organizationId);
+        List<HoldIssueEntity> holdIssues = holdIssueDao.getByOrganizationId(organizationId);
 
-        List<IssueInfo> results = new ArrayList<IssueInfo>(issues.size());
+        List<IssueInfo> results = new ArrayList<IssueInfo>(holdIssues.size());
 
-        for (IssueEntity issue : issues) {
-            results.add(issue.toDto());
+        for (HoldIssueEntity holdIssue : holdIssues) {
+            results.add(holdIssue.toDto());
         }
 
         return results;
@@ -241,12 +233,12 @@ public class HoldServiceImpl implements HoldService {
         if (!issueTypeKey.equals(issueInfo.getTypeKey())) {
             throw new InvalidParameterException(issueTypeKey + " does not match type in object " + issueInfo.getTypeKey());
         }
-        IssueEntity entity = new IssueEntity(issueInfo);
+        HoldIssueEntity entity = new HoldIssueEntity(issueInfo);
         entity.setCreateId(context.getPrincipalId());
         entity.setCreateTime(context.getCurrentDate());
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
-        issueDao.persist(entity);
+        holdIssueDao.persist(entity);
         return entity.toDto();
     }
 
@@ -258,14 +250,14 @@ public class HoldServiceImpl implements HoldService {
         if (!issueId.equals(issueInfo.getId())) {
             throw new InvalidParameterException(issueId + " does not match the id in the object " + issueInfo.getId());
         }
-        IssueEntity entity = issueDao.find(issueId);
+        HoldIssueEntity entity = holdIssueDao.find(issueId);
         if (null == entity) {
             throw new DoesNotExistException(issueId);
         }
         entity.fromDto(issueInfo);
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
-        issueDao.merge(entity);
+        holdIssueDao.merge(entity);
         return entity.toDto();
     }
 
@@ -273,11 +265,11 @@ public class HoldServiceImpl implements HoldService {
     @Transactional
     public StatusInfo deleteIssue(String issueId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        IssueEntity entity = issueDao.find(issueId);
+        HoldIssueEntity entity = holdIssueDao.find(issueId);
         if (null == entity) {
             throw new DoesNotExistException(issueId);
         }
-        issueDao.remove(entity);
+        holdIssueDao.remove(entity);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
@@ -340,14 +332,14 @@ public class HoldServiceImpl implements HoldService {
     public List<IssueInfo> getIssuesByIds(List<String> issueIds, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<IssueEntity> issues = issueDao.findByIds(issueIds);
+        List<HoldIssueEntity> holdIssues = holdIssueDao.findByIds(issueIds);
 
-        if (issues == null) {
+        if (holdIssues == null) {
             throw new DoesNotExistException();
         }
 
-        List<IssueInfo> result = new ArrayList<IssueInfo>(issues.size());
-        for (IssueEntity entity : issues) {
+        List<IssueInfo> result = new ArrayList<IssueInfo>(holdIssues.size());
+        for (HoldIssueEntity entity : holdIssues) {
             if (entity == null) {
                 // if one of the entities from "findByIds" is returned as null, then one of the keys in the list was not found
                 throw new DoesNotExistException();

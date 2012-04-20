@@ -14,7 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -25,26 +27,33 @@ import org.kuali.student.r2.core.hold.infc.Hold;
 @Table(name = "KSEN_HOLD")
 public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttributeEntity> {
 
-    @Column(name = "NAME")
-    private String name;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private HoldRichTextEntity descr;
-    @Column(name = "TYPE_ID")
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
+    private String descrPlain;
+
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrFormatted;
+
+    @Column(name = "HOLD_TYPE")
     private String holdType;
-    @Column(name = "STATE_ID")
+
+    @Column(name = "HOLD_STATE")
     private String holdState;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "RELEASED_DT")
     private Date releasedDate;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "ISSUE_ID")
-    private IssueEntity issue;
+    private HoldIssueEntity holdIssue;
+
     @Column(name = "PERS_ID")
     private String personId;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<HoldAttributeEntity> attributes;
 
@@ -65,16 +74,11 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     }
 
     public void fromDto(Hold hold) {
-        this.setName(hold.getName());
         this.setHoldState(hold.getStateKey());
         this.setEffectiveDate(hold.getEffectiveDate());
         this.setReleasedDate(hold.getReleasedDate());
-        if (hold.getDescr() != null) {
-            this.setDescr(new HoldRichTextEntity(hold.getDescr()));
-        }
-        else {
-            this.setDescr(null);
-        }
+        this.setDescrPlain(hold.getDescr().getPlain());
+        this.setDescrFormatted(hold.getDescr().getFormatted());
         this.setAttributes(new ArrayList<HoldAttributeEntity>());
         for (Attribute att : hold.getAttributes()) {
             HoldAttributeEntity attEntity = new HoldAttributeEntity(att);
@@ -85,18 +89,18 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     public HoldInfo toDto() {
         HoldInfo info = new HoldInfo();
         info.setId(getId());
-        info.setName(name);
         info.setEffectiveDate(effectiveDate);
         info.setReleasedDate(releasedDate);
         info.setPersonId(personId);
         info.setTypeKey(holdType);
         info.setStateKey(holdState);
-        if (issue != null) {
-            info.setIssueId(issue.getId());
+        if (holdIssue != null) {
+            info.setIssueId(holdIssue.getId());
         }
-        if (descr != null) {
-            info.setDescr(descr.toDto());
+        if (descrPlain != null) {
+            info.setDescr(new RichTextInfo(descrPlain, descrFormatted));
         }
+
         info.setMeta(super.toDTO());
         for (HoldAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
@@ -105,20 +109,20 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         return info;
     }
 
-    public String getName() {
-        return name;
+    public String getDescrPlain() {
+        return descrPlain;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getDescrFormatted() {
+        return descrFormatted;
     }
 
-    public HoldRichTextEntity getDescr() {
-        return descr;
+    public void setDescrPlain(String plain) {
+        this.descrPlain = plain;
     }
 
-    public void setDescr(HoldRichTextEntity descr) {
-        this.descr = descr;
+    public void setDescrFormatted(String formatted) {
+        this.descrFormatted = formatted;
     }
 
     public String getHoldType() {
@@ -153,12 +157,12 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         this.releasedDate = releasedDate;
     }
 
-    public IssueEntity getIssue() {
-        return issue;
+    public HoldIssueEntity getHoldIssue() {
+        return holdIssue;
     }
 
-    public void setIssue(IssueEntity issue) {
-        this.issue = issue;
+    public void setHoldIssue(HoldIssueEntity issue) {
+        this.holdIssue = issue;
     }
 
     public String getPersonId() {

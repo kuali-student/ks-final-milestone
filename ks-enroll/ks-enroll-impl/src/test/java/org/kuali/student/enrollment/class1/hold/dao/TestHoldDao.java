@@ -25,10 +25,10 @@ public class TestHoldDao extends AbstractTransactionalDaoTest{
         try {
             HoldEntity obj = dao.find("Hold-1");
             assertNotNull(obj);
-            assertEquals("Hold one", obj.getName()); 
+            //assertEquals("Hold one", obj.getName());
             assertEquals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY, obj.getHoldState());
             assertEquals(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY, obj.getHoldType()); 
-            assertEquals("Hold Desc student", obj.getDescr().getPlain());  
+            assertEquals("Hold Desc student", obj.getDescrPlain());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -40,19 +40,20 @@ public class TestHoldDao extends AbstractTransactionalDaoTest{
             HoldEntity existingEntity = dao.find("Hold-1");
 	    
             HoldEntity obj = new HoldEntity();
-            obj.setName("Hold Test");
-            obj.setDescr(new HoldRichTextEntity("plain", "formatted"));
+            //obj.setName("Hold Test");
+            obj.setDescrPlain("plain");
+            obj.setDescrFormatted("formatted");
             obj.setHoldState(existingEntity.getHoldState());
             obj.setHoldType(existingEntity.getHoldType());
-            obj.setIssue(existingEntity.getIssue());
+            obj.setHoldIssue(existingEntity.getHoldIssue());
             dao.persist(obj);
             assertNotNull(obj.getId());
             HoldEntity obj2 = dao.find(obj.getId());
-            assertEquals("Hold Test", obj2.getName());         
-            assertEquals("plain", obj2.getDescr().getPlain()); 
+            //assertEquals("Hold Test", obj2.getName());
+            assertEquals("plain", obj2.getDescrPlain());
             assertEquals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY, obj2.getHoldState());
             assertEquals(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY, obj2.getHoldType()); 
-            assertEquals("Hold-Issue-1", obj2.getIssue().getId()); 
+            assertEquals("Hold-Issue-1", obj2.getHoldIssue().getId());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -63,13 +64,14 @@ public class TestHoldDao extends AbstractTransactionalDaoTest{
         try {
             HoldEntity existingEntity = dao.find("Hold-1");
 	    
-            existingEntity.setName("Hold Updated");
-            existingEntity.setDescr(new HoldRichTextEntity("plain", "formatted"));
+            //existingEntity.setName("Hold Updated");
+            existingEntity.setDescrPlain("plain");
+            existingEntity.setDescrPlain("formatted");
             dao.merge(existingEntity);
 
             HoldEntity obj2 = dao.find(existingEntity.getId());
-            assertEquals("Hold Updated", obj2.getName());         
-            assertEquals("plain", obj2.getDescr().getPlain()); 
+            //assertEquals("Hold Updated", obj2.getName());
+            assertEquals("plain", obj2.getDescrPlain());
         } catch (Exception ex) {
             ex.printStackTrace();
         }

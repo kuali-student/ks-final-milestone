@@ -23,7 +23,7 @@
     <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
     <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
 	    <!--  Preloaded data -->
-    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+    <!--<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
         <property name="shouldLoadData" value="true"/>
         <property name="preloadMap">
@@ -33,7 +33,7 @@
                 </entry>
             </map>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="systemPropertyConfigurer"
         class="org.kuali.student.common.util.SystemPropertyConfigurer">
@@ -88,7 +88,7 @@
     
     <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
         <property name="persistenceUnitName" value="persistentUnit"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml" />
+        <property name="persistenceXmlLocation" value="classpath:META-INF/hold-persistence.xml" />
         <property name="dataSource" ref="dataSource" />
     </bean>
     
@@ -97,7 +97,7 @@
     </bean>
     
     <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
-        <property name="issueDao" ref="issueDao"/>
+        <property name="holdIssueDao" ref="holdIssueDao"/>
         <property name="holdDao" ref="holdDao"/>
     </bean>
 	
@@ -117,7 +117,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="issueDao" class="org.kuali.student.enrollment.class1.hold.dao.IssueDao">
+    <bean id="holdIssueDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao">
         <property name="em" ref="entityManager"/>
     </bean>
     

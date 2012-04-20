@@ -9,31 +9,31 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
-@Table(name = "KSEN_ISSUE_ATTR")
-public class IssueAttributeEntity extends BaseAttributeEntity<IssueEntity> {
+@Table(name = "KSEN_HOLD_ISSUE_ATTR")
+public class HoldIssueAttributeEntity extends BaseAttributeEntity<HoldIssueEntity> {
     
     @ManyToOne
     @JoinColumn(name = "OWNER")
-    private IssueEntity owner;
+    private HoldIssueEntity owner;
 
-    public IssueAttributeEntity () {
+    public HoldIssueAttributeEntity() {
     }
     
-    public IssueAttributeEntity(String key, String value) {
+    public HoldIssueAttributeEntity(String key, String value) {
         super(key, value);
     }
 
-    public IssueAttributeEntity(Attribute att) {
+    public HoldIssueAttributeEntity(Attribute att) {
         super(att);
     }
 
     @Override
-    public void setOwner(IssueEntity owner) {
+    public void setOwner(HoldIssueEntity owner) {
         this.owner = owner;
     }
 
     @Override
-    public IssueEntity getOwner() {
+    public HoldIssueEntity getOwner() {
         return owner;
     }
 }

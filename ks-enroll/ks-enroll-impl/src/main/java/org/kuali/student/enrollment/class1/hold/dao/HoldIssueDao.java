@@ -17,7 +17,7 @@ package org.kuali.student.enrollment.class1.hold.dao;
 
 import java.util.List;
 
-import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
+import org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 
 /**
@@ -25,10 +25,12 @@ import org.kuali.student.enrollment.dao.GenericEntityDao;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public class IssueDao extends GenericEntityDao<IssueEntity> {
+public class HoldIssueDao extends GenericEntityDao<HoldIssueEntity> {
 
     @SuppressWarnings("unchecked")
-    public List<IssueEntity> getByOrganizationId(String orgId) {
+    public List<HoldIssueEntity> getByOrganizationId(String orgId) {
         return em.createQuery("from IssueEntity i where i.organizationId=:orgId").setParameter("orgId", orgId).getResultList();
-    }    
+    }
+
+
 }

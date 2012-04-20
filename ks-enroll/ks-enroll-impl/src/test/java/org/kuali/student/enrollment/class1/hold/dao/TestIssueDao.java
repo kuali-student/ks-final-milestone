@@ -1,80 +1,79 @@
 package org.kuali.student.enrollment.class1.hold.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
-import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
+import org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 public class TestIssueDao extends AbstractTransactionalDaoTest {
-    @Dao(value = "org.kuali.student.enrollment.class1.hold.dao.IssueDao", testSqlFile = "classpath:ks-hold.sql")
-    private IssueDao dao;
+    @Dao(value = "org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao", testSqlFile = "classpath:ks-hold.sql")
+    private HoldIssueDao dao;
 
     @Test
     public void testGetIssue() {
-        IssueEntity obj = dao.find("Hold-Issue-1");
+        HoldIssueEntity obj = dao.find("Hold-Issue-1");
         assertNotNull(obj);
         assertEquals("Issue one", obj.getName());
-        assertEquals(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY, obj.getIssueState());
-        assertEquals(HoldServiceConstants.RESIDENCY_ISSUE_TYPE_KEY, obj.getIssueType());
-        assertEquals("Issue Desc 101", obj.getDescr().getPlain());
+        assertEquals(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY, obj.getHoldIssueState());
+        assertEquals(HoldServiceConstants.RESIDENCY_ISSUE_TYPE_KEY, obj.getHoldIssueType());
+        assertEquals("Issue Desc 101", obj.getDescrPlain());
     }
 
     @Test
     public void testCreateIssue() {
-        IssueEntity existingEntity = dao.find("Hold-Issue-1");
+        HoldIssueEntity existingEntity = dao.find("Hold-Issue-1");
 
-        IssueEntity obj = new IssueEntity();
+        HoldIssueEntity obj = new HoldIssueEntity();
         obj.setName("Issue Test");
-        obj.setDescr(new HoldRichTextEntity("plain", "formatted"));
-        obj.setIssueState(existingEntity.getIssueState());
-        obj.setIssueType(existingEntity.getIssueType());
+        obj.setDescrPlain("plain");
+        obj.setDescrFormatted("formatted");
+        obj.setHoldIssueState(existingEntity.getHoldIssueState());
+        obj.setHoldIssueType(existingEntity.getHoldIssueType());
         dao.persist(obj);
         assertNotNull(obj.getId());
-        IssueEntity obj2 = dao.find(obj.getId());
+        HoldIssueEntity obj2 = dao.find(obj.getId());
         assertEquals("Issue Test", obj2.getName());
-        assertEquals("plain", obj2.getDescr().getPlain());
+        assertEquals("plain", obj2.getDescrPlain());
     }
 
     @Test
     public void testUpdateIssue() {
-        IssueEntity existingEntity = dao.find("Hold-Issue-1");
+        HoldIssueEntity existingEntity = dao.find("Hold-Issue-1");
 
         existingEntity.setName("Issue Updated");
-        existingEntity.setDescr(new HoldRichTextEntity("plain", "formatted"));
+        existingEntity.setDescrPlain("plain");
+        existingEntity.setDescrFormatted("formatted");
         dao.merge(existingEntity);
 
-        IssueEntity obj2 = dao.find(existingEntity.getId());
+        HoldIssueEntity obj2 = dao.find(existingEntity.getId());
         assertEquals("Issue Updated", obj2.getName());
-        assertEquals("plain", obj2.getDescr().getPlain());
+        assertEquals("plain", obj2.getDescrPlain());
     }
 
     @Test
     public void testDeleteIssue() {
-        IssueEntity obj = dao.find("Hold-Issue-2");
+        HoldIssueEntity obj = dao.find("Hold-Issue-2");
         assertNotNull(obj);
         dao.remove(obj);
-        IssueEntity old = dao.find("Hold-Issue-2");
+        HoldIssueEntity old = dao.find("Hold-Issue-2");
         assertNull(old);
     }
     
     @Test
     public void testGetByOrgId() {
-        List<IssueEntity> result = dao.getByOrganizationId("102");
+        List<HoldIssueEntity> result = dao.getByOrganizationId("102");
         assertNotNull(result);
         assertEquals(2, result.size());
         
-        List<IssueEntity> emptyResults = dao.getByOrganizationId("3");
+        List<HoldIssueEntity> emptyResults = dao.getByOrganizationId("3");
         assertTrue(emptyResults == null || emptyResults.isEmpty());
     }
 }
