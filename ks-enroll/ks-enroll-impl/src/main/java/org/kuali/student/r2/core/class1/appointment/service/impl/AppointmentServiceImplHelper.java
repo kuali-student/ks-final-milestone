@@ -578,7 +578,8 @@ public class AppointmentServiceImplHelper {
             // No, so quit without doing any more
             statusInfo.setSuccess(false);
             int diff = numStudents - (numSlots * maxSizePerSlot); // Would be unassigned
-            statusInfo.setMessage("" + diff);
+            statusInfo.setMessage("Not enough room for ["+ numStudents +"] appointments. numSlots[" + numSlots+ "] * maxPerSlot[" +maxSizePerSlot + "] = "
+                    + "["+ (numSlots * maxSizePerSlot)+ "] available appointments. Please increase available slots or max per slot.");
             return; // And we're outta here
         }
         // Enough slots, so start assigning

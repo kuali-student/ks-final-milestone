@@ -257,7 +257,7 @@ public class TestAppointmentServiceImpl {
             Date startDate = createDate(2012, 3, 5, 12, 0);
             apptWindowInfo.setStartDate(startDate);
             apptWindowInfo.setEndDate(null);
-            int maxPerSlot = 15;
+            int maxPerSlot = 500;
             apptWindowInfo.setMaxAppointmentsPerSlot(maxPerSlot); // Currently, there are 9 students.  This would fill two slot
             // in full, and 1 additional in a third slot.
             // Change slot generation type
@@ -268,11 +268,11 @@ public class TestAppointmentServiceImpl {
             List<AppointmentSlotInfo> slotInfoList =
                     appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
             // Only creates as many slots as needed (with 9 students, 4 per slot, only 3 are created)
-            assertEquals(1, slotInfoList.size());
+            assertEquals(22, slotInfoList.size());
             // Now fetch the slots
             List<AppointmentSlotInfo> fetchedSlots =
                     appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
-            assertEquals(1, fetchedSlots.size());
+            assertEquals(22, fetchedSlots.size());
             // Now assign students
             StatusInfo statusInfo =
                     appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
@@ -318,7 +318,7 @@ public class TestAppointmentServiceImpl {
             Date startDate = createDate(2012, 3, 5, 12, 0);
             apptWindowInfo.setStartDate(startDate);
             apptWindowInfo.setEndDate(null);
-            int maxPerSlot = 4;
+            int maxPerSlot = 500;
             apptWindowInfo.setMaxAppointmentsPerSlot(maxPerSlot); // Currently, there are 9 students.  This would fill two slot
             // in full, and 1 additional in a third slot.
             // Change slot generation type
@@ -329,11 +329,11 @@ public class TestAppointmentServiceImpl {
             List<AppointmentSlotInfo> slotInfoList =
                     appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
             // Only creates as many slots as needed (with 9 students, 4 per slot, only 3 are created)
-            assertEquals(3, slotInfoList.size());
+            assertEquals(22, slotInfoList.size());
             // Now fetch the slots
             List<AppointmentSlotInfo> fetchedSlots =
                     appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
-            assertEquals(3, fetchedSlots.size());
+            assertEquals(22, fetchedSlots.size());
             // Now assign students
             StatusInfo statusInfo =
                     appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
@@ -375,7 +375,7 @@ public class TestAppointmentServiceImpl {
             Date endDate = createDate(2012, 3, 5, 12, 45);
             apptWindowInfo.setStartDate(startDate);
             apptWindowInfo.setEndDate(endDate);
-            int maxPerSlot = 4;
+            int maxPerSlot = 3000;
             apptWindowInfo.setMaxAppointmentsPerSlot(maxPerSlot); // Currently, there are 9 students.  This would fill two slot
                                                          // in full, and 1 additional in a third slot.
             // Change slot generation type
@@ -386,15 +386,16 @@ public class TestAppointmentServiceImpl {
             List<AppointmentSlotInfo> slotInfoList =
                     appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
             // Only creates as many slots as needed (with 9 students, 4 per slot, only 3 are created)
-            assertEquals(3, slotInfoList.size());
+            assertEquals(4, slotInfoList.size());
             // Now fetch the slots
             List<AppointmentSlotInfo> fetchedSlots =
                     appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
-            assertEquals(3, fetchedSlots.size());
+            assertEquals(4, fetchedSlots.size());
             // Now assign students
             StatusInfo statusInfo =
                     appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
             // Should be fine
+            System.out.println(statusInfo.getMessage());
             assertTrue(statusInfo.getIsSuccess());
             // Now check to make sure assignments were made
             HashSet<String> studentIdSet = new HashSet<String>();
