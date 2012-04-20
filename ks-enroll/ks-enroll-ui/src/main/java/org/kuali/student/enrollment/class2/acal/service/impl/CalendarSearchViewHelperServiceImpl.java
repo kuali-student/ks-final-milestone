@@ -101,7 +101,7 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
         qBuilder.setPredicates();
         if (StringUtils.isNotBlank(name)){
-            p = like(NAME, name + "*");
+            p = like(NAME, "%" + name + "%");
     		pList.add(p);
         }
 
