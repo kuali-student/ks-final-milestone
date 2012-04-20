@@ -95,11 +95,7 @@
         <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
     </bean>
 
-    <bean id="luiServiceValidation" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
-        <property name="nextDecorator" ref="luiService" />
-        <property name="validator" ref="validator" />
-        <property name="dataDictionaryService" ref="dataDictionaryServiceForLui" />
-    </bean>
+
 
     <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
         <property name="em" ref="entityManager" />

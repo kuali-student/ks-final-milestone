@@ -20,7 +20,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <bean id="lprServiceOnBus" parent="lprServiceAuthorization" />
-  <bean id="luiServiceOnBus" parent="luiServiceValidation" />
+  <bean id="luiServiceOnBus" parent="luiService" />
   <bean id="atpServiceOnBus" parent="atpServiceValidation" />
   <bean id="acalServiceOnBus" parent="acalServiceValidation" />
   <bean id="courseOfferingServiceOnBus" class="courseOfferingValidation" />
@@ -123,17 +123,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceAuthorizationDecorator">
     <property name="nextDecorator" ref="lprServiceValidation" />
     <property name="permissionService" ref="permissionService" />
-  </bean>
-
-
-  <bean id="luiServiceAuthorization" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceAuthorizationDecorator">
-    <property name="nextDecorator" ref="luiService" />
-    <property name="permissionService" ref="permissionService" />
-  </bean>
-
-  <bean id="luiServiceValidation" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
-    <property name="nextDecorator" ref="luiServiceAuthorization" />
-
   </bean>
 
   <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">

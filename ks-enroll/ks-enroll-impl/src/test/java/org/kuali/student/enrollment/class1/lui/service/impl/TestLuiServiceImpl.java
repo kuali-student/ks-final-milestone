@@ -50,7 +50,7 @@ import static org.junit.Assert.fail;
 @Transactional
 public class TestLuiServiceImpl {
 
-    @Resource(name = "luiServiceAuthDecorator")
+    @Resource(name = "luiServiceImpl")
     private LuiService luiService;
     public static String principalId = "123";
     public ContextInfo callContext = null;

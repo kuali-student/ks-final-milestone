@@ -101,19 +101,11 @@
         <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
     </bean>
 	
-    <bean id="luiServiceValidation" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
-        <property name="nextDecorator" ref="luiServiceImpl"/>
-        <property name="validator" ref="validator"/>
-        <property name="dataDictionaryService" ref="dataDictionaryServiceForLui"/>
-    </bean>
+
 
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 	
-    <bean id="luiServiceAuthDecorator"
-	      class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceAuthorizationDecorator">
-        <property name="nextDecorator" ref="luiServiceValidation"/>
-        <property name="permissionService" ref="permissionService"/>
-    </bean>
+
 	    
     <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
         <property name="em" ref="entityManager"/>
