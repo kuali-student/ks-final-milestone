@@ -126,6 +126,7 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
 
                     windowWrapper.setAppointmentWindowInfo(window);
                     windowWrapper.setId(window.getId());
+                    windowWrapper.setWindowName(window.getName());
                     windowWrapper.setPeriodKey(window.getPeriodMilestoneId());
                     windowWrapper.setPeriodName(period.getName());
 

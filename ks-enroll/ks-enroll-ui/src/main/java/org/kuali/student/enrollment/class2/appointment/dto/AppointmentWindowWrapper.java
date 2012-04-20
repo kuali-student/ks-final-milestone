@@ -5,17 +5,20 @@ import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import java.util.Date;
 
 public class AppointmentWindowWrapper extends TimeSetWrapper {
+    AppointmentWindowInfo appointmentWindowInfo;
+    //termType and termYear fields are used for AppointmentWindowWrapper lookup view only
     String termType;
     String termYear;
+
     String id;
-    AppointmentWindowInfo appointmentWindowInfo;
+    String windowName;
     String periodName;
     String periodKey;
     String assignedPopulationName;
     String windowTypeKey;
     String windowTypeName;
 
-    //Assignment Info
+    //Assignment Info -- for inquiry view
     Integer numberOfStudents;
     Integer numberOfSlots;
     Float meanStudentsPerSlot;
@@ -47,6 +50,14 @@ public class AppointmentWindowWrapper extends TimeSetWrapper {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getWindowName() {
+        return windowName;
+    }
+
+    public void setWindowName(String windowName) {
+        this.windowName = windowName;
     }
 
     public AppointmentWindowWrapper() {

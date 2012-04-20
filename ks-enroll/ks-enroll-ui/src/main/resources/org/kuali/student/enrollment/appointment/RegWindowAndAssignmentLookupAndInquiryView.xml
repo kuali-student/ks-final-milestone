@@ -24,10 +24,11 @@
     <bean id="AppointmentWindowWrapper" parent="AppointmentWindowWrapper-parentBean"/>
     <bean id="AppointmentWindowWrapper-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"/>
-        <property name="titleAttribute" value="id"/>
+        <property name="titleAttribute" value="windowName"/>
         <property name="attributes">
             <list>
                 <ref bean="AppointmentWindowWrapper.id"/>
+                <ref bean="AppointmentWindowWrapper.windowName"/>
                 <ref bean="AppointmentWindowWrapper.termType"/>
                 <ref bean="AppointmentWindowWrapper.termYear"/>
             </list>
@@ -56,6 +57,11 @@
     <bean id="AppointmentWindowWrapper.id" parent="AppointmentWindowInfo.id">
         <property name="name" value="id"/>
         <property name="label" value="ID" />
+    </bean>
+
+    <bean id="AppointmentWindowWrapper.windowName" parent="AppointmentWindowInfo.name">
+        <property name="name" value="windowName"/>
+        <property name="label" value="Window" />
     </bean>
 
     <bean id="AppointmentWindowWrapper.termType" parent="BaseKuali.id">
@@ -104,7 +110,7 @@
         <property name="resultFields">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="id" />
-                <bean parent="Uif-DataField" p:propertyName="appointmentWindowInfo.name" p:label="Window"/>
+                <bean parent="Uif-DataField" p:propertyName="windowName" p:label="Window"/>
                 <bean parent="Uif-DataField" p:propertyName="appointmentWindowInfo.stateKey" />
                 <bean parent="Uif-DataField" p:propertyName="appointmentWindowInfo.startDate" />
             </list>
