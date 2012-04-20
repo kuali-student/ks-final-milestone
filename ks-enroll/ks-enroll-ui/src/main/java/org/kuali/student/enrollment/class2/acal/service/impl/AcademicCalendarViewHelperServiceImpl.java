@@ -557,7 +557,9 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         try {
             List<TypeInfo> keyDateGroupTypes = getAcalService().getKeyDateTypesForTermType(termWrapper.getTermType(),getContextInfo());
             for (TypeInfo keyDateGroupType : keyDateGroupTypes) {
-                keyValues.add(new ConcreteKeyValue(keyDateGroupType.getKey(),keyDateGroupType.getName()));
+                if (!termWrapper.isKeyDateGroupAlreadyExists(keyDateGroupType.getKey())){
+                    keyValues.add(new ConcreteKeyValue(keyDateGroupType.getKey(),keyDateGroupType.getName()));
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

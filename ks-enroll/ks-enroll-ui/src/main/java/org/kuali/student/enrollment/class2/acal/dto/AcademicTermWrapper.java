@@ -176,4 +176,13 @@ public class AcademicTermWrapper {
         return StringUtils.isBlank(termInfo.getId());
     }
 
+    public boolean isKeyDateGroupAlreadyExists(String keydateGroupTypeKey){
+        for(KeyDatesGroupWrapper wrapper : keyDatesGroupWrappers){
+            if (StringUtils.equalsIgnoreCase(wrapper.getKeyDateGroupType(),keydateGroupTypeKey)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
