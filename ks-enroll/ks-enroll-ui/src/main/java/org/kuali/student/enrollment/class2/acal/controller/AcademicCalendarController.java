@@ -628,9 +628,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
             // 2. update acalEvents if any
             List<AcalEventWrapper> events = academicCalendarForm.getEvents();
-            if(events != null && !events.isEmpty()){
-                processEvents(academicCalendarForm, events, acalInfo.getId());
-            }
+            processEvents(academicCalendarForm, events, acalInfo.getId());
         }
         else {
             AcademicCalendarInfo acalInfo = null;
@@ -710,17 +708,19 @@ public class AcademicCalendarController extends UifControllerBase {
     private void processEvents(AcademicCalendarForm acalForm, List<AcalEventWrapper> events, String acalId)throws Exception{
         List<AcalEventWrapper> updatedEvents = new ArrayList<AcalEventWrapper>();
         List<String> currentEventIds = getExistingEventIds(acalForm);
-        for(AcalEventWrapper event : events){
-            if(currentEventIds.contains(event.getAcalEventInfo().getId())){
-                //update event
-                AcalEventWrapper updatedEvent = getAcademicCalendarViewHelperService(acalForm).updateEvent(event.getAcalEventInfo().getId(), event);
-                updatedEvents.add(updatedEvent);
-                currentEventIds.remove(event.getAcalEventInfo().getId());
-            }
-            else {
-                //create a new event
-                AcalEventWrapper createdEvent = getAcademicCalendarViewHelperService(acalForm).createEvent(acalId, event);
-                updatedEvents.add(createdEvent);
+        if(events != null && !events.isEmpty()){
+            for(AcalEventWrapper event : events){
+                if(currentEventIds.contains(event.getAcalEventInfo().getId())){
+                    //update event
+                    AcalEventWrapper updatedEvent = getAcademicCalendarViewHelperService(acalForm).updateEvent(event.getAcalEventInfo().getId(), event);
+                    updatedEvents.add(updatedEvent);
+                    currentEventIds.remove(event.getAcalEventInfo().getId());
+                }
+                else {
+                    //create a new event
+                    AcalEventWrapper createdEvent = getAcademicCalendarViewHelperService(acalForm).createEvent(acalId, event);
+                    updatedEvents.add(createdEvent);
+                }
             }
         }
         acalForm.setEvents(updatedEvents);
