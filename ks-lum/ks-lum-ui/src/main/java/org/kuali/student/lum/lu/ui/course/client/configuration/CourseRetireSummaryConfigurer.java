@@ -366,8 +366,8 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
         section.addStyleName("KS-Data-Box-ReadOnlyNeedsToBeOnTheRight");
         section.addStyleName("KS-Add-Data-Box");
         
-        addReadOnlyFieldJustTextStyle(section, COURSE + "/" + CreditCourseConstants.COURSE_TITLE, generateMessageInfo(LUUIConstants.COURSE_TITLE_LABEL_KEY), "ks-form-module-single-line-margin-narrow");
         addReadOnlyFieldJustTextStyle(section, COURSE + "/" + CreditCourseConstants.COURSE_CODE, generateMessageInfo(LUUIConstants.COURSE_NUMBER_LABEL_KEY), "ks-form-module-single-line-margin-narrow");
+        addReadOnlyFieldJustTextStyle(section, COURSE + "/" + CreditCourseConstants.COURSE_TITLE, generateMessageInfo(LUUIConstants.COURSE_TITLE_LABEL_KEY), "ks-form-module-single-line-margin-narrow");
         
         //Add the crosslisted/joint Reference Data with custom binding
         FieldDescriptorReadOnly xlistsAndJoints = new FieldDescriptorReadOnly(CreditCourseConstants.CROSSLISTED_AND_JOINTS, generateMessageInfo(LUUIConstants.CROSSLISTED_AND_JOINTS_LABEL_KEY), null, new KSLabel());
