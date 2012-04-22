@@ -18,7 +18,7 @@ public class KeyDatesGroupWrapper {
     }
 
     public KeyDatesGroupWrapper(String keydateGroupType,String nameUI){
-        keydates = new ArrayList<KeyDateWrapper>();
+        this.keydates = new ArrayList<KeyDateWrapper>();
         this.keyDateGroupType = keydateGroupType;
         this.keyDateGroupNameUI = nameUI;
     }

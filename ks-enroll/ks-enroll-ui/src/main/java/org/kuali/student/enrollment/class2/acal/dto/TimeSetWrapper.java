@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,16 +51,23 @@ public class TimeSetWrapper {
 
             DateFormat dfm = new SimpleDateFormat("hh:mm");
 
-            setStartTime(dfm.format(getStartDate()));
-            setEndTime(dfm.format(getEndDate()));
+            if (getEndDate() != null){
+                setStartTime(dfm.format(getStartDate()));
+                setEndTime(dfm.format(getEndDate()));
 
-            dfm = new SimpleDateFormat("a");
-            setStartTimeAmPm(dfm.format(getStartDate()));
-            setEndTimeAmPm(dfm.format(getEndDate()));
+                dfm = new SimpleDateFormat("a");
+                setStartTimeAmPm(dfm.format(getStartDate()));
+                setEndTimeAmPm(dfm.format(getEndDate()));
 
-            //As start and end date are going to be same when it's not daterange, just set NULL sothat the same date wont display in the UI (Edit mode).
-            if (!isDateRange()) {
-                setEndDate(null);
+                String startDate = CommonUtils.formatDate(getStartDate());
+                String endDate = CommonUtils.formatDate(getEndDate());
+
+                if (StringUtils.equals(startDate,endDate)){
+                    setDateRange(false);
+                    setEndDate(null);
+                }else{
+                    setDateRange(true);
+                }
             }
         }
     }

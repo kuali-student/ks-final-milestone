@@ -225,7 +225,7 @@ public class AcademicCalendarController extends UifControllerBase {
             return getUIFModelAndView(acalForm);
         }
 
-
+        acalForm.setNewCalendar(false);
         try {
            getAcademicCalendarViewHelperService(acalForm).copyToCreateAcademicCalendar(acalForm);
         }catch (Exception ex) {

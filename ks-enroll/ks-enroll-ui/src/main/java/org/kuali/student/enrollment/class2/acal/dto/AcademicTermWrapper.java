@@ -29,9 +29,6 @@ public class AcademicTermWrapper {
 
     private List<KeyDateWrapper> keyDatesToDeleteOnSave;
 
-    private boolean enableMakeOfficialButton;
-    private String makeOfficialButtonText;
-
     private boolean isOfficial;
     private boolean isAlreadySaved;
 
@@ -40,8 +37,6 @@ public class AcademicTermWrapper {
         keyDatesGroupWrappers = new ArrayList();
         termInfo = new TermInfo();
         keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
-        enableMakeOfficialButton = false;
-        makeOfficialButtonText = "Make Official";
     }
 
     public AcademicTermWrapper(TermInfo termInfo){
@@ -132,22 +127,6 @@ public class AcademicTermWrapper {
 
     public void setKeyDatesToDeleteOnSave(List<KeyDateWrapper> keyDatesToDeleteOnSave) {
         this.keyDatesToDeleteOnSave = keyDatesToDeleteOnSave;
-    }
-
-    public boolean isEnableMakeOfficialButton() {
-        return enableMakeOfficialButton;
-    }
-
-    public void setEnableMakeOfficialButton(boolean enableMakeOfficialButton) {
-        this.enableMakeOfficialButton = enableMakeOfficialButton;
-    }
-
-    public String getMakeOfficialButtonText() {
-        return makeOfficialButtonText;
-    }
-
-    public void setMakeOfficialButtonText(String makeOfficialButtonText) {
-        this.makeOfficialButtonText = makeOfficialButtonText;
     }
 
     public void clear(){

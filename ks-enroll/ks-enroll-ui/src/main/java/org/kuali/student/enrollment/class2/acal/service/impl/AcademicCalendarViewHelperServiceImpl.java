@@ -106,12 +106,12 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             holidayInfo.setDescr(CommonUtils.buildDesc("no description"));
             holidayInfo.setIsAllDay(holidayWrapper.isAllDay());
             holidayInfo.setIsInstructionalDay(holidayWrapper.isInstructional());
-            holidayInfo.setIsDateRange(holidayWrapper.isDateRange());
+//            holidayInfo.setIsDateRange(holidayWrapper.isDateRange());
             holidayInfo.setStartDate(holidayWrapper.getStartDate());
-            holidayInfo.setEndDate(holidayWrapper.getEndDate());
+//            holidayInfo.setEndDate(holidayWrapper.getEndDate());
             holidayInfo.setName(holidayWrapper.getTypeName());
             holidayInfo.setStartDate(getStartDateWithUpdatedTime(holidayWrapper,true));
-            holidayInfo.setEndDate(getEndDateWithUpdatedTime(holidayWrapper));
+            setHolidayEndDate(holidayWrapper);
 
             if (StringUtils.isBlank(holidayInfo.getId())){
                 storedHolidayInfo = getAcalService().createHoliday(hcForm.getHolidayCalendarInfo().getId(), holidayWrapper.getTypeKey(), holidayInfo, getContextInfo());
@@ -420,9 +420,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         eventInfo.setTypeKey(eventWrapper.getEventTypeKey());
         eventInfo.setStartDate(eventWrapper.getStartDate());
         eventInfo.setIsAllDay(eventWrapper.isAllDay());
-        eventInfo.setIsDateRange(eventWrapper.isDateRange());
+//        eventInfo.setIsDateRange(eventWrapper.isDateRange());
         eventInfo.setStartDate(getStartDateWithUpdatedTime(eventWrapper,true));
-        eventInfo.setEndDate(getEndDateWithUpdatedTime(eventWrapper));
+        setEventEndDate(eventWrapper);
+//        eventInfo.setEndDate(getEndDateWithUpdatedTime(eventWrapper));
         return eventInfo;
     }
 
@@ -867,6 +868,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                         KeyDateInfo keyDate = new KeyDateInfo();
                         keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
                         keyDate.setId(UUIDHelper.genStringUUID());
+                        keyDate.setName(keyDate.getName());
                         RichTextInfo desc = new RichTextInfo();
                         desc.setPlain("Test");
                         keyDate.setDescr(desc);
@@ -885,9 +887,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     keyDate.setStartDate(keyDateWrapper.getStartDate());
                     keyDate.setEndDate(keyDateWrapper.getEndDate());
                     keyDate.setIsAllDay(keyDateWrapper.isAllDay());
-                    keyDate.setIsDateRange(keyDateWrapper.isDateRange());
+//                    keyDate.setIsDateRange(keyDateWrapper.isDateRange());
                     keyDate.setStartDate(getStartDateWithUpdatedTime(keyDateWrapper,true));
-                    keyDate.setEndDate(getEndDateWithUpdatedTime(keyDateWrapper));
+//                    keyDate.setEndDate(getEndDateWithUpdatedTime(keyDateWrapper));
+                    setKeyDateEndDate(keyDateWrapper);
 
                     if (isNewKeyDate){
                         KeyDateInfo newKeyDate = getAcalService().createKeyDate(termWrapper.getTermInfo().getId(),keyDate.getTypeKey(),keyDate,getContextInfo());
@@ -925,6 +928,114 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             return timeSetWrapper.getStartDate();
         }
 
+    }
+
+    private void setHolidayEndDate(HolidayWrapper holidayWrapper){
+        if (!holidayWrapper.isAllDay()){
+             String endTime = holidayWrapper.getEndTime();
+             String endTimeApPm = holidayWrapper.getEndTimeAmPm();
+             Date endDate = holidayWrapper.getEndDate();
+
+            //If it's not date range, then set
+             if (!holidayWrapper.isDateRange()){
+                  endDate = holidayWrapper.getStartDate();
+                  holidayWrapper.setEndDate(null);
+             }
+
+             if (StringUtils.isBlank(endTime)){
+                endTime = CalendarConstants.DEFAULT_END_TIME;
+                endTimeApPm = "PM";
+                holidayWrapper.setEndTime(endTime);
+                holidayWrapper.setEndTimeAmPm(endTimeApPm);
+            }
+
+            Date endDateToInfo = updateTime(endDate,endTime,endTimeApPm);
+            holidayWrapper.getHolidayInfo().setEndDate(endDateToInfo);
+            holidayWrapper.getHolidayInfo().setIsDateRange(true);
+        }else{
+            Date endDateToInfo;
+            if (holidayWrapper.isDateRange()) {
+                //just clearing out any time already set in end date
+                endDateToInfo = updateTime(holidayWrapper.getEndDate(),"00:00",StringUtils.EMPTY );
+                holidayWrapper.getHolidayInfo().setIsDateRange(true);
+            }else{
+                endDateToInfo =  null;
+                holidayWrapper.getHolidayInfo().setIsDateRange(false);
+            }
+            holidayWrapper.getHolidayInfo().setEndDate(endDateToInfo);
+        }
+    }
+
+    private void setEventEndDate(AcalEventWrapper eventWrapper){
+        if (!eventWrapper.isAllDay()){
+             String endTime = eventWrapper.getEndTime();
+             String endTimeApPm = eventWrapper.getEndTimeAmPm();
+             Date endDate = eventWrapper.getEndDate();
+
+            //If it's not date range, then set
+             if (!eventWrapper.isDateRange()){
+                  endDate = eventWrapper.getStartDate();
+                  eventWrapper.setEndDate(null);
+             }
+
+             if (StringUtils.isBlank(endTime)){
+                endTime = CalendarConstants.DEFAULT_END_TIME;
+                endTimeApPm = "PM";
+                eventWrapper.setEndTime(endTime);
+                eventWrapper.setEndTimeAmPm(endTimeApPm);
+            }
+
+            Date endDateToInfo = updateTime(endDate,endTime,endTimeApPm);
+            eventWrapper.getAcalEventInfo().setEndDate(endDateToInfo);
+            eventWrapper.getAcalEventInfo().setIsDateRange(true);
+        }else{
+            Date endDateToInfo;
+            if (eventWrapper.isDateRange()) {
+                //just clearing out any time already set in end date
+                endDateToInfo = updateTime(eventWrapper.getEndDate(),"00:00",StringUtils.EMPTY );
+                eventWrapper.getAcalEventInfo().setIsDateRange(true);
+            }else{
+                endDateToInfo =  null;
+                eventWrapper.getAcalEventInfo().setIsDateRange(false);
+            }
+            eventWrapper.getAcalEventInfo().setEndDate(endDateToInfo);
+        }
+    }
+
+    private void setKeyDateEndDate(KeyDateWrapper keyDateWrapper){
+        if (!keyDateWrapper.isAllDay()){
+             String endTime = keyDateWrapper.getEndTime();
+             String endTimeApPm = keyDateWrapper.getEndTimeAmPm();
+             Date endDate = keyDateWrapper.getEndDate();
+
+            //If it's not date range, then set
+             if (!keyDateWrapper.isDateRange()){
+                  endDate = keyDateWrapper.getStartDate();
+                  keyDateWrapper.setEndDate(null);
+             }
+
+             if (StringUtils.isBlank(endTime)){
+                endTime = CalendarConstants.DEFAULT_END_TIME;
+                endTimeApPm = "PM";
+                keyDateWrapper.setEndTime(endTime);
+                keyDateWrapper.setEndTimeAmPm(endTimeApPm);
+            }
+
+            Date endDateToInfo = updateTime(endDate,endTime,endTimeApPm);
+            keyDateWrapper.getKeyDateInfo().setEndDate(endDateToInfo);
+            keyDateWrapper.getKeyDateInfo().setIsDateRange(true);
+        }else{
+            Date endDateToInfo;
+            if (keyDateWrapper.isDateRange()) {
+                //just clearing out any time already set in end date
+                endDateToInfo = updateTime(keyDateWrapper.getEndDate(),"00:00",StringUtils.EMPTY );
+                keyDateWrapper.getKeyDateInfo().setIsDateRange(true);
+            }else{
+                endDateToInfo =  null;
+                keyDateWrapper.getKeyDateInfo().setIsDateRange(false);
+            }
+            keyDateWrapper.getKeyDateInfo().setEndDate(endDateToInfo);
+        }
     }
 
     private Date getEndDateWithUpdatedTime(TimeSetWrapper timeSetWrapper){
