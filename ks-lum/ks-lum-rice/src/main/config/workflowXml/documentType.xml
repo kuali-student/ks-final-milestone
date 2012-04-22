@@ -93,9 +93,10 @@
     
     <documentType>
       <name>kuali.proposal.type.course.retire</name>
-      <parent>CluCreditCourseParentDocument</parent>
+      <parent>CluParentDocument</parent>
       <description>Credit Course Retirement</description>
       <label>Credit Course Retirement</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_RETIRE_BY_PROPOSAL&amp;idType=documentNumber</docHandler>
       <postProcessorName>org.kuali.student.lum.workflow.CoursePostProcessorBase</postProcessorName>
       <active>true</active>
       <routePaths>
@@ -124,6 +125,7 @@
         </role>
       </routeNodes>
     </documentType>
+    
     <documentType>
       <name>kuali.proposal.type.course.modify</name>
       <parent>CluCreditCourseParentDocument</parent>
