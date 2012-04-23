@@ -247,8 +247,8 @@
                 <!-- bean entry for dropdown Appt rule type-->
                 <!--<bean parent="Uif-InputField" p:label="APPT. RULE TYPE/INTERVAL" p:propertyName="slotRuleEnumType" p:required="true" p:style="font-weight:bold;"  p:refreshWhenChanged="#lp.windowTypeKey"-->
                       <!--p:readOnly="@{!#isAddLine or #lp.windowTypeKey =='kuali.appointment.window.type.one.slot' or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >-->
-                <bean parent="Uif-InputField" p:label="APPT. RULE TYPE/INTERVAL" p:propertyName="slotRuleEnumType" p:required="true" p:style="font-weight:bold;"
-                      p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >
+                <bean parent="Uif-InputField" p:label="APPT. RULE TYPE/INTERVAL" p:propertyName="slotRuleEnumType" p:required="true" p:style="font-weight:bold;"  p:refreshWhenChanged="#lp.windowTypeKey"
+                      p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned' or #lp.windowTypeKey =='kuali.appointment.window.type.one.slot'}" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
