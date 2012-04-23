@@ -5,7 +5,7 @@
 	<!-- CluInfo-->
 	<bean id="org.kuali.student.lum.lu.dto.CluInfo-parent" abstract="true"
 		parent="ObjectStructureDefinition">
-		<property name="name" value="org.kuali.student.r2.lum.clu.dto.CluInfo" />
+		<property name="name" value="org.kuali.student.r1.lum.clu.dto.CluInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="cluInfo.academicSubjectOrgs" />
@@ -278,7 +278,7 @@
 	<!-- RichTextInfo-->
 	<bean id="org.kuali.student.common.dto.RichTextInfo-parent"
 		abstract="true" parent="ObjectStructureDefinition">
-		<property name="name" value="org.kuali.student.common.dto.RichTextInfo" />
+		<property name="name" value="org.kuali.student.r2.common.dto.RichTextInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="richTextInfo.formatted" />
@@ -667,7 +667,7 @@
 	<!-- LuCodeInfo-->
 	<bean id="org.kuali.student.lum.lu.dto.LuCodeInfo-parent"
 		abstract="true" parent="ObjectStructureDefinition">
-		<property name="name" value="org.kuali.student.lum.lu.dto.LuCodeInfo" />
+		<property name="name" value="org.kuali.student.r2.lum.clu.dto.LuCodeInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="luCodeInfo.descr" />
@@ -679,8 +679,9 @@
 	</bean>
 	<bean id="org.kuali.student.lum.lu.dto.LuCodeInfo" parent="org.kuali.student.lum.lu.dto.LuCodeInfo-parent" />
 
-	<bean id="luCodeInfo.descr-parent" abstract="true" parent="baseSingleString">
+	<bean id="luCodeInfo.descr-parent" abstract="true" parent="baseComplex">
 		<property name="name" value="descr" />
+        <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
 	</bean>
 	<bean id="luCodeInfo.descr" parent="luCodeInfo.descr-parent" />
 
@@ -724,7 +725,7 @@
 	<bean id="org.kuali.student.lum.lu.dto.CluInstructorInfo-parent"
 		abstract="true" parent="ObjectStructureDefinition">
 		<property name="name"
-			value="org.kuali.student.lum.lu.dto.CluInstructorInfo" />
+			value="org.kuali.student.r2.lum.lu.dto.CluInstructorInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="cluInstructorInfo.orgId" />

@@ -669,6 +669,7 @@
 
     <bean id="cluAccountingInfo.descr-parent" abstract="true" parent="baseComplex">
         <property name="name" value="descr"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
     </bean>
     <bean id="cluAccountingInfo.descr" parent="cluAccountingInfo.descr-parent"/>
     
@@ -703,6 +704,7 @@
 
     <bean id="luCodeInfo.descr-parent" abstract="true" parent="baseComplex">
         <property name="name" value="descr"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
     </bean>
     <bean id="luCodeInfo.descr" parent="luCodeInfo.descr-parent"/>
 

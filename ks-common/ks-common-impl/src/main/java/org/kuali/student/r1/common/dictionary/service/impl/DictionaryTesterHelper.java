@@ -125,6 +125,7 @@ public class DictionaryTesterHelper
 
  private void doTestOnClass (String className, ApplicationContext ac)
  {
+     System.out.println("Entering doTestOnClass");
   ObjectStructureDefinition os = objectStructures.get (className);
   String simpleName = calcSimpleName (className);
   if (os == null)
@@ -143,6 +144,7 @@ public class DictionaryTesterHelper
                                                1, // header level to start at
                                                this.processSubstructures);
   out.println (formatter.formatForWiki ());
+     System.out.println("Exiting doTestOnClass");
  }
 
  private String calcSimpleName (String name)
