@@ -1,7 +1,10 @@
 package org.kuali.student.enrollment.class2.appointment.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.acal.dto.TimeSetWrapper;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AppointmentWindowWrapper extends TimeSetWrapper {
@@ -159,4 +162,28 @@ public class AppointmentWindowWrapper extends TimeSetWrapper {
     public String getSlotRuleEnumType() {
         return slotRuleEnumType;
     }
+
+    //This is for UI display purpose
+    public String getStartDateUI(){
+        if (getStartDate() != null) {
+           SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+           return formatter.format(getStartDate());
+
+        }else{
+            return StringUtils.EMPTY;
+        }
+
+    }
+
+    //This is for UI display purpose
+    public String getEndDateUI(){
+        if (endDateUI != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            return formatter.format(endDateUI);
+        }else{
+            return StringUtils.EMPTY;
+        }
+
+    }
+
 }
