@@ -119,7 +119,7 @@
 
     <!-- InquiryView -->
     <bean id="KS-AppointmentWindowWrapper-InquiryView" parent="KSInquiryView">
-        <property name="title" value="Appointment Window and Assigment Detail"/>
+        <property name="title" value="Appointment Window and Assignment Detail"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"/>
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperInquiryViewHelperServiceImpl" />
 
