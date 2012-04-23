@@ -13,7 +13,6 @@ import org.kuali.student.enrollment.class1.hold.model.HoldEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 
-@Ignore
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 public class TestHoldDao extends AbstractTransactionalDaoTest{
 
@@ -66,7 +65,7 @@ public class TestHoldDao extends AbstractTransactionalDaoTest{
 	    
             //existingEntity.setName("Hold Updated");
             existingEntity.setDescrPlain("plain");
-            existingEntity.setDescrPlain("formatted");
+            existingEntity.setDescrFormatted("formatted");
             dao.merge(existingEntity);
 
             HoldEntity obj2 = dao.find(existingEntity.getId());
