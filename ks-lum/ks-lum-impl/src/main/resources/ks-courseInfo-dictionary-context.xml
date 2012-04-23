@@ -1220,7 +1220,7 @@
  <bean id="activityInfo.descr-parent" abstract="true"
        parent="baseComplex">
   <property name="name" value="descr" />
-     <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
 		                </bean>
  <bean id="activityInfo.descr" parent="activityInfo.descr-parent" />
 
