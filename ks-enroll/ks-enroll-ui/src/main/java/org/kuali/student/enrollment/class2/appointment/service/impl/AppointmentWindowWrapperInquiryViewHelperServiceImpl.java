@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.appointment.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -22,6 +23,8 @@ import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -75,8 +78,11 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
                     float meanStudentsPerSlot = numberOfStudents/slots.size();
                     appointmentWindowWrapper.setMeanStudentsPerSlot(new Float(meanStudentsPerSlot));
 
+                    AppointmentSlotInfo slot1 = slots.get(0);
+                    appointmentWindowWrapper.setFirstSlotPopulated(getFormattedDate(slot1.getStartDate()));
+
                     AppointmentSlotInfo slot = slots.get(slots.size()-1);
-                    appointmentWindowWrapper.setLastSlotPopulated(slot.getStartDate());
+                    appointmentWindowWrapper.setLastSlotPopulated(getFormattedDate(slot.getStartDate()));
 
                     List<AppointmentInfo> appointments = appointmentService.getAppointmentsBySlot(slot.getId(),context);
                     if(!appointments.isEmpty()){
@@ -93,6 +99,16 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
         }
 
         return null;
+    }
+    
+    private String getFormattedDate(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+        String formattedDate = formatter.format(date);
+        if (StringUtils.endsWithIgnoreCase(formattedDate, "12:00 am")){
+            return StringUtils.removeEndIgnoreCase(formattedDate,"12:00 am");
+        }else {
+            return formattedDate;
+        }
     }
 
     public AcademicCalendarService getAcalService() {

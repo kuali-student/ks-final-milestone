@@ -183,6 +183,15 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField"
+                                  p:propertyName="firstSlotPopulated"
+                                  p:label="First Slot Populated "
+                                  p:readOnly="true"
+                                  p:labelField.renderColon="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField"
                                   p:propertyName="lastSlotPopulated"
                                   p:label="Last Slot Populated "
                                   p:readOnly="true"
