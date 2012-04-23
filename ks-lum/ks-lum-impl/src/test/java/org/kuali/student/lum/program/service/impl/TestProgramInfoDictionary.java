@@ -1,42 +1,32 @@
 package org.kuali.student.lum.program.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import org.junit.Test;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.core.messages.service.impl.MessageServiceMock;
+import org.kuali.student.lum.course.service.impl.MockSearchDispatcher;
+import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
+import org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r1.common.validator.ServerDateParser;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.lum.program.dto.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.cxf.service.model.MessageInfo;
-import org.junit.Test;
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.messages.dto.LocaleKeyList;
-import org.kuali.student.r1.common.messages.dto.Message;
-import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.r1.common.messages.dto.MessageList;
-import org.kuali.student.r2.common.messages.service.MessageService;
-import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
-import org.kuali.student.r1.common.validator.ServerDateParser;
-import org.kuali.student.r2.common.validator.Validator;
-import org.kuali.student.r2.common.validator.ValidatorFactory;
-import org.kuali.student.r1.core.dictionary.service.MockSearchDispatcher;
-import org.kuali.student.core.messages.service.impl.MessageServiceMock;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
-import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
-import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
-import org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class TestProgramInfoDictionary {
 
