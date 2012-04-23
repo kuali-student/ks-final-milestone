@@ -442,10 +442,11 @@ public class RegistrationWindowsController extends UifControllerBase {
                     windowWrapper.setWindowName(window.getName());
                     windowWrapper.setPeriodKey(window.getPeriodMilestoneId());
                     windowWrapper.setPeriodName(period.getName());
-                    windowWrapper.setSlotRuleEnumType(AppointmentSlotRuleTypeConversion.convTotAppointmentSlotRuleCode(window.getSlotRule()));
                     windowWrapper.setAssignedPopulationName(population.getName());
                     windowWrapper.setWindowTypeKey(window.getTypeKey());
-
+                    if(!AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY.equals(window.getTypeKey())) {
+                        windowWrapper.setSlotRuleEnumType(AppointmentSlotRuleTypeConversion.convTotAppointmentSlotRuleCode(window.getSlotRule()));
+                    }
                     windowWrapper.setStartDate(_parseDate(window.getStartDate()));
                     windowWrapper.setStartTime(_parseTime(window.getStartDate()));
                     windowWrapper.setStartTimeAmPm(_parseAmPm(window.getStartDate()));

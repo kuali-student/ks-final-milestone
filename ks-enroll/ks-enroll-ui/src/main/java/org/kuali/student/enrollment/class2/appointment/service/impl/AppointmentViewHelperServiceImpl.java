@@ -291,9 +291,10 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             //Default the state to active
             appointmentWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
 
-            //Converting appointment rule type code to AppointmentSlotRuleInfo object
-            appointmentWindowInfo.setSlotRule(AppointmentSlotRuleTypeConversion.convToAppointmentSlotRuleInfo(appointmentWindowWrapper.getSlotRuleEnumType()));
-
+            //Converting appointment rule type code to AppointmentSlotRuleInfo object when apptWindowInfo..getTypeKey != AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY
+            if(!AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY.equals(appointmentWindowInfo.getTypeKey())) {
+                appointmentWindowInfo.setSlotRule(AppointmentSlotRuleTypeConversion.convToAppointmentSlotRuleInfo(appointmentWindowWrapper.getSlotRuleEnumType()));
+            }
             appointmentWindowInfo = getAppointmentService().createAppointmentWindow(appointmentWindowInfo.getTypeKey(),appointmentWindowInfo,new ContextInfo());
         }else{
             appointmentWindowInfo = getAppointmentService().updateAppointmentWindow(appointmentWindowInfo.getId(),appointmentWindowInfo,new ContextInfo());
