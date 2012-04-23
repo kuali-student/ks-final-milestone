@@ -35,6 +35,7 @@ import org.w3c.dom.Element;
     "sourceSocId",
     "targetSocId",
     "targetTermId",
+    "optionKeys",
     "itemsProcessed",
     "itemsToBeProcessed",
     "meta",
