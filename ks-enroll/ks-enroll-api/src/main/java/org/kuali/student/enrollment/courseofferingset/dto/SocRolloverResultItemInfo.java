@@ -35,6 +35,7 @@ import org.w3c.dom.Element;
     "stateKey",
     "sourceCourseOfferingId",
     "targetCourseOfferingId",
+    "message",
     "meta",
     "attributes",
     "_futureElements"})
