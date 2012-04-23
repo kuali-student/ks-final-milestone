@@ -853,6 +853,7 @@
 
     <bean id="cluInfo.versionInfo-parent" abstract="true" parent="baseComplex">
         <property name="name" value="versionInfo"/>
+
         <property name="dataObjectStructure" ref="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
     </bean>
     <bean id="cluInfo.versionInfo" parent="cluInfo.versionInfo-parent"/>

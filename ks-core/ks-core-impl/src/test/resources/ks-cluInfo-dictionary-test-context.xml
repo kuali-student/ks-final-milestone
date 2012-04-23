@@ -5,7 +5,7 @@
 	<!-- CluInfo-->
 	<bean id="org.kuali.student.lum.lu.dto.CluInfo-parent" abstract="true"
 		parent="ObjectStructureDefinition">
-		<property name="name" value="org.kuali.student.lum.lu.dto.CluInfo" />
+		<property name="name" value="org.kuali.student.r2.lum.clu.dto.CluInfo" />
 		<property name="attributes">
 			<list>
 				<ref bean="cluInfo.academicSubjectOrgs" />

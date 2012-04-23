@@ -1,24 +1,8 @@
 package org.kuali.student.r1.common.dictionary.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.kuali.student.r1.common.dictionary.dto.*;
 
-import org.kuali.student.r1.common.dictionary.dto.CaseConstraint;
-import org.kuali.student.r1.common.dictionary.dto.CommonLookupParam;
-import org.kuali.student.r1.common.dictionary.dto.Constraint;
-import org.kuali.student.r1.common.dictionary.dto.DataType;
-import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.r1.common.dictionary.dto.LookupConstraint;
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.common.dictionary.dto.RequiredConstraint;
-import org.kuali.student.r1.common.dictionary.dto.ValidCharsConstraint;
-import org.kuali.student.r1.common.dictionary.dto.WhenConstraint;
+import java.util.*;
 
 @Deprecated
 public class DictionaryFormatter
@@ -260,8 +244,8 @@ public class DictionaryFormatter
   {
    if (fd.getDataObjectStructure () == null)
    {
-    throw new IllegalArgumentException (
-      fd.getName () + " is complex but does not have a sub-structure defined");
+       throw new IllegalArgumentException (
+               fd.getName () + " is complex but does not have a sub-structure defined");
    }
    Class subClazz = this.getClass (fd.getDataObjectStructure ().getName ());
    String subStrucName = calcComplexSubStructureName (fd);
