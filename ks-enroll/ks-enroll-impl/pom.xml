@@ -52,14 +52,8 @@
 			</dependency>
 
             <!-- Added test jar to be able to wire in mock services, remove after actual implementations are complete -->
-			<dependency>
-				<groupId>org.kuali.student.enroll</groupId>
-				<artifactId>ks-enroll-api</artifactId>
-				<version>${project.version}</version>
-				<type>test-jar</type>
-				<scope>test</scope>
-			</dependency>
-			 <dependency>
+
+		 <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-api</artifactId>
             <version>1.3.0-merge-SNAPSHOT</version>
