@@ -8,25 +8,23 @@ import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
-import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
-import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
-import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
-import org.kuali.student.r2.core.appointment.service.AppointmentService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
+import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
+import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
+import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
-import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 
 public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
@@ -73,13 +71,13 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
                         numberOfStudents = numberOfStudents+appointments.size();
                     }
                     appointmentWindowWrapper.setNumberOfStudents(numberOfStudents);
-                    
+
                     float meanStudentsPerSlot = numberOfStudents/slots.size();
                     appointmentWindowWrapper.setMeanStudentsPerSlot(new Float(meanStudentsPerSlot));
 
                     AppointmentSlotInfo slot = slots.get(slots.size()-1);
-                    appointmentWindowWrapper.setLastSlotPopulated(slot.getMeta().getCreateTime());
-                    
+                    appointmentWindowWrapper.setLastSlotPopulated(slot.getStartDate());
+
                     List<AppointmentInfo> appointments = appointmentService.getAppointmentsBySlot(slot.getId(),context);
                     if(!appointments.isEmpty()){
                         AppointmentInfo appointment = appointments.get(appointments.size()-1);
@@ -93,7 +91,7 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
         }catch (Exception e){
 
         }
- 
+
         return null;
     }
 
