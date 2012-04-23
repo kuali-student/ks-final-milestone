@@ -12,7 +12,8 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-@PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
+@PersistenceFileLocation("classpath:META-INF/hold-persistence.xml")
+
 public class TestIssueDao extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao", testSqlFile = "classpath:ks-hold.sql")
     private HoldIssueDao dao;

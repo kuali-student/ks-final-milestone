@@ -123,8 +123,15 @@ public class LuiServiceImpl
     public List<String> getLuiIdsByClu(String cluId, ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-        // TODO
-        return new ArrayList<String>();
+
+        List<LuiEntity> luis = luiDao.getLuisByClu(cluId);
+        List<String> luiIds = new ArrayList<String>();
+
+        for (LuiEntity lui : luis) {
+            luiIds.add(lui.getId());
+        }
+
+        return luiIds;
     }
 
     @Override
@@ -133,8 +140,14 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<String>();
+        List<LuiEntity> luis = luiDao.getLuisByAtpAndType(atpId, typeKey);
+        List<String> luiIds = new ArrayList<String>();
+
+        for (LuiEntity lui : luis) {
+            luiIds.add(lui.getId());
+        }
+
+        return luiIds;
     }
 
     @Override
@@ -143,7 +156,14 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        return new ArrayList<String>();
+        List<LuiEntity> luis = luiDao.getLuisByAtpAndType(atpId, cluId);
+        List<String> luiIds = new ArrayList<String>();
+
+        for (LuiEntity lui : luis) {
+            luiIds.add(lui.getId());
+        }
+
+        return luiIds;
     }
 
     @Override

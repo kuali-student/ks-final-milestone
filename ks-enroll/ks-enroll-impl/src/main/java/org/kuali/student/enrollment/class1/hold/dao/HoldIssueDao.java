@@ -29,7 +29,7 @@ public class HoldIssueDao extends GenericEntityDao<HoldIssueEntity> {
 
     @SuppressWarnings("unchecked")
     public List<HoldIssueEntity> getByOrganizationId(String orgId) {
-        return em.createQuery("from IssueEntity i where i.organizationId=:orgId").setParameter("orgId", orgId).getResultList();
+        return em.createQuery("from HoldIssueEntity i where i.organizationId=:orgId").setParameter("orgId", orgId).getResultList();
     }
 
 
