@@ -152,7 +152,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"  p:label="Student Group"  p:propertyName="assignedPopulationName" p:required="true"
-                      p:style="font-weight:bold;" p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                      p:style="font-weight:bold;white-space:nowrap;" p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="16" />
                     </property>
@@ -169,7 +169,7 @@
                               <!--value="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />-->
 
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;" p:alternateDisplayPropertyName="startDateUI"
+                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;white-space:nowrap;" p:alternateDisplayPropertyName="startDateUI"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
@@ -193,7 +193,7 @@
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="endDate" p:label="Last Date"  p:style="font-weight:normal;"
+                <bean parent="Uif-InputField" p:propertyName="endDate" p:label="Last Date"  p:style="font-weight:normal;white-space:nowrap;"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
@@ -260,6 +260,9 @@
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="breakAppointments" p:actionLabel="Break Appointments" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
                 <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="X" p:render="@{!#isAddLine}" />
             </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:style="white-space:nowrap;" p:align="center" p:required="false" p:label="Actions" p:shortLabel="Actions"/>
         </property>
     </bean>
 

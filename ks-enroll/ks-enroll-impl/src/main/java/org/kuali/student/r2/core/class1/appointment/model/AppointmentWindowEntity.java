@@ -373,7 +373,7 @@ public class AppointmentWindowEntity extends MetaEntity {
         AppointmentSlotRuleInfo appointmentSlotRuleInfo = new AppointmentSlotRuleInfo();
         info.setSlotRule(appointmentSlotRuleInfo);
         // Set weekdays which takes comma delimited string of numbers and creates List<Integer>
-        if(getWeekdays()!=null){
+        if(getWeekdays()!=null && !getWeekdays().isEmpty()){
             String[] numArr = getWeekdays().split(",");
             List<Integer> weekdays = new ArrayList<Integer>();
             for (String s : numArr) {

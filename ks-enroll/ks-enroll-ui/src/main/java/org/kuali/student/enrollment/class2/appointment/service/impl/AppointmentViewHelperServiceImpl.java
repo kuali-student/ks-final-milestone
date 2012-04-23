@@ -231,7 +231,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                     }
                 }
             }catch (Exception e){
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, "Fail to find periods for a selected term.");
+                LOG.error("Fail to find periods for a selected term.",e);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, "Fail to find periods for a selected term.");//TODO use message keys
                 isValid = false;
             }
 
@@ -243,6 +244,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                     GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
                             AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
                 } catch (Exception e) {
+                    LOG.error("Fail to create a window.",e);
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES,"Fail to create a window.");
                     isValid = false;
                 }
