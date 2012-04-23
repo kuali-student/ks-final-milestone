@@ -294,11 +294,14 @@ public class RegistrationWindowsController extends UifControllerBase {
                 }
 
                 if(appointmentWindowInfo.getId()==null||appointmentWindowInfo.getId().isEmpty()){
+                    appointmentWindowWrapper.setId(appointmentWindowInfo.getId());
                     //Default the state to active
                     appointmentWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
 
                     //Converting appointment rule type code to AppointmentSlotRuleInfo object
-                    appointmentWindowInfo.setSlotRule(AppointmentSlotRuleTypeConversion.convToAppointmentSlotRuleInfo(appointmentWindowWrapper.getSlotRuleEnumType()));
+                    if(!AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY.equals(appointmentWindowInfo.getTypeKey())) {
+                        appointmentWindowInfo.setSlotRule(AppointmentSlotRuleTypeConversion.convToAppointmentSlotRuleInfo(appointmentWindowWrapper.getSlotRuleEnumType()));
+                    }
                     //appointmentWindowInfo.getSlotRule().setWeekdays(new ArrayList<Integer>());
                     //appointmentWindowInfo.getSlotRule().getWeekdays().add(1);
 
@@ -309,6 +312,8 @@ public class RegistrationWindowsController extends UifControllerBase {
 
                 //Reset the windowInfo from the service's returned value
                 appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
+                appointmentWindowWrapper.setId(appointmentWindowInfo.getId());
+                appointmentWindowWrapper.setWindowName(appointmentWindowInfo.getName());
 
             }
             //Add a success message
