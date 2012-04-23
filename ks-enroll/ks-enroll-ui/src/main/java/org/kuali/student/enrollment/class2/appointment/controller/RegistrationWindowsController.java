@@ -148,7 +148,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         if(window!=null){
 
             //Delete the appointment slots and appointments for this window
-            StatusInfo status = getAppointmentService().deleteAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
+            StatusInfo status = getAppointmentService().deleteAppointmentSlotsByWindowCascading(window.getAppointmentWindowInfo().getId(), new ContextInfo());
             if(status.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
                         AppointmentServiceConstants.APPOINTMENT_MSG_INFO_BREAK_APPOINTMENTS_SUCCESS);
@@ -260,7 +260,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         //Delete anything that needs to be deleted
         for(String windowId:form.getAppointmentWindowIdsToDelete()){
-            getAppointmentService().deleteAppointmentWindow(windowId, new ContextInfo());
+            getAppointmentService().deleteAppointmentWindowCascading(windowId, new ContextInfo());
         }
         form.getAppointmentWindowIdsToDelete().clear();
 

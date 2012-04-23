@@ -182,10 +182,10 @@ public abstract class AppointmentServiceDecorator implements AppointmentService 
     }
 
     @Override
-    public StatusInfo deleteAppointmentWindow(String appointmentWindowId, ContextInfo contextInfo) throws
-            DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StatusInfo deleteAppointmentWindowCascading(String appointmentWindowId, ContextInfo contextInfo) throws
+            DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteAppointmentWindow(appointmentWindowId, contextInfo);
+        return getNextDecorator().deleteAppointmentWindowCascading(appointmentWindowId, contextInfo);
     }
 
     @Override
@@ -239,12 +239,12 @@ public abstract class AppointmentServiceDecorator implements AppointmentService 
     }
 
     @Override
-    public StatusInfo deleteAppointmentSlot(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteAppointmentSlot(appointmentSlotId, contextInfo);
+    public StatusInfo deleteAppointmentSlotCascading(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteAppointmentSlotCascading(appointmentSlotId, contextInfo);
     }
 
     @Override
-    public StatusInfo deleteAppointmentSlotsByWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteAppointmentSlotsByWindow(appointmentWindowId, contextInfo);
+    public StatusInfo deleteAppointmentSlotsByWindowCascading(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteAppointmentSlotsByWindowCascading(appointmentWindowId, contextInfo);
     }
 }

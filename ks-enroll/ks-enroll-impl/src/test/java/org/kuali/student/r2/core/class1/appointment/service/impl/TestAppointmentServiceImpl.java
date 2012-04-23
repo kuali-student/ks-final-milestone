@@ -79,14 +79,14 @@ public class TestAppointmentServiceImpl {
         makeSlotRule();
         // Uses rule from makeSlotRule
         apptWindowInfo.setSlotRule(rule);
-        apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY);
-        apptWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
+        apptWindowInfo.setTypeKey(new String(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY));
+        apptWindowInfo.setStateKey(new String(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY));
         //
         Date startDate = createDate(2012, 3, 5, 12, 0);
         Date endDate = createDate(2012, 3, 16, 14, 0);
         apptWindowInfo.setStartDate(startDate);
         apptWindowInfo.setEndDate(endDate);
-        apptWindowInfo.setAssignedPopulationId(PopulationServiceConstants.EVERYONE_POPULATION_KEY);
+        apptWindowInfo.setAssignedPopulationId(new String(PopulationServiceConstants.EVERYONE_POPULATION_KEY));
     }
 
     private AppointmentSlotInfo createAppointmentSlotInfo(String apptWinId) {
@@ -101,8 +101,8 @@ public class TestAppointmentServiceImpl {
         AppointmentWindowInfo apptWindowInfo = new AppointmentWindowInfo();
         // Uses rule from makeSlotRule
         apptWindowInfo.setSlotRule(rule);
-        apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY);
-        apptWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
+        apptWindowInfo.setTypeKey(new String(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY));
+        apptWindowInfo.setStateKey(new String(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY));
         //
         Date startDate = createDate(2012, 3, 5 + offset, 12, 0);
         Date endDate = createDate(2012, 3, 16 + offset, 14, 0);
@@ -110,7 +110,7 @@ public class TestAppointmentServiceImpl {
         apptWindowInfo.setEndDate(endDate);
 
         apptWindowInfo.setPeriodMilestoneId(milestoneId);
-        apptWindowInfo.setAssignedPopulationId(PopulationServiceConstants.EVERYONE_POPULATION_KEY);
+        apptWindowInfo.setAssignedPopulationId(new String(PopulationServiceConstants.EVERYONE_POPULATION_KEY));
 
         return apptWindowInfo;
     }
@@ -168,7 +168,7 @@ public class TestAppointmentServiceImpl {
         // TODO: Eventually set the type once there is a type to set to
         TimeAmountInfo tao = new TimeAmountInfo();
         tao.setTimeQuantity(15); // Every fifteen minutes
-        tao.setAtpDurationTypeKey(AtpServiceConstants.DURATION_MONTH_TYPE_KEY); // TODO: Not valid--waiting for MINUTE type to be created
+        tao.setAtpDurationTypeKey(new String(AtpServiceConstants.DURATION_MINUTES_TYPE_KEY));
         rule.setSlotStartInterval(tao);
     }
     // ---------------------------------- IN SUPPORT OF TEST ---------------------------------------
@@ -223,6 +223,10 @@ public class TestAppointmentServiceImpl {
             assert(!slotStartCal.after(endCal));
         }
     }
+    private static String _copy(String s) {
+        return new String(s);
+    }
+
     // --------------------------------------------------- TESTS ------------------------------------------------------
 //    @Test
 //    public void testCreateAppointment() {
@@ -243,12 +247,99 @@ public class TestAppointmentServiceImpl {
 //            assert(false);
 //        }
 //    }
+
+    @Test
+    public void testStatusInfoUniformSlot() {
+        // Tests to see if the status info's message has the same count as number of appointments generated
+        // in uniform slot allocation
+        before();
+        try {
+            // Test uniform slot
+            apptWindowInfo.setTypeKey(_copy(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY));
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            // Use windowInfo afterwards since it has the ID
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            StatusInfo statusInfo =
+                    appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+            int numAllocated = Integer.parseInt(statusInfo.getMessage());
+            // Check we have assignments
+            int count = 0;
+            for (AppointmentSlotInfo slotInfo: slotInfoList) {
+                List<AppointmentInfo> appts =
+                        appointmentService.getAppointmentsBySlot(slotInfo.getId(), contextInfo);
+                count += appts.size();
+            }
+            assertEquals(count, numAllocated);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+    
+    @Test
+    public void testStatusInfoOneSlot() {
+        // Tests to see if the status info's message has the same count as number of appointments generated
+        // in one slot allocation
+        before();
+        try {
+            // Set up the basics (window, slot, appts for the one-slot case
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            // Use windowInfo afterwards since it has the ID
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            StatusInfo statusInfo =
+                    appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+            int numAllocated = Integer.parseInt(statusInfo.getMessage());
+            // Check we have assignments
+            String slotId = slotInfoList.get(0).getId();
+            List<AppointmentInfo> apptList =
+                    appointmentService.getAppointmentsBySlot(slotId, contextInfo);
+            assertEquals(apptList.size(), numAllocated);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+    }
+
+    @Test
+    public void testInvalidDurationType() {
+        before();
+        try {
+            // Want to adjust to create four slots (assuming 15 minutes between slots)
+            Date startDate = createDate(2012, 3, 5, 12, 0);
+            Date endDate = createDate(2012, 3, 5, 12, 45);
+            apptWindowInfo.setStartDate(startDate);
+            apptWindowInfo.setEndDate(endDate);
+            int maxPerSlot = 3000;
+            apptWindowInfo.setMaxAppointmentsPerSlot(maxPerSlot); // Currently, there are 9 students.  This would fill two slot
+            // in full, and 1 additional in a third slot.
+            // Change slot generation type
+            apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY);
+            AppointmentSlotRuleInfo slotRuleInfo = apptWindowInfo.getSlotRule();
+            slotRuleInfo.getSlotStartInterval().setAtpDurationTypeKey(_copy(AtpServiceConstants.DURATION_HOURS_TYPE_KEY));
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            // Should throw exception because duration type is hours (which is unsupported)
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+        } catch (InvalidParameterException e) {
+            assert(true);
+            return;
+        } catch (Exception e) {
+
+        }
+        assert(false);
+    }
+    
     @Test
     public void testMaxSlotGenerationStartDateAfterEndDateError() {
         // This tests auto-slot generation for max case without end date
         before();
         try {
-            apptWindowInfo.setAssignedPopulationId(PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY);
+            apptWindowInfo.setAssignedPopulationId(PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY.toString());
             long millis = apptWindowInfo.getSlotRule().getStartTimeOfDay().getMilliSeconds();
             TimeOfDayInfo newEnd = new TimeOfDayInfo();
             newEnd.setMilliSeconds(millis - 10000);
@@ -261,7 +352,7 @@ public class TestAppointmentServiceImpl {
             apptWindowInfo.setMaxAppointmentsPerSlot(maxPerSlot); // Currently, there are 9 students.  This would fill two slot
             // in full, and 1 additional in a third slot.
             // Change slot generation type
-            apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY);
+            apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY.toString());
             AppointmentWindowInfo windowInfo =
                     appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
             // Use windowInfo afterwards since it has the ID
@@ -568,7 +659,7 @@ public class TestAppointmentServiceImpl {
             List<AppointmentInfo> apptList =
                     appointmentService.getAppointmentsBySlot(slotId, contextInfo);
             assert(apptList.size() > 0);
-            appointmentService.deleteAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            appointmentService.deleteAppointmentSlotsByWindowCascading(windowInfo.getId(), contextInfo);
             // Testing we're back in DRAFT mode
             fetchedWindowInfo =
                     appointmentService.getAppointmentWindow(windowInfo.getId(), contextInfo);
@@ -610,7 +701,7 @@ public class TestAppointmentServiceImpl {
             assertEquals(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY, fetchedWindowInfo.getStateKey());
             // Check there's only one slot (one slot case)
             assertEquals(1, slotInfoList.size());
-            appointmentService.deleteAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            appointmentService.deleteAppointmentSlotsByWindowCascading(windowInfo.getId(), contextInfo);
             List<AppointmentSlotInfo> fetchedSlotInfoList =
                     appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
             assertEquals(0, fetchedSlotInfoList.size());
@@ -805,7 +896,7 @@ public class TestAppointmentServiceImpl {
             List<AppointmentSlotInfo> slotInfoList =
                     appointmentService.generateAppointmentSlotsByWindow(info.getId(), contextInfo);
             assertEquals(slotInfoList.size(), 1);
-            appointmentService.deleteAppointmentWindow(info.getId(), contextInfo);
+            appointmentService.deleteAppointmentWindowCascading(info.getId(), contextInfo);
             try {
                 AppointmentSlotInfo slotInfo = appointmentService.getAppointmentSlot(slotInfoList.get(0).getId(), contextInfo);
                 assert(false); // Shouldn't reach here
@@ -894,7 +985,7 @@ public class TestAppointmentServiceImpl {
             assertNotNull(retrieved);
             // Then delete it
             System.err.println("Getting ready to delete");
-            appointmentService.deleteAppointmentWindow(id, contextInfo);
+            appointmentService.deleteAppointmentWindowCascading(id, contextInfo);
             shouldExist = false;
             appointmentService.getAppointmentWindow(id, contextInfo); // should throw DoesNotExistException
         } catch  (DoesNotExistException e) {
@@ -974,7 +1065,7 @@ public class TestAppointmentServiceImpl {
             assertNotNull(info);
             // Now try to delete it
             System.err.println("Getting ready to delete");
-            appointmentService.deleteAppointmentSlot(info.getId(), contextInfo);
+            appointmentService.deleteAppointmentSlotCascading(info.getId(), contextInfo);
             shouldExist = false;
             appointmentService.getAppointmentSlot(createdId, contextInfo); // should throw DoesNotExistException
         } catch  (DoesNotExistException e) {

@@ -139,20 +139,23 @@ public class AppointmentServiceMockImpl implements AppointmentService {
     }
 
     @Override
-    public StatusInfo deleteAppointmentSlot(String appointmentSlotId,
+    public StatusInfo deleteAppointmentSlotCascading(String appointmentSlotId,
             ContextInfo contextInfo)
-            throws DependentObjectsExistException, DoesNotExistException,
+            throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         if (!this.slots.containsKey(appointmentSlotId)) {
             throw new DoesNotExistException(appointmentSlotId);
         }
-        List<AppointmentInfo> appts = this.getAppointmentsBySlot(appointmentSlotId, contextInfo);
-        if (!appts.isEmpty()) {
-            throw new DependentObjectsExistException(appointmentSlotId + " has " + appts.
-                    size() + " appointments");
-        }
+//        List<AppointmentInfo> appts = this.getAppointmentsBySlot(appointmentSlotId, contextInfo);
+//        if (!appts.isEmpty()) {
+//            throw new DependentObjectsExistException(appointmentSlotId + " has " + appts.
+//                    size() + " appointments");
+//        }
+        // Cascade the deletes by removing appointments
+        deleteAppointmentsBySlot(appointmentSlotId, contextInfo);
+        // Now remove the slot
         this.slots.remove(appointmentSlotId);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
@@ -160,15 +163,15 @@ public class AppointmentServiceMockImpl implements AppointmentService {
     }
 
     @Override
-    public StatusInfo deleteAppointmentSlotsByWindow(String appointmentWindowId,
+    public StatusInfo deleteAppointmentSlotsByWindowCascading(String appointmentWindowId,
             ContextInfo contextInfo)
-            throws DependentObjectsExistException, DoesNotExistException,
+            throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         for (AppointmentSlotInfo info : this.slots.values()) {
             if (info.getAppointmentWindowId().equals(appointmentWindowId)) {
-                this.deleteAppointmentSlot(info.getId(), contextInfo);
+                this.deleteAppointmentSlotCascading(info.getId(), contextInfo);
             }
         }
         StatusInfo status = new StatusInfo();
@@ -177,10 +180,9 @@ public class AppointmentServiceMockImpl implements AppointmentService {
     }
 
     @Override
-    public StatusInfo deleteAppointmentWindow(String appointmentWindowId,
+    public StatusInfo deleteAppointmentWindowCascading(String appointmentWindowId,
             ContextInfo contextInfo)
-            throws DependentObjectsExistException,
-            DependentObjectsExistException, DoesNotExistException,
+            throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -188,10 +190,15 @@ public class AppointmentServiceMockImpl implements AppointmentService {
             throw new DoesNotExistException(appointmentWindowId);
         }
 
-        List<AppointmentSlotInfo> appts = this.getAppointmentSlotsByWindow(appointmentWindowId, contextInfo);
-        if (!appts.isEmpty()) {
-            throw new DependentObjectsExistException(appointmentWindowId + " has " +
-                    appts.size() + " appointment slots");
+//        List<AppointmentSlotInfo> appts = this.getAppointmentSlotsByWindow(appointmentWindowId, contextInfo);
+//        if (!appts.isEmpty()) {
+//            throw new DependentObjectsExistException(appointmentWindowId + " has " +
+//                    appts.size() + " appointment slots");
+//        }
+        // Cascade the deletes
+        List<AppointmentSlotInfo> slotList = getAppointmentSlotsByWindow(appointmentWindowId, contextInfo);
+        for (AppointmentSlotInfo slot: slotList) {
+            deleteAppointmentSlotCascading(slot.getId(), contextInfo);
         }
         this.windows.remove(appointmentWindowId);
         StatusInfo status = new StatusInfo();

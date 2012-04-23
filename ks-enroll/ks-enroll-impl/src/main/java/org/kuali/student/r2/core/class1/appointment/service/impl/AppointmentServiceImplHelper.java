@@ -19,6 +19,7 @@ package org.kuali.student.r2.core.class1.appointment.service.impl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
@@ -125,7 +126,7 @@ public class AppointmentServiceImplHelper {
         changeApptWinState(windowEntity, AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
     }
 
-    public void deleteAppointmentSlotsByWindow(AppointmentWindowEntity windowEntity) {
+    public void deleteAppointmentSlotsByWindowCascading(AppointmentWindowEntity windowEntity) {
         deleteAppointmentsByWindow(windowEntity, true); // also, delete slots
     }
 
@@ -133,13 +134,13 @@ public class AppointmentServiceImplHelper {
      * Deletes appointment windows, slots, and appointments.
      * @param windowEntity The window (and its dependent parts) to be deleted.
      */
-    public void deleteAppointmentWindow(AppointmentWindowEntity windowEntity) {
-        deleteAppointmentSlotsByWindow(windowEntity);
+    public void deleteAppointmentWindowCascading(AppointmentWindowEntity windowEntity) {
+        deleteAppointmentSlotsByWindowCascading(windowEntity);
         appointmentWindowDao.remove(windowEntity);
         // No need to update the state since the window is gone
     }
 
-    public int deleteAppointmentsBySlot(String slotId) {
+    public int deleteAppointmentsBySlotCascading(String slotId) {
         List<AppointmentEntity> apptList = appointmentDao.getAppointmentsBySlotId(slotId);
         if (apptList != null) {
             for (AppointmentEntity appt: apptList) {
@@ -170,7 +171,19 @@ public class AppointmentServiceImplHelper {
      * (only for max allocation, otherwise 0 for uniform), and Object[2] is number unallocated (again, only for max
      * allocation, otherwise 0 for uniform)
      */
-    public Object[] createMultiSlots(AppointmentWindowInfo apptWinInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
+    public Object[] createMultiSlots(AppointmentWindowInfo apptWinInfo, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
+                   OperationFailedException, PermissionDeniedException {
+        String atpDurationTypeKey = apptWinInfo.getSlotRule().getSlotStartInterval().getAtpDurationTypeKey();
+        if (!AtpServiceConstants.DURATION_MINUTES_TYPE_KEY.equals(atpDurationTypeKey)) {
+            // Currently, only support minutes
+            throw new InvalidParameterException("Only kuali.atp.duration.Minutes is implemented");
+        }
+        String apptWinTypeKey = apptWinInfo.getTypeKey();
+        if (! (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY.equals(apptWinTypeKey) ||
+              (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(apptWinTypeKey)))) {
+            throw new InvalidParameterException("Supported types: MAX and UNIFORM");
+        }
         // Get parameters ready
         Calendar startDate = _convertDateToCalendar(apptWinInfo.getStartDate());
         Calendar endDate = _convertDateToCalendar(apptWinInfo.getEndDate());
@@ -182,14 +195,22 @@ public class AppointmentServiceImplHelper {
 
         int startTimeInMinutes = _computeMinuteOffsetSinceMidnight(apptWinInfo.getSlotRule().getStartTimeOfDay().getMilliSeconds());
         int endTimeInMinutes =  _computeMinuteOffsetSinceMidnight(apptWinInfo.getSlotRule().getEndTimeOfDay().getMilliSeconds());
-        // TODO: Adjust for other time units--currently assumes minutes
+        // TODO: Current implementation only supports minutes.  Except thrown at start of this method for any other
         int startIntervalInMinutes = apptWinInfo.getSlotRule().getSlotStartInterval().getTimeQuantity();
         int durationInMinutes = -1; // TODO: Currently, unsupported
         List<Integer> weekdays = apptWinInfo.getSlotRule().getWeekdays();
         
         // The big call!  Compute the slot times
-        Object[] result = _computeSlotTimes(startDate, endDate, totalStudents, maxPerSlot, startTimeInMinutes,
-                                            endTimeInMinutes, startIntervalInMinutes, durationInMinutes, weekdays);
+        Object[] result = null;
+        if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY.equals(apptWinTypeKey)) {
+            result = _computeSlotTimesMaxAllocation(startDate, endDate, totalStudents, maxPerSlot, startTimeInMinutes,
+                                                    endTimeInMinutes, startIntervalInMinutes, 
+                                                    durationInMinutes, weekdays);
+        } else if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(apptWinTypeKey)) {
+            result = _computeSlotTimesUniformAllocation(startDate, endDate, totalStudents, startTimeInMinutes,
+                                                        endTimeInMinutes, startIntervalInMinutes, durationInMinutes, 
+                                                        weekdays);
+        }
         List<AppointmentSlotInfo> slotList = new ArrayList<AppointmentSlotInfo>();
         _computeApptSlotList(slotList, (List<Calendar>) result[0]);
         Object[] result2 = {slotList, result[1], result[2]};
@@ -248,9 +269,9 @@ public class AppointmentServiceImplHelper {
         }
         // May want to adjust message in the status info
         if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY)) {
-            _generateAppointmentsOneSlotCase(students, slotInfoList, contextInfo);
+            _generateAppointmentsOneSlotCase(students, slotInfoList, statusInfo, contextInfo);
         } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY)) {
-            _generateAppointmentsUniformCase(students, slotInfoList, contextInfo);
+            _generateAppointmentsUniformCase(students, slotInfoList, statusInfo, contextInfo);
         } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY)) {
             _generateAppointmentsMaxCase(students, maxSizePerSlot, slotInfoList, statusInfo, contextInfo);
         } else {
@@ -280,10 +301,13 @@ public class AppointmentServiceImplHelper {
      *         contains Integer for number of students allocated, Object[2] contains an Integer for
      *         number of students unallocated.  Object[1] + Object[2] adds to totalStudents.
      */
-    private Object [] _computeSlotTimes(Calendar startDate, Calendar endDate, int totalStudents,
-                                      int maxPerSlot, int startTimeInMinutes, int endTimeInMinutes,
-                                      int startIntervalInMinutes, int durationInMinutes,
-                                      List<Integer> weekdays) {
+    private Object [] _computeSlotTimesMaxAllocation(Calendar startDate, Calendar endDate, int totalStudents,
+                                                     int maxPerSlot, int startTimeInMinutes, int endTimeInMinutes,
+                                                     int startIntervalInMinutes, int durationInMinutes,
+                                                     List<Integer> weekdays) throws InvalidParameterException {
+        if (totalStudents < 0) {
+            throw new InvalidParameterException("totalStudents should be positive");
+        }
         List<Calendar> slotTimes = new ArrayList<Calendar>();
         if (weekdays.isEmpty()) {
             Object[] result = {slotTimes, new Integer(0), new Integer(totalStudents)};
@@ -298,7 +322,7 @@ public class AppointmentServiceImplHelper {
                 break;
             }
             // Exit loop if we're allocated enough (but make sure we're checking for that)
-            if (totalStudents > 0 && numAllocated >= totalStudents) {
+            if (numAllocated >= totalStudents) {
                 break;
             }
 
@@ -315,7 +339,7 @@ public class AppointmentServiceImplHelper {
                 if (maxPerSlot > 0) {
                     numAllocated += maxPerSlot;
                 }
-                if (totalStudents > 0 && numAllocated >= totalStudents) {
+                if (numAllocated >= totalStudents) {
                     break; // We have enough slots to account for all students, so quit
                 }
                 // Create next date
@@ -335,7 +359,47 @@ public class AppointmentServiceImplHelper {
         Object[] result = {slotTimes, new Integer(numAllocated), new Integer(unallocated)};
         return result;
     }
-    
+
+    private Object [] _computeSlotTimesUniformAllocation(Calendar startDate, Calendar endDate, int totalStudents,
+                                                         int startTimeInMinutes, int endTimeInMinutes,
+                                                         int startIntervalInMinutes, int durationInMinutes,
+                                                         List<Integer> weekdays) {
+        List<Calendar> slotTimes = new ArrayList<Calendar>();
+        if (weekdays.isEmpty()) {
+            Object[] result = {slotTimes, new Integer(0), new Integer(totalStudents)};
+            return result;
+        }
+        Calendar date = _makeCopy(startDate);
+        _setTime(date, startTimeInMinutes); // Set to start of day
+        while (true) {
+            // Exit if we're past the end date
+            if (endDate != null && date.after(endDate)) {
+                break;
+            }
+            // -------------------- Now allocate slots for current day --------------------
+            Calendar endOfToday = _makeCopy(date);
+            _setTime(endOfToday, endTimeInMinutes);
+            while (true) { // Iterate over slots for today
+                // Make sure first slot is >= startDate
+                _setTimePastStartDate(date, startDate, startIntervalInMinutes);
+                if (date.after(endOfToday) || date.after(endDate)) {
+                    break; // quit out of if we've reached the end of the day or final end date
+                }
+                slotTimes.add(date); // Add next slot time
+                // Create next date
+                date = _makeCopy(date, startIntervalInMinutes);
+            }
+            // Searches for the start of the next available business day
+            date = _getNextValidDate(date, startTimeInMinutes, weekdays, endDate);
+            if (date == null) {
+                break;
+            }
+        }
+        // We haven't really allocated, just computed how many we *would* allocate.
+        Object[] result = {slotTimes, new Integer(totalStudents), new Integer(0)};
+        return result;
+    }
+
     private void _computeApptSlotList(List<AppointmentSlotInfo> slotList, List<Calendar> slotTimes) {
         for (Calendar date: slotTimes) {    
             AppointmentSlotInfo slotInfo = _createApptSlotFromDate(date);
@@ -494,17 +558,22 @@ public class AppointmentServiceImplHelper {
      */
     private void _deleteAppointmentsBySlotList_(List<AppointmentSlotEntity> slotList) {
         for (AppointmentSlotEntity slotEntity: slotList) {
-            deleteAppointmentsBySlot(slotEntity.getId());
+            deleteAppointmentsBySlotCascading(slotEntity.getId());
         }
     }
     // ----------------------- Generate appts private methods ---------------------
 
-    private void _generateAppointmentsOneSlotCase(List<String> studentIds, List<AppointmentSlotInfo> slotInfoList, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException {
+    private void _generateAppointmentsOneSlotCase(List<String> studentIds, List<AppointmentSlotInfo> slotInfoList,
+                                                  StatusInfo statusInfo, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
+                   PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException {
         String slotId = slotInfoList.get(0).getId();  // Only one slot in the one slot case
         for (String studentId: studentIds) {
             AppointmentInfo apptInfo = _createAppointmentInfo(studentId, slotId);
             createAppointmentNoTransact(studentId, slotId, apptInfo.getTypeKey(), apptInfo, contextInfo);
         }
+        // Set number of students allocated
+        statusInfo.setMessage("" + studentIds.size());
     }
 
     private AppointmentInfo _createAppointmentInfo(String studentId, String slotId) {
@@ -552,7 +621,7 @@ public class AppointmentServiceImplHelper {
      * Precondition: At least one slot in the slotInfoList
      */
     private void _generateAppointmentsUniformCase(List<String> studentIds, List<AppointmentSlotInfo> slotInfoList,
-                                                  ContextInfo contextInfo) throws InvalidParameterException,
+                                                  StatusInfo statusInfo, ContextInfo contextInfo) throws InvalidParameterException,
             DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException,
             PermissionDeniedException, OperationFailedException {
         int numSlots = slotInfoList.size();
@@ -563,6 +632,7 @@ public class AppointmentServiceImplHelper {
         }
 
         _allocateStudentsToSlotsCommon(studentsPerSlot, slotInfoList, studentIds, contextInfo);
+        statusInfo.setMessage("" + studentIds.size()); // Set to number of appointments
     }
 
     // The slot generation will take care of the end dates

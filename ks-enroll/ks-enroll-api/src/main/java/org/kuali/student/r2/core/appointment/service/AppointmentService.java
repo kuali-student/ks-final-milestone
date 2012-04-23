@@ -575,14 +575,13 @@ public interface AppointmentService {
     public AppointmentWindowInfo updateAppointmentWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "appointmentWindowInfo") AppointmentWindowInfo appointmentWindowInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
-     * Deletes an AppointmentWindow
+     * Deletes an AppointmentWindow and associated slots/appointments (i.e., cascading delete)
      *
      * @param appointmentWindowId AppointmentWindow identifier
      * @param contextInfo         context information containing the principalId
      *                            and locale information about the caller of
      *                            service operation
      * @return status of the operation (success, failed)
-     * @throws DependentObjectsExistException delete would leave orphaned slots
      * @throws DoesNotExistException     appointmentWindowId not found
      * @throws InvalidParameterException invalid contextInfo
      * @throws MissingParameterException appointmentWindowId or contextInfo is
@@ -590,10 +589,9 @@ public interface AppointmentService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteAppointmentWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, 
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DependentObjectsExistException, DoesNotExistException, 
-            InvalidParameterException, MissingParameterException, 
+    public StatusInfo deleteAppointmentWindowCascading(String appointmentWindowId,
+            ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
 
     /**
@@ -805,14 +803,13 @@ public interface AppointmentService {
     public AppointmentSlotInfo updateAppointmentSlot(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "appointmentSlotInfo") AppointmentSlotInfo appointmentSlotInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
-     * Delete an AppointmentSlot
+     * Delete an AppointmentSlot, including all associated Appointments (i.e., cascading delete)
      *
      * @param appointmentSlotId the identifier for the AppointmentSlot
      * @param contextInfo       context information containing the principalId
      *                          and locale information about the caller of
      *                          service operation
      * @return status of the operation (success, failed)
-     * @throws DependentObjectsExistException delete would leave orphaned appointments
      * @throws DoesNotExistException          appointmentWindowId or appointmentSlotId
      *                                        not found
      * @throws InvalidParameterException      invalid contextInfo
@@ -821,19 +818,17 @@ public interface AppointmentService {
      * @throws OperationFailedException       unable to complete request
      * @throws PermissionDeniedException      an authorization failure occurred
      */
-    public StatusInfo deleteAppointmentSlot(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteAppointmentSlotCascading(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Deletes AppointmentSlots belonging to an AppointmentWindow
+     * Deletes AppointmentSlots belonging to an AppointmentWindow, including associated appointments (i.e., cascading
+     * delete)
      *
      * @param appointmentWindowId object Appointment relationship identifier
      * @param contextInfo         context information containing the principalId
      *                            and locale information about the caller of
      *                            service operation
      * @return status of the operation (success, failed)
-     * @throws DependentObjectsExistException delete would leave orphaned
-     *                                        objects or violate integrity
-     *                                        constraints
      * @throws DoesNotExistException          appointmentWindowId not found
      * @throws InvalidParameterException      invalid contextInfo
      * @throws MissingParameterException      appointmentWindowId or contextInfo
@@ -842,6 +837,6 @@ public interface AppointmentService {
      * @throws PermissionDeniedException      an authorization failure occurred
      * @impl delete the corresponding appointments
      */
-    public StatusInfo deleteAppointmentSlotsByWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteAppointmentSlotsByWindowCascading(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }

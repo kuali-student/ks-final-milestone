@@ -19,7 +19,6 @@ package org.kuali.student.r2.core.class1.appointment.service.impl;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -238,7 +237,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         AppointmentSlotEntity apptSlot = appointmentSlotDao.find(appointmentSlotId);
         if (null != apptSlot) {
-            helper.deleteAppointmentsBySlot(appointmentSlotId);
+            helper.deleteAppointmentsBySlotCascading(appointmentSlotId);
         } else {
             throw new DoesNotExistException(appointmentSlotId);
         }
@@ -348,13 +347,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteAppointmentWindow(String appointmentWindowId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteAppointmentWindowCascading(String appointmentWindowId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
 
         AppointmentWindowEntity apptWin = appointmentWindowDao.find(appointmentWindowId);
         if (null != apptWin) {
-            helper.deleteAppointmentWindow(apptWin);
+            helper.deleteAppointmentWindowCascading(apptWin);
         } else {
             throw new DoesNotExistException(appointmentWindowId);
         }
@@ -426,9 +427,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     private boolean _isSupportedAppointmentWindowState(String windowType) {
-        return windowType == AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY ||
-                windowType == AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY ||
-                windowType == AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY;
+        return AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY.equals(windowType) ||
+                AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowType) ||
+                AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY.equals(windowType);
     }
     
     @Override
@@ -444,7 +445,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<AppointmentSlotInfo> slotList = null;
         // Delete previous slots/assignments to get us into a clean state before generating new slots
         if (_isSupportedAppointmentWindowState(apptWinInfo.getTypeKey())) {
-            helper.deleteAppointmentSlotsByWindow(apptWin);
+            helper.deleteAppointmentSlotsByWindowCascading(apptWin);
         }
         // if statement between the three supported cases
         if (apptWin.getApptWindowType().equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY)) {
@@ -493,13 +494,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteAppointmentSlot(String appointmentSlotId, ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteAppointmentSlotCascading(String appointmentSlotId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
 
         AppointmentSlotEntity apptSlot = appointmentSlotDao.find(appointmentSlotId);
         if (null != apptSlot) {
-            helper.deleteAppointmentsBySlot(apptSlot.getId());
+            helper.deleteAppointmentsBySlotCascading(apptSlot.getId());
         } else {
             throw new DoesNotExistException(appointmentSlotId);
         }
@@ -508,14 +509,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteAppointmentSlotsByWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteAppointmentSlotsByWindowCascading(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
         // This will also delete associated appointments since they would otherwise refer to non-existent slots
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
 
         AppointmentWindowEntity apptWin = appointmentWindowDao.find(appointmentWindowId);
         if (null != apptWin) {
-            helper.deleteAppointmentSlotsByWindow(apptWin);
+            helper.deleteAppointmentSlotsByWindowCascading(apptWin);
         } else {
             throw new DoesNotExistException(appointmentWindowId);
         }
