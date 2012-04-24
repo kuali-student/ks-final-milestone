@@ -4,6 +4,8 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
@@ -16,13 +18,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegWindowTypeKeyValues extends KeyValuesBase implements Serializable {
+public class RegWindowTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private transient TypeService typeService;
 
     @Override
-    public List<KeyValue> getKeyValues() {
+    public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         //TODO:Build real context.
@@ -44,7 +46,6 @@ public class RegWindowTypeKeyValues extends KeyValuesBase implements Serializabl
 
         return keyValues;
     }
-
 
     public TypeService getTypeService() {
         if(typeService == null) {
