@@ -42,6 +42,7 @@ import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
+import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -51,10 +52,8 @@ import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
-import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -613,7 +612,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         for (HolidayWrapper holidayWrapper : hcForm.getHolidays()) {
             holidayWrapper.getHolidayInfo().setStartDate(getStartDateWithUpdatedTime(holidayWrapper,false));
-            holidayWrapper.getHolidayInfo().setEndDate(getEndDateWithUpdatedTime(holidayWrapper));
+            setHolidayEndDate(holidayWrapper);
         }
     }
 
@@ -621,14 +620,14 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
             eventWrapper.getAcalEventInfo().setStartDate(getStartDateWithUpdatedTime(eventWrapper,false));
-            eventWrapper.getAcalEventInfo().setEndDate(getEndDateWithUpdatedTime(eventWrapper));
+            setEventEndDate(eventWrapper);
         }
 
         for (AcademicTermWrapper academicTermWrapper : acalForm.getTermWrapperList()) {
             for (KeyDatesGroupWrapper keyDatesGroupWrapper : academicTermWrapper.getKeyDatesGroupWrappers()){
                 for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
                     keyDateWrapper.getKeyDateInfo().setStartDate(getStartDateWithUpdatedTime(keyDateWrapper,false));
-                    keyDateWrapper.getKeyDateInfo().setEndDate(getEndDateWithUpdatedTime(keyDateWrapper));
+                    setKeyDateEndDate(keyDateWrapper);
                 }
             }
         }
@@ -961,6 +960,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             }else{
                 endDateToInfo =  null;
                 holidayWrapper.getHolidayInfo().setIsDateRange(false);
+                holidayWrapper.setEndDate(null);
             }
             holidayWrapper.getHolidayInfo().setEndDate(endDateToInfo);
         }
@@ -997,6 +997,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             }else{
                 endDateToInfo =  null;
                 eventWrapper.getAcalEventInfo().setIsDateRange(false);
+                eventWrapper.setEndDate(null);
             }
             eventWrapper.getAcalEventInfo().setEndDate(endDateToInfo);
         }
@@ -1033,12 +1034,13 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             }else{
                 endDateToInfo =  null;
                 keyDateWrapper.getKeyDateInfo().setIsDateRange(false);
+                keyDateWrapper.setEndDate(null);
             }
             keyDateWrapper.getKeyDateInfo().setEndDate(endDateToInfo);
         }
     }
 
-    private Date getEndDateWithUpdatedTime(TimeSetWrapper timeSetWrapper){
+    /*private Date getEndDateWithUpdatedTime(TimeSetWrapper timeSetWrapper){
         if (!timeSetWrapper.isAllDay()){
             String endTime = timeSetWrapper.getEndTime();
             String endTimeApPm = timeSetWrapper.getEndTimeAmPm();
@@ -1065,7 +1067,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 return updateTime(timeSetWrapper.getStartDate(),"00:00",StringUtils.EMPTY );
             }
         }
-    }
+    }*/
 
     private Date updateTime(Date date,String time,String amPm) {
 
