@@ -304,6 +304,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
         //Reset the windowInfo from the service's returned value
         appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
+        appointmentWindowWrapper.setId(appointmentWindowInfo.getId());
+        appointmentWindowWrapper.setWindowName(appointmentWindowInfo.getName());
 
     }
 
