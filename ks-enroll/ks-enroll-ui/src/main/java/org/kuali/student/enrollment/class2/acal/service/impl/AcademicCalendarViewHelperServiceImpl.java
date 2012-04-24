@@ -652,7 +652,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),eventWrapper.getEndDate())){
                 GlobalVariables.getMessageMap().putWarning("acal-info-event", "error.enroll.event.dateNotInAcal",eventWrapper.getEventTypeName());
             }
-            if (!CommonUtils.isValidDateRange(eventWrapper.getStartDate(),eventWrapper.getEndDate())){
+            if (eventWrapper.isDateRange() && !CommonUtils.isValidDateRange(eventWrapper.getStartDate(),eventWrapper.getEndDate())){
                 GlobalVariables.getMessageMap().putWarning("acal-info-event", "error.enroll.daterange.invalid",eventWrapper.getEventTypeName(),CommonUtils.formatDate(eventWrapper.getStartDate()),CommonUtils.formatDate(eventWrapper.getEndDate()));
             }
         }
@@ -721,38 +721,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         for (AcademicTermWrapper academicTermWrapper : termWrapper) {
             validateTerm(termWrapper,index,acal);
             index++;
-//            index1++;
-//            int index2 = 0;
-//            //Validate duplicate term name
-//            for (AcademicTermWrapper wrapper : termWrapper) {
-//                index2++;
-//                if (wrapper != academicTermWrapper){
-//                    if (StringUtils.equalsIgnoreCase(wrapper.getName(),academicTermWrapper.getName())){
-//                        if (index1 < index2){
-//                            GlobalVariables.getMessageMap().putErrorForSectionId("acal-term", "error.enroll.term.duplicateName",""+ NumberUtils.min(new int[]{index1,index2}),""+NumberUtils.max(new int[]{index1,index2}));
-//                        }
-//                    }
-//                }
-//            }
-//
-//            if (!CommonUtils.isValidDateRange(academicTermWrapper.getStartDate(),academicTermWrapper.getEndDate())){
-//                GlobalVariables.getMessageMap().putErrorForSectionId("acal-term", "error.enroll.daterange.invalid",academicTermWrapper.getName(),CommonUtils.formatDate(academicTermWrapper.getStartDate()),CommonUtils.formatDate(academicTermWrapper.getEndDate()));
-//            }
-//
-//            if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),academicTermWrapper.getStartDate()) ||
-//                !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),academicTermWrapper.getEndDate())){
-//                GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", "error.enroll.term.dateNotInAcal",academicTermWrapper.getName());
-//            }
-//
-//            for (KeyDatesGroupWrapper keyDatesGroupWrapper : academicTermWrapper.getKeyDatesGroupWrappers()){
-//                for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
-//                    if (!CommonUtils.isDateWithinRange(academicTermWrapper.getStartDate(),academicTermWrapper.getEndDate(),keyDateWrapper.getStartDate()) ||
-//                        !CommonUtils.isDateWithinRange(academicTermWrapper.getStartDate(),academicTermWrapper.getEndDate(),keyDateWrapper.getEndDate())){
-//                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", "error.enroll.keydate.dateNotInTerm",keyDateWrapper.getKeyDateNameUI(),academicTermWrapper.getName());
-//                    }
-//                }
-//            }
-
         }
     }
 
@@ -782,6 +750,11 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         for (KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapperToValidate.getKeyDatesGroupWrappers()){
             for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
+
+                if (keyDateWrapper.isDateRange() && !CommonUtils.isValidDateRange(keyDateWrapper.getStartDate(),keyDateWrapper.getEndDate())){
+                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", "error.enroll.daterange.invalid",keyDateWrapper.getKeyDateNameUI(),CommonUtils.formatDate(keyDateWrapper.getStartDate()),CommonUtils.formatDate(keyDateWrapper.getEndDate()));
+                }
+
                 if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getStartDate()) ||
                     !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getEndDate())){
                     GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", "error.enroll.keydate.dateNotInTerm",keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
