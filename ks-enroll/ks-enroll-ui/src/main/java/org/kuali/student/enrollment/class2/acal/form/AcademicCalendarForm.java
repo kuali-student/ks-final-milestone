@@ -189,6 +189,7 @@ public class AcademicCalendarForm extends UifFormBase {
         setHolidayCalendarList(new ArrayList<HolidayCalendarWrapper>());
         setEventsToDeleteOnSave(new ArrayList<AcalEventWrapper>());
         setTermsToDeleteOnSave(new ArrayList<AcademicTermWrapper>());
+        setTermWrapperList(new ArrayList<AcademicTermWrapper>());
         setNewCalendar(false);
     }
 

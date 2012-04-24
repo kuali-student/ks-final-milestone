@@ -1,10 +1,10 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class KeyDateWrapper extends TimeSetWrapper{
 
@@ -18,6 +18,10 @@ public class KeyDateWrapper extends TimeSetWrapper{
         setAllDay(false);
         setDateRange(true);
         keyDateInfo = new KeyDateInfo();
+        keyDateInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+        RichTextInfo desc = new RichTextInfo();
+        desc.setPlain("Test");
+        keyDateInfo.setDescr(desc);
     }
 
     public KeyDateWrapper(KeyDateInfo keydate){
@@ -72,6 +76,10 @@ public class KeyDateWrapper extends TimeSetWrapper{
 
     public void setTypeInfo(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;
+    }
+
+    public boolean isNew() {
+        return StringUtils.isBlank(keyDateInfo.getId());
     }
 
 }

@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.acal.dto;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
@@ -35,8 +36,13 @@ public class AcademicTermWrapper {
 
     public AcademicTermWrapper(){
         keyDatesGroupWrappers = new ArrayList();
-        termInfo = new TermInfo();
         keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
+        termInfo = new TermInfo();
+        termInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        RichTextInfo desc = new RichTextInfo();
+        desc.setPlain("Test");
+        termInfo.setDescr(desc);
+
     }
 
     public AcademicTermWrapper(TermInfo termInfo){

@@ -47,7 +47,7 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception;
 
-    public AcademicCalendarInfo copyToCreateAcademicCalendar(AcademicCalendarForm form) throws Exception;
+    public void copyToCreateAcademicCalendar(AcademicCalendarForm form) throws Exception;
 
     public List<AcalEventWrapper> getEventsForAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
 

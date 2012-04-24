@@ -31,7 +31,6 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -56,7 +55,6 @@ import java.util.*;
 public class AcademicCalendarController extends UifControllerBase {
 
     private AcademicCalendarService acalService;
-    private ContextInfo contextInfo;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -108,16 +106,15 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarInfo acalInfo = null;
 
         String acalId = request.getParameter(CalendarConstants.CALENDAR_ID);
-        if (acalId != null && !acalId.trim().isEmpty()) {
+        if (StringUtils.isNotBlank(acalId)) {
             String pageId = request.getParameter(CalendarConstants.PAGE_ID);
             if (CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE.equals(pageId)) {
-//                acalForm.setViewTypeName(UifConstants.ViewType.INQUIRY);
                 try {
                     acalInfo= getAcalService().getAcademicCalendar(acalId, acalForm.getContextInfo());
                     acalForm.setOrgAcalInfo(acalInfo);
 
                 } catch (Exception ex) {
-                    //TODO: handle exception properly
+                    throw new RuntimeException(ex);
                 }
             }
         }
@@ -128,22 +125,10 @@ public class AcademicCalendarController extends UifControllerBase {
                 acalForm.setOrgAcalInfo(acalInfo);
             }
             catch (Exception x) {
-                //TODO - what to do here?
+                throw new RuntimeException(x);
             }
 
-//            if (null != acalInfo) {
-//                // do some calculations on probable values for the new calendar
-//                Calendar cal=Calendar.getInstance();
-//                cal.setTime(acalInfo.getStartDate());
-//                cal.add(Calendar.YEAR, 1);
-//                form.setNewCalendarStartDate(cal.getTime());
-//                cal.setTime(acalInfo.getEndDate());
-//                cal.add(Calendar.YEAR, 1);
-//                form.setNewCalendarEndDate(cal.getTime());
-//            }
-
         }
-        //return super.start(acalForm, result, request, response);
         return getUIFModelAndView(acalForm);
     }
 
@@ -183,7 +168,7 @@ public class AcademicCalendarController extends UifControllerBase {
                     acalForm.setOrgAcalInfo(acalInfo);
 
                 } catch (Exception ex) {
-                    //TODO: handle exception properly
+                    throw new RuntimeException(ex);
                 }
             }
         }
@@ -194,7 +179,7 @@ public class AcademicCalendarController extends UifControllerBase {
                 acalForm.setOrgAcalInfo(acalInfo);
             }
             catch (Exception x) {
-                //TODO - what to do here?
+                throw new RuntimeException(x);
             }
 
         }
@@ -204,10 +189,11 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=toCopy")
     public ModelAndView toCopy(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response){
+
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
-        if(acalForm.getOrgAcalInfo() == null || StringUtils.isBlank(acalForm.getOrgAcalInfo().getId()))
-            acalForm.setOrgAcalInfo(acalInfo);
         acalForm.reset();
+        acalForm.setOrgAcalInfo(acalInfo);
+
         return copy(acalForm, result, request, response);
     }
 
@@ -215,17 +201,17 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params="methodToCall=copy")
     public ModelAndView copy( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        if ( null == acalForm.getOrgAcalInfo() || null == acalForm.getOrgAcalInfo().getId()) {
-            //TODO - display some kind of error
-            return getUIFModelAndView(acalForm);
-        }
+//        if ( null == acalForm.getOrgAcalInfo() || null == acalForm.getOrgAcalInfo().getId()) {
+//            return getUIFModelAndView(acalForm);
+//        }
 
         acalForm.setNewCalendar(false);
         try {
            acalForm.getViewHelperService().copyToCreateAcademicCalendar(acalForm);
         }catch (Exception ex) {
-
+            throw new RuntimeException(ex);
         }
+
         return getUIFModelAndView(acalForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
 
     }
@@ -386,23 +372,10 @@ public class AcademicCalendarController extends UifControllerBase {
            return getUIFModelAndView(academicCalendarForm);
         }
 
-//        if (termWrapper.getKeyDatesGroupWrappers() == null || termWrapper.getKeyDatesGroupWrappers().isEmpty()){
-//            GlobalVariables.getMessageMap().putError("termWrapperList","error.enroll.term.nokeydates",termWrapper.getTermNameForUI());
-//            return updateComponent(academicCalendarForm, result, request, response);
-//        }else{
-//            for (KeyDatesGroupWrapper keyDatesGroup : termWrapper.getKeyDatesGroupWrappers()) {
-//                if (keyDatesGroup.getKeydates() == null || keyDatesGroup.getKeydates().isEmpty()){
-//                    GlobalVariables.getMessageMap().putError("termWrapperList","error.enroll.term.nokeydates",termWrapper.getTermNameForUI());
-//                    return updateComponent(academicCalendarForm, result, request, response);
-//                }
-//            }
-//        }
-
         try{
             academicCalendarForm.getViewHelperService().saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(),true);
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS,"info.enroll.term.official",termWrapper.getTermNameForUI());
         }catch (Exception e){
-            //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
            throw new RuntimeException(e);
         }
 
@@ -604,7 +577,7 @@ public class AcademicCalendarController extends UifControllerBase {
         //Populate default times
         academicCalendarForm.getViewHelperService().populateAcademicCalendarDefaults(academicCalendarForm);
 
-        //Validate Term
+        //Validate Acal
         academicCalendarForm.getViewHelperService().validateAcademicCalendar(academicCalendarForm);
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 0){
@@ -612,7 +585,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         //If validation succeeds, continue save
-        if(academicCalendarInfo.getId() != null && !academicCalendarInfo.getId().trim().isEmpty()){
+        if(StringUtils.isNotBlank(academicCalendarInfo.getId())){
             // 1. update acal and AC-HC relationships
             academicCalendarInfo = processHolidayCalendars(academicCalendarForm);
             if (CalendarConstants.UPDATE_MAKEOFFICIAL.equals(methodCalled)) {
