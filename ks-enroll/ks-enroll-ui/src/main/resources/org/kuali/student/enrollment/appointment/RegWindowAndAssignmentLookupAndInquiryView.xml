@@ -175,7 +175,7 @@
                             </bean>
                             <bean parent="Uif-InputField"
                                   p:propertyName="meanStudentsPerSlot"
-                                  p:label="Mean Students Per Slot"
+                                  p:label="Students Per Slot"
                                   p:readOnly="true"
                                   p:labelField.renderColon="false">
                                 <property name="control">
