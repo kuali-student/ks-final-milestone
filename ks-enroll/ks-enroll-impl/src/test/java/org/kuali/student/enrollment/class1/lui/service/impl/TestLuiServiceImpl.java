@@ -348,7 +348,6 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testUpdateLuiLuiRelation() throws Exception{
         LuiLuiRelationInfo info = luiService.getLuiLuiRelation("LUILUIREL-2", callContext);
         assertNotNull(info);
@@ -358,7 +357,6 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetLuiLuiRelation() throws Exception {
         try {
             LuiLuiRelationInfo obj = luiService.getLuiLuiRelation("LUILUIREL-1", callContext);
@@ -431,7 +429,6 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testDeleteLui()
             throws Exception{
         LuiInfo info = luiService.getLui("Lui-3", callContext);

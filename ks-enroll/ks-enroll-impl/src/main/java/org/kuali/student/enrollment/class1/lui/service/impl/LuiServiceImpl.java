@@ -319,12 +319,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException { 
 
-        // Ensure the lui id is valid
-        try {
-            getLui(luiId, context);
-        } catch (DoesNotExistException dnee) {
-            return new ArrayList<LuiLuiRelationInfo>();
-        }
+
 
         List<LuiLuiRelationEntity> relEntities = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
         List<LuiLuiRelationInfo> relInfos = new ArrayList<LuiLuiRelationInfo>();
@@ -334,7 +329,6 @@ public class LuiServiceImpl
                 relInfos.add(relInfo);
             }
         }
-
         return relInfos;
     }
 
@@ -409,7 +403,9 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        return new ArrayList<LuiInfo>();
+        List<LuiInfo> relatedLuis =  new ArrayList<LuiInfo>();
+        luiLuiRelationDao.getRelatedLuisByLuiIdAndRelationType(luiId,luiLuiRelationTypeKey ) ;
+        return  relatedLuis;
     }
 
     @Override

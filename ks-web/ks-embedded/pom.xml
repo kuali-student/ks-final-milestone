@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.kuali.student.web</groupId>
     <artifactId>ks-web</artifactId>
-    <version>1.3.0-merge-SNAPSHOT</version>
+    <version>1.3.0-services-SNAPSHOT</version>
   </parent>
   <properties>
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
@@ -216,13 +216,6 @@
         <version>${project.version}</version>
 	</dependency>
 
-	<!-- TODO: Remove this once mock impls have been moved to a regular jar or replaced with real impls -->
-	<dependency>
-		<groupId>org.kuali.student.enroll</groupId>
-		<artifactId>ks-enroll-api</artifactId>
-		<version>${project.version}</version>
-		<type>test-jar</type>
-	</dependency>
 	<dependency>
 		<groupId>org.kuali.student.enroll</groupId>
 		<artifactId>ks-enroll-impl</artifactId>

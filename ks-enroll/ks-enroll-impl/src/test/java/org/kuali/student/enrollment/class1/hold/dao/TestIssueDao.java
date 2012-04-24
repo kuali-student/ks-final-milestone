@@ -25,7 +25,7 @@ public class TestIssueDao extends AbstractTransactionalDaoTest {
         assertEquals("Issue one", obj.getName());
         assertEquals(HoldServiceConstants.ISSUE_ACTIVE_STATE_KEY, obj.getHoldIssueState());
         assertEquals(HoldServiceConstants.RESIDENCY_ISSUE_TYPE_KEY, obj.getHoldIssueType());
-        assertEquals("Issue Desc plain", obj.getDescrPlain());
+        assertEquals("Issue-1-Desc", obj.getDescrPlain());
     }
 
     @Test

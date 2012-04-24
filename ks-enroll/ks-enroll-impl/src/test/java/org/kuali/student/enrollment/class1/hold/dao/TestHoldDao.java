@@ -27,7 +27,7 @@ public class TestHoldDao extends AbstractTransactionalDaoTest{
             //assertEquals("Hold one", obj.getName());
             assertEquals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY, obj.getHoldState());
             assertEquals(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY, obj.getHoldType()); 
-            assertEquals("Hold Desc student", obj.getDescrPlain());
+            assertEquals("RICHTEXT-Hold-301", obj.getDescrPlain());
         } catch (Exception ex) {
             ex.printStackTrace();
         }

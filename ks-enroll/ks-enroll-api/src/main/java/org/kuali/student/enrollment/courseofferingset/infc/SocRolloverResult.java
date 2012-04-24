@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * 
  * @author nwright
  */
-public interface SocRolloverResults
+public interface SocRolloverResult
         extends IdEntity {
 
     /**

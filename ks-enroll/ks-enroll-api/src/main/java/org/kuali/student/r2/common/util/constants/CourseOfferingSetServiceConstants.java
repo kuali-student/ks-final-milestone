@@ -32,6 +32,6 @@ public class CourseOfferingSetServiceConstants {
     public static final String REF_OBJECT_URI_SOC = NAMESPACE + "/" + SocInfo.class.getSimpleName();
     
     public static final String MAIN_SOC_TYPE_KEY = "kuali.soc.type.main";
-    public static final String ROLLOVER_RESULTS_TYPE_KEY = "kuali.soc.rollover.results.rollover";
-    public static final String REVERSE_ROLLOVER_RESULTS_TYPE_KEY = "kuali.soc.rollover.results.reverse";
+    public static final String ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.result.rollover";
+    public static final String REVERSE_ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.result.reverse";
 }
