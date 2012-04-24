@@ -30,7 +30,7 @@ import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
-import org.kuali.student.r1.lum.lu.dto.CluResultInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
 import org.kuali.student.r2.lum.clu.dto.FieldInfo;
 import org.kuali.student.r1.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
@@ -488,7 +488,7 @@ public class ProgramAssemblerUtils {
             resultTypes.add(ProgramAssemblerConstants.DEGREE_RESULTS);
             resultTypes.add(ProgramAssemblerConstants.CERTIFICATE_RESULTS);
 
-            /* TODO KSCM-391 resultOptions = cluAssemblerUtils.assembleCluResults(resultTypes, cluResults);*/
+            resultOptions = cluAssemblerUtils.assembleCluResults(resultTypes, cluResults);
 
         } catch (DoesNotExistException e){
         } catch (Exception e) {

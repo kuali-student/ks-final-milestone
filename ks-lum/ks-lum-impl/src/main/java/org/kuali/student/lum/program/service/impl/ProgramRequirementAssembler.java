@@ -30,6 +30,7 @@ import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -84,7 +85,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		}
 
 		if (isEmpty(progReq.getLearningObjectives())) {
-			/* TODO KSCM-391 progReq.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild,contextInfo)); */
+			 progReq.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild,contextInfo)); 
 		}
 
 		progReq.setMeta(clu.getMeta());
@@ -215,16 +216,16 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 	private void disassembleLearningObjectives(ProgramRequirementInfo progReq,
 			NodeOperation operation,
 			BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
-		/* TODO KSCM-391 try {
+		try {
         	
-             List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(progReq.getId(), progReq.getState(),  progReq.getLearningObjectives(), operation,contextInfo);
+             List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(progReq.getId(), progReq.getStateKey(),  progReq.getLearningObjectives(), operation,contextInfo);
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
             }
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling los", e);
-        }*/
+        }
 	}
 
 	private void disassembleCredits(CluInfo clu, ProgramRequirementInfo progReq,ContextInfo contextInfo){
