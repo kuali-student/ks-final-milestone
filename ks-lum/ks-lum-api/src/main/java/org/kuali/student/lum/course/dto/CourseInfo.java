@@ -423,6 +423,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
             fees = new ArrayList<CourseFeeInfo>(0);
         }
         return fees;
+
     }
 
     public void setUnitsContentOwner(List<String> unitsContentOwner) {

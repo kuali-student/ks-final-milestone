@@ -59,7 +59,8 @@ public interface Section extends HasLayoutController{
 	public void enableValidation(boolean enableValidation);
 	public boolean isValidationEnabled();
 	public ErrorLevel processValidationResults(List<ValidationResultInfo> results);
-	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearAllValidation);
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearErrors);
+	public void clearValidationWarnings();
 	public boolean isDirty();
 	public void resetDirtyFlags();
 	

@@ -24,7 +24,11 @@ import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -84,6 +88,7 @@ import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 
+import edu.emory.mathcs.backport.java.util.Collections;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql" /*
 																										 * ,
@@ -1323,11 +1328,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		luiInfos = client.getLuisByIdList(Arrays.asList("LUI-1", "LUI-4"));
 		Collections.sort(luiInfos, new Comparator<LuiInfo>() {
-            @Override
+			@Override
             public int compare(LuiInfo o1, LuiInfo o2) {
-                return o1.getId().compareTo(o2.getId());
-            }
-        });
+				return o1.getId().compareTo(o2.getId());
+			}
+		});
 		assertEquals("CLU-1", luiInfos.get(0).getCluId());
 		assertEquals("CLU-2", luiInfos.get(1).getCluId());
 	}
@@ -1533,7 +1538,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			ParseException, AlreadyExistsException, MissingParameterException,
 			DependentObjectsExistException {
 		try {
-			client.updateLuiState(null, "Inactive");
+			client.updateLuiState(null, "Suspended");
 			fail("LuService.updateLuiState() did not throw MissingParameterException for null Lui ID");
 		} catch (MissingParameterException e) {
 		}
@@ -2066,12 +2071,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		StatusInfo status = client.addCluToCluSet("CLU-1", createdCluSet.getId());
 		assertTrue(status.getSuccess());
 
-		try {
-			client.addCluToCluSet("CLU-1", createdCluSet.getId());
-			fail("Adding the same CLU more than once should have failed");
-		} catch(OperationFailedException e) {
-			assertTrue(true);
-		}
+		status = client.addCluToCluSet("CLU-1", createdCluSet.getId());
+		assertFalse(status.getSuccess());
 	}
 
 	@Test
@@ -2117,12 +2118,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-2", "CLU-4"});
 
-		try {
-			client.addClusToCluSet(cluIdList, createdCluSet.getId());
-			fail("Adding a duplicate CLU (id='CLU-2') to CluSet should have failed");
-		} catch(OperationFailedException e) {
-			assertTrue(true);
-		}
+		StatusInfo status = client.addClusToCluSet(cluIdList, createdCluSet.getId());
+		assertEquals("CluSet already contains Clu (id='CLU-2')", status.getMessage());
 	}
 
 	@Test
@@ -2739,7 +2736,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		desc1.setPlain("Plain description");
 		dto.setDesc(desc1);
 		dto.setCluId("CLU-1");
-		dto.setState("inactive");
+		dto.setState("Suspended");
 		dto.setType("kuali.resultType.gradeCourseResult");
 		dto.setEffectiveDate(new Date());
 		dto.setExpirationDate(new Date());
@@ -2753,7 +2750,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		option.setExpirationDate(new Date());
 		option.setResultComponentId("kuali.resultComponent.grade.letter");
 		option.setResultUsageTypeKey(null);
-		option.setState("inactive");
+		option.setState("Suspended");
 		resultOptions.add(option);
 
         dto.setResultOptions(resultOptions);
@@ -2807,7 +2804,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		desc1.setPlain("Plain description");
 		dto.setDesc(desc1);
 		dto.setCluId("CLU-1");
-		dto.setState("inactive");
+		dto.setState("Suspended");
 		dto.setType("kuali.resultType.gradeCourseResult");
 		dto.setEffectiveDate(new Date());
 		dto.setExpirationDate(new Date());
@@ -2821,7 +2818,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		option.setExpirationDate(new Date());
 		option.setResultComponentId("kuali.resultComponent.grade.letter");
 		//option.setResultUsageTypeKey("lrType.finalGrade");
-		option.setState("inactive");
+		option.setState("Suspended");
 		resultOptions.add(option);
 
         dto.setResultOptions(resultOptions);

@@ -15,9 +15,12 @@
 
 package org.kuali.student.common.ui.server.gwt.old;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -34,8 +37,7 @@ import org.kuali.student.common.ui.client.service.exceptions.OperationFailedExce
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * Generic implementation of data orchestration calls and workflow calls
@@ -101,7 +103,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 
 	protected String getCurrentUser() {
-		String username = SecurityUtils.getCurrentUserId();
+		String username = SecurityUtils.getCurrentPrincipalId();
 		//backdoorId is only for convenience
 		if(username==null&&this.getThreadLocalRequest().getSession().getAttribute("backdoorId")!=null){
 			username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");

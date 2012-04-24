@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
@@ -21,12 +22,12 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.comment.dto.CommentInfo;
@@ -61,7 +62,7 @@ public class CommentTool implements HasReferenceId {
     private KSButton cancelEditButton = new KSButton("Cancel");
     private KSButton submitCommentButton = new KSButton("Submit");
     private FlexTable commentsTableLayout = new FlexTable();
-    private static final DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
+    //private static final DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
     private Controller controller;    
     private Enum<?> viewEnum;
     private String viewName;    //View name is being used as menu item label   
@@ -75,9 +76,16 @@ public class CommentTool implements HasReferenceId {
     private Map<String, String> referenceAttributes;
     private KSLabel proposalTitle = new KSLabel();
     private String title;
+    private HTML htmlLabel;
+    private SectionTitle leaveACommentTitle;
+    private HorizontalPanel commentSectionPanel;
+    private KSButton editButton;
+    private KSButton deleteButton;
+    private Map<Integer, KSButton> editButtonMap = new HashMap<Integer, KSButton>();
+    private Map<Integer, KSButton> deleteButtonMap = new HashMap<Integer, KSButton>();
 
-    private enum EditMode {
-        ADD_COMMENT, UPDATE_COMMENT
+    public enum EditMode {
+        ADD_COMMENT, UPDATE_COMMENT, VIEW_COMMENT
     }
     
     public CommentTool(Enum<?> viewEnum, String viewName, String commentTypeKey, String title) {
@@ -119,16 +127,16 @@ public class CommentTool implements HasReferenceId {
         // light box title and instructions
         SectionTitle title = SectionTitle.generateH2Title(this.title);
         title.addStyleName("ks-layout-header");
-        HTML htmlLabel = new HTML("<b>All comments posted here will be visible to authors, and " +
+        htmlLabel = new HTML("<b>All comments posted here will be visible to authors, and " +
         		"to reviewers after you submit the proposal.</b>");
         title.setStyleName("cluProposalTitleSection");
         proposalTitle.setVisible(false);
         contentPanel.add(proposalTitle);
-        contentPanel.add(title);
+        commentLightBox.setNonCaptionHeader(title);
         contentPanel.add(htmlLabel);
         
         // comments section title
-        SectionTitle leaveACommentTitle = SectionTitle.generateH3Title("Leave a Comment");
+        leaveACommentTitle = SectionTitle.generateH3Title("Leave a Comment");
         leaveACommentTitle.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
         leaveACommentTitle.getElement().getStyle().setProperty("marginTop", "2em");
         contentPanel.add(leaveACommentTitle);
@@ -136,7 +144,7 @@ public class CommentTool implements HasReferenceId {
         // comments section
         HTML loggedInAsLabel = new HTML("<b>Logged in as:<b/>");
         loggedInLabelsPanel.add(loggedInAsLabel);
-        final String userId = Application.getApplicationContext().getUserId();
+        final String userId = Application.getApplicationContext().getSecurityContext().getUserId();
         commentServiceAsync.getUserRealName(userId, new AsyncCallback<String>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -247,7 +255,7 @@ public class CommentTool implements HasReferenceId {
             }
         });
         
-        HorizontalPanel commentSectionPanel = new HorizontalPanel();
+        commentSectionPanel = new HorizontalPanel();
         commentSectionPanel.add(loggedInLabelsPanel);
         commentSectionPanel.add(commentEditPanel);
         commentSectionPanel.add(notAuthorizedToAddComments);
@@ -302,6 +310,8 @@ public class CommentTool implements HasReferenceId {
             int commentCounter = 0;
             for (final CommentInfo commentInfo : commentInfos) {
                 int columnIndex = 0;
+                editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
+                deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
                 if (commentInfo.getType() != null && 
                         commentInfo.getType().startsWith("kuali.comment.type.workflowDecisionRationale")) {
                     // do not display comments for workflow decision rationale.
@@ -343,6 +353,7 @@ public class CommentTool implements HasReferenceId {
                 });
                 Date createTime = commentInfo.getMetaInfo().getCreateTime();
                 userNameAndTime.add(userNameLabel);
+                DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
                 userNameAndTime.add(new KSLabel(df.format(createTime)));
                 userNameAndTime.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
                 commentsTableLayout.setWidget(rowIndex, columnIndex, userNameAndTime);
@@ -356,9 +367,6 @@ public class CommentTool implements HasReferenceId {
                 commentTextLabel.getElement().getStyle().setProperty("wordWrap", "break-word");
                 commentsTableLayout.setWidget(rowIndex, columnIndex, commentTextLabel);
                 columnIndex++;
-                
-                final KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
-                final KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
                 editButton.getElement().getStyle().setPadding(5d, Style.Unit.PX);
                 editControlsCallbacks.add(new Callback<EditMode>() {
                     @Override
@@ -427,8 +435,10 @@ public class CommentTool implements HasReferenceId {
                     }
                 });
                 commentsTableLayout.setWidget(rowIndex, columnIndex, editButton);
+                editButtonMap.put(commentCounter, editButton);
                 columnIndex++;
                 commentsTableLayout.setWidget(rowIndex, columnIndex, deleteButton);
+                deleteButtonMap.put(commentCounter, deleteButton);
                 columnIndex++;
                 if (userId == null || !userId.equals(this.loggedInUserId)) {
                     editButton.setVisible(false);
@@ -462,6 +472,19 @@ public class CommentTool implements HasReferenceId {
                         callback.exec(EditMode.ADD_COMMENT);
                     }
                 }
+                break;
+            case VIEW_COMMENT:
+                htmlLabel.setVisible(false);
+                leaveACommentTitle.setVisible(false);
+                commentSectionPanel.setVisible(false);
+                
+                for (int i = 0; i < editButtonMap.size(); i++) {
+                    editButtonMap.get(i).setVisible(false);                    
+                }
+                for (int i = 0; i < deleteButtonMap.size(); i++) {
+                    deleteButtonMap.get(i).setVisible(false);                    
+                }
+
                 break;
         }
     }

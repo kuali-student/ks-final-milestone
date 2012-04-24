@@ -17,15 +17,17 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.BooleanValue;
 import org.kuali.student.common.assembly.data.Data.DataValue;
 import org.kuali.student.common.assembly.data.Data.DateValue;
@@ -39,6 +41,9 @@ import org.kuali.student.common.assembly.data.Data.StringValue;
 import org.kuali.student.common.assembly.data.Data.TimeValue;
 import org.kuali.student.common.assembly.data.Data.TimestampValue;
 import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
@@ -109,6 +114,7 @@ public class HasDataValueBinding extends ModelWidgetBindingSupport<HasDataValue>
 	                            translations.put(id, translation);
                             }
                         }
+                        translations = MapUtil.sortByValue(translations);
                         ((TranslatableValueWidget)widget).setValue(translations);
                     }
                 } else {
@@ -172,4 +178,26 @@ public class HasDataValueBinding extends ModelWidgetBindingSupport<HasDataValue>
         }
 	}
 
+    /**
+     * 
+     * This class is used to sort the values of a map.
+     * 
+     */
+    private static class MapUtil {
+        public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(final Map<K, V> map) {
+            List<Map.Entry<K, V>> list =
+                    new LinkedList<Map.Entry<K, V>>(map.entrySet());
+            Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
+                public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2) {
+                    return (o1.getValue()).compareTo(o2.getValue());
+                }
+            });
+
+            Map<K, V> result = new LinkedHashMap<K, V>();
+            for (Map.Entry<K, V> entry : list) {
+                result.put(entry.getKey(), entry.getValue());
+            }
+            return result;
+        }
+    }
 }

@@ -18,9 +18,7 @@ package org.kuali.student.lum.common.client.lu;
 
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
- * 
- *
+ * List of constants used in the Lum UI  
  * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
@@ -29,7 +27,6 @@ public class LUUIConstants {
 
 	// FIXME: Duplicated from lum-api LUConstants
 		    public final static String COURSE_GROUP_NAME = "course";
-		    public final static String PROPOSAL_TYPE_COURSE_CREATE = "kuali.proposal.type.course.create";
 		    public final static String CLU_TYPE_CREDIT_COURSE = "kuali.lu.type.CreditCourse";
 		    public final static String PROGRAM_GROUP_NAME = "program";    
 		    public final static String PROPOSAL_TYPE_PROGRAM_CREATE = "kuali.proposal.type.program.create";
@@ -51,7 +48,7 @@ public class LUUIConstants {
     //Section names
     public static final String COURSE_SECTIONS = "Course Sections";
     public static final String SECTION_PROPOSAL_INFORMATION = "Proposal Information";
-    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "Authors & Collaborators";
+    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "cluAuthorsAndCollaborators";
     public static final String SECTION_GOVERNANCE = "Governance";
     public static final String SECTION_COURSE_LOGISTICS = "Course Logistics";
 
@@ -124,6 +121,12 @@ public class LUUIConstants {
     public static final String END_TERM_LABEL_KEY = "cluEndTerm";
     public static final String PILOT_COURSE_LABEL_KEY = "cluPilotCourse";
     public static final String PILOT_COURSE_TEXT_LABEL_KEY = "cluPilotCourseText";
+    
+    public static final String PROPOSAL_PREV_START_TERM = "previousStartTerm";
+    public static final String PROPOSAL_PREV_END_TERM = "previousEndTerm";
+    public static final String FINAL_APPROVAL_DIALOG = "finalApprovalProposalStartTermDialogue";
+    public static final String PROPOSAL_START_TERM = "proposalStartTerm";
+    
     
     //Logistics labels
     public static final String LOGISTICS_LABEL_KEY = "cluLogistics";
@@ -223,6 +226,8 @@ public class LUUIConstants {
     public static final String LO_SEARCH_AGAIN_LINK_KEY = "cluLOSearchAgain";
     public static final String LO_INSTRUCTIONS_KEY = "cluLOInstructions";
     public static final String LO_CATEGORY_KEY = "cluLOCategory";
+    public static final String LO_CATEGORY_BROWSE_LABEL_KEY = "cluLOCategoryBrowse";
+    public static final String LO_CATEGORY_BROWSE_POPUP_LABEL_KEY = "cluLOCategoryBrowsePopup";
 
     
     //    public static final String SYLLABUS_LABEL_KEY = "cluSyllabus";
@@ -307,7 +312,14 @@ public class LUUIConstants {
     public static final String DEP_SECTION_COURSE = "course";
     public static final String DEP_SECTION_PROGRAM = "program";
     public static final String DEP_SECTION_COURSE_SET = "courseSet";
-    
+
+    //Retirement section constants
+    public static final String RETIREMENT_LABEL_KEY = "retirement";
+	public static final String RETIREMENT_RATIONALE_LABEL_KEY = "courseRetireRationale";
+	public static final String LAST_TERM_OFFERED_LABEL_KEY = "courseLastTermOffered";
+	public static final String LAST_PUBLICATION_YEAR_LABEL_KEY = "coursePublicationYear";
+	public static final String SPECIAL_CIRCUMSTANCES_LABEL_KEY = "courseSpecialCircumstances";
+	    
 
 }
 

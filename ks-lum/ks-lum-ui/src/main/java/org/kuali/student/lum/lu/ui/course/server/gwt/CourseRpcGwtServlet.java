@@ -15,19 +15,24 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 
@@ -36,6 +41,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	private static final long serialVersionUID = 1L;
 
     private CourseService courseService;
+    private LuService luService;
 	private StatementService statementService;
 	private CourseStateChangeServiceImpl stateChangeService;
 
@@ -81,7 +87,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 
     @Override
     public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-    	CourseStateUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
+    	StatementUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
     	CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
         StatementTreeViewInfo rule = courseService.createCourseStatement(courseId, statementTreeViewInfo);
         setReqCompNL(rule);
@@ -95,19 +101,33 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 
     @Override
     public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-    	CourseStateUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
+    	StatementUtil.updateStatementTreeViewInfoState(courseState, statementTreeViewInfo);
     	CourseRequirementsDataModel.stripStatementIds(statementTreeViewInfo);
         StatementTreeViewInfo rule = courseService.updateCourseStatement(courseId, statementTreeViewInfo);
         setReqCompNL(rule);
         return rule;
     }
 
+	@Override
+	public DataSaveResult createCopyCourse(String originalCluId)
+			throws Exception {
+		throw new UnsupportedOperationException("Copy is not implemented without a proposal.");
+	}
+
+	@Override
+	public DataSaveResult createCopyCourseProposal(String originalProposalId)
+			throws Exception {
+		throw new UnsupportedOperationException("Copy is not implemented without a proposal.");
+	}
+
+	@Override  
     public StatusInfo changeState(String courseId, String newState) throws Exception {
     	return changeState(courseId, newState, null);
     }
-
-    public StatusInfo changeState(String courseId, String newState, Date currentVersionStart) throws Exception {
-    	return stateChangeService.changeState(courseId, newState, currentVersionStart);
+	
+	@Override
+    public StatusInfo changeState(String courseId, String newState, String prevEndTerm) throws Exception {
+    	return stateChangeService.changeState(courseId, newState, prevEndTerm);
     }
 
     private void setReqCompNL(StatementTreeViewInfo tree) throws Exception {
@@ -130,6 +150,25 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
         }
     }
 
+    @Override
+	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
+    	//Perform a search to see if there are any new versions of the course that are approved, draft, etc.
+    	//We don't want to version if there are
+    	SearchRequest request = new SearchRequest("lu.search.isVersionable");
+    	request.addParam("lu.queryParam.versionIndId", versionIndId);
+    	request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
+    	List<String> states = new ArrayList<String>();
+    	states.add("Approved");
+    	states.add("Active");
+    	states.add("Draft");
+    	states.add("Superseded");
+    	request.addParam("lu.queryParam.luOptionalState", states);
+    	SearchResult result = luService.search(request);
+    	
+    	String resultString = result.getRows().get(0).getCells().get(0).getValue();
+    	return "0".equals(resultString);
+	}
+    
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }
@@ -141,5 +180,9 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	public void setStateChangeService(
 			CourseStateChangeServiceImpl stateChangeService) {
 		this.stateChangeService = stateChangeService;
+	}
+
+	public void setLuService(LuService luService) {
+		this.luService = luService;
 	}
 }

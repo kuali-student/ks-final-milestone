@@ -21,16 +21,24 @@ public class NLHelper {
 	}
 	
 	public static String getCluOrCluSetAsShortNames(CluInfo clu, NLCluSet cluSet) {
-		if(clu != null) {
-			return clu.getOfficialIdentifier().getShortName();
-		}
-		return cluSet.getCluSetAsShortName();
+		return getCluOrCluSetAsShortNames(clu, cluSet, ",");
 	}
+	
+	public static String getCluOrCluSetAsShortNames(CluInfo clu, NLCluSet cluSet, String separator) {
+        if(clu != null) {
+            return clu.getOfficialIdentifier().getShortName();
+        }
+        return cluSet.getCluSetAsShortName(separator);
+    }
 
 	public static String getCluOrCluSetAsLongNames(CluInfo clu, NLCluSet cluSet) {
-		if(clu != null) {
-			return clu.getOfficialIdentifier().getLongName();
-		}
-		return cluSet.getCluSetAsLongName();
+		return getCluOrCluSetAsLongNames(clu, cluSet, ",");
 	}
+	
+	public static String getCluOrCluSetAsLongNames(CluInfo clu, NLCluSet cluSet, String separator) {
+        if(clu != null) {
+            return clu.getOfficialIdentifier().getLongName();
+        }
+        return cluSet.getCluSetAsLongName(separator);
+    }
 }

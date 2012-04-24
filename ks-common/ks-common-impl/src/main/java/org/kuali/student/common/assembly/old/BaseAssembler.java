@@ -40,18 +40,18 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
     protected PermissionService permissionService;
     protected MetadataServiceImpl metadataService;
     
-    public enum PermissionEnum {
+    public enum Permission {
         EDIT("edit"), READ_ONLY("readonly"), UNMASK("unmask");
         final String kimName;
-        private PermissionEnum(String kimName) {
+        private Permission(String kimName) {
             this.kimName = kimName;
         }
         @Override
         public String toString() {
             return kimName;
         }
-        public static PermissionEnum kimValueOf(String kimName) {
-            for(PermissionEnum p : values()) {
+        public static Permission kimValueOf(String kimName) {
+            for(Permission p : values()) {
                 if(p.kimName.equals(kimName)) {
                     return p;
                 }
@@ -66,17 +66,16 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
     protected Map<String, String> getFieldAccessPermissions(String dtoName, String idType, String id) {
         try {
             //get permissions and turn into a map of fieldName=>access
-            String principalId = SecurityUtils.getCurrentUserId();
+            String principalId = SecurityUtils.getCurrentPrincipalId();
             Map<String,String> qualification = getQualification(idType, id);
-            Map<String,String> permissionDetails = new LinkedHashMap <String,String> ();
+            Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
             permissionDetails.put ("dtoName", dtoName);
-//            List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplate(principalId,
+//            List<? extends KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
 //            		PermissionType.FIELD_ACCESS.getPermissionNamespace(), PermissionType.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
             Map<String, String> permMap = new HashMap<String, String>();
 //            if (permissions != null) {
-//                for (Permission permission : permissions) {
-//                    String dtoFieldKey = permission.getAttributes().get
-////                            "dtoFieldKey");
+//                for (KimPermissionInfo permission : permissions) {
+//                    String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
 //                    String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
 //                    permMap.put(dtoFieldKey, fieldAccessLevel);
 //                }
@@ -113,10 +112,10 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         Boolean authorized = null;
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
             Map<String,String> qualification = getQualification(idType, id);
-        	String currentUser = SecurityUtils.getCurrentUserId();
-//	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplate(currentUser, PermissionType.EDIT.getPermissionNamespace(),
+        	String currentUser = SecurityUtils.getCurrentPrincipalId();
+//	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
 //	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
-//			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
+//			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName()
 //					+ "' for user '" + currentUser + "': " + authorized);
 	        metadata.setCanEdit(authorized.booleanValue());
         }  
@@ -147,8 +146,8 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
 	                    fieldMetadata = fieldMetadata.getProperties().get(fieldPathTokens[i]);
 	                }
 	                if (fieldMetadata != null) {
-	                    PermissionEnum perm = PermissionEnum.kimValueOf(fieldAccessLevel);
-	                    if (PermissionEnum.EDIT.equals(perm)) {
+	                    Permission perm = Permission.kimValueOf(fieldAccessLevel);
+	                    if (Permission.EDIT.equals(perm)) {
 	                        setReadOnly(fieldMetadata, false);
 	                        //fieldMetadata.setCanEdit(true);
 	                    }
@@ -218,7 +217,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
      * 
      * This method should return the qualification name for the document type
      * 
-     * @return the qualifications in a Map<String,String>
+     * @return the qualifications in at AttributeSet
      */
     protected abstract Map<String,String> getQualification(String idType, String id);
     

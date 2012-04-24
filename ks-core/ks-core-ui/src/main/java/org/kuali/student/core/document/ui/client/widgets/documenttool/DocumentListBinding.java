@@ -19,8 +19,10 @@ public class DocumentListBinding extends ModelWidgetBindingSupport<DocumentList>
 	@Override
 	public void setWidgetValue(DocumentList widget, DataModel model, String path) {
 		//ignore path, not needed
-		String id = model.get(objectIdPath);
-		widget.getAndSetDocInfos(id);
+        if (model.get(objectIdPath) != null) {
+            String id = model.get(objectIdPath);
+            widget.getAndSetDocInfos(id);
+        }
 	}
 
 }

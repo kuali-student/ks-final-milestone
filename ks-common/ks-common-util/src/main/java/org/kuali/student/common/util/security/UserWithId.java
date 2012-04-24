@@ -15,17 +15,17 @@
 
 package org.kuali.student.common.util.security;
 
-import java.util.List;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+
+import java.util.List;
 
 public class UserWithId extends User {
     private static final long serialVersionUID = 1L;
     private String userId;
     
     public UserWithId(String username, String password, boolean enabled, boolean accountNonExpired,
-            boolean credentialsNonExpired, boolean accountNonLocked, List<GrantedAuthority> authorities) 
+            boolean credentialsNonExpired, boolean accountNonLocked, List<GrantedAuthority> authorities)
             throws IllegalArgumentException {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }

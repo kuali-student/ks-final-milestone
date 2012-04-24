@@ -55,7 +55,6 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,rollbackFor={Throwable.class})
-@Deprecated
 public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 	final Logger LOG = Logger.getLogger(OrgProposalAssembler.class);
     private OrganizationService orgService;
@@ -143,7 +142,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
 
     @Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public SaveResult<Data> save(Data input) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         OrgHelper orgHelper = OrgHelper.wrap((Data)input.get("orgInfo"));
@@ -307,7 +306,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     }
 
     @Override
-    protected Map<String,String> getQualification(String idType, String id) {
+ protected Map<String,String> getQualification(String idType, String id) {
         Map<String,String> qualification = null;
         if(id!=null&&!id.isEmpty()){
          qualification = new LinkedHashMap<String,String>();

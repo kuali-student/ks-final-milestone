@@ -42,8 +42,8 @@ import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.widgets.EditableHeader;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
@@ -124,12 +124,16 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     private void retrieveProgramRequirements(final Callback<Boolean> onReadyCallback) {
-        rules.retrieveProgramRequirements(parentController, new Callback<Boolean>() {
+    	//Added blocking progress indicator while requirements are loaded.
+    	final BlockingTask ruleBlockingTask = new BlockingTask("Retrieving requirements");
+    	KSBlockingProgressIndicator.addTask(ruleBlockingTask);
+        rules.retrieveProgramRequirements(parentController, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
                 if (result) {
                     displayRules();
                 }
+                KSBlockingProgressIndicator.removeTask(ruleBlockingTask);
                 onReadyCallback.exec(result);
             }
         });
@@ -187,12 +191,13 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     public void displayRules() {
+
         remove(layout);
         layout.clear();
 
         //display 'Program Requirements' page title (don't add if read only because the section itself will display the title)
         if (!isReadOnly) {
-            SectionTitle pageTitle = SectionTitle.generateH2Title(ProgramProperties.get().programRequirements_summaryViewPageTitle());
+            SectionTitle pageTitle = SectionTitle.generateH2Title(getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGETITLE));
             //pageTitle.setStyleName("KS-Program-Requirements-Section-header");  //make the header orange
             pageTitle.addStyleName("ks-layout-header");// change the header to green
 
@@ -249,7 +254,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         //display "Add Rule" button if user is in 'edit' mode
         if (!isReadOnly) {
-            String addRuleLabel = ProgramProperties.get().programRequirements_summaryViewPageAddRule(stmtTypeInfo.getName());
+            String addRuleLabel = getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEADDRULE, stmtTypeInfo.getName());
             KSButton addProgramReqBtn = new KSButton(addRuleLabel, KSButtonAbstract.ButtonStyle.FORM_SMALL);
             addProgramReqBtn.addClickHandler(new ClickHandler() {
                 public void onClick(ClickEvent event) {
@@ -290,8 +295,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         rulePreviewWidget.addProgReqDeleteButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 final ConfirmationDialog dialog = new ConfirmationDialog(
-                        ProgramProperties.get().programRequirements_summaryViewPageDeleteRequirementDialogTitle(),
-                        ProgramProperties.get().programRequirements_summaryViewPageDeleteRequirementDialogMsg());
+                        getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEDELETEREQUIREMENTDIALOGTITLE),
+                        getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEDELETEREQUIREMENTDIALOGMSG));
 
                 dialog.getConfirmButton().addClickHandler(new ClickHandler() {
                     @Override
@@ -348,7 +353,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         });
     }
 
-    protected Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
+    static public Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
         Map<String, Widget> widgetList = new HashMap<String, Widget>();
         Set<String> cluSetIds = new HashSet<String>();
         findCluSetIds(rule, cluSetIds);
@@ -359,7 +364,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         return widgetList;
     }
 
-    private void findCluSetIds(StatementTreeViewInfo rule, Set<String> list) {
+    private static void findCluSetIds(StatementTreeViewInfo rule, Set<String> list) {
 
         List<StatementTreeViewInfo> statements = rule.getStatements();
         List<ReqComponentInfo> reqComponentInfos = rule.getReqComponents();
@@ -386,7 +391,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         boolean isAddProgReq = (internalProgReqID == null);
 
-        String addRuleText = (isAddProgReq ? ProgramProperties.get().programRequirements_summaryViewPageAddRule(rules.getStmtTypeName(stmtTypeId)) : "Edit " + rules.getStmtTypeName(stmtTypeId));
+        String addRuleText = (isAddProgReq ? getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEADDRULE, rules.getStmtTypeName(stmtTypeId)) : "Edit " + rules.getStmtTypeName(stmtTypeId));
         final KSLightBox dialog = new KSLightBox(addRuleText);
 
         final ButtonEnumerations.ButtonEnum actionButton = (isAddProgReq ? ButtonEnumerations.AddCancelEnum.ADD : ButtonEnumerations.UpdateCancelEnum.UPDATE);
@@ -636,5 +641,15 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     static public String generateStatementTreeId() {
         return (NEW_STMT_TREE_ID + Integer.toString(tempStmtTreeID++));
+    }
+    
+    protected String getLabel(String messageKey) {
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey);
+    }
+    
+    protected String getLabel(String messageKey, String parameter) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("0", parameter);
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey, parameters);
     }
 }

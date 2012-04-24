@@ -37,7 +37,7 @@ public abstract class MetaEntity extends BaseEntity{
 		meta.setCreateTime(new Date());
 		meta.setUpdateTime(new Date());
 
-		String user = SecurityUtils.getCurrentUserId();
+		String user = SecurityUtils.getCurrentPrincipalId();
 		meta.setCreateId(user);
 		meta.setUpdateId(user);
 		
@@ -54,7 +54,7 @@ public abstract class MetaEntity extends BaseEntity{
 
 		meta.setUpdateTime(new Date());
 
-		String user = SecurityUtils.getCurrentUserId();
+		String user = SecurityUtils.getCurrentPrincipalId();
 		meta.setUpdateId(user);
 	}
 

@@ -41,6 +41,18 @@
         OBJ_ID="294E015D-D736-802E-2B98-0B8D62B66442" RSP_ID="307"
         RSP_TMPL_ID="1" VER_NBR="1"/>
     <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Curriculum Admin Review"
+        NM="CurAdminReview" NMSPC_CD="KS-LUM" OBJ_ID="CurriculumAdminReview0RSP"
+        RSP_ID="308" RSP_TMPL_ID="1" VER_NBR="0"/>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for Presidents Office Review"
+        NM="PresidentsOfficeReview" NMSPC_CD="KS-LUM"
+        OBJ_ID="PresidentsOfficeReview0RSP" RSP_ID="309" RSP_TMPL_ID="1" VER_NBR="0"/>
+    <KRIM_RSP_T ACTV_IND="Y"
+        DESC_TXT="Responsibility for System Office Review" NM="SystemOfficeReview"
+        NMSPC_CD="KS-LUM" OBJ_ID="SystemOfficeReview0RSP" RSP_ID="310"
+        RSP_TMPL_ID="1" VER_NBR="0"/>
+    <KRIM_RSP_T ACTV_IND="Y"
         DESC_TXT="Responsibility for Kuali Rice Exception Routing"
         NM="Resolve Exception" NMSPC_CD="KR-SYS"
         OBJ_ID="5D8B0E3E613996A3E0404F8189D8468D" RSP_ID="93"

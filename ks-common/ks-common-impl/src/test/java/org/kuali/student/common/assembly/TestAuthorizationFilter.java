@@ -4,17 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.rice.kim.api.common.template.Template;
+
 import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.assembly.data.Data;
@@ -22,8 +19,9 @@ import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.assembly.dictionary.MockDictionaryService;
 import org.kuali.student.common.assembly.transform.AuthorizationFilter;
-import org.kuali.student.common.assembly.transform.AuthorizationFilter.PermissionEnum;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
+import org.kuali.student.common.assembly.transform.AuthorizationFilter;
+import org.kuali.student.common.assembly.transform.AuthorizationFilter.PermissionEnum;
 import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
 import org.kuali.student.common.rice.StudentWorkflowConstants;
 import org.kuali.student.common.test.mock.MockProxy;
@@ -78,7 +76,7 @@ public class TestAuthorizationFilter {
 
 		
 		//Check edit permission when user not authorized to edit document
-		methodReturnMap.put("isAuthorizedByTemplate", new Boolean(false));
+		methodReturnMap.put("isAuthorizedByTemplateName", new Boolean(false));
 		metadata = metadataService.getMetadata(SIMPLE_STUDENT);
 		authzFilter.applyMetadataFilter(SIMPLE_STUDENT, metadata, authzFilterProperties);
 		
@@ -91,8 +89,8 @@ public class TestAuthorizationFilter {
 		
 		
 		//Check individual field edit permission for dob edit access
-		methodReturnMap.put("isAuthorizedByTemplate", new Boolean(true));
-		methodReturnMap.put("getAuthorizedPermissionsByTemplate", getDobEditPermission());
+		methodReturnMap.put("isAuthorizedByTemplateName", new Boolean(true));
+		methodReturnMap.put("getAuthorizedPermissionsByTemplateName", getDobEditPermission());
 		
 		metadata = metadataService.getMetadata(SIMPLE_STUDENT);
 		authzFilter.applyMetadataFilter(SIMPLE_STUDENT, metadata, authzFilterProperties);
@@ -123,8 +121,8 @@ public class TestAuthorizationFilter {
 		assertEquals("*********", studentData.get("ssn"));
 		
 		//Check to see partial unmask permission applied correctly
-		methodReturnMap.put("isAuthorizedByTemplate", new Boolean(true));
-		methodReturnMap.put("getAuthorizedPermissionsByTemplate", getSsnMaskPermission(PermissionEnum.PARTIAL_UNMASK));
+		methodReturnMap.put("isAuthorizedByTemplateName", new Boolean(true));		
+		methodReturnMap.put("getAuthorizedPermissionsByTemplateName", getSsnMaskPermission(PermissionEnum.PARTIAL_UNMASK));
 		metadata = metadataService.getMetadata(SIMPLE_STUDENT);
 		authzFilter.applyMetadataFilter(SIMPLE_STUDENT, metadata, authzFilterProperties);
 
@@ -135,41 +133,33 @@ public class TestAuthorizationFilter {
 	}
 	
 	public List<Permission> getDobEditPermission(){
-		List<Permission> permList = new ArrayList<Permission>();
-		String namespaceCode = "test-namespace";
+		return getPermission("dob", PermissionEnum.EDIT.toString());
+	}
+
+    public List<Permission> getSsnMaskPermission(PermissionEnum perm){
+		return getPermission("ssn", perm.toString());
+	}
+
+    private List<Permission> getPermission(String dtoFieldKey, String fieldAccessLevel){
+        List<Permission> permList = new ArrayList<Permission>();
+ 		String namespaceCode = "test-namespace";
         String permissionName = "test-permission-name";
         String templateName = "test-templateName";
         String kimTypeId = "test-kimTypeId";
-                       
+
         Template.Builder template = Template.Builder.create (namespaceCode, templateName, kimTypeId);
 		Permission.Builder dobEditPerm = Permission.Builder.create (namespaceCode, permissionName);
         dobEditPerm.setTemplate(template);
-        Map<String,String> attrs = new LinkedHashMap <String,String> ();
-		attrs.put("dtoFieldKey", "dob");
-		attrs.put("fieldAccessLevel", PermissionEnum.EDIT.toString());                
-		dobEditPerm.setAttributes(attrs);		
-		permList.add(dobEditPerm.build());
-		return permList;
-	}
 
-	public List<Permission> getSsnMaskPermission(PermissionEnum perm){
-		List<Permission> permList = new ArrayList<Permission>();
-
-		String namespaceCode = "test-namespace";
-        String permissionName = "test-permission-name";
-        String templateName = "test-templateName";
-        String kimTypeId = "test-kimTypeId";
-                
-        Template.Builder template = Template.Builder.create (namespaceCode, templateName, kimTypeId);
-		Permission.Builder dobEditPerm = Permission.Builder.create (namespaceCode, permissionName);
-        dobEditPerm.setTemplate(template);
         Map<String,String> attrs = new LinkedHashMap <String,String> ();
-		attrs.put("dtoFieldKey", "ssn");
-		attrs.put("fieldAccessLevel", perm.toString());
-		dobEditPerm.setAttributes(attrs);		
+		attrs.put("dtoFieldKey", dtoFieldKey);
+		attrs.put("fieldAccessLevel", fieldAccessLevel);
+		dobEditPerm.setAttributes(attrs);
 		permList.add(dobEditPerm.build());
+
 		return permList;
-	}
+
+    }
 
 	public Data getStudentData(){
 		Data data = new Data();

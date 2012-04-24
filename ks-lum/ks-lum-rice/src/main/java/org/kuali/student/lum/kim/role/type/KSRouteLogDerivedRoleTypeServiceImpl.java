@@ -64,9 +64,9 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
         }
 	}
 
-	/** 
+	/**
 	 * The part about where the receivedAttributes list being empty does not return errors is copied from Rice base class.
-	 * 
+	 *
 	 * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#validateRequiredAttributesAgainstReceived(org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 **/
 	@Override
@@ -123,11 +123,11 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 	 *	- the roles that will be of this type are KR-WKFLW Initiator and KR-WKFLW Initiator or Reviewer, KR-WKFLW Router
 	 *	- only the initiator of the document in question gets the KR-WKFLW Initiator role
 	 *	- user who routed the document according to the route log should get the KR-WKFLW Router role
-	 *	- users who are authorized by the route log, 
-	 *		i.e. initiators, people who have taken action, people with a pending action request, 
-	 *		or people who will receive an action request for the document in question get the KR-WKFLW Initiator or Reviewer Role 
-	 * 
-	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getRoleMembersFromDerivedRole(String, String, Map<String,String>)
+	 *	- users who are authorized by the route log,
+	 *		i.e. initiators, people who have taken action, people with a pending action request,
+	 *		or people who will receive an action request for the document in question get the KR-WKFLW Initiator or Reviewer Role
+	 *
+	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getRoleMembersFromApplicationRole(String, String, Map<String,String>)
 	 */
 	@Override
     public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> paramQualification) {
@@ -163,7 +163,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 	}
 
 	/***
-	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasDerivedRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
 	public boolean hasDerivedRole(
@@ -192,7 +192,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 
 	/**
 	 * Returns false, as the Route Log changes often enough that role membership is highly volatile
-	 * 
+	 *
 	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#shouldCacheRoleMembershipResults(java.lang.String, java.lang.String)
 	 */
 //	@Override

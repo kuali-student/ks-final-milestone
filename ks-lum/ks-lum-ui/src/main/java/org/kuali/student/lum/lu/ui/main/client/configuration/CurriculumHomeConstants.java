@@ -25,5 +25,5 @@ public interface CurriculumHomeConstants {
 	public static final String DEP_ANALYSIS = "depAnalysis";
 	public static final String LOS = "los";
 	public static final String RECENTLY_VIEWED = "recentlyViewed";
-	public static final String RV_DESC = "recentlyViewedDesc";
+	public static final String RV_DESC = "recentlyViewedDesc"; 
 }

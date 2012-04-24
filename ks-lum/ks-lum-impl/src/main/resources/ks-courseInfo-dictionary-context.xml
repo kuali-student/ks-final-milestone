@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
  <import resource="classpath:ks-cluInfo-dictionary-context.xml" />
  <import resource="classpath:ks-loInfo-dictionary-context.xml" />
@@ -172,43 +172,44 @@
  </bean>
  <bean id="courseInfo.code" parent="courseInfo.code-parent" />
 
- <bean id="courseInfo.courseNumberSuffix-parent" abstract="true"	parent="cluIdentifierInfo.suffixCode-parent">
-  <property name="name" value="courseNumberSuffix" />
-  <property name="minLength" value="3" />
-  <property name="maxLength" value="3" />
-  <property name="validChars" ref="digits" />
-  <property name="caseConstraint">
-   <bean parent="caseConstraint">
-    <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="state"/>
-    <property name="caseSensitive" value="false"/>
-    <property name="whenConstraint">
-     <list>
-      <bean parent="whenConstraint">
-       <property name="values">
-        <list>
-         <value>SUBMITTED</value>
-         <value>APPROVED</value>
-         <value>ACTIVE</value>
-         <value>RETIRED</value>
-        </list>
-       </property>
-       <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="cluIdentifierInfo.suffixCode-parent">
-         <property name="minOccurs" value="1" />
-         <property name="minLength" value="3" />
-         <property name="maxLength" value="3" />
-         <property name="validChars" ref="digits" />
-         <!--<property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.RepeatableCreditValidator"/>-->
-        </bean>
-       </property>
-      </bean>
-     </list>
-    </property>
-   </bean>
-  </property>
- </bean>
+ <bean id="courseInfo.courseNumberSuffix-parent" abstract="true"
+	parent="cluIdentifierInfo.suffixCode-parent">
+	<property name="name" value="courseNumberSuffix" />
+	<property name="minLength" value="3" />
+	<property name="maxLength" value="3" />
+	<property name="validChars" ref="digits" />
+	<property name="caseConstraint">
+		<bean parent="caseConstraint">
+			<property name="operator" value="EQUALS" />
+			<property name="fieldPath" value="state" />
+			<property name="caseSensitive" value="false" />
+			<property name="whenConstraint">
+				<list>
+					<bean parent="whenConstraint">
+						<property name="values">
+							<list>
+								<value>SUBMITTED</value>
+								<value>APPROVED</value>
+								<value>ACTIVE</value>
+								<value>RETIRED</value>
+							</list>
+						</property>
+						<property name="constraint">
+							<!--Copy all the properties from above adding minOccurs = 1 -->
+							<bean parent="cluIdentifierInfo.suffixCode-parent">
+								<property name="minOccurs" value="1" />
+								<property name="minLength" value="3" />
+								<property name="maxLength" value="3" />
+								<property name="validChars" ref="digits" />
+								<!--<property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.RepeatableCreditValidator"/> -->
+							</bean>
+						</property>
+					</bean>
+				</list>
+			</property>
+		</bean>
+	</property>
+</bean>
  <bean id="courseInfo.courseNumberSuffix" parent="courseInfo.courseNumberSuffix-parent" />
 
  <bean id="courseInfo.level-parent" abstract="true" parent="cluIdentifierInfo.level-parent">
@@ -300,7 +301,7 @@
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
-      <bean parent="whenConstraint">
+           <bean parent="whenConstraint">
        <property name="values">
         <list>
          <value>SUBMITTED</value>
@@ -363,7 +364,7 @@
     <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
-     <list>
+     <list>      
       <bean parent="whenConstraint">
        <property name="values">
         <list>
@@ -401,37 +402,38 @@
  </bean>
  <bean id="courseInfo.descr.formatted" parent="courseInfo.descr.formatted-parent" />
 
- <bean id="courseInfo.descr.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
-  <property name="name" value="plain" />
-  <property name="maxLength" value="1000" />
-  <property name="caseConstraint">
-   <bean parent="caseConstraint">
-    <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="state"/>
-    <property name="caseSensitive" value="false"/>
-    <property name="whenConstraint">
-     <list>
-      <bean parent="whenConstraint">
-       <property name="values">
-        <list>
-		 <value>SUBMITTED</value>
-         <value>APPROVED</value>
-         <value>ACTIVE</value>
-         <value>RETIRED</value>
-        </list>
-       </property>
-       <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
+ <bean id="courseInfo.descr.plain-parent" abstract="true"
+	parent="richTextInfo.formatted-parent">
+	<property name="name" value="plain" />
+	<property name="maxLength" value="1000" />
+	<property name="caseConstraint">
+		<bean parent="caseConstraint">
+			<property name="operator" value="EQUALS" />
+			<property name="fieldPath" value="state" />
+			<property name="caseSensitive" value="false" />
+			<property name="whenConstraint">
+				<list>
+					<bean parent="whenConstraint">
+						<property name="values">
+							<list>
+								<value>SUBMITTED</value>
+								<value>APPROVED</value>
+								<value>ACTIVE</value>
+								<value>RETIRED</value>
+							</list>
+						</property>
+						<property name="constraint">
+							<!--Copy all the properties from above adding minOccurs = 1 -->
         <bean parent="richTextInfo.plain-parent">
          <property name="minOccurs" value="1" />
          <property name="minLength" value="1" />
-        </bean>
-       </property>
-      </bean>
-     </list>
-    </property>
-   </bean>
-  </property>  
+		</bean>
+	</property>
+ </bean>
+				</list>
+			</property>
+		</bean>
+	</property>
  </bean>
  <bean id="courseInfo.descr.plain" parent="courseInfo.descr.plain-parent" />
 
@@ -622,7 +624,7 @@
   <property name="name" value="endTerm" />
   <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.ActiveDatesValidator"/>
   <property name="lookupDefinition" ref="constraint.lookup.course.endTerm"/>
- </bean>
+   </bean>
 <bean id="courseInfo.endTerm" parent="courseInfo.endTerm-parent" />
 
 <bean id="constraint.lookup.course.endTerm-parent" parent="constraint.lookup.atp">
@@ -722,9 +724,9 @@
     <property name="operator" value="EQUALS"/>
     <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
-    <property name="whenConstraint">
-     <list>
-      <bean parent="whenConstraint">
+		        <property name="whenConstraint">
+					<list>
+						<bean parent="whenConstraint">
        <property name="values">
         <list>
          <value>SUBMITTED</value>
@@ -765,7 +767,7 @@
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
-      <bean parent="whenConstraint">
+     <bean parent="whenConstraint">
        <property name="values">
         <list>
          <value>SUBMITTED</value>
@@ -1145,7 +1147,7 @@
  <bean id="activityInfo.activityType-parent" abstract="true"
        parent="cluInfo.type-parent">
   <property name="name" value="activityType" />
- </bean>
+		                </bean>
  <bean id="activityInfo.activityType" parent="activityInfo.activityType-parent" />
 
  <bean id="activityInfo.contactHours-parent" abstract="true" parent="baseComplex">
@@ -1395,9 +1397,9 @@
  <bean id="resultComponentInfo.resultValuesNumeric-parent" abstract="true" parent="baseNumericString">
   <property name="name" value="resultValues" />
   <property name="maxOccurs" value="unbounded" />
- </bean>
+      </bean>
  <bean id="resultComponentInfo.resultValuesNumeric" parent="resultComponentInfo.resultValuesNumeric-parent" />
-
+ 
  <bean id="resultComponentInfo.minCreditValue" parent="baseNumericString" >
   <property name="name" value="minCreditValue"/>
   <property name="dynamic" value="true"/>
@@ -1409,7 +1411,7 @@
  <bean id="resultComponentInfo.fixedCreditValue" parent="baseNumericString">
   <property name="name" value="fixedCreditValue"/>
   <property name="dynamic" value="true"/>
- </bean>
+   </bean>
  <!-- VersionInfo-->
  <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
   <property name="name" value="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>

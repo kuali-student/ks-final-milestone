@@ -44,18 +44,27 @@ public class KSFilterOptions extends Composite{
     private VerticalFlowPanel filterContainer = new VerticalFlowPanel();
     private LoadingDiv loading = new LoadingDiv();
     List<KSFilterItem> filterItems = new ArrayList<KSFilterItem>();
-        
     private int itemsIntializing = 0;
     private int itemsSelected = 0;
 
     private SearchRpcServiceAsync searchRpcService = GWT.create(SearchRpcService.class);
     
     public KSFilterOptions(List<LookupMetadata> lookups){
-        filterTitlePanel.add(filterTitle);
+        init(lookups,null);
+        this.initWidget(filterContainer);
+    }
+    
+    public KSFilterOptions(List<LookupMetadata> lookups, Map<String,Integer> filterCount){
+        init(lookups,filterCount);
+        this.initWidget(filterContainer);
+    }
+    
+    protected void init(List<LookupMetadata> lookups, Map<String,Integer> filterCount){	
+    	filterTitlePanel.add(filterTitle);
         filterTitlePanel.add(filterDescription);
         filterContainer.add(filterTitlePanel);
         filterContainer.add(filterPanel);
-
+        
         filterContainer.addStyleName("KS-Filter-Options-Parent-Container");
         filterTitlePanel.addStyleName("KS-Filter-Options-Title-Panel");
 
@@ -79,14 +88,9 @@ public class KSFilterOptions extends Composite{
 				itemsSelected = 0;
 			}        	
         });
-        init(lookups);
-        this.initWidget(filterContainer);
-    }
-    
-    protected void init(List<LookupMetadata> lookups){
     	for (LookupMetadata lookup:lookups){
     		itemsIntializing ++;
-    		KSFilterItem filterItem = new KSFilterItem(lookup);
+    		KSFilterItem filterItem = new KSFilterItem(lookup,filterCount);
     		filterPanel.add(filterItem);
     	}    	
     }
@@ -115,10 +119,8 @@ public class KSFilterOptions extends Composite{
     private class KSFilterItem extends CollapsablePanel{
     	SpanPanel itemContent;
     	String itemKey;
-    	
     	List<KSCheckBox> checkboxes = new ArrayList<KSCheckBox>();
-    	
-    	public KSFilterItem (final LookupMetadata lookup){
+    	public KSFilterItem (final LookupMetadata lookup, final Map<String,Integer> filterCount){
     		itemContent = new SpanPanel();
     		this.init(new KSLabel(lookup.getTitle()), itemContent, true, true, ImagePosition.ALIGN_LEFT);
     		this.addStyleName("KS-Filter-Item");
@@ -132,13 +134,24 @@ public class KSFilterOptions extends Composite{
 				@Override
 				public void onSuccess(SearchResult result) {
 					SearchResultListItems items = new SearchResultListItems(result.getRows(), lookup);
-					for (String id:items.getItemIds()){
-		                final KSCheckBox checkbox = new KSCheckBox(items.getItemText(id));
-		                checkbox.setFormValue(id);
-		                checkboxes.add(checkbox);
-		                itemContent.add(checkbox);
-		                
-		                checkbox.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
+					for (String id:items.getItemIds()){			
+						final KSCheckBox checkbox;
+
+						if(filterCount!=null)
+						{
+							if(filterCount.get(id)==null)
+								checkbox = new KSCheckBox(items.getItemText(id)+" (0)");
+							else
+								checkbox = new KSCheckBox(items.getItemText(id)+" ("+filterCount.get(id)+")");
+						}
+						else
+							checkbox = new KSCheckBox(items.getItemText(id));
+
+						checkbox.setFormValue(id);
+						checkboxes.add(checkbox);
+						itemContent.add(checkbox);
+
+						checkbox.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
 
 							@Override
 							public void onValueChange(ValueChangeEvent<Boolean> event) {
@@ -205,5 +218,5 @@ public class KSFilterOptions extends Composite{
 		
 		return selectionMap;
     }
-
+    
 }

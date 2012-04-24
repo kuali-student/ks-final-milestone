@@ -2,26 +2,26 @@ package org.kuali.student.common.dictionary.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LookupConstraint extends CommonLookup{
 
-
 	private static final long serialVersionUID = 1L;
-//	private String searchTypeId; // id of search type defined in search xml
-//	private String resultReturnKey; // key of searchResultColumn to map back to
-//									// this field
-//	protected List<LookupConstraintParamMapping> lookupParams; // maps fields to
-//																// search
-//																// params?
-//
-//	public List<LookupConstraintParamMapping> getLookupParams() {
-//		return lookupParams;
-//	}
-//
-//	public void setLookupParams(List<LookupConstraintParamMapping> lookupParams) {
-//		this.lookupParams = lookupParams;
-//	}
+
+	@XmlElement
+	protected ErrorLevel errorLevel = ErrorLevel.ERROR;
+
+	public ErrorLevel getErrorLevel() {
+		return errorLevel;
+	}
+
+	public void setErrorLevel(ErrorLevel errorLevel) {
+		this.errorLevel = errorLevel;
+	}
+		
 }

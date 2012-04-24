@@ -30,10 +30,10 @@ public class CollaboratorHelper implements Serializable {
     private WorkflowDocumentService workflowDocumentService;
     private DocumentTypeService documentTypeService;
 	private PermissionService permissionService;
-	
+
 	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CollaboratorHelper.class);
-	
+
     public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String respondBy) throws OperationFailedException {
         if(getWorkflowDocumentActionsService()==null){
         	throw new OperationFailedException("Workflow Service is unavailable");
@@ -82,7 +82,7 @@ public class CollaboratorHelper implements Serializable {
 //            RoleService roleService;
 //            List<KimRoleInfo> roles = getRoleService().getRoles(roleIds);
             if (PermissionType.EDIT.equals(selectedPermType)) {
-            	addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);       	
+            	addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
             }
             else if (PermissionType.ADD_COMMENT.equals(selectedPermType)) {
             	addRoleMember(StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
@@ -93,7 +93,7 @@ public class CollaboratorHelper implements Serializable {
             throw new OperationFailedException("Error adding principal id to adhoc permission roles",e);
         }
     }
-    
+
     public Boolean removeCollaborator(String docId, String dataId, String actionRequestId) throws OperationFailedException {
         //get the current user
         String currentUserPrincipalId = SecurityUtils.getCurrentUserId();
@@ -123,7 +123,7 @@ public class CollaboratorHelper implements Serializable {
             throw new OperationFailedException("Error getting actions Requested for principal id fetch",e);
         }
     }
-    
+
     public List<WorkflowPersonInfo> getCollaborators(String docId) throws OperationFailedException{
 		try{
 			LOG.info("Getting collaborators for docId: "+docId);
@@ -132,9 +132,9 @@ public class CollaboratorHelper implements Serializable {
 	        	LOG.error("No workflow Utility Service is available.");
 	        	throw new OperationFailedException("Workflow Service is unavailable");
 	        }
-			
+
 			List<WorkflowPersonInfo> people = new ArrayList<WorkflowPersonInfo>();
-			
+
 			Map<String,String> qualification = new LinkedHashMap<String,String>();
 			qualification.put("documentNumber", docId);
 			List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(docId);
@@ -185,7 +185,7 @@ public class CollaboratorHelper implements Serializable {
 	        		}
 	        	}
 	        }
-	
+
 	        LOG.info("Returning collaborators: "+ people.toString());
 	        return people;
 		}catch(Exception e){
@@ -193,7 +193,7 @@ public class CollaboratorHelper implements Serializable {
             throw new OperationFailedException("Error getting actions Requested",e);
 		}
     }
-    
+
     private String getActionRequestStatusLabel(String key) {
         Map<String,String> newArStatusLabels = new HashMap<String,String>();
         newArStatusLabels.put(ActionRequestStatus.ACTIVATED.getCode(), "Active");
@@ -201,7 +201,7 @@ public class CollaboratorHelper implements Serializable {
         newArStatusLabels.put(ActionRequestStatus.DONE.getCode(), "Completed");
         return newArStatusLabels.get(key);
     }
-	
+
 	private void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, WorkflowException {
     	DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(docId);
     	DocumentType docType = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
@@ -230,7 +230,7 @@ public class CollaboratorHelper implements Serializable {
 		}
 		return Boolean.FALSE;
     }
-	
+
 	public IdentityService getIdentityService() throws OperationFailedException {
 	    if (identityService == null) {
 	        throw new OperationFailedException("unable to find valid identityService");
@@ -241,7 +241,7 @@ public class CollaboratorHelper implements Serializable {
 	public void setIdentityService(IdentityService identityService) {
 		this.identityService = identityService;
 	}
-	
+
 	public RoleService getRoleService() throws OperationFailedException {
         if (roleService == null) {
             throw new OperationFailedException("unable to find valid roleService");

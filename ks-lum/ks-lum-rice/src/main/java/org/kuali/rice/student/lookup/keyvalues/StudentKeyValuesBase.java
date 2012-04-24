@@ -26,7 +26,6 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.core.organization.service.OrganizationService;
-
 /**
  * Convenience class used to help out key values classes
  *
@@ -55,13 +54,13 @@ public abstract class StudentKeyValuesBase extends KeyValuesBase {
 	 */
 	
 	//** question from Bonnie: Why the input parameters have orgId, orgShortName, orgLongName and orgType,
-	//** but the output of KeyValue is constructed with orgShortName for both key and label?
+	//** but the output of KeyLabelPair is constructed with orgShortName for both key and label?
 	//** This looks weird for me.
-	protected static KeyValue buildKeyValue(String orgId, String orgShortName, String orgLongName, String orgType) {
+	protected static KeyValue buildKeyLabelPair(String orgId, String orgShortName, String orgLongName, String orgType) {
 		if (StringUtils.isBlank(orgShortName)) {
 			throw new IllegalArgumentException("Blank value for orgShortName is invalid.");
 		}
-		//	return new KeyValue(orgShortName, orgShortName);
+		//	return new KeyLabelPair(orgShortName, orgShortName);
 		return new ConcreteKeyValue(orgId, orgShortName);
 	}
 

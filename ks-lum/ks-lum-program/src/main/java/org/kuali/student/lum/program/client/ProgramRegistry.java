@@ -4,8 +4,12 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Igor
@@ -60,5 +64,25 @@ public class ProgramRegistry {
 
     public static void setCreateNew(boolean createNew) {
         ProgramRegistry.createNew = createNew;
+    }
+    
+    /**
+     * @return  The validation warnings for the current variation found in the validation warnings stored in
+     * the ApplicationContext.
+     *  
+     */
+    public static List<ValidationResultInfo> getVariationWarnings(){
+    	String variationPath = ProgramConstants.VARIATIONS+"/"+org.kuali.student.lum.program.client.ProgramRegistry.getRow()+"/";
+    	List<ValidationResultInfo> validationWarnings = Application.getApplicationContext().getValidationWarnings();
+    	List<ValidationResultInfo> variationWarnings = new ArrayList<ValidationResultInfo>();
+    	for (ValidationResultInfo vr:validationWarnings){
+    		if (vr.getElement().contains(variationPath)){
+    			ValidationResultInfo newVr = new ValidationResultInfo(vr.getElement().substring(variationPath.length()));
+    			newVr.setWarning(vr.getMessage());
+    			variationWarnings.add(newVr);
+    		}
+    	}
+    	
+    	return variationWarnings;
     }
 }

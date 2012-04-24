@@ -20,9 +20,11 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class Configurer {
     protected ModelDefinition modelDefinition;
     protected String type = "";
+    //FIXME: WJG: I think state should be removed from the configurer
     protected String state = "";
+    protected String nextState = "";
     protected String groupName = "";
-//    public abstract void configure(ConfigurableLayout layout);
+
     /**
      * Sets the modelDefinition which is the metadata backing the fields to be configured,
      * this needs to be set before adding any fields in the configurer
@@ -43,7 +45,7 @@ public abstract class Configurer {
      * @param labelKey key of the message - must match a message in your messages (stored in the db)
      * @return
      */
-    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+    public MessageKeyInfo generateMessageInfo(String labelKey) {
         return new MessageKeyInfo(groupName, type, state, labelKey);
     }
     
@@ -52,8 +54,16 @@ public abstract class Configurer {
      * @param labelKey
      * @return
      */
-    protected String getLabel(String labelKey) {
+    public String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
+    }
+    
+    public String getLabel(String labelKey, String fieldKey) {
+        String parentPath = Application.getApplicationContext().getParentPath();
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata metadata = modelDefinition.getMetadata(path);
+        
+        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey, metadata);
     }
 
     /**
@@ -289,4 +299,25 @@ public abstract class Configurer {
         section.addField(fd);
         return fd;
     }
+
+    /**
+     * The initial state of the objects for the screen
+     * 
+     * @return
+     */
+    public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getNextState() {
+		return nextState;
+	}
+
+	public void setNextState(String nextState) {
+		this.nextState = nextState;
+	}       
 }

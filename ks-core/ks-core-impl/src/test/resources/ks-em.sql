@@ -28,8 +28,8 @@ insert into KSEM_ENUM_T (ENUM_KEY, DESCR, EFF_DT, EXPIR_DT, NAME ) values ('kual
 
 --Enumerated Values
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('1', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 1, 'Robotics');
-insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('2', 'CMPS', 'CMPS', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 2, 'CompSci');
-insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('3', 'MECH', 'MECH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 3, 'Mechanical');
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('2', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 2, 'CompSci');
+insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('3', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 3, 'Mechanical');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('4', 'AACH', 'AACH', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 4, 'Architecture');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('5', 'ACCT', 'ACCT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 5, 'Accounting');
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('6', 'ARTS', 'ARTS', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, 6, 'FineArts');

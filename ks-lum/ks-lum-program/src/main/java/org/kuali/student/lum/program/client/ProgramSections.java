@@ -11,6 +11,10 @@ import org.kuali.student.lum.program.client.requirements.ProgramRequirementsView
  * @author Igor
  */
 public enum ProgramSections {
+    PROGRAM_PROPOSAL_VIEW,
+    PROGRAM_PROPOSAL_EDIT,
+    PROGRAM_PROPOSAL_CHANGE_IMPACT_VIEW,
+    PROGRAM_PROPOSAL_CHANGE_IMPACT_EDIT,
     PROGRAM_DETAILS_VIEW,
     PROGRAM_DETAILS_EDIT,
     SPECIALIZATIONS_VIEW,
@@ -25,10 +29,12 @@ public enum ProgramSections {
     LEARNING_OBJECTIVES_EDIT,
     SUPPORTING_DOCUMENTS_VIEW,
     SUPPORTING_DOCUMENTS_EDIT,
+    COLLABORATORS_EDIT,
     VIEW_ALL,
     SUMMARY,
     COMMENTS,
-    EMPTY;
+    EMPTY,
+    WF_APPROVE_DIALOG;
 
     private static HashMap<Enum<?>, Enum<?>> sectionMap = new HashMap<Enum<?>, Enum<?>>();
 
@@ -41,6 +47,8 @@ public enum ProgramSections {
     }
 
     static {
+        sectionMap.put(PROGRAM_PROPOSAL_VIEW, PROGRAM_PROPOSAL_EDIT);
+        sectionMap.put(PROGRAM_PROPOSAL_CHANGE_IMPACT_VIEW, PROGRAM_PROPOSAL_CHANGE_IMPACT_EDIT);
         sectionMap.put(PROGRAM_DETAILS_VIEW, PROGRAM_DETAILS_EDIT);
         sectionMap.put(SPECIALIZATIONS_VIEW, SPECIALIZATIONS_EDIT);
         sectionMap.put(ProgramRequirementsViewController.ProgramRequirementsViews.PREVIEW, PROGRAM_REQUIREMENTS_EDIT);

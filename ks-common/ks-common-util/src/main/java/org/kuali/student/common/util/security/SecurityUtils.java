@@ -22,8 +22,50 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class SecurityUtils {
 	
 	/** 
-	 * This can be used to get the current user id from security context
+	 * This can be used to get the current user's principal id from security context
 	 * 
+	 * @return principal id
+	 */
+	public static String getCurrentPrincipalId() {
+        String principalID=null;
+		
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+		if(auth!=null){
+        	Object obj = auth.getPrincipal();
+        	if(obj instanceof UserWithId){
+        		//This is actually the user's Principal Id
+        		principalID = ((UserWithId)obj).getUserId();
+        	}
+        }
+		return principalID;
+	}
+	
+	/**
+	 * This can be used to get the current user's principal name from security context
+	 * 
+	 * @return principal name
+	 */
+	public static String getCurrentPrincipalName(){
+		String username = "unknown";
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (auth != null) {
+			Object obj = auth.getPrincipal();
+		    if (obj instanceof UserDetails) {
+		    	username = ((UserDetails)obj).getUsername();
+		    } else {
+		        username = obj.toString();
+		    }
+		}
+
+	    return username;
+	}
+
+	/**
+	 * This can be used to get the current user id from security context
+	 *
 	 * @return userId
 	 */
 	public static String getCurrentUserId() {
@@ -42,21 +84,21 @@ public class SecurityUtils {
         }
 		return username;
 	}
-	
-	public static String getPrincipalUserName(){
-		String username = "unknown";
-		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) {
-			Object obj = auth.getPrincipal();
-		    if (obj instanceof UserDetails) {
-		    	username = ((UserDetails)obj).getUsername();
-		    } else {
-		        username = obj.toString();
-		    }
-		}
 
-	    return username;
-	}
+    public static String getPrincipalUserName(){
+        String username = "unknown";
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object obj = auth.getPrincipal();
+            if (obj instanceof UserDetails) {
+                username = ((UserDetails)obj).getUsername();
+            } else {
+                username = obj.toString();
+            }
+        }
+
+        return username;
+    }
 
 }

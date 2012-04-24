@@ -180,6 +180,20 @@ public class OutlineManager extends VerticalSection implements HasValue<OutlineN
 			}
 			super.onBrowserEvent(event);
 		}
+
+        @Override
+        protected void onEnsureDebugId(String baseID) {
+            super.onEnsureDebugId(baseID);
+            toolbar.ensureDebugId(baseID);
+            if (currentNode != null) {
+                Object userObject = currentNode.getUserObject();
+                if (userObject instanceof Widget) {
+                    ((Widget) userObject).ensureDebugId(baseID);
+                }
+            }
+        }
+		
+		
 	}
 	
 	@Override

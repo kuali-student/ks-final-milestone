@@ -3,11 +3,7 @@
  */
 package org.kuali.student.lum.workflow.qualifierresolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -15,10 +11,10 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.xml.XmlJotter;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.w3c.dom.Document;
@@ -165,7 +161,7 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
     }
 
     protected List<Map<String,String>> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey) {
-        
+
         List<Map<String,String>> returnAttributeSets = new ArrayList<Map<String,String>>();
         List<OrgInfo> orgsForRouting = null;
         if (orgId != null) {

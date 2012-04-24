@@ -170,7 +170,11 @@ public class ReqComponentInfo implements Serializable, Idable, HasTypeState {
 
     @Override
 	public String toString() {
-		return "ReqComponentInfo[id=" + id + ", type=" + type + ", state="
-				+ state + "]";
+        String returnString ="ReqComponentInfo[id=" + id + ", type=" + type + ", state="
+                + state;
+        for(ReqCompFieldInfo info : this.getReqCompFields()){
+            returnString += info.toString() + " ";
+        }
+		return  returnString + "]";
 	}
 }

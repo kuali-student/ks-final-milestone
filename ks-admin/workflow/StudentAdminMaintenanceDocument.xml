@@ -23,7 +23,7 @@
 			<name>StudentAdminMaintenanceDocument</name>
 			<label>Kuali Student Admin Maintenance Document</label>
             <parent>RiceDocument</parent>
-			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+			<postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<docHandler>${application.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<policies>
 				<policy>

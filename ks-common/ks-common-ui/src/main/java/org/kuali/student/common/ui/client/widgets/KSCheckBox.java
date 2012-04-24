@@ -15,6 +15,8 @@
 
 package org.kuali.student.common.ui.client.widgets;
 
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
+
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -48,6 +50,7 @@ public class KSCheckBox extends CheckBox{
      */
     public KSCheckBox(String label){
         super(label);
+        ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(label));
         setupDefaultStyle();
     }
 
@@ -98,8 +101,8 @@ public class KSCheckBox extends CheckBox{
                     }
                     else{
                         KSCheckBox.this.removeStyleName("KS-Checkbox-Checked");
+                        KSCheckBox.this.setFocus(false);
                     }
-
                 }
             });
     }

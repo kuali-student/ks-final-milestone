@@ -33,6 +33,9 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
 	private DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;	
 	
 	private Metadata collaboratorMetadata = null;
+	private Metadata proposalMetadata = null;
+	
+	private String proposalObjectType;
 	
 	/**
 	 *  This removes the collaborator info from the data and saves it for use in outbound filter.	
@@ -95,7 +98,7 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
             //Unfortunately the ProposalWorkflowFilter gets processed before this filter and the updateProposal call
             //above doesn't get reflected in UI data. It is necessary to do another conversion here, otherwise we end
             //up with out of sync proposal data, ultimately resulting in version mismatch errors.
-            Data proposalData = mapper.convertFromBean(proposalInfo);
+            Data proposalData = mapper.convertFromBean(proposalInfo, getProposalMetadata());
     		data.remove(new StringKey("proposal"));
             data.set("proposal", proposalData);		
         }
@@ -113,7 +116,7 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
         collabInfo.setCollaborators(collaborators);
 
         // Tack on updated collaborators data to data returned to UI client
-        Data collabData = mapper.convertFromBean(collabInfo);
+        Data collabData = mapper.convertFromBean(collabInfo, getCollaboratorMetadata());
         data.set("collaboratorInfo", collabData);
 
     }
@@ -145,6 +148,21 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
 		return collaboratorMetadata;
 	}
 	
+	/**
+	 * This method returns the default metadata (w/o) regard to state. The intent is
+	 * to cut down on repeated metadata service calls by having a cached version. This 
+	 * metadata is passed into the DataBeanMapper where state does not matter. 
+	 * 
+	 * @return
+	 */
+	private Metadata getProposalMetadata(){
+		if (proposalMetadata == null){
+			proposalMetadata = metadataService.getMetadata(getProposalObjectType());
+		}
+		
+		return proposalMetadata;
+	}
+		
 	public void setMetadataService(MetadataServiceImpl metadataService) {
 		this.metadataService = metadataService;
 	}
@@ -157,4 +175,15 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
 		this.proposalService = proposalService;
 	}
 
+
+	public String getProposalObjectType() {
+		return proposalObjectType;
+	}
+
+
+	public void setProposalObjectType(String proposalObjectType) {
+		this.proposalObjectType = proposalObjectType;
+	}
+
+	
 }

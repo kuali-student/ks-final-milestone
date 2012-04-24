@@ -38,7 +38,7 @@ public class TranslatedDocumentTypePermissionTypeServiceImpl extends DocumentTyp
 	private static Set<List<String>> attributes = new HashSet<List<String>>();
 
 	{
-		// add document number as one required attribute set
+        // add document number as one required attribute set
 		List<String> listOne = new ArrayList<String>();
 		listOne.add( KimConstants.AttributeConstants.DOCUMENT_NUMBER );
 		attributes.add(listOne);
@@ -53,6 +53,7 @@ public class TranslatedDocumentTypePermissionTypeServiceImpl extends DocumentTyp
 	        tempList.add( proposalReferenceType );
 	        attributes.add(tempList);
         }
+
 //		List<String> listFour = new ArrayList<String>();
 //		listFour.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
 //		listFour.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
@@ -60,7 +61,7 @@ public class TranslatedDocumentTypePermissionTypeServiceImpl extends DocumentTyp
 
 	}
 
-//	@Override
+	//@Override
     public Map<String,String> translateInputAttributeSet(Map<String,String> qualification) {
 		return KimQualificationHelper.translateInputAttributeSet(qualification);
 	}

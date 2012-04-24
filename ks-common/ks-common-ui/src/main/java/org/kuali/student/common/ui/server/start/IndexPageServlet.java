@@ -48,7 +48,7 @@ public class IndexPageServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		//Get the username
-		String username = SecurityUtils.getPrincipalUserName();
+		String username = SecurityUtils.getCurrentPrincipalName();
 		
 		//Get the Rice Application Url
 		String riceUrl = ConfigContext.getCurrentContextConfig().getProperty("ks.rice.url");

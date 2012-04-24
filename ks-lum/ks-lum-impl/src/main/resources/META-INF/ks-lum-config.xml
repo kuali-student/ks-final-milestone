@@ -23,22 +23,18 @@
 	
 	<param name="ks.lum.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
 	<param name="ks.lum.datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
-	<param name="ks.lum.datasource.driver.name.mysql">com.mysql.jdbc.Driver</param>
 	<param name="ks.lum.datasource.driver.name">${ks.lum.datasource.driver.name.${db.vendor}}</param>
 	
 	<param name="ks.lum.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
 	<param name="ks.lum.datasource.url.derby">jdbc:derby://localhost:1527/derby/lum;create=true</param>
-	<param name="ks.lum.datasource.url.mysql">jdbc:mysql://localhost/KSEMBEDDED</param>
 	<param name="ks.lum.datasource.url">${ks.lum.datasource.url.${db.vendor}}</param>
 	
 	<param name="ks.lum.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
 	<param name="ks.lum.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
-	<param name="ks.lum.jpa.DatabasePlatform.mysql">org.hibernate.dialect.MySQLDialect</param>
 	<param name="ks.lum.jpa.DatabasePlatform">${ks.lum.jpa.DatabasePlatform.${db.vendor}}</param>
 	
 	<param name="ks.lum.datasource.validationQuery.oracle">select 1 from dual</param>
 	<param name="ks.lum.datasource.validationQuery.derby">values(1)</param>
-	<param name="ks.lum.datasource.validationQuery.mysql">select 1</param>
 	<param name="ks.lum.datasource.validationQuery">${ks.lum.datasource.validationQuery.${db.vendor}}</param>
 	<param name="ks.lum.datasource.username">kslum</param>
     <param name="ks.lum.datasource.password">kslum</param>

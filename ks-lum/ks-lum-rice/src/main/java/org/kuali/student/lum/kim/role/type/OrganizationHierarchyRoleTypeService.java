@@ -28,8 +28,8 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
+import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
@@ -78,7 +78,7 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
 	        // add in the original org short name
 	        if(inputOrgId!=null){
 	            OrgInfo org = getOrganizationService().getOrganization(inputOrgId);
-	            inputSets.add(new Map<String,String>(KualiStudentKimAttributes.QUALIFICATION_ORG,org.getShortName()));
+	            inputSets.add(new AttributeSet(KualiStudentKimAttributes.QUALIFICATION_ORG,org.getShortName()));
 	        }
 */	        
     		// check for a match where roleMemberOrganizationId exists in one of the attribute sets in the list inputSets
@@ -89,14 +89,14 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
         }
     }
 
-	protected boolean hasMatch(List<Map<String,String>> inputAttributeSets, String roleMemberOrganizationId) {
-		for (Map<String,String> inputSet : inputAttributeSets) {
-	        if (StringUtils.equals(roleMemberOrganizationId, inputSet.get(KualiStudentKimAttributes.QUALIFICATION_ORG_ID))) {
-	        	return true;
-	        }
+    protected boolean hasMatch(List<Map<String,String>> inputAttributeSets, String roleMemberOrganizationId) {
+        for (Map<String,String> inputSet : inputAttributeSets) {
+            if (StringUtils.equals(roleMemberOrganizationId, inputSet.get(KualiStudentKimAttributes.QUALIFICATION_ORG_ID))) {
+                return true;
+            }
         }
-		return false;
-	}
+        return false;
+    }
 
     protected List<Map<String,String>> getHierarchyOrgIds(String inputOrgId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<Map<String,String>> returnSets = new ArrayList<Map<String,String>>();
@@ -104,7 +104,7 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
         returnSets.addAll(getOrgIdsForHierarchy(inputOrgId, "kuali.org.hierarchy.Curriculum"));
         return returnSets;
     }
-    
+
     protected List<Map<String,String>> getOrgIdsForHierarchy(String inputOrgId, String orgHierarchy) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         List<Map<String,String>> returnSets = new ArrayList<Map<String,String>>();
         List<String> ids = getOrganizationService().getAllAncestors(inputOrgId, orgHierarchy);
@@ -113,7 +113,7 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
             for (OrgInfo orgInfo : orgs) {
                 Map<String, String> attrs = new LinkedHashMap<String,String>();
                 attrs.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, orgInfo.getId());
-                returnSets.add(attrs);                        
+                returnSets.add(attrs);
             }
         }
         return returnSets;
@@ -121,20 +121,20 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
 
 /*    
     
-	protected List<Map<String,String>> getHierarchyOrgShortNames(String inputOrgId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		List<Map<String,String>> returnSets = new ArrayList<Map<String,String>>();
+	protected List<AttributeSet> getHierarchyOrgShortNames(String inputOrgId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		List<AttributeSet> returnSets = new ArrayList<AttributeSet>();
 		returnSets.addAll(getOrgShortNamesForHierarchy(inputOrgId, "kuali.org.hierarchy.Main"));
 		returnSets.addAll(getOrgShortNamesForHierarchy(inputOrgId, "kuali.org.hierarchy.Curriculum"));
 		return returnSets;
 	}
 
-	protected List<Map<String,String>> getOrgShortNamesForHierarchy(String inputOrgId, String orgHierarchy) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<Map<String,String>> returnSets = new ArrayList<Map<String,String>>();
+	protected List<AttributeSet> getOrgShortNamesForHierarchy(String inputOrgId, String orgHierarchy) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+		List<AttributeSet> returnSets = new ArrayList<AttributeSet>();
     	List<String> ids = getOrganizationService().getAllAncestors(inputOrgId, orgHierarchy);
     	if (ids.size() > 0) {
             List<OrgInfo> orgs = getOrganizationService().getOrganizationsByIdList(ids);
             for (OrgInfo orgInfo : orgs) {
-                returnSets.add(new Map<String,String>(KualiStudentKimAttributes.QUALIFICATION_ORG, orgInfo.getShortName()));
+                returnSets.add(new AttributeSet(KualiStudentKimAttributes.QUALIFICATION_ORG, orgInfo.getShortName()));
             }
         }
     	return returnSets;

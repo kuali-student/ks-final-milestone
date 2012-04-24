@@ -49,18 +49,20 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
                     categories.add(category.getName());
                 }
             }
+            
+            int index = 0;
             String sequence = loInfoHelper.getSequence();
             if (sequence != null) {
-                int index = Integer.parseInt(sequence);
-                StringTreeStructure childModel = new StringTreeStructure(index, descriptionHelper.getPlain(), categories);
-                transform(loDisplayInfoHelper.getDisplayInfoList(), childModel);
-                rootModel.addChild(childModel);
-            }
+                index = Integer.parseInt(sequence);
+            } 
+            StringTreeStructure childModel = new StringTreeStructure(index, descriptionHelper.getPlain(), categories);
+            transform(loDisplayInfoHelper.getDisplayInfoList(), childModel);
+            rootModel.addChild(childModel);
         }
     }
 
     private void bind(StringTreeStructure stringTreeStructure, KSListPanel ksListPanel) {
-    	stringTreeStructure.sortChildren();
+        stringTreeStructure.sortChildren();
         List<StringTreeStructure> firstLevelChildren = stringTreeStructure.getChildren();
         for (StringTreeStructure firstLevelChild : firstLevelChildren) {
             addElement(firstLevelChild, ksListPanel);
@@ -106,15 +108,13 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
             Collections.sort(children, new Comparator<StringTreeStructure>() {
 
                 @Override
-                public int compare(StringTreeStructure o1,
-                                   StringTreeStructure o2) {
+                public int compare(StringTreeStructure o1, StringTreeStructure o2) {
                     return o1.getIndex() - o2.getIndex();
                 }
             });
         }
 
-        public StringTreeStructure() {
-        }
+        public StringTreeStructure() {}
 
         public List<String> getCategories() {
             return categories;
