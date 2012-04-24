@@ -14,19 +14,20 @@
  */
 package org.kuali.student.enrollment.class2.acal.form;
 
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-import java.text.SimpleDateFormat;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
-
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
+import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -189,6 +190,18 @@ public class AcademicCalendarForm extends UifFormBase {
         setEventsToDeleteOnSave(new ArrayList<AcalEventWrapper>());
         setTermsToDeleteOnSave(new ArrayList<AcademicTermWrapper>());
         setNewCalendar(false);
+    }
+
+    public AcademicCalendarViewHelperService getViewHelperService(){
+        if (getView() != null && getView().getViewHelperServiceClassName() != null){
+            return (AcademicCalendarViewHelperService)getView().getViewHelperService();
+        }else{
+            return (AcademicCalendarViewHelperService)getPostedView().getViewHelperService();
+        }
+    }
+
+    public ContextInfo getContextInfo(){
+        return getViewHelperService().getContextInfo();
     }
 
 }
