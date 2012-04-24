@@ -43,4 +43,9 @@ public class LuiLuiRelationDao extends GenericEntityDao<LuiLuiRelationEntity>{
 
     }
 
+    public  List<LuiEntity> getRelatedLuisByLuiIdAndRelationType(String luiId, String luiLuiRelationTypeKey) {
+        return (List<LuiEntity>) em.createQuery("Select  rel.relatedLui from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.luiLuiRelationType=:luiLuiRelationTypeKey").setParameter("luiId", luiId)
+                .setParameter("luiLuiRelationTypeKey",luiLuiRelationTypeKey).getResultList();
+
+    }
 }
