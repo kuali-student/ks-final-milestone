@@ -325,6 +325,21 @@
         OBJ_ID="B73CB83E74998455E040C60AF05B5393" PERM_ID="3114"
         PERM_TMPL_ID="29" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows user to create a new Term maintainence document"
+        NM="Create Term Maintenance Document" NMSPC_CD="KR-NS"
+        OBJ_ID="0dbce939-4f22-4e9b-a4bb-1615c0f411a2" PERM_ID="3115"
+        PERM_TMPL_ID="42" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows user to create a new Context maintainence document"
+        NM="Create Context Maintenance Document" NMSPC_CD="KR-NS"
+        OBJ_ID="cefeed6d-b5e2-40aa-9034-137db317b532" PERM_ID="3116"
+        PERM_TMPL_ID="42" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Allows user to create a new TermSpecification maintainence document"
+        NM="Create TermSpecification Maintenance Document"
+        NMSPC_CD="KR-NS" OBJ_ID="02bd9acd-48d9-4fec-acbd-6a441c5ea8c2"
+        PERM_ID="3117" PERM_TMPL_ID="42" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send FYI ad hoc requests for Kuali Documents"
         NM="Send FYI Request Kuali Document" NMSPC_CD="KR-SYS"
         OBJ_ID="662384B381B967A1E0404F8189D868A6" PERM_ID="332"
