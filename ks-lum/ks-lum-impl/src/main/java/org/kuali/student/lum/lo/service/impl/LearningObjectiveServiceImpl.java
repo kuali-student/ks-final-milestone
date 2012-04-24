@@ -1027,16 +1027,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	@Transactional(readOnly=true)
     public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    List<LoLoRelation> llRelations = loDao.getLoLoRelationsByLoId(loId);
-	    //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations);
-	    return null;
+	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations),org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo.class);   
     }
 	
 	@Override
 	@Transactional(readOnly=true)
     public List<LoInfo> getLosByRelatedLoId(@WebParam(name = "relatedLoId") String relatedLoId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    List<Lo> relatedLos = loDao.getLosByRelatedLoId(relatedLoId, loLoRelationTypeKey);
-        //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
-        return null;
+	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoInfos(relatedLos),org.kuali.student.r2.lum.lo.dto.LoInfo.class);
     }
 	
 	@Override
@@ -1138,8 +1136,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
 	    List<Lo> los = loDao.getLosByRepository(loRepositoryKey);
-	  //TODO KSCM-391 :return LearningObjectiveServiceAssembler.toLoInfos(los);
-	    return null;
+	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoInfos(los),org.kuali.student.r2.lum.lo.dto.LoInfo.class);
 	}
 
 	@Override
