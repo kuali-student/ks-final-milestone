@@ -61,7 +61,7 @@
         <property name="allowCustomIsolationLevels" value="true"/>
     </bean> 
 
-	<bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
+	<!--bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
 		<property name="dataSource" ref="riceDataSource" />
 		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
 		<property name="transactionManager" ref="jtaTransactionManager" />
@@ -73,6 +73,6 @@
                 <property name="serviceServletUrl" value="${serviceServletUrl}" />
 			</bean>
 		</property>
-	</bean>
+	</bean-->
 
 </beans>
