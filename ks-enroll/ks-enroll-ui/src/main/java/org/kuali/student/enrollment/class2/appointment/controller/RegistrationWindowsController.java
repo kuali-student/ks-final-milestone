@@ -357,16 +357,23 @@ public class RegistrationWindowsController extends UifControllerBase {
     public ModelAndView show(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-
+        if (!form.isShowAddWindows()){
+            form.setShowAddWindows(true);
+        }
         String periodId = form.getPeriodId();
         String periodInfoDetails = "";
+        
 
         //Clear all the windows
         form.getAppointmentWindows().clear();
         form.getAppointmentWindowIdsToDelete().clear();
 
-
-        if (!periodId.isEmpty() && !periodId.equals("all")) {
+        if(periodId == null || periodId.isEmpty()) {
+            form.setPeriodInfoDetails(periodInfoDetails);
+            form.setShowAddWindows(false);
+            form.getAppointmentWindows().clear();
+        }
+        else if (!periodId.isEmpty() && !periodId.equals("all")) {
 
             //Lookup the period information
             KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
@@ -378,6 +385,10 @@ public class RegistrationWindowsController extends UifControllerBase {
 
             // display the period start/end time in details and the period name in the AddLine
             AppointmentWindowWrapper addLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
+            if (addLine == null){
+                addLine = new AppointmentWindowWrapper();
+                form.getNewCollectionLines().put("appointmentWindows", addLine);
+            }
 
             if (period.getName() != null) {
                 periodInfoDetails = period.getName()+" Start Date: "+_getSimpleDate(period.getStartDate())+ "<br>"
@@ -434,7 +445,7 @@ public class RegistrationWindowsController extends UifControllerBase {
     private void _loadWindowsInfoForm(List<KeyDateInfo> periods, RegistrationWindowsManagementForm form) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         for(KeyDateInfo period:periods){
             List<AppointmentWindowInfo> windows = getAppointmentService().getAppointmentWindowsByPeriod(period.getId(), new ContextInfo());
-            if(windows!=null){
+            if(windows!=null && windows.size()>0){
                 for(AppointmentWindowInfo window:windows){
 
                     //Look up the population

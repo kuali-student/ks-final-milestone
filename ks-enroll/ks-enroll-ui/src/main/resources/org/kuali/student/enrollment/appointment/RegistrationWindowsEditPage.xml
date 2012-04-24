@@ -102,7 +102,7 @@
     </bean>
 
     <bean id="KS-RegistrationWindows-AddWindowsSection" parent="Uif-Disclosure-TableCollectionSection"
-          p:layoutManager.numberOfColumns="12">
+          p:layoutManager.numberOfColumns="12" p:progressiveRender="showAddWindows">
         <property name="title" value="Add Windows" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper" />
         <property name="propertyName" value="appointmentWindows" />
@@ -240,7 +240,7 @@
                 </bean>
                 <!-- bean entry for dropdown Appt rule type-->
                 <bean parent="Uif-InputField" p:label="Appt. Rule Type/Interval" p:propertyName="slotRuleEnumType" p:style="font-weight:bold;"  p:refreshWhenChanged="#lp.windowTypeKey"
-                      p:required="@{#lp.windowTypeKey !='kuali.appointment.window.type.one.slot'}"
+                      p:required="@{#lp.windowTypeKey !='kuali.appointment.window.type.one.slot' and #lp.windowTypeKey !='' }"
                       p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned' or #lp.windowTypeKey =='kuali.appointment.window.type.one.slot'}" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
