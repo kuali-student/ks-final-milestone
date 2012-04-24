@@ -141,7 +141,7 @@
     </bean>
 
 
-    <bean id="KS-AppointmentWindowWrapper-Assignment" parent="Uif-Disclosure-VerticalBoxSection"
+    <bean id="KS-AppointmentWindowWrapper-Assignment" parent="Uif-VerticalBoxSection"
           p:title="Assignment Information">
         <property name="header">
             <bean parent="Uif-HeaderField-Three"/>
@@ -207,7 +207,7 @@
         </property>
     </bean>
 
-    <bean id="KS-AppointmentWindowWrapper-Window" parent="Uif-Disclosure-VerticalBoxSection"
+    <bean id="KS-AppointmentWindowWrapper-Window" parent="Uif-VerticalBoxSection"
           p:title="Window Information">
         <property name="header">
             <bean parent="Uif-HeaderField-Three"/>
