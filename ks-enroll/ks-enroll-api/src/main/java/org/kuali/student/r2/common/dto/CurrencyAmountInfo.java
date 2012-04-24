@@ -39,26 +39,20 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CurrencyAmountInfo", propOrder = {
-                "id", "currencyTypeKey", "currencyQuantity",
-                "meta", "_futureElements"})
+                "currencyTypeKey", "currencyQuantity",
+                "_futureElements"})
 
 public class CurrencyAmountInfo 
     implements CurrencyAmount, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlAttribute
-    private String id;
-    
     @XmlElement
     private String currencyTypeKey;
 
     @XmlElement
     private Integer currencyQuantity;
     
-    @XmlElement
-    private MetaInfo meta;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -75,22 +69,9 @@ public class CurrencyAmountInfo
      */   
     public CurrencyAmountInfo(CurrencyAmount currency) {
         if (currency != null) {        
-            this.id = currency.getId();
             this.currencyQuantity = currency.getCurrencyQuantity();
             this.currencyTypeKey = currency.getCurrencyTypeKey();
-            if (currency.getMeta() != null ) {
-                this.meta = new MetaInfo(currency.getMeta());
-            }
         }
-    }
-    
-    @Override
-    public String getId() {
-        return id;
-    }
-    
-    public void setId(String id) {
-        this.id = id;
     }
 
     @Override
@@ -110,13 +91,4 @@ public class CurrencyAmountInfo
     public void setCurrencyQuantity(Integer currencyQuantity) {
         this.currencyQuantity = currencyQuantity;
     }
-	
-    @Override
-    public MetaInfo getMeta() {
-        return this.meta;
-    }
-
-    public void setMeta(MetaInfo metaInfo) {
-        this.meta = metaInfo;
-    }	
 }

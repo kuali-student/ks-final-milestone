@@ -1,5 +1,5 @@
 /**
- * Copyright 2011 The Kuali Foundation 
+ * Copyright 2012 The Kuali Foundation 
  *
  * Licensed under the Educational Community License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
@@ -39,18 +39,15 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import org.kuali.student.r2.common.util.constants.FeeServiceConstants;
+
 /**
- * Fee Service Description and Assumptions.
+ * This service supports the management of fees.
  *
- * This service supports the management of people sets.
- *
- * Version: 1.0 (Dev)
- *
- * @Author tom
- * @Since Mon Nov 21 14:22:34 EDT 2011
+ * @author tom
  */
 
-@WebService(name = "FeeService", serviceName = "FeeService", portName = "FeeService", targetNamespace = "fee")
+@WebService(name = "FeeService", serviceName = "FeeService", portName = "FeeService", targetNamespace = FeeServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface FeeService {
@@ -58,7 +55,7 @@ public interface FeeService {
     /** 
      * Retrieves a single Fee by Fee Id.
      *
-     * @param feeKey the identifier for the fee to be retrieved
+     * @param feeId the identifier for the fee to be retrieved
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the Fee requested
@@ -76,64 +73,67 @@ public interface FeeService {
      * list may be in any order and if duplicates Ids are supplied, a
      * unique set may or may not be returned.
      *
-     * @param feeIds list of Feess to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return a list of Fee Ids of the given type
-     * @throws DoesNotExistException an feeId in list not found
-     * @throws InvalidParameterException invalid feeId or contextInfo
-     * @throws MissingParameterException missing feeId or contextInfo
+     * @param feeIds a list of Fee identifiers
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Fees
+     * @throws DoesNotExistException a feeId in the list not found
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException feeIds, an Id in feeIds, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<FeeInfo> getFeesByIds(@WebParam(name = "feeIds") List<String> feeIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Fee Ids of the specified type.
+     * Retrieves a list of Fee Ids by Fee Type.
      *
-     * @param feeTypeId a Fee type to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return a list of Fee Ids
+     * @param feeTypeKey an identifier for a Fee Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Fee identifiers matching feeTypeKey or an
+     *         empty list if none found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException missing feeTypeId or
-     *         contextInfo
+     * @throws MissingParameterException feeTypeKey or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getFeeIdsByType(@WebParam(name = "feeTypeId") String feeTypeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getFeeIdsByType(@WebParam(name = "feeTypeKey") String feeTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Fees by the reference object.
      *
-     * @param refObjectTypeKey the type of the reference
+     * @param refObjectURI the URI identifying the namespace of the
+     *        reference Id
      * @param refObjectId the Id of the reference
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of Fee Ids
+     * @return a list of Fees for the reference object or an empty list
+     *         is none found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException missing refObjectTypeKey,
+     * @throws MissingParameterException missing refObjectURI,
      *         refObjectId, or contextInfo
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getFeesByReference(@WebParam(name = "refObjectTypeKey") String refObjectTypeKey, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<FeeInfo> getFeesByReference(@WebParam(name = "refObjectURI") String refObjectURI, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Fees based on the criteria and returns a list
      * of Fee identifiers which match the search criteria.
      *
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return list of Fee Ids
-     * @throws InvalidParameterException invalid criteria or contextInfo
-     * @throws MissingParameterException missing criteria or contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of Fee Ids matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> searchForFeeIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -142,108 +142,105 @@ public interface FeeService {
      * Fees which match the search criteria.
      * 
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return list of Fees
-     * @throws InvalidParameterException invalid criteria or contextInfo
-     * @throws MissingParameterException missing criteria or contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of Fees matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<FeeInfo> searchForFees(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Validates a Fee. Depending on the value of validationType,
-     * this validation could be limited to tests on just the current
-     * object and its directly contained sub-objects or expanded to
-     * perform all tests related to this object. If an identifier is
-     * present for the Fee and a record is found for that
-     * identifier, the validation checks if the Fee can be shifted
-     * to the new values. If a record cannot be found for the
-     * identifier, it is assumed that the record does not exist and as
-     * such, the checks performed will be much shallower, typically
-     * mimicking those performed by setting the validationType to the
-     * current object. This is a slightly different pattern from the
-     * standard validation as the caller provides the identifier in
-     * the create statement instead of the server assigning an
-     * identifier.
+     * Validates a Fee. Depending on the value of validationType, this
+     * validation could be limited to tests on just the current Fee
+     * and its directly contained sub-objects or expanded to perform
+     * all tests related to this Fee. If an identifier is present for
+     * the Fee (and/or one of its contained sub-objects) and a record
+     * is found for that identifier, the validation checks if the Fee
+     * can be updated to the new values. If an identifier is not
+     * present or a record does not exist, the validation checks if
+     * the object with the given data can be created.
      *
-     * @param validationTypeId the identifier of the extent of validation
-     * @param feeInfo the Fee information to be tested
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return Results from performing the validation
-     * @throws DoesNotExistException validationTypeId not found
-     * @throws InvalidParameterException invalid validationTypeId,
-     *         feeInfo, or contextInfo
-     * @throws MissingParameterException missing validationTypeId,
-     *         feeInfo, or contextInfo
+     * @param validationTypeKey the identifier for the validation Type
+     * @param feeTypeKey the identifier for the fee Type
+     * @param feeInfo the Fee information to be validated
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of validation results or an empty list if
+     *         validation succeeded
+     * @throws DoesNotExistException validationTypeKey or feeTypeKey
+     *         is not found
+     * @throws InvalidParameterException feeInfo or contextInfo is
+     *         not valid
+     * @throws MissingParameterException validationTypeKey,
+     *         feeTypeKey, feeInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateFee(@WebParam(name = "validationTypeId") String validationTypeId, @WebParam(name = "feeInfo") FeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateFee(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "feeTypeKey") String feeTypeKey, @WebParam(name = "feeInfo") FeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Creates a new Fee.
+     * Creates a new Fee. The Fee Id, Type, and Meta information
+     * may nogt be set in the supplied data.
      *
-     * @param feeInfo the details of Fee to be created
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return the Fee just created
-     * @throws DataValidationErrorException one or more values invalid
-     *         for this operation
-     * @throws InvalidParameterException invalid feeInfo or
-     *         contextInfo
-     * @throws MissingParameterException missing feeInfo or
-     *         contextInfo
+     * @param feeTypeKey the identifier for the Type of the new Fee
+     * @param feeInfo the data with which to create the Fee
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the new Fee 
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws InvalidParameterException feeInfo or contextInfo is not
+     *         valid
+     * @throws MissingParameterException feeTypeKey, feeInfo or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public FeeInfo createFee(@WebParam(name = "feeInfo") FeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public FeeInfo createFee(@WebParam(name = "feeTypeKey") String feeTypeKey, @WebParam(name = "feeInfo") FeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
-     * Updates an existing Fee.
+     * Updates an existing Fee. The Fee Id, Type, and Meta information
+     * may not be changed.
      *
-     * @param feeId the Id of Fee to be updated
-     * @param feeInfo the details of updates to Fee being updated
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return the details of Fee just updated
-     * @throws DataValidationErrorException One or more values invalid 
-     *         for this operation
+     * @param feeId the identifier for the Fee to be updated
+     * @param feeInfo the new data for the Fee
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the updated Fee
+     * @throws DataValidationErrorException supplied data is invalid
      * @throws DoesNotExistException feeId not found
-     * @throws InvalidParameterException invalid feeId,
-     *         feeInfo, or contextInfo
-     * @throws MissingParameterException missing feeId,
-     *         feeInfo, or contextInfo
+     * @throws InvalidParameterException feeInfo or contextInfo is not
+     *         valid
+     * @throws MissingParameterException feeId, feeInfo, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws ReadOnlyException an attempt at supplying information
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at changing information
      *         designated as read-only
-     * @throws VersionMismatchException The action was attempted on an out 
-     *         of date version.
+     * @throws VersionMismatchException optimistic locking failure or
+     *         the action was attempted on an out of date version
      */
     public FeeInfo updateFee(@WebParam(name = "feeId") String feeId, @WebParam(name = "feeInfo") FeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /** 
      * Deletes an existing Fee.
      *
-     * @param feeId the Id of the Fee to be deleted
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return status of the operation (success, failed)
+     * @param feeId the identifier for the Fee to be deleted
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the delete operation. This must always be true.
      * @throws DoesNotExistException feeId not found
-     * @throws InvalidParameterException invalid feeId or contextInfo
-     * @throws MissingParameterException missing feeId or contextInfo
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException feeId or contextInfo is missing
+     *         or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deleteFee(@WebParam(name = "feeId") String feeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

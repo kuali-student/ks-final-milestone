@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 The Kuali Foundation 
+ * Copyright 2012 The Kuali Foundation 
  *
  * Licensed under the Educational Community License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
@@ -46,11 +46,11 @@ public interface Fee
     public String getOrgId();
 
     /**
-     * Gets the reference object type.
+     * Gets the reference object URI.
      *
-     * @name Reference Object Type Key
+     * @name Reference Object URI.
      */
-    public String getRefObjectTypeKey();
+    public String getRefObjectURI();
 
     /**
      * Gets the reference object.

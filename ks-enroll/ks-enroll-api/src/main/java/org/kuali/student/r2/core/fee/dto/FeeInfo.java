@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FeeInfo", propOrder = { 
                 "id", "typeKey", "stateKey", "descr", 
-                "amount", "org", "refObjectTypeKey",
+                "amount", "org", "refObjectURI",
                 "refObjectId", 
 		"meta", "attributes", "_futureElements" })
 
@@ -50,7 +50,7 @@ public class FeeInfo
     private String orgId;
 
     @XmlElement
-    private String refObjectTypeKey;
+    private String refObjectURI;
 
     @XmlElement
     private String refObjectId;
@@ -76,7 +76,7 @@ public class FeeInfo
         if (fee != null) {
             this.amount = new CurrencyAmountInfo(fee.getAmount());
             this.orgId = fee.getOrgId();
-            this.refObjectTypeKey = fee.getRefObjectTypeKey();
+            this.refObjectURI = fee.getRefObjectURI();
             this.refObjectId = fee.getRefObjectId();
         }
     }
@@ -100,12 +100,12 @@ public class FeeInfo
     }
 
     @Override
-    public String getRefObjectTypeKey() {
-        return refObjectTypeKey;
+    public String getRefObjectURI() {
+        return refObjectURI;
     }
     
-    public void setRefObjectTypeKey(String refObjectTypeKey) {
-        this.refObjectTypeKey = refObjectTypeKey;
+    public void setRefObjectURI(String refObjectURI) {
+        this.refObjectURI = refObjectURI;
     }
 
     @Override

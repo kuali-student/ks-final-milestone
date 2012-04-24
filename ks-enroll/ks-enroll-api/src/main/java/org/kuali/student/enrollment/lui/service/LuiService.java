@@ -91,7 +91,7 @@ public interface LuiService {
      *        locale information about the caller of service operation
      * @return a list of Luis
      * @throws DoesNotExistException a luiId in the list was not found
-     * @throws InvalidParameterException contextInfo is not valud
+     * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException luiIds, an Id in luiIds, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
