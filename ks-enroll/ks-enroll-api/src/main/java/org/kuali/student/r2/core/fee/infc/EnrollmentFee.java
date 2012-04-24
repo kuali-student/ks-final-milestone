@@ -18,17 +18,26 @@ package org.kuali.student.r2.core.fee.infc;
 
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
+import org.kuali.student.r2.common.infc.RichText;
 
-import java.util.List;
 
 /**
- * Detailed information associated with this CLU related to the
- * calculation of fees.
+ * A Fee structure.
+ *
+ * The name "EnrollmentFee" is a temporary name to distinguish this
+ * from Fees in CM.
  *
  * @author tom
  */
-public interface Fee 
+public interface EnrollmentFee 
     extends IdNamelessEntity {
+
+    /**
+     * A description of this fee.
+     *
+     * @name Description
+     */
+    public RichText getDescr();
 
     /**
      * The amount associated with the fee. The units of the fee amount
@@ -48,7 +57,7 @@ public interface Fee
     /**
      * Gets the reference object URI.
      *
-     * @name Reference Object URI.
+     * @name Reference Object URI
      */
     public String getRefObjectURI();
 

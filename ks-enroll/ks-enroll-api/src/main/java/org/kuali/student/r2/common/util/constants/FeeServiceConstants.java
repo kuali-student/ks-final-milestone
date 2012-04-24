@@ -17,7 +17,7 @@
 package org.kuali.student.r2.common.util.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.core.fee.dto.FeeInfo;
+import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 
 /**
  * This class holds the constants used by the Fee service.
@@ -31,5 +31,5 @@ public class FeeServiceConstants {
      * Reference Object URI's
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "fee";
-    public static final String REF_OBJECT_URI_FEE = NAMESPACE + "/" + FeeInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_FEE = NAMESPACE + "/" + EnrollmentFeeInfo.class.getSimpleName();
 }

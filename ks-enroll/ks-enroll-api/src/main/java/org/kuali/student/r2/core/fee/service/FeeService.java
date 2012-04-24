@@ -24,7 +24,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
-import org.kuali.student.r2.core.fee.dto.FeeInfo;
+import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -66,7 +66,7 @@ public interface FeeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public FeeInfo getFee(@WebParam(name = "feeId") String feeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public EnrollmentFeeInfo getFee(@WebParam(name = "feeId") String feeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Fees from a list of Fee Ids. The returned
@@ -84,7 +84,7 @@ public interface FeeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<FeeInfo> getFeesByIds(@WebParam(name = "feeIds") List<String> feeIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<EnrollmentFeeInfo> getFeesByIds(@WebParam(name = "feeIds") List<String> feeIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Fee Ids by Fee Type.
@@ -118,7 +118,7 @@ public interface FeeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<FeeInfo> getFeesByReference(@WebParam(name = "refObjectURI") String refObjectURI, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<EnrollmentFeeInfo> getFeesByReference(@WebParam(name = "refObjectURI") String refObjectURI, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Fees based on the criteria and returns a list
@@ -152,7 +152,7 @@ public interface FeeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<FeeInfo> searchForFees(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<EnrollmentFeeInfo> searchForFees(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates a Fee. Depending on the value of validationType, this
@@ -181,7 +181,7 @@ public interface FeeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateFee(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "feeTypeKey") String feeTypeKey, @WebParam(name = "feeInfo") FeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateFee(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "feeTypeKey") String feeTypeKey, @WebParam(name = "feeInfo") EnrollmentFeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a new Fee. The Fee Id, Type, and Meta information
@@ -202,7 +202,7 @@ public interface FeeService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public FeeInfo createFee(@WebParam(name = "feeTypeKey") String feeTypeKey, @WebParam(name = "feeInfo") FeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public EnrollmentFeeInfo createFee(@WebParam(name = "feeTypeKey") String feeTypeKey, @WebParam(name = "feeInfo") EnrollmentFeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing Fee. The Fee Id, Type, and Meta information
@@ -226,7 +226,7 @@ public interface FeeService {
      * @throws VersionMismatchException optimistic locking failure or
      *         the action was attempted on an out of date version
      */
-    public FeeInfo updateFee(@WebParam(name = "feeId") String feeId, @WebParam(name = "feeInfo") FeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public EnrollmentFeeInfo updateFee(@WebParam(name = "feeId") String feeId, @WebParam(name = "feeInfo") EnrollmentFeeInfo feeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /** 
      * Deletes an existing Fee.
