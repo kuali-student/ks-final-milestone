@@ -28,14 +28,6 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	
-	<bean id="config" class="org.kuali.rice.student.core.config.spring.RiceConfigFactoryBean">
-		<property name="configLocations">
-			<list>
-				<value>classpath:META-INF/ks-lum-ui-config.xml</value>
-			</list>
-		</property>
-	</bean>
-	
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
 	</bean>
@@ -43,7 +35,7 @@
 	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
-				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
+				<value>classpath:META-INF/ks-lum-ui-config.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -79,7 +71,7 @@
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml" />
 
-	<bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
+	<!--bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
 		<property name="dataSource" ref="riceDataSource" />
 		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
 		<property name="transactionManager" ref="jtaTransactionManager" />
@@ -91,7 +83,7 @@
                 <property name="serviceServletUrl" value="${serviceServletUrl}" />
 			</bean>
 		</property>
-	</bean>
+	</bean-->
 
     <!-- JTA -->
 	<alias name="jtaUserTransaction" alias="userTransaction"/>    

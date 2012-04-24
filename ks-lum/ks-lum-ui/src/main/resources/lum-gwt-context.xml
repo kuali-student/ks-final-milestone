@@ -701,21 +701,21 @@
     </bean>
 
     <bean id="metadataServiceImpl" class="org.kuali.student.common.assembly.dictionary.MetadataServiceImpl">
-        <property name="dictionaryServices">
+        <!-- property name="dictionaryServices">
             <list>
                 <ref bean="courseClient"/>
                 <ref bean="proposalClient"/>
             </list>
-        </property>
+        </property-->
         <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>
     </bean>
 
     <bean id="programMetadataServiceImpl" class="org.kuali.student.lum.program.server.metadata.ProgramMetadataServiceImpl">
-        <property name="dictionaryServices">
+        <!-- property name="dictionaryServices">
             <list>
                 <ref bean="programClient"/>
             </list>
-        </property>
+        </property-->
         <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>
     </bean>
 
