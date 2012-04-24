@@ -45,7 +45,7 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 	 * See DerivedRoleTypeServiceBase
 	 */
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromDerivedRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
 	public List<RoleMembership> getRoleMembersFromDerivedRole(

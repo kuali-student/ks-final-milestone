@@ -150,7 +150,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#getRoleMembersFromDerivedRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
 	public List<RoleMembership> getRoleMembersFromDerivedRole(
@@ -194,7 +194,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#hasDerivedRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
 	public boolean hasDerivedRole(String principalId,
