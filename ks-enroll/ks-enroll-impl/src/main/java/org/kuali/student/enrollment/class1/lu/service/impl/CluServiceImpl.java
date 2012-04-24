@@ -2914,9 +2914,6 @@ public class CluServiceImpl implements CluService {
                 for (AffiliatedOrgInfo affiliatedOrg : cluFeeRecord.getAffiliatedOrgs()) {
                     affiliatedOrg.setId(null);
                 }
-                for (CurrencyAmountInfo feeAmount : cluFeeRecord.getFeeAmounts()) {
-                    feeAmount.setId(null);
-                }
             }
         }
         for (LuCodeInfo luCode : clu.getLuCodes()) {
