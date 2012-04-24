@@ -75,7 +75,7 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
                     }
                     appointmentWindowWrapper.setNumberOfStudents(numberOfStudents);
 
-                    float meanStudentsPerSlot = numberOfStudents/slots.size();
+                    double meanStudentsPerSlot = Math.ceil(numberOfStudents/(float)slots.size());
                     appointmentWindowWrapper.setMeanStudentsPerSlot(new Float(meanStudentsPerSlot));
 
                     AppointmentSlotInfo slot1 = slots.get(0);
