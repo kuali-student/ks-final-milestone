@@ -56,24 +56,25 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 public interface FeeService {
 
     /** 
-     * Retrieves a Fee.
+     * Retrieves a single Fee by Fee Id.
      *
-     * @param feeKey a unique Id of a Fee
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return a Fee
+     * @param feeKey the identifier for the fee to be retrieved
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the Fee requested
      * @throws DoesNotExistException feeId not found
-     * @throws InvalidParameterException invalid feeId or contextInfo
-     * @throws MissingParameterException missing feeId or contextInfo
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException feeId or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public FeeInfo getFee(@WebParam(name = "feeId") String feeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Fees corresponding to the given list
-     * of Fee Ids.
+     * Retrieves a list of Fees from a list of Fee Ids. The returned
+     * list may be in any order and if duplicates Ids are supplied, a
+     * unique set may or may not be returned.
      *
      * @param feeIds list of Feess to be retrieved
      * @param contextInfo Context information containing the
