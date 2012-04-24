@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.server.gwt;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.common.dictionary.service.old.DictionaryService;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -34,7 +35,6 @@ import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.util.security.SecurityUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import org.kuali.rice.kim.api.permission.PermissionService;
 
 /**
  * This abstract service delegates search & dictionary operations to the web service being remoted.
@@ -228,7 +228,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }        
 
 	protected String getCurrentUser() {
-		String username = SecurityUtils.getCurrentUserId();
+		String username = SecurityUtils.getCurrentPrincipalId();
 		//backdoorId is only for convenience
 		if(username==null&&this.getThreadLocalRequest().getSession().getAttribute("backdoorId")!=null){
 			username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");

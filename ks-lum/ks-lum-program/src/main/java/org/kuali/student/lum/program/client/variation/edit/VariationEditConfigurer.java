@@ -14,13 +14,13 @@ import org.kuali.student.lum.program.client.major.edit.SupportingDocsEditConfigu
 public class VariationEditConfigurer extends AbstractProgramConfigurer {
 
     public VariationEditConfigurer() {
-        programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(new VariationInformationEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CatalogInformationEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new ProgramRequirementsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new SupportingDocsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new VariationSummaryConfiguration());
+        programSectionConfigManager = new ConfigurationManager();
+        programSectionConfigManager.registerConfiguration(new VariationInformationEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CatalogInformationEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new ProgramRequirementsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new SupportingDocsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new VariationSummaryConfiguration(this));
     }
 }

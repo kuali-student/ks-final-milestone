@@ -1,18 +1,19 @@
 package org.kuali.student.lum.common.client.widgets;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.ui.*;
-
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
+import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
@@ -23,18 +24,25 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
-public class CluSetDetailsWidget extends Composite {
-    
+public class CluSetDetailsWidget extends Composite implements ReportExportWidget {
+
     private CluSetInformation cluSetInformation;
     private SimplePanel mainPanel;
     private FlexTable detailsTable = new FlexTable();
     private boolean showClus;
     private Map<String, Boolean> showCluSetFlags = new HashMap<String, Boolean>();
-    private static final SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
+    //private static final SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
     private CluSetRetriever cluSetRetriever;
-//    private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync;
-    private BlockingTask retrievingTask = new BlockingTask("Retrieving details");    
+    // private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync;
+    private BlockingTask retrievingTask = new BlockingTask("Retrieving details");
 
     public CluSetDetailsWidget(CluSetInformation cluSetInformation, CluSetRetriever cluSetRetriever) {
         mainPanel = new SimplePanel();
@@ -45,7 +53,7 @@ public class CluSetDetailsWidget extends Composite {
     }
 
     public CluSetDetailsWidget(String cluSetId, CluSetRetriever cluSetRetriever) {
-        mainPanel = new SimplePanel();        
+        mainPanel = new SimplePanel();
         this.initWidget(mainPanel);
         this.cluSetRetriever = cluSetRetriever;
 
@@ -57,7 +65,7 @@ public class CluSetDetailsWidget extends Composite {
                     setCluSetInformation(result);
                     redraw();
                 }
-                KSBlockingProgressIndicator.removeTask(retrievingTask);                
+                KSBlockingProgressIndicator.removeTask(retrievingTask);
             }
         });
     }
@@ -81,18 +89,17 @@ public class CluSetDetailsWidget extends Composite {
         StringBuilder titleTextSb = new StringBuilder();
         titleTextSb.append("INDIVIDUAL COURSE(S)");
         KSLabel coursesHeader = new KSLabel(titleTextSb.toString());
-        //coursesHeader.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
+        // coursesHeader.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
         detailsTable.setWidget(rowIndex, 0, coursesHeader);
         detailsTable.getFlexCellFormatter().setColSpan(rowIndex, 0, 2);
-        if (cluSets != null && cluSets.size() > 0 ||
-                clusInRange != null && clusInRange.size() > 0) {
+        if (cluSets != null && cluSets.size() > 0 || clusInRange != null && clusInRange.size() > 0) {
             coursesHeader.setVisible(true);
         } else {
             coursesHeader.setVisible(false);
         }
         {
             // show/hide clus
-            int numClus = (clus == null)? 0 : clus.size();
+            int numClus = (clus == null) ? 0 : clus.size();
             StringBuilder hideClusTextSb = new StringBuilder();
             showClus = true;
             if (showClus) {
@@ -115,7 +122,7 @@ public class CluSetDetailsWidget extends Composite {
                 hideClusButton.setVisible(false);
             }
         }
-        
+
         rowIndex++;
         if (clus != null && showClus) {
             for (CluInformation clu : clus) {
@@ -136,25 +143,22 @@ public class CluSetDetailsWidget extends Composite {
                 final String cluSetId = cluSet.getId();
                 HorizontalPanel cluSetNamePanel = new HorizontalPanel();
                 Anchor cluSetNameLabel = new Anchor(cluSet.getName());
-                cluSetNameLabel.addClickHandler(new ClickHandler(){
+                cluSetNameLabel.addClickHandler(new ClickHandler() {
 
-					@Override
-					public void onClick(ClickEvent event) {
-						String url =  "http://" + Window.Location.getHost() + Window.Location.getPath() +
-							"?view=" + AppLocations.Locations.VIEW_CLU_SET + "&docId=" + cluSetId;
-						String features = "height=600,width=960,dependent=0,directories=1," +
-								"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
-						Window.open(url, HTMLPanel.createUniqueId(), features);
-						
-					}
-				});
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        String url = "http://" + Window.Location.getHost() + Window.Location.getPath() + "?view=" + AppLocations.Locations.VIEW_CLU_SET + "&docId=" + cluSetId;
+                        String features = "height=600,width=960,dependent=0,directories=1," + "fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
+                        Window.open(url, HTMLPanel.createUniqueId(), features);
+
+                    }
+                });
                 KSLabel itemType = new KSLabel("Course Set");
                 itemType.getElement().getStyle().setProperty("color", "grey");
                 itemType.getElement().getStyle().setPaddingLeft(5, Style.Unit.PX);
                 cluSetNamePanel.add(cluSetNameLabel);
                 cluSetNamePanel.add(itemType);
-                boolean showCluSet = (showCluSetFlags.get(cluSet.getId()) == null)? false :
-                    showCluSetFlags.get(cluSet.getId()).booleanValue();
+                boolean showCluSet = (showCluSetFlags.get(cluSet.getId()) == null) ? false : showCluSetFlags.get(cluSet.getId()).booleanValue();
                 detailsTable.setWidget(rowIndex, columnIndex, cluSetNamePanel);
                 detailsTable.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 1);
                 columnIndex++;
@@ -175,9 +179,9 @@ public class CluSetDetailsWidget extends Composite {
                     @Override
                     public void onClick(ClickEvent event) {
                         Boolean showCluSetDetails = showCluSetFlags.get(cluSet.getId());
-                        showCluSetDetails = (showCluSetDetails == null)? false : showCluSetDetails;
+                        showCluSetDetails = (showCluSetDetails == null) ? false : showCluSetDetails;
                         showCluSetFlags.put(cluSet.getId(), !showCluSetDetails);
-                        Boolean newShowCluSetDetails = !showCluSetDetails; 
+                        Boolean newShowCluSetDetails = !showCluSetDetails;
                         if (newShowCluSetDetails) {
                             CluSetInformation subCluSetInformation = cluSetInformation.getSubCluSetInformations().get(cluSet.getId());
                             if (subCluSetInformation == null) {
@@ -206,7 +210,7 @@ public class CluSetDetailsWidget extends Composite {
                     detailsTable.getFlexCellFormatter().setColSpan(rowIndex, 0, 3);
                     rowIndex++;
                 }
-                
+
             }
         }
         if (membershipQueryInfo != null) {
@@ -221,7 +225,8 @@ public class CluSetDetailsWidget extends Composite {
                     Object value = searchParam.getValue();
                     String displayValue = "";
                     if (value instanceof Date) {
-                        displayValue = DT_FOMRAT.format((Date)value);
+                    	SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
+                        displayValue = DT_FOMRAT.format((Date) value);
                     } else {
                         displayValue = value.toString();
                     }
@@ -248,7 +253,7 @@ public class CluSetDetailsWidget extends Composite {
         }
         mainPanel.setWidget(detailsTable);
     }
-    
+
     private void addClusDisplayToTable(int rowIndex, final CluInformation clu) {
         int columnIndex = 0;
         KSButton cluCodeLink = new KSButton(clu.getCode(), ButtonStyle.DEFAULT_ANCHOR);
@@ -258,20 +263,25 @@ public class CluSetDetailsWidget extends Composite {
         cluCodeLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-            	String url = "http://" + Window.Location.getHost() + Window.Location.getPath() +
-				"?view=" + AppLocations.Locations.VIEW_COURSE + "&idType=" + IdType.OBJECT_ID +"&docId=" + clu.getVerIndependentId();
-				String features = "height=600,width=960,dependent=0,directories=1," +
-						"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
-				Window.open(url, HTMLPanel.createUniqueId(), features);
+                String url =  "http://" + Window.Location.getHost() + Window.Location.getPath();
+                if("kuali.lu.type.Variation".equals(clu.getType())){
+                    url += "?view=" + AppLocations.Locations.VIEW_VARIATION + "&idType=" + IdType.OBJECT_ID;
+                    url += "&docId=" + clu.getParentCluId() + "&variationId=" + clu.getVerIndependentId();
+                }else {
+                    url += "?view=" + AppLocations.Locations.VIEW_COURSE + "&idType=" + IdType.OBJECT_ID;
+                    url += "&docId=" + clu.getVerIndependentId();
+                }
+                String features = "height=600,width=960,dependent=0,directories=1," + "fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
+                Window.open(url, HTMLPanel.createUniqueId().replace("-", "_"), features);
             }
         });
         columnIndex++;
-        
+
         HTML cluTitleLabel = new HTML("<h5>" + clu.getTitle() + "</h5>");
         detailsTable.setWidget(rowIndex, columnIndex, cluTitleLabel);
         detailsTable.getFlexCellFormatter().setColSpan(rowIndex, columnIndex, 1);
         columnIndex++;
-        
+
         if (clu.getCredits() != null && !clu.getCredits().trim().isEmpty()) {
             HTML cluCreditsLabel = new HTML("<h5>" + clu.getCredits() + " credits" + "</h5>");
             detailsTable.setWidget(rowIndex, columnIndex, cluCreditsLabel);
@@ -279,7 +289,7 @@ public class CluSetDetailsWidget extends Composite {
             columnIndex++;
         }
     }
-    
+
     private String translateSearchKey(String searchKey) {
         String result = "";
         if (searchKey != null && searchKey.equals("lu.queryParam.luOptionalDivision")) {
@@ -293,9 +303,9 @@ public class CluSetDetailsWidget extends Composite {
         } else if (searchKey != null && searchKey.equals("lu.queryParam.luOptionalEffectiveDate2")) {
             result = "Effective To";
         } else if (searchKey != null && searchKey.equals("lu.queryParam.luOptionalEffectiveDate2")) {
-            
+
         }
-        
+
         return result;
     }
 
@@ -310,4 +320,29 @@ public class CluSetDetailsWidget extends Composite {
     public String toString() {
         return detailsTable.toString();
     }
+
+    @Override
+    public boolean isExportElement() {
+        return true;
+    }
+
+    @Override
+    public List<ExportElement> getExportElementSubset(ExportElement parent) {
+        List<CluInformation> items = this.cluSetInformation.getClus();
+        ArrayList<ExportElement> subItems = new ArrayList<ExportElement>();
+        for (int i = 0; i < items.size(); i++) {
+            ExportElement subelement = new ExportElement(parent.getViewName(), parent.getSectionName());
+            subelement.setFieldValue("<b>" + items.get(i).getCode() + " " + items.get(i).getTitle() + "</b>");
+            subelement.setFieldValue2(items.get(i).getCredits() + " credits");
+            subelement.setPrintType(ExportElement.PROPOSAL);
+            subItems.add(subelement);
+        }
+        return subItems;
+    }
+
+    @Override
+    public String getExportFieldValue() {
+        return null;
+    }
+
 }

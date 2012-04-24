@@ -1,9 +1,12 @@
 package org.kuali.student.lum.program.client.widgets;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
@@ -12,11 +15,11 @@ import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -42,7 +45,7 @@ public class ProgramSideBar extends Composite {
 
     private Label versionLabel;
     private Anchor viewVersion;
-    private Label historyLabel = new Label(ProgramProperties.get().sideBar_history());
+    private Label historyLabel = new Label(getLabel(ProgramMsgConstants.SIDEBAR_HISTORY));
     private Label lastUpdatedDate = new Label();
     private SimplePanel scheduledReviewDate = new SimplePanel();
     private Label lastReviewDate = new Label();
@@ -113,9 +116,9 @@ public class ProgramSideBar extends Composite {
     private void setVersion(Long version, Label versionaLabel){
     	if (version != null){
        		viewVersion.setVisible(version >= 1);
-    		versionLabel.setText(ProgramProperties.get().sideBar_version(String.valueOf(version)));
+    		versionLabel.setText(getLabel(ProgramMsgConstants.SIDEBAR_VERSION, String.valueOf(version)));
     	} else {
-    		versionLabel.setText(ProgramProperties.get().sideBar_version(""));
+    		versionLabel.setText(getLabel(ProgramMsgConstants.SIDEBAR_VERSION, ""));
     		viewVersion.setVisible(false);
     	}
     }
@@ -135,15 +138,15 @@ public class ProgramSideBar extends Composite {
 
     private void buildLayout() {
         content.clear();
-        Label history = new Label(ProgramProperties.get().sideBar_history());
+        Label history = new Label(getLabel(ProgramMsgConstants.SIDEBAR_HISTORY));
         history.addStyleName("KS-Program-History");
         content.add(history);
 
         content.add(createVersionPanel());
-        content.add(createDatePanel(ProgramProperties.get().sideBar_programLastUpdated(), lastUpdatedDate, false));
+        content.add(createDatePanel(getLabel(ProgramMsgConstants.SIDEBAR_PROGRAMLASTUPDATED), lastUpdatedDate, false));
         if (type == Type.MAJOR) {
-            content.add(createDatePanel(ProgramProperties.get().sideBar_scheduledReviewDate(), scheduledReviewDate, true));
-            content.add(createDatePanel(ProgramProperties.get().sideBar_lastReviewDate(), lastReviewDate, true));
+            content.add(createDatePanel(getLabel(ProgramMsgConstants.SIDEBAR_SCHEDULEDREVIEWDATE), scheduledReviewDate, true));
+            content.add(createDatePanel(getLabel(ProgramMsgConstants.SIDEBAR_LASTREVIEWDATE), lastReviewDate, true));
         }
         content.add(createVersionHistoryPanel());
     }
@@ -154,7 +157,7 @@ public class ProgramSideBar extends Composite {
         datePanel.addStyleName("datePanel");
         datePanel.add(widget);
         if (state == State.EDIT && showEdit) {
-            Anchor edit = new Anchor(ProgramProperties.get().common_edit());
+            Anchor edit = new Anchor(getLabel(ProgramMsgConstants.COMMON_EDIT));
             edit.addClickHandler(new ClickHandler() {
 
                 @Override
@@ -171,21 +174,21 @@ public class ProgramSideBar extends Composite {
 
     private Widget createHistoryPanel(){
     	VerticalPanel  verticalPanel = new VerticalPanel();
-    	versionLabel = new Label(ProgramProperties.get().sideBar_version(""));
+    	versionLabel = new Label(getLabel(ProgramMsgConstants.SIDEBAR_VERSION, ""));
     	verticalPanel.add(versionLabel);
     	return verticalPanel;
     }
 
     private Widget createVersionPanel(){
     	VerticalPanel  verticalPanel = new VerticalPanel();
-    	versionLabel = new Label(ProgramProperties.get().sideBar_version(""));
+    	versionLabel = new Label(getLabel(ProgramMsgConstants.SIDEBAR_VERSION, ""));
     	verticalPanel.add(versionLabel);
     	return verticalPanel;
     }
 
     private Widget createVersionHistoryPanel(){
     	VerticalPanel  verticalPanel = new VerticalPanel();
-    	viewVersion = new Anchor(ProgramProperties.get().sideBar_viewHistory());
+    	viewVersion = new Anchor(getLabel(ProgramMsgConstants.SIDEBAR_VIEWHISTORY));
     	viewVersion.addClickHandler(new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent event) {
@@ -227,4 +230,14 @@ public class ProgramSideBar extends Composite {
         CORE,
         MAJOR
     }
+    
+    private String getLabel(String messageKey) {
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey);
+    }
+    
+    private String getLabel(String messageKey, String parameter) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("0", parameter);
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey, parameters);
+    } 
 }

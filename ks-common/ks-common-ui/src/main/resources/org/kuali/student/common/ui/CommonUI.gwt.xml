@@ -49,6 +49,9 @@
 	
 	<!-- Inherit a ks version of widgetideas module to cut down on gwt compile warnings.-->
 	<inherits name="com.google.gwt.widgetideas.KSWidgetIdeas"/>
+	
+	<!-- Inherit debug module to be able to use ensureDebugIds for Selenium tests -->
+	<inherits name="com.google.gwt.user.Debug"/>
  
 	<script src="http://www.google.com/jsapi"/>
     
@@ -75,6 +78,8 @@
 	<!-- RPC Blacklist - Classes gwt should not attempt to serialze b/c they are deprecated and just bloats the javascript -->	
 	<!-- GWT attempts to serialize all subclasses of Exception when RPC method throws Exception, -->
 	<extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.rpc.SerializableException"/>
+	
+	<set-configuration-property name="UiBinder.useSafeHtmlTemplates" value="true"/>
 	
 	<source path='client' />
 	<source path='shared' />	

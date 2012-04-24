@@ -193,6 +193,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
         clu.setAccreditations(major.getAccreditingAgencies());
         clu.setNextReviewPeriod(major.getNextReviewPeriod());
+        clu.setState(major.getState());
 
 		// Add the Clu to the result
 		result.setNodeData(clu);
@@ -248,6 +249,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
     	// Loop through all the variations in this MD
         for (ProgramVariationInfo variation : major.getVariations()) {
             BaseDTOAssemblyNode<?,?> variationNode;
+            variation.setState(major.getState());
             try {
 	            if (NodeOperation.UPDATE.equals(operation) && variation.getId() != null
 						&& (currentRelations != null && currentRelations.containsKey(variation.getId()))) {
@@ -267,9 +269,9 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
             } 
         }
         
-        // Now any leftover variation ids are no longer needed, so inactive them
+        // Now any leftover variation ids are no longer needed, so suspend them
         if(currentRelations != null && currentRelations.size() > 0){
-        	programAssemblerUtils.addInactiveRelationNodes(currentRelations, nodes);  	
+        	programAssemblerUtils.addSuspendedRelationNodes(currentRelations, nodes);  	
         	addInactivateVariationNodes(currentRelations, nodes);
         }
 
@@ -282,7 +284,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 			try {
 				variationClu = luService.getClu(variationId);
 				ProgramVariationInfo delVariation = programVariationAssembler.assemble(variationClu, null, true);
-				delVariation.setState(DtoConstants.STATE_INACTIVE);
+				delVariation.setState(DtoConstants.STATE_SUSPENDED);
 				BaseDTOAssemblyNode<?,?> variationNode = programVariationAssembler.disassemble(delVariation , NodeOperation.UPDATE);
 				if (variationNode != null) nodes.add(variationNode);
 			} catch (Exception e) {
@@ -295,6 +297,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
 
         BaseDTOAssemblyNode<?,?> coreResults;
         try {
+        	major.getOrgCoreProgram().setState(major.getState());
             coreResults = coreProgramAssembler.disassemble(major.getOrgCoreProgram(), operation);
             if (coreResults != null) {
                 result.getChildNodes().add(coreResults);

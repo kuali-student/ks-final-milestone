@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -40,7 +41,7 @@ import org.kuali.student.core.statement.ui.client.widgets.rules.RuleManageWidget
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.client.widgets.*;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
@@ -119,14 +120,14 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         layout.clear();
 
         //STEP 1
-        SectionTitle title = SectionTitle.generateH3Title(ProgramProperties.get().programRequirements_manageViewPageStep1Title());
+        SectionTitle title = SectionTitle.generateH3Title(getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_MANAGEVIEWPAGESTEP1TITLE));
         title.setStyleName("KS-Program-Requirements-Manage-Step-header1");  //make the header orange
         layout.add(title);
 
         layout.add(editReqCompWidget);
 
         //STEP 2
-        title = SectionTitle.generateH3Title(ProgramProperties.get().programRequirements_manageViewPageStep2Title());
+        title = SectionTitle.generateH3Title(getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_MANAGEVIEWPAGESTEP2TITLE));
         title.setStyleName("KS-Program-Requirements-Manage-Step-header2");  //make the header orange
         layout.add(title);
 
@@ -343,7 +344,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     customWidgets.put("kuali.reqComponent.field.type.grade.id", new GradeWidget());
                 } else if (RulesUtil.isCourseWidget(fieldTypeInfo.getId())) {
 
-                    final CourseWidget courseWidget = new CourseWidget();
+                    final CourseWidget courseWidget = GWT.create(CourseWidget.class);
                     
                     courseWidget.addGetCluNameCallback(new Callback() {
 
@@ -470,5 +471,9 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
     public Integer getInternalProgReqID() {
         return internalProgReqID;
+    }
+    
+    private String getLabel(String messageKey) {
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey);
     }
 }

@@ -17,8 +17,6 @@ package org.kuali.student.common.search.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,18 +24,17 @@ import java.util.Map;
 
 import org.kuali.student.common.search.dto.CrossSearchTypeInfo;
 import org.kuali.student.common.search.dto.JoinComparisonInfo;
+import org.kuali.student.common.search.dto.JoinComparisonInfo.ComparisonType;
 import org.kuali.student.common.search.dto.JoinCriteriaInfo;
+import org.kuali.student.common.search.dto.JoinCriteriaInfo.JoinType;
 import org.kuali.student.common.search.dto.JoinResultMappingInfo;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SortDirection;
 import org.kuali.student.common.search.dto.SubSearchInfo;
 import org.kuali.student.common.search.dto.SubSearchParamMappingInfo;
-import org.kuali.student.common.search.dto.JoinComparisonInfo.ComparisonType;
-import org.kuali.student.common.search.dto.JoinCriteriaInfo.JoinType;
 import org.kuali.student.common.search.service.SearchDispatcher;
 
 /**
@@ -68,6 +65,8 @@ public class CrossSearchManager {
 			
 			subSearchRequest.setSearchKey(subSearch.getSearchkey());
 			subSearchRequest.setParams(new ArrayList<SearchParam>());
+            subSearchRequest.setSortColumn(searchRequest.getSortColumn());
+            subSearchRequest.setSortDirection(searchRequest.getSortDirection());
 			
 			//For each param mapping, map the paramvalue from the cross search to the sub search
 			for(SubSearchParamMappingInfo paramMapping:subSearch.getSubSearchParamMappings()){
@@ -93,12 +92,10 @@ public class CrossSearchManager {
 		if(crossSearchType.getJoinCriteria().getComparisons().isEmpty()){
 			//If the root join has no criteria then do a simple union of rows
 			for(Map.Entry<String,SearchResult> subSearchResult:subSearchResults.entrySet()){
-                if (null != subSearchResult.getValue()) {
-                    for(SearchResultRow row:subSearchResult.getValue().getRows()){
-                        SearchResultRow mappedResult = mapResultRow(subSearchResult.getKey(),row,crossSearchType);
-                        searchResult.getRows().add(mappedResult);
-                    }
-                }
+				for(SearchResultRow row:subSearchResult.getValue().getRows()){
+					SearchResultRow mappedResult = mapResultRow(subSearchResult.getKey(),row,crossSearchType);
+					searchResult.getRows().add(mappedResult);
+				}
 			}
 		}else{
 			//merge the subsearches together using the join rules (this is in o^2 time which is bad)
@@ -125,16 +122,9 @@ public class CrossSearchManager {
 	private SearchResult metaFilter(SearchResult searchResult,
 		SearchRequest searchRequest) {
 		
-		searchResult.setTotalResults(searchResult.getRows().size());
-		final String sortColumn = searchRequest.getSortColumn();
-		final SortDirection sortDirection = searchRequest.getSortDirection();
-		
-		//Sort if we need to
-		if(sortColumn!=null){
-			Collections.sort(searchResult.getRows(), new SearchResultRowComparator(sortColumn,sortDirection));
-		}
-		
-		
+        searchResult.setTotalResults(searchResult.getRows().size());
+
+		searchResult.sortRows();		
 		
 		//Paginate if we need to
 		if(searchRequest.getMaxResults()!=null){
@@ -149,87 +139,11 @@ public class CrossSearchManager {
 					pagedResult.getRows().add(searchResult.getRows().get(i));
 				}
 			}
-			
+            pagedResult.setTotalResults(searchResult.getRows().size());
 			searchResult = pagedResult;
 		}
 		return searchResult;
 	}
-
-	
-	/**
-	 * Compares two SearchResultRow rows with a given sort direction and column
-	 *
-	 */
-	private static class SearchResultRowComparator implements Comparator<SearchResultRow> {
-		private String sortColumn;
-		private SortDirection sortDirection;
-		
-		public SearchResultRowComparator(String sortColumn,
-				SortDirection sortDirection) {
-			super();
-			this.sortColumn = sortColumn;
-			this.sortDirection = sortDirection;
-		}
-		
-		@Override
-		public int compare(SearchResultRow r1, SearchResultRow r2) {
-			int compareResult = 0;
-			
-			//Pares out the cell values to compare
-			String v1=null;
-			String v2=null;
-			for(SearchResultCell c:r1.getCells()){
-				if(sortColumn.equals(c.getKey())){
-					v1=c.getValue();
-					break;
-				}
-			}
-			for(SearchResultCell c:r2.getCells()){
-				if(sortColumn.equals(c.getKey())){
-					v2=c.getValue();
-					break;
-				}
-			}
-			
-			//Compare the values wiuth the right type (SHould be done more efficiently
-			try{
-				Integer v1Integer = Integer.parseInt(v1);
-				Integer v2Integer = Integer.parseInt(v2);
-				compareResult = v1Integer.compareTo(v2Integer);
-			}catch(Exception e1){
-				if(v1!=null&&v2!=null&&("true".equals(v1.toLowerCase())||"false".equals(v1.toLowerCase()))&&
-				   ("true".equals(v2.toLowerCase())||"false".equals(v2.toLowerCase()))){
-					Boolean v1Boolean = Boolean.parseBoolean(v1);
-					Boolean v2Boolean = Boolean.parseBoolean(v2);
-					compareResult = v1Boolean.compareTo(v2Boolean);
-				}else{
-					try{
-						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-						Date v1Date = df.parse(v1);
-						Date v2Date = df.parse(v2);
-						compareResult = v1Date.compareTo(v2Date);
-					}catch(Exception e){
-						if(v1!=null && v2!=null){
-							compareResult = v1.compareTo(v2);
-						}else if(v2==null){
-							compareResult = 0;
-						}else{
-							compareResult = -1; 
-						}
-					}
-				}
-			}
-			
-			//Sort reverse if order is descending
-			if(SortDirection.DESC.equals(sortDirection)){
-				return -1 * compareResult;
-			}
-			return compareResult;
-		}
-		
-	}
-
-
 
 	/**
 	 * Maps results from multiple searches into a single result row
@@ -508,5 +422,8 @@ public class CrossSearchManager {
 		this.searchDispatcher = searchDispatcher;
 	}
 
-
+	public SearchDispatcher getSearchDispatcher() {
+		return searchDispatcher;
+	}
+		
 }

@@ -132,6 +132,7 @@ public class DocumentList extends Composite{
                 tableLayout.setWidget(rowIndex, columnIndex, name);
                 name.setHTML("<a href=\"" + GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + docInfo.getDocumentId() + "\" target=\"_blank\"><b>" + docInfo.getTitle() + "</b></a>");
                 name.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
+                name.addStyleName("KS-DocumentList-Attachment-Table");
                 tableLayout.setWidget(rowIndex, columnIndex, name);
                 columnIndex++;
                 if(showDesc){

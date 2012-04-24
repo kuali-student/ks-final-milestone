@@ -5,29 +5,89 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.lum.common.server.StatementUtil;
+import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.service.ProgramService;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
 
 public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDisciplineRpcService {
 
+    public static final String PREVIOUS_VERSION_INFO = "proposal";
+    
+    final Logger LOG = Logger.getLogger(MajorDisciplineRpcServlet.class);
+    
     private static final long serialVersionUID = 1L;
 
+    private ProposalService proposalService;
     private ProgramService programService;
     private StatementService statementService;
-
+    protected StateChangeService stateChangeService;
+    private LuService luService;
+ 
+    /**
+     * 
+     * This method will update the state of a major discipline. 
+     * 
+     * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#updateStatus(org.kuali.student.common.assembly.data.Data, java.lang.String)
+     */
+	public DataSaveResult updateState(Data data, String state ) throws Exception {
+ 	    try {
+    	    // Pull program ID from model
+    	    String programId = data.get(ProgramConstants.ID);
+    	    
+    	    // Pull endEntryTerm and endEnrollTerm from model
+    	    // These are set using drop downs when a program is activated
+      	    Data previousVersionInfo = data.query(PREVIOUS_VERSION_INFO);
+      	    String endEntryTerm = null;
+      	    String endEnrollTerm = null;
+      	    String endInstAdmitTerm = null;
+     	    if (previousVersionInfo != null) {
+       	      endEntryTerm = previousVersionInfo.get(ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM); 
+              endEnrollTerm = previousVersionInfo.get(ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM);
+              endInstAdmitTerm = previousVersionInfo.get(ProgramConstants.PREV_END_INST_ADMIN_TERM);
+              stateChangeService.changeState(endEntryTerm, endEnrollTerm, endInstAdmitTerm, programId, state);
+     	    }
+     	    else{
+     	       // previousVersionInfo is null if this is the first version 
+     	       stateChangeService.changeState( programId, state);  
+     	    }
+          
+    
+    	    // Return updates to view
+    		DataSaveResult result = new DataSaveResult();
+    		result.setValue(data);
+    		return result;
+ 	    } catch(DataValidationErrorException e){
+ 	    	LOG.error("Error Updating Major Dicipline State", e); 	        
+ 	    	DataSaveResult result = new DataSaveResult();
+    		result.setValidationResults(e.getValidationResults());
+    		return result;
+ 	    } catch(Exception e){
+ 	    	LOG.error("Error Updating Major Dicipline State", e); 	        
+ 	        throw e;
+ 	    }
+	         
+	}
     public List<ProgramRequirementInfo> getProgramRequirements(List<String> programRequirementIds) throws Exception {
 
         List<ProgramRequirementInfo> programReqInfos = new ArrayList<ProgramRequirementInfo>();
@@ -69,14 +129,25 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         return storedRules;
     }
 
+ 
     public ProgramRequirementInfo createProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception {
 
+        // If this requirement is using a temporary statement ID set the state to null
         if (programRequirementInfo.getId().indexOf(ProgramRequirementsSummaryView.NEW_PROG_REQ_ID) >= 0) {
             programRequirementInfo.setId(null);
         }
-
-        ProgramRequirementsDataModel.stripStatementIds(programRequirementInfo.getStatement());
+        
+        // Strip the temporary statement IDs and allow permanent IDs to be created when written to the web service
+        StatementUtil.stripStatementIds(programRequirementInfo.getStatement());
+        
+        // Update the state of the statement tree to match the state of the requirement
+        // Note: the requirement state already matches the program state (e.g. Draft, Approved, etc)
+        StatementUtil.updateStatementTreeViewInfoState(programRequirementInfo.getState(), programRequirementInfo.getStatement());
+       
+        // Call the web service to create the requirement and statement tree in the database
         ProgramRequirementInfo rule = programService.createProgramRequirement(programRequirementInfo);
+        
+        // Translate the requirement into its natural language equivalent
         setProgReqNL(rule);
 
         return rule;
@@ -87,8 +158,14 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     }
 
     public ProgramRequirementInfo updateProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception {
-        ProgramRequirementsDataModel.stripStatementIds(programRequirementInfo.getStatement());
+        
+        // Strip the temporary statement IDs and allow permanent IDs to be created when written to the web service
+        StatementUtil.stripStatementIds(programRequirementInfo.getStatement());
 
+        // Update the state of the statement tree to match the state of the requirement
+        // Note: the requirement state already matches the program state (e.g. Draft, Approved, etc)
+        StatementUtil.updateStatementTreeViewInfoState(programRequirementInfo.getState(), programRequirementInfo.getStatement());
+        
         //TODO temporary fix - see KSLUM 1421
         if (programRequirementInfo.getDescr() == null) {
             programRequirementInfo.setDescr(new RichTextInfo());    
@@ -125,12 +202,22 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     
     @Override
 	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
-    	VersionDisplayInfo versionDisplayInfo = programService.getLatestVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, versionIndId);
-    	Long latestSequenceNumber = versionDisplayInfo.getSequenceNumber();
-    	boolean isLatest = latestSequenceNumber.equals(versionSequenceNumber); 
+    	//Perform a search to see if there are any new versions of the course that are approved, draft, etc.
+    	//We don't want to version if there are
+    	SearchRequest request = new SearchRequest("lu.search.isVersionable");
+    	request.addParam("lu.queryParam.versionIndId", versionIndId);
+    	request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
+    	List<String> states = new ArrayList<String>();
+    	states.add("Approved");
+    	states.add("Active");
+    	states.add("Draft");
+    	states.add("Superseded");
+    	request.addParam("lu.queryParam.luOptionalState", states);
+    	SearchResult result = luService.search(request);
     	
-    	return isLatest;
-	}
+    	String resultString = result.getRows().get(0).getCells().get(0).getValue();
+    	return "0".equals(resultString);	    	
+ 	}
 
 	public void setProgramService(ProgramService programService) {
         this.programService = programService;
@@ -139,4 +226,64 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     public void setStatementService(StatementService statementService) {
         this.statementService = statementService;
     }
+
+    public void setStateChangeService(StateChangeService stateChangeService) {
+        this.stateChangeService = stateChangeService;
+    }
+   
+    /**
+     * 
+     * This method will check to see if an object with the given reference ID is a proposal.
+     * <p>
+     * At the moment, it is used by the UI to decide if we should hide the action box when
+     * opening a draft proposal.
+     * 
+     * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#isProposal(java.lang.String, java.lang.String)
+     */
+    @Override
+    public Boolean isProposal(String referenceTypeKey, String referenceId){
+        try {
+        // Wire in proposal service from spring
+        // Call method getProposalByReference().  
+        // ProposalWorkflowFilter.applyOutboundDataFilter().  Set on line 130-131.  Use these for reference ID.
+       
+        // Ask the proposal service to return a list of proposals with this reference id    
+        List<ProposalInfo> proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId);
+        
+        // If at least one proposal is returned, this is a proposal, so return true
+        if (proposals != null && proposals.size() >= 1){
+            return new Boolean(true);
+        }
+        
+        // This was not a proposal, so return false
+        return  new Boolean(false);
+        }
+        catch(Exception ex){
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+      
+    }
+    
+    /**
+     * 
+     * Proposal service is injected by spring in the lum-gwt-context.xml file
+     * 
+     * @return
+     */
+    public ProposalService getProposalService() {
+        return proposalService;
+    }
+    
+    public void setProposalService(ProposalService proposalService) {
+        this.proposalService = proposalService;
+
+    }
+    
+	public void setLuService(LuService luService) {
+		this.luService = luService;
+	}
+ 
+
 }

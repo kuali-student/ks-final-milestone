@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.messages.dto.Message;
@@ -48,7 +50,7 @@ public class MessageRPCPreloader {
         if (messageService == null){
             setMessageService((MessageService)GlobalResourceLoader.getService(MESSAGE_SERVICE_MOCK));
             if (messageService == null){
-                setMessageService((MessageService)GlobalResourceLoader.getService(MESSAGE_SERVICE));
+                setMessageService((MessageService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/messages","MessageService")));
             }
         }
         return messageService;

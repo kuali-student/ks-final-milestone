@@ -11,7 +11,7 @@ public class BrowseProgramController extends BasicLayout {
 
 	public BrowseProgramController(String controllerId) {
 		super(controllerId);
-		addView(new BrowseProgramView(this, "Browse Program", BrowseProgramViews.MAIN));
+		addView(new BrowseProgramView(this, "Browse Majors and Specializations", BrowseProgramViews.MAIN));
 		setDefaultView(BrowseProgramViews.MAIN);	
 	}
 

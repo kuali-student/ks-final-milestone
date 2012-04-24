@@ -12,6 +12,7 @@ import net.sf.jasperreports.engine.JRField;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.util.DateFormatThread;
 
 /**
  * This is a custom data source class to convert a datamodel to a Jasper report data source object.
@@ -24,14 +25,17 @@ public class KSCustomDataSource implements JRDataSource {
 
     private Property property;
 
-    private DateFormat format;
-
+	private static ThreadLocal<DateFormat> df = new ThreadLocal<DateFormat>() {
+		protected DateFormat initialValue() {
+			return new SimpleDateFormat("yyyy-MM-dd");
+		}
+	};
+    
     /**
 	 *
 	 */
     public KSCustomDataSource(final Iterator<Property> source) {
         this.iterator = source;
-        this.format = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     /**
@@ -72,7 +76,7 @@ public class KSCustomDataSource implements JRDataSource {
                     value = new Boolean(false);
                 } else if ("value".equals(fieldName)) {
                     if (property.getValue() instanceof Date) {
-                        value = format.format((Date) property.getValue());
+                        value = df.get().format((Date) property.getValue());
                     } else {
                         if (property.getValue() != null) {
                             value = property.getValue().toString();

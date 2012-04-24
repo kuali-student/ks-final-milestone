@@ -21,7 +21,7 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
@@ -173,8 +173,33 @@
                     <ref local="luContext"/>
                 </entry>
 
+				<entry key="kuali.reqComponent.type.course.cumulative.gpa.min">
+                    <ref local="gpaContext"/>
+                </entry>
+                
+                <entry key="kuali.reqComponent.type.course.credits.min">
+                    <ref local="basicContext"/>                
+                </entry>
+                
+                <entry key="kuali.reqComponent.type.course.freeform.text">
+                    <ref local="basicContext"/>                
+                </entry>
+                
                 <!-- Program Contexts -->
 
+                <entry key="kuali.reqComponent.type.program.credits.advisor">
+                    <ref local="basicContext"/>                
+                </entry>   
+				<entry key="kuali.reqComponent.type.program.courses.advisor">
+                    <ref local="basicContext"/>                
+                </entry>   
+                <entry key="kuali.reqComponent.type.program.credits.theme">
+                    <ref local="basicContext"/>                
+                </entry>   
+				<entry key="kuali.reqComponent.type.program.courses.theme">
+                    <ref local="basicContext"/>                
+                </entry>   
+                
                 <entry key="kuali.reqComponent.type.programList.enroll.oneof">
 	                <ref local="luContext"/>
                 </entry>

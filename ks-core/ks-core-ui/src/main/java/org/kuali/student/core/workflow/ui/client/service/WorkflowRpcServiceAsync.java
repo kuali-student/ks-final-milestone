@@ -17,8 +17,6 @@ package org.kuali.student.core.workflow.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestEnum;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -26,25 +24,25 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * 
  */
 public interface WorkflowRpcServiceAsync {
+    public void getWorkflowIdFromDataId(String workflowDocType, String dataId, AsyncCallback<String> callback);
+    public void getDataIdFromWorkflowId(String workflowId, AsyncCallback<String> callback);
+    public void getDocumentStatus(String workflowId, AsyncCallback<String> callback);
+    public void getWorkflowNodes(String workflowId, AsyncCallback<List<String>> callback);
 
-	public void getWorkflowIdFromDataId(String workflowDocType, String dataId, AsyncCallback<String> callback);
-	public void getDataIdFromWorkflowId(String workflowId, AsyncCallback<String> callback);
-	public void getDocumentStatus(String workflowId, AsyncCallback<String> callback);
-	public void getWorkflowNodes(String workflowId, AsyncCallback<List<String>> callback);
+    public void getActionsRequested(String workflowId, AsyncCallback<String> callback);
 
-	public void getActionsRequested(String workflowId, AsyncCallback<String> callback);
-	
-	public void submitDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+    public void submitDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
     public void cancelDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-	public void approveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-	public void disapproveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-	public void acknowledgeDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-	public void fyiDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
-	public void withdrawDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+    public void approveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+    public void disapproveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+    public void acknowledgeDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+    public void fyiDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
+    public void withdrawDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
     public void blanketApproveDocumentWithId(String workflowId, AsyncCallback<Boolean> callback);
     public void returnDocumentWithId(String workflowId, String nodeName, AsyncCallback<Boolean> callback);
     public void getPreviousRouteNodeNames(String workflowId, AsyncCallback<List<String>> callback);
 
     public void isAuthorizedAddReviewer(String docId, AsyncCallback<Boolean> callback);
     public void isAuthorizedRemoveReviewers(String docId, AsyncCallback<Boolean> callback);
+
 }

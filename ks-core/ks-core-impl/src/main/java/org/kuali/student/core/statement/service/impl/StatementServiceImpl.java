@@ -75,7 +75,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.statement.service.StatementService", serviceName = "StatementService", portName = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class StatementServiceImpl implements StatementService {
 
 	private final static Logger logger = LoggerFactory.getLogger(ReqComponentTranslator.class);
@@ -126,6 +125,7 @@ public class StatementServiceImpl implements StatementService {
 		this.naturalLanguageTranslator = translator;
 	}
 
+    @Transactional(readOnly=true)
 	public NlUsageTypeInfo getNlUsageType(final String nlUsageTypeKey)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
@@ -137,6 +137,7 @@ public class StatementServiceImpl implements StatementService {
 		return info;
 	}
 
+    @Transactional(readOnly=true)
 	public List<NlUsageTypeInfo> getNlUsageTypes()
 			throws OperationFailedException {
 
@@ -145,6 +146,7 @@ public class StatementServiceImpl implements StatementService {
 		return infos;
 	}
 
+    @Transactional(readOnly=true)
 	public List<String> getRefObjectTypes() throws OperationFailedException {
 		List<ObjectType> objectTypes = this.statementDao.find(ObjectType.class);
 		List<String> ids = new ArrayList<String>();
@@ -154,6 +156,7 @@ public class StatementServiceImpl implements StatementService {
 		return ids;
 	}
 
+    @Transactional(readOnly=true)
 	public List<String> getRefObjectSubTypes(final String objectTypeKey)
 			throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -167,6 +170,7 @@ public class StatementServiceImpl implements StatementService {
 		return ids;
 	}
 
+    @Transactional(readOnly=true)
 	public RefStatementRelationInfo getRefStatementRelation(final String refStatementRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -179,6 +183,7 @@ public class StatementServiceImpl implements StatementService {
 		return dto;
 	}
 
+    @Transactional(readOnly=true)
 	public List<RefStatementRelationInfo> getRefStatementRelationsByRef(final String refObjectTypeKey, final String refObjectId)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForNullOrEmptyParameter(refObjectTypeKey, "refObjectTypeKey");
@@ -197,6 +202,7 @@ public class StatementServiceImpl implements StatementService {
         return referenceInfos;
 	}
 
+    @Transactional(readOnly=true)
 	public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(final String statementId)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
@@ -223,6 +229,7 @@ public class StatementServiceImpl implements StatementService {
      * @throws OperationFailedException Unable to complete request
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
+    @Transactional(readOnly=true)
 	public String getNaturalLanguageForReqComponent(final String reqComponentId, final String nlUsageTypeKey, final String language)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
@@ -269,6 +276,7 @@ public class StatementServiceImpl implements StatementService {
      * @throws OperationFailedException Unable to complete request
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
+    @Transactional(readOnly=true)
 	public String getNaturalLanguageForStatement(final String statementId, final String nlUsageTypeKey, final String language)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -290,6 +298,7 @@ public class StatementServiceImpl implements StatementService {
 		return nl;
 	}
 
+    @Transactional(readOnly=true)
     public String getNaturalLanguageForRefStatementRelation(final String refStatementRelationId, final String nlUsageTypeKey, final String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
 		checkForNullOrEmptyParameter(nlUsageTypeKey, "nlUsageTypeKey");
@@ -310,6 +319,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public String translateReqComponentToNL(final ReqComponentInfo reqComponentInfo, final String nlUsageTypeKey, final String language)
 			throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
@@ -335,6 +345,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public String translateStatementTreeViewToNL(final StatementTreeViewInfo statementTreeViewInfo, final String nlUsageTypeKey, final String language)
 			throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
@@ -404,7 +415,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ReqComponentInfo createReqComponent(final String reqComponentType, final ReqComponentInfo reqComponentInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(reqComponentType, "reqComponentType");
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
@@ -423,7 +434,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatementInfo createStatement(final String statementType, final StatementInfo statementInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(statementType, "statementType");
         checkForMissingParameter(statementInfo, "statementInfo");
@@ -444,7 +455,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatementTreeViewInfo createStatementTreeView(final StatementTreeViewInfo statementTreeViewInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, CircularReferenceException {
     	try {
             // insert statements and reqComponents if they do not already exists in database
@@ -461,7 +472,7 @@ public class StatementServiceImpl implements StatementService {
 
     
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(reqComponentId, "reqComponentId");
 
@@ -480,7 +491,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteStatement(final String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(statementId, "statementId");
 
@@ -513,7 +524,7 @@ public class StatementServiceImpl implements StatementService {
     }
     
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteStatementTreeView(final String statementId) throws DoesNotExistException{
         Statement stmt = statementDao.fetch(Statement.class, statementId);
         
@@ -557,11 +568,13 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
     public ReqComponentInfo getReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return statementAssembler.toReqComponentInfo(statementDao.fetch(ReqComponent.class, reqComponentId), null, null);
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<ReqComponentInfo> getReqComponentsByType(final String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(reqComponentTypeKey, "reqComponentTypeKey");
 
@@ -570,6 +583,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public StatementInfo getStatement(final String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         StatementInfo statementInfo = null;
         checkForMissingParameter(statementId, "statementId");
@@ -578,6 +592,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<StatementInfo> getStatementsByType(final String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(statementTypeKey, "statementTypeKey");
 
@@ -586,6 +601,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<StatementInfo> getStatementsUsingReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForNullOrEmptyParameter(reqComponentId, "reqComponentId");
 
@@ -603,6 +619,7 @@ public class StatementServiceImpl implements StatementService {
      * @throws MissingParameterException statementId not specified
      * @throws OperationFailedException Unable to complete request
      */
+    @Transactional(readOnly=true)
 	public List<StatementInfo> getStatementsUsingStatement(final String statementId)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForNullOrEmptyParameter(statementId, "statementId");
@@ -613,7 +630,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatementInfo updateStatement(final String statementId, final StatementInfo statementInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         //Check Missing params
         checkForMissingParameter(statementId, "statementId");
@@ -823,32 +840,38 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public StatementTypeInfo getStatementType(final String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return StatementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<StatementTypeInfo> getStatementTypes() throws OperationFailedException {
         return StatementAssembler.toStatementTypeInfos(statementDao.find(StatementType.class));
     }
 
+    @Transactional(readOnly=true)
     public List<String> getStatementTypesForStatementType(final String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	StatementTypeInfo type = StatementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
     	return type.getAllowedStatementTypes();
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<ReqComponentTypeInfo> getReqComponentTypes() throws OperationFailedException {
         return StatementAssembler.toReqComponentTypeInfos(statementDao.find(ReqComponentType.class));
     }
 
     @Override
+    @Transactional(readOnly=true)
     public ReqComponentTypeInfo getReqComponentType(final String reqComponentTypeKey)
     		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return StatementAssembler.toReqComponentTypeInfo(statementDao.fetch(ReqComponentType.class, reqComponentTypeKey));
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(final String statementTypeKey)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(statementTypeKey, "statementTypeKey");
@@ -862,7 +885,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ReqComponentInfo updateReqComponent(final String reqComponentId, final ReqComponentInfo reqComponentInfo)
     		throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         //Check Missing params
@@ -885,7 +908,7 @@ public class StatementServiceImpl implements StatementService {
         return updReqCompInfo;
     }
 
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public RefStatementRelationInfo createRefStatementRelation(final RefStatementRelationInfo refStatementRelationInfo)
 			throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(refStatementRelationInfo, "refStatementRelationInfo");
@@ -915,7 +938,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public RefStatementRelationInfo updateRefStatementRelation(final String refStatementRelationId, final RefStatementRelationInfo refStatementRelationInfo)
 			throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
@@ -930,7 +953,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteRefStatementRelation(final String refStatementRelationId)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForNullOrEmptyParameter(refStatementRelationId, "refStatementRelationId");
@@ -953,6 +976,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
     @Override
+    @Transactional(readOnly=true)
     public StatementTreeViewInfo getStatementTreeView(final String statementId)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForNullOrEmptyParameter("statementId", statementId);
@@ -961,6 +985,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, final String language)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForNullOrEmptyParameter("statementId", statementId);
@@ -1055,7 +1080,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo)
     	throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		
@@ -1223,6 +1248,7 @@ public class StatementServiceImpl implements StatementService {
      * @return a list of relationships in the first list but not in the second
      */
 	@Override
+    @Transactional(readOnly=true)
 	public RefStatementRelationTypeInfo getRefStatementRelationType(final String refStatementRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForNullOrEmptyParameter(refStatementRelationTypeKey, "refStatementRelationTypeKey");
@@ -1233,6 +1259,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<RefStatementRelationTypeInfo> getRefStatementRelationTypes()
 			throws OperationFailedException {
 		List<RefStatementRelationType> entities = this.statementDao.find(RefStatementRelationType.class);
@@ -1240,12 +1267,14 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getRefStatementRelationTypesForRefObjectSubType(final String refSubTypeKey)
 		throws DoesNotExistException,InvalidParameterException, MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getStatementTypesForRefStatementRelationType(final String refStatementRelationTypeKey)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException("Method not yet implemented!");

@@ -40,7 +40,7 @@
         TYPE_DESC="The exchange of opinions or questions on course material."
         TYPE_KEY="kuali.lu.type.activity.Discussion" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Homework"
-        OBJ_ID="BCFB323E742CBFA7E040C60AF05B6A7F"
+        OBJ_ID="B3110BF4BDF47C83E040C60AF05B48DD"
         TYPE_DESC="Student's doing homework, problem sets and reading assignments and writing"
         TYPE_KEY="kuali.lu.type.activity.Homework" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Lab"
@@ -56,7 +56,7 @@
         TYPE_DESC="Instructor or assistant walking through a learning practice."
         TYPE_KEY="kuali.lu.type.activity.Tutorial" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Web Discuss"
-        OBJ_ID="BCFB323E742BBFA7E040C60AF05B6A7F"
+        OBJ_ID="B3110BF4BDF37C83E040C60AF05B48DD"
         TYPE_DESC="Web-based or technologically-mediated activities replacing standard discussion sections"
         TYPE_KEY="kuali.lu.type.activity.WebDiscussion" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Web Lecture"
@@ -67,21 +67,21 @@
         OBJ_ID="6A33734B7426482792951DD942080C05"
         TYPE_DESC="A Baccalaureate"
         TYPE_KEY="kuali.lu.type.credential.Baccalaureate" VER_NBR="0"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Doctoral"
+        OBJ_ID="57a7ddfe-24d9-4f9f-a393-edfa627337b8"
+        TYPE_DESC="A Doctoral"
+        TYPE_KEY="kuali.lu.type.credential.Doctoral" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Masters"
-        OBJ_ID="6A33734B7426482792951DD942080C05"
-        TYPE_DESC="Masters level program"
+        OBJ_ID="b953a46e-c886-41c5-89b5-b9e6c6093cdc"
+        TYPE_DESC="A Masters"
         TYPE_KEY="kuali.lu.type.credential.Masters" VER_NBR="0"/>
-    <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Professional"
-        OBJ_ID="BCFB31865CE7A381E040C60AF05B6A74"
-        TYPE_DESC="A program leading to a professional degree"
-        TYPE_KEY="kuali.lu.type.credential.Professional" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Standardized Test"
-        OBJ_ID="BCFB323E742DBFA7E040C60AF05B6A7F"
+        OBJ_ID="B3110BF4BDF57C83E040C60AF05B48DD"
         TYPE_DESC="Standardized Test"
         TYPE_KEY="kuali.lu.type.standardized.test" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000"
         NAME="Standardized Test Component"
-        OBJ_ID="BCFB323E742EBFA7E040C60AF05B6A7F"
+        OBJ_ID="B3110BF4BDF67C83E040C60AF05B48DD"
         TYPE_DESC="Standardized Test Component"
         TYPE_KEY="kuali.lu.type.standardized.test.component" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Course"

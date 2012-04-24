@@ -101,7 +101,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		return _getWidget(config);
 	}
 
-	private Widget _getWidget(WidgetConfigInfo config) {
+	protected Widget _getWidget(WidgetConfigInfo config) {
 		Widget result = null;
 		if(!config.canView) {
 		    result =  new KSPlaceholder();
@@ -144,6 +144,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
                             result = new KSTextArea();
                             result.addStyleName("ks-textarea-width");
                             if(config.maxLength != null){
+                                ((KSTextArea)(result)).setMaxLength(config.maxLength);
                             	if(config.maxLength < 250){
                             		result.addStyleName("ks-textarea-small-height");
                             	}

@@ -159,11 +159,7 @@ public class SubrulePreviewWidget extends FlowPanel {
      * @return
      */
     private Widget buildSubStatementWidget(StatementTreeViewInfo subStatement, StatementTreeViewInfo parentStatement, boolean firstInList) {
-        
         StatementOperatorTypeKey prefixOperator = null;
-        if(!firstInList) {
-            prefixOperator = subStatement.getOperator();
-        }
         
         boolean hasReqComponents = (subStatement.getReqComponents() != null && !subStatement.getReqComponents().isEmpty());
         
@@ -172,13 +168,16 @@ public class SubrulePreviewWidget extends FlowPanel {
             // return requirement component text, including operator text if applicable
             ReqComponentInfo reqComp = subStatement.getReqComponents().iterator().next();
             String nl = getPreviewNaturalLanguageForReqComponent(reqComp);
-            
             return buildRequirementPanel(reqComp, prefixOperator, nl);
-        }
+          }
         
         // The statement has one or more requisite components or sub-statements, so build the header text
         StringBuilder headerText = new StringBuilder();
         
+        if (!firstInList) {
+            prefixOperator = parentStatement.getOperator();
+        }
+
         appendOperatorTag(headerText, prefixOperator);
         
         headerText.append(subStatement.getOperator() == StatementOperatorTypeKey.AND ? OPERATOR_HEADER_AND : OPERATOR_HEADER_OR);

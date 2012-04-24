@@ -15,11 +15,13 @@
 
 package org.kuali.student.common.ui.client.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -31,6 +33,8 @@ public interface BaseDataOrchestrationRpcServiceAsync{
 	public void getMetadata(String id, Map<String,String> idType, AsyncCallback<Metadata> callback);
 
 	public void saveData(Data data, AsyncCallback<DataSaveResult> callback);
+	
+	public void validate(Data data, AsyncCallback<List<ValidationResultInfo>> callback);
 	
 	public void isAuthorized(PermissionType type, Map<String,String> attributes, AsyncCallback<Boolean> callback);
 

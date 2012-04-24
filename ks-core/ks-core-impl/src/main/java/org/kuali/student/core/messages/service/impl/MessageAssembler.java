@@ -44,8 +44,9 @@ public class MessageAssembler {
 	public static List<Message> toMessageList(List<MessageEntity> messages,
 			Class<Message> message) {
 		List<Message> result = new ArrayList<Message>();
-		Message m1 = new Message();
+		Message m1;
 		for (MessageEntity e : messages) {
+		    m1 = new Message();
 			toMessage(e, m1);
 			result.add(m1);
 		}

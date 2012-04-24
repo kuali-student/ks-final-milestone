@@ -64,6 +64,7 @@ import org.kuali.student.common.entity.MetaEntity;
 public class OrgOrgRelation extends MetaEntity implements
 		AttributeOwner<OrgOrgRelationAttribute> {
 
+
 	@ManyToOne
 	@JoinColumn(name = "ORG")
 	private Org org;
@@ -95,8 +96,9 @@ public class OrgOrgRelation extends MetaEntity implements
 	 */
 	@Override
 	public void onPrePersist() {
-		super.setId(UUIDHelper.genStringUUID(super.getId()));
+        super.setId(UUIDHelper.genStringUUID(super.getId()));
 	}
+
 
 	public Org getOrg() {
 		return org;

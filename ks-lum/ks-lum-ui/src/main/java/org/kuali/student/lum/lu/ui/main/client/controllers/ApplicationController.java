@@ -8,6 +8,7 @@ import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.lum.lu.ui.main.client.LUMMainEntryPoint;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -55,8 +56,8 @@ public class ApplicationController extends LayoutController{
 	
 	private void setupViews(){
 		//if a configurer pattern makes sense here this is where it would be called
-		HomeController home = new HomeController(this, "Home", 
-				AppViews.HOME);
+		HomeController home = GWT.create(HomeController.class);
+		home.init(this, "Home", AppViews.HOME);		
 		this.addView(home);
 		this.setDefaultView(AppViews.HOME);
 	}

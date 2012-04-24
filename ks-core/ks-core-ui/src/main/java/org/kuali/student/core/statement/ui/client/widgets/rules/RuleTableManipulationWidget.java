@@ -351,7 +351,7 @@ public class RuleTableManipulationWidget extends FlowPanel {
             }
         };
         simplifyingTimer.schedule(1000);
-    }
+      }
 
     public void setEnabledView(boolean enabled) {
         setEnableButtons(enabled);

@@ -14,7 +14,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.kuali.rice.student;
 
@@ -68,7 +68,7 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
 		lifecycles.add(new ClearCacheLifecycle());
 		return lifecycles;
 	}
-	
+
 	public class ClearCacheLifecycle extends BaseLifecycle {
 		public void stop() throws Exception {
             // TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release
@@ -77,7 +77,7 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
 			super.stop();
 		}
 	}
-	
+
 	// below method to be removed when moving to Rice 1.0.1
 	@Override
 	protected void loadSuiteTestData() throws Exception {
@@ -91,7 +91,7 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
 		}
 		new SQLDataLoader("file:" + getBaseDir() + "/../src/main/config/sql/kim.sql", ";").runSql();
 	}
-	
+
     protected String getKNSDefaultSuiteTestData() {
         return "file:" + getBaseDir() + "/../src/test/config/data/DefaultSuiteTestDataKNS.sql";
     }

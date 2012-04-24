@@ -60,8 +60,9 @@ public class RemoteOrganizationValuesFinder extends KeyValuesBase {
 
     protected OrganizationService getOrganizationService() {
         if (organizationService == null) {
-            organizationService = (OrganizationService) GlobalResourceLoader
-                .getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
+            organizationService = (OrganizationService)
+                    GlobalResourceLoader
+                .getService(new QName("http://student.kuali.org/wsdl/organization", "OrganizationService"));
         }
         return organizationService;
     }
@@ -76,12 +77,12 @@ public class RemoteOrganizationValuesFinder extends KeyValuesBase {
      * @param orgType
      * @return
      */
+
     protected KeyValue buildKeyValue(String orgId, String orgShortName, String orgLongName, String orgType) {
         if (StringUtils.isBlank(orgShortName)) {
             throw new IllegalArgumentException("Blank value for orgShortName is invalid.");
         }
-        
+
         return new ConcreteKeyValue(orgId, (StringUtils.isNotBlank(orgLongName) ? orgLongName : orgShortName) );
     }
-
 }

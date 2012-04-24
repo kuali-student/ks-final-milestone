@@ -17,8 +17,8 @@ package org.kuali.rice.student.lookup.keyvalues;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.rice.core.api.util.KeyValue;
 
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
@@ -71,7 +71,7 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
                         orgShortName = resultCell.getValue();
                     }
                 }
-                departments.add(buildKeyValue(orgId, orgShortName, null, null));
+                departments.add(buildKeyLabelPair(orgId, orgShortName, null, null));
             }
 
             return departments;
@@ -82,8 +82,7 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
     }
 
     @Override
-    public List getKeyValues() {
-
+    public List<KeyValue> getKeyValues() {
         return findCocOrgs();
     }
 

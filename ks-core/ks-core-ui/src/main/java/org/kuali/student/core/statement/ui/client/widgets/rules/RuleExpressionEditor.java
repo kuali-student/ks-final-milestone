@@ -62,6 +62,7 @@ public class RuleExpressionEditor extends FlowPanel {
         FlowPanel expressionBox = new FlowPanel();
         HorizontalPanel expressionAndMsg = new HorizontalPanel();
         expressionBox.setStyleName("KS-Program-Rule-LogicView-ExpressionPanel");
+        expressionTextBox.ensureDebugId("Expression Text Area");
         expressionTextBox.addStyleName("KS-Program-Rule-LogicView-ExpressionText");
         expressionAndMsg.add(expressionTextBox);
         expressionAndMsg.add(htmlErrorMessage);

@@ -125,7 +125,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
         if(currentSuggestion != null){
             id = currentSuggestion.getId();
         }
-        if(!currentId.isEmpty() && id.isEmpty()){
+        if(currentId!=null && !currentId.isEmpty() && (id==null || id.isEmpty())){
             id = UtilConstants.IMPOSSIBLE_CHARACTERS;
         }
         return id;

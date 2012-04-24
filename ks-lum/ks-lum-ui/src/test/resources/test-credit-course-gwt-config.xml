@@ -17,15 +17,49 @@
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:simple="http://cxf.apache.org/simple"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="
-          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd
-		  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:simple="http://cxf.apache.org/simple"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:jms="http://www.springframework.org/schema/jms"
+    xmlns:lang="http://www.springframework.org/schema/lang"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:oxm="http://www.springframework.org/schema/oxm"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/jdbc
+                           http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+                           http://www.springframework.org/schema/jee
+                           http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                           http://www.springframework.org/schema/oxm
+                           http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+                           http://www.springframework.org/schema/task
+                           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+
+
+    <bean id="config" class="org.kuali.rice.student.core.config.spring.RiceConfigFactoryBean"/>
 
   
 	<!-- GWT Servlets -->
@@ -37,8 +71,8 @@
 	<bean id="CluProposalRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.old.CreditCourseProposalRpcGwtServlet">
 		<property name="assembler" ref="creditCourseProposalAssemblerFilterManager"/>
-		<property name="workflowDocumentActionsService" ref="simpleDocActionsClient" />
-		<property name="workflowDocumentService" ref="workflowUtilityClient" />
+		<property name="simpleDocService" ref="simpleDocActionsClient" />
+		<property name="workflowUtilityService" ref="workflowUtilityClient" />
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="modifyCourseManager" ref="modifyCreditCourseProposalManager"/>
 	</bean>
@@ -81,8 +115,8 @@
 
 	<!-- This filter takes care of creating/updated a workflow doc whenever the assembler saves data -->
 	<bean id="workflowAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalWorkflowAssemblerFilter">
-		<property name="workflowDocumentActionsService" ref="simpleDocActionsClient" />
-		<property name="workflowDocumentService" ref="workflowUtilityClient" />
+		<property name="simpleDocService" ref="simpleDocActionsClient" />
+		<property name="workflowUtilityService" ref="workflowUtilityClient" />
 	</bean>
 	<bean id="creditCourseProposalAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssemblerFilter">
 	</bean>
@@ -239,6 +273,18 @@
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService" />
 	</bean>
 
+	<bean id="workflowUtilityClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/WorkflowUtilityServiceSOAP?wsdl"/>
+		<property name="serviceEndpointInterface" value="org.kuali.rice.kew.service.WorkflowUtility" />
+		<property name="serviceQNameString" value="{http://rice.kuali.org/wsdl/kew}WorkflowUtilityServiceSOAP" />
+	</bean>
+
+	<bean id="simpleDocActionsClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
+		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/simpleDocumentActionsService?wsdl"/>
+		<property name="serviceEndpointInterface" value="org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService" />
+		<property name="serviceQNameString" value="{http://rice.kuali.org/wsdl/kew}simpleDocumentActionsService" />
+	</bean>
+
 	<bean id="documentService" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/DocumentService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.common.document.service.DocumentService" />
@@ -255,7 +301,7 @@
 		<property name="interfaceClass" value="org.kuali.rice.kim.service.PermissionService" />
 		<property name="methodReturnMap">
 			<map>
-				<entry key="isAuthorizedByTemplate">
+				<entry key="isAuthorizedByTemplateName">
 					<bean class="java.lang.Boolean">
 						<constructor-arg value="true"/>
 					</bean>

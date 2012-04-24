@@ -325,44 +325,39 @@ public class CluSetsManagementController extends BasicLayout {
 
     private void saveModel(final DataModel dataModel, final SaveActionEvent saveActionEvent) {
     	KSBlockingProgressIndicator.addTask(saving);    	
-        final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
-
-            @Override
-            public void exec(Throwable caught) {
+        
+    	cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), new KSAsyncCallback<DataSaveResult>() {
+    	    @Override
+            public void handleFailure(Throwable caught) {
                 GWT.log("Save Failed.", caught);
                 KSBlockingProgressIndicator.removeTask(saving);                
                 KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, true, 5000));
             }
+                
+            @Override
+            public void handleVersionMismatch(Throwable caught) {
+                super.handleVersionMismatch(caught);
+                KSBlockingProgressIndicator.removeTask(saving);
+            }
 
-        };
-        try {
-            cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), new KSAsyncCallback<DataSaveResult>() {
-                @Override
-                public void handleFailure(Throwable caught) {
-                    saveFailedCallback.exec(caught); 
-                }
-
-                @Override
-                public void onSuccess(DataSaveResult result) {
-                	KSBlockingProgressIndicator.removeTask(saving);
-                	if (result.getValidationResults() != null &&
-                            !result.getValidationResults().isEmpty()) {
-                        StringBuilder errorMessage = new StringBuilder();
-                        errorMessage.append("Validation error: ");
-                        for (ValidationResultInfo validationError : result.getValidationResults()) {
-                            errorMessage.append(validationError.getMessage()).append(" ");
-                        }
-                        KSNotifier.add(new KSNotification("Save Failed. " + errorMessage, false, 5000));                        
-                    } else {
-                        dataModel.setRoot(result.getValue());
-                        KSNotifier.add(new KSNotification("Save Successful", false, 4000));
+            @Override
+            public void onSuccess(DataSaveResult result) {
+              	KSBlockingProgressIndicator.removeTask(saving);
+               	if (result.getValidationResults() != null &&
+               	        !result.getValidationResults().isEmpty()) {
+               	    StringBuilder errorMessage = new StringBuilder();
+                    errorMessage.append("Validation error: ");
+                    for (ValidationResultInfo validationError : result.getValidationResults()) {
+                        errorMessage.append(validationError.getMessage()).append(" ");
                     }
+                    KSNotifier.add(new KSNotification("Save Failed. " + errorMessage, false, 5000));                        
+               	} else {
+                    dataModel.setRoot(result.getValue());
+                    KSNotifier.add(new KSNotification("Save Successful", false, 4000));
                 }
-            });
-
-        } catch (Exception e) {
-            saveFailedCallback.exec(e);
-        }
+            }
+        });
+    	
     }
 
     @Override
