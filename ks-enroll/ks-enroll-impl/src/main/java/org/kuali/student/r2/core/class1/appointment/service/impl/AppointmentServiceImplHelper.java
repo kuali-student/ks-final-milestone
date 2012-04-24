@@ -249,6 +249,11 @@ public class AppointmentServiceImplHelper {
         return appointmentSlotEntity.toDto();
     }
 
+    public long countAppointmentsByApptWinId(String apptWinId) {
+        long result = appointmentDao.countAppointmentsByWindowId(apptWinId);
+        return result;
+    }
+
     public List<AppointmentInfo> getAppointmentsBySlotNoTransact(String appointmentSlotId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AppointmentEntity> apptEntityList = appointmentDao.getAppointmentsBySlotId(appointmentSlotId);
         List<AppointmentInfo> apptInfoList = new ArrayList<AppointmentInfo>();
@@ -260,7 +265,8 @@ public class AppointmentServiceImplHelper {
     }
 
     // maxSizePerSlot is likely to be null except in the max case, so leave it as an object here
-    public void generateAppointments(String appointmentTypeKey, Integer maxSizePerSlot,
+    public void generateAppointments(String apptWinId,
+                                     String appointmentTypeKey, Integer maxSizePerSlot,
                                      List<String> students, List<AppointmentSlotInfo> slotInfoList,
                                      ContextInfo contextInfo,
                                      StatusInfo statusInfo) throws OperationFailedException, InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException {
@@ -273,7 +279,7 @@ public class AppointmentServiceImplHelper {
         } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY)) {
             _generateAppointmentsUniformCase(students, slotInfoList, statusInfo, contextInfo);
         } else if (appointmentTypeKey.equals(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY)) {
-            _generateAppointmentsMaxCase(students, maxSizePerSlot, slotInfoList, statusInfo, contextInfo);
+            _generateAppointmentsMaxCase(apptWinId, students, maxSizePerSlot, slotInfoList, statusInfo, contextInfo);
         } else {
             throw new OperationFailedException("Manual window allocation not supported");
         }
@@ -636,7 +642,8 @@ public class AppointmentServiceImplHelper {
     }
 
     // The slot generation will take care of the end dates
-    private void _generateAppointmentsMaxCase(List<String> studentIds, int maxSizePerSlot,
+    private void _generateAppointmentsMaxCase(String apptWinId,
+                                              List<String> studentIds, int maxSizePerSlot,
                                               List<AppointmentSlotInfo> slotInfoList,
                                               StatusInfo statusInfo, ContextInfo contextInfo) throws InvalidParameterException,
             DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException,
@@ -655,12 +662,7 @@ public class AppointmentServiceImplHelper {
         // Enough slots, so start assigning
         _allocateStudentsToSlotsCommon(maxSizePerSlot, slotInfoList, studentIds, contextInfo);
         // Count how many we assigned
-        int numAppts = 0;
-        for (AppointmentSlotInfo slotInfo: slotInfoList) {
-            List<AppointmentInfo> apptList =
-                    getAppointmentsBySlotNoTransact(slotInfo.getId(), contextInfo);
-            numAppts += apptList.size();
-        }
+        long numAppts = countAppointmentsByApptWinId(apptWinId);
         statusInfo.setMessage("" + numAppts); // Set to number of appointments
     }
 

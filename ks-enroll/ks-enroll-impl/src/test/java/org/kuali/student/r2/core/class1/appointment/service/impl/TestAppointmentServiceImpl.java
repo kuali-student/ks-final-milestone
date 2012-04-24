@@ -247,6 +247,50 @@ public class TestAppointmentServiceImpl {
 //            assert(false);
 //        }
 //    }
+    private double diffInSeconds(Calendar before, Calendar after) {
+        long longdiff = after.getTimeInMillis() - before.getTimeInMillis();
+        double diff = longdiff / 1000.0;
+        return diff;
+    }
+    @Test
+    public void testMaxSlotGenerationTiming() {
+        // This tests auto-slot generation for max case without end date
+        before();
+        try {
+            apptWindowInfo.setAssignedPopulationId(PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY.toString());
+            // Want to adjust to create four slots (assuming 15 minutes between slots)
+            Date startDate = createDate(2012, 3, 5, 12, 0);
+            apptWindowInfo.setStartDate(startDate);
+            apptWindowInfo.setEndDate(null);
+            int maxPerSlot = 40;
+            apptWindowInfo.setMaxAppointmentsPerSlot(maxPerSlot); // Currently, there are 9 students.  This would fill two slot
+            // in full, and 1 additional in a third slot.
+            // Change slot generation type
+            apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY.toString());
+            AppointmentWindowInfo windowInfo =
+                    appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
+            // Use windowInfo afterwards since it has the ID
+            Calendar before = Calendar.getInstance();
+            List<AppointmentSlotInfo> slotInfoList =
+                    appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+            Calendar after = Calendar.getInstance();
+            System.err.println("Appointment slot generation (in seconds): " + diffInSeconds(before, after));
+            System.err.println("Number of slots: " + slotInfoList.size());
+            
+            before = Calendar.getInstance();
+            StatusInfo statusInfo =
+                    appointmentService.generateAppointmentsByWindow(windowInfo.getId(), windowInfo.getTypeKey(), contextInfo);
+            after = Calendar.getInstance();
+            double diff = diffInSeconds(before, after);
+            System.err.println("Appointment generation (in seconds): " + diffInSeconds(before, after));
+            System.err.println("Number of students: " + statusInfo.getMessage());
+            assert(diff < 3.0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assert(false);
+        }
+
+    }
 
     @Test
     public void testStatusInfoUniformSlot() {

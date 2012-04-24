@@ -17,7 +17,6 @@ package org.kuali.student.r2.core.class1.appointment.dao;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentEntity;
-import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
 
 import java.util.List;
 
@@ -31,4 +30,12 @@ public class AppointmentDao extends GenericEntityDao<AppointmentEntity> {
         return em.createQuery("from AppointmentEntity a where a.slotEntity.id = :apptSlotId")
                 .setParameter("apptSlotId", apptSlotId).getResultList();
     }
+
+    // Relatively fast way to count number of appointments with appointment window id
+    public Long countAppointmentsByWindowId(String apptWinId) {
+        String query = "select count(*) from AppointmentSlotEntity slot, AppointmentEntity appt " +
+                "where slot.apptWinEntity.id = :apptWinId and appt.slotEntity.id = slot.id";
+        return (Long) em.createQuery(query).setParameter("apptWinId", apptWinId).getSingleResult();
+    }
+    
 }
