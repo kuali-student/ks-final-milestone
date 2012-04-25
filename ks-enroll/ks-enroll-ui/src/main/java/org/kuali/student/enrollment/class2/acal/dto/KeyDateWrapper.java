@@ -37,25 +37,13 @@ public class KeyDateWrapper extends TimeSetWrapper{
             RichTextInfo desc = new RichTextInfo();
             desc.setPlain(keydate.getTypeKey());
             getKeyDateInfo().setDescr(desc);
+            getKeyDateInfo().setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         }else{
             this.setKeyDateInfo(keydate);
         }
 
-        getKeyDateInfo().setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
-
         buildDateAndTime();
     }
-
-//    public void copy(KeyDateInfo keydate){
-//        keyDateInfo = new KeyDateInfo();
-//        this.setKeyDateType(keydate.getTypeKey());
-//        this.setAllDay(keydate.getIsAllDay());
-//        this.setDateRange(keydate.getIsDateRange());
-//        this.setStartDate(keydate.getStartDate());
-//        this.setEndDate(keydate.getEndDate());
-//
-//        buildDateAndTime();
-//    }
 
     public String getKeyDateType() {
         return keyDateType;

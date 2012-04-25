@@ -31,44 +31,12 @@ public class AcalEventWrapper extends TimeSetWrapper{
             RichTextInfo rti = new RichTextInfo();
             rti.setPlain(getAcalEventInfo().getTypeKey());
             getAcalEventInfo().setDescr(rti);
+            getAcalEventInfo().setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         }else{
            setAcalEventInfo(acalEventInfo);
         }
 
-        getAcalEventInfo().setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
     }
-
-//    public void copy(AcalEventInfo acalEventInfo){
-//           AcalEventInfo newEventInfo = new AcalEventInfo();
-//           newEventInfo.setTypeKey(acalEventInfo.getTypeKey());
-//           newEventInfo.setIsDateRange(acalEventInfo.getIsDateRange());
-//           newEventInfo.setIsAllDay(acalEventInfo.getIsAllDay());
-//           setDateRange(acalEventInfo.getIsDateRange());
-//           setAllDay(acalEventInfo.getIsAllDay());
-//           setAcalEventInfo(newEventInfo);
-//           setEventTypeKey(acalEventInfo.getTypeKey());
-//           try {
-//               TypeInfo type = getTypeService().getType(acalEventInfo.getTypeKey(), getContextInfo());
-//               setEventTypeName(type.getName());
-//           }catch (Exception e){
-//               //TODO
-//           }
-//           setStartDate(acalEventInfo.getStartDate());
-//           setEndDate(acalEventInfo.getEndDate());
-//
-//        //Copy only start/end time
-//        if (!isAllDay()){
-//            DateFormat dfm = new SimpleDateFormat("hh:mm");
-//
-//            setStartTime(dfm.format(acalEventInfo.getStartDate()));
-//            setEndTime(dfm.format(acalEventInfo.getEndDate()));
-//
-//            dfm = new SimpleDateFormat("a");
-//            setStartTimeAmPm(dfm.format(acalEventInfo.getStartDate()));
-//            setEndTimeAmPm(dfm.format(acalEventInfo.getEndDate()));
-//
-//        }
-//    }
 
     public AcalEventInfo getAcalEventInfo(){
         return acalEventInfo;

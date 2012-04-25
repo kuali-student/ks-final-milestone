@@ -53,16 +53,16 @@ public class AcademicTermWrapper {
         this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
 
         if (isCopy){
-           this.termInfo = new TermInfo();
+            setTermInfo(new TermInfo());
             RichTextInfo desc = new RichTextInfo();
             desc.setPlain(termInfo.getTypeKey());
             getTermInfo().setDescr(desc);
+            getTermInfo().setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         } else{
-           this.termInfo = termInfo;
+           setTermInfo(termInfo);
            this.name = termInfo.getName();
         }
 
-        getTermInfo().setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
     }
 
 //    public void copy(TermInfo termInfo){
@@ -149,7 +149,6 @@ public class AcademicTermWrapper {
         setEndDate(null);
         setStartDate(null);
         setTermType(null);
-//        setKeydates( new ArrayList<KeyDateWrapper>());
         setName(null);
         setTypeInfo(null);
         keyDatesToDeleteOnSave.clear();
@@ -171,7 +170,7 @@ public class AcademicTermWrapper {
         return StringUtils.isBlank(termInfo.getId());
     }
 
-    public boolean isKeyDateGroupAlreadyExists(String keydateGroupTypeKey){
+    public boolean isKeyDateGroupExists(String keydateGroupTypeKey){
         for(KeyDatesGroupWrapper wrapper : keyDatesGroupWrappers){
             if (StringUtils.equalsIgnoreCase(wrapper.getKeyDateGroupType(),keydateGroupTypeKey)){
                 return true;

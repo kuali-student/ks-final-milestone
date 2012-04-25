@@ -24,14 +24,6 @@ public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements
 
     private transient AcademicCalendarService acalService;
 
-
-    public AcademicCalendarService getAcalService() {
-        if(acalService == null) {
-            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "acal", "AcademicCalendarService"));
-        }
-        return this.acalService;
-    }
-
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
@@ -45,6 +37,8 @@ public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements
                  availableTermTypes.add(termWrapper.getTermType());
             }
         }
+
+        keyValues.add(new ConcreteKeyValue("", "Select Term Type"));
 
         //TODO:Build real context.
         ContextInfo context = new ContextInfo();
@@ -67,4 +61,12 @@ public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements
 
         return keyValues;
     }
+
+    public AcademicCalendarService getAcalService() {
+        if(acalService == null) {
+            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "acal", "AcademicCalendarService"));
+        }
+        return this.acalService;
+    }
+
 }

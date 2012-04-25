@@ -630,7 +630,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         //Save Term and keydates
         for(AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
-            academicCalendarForm.getViewHelperService().saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(),isOfficial);
+            academicCalendarForm.getViewHelperService().saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(),false);
         }
 
         //Calculate instructional days (if HC exists)

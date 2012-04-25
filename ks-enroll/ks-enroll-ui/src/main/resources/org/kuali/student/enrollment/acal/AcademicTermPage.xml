@@ -44,7 +44,7 @@
                 <bean parent="Uif-DropdownControl"/>
              </property>
              <property name="optionsFinder">
-                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues"/>
+                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues" p:addBlankOption="false"/>
              </property>
          </bean>
          <bean parent="Uif-InputField" p:propertyName="name" p:render="@{!#isAddLine}" p:label="Name" p:required="true">
