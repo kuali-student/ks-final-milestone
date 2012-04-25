@@ -132,7 +132,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			}
 			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
 				LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
-				result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, new LinkedHashMap<String,String>(), roleQuals);
+				result = getPermissionService().isAuthorizedByTemplate(user, namespaceCode, permissionTemplateName, new LinkedHashMap<String,String>(), roleQuals);
 			}
 			else {
 				LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");

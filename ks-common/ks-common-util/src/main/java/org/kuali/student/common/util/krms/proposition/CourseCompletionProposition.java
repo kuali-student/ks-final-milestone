@@ -64,7 +64,7 @@ public abstract class CourseCompletionProposition extends AbstractLeafPropositio
             result = new PropositionResult(CollectionUtils.intersection(completedCourses, termCourses).size() >= minToComplete);
         }
 
-        environment.getEngineResults().addResult(new BasicResult(ResultEvent.PropositionEvaluated, this, environment, result.getResult()));
+        environment.getEngineResults().addResult(new BasicResult(ResultEvent.PROPOSITION_EVALUATED, this, environment, result.getResult()));
 
         return result;
     
