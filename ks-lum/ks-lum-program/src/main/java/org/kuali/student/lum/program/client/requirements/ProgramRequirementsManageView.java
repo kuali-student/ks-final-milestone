@@ -26,6 +26,7 @@ import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 
@@ -300,8 +301,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                         } else {
                         	rule.getReqComponents().add(reqComp);
                             //set default operator between req. components of the rule
-                         if (rule.getOperator() == null) {
-                         // TODO KSCM-425 wait for ks-core-ui/paul                                rule.setOperator(StatementOperatorTypeKey.AND);
+                         if (rule.getOperator() == null) {                               
+                        	 rule.setOperator(StatementOperatorTypeKey.AND);
                           }
                         }
                     } else {    //update req. component
