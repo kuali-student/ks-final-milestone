@@ -1,5 +1,7 @@
 package org.kuali.student.lum.program.client.major.proposal;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
@@ -24,6 +26,8 @@ import org.kuali.student.lum.program.client.major.view.ProposalChangeImpactViewC
 import org.kuali.student.lum.program.client.major.view.ProposalInformationViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.SpecializationsViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.SupportingDocsViewConfiguration;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -74,8 +78,8 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 	                            ((WorkflowEnhancedNavController) controller).getWfUtilities().requestAndSetupModel(new Callback<Boolean>(){
 									public void exec(Boolean modelReadyResult) {
 			                            // Show validation error if they exist
-										/*TODO KSCM-425
-			                            ((WorkflowEnhancedNavController) controller).getWfUtilities().doValidationCheck(new Callback<List<ValidationResultInfo>>() {
+										//TODO KSCM-425
+			                            ((WorkflowEnhancedNavController) controller).getWfUtilities().doValidationCheck(new Callback<List<ValidationResultInfo>>(){
 	                                        @Override
 	                                        public void exec(List<ValidationResultInfo> validationResult) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
 	                                            ErrorLevel isValid = rootSection.processValidationResults(
@@ -92,7 +96,7 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 	                                            }
 	                                        	onReadyCallback.exec(result);
 	                                        }
-	                                    });*/
+	                                    });
 									}
 								});
 	                            
