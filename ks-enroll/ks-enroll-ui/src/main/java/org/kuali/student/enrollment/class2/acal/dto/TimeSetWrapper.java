@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.acal.dto;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 
@@ -137,11 +136,11 @@ public class TimeSetWrapper {
     }
 
     //This is for UI display purpose
-    public String getStartDateUI(){
-        if (getStartDate() != null) {
+    protected String formatStartDateUI(Date startDate){
+        if (startDate != null) {
             if (!isAllDay()){
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-                String formattedDate = formatter.format(getStartDate());
+                String formattedDate = formatter.format(startDate);
                 if (StringUtils.endsWithIgnoreCase(formattedDate,"12:00 am")){
                     return StringUtils.removeEndIgnoreCase(formattedDate,"12:00 am");
                 }else {
@@ -149,7 +148,7 @@ public class TimeSetWrapper {
                 }
             }else{
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-                return formatter.format(getStartDate());
+                return formatter.format(startDate);
             }
         }else{
             return StringUtils.EMPTY;
@@ -158,11 +157,11 @@ public class TimeSetWrapper {
     }
 
     //This is for UI display purpose
-    public String getEndDateUI(){
-        if (endDateUI != null) {
+    protected String formatEndDateUI(Date endDate){
+        if (endDate != null) {
             if (!isAllDay()){
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-                String formattedDate = formatter.format(endDateUI);
+                String formattedDate = formatter.format(endDate);
                 if (StringUtils.endsWithIgnoreCase(formattedDate,"11:59 pm")){
                     return StringUtils.removeEndIgnoreCase(formattedDate,"11:59 pm");
                 }else {
@@ -170,11 +169,12 @@ public class TimeSetWrapper {
                 }
             }else{
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-                return formatter.format(endDateUI);
+                return formatter.format(endDate);
             }
         }else{
             return StringUtils.EMPTY;
         }
 
     }
+
 }

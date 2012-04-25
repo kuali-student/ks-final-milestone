@@ -44,7 +44,7 @@
                         <bean parent="Uif-PrimaryActionButton" p:render="@{!#view.readOnly}"
                               p:methodToCall="@{officialCalendar ? 'save' : 'makeAcalOfficial'}"
                               p:actionLabel="@{officialCalendar ? 'Update Official' : 'Make Official'}"
-                              p:disabled="@{newCalendar}" p:clientSideValidate="@{officialCalendar}" />
+                              p:disabled="@{newCalendar}" p:clientSideValidate="true" />
                         <bean parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                               p:clientSideValidate="true" p:render="@{!officialCalendar and !#view.readOnly}"/>
                         <bean parent="Uif-ActionLink" p:methodToCall="delete"

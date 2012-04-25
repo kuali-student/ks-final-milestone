@@ -128,4 +128,14 @@ public class HolidayWrapper extends TimeSetWrapper implements Comparable<Holiday
         return 0; // dates are equal
     }
 
+    //This is for UI display purpose
+    public String getStartDateUI(){
+        return formatStartDateUI(holidayInfo.getStartDate());
+    }
+
+    //This is for UI display purpose
+    public String getEndDateUI(){
+        return formatEndDateUI(holidayInfo.getEndDate());
+    }
+
 }

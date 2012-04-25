@@ -20,31 +20,42 @@ public class KeyDateWrapper extends TimeSetWrapper{
         keyDateInfo = new KeyDateInfo();
         keyDateInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         RichTextInfo desc = new RichTextInfo();
-        desc.setPlain("Test");
+        desc.setPlain("test");
         keyDateInfo.setDescr(desc);
     }
 
-    public KeyDateWrapper(KeyDateInfo keydate){
-        this.setKeyDateInfo(keydate);
+    public KeyDateWrapper(KeyDateInfo keydate,boolean isCopy){
+
         this.setStartDate(keydate.getStartDate());
         this.setEndDate(keydate.getEndDate());
         this.setAllDay(keydate.getIsAllDay());
         this.setDateRange(keydate.getIsDateRange());
         this.setKeyDateType(keydate.getTypeKey());
 
+        if (isCopy){
+            this.setKeyDateInfo(new KeyDateInfo());
+            RichTextInfo desc = new RichTextInfo();
+            desc.setPlain(keydate.getTypeKey());
+            getKeyDateInfo().setDescr(desc);
+        }else{
+            this.setKeyDateInfo(keydate);
+        }
+
+        getKeyDateInfo().setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+
         buildDateAndTime();
     }
 
-    public void copy(KeyDateInfo keydate){
-        keyDateInfo = new KeyDateInfo();
-        this.setKeyDateType(keydate.getTypeKey());
-        this.setAllDay(keydate.getIsAllDay());
-        this.setDateRange(keydate.getIsDateRange());
-        this.setStartDate(keydate.getStartDate());
-        this.setEndDate(keydate.getEndDate());
-
-        buildDateAndTime();
-    }
+//    public void copy(KeyDateInfo keydate){
+//        keyDateInfo = new KeyDateInfo();
+//        this.setKeyDateType(keydate.getTypeKey());
+//        this.setAllDay(keydate.getIsAllDay());
+//        this.setDateRange(keydate.getIsDateRange());
+//        this.setStartDate(keydate.getStartDate());
+//        this.setEndDate(keydate.getEndDate());
+//
+//        buildDateAndTime();
+//    }
 
     public String getKeyDateType() {
         return keyDateType;
@@ -80,6 +91,16 @@ public class KeyDateWrapper extends TimeSetWrapper{
 
     public boolean isNew() {
         return StringUtils.isBlank(keyDateInfo.getId());
+    }
+
+    //This is for UI display purpose
+    public String getStartDateUI(){
+        return formatStartDateUI(keyDateInfo.getStartDate());
+    }
+
+    //This is for UI display purpose
+    public String getEndDateUI(){
+        return formatEndDateUI(keyDateInfo.getEndDate());
     }
 
 }

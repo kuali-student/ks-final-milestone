@@ -49,7 +49,7 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public void copyToCreateAcademicCalendar(AcademicCalendarForm form) throws Exception;
 
-    public List<AcalEventWrapper> getEventsForAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
+    public List<AcalEventWrapper> populateEventWrappers(AcademicCalendarForm acalForm) throws Exception;
 
     public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception;
 
@@ -78,7 +78,7 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public void populateInstructionalDays(AcademicTermWrapper termWrapper) throws Exception;
 
-    public List<AcademicTermWrapper> loadTerms(String acalId);
+    public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy);
 
     public void validateAcademicCalendar(AcademicCalendarForm acalForm);
 
@@ -90,7 +90,7 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm);
 
-    public AcademicTermWrapper createAndLoadTermWrapper(TermInfo termInfo);
+    public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy);
 
     public AcademicCalendarService getAcalService();
 

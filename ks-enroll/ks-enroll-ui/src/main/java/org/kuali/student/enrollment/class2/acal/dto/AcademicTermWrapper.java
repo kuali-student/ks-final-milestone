@@ -45,23 +45,33 @@ public class AcademicTermWrapper {
 
     }
 
-    public AcademicTermWrapper(TermInfo termInfo){
-        this.name = termInfo.getName();
+    public AcademicTermWrapper(TermInfo termInfo,boolean isCopy){
         this.startDate = termInfo.getStartDate();
         this.endDate = termInfo.getEndDate();
-        this.termInfo = termInfo;
         this.termType = termInfo.getTypeKey();
         this.keyDatesGroupWrappers = new ArrayList();
         this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
+
+        if (isCopy){
+           this.termInfo = new TermInfo();
+            RichTextInfo desc = new RichTextInfo();
+            desc.setPlain(termInfo.getTypeKey());
+            getTermInfo().setDescr(desc);
+        } else{
+           this.termInfo = termInfo;
+           this.name = termInfo.getName();
+        }
+
+        getTermInfo().setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
     }
 
-    public void copy(TermInfo termInfo){
-        this.startDate = termInfo.getStartDate();
-        this.endDate = termInfo.getEndDate();
-        this.termType = termInfo.getTypeKey();
-        this.keyDatesGroupWrappers = new ArrayList();
-        this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
-    }
+//    public void copy(TermInfo termInfo){
+//        this.startDate = termInfo.getStartDate();
+//        this.endDate = termInfo.getEndDate();
+//        this.termType = termInfo.getTypeKey();
+//        this.keyDatesGroupWrappers = new ArrayList();
+//        this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
+//    }
 
     public String getName() {
         return name;
