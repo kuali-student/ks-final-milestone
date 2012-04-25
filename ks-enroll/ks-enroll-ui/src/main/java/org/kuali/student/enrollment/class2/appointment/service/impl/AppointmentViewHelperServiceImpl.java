@@ -205,13 +205,13 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             String windowTypeKey = apptWindow.getWindowTypeKey();
             if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)){
                 if(apptWindow.getEndDate() == null)   {
-                    GlobalVariables.getMessageMap().putError( KRADConstants.GLOBAL_MESSAGES,
-                            "Last Date is a required field and can't be null when Slot Allocation Method is Uniform");
+                    GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
+                            AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_END_DATE_REQUIRED_FOR_UNIFORM);
                     isValid = false;
                 }
-                if(apptWindow.getEndTime() == null){
-                    GlobalVariables.getMessageMap().putError( KRADConstants.GLOBAL_MESSAGES,
-                            "Closing Time is a required field and can't be null when Slot Allocation Method is Uniform");
+                if(apptWindow.getEndTime() == null || apptWindow.getEndTime().isEmpty()){
+                    GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].endTime",
+                            AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
                     isValid = false;
                 }
             }
@@ -220,19 +220,20 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             try {
                 KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
                 if (period.getStartDate().after(apptWindow.getStartDate()) || period.getEndDate().before(apptWindow.getStartDate())){
-                    GlobalVariables.getMessageMap().putError( KRADConstants.GLOBAL_MESSAGES,
-                            "Window's start date is out of the date range of the select period.");
+                    GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].startDate",
+                            AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
                     isValid = false;
                 }
                 if (apptWindow.getEndDate() != null){
                     if (period.getEndDate().before(apptWindow.getEndDate())){
-                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES,"Window's end date is out of the date range of the select period.");
+                        GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
+                                AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
                         isValid = false;
                     }
                 }
             }catch (Exception e){
                 LOG.error("Fail to find periods for a selected term.",e);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, "Fail to find periods for a selected term.");//TODO use message keys
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
                 isValid = false;
             }
 
@@ -245,7 +246,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                             AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
                 } catch (Exception e) {
                     LOG.error("Fail to create a window.",e);
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES,"Fail to create a window.");
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL);
                     isValid = false;
                 }
             }

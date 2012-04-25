@@ -70,4 +70,9 @@ public class AppointmentServiceConstants {
     public static final String APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE = "error.enroll.appointment.breakAppointmentsFailure";
     public static final String APPOINTMENT_MSG_ERROR_NO_TERMS_FOUND = "error.enroll.appointment.noTermsFound";
     public static final String APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM = "error.enroll.appointment.noRegPeriodsForTerm";
+    public static final String APPOINTMENT_MSG_ERROR_END_DATE_REQUIRED_FOR_UNIFORM = "error.enroll.appointment.endDate.requiredForUniform";
+    public static final String APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM = "error.enroll.appointment.endTime.requiredForUniform";
+    public static final String APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE = "error.enroll.appointment.startDate.outOfRange";
+    public static final String APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE = "error.enroll.appointment.endDate.outOfRange";
+    public static final String APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL = "error.enroll.appointment.windowSaveFailed";
 }
