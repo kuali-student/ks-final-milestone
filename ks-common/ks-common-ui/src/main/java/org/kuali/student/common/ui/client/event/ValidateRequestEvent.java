@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class ValidateRequestEvent extends ApplicationEvent<ValidateRequestHandler> {
     public static final Type<ValidateRequestHandler> TYPE = new Type<ValidateRequestHandler>();
     private FieldDescriptor fieldDescriptor;

@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.client.widgets.menus;
 
+@Deprecated
 public class MenuChangeEvent extends MenuEvent<MenuEventHandler>{
     public static final Type<MenuEventHandler> TYPE = new Type<MenuEventHandler>();
     

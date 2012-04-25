@@ -15,8 +15,8 @@
 
 package org.kuali.student.core.atp.ui.server;
 
+import org.kuali.student.r1.core.atp.service.AtpService;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.atp.ui.client.service.AtpRpcService;
 
 /**

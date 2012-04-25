@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.Image;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class KSMenuItemData {
 	private String label;
 	private String styleName;

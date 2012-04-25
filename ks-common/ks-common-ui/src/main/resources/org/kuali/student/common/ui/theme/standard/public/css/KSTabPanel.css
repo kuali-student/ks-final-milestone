@@ -206,16 +206,26 @@ background-color: #F7EEE1;
 	margin-left: 20px;
 }
 
-.KS-TabPanel-Small .KS-TabPanel-Left-Panel ul {
+.KS-TabPanel-Small .KS-TabPanel-Left-Panel ul{
 	clear:left;
    	float:left;
  	list-style:none;
    	margin:0;
    	padding:0;
    	position:relative;
-   	list-style:none;
+   	list-style:none;	
+}
 
-   	
+@if user.agent ie6 ie7 ie8{  
+	.KS-TabPanel-Small .KS-TabPanel-Left-Panel ul{
+    	clear:left;
+ 		list-style:none;
+   		margin:0;
+   		padding:0;
+   		position:relative;
+   		list-style:none;
+   		float:none;
+	}
 }
 
 .KS-TabPanel-Small .KS-TabPanel-Left-Panel ul li{
@@ -224,21 +234,44 @@ background-color: #F7EEE1;
 	list-style:none;
 	margin:0;
    	padding:0;
-
-   	line-height:1.8em;
-   	
+   	line-height:1.8em;   	
+}
+	
+@if user.agent ie6 ie7 ie8{ 
+	.KS-TabPanel-Small .KS-TabPanel-Left-Panel ul li{
+		display: inline;
+		list-style:none;
+		margin:0;
+   		padding:0;
+   		line-height:1.8em;
+   		float:none;
+	}
 }
 
 .KS-TabPanel-Small .KS-TabPanel-Tab-Left{
-          font-family:sans-serif; 
-          font-size:1em; 
-          font-weight:bold;
-          letter-spacing:0.07em;
-          padding-left:2em; 
-          padding-right:2em; 
-          text-align:center; 
-          text-transform:uppercase; 
+	font-family:sans-serif; 
+    font-size:1em; 
+    font-weight:bold;
+    letter-spacing:0.07em;
+    padding-left:2em; 
+    padding-right:2em; 
+    text-align:center; 
+    text-transform:uppercase; 
+}
 
+@if user.agent ie6 ie7 ie8{  
+	.KS-TabPanel-Small .KS-TabPanel-Tab-Left{
+            font-family:sans-serif; 
+          	font-size:1em; 
+          	font-weight:bold;
+          	letter-spacing:0.07em;
+          	padding-left:2em; 
+          	padding-right:2em; 
+          	text-align:center; 
+          	text-transform:uppercase;
+          	width: 200px; 
+          	display: inline;
+	}
 }
 
 .KS-TabPanel-Small .KS-TabPanel-Right-Panel{

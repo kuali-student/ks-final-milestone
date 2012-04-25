@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.UIObject;
  * Utility class for DOM element manipulations, UIObject effects, etc.
  * 
  */
+@Deprecated
 public class Elements {
 
 	public interface FadeCallback {

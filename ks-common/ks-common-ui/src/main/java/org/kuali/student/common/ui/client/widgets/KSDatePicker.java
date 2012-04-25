@@ -38,6 +38,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class KSDatePicker extends KSDatePickerAbstract implements HasWatermark { 
     KSDatePickerAbstract datePicker = GWT.create(KSDatePickerImpl.class);
     

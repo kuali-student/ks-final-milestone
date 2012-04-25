@@ -15,15 +15,15 @@
 
 package org.kuali.student.core.authorization.ui.server.gwt;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.authorization.ui.client.service.AuthorizationRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import java.util.LinkedHashMap;
-import org.kuali.rice.kim.api.permission.PermissionService;
 
 public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements AuthorizationRpcService{
 

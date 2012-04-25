@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 import javax.transaction.UserTransaction;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
+import org.kuali.rice.core.impl.resourceloader.SpringResourceLoader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
@@ -34,6 +34,7 @@ import org.springframework.transaction.jta.JtaTransactionManager;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
+@Deprecated
 public class TestHarnessServiceLocator {
 
 	private static ConfigurableApplicationContext context;

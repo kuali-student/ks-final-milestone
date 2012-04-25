@@ -23,6 +23,7 @@ import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 
+@Deprecated
 public abstract class KSDatePickerAbstract extends Composite implements HasValue<Date>, HasFocusHandlers, HasBlurHandlers, HasWatermark { 
 
     public abstract Date getValue();

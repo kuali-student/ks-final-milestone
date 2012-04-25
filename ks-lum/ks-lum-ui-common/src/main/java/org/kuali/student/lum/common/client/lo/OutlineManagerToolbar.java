@@ -1,10 +1,13 @@
 package org.kuali.student.lum.common.client.lo;
 
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
@@ -146,4 +149,18 @@ class OutlineManagerToolbar extends HorizontalPanel {
 			outdentButton.addStyleName("KS-LOOutdentButtonDisabled");
 		}
 	}
+
+    @Override
+    protected void onEnsureDebugId(String baseID) {
+        super.onEnsureDebugId(baseID);
+        moveUpButton.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + moveUpButton.getTitle()));
+        moveDownButton.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + moveDownButton.getTitle()));
+        indentButton.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + indentButton.getTitle()));
+        outdentButton.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + outdentButton.getTitle()));
+        deleteButton.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + deleteButton.getTitle()));
+        addPeerButton.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-Add-Peer"));
+        addChildButton.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-Add-Child"));
+    }
+	
+	
 }

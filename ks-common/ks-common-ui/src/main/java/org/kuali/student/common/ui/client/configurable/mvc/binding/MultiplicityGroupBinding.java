@@ -17,18 +17,19 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Iterator;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
 
 /**
  * This goes through each item in the MultiplicityGroup and calls it's binding
  *
  * @author Kuali Student Team
  */
+@Deprecated
 public class MultiplicityGroupBinding extends ModelWidgetBindingSupport<MultiplicityGroup> {
     public static MultiplicityGroupBinding INSTANCE = new MultiplicityGroupBinding();
 

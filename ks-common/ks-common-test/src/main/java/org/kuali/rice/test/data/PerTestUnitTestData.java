@@ -24,6 +24,7 @@ import java.lang.annotation.Target;
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
+@Deprecated
 @Documented
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)

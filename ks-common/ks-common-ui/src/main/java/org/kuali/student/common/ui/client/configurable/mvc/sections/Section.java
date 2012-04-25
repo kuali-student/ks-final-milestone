@@ -21,8 +21,9 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.HasLayoutController;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -59,7 +60,8 @@ public interface Section extends HasLayoutController{
 	public void enableValidation(boolean enableValidation);
 	public boolean isValidationEnabled();
 	public ErrorLevel processValidationResults(List<ValidationResultInfo> results);
-	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearAllValidation);
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearErrors);
+	public void clearValidationWarnings();
 	public boolean isDirty();
 	public void resetDirtyFlags();
 	

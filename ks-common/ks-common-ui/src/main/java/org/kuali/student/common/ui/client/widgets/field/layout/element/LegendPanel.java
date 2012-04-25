@@ -19,6 +19,7 @@ package org.kuali.student.common.ui.client.widgets.field.layout.element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 
+@Deprecated
 public class LegendPanel extends FieldTitle{
 	
 	public LegendPanel(String text, String forID){

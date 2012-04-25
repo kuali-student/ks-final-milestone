@@ -21,7 +21,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
 http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 ">
 <!-- *** Automatically Generated ***
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
@@ -33,10 +33,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.loLoRelationInfo -->
 <!-- ******************************************** -->
 <!-- Detailed information about an LO to LO relationship. -->
-<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoLoRelationInfo" id="object.loLoRelationInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo" id="object.loLoRelationInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.loLoRelationInfo.includes"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoLoRelationInfo" id="object.loLoRelationInfo" parent="object.loLoRelationInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo" id="object.loLoRelationInfo" parent="object.loLoRelationInfo.abstract"/>
 
 <dict:type key="kuali.lo.relation.type.includes" id="type.loLoRelationInfo.includes.abstract" abstract="true">
 	<dict:name>includes</dict:name>
@@ -59,7 +59,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="dict.includes.loLoRelation.expirationDate"/>
 	<dict:fieldRef bean="dict.includes.loLoRelation.metaInfo"/>
 	<dict:fieldRef bean="dict.includes.loLoRelation.type"/>
-	<dict:fieldRef bean="dict.includes.loLoRelation.state"/>
+	<dict:fieldRef bean="dict.includes.loLoRelation.stateKey"/>
 	<dict:fieldRef bean="dict.includes.loLoRelation.internal.id"/>
 </dict:state>
 
@@ -95,10 +95,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.loLoRelationInfo.metaInfo.includes.(default) -->
 <!-- ****************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loLoRelationInfo.metaInfo.includes.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loLoRelationInfo.metaInfo.includes.abstract" abstract="true">
 	<dict:typeRef bean="type.field.loLoRelationInfo.metaInfo.includes"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loLoRelationInfo.metaInfo.includes" parent="object.field.loLoRelationInfo.metaInfo.includes.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loLoRelationInfo.metaInfo.includes" parent="object.field.loLoRelationInfo.metaInfo.includes.abstract"/>
 
 <dict:type key="*" id="type.field.loLoRelationInfo.metaInfo.includes.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -371,24 +371,24 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- ******************************** -->
 <!-- dict.includes.loLoRelation.state -->
 <!-- ******************************** -->
-<dict:field key="state" id="dict.includes.loLoRelation.state.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="dict.includes.loLoRelation.state.fd"/>
-	<dict:constraintDescriptorRef bean="dict.includes.loLoRelation.state.cd"/>
+<dict:field key="stateKey" id="dict.includes.loLoRelation.stateKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="dict.includes.loLoRelation.stateKey.fd"/>
+	<dict:constraintDescriptorRef bean="dict.includes.loLoRelation.stateKey.cd"/>
 <dict:selector>true</dict:selector>
 </dict:field>
-<dict:field key="state" id="dict.includes.loLoRelation.state" parent="dict.includes.loLoRelation.state.abstract"/>
-<dict:fieldDescriptor id="dict.includes.loLoRelation.state.fd.abstract" abstract="true">
+<dict:field key="stateKey" id="dict.includes.loLoRelation.stateKey" parent="dict.includes.loLoRelation.stateKey.abstract"/>
+<dict:fieldDescriptor id="dict.includes.loLoRelation.stateKey.fd.abstract" abstract="true">
 	<dict:name>includes relation state</dict:name>
 	<dict:desc>the state of the relation</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="dict.includes.loLoRelation.state.fd" parent="dict.includes.loLoRelation.state.fd.abstract"/>
-<dict:constraintDescriptor id="dict.includes.loLoRelation.state.cd.abstract" abstract="true">
+<dict:fieldDescriptor id="dict.includes.loLoRelation.stateKey.fd" parent="dict.includes.loLoRelation.stateKey.fd.abstract"/>
+<dict:constraintDescriptor id="dict.includes.loLoRelation.stateKey.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="state" id="dict.includes.loLoRelation.state.cd" parent="dict.includes.loLoRelation.state.cd.abstract"/>
+<dict:constraintDescriptor key="stateKey" id="dict.includes.loLoRelation.stateKey.cd" parent="dict.includes.loLoRelation.stateKey.cd.abstract"/>
 
 <!-- ************************************** -->
 <!-- dict.includes.loLoRelation.internal.id -->

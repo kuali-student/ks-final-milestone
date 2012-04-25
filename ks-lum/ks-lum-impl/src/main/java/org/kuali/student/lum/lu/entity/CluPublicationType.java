@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.common.entity.Type;
+import org.kuali.student.r1.common.entity.Type;
 
 @Entity
 @Table(name = "KSLU_CLU_PUBL_TYPE")

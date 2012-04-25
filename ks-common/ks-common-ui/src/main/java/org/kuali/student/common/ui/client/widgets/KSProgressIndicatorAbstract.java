@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.widgets;
 
 import com.google.gwt.user.client.ui.Composite;
 
+@Deprecated
 public abstract class KSProgressIndicatorAbstract extends Composite{ 
 
     public abstract void show();

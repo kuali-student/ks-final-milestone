@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.client.widgets.search;
 
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 
+@Deprecated
 public class SelectedResults {
     private String displayKey;
 	private String returnKey;

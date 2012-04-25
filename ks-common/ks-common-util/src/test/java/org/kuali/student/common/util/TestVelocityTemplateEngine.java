@@ -17,11 +17,7 @@ package org.kuali.student.common.util;
 
 import java.io.StringReader;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.velocity.tools.generic.DateTool;
 import org.junit.Assert;
@@ -148,8 +144,13 @@ public class TestVelocityTemplateEngine {
 
 		String s = "$numberTool.currency($expectedValue)";
 		String eval = templateEngine.evaluate(map, s);
-		
-		Assert.assertEquals("$100.12", eval);
+
+
+
+        org.apache.velocity.tools.generic.NumberTool d = new org.apache.velocity.tools.generic.NumberTool();
+        String testValue = d.currency(100.12);
+
+		Assert.assertEquals(testValue, eval);
 	}
 
 	@Test

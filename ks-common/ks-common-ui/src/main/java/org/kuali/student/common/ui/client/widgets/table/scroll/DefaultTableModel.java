@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Deprecated
 public class DefaultTableModel extends AbstractTableModel {
     private ArrayList<Column> columnList = new ArrayList<Column>();
     private ArrayList<Row> rowList = new ArrayList<Row>();

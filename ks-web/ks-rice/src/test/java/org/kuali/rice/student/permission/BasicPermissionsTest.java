@@ -14,7 +14,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.kuali.rice.student.permission;
 
@@ -36,7 +36,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Test case to verify permissions work properly
- * 
+ *
  * @author delyea
  */
 public class BasicPermissionsTest extends StudentStandaloneTestBase {
@@ -69,7 +69,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
             map.put (key, value);
             return map;
         }
-        
+
 	@Test public void testOpenPermission() throws Exception {
 		String documentTypeName = "BasicPermissionsTestDocument";
 		Map<String,Boolean> hasPermissionByPermissionName = new HashMap<String,Boolean>();
@@ -88,7 +88,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		// send adhoc approve to 'testuser3'
 		doc.adHocToPrincipal(ActionRequestType.APPROVE, "", "testuser3", "", true);
-		
+
 		// verify testuser2 has no permissions
 		principalId = "testuser2";
 		doc = WorkflowDocumentFactory.loadDocument(principalId, doc.getDocumentId());
@@ -107,21 +107,21 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		doc = WorkflowDocumentFactory.loadDocument(principalId, doc.getDocumentId());
 		doc.route("");
-		
+
 		// verify testuser1 has correct permissions as initiator
 		principalId = "testuser1";
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
 		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
-		
+
 		// verify testuser3 has correct permissions as router
 		principalId = "testuser3";
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
 		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
-		
+
 		// verify fred has request for approval and correct permissions
 		principalId = "fred";
 		doc = WorkflowDocumentFactory.loadDocument(principalId, doc.getDocumentId());
@@ -139,7 +139,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
 		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
-		
+
 		// appprove the document as fred and re-verify his and doug's permissions
 		principalId = "fred";
 		doc = WorkflowDocumentFactory.loadDocument(principalId, doc.getDocumentId());
@@ -162,7 +162,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
 		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
-		
+
 		// verify edna has request for Acknoweldge and correct permissions
 		principalId = "edna";
 		doc = WorkflowDocumentFactory.loadDocument(principalId, doc.getDocumentId());

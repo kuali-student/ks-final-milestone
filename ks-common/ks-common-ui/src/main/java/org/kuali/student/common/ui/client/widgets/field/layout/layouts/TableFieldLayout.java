@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class TableFieldLayout extends FieldLayout{
 	
 	private SpanPanel top = new SpanPanel();

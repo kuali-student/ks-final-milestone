@@ -3,6 +3,7 @@ package org.kuali.student.core.bo;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;

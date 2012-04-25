@@ -21,8 +21,6 @@ public class CourseAssemblerConstants {
 
 	public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
 
-	public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
-
 	public static final String COPY_OF_CLU_RELATION_TYPE = "kuali.lu.relation.type.copyOfClu";
 
 	public static final String FORMAT_RELATION_TYPE = "luLuRelationType.hasCourseFormat";

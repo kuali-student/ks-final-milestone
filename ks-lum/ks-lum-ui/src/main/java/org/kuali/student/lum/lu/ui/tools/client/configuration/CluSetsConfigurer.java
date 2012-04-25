@@ -20,12 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.DataValue;
-import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data.DataValue;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
@@ -55,7 +55,7 @@ import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeDataHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeModelUtil;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;

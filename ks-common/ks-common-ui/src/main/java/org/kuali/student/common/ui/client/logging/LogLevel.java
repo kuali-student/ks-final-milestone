@@ -16,6 +16,7 @@
 package org.kuali.student.common.ui.client.logging;
 
 
+@Deprecated
 public enum LogLevel {
 		DEBUG(0),
 		INFO(1),

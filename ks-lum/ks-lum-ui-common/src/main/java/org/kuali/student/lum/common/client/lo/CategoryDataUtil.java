@@ -1,10 +1,10 @@
 package org.kuali.student.lum.common.client.lo;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.StringKey;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.StringKey;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 import java.util.Date;
 
@@ -15,21 +15,21 @@ public class CategoryDataUtil {
         catHelper.setId(loCategoryInfo.getId());
         catHelper.setName(loCategoryInfo.getName());
         RichTextInfoHelper catRTHelper = RichTextInfoHelper.wrap(new Data());
-        RichTextInfo catRT = loCategoryInfo.getDesc();
+        RichTextInfo catRT = loCategoryInfo.getDescr();
         if (null != catRT) {
-            catRTHelper.setFormatted(loCategoryInfo.getDesc().getFormatted());
-            catRTHelper.setPlain(loCategoryInfo.getDesc().getPlain());
+            catRTHelper.setFormatted(loCategoryInfo.getDescr().getFormatted());
+            catRTHelper.setPlain(loCategoryInfo.getDescr().getPlain());
         }
         catHelper.setDesc(catRTHelper.getData());
-        catHelper.setLoRepository(loCategoryInfo.getLoRepository());
+        catHelper.setLoRepository(loCategoryInfo.getLoRepositoryKey());
         catHelper.setEffectiveDate(loCategoryInfo.getEffectiveDate());
         catHelper.setExpirationDate(loCategoryInfo.getExpirationDate());
         /* TODO - doesn't work on the client; what to do?
         AttributesAssembler attAssembler = new AttributesAssembler();
         catHelper.setAttributes(attAssembler.assemble(cat.getAttributes()));
         */
-        catHelper.setState(loCategoryInfo.getState());
-        catHelper.setType(loCategoryInfo.getType());
+        catHelper.setState(loCategoryInfo.getStateKey());
+        catHelper.setType(loCategoryInfo.getTypeKey());
 
         MetaInfo mInfo = loCategoryInfo.getMetaInfo();
         if (mInfo != null) {
@@ -61,17 +61,17 @@ public class CategoryDataUtil {
                 RichTextInfo descInfo = new RichTextInfo();
                 descInfo.setFormatted(rtHelper.getFormatted());
                 descInfo.setPlain(rtHelper.getPlain());
-                catInfo.setDesc(descInfo);
+                catInfo.setDescr(descInfo);
             }
             catInfo.setEffectiveDate(catHelper.getEffectiveDate());
             catInfo.setExpirationDate(catHelper.getExpirationDate());
-            catInfo.setLoRepository(catHelper.getLoRepository());
+            catInfo.setLoRepositoryKey(catHelper.getLoRepository());
             // TODO - this should't be necessary when DOL pushed down into LOPicker
             // and its LOCategoryBuilder
             // catInfo.setAttributes(catHelper.getAttributes());
             catInfo.setName(catHelper.getName());
-            catInfo.setState(catHelper.getState());
-            catInfo.setType(catHelper.getType());
+            catInfo.setStateKey(catHelper.getState());
+            catInfo.setTypeKey(catHelper.getType());
             // TODO - LoCategoryInfoAssembler, w/ a disassemble method so we can just do 
             // categoriesData.add(LoCategoryInfoAssembler.disassemble(catData)) instead
             // of all the above

@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+@Deprecated
 public class PersistObjectsListener implements ApplicationListener {
 	private PersistObjectsBean persistObjectsBean;
 	

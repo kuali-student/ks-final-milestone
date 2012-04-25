@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HasText;
  * appears on the linked field.
  * 
  * */
+@Deprecated
 public class TextLinkageHelper {
     static String masterString;
     public static void link(final HasText master, final HasText slave) {

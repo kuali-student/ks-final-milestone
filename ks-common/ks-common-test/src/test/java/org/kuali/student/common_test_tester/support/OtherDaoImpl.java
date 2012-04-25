@@ -17,6 +17,7 @@ package org.kuali.student.common_test_tester.support;
 
 import org.apache.log4j.Logger;
 
+@Deprecated
 public class OtherDaoImpl implements OtherDao {
 	final Logger LOG = Logger.getLogger(OtherDaoImpl.class);
 	public void foo() {

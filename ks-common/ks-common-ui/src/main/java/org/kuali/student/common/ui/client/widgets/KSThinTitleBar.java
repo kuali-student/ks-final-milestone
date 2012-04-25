@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 
+@Deprecated
 public class KSThinTitleBar extends Composite{
     private final HorizontalPanel titlePanel = new HorizontalPanel();
     private Label titleLabel = new Label();

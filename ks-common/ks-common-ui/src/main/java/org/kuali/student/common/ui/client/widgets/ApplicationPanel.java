@@ -19,6 +19,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+@Deprecated
 public class ApplicationPanel {
 	private static final ApplicationPanel _impl = GWT.create(ApplicationPanel.class);
 	private ApplicationPanel() {

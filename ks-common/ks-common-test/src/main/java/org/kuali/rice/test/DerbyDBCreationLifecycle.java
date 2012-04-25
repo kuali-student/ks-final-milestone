@@ -24,6 +24,7 @@ import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
 
+@Deprecated
 public class DerbyDBCreationLifecycle implements Lifecycle {
 	
 	private static final Logger LOG = Logger.getLogger(DerbyDBCreationLifecycle.class);

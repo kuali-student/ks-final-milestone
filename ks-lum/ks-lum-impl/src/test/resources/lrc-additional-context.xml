@@ -22,7 +22,7 @@
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <bean id="dictionaryService"
-          class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+          class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg>
             <list>
                 <value>classpath:ks-lrc-dictionary-context.xml</value>
@@ -31,11 +31,11 @@
     </bean>
 
     
-    <bean id="validator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
+    <bean id="validator" class="org.kuali.student.r2.common.validator.DefaultValidatorImpl">
     </bean>
 
     <bean id="validatorFactory"
-          class="org.kuali.student.common.validator.ValidatorFactory">
+          class="org.kuali.student.r2.common.validator.ValidatorFactory">
         <property name="defaultValidator" ref="validator"/>
     </bean>
 

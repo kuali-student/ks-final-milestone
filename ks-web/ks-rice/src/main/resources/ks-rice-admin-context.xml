@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
                            http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<import resource="classpath:KsAdminModuleBeans.xml" />
 
@@ -16,7 +16,8 @@
     <!-- JTA -->
     <tx:annotation-driven transaction-manager="transactionManager" />
 
-    <bean id="ksAdminDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+<!--  uncomment and comment the following datasource to switch to Bitronix -->
+    <!--  bean id="ksAdminDataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close">
     <property name="className" value="oracle.jdbc.xa.client.OracleXADataSource" />
     <property name="uniqueName" value="coreDataSource" />
     <property name="maxPoolSize" value="${ks.core.datasource.pool.maxSize}" />
@@ -30,10 +31,10 @@
             <prop key="password">${ks.core.datasource.password}</prop>
         </props>
     </property>
-    </bean>
+    </bean -->
 
 	<!-- needed datasource for KS admin service data for rice admin screens -->
-<!-- 
+ 
 	<bean id="ksAdminDataSource" class="org.kuali.rice.core.database.XAPoolDataSource">
 		<property name="transactionManager" ref="jtaTransactionManager" />
 		<property name="driverClassName" value="${ks.core.datasource.driver.name}" />
@@ -45,16 +46,29 @@
 		<property name="username" value="${ks.core.datasource.username}" />
 		<property name="password" value="${ks.core.datasource.password}" />
 	</bean>
--->
 
-	<bean id="ks.exp.messageService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+	<bean id="ks.exp.messageService" class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
 				<property name="jaxWsService" value="true" />
 				<property name="service" ref="ks.messageService" />
-				<property name="serviceInterface" value="org.kuali.student.common.messages.service.MessageService" />
+				<property name="serviceInterface" value="org.kuali.student.r2.common.messages.service.MessageService" />
 				<property name="localServiceName" value="MessageService" />
 				<property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/messages" />
+				<property name="busSecurity" value="false" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ks.exp.subjectCodeService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+				<property name="jaxWsService" value="true" />
+				<property name="service" ref="ks.subjectCodeService" />
+				<property name="serviceInterface"
+					value="org.kuali.student.r1.core.subjectcode.service.SubjectCodeService" />
+				<property name="localServiceName" value="SubjectCodeService" />
+				<property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/subjectCode" />
 				<property name="busSecurity" value="false" />
 			</bean>
 		</property>

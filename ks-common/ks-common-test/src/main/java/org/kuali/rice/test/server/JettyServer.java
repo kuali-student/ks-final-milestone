@@ -28,6 +28,7 @@ import org.kuali.rice.test.lifecycles.JettyServerLifecycle.ConfigMode;
  * Annotation for bringing up an embedded JettyServer in unit tests 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
+@Deprecated
 @Documented
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

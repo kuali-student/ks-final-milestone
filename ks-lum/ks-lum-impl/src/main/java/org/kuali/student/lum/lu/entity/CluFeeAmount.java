@@ -4,8 +4,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.common.entity.BaseEntity;
-import org.kuali.student.common.entity.CurrencyAmount;
+import org.kuali.student.r1.common.entity.BaseEntity;
+import org.kuali.student.r1.common.entity.CurrencyAmount;
 
 @Entity
 @Table(name = "KSLU_CLU_FEE_AMOUNT")

@@ -32,6 +32,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class FocusGroup implements HasBlurHandlers, HasFocusHandlers, HasHandlers {
 	private static class SyntheticBlurEvent extends BlurEvent {
 		public SyntheticBlurEvent() {

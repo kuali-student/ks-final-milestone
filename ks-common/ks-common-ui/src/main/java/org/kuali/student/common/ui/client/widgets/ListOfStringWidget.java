@@ -3,13 +3,13 @@ package org.kuali.student.common.ui.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.validator.DataModelValidator;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
+@Deprecated
 public class ListOfStringWidget extends Composite implements HasBlurHandlers{
     private String addItemText;
 	

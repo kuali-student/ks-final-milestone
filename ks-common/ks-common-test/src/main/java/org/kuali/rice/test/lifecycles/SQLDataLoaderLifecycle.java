@@ -28,6 +28,7 @@ import org.kuali.rice.test.SQLDataLoader;
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
+@Deprecated
 public class SQLDataLoaderLifecycle extends BaseLifecycle {
     private static final Logger LOG = Logger.getLogger(SQLDataLoaderLifecycle.class);
 

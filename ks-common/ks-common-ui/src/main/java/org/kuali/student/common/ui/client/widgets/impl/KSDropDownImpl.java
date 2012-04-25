@@ -18,11 +18,11 @@ package org.kuali.student.common.ui.client.widgets.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.ModelListItems;
+import org.kuali.student.r1.common.dto.Idable;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -41,6 +41,7 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.ListBox;
 
+@Deprecated
 public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFocusHandlers, HasBlurHandlers{
 
 	private ListBox listBox;
