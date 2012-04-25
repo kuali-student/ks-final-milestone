@@ -18,6 +18,8 @@ package org.kuali.student.r2.core.scheduling.service;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -27,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.TimeOfDay;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchResponseInfo;
@@ -971,6 +974,44 @@ public interface SchedulingService {
     public List<String> getTimeSlotIdsByType(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of TimeSlots by TimeSlot Type, days of week and start times
+     *
+     * @param timeSlotTypeKey identifier for the given slot type
+     * @param daysOfWeek      days of the week of interest
+     * @impl Java standard: Sunday=1 to Saturday=7
+     * @param startTimes      start times of interest
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of TimeSlots matching timeSlotTypeKey, daysOfWeek and startTimes; empty list if none found
+     * @throws InvalidParameterException invalid daysOfWeek, startTimes or contextInfo
+     * @throws MissingParameterException timeSlotTypeKey, daysOfWeek, startTimes or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TimeSlotInfo> getTimeSlotsByDaysAndStartTimes(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek, @WebParam(name = "startTimes") List<TimeOfDayInfo> startTimes, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of TimeSlots by TimeSlot Type, days of week, start times and durations
+     *
+     * @param timeSlotTypeKey identifier for the given slot type
+     * @param daysOfWeek      days of the week of interest
+     * @impl Java standard: Sunday=1 to Saturday=7
+     * @param startTimes      start times of interest
+     * @param durations       durations of interest
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of TimeSlots matching timeSlotTypeKey, daysOfWeek, startTimes and durations; empty list if none found
+     * @throws InvalidParameterException invalid daysOfWeek, startTimes, durations or contextInfo
+     * @throws MissingParameterException timeSlotTypeKey, daysOfWeek, startTimes, durations or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TimeSlotInfo> getTimeSlotsByDaysAndStartTimesAndDurations(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek, @WebParam(name = "startTimes") List<TimeOfDayInfo> startTimes, @WebParam(name = "durations") List<TimeAmountInfo> durations, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Searches for TimeSlots based on the criteria and returns a list of
      * TimeSlot identifiers which match the search criteria.
      *
@@ -1218,6 +1259,57 @@ public interface SchedulingService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo commitSchedules(@WebParam(name = "scheduleBatchResponseId") String scheduleBatchResponseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves valid days of the week for the given slot type
+     *
+     * @param timeSlotTypeKey   identifier for the given slot type
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return Days of the week for the slot type; empty list if none found
+     * @impl Java standard: Sunday=1 to Saturday=7
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException timeSlotTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<Integer> getValidDaysOfWeek(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves valid durations for the given slot type, days of week and start times
+     *
+     * @param timeSlotTypeKey   identifier for the given slot type
+     * @param daysOfWeek        days of week of interest
+     * @impl Java standard: Sunday=1 to Saturday=7
+     * @param startTimes        start times of interest
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return valid durations for the given slot type, days of week and start times; empty list if none found
+     * @throws InvalidParameterException invalid daysOfWeek, startTimes or contextInfo
+     * @throws MissingParameterException timeSlotTypeKey, daysOfWeek, startTimes or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TimeAmountInfo> getValidDurations(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek, @WebParam(name = "startTimes") List<TimeOfDay> startTimes, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves valid start times for the given slot type and days of week
+     *
+     * @param timeSlotTypeKey   identifier for the given slot type
+     * @param daysOfWeek        days of the week of interest
+     * @impl Java standard: Sunday=1 to Saturday=7
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return valid start times for the given slot type and days of week; empty list if none found
+     * @throws InvalidParameterException invalid daysOfWeek or contextInfo
+     * @throws MissingParameterException timeSlotTypeKey, daysOfWeek or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TimeOfDayInfo> getValidStartTimes(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }
 
