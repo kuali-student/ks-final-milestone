@@ -9,12 +9,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.namespace.QName;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.MapMaker;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -26,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.messages.dto.MessageList;
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
@@ -55,7 +59,8 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	protected boolean cachingEnabled = false;
 	protected int searchCacheMaxSize = 20;
 	protected int searchCacheMaxAgeSeconds = 90;
-	protected Map<String,SearchResult> searchCache;
+	protected Cache<String, SearchResult> searchCache;
+	
 	@Override
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
@@ -131,7 +136,11 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		
     	if(cachingEnabled){
     		//Get From Cache
-            return searchCache.get(searchRequest.toString());
+            try {
+                return searchCache.get(searchRequest.toString());
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            }
 		}
 		
 		//Do searches
@@ -284,7 +293,11 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-            searchCache = new MapMaker().expireAfterAccess(searchCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(searchCacheMaxSize).softValues().makeMap();
+            searchCache = CacheBuilder.newBuilder()
+                    .expireAfterAccess(searchCacheMaxAgeSeconds, TimeUnit.SECONDS)
+                    .maximumSize(searchCacheMaxSize)
+                    .softValues()
+                    .build();
 		}
 	}
 	

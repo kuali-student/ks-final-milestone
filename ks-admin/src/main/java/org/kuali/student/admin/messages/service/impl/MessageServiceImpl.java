@@ -6,13 +6,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import com.google.common.collect.MapMaker;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
@@ -41,8 +43,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 	protected boolean cachingEnabled = false;
 	protected int msgsCacheMaxSize = 20;
 	protected int msgsCacheMaxAgeSeconds = 90;
-	//protected Map<String,MaxAgeSoftReference<MessageList>> msgsCache;
-	protected Map<String,MessageList> msgsCache;
+    protected Cache<String, MessageList> msgsCache;
 
     private BusinessObjectService businessObjectService;
 
@@ -145,7 +146,11 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
     public List<MessageInfo> getMessages(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if(cachingEnabled){
             // TODO KSCM confirm it's correct
-            return (List<MessageInfo>) msgsCache.get("localeKey=" + localeInfo.getLocaleLanguage()+ ", messageGroupKey="+messageGroupKey);
+            try {
+                return (List<MessageInfo>) msgsCache.get("localeKey=" + localeInfo.getLocaleLanguage()+ ", messageGroupKey="+messageGroupKey);
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         Map<String,String> fieldValues = new HashMap<String,String>();
@@ -248,7 +253,11 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-			msgsCache = new MapMaker().expireAfterAccess(msgsCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(msgsCacheMaxSize).softValues().makeMap();
+            msgsCache = CacheBuilder.newBuilder()
+                    .expireAfterAccess(msgsCacheMaxAgeSeconds, TimeUnit.SECONDS)
+                    .maximumSize(msgsCacheMaxSize)
+                    .softValues()
+                    .build();
 		}
 	}
 
