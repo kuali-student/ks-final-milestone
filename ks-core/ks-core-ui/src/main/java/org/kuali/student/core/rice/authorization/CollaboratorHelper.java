@@ -187,11 +187,11 @@ public class CollaboratorHelper implements Serializable {
 	        			}
 	        			
 	        			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
-	        			boolean editAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(actionRequest.getPrincipalId(), PermissionType.EDIT.getPermissionNamespace(),
+	        			boolean editAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), PermissionType.EDIT.getPermissionNamespace(),
 	        					PermissionType.EDIT.getPermissionTemplateName(), permissionDetails, qualification));
-	        			boolean openAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(actionRequest.getPrincipalId(), PermissionType.OPEN.getPermissionNamespace(),
+	        			boolean openAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), PermissionType.OPEN.getPermissionNamespace(),
 	        					PermissionType.OPEN.getPermissionTemplateName(), permissionDetails, qualification));
-	        			boolean commentAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(actionRequest.getPrincipalId(), PermissionType.ADD_COMMENT.getPermissionNamespace(),
+	        			boolean commentAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(actionRequest.getPrincipalId(), PermissionType.ADD_COMMENT.getPermissionNamespace(),
 	        					PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, qualification));
 
 	        			if(editAuthorized){
@@ -255,7 +255,7 @@ public class CollaboratorHelper implements Serializable {
 			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
 			Map<String,String> roleQuals = new LinkedHashMap<String,String>();
 			roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
+			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
 					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
 		}
 		return Boolean.FALSE;

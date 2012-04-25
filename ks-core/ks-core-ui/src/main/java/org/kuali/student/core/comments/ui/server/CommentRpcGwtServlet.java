@@ -87,10 +87,10 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 		if (id != null && (!"".equals(id.trim()))) {
 			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
                         permissionDetails.put (StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);
-			if (getPermissionService().isPermissionDefinedByTemplateName(PermissionType.ADD_COMMENT.getPermissionNamespace(), PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails)) {
+			if (getPermissionService().isPermissionDefinedByTemplate(PermissionType.ADD_COMMENT.getPermissionNamespace(), PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails)) {
 	            Map<String,String> roleQuals = new LinkedHashMap<String,String>();
 	            roleQuals.put(referenceTypeKey, id);
-	            return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(getCurrentUser(), PermissionType.ADD_COMMENT.getPermissionNamespace(), PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, roleQuals));
+	            return Boolean.valueOf(getPermissionService().isAuthorizedByTemplate(getCurrentUser(), PermissionType.ADD_COMMENT.getPermissionNamespace(), PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, roleQuals));
 			}
 		}
 		return Boolean.TRUE;

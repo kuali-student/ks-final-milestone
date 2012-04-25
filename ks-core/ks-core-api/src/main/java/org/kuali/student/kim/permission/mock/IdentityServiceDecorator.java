@@ -187,10 +187,10 @@ public class IdentityServiceDecorator implements IdentityService {
      * @param principalId The principal ID to find the name information for
      * @return The default name information for the principal
      */
-    //@Override
-    //public EntityNamePrincipalName getDefaultNamesForPrincipalId(@WebParam(name = "principalId") String principalId) {
-    //    return nextDecorator.getDefaultNamesForPrincipalId(principalId);
-    //}
+    @Override
+    public EntityNamePrincipalName getDefaultNamesForPrincipalId(@WebParam(name = "principalId") String principalId) {
+        return nextDecorator.getDefaultNamesForPrincipalId(principalId);
+    }
 
     @Override
     public EntityAddress inactivateAddress(String string) throws RiceIllegalArgumentException, RiceIllegalStateException {
@@ -255,10 +255,10 @@ public class IdentityServiceDecorator implements IdentityService {
      * @return a {@link EntityDefault} or null
      * @throws IllegalArgumentException if the employeeId is blank
      */
-    //@Override
-    //public EntityDefault getEntityDefaultByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
-    //    return nextDecorator.getEntityDefaultByEmployeeId(employeeId);
-    //}
+    @Override
+    public EntityDefault getEntityDefaultByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
+        return nextDecorator.getEntityDefaultByEmployeeId(employeeId);
+    }
 
     @Override
     public EntityDefault getEntityDefaultByPrincipalId(String string) throws RiceIllegalArgumentException {
@@ -286,10 +286,10 @@ public class IdentityServiceDecorator implements IdentityService {
      * @return a {@link Entity} or null
      * @throws IllegalArgumentException if the employeeId is blank
      */
-    //@Override
-    //public Entity getEntityByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
-    //    return nextDecorator.getEntityByEmployeeId(employeeId);
-    //}
+    @Override
+    public Entity getEntityByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
+        return nextDecorator.getEntityByEmployeeId(employeeId);
+    }
 
     @Override
     public Entity getEntityByPrincipalId(String string) throws RiceIllegalArgumentException {
@@ -420,7 +420,5 @@ public class IdentityServiceDecorator implements IdentityService {
     public EntityAddress addAddressToEntity(EntityAddress ea) throws RiceIllegalArgumentException, RiceIllegalStateException {
         return nextDecorator.addAddressToEntity(ea);
     }
-    
-    
     
 }
