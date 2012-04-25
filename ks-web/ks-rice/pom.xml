@@ -92,6 +92,12 @@
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
       <version>${kuali.rice.version}</version>
+      <exclusions>
+        <exclusion>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-cas-client</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
