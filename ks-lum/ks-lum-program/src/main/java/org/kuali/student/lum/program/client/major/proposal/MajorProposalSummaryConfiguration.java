@@ -78,7 +78,6 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 	                            ((WorkflowEnhancedNavController) controller).getWfUtilities().requestAndSetupModel(new Callback<Boolean>(){
 									public void exec(Boolean modelReadyResult) {
 			                            // Show validation error if they exist
-										//TODO KSCM-425
 			                            ((WorkflowEnhancedNavController) controller).getWfUtilities().doValidationCheck(new Callback<List<ValidationResultInfo>>(){
 	                                        @Override
 	                                        public void exec(List<ValidationResultInfo> validationResult) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
