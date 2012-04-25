@@ -140,7 +140,6 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
         title = SectionTitle.generateH3Title(getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_MANAGEVIEWPAGESTEP2TITLE));
         title.setStyleName("KS-Program-Requirements-Manage-Step-header2");  //make the header orange
         layout.add(title);
-
         layout.add(ruleManageWidget);
 
         //add progressive indicator when rules are being simplified
