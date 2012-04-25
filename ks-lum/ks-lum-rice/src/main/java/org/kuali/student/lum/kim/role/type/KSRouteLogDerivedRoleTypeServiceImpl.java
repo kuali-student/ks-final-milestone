@@ -139,7 +139,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getRoleMembersFromApplicationRole(String, String, Map<String,String>)
 	 */
 	@Override
-    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> paramQualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> paramQualification) {
 		List<RoleMembership> members = new ArrayList<RoleMembership>();
 		validateRequiredAttributesAgainstReceived(paramQualification);
 		Map<String,String> qualification = translateInputAttributes(paramQualification);
@@ -175,7 +175,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
-	public boolean hasApplicationRole(
+	public boolean hasDerivedRole(
 			String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> paramQualification){
         validateRequiredAttributesAgainstReceived(paramQualification);
         Map<String,String> qualification = translateInputAttributes(paramQualification);

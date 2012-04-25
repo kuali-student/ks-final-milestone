@@ -53,12 +53,12 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 			if ( (entry.getValue() != null) && (entry.getValue().booleanValue()) ) {
                                 Map<String,String> result = new LinkedHashMap<String,String> ();
                                 result.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, ""+documentId);
-				assertTrue("Principal Id '" + principalId + "' should have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), null, result));
+				assertTrue("Principal Id '" + principalId + "' should have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), result));
 			}
 			else {
                                 Map<String,String> result = new LinkedHashMap<String,String> ();
                                 result.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, ""+documentId);
-				assertFalse("Principal Id '" + principalId + "' should not have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), null, result));
+				assertFalse("Principal Id '" + principalId + "' should not have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), result));
 			}
 		}
 	}

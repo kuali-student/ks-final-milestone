@@ -86,38 +86,14 @@
 	</bean-->
 	
 	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
-		<property name="moduleName" value="CORE" />
-		<property name="hasWebInterface" value="false" />
-		<property name="validRunModes">
-			<list>
-				<value>LOCAL</value>
-			</list>
-		</property>
 		<property name="dataSource" ref="riceDataSource" />
+		<!--property name="serverDataSource" ref="krWorkflowDataSource"/-->
+		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
 		<property name="transactionManager" ref="jtaTransactionManager" />
 		<property name="userTransaction" ref="jtaUserTransaction" />
 	</bean>
 	
-	<import resource="classpath:org/kuali/rice/ksb/config/KSBConfigSpringBeans.xml"/>
-	<bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
-		<property name="moduleName" value="KSB" />
-		<property name="hasWebInterface" value="true" />
-		<property name="validRunModes">
-			<list>
-				<value>LOCAL</value>
-				<value>REMOTE</value>
-			</list>
-		</property>
-	</bean>
-	<!--import resource="classpath:org/kuali/rice/krad/config/KRADConfigSpringBeans.xml"/>
-	<import resource="classpath:org/kuali/rice/kim/impl/config/KIMConfigSpringBeans.xml"/>
-	<import resource="classpath:org/kuali/rice/kew/config/KEWConfigSpringBeans.xml"/>
-	<import resource="classpath:org/kuali/rice/edl/impl/config/EDLConfigSpringBeans.xml"/>
-  	<import resource="classpath:org/kuali/rice/krms/config/KRMSConfigSpringBeans.xml"/>
-  	<import resource="classpath:org/kuali/rice/location/config/LocationConfigSpringBeans.xml"/-->
-
-    <!--bean id="enAdsService" class="edu.iu.uis.eden.ads.AdsServiceImpl" />
-	<bean class="edu.iu.uis.eden.IUServiceLocatorConfigurer"/-->
+	<bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer" depends-on="coreConfigurer"/>
 
     <!-- JTA -->
 	<alias name="jtaUserTransaction" alias="userTransaction"/>    

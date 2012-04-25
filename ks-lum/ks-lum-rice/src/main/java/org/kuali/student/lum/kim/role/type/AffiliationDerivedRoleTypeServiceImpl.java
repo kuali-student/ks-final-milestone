@@ -18,7 +18,7 @@ public class AffiliationDerivedRoleTypeServiceImpl extends
 	private List<String> includedAffiliationTypes = null;
 	
 	@Override
-	public boolean hasApplicationRole(String principalId,
+	public boolean hasDerivedRole(String principalId,
 			List<String> groupIds, String namespaceCode, String roleName,
 			Map<String,String> qualification) {
 		Person signedOnPerson = KimApiServiceLocator.getPersonService().getPerson(principalId);

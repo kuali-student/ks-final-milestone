@@ -152,10 +152,10 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#getRoleMembersFromDerivedRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
-	public List<RoleMembership> getRoleMembersFromApplicationRole(
+	public List<RoleMembership> getRoleMembersFromDerivedRole(
 			String namespaceCode, String roleName, Map<String,String> paramQualification) {
 		// validate required attributes
 		validateRequiredAttributesAgainstReceived(paramQualification);
@@ -196,10 +196,10 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#hasDerivedRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
-	public boolean hasApplicationRole(String principalId,
+	public boolean hasDerivedRole(String principalId,
 			List<String> groupIds, String namespaceCode, String roleName,
 			Map<String,String> paramQualification) {
         validateRequiredAttributesAgainstReceived(paramQualification);
