@@ -31,88 +31,84 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StatementInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "operator", "statementIds", "reqComponentIds", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
-public class StatementInfo extends IdEntityInfo implements Statement, Serializable {
+@XmlType(name = "StatementInfo", propOrder = { "id", "typeKey", "stateKey",
+		"name", "descr", "operator", "statementIds", "reqComponentIds", "meta",
+		"attributes" })
+// , "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+public class StatementInfo extends IdEntityInfo implements Statement,
+		Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private StatementOperator operator;
-    @XmlElement
-    private List<String> statementIds;
-    @XmlElement
-    private List<String> reqComponentIds;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+	@XmlElement
+	private StatementOperator operator;
+	@XmlElement
+	private List<String> statementIds;
+	@XmlElement
+	private List<String> reqComponentIds;
 
-    public StatementInfo() {
-    }
+	// TODO KSCM-372: Non-GWT translatable code
+	// @XmlAnyElement
+	// private List<Element> _futureElements;
 
-    public StatementInfo(Statement statement) {
-        super(statement);
-        if (null != statement) {
-            // shallow copy is fine here
-            this.operator = statement.getOperator();
-            this.statementIds = new ArrayList<String>(statement.getStatementIds());
-            this.reqComponentIds = new ArrayList<String>(statement.getReqComponentIds());
-        }
-    }
-
-    @Override
-    public StatementOperator getOperator() {
-        return this.operator;
-    }
-
-    public void setOperator(StatementOperator operator) {
-        this.operator = operator;
-    }
-
-    @Override
-    public List<String> getStatementIds() {
-        if (this.statementIds == null) {
-            this.statementIds = new ArrayList<String>(0);
-        }
-        return this.statementIds;
-    }
-
-    public void setStatementIds(List<String> statementIds) {
-        this.statementIds = statementIds;
-    }
-
-    @Override
-    public List<String> getReqComponentIds() {
-        if (this.reqComponentIds == null) {
-            this.reqComponentIds = new ArrayList<String>(0);
-        }
-        return this.reqComponentIds;
-    }
-
-    public void setReqComponentIds(List<String> reqComponentIds) {
-        this.reqComponentIds = reqComponentIds;
-    }
-
-    @Override
-    public String toString() {
-        return "StatementInfo[id=" + getId() + "]";
-    }
-
-    @Deprecated
-	public void setOperator(StatementOperatorTypeKey op) {
-		// TODO KSCM-392 how to replace
-		
+	public StatementInfo() {
 	}
 
-//    @Deprecated
-//	public RichTextInfo getDesc() {
-//		return this.getDescr();
-//	}
-//
-//    @Deprecated
-//	public void setDesc(RichTextInfo desc) {
-//		this.setDescr(desc);
-//		
-//	}
+	public StatementInfo(Statement statement) {
+		super(statement);
+		if (null != statement) {
+			// shallow copy is fine here
+			this.operator = statement.getOperator();
+			this.statementIds = new ArrayList<String>(
+					statement.getStatementIds());
+			this.reqComponentIds = new ArrayList<String>(
+					statement.getReqComponentIds());
+		}
+	}
+
+	@Override
+	public StatementOperator getOperator() {
+		return this.operator;
+	}
+
+	@Override
+	public List<String> getStatementIds() {
+		if (this.statementIds == null) {
+			this.statementIds = new ArrayList<String>(0);
+		}
+		return this.statementIds;
+	}
+
+	public void setStatementIds(List<String> statementIds) {
+		this.statementIds = statementIds;
+	}
+
+	@Override
+	public List<String> getReqComponentIds() {
+		if (this.reqComponentIds == null) {
+			this.reqComponentIds = new ArrayList<String>(0);
+		}
+		return this.reqComponentIds;
+	}
+
+	public void setReqComponentIds(List<String> reqComponentIds) {
+		this.reqComponentIds = reqComponentIds;
+	}
+
+	@Override
+	public String toString() {
+		return "StatementInfo[id=" + getId() + "]";
+	}
+
+	// @Deprecated
+	// public RichTextInfo getDesc() {
+	// return this.getDescr();
+	// }
+	//
+	// @Deprecated
+	// public void setDesc(RichTextInfo desc) {
+	// this.setDescr(desc);
+	//
+	// }
 
 }
