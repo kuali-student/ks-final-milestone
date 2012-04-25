@@ -3,12 +3,15 @@ package org.kuali.student.enrollment.class1.lui.service.impl;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
-import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -24,27 +27,26 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
-public class LuiTestDataLoader {
+public class LuiServiceDataLoader {
 
-    public static Map<String, LuiEntity>  luiCache= new HashMap<String, LuiEntity> ();
-    public LuiTestDataLoader() {
+    public LuiServiceDataLoader() {
     }
 
-    public LuiTestDataLoader(LuiDao luiDao) {
-        this.luiDao = luiDao;
+    public LuiServiceDataLoader(LuiService luiService) {
+        this.luiService = luiService;
     }
 
-    public LuiDao getLuiDao() {
-        return luiDao;
+    public LuiService getLuiService() {
+        return luiService;
     }
 
-    public void setLuiDao(LuiDao luiDao) {
-        this.luiDao = luiDao;
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
     }
-    private LuiDao luiDao;
+    private LuiService luiService;
     private static String principalId = LuiTestDataLoader.class.getSimpleName();
 
-    public static void loadData() throws DoesNotExistException, InvalidParameterException,
+    public void loadData() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, VersionMismatchException,
             AlreadyExistsException, CircularRelationshipException {
@@ -60,36 +62,43 @@ public class LuiTestDataLoader {
 
     }
 
-    private static void loadLui(String id,
-            String name,
-            String cluId,
-            String atpId,
-            String type,
-            String state,
-            String descrFormatted,
-            String descrPlain,
-            String effectiveDate,
-            String expirationDate,
-            Integer maxSeats,
-            Integer minSeats,
-            String refUrl)
+    private void loadLui(String id,
+                         String name,
+                         String cluId,
+                         String atpId,
+                         String type,
+                         String state,
+                         String descrFormatted,
+                         String descrPlain,
+                         String effectiveDate,
+                         String expirationDate,
+                         Integer maxSeats,
+                         Integer minSeats,
+                         String refUrl)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
-        LuiEntity luiEntity  = new LuiEntity();
-        luiEntity.setId(id);
-        luiEntity.setCluId(cluId);
-        luiEntity.setAtpId(atpId);
-        luiEntity.setName(name);
-        luiEntity.setLuiType(type);
-        luiEntity.setLuiState(state);
-        luiEntity.setMaxSeats(maxSeats);
-        luiEntity.setMinSeats(minSeats);
-        luiEntity.setReferenceURL(refUrl);
-        luiEntity.setPlain(descrPlain);
-        luiEntity.setCreateId(principalId);
-        luiEntity.setCreateTime(new Date());
-        luiCache.put(id, luiEntity);
+        LuiInfo luiInfo = new LuiInfo();
+        luiInfo.setId(id);
+        luiInfo.setCluId(cluId);
+        luiInfo.setAtpId(atpId);
+        luiInfo.setName(name);
+        luiInfo.setTypeKey(type);
+        luiInfo.setStateKey(state);
+        luiInfo.setEffectiveDate(str2Date(effectiveDate, id));
+        luiInfo.setExpirationDate(str2Date(expirationDate, id));
+        luiInfo.setMaximumEnrollment(maxSeats);
+        luiInfo.setMinimumEnrollment(minSeats);
+        luiInfo.setReferenceURL(refUrl);
+        luiInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
+        luiInfo.setOfficialIdentifier(this.getOfficialIdentifier(id));
+        luiInfo.setAlternateIdentifiers(this.getAlternateIdentifiers(id));
+
+        ContextInfo context = new ContextInfo();
+        context.setPrincipalId(principalId);
+        context.setCurrentDate(new Date());
+        CommonServiceConstants.setIsIdAllowedOnCreate(context, true);
+        luiService.createLui(luiInfo.getCluId(), luiInfo.getAtpId(), luiInfo.getTypeKey(), luiInfo, context);
     }
 
     private LuiIdentifierInfo getOfficialIdentifier(String luiId) {
@@ -135,14 +144,14 @@ public class LuiTestDataLoader {
     }
 
     private void addIdentifier(String id,
-            String code,
-            String division,
-            String suffixCode,
-            String longName,
-            String shortName,
-            String type,
-            String variation,
-            String luiId) {
+                               String code,
+                               String division,
+                               String suffixCode,
+                               String longName,
+                               String shortName,
+                               String type,
+                               String variation,
+                               String luiId) {
         LuiIdentifierInfo info = new LuiIdentifierInfo();
         info.setId(id);
         info.setCode(code);
@@ -159,15 +168,15 @@ public class LuiTestDataLoader {
         identifiers.get(luiId).add(info);
     }
 
-    private static void loadLuiLuiRel(String id,
-            String effectiveDate,
-            String expirationDate,
-            String state,
-            String descrFormatted,
-            String descrPlain,
-            String luiId,
-            String type,
-            String relatedLuiId)
+    private void loadLuiLuiRel(String id,
+                               String effectiveDate,
+                               String expirationDate,
+                               String state,
+                               String descrFormatted,
+                               String descrPlain,
+                               String luiId,
+                               String type,
+                               String relatedLuiId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, AlreadyExistsException,
@@ -186,10 +195,10 @@ public class LuiTestDataLoader {
         context.setPrincipalId(principalId);
         context.setCurrentDate(new Date());
         CommonServiceConstants.setIsIdAllowedOnCreate(context, true);
-
+        luiService.createLuiLuiRelation(info.getLuiId(), info.getRelatedLuiId(), info.getTypeKey(), info, context);
     }
 
-    private static Date str2Date(String str, String context) {
+    private Date str2Date(String str, String context) {
         if (str == null) {
             return null;
         }

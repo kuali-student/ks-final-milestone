@@ -3,16 +3,12 @@ package org.kuali.student.enrollment.class1.lui.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
@@ -46,16 +42,51 @@ public class LuiEntity extends MetaEntity {
     private Integer maxSeats;
     @Column(name = "MIN_SEATS")
     private Integer minSeats;
+    @Column(name = "SCHEDULE_ID")
+    private String scheduleId;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
     private Date effectiveDate;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
+
+    @ManyToMany
+    @JoinTable(name="KSEN_LUI_RESULT_VAL_GRP",
+            joinColumns=
+            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
+            inverseJoinColumns=
+            @JoinColumn(name="RESULT_VAL_GRP_ID", referencedColumnName="ID")
+    )
+    private List<ResultValuesGroupEntity> resultValuesGroups;
+
+   /**
+    @ManyToMany
+    @JoinTable(name="KSEN_LUI_UNITS_CONT_OWNER",
+            joinColumns=
+            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
+            inverseJoinColumns=
+            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
+    )
+    private List<String> luiContentOwner;
+
+    @ManyToMany
+    @JoinTable(name="KSEN_LUI_UNITS_DEPLOYMENT",
+            joinColumns=
+            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
+            inverseJoinColumns=
+            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
+    )
+    private List<String> luiUnitsDeployment;
+    */
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuiIdentifierEntity> identifiers;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuCodeEntity> luiCodes;
+
+
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiAttributeEntity> attributes;
 
@@ -68,6 +99,7 @@ public class LuiEntity extends MetaEntity {
         this.setLuiType(lui.getTypeKey());
         this.setAtpId(lui.getAtpId());
         this.setCluId(lui.getCluId());
+
         fromDto(lui);
     }
 
@@ -106,6 +138,10 @@ public class LuiEntity extends MetaEntity {
         for (Attribute att : lui.getAttributes()) {
             this.getAttributes().add(new LuiAttributeEntity(att));
         }
+
+        this.resultValuesGroups = resultValuesGroups;
+
+
     }
 
     public LuiInfo toDto() {
@@ -121,7 +157,7 @@ public class LuiEntity extends MetaEntity {
         info.setReferenceURL(referenceURL);
         info.setTypeKey(luiType);
         info.setStateKey(luiState);
-        info.setMeta(super.toDTO());;
+        info.setMeta(super.toDTO());
         info.setDescr(new RichTextHelper().toRichTextInfo(plain, formatted));
 
         // lucCodes

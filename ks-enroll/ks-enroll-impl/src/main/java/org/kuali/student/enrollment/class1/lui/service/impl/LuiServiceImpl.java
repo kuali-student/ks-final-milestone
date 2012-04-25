@@ -299,8 +299,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<LuiLuiRelationInfo>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -309,8 +308,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<String>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -339,8 +337,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException { 
 
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Override
@@ -349,8 +346,7 @@ public class LuiServiceImpl
                                                            ContextInfo contextInfo) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -515,10 +511,10 @@ public class LuiServiceImpl
         if (entity == null) {
             throw new DoesNotExistException(luiLuiRelationId);
         }
-
-        luiLuiRelationDao.remove(entity);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.FALSE);
+
+        luiLuiRelationDao.remove(entity);
         status.setSuccess(Boolean.TRUE);
 
         return status;
@@ -531,8 +527,7 @@ public class LuiServiceImpl
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
 
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -542,8 +537,7 @@ public class LuiServiceImpl
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<LuiCapacityInfo>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -552,7 +546,6 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -562,8 +555,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<String>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -572,8 +564,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<String>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -582,8 +573,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<LuiCapacityInfo>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -595,8 +585,7 @@ public class LuiServiceImpl
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<ValidationResultInfo>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -608,8 +597,7 @@ public class LuiServiceImpl
                OperationFailedException, PermissionDeniedException, 
                ReadOnlyException {
 
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -621,8 +609,7 @@ public class LuiServiceImpl
                OperationFailedException, PermissionDeniedException, 
                ReadOnlyException, VersionMismatchException {
 
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -632,7 +619,6 @@ public class LuiServiceImpl
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
 
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

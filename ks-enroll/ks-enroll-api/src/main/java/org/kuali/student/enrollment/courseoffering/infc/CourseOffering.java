@@ -191,16 +191,7 @@ public interface CourseOffering
      */
     public ResultValuesGroup getCreditOptions();
 
-    /**
-     * Key indicating the level at which grade rosters should be generated -
-     * activity, format or course. TODO: define these types. TODO: add a service
-     * method to get the list of types that can be put in this field.
-     * 
-     * @name Grade Roster Level Key
-     * @impl this should be a constrained the a list types generated from the
-     *       roster types from the generic type system.
-     */
-    public String getGradeRosterLevelTypeKey();
+
 
     /******** Personnel Information *****************/
 
@@ -242,17 +233,7 @@ public interface CourseOffering
      */
     public List<String> getUnitsContentOwner();
 
-    /********** Final Exam Information *****************/
 
-    /**
-     * Indicates whether a final exam is to be given Initially copied from the
-     * canonical course and then, depending on configuration, updated.
-     * 
-     * @name Has Final Exam
-     * @impl If set to true, create a lui of type final exam and a lui lui
-     *       relation to the course offering
-     */
-    public Boolean getHasFinalExam();
 
     /*********** Waitlist *****************************/
 
@@ -288,33 +269,14 @@ public interface CourseOffering
     public String getWaitlistTypeKey();
 
     /**
-     * Maximum number of students to be allowed on the wait list
-     * 
-     * @name Waitlist Maximum
-     * @impl TODO: decide if this this should be stored on the Lui or on a
-     *       waitlist object?
-     */
-    public Integer getWaitlistMaximum();
+     *  Indicates the waitlist level, i.e., CourseOffering or ActivityOffering
+     *
+     * @name Waitlist Level Type Key
+    */
 
-    /**
-     * Indicates if the waitlist requires checkin
-     * 
-     * @name Is Waitlist Checkin Required
-     * @impl TODO: decide if this this should be stored on the Lui or on a
-     *       waitlist object?
-     */
-    public Boolean getIsWaitlistCheckinRequired();
+    public String  getWaitlistLevelTypeKey();
 
-    /**
-     * Frequency for the waitlist checkin
-     * 
-     * @name Waitlist Checkin Frequency
-     * @impl TODO: decide if this this should be stored on the Lui or on a
-     *       waitlist object?
-     */
-    public TimeAmount getWaitlistCheckinFrequency();
-
-    /************* Finances ***************************/
+  /************* Finances ***************************/
 
     /**
      * The primary source of funding for the offering.

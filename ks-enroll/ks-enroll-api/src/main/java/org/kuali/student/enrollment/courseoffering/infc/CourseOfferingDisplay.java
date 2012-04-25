@@ -83,15 +83,7 @@ public interface CourseOfferingDisplay extends IdEntity {
      */
     public String getCourseTitle();
 
-    /**
-     * Indicates that the entire course offering is an Honors Course ??? Is this
-     * an enrollment restriction rule or a flag or both?
-     *
-     * @name Is Honors Offering
-     * @readOnly
-     * @impl store in a generic lui luCodes type of field?
-     */
-    public Boolean getIsHonorsOffering();
+
 
      /********* Organization Information **************/
 

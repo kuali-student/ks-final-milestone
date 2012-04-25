@@ -17,12 +17,7 @@
 package org.kuali.student.enrollment.courseoffering.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupTemplateInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -96,6 +91,21 @@ public interface CourseOfferingService {
      * @throws PermissionDeniedException authorization failure
      */
     public CourseOfferingInfo getCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
+     * Retrieve information about a CourseOfferingDisplayInfo
+
+     * @param courseOfferingId
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public CourseOfferingDisplayInfo getCourseOfferingDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of course offerings by id list.
@@ -233,33 +243,6 @@ public interface CourseOfferingService {
 
     ;
 
-    /**
-     * Gets a list  course offering ids given the SOC that the course offering is a part of.
-     *
-     * @param socId   Unique id for the SOC
-     * @param context
-     * @return
-     * @throws DoesNotExistException   SOC Id doesn't exist
-     * @throws InvalidParameterException  Invalid soc id
-     * @throws MissingParameterException  Missing SOC id
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException  authorization failure
-     */
-    public List<String> getCourseOfferingIdsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Gets a list fo course offerings that are already published by SOC id
-     *
-     * @param socId   Unique id for the SOC
-     * @param context
-     * @return
-     * @throws DoesNotExistException  SOC Id doesn't exist
-     * @throws InvalidParameterException    Invalid soc id
-     * @throws MissingParameterException  Missing SOC id
-     * @throws OperationFailedException   unable to complete request
-     * @throws PermissionDeniedException  authorization failure
-     */
-    public List<String> getPublishedCourseOfferingIdsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a new CourseOffering from a canonical course.
@@ -591,33 +574,6 @@ public interface CourseOfferingService {
      */
     public List<ActivityOfferingInfo> getActivityOfferingsByCourseOfferingWithoutRegGroup(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /**
-     * Gets a list of ActivityOfferings for a SOC which are not scheduled yet
-     *
-     * @param socId  Identifier of the SOC
-     * @param context
-     * @return
-     * @throws DoesNotExistException   The socId does not exist
-     * @throws InvalidParameterException  Invalid socId
-     * @throws MissingParameterException  Missing socId
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<ActivityOfferingInfo> getUnscheduledActivityOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     *Gets a list of ActivityOfferings for a SOC which are not published in the Schedule of Classes yet
-    
-     * @param socId  Identifier of the SOC
-     * @param context
-     * @return
-     * @throws DoesNotExistException   The socId does not exist
-     * @throws InvalidParameterException  Invalid socId
-     * @throws MissingParameterException  Missing socId
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<ActivityOfferingInfo> getUnpublishedActivityOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a new Activity Offering for a format offering.

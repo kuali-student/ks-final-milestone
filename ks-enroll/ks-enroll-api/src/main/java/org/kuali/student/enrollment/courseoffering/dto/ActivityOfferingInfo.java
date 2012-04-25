@@ -43,7 +43,7 @@ import org.w3c.dom.Element;
                 "weeklyTotalContactHours", 
                 "maximumEnrollment", "minimumEnrollment", 
                 "finalExamStartTime", "finalExamEndTime", 
-                "finalExamSpaceCode", 
+                "finalExamSpaceCode",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingInfo 
@@ -100,6 +100,8 @@ public class ActivityOfferingInfo
     @XmlElement
     private String finalExamSpaceCode;
 
+
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -155,6 +157,7 @@ public class ActivityOfferingInfo
         }
 
         this.finalExamSpaceCode = offering.getFinalExamSpaceCode();
+
     }
 
     @Override

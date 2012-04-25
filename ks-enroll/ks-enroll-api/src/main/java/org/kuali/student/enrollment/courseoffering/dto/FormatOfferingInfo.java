@@ -32,8 +32,8 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FormatOfferingInfo", propOrder = {
     "id", "typeKey", "stateKey", "name", "descr",
-    "courseOfferingId", "formatId", "termId",
-    "activityOfferingTypeKeys",
+    "courseOfferingId", "formatId", "termId","hasFinalExam", "gradeRosterLevelTypeKey",
+    "activityOfferingTypeKeys", "gradeRosterLevelTypeKey", "finalExamLevelTypeKey",
     "meta", "attributes", "_futureElements"})
 public class FormatOfferingInfo
         extends IdEntityInfo
@@ -48,6 +48,14 @@ public class FormatOfferingInfo
     private String termId;
     @XmlElement
     private List<String> activityOfferingTypeKeys;
+    @XmlElement
+    private String gradeRosterLevelTypeKey;
+    @XmlElement
+    private Boolean hasFinalExam;
+
+    @XmlElement
+    private String finalExamLevelTypeKey;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -67,7 +75,9 @@ public class FormatOfferingInfo
         if (offering == null) {
             return;
         }
-
+        this.hasFinalExam = offering.getHasFinalExam();
+        this.gradeRosterLevelTypeKey = offering.getGradeRosterLevelTypeKey();
+        this.finalExamLevelTypeKey = offering.getFinalExamLevelTypeKey ();
         this.courseOfferingId = offering.getCourseOfferingId();
         this.formatId = offering.getFormatId();
 
@@ -114,5 +124,20 @@ public class FormatOfferingInfo
 
     public void setTermId(String termId) {
         this.termId = termId;
+    }
+
+    @Override
+    public Boolean getHasFinalExam() {
+        return this.hasFinalExam;
+    }
+
+    @Override
+    public String getFinalExamLevelTypeKey() {
+        return this.finalExamLevelTypeKey;
+    }
+
+    @Override
+    public String getGradeRosterLevelTypeKey() {
+        return this.gradeRosterLevelTypeKey;
     }
 }

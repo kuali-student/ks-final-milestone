@@ -19,6 +19,8 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
+import javax.jws.WebParam;
+
 
 public class CourseOfferingServiceDecorator implements CourseOfferingService {
 
@@ -142,15 +144,6 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return nextDecorator.searchForActivityOfferingIds(criteria, context);
     }
 
-    @Override
-    public List<ActivityOfferingInfo> getUnscheduledActivityOfferingsBySoc(String socId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getUnscheduledActivityOfferingsBySoc(socId, context);
-    }
-
-    @Override
-    public List<ActivityOfferingInfo> getUnpublishedActivityOfferingsBySoc(String socId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getUnpublishedActivityOfferingsBySoc(socId, context);
-    }
 
     @Override
     public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForRegGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -195,11 +188,6 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     @Override
     public RegistrationGroupInfo getRegistrationGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.getRegistrationGroup(registrationGroupId, context);
-    }
-
-    @Override
-    public List<String> getPublishedCourseOfferingIdsBySoc(String socId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getPublishedCourseOfferingIdsBySoc(socId, context);
     }
 
     @Override
@@ -253,13 +241,13 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<String> getCourseOfferingIdsBySoc(String socId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getCourseOfferingIdsBySoc(socId, context);
+    public CourseOfferingInfo getCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getCourseOffering(courseOfferingId, context);
     }
 
     @Override
-    public CourseOfferingInfo getCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getCourseOffering(courseOfferingId, context);
+    public CourseOfferingDisplayInfo getCourseOfferingDisplay( String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getCourseOfferingDisplay(courseOfferingId, context) ;
     }
 
     @Override

@@ -41,9 +41,9 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "courseId",
         "termId", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
-        "instructors", "subjectArea", "unitsDeployment", "unitsContentOwner", "hasFinalExam", "maximumEnrollment",
-        "minimumEnrollment", "jointOfferingIds", "creditOptions", "gradingOptionKeys", "gradeRosterLevelTypeKey",
-        "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
+        "instructors", "subjectArea", "unitsDeployment", "unitsContentOwner",  "maximumEnrollment",
+        "minimumEnrollment", "jointOfferingIds", "creditOptions", "gradingOptionKeys",
+        "hasWaitlist", "waitlistTypeKey",
         "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", 
         "meta", "attributes", "_futureElements"})
 
@@ -90,13 +90,13 @@ public class CourseOfferingInfo
     private List<String> gradingOptionKeys;
 
     @XmlElement
-    private Boolean hasFinalExam;
-
-    @XmlElement
     private String waitlistTypeKey;
 
     @XmlElement
-    private Integer waitlistMaximum;
+    private Boolean hasWaitlist;
+
+    @XmlElement
+    private String waitlistLevelTypeKey;
 
     @XmlElement
     private Integer maximumEnrollment;
@@ -106,18 +106,6 @@ public class CourseOfferingInfo
 
     @XmlElement
     private List<String> jointOfferingIds;
-
-    @XmlElement
-    private String gradeRosterLevelTypeKey;
-
-    @XmlElement
-    private Boolean hasWaitlist;
-
-    @XmlElement
-    private Boolean isWaitlistCheckinRequired;
-
-    @XmlElement
-    private TimeAmountInfo waitlistCheckinFrequency;
 
     @XmlElement
     private String fundingSource;
@@ -179,9 +167,7 @@ public class CourseOfferingInfo
         this.gradingOptionKeys = (null != offering.getGradingOptionKeys()) ? new ArrayList<String>(
                 offering.getGradingOptionKeys()) : null;
 
-        this.hasFinalExam = offering.getHasFinalExam();
         this.waitlistTypeKey = offering.getWaitlistTypeKey();
-        this.waitlistMaximum = offering.getWaitlistMaximum();
         this.maximumEnrollment = offering.getMaximumEnrollment();
         this.minimumEnrollment = offering.getMinimumEnrollment();
 
@@ -189,11 +175,10 @@ public class CourseOfferingInfo
                 offering.getJointOfferingIds()) : null;
 
 
-        this.gradeRosterLevelTypeKey = offering.getGradeRosterLevelTypeKey();
         this.hasWaitlist = (null != offering.getHasWaitlist()) ? new Boolean(offering.getHasWaitlist()) : null;
-        this.isWaitlistCheckinRequired = offering.getIsWaitlistCheckinRequired();
-        this.waitlistCheckinFrequency = (null != offering.getWaitlistCheckinFrequency()) ? new TimeAmountInfo(
-                offering.getWaitlistCheckinFrequency()) : null;
+
+        this.waitlistLevelTypeKey = offering.getWaitlistLevelTypeKey();
+
         this.fundingSource = offering.getFundingSource();
         this.fees = (null != offering.getFees()) ? new ArrayList<FeeInfo>((List<FeeInfo>) offering.getFees()) : null;
         // TODO: Change this to r2 revenue with null check
@@ -238,10 +223,6 @@ public class CourseOfferingInfo
         return this.unitsContentOwner;
     }
 
-    @Override
-    public Boolean getHasFinalExam() {
-        return this.hasFinalExam;
-    }
 
     @Override
     public String getWaitlistTypeKey() {
@@ -249,9 +230,10 @@ public class CourseOfferingInfo
     }
 
     @Override
-    public Integer getWaitlistMaximum() {
-        return this.waitlistMaximum;
+    public String getWaitlistLevelTypeKey() {
+        return this.waitlistLevelTypeKey;
     }
+
 
     @Override
     public String getTermId() {
@@ -297,25 +279,13 @@ public class CourseOfferingInfo
         return this.creditOptions;
     }
 
-    @Override
-    public String getGradeRosterLevelTypeKey() {
-        return this.gradeRosterLevelTypeKey;
-    }
+
 
     @Override
     public Boolean getHasWaitlist() {
         return this.hasWaitlist;
     }
 
-    @Override
-    public Boolean getIsWaitlistCheckinRequired() {
-        return this.isWaitlistCheckinRequired;
-    }
-
-    @Override
-    public TimeAmountInfo getWaitlistCheckinFrequency() {
-        return this.waitlistCheckinFrequency;
-    }
 
     @Override
     public String getFundingSource() {
@@ -385,17 +355,17 @@ public class CourseOfferingInfo
         this.unitsContentOwner = unitsContentOwner;
     }
 
-    public void setHasFinalExam(Boolean hasFinalExam) {
-        this.hasFinalExam = hasFinalExam;
-    }
+
 
     public void setWaitlistTypeKey(String waitlistTypeKey) {
         this.waitlistTypeKey = waitlistTypeKey;
     }
 
-    public void setWaitlistMaximum(Integer waitlistMaximum) {
-        this.waitlistMaximum = waitlistMaximum;
+
+    public void setWaitlistLevelTypeKey(String waitlistLevelTypeKey) {
+        this.waitlistLevelTypeKey = waitlistLevelTypeKey;
     }
+
 
     public void setTermId(String termId) {
         this.termId = termId;
@@ -433,21 +403,11 @@ public class CourseOfferingInfo
         this.gradingOptionKeys = gradingOptionKeys;
     }
 
-    public void setGradeRosterLevelTypeKey(String gradeRosterLevelTypeKey) {
-        this.gradeRosterLevelTypeKey = gradeRosterLevelTypeKey;
-    }
 
     public void setHasWaitlist(Boolean hasWaitlist) {
         this.hasWaitlist = hasWaitlist;
     }
 
-    public void setIsWaitlistCheckinRequired(Boolean isWaitlistCheckinRequired) {
-        this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
-    }
-
-    public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
-        this.waitlistCheckinFrequency = waitlistCheckinFrequency;
-    }
 
     public void setFundingSource(String fundingSource) {
         this.fundingSource = fundingSource;

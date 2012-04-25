@@ -66,4 +66,35 @@ public interface FormatOffering
      * @name Activity Offering Types
      */
     public List<String> getActivityOfferingTypeKeys();
+
+
+    /**
+     * Key indicating the level at which grade rosters should be generated -
+     * activity, format or course. TODO: define these types. TODO: add a service
+     * method to get the list of types that can be put in this field.
+     *
+     * @name Grade Roster Level Key
+     * @impl this should be a constrained the a list types generated from the
+     *       roster types from the generic type system.
+     */
+    public String getGradeRosterLevelTypeKey();
+
+    /********** Final Exam Information *****************/
+
+    /**
+     * Indicates whether a final exam is to be given  for this format Offering
+     * and if its true, the level at which it exists
+     *
+     * @name Has Final Exam
+     */
+    public Boolean getHasFinalExam();
+
+    /**
+     * Indicates what activity type does the final exam exist in
+     *
+     * @name  Final Exam Level Type Key
+
+     */
+    public String getFinalExamLevelTypeKey();
+
 }

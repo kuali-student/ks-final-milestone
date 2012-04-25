@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -61,7 +62,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         callContext.setPrincipalId(principalId);
         try {
             new CourseR1TestDataLoader(this.courseService).loadData();
-            new LuiTestDataLoader(this.luiService).loadData();
+            new LuiServiceDataLoader(this.luiService).loadData();
             new AcalTestDataLoader(this.acalService).loadData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);

@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.junit.Ignore;
+import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiTestDataLoader;
 import org.junit.Before;
@@ -65,7 +66,7 @@ public class TestCourseOfferingServiceImpl {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
         try {
-            new LuiTestDataLoader(this.luiService).loadData();
+            new LuiServiceDataLoader(this.luiService).loadData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

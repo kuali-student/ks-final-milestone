@@ -44,6 +44,10 @@ public class OfferingInstructorInfo extends TypeStateEntityInfo implements Offer
     
     @XmlElement
     private String personId;
+
+
+    @XmlElement
+    private String personName;
     
     @XmlElement 
     private Float percentageEffort; 
