@@ -382,6 +382,7 @@ public interface BatchJobResultService {
     /**
      * Creates a new BatchJobResultItem
      * 
+     * @param batchJobResultId     Id of the corresponding batch job result
      * @param batchJobResultItemTypeKey     batch job result type key
      * @param batchJobResultItemInfo    object to be created
      * @param context      Context information containing the principalId and locale
@@ -394,20 +395,22 @@ public interface BatchJobResultService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public BatchJobResultItemInfo createBatchJobResultItem(@WebParam(name = "batchJobResultItemTypeKey") String batchJobResultItemTypeKey,
+    public BatchJobResultItemInfo createBatchJobResultItem(@WebParam(name = "batchJobResultId") String batchJobResultId,
+            @WebParam(name = "batchJobResultItemTypeKey") String batchJobResultItemTypeKey,
             @WebParam(name = "batchJobResultItemInfo") BatchJobResultItemInfo batchJobResultItemInfo,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
-     * Creates new BatchJobResultItems
+     * Bulk create of  BatchJobResultItems
+     * All must be for the same result but the types may vary.
      * 
-     * @param batchJobResultItemTypeKey     batch job result type key
+     * @param batchJobResultId     Id of the corresponding batch job result
      * @param batchJobResultItemInfos    objects to be created
      * @param context      Context information containing the principalId and locale
      *                     information about the caller of service operation
-     * @return newly created BatchJobResultItemInfo
+     * @return count of number of items created
      * @throws DoesNotExistException        termId or batchJobResultItemTypeKey not found
      * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws InvalidParameterException    One or more parameters invalid
@@ -415,7 +418,7 @@ public interface BatchJobResultService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public List<BatchJobResultItemInfo> createBatchJobResultItems(@WebParam(name = "batchJobResultItemTypeKey") String batchJobResultItemTypeKey,
+    public Integer createBatchJobResultItems(@WebParam(name = "batchJobResultId") String batchJobResultId,
             @WebParam(name = "batchJobResultItemInfos") List<BatchJobResultItemInfo> batchJobResultItemInfos,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,

@@ -27,6 +27,7 @@ import org.kuali.student.enrollment.batchjobresults.infc.BatchJobResult;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.w3c.dom.Element;
 
@@ -34,11 +35,14 @@ import org.w3c.dom.Element;
 @XmlType(name = "SocInfo", propOrder = {"id",
     "typeKey",
     "stateKey",
+    "name",
+    "descr",
     "parameters",
     "context",
     "globalResults",
     "itemsProcessed",
-    "itemsToBeProcessed",
+    "itemsExpected",
+    "message",
     "meta",
     "attributes",
     "_futureElements"})
@@ -56,7 +60,9 @@ public class BatchJobResultInfo
     @XmlElement
     private Integer itemsProcessed;
     @XmlElement
-    private Integer itemsToBeProcessed;
+    private Integer itemsExpected;
+    @XmlElement
+    private RichTextInfo message;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -86,7 +92,10 @@ public class BatchJobResultInfo
         }
         this.context = new ContextInfo(orig.getContext());
         this.itemsProcessed = orig.getItemsProcessed();
-        this.itemsToBeProcessed = orig.getItemsToBeProcessed();
+        this.itemsExpected = orig.getItemsExpected();
+        if (orig.getMessage() != null) {
+            this.message = new RichTextInfo (orig.getMessage());
+        }
     }
 
     @Override
@@ -126,11 +135,22 @@ public class BatchJobResultInfo
     }
 
     @Override
-    public Integer getItemsToBeProcessed() {
-        return itemsToBeProcessed;
+    public Integer getItemsExpected() {
+        return itemsExpected;
     }
 
-    public void setItemsToBeProcessed(Integer itemsToBeProcessed) {
-        this.itemsToBeProcessed = itemsToBeProcessed;
+    public void setItemsExpected(Integer itemsExpected) {
+        this.itemsExpected = itemsExpected;
     }
+
+    @Override
+    public RichTextInfo getMessage() {
+        return message;
+    }
+
+    public void setMessage(RichTextInfo message) {
+        this.message = message;
+    }
+
+   
 }

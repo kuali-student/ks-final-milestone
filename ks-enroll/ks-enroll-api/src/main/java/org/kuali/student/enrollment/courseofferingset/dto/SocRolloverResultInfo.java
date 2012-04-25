@@ -25,7 +25,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResult;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -37,12 +38,13 @@ import org.w3c.dom.Element;
     "targetTermId",
     "optionKeys",
     "itemsProcessed",
-    "itemsToBeProcessed",
+    "itemsExpected",
+    "message",
     "meta",
     "attributes",
     "_futureElements"})
 public class SocRolloverResultInfo
-        extends IdEntityInfo
+        extends IdNamelessEntityInfo
         implements SocRolloverResult {
 
     private static final long serialVersionUID = 1L;
@@ -57,7 +59,9 @@ public class SocRolloverResultInfo
     @XmlElement
     private Integer itemsProcessed;
     @XmlElement
-    private Integer itemsToBeProcessed;
+    private Integer itemsExpected;
+    @XmlElement
+    private RichTextInfo message;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -82,7 +86,10 @@ public class SocRolloverResultInfo
         this.targetTermId = orig.getTargetTermId();
         this.optionKeys = new ArrayList<String>(orig.getOptionKeys());
         this.itemsProcessed = orig.getItemsProcessed();
-        this.itemsToBeProcessed = orig.getItemsToBeProcessed();
+        this.itemsExpected = orig.getItemsExpected();
+        if (orig.getMessage() != null) {
+            this.message = new RichTextInfo (orig.getMessage());
+        }
     }
 
     @Override
@@ -134,11 +141,21 @@ public class SocRolloverResultInfo
     }
 
     @Override
-    public Integer getItemsToBeProcessed() {
-        return itemsToBeProcessed;
+    public Integer getItemsExpected() {
+        return itemsExpected;
     }
 
-    public void setItemsToBeProcessed(Integer itemsToBeProcessed) {
-        this.itemsToBeProcessed = itemsToBeProcessed;
+    public void setItemsExpected(Integer itemsExpected) {
+        this.itemsExpected = itemsExpected;
     }
+
+    @Override
+    public RichTextInfo getMessage() {
+        return message;
+    }
+
+    public void setMessage(RichTextInfo message) {
+        this.message = message;
+    }
+
 }

@@ -33,6 +33,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "SocInfo", propOrder = {"id",
     "typeKey",
     "stateKey",
+    "socRolloverResultId",
     "sourceCourseOfferingId",
     "targetCourseOfferingId",
     "message",
@@ -44,6 +45,8 @@ public class SocRolloverResultItemInfo
         implements SocRolloverResultItem {
 
     private static final long serialVersionUID = 1L;
+    @XmlElement
+    private String socRolloverResultId;
     @XmlElement
     private String sourceCourseOfferingId;
     @XmlElement
@@ -66,6 +69,7 @@ public class SocRolloverResultItemInfo
             return;
         }
 
+        this.socRolloverResultId = orig.getSocRolloverResultId();
         this.targetCourseOfferingId = orig.getTargetCourseOfferingId();
         this.sourceCourseOfferingId = orig.getSourceCourseOfferingId();
         if (orig.getMessage() != null) {
@@ -73,6 +77,15 @@ public class SocRolloverResultItemInfo
         }
     }
 
+    @Override
+    public String getSocRolloverResultId() {
+        return socRolloverResultId;
+    }
+
+    public void setSocRolloverResultId(String rolloverResultId) {
+        this.socRolloverResultId = rolloverResultId;
+    }
+    
     @Override
     public RichTextInfo getMessage() {
         return message;

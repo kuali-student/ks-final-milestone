@@ -16,7 +16,8 @@
 package org.kuali.student.enrollment.courseofferingset.infc;
 
 import java.util.List;
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * Read only object that holds the results of a rollover process
@@ -24,7 +25,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @author nwright
  */
 public interface SocRolloverResult
-        extends IdEntity {
+        extends IdNamelessEntity {
 
     /**
      * The id of the source soc
@@ -74,18 +75,27 @@ public interface SocRolloverResult
      *     
      * @name Items Processed
      * @readOnly
-     * @required
      * @impl set during the #rolloverSoc operation
      */
     public Integer getItemsProcessed();
 
     /**
-     * Number of items to be processed
+     * Number of items expected to be processed
      *     
-     * @name Items To Be Processed
+     * @name Items Expected
      * @readOnly
-     * @required
      * @impl set during the #rolloverSoc operation
      */
-    public Integer getItemsToBeProcessed();
+    public Integer getItemsExpected();
+
+    /**
+     * Messages describing details of the status.
+     * 
+     * Often left null if the status is that it is complete.
+     * 
+     * @name Message
+     * @readOnly
+     * @impl set during the #rolloverSoc operation
+     */
+    public RichText getMessage();
 }

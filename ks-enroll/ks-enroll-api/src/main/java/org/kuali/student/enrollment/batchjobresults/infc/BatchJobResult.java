@@ -19,6 +19,7 @@ import java.util.List;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * Object that holds the results of a batch job
@@ -78,15 +79,22 @@ public interface BatchJobResult
     public Integer getItemsProcessed();
 
     /**
-     * Number of items to be processed
+     * Number of items expected to be processed
      *     
-     * This can be null if the total number of items to be processed is not known
-     * 
-     * A batch job may also set it to 100 and use the two fields as a percentage progress marker.
-     * A batch job may change this amount during processing if the expected number 
-     * changes during processing.
-     * 
-     * @name Items To Be Processed
+     * @name Items Expected
+     * @readOnly
+     * @impl set during the #rolloverSoc operation
      */
-    public Integer getItemsToBeProcessed();
+    public Integer getItemsExpected();
+
+    /**
+     * Messages describing details of the status.
+     * 
+     * Often left null if the status is that it is complete.
+     * 
+     * @name Message
+     * @readOnly
+     * @impl set during the #rolloverSoc operation
+     */
+    public RichText getMessage();
 }
