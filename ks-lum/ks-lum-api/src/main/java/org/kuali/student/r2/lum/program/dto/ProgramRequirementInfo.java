@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -61,6 +62,8 @@ public class ProgramRequirementInfo extends IdNamelessEntityInfo implements Prog
     private Integer minCredits;
     @XmlElement
     private Integer maxCredits;
+    
+
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
@@ -153,10 +156,10 @@ public class ProgramRequirementInfo extends IdNamelessEntityInfo implements Prog
     public void setMaxCredits(Integer maxCredits) {
         this.maxCredits = maxCredits;
     }
-//TODO KSCM-392  Method was needed in ProgramRequirementsDataModel
+
 	public void setStatement(
 			org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo newSubRule) {
-		// TODO Auto-generated method stub
+		statement = R1R2ConverterUtil.convert(newSubRule, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class);
 		
 	}
 
