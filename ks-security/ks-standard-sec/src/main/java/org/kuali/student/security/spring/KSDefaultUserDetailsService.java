@@ -88,14 +88,14 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
     	
     	// KS Administrator
     	ArrayList<String> adminRoleIdList = new ArrayList<String>();
-     	Role adminRole = roleService.getRoleByNameAndNamespaceCode(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_ADMIN_ROLE_NAME);
+     	Role adminRole = roleService.getRoleByNamespaceCodeAndName(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_ADMIN_ROLE_NAME);
     	if(adminRole != null) {
     		adminRoleIdList.add(adminRole.getId());
     	}
 
     	// KS User
         ArrayList<String> ksUserRoleIdList = new ArrayList<String>();
-        Role ksUserRole = roleService.getRoleByNameAndNamespaceCode(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_USER_ROLE_NAME);
+        Role ksUserRole = roleService.getRoleByNamespaceCodeAndName(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_USER_ROLE_NAME);
         if(ksUserRole != null) {
         	ksUserRoleIdList.add(ksUserRole.getId());
         }            
