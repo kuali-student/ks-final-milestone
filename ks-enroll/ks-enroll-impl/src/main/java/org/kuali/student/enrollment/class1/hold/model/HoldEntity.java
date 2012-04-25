@@ -33,11 +33,11 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
 
-    @Column(name = "HOLD_TYPE")
-    private String holdType;
-
     @Column(name = "HOLD_STATE")
     private String holdState;
+
+    @Column(name = "HOLD_TYPE")
+    private String holdType;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")

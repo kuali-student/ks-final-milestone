@@ -17,6 +17,7 @@ public class HoldIssueAttributeEntity extends BaseAttributeEntity<HoldIssueEntit
     private HoldIssueEntity owner;
 
     public HoldIssueAttributeEntity() {
+
     }
     
     public HoldIssueAttributeEntity(String key, String value) {

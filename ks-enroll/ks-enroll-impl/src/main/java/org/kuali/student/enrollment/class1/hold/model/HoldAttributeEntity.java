@@ -17,6 +17,7 @@ public class HoldAttributeEntity extends BaseAttributeEntity<HoldEntity> {
     private HoldEntity owner;
 
     public HoldAttributeEntity () {
+
     }
     
     public HoldAttributeEntity(String key, String value) {

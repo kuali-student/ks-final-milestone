@@ -23,6 +23,6 @@ public class HoldTestConstants {
     public static final String TEST_KEY_2 = "key2";
     public static final String TEST_VALUE_2 = "value2";
 
-    public static final String PERSON_ID1 = "personId1";
+    public static final String PERSON_ID1 = "personId-1";
 
 }

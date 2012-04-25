@@ -225,13 +225,13 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
     public IssueInfo createIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (null == context) {
-            throw new MissingParameterException();
+            throw new MissingParameterException("Missing context parameter");
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createIssue", null)) {
             return getNextDecorator().createIssue(issueTypeKey, issueInfo, context);
         } else {
-            throw new PermissionDeniedException();
+            throw new PermissionDeniedException("Permission Denied.");
         }
     }
 

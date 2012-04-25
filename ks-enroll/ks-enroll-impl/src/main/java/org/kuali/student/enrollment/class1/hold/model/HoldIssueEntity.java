@@ -15,18 +15,6 @@
  */
 package org.kuali.student.enrollment.class1.hold.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -36,11 +24,14 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.kuali.student.r2.core.hold.infc.Issue;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * This is a description of what this class does - andy don't forget to fill this in. 
- * 
- * @author Kuali Rice Team (kuali-rice@googlegroups.com)
+ * This is a description of what this class does - andy don't forget to fill this in.
  *
+ * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
 @Entity
 @Table(name = "KSEN_HOLD_ISSUE")
@@ -52,10 +43,10 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
     @Column(name = "ORG_ID")
     private String organizationId;
 
-    @Column(name = "HOLD_ISSUE_TYPE")
+    @Column(name = "HOLD_ISSUE_TYPE", nullable = false)
     private String holdIssueType;
 
-    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
     private String descrPlain;
 
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
@@ -64,7 +55,7 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<HoldIssueAttributeEntity> attributes;
 
-    @Column(name = "HOLD_ISSUE_STATE")
+    @Column(name = "HOLD_ISSUE_STATE", nullable = false)
     private String holdIssueState;
 
     public HoldIssueEntity() {
@@ -82,8 +73,10 @@ public class HoldIssueEntity extends MetaEntity implements AttributeOwner<HoldIs
         setOrganizationId(issue.getOrganizationId());
         setHoldIssueState(issue.getStateKey());
         setHoldIssueType(issue.getTypeKey());
-        setDescrFormatted(issue.getDescr().getFormatted());
-        setDescrPlain(issue.getDescr().getPlain());
+        if (issue.getDescr() != null) {
+            setDescrFormatted(issue.getDescr().getFormatted());
+            setDescrPlain(issue.getDescr().getPlain());
+        }
         this.setAttributes(new ArrayList<HoldIssueAttributeEntity>());
         for (Attribute att : issue.getAttributes()) {
             HoldIssueAttributeEntity attEntity = new HoldIssueAttributeEntity(att);
