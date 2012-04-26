@@ -67,6 +67,12 @@ public class CourseRetireByProposalController extends CourseProposalController {
    		cfg.setState(DtoConstants.STATE_DRAFT);   		
    		cfg.setNextState(DtoConstants.STATE_RETIRED);
    		
+   		/* - Having navigation problems where the copied proposal does not come up
+   		 *   MPG pointed out this is backlogged and wouldn't really do what the user wants anyway
+   		 *   so moving on to other tasks for now. - KSCM-1775
+   		 *
+   		 *    
+   		
    		//Add an extra menu item to copy the proposal to a new proposal.
    		workflowUtil.getAdditionalItems().add(new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
 			@Override
@@ -80,6 +86,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
                 HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_RETIRE_BY_PROPOSAL", getViewContext());
 			}
 		}));
+   		*/
    		
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();

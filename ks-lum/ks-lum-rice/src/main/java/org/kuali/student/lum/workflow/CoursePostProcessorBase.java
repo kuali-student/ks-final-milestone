@@ -38,18 +38,52 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     private CourseService courseService;
     private CourseStateChangeServiceImpl courseStateChangeService;
     
+    /**
+     *    This method changes the state of the course when a Withdraw action is processed on a proposal.
+     *    For create and modify proposals, a new clu was created which needs to be cancelled via
+     *    setting it to "not approved."
+      *    
+     *    For retirement proposals, a clu is never actually created, therefore we don't update the clu at
+     *    all if it is withdrawn.
+     *       
+     *    @param actionTakenEvent - contains the docId, the action taken (code "d"), the principalId which submitted it, etc
+     *    @param proposalInfo - The proposal object being withdrawn 
+     */   
     @Override
     protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
-        LOG.info("Will set CLU state to '" + DtoConstants.STATE_NOT_APPROVED + "'");
-        CourseInfo courseInfo = getCourseService().getCourse(getCourseId(proposalInfo));
-        updateCourse(actionTakenEvent, DtoConstants.STATE_NOT_APPROVED, courseInfo, proposalInfo);
+    	
+    	if (proposalInfo != null){
+    		String proposalDocType=proposalInfo.getType();    	
+    		// The current two proposal docTypes which being withdrawn will cause a course to be 
+    		// disapproved are Create and Modify (because a new DRAFT version is created when these 
+    		// proposals are submitted.)
+    		if ( LUConstants.PROPOSAL_TYPE_COURSE_CREATE.equals(proposalDocType)
+					||  LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(proposalDocType)) {
+				LOG.info("Will set CLU state to '"
+						+ DtoConstants.STATE_NOT_APPROVED + "'");
+				// Get Clu
+				CourseInfo courseInfo = getCourseService().getCourse(
+						getCourseId(proposalInfo));
+				// Update Clu
+				updateCourse(actionTakenEvent, DtoConstants.STATE_NOT_APPROVED,
+						courseInfo, proposalInfo);
+			} 
+			// Retire proposal is the only proposal type at this time which will not require a 
+			// change to the clu if withdrawn.
+						else if ( LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(proposalDocType)) {
+				LOG.info("Withdrawing a retire proposal with ID'" + proposalInfo.getId() 
+						+ ", will not change any CLU state as there is no new CLU object to set.");
+			}
+		} else {
+    		LOG.info("Proposal Info is null when a withdraw proposal action was taken, doing nothing.");
+    	}
     }
 
     @Override
     protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTakenValue actionTaken, ProposalInfo proposalInfo) throws Exception {
         String cluId = getCourseId(proposalInfo);
         CourseInfo courseInfo = getCourseService().getCourse(cluId);
-        // blanket approve action taken comes through here.        
+        // submit, blanket approve action taken comes through here.        
         updateCourse(actionTakenEvent, null, courseInfo, proposalInfo);
         return true;
     }
@@ -93,12 +127,21 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     }
 
     /**
-     * This method copies data from the custom Retire By Proposal Fields
-     * into the courseInfo object so that upon save it will pass validation.
-     * 
-     * @param courseInfo
-     * @param proposalInfo
-     */
+	 * Normal Route will get you here, Route Statuses:
+	 * 'S' Saved 
+	 * 'R' Enroute 
+	 * 'A' Approved - After final approve, status is set to 'A'  
+	 * 'P' Processed - During this run through coursepostprocessorbase, assuming 
+	 * doctype is Retire, we end up here.  
+	 * 
+	 * In this method, the proposal object fields are copied to the cluInfo object
+	 * fields to pass validation. This method copies data from the custom Retire
+	 * By Proposal proposalInfo Object Fields into the courseInfo object so that upon save it will
+	 * pass validation.
+	 * 
+	 * @param courseInfo
+	 * @param proposalInfo
+	 */
     protected void retireCourseByProposalCopyAndSave(String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
         
     	// Copy the data to the object - 
@@ -142,11 +185,11 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     protected String getCluStateForRouteStatus(String currentCluState, String newWorkflowStatusCode, String docType) {
     	if (LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(docType)) {
     		// This is for Retire Proposal, Course State should remain active for
-    		// all other route statuses.
+    		// all other route statuses.    		
     		if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)){
     			return DtoConstants.STATE_RETIRED;
     		}	
-    		return null;
+    		return null;  // returning null indicates no change in course state required
     	} else {
             //  The following is for Create, Modify, and Admin Modify proposals.   	
 	    	if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
