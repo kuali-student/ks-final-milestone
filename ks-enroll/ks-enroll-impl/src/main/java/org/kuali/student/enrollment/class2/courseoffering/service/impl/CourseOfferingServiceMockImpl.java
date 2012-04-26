@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -176,20 +177,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         return list;
     }
 
-    @Override
-    public List<String> getCourseOfferingIdsBySoc(String socId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-
-        throw new OperationFailedException("updateCourseOfferingFromCanonical has not been implemented");
-    }
-
-    @Override
-    public List<String> getPublishedCourseOfferingIdsBySoc(String socId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        throw new OperationFailedException("updateCourseOfferingFromCanonical has not been implemented");
-    }
+    
+   
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, CourseOfferingInfo> courseOfferingMap = new LinkedHashMap<String, CourseOfferingInfo>();
@@ -414,21 +403,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         throw new OperationFailedException("getActivityOfferingTypesForActivityType has not been implemented");
     }
 
-    @Override
-    public List<ActivityOfferingInfo> getUnscheduledActivityOfferingsBySoc(String socId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-
-        throw new OperationFailedException("getActivityOfferingTypesForActivityType has not been implemented");
-    }
-
-    @Override
-    public List<ActivityOfferingInfo> getUnpublishedActivityOfferingsBySoc(String socId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-
-        throw new OperationFailedException("getActivityOfferingTypesForActivityType has not been implemented");
-    }
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, ActivityOfferingInfo> activityOfferingMap = new LinkedHashMap<String, ActivityOfferingInfo>();
@@ -764,6 +738,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         throw new OperationFailedException("searchForSeatpoolDefintionIds has not been implemented");
     }
 
+    @Override
+    public CourseOfferingDisplayInfo getCourseOfferingDisplay(String courseOfferingId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    
+    
     private MetaInfo newMeta(ContextInfo context) {
         MetaInfo meta = new MetaInfo();
         meta.setCreateId(context.getPrincipalId());
