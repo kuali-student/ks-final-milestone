@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
     <!--
-     Copyright 2007-2009 The Kuali Foundation
+     Copyright 2007-2012 The Kuali Foundation
 
      Licensed under the Educational Community License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -22,9 +22,9 @@
     <import resource="classpath:UifKSDefinitions.xml"/>
 
     <bean id="AppointmentWindowWrapper" parent="AppointmentWindowWrapper-parentBean"/>
-    <bean id="AppointmentWindowWrapper-parentBean" abstract="true" parent="DataObjectEntry">
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"/>
-        <property name="titleAttribute" value="windowName"/>
+    <bean id="AppointmentWindowWrapper-parentBean" abstract="true" parent="DataObjectEntry" 
+          p:dataObjectClass="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper" 
+          p:titleAttribute="windowName" p:objectLabel="Appointment Window and Assignment" >
         <property name="attributes">
             <list>
                 <ref bean="AppointmentWindowWrapper.id"/>
@@ -33,18 +33,13 @@
                 <ref bean="AppointmentWindowWrapper.termYear"/>
             </list>
         </property>
+        
         <property name="complexAttributes">
             <list>
                 <ref bean="AppointmentWindowWrapper.appointmentWindowInfo"/>
             </list>
         </property>
-
-        <!--<property name="collections">-->
-        <!--<list>-->
-        <!--<bean parent="CollectionDefinition" p:name="holidays" /> &lt;!&ndash;p:label="Terms" p:shortLabel="Terms" p:elementLabel="Terms" />&ndash;&gt;-->
-        <!--</list>-->
-        <!--</property>-->
-        <property name="objectLabel" value="Appointment Window and Assignment"/>
+        
         <property name="primaryKeys">
             <list>
                 <value>id</value>
@@ -54,20 +49,16 @@
 
 
     <!-- Attribute Definitions -->
-    <bean id="AppointmentWindowWrapper.id" parent="AppointmentWindowInfo.id">
-        <property name="name" value="id"/>
-        <property name="label" value="ID" />
-    </bean>
+    <bean id="AppointmentWindowWrapper.id" parent="AppointmentWindowInfo.id" p:name="id" p:label="ID"/>
 
-    <bean id="AppointmentWindowWrapper.windowName" parent="AppointmentWindowInfo.name">
-        <property name="name" value="windowName"/>
-        <property name="label" value="Window" />
-    </bean>
+    <bean id="AppointmentWindowWrapper.windowName" parent="AppointmentWindowInfo.name"
+        p:name="windowName"
+        p:label="Window"/>
 
-    <bean id="AppointmentWindowWrapper.termType" parent="BaseKuali.id">
-        <property name="name" value="termType"/>
-        <property name="label" value="Term" />
-        <property name="required" value="true"/>
+    <bean id="AppointmentWindowWrapper.termType" parent="BaseKuali.id"
+        p:name="termType"
+        p:label="Term"
+        p:required="true">
         <property name="controlField">
             <bean parent="Uif-DropdownControl"/>
         </property>
@@ -76,10 +67,10 @@
         </property>
     </bean>
 
-    <bean id="AppointmentWindowWrapper.termYear" parent="BaseKuali.string">
-        <property name="name" value="termYear"/>
-        <property name="label" value="Year" />
-        <property name="required" value="false"/>
+    <bean id="AppointmentWindowWrapper.termYear" parent="BaseKuali.string"
+        p:name="termYear"
+        p:label="Year"
+        p:required="false">
         <property name="validCharactersConstraint">
             <bean parent="NumericPatternConstraint" p:allowWhitespace="false"/>
         </property>
@@ -89,20 +80,17 @@
     </bean>
 
 
-    <bean id="AppointmentWindowWrapper.appointmentWindowInfo" parent="ComplexAttributeDefinition">
-        <property name="name" value="appointmentWindowInfo"/>
-        <property name="dataObjectEntry" ref="AppointmentWindowInfo"/>
-    </bean>
+    <bean id="AppointmentWindowWrapper.appointmentWindowInfo" parent="ComplexAttributeDefinition"
+        p:name="appointmentWindowInfo" p:dataObjectEntry-ref="AppointmentWindowInfo"/>
 
     <!-- LookupView -->
-    <bean id="KS-AppointmentWindowWrapper-LookupView" parent="KSLookupView">
-        <property name="title" value="Appointment Window (with Assignments) Lookup " />
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper" />
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl" />
+    <bean id="KS-AppointmentWindowWrapper-LookupView" parent="KSLookupView"
+        p:title="Appointment Window (with Assignments) Lookup"
+        p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
+        p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl">
 
         <property name="criteriaFields">
             <list>
-                <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="holidayCalendarInfo.name"/>-->
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="termType"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="termYear" />
             </list>
@@ -118,10 +106,10 @@
     </bean>
 
     <!-- InquiryView -->
-    <bean id="KS-AppointmentWindowWrapper-InquiryView" parent="KSInquiryView">
-        <property name="title" value="Appointment Window and Assignment Detail"/>
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperInquiryViewHelperServiceImpl" />
+    <bean id="KS-AppointmentWindowWrapper-InquiryView" parent="KSInquiryView"
+        p:title="Appointment Window and Assignment Detail"
+        p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
+        p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperInquiryViewHelperServiceImpl">
         <property name="page.header">
             <ref bean="KSHeader_Empty" />
         </property>
