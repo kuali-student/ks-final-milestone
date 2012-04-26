@@ -19,7 +19,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -159,7 +158,7 @@ public class ProgramRequirementInfo extends IdNamelessEntityInfo implements Prog
 
 	public void setStatement(
 			org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo newSubRule) {
-		statement = R1R2ConverterUtil.convert(newSubRule, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class);
+		//statement = R1R2ConverterUtil.convert(newSubRule, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class);
 		
 	}
 
