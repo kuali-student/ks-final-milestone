@@ -54,6 +54,8 @@ public class RegistrationWindowsController extends UifControllerBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RegistrationWindowsController.class);
 
+    private AppointmentViewHelperService viewHelperService;
+    
     private AcademicCalendarService acalService;
 
     private AppointmentService appointmentService;
@@ -142,23 +144,36 @@ public class RegistrationWindowsController extends UifControllerBase {
     public ModelAndView deleteLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
 
         RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
-
-        ///First save all the windows
         try{
-            getViewHelperService(theForm).saveWindows(theForm);
+            AppointmentWindowWrapper window = _getSelectedWindow(theForm, "Delete a Window");
+            if (window != null){
+                if (AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY.equals(window.getAppointmentWindowInfo().getStateKey())){
+                    //need to break Assignment first
+                    //Delete the appointment slots and appointments for this window
+                    StatusInfo status = getAppointmentService().deleteAppointmentSlotsByWindowCascading(window.getAppointmentWindowInfo().getId(), new ContextInfo());
+                    if(status.getIsSuccess()){
+                        getAppointmentService().deleteAppointmentWindowCascading(window.getId(), new ContextInfo());
+                        return super.deleteLine(uifForm, result, request, response);
+                    }else{
+                        //There was an error
+                        GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                                AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE, status.getMessage());
+                        return updateComponent(uifForm, result, request, response);
+                    }
+                }else {
+                    getAppointmentService().deleteAppointmentWindowCascading(window.getId(), new ContextInfo());
+                    return super.deleteLine(uifForm, result, request, response);
+                }
+            }else {
+                //TODO: log window == null message
+                return updateComponent(uifForm, result, request, response);
+            }
         }catch (Exception e){
-            throw new RuntimeException("Error saving Appointment Window.",e);
-        }
+            //TODO: log exception
+            return updateComponent(uifForm, result, request, response);
 
-        AppointmentWindowWrapper window = _getSelectedWindow(theForm, "Delete a Window");
-        if(window!=null&&window.getAppointmentWindowInfo().getId() != null && !theForm.getAppointmentWindowIdsToDelete().contains(window.getAppointmentWindowInfo().getId())){
-            //Add to the list of windows to delete
-            theForm.getAppointmentWindowIdsToDelete().add(window.getAppointmentWindowInfo().getId());
         }
-
-        return super.deleteLine(uifForm, result, request, response);
     }
-
 
       //should use another _getSelectedWindow method?
 //    private AppointmentWindowWrapper _getSelectedWindow(RegistrationWindowsManagementForm uifForm) {
@@ -478,11 +493,14 @@ public class RegistrationWindowsController extends UifControllerBase {
 
 
     private AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm){
-        if (appointmentForm.getView().getViewHelperServiceClassName() != null){
-            return (AppointmentViewHelperService)appointmentForm.getView().getViewHelperService();
-        }else{
-            return (AppointmentViewHelperService)appointmentForm.getPostedView().getViewHelperService();
+        if (viewHelperService == null) {
+            if (appointmentForm.getView().getViewHelperServiceClassName() != null){
+                viewHelperService = (AppointmentViewHelperService)appointmentForm.getView().getViewHelperService();
+            }else{
+                viewHelperService= (AppointmentViewHelperService)appointmentForm.getPostedView().getViewHelperService();
+            }
         }
+        return viewHelperService;
     }
     public AcademicCalendarService getAcalService() {
         if(acalService == null) {

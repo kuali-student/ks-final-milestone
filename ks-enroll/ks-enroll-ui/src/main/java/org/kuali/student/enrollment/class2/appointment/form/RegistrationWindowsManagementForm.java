@@ -20,7 +20,7 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
     private List<KeyDateInfo> periodMilestones;
     private List<AppointmentWindowWrapper> appointmentWindows;
 
-    private List<String> appointmentWindowIdsToDelete;
+//    private List<String> appointmentWindowIdsToDelete;
     boolean showAddWindows;
 
 //    private Map<String, List<AppointmentWindowInfo>> periodAndWindowsMap;
@@ -30,7 +30,7 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
         periodInfoDetails = new String();
         periodMilestones = new ArrayList<KeyDateInfo>();
         appointmentWindows = new ArrayList<AppointmentWindowWrapper>();
-        appointmentWindowIdsToDelete = new ArrayList<String>();
+//        appointmentWindowIdsToDelete = new ArrayList<String>();
         showAddWindows = false;
     }
 
@@ -98,13 +98,13 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
         this.appointmentWindows = appointmentWindows;
     }
 
-    public List<String> getAppointmentWindowIdsToDelete() {
-        return appointmentWindowIdsToDelete;
-    }
-
-    public void setAppointmentWindowIdsToDelete(List<String> appointmentWindowIdsToDelete) {
-        this.appointmentWindowIdsToDelete = appointmentWindowIdsToDelete;
-    }
+//    public List<String> getAppointmentWindowIdsToDelete() {
+//        return appointmentWindowIdsToDelete;
+//    }
+//
+//    public void setAppointmentWindowIdsToDelete(List<String> appointmentWindowIdsToDelete) {
+//        this.appointmentWindowIdsToDelete = appointmentWindowIdsToDelete;
+//    }
 
     public boolean isShowAddWindows() {
         return showAddWindows;
