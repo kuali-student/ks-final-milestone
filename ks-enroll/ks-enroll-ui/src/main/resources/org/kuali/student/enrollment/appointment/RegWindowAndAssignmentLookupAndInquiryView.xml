@@ -122,7 +122,9 @@
         <property name="title" value="Appointment Window and Assignment Detail"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"/>
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperInquiryViewHelperServiceImpl" />
-
+        <property name="page.header">
+            <ref bean="KSHeader_Empty" />
+        </property>
         <property name="Items">
             <list>
                 <bean parent="Uif-VerticalBoxSection"
