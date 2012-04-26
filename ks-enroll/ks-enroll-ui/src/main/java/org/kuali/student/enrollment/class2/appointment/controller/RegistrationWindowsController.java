@@ -69,22 +69,132 @@ public class RegistrationWindowsController extends UifControllerBase {
         return new RegistrationWindowsManagementForm();
     }
 
-    /**
-     * Method used to view the AppointmentWindowWrapper
-     */
-//    @RequestMapping(params = "methodToCall=view")
-//    public ModelAndView view(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, BindingResult result,
-//                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-//
-//        AppointmentWindowWrapper windowWrapper = getSelectedWindow(uifForm, "view");
-//        String controllerPath = "inquiry";
-//        Properties urlParameters = new Properties();
-//        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
-//        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, "org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper");
-//        urlParameters.put("id", windowWrapper.getId());
-//        return super.performRedirect(uifForm,controllerPath, urlParameters);
-//    }
+    @Override
+    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)form;
+        String termId = request.getParameter("termId");
 
+        if (StringUtils.isNotBlank(termId)){
+            try {
+                getViewHelperService(theForm).loadTermAndPeriods(termId, theForm);
+                return getUIFModelAndView(theForm);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
+        return super.start(theForm, result, request, response);
+    }
+
+    /**
+     * Method used to search term
+     */
+    @RequestMapping(params = "methodToCall=searchForTerm")
+    public ModelAndView searchForTerm(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm searchForm, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String termType = searchForm.getTermType();
+        String termYear = searchForm.getTermYear();
+
+        // resetForm(searchForm);
+        getViewHelperService(searchForm).searchForTerm(termType, termYear, searchForm);
+
+        if (GlobalVariables.getMessageMap().hasErrors()){
+            return getUIFModelAndView(searchForm, AppointmentConstants.SELECT_TERM_PAGE);
+        }
+
+        return getUIFModelAndView(searchForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
+    }
+
+    @RequestMapping(params = "methodToCall=show")
+    public ModelAndView show(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        if (!form.isShowAddWindows()){
+            form.setShowAddWindows(true);
+        }
+        String periodId = form.getPeriodId();
+        String periodInfoDetails = "";
+
+        //Clear all the windows
+        form.getAppointmentWindows().clear();
+
+        if(periodId == null || periodId.isEmpty()) {
+            form.setPeriodInfoDetails(periodInfoDetails);
+            form.setShowAddWindows(false);
+            form.getAppointmentWindows().clear();
+        }
+        else if (!periodId.isEmpty() && !periodId.equals("all")) {
+
+            //Lookup the period information
+            KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
+
+            //pull in the windows for this period
+            List<KeyDateInfo> periods = new ArrayList<KeyDateInfo>();
+            periods.add(period);
+            _loadWindowsInfoForm(periods, form);
+
+            // display the period start/end time in details and the period name in the AddLine
+            AppointmentWindowWrapper addLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
+            if (addLine == null){
+                addLine = new AppointmentWindowWrapper();
+                form.getNewCollectionLines().put("appointmentWindows", addLine);
+            }
+
+            if (period.getName() != null) {
+                periodInfoDetails = period.getName()+" Start Date: "+_getSimpleDate(period.getStartDate())+ "<br>"
+                        + period.getName()+" End Date: "+_getSimpleDate(period.getEndDate());
+                form.setPeriodName(period.getName());
+                form.setPeriodId(period.getId());
+                addLine.setPeriodName(period.getName());
+                addLine.setPeriodKey(period.getId());
+            } else {
+                periodInfoDetails = period.getId()+" Start Date: "+_getSimpleDate(period.getStartDate())+ "<br>"
+                        + period.getId()+" End Date: "+_getSimpleDate(period.getEndDate());
+                form.setPeriodName(period.getId());
+                form.setPeriodId(period.getId());
+                addLine.setPeriodName(period.getId());
+                addLine.setPeriodKey(period.getId());
+            }
+            form.setPeriodInfoDetails(periodInfoDetails);
+
+            //TODO: pull out all windows for that period and add to the collection
+        }
+        else if (periodId.equals("all")) {
+            List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
+            if(periodMilestones.isEmpty()) {
+                TermInfo term = form.getTermInfo();
+                if (term.getId() != null && !term.getId().isEmpty()) {
+                    getViewHelperService(form).loadPeriods(term.getId(), form);
+                    periodMilestones = form.getPeriodMilestones();
+                }
+            }
+            for (KeyDateInfo period : periodMilestones){
+
+                if (period.getName() != null) {
+                    periodInfoDetails = periodInfoDetails.concat(period.getName()+" Start Date: "+_getSimpleDate(period.getStartDate())+ "<br>"
+                            + period.getName()+" End Date: "+_getSimpleDate(period.getEndDate())+"<br>");
+                } else {
+                    periodInfoDetails = periodInfoDetails.concat(period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
+                            + period.getId()+" End Date: "+_getSimpleDate(period.getEndDate())+"<br>");
+                }
+            }
+            form.setPeriodInfoDetails(periodInfoDetails);
+            _loadWindowsInfoForm(periodMilestones, form);
+        }
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=save")
+    public ModelAndView save(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        //Loop through the form's appointment windows and create/update them using the appointmentService
+        getViewHelperService(form).saveWindows(form);
+
+        return getUIFModelAndView(form);
+    }
 
     @RequestMapping(params = "methodToCall=assignStudents")
     public ModelAndView assignStudents(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, BindingResult result,
@@ -175,21 +285,6 @@ public class RegistrationWindowsController extends UifControllerBase {
         }
     }
 
-      //should use another _getSelectedWindow method?
-//    private AppointmentWindowWrapper _getSelectedWindow(RegistrationWindowsManagementForm uifForm) {
-//        //Get the index of the selected line that is to be deleted
-//        int selectedLineIndex = -1;
-//        String selectedLine = uifForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-//        if (StringUtils.isNotBlank(selectedLine)) {
-//            selectedLineIndex = Integer.parseInt(selectedLine);
-//        }
-//
-//        //Add the window id to the list of ids to be deleted
-//        if(selectedLineIndex>=0){
-//            return uifForm.getAppointmentWindows().get(selectedLineIndex);
-//        }
-//        return null;
-//    }
     // this is a more generic way to get a selected window when the form contains more than one collection
     private AppointmentWindowWrapper _getSelectedWindow(RegistrationWindowsManagementForm theForm, String actionLink){
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
@@ -213,221 +308,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         return (AppointmentWindowWrapper)window;
     }
 
-    @Override
-    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
-        RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)form;
-        String termId = request.getParameter("termId");
 
-        if (StringUtils.isNotBlank(termId)){
-            try {
-                getViewHelperService(theForm).loadTermAndPeriods(termId, theForm);
-                return getUIFModelAndView(theForm);
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-
-        return super.start(theForm, result, request, response);
-    }
-
-    /**
-     * Method used to search atps
-     */
-    @RequestMapping(params = "methodToCall=searchForTerm")
-    public ModelAndView searchForTerm(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm searchForm, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String termType = searchForm.getTermType();
-        String termYear = searchForm.getTermYear();
-
-        // resetForm(searchForm);
-        getViewHelperService(searchForm).searchForTerm(termType, termYear, searchForm);
-
-        if (GlobalVariables.getMessageMap().hasErrors()){
-            return getUIFModelAndView(searchForm, AppointmentConstants.SELECT_TERM_PAGE);
-        }
-
-        return getUIFModelAndView(searchForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
-    }
-
-    @RequestMapping(params = "methodToCall=save")
-    public ModelAndView save(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        //Delete anything that needs to be deleted
-//        for(String windowId:form.getAppointmentWindowIdsToDelete()){
-//            getAppointmentService().deleteAppointmentWindowCascading(windowId, new ContextInfo());
-//        }
-//        form.getAppointmentWindowIdsToDelete().clear();
-
-        //Loop through the form's appointment windows and create/update them using the appointmentService
-        getViewHelperService(form).saveWindows(form);
-
-        return getUIFModelAndView(form);
-    }
-
-//    private void _saveWindows(RegistrationWindowsManagementForm form) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException {
-//        if(form.getAppointmentWindows()!=null){
-//
-//            for(AppointmentWindowWrapper appointmentWindowWrapper:form.getAppointmentWindows()){
-//
-//                //Copy the form data from the wrapper to the bean.
-//                AppointmentWindowInfo appointmentWindowInfo = appointmentWindowWrapper.getAppointmentWindowInfo();
-//                appointmentWindowInfo.setTypeKey(appointmentWindowWrapper.getWindowTypeKey());
-//                appointmentWindowInfo.setPeriodMilestoneId(appointmentWindowWrapper.getPeriodKey());
-//                appointmentWindowInfo.setStartDate(_updateTime(appointmentWindowWrapper.getStartDate(), appointmentWindowWrapper.getStartTime(), appointmentWindowWrapper.getStartTimeAmPm()));
-//                appointmentWindowInfo.setEndDate(_updateTime(appointmentWindowWrapper.getEndDate(), appointmentWindowWrapper.getEndTime(), appointmentWindowWrapper.getEndTimeAmPm()));
-//
-//                //TODO Default to some value if nothing is entered(Service team needs to make up some real types or make not nullable)
-//                if(appointmentWindowInfo.getAssignedOrderTypeKey() == null || appointmentWindowInfo.getAssignedOrderTypeKey().isEmpty()){
-//                    appointmentWindowInfo.setAssignedOrderTypeKey("DUMMY_ID");
-//                }
-//
-//                //Default to single slot type if nothing is entered
-//                if(appointmentWindowInfo.getTypeKey() == null || appointmentWindowInfo.getTypeKey().isEmpty()){
-//                    appointmentWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY);
-//                }
-//
-//                if(appointmentWindowInfo.getId()==null||appointmentWindowInfo.getId().isEmpty()){
-//                    appointmentWindowWrapper.setId(appointmentWindowInfo.getId());
-//                    //Default the state to active
-//                    appointmentWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
-//
-//                    //Converting appointment rule type code to AppointmentSlotRuleInfo object
-//                    if(!AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY.equals(appointmentWindowInfo.getTypeKey())) {
-//                        appointmentWindowInfo.setSlotRule(AppointmentSlotRuleTypeConversion.convToAppointmentSlotRuleInfo(appointmentWindowWrapper.getSlotRuleEnumType()));
-//                    }
-//                    //appointmentWindowInfo.getSlotRule().setWeekdays(new ArrayList<Integer>());
-//                    //appointmentWindowInfo.getSlotRule().getWeekdays().add(1);
-//
-//                    appointmentWindowInfo = getAppointmentService().createAppointmentWindow(appointmentWindowInfo.getTypeKey(),appointmentWindowInfo,new ContextInfo());
-//                }else{
-//                    appointmentWindowInfo = getAppointmentService().updateAppointmentWindow(appointmentWindowInfo.getId(),appointmentWindowInfo,new ContextInfo());
-//                }
-//
-//                //Reset the windowInfo from the service's returned value
-//                appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
-//                appointmentWindowWrapper.setId(appointmentWindowInfo.getId());
-//                appointmentWindowWrapper.setWindowName(appointmentWindowInfo.getName());
-//
-//            }
-//            //Add a success message
-//            GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-//                    AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
-//        }
-//    }
-
-    //Copied from AcademicCalendarViewHelperServiceImpl //TODO(should be moved into common util class)
-//    private Date _updateTime(Date date,String time,String amPm){
-//
-//        if(date == null || time == null || amPm == null){
-//            return null;
-//        }
-//
-//        //FIXME: Use Joda DateTime
-//
-//        // Get Calendar object set to the date and time of the given Date object
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(date);
-//
-//        // Set time fields to zero
-//        cal.set(Calendar.HOUR, Integer.parseInt(StringUtils.substringBefore(time,":")));
-//        cal.set(Calendar.MINUTE, Integer.parseInt(StringUtils.substringAfter(time,":")));
-//        cal.set(Calendar.SECOND, 0);
-//        cal.set(Calendar.MILLISECOND, 0);
-//        if (StringUtils.isNotBlank(amPm)){
-//            if (StringUtils.equalsIgnoreCase(amPm,"am")){
-//                cal.set(Calendar.AM_PM,Calendar.AM);
-//            }else if(StringUtils.equalsIgnoreCase(amPm,"pm")){
-//                cal.set(Calendar.AM_PM,Calendar.PM);
-//            }else{
-//                throw new RuntimeException("Unknown AM/PM format.");
-//            }
-//        }
-//
-//        return cal.getTime();
-//    }
-
-    @RequestMapping(params = "methodToCall=show")
-    public ModelAndView show(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        if (!form.isShowAddWindows()){
-            form.setShowAddWindows(true);
-        }
-        String periodId = form.getPeriodId();
-        String periodInfoDetails = "";
-
-        //Clear all the windows
-        form.getAppointmentWindows().clear();
-
-        if(periodId == null || periodId.isEmpty()) {
-            form.setPeriodInfoDetails(periodInfoDetails);
-            form.setShowAddWindows(false);
-            form.getAppointmentWindows().clear();
-        }
-        else if (!periodId.isEmpty() && !periodId.equals("all")) {
-
-            //Lookup the period information
-            KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
-
-            //pull in the windows for this period
-            List<KeyDateInfo> periods = new ArrayList<KeyDateInfo>();
-            periods.add(period);
-            _loadWindowsInfoForm(periods, form);
-
-            // display the period start/end time in details and the period name in the AddLine
-            AppointmentWindowWrapper addLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
-            if (addLine == null){
-                addLine = new AppointmentWindowWrapper();
-                form.getNewCollectionLines().put("appointmentWindows", addLine);
-            }
-
-            if (period.getName() != null) {
-                periodInfoDetails = period.getName()+" Start Date: "+_getSimpleDate(period.getStartDate())+ "<br>"
-                                   + period.getName()+" End Date: "+_getSimpleDate(period.getEndDate());
-                form.setPeriodName(period.getName());
-                form.setPeriodId(period.getId());
-                addLine.setPeriodName(period.getName());
-                addLine.setPeriodKey(period.getId());
-            } else {
-                periodInfoDetails = period.getId()+" Start Date: "+_getSimpleDate(period.getStartDate())+ "<br>"
-                        + period.getId()+" End Date: "+_getSimpleDate(period.getEndDate());
-                form.setPeriodName(period.getId());
-                form.setPeriodId(period.getId());
-                addLine.setPeriodName(period.getId());
-                addLine.setPeriodKey(period.getId());
-            }
-            form.setPeriodInfoDetails(periodInfoDetails);
-
-            //TODO: pull out all windows for that period and add to the collection
-        }
-        else if (periodId.equals("all")) {
-            List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
-            if(periodMilestones.isEmpty()) {
-                TermInfo term = form.getTermInfo();
-                if (term.getId() != null && !term.getId().isEmpty()) {
-                    getViewHelperService(form).loadPeriods(term.getId(), form);
-                    periodMilestones = form.getPeriodMilestones();
-                }
-            }
-            for (KeyDateInfo period : periodMilestones){
-                
-                if (period.getName() != null) {
-                    periodInfoDetails = periodInfoDetails.concat(period.getName()+" Start Date: "+_getSimpleDate(period.getStartDate())+ "<br>"
-                            + period.getName()+" End Date: "+_getSimpleDate(period.getEndDate())+"<br>");
-                } else {
-                    periodInfoDetails = periodInfoDetails.concat(period.getId()+" Start Date: "+period.getStartDate()+ "<br>"
-                            + period.getId()+" End Date: "+_getSimpleDate(period.getEndDate())+"<br>");
-                }
-            }
-            form.setPeriodInfoDetails(periodInfoDetails);
-            _loadWindowsInfoForm(periodMilestones, form);
-        }
-        return getUIFModelAndView(form);
-    }
-    
     private String _getSimpleDate(Date date) {
         if (date == null)
             return new String();
@@ -491,8 +372,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         return date;
     }
 
-
-    private AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm){
+    public AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm){
         if (viewHelperService == null) {
             if (appointmentForm.getView().getViewHelperServiceClassName() != null){
                 viewHelperService = (AppointmentViewHelperService)appointmentForm.getView().getViewHelperService();
@@ -524,8 +404,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         return populationService;
     }
 
-
-    private ContextInfo getContextInfo() {
+    public ContextInfo getContextInfo() {
         if (null == contextInfo) {
             //TODO - get real ContextInfo
             contextInfo = TestHelper.getContext1();
