@@ -30,6 +30,9 @@ public class CourseOfferingSetServiceConstants {
     public static final String SERVICE_NAME_LOCAL_PART = "socService";
     public static final String REF_OBJECT_URI_SOC = NAMESPACE + "/" + SocInfo.class.getSimpleName();
     public static final String MAIN_SOC_TYPE_KEY = "kuali.soc.type.main";
+    public static final String SUBJECT_AREA_SOC_TYPE_KEY = "kuali.soc.type.subject.area";
+    public static final String UNITS_CONTENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.content.owner";
+    public static final String UNITS_DEPLOYMENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.deployment.owner";
     public static final String ACTIVE_SOC_STATE_KEY = "kuali.soc.state.active";
     // rollover  types
     public static final String ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.result.rollover";

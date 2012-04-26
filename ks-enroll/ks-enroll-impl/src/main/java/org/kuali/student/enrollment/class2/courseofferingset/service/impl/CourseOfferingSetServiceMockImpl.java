@@ -9,15 +9,10 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -31,37 +26,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetService {
-
-    private CourseOfferingService coService;
-    private CourseService courseService;
-    private AcademicCalendarService acalService;
-
-    public CourseOfferingService getCoService() {
-        return coService;
-    }
-
-    public void setCoService(CourseOfferingService coService) {
-        this.coService = coService;
-    }
-
-    public CourseService getCourseService() {
-        return courseService;
-    }
-
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
-
-    public AcademicCalendarService getAcalService() {
-        return acalService;
-    }
-
-    public void setAcalService(AcademicCalendarService acalService) {
-        this.acalService = acalService;
-    }
 
     // implement the methods
     @Override
@@ -214,101 +180,49 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     public List<String> getCourseOfferingIdsBySoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        SocInfo soc = this.getSoc(socId, context);
-        if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-            return coService.getCourseOfferingIdsByTerm(soc.getTermId(), Boolean.TRUE, context);
-        }
-        throw new OperationFailedException(soc.getTypeKey() + " is an unsupported type for this implementation");
-//        List<String> list = new ArrayList<String>();
-//        for (CourseOfferingInfo info : courseOfferingMap.values()) {
-//            if (socId.equals(info.getSocId())) {
-//                list.add(info.getId());
-//            }
-//        }
-//        return list;
+        throw new OperationFailedException("not impemented");
     }
 
     @Override
     public Integer deleteCourseOfferingsBySoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<String> ids = this.getCourseOfferingIdsBySoc(socId, context);
-        for (String id : ids) {
-            this.coService.deleteCourseOffering(socId, context);
-        }
-        return ids.size();
+        throw new OperationFailedException("not impemented");
     }
 
     @Override
     public Boolean isCourseOfferingInSoc(String socId, String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<String> ids = this.getCourseOfferingIdsBySoc(socId, context);
-        return ids.contains(courseOfferingId);
+        throw new OperationFailedException("not impemented");
     }
 
     @Override
     public List<String> getPublishedCourseOfferingIdsBySoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<String> list = new ArrayList<String>();
-        List<String> list2 = this.getCourseOfferingIdsBySoc(socId, context);
-        for (CourseOfferingInfo info : this.coService.getCourseOfferingsByIds(list2, context)) {
-            // TODO: add the published course offering state to the constants 
-//            if (info.getStateKey().equals(CourseOfferingServiceConstants.PUBLISHED_STATE_KEY) {
-            list.add(info.getId());
-//            }
-        }
-        return list;
+        throw new OperationFailedException("not impemented");
     }
 
     @Override
     public List<String> getUnpublishedCourseOfferingIdsBySoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<String> list = new ArrayList<String>();
-        List<String> list2 = this.getCourseOfferingIdsBySoc(socId, context);
-        for (CourseOfferingInfo info : this.coService.getCourseOfferingsByIds(list2, context)) {
-            // TODO: add the published course offering state to the constants 
-//            if (info.getStateKey().equals(CourseOfferingServiceConstants.PUBLISHED_STATE_KEY) {
-            list.add(info.getId());
-//            }
-        }
-        return list;
+        throw new OperationFailedException("not impemented");
     }
 
     @Override
     public List<String> getUnpublishedActivityOfferingIdsBySoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<String> list = new ArrayList<String>();
-        List<String> list2 = this.getCourseOfferingIdsBySoc(socId, context);
-        for (String coId : list2) {
-            for (ActivityOfferingInfo ao : this.coService.getActivityOfferingsByCourseOffering(coId, context)) {
-                // TODO: add the published course offering state to the constants 
-//            if (!ao.getStateKey().equals(CourseOfferingServiceConstants.PUBLISHED_STATE_KEY) {
-                list.add(ao.getId());
-//            }
-            }
-        }
-        return list;
+        throw new OperationFailedException("not impemented");
     }
 
     @Override
     public List<String> getUnscheduledActivityOfferingIdsBySoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<String> list = new ArrayList<String>();
-        List<String> list2 = this.getCourseOfferingIdsBySoc(socId, context);
-        for (String coId : list2) {
-            for (ActivityOfferingInfo ao : this.coService.getActivityOfferingsByCourseOffering(coId, context)) {
-                // TODO: add the published course offering state to the constants 
-//            if (!ao.getStateKey().equals(CourseOfferingServiceConstants.SCHEDULED_STATE_KEY) {
-                list.add(ao.getId());
-//            }
-            }
-        }
-        return list;
+        throw new OperationFailedException("not impemented");
     }
 
     @Override
