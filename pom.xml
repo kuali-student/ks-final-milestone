@@ -124,33 +124,34 @@
     <kuali.javadoc.link.9>http://ws.apache.org/wss4j/apidocs/</kuali.javadoc.link.9>
 
     <!-- artifact versions -->
-    <aspectj.version>1.5.4</aspectj.version>
+    <aspectj.version>1.6.8</aspectj.version>
     <atomikos.version>3.4.1</atomikos.version>
-    <cxf.version>2.3.3</cxf.version>
+    <cxf.version>2.3.8</cxf.version>
     <!-- For some reason the 2.2.9 javadocs for CXF weren't published -->
     <ks.cxf.javadoc.version>2.3.3</ks.cxf.javadoc.version>
     <derby.version>10.4.2.0</derby.version>
     <eclipselink.version>1.0</eclipselink.version>
-    <ehcache.version>2.4.6</ehcache.version>
+    <ehcache.version>2.5.0</ehcache.version>
     <gwt.version>2.3.0</gwt.version>
-    <hibernate.version>3.6.7.Final</hibernate.version>
+    <hibernate.version>3.6.9.Final</hibernate.version>
     <jaxws-api.version>2.1</jaxws-api.version>
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
-    <junit.version>4.6</junit.version>
-    <kuali.rice.version>2.0.0-b1</kuali.rice.version>
-    <log4j.version>1.2.14</log4j.version>
+    <junit.version>4.10</junit.version>
+    <kuali.rice.version>2.0.0</kuali.rice.version>
+    <log4j.version>1.2.16</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
-    <spring.version>3.1.0.RC2</spring.version>
-    <spring.security.version>3.0.7.RELEASE</spring.security.version>
-    <spring.security.javadoc.version>3.0.7.RELEASE</spring.security.javadoc.version>
+    <spring.version>3.1.0.RELEASE</spring.version>
+    <spring.security.version>3.1.0.RELEASE</spring.security.version>
+    <spring.security-cas.version>3.1.0.RELEASE</spring.security-cas.version>
+    <spring.security.javadoc.version>3.1.0.RELEASE</spring.security.javadoc.version>
     <velocity.version>1.6.4</velocity.version>
     <velocity.tools.version>2.0</velocity.tools.version>
     <xalan.version>2.7.1</xalan.version>
     <xercesImpl.version>2.9.1</xercesImpl.version>
     <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
-    <mysql.connector.version>5.1.17</mysql.connector.version>
+    <mysql.connector.version>5.1.18</mysql.connector.version>
     <backport-util-concurrent.version>3.1</backport-util-concurrent.version>
     <jsr107cache.version>1.0</jsr107cache.version>
     <net.sf.jasperreports.version>4.0.1</net.sf.jasperreports.version>
@@ -168,7 +169,7 @@
 
    <!-- added by bonnie -->
     <jetty.plugin.version>7.3.1.v20110307</jetty.plugin.version>
-    <jotm.version>2.1.9</jotm.version>
+    <jotm.version>2.1.10</jotm.version>
     <jsp-2.1-glassfish.version>2.1.v20100127</jsp-2.1-glassfish.version>
     <jsp-api.version>2.1</jsp-api.version>
     <jsr311-api.version>1.1.1</jsr311-api.version>
@@ -535,12 +536,20 @@
         -->
       <dependency>
         <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-cas-client</artifactId>
-        <version>${spring.security.version}</version>
+        <artifactId>spring-security-cas</artifactId>
+        <version>${spring.security-cas.version}</version>
         <exclusions>
           <exclusion>
             <groupId>org.springframework</groupId>
             <artifactId>spring-dao</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jasig.cas</groupId>
+            <artifactId>cas-client-core</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -988,6 +997,10 @@
         <artifactId>rice-impl</artifactId>
         <version>${kuali.rice.version}</version>
         <exclusions>
+          <exclusion>
+             <groupId>org.springframework.security</groupId>
+             <artifactId>spring-security-cas-client</artifactId>
+          </exclusion>
           <exclusion>
             <groupId>org.springframework</groupId>
             <artifactId>spring-dao</artifactId>
