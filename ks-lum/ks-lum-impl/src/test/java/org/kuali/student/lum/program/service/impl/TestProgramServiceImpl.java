@@ -14,6 +14,7 @@ import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -22,7 +23,6 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
@@ -44,11 +44,15 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:program-test-context.xml"})
 public class TestProgramServiceImpl {
-	 ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+
+    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+
     @Autowired
     public ProgramService programService;
+
     @Autowired
     public StatementService statementService;
+
     private static final String OTHER_LO_CAT_ID = "550e8400-e29b-41d4-a716-446655440000";
     
     /**

@@ -78,7 +78,7 @@
                 <ref bean="cluClient"/>
                 <ref bean="lrcClient"/>
                 <ref bean="orgClient"/>
-                <!-- ref bean="enumServiceClient"/-->
+                <ref bean="enumServiceClient"/>
             </list>
         </property>
     </bean>
