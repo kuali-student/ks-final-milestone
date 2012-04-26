@@ -207,7 +207,15 @@
                     </property>
 
                     <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint" />
+                        <bean parent="BasicDatePatternConstraint" >
+                            <property name="allowedFormats">
+                                <list>
+                                    <!-- Override the allowed formats since JQuery datepicker does not allow hyphens -->
+                                    <value>MM/dd/yy</value>
+                                    <value>MM/dd/yyyy</value>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
 
