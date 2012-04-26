@@ -84,7 +84,7 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
                     AppointmentSlotInfo slot = slots.get(slots.size()-1);
                     appointmentWindowWrapper.setLastSlotPopulated(getFormattedDate(slot.getStartDate()));
 
-                    List<AppointmentInfo> appointments = appointmentService.getAppointmentsBySlot(slot.getId(),context);
+                    List<AppointmentInfo> appointments = appointmentService.getAppointmentsBySlot(slot1.getId(),context);
                     if(!appointments.isEmpty()){
                         AppointmentInfo appointment = appointments.get(appointments.size()-1);
                         appointmentWindowWrapper.setAssignmentsCreated(appointment.getMeta().getCreateTime());
