@@ -240,7 +240,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             if(isValid) {
                 try {
                     //need to persist the window that has passed the validation to DB
-                    _saveApptWindow((AppointmentWindowWrapper)addLine);
+                    saveApptWindow((AppointmentWindowWrapper)addLine);
                     //Add a success message
                     GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
                             AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
@@ -272,7 +272,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         }
     }
 
-    private void _saveApptWindow(AppointmentWindowWrapper appointmentWindowWrapper) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException{
+    public boolean saveApptWindow(AppointmentWindowWrapper appointmentWindowWrapper) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException{
+        boolean isSave = true;
         //Copy the form data from the wrapper to the bean.
         AppointmentWindowInfo appointmentWindowInfo = appointmentWindowWrapper.getAppointmentWindowInfo();
         appointmentWindowInfo.setTypeKey(appointmentWindowWrapper.getWindowTypeKey());
@@ -298,6 +299,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             if(!AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY.equals(appointmentWindowInfo.getTypeKey())) {
                 appointmentWindowInfo.setSlotRule(AppointmentSlotRuleTypeConversion.convToAppointmentSlotRuleInfo(appointmentWindowWrapper.getSlotRuleEnumType()));
             }
+            //appointmentWindowInfo.getSlotRule().setWeekdays(new ArrayList<Integer>());
+            //appointmentWindowInfo.getSlotRule().getWeekdays().add(1);
             appointmentWindowInfo = getAppointmentService().createAppointmentWindow(appointmentWindowInfo.getTypeKey(),appointmentWindowInfo,new ContextInfo());
         }else{
             appointmentWindowInfo = getAppointmentService().updateAppointmentWindow(appointmentWindowInfo.getId(),appointmentWindowInfo,new ContextInfo());
@@ -307,6 +310,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
         appointmentWindowWrapper.setId(appointmentWindowInfo.getId());
         appointmentWindowWrapper.setWindowName(appointmentWindowInfo.getName());
+
+        return isSave;
 
     }
 
@@ -341,17 +346,18 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         return cal.getTime();
     }
 
-    public void saveWindows(RegistrationWindowsManagementForm form) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException {
+    public boolean saveWindows(RegistrationWindowsManagementForm form) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException {
+        boolean isSaved = true;
         if(form.getAppointmentWindows()!=null){
 
             for(AppointmentWindowWrapper appointmentWindowWrapper:form.getAppointmentWindows()){
-                _saveApptWindow(appointmentWindowWrapper);
-
+                isSaved=saveApptWindow(appointmentWindowWrapper);
             }
             //Add a success message
             GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
                     AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
         }
+        return isSaved;
     }
 
     public AcademicCalendarService getAcalService() {
