@@ -65,14 +65,6 @@ public class AcademicTermWrapper {
 
     }
 
-//    public void copy(TermInfo termInfo){
-//        this.startDate = termInfo.getStartDate();
-//        this.endDate = termInfo.getEndDate();
-//        this.termType = termInfo.getTypeKey();
-//        this.keyDatesGroupWrappers = new ArrayList();
-//        this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
-//    }
-
     public String getName() {
         return name;
     }

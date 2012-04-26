@@ -396,13 +396,16 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
 
         boolean isValid = super.performAddLineValidation(view, collectionGroup, model, addLine);
-        AcademicCalendarForm form = (AcademicCalendarForm)model;
 
-        if (addLine instanceof HolidayCalendarWrapper){
-            for(HolidayCalendarWrapper holidayCalendarWrapper : form.getHolidayCalendarList()){
-                if (StringUtils.equals(holidayCalendarWrapper.getId(),((HolidayCalendarWrapper) addLine).getId())){
-                    GlobalVariables.getMessageMap().putError("newCollectionLines['holidayCalendarList'].id",CalendarConstants.ERROR_DUPLICATE_HCAL,holidayCalendarWrapper.getHolidayCalendarInfo().getName());
-                    return false;
+        if (model instanceof AcademicCalendarForm){
+            AcademicCalendarForm form = (AcademicCalendarForm)model;
+
+            if (addLine instanceof HolidayCalendarWrapper){
+                for(HolidayCalendarWrapper holidayCalendarWrapper : form.getHolidayCalendarList()){
+                    if (StringUtils.equals(holidayCalendarWrapper.getId(),((HolidayCalendarWrapper) addLine).getId())){
+                        GlobalVariables.getMessageMap().putError("newCollectionLines['holidayCalendarList'].id",CalendarConstants.ERROR_DUPLICATE_HCAL,holidayCalendarWrapper.getHolidayCalendarInfo().getName());
+                        return false;
+                    }
                 }
             }
         }
