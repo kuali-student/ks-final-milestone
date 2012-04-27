@@ -116,7 +116,6 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             coi.setInstructors(instructors);
             coi.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
             coi.setMaximumEnrollment(courseOfferingInfo.getMaximumEnrollment());
-            coi.setExpenditure(null);
 
             //update the CourseOfferingInfo coi in DB with instructors info
             try {

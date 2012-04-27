@@ -103,7 +103,7 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
      * @impl initalized from canonical course units deployment but then stored
      *       in lui.unitsDeployment
      */
-    public List<String> getUnitsDeployment();
+    public List<String> getUnitsDeploymentOrgIds();
 
     /**
      * Organization(s) that is responsible for the academic content of the
@@ -116,7 +116,47 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
      * @impl this is never updatable so it should just be grabbed from the
      *       canonical course and then stored in lui.unitsContentOwner
      */
-    public List<String> getUnitsContentOwner();
+    public List<String> getUnitsContentOwnerOrgIds();
 
+    /**
+     *
+     * @name Type name
+     * @readOnly on updates
+     */
+    public String getTypeName();
 
+    /**
+     *
+     * @name Units Content Owner
+     * @readOnly on updates
+     */
+    public String getStateName();
+
+    /**
+     *
+     * @name Units Content Owner
+     * @readOnly on updates
+     */
+    public String getDisplayCredit();
+
+    /**
+     *
+     * @name Units Content Owner
+     * @readOnly on updates
+     */
+    public String getTermCode();
+
+    /**
+     *
+     * @name Units Content Owner
+     * @readOnly on updates
+     */
+    public List<String> getActivtyOfferingTypes();
+
+    /**
+     *
+     * @name Units Content Owner
+     * @readOnly on updates
+     */
+    public String getTermName();
 }

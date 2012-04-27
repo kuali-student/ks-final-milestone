@@ -16,8 +16,8 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingAdminDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
-        "termId", "courseOfferingCode", "courseTitle",
-        "unitsDeployment", "unitsContentOwner",
+        "termId", "courseOfferingCode", "courseOfferingTitle",
+        "unitsContentOwnerOrgIds", "unitsDeploymentOrgIds",
         "meta", "attributes", "_futureElements"})
 public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo implements CourseOfferingAdminDisplay, Serializable {
 
@@ -27,12 +27,7 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
     @XmlElement
     private String termId;
 
-    @XmlElement
-    private String termName;
 
-
-    @XmlElement
-    private String termCode;
 
     @XmlElement
     private String courseOfferingTitle;
@@ -44,16 +39,20 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
     private String subjectArea;
 
     @XmlElement
-    private List<String> unitsDeployment;
-
-    @XmlElement
     private List<String> unitsDeploymentOrgIds;
 
-    @XmlElement
-    private List<String> unitsContentOwner;
+   @XmlElement
+    private List<String> unitsContentOwnerOrgIds;
+
 
     @XmlElement
-    private List<String> unitsContentOwnerOrgIds;
+    private String termName;
+
+
+
+
+    @XmlElement
+    private String termCode;
 
     @XmlElement
     private String displayGrading;
@@ -61,8 +60,17 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
     @XmlElement
     private String displayCredit;
 
+
     @XmlElement
     private String typeName;
+
+    public String getDisplayGrading() {
+        return displayGrading;
+    }
+
+    public void setDisplayGrading(String displayGrading) {
+        this.displayGrading = displayGrading;
+    }
 
     @XmlElement
     private String stateName;
@@ -87,8 +95,8 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
             this.courseOfferingCode = courseOfferingAdminDisplay.getCourseOfferingCode();
             this.subjectArea = courseOfferingAdminDisplay.getSubjectArea();
 
-            this.unitsDeployment = courseOfferingAdminDisplay.getUnitsDeployment();
-            this.unitsContentOwner = courseOfferingAdminDisplay.getUnitsContentOwner();
+            this.unitsDeploymentOrgIds = courseOfferingAdminDisplay.getUnitsDeploymentOrgIds();
+            this.unitsContentOwnerOrgIds = courseOfferingAdminDisplay.getUnitsContentOwnerOrgIds();
         }
     }
 
@@ -119,13 +127,13 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
 
 
     @Override
-    public List<String> getUnitsDeployment() {
-        return this.unitsDeployment;
+    public List<String> getUnitsDeploymentOrgIds() {
+        return this.unitsDeploymentOrgIds;
     }
 
     @Override
-    public List<String> getUnitsContentOwner() {
-        return this.unitsContentOwner;
+    public List<String> getUnitsContentOwnerOrgIds() {
+        return this.unitsContentOwnerOrgIds;
     }
 
 
@@ -149,12 +157,50 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
         this.subjectArea = subjectArea;
     }
 
-    public void setUnitsDeployment(List<String> unitsDeployment) {
-        this.unitsDeployment = unitsDeployment;
+
+    @Override
+    public String getTermName() {
+        return termName;
     }
 
-    public void setUnitsContentOwner(List<String> unitsContentOwner) {
-        this.unitsContentOwner = unitsContentOwner;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    @Override
+    public List<String> getActivtyOfferingTypes() {
+        return activtyOfferingTypes;
+    }
+
+    public void setActivtyOfferingTypes(List<String> activtyOfferingTypes) {
+        this.activtyOfferingTypes = activtyOfferingTypes;
+    }
+     @Override
+    public String getTermCode() {
+        return termCode;
+    }
+
+    @Override
+    public String getDisplayCredit() {
+        return displayCredit;
+    }
+
+    public void setDisplayCredit(String displayCredit) {
+        this.displayCredit = displayCredit;
+    }
+
+    @Override
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
+    }
+
+    @Override
+    public String getTypeName() {
+        return typeName;
     }
 
 }
