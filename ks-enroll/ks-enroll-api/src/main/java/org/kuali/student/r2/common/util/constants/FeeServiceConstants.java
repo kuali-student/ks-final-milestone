@@ -32,4 +32,27 @@ public class FeeServiceConstants {
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "fee";
     public static final String REF_OBJECT_URI_FEE = NAMESPACE + "/" + EnrollmentFeeInfo.class.getSimpleName();
+
+    /**
+     * Fee types. (these type keys used in CM)
+     */
+    public static final String FEE_KEY_PREFIX = "kuali.enum.type.feeTypes";
+    public static final String FEE_ENROLLMENT_TYPE_KEY = "kuali.enum.type.feeTypes.enrollmentFee";
+    public static final String FEE_LAB_TYPE_KEY = "kuali.enum.type.feeTypes.labFee";
+    public static final String FEE_MATERIAL_TYPE_KEY = "kuali.enum.type.feeTypes.materialFee";
+    public static final String FEE_STUDIO_TYPE_KEY = "kuali.enum.type.feeTypes.studioFee";
+    public static final String FEE_FIELD_TRIP_TYPE_KEY = "kuali.enum.type.feeTypes.fieldTripFee";
+    public static final String FEE_FIELD_STUDY_TYPE_KEY = "kuali.enum.type.feeTypes.fieldStudyFee";
+    public static final String FEE_ADMIN_TYPE_KEY = "kuali.enum.type.feeTypes.administrativeFee";
+    public static final String FEE_COOP_TYPE_KEY = "kuali.enum.type.feeTypes.coopFee";
+    public static final String FEE_GREENS_TYPE_KEY = "kuali.enum.type.feeTypes.greensFee";
+
+    /**
+     * States for Fees.
+     */
+    public static final String FEE_PROCESS_KEY = "kuali.fee.process.fee";
+    public static final String FEE_ACTIVE_STATE_KEY = "kuali.fee.state.active";
+    public static final String FEE_INACTIVE_STATE_KEY = "kuali.fee.state.inactive";
+    public static final String[] FEE_PROCESS_KEYS = {FEE_ACTIVE_STATE_KEY,
+                                                     FEE_INACTIVE_STATE_KEY};
 }
