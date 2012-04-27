@@ -30,7 +30,7 @@ public class ScheduleRequestEntity extends MetaEntity {
     @Column(name = "REF_OBJECT_TYPE")
     private String refObjectTypeKey;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ScheduleRequestComponentEntity> scheduleRequestComponentEntities;
 
     // IdEntity fields follow
