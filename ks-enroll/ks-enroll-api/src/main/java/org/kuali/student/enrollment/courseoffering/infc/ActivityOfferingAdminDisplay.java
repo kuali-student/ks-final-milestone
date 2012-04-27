@@ -19,7 +19,7 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
- * An adminsitrative view of the Activityoffering.
+ * An adminsitrative view of the ActivityOffering.
  *
  * @author tom
  */
@@ -152,7 +152,7 @@ public interface ActivityOfferingAdminDisplay
      * Gets a display string represnting the time and duration.
      *
      * @name Schedule Display Time
-     * @readonly
+     * @readOnly
      * @impl if unscheduled, this string is built from all of related
      *       ScheduleRequest.ScheduleComponents.TimeSlots.StartTime
      *       and ScheduleRequest.ScheduleComponents.TimeSlots.Duration
