@@ -36,5 +36,7 @@ public interface AppointmentViewHelperService extends ViewHelperService {
                     DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException;
     public boolean saveApptWindow(AppointmentWindowWrapper appointmentWindowWrapper) throws InvalidParameterException, DataValidationErrorException, MissingParameterException,
                     DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException;
+    public boolean validateApptWidnow(AppointmentWindowWrapper appointmentWindowWrapper);
+
 
 }

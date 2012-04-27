@@ -202,27 +202,29 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         ///First save selected window
         AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Assign Students");
-        boolean isSaved = getViewHelperService(uifForm).saveApptWindow(window);
+        boolean isValid = getViewHelperService(uifForm).validateApptWidnow(window);
+        if (isValid) {
+            boolean isSaved = getViewHelperService(uifForm).saveApptWindow(window);
 
-        //Now do the assignments of slots and students
-        if(window!=null && isSaved){
-            //Create the appointment slots and assign students
-            List<AppointmentSlotInfo> slots = getAppointmentService().generateAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
-            StatusInfo status = getAppointmentService().generateAppointmentsByWindow(window.getAppointmentWindowInfo().getId(), window.getAppointmentWindowInfo().getTypeKey(), new ContextInfo());
+            //Now do the assignments of slots and students
+            if(window!=null && isSaved){
+                //Create the appointment slots and assign students
+                List<AppointmentSlotInfo> slots = getAppointmentService().generateAppointmentSlotsByWindow(window.getAppointmentWindowInfo().getId(), new ContextInfo());
+                StatusInfo status = getAppointmentService().generateAppointmentsByWindow(window.getAppointmentWindowInfo().getId(), window.getAppointmentWindowInfo().getTypeKey(), new ContextInfo());
 
-            //Get feedback to the user6
-            if(status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                        AppointmentServiceConstants.APPOINTMENT_MSG_INFO_ASSIGNED,window.getAppointmentWindowInfo().getName(), status.getMessage(), String.valueOf(slots.size()));
-                //Update window state
-                window.getAppointmentWindowInfo().setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY);
-            }else{
-                //There was an error
-                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                        AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_TOO_MANY_STUDENTS, status.getMessage());
+                //Get feedback to the user6
+                if(status.getIsSuccess()){
+                    GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                            AppointmentServiceConstants.APPOINTMENT_MSG_INFO_ASSIGNED,window.getAppointmentWindowInfo().getName(), status.getMessage(), String.valueOf(slots.size()));
+                    //Update window state
+                    window.getAppointmentWindowInfo().setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY);
+                }else{
+                    //There was an error
+                    GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                            AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_TOO_MANY_STUDENTS, status.getMessage());
+                }
             }
         }
-
         return updateComponent(uifForm, result, request, response);
     }
 
