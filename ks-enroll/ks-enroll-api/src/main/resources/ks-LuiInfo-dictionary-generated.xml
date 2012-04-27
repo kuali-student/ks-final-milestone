@@ -84,7 +84,7 @@ Detailed information about a single LUI.
 			<list>
 				<ref bean="LuiInfo.alternateIdentifiers"/>
 				<ref bean="LuiInfo.luiCodes"/>
-				<ref bean="LuiInfo.fees"/>
+				<ref bean="LuiInfo.feeIds"/>
 				<ref bean="LuiInfo.revenues"/>
 				<ref bean="LuiInfo.meetingSchedules"/>
 			</list>
@@ -681,19 +681,19 @@ These are the related lui types which may be related to this lui, e.g., activty
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="LuiInfo.fees-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="fees"/>
+	<bean id="LuiInfo.feeIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="feeIds"/>
 		<property name="shortLabel" value="Fees"/>
 		<property name="summary">
 			<value>
-The fees associated with the course offering.
+The feeIds associated with the course offering.
 			</value>
 		</property>
 		<property name="label" value="Fees"/>
 		<property name="elementLabel" value="Fee"/>
 		<property name="description">
 			<value>
-The fees associated with the course offering.
+The feeIds associated with the course offering.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>

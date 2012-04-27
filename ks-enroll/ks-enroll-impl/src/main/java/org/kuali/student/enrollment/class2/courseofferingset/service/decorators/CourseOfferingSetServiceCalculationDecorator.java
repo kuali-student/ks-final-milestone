@@ -223,7 +223,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
         // units content owner
         if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.UNITS_CONTENT_OWNER_SOC_TYPE_KEY)) {
             if (co.getTermId().equals(soc.getTermId())) {
-                if (co.getUnitsContentOwner().equals(soc.getUnitsContentOwnerId())) {
+                if (co.getUnitsContentOwnerOrgIds().equals(soc.getUnitsContentOwnerId())) {
                     return true;
                 }
             }

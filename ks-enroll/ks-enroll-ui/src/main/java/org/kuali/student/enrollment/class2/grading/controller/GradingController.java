@@ -12,7 +12,6 @@ package org.kuali.student.enrollment.class2.grading.controller;
  */
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -75,7 +74,7 @@ public class GradingController extends UifControllerBase {
         resetValuesForPageChange(gradingForm);
 
         //FIXME: Just a workaround as the propertyreplacer not working
-        gradingForm.setTitle(selectedCourse.getCourseOfferingCode() + " - " + selectedCourse.getCourseTitle());
+        gradingForm.setTitle(selectedCourse.getCourseOfferingCode() + " - " + selectedCourse.getCourseOfferingTitle());
 
         List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(courseId,gradingForm);
 

@@ -20,15 +20,10 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupTemplateInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingAdminDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -44,6 +39,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
+
+import javax.jws.WebParam;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
@@ -156,7 +153,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         List<String> list = new ArrayList<String>();
         for (CourseOfferingInfo info : courseOfferingMap.values()) {
             if (termId.equals(info.getTermId())) {
-                if (info.getUnitsContentOwner().contains(unitsContentOwnerId)) {
+                if (info.getUnitsContentOwnerOrgIds().contains(unitsContentOwnerId)) {
                     list.add(info.getId());
                 }
             }
@@ -177,8 +174,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         return list;
     }
 
-    
-   
+
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, CourseOfferingInfo> courseOfferingMap = new LinkedHashMap<String, CourseOfferingInfo>();
@@ -261,7 +257,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<FormatOfferingInfo> getFormatOfferingByCourseOfferingId(String courseOfferingId, ContextInfo context)
+    public List<FormatOfferingInfo> getFormatOfferingByCourseOfferingIds(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<FormatOfferingInfo> list = new ArrayList<FormatOfferingInfo>();
@@ -272,7 +268,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         }
         return list;
     }
-    // cache variable 
+
+    // cache variable
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, FormatOfferingInfo> formatOfferingMap = new LinkedHashMap<String, FormatOfferingInfo>();
 
@@ -426,10 +423,17 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<ActivityOfferingInfo> generateActivityOfferingsForFormatOffering(String formatOfferingId, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("generateActivityOfferingsForFormatOffering has not been implemented");
+    public ActivityOfferingInfo copyActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        throw new OperationFailedException("copyActivityOffering has not been implemented");
     }
+
+    @Override
+    public List<ActivityOfferingInfo> generateActivityOfferings(String formatOfferingId, String activityOfferingType, Integer quantity, ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("generateActivityOfferings has not been implemented");
+    }
+
 
     @Override
     public ActivityOfferingInfo updateActivityOffering(String activityOfferingId, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
@@ -529,7 +533,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
         throw new OperationFailedException("getActivityOfferingTypesForActivityType has not been implemented");
     }
-    // cache variable 
+
+    // cache variable
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, RegistrationGroupInfo> registrationGroupMap = new LinkedHashMap<String, RegistrationGroupInfo>();
 
@@ -636,7 +641,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             PermissionDeniedException {
         throw new OperationFailedException("getSeatPoolDefinitionsForRegGroup has not been implemented");
     }
-    // cache variable 
+
+    // cache variable
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, SeatPoolDefinitionInfo> seatPoolDefinitionMap = new LinkedHashMap<String, SeatPoolDefinitionInfo>();
 
@@ -739,13 +745,18 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public CourseOfferingDisplayInfo getCourseOfferingDisplay(String courseOfferingId, ContextInfo context) throws DoesNotExistException,
+    public List<CourseOfferingAdminDisplayInfo> getCourseOfferingAdminDisplaysByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("searchForSeatpoolDefintionIds has not been implemented");
+    }
+
+    @Override
+    public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay(String courseOfferingId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    
-    
+
     private MetaInfo newMeta(ContextInfo context) {
         MetaInfo meta = new MetaInfo();
         meta.setCreateId(context.getPrincipalId());

@@ -120,7 +120,6 @@ public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
 
     private CourseOfferingInfo getDefaultCourseOfferingInfo() {
         CourseOfferingInfo co = new CourseOfferingInfo();
-        co.setName("test course offering");
         co.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         co.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         co.setCourseId("fake-course-id");
@@ -144,7 +143,6 @@ public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
 
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         co = this.getDefaultCourseOfferingInfo();
-        co.setExpenditure(new ExpenditureInfo ());
         context = getContext1();
         result = intstance.validate(validationType, co, context);
         for (ValidationResult vri : result) {

@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.clu.dto.FeeInfo;
@@ -39,17 +39,15 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "courseId",
-        "termId", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
-        "instructors", "subjectArea", "unitsDeployment", "unitsContentOwner",  "maximumEnrollment",
-        "minimumEnrollment", "jointOfferingIds", "creditOptions", "gradingOptionKeys",
+@XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
+        "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", "isHonorsOffering",
+        "instructors", "subjectArea", "unitsDeploymentOrgIds", "unitsContentOwnerOrgIds",  "maximumEnrollment",
+        "minimumEnrollment", "jointOfferingIds", "creditOptionIds", "gradingOptionIds",
         "hasWaitlist", "waitlistTypeKey",
-        "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", 
+        "fundingSource", "feeIds", "isFinancialAidEligible",
         "meta", "attributes", "_futureElements"})
 
-public class CourseOfferingInfo 
-    extends IdEntityInfo 
-    implements CourseOffering {
+public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseOffering {
 
     private static final long serialVersionUID = 1L;
 
@@ -60,7 +58,10 @@ public class CourseOfferingInfo
     private String termId;
 
     @XmlElement
-    private String courseTitle;
+    private String courseOfferingTitle;
+
+    @XmlElement
+    private RichTextInfo descr;
 
     @XmlElement
     private String courseOfferingCode;
@@ -75,19 +76,24 @@ public class CourseOfferingInfo
     private Boolean isHonorsOffering;
 
     @XmlElement
+    private List<String> campusLocations;
+
+    @XmlElement
     private List<OfferingInstructorInfo> instructors;
 
-    @XmlElement
-    private List<String> unitsDeployment;
+
 
     @XmlElement
-    private List<String> unitsContentOwner;
+    private List<String> unitsDeploymentOrgIds;
 
     @XmlElement
-    private ResultValuesGroupInfo creditOptions;
+    private List<String> unitsContentOwnerOrgIds;
 
     @XmlElement
-    private List<String> gradingOptionKeys;
+    private List<String> creditOptionIds;
+
+    @XmlElement
+    private List<String> gradingOptionIds;
 
     @XmlElement
     private String waitlistTypeKey;
@@ -111,13 +117,7 @@ public class CourseOfferingInfo
     private String fundingSource;
 
     @XmlElement
-    private List<FeeInfo> fees;
-
-    @XmlElement
-    private List<RevenueInfo> revenues;
-
-    @XmlElement
-    private ExpenditureInfo expenditure;
+    private List<String> feeIds;
 
     @XmlElement
     private Boolean isFinancialAidEligible;
@@ -150,7 +150,7 @@ public class CourseOfferingInfo
         this.termId = offering.getTermId();
         
 
-        this.courseTitle = offering.getCourseTitle();
+        this.courseOfferingTitle = offering.getCourseOfferingTitle();
         this.courseOfferingCode = offering.getCourseOfferingCode();
         this.courseNumberSuffix = offering.getCourseNumberSuffix();
         this.subjectArea = offering.getSubjectArea();
@@ -161,11 +161,12 @@ public class CourseOfferingInfo
             this.instructors.add(new OfferingInstructorInfo(instructor));
         }
 
-        this.unitsDeployment = offering.getUnitsDeployment();
-        this.unitsContentOwner = offering.getUnitsContentOwner();
-        this.creditOptions = new ResultValuesGroupInfo(offering.getCreditOptions());
-        this.gradingOptionKeys = (null != offering.getGradingOptionKeys()) ? new ArrayList<String>(
-                offering.getGradingOptionKeys()) : null;
+        this.unitsDeploymentOrgIds = offering.getUnitsDeploymentOrgIds();
+        this.unitsContentOwnerOrgIds = offering.getUnitsContentOwnerOrgIds();
+        this.creditOptionIds =offering.getCreditOptionIds();
+        this.gradingOptionIds = (null != offering.getGradingOptionIds()) ? new ArrayList<String>(
+                offering.getGradingOptionIds()) : null;
+        this.campusLocations = (null != offering.getCampusLocations()) ? new ArrayList<String>(offering.getCampusLocations()) : null;
 
         this.waitlistTypeKey = offering.getWaitlistTypeKey();
         this.maximumEnrollment = offering.getMaximumEnrollment();
@@ -180,12 +181,12 @@ public class CourseOfferingInfo
         this.waitlistLevelTypeKey = offering.getWaitlistLevelTypeKey();
 
         this.fundingSource = offering.getFundingSource();
-        this.fees = (null != offering.getFees()) ? new ArrayList<FeeInfo>((List<FeeInfo>) offering.getFees()) : null;
-        // TODO: Change this to r2 revenue with null check
-        this.revenues = offering.getRevenues();
-        // TODO: Change this to r2 expenditure with null;
-        this.expenditure = offering.getExpenditure();
+        this.feeIds = (null != offering.getFeeIds()) ? new ArrayList<String>(offering.getFeeIds()) : null;
+
         this.isFinancialAidEligible = offering.getIsFinancialAidEligible();
+        if (offering.getDescr() != null) {
+            this.descr = new RichTextInfo(offering.getDescr());
+        }
     }
 
     @Override
@@ -206,21 +207,21 @@ public class CourseOfferingInfo
     }
 
     @Override
-    public List<String> getUnitsDeployment() {
-        if (null == this.unitsDeployment) {
-            this.unitsDeployment = new ArrayList<String>();
+    public List<String> getUnitsDeploymentOrgIds() {
+        if (null == this.unitsDeploymentOrgIds) {
+            this.unitsDeploymentOrgIds = new ArrayList<String>();
         }
 
-        return this.unitsDeployment;
+        return this.unitsDeploymentOrgIds;
     }
 
     @Override
-    public List<String> getUnitsContentOwner() {
-        if (null == this.unitsContentOwner) {
-            this.unitsContentOwner = new ArrayList<String>();
+    public List<String> getUnitsContentOwnerOrgIds() {
+        if (null == this.unitsContentOwnerOrgIds) {
+            this.unitsContentOwnerOrgIds = new ArrayList<String>();
         }
 
-        return this.unitsContentOwner;
+        return this.unitsContentOwnerOrgIds;
     }
 
 
@@ -251,8 +252,8 @@ public class CourseOfferingInfo
     }
 
     @Override
-    public String getCourseTitle() {
-        return this.courseTitle;
+    public String getCourseOfferingTitle() {
+        return this.courseOfferingTitle;
     }
 
     @Override
@@ -275,8 +276,8 @@ public class CourseOfferingInfo
     }
 
     @Override
-    public ResultValuesGroupInfo getCreditOptions() {
-        return this.creditOptions;
+    public List<String> getCreditOptionIds() {
+        return this.creditOptionIds;
     }
 
 
@@ -293,25 +294,13 @@ public class CourseOfferingInfo
     }
 
     @Override
-    public List<FeeInfo> getFees() {
-        if (null == this.fees) {
-            this.fees = new ArrayList<FeeInfo>();
+    public List<String> getFeeIds() {
+        if (null == this.feeIds) {
+            this.feeIds = new ArrayList<String>();
         }
-        return this.fees;
+        return this.feeIds;
     }
 
-    @Override
-    public List<RevenueInfo> getRevenues() {
-        if (null == this.revenues) {
-            this.revenues = new ArrayList<RevenueInfo>();
-        }
-        return this.revenues;
-    }
-
-    @Override
-    public ExpenditureInfo getExpenditure() {
-        return this.expenditure;
-    }
 
     @Override
     public Boolean getIsFinancialAidEligible() {
@@ -319,8 +308,8 @@ public class CourseOfferingInfo
     }
 
     @Override
-    public List<String> getGradingOptionKeys() {
-        return this.gradingOptionKeys;
+    public List<String> getGradingOptionIds() {
+        return this.gradingOptionIds;
     }
 
     @Override
@@ -348,23 +337,13 @@ public class CourseOfferingInfo
     }
 
     public void setUnitsDeployment(List<String> unitsDeployment) {
-        this.unitsDeployment = unitsDeployment;
+        this.unitsDeploymentOrgIds = unitsDeployment;
     }
 
     public void setUnitsContentOwner(List<String> unitsContentOwner) {
-        this.unitsContentOwner = unitsContentOwner;
+        this.unitsContentOwnerOrgIds = unitsContentOwner;
     }
 
-
-
-    public void setWaitlistTypeKey(String waitlistTypeKey) {
-        this.waitlistTypeKey = waitlistTypeKey;
-    }
-
-
-    public void setWaitlistLevelTypeKey(String waitlistLevelTypeKey) {
-        this.waitlistLevelTypeKey = waitlistLevelTypeKey;
-    }
 
 
     public void setTermId(String termId) {
@@ -379,8 +358,8 @@ public class CourseOfferingInfo
         this.courseNumberSuffix = courseNumberSuffix;
     }
 
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
+    public void setCourseOfferingTitle(String courseOfferingTitle) {
+        this.courseOfferingTitle = courseOfferingTitle;
     }
 
     public void setMaximumEnrollment(Integer maximumEnrollment) {
@@ -395,12 +374,12 @@ public class CourseOfferingInfo
         this.jointOfferingIds = jointOfferingIds;
     }
 
-    public void setCreditOptions(ResultValuesGroupInfo creditOptions) {
-        this.creditOptions = creditOptions;
+    public void setCreditOptionIds(List<String> creditOptionIds) {
+        this.creditOptionIds = creditOptionIds;
     }
 
-    public void setGradingOptionKeys(List<String> gradingOptionKeys) {
-        this.gradingOptionKeys = gradingOptionKeys;
+    public void setGradingOptionIds(List<String> gradingOptionIds) {
+        this.gradingOptionIds = gradingOptionIds;
     }
 
 
@@ -413,19 +392,47 @@ public class CourseOfferingInfo
         this.fundingSource = fundingSource;
     }
 
-    public void setFees(List<FeeInfo> fees) {
-        this.fees = fees;
+    public void setFeeIds(List<String> feeIds) {
+        this.feeIds = feeIds;
     }
 
-    public void setRevenues(List<RevenueInfo> revenues) {
-        this.revenues = revenues;
-    }
-
-    public void setExpenditure(ExpenditureInfo expenditure) {
-        this.expenditure = expenditure;
-    }
 
     public void setIsFinancialAidEligible(Boolean isFinancialAidEligible) {
         this.isFinancialAidEligible = isFinancialAidEligible;
+    }
+
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+    @Override
+    public Boolean getHonorsOffering() {
+        return isHonorsOffering;
+    }
+
+    public void setHonorsOffering(Boolean honorsOffering) {
+        isHonorsOffering = honorsOffering;
+    }
+
+    @Override
+    public List<String> getCampusLocations() {
+        return campusLocations;
+    }
+
+    public void setCampusLocations(List<String> campusLocations) {
+        this.campusLocations = campusLocations;
+    }
+
+    @Override
+    public Boolean getFinancialAidEligible() {
+        return isFinancialAidEligible;
+    }
+
+    public void setFinancialAidEligible(Boolean financialAidEligible) {
+        isFinancialAidEligible = financialAidEligible;
     }
 }

@@ -101,8 +101,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.courseTitle" parent="CourseOfferingInfo.courseTitle-parent"/>
-	<bean id="CourseOfferingInfo.courseTitle-parent" abstract="true" parent="CourseOfferingInfo.courseTitle-generated">
+	<bean id="CourseOfferingInfo.courseOfferingTitle" parent="CourseOfferingInfo.courseOfferingTitle-parent"/>
+	<bean id="CourseOfferingInfo.courseOfferingTitle-parent" abstract="true" parent="CourseOfferingInfo.courseOfferingTitle-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -151,118 +151,118 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions" parent="CourseOfferingInfo.creditOptions-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions-parent" abstract="true" parent="CourseOfferingInfo.creditOptions-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds" parent="CourseOfferingInfo.creditOptionIds-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.key" parent="CourseOfferingInfo.creditOptions.key-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.key-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.key-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.key" parent="CourseOfferingInfo.creditOptionIds.key-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.key-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.key-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.typeKey" parent="CourseOfferingInfo.creditOptions.typeKey-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.typeKey-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.typeKey-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.typeKey" parent="CourseOfferingInfo.creditOptionIds.typeKey-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.typeKey-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.typeKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.stateKey" parent="CourseOfferingInfo.creditOptions.stateKey-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.stateKey-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.stateKey-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.stateKey" parent="CourseOfferingInfo.creditOptionIds.stateKey-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.stateKey-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.stateKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.name" parent="CourseOfferingInfo.creditOptions.name-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.name-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.name-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.name" parent="CourseOfferingInfo.creditOptionIds.name-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.name-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.name-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.descr" parent="CourseOfferingInfo.creditOptions.descr-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.descr-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.descr-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.descr" parent="CourseOfferingInfo.creditOptionIds.descr-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.descr-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.descr-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.descr.plain" parent="CourseOfferingInfo.creditOptions.descr.plain-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.descr.plain-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.descr.plain-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.descr.plain" parent="CourseOfferingInfo.creditOptionIds.descr.plain-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.descr.plain-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.descr.plain-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.descr.formatted" parent="CourseOfferingInfo.creditOptions.descr.formatted-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.descr.formatted-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.descr.formatted-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.descr.formatted" parent="CourseOfferingInfo.creditOptionIds.descr.formatted-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.descr.formatted-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.descr.formatted-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultScaleKey" parent="CourseOfferingInfo.creditOptions.resultScaleKey-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.resultScaleKey-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.resultScaleKey-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultScaleKey" parent="CourseOfferingInfo.creditOptionIds.resultScaleKey-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.resultScaleKey-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.resultScaleKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueKeys" parent="CourseOfferingInfo.creditOptions.resultValueKeys-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.resultValueKeys-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.resultValueKeys-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueKeys" parent="CourseOfferingInfo.creditOptionIds.resultValueKeys-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueKeys-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.resultValueKeys-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange" parent="CourseOfferingInfo.creditOptions.resultValueRange-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.resultValueRange-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange" parent="CourseOfferingInfo.creditOptionIds.resultValueRange-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.resultValueRange-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.minValue" parent="CourseOfferingInfo.creditOptions.resultValueRange.minValue-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.minValue-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.resultValueRange.minValue-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange.minValue" parent="CourseOfferingInfo.creditOptionIds.resultValueRange.minValue-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange.minValue-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.resultValueRange.minValue-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.maxValue" parent="CourseOfferingInfo.creditOptions.resultValueRange.maxValue-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.maxValue-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.resultValueRange.maxValue-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange.maxValue" parent="CourseOfferingInfo.creditOptionIds.resultValueRange.maxValue-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange.maxValue-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.resultValueRange.maxValue-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.increment" parent="CourseOfferingInfo.creditOptions.resultValueRange.increment-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.increment-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.resultValueRange.increment-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange.increment" parent="CourseOfferingInfo.creditOptionIds.resultValueRange.increment-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange.increment-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.resultValueRange.increment-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.effectiveDate" parent="CourseOfferingInfo.creditOptions.effectiveDate-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.effectiveDate-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.effectiveDate-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.effectiveDate" parent="CourseOfferingInfo.creditOptionIds.effectiveDate-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.effectiveDate-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.effectiveDate-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.expirationDate" parent="CourseOfferingInfo.creditOptions.expirationDate-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.expirationDate-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.expirationDate-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.expirationDate" parent="CourseOfferingInfo.creditOptionIds.expirationDate-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.expirationDate-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.expirationDate-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta" parent="CourseOfferingInfo.creditOptions.meta-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.meta-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.meta-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta" parent="CourseOfferingInfo.creditOptionIds.meta-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.meta-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.meta-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.versionInd" parent="CourseOfferingInfo.creditOptions.meta.versionInd-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.meta.versionInd-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.meta.versionInd-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.versionInd" parent="CourseOfferingInfo.creditOptionIds.meta.versionInd-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.versionInd-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.meta.versionInd-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.createTime" parent="CourseOfferingInfo.creditOptions.meta.createTime-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.meta.createTime-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.meta.createTime-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.createTime" parent="CourseOfferingInfo.creditOptionIds.meta.createTime-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.createTime-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.meta.createTime-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.createId" parent="CourseOfferingInfo.creditOptions.meta.createId-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.meta.createId-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.meta.createId-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.createId" parent="CourseOfferingInfo.creditOptionIds.meta.createId-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.createId-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.meta.createId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.updateTime" parent="CourseOfferingInfo.creditOptions.meta.updateTime-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.meta.updateTime-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.meta.updateTime-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.updateTime" parent="CourseOfferingInfo.creditOptionIds.meta.updateTime-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.updateTime-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.meta.updateTime-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.updateId" parent="CourseOfferingInfo.creditOptions.meta.updateId-parent"/>
-	<bean id="CourseOfferingInfo.creditOptions.meta.updateId-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.meta.updateId-generated">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.updateId" parent="CourseOfferingInfo.creditOptionIds.meta.updateId-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.updateId-parent" abstract="true" parent="CourseOfferingInfo.creditOptionIds.meta.updateId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.gradingOptionKeys" parent="CourseOfferingInfo.gradingOptionKeys-parent"/>
-	<bean id="CourseOfferingInfo.gradingOptionKeys-parent" abstract="true" parent="CourseOfferingInfo.gradingOptionKeys-generated">
+	<bean id="CourseOfferingInfo.gradingOptionIds" parent="CourseOfferingInfo.gradingOptionIds-parent"/>
+	<bean id="CourseOfferingInfo.gradingOptionIds-parent" abstract="true" parent="CourseOfferingInfo.gradingOptionIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -311,8 +311,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.fees" parent="CourseOfferingInfo.fees-parent"/>
-	<bean id="CourseOfferingInfo.fees-parent" abstract="true" parent="CourseOfferingInfo.fees-generated">
+	<bean id="CourseOfferingInfo.feeIds" parent="CourseOfferingInfo.feeIds-parent"/>
+	<bean id="CourseOfferingInfo.feeIds-parent" abstract="true" parent="CourseOfferingInfo.feeIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

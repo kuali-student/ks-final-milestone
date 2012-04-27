@@ -191,8 +191,8 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<FormatOfferingInfo> getFormatOfferingByCourseOfferingId(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getFormatOfferingByCourseOfferingId(courseOfferingId, context);
+    public List<FormatOfferingInfo> getFormatOfferingByCourseOfferingIds(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getFormatOfferingByCourseOfferingIds(courseOfferingId, context);
     }
 
     @Override
@@ -246,8 +246,13 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public CourseOfferingDisplayInfo getCourseOfferingDisplay( String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getCourseOfferingDisplay(courseOfferingId, context) ;
+    public List<CourseOfferingAdminDisplayInfo> getCourseOfferingAdminDisplaysByIds(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getCourseOfferingAdminDisplay(courseOfferingId, context) ;
     }
 
     @Override
@@ -295,10 +300,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return nextDecorator.generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
     }
 
-    @Override
-    public List<ActivityOfferingInfo> generateActivityOfferingsForFormatOffering(String formatOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.generateActivityOfferingsForFormatOffering(formatOfferingId, context);
-    }
+
 
     @Override
     public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -357,6 +359,16 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     ActivityOfferingInfo activityOfferingInfo, ContextInfo context) 
         throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return nextDecorator.createActivityOffering(formatOfferingId, activityId, activityOfferingTypeKey, activityOfferingInfo, context);
+    }
+
+    @Override
+    public ActivityOfferingInfo copyActivityOffering( String activityOfferingId,ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.copyActivityOffering(activityOfferingId, context);
+    }
+
+    @Override
+    public List<ActivityOfferingInfo> generateActivityOfferings(String formatOfferingId, String activityOfferingType,  Integer quantity, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.generateActivityOfferings(formatOfferingId,activityOfferingType , quantity, context)     ;
     }
 
     @Override

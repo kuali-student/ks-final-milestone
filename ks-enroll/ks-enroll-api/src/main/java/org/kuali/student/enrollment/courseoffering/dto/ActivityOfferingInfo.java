@@ -47,7 +47,7 @@ import org.w3c.dom.Element;
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingInfo 
-    extends IdEntityInfo 
+    extends IdEntityInfo
     implements ActivityOffering {
 
     private static final long serialVersionUID = 1L;
@@ -96,10 +96,14 @@ public class ActivityOfferingInfo
     
     @XmlElement
     private Date finalExamEndTime;
-    
+
     @XmlElement
     private String finalExamSpaceCode;
 
+
+
+    @XmlElement
+    private Boolean evaluationFlag;
 
 
     @XmlAnyElement
@@ -157,7 +161,7 @@ public class ActivityOfferingInfo
         }
 
         this.finalExamSpaceCode = offering.getFinalExamSpaceCode();
-
+        this.evaluationFlag = offering.getEvaluationFlag();
     }
 
     @Override
@@ -282,6 +286,11 @@ public class ActivityOfferingInfo
         return minimumEnrollment;
     }
 
+    @Override
+    public Boolean getEvaluationFlag() {
+        return this.evaluationFlag;
+    }
+
     public void setMinimumEnrollment(Integer minimumEnrollment) {
         this.minimumEnrollment = minimumEnrollment;
     }
@@ -311,5 +320,13 @@ public class ActivityOfferingInfo
 
     public void setFinalExamSpaceCode(String finalExamSpaceCode) {
         this.finalExamSpaceCode = finalExamSpaceCode;
+    }
+
+    public void setHonorsOffering(Boolean honorsOffering) {
+        isHonorsOffering = honorsOffering;
+    }
+
+    public void setEvaluationFlag(Boolean evaluationFlag) {
+        this.evaluationFlag = evaluationFlag;
     }
 }

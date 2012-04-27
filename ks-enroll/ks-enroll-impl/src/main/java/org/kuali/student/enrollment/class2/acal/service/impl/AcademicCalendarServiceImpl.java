@@ -521,7 +521,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         List<AtpInfo> results = atpService.getAtpsByIds(termIds, context);
 
-        List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
+        List<TermInfo> terms = new ArrayList<TermInfo>();
 
         for (AtpInfo atp : results) {
             try {

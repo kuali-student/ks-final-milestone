@@ -1,11 +1,12 @@
 package org.kuali.student.enrollment.courseoffering.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 import java.util.List;
 
 
-public interface CourseOfferingDisplay extends IdEntity {
+public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
 
     /**
      * A unique identifier assigned to all approved courses that exist
@@ -83,7 +84,7 @@ public interface CourseOfferingDisplay extends IdEntity {
      * @impl initially copied from the canonical course but then stored in the
      *       Lui as lui.officialIdentifier.longName
      */
-    public String getCourseTitle();
+    public String getCourseOfferingTitle();
 
 
 

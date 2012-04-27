@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.junit.Ignore;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -9,7 +10,7 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.class1.lui.service.impl.LuiTestDataLoader;
+
 import javax.annotation.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.junit.Before;
@@ -29,7 +30,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -97,7 +97,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setTermId("testAtpId1");
         orig.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
-        orig.setName("my name");
+        orig.setCourseOfferingTitle("my name");
         CourseOfferingInfo info = courseOfferingService.createCourseOffering(orig.getCourseId(), orig.getTermId(), orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -105,10 +105,8 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getTypeKey(), info.getTypeKey());
-        assertEquals(orig.getName(), info.getName());
         assertEquals(course.getSubjectArea(), info.getSubjectArea());
         assertEquals(course.getCourseNumberSuffix(), info.getCourseNumberSuffix());
-        assertEquals(course.getCourseTitle(), info.getCourseTitle());
         assertEquals(course.getSubjectArea(), info.getSubjectArea());
         assertEquals(course.getCode(), info.getCourseOfferingCode());
         if (course.getDescr() != null) {
@@ -116,12 +114,12 @@ public class TestCourseOfferingServiceImplWithMocks {
             assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getFormatted(), info.getDescr().getFormatted());
         }
         // TODO: test for these things 
-//        assertEquals(course.getUnitsContentOwner(), info.getUnitsContentOwner());
-//        assertEquals(course.getUnitsDeployment(), info.getUnitsDeployment());
-//        assertEquals(course.getGradingOptions(), info.getGradingOptionKeys());
-//        assertEquals(course.getCreditOptions(), info.getCreditOptions());
+//        assertEquals(course.getUnitsContentOwnerOrgIds(), info.getUnitsContentOwnerOrgIds());
+//        assertEquals(course.getUnitsDeploymentOrgIds(), info.getUnitsDeploymentOrgIds());
+//        assertEquals(course.getGradingOptions(), info.getGradingOptionIds());
+//        assertEquals(course.getCreditOptionIds(), info.getCreditOptionIds());
 //        assertEquals(new R1ToR2CopyHelper().copyCourseExpenditure(course.getExpenditure()), info.getExpenditure());
-//        assertEquals(new R1ToR2CopyHelper().copyCourseFeeList(course.getFees()), info.getFees());
+//        assertEquals(new R1ToR2CopyHelper().copyCourseFeeList(course.getFeeIds()), info.getFeeIds());
 //        assertEquals(new R1ToR2CopyHelper().copyInstructors(course.getInstructors()), info.getInstructors());
 
 

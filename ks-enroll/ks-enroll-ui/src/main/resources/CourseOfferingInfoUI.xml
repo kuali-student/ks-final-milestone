@@ -37,7 +37,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="CourseOfferingInfo.typeKey"/>
                 <ref bean="CourseOfferingInfo.stateKey"/>
                 <ref bean="CourseOfferingInfo.courseNumberSuffix"/>
-                <ref bean="CourseOfferingInfo.courseTitle"/>
+                <ref bean="CourseOfferingInfo.courseOfferingTitle"/>
                 <ref bean="CourseOfferingInfo.isHonorsOffering"/>
                 <ref bean="CourseOfferingInfo.hasFinalExam"/>
                 <ref bean="CourseOfferingInfo.minimumEnrollment"/>
@@ -53,7 +53,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="complexAttributes">
             <list>
                 <ref bean="CourseOfferingInfo.descr"/>
-                <ref bean="CourseOfferingInfo.creditOptions"/> 
+                <ref bean="CourseOfferingInfo.creditOptionIds"/>
                 <ref bean="CourseOfferingInfo.expenditure"/>
                 <ref bean="CourseOfferingInfo.waitlistCheckinFrequency"/>                
                 <ref bean="CourseOfferingInfo.meta"/>                

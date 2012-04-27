@@ -65,7 +65,7 @@ plus any of its dependencies -->
 				<ref bean="CourseOfferingInfo.termId"/>
 				<ref bean="CourseOfferingInfo.courseOfferingCode"/>
 				<ref bean="CourseOfferingInfo.courseNumberSuffix"/>
-				<ref bean="CourseOfferingInfo.courseTitle"/>
+				<ref bean="CourseOfferingInfo.courseOfferingTitle"/>
 				<ref bean="CourseOfferingInfo.isHonorsOffering"/>
 				<ref bean="CourseOfferingInfo.subjectArea"/>
 				<ref bean="CourseOfferingInfo.hasFinalExam"/>
@@ -84,7 +84,7 @@ plus any of its dependencies -->
 		<property name="complexAttributes">
 			<list>
 				<ref bean="CourseOfferingInfo.descr"/>
-				<ref bean="CourseOfferingInfo.creditOptions"/>
+				<ref bean="CourseOfferingInfo.creditOptionIds"/>
 				<ref bean="CourseOfferingInfo.waitlistCheckinFrequency"/>
 				<ref bean="CourseOfferingInfo.expenditure"/>
 				<ref bean="CourseOfferingInfo.meta"/>
@@ -94,7 +94,7 @@ plus any of its dependencies -->
 		<property name="collections">
 			<list>
 				<ref bean="CourseOfferingInfo.instructors"/>
-				<ref bean="CourseOfferingInfo.fees"/>
+				<ref bean="CourseOfferingInfo.feeIds"/>
 				<ref bean="CourseOfferingInfo.revenues"/>
 			</list>
 		</property>
@@ -267,8 +267,8 @@ in the calculation of the courseCode.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.courseTitle-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="courseTitle"/>
+	<bean id="CourseOfferingInfo.courseOfferingTitle-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseOfferingTitle"/>
 		<property name="shortLabel" value="Course Title"/>
 		<property name="summary">
 			<value>
@@ -485,8 +485,8 @@ offering is joint-listed
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions-generated" abstract="true" parent="ComplexAttributeDefinition">
-		<property name="name" value="creditOptions"/>
+	<bean id="CourseOfferingInfo.creditOptionIds-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="creditOptionIds"/>
 		<property name="shortLabel" value="Credit Options"/>
 		<property name="summary">
 			<value>
@@ -507,7 +507,7 @@ even a discrete list of possible credit values.
 		<property name="required" value="false"/>
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
-				<property name="name" value="creditOptions"/>
+				<property name="name" value="creditOptionIds"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo"/>
 				<property name="objectLabel" value="Credit Options"/>
 				<property name="objectDescription">
@@ -523,21 +523,21 @@ even a discrete list of possible credit values.
 
 				<property name="attributes">
 					<list>
-						<ref bean="CourseOfferingInfo.creditOptions.key"/>
-						<ref bean="CourseOfferingInfo.creditOptions.typeKey"/>
-						<ref bean="CourseOfferingInfo.creditOptions.stateKey"/>
-						<ref bean="CourseOfferingInfo.creditOptions.name"/>
-						<ref bean="CourseOfferingInfo.creditOptions.resultScaleKey"/>
-						<ref bean="CourseOfferingInfo.creditOptions.effectiveDate"/>
-						<ref bean="CourseOfferingInfo.creditOptions.expirationDate"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.key"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.typeKey"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.stateKey"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.name"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.resultScaleKey"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.effectiveDate"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.expirationDate"/>
 					</list>
 				</property>
 
 				<property name="complexAttributes">
 					<list>
-						<ref bean="CourseOfferingInfo.creditOptions.descr"/>
-						<ref bean="CourseOfferingInfo.creditOptions.resultValueRange"/>
-						<ref bean="CourseOfferingInfo.creditOptions.meta"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.descr"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.resultValueRange"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.meta"/>
 					</list>
 				</property>
 
@@ -549,23 +549,23 @@ even a discrete list of possible credit values.
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.key-generated" abstract="true" parent="BaseKuali.key">
+	<bean id="CourseOfferingInfo.creditOptionIds.key-generated" abstract="true" parent="BaseKuali.key">
 		<property name="name" value="key"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="CourseOfferingInfo.creditOptionIds.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="CourseOfferingInfo.creditOptionIds.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.name-generated" abstract="true" parent="BaseKuali.name">
+	<bean id="CourseOfferingInfo.creditOptionIds.name-generated" abstract="true" parent="BaseKuali.name">
 		<property name="name" value="name"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="CourseOfferingInfo.creditOptionIds.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="descr"/>
 		<property name="shortLabel" value="Descr"/>
 		<property name="summary">
@@ -593,8 +593,8 @@ A description of the entity.
 
 				<property name="attributes">
 					<list>
-						<ref bean="CourseOfferingInfo.creditOptions.descr.plain"/>
-						<ref bean="CourseOfferingInfo.creditOptions.descr.formatted"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.descr.plain"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.descr.formatted"/>
 					</list>
 				</property>
 
@@ -611,15 +611,15 @@ A description of the entity.
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+	<bean id="CourseOfferingInfo.creditOptionIds.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
 		<property name="name" value="plain"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+	<bean id="CourseOfferingInfo.creditOptionIds.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultScaleKey-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultScaleKey-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="resultScaleKey"/>
 		<property name="shortLabel" value="Result Scale Key"/>
 		<property name="summary">
@@ -637,7 +637,7 @@ a Result Values Group belong to a single Result Scale.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueKeys-generated" abstract="true" parent="CollectionDefinition">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueKeys-generated" abstract="true" parent="CollectionDefinition">
 		<property name="name" value="resultValueKeys"/>
 		<property name="shortLabel" value="Result Value Keys"/>
 		<property name="summary">
@@ -656,7 +656,7 @@ Contains the list of discrete results value keys in this group.
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="resultValueRange"/>
 		<property name="shortLabel" value="Result Value Range"/>
 		<property name="summary">
@@ -686,9 +686,9 @@ optional and might not be present for some Result Components
 
 				<property name="attributes">
 					<list>
-						<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.minValue"/>
-						<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.maxValue"/>
-						<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.increment"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.resultValueRange.minValue"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.resultValueRange.maxValue"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.resultValueRange.increment"/>
 					</list>
 				</property>
 
@@ -705,7 +705,7 @@ optional and might not be present for some Result Components
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.minValue-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange.minValue-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="minValue"/>
 		<property name="shortLabel" value="Min Value"/>
 		<property name="summary">
@@ -725,7 +725,7 @@ be numbers and not Strings in the value range?
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.maxValue-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange.maxValue-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="maxValue"/>
 		<property name="shortLabel" value="Max Value"/>
 		<property name="summary">
@@ -745,7 +745,7 @@ unbounded upper end.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.increment-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.creditOptionIds.resultValueRange.increment-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="increment"/>
 		<property name="shortLabel" value="Increment"/>
 		<property name="summary">
@@ -763,15 +763,15 @@ has to be a decimal e.g 0.5)
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+	<bean id="CourseOfferingInfo.creditOptionIds.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
 		<property name="name" value="effectiveDate"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+	<bean id="CourseOfferingInfo.creditOptionIds.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
 		<property name="name" value="expirationDate"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -817,11 +817,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="CourseOfferingInfo.creditOptions.meta.versionInd"/>
-						<ref bean="CourseOfferingInfo.creditOptions.meta.createTime"/>
-						<ref bean="CourseOfferingInfo.creditOptions.meta.createId"/>
-						<ref bean="CourseOfferingInfo.creditOptions.meta.updateTime"/>
-						<ref bean="CourseOfferingInfo.creditOptions.meta.updateId"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.meta.versionInd"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.meta.createTime"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.meta.createId"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.meta.updateTime"/>
+						<ref bean="CourseOfferingInfo.creditOptionIds.meta.updateId"/>
 					</list>
 				</property>
 
@@ -838,28 +838,28 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="CourseOfferingInfo.creditOptionIds.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.gradingOptionKeys-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="gradingOptionKeys"/>
+	<bean id="CourseOfferingInfo.gradingOptionIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="gradingOptionIds"/>
 		<property name="shortLabel" value="Grading Option Keys"/>
 		<property name="summary">
 			<value>
@@ -1085,8 +1085,8 @@ The primary source of funding for the offering.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.fees-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="fees"/>
+	<bean id="CourseOfferingInfo.feeIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="feeIds"/>
 		<property name="shortLabel" value="Fees"/>
 		<property name="summary">
 			<value>
@@ -1111,7 +1111,7 @@ updatable.
 		<property name="shortLabel" value="Revenues"/>
 		<property name="summary">
 			<value>
-Organization(s) that receives the revenue from fees associated with the
+Organization(s) that receives the revenue from feeIds associated with the
 course offering Initially copied from the course catalog but then,
 depending on the configuration it may be updatable.
 			</value>
@@ -1120,7 +1120,7 @@ depending on the configuration it may be updatable.
 		<property name="elementLabel" value="Revenue"/>
 		<property name="description">
 			<value>
-Organization(s) that receives the revenue from fees associated with the
+Organization(s) that receives the revenue from feeIds associated with the
 course offering Initially copied from the course catalog but then,
 depending on the configuration it may be updatable.
 			</value>

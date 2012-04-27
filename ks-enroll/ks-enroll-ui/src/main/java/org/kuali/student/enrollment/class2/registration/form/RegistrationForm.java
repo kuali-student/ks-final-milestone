@@ -125,7 +125,7 @@ public class RegistrationForm extends UifFormBase {
                         for (MeetingScheduleInfo info : list) {
                             MeetingScheduleWrapper meetingScheduleWrapper = new MeetingScheduleWrapper(info);
                             meetingScheduleWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
-                            meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
+                            meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
                             meetingScheduleWrapper.setItemId(regGroupRegistrationInfo.getId());
                             // TODO - convert type key to actual activity type
                             String key = activityOfferingInfo.getTypeKey();

@@ -96,9 +96,7 @@ public class LuiServiceImpl
 
 
         for (LuiEntity luiEntity : entityList) {
-            if(luiEntity==null){
-                throw new DoesNotExistException("One of the  LUIs not found ");
-            }
+
             infoList.add(luiEntity.toDto());
         }
 

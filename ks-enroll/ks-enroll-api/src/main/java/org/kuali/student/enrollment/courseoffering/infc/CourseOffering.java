@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
@@ -30,8 +31,7 @@ import org.kuali.student.r2.lum.clu.infc.Fee;
  * @author Kamal
  */
 
-public interface CourseOffering 
-    extends IdEntity {
+public interface CourseOffering extends IdNamelessEntity{
 
     /**
      * A unique identifier assigned to all approved courses that exist
@@ -119,7 +119,7 @@ public interface CourseOffering
      * @impl initially copied from the canonical course but then stored in the
      *       Lui as lui.officialIdentifier.longName
      */
-    public String getCourseTitle();
+    public String getCourseOfferingTitle();
 
     /**
      * Indicates that the entire course offering is an Honors Course ??? Is this
@@ -174,7 +174,7 @@ public interface CourseOffering
      *       returns a list of resultOptions. Filter options with grading type
      *       and those should give the resultValueGroupIds
      */
-    public List<String> getGradingOptionKeys();
+    public List<String> getGradingOptionIds();
 
     /**
      * Type of credit of course offering. This field is initially copied from
@@ -188,7 +188,7 @@ public interface CourseOffering
      * @impl Lui.resultOptionIds returns a list of resultOptions. Filter option
      *       with credit type and that should give the resultValueGroup
      */
-    public ResultValuesGroup getCreditOptions();
+    public List<String> getCreditOptionIds();
 
 
 
@@ -217,7 +217,7 @@ public interface CourseOffering
      * @impl initalized from canonical course units deployment but then stored
      *       in lui.unitsDeployment
      */
-    public List<String> getUnitsDeployment();
+    public List<String> getUnitsDeploymentOrgIds();
 
     /**
      * Organization(s) that is responsible for the academic content of the
@@ -230,7 +230,7 @@ public interface CourseOffering
      * @impl this is never updatable so it should just be grabbed from the
      *       canonical course and then stored in lui.unitsContentOwner
      */
-    public List<String> getUnitsContentOwner();
+    public List<String> getUnitsContentOwnerOrgIds();
 
 
 
@@ -302,29 +302,8 @@ public interface CourseOffering
      * @impl initially copied from canonical CourseFeeInfo but subsequently
      *       stored on the lui
      */
-    public List<? extends Fee> getFees();
+    public List<String> getFeeIds();
 
-    /**
-     * Organization(s) that receives the revenue from fees associated with the
-     * course offering Initially copied from the course catalog but then,
-     * depending on the configuration it may be updatable.
-     * 
-     * @name Revenues
-     * @impl initially copied from cannonical CourseRevenueInfo but then
-     *       subsequently stored on the Lui
-     */
-    public List<RevenueInfo> getRevenues();
-
-    /**
-     * Organization(s) that incurs the cost associated with the course offering
-     * Initially copied from the course catalog but then, depending on the
-     * configuration it may be updatable.
-     * 
-     * @name Expenditure
-     * @impl initially copied from cannonical CourseRevenueInfo but then
-     *       subsequently stored on the Lui
-     */
-    public ExpenditureInfo getExpenditure();
 
     /**
      * Flag indicating whether a course is eligible for Financial Aid. Derived
@@ -336,4 +315,30 @@ public interface CourseOffering
      * @impl TODO: decide where to store
      */
     public Boolean getIsFinancialAidEligible();
+
+    /**
+     * Places where this Course offering is offered.
+     *
+     * @name Campus Locations
+     */
+    public List<String> getCampusLocations() ;
+
+    /**
+     *
+     * @return
+     */
+    public RichText getDescr();
+
+    /**
+     *
+     * @return
+     */
+    public Boolean getHonorsOffering();
+
+
+    /**
+     *
+     * @return
+     */
+    public Boolean getFinancialAidEligible();
 }

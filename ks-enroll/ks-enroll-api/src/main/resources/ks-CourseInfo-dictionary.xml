@@ -101,8 +101,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseInfo.courseTitle" parent="CourseInfo.courseTitle-parent"/>
-	<bean id="CourseInfo.courseTitle-parent" abstract="true" parent="CourseInfo.courseTitle-generated">
+	<bean id="CourseInfo.courseOfferingTitle" parent="CourseInfo.courseOfferingTitle-parent"/>
+	<bean id="CourseInfo.courseOfferingTitle-parent" abstract="true" parent="CourseInfo.courseOfferingTitle-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -231,8 +231,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseInfo.fees" parent="CourseInfo.fees-parent"/>
-	<bean id="CourseInfo.fees-parent" abstract="true" parent="CourseInfo.fees-generated">
+	<bean id="CourseInfo.feeIds" parent="CourseInfo.feeIds-parent"/>
+	<bean id="CourseInfo.feeIds-parent" abstract="true" parent="CourseInfo.feeIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -261,8 +261,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseInfo.creditOptions" parent="CourseInfo.creditOptions-parent"/>
-	<bean id="CourseInfo.creditOptions-parent" abstract="true" parent="CourseInfo.creditOptions-generated">
+	<bean id="CourseInfo.creditOptionIds" parent="CourseInfo.creditOptionIds-parent"/>
+	<bean id="CourseInfo.creditOptionIds-parent" abstract="true" parent="CourseInfo.creditOptionIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

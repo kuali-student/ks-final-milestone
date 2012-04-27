@@ -11,11 +11,8 @@ import java.util.logging.Logger;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -23,15 +20,11 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.clu.dto.FeeInfo;
-import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 
 /**
  *
@@ -280,7 +273,7 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
             }
         }
         // TODO: add a cascading delete for course offferings
-        for (FormatOfferingInfo fo : this.coService.getFormatOfferingByCourseOfferingId(coId, context)) {
+        for (FormatOfferingInfo fo : this.coService.getFormatOfferingByCourseOfferingIds(coId, context)) {
             for (ActivityOfferingInfo ao : this.coService.getActivityOfferingsByFormatOffering(fo.getId(), context)) {
                 coService.deleteActivityOffering(ao.getId(), context);
             }

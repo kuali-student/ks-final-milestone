@@ -69,6 +69,10 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.setId(dto.getId());
         this.setLuiId(dto.getLuiId());
         this.setPersonId(dto.getPersonId());
+
+    }
+
+    public void fromDto(LuiPersonRelation dto){
         this.setCommitmentPercent(dto.getCommitmentPercent());
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());

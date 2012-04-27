@@ -148,18 +148,18 @@ public class TestLuiServiceImpl {
 //        assertNotNull(obj.getCluCluRelationIds());
 //        assertEquals(2, obj.getCluCluRelationIds().size());
 //        assertTrue(obj.getCluCluRelationIds().contains("CluClu-2"));
-//        assertNotNull(obj.getUnitsContentOwner());
-//        assertEquals(1, obj.getUnitsContentOwner().size());
-//        assertTrue(obj.getUnitsContentOwner().contains("Org-2"));
-//        assertNotNull(obj.getUnitsDeployment());
-//        assertEquals(1, obj.getUnitsDeployment().size());
-//        assertTrue(obj.getUnitsDeployment().contains("Org-1"));
+//        assertNotNull(obj.getUnitsContentOwnerOrgIds());
+//        assertEquals(1, obj.getUnitsContentOwnerOrgIds().size());
+//        assertTrue(obj.getUnitsContentOwnerOrgIds().contains("Org-2"));
+//        assertNotNull(obj.getUnitsDeploymentOrgIds());
+//        assertEquals(1, obj.getUnitsDeploymentOrgIds().size());
+//        assertTrue(obj.getUnitsDeploymentOrgIds().contains("Org-1"));
 //        assertNotNull(obj.getResultValuesGroupKeys());
 //        assertEquals(3, obj.getResultValuesGroupKeys().size());
 //        assertTrue(obj.getResultValuesGroupKeys().contains("Val-Group-3"));
 //
-//        assertNotNull(obj.getFees());
-//        assertEquals(3, obj.getFees().size());
+//        assertNotNull(obj.getFeeIds());
+//        assertEquals(3, obj.getFeeIds().size());
 //        assertNotNull(obj.getRevenues());
 //        assertEquals(2, obj.getRevenues().size());
 //        assertNotNull(obj.getExpenditure());
@@ -252,7 +252,7 @@ public class TestLuiServiceImpl {
 //        rtf.setPlain("fee.plain");
 //        rtf.setFormatted("fee.formatted");
 //        fee.setDescr(rtf);
-//        info.getFees().add(fee);
+//        info.getFeeIds().add(fee);
 //
 //        RevenueInfo revenue = new RevenueInfo();
 //        info.getRevenues().add(revenue);
@@ -280,12 +280,12 @@ public class TestLuiServiceImpl {
         assertEquals(orig.getReferenceURL(), info.getReferenceURL());
 
 //        assertTrue(info.getCluCluRelationIds().contains("CluClu-2"));
-//        assertTrue(info.getUnitsContentOwner().contains("Org-2"));
-//        assertTrue(info.getUnitsDeployment().contains("Org-1"));
+//        assertTrue(info.getUnitsContentOwnerOrgIds().contains("Org-2"));
+//        assertTrue(info.getUnitsDeploymentOrgIds().contains("Org-1"));
 //        assertTrue(info.getResultValuesGroupKeys().contains("Val-Group-3"));
 //
 //        assertEquals(1, info.getLuiCodes().size());
-//        assertEquals(1, info.getFees().size());
+//        assertEquals(1, info.getFeeIds().size());
 //        assertEquals(1, info.getRevenues().size());
 //        assertNotNull(info.getExpenditure().getId());
     }
@@ -335,7 +335,7 @@ public class TestLuiServiceImpl {
         rtf.setPlain("fee.plain");
         rtf.setFormatted("fee.formatted");
         fee.setDescr(rtf);
-        //        modified.getFees().add(fee);
+        //        modified.getFeeIds().add(fee);
 
         //        RevenueInfo revenue = new RevenueInfo();
         //        modified.getRevenues().add(revenue);
@@ -361,16 +361,16 @@ public class TestLuiServiceImpl {
 //        assertTrue(updated.getCluCluRelationIds().contains("CluClu-1"));
 //        assertTrue(updated.getCluCluRelationIds().contains("CluClu-22"));
 //        assertEquals(2, updated.getResultValuesGroupKeys().size());
-//        assertTrue(updated.getUnitsContentOwner().contains("Org-22"));
+//        assertTrue(updated.getUnitsContentOwnerOrgIds().contains("Org-22"));
 //        assertEquals(2, updated.getResultValuesGroupKeys().size());
-//        assertTrue(updated.getUnitsDeployment().contains("Org-11"));
+//        assertTrue(updated.getUnitsDeploymentOrgIds().contains("Org-11"));
 //        assertEquals(2, updated.getResultValuesGroupKeys().size());
 //        assertTrue(updated.getResultValuesGroupKeys().contains("Val-Group-33"));
 //        assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-2"));
 //        assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-3"));
 
 //        assertEquals(2, updated.getLuiCodes().size());
-        //        assertEquals(4, updated.getFees().size());
+        //        assertEquals(4, updated.getFeeIds().size());
         //        assertEquals(3, updated.getRevenues().size());
         //        assertTrue(!"LUI-Expen-1".equals(updated.getExpenditure().getId()));
 

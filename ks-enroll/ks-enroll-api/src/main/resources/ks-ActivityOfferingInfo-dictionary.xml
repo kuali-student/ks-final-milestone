@@ -109,8 +109,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ActivityOfferingInfo.gradingOptionKeys" parent="ActivityOfferingInfo.gradingOptionKeys-parent"/>
-	<bean id="ActivityOfferingInfo.gradingOptionKeys-parent" abstract="true" parent="ActivityOfferingInfo.gradingOptionKeys-generated">
+	<bean id="ActivityOfferingInfo.gradingOptionIds" parent="ActivityOfferingInfo.gradingOptionIds-parent"/>
+	<bean id="ActivityOfferingInfo.gradingOptionIds-parent" abstract="true" parent="ActivityOfferingInfo.gradingOptionIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

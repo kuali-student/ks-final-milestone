@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.junit.Ignore;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.enrollment.class1.lui.service.impl.LuiTestDataLoader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -194,7 +193,7 @@ public class TestCourseOfferingServiceImpl {
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, retrieved.getTypeKey());
 
         assertEquals("CHEM123", retrieved.getCourseOfferingCode());
-        assertEquals("Chemistry 123", retrieved.getCourseTitle());
+        assertEquals("Chemistry 123", retrieved.getCourseOfferingTitle());
     }
 
     @Test
@@ -270,7 +269,6 @@ public class TestCourseOfferingServiceImpl {
 
             //dynamic attributes
             coi.setFundingSource("state");
-            coi.setWaitlistLevelTypeKey("WaitlistLevelType1");
             CourseOfferingInfo updated =
                     courseOfferingService.updateCourseOffering("Lui-1", coi, callContext);
             assertNotNull(updated);

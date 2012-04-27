@@ -233,8 +233,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="LuiInfo.fees" parent="LuiInfo.fees-parent"/>
-	<bean id="LuiInfo.fees-parent" abstract="true" parent="LuiInfo.fees-generated">
+	<bean id="LuiInfo.feeIds" parent="LuiInfo.feeIds-parent"/>
+	<bean id="LuiInfo.feeIds-parent" abstract="true" parent="LuiInfo.feeIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

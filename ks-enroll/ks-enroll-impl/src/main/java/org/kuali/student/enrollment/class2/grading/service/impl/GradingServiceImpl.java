@@ -753,7 +753,7 @@ public class GradingServiceImpl implements GradingService {
                 throw new OperationFailedException("Could not find course offering " + lpr.getLuiId());
             }
 
-            lprToGradeOptions.put(lpr.getId(),courseOfferingInfo.getGradingOptionKeys());
+            lprToGradeOptions.put(lpr.getId(),courseOfferingInfo.getGradingOptionIds());
 
         }
 
@@ -834,7 +834,7 @@ public class GradingServiceImpl implements GradingService {
 
         // TODO Get grading options from courseRegistration instead of courseOffering.
         CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(lpr.getLuiId(),context);
-        gradingOptionKeys.addAll(courseOfferingInfo.getGradingOptionKeys());
+        gradingOptionKeys.addAll(courseOfferingInfo.getGradingOptionIds());
 
         List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLpr(lprId);
         List<String> resultValueKeys = new ArrayList<String>();

@@ -102,11 +102,6 @@
     </bean>
 
 
-    <bean id="luiServiceTest" class="org.kuali.student.enrollment.class1.lui.service.impl.TestLuiServiceImpl">
-        <property name="luiDao" ref="luiDao"/>
-        <property name="luiService" ref="luiService" />
-    </bean>
-
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 	
 

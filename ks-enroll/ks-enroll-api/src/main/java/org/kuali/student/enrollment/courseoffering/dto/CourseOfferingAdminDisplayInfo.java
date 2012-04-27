@@ -1,11 +1,7 @@
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import org.kuali.student.enrollment.courseoffering.infc.CourseOfferingDisplay;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOfferingAdminDisplay;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,11 +15,11 @@ import java.util.List;
  * @author Kuali Student Team (Sambit)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "courseId",
+@XmlType(name = "CourseOfferingAdminDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
         "termId", "courseOfferingCode", "courseTitle",
         "unitsDeployment", "unitsContentOwner",
         "meta", "attributes", "_futureElements"})
-public class CourseOfferingDisplayInfo extends IdEntityInfo implements CourseOfferingDisplay, Serializable {
+public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo implements CourseOfferingAdminDisplay, Serializable {
 
     @XmlElement
     private String courseId;
@@ -32,11 +28,17 @@ public class CourseOfferingDisplayInfo extends IdEntityInfo implements CourseOff
     private String termId;
 
     @XmlElement
-    private String courseTitle;
+    private String termName;
+
+
+    @XmlElement
+    private String termCode;
+
+    @XmlElement
+    private String courseOfferingTitle;
 
     @XmlElement
     private String courseOfferingCode;
-
 
     @XmlElement
     private String subjectArea;
@@ -45,29 +47,48 @@ public class CourseOfferingDisplayInfo extends IdEntityInfo implements CourseOff
     private List<String> unitsDeployment;
 
     @XmlElement
+    private List<String> unitsDeploymentOrgIds;
+
+    @XmlElement
     private List<String> unitsContentOwner;
 
+    @XmlElement
+    private List<String> unitsContentOwnerOrgIds;
+
+    @XmlElement
+    private String displayGrading;
+
+    @XmlElement
+    private String displayCredit;
+
+    @XmlElement
+    private String typeName;
+
+    @XmlElement
+    private String stateName;
+
+    @XmlElement
+    private List<String> activtyOfferingTypes;
 
 
-
-    public CourseOfferingDisplayInfo() {
+    public CourseOfferingAdminDisplayInfo() {
 
     }
 
-    public CourseOfferingDisplayInfo(CourseOfferingDisplay courseOfferingDisplay) {
+    public CourseOfferingAdminDisplayInfo(CourseOfferingAdminDisplay courseOfferingAdminDisplay) {
 
-        super(courseOfferingDisplay);
-        if (courseOfferingDisplay != null) {
+        super(courseOfferingAdminDisplay);
+        if (courseOfferingAdminDisplay != null) {
 
 
-            this.courseId = courseOfferingDisplay.getCourseId();
-            this.termId = courseOfferingDisplay.getTermId();
-            this.courseTitle = courseOfferingDisplay.getCourseTitle();
-            this.courseOfferingCode = courseOfferingDisplay.getCourseOfferingCode();
-            this.subjectArea = courseOfferingDisplay.getSubjectArea();
+            this.courseId = courseOfferingAdminDisplay.getCourseId();
+            this.termId = courseOfferingAdminDisplay.getTermId();
+            this.courseOfferingTitle = courseOfferingAdminDisplay.getCourseOfferingTitle();
+            this.courseOfferingCode = courseOfferingAdminDisplay.getCourseOfferingCode();
+            this.subjectArea = courseOfferingAdminDisplay.getSubjectArea();
 
-            this.unitsDeployment = courseOfferingDisplay.getUnitsDeployment();
-            this.unitsContentOwner = courseOfferingDisplay.getUnitsContentOwner();
+            this.unitsDeployment = courseOfferingAdminDisplay.getUnitsDeployment();
+            this.unitsContentOwner = courseOfferingAdminDisplay.getUnitsContentOwner();
         }
     }
 
@@ -92,8 +113,8 @@ public class CourseOfferingDisplayInfo extends IdEntityInfo implements CourseOff
     }
 
     @Override
-    public String getCourseTitle() {
-        return this.courseTitle;
+    public String getCourseOfferingTitle() {
+        return this.courseOfferingTitle;
     }
 
 
@@ -116,8 +137,8 @@ public class CourseOfferingDisplayInfo extends IdEntityInfo implements CourseOff
         this.termId = termId;
     }
 
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
+    public void setCourseOfferingTitle(String courseTitle) {
+        this.courseOfferingTitle = courseTitle;
     }
 
     public void setCourseOfferingCode(String courseOfferingCode) {

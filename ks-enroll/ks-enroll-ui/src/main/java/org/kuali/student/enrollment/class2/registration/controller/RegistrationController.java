@@ -335,7 +335,7 @@ public class RegistrationController extends UifControllerBase {
         List<MeetingScheduleInfo> list = new ArrayList<MeetingScheduleInfo> ();        
         for (MeetingScheduleInfo meetingScheduleInfo : list) {
             MeetingScheduleWrapper wrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
-            wrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
+            wrapper.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
             wrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
             wrappers.add(wrapper);
         }

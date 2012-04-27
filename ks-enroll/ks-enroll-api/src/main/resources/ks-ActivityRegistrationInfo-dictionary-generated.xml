@@ -337,8 +337,8 @@ Indicates that the course is an Honors Course.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="ActivityRegistrationInfo.activityOffering.gradingOptionKeys-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="gradingOptionKeys"/>
+	<bean id="ActivityRegistrationInfo.activityOffering.gradingOptionIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="gradingOptionIds"/>
 		<property name="shortLabel" value="Grading Option Keys"/>
 		<property name="summary">
 			<value>

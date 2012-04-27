@@ -295,12 +295,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
         for (OfferingInstructorInfo instr : targetCo.getInstructors()) {
             instr.setId(null);
         }
-        for (RevenueInfo rev : targetCo.getRevenues()) {
-            rev.setId(null);
-        }
-        for (FeeInfo fee : targetCo.getFees()) {
-            fee.setId(null);
-        }
+
+        targetCo.setFeeIds(sourceCo.getFeeIds());
         for (AttributeInfo attr : targetCo.getAttributes()) {
             attr.setId(null);
         }
@@ -355,7 +351,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
         }
         targetCo = this.coService.createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
                 targetCo, context);
-        for (FormatOfferingInfo sourceFo : this.coService.getFormatOfferingByCourseOfferingId(sourceCo.getId(), context)) {
+        for (FormatOfferingInfo sourceFo : this.coService.getFormatOfferingByCourseOfferingIds(sourceCo.getId(), context)) {
             FormatOfferingInfo targetFo = new FormatOfferingInfo(sourceFo);
             targetFo.setId(null);
             // clear out the ids on the internal sub-objects
