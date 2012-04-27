@@ -119,6 +119,8 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
     public List<String> getUnitsContentOwnerOrgIds();
 
     /**
+     * The name of the Type that the Course Offering or the underlying LUI
+     * is of.
      *
      * @name Type name
      * @readOnly on updates
@@ -126,6 +128,8 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
     public String getTypeName();
 
     /**
+     * The name of the State that the Course Offering or the underlying LUI
+     * is in.
      *
      * @name Units Content Owner
      * @readOnly on updates
@@ -133,30 +137,52 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
     public String getStateName();
 
     /**
+     * The display value of the credit, this is derived by fetching the result value groups for the credit option tied
+     * to the course offering and concatenating the values of the options.
      *
-     * @name Units Content Owner
+     * @name Display Credit
+     * @impl Get the credit option values and concatenate to a single field
      * @readOnly on updates
      */
     public String getDisplayCredit();
 
     /**
+     * The display value of the grading options, this is derived by fetching the result value groups for the grading option tied
+     * to the course offering and concatenating the values of the options.
      *
-     * @name Units Content Owner
+     * @name Display Grading
+     * @impl Get the credit option values and concatenate to a single field
      * @readOnly on updates
      */
-    public String getTermCode();
+    public String getDisplayGrading();
 
     /**
+     * Activty offering types for the course offering
      *
-     * @name Units Content Owner
+     * @name Actvity Offering Types
+     * @impl Get the format offering for the course offering and then the activity types from the Format offering
      * @readOnly on updates
      */
     public List<String> getActivtyOfferingTypes();
 
     /**
+     * Code for the term the course offering is in
      *
-     * @name Units Content Owner
+     * @name Term Code
+     * @readOnly on updates
+     */
+    public String getTermCode();
+
+
+
+    /**
+     * Name of the Term the Course Offering is in
+     *
+     * @name Term Name
      * @readOnly on updates
      */
     public String getTermName();
+
+
+
 }
