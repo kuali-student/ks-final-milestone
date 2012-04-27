@@ -127,10 +127,17 @@
     <bean id="appointmentWindowDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
+
     <bean id="appointmentSlotDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
+
     <bean id="appointmentDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <!-- Search Dao needs an implementation at some point -->
+    <bean id="searchDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 

@@ -13,21 +13,21 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
-import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
-import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 
 public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
@@ -62,35 +62,28 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             TypeInfo type = getTypeService().getType(appointmentWindowInfo.getTypeKey(), context);
             appointmentWindowWrapper.setWindowTypeName(type.getName());
 
-            //populate Assignment Info section
-            if(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY.equals(appointmentWindowInfo.getStateKey())) {
-                int numberOfStudents = 0;
-                List<AppointmentSlotInfo> slots = appointmentService.getAppointmentSlotsByWindow(appointmentWindowInfo.getId(),context);
-                appointmentWindowWrapper.setNumberOfSlots(slots.size());
+            //Use a search to get window detail information in one call
+            SearchRequestInfo searchRequest = new SearchRequestInfo("appt.search.appointmentCountForWindowId");
+            searchRequest.addParam("windowId",windowId);
+            SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
 
-                if(!slots.isEmpty()) {
-                    for(AppointmentSlotInfo slot : slots){
-                        List<AppointmentInfo> appointments = appointmentService.getAppointmentsBySlot(slot.getId(),context);
-                        numberOfStudents = numberOfStudents+appointments.size();
-                    }
-                    appointmentWindowWrapper.setNumberOfStudents(numberOfStudents);
+            //Map the search results back to the appointment window
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
 
-                    double meanStudentsPerSlot = Math.ceil(numberOfStudents/(float)slots.size());
-                    appointmentWindowWrapper.setMeanStudentsPerSlot(new Float(meanStudentsPerSlot));
+            Map<String, String> searchResultMap = convertToMap(searchResult).get(0);
+            Integer numberOfSlots = searchResultMap.get("numSlots")==null?null:Integer.parseInt(searchResultMap.get("numSlots"));
+            Integer numberOfStudents = searchResultMap.get("numAppts")==null?null:Integer.parseInt(searchResultMap.get("numAppts"));
+            double meanStudentsPerSlot = Math.ceil(numberOfStudents/(float)numberOfSlots);
+            String firstSlotPopulated = searchResultMap.get("firstSlot");
+            String lastSlotPopulated = searchResultMap.get("lastSlot");
+            Date windowCreate = searchResultMap.get("createTime")==null?null:formatter.parse(searchResultMap.get("createTime"));
 
-                    AppointmentSlotInfo slot1 = slots.get(0);
-                    appointmentWindowWrapper.setFirstSlotPopulated(getFormattedDate(slot1.getStartDate()));
-
-                    AppointmentSlotInfo slot = slots.get(slots.size()-1);
-                    appointmentWindowWrapper.setLastSlotPopulated(getFormattedDate(slot.getStartDate()));
-
-                    List<AppointmentInfo> appointments = appointmentService.getAppointmentsBySlot(slot1.getId(),context);
-                    if(!appointments.isEmpty()){
-                        AppointmentInfo appointment = appointments.get(appointments.size()-1);
-                        appointmentWindowWrapper.setAssignmentsCreated(appointment.getMeta().getCreateTime());
-                    }
-                }
-            }
+            appointmentWindowWrapper.setNumberOfSlots(numberOfSlots);
+            appointmentWindowWrapper.setNumberOfStudents(numberOfStudents);
+            appointmentWindowWrapper.setMeanStudentsPerSlot(new Float(meanStudentsPerSlot));
+            appointmentWindowWrapper.setFirstSlotPopulated(firstSlotPopulated);
+            appointmentWindowWrapper.setLastSlotPopulated(lastSlotPopulated);
+            appointmentWindowWrapper.setAssignmentsCreated(windowCreate);
 
             return appointmentWindowWrapper;
 
@@ -100,7 +93,19 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
 
         return null;
     }
-    
+
+    private List<Map<String,String>> convertToMap(SearchResultInfo searchResult) {
+        List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+        for(SearchResultRowInfo row:searchResult.getRows()){
+            Map<String,String> map = new HashMap<String,String>();
+            for(SearchResultCellInfo cell:row.getCells()){
+                map.put(cell.getKey(),cell.getValue());
+            }
+            list.add(map);
+        }
+        return list;
+    }
+
     private String getFormattedDate(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
         String formattedDate = formatter.format(date);
@@ -126,6 +131,10 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
     protected PopulationService getPopulationService() {
         //populationService is retrieved using global resource loader which is wired in ks-enroll-context.xml
         return (PopulationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"population", "PopulationService"));
+    }
+
+    protected SearchService getSearchService() {
+        return (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX+"search", SearchService.class.getSimpleName()));
     }
 
     public ContextInfo getContextInfo() {
