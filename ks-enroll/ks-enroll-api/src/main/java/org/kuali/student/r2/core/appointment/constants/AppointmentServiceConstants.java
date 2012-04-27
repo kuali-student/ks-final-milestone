@@ -75,4 +75,5 @@ public class AppointmentServiceConstants {
     public static final String APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE = "error.enroll.appointment.startDate.outOfRange";
     public static final String APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE = "error.enroll.appointment.endDate.outOfRange";
     public static final String APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL = "error.enroll.appointment.windowSaveFailed";
+    public static final String APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE = "error.enroll.appointment.window.endDateBeforeStartDate";
 }
