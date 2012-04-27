@@ -76,7 +76,9 @@ public class CourseStateChangeServiceImpl {
 				// setstate for thisVerCourse and setCurrentVersion(courseId)
 				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, null, true, prevEndTermAtpId);
 			} else if (currVerState.equals(DtoConstants.STATE_ACTIVE) ||
-					currVerState.equals(DtoConstants.STATE_SUSPENDED)) {
+					currVerState.equals(DtoConstants.STATE_SUSPENDED) ||
+					currVerState.equals(DtoConstants.STATE_RETIRED)
+			) {
 				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, DtoConstants.STATE_SUPERSEDED, true, prevEndTermAtpId);
 			}
 		}
