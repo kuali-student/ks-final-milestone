@@ -10,13 +10,16 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
@@ -62,6 +65,16 @@ public class CourseOfferingTransformer {
             co.setIsHonorsOffering(string2Boolean(luCode.getValue()));
         }
 
+        List<AttributeInfo> attributes = lui.getAttributes();
+        for(AttributeInfo attr : attributes){
+            if(attr.getKey().equals(CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY)){
+                co.setWaitlistLevelTypeKey(attr.getValue());
+            }
+
+            if(attr.getKey().equals(CourseOfferingServiceConstants.FUNDING_SOURCE)){
+                co.setFundingSource(attr.getValue());
+            }
+        }
 
         //below undecided
         //co.setHasWaitlist(lui.getHasWaitlist());
@@ -144,6 +157,13 @@ public class CourseOfferingTransformer {
         LuCodeInfo luCode = this.findAddLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
         luCode.setValue(boolean2String(co.getIsHonorsOffering()));
 
+
+        //dynamic attributes
+        List<AttributeInfo> attributes = co.getAttributes();
+        if(co.getWaitlistLevelTypeKey() != null) attributes.add(setAttributeInfo(CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY, co.getWaitlistLevelTypeKey()));
+        if(co.getFundingSource() != null) attributes.add(setAttributeInfo(CourseOfferingServiceConstants.FUNDING_SOURCE, co.getFundingSource()));
+        lui.setAttributes(attributes);
+
         //below undecided
         //lui.setHasWaitlist(co.getHasWaitlist());
         //lui.setIsWaitlistCheckinRequired(co.getIsWaitlistCheckinRequired());
@@ -153,10 +173,16 @@ public class CourseOfferingTransformer {
 
         //TODO: the following mapping undecided on wiki
         //gradeRosterLevelTypeKey
-        //fundingSource
         //isFinancialAidEligible
         //registrationOrderTypeKey
 
+    }
+
+    private AttributeInfo setAttributeInfo(String key, String value){
+        AttributeInfo attributeInfo = new AttributeInfo();
+        attributeInfo.setKey(key);
+        attributeInfo.setValue(value);
+        return attributeInfo;
     }
 
     public void copyFromCanonical(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo) {

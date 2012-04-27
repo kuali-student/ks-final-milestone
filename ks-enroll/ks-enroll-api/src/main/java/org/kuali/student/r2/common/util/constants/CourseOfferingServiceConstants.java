@@ -35,6 +35,17 @@ public class CourseOfferingServiceConstants {
     public static final String REF_OBJECT_URI_ACTIVITY_OFFERING = NAMESPACE + "/" + ActivityOfferingInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_REGISTRATION_GROUP = NAMESPACE + "/" + RegistrationGroupInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SEAT_POOL_DEFINITION = NAMESPACE + "/" + SeatPoolDefinitionInfo.class.getSimpleName();
-    
+
+
+    //dynamic attribute keys
+    public static final String WAIT_LIST_LEVEL_TYPE_KEY = "kuali.attribute.wait.list.level.type.key";
+    public static final String GRADE_ROSTER_LEVEL_TYPE_KEY = "kuali.attribute.grade.roster.level.type.key";
+    public static final String COURSE_EVALUATION_INDICATOR = "kuali.attribute.course.evaluation.indicator";
+    public static final String FINAL_EXAM_INDICATOR = "kuali.attribute.final.exam.indicator ";
+    public static final String FUNDING_SOURCE = "kuali.attribute.finding.source";
+    public static final String FEES_ATTACHED_FLAG = "kuali.attribute.where.fees.attached.flag";
+    public static final String MAX_ENROLLMENT_IS_ESTIMATED = "kuali.attribute.max.enrollment.is.estimate";
+
+
     // The type/states are defined in LuiServiceConstants.java
 }

@@ -258,6 +258,33 @@ public class TestCourseOfferingServiceImpl {
         }
     }
 
+        @Test
+    public void testUpdateCourseOfferingWithDynAttrs() throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        try {
+            CourseOfferingInfo coi = courseOfferingService.getCourseOffering("Lui-1", callContext);
+            assertNotNull(coi);
+
+            coi.setTermId("testAtpId1");
+
+            //dynamic attributes
+            coi.setFundingSource("state");
+            coi.setWaitlistLevelTypeKey("WaitlistLevelType1");
+            CourseOfferingInfo updated =
+                    courseOfferingService.updateCourseOffering("Lui-1", coi, callContext);
+            assertNotNull(updated);
+
+            CourseOfferingInfo retrieved =
+                    courseOfferingService.getCourseOffering("Lui-1", callContext);
+            assertNotNull(retrieved);
+
+            assertEquals("state", coi.getFundingSource());
+            assertEquals("WaitlistLevelType1", coi.getWaitlistLevelTypeKey());
+        } catch (Exception ex) {
+            fail("Exception from service call :" + ex.getMessage());
+        }
+    }
     @Test
     public void testDeleteCourseOffering() throws AlreadyExistsException, DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
