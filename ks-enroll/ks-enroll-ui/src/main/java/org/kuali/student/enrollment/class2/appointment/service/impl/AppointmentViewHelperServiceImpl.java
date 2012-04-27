@@ -282,9 +282,9 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                 boolean isValid = validateApptWidnow(appointmentWindowWrapper);
                 if (isValid) {
                     isApptWindowSaved=saveApptWindow(appointmentWindowWrapper);
+                    if(!isApptWindowSaved)
+                        allWindowsSaved = isApptWindowSaved;
                 }
-                if(!isApptWindowSaved)
-                    allWindowsSaved = isApptWindowSaved;
             }
             //Add a success message
             if (isApptWindowSaved)
