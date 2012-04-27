@@ -123,34 +123,14 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
     }
 
-//    public Properties buildWindowWrapperURLParameters(AppointmentWindowWrapper windowWrapper,String methodToCall,boolean readOnlyView, ContextInfo context){
-//        Properties props = new Properties();
-//        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-//        props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, "org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper");
-//        props.put("id", windowWrapper.getId());
-//        return props;
-//    }
-
     public void loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {
         ContextInfo context = TestHelper.getContext1();
-//        try {
         TermInfo term = getAcalService().getTerm(termId, context);
 
         if (term.getId() != null && !term.getId().isEmpty()) {
             form.setTermInfo(term);
             loadPeriods(termId, form);
         }
-//        }catch (DoesNotExistException dnee){
-//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get DoesNotExistException:  "+dnee.toString());
-//        }catch (InvalidParameterException ipe){
-//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get InvalidParameterException:  "+ipe.toString());
-//        }catch (MissingParameterException mpe){
-//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get MissingParameterException:  "+mpe.toString());
-//        }catch (OperationFailedException ofe){
-//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get OperationFailedException:  "+ofe.toString());
-//        }catch (PermissionDeniedException pde){
-//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get PermissionDeniedException:  "+pde.toString());
-//        }
 
     }
 
@@ -170,55 +150,6 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         }
 
         form.setPeriodMilestones(periodMilestones);
-    }
-
-
-    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof AppointmentWindowWrapper){
-            RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
-            List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
-            String periodKey = ((AppointmentWindowWrapper) addLine).getPeriodKey();
-            for (KeyDateInfo period : periodMilestones) {
-                if (periodKey.equals(period.getId())){
-                    if (period.getName() != null && !period.getName().isEmpty()){
-                        ((AppointmentWindowWrapper) addLine).setPeriodName(period.getName());
-                    }
-                    else{
-                        ((AppointmentWindowWrapper) addLine).setPeriodName(periodKey);
-                    }
-                    break;
-                }
-            }
-            String windowName =  ((AppointmentWindowWrapper) addLine).getAppointmentWindowInfo().getName();
-            ((AppointmentWindowWrapper) addLine).setWindowName(windowName);
-        }
-    }
-
-    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
-                                               Object addLine) {
-        boolean isValid = true;
-        if (addLine instanceof AppointmentWindowWrapper){
-//            RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
-            AppointmentWindowWrapper apptWindow = (AppointmentWindowWrapper) addLine;
-            isValid = validateApptWidnow(apptWindow);
-            if(isValid) {
-                try {
-                    //need to persist the window that has passed the validation to DB
-                    saveApptWindow((AppointmentWindowWrapper)addLine);
-                    //Add a success message
-                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,
-                            AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
-                } catch (Exception e) {
-                    LOG.error("Fail to create a window.",e);
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL);
-                    isValid = false;
-                }
-            }
-
-        } else {
-            super.performAddLineValidation(view, collectionGroup, model, addLine);
-        }
-        return isValid;
     }
 
     public boolean validateApptWidnow(AppointmentWindowWrapper apptWindow) {
@@ -342,6 +273,74 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
     }
 
+    public boolean saveWindows(RegistrationWindowsManagementForm form) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException {
+        boolean isApptWindowSaved = true;
+        boolean allWindowsSaved = true;
+        if(form.getAppointmentWindows()!=null){
+
+            for(AppointmentWindowWrapper appointmentWindowWrapper:form.getAppointmentWindows()){
+                boolean isValid = validateApptWidnow(appointmentWindowWrapper);
+                if (isValid) {
+                    isApptWindowSaved=saveApptWindow(appointmentWindowWrapper);
+                }
+                if(!isApptWindowSaved)
+                    allWindowsSaved = isApptWindowSaved;
+            }
+            //Add a success message
+            if (isApptWindowSaved)
+                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                        AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
+        }
+        return allWindowsSaved;
+    }
+
+    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if (addLine instanceof AppointmentWindowWrapper){
+            RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
+            List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
+            String periodKey = ((AppointmentWindowWrapper) addLine).getPeriodKey();
+            for (KeyDateInfo period : periodMilestones) {
+                if (periodKey.equals(period.getId())){
+                    if (period.getName() != null && !period.getName().isEmpty()){
+                        ((AppointmentWindowWrapper) addLine).setPeriodName(period.getName());
+                    }
+                    else{
+                        ((AppointmentWindowWrapper) addLine).setPeriodName(periodKey);
+                    }
+                    break;
+                }
+            }
+            String windowName =  ((AppointmentWindowWrapper) addLine).getAppointmentWindowInfo().getName();
+            ((AppointmentWindowWrapper) addLine).setWindowName(windowName);
+        }
+    }
+
+    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
+                                               Object addLine) {
+        boolean isValid = true;
+        if (addLine instanceof AppointmentWindowWrapper){
+            AppointmentWindowWrapper apptWindow = (AppointmentWindowWrapper) addLine;
+            isValid = validateApptWidnow(apptWindow);
+            if(isValid) {
+                try {
+                    //need to persist the window that has passed the validation to DB
+                    saveApptWindow((AppointmentWindowWrapper)addLine);
+                    //Add a success message
+                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,
+                            AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
+                } catch (Exception e) {
+                    LOG.error("Fail to create a window.",e);
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL);
+                    isValid = false;
+                }
+            }
+
+        } else {
+            super.performAddLineValidation(view, collectionGroup, model, addLine);
+        }
+        return isValid;
+    }
+
     //Copied from AcademicCalendarViewHelperServiceImpl //TODO(should be moved into common util class)
     private Date _updateTime(Date date,String time,String amPm){
 
@@ -371,27 +370,6 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         }
 
         return cal.getTime();
-    }
-
-    public boolean saveWindows(RegistrationWindowsManagementForm form) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException {
-        boolean isApptWindowSaved = true;
-        boolean allWindowsSaved = true;
-        if(form.getAppointmentWindows()!=null){
-
-            for(AppointmentWindowWrapper appointmentWindowWrapper:form.getAppointmentWindows()){
-                boolean isValid = validateApptWidnow(appointmentWindowWrapper);
-                if (isValid) {
-                    isApptWindowSaved=saveApptWindow(appointmentWindowWrapper);
-                }
-                if(!isApptWindowSaved)
-                    allWindowsSaved = isApptWindowSaved;
-            }
-            //Add a success message
-            if (isApptWindowSaved)
-                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                        AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
-        }
-        return allWindowsSaved;
     }
 
     public AcademicCalendarService getAcalService() {
