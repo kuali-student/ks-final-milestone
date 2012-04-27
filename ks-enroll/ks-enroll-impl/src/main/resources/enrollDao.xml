@@ -134,4 +134,7 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
+    <bean id="enrollmentFeeDao" class="org.kuali.student.r2.core.fee.dao.EnrollmentFeeDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
 </beans>

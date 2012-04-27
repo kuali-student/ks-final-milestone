@@ -76,7 +76,7 @@
 
     <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
         <property name="persistenceUnitName" value="persistentUnit"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/enrollmentFee-persistence.xml" />
+        <property name="persistenceXmlLocation" value="classpath:META-INF/feeServicePersistence.xml" />
         <property name="dataSource" ref="dataSource" />
     </bean>
 
