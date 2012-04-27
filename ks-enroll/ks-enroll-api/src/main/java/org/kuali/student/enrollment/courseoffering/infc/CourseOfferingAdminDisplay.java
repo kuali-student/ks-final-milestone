@@ -2,11 +2,20 @@ package org.kuali.student.enrollment.courseoffering.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
+import org.kuali.student.r2.common.infc.RichText;
 
 import java.util.List;
 
 
 public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
+
+
+
+    /**
+     * Custom Descr for the course Offering
+     * @name Course Offering Description
+     */
+    public RichText getDescr();
 
     /**
      * A unique identifier assigned to all approved courses that exist

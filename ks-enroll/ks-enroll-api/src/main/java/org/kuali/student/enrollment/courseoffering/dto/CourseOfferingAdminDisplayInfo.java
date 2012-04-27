@@ -2,12 +2,14 @@ package org.kuali.student.enrollment.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.infc.CourseOfferingAdminDisplay;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.infc.RichText;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,7 +30,6 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
     private String termId;
 
 
-
     @XmlElement
     private String courseOfferingTitle;
 
@@ -41,15 +42,12 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
     @XmlElement
     private List<String> unitsDeploymentOrgIds;
 
-   @XmlElement
+    @XmlElement
     private List<String> unitsContentOwnerOrgIds;
 
 
     @XmlElement
     private String termName;
-
-
-
 
     @XmlElement
     private String termCode;
@@ -64,13 +62,6 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
     @XmlElement
     private String typeName;
 
-    public String getDisplayGrading() {
-        return displayGrading;
-    }
-
-    public void setDisplayGrading(String displayGrading) {
-        this.displayGrading = displayGrading;
-    }
 
     @XmlElement
     private String stateName;
@@ -88,7 +79,14 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
         super(courseOfferingAdminDisplay);
         if (courseOfferingAdminDisplay != null) {
 
-
+            this.termCode = courseOfferingAdminDisplay.getTermCode();
+            this.termName = courseOfferingAdminDisplay.getTermName();
+            this.termId = courseOfferingAdminDisplay.getTermId();
+            this.displayCredit = courseOfferingAdminDisplay.getDisplayCredit();
+            this.displayGrading = courseOfferingAdminDisplay.getDisplayGrading();
+            this.activtyOfferingTypes = new ArrayList<String>(courseOfferingAdminDisplay.getActivtyOfferingTypes());
+            this.typeName = courseOfferingAdminDisplay.getTypeName();
+            this.stateName = courseOfferingAdminDisplay.getStateName();
             this.courseId = courseOfferingAdminDisplay.getCourseId();
             this.termId = courseOfferingAdminDisplay.getTermId();
             this.courseOfferingTitle = courseOfferingAdminDisplay.getCourseOfferingTitle();
@@ -98,6 +96,11 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
             this.unitsDeploymentOrgIds = courseOfferingAdminDisplay.getUnitsDeploymentOrgIds();
             this.unitsContentOwnerOrgIds = courseOfferingAdminDisplay.getUnitsContentOwnerOrgIds();
         }
+    }
+
+    @Override
+    public RichText getDescr() {
+        return this.getDescr();
     }
 
     @Override
@@ -203,4 +206,13 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
         return typeName;
     }
 
+
+    @Override
+    public String getDisplayGrading() {
+        return displayGrading;
+    }
+
+    public void setDisplayGrading(String displayGrading) {
+        this.displayGrading = displayGrading;
+    }
 }
