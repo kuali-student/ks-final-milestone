@@ -324,21 +324,21 @@ public interface CourseOffering extends IdNamelessEntity{
     public List<String> getCampusLocations() ;
 
     /**
-     *
-     * @return
+     * Custom Descr for the course Offering
+     * @name Course Offering Description
      */
     public RichText getDescr();
 
     /**
-     *
-     * @return
+     *  Is this a Honors Course offering
+     * @name   Honors Flag
      */
     public Boolean getHonorsOffering();
 
 
     /**
-     *
-     * @return
+     * Is this Course Offering Financial aid eligible
+     * @name Financial Aid Eligible Flag
      */
     public Boolean getFinancialAidEligible();
 }
