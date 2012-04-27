@@ -48,7 +48,6 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 
 public class LuiServiceImpl 
     implements LuiService {
@@ -95,7 +94,11 @@ public class LuiServiceImpl
         List<LuiEntity> entityList = luiDao.findByIds(luiIds);
         List<LuiInfo> infoList = new ArrayList<LuiInfo>();
 
+
         for (LuiEntity luiEntity : entityList) {
+            if(luiEntity==null){
+                throw new DoesNotExistException("One of the  LUIs not found ");
+            }
             infoList.add(luiEntity.toDto());
         }
 
@@ -171,7 +174,6 @@ public class LuiServiceImpl
                                             ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-        // TODO
         return new ArrayList<LuiInfo>();
     }
 
@@ -180,7 +182,6 @@ public class LuiServiceImpl
                                         ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-        // TODO
         return new ArrayList<String>();
     }
 
@@ -189,7 +190,7 @@ public class LuiServiceImpl
                                        ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-        // TODO
+
         return new ArrayList<LuiInfo>();
     }
 
@@ -203,7 +204,6 @@ public class LuiServiceImpl
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
-        // TODO
         return new ArrayList<ValidationResultInfo>();
     }
 

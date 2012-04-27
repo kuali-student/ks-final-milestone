@@ -6,11 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
+import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
-import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -21,38 +21,30 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 public class LuiTestDataLoader {
 
-    public static Map<String, LuiEntity>  luiCache= new HashMap<String, LuiEntity> ();
-    public LuiTestDataLoader() {
-    }
 
-    public LuiTestDataLoader(LuiDao luiDao) {
+    public LuiTestDataLoader(LuiDao luiDao, LuiLuiRelationDao luiLuiRelationDao) {
         this.luiDao = luiDao;
+        this.luiLuiRelationDao =  luiLuiRelationDao;
     }
+    private  LuiDao luiDao;
 
-    public LuiDao getLuiDao() {
-        return luiDao;
-    }
+    private   LuiLuiRelationDao luiLuiRelationDao;
 
-    public void setLuiDao(LuiDao luiDao) {
-        this.luiDao = luiDao;
-    }
-    private LuiDao luiDao;
-    private static String principalId = LuiTestDataLoader.class.getSimpleName();
+    private  String principalId = LuiTestDataLoader.class.getSimpleName();
 
-    public static void loadData() throws DoesNotExistException, InvalidParameterException,
+    public  void loadData() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, VersionMismatchException,
             AlreadyExistsException, CircularRelationshipException {
-        loadLui("Lui-1", "Lui one", "cluId1", "atpId1", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "<p>Lui Desc 101</p>", "Lui Desc 101", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
-        loadLui("Lui-2", "Lui rwo", "cluId2", "atpId2", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "<p>Lui Desc 201</p>", "Lui Desc 201", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
-        loadLui("Lui-3", "Lui three", "cluId3", "atpId3", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "<p>Lui Desc 301</p>", "Lui Desc 301 for deletion", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
-        loadLui("Lui-4", "Lui four", "cluId4", "atpId4", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "<p>Lui Desc 401</p>", "Lui Desc 401 for deletion", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
-        loadLui("Lui-5", "Lui five", "cluId5", "atpId5", "kuali.lui.type.activity.offering.lab", "kuali.lui.state.draft", "<p>Lui Desc 501</p>", "Lui Desc 501", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
+        loadLui("Lui-1", "Lui one", "cluId1", "atpId1", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "<p>Lui Desc 101</p>", "Lui Desc 101", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url","LUI-IDENT-2", "lui_one_official", "Chem 123");
+        loadLui("Lui-2", "Lui rwo", "cluId2", "atpId2", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "<p>Lui Desc 201</p>", "Lui Desc 201", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url","LUI-IDENT-3", "lui_two_official", "Phy 123");
+        loadLui("Lui-3", "Lui three", "cluId3", "atpId3", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "<p>Lui Desc 301</p>", "Lui Desc 301 for deletion", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url", "lui_three_additional",  "lui_three_official", "Bio 123");
+        loadLui("Lui-4", "Lui four", "cluId4", "atpId4", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "<p>Lui Desc 401</p>", "Lui Desc 401 for deletion", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url", "lui_four_additional", "lui_four_official", "Phil 123");
+        loadLui("Lui-5", "Lui five", "cluId5", "atpId5", "kuali.lui.type.activity.offering.lab", "kuali.lui.state.draft", "<p>Lui Desc 501</p>", "Lui Desc 501", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url", "lui_five_additional", "lui_five_official", "XX");
 
         loadLuiLuiRel("LUILUIREL-1", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-1 Formatted</p>", "LUILUIREL-1 Plain", "Lui-1", "kuali.lui.lui.relation.associated", "Lui-2");
         loadLuiLuiRel("LUILUIREL-2", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-2 Formatted</p>", "LUILUIREL-2 Plain", "Lui-3", "kuali.lui.lui.relation.associated", "Lui-4");
@@ -60,19 +52,19 @@ public class LuiTestDataLoader {
 
     }
 
-    private static void loadLui(String id,
-            String name,
-            String cluId,
-            String atpId,
-            String type,
-            String state,
-            String descrFormatted,
-            String descrPlain,
-            String effectiveDate,
-            String expirationDate,
-            Integer maxSeats,
-            Integer minSeats,
-            String refUrl)
+    private  void loadLui(String id,
+                                 String name,
+                                 String cluId,
+                                 String atpId,
+                                 String type,
+                                 String state,
+                                 String descrFormatted,
+                                 String descrPlain,
+                                 String effectiveDate,
+                                 String expirationDate,
+                                 Integer maxSeats,
+                                 Integer minSeats,
+                                 String refUrl, String additionIden, String officialIdentifier, String officialIdentName)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
@@ -89,7 +81,24 @@ public class LuiTestDataLoader {
         luiEntity.setPlain(descrPlain);
         luiEntity.setCreateId(principalId);
         luiEntity.setCreateTime(new Date());
-        luiCache.put(id, luiEntity);
+        luiEntity.setEffectiveDate(new Date());
+
+        LuiIdentifierEntity luiIdent = new LuiIdentifierEntity();
+        luiIdent.setLui(luiEntity);
+        luiIdent.setId(additionIden);
+
+        LuiIdentifierEntity luiOfficialIdent = new LuiIdentifierEntity();
+        luiOfficialIdent.setLui(luiEntity);
+        luiOfficialIdent.setId(officialIdentifier);
+        luiOfficialIdent.setShortName(officialIdentName);
+        luiOfficialIdent.setType(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        List<LuiIdentifierEntity> luiIdents = new ArrayList<LuiIdentifierEntity>();
+
+        luiIdents.add(luiIdent);
+        luiIdents.add(luiOfficialIdent)    ;
+        luiEntity.setIdentifiers(luiIdents);
+
+        luiDao.persist(luiEntity);
     }
 
     private LuiIdentifierInfo getOfficialIdentifier(String luiId) {
@@ -159,7 +168,7 @@ public class LuiTestDataLoader {
         identifiers.get(luiId).add(info);
     }
 
-    private static void loadLuiLuiRel(String id,
+    private  void loadLuiLuiRel(String id,
             String effectiveDate,
             String expirationDate,
             String state,
@@ -172,24 +181,26 @@ public class LuiTestDataLoader {
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, AlreadyExistsException,
             CircularRelationshipException {
-        LuiLuiRelationInfo info = new LuiLuiRelationInfo();
-        info.setId(id);
-        info.setLuiId(luiId);
-        info.setRelatedLuiId(relatedLuiId);
-        info.setTypeKey(type);
-        info.setStateKey(state);
-        info.setEffectiveDate(str2Date(effectiveDate, id));
-        info.setExpirationDate(str2Date(expirationDate, id));
-        info.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
+        LuiLuiRelationEntity entity = new LuiLuiRelationEntity();
+        entity.setId(id);
+        entity.setLui(luiDao.find(luiId));
+        entity.setRelatedLui(luiDao.find(relatedLuiId));
+        entity.setLuiLuiRelationType(type);
+        entity.setLuiLuiRelationState(state);
+        entity.setEffectiveDate(str2Date(effectiveDate, id));
+        entity.setExpirationDate(str2Date(expirationDate, id));
+        entity.setDescrPlain(descrPlain);
+        entity.setDescrPlain(descrFormatted);
 
-        ContextInfo context = new ContextInfo();
-        context.setPrincipalId(principalId);
-        context.setCurrentDate(new Date());
-        CommonServiceConstants.setIsIdAllowedOnCreate(context, true);
+        entity.setCreateId(principalId);
+        entity.setCreateTime(new Date());
+
+
+        luiLuiRelationDao.persist(entity);
 
     }
 
-    private static Date str2Date(String str, String context) {
+    private  Date str2Date(String str, String context) {
         if (str == null) {
             return null;
         }

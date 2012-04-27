@@ -181,7 +181,6 @@ public interface CourseOfferingService {
      *
      * @param termId      Unique key of the term in which the course is being offered
      * @param subjectArea subject area
-     * @param context     Context information containing the principalId and locale
      *                    information about the caller of service operation
      * @return List of CourseOffering Ids
      * @throws DoesNotExistException     courseId or termId not found
