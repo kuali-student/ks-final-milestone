@@ -108,7 +108,6 @@ public interface CourseOfferingService {
      */
     public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-
     /**
      * Retrieve information about a CourseOffering
      *
@@ -197,7 +196,7 @@ public interface CourseOfferingService {
      *
      * @param termId      Unique key of the term in which the course is being offered
      * @param subjectArea subject area
-     *                    information about the caller of service operation
+     * @param context  information about the caller of service operation
      * @return List of CourseOffering Ids
      * @throws DoesNotExistException     courseId or termId not found
      * @throws InvalidParameterException invalid courseId or termId
@@ -255,9 +254,6 @@ public interface CourseOfferingService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<String> getCourseOfferingIdsByType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    ;
-
 
     /**
      * Creates a new CourseOffering from a canonical course.

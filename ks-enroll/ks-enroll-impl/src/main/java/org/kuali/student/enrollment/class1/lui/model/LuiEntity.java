@@ -60,25 +60,24 @@ public class LuiEntity extends MetaEntity {
     )
     private List<ResultValuesGroupEntity> resultValuesGroups;
 
-   /**
-    @ManyToMany
-    @JoinTable(name="KSEN_LUI_UNITS_CONT_OWNER",
-            joinColumns=
-            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
-            inverseJoinColumns=
-            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
-    )
-    private List<String> luiContentOwner;
-
-    @ManyToMany
-    @JoinTable(name="KSEN_LUI_UNITS_DEPLOYMENT",
-            joinColumns=
-            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
-            inverseJoinColumns=
-            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
-    )
-    private List<String> luiUnitsDeployment;
-    */
+//    @ManyToMany
+//    @JoinTable(name="KSEN_LUI_UNITS_CONT_OWNER",
+//            joinColumns=
+//            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
+//            inverseJoinColumns=
+//            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
+//    )
+//    private List<String> luiContentOwner;
+//
+//    @ManyToMany
+//    @JoinTable(name="KSEN_LUI_UNITS_DEPLOYMENT",
+//            joinColumns=
+//            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
+//            inverseJoinColumns=
+//            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
+//    )
+//    private List<String> luiUnitsDeployment;
+//
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuiIdentifierEntity> identifiers;
