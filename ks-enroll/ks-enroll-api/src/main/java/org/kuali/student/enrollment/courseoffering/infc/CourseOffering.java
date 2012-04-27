@@ -57,7 +57,6 @@ public interface CourseOffering
      */
     public String getTermId();
 
-
     /**
      * Identifies the number of a course as reflected in the course catalog.
      * This typically must be unique across all courses offered during that
@@ -115,7 +114,7 @@ public interface CourseOffering
      * restricted to exclude line breaks. This may have to be loosened as some
      * schools may want the particular topic to appear on a 2nd line. For
      * example: SPECIAL TOPICS: AN EXPLORATION OF DEEP SPACE ARTIFACTS
-     * 
+     * l
      * @name Course Title
      * @impl initially copied from the canonical course but then stored in the
      *       Lui as lui.officialIdentifier.longName

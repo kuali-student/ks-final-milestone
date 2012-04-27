@@ -135,7 +135,7 @@ public interface ActivityOfferingAdminDisplay
      * Gets a display string represnting the weekday pattern using
      * characters.
      *
-     * @name Display Weekdays
+     * @name Schedule Display Weekdays
      * @readOnly
      * @impl if unscheduled, this string is built from all of related
      *       ScheduleRequest.ScheduleComponents.TimeSlots.Weekdays If
@@ -146,12 +146,12 @@ public interface ActivityOfferingAdminDisplay
      *       if scheduled, then use
      *       ActivityOffering.Schedule.ScheduleComponents.TimeSlots.Weekdays
      */
-    public String getWeekdays();
+    public String getScheduleWeekdays();
 
     /**
      * Gets a display string represnting the time and duration.
      *
-     * @name Display Time
+     * @name Schedule Display Time
      * @readonly
      * @impl if unscheduled, this string is built from all of related
      *       ScheduleRequest.ScheduleComponents.TimeSlots.StartTime
@@ -165,5 +165,5 @@ public interface ActivityOfferingAdminDisplay
      *       and
      *       ActivityOffering.Schedule.ScheduleComponents.TimeSlots.Duration
      */
-    public String getTime();
+    public String getScheduleTime();
 }

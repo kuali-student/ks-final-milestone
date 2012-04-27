@@ -6,6 +6,7 @@ import java.util.List;
 
 
 public interface CourseOfferingDisplay extends IdEntity {
+
     /**
      * A unique identifier assigned to all approved courses that exist
      * in the catalog This is not updatable once initialized.
@@ -18,6 +19,7 @@ public interface CourseOfferingDisplay extends IdEntity {
      *       course. Maps to cluId in Lui.
      */
     public String getCourseId();
+
 
     /**
      * Academic term of course offering

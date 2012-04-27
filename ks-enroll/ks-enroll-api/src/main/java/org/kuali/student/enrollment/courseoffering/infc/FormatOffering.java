@@ -67,7 +67,6 @@ public interface FormatOffering
      */
     public List<String> getActivityOfferingTypeKeys();
 
-
     /**
      * Key indicating the level at which grade rosters should be generated -
      * activity, format or course. TODO: define these types. TODO: add a service
