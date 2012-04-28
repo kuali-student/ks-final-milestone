@@ -418,7 +418,6 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetLuiLuiRelationsByLui() throws Exception {
 
         luiService.getLuiLuiRelationsByLui("Lui-Lui-Blah", callContext);
@@ -530,5 +529,39 @@ public class TestLuiServiceImpl {
         assertTrue(luis.size() == 2);
 
     }
+
+
+    @Test
+    public void testGetLuiIdsByAtpAndType() throws Exception{
+        List<String> luiIds =  luiService.getLuiIdsByAtpAndType( "atpId1", "kuali.lui.type.course.offering", callContext);
+        assertNotNull(luiIds);
+        assertEquals(luiIds.size(), 1);
+        assertEquals(luiIds.get(0) ,"Lui-1");
+        List<String> luiIdsNonExistent =  luiService.getLuiIdsByAtpAndType( "atpId21", "kuali.lui.type.course.offering", callContext);
+        assertNotNull(luiIdsNonExistent);
+        assertEquals(luiIdsNonExistent.size(),0);
+
+    }
+    @Test
+    public void testGetRelatedLuiIdsByLui() throws Exception{
+        List<String> luiRelationIds =  luiService.getRelatedLuiIdsByLui( "Lui-1", "kuali.lui.lui.relation.associated", callContext);
+        assertNotNull(luiRelationIds);
+        assertEquals( 1, luiRelationIds.size());
+        assertEquals("Lui-2", luiRelationIds.get(0) );
+
+    }
+    @Test
+    public void testGetRelatedLuisByLui() throws Exception{
+        List<LuiInfo> luiRelations =  luiService.getRelatedLuisByLui( "Lui-3", "kuali.lui.lui.relation.associated", callContext);
+        assertNotNull(luiRelations);
+        assertEquals( 1, luiRelations.size());
+        assertEquals("Lui-4", luiRelations.get(0).getId() );
+
+    }
+
+
+    @Test(expected=Exception.class)
+    public void testGetLuiIdsByAtpAndTypeException() throws Exception{
+     }
 
 }

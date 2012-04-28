@@ -46,6 +46,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -398,7 +399,11 @@ public class LuiServiceImpl
                OperationFailedException, PermissionDeniedException {
 
         List<LuiInfo> relatedLuis =  new ArrayList<LuiInfo>();
-        luiLuiRelationDao.getRelatedLuisByLuiIdAndRelationType(luiId,luiLuiRelationTypeKey ) ;
+        List<LuiEntity> relatedLuiEntities =  luiLuiRelationDao.getRelatedLuisByLuiIdAndRelationType(luiId,luiLuiRelationTypeKey ) ;
+        for(LuiEntity relatedLuiEntity : relatedLuiEntities) {
+            relatedLuis.add(relatedLuiEntity.toDto());
+        }
+
         return  relatedLuis;
     }
 
@@ -432,8 +437,21 @@ public class LuiServiceImpl
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        // TODO
-        return new ArrayList<ValidationResultInfo>();
+       List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>() ;
+        ValidationResultInfo invalidIdsValidationInfo = new ValidationResultInfo();
+        if(luiLuiRelationInfo.getLuiId() ==null || luiLuiRelationInfo.getRelatedLuiId() == null)        {
+            invalidIdsValidationInfo.setError("Relation Info is missing relation id data");
+            invalidIdsValidationInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+            validationResultInfos.add(invalidIdsValidationInfo);
+        }
+        ValidationResultInfo typeStateValidation = new ValidationResultInfo();
+        if(luiLuiRelationInfo.getTypeKey() ==null || luiLuiRelationInfo.getStateKey()==null ){
+            typeStateValidation.setError("Missing type or state data");
+            typeStateValidation.setLevel(ValidationResult.ErrorLevel.ERROR);
+            validationResultInfos.add(typeStateValidation);
+
+        }
+            return validationResultInfos;
     }
 
     @Override
@@ -457,7 +475,7 @@ public class LuiServiceImpl
 
         entity.setRelatedLui(luiDao.find(relatedLuiId));
         if (entity.getRelatedLui() == null) {
-            throw new DoesNotExistException(luiId);
+            throw new DoesNotExistException(relatedLuiId);
         }
 
         entity.setLuiLuiRelationType(luiLuiRelationTypeKey);
@@ -481,7 +499,7 @@ public class LuiServiceImpl
                ReadOnlyException, VersionMismatchException {
 
         if (!luiLuiRelationId.equals(luiLuiRelationInfo.getId())) {
-            throw new InvalidParameterException(luiLuiRelationId + " doe not match the id on the object " + luiLuiRelationInfo.getId());
+            throw new InvalidParameterException(luiLuiRelationId + " does not match the id on the object " + luiLuiRelationInfo.getId());
         }
 
         LuiLuiRelationEntity entity = luiLuiRelationDao.find(luiLuiRelationId);

@@ -40,7 +40,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-with-mocks-context.xml"})
 public class TestCourseOfferingServiceImplWithMocks {
@@ -80,7 +80,6 @@ public class TestCourseOfferingServiceImplWithMocks {
         ActivityOfferingInfo ao = this.testCRUDActivityOffering(fo);
         this.testDeletes(co, fo, ao);
     }
-
     public CourseOfferingInfo testCRUDCourseOffering() throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
@@ -167,6 +166,12 @@ public class TestCourseOfferingServiceImplWithMocks {
 //        assertEquals(origInst1.getStateKey(), infoInst1.getStateKey());
         return info;
     }
+
+
+
+
+
+
 
     private void testDeletes(CourseOfferingInfo co, FormatOfferingInfo fo, ActivityOfferingInfo ao)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DependentObjectsExistException {
@@ -255,6 +260,7 @@ public class TestCourseOfferingServiceImplWithMocks {
 //        assertEquals(orig.getActivityOfferingTypeKeys().get(0), info.getActivityOfferingTypeKeys().get(0));
         return info;
     }
+
 
     public ActivityOfferingInfo testCRUDActivityOffering(FormatOfferingInfo fo)
             throws DoesNotExistException,
