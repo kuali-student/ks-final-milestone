@@ -560,8 +560,5 @@ public class TestLuiServiceImpl {
     }
 
 
-    @Test(expected=Exception.class)
-    public void testGetLuiIdsByAtpAndTypeException() throws Exception{
-     }
 
 }
