@@ -239,7 +239,10 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
             stripSuccesses(items);
         }
         if (!items.isEmpty()) {
-            this.socService.createSocRolloverResultItems(reverseResult.getId(), items, context);
+            this.socService.createSocRolloverResultItems(reverseResult.getId(), 
+                    CourseOfferingSetServiceConstants.DELETE_RESULT_ITEM_TYPE_KEY, 
+                    items, 
+                    context);
         }
         items.clear();
     }
@@ -273,7 +276,7 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
             }
         }
         // TODO: add a cascading delete for course offferings
-        for (FormatOfferingInfo fo : this.coService.getFormatOfferingByCourseOfferingIds(coId, context)) {
+        for (FormatOfferingInfo fo : this.coService.getFormatOfferingsByCourseOffering(coId, context)) {
             for (ActivityOfferingInfo ao : this.coService.getActivityOfferingsByFormatOffering(fo.getId(), context)) {
                 coService.deleteActivityOffering(ao.getId(), context);
             }

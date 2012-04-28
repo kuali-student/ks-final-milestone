@@ -17,7 +17,7 @@ import java.util.List;
  * @author Kuali Student Team (Sambit)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingAdminDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
+@XmlType(name = "CourseOfferingAdminDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "courseId",
         "termId", "courseOfferingCode", "courseOfferingTitle",
         "unitsContentOwnerOrgIds", "unitsDeploymentOrgIds",
         "meta", "attributes", "_futureElements"})

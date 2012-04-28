@@ -72,4 +72,7 @@ public class CourseOfferingSetServiceConstants {
     
     // general processing
     public static final String REVERSE_JUST_CREATES_OPTION_KEY = "kuali.reverse.rollover.just.creates";
+    // canonical to course offering options
+    public static final String CREDITS_MATCH_SCHEDULED_HOURS_OPTION_KEY = "kuali.canonical.course.to.course.offering.credits.match.scheduled.hours";
+    public static final String NOT_COURSE_TITLE_OPTION_KEY = "kuali.canonical.course.to.course.offering.not.title";
 }

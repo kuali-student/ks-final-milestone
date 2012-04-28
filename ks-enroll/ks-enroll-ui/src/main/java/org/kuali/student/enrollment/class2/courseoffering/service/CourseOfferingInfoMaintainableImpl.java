@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -96,6 +97,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     termId, 
                     coi.getTypeKey(), 
                     coi, 
+                    Collections.EMPTY_LIST,
                     new ContextInfo());
         } catch (Exception ex) {
           throw new RuntimeException (ex);
@@ -169,7 +171,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     String scheduleId = null;
                     activityOfferingInfo.setScheduleId(scheduleId);
                     // activityOfferingInfo.setMeetingSchedules(generateFakeMeetingTimes());
-                    List<FormatOfferingInfo> formats = this. getCourseOfferingService().getFormatOfferingByCourseOfferingIds(coi.getId(), new ContextInfo());
+                    List<FormatOfferingInfo> formats = this. getCourseOfferingService().getFormatOfferingsByCourseOffering(coi.getId(), new ContextInfo());
                     activityOfferingInfo.setFormatOfferingId(formats.get(0).getId ());
                     activityOfferingInfo = getCourseOfferingService().createActivityOffering
                             (activityOfferingInfo.getFormatOfferingId(),

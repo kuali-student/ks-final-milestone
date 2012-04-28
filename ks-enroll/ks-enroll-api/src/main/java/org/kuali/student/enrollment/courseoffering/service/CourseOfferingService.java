@@ -40,6 +40,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 
 /**
  * Course Offering is a Class II service supporting the process of
@@ -255,8 +256,59 @@ public interface CourseOfferingService {
      */
     public List<String> getCourseOfferingIdsByType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    
     /**
-     * Creates a new CourseOffering from a canonical course.
+     * Get the valid options that can be specified to control 
+     * canonical course to course offering operations.  
+     * 
+     * This can happen in several situations:
+     * (1) When creating a course offering from scratch that copies data from the canonical
+     * (2) When a course is rolledOver and the "use canonical" option is specified in a rollover
+     * (3) When a course offering is explicitly asked to be updated based on the canonical
+     * (4) When a course offering is explicitly asked to be validated against the canonical
+     * 
+     * These may identify fields to be copied or not copied or special checks or 
+     * comparisons to be made, such as comparing that the credits of the course
+     * are consistent with the specified classroom hours.
+     * 
+     * TODO: The exact types that can be specified here have not yet been defined
+     * 
+     * @param context      Context information containing the principalId and locale
+     *                     information about the caller of service operation
+     * @return list of option keys used to to indicate the options to be used when copying data.
+     * @throws InvalidParameterException    One or more parameters invalid
+     * @throws MissingParameterException    One or more parameters missing
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     */
+    public List<String> getValidCanonicalCourseToCourseOfferingOptionKeys(@WebParam(name = "context") ContextInfo context) 
+            throws InvalidParameterException, MissingParameterException, 
+            OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    
+     /**
+     * Get the valid rollover option keys
+     * 
+     * This is the list of option keys supported by the rollover operation.
+     * Keys released with kuali student can be found here
+     * https://wiki.kuali.org/display/STUDENT/Course+Offering+Set+Types+and+States#CourseOfferingSetTypesandStates-RolloverOptionKeys
+     * 
+     * @param context      Context information containing the principalId and locale
+     *                     information about the caller of service operation
+     * @return list of option keys
+     * @throws InvalidParameterException    One or more parameters invalid
+     * @throws MissingParameterException    One or more parameters missing
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     */
+    public List<String> getValidRolloverOptionKeys(@WebParam(name = "context") ContextInfo context) 
+            throws InvalidParameterException, MissingParameterException, 
+            OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+
+
+    /**
+     * Creates a new course offering from a canonical course.
      * 
      * Fields in course offering will be initialized with data from the canonical.
      *
@@ -264,6 +316,7 @@ public interface CourseOfferingService {
      *                     ActivityOffering will belong to
      * @param termId       Unique key of the term in which the course is being offered
      *                     course offering
+     * @param optionKeys options to use when copying data from the canonical
      * @param context      Context information containing the principalId and locale
      *                     information about the caller of service operation
      * @return newly created CourseOfferingInfo
@@ -274,8 +327,49 @@ public interface CourseOfferingService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public CourseOfferingInfo createCourseOffering(@WebParam(name = "courseId") String courseId, @WebParam(name = "termId") String termId, @WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey, @WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public CourseOfferingInfo createCourseOffering(@WebParam(name = "courseId") String courseId, 
+            @WebParam(name = "termId") String termId, 
+            @WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey, 
+            @WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo, 
+            @WebParam(name = "optionKeys") List<String> optionKeys, 
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException,
+            DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, 
+            ReadOnlyException;
 
+    
+     /**
+     * Creates a new course offering based on the source course offering.
+     * 
+     * Fields in course offering will be initialized with data from the source 
+     * course offering.
+     * .
+     *
+     * @param sourceCourseOfferingId  The id of the course offering to be rolled over.
+     * @param targetTermId Unique key of the term in which the course is rolled over into
+     * @param optionKeys keys that control optional processing
+     * @param context      Context information containing the principalId and locale
+     *                     information about the caller of service operation
+     * @return newly created CourseOfferingInfo
+     * @throws DoesNotExistException        sourceCoId not found
+     * @throws AlreadyExistsException       if the course offering already exists in the target term and 
+     *                                      skip if already exists option is specified
+     * @throws DataValidationErrorException data in system is not valid or not valid for an option key specified
+     * @throws InvalidParameterException    One or more parameters invalid
+     * @throws MissingParameterException    One or more parameters missing
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     */
+    public CourseOfferingInfo rolloveCourseOffering(@WebParam(name = "sourceCourseOfferingId") String sourceCourseOfferingId,
+            @WebParam(name = "targetTermId") String targetTermId, 
+            @WebParam(name = "optionKeys") List<String> optionKeys, 
+            @WebParam(name = "context") ContextInfo context) 
+            throws AlreadyExistsException, DataValidationErrorException, 
+            DoesNotExistException, DataValidationErrorException, 
+            InvalidParameterException, MissingParameterException, 
+            OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    
     /**
      * Updates an existing CourseOffering.
      *
@@ -299,7 +393,8 @@ public interface CourseOfferingService {
      * reinitialize and overwrite any changes to the course offering that were
      * made since its creation with the defaults from the canonical course
      *
-     * @param courseOfferingId Id of CourseOffering to be updated
+     * @param courseOfferingId Id of CourseOffering to be updated     
+     * @param optionKeys options to use when copying data from the canonical
      * @param context          Context information containing the principalId and locale
      *                         information about the caller of service operation
      * @return updated CourseOffering
@@ -311,7 +406,12 @@ public interface CourseOfferingService {
      * @throws PermissionDeniedException    authorization failure
      * @throws VersionMismatchException     The action was attempted on an out of date version.
      */
-    public CourseOfferingInfo updateCourseOfferingFromCanonical(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public CourseOfferingInfo updateCourseOfferingFromCanonical(@WebParam(name = "courseOfferingId") String courseOfferingId,
+            @WebParam(name = "optionKeys") List<String> optionKeys, 
+            @WebParam(name = "context") ContextInfo context) 
+            throws DataValidationErrorException, DoesNotExistException, 
+            InvalidParameterException, MissingParameterException, OperationFailedException, 
+            PermissionDeniedException, VersionMismatchException;
 
     /**
      * Deletes an existing CourseOffering. Deleting a course offering should
@@ -358,16 +458,22 @@ public interface CourseOfferingService {
     public List<ValidationResultInfo> validateCourseOffering(@WebParam(name = "validationType") String validationType, @WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * Validates / Compares a
-     * @param courseOfferingInfo
-     * @param context
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
+     * Validates / Compares a course offering against it's canonical course.
+     * 
+     * @param courseOfferingInfo the course offering information to be tested.
+     * @param context            Context information containing the principalId and locale
+     *                           information about the caller of service operation
+     * @return the results from performing the validation
+     * @throws DoesNotExistException if the course associated with the course offering does not exist
+     * @throws InvalidParameterException if a parameter is invalid
+     * @throws MissingParameterException if a parameter is missing
+     * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultInfo> validateCourseOfferingFromCanonical(@WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateCourseOfferingFromCanonical(@WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo, 
+            @WebParam(name = "optionKeys") List<String> optionKeys, 
+            @WebParam(name = "context") ContextInfo context) 
+            throws DoesNotExistException, InvalidParameterException, 
+            MissingParameterException, OperationFailedException;
 
     /**
      *  Gets an format offering  based on Id.
@@ -394,7 +500,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-    public List<FormatOfferingInfo> getFormatOfferingByCourseOfferingIds(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<FormatOfferingInfo> getFormatOfferingsByCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates an  Format Offering  for a course offering

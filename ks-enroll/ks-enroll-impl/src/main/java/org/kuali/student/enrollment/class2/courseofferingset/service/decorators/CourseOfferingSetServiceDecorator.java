@@ -276,11 +276,11 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
     }
 
     @Override
-    public Integer createSocRolloverResultItems(String socRolloverResultId, List<SocRolloverResultItemInfo> socRolloverResultItemInfos, ContextInfo context) throws
+    public Integer createSocRolloverResultItems(String socRolloverResultId, String rolloverResultItemTypeKey, List<SocRolloverResultItemInfo> socRolloverResultItemInfos, ContextInfo context) throws
             DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createSocRolloverResultItems(socRolloverResultId, socRolloverResultItemInfos, context);
+        return getNextDecorator().createSocRolloverResultItems(socRolloverResultId, rolloverResultItemTypeKey, socRolloverResultItemInfos, context);
     }
 
     public SocRolloverResultItemInfo createSocRolloverResultItem(String socRolloverResultId, String socRolloverResultItemTypeKey, SocRolloverResultItemInfo socRolloverResultItemInfo, ContextInfo context) throws

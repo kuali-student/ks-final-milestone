@@ -38,6 +38,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <bean id="courseOfferingValidation"
     class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
+<!-- TODO: configure this with the validator and persistence impl like in the comment 
+      I just noticed that it has no configuration when removing references to the dictionary service 
+        and figured I would note the potential issue
+        Note: I did a serach on this file enrollApplicationContext and didn't find it being used anywhere!
+    <property name="nextDecorator" ref="coService" />
+    <property name="validator" ref="validator" />-->
   </bean>
 
   <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">

@@ -288,6 +288,25 @@ public class TestLuiServiceImpl {
 //        assertEquals(1, info.getFeeIds().size());
 //        assertEquals(1, info.getRevenues().size());
 //        assertNotNull(info.getExpenditure().getId());
+        // test fetch after the create
+        info = luiService.getLui(info.getId(), callContext);
+        assertNotNull(info);
+        assertEquals(orig.getName(), info.getName());
+        assertEquals(orig.getStateKey(), info.getStateKey());
+        assertEquals(orig.getTypeKey(), info.getTypeKey());
+        assertEquals(orig.getEffectiveDate(), info.getEffectiveDate());
+        assertEquals(orig.getExpirationDate(), info.getExpirationDate());
+
+        assertNotNull(info.getOfficialIdentifier());
+        assertEquals(orig.getOfficialIdentifier().getShortName(), info.getOfficialIdentifier().getShortName());
+        assertEquals(orig.getAlternateIdentifiers().size(), info.getAlternateIdentifiers().size());
+        assertEquals(orig.getAlternateIdentifiers().get(0).getShortName(), info.getAlternateIdentifiers().get(0).getShortName());
+
+        assertEquals(orig.getMaximumEnrollment(), info.getMaximumEnrollment());
+        assertEquals(orig.getMinimumEnrollment(), info.getMinimumEnrollment());
+        assertEquals(orig.getCluId(), info.getCluId());
+        assertEquals(orig.getAtpId(), info.getAtpId());
+        assertEquals(orig.getReferenceURL(), info.getReferenceURL());
     }
 
     @Test

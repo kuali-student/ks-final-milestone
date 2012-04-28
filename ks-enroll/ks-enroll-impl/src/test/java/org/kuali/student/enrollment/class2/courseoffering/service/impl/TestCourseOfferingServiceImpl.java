@@ -175,15 +175,18 @@ public class TestCourseOfferingServiceImpl {
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
                                                   OperationFailedException, PermissionDeniedException, ReadOnlyException {
         String formatId = null;
+        List<String> optionKeys = new ArrayList<String>();
         CourseOfferingInfo coInfo = new CourseOfferingInfo();
-        CourseOfferingInfo created = courseOfferingService.createCourseOffering("CLU-1", "testAtpId1", formatId, coInfo, callContext);
+        CourseOfferingInfo created = courseOfferingService.createCourseOffering("CLU-1", "testAtpId1", formatId, coInfo, optionKeys, callContext);
 
         assertNotNull(created);
         assertEquals("CLU-1", created.getCourseId());
         assertEquals("testAtpId1", created.getTermId());
         assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, created.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, created.getTypeKey());
-
+        assertEquals("CHEM123", created.getCourseOfferingCode());
+        assertEquals("Chemistry 123", created.getCourseOfferingTitle());
+        
         // TODO Is this necessary?
         CourseOfferingInfo retrieved = courseOfferingService.getCourseOffering(created.getId(), callContext);
         assertNotNull(retrieved);
@@ -290,7 +293,8 @@ public class TestCourseOfferingServiceImpl {
         // Create a CO
         String formatId = null;
         CourseOfferingInfo coInfo = new CourseOfferingInfo();
-        CourseOfferingInfo created = courseOfferingService.createCourseOffering("CLU-1", "testAtpId1", formatId, coInfo, callContext);
+        List<String> optionKeys = new ArrayList<String>();
+        CourseOfferingInfo created = courseOfferingService.createCourseOffering("CLU-1", "testAtpId1", formatId, coInfo, optionKeys, callContext);
 
         // Verify that the CO was created
         assertNotNull(created);

@@ -437,7 +437,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
-    public Integer createSocRolloverResultItems(String socRolloverResultId, List<SocRolloverResultItemInfo> socRolloverResultItemInfos, ContextInfo context)
+    public Integer createSocRolloverResultItems(String socRolloverResultId, String socRolloverResultItemTypeKey, List<SocRolloverResultItemInfo> socRolloverResultItemInfos, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new OperationFailedException("createSocRolloverResultItems has not been implemented");

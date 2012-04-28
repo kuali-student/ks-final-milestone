@@ -13,6 +13,7 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
@@ -153,10 +154,12 @@ public class CourseOfferingTransformer {
 
     }
 
-    public void copyFromCanonical(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo) {
+    public void copyFromCanonical(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo, List<String> optionKeys) {
         courseOfferingInfo.setCourseId(courseInfo.getId());
         courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
-        courseOfferingInfo.setCourseOfferingTitle(courseInfo.getCourseTitle());
+        if (!optionKeys.contains(CourseOfferingSetServiceConstants.NOT_COURSE_TITLE_OPTION_KEY)) {
+         courseOfferingInfo.setCourseOfferingTitle(courseInfo.getCourseTitle());
+        }
         courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
         courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
         courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());

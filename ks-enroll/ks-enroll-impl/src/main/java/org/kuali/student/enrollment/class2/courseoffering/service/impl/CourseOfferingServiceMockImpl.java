@@ -22,13 +22,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingAdminDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -38,12 +44,34 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
-import javax.jws.WebParam;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
+    
+    private CourseService courseService;
+    private AcademicCalendarService acalService;
+    
+    public CourseService getCourseService() {
+        return courseService;
+    }
+
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
+    }
+
+    public AcademicCalendarService getAcalService() {
+        return acalService;
+    }
+
+    public void setAcalService(AcademicCalendarService acalService) {
+        this.acalService = acalService;
+    }
+    
+    
+    
     @Override
     public CourseOfferingInfo getCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -180,7 +208,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     private Map<String, CourseOfferingInfo> courseOfferingMap = new LinkedHashMap<String, CourseOfferingInfo>();
 
     @Override
-    public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey, CourseOfferingInfo courseOfferingInfo, ContextInfo context)
+    public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey, CourseOfferingInfo courseOfferingInfo, 
+    List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // create 
@@ -192,6 +221,11 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         if (copy.getId() == null) {
             copy.setId(courseOfferingMap.size() + "");
         }
+        // TODO: move this logic to the calculation decorator do the persistence layer doesn't have this logic mixed in with it
+        // copy from cannonical
+        CourseInfo courseInfo = new R1CourseServiceHelper (courseService, acalService).getCourse(courseId);
+        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
+        coTransformer.copyFromCanonical(courseInfo, courseOfferingInfo, optionKeys);
         copy.setMeta(newMeta(context));
         courseOfferingMap.put(copy.getId(), copy);
         return new CourseOfferingInfo(copy);
@@ -216,10 +250,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId, ContextInfo context)
+    public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId, 
+    List<String> optionKeys, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        throw new OperationFailedException("updateCourseOfferingFromCanonical has not been implemented");
+        throw new UnsupportedOperationException("Configuration Error this method should have been implemented in the calculation layer and not reached here");
+
     }
 
     @Override
@@ -240,7 +276,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateCourseOfferingFromCanonical(CourseOfferingInfo courseOfferingInfo, ContextInfo context)
+    public List<ValidationResultInfo> validateCourseOfferingFromCanonical(CourseOfferingInfo courseOfferingInfo, 
+       List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // validate
         return new ArrayList<ValidationResultInfo>();
@@ -257,7 +294,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<FormatOfferingInfo> getFormatOfferingByCourseOfferingIds(String courseOfferingId, ContextInfo context)
+    public List<FormatOfferingInfo> getFormatOfferingsByCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<FormatOfferingInfo> list = new ArrayList<FormatOfferingInfo>();
@@ -277,7 +314,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatId, String formatOfferingType, FormatOfferingInfo formatOfferingInfo, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        this.getCourseOffering(courseOfferingId, context);
         // create 
+        if (!courseOfferingId.equals(formatOfferingInfo.getCourseOfferingId())) {
+            throw new InvalidParameterException("The course offering id parameter does not match the course offering id on the info object");
+        }
+        if (!formatId.equals(formatOfferingInfo.getFormatId())) {
+            throw new InvalidParameterException("The format id parameter does not match the format id on the info object");
+        }
         if (!formatOfferingType.equals(formatOfferingInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
@@ -408,7 +452,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public ActivityOfferingInfo createActivityOffering(String formatOfferingId, String activityId, String activityOfferingTypeKey, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        this.getFormatOffering(formatOfferingId, context);
         // create 
+        if (!formatOfferingId.equals(activityOfferingInfo.getFormatOfferingId())) {
+            throw new InvalidParameterException("The format offering id parameter does not match the format offering id on the info object");
+        }
+        if (!activityId.equals(activityOfferingInfo.getActivityId())) {
+            throw new InvalidParameterException("The activity id parameter does not match the activity id on the info object");
+        }
         if (!activityOfferingTypeKey.equals(activityOfferingInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
@@ -419,6 +470,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         }
         copy.setMeta(newMeta(context));
         activityOfferingMap.put(copy.getId(), copy);
+        System.out.println ("CoruseOfferingMockImpl: created activity offering" + copy.getId () + " " + copy.getFormatOfferingId());
         return new ActivityOfferingInfo(copy);
     }
 
@@ -756,7 +808,41 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public List<String> getValidCanonicalCourseToCourseOfferingOptionKeys(ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        List<String> options = new ArrayList ();
+        options.add (CourseOfferingSetServiceConstants.NOT_COURSE_TITLE_OPTION_KEY);
+        options.add (CourseOfferingSetServiceConstants.CREDITS_MATCH_SCHEDULED_HOURS_OPTION_KEY);
+        return options;
+    }
 
+    @Override
+    public List<String> getValidRolloverOptionKeys(ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        List<String> options = new ArrayList ();
+        // what courses
+        options.add(CourseOfferingSetServiceConstants.STILL_OFFERABLE_OPTION_KEY);
+        options.add(CourseOfferingSetServiceConstants.IF_NO_NEW_VERSION_OPTION_KEY);
+        options.add(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_OPTION_KEY);
+        options.add(CourseOfferingSetServiceConstants.SKIP_IF_ALREADY_EXISTS_OPTION_KEY);
+        // what data
+        options.add(CourseOfferingSetServiceConstants.USE_CANNONICAL_OPTION_KEY);
+        options.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
+        options.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
+        return options;
+    }
+
+    @Override
+    public CourseOfferingInfo rolloveCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
+            DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        throw new UnsupportedOperationException("Configuration Error this method should have been implemented in the calculation layer and not reached here");
+
+    }
+
+    
+    
     private MetaInfo newMeta(ContextInfo context) {
         MetaInfo meta = new MetaInfo();
         meta.setCreateId(context.getPrincipalId());

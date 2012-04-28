@@ -98,4 +98,31 @@ public interface SocRolloverResult
      * @impl set during the #rolloverSoc operation
      */
     public RichText getMessage();
+
+    /**
+     * Number of items created 
+     *     
+     * @name Items Expected
+     * @readOnly 
+     * @impl calculation based on items with status of success
+     */
+    public Integer getItemsCreated();
+
+    /**
+     * Number of items skipped (not rolled over)
+     *     
+     * @name Items Expected
+     * @readOnly 
+     * @impl calculation based on items with status of success
+     */
+    public Integer getItemsSkipped();
+    
+    /**
+     * Get the target term Id
+     *     
+     * @name Source Term Id
+     * @readOnly 
+     * @impl calculation based on the source SOC
+     */
+    public String getSourceTermId();
 }

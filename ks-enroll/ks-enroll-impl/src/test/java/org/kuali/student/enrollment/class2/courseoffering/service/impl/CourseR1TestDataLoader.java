@@ -9,8 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -42,23 +42,48 @@ public class CourseR1TestDataLoader {
     }
 
     public void loadData() {
-        loadCourse("COURSE1", "CHEM", "CHEM123", "Chemistry 123", "description 1", "COURSE1-FORMAT1", LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY);
-        loadCourse("COURSE2", "ENG", "ENG101", "Intro English", "description 2", "COURSE2-FORMAT1", LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);  
+        loadCourse("COURSE1", "2012FA", "CHEM", "CHEM123", "Chemistry 123", "description 1", "COURSE1-FORMAT1",
+                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY);
+        loadCourse("COURSE2", "2012SP", "ENG", "ENG101", "Intro English", "description 2", "COURSE2-FORMAT1",
+                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, null);
     }
 
-    private void loadCourse(String id,
+    public void loadCourse(String id,
+            String startTermId,
             String subjectArea,
             String code,
             String title,
             String description,
             String formatId,
-            String... activityTypeKeys) {
+            String activityTypeKey1,
+            String activityTypeKey2) {
+        List<String> activityTypeKeys = new ArrayList();
+        if (activityTypeKey1 != null) {
+            activityTypeKeys.add(activityTypeKey1);
+        }
+        if (activityTypeKey1 != null) {
+            activityTypeKeys.add(activityTypeKey2);
+        }
+        this.loadCourseInternal(id, startTermId, subjectArea, code, title, description, formatId, activityTypeKeys);
+    }
+
+    private void loadCourseInternal(String id,
+            String startTermId,
+            String subjectArea,
+            String code,
+            String title,
+            String description,
+            String formatId,
+            List<String> activityTypeKeys) {
         CourseInfo info = new CourseInfo();
+        info.setStartTerm(startTermId);
+        info.setEffectiveDate(calcEffectiveDateForTerm(startTermId, id));
         info.setId(id);
         info.setSubjectArea(subjectArea);
         info.setCode(code);
+        info.setCourseNumberSuffix(code.substring(subjectArea.length()));
         info.setCourseTitle(title);
-        RichTextInfo rt = new RichTextInfo ();
+        RichTextInfo rt = new RichTextInfo();
         rt.setPlain(description);
         info.setDescr(rt);
         info.setType(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
@@ -73,15 +98,30 @@ public class CourseR1TestDataLoader {
         for (String activityTypeKey : activityTypeKeys) {
             ActivityInfo activity = new ActivityInfo();
             format.getActivities().add(activity);
-            activity.setId(format.getId() + "-"+ activityTypeKey);
+            activity.setId(format.getId() + "-" + activityTypeKey);
             activity.setActivityType(activityTypeKey);
-            activity.setState("Draft");
+            activity.setState("Active");
         }
         try {
             CourseInfo newInfo = this.courseService.createCourse(info);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private Date calcEffectiveDateForTerm(String termId, String context) {
+        String year = termId.substring(0, 4);
+        String mmdd = "09-01";
+        if (termId.endsWith("FA")) {
+            mmdd = "09-01";
+        } else if (termId.endsWith("WI")) {
+            mmdd = "01-01";
+        } else if (termId.endsWith("SP")) {
+            mmdd = "03-01";
+        } else if (termId.endsWith("SU")) {
+            mmdd = "06-01";
+        }
+        return str2Date(year + "-" + mmdd + " 00:00:00.0", context);
     }
 
     private Date str2Date(String str, String context) {

@@ -192,7 +192,6 @@
   <bean id="coServiceValidationDecorator"
     class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
     <property name="nextDecorator" ref="coService" />
-    <property name="dataDictionaryService" ref="dataDictionaryServiceForCourseOffering" />
     <property name="validator" ref="validator" />
   </bean>
 

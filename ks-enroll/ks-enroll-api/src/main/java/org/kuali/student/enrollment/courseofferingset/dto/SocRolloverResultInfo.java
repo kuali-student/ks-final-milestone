@@ -39,6 +39,9 @@ import org.w3c.dom.Element;
     "optionKeys",
     "itemsProcessed",
     "itemsExpected",
+    "itemsCreated",
+    "itemsSkipped",
+    "sourceTermId",
     "message",
     "meta",
     "attributes",
@@ -60,6 +63,12 @@ public class SocRolloverResultInfo
     private Integer itemsProcessed;
     @XmlElement
     private Integer itemsExpected;
+    @XmlElement
+    private Integer itemsCreated;
+    @XmlElement
+    private Integer itemsSkipped;
+    @XmlElement
+    private String sourceTermId;
     @XmlElement
     private RichTextInfo message;
     @XmlAnyElement
@@ -87,6 +96,9 @@ public class SocRolloverResultInfo
         this.optionKeys = new ArrayList<String>(orig.getOptionKeys());
         this.itemsProcessed = orig.getItemsProcessed();
         this.itemsExpected = orig.getItemsExpected();
+        this.itemsCreated = orig.getItemsCreated();
+        this.itemsSkipped = orig.getItemsSkipped();
+        this.sourceTermId = orig.getSourceTermId();
         if (orig.getMessage() != null) {
             this.message = new RichTextInfo (orig.getMessage());
         }
@@ -158,4 +170,32 @@ public class SocRolloverResultInfo
         this.message = message;
     }
 
+    @Override
+    public Integer getItemsCreated() {
+        return itemsCreated;
+    }
+
+    public void setItemsCreated(Integer itemsCreated) {
+        this.itemsCreated = itemsCreated;
+    }
+
+    @Override
+    public Integer getItemsSkipped() {
+        return itemsSkipped;
+    }
+
+    public void setItemsSkipped(Integer itemsSkipped) {
+        this.itemsSkipped = itemsSkipped;
+    }
+
+    @Override
+    public String getSourceTermId() {
+        return sourceTermId;
+    }
+
+    public void setSourceTermId(String sourceTermId) {
+        this.sourceTermId = sourceTermId;
+    }
+
+    
 }

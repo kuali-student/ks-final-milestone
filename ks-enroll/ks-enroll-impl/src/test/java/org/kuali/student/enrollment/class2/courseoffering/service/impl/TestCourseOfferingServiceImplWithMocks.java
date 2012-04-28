@@ -92,23 +92,24 @@ public class TestCourseOfferingServiceImplWithMocks {
             throw new RuntimeException(ex);
         }
         // create co from course
+        List<String> optionKeys = new ArrayList<String>();
         CourseOfferingInfo orig = new CourseOfferingInfo();
         orig.setCourseId(course.getId());
         orig.setTermId("testAtpId1");
         orig.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         orig.setCourseOfferingTitle("my name");
-        CourseOfferingInfo info = courseOfferingService.createCourseOffering(orig.getCourseId(), orig.getTermId(), orig.getTypeKey(), orig, callContext);
+        CourseOfferingInfo info = courseOfferingService.createCourseOffering(orig.getCourseId(), orig.getTermId(), 
+                orig.getTypeKey(), orig, optionKeys, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
         assertEquals(orig.getCourseId(), info.getCourseId());
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getTypeKey(), info.getTypeKey());
-        assertEquals(course.getSubjectArea(), info.getSubjectArea());
+        assertEquals(course.getCode(), info.getCourseOfferingCode());
         assertEquals(course.getCourseNumberSuffix(), info.getCourseNumberSuffix());
         assertEquals(course.getSubjectArea(), info.getSubjectArea());
-        assertEquals(course.getCode(), info.getCourseOfferingCode());
         if (course.getDescr() != null) {
             assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getPlain(), info.getDescr().getPlain());
             assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getFormatted(), info.getDescr().getFormatted());

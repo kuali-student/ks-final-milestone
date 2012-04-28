@@ -821,9 +821,11 @@ public interface CourseOfferingSetService {
 
     /**
      * Bulk create of  SocRolloverResultItems
-     * All must be for the same result but the types may vary.
+     * 
+     * All must be for the same result and type.
      * 
      * @param socRolloverResultId     Id of the corresponding soc rollover result
+     * @param socRolloverResultItemTypeKey     soc rollover result type key
      * @param socRolloverResultItemInfos    objects to be created
      * @param context      Context information containing the principalId and locale
      *                     information about the caller of service operation
@@ -836,6 +838,7 @@ public interface CourseOfferingSetService {
      * @throws PermissionDeniedException    authorization failure
      */
     public Integer createSocRolloverResultItems(@WebParam(name = "socRolloverResultId") String socRolloverResultId,
+            @WebParam(name = "socRolloverResultItemTypeKey") String socRolloverResultItemTypeKey,
             @WebParam(name = "socRolloverResultItemInfos") List<SocRolloverResultItemInfo> socRolloverResultItemInfos,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
