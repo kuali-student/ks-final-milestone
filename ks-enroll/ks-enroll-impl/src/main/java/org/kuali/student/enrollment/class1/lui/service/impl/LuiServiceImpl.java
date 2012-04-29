@@ -527,10 +527,8 @@ public class LuiServiceImpl
         if (entity == null) {
             throw new DoesNotExistException(luiLuiRelationId);
         }
-        StatusInfo status = new StatusInfo();
-        status.setSuccess(Boolean.FALSE);
-
         luiLuiRelationDao.remove(entity);
+        StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
 
         return status;

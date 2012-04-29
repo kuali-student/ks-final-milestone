@@ -97,35 +97,6 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
 
 
 
-     /********* Organization Information **************/
-
-    /**
-     * Organization(s) that is responsible for administering the course delivery
-     * - and all associated logistics - of the course Initially copied from the
-     * canonical course then, depending on the configuration, updated This is
-     * typically an academic department but could be for example the extended
-     * studies office that is responsible for delivering the course even though
-     * it's content is managed by an academic department.
-     *
-     * @name Units Deployment
-     * @readOnly
-     * @impl initalized from canonical course units deployment but then stored
-     *       in lui.unitsDeployment
-     */
-    public List<String> getUnitsDeploymentOrgIds();
-
-    /**
-     * Organization(s) that is responsible for the academic content of the
-     * course as approved in its canonical form. This is the organization that
-     * has oversight of the curriculum. This is typically an academic
-     * department.
-     *
-     * @name Units Content Owner
-     * @readOnly on updates
-     * @impl this is never updatable so it should just be grabbed from the
-     *       canonical course and then stored in lui.unitsContentOwner
-     */
-    public List<String> getUnitsContentOwnerOrgIds();
 
     /**
      * The name of the Type that the Course Offering or the underlying LUI

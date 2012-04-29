@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OfferingInstructorInfo", propOrder = {"id", "personId", 
-        "percentageEffort", "typeKey", "stateKey", "meta", "attributes", "_futureElements"})
+        "percentageEffort","personName", "typeKey", "stateKey", "meta", "attributes", "_futureElements"})
 public class OfferingInstructorInfo extends TypeStateEntityInfo implements OfferingInstructor, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,7 +44,6 @@ public class OfferingInstructorInfo extends TypeStateEntityInfo implements Offer
     
     @XmlElement
     private String personId;
-
 
     @XmlElement
     private String personName;
@@ -60,6 +59,7 @@ public class OfferingInstructorInfo extends TypeStateEntityInfo implements Offer
         this.personId = null;
         this.percentageEffort = null;
         this._futureElements  = null;
+        this.personName = null;
     }
     
     public OfferingInstructorInfo(OfferingInstructor instructor) {
@@ -70,6 +70,7 @@ public class OfferingInstructorInfo extends TypeStateEntityInfo implements Offer
         this.id = instructor.getId();
         this.personId = instructor.getPersonId();
         this.percentageEffort = instructor.getPercentageEffort();
+        this.personName = instructor.getPersonName();
         this._futureElements = null;
     }
 
@@ -98,5 +99,14 @@ public class OfferingInstructorInfo extends TypeStateEntityInfo implements Offer
 
     public void setPercentageEffort(Float percentageEffort) {
         this.percentageEffort = percentageEffort;
-    }     
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+    @Override
+    public String getPersonName() {
+        return personName;
+    }
+
 }

@@ -53,7 +53,6 @@ import static org.junit.Assert.fail;
 @ContextConfiguration(locations = {"classpath:lui-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-
 public class TestLuiServiceImpl {
 
     @Resource(name = "luiService")
@@ -167,7 +166,6 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetLuiIdsByRelation() throws Exception {
         try {
             List<String> luiIds = luiService.getLuiIdsByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);

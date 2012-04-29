@@ -3,11 +3,9 @@ package org.kuali.student.enrollment.courseoffering.dto;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOfferingAdminDisplay;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.infc.RichText;
+import org.w3c.dom.Element;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +16,8 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingAdminDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "courseId",
-        "termId", "courseOfferingCode", "courseOfferingTitle",
-        "unitsContentOwnerOrgIds", "unitsDeploymentOrgIds",
-        "meta", "attributes", "_futureElements"})
+        "termId", "courseOfferingCode", "courseOfferingTitle", "subjectArea","termName", "termCode", "displayGrading",
+         "displayCredit","typeName", "stateName", "activtyOfferingTypes", "meta", "attributes", "_futureElements"})
 public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo implements CourseOfferingAdminDisplay, Serializable {
 
     @XmlElement
@@ -28,7 +25,6 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
 
     @XmlElement
     private String termId;
-
 
     @XmlElement
     private String courseOfferingTitle;
@@ -39,14 +35,7 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
     @XmlElement
     private String subjectArea;
 
-    @XmlElement
-    private List<String> unitsDeploymentOrgIds;
-
-    @XmlElement
-    private List<String> unitsContentOwnerOrgIds;
-
-
-    @XmlElement
+   @XmlElement
     private String termName;
 
     @XmlElement
@@ -69,6 +58,8 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
     @XmlElement
     private List<String> activtyOfferingTypes;
 
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     public CourseOfferingAdminDisplayInfo() {
 
@@ -92,9 +83,6 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
             this.courseOfferingTitle = courseOfferingAdminDisplay.getCourseOfferingTitle();
             this.courseOfferingCode = courseOfferingAdminDisplay.getCourseOfferingCode();
             this.subjectArea = courseOfferingAdminDisplay.getSubjectArea();
-
-            this.unitsDeploymentOrgIds = courseOfferingAdminDisplay.getUnitsDeploymentOrgIds();
-            this.unitsContentOwnerOrgIds = courseOfferingAdminDisplay.getUnitsContentOwnerOrgIds();
         }
     }
 
@@ -126,17 +114,6 @@ public class CourseOfferingAdminDisplayInfo extends IdNamelessEntityInfo impleme
     @Override
     public String getCourseOfferingTitle() {
         return this.courseOfferingTitle;
-    }
-
-
-    @Override
-    public List<String> getUnitsDeploymentOrgIds() {
-        return this.unitsDeploymentOrgIds;
-    }
-
-    @Override
-    public List<String> getUnitsContentOwnerOrgIds() {
-        return this.unitsContentOwnerOrgIds;
     }
 
 

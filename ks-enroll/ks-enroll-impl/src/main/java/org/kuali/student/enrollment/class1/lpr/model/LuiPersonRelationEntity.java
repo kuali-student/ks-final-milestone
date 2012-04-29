@@ -30,10 +30,14 @@ import org.kuali.student.r2.common.infc.Attribute;
 @Table(name = "KSEN_LPR")
 public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwner<LuiPersonRelationAttributeEntity> {
 
+    @Column(name = "PERSONID")
     private String personId;
 
+    @Column(name = "LUIID")
     private String luiId;
 
+
+    @Column(name = "COMMITMENTPERCENT")
     private Float commitmentPercent;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -42,22 +46,14 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @Column(name = "RELATION_TYPE_ID")
+    @Column(name = "LPR_TYPE")
     private String personRelationTypeId;
 
-    @Column(name = "RELATION_STATE_ID")
+    @Column(name = "LPR_STATE")
     private String personRelationStateId;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "KSEN_LPR_RV_GRP_RELTN", joinColumns = @JoinColumn(name = "LPR_ID"), inverseJoinColumns = @JoinColumn(name = "RV_GRP_ID"))
-//    private List<ResultValuesGroupEntity> resultValuesGroups;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    // @JoinColumn(name = "LPR_ATTR_ID")
-    // @JoinTable(name="LPR_ATTR_JOIN",
-    // joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),
-    // inverseJoinColumns=@JoinColumn(name="ATTRIB_ID",
-    // referencedColumnName="ID"))
     private List<LuiPersonRelationAttributeEntity> attributes;
 
     public LuiPersonRelationEntity() {}
@@ -69,14 +65,14 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.setId(dto.getId());
         this.setLuiId(dto.getLuiId());
         this.setPersonId(dto.getPersonId());
-
+        this.setPersonRelationTypeId(dto.getTypeKey());
+        fromDto(dto);
     }
 
     public void fromDto(LuiPersonRelation dto){
         this.setCommitmentPercent(dto.getCommitmentPercent());
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
-        this.setPersonRelationTypeId(dto.getTypeKey());
         this.setPersonRelationStateId(dto.getStateKey());
         this.setAttributes(new ArrayList<LuiPersonRelationAttributeEntity>());
         if (null != dto.getAttributes()) {
