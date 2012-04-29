@@ -21,6 +21,9 @@ public class LprTestDataLoader {
 
     private  String principalId = LprTestDataLoader.class.getSimpleName();
 
+    public LprTestDataLoader(LprDao lprDao){
+     this.lprDao = lprDao;
+    }
     public  void loadData() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, VersionMismatchException,
