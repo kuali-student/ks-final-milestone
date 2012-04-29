@@ -79,11 +79,9 @@
 
     <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
         <property name="persistenceUnitName" value="persistentUnit"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml" />
+        <property name="persistenceXmlLocation" value="classpath:META-INF/feeServicePersistence.xml" />
         <property name="dataSource" ref="dataSource" />
     </bean>
-
-    <bean id="populationService" class="org.kuali.student.r2.core.class1.process.ProcessPocPopulationServiceMockImpl"/>
 
     <bean id="enrollmentFeeDao" class="org.kuali.student.r2.core.fee.dao.EnrollmentFeeDao"/>
     <bean id="feeService" class="org.kuali.student.r2.core.fee.service.impl.FeeServiceImpl">

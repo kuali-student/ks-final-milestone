@@ -19,10 +19,16 @@ package org.kuali.student.r2.core.fee.dao;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.fee.model.EnrollmentFeeEntity;
 
+import java.util.List;
+
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
 public class EnrollmentFeeDao  extends GenericEntityDao<EnrollmentFeeEntity> {
+    public List<EnrollmentFeeEntity> getFeesByRefObjectURIAndId(String refObjURI, String refObjId) {
+        return em.createQuery("FROM EnrollmentFeeEntity a WHERE a.refObjectURI = :refObjectURI AND a.refObjectId = :refObjectId")
+                .setParameter("refObjectURI", refObjURI).setParameter("refObjectId", refObjId).getResultList();
+    }
 }

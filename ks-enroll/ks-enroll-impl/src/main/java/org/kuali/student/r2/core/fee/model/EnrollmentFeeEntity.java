@@ -89,8 +89,10 @@ public class EnrollmentFeeEntity extends MetaEntity {
         this.setRefObjectURI(fee.getRefObjectURI());
         this.setRefObjectId(fee.getRefObjectId());
         // This part usually boiler-plate since many entities have these fields
-        this.setPlain(fee.getDescr().getPlain());
-        this.setFormatted(fee.getDescr().getFormatted());
+        if (fee.getDescr() != null) {
+            this.setPlain(fee.getDescr().getPlain());
+            this.setFormatted(fee.getDescr().getFormatted());
+        }
         this.setAttributes(new ArrayList<EnrollmentFeeAttributeEntity>());
         for (Attribute att : fee.getAttributes()) {
             EnrollmentFeeAttributeEntity attEntity = new EnrollmentFeeAttributeEntity(att, this);

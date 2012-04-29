@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,8 +70,16 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
-    public List<EnrollmentFeeInfo> getFeesByReference(@WebParam(name = "refObjectURI") String refObjectURI, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<EnrollmentFeeInfo> getFeesByReference(String refObjectURI, String refObjectId, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<EnrollmentFeeEntity> entityList = enrollmentFeeDao.getFeesByRefObjectURIAndId(refObjectURI, refObjectId);
+        List<EnrollmentFeeInfo> infoList = new ArrayList<EnrollmentFeeInfo>();
+        if (entityList != null) {
+            for (EnrollmentFeeEntity entity: entityList) {
+                infoList.add(entity.toDto());
+            }
+        }
+        return infoList;
     }
 
     @Override
