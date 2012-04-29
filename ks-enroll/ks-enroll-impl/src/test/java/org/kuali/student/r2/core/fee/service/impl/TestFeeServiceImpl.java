@@ -61,6 +61,8 @@ public class TestFeeServiceImpl {
         CurrencyAmountInfo amt = new CurrencyAmountInfo();
         amt.setCurrencyQuantity(10);
         amt.setCurrencyTypeKey("dollars");
+        feeInfo.setTypeKey(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY);
+        feeInfo.setStateKey(FeeServiceConstants.FEE_ACTIVE_STATE_KEY);
         feeInfo.setAmount(amt);
         feeInfo.setOrgId("MATH");
         feeInfo.setRefObjectURI("http://kuali.org/sample");
@@ -73,6 +75,8 @@ public class TestFeeServiceImpl {
         CurrencyAmountInfo amt = new CurrencyAmountInfo();
         amt.setCurrencyQuantity(10);
         amt.setCurrencyTypeKey("dollars");
+        feeInfo.setTypeKey(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY);
+        feeInfo.setStateKey(FeeServiceConstants.FEE_ACTIVE_STATE_KEY);
         feeInfo.setAmount(amt);
         feeInfo.setOrgId("MATH");
         feeInfo.setRefObjectURI("http://kuali.org/sample" + n);
