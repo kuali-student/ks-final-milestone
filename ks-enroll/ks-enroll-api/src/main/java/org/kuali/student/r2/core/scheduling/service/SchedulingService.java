@@ -582,6 +582,25 @@ public interface SchedulingService {
     public List<String> getScheduleRequestIdsByType(@WebParam(name = "scheduleRequestTypeKey") String scheduleRequestTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of ScheduleRequest Ids by Ref Object Type.
+     *
+     * @param refObjectType an identifier for a ref object Type
+     * @param refObjectId   an
+     * @param contextInfo            Context information containing the
+     *                               principalId and locale information about
+     *                               the caller of service operation
+     * @return a list of ScheduleRequest identifiers matching
+     *         scheduleRequestTypeKey or an empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleRequestTypeKey or contextInfo
+     *                                   is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+
+    public List<String> getScheduleRequestsByRefObject(@WebParam(name = "refObjectType") String refObjectType, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves a list of ScheduleRequests associated with a ScheduleBatch
      *
      * @param scheduleBatchId an identifier for a ScheduleBatch
