@@ -39,158 +39,158 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 
     @Override
     public List<ValidationResultInfo> validateSeatPoolDefinition(String validationTypeKey, SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return getNextDecorator ().validateSeatPoolDefinition(validationTypeKey, seatPoolDefinitionInfo, context);
+        return getNextDecorator().validateSeatPoolDefinition(validationTypeKey, seatPoolDefinitionInfo, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator ().validateRegistrationGroup(validationType, registrationGroupInfo, context);
+        return getNextDecorator().validateRegistrationGroup(validationType, registrationGroupInfo, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateFormatOffering(String validationType, FormatOfferingInfo formatOfferingInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator ().validateFormatOffering(validationType, formatOfferingInfo, context);
+        return getNextDecorator().validateFormatOffering(validationType, formatOfferingInfo, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateCourseOfferingFromCanonical(CourseOfferingInfo courseOfferingInfo, 
     List<String> optionKeys, ContextInfo context) 
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator ().validateCourseOfferingFromCanonical(courseOfferingInfo, optionKeys, context);
+        return getNextDecorator().validateCourseOfferingFromCanonical(courseOfferingInfo, optionKeys, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateCourseOffering(String validationType, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator ().validateCourseOffering(validationType, courseOfferingInfo, context);
+        return getNextDecorator().validateCourseOffering(validationType, courseOfferingInfo, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateActivityOffering(String validationType, ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator ().validateActivityOffering(validationType, activityOfferingInfo, context);
+        return getNextDecorator().validateActivityOffering(validationType, activityOfferingInfo, context);
     }
 
     @Override
     public SeatPoolDefinitionInfo updateSeatPoolDefinition(String seatPoolDefinitionId, SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator ().updateSeatPoolDefinition(seatPoolDefinitionId, seatPoolDefinitionInfo, context);
+        return getNextDecorator().updateSeatPoolDefinition(seatPoolDefinitionId, seatPoolDefinitionInfo, context);
     }
 
     @Override
     public RegistrationGroupTemplateInfo updateRegistrationGroupTemplate(String registrationGroupTemplateId, RegistrationGroupTemplateInfo registrationGroupTemplateInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator ().updateRegistrationGroupTemplate(registrationGroupTemplateId, registrationGroupTemplateInfo, context);
+        return getNextDecorator().updateRegistrationGroupTemplate(registrationGroupTemplateId, registrationGroupTemplateInfo, context);
     }
 
     @Override
     public RegistrationGroupInfo updateRegistrationGroup(String registrationGroupId, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator ().updateRegistrationGroup(registrationGroupId, registrationGroupInfo, context);
+        return getNextDecorator().updateRegistrationGroup(registrationGroupId, registrationGroupInfo, context);
     }
 
     @Override
     public FormatOfferingInfo updateFormatOffering(String formatOfferingId, FormatOfferingInfo formatOfferingInfo, ContextInfo context) 
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
                    MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator ().updateFormatOffering(formatOfferingId, formatOfferingInfo, context);
+        return getNextDecorator().updateFormatOffering(formatOfferingId, formatOfferingInfo, context);
     }
 
     @Override
     public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId, List<String> optionKeys, ContextInfo context) 
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return getNextDecorator ().updateCourseOfferingFromCanonical(courseOfferingId, optionKeys, context);
+        return getNextDecorator().updateCourseOfferingFromCanonical(courseOfferingId, optionKeys, context);
     }
 
     @Override
     public CourseOfferingInfo updateCourseOffering(String courseOfferingId, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator ().updateCourseOffering(courseOfferingId, courseOfferingInfo, context);
+        return getNextDecorator().updateCourseOffering(courseOfferingId, courseOfferingInfo, context);
     }
 
     @Override
     public ActivityOfferingInfo updateActivityOffering(String activityOfferingId, ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator ().updateActivityOffering(activityOfferingId, activityOfferingInfo, context);
+        return getNextDecorator().updateActivityOffering(activityOfferingId, activityOfferingInfo, context);
     }
 
     @Override
     public List<SeatPoolDefinitionInfo> searchForSeatpoolDefintions(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().searchForSeatpoolDefintions(criteria, context);
+        return getNextDecorator().searchForSeatpoolDefintions(criteria, context);
     }
 
     @Override
     public List<String> searchForSeatpoolDefintionIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().searchForSeatpoolDefintionIds(criteria, context);
+        return getNextDecorator().searchForSeatpoolDefintionIds(criteria, context);
     }
 
     @Override
     public List<RegistrationGroupInfo> searchForRegistrationGroups(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().searchForRegistrationGroups(criteria, context);
+        return getNextDecorator().searchForRegistrationGroups(criteria, context);
     }
 
     @Override
     public List<String> searchForRegistrationGroupIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().searchForRegistrationGroupIds(criteria, context);
+        return getNextDecorator().searchForRegistrationGroupIds(criteria, context);
     }
 
     @Override
     public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().searchForCourseOfferings(criteria, context);
+        return getNextDecorator().searchForCourseOfferings(criteria, context);
     }
 
     @Override
     public List<String> searchForCourseOfferingIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().searchForCourseOfferingIds(criteria, context);
+        return getNextDecorator().searchForCourseOfferingIds(criteria, context);
     }
 
     @Override
     public List<ActivityOfferingInfo> searchForActivityOfferings(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().searchForActivityOfferings(criteria, context);
+        return getNextDecorator().searchForActivityOfferings(criteria, context);
     }
 
     @Override
     public List<String> searchForActivityOfferingIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().searchForActivityOfferingIds(criteria, context);
+        return getNextDecorator().searchForActivityOfferingIds(criteria, context);
     }
 
 
     @Override
     public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForRegGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getSeatPoolDefinitionsForRegGroup(registrationGroupId, context);
+        return getNextDecorator().getSeatPoolDefinitionsForRegGroup(registrationGroupId, context);
     }
 
     @Override
     public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getSeatPoolDefinitionsForCourseOffering(courseOfferingId, context);
+        return getNextDecorator().getSeatPoolDefinitionsForCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public SeatPoolDefinitionInfo getSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getSeatPoolDefinition(seatPoolDefinitionId, context);
+        return getNextDecorator().getSeatPoolDefinition(seatPoolDefinitionId, context);
     }
 
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsWithActivityOfferings(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getRegistrationGroupsWithActivityOfferings(activityOfferingIds, context);
+        return getNextDecorator().getRegistrationGroupsWithActivityOfferings(activityOfferingIds, context);
     }
 
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsForCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getRegistrationGroupsForCourseOffering(courseOfferingId, context);
+        return getNextDecorator().getRegistrationGroupsForCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsByIds(List<String> registrationGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getRegistrationGroupsByIds(registrationGroupIds, context);
+        return getNextDecorator().getRegistrationGroupsByIds(registrationGroupIds, context);
     }
 
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getRegistrationGroupsByFormatOffering(formatOfferingId, context);
+        return getNextDecorator().getRegistrationGroupsByFormatOffering(formatOfferingId, context);
     }
 
     @Override
     public RegistrationGroupTemplateInfo getRegistrationGroupTemplate(String registrationGroupTemplateId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getRegistrationGroupTemplate(registrationGroupTemplateId, context);
+        return getNextDecorator().getRegistrationGroupTemplate(registrationGroupTemplateId, context);
     }
 
     @Override
     public RegistrationGroupInfo getRegistrationGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getRegistrationGroup(registrationGroupId, context);
+        return getNextDecorator().getRegistrationGroup(registrationGroupId, context);
     }
 
     @Override
@@ -200,108 +200,122 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 
     @Override
     public FormatOfferingInfo getFormatOffering(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getFormatOffering(formatOfferingId, context);
+        return getNextDecorator().getFormatOffering(formatOfferingId, context);
     }
 
     @Override
     public List<CourseOfferingInfo> getCourseOfferingsByTermAndInstructor(String termId, String instructorId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getCourseOfferingsByTermAndInstructor(termId, instructorId, context);
+        return getNextDecorator().getCourseOfferingsByTermAndInstructor(termId, instructorId, context);
     }
 
     @Override
     public List<CourseOfferingInfo> getCourseOfferingsByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getCourseOfferingsByIds(courseOfferingIds, context);
+        return getNextDecorator().getCourseOfferingsByIds(courseOfferingIds, context);
     }
 
     @Override
     public List<CourseOfferingInfo> getCourseOfferingsByCourseAndTerm(String courseId, String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getCourseOfferingsByCourseAndTerm(courseId, termId, context);
+        return getNextDecorator().getCourseOfferingsByCourseAndTerm(courseId, termId, context);
     }
 
     @Override
     public List<CourseOfferingInfo> getCourseOfferingsByCourse(String courseId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getCourseOfferingsByCourse(courseId, context);
+        return getNextDecorator().getCourseOfferingsByCourse(courseId, context);
     }
 
     @Override
     public List<String> getCourseOfferingIdsByType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getCourseOfferingIdsByType(typeKey, context);
+        return getNextDecorator().getCourseOfferingIdsByType(typeKey, context);
     }
 
     @Override
     public List<String> getCourseOfferingIdsByTermAndUnitsContentOwner(String termId, String unitsContentOwnerId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getCourseOfferingIdsByTermAndUnitsContentOwner(termId, unitsContentOwnerId, context);
+        return getNextDecorator().getCourseOfferingIdsByTermAndUnitsContentOwner(termId, unitsContentOwnerId, context);
     }
 
     @Override
     public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId, String subjectArea, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getCourseOfferingIdsByTermAndSubjectArea(termId, subjectArea, context);
+        return getNextDecorator().getCourseOfferingIdsByTermAndSubjectArea(termId, subjectArea, context);
     }
 
     @Override
     public List<String> getCourseOfferingIdsByTerm(String termId, Boolean useIncludedTerm, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getCourseOfferingIdsByTerm(termId, useIncludedTerm, context);
+        return getNextDecorator().getCourseOfferingIdsByTerm(termId, useIncludedTerm, context);
     }
 
     @Override
     public CourseOfferingInfo getCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getCourseOffering(courseOfferingId, context);
+        return getNextDecorator().getCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay( String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getCourseOfferingAdminDisplay(courseOfferingId, context) ;
+        return getNextDecorator().getCourseOfferingAdminDisplay(courseOfferingId, context) ;
     }
 
     @Override
-    public List<CourseOfferingAdminDisplayInfo> getCourseOfferingAdminDisplaysByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getCourseOfferingAdminDisplaysByIds(courseOfferingIds, context);
+    public List<CourseOfferingAdminDisplayInfo> getCourseOfferingAdminDisplaysByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getCourseOfferingAdminDisplaysByIds(courseOfferingIds, context);
     }
-    
+
+    @Override
+    public ActivityOfferingAdminDisplayInfo getActivityOfferingAdminDisplay(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getActivityOfferingAdminDisplay(activityOfferingId, contextInfo);
+    }
+
+    @Override
+    public List<ActivityOfferingAdminDisplayInfo> getActivityOfferingAdminDisplaysByIds(List<String> activityOfferingIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getActivityOfferingAdminDisplaysByIds(activityOfferingIds, contextInfo);
+    }
+
+    @Override                                                                                        
+    public List<ActivityOfferingAdminDisplayInfo> getActivityOfferingAdminDisplaysForCourseOffering(String courseOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getActivityOfferingAdminDisplaysForCourseOffering(courseOfferingId, contextInfo);
+    }
+
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByIds(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getActivityOfferingsByIds(activityOfferingIds, context);
+        return getNextDecorator().getActivityOfferingsByIds(activityOfferingIds, context);
     }
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByFormatOffering(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getActivityOfferingsByFormatOffering(formatOfferingId, context);
+        return getNextDecorator().getActivityOfferingsByFormatOffering(formatOfferingId, context);
     }
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByCourseOfferingWithoutRegGroup(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getActivityOfferingsByCourseOfferingWithoutRegGroup(courseOfferingId, context);
+        return getNextDecorator().getActivityOfferingsByCourseOfferingWithoutRegGroup(courseOfferingId, context);
     }
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getActivityOfferingsByCourseOffering(courseOfferingId, context);
+        return getNextDecorator().getActivityOfferingsByCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public List<TypeInfo> getActivityOfferingTypesForActivityType(String activityTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getActivityOfferingTypesForActivityType(activityTypeKey, context);
+        return getNextDecorator().getActivityOfferingTypesForActivityType(activityTypeKey, context);
     }
 
     @Override
     public List<TypeInfo> getActivityOfferingTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getActivityOfferingTypes(context);
+        return getNextDecorator().getActivityOfferingTypes(context);
     }
 
     @Override
     public TypeInfo getActivityOfferingType(String activityOfferingTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getActivityOfferingType(activityOfferingTypeKey, context);
+        return getNextDecorator().getActivityOfferingType(activityOfferingTypeKey, context);
     }
 
     @Override
     public ActivityOfferingInfo getActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getActivityOffering(activityOfferingId, context);
+        return getNextDecorator().getActivityOffering(activityOfferingId, context);
     }
 
     @Override
     public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
+        return getNextDecorator().generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
     }
 
    
@@ -309,53 +323,53 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 
     @Override
     public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().deleteSeatPoolDefinition(seatPoolDefinitionId, context);
+        return getNextDecorator().deleteSeatPoolDefinition(seatPoolDefinitionId, context);
     }
 
     @Override
     public StatusInfo deleteRegistrationGroupTemplate(String registrationGroupTemplateId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().deleteRegistrationGroupTemplate(registrationGroupTemplateId, context);
+        return getNextDecorator().deleteRegistrationGroupTemplate(registrationGroupTemplateId, context);
     }
 
     @Override
     public StatusInfo deleteRegistrationGroup(String registrationGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().deleteRegistrationGroup(registrationGroupId, context);
+        return getNextDecorator().deleteRegistrationGroup(registrationGroupId, context);
     }
 
     @Override
     public StatusInfo deleteFormatOffering(String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
-        return getNextDecorator ().deleteFormatOffering(formatOfferingId, context);
+        return getNextDecorator().deleteFormatOffering(formatOfferingId, context);
     }
 
     @Override
     public StatusInfo deleteCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().deleteCourseOffering(courseOfferingId, context);
+        return getNextDecorator().deleteCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public StatusInfo deleteActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().deleteActivityOffering(activityOfferingId, context);
+        return getNextDecorator().deleteActivityOffering(activityOfferingId, context);
     }
 
     @Override
     public SeatPoolDefinitionInfo createSeatPoolDefinition(SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator ().createSeatPoolDefinition(seatPoolDefinitionInfo, context);
+        return getNextDecorator().createSeatPoolDefinition(seatPoolDefinitionInfo, context);
     }
 
     @Override
     public RegistrationGroupInfo createRegistrationGroup(String registrationGroupType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator ().createRegistrationGroup(registrationGroupType, registrationGroupInfo, context);
+        return getNextDecorator().createRegistrationGroup(registrationGroupType, registrationGroupInfo, context);
     }
 
     @Override
     public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatId, String formatOfferingType, FormatOfferingInfo formatOfferingInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator ().createFormatOffering(courseOfferingId, formatId, formatOfferingType, formatOfferingInfo, context);
+        return getNextDecorator().createFormatOffering(courseOfferingId, formatId, formatOfferingType, formatOfferingInfo, context);
     }
 
     @Override
     public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey, 
     CourseOfferingInfo courseOfferingInfo, List<String> optionKeys, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator ().createCourseOffering(courseId, termId, courseOfferingTypeKey, courseOfferingInfo, optionKeys, context);
+        return getNextDecorator().createCourseOffering(courseId, termId, courseOfferingTypeKey, courseOfferingInfo, optionKeys, context);
     }
 
     @Override
@@ -364,7 +378,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     String activityOfferingTypeKey, 
     ActivityOfferingInfo activityOfferingInfo, ContextInfo context) 
         throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator ().createActivityOffering(formatOfferingId, activityId, activityOfferingTypeKey, activityOfferingInfo, context);
+        return getNextDecorator().createActivityOffering(formatOfferingId, activityId, activityOfferingTypeKey, activityOfferingInfo, context);
     }
 
     @Override
@@ -379,36 +393,36 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 
     @Override
     public Float calculateTotalContactHoursForTerm(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().calculateTotalContactHoursForTerm(activityOfferingId, context);
+        return getNextDecorator().calculateTotalContactHoursForTerm(activityOfferingId, context);
     }
 
     @Override
     public Float calculateOutofClassContactHoursForTerm(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().calculateOutofClassContactHoursForTerm(activityOfferingId, context);
+        return getNextDecorator().calculateOutofClassContactHoursForTerm(activityOfferingId, context);
     }
 
     @Override
     public Float calculateInClassContactHoursForTerm(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().calculateInClassContactHoursForTerm(activityOfferingId, context);
+        return getNextDecorator().calculateInClassContactHoursForTerm(activityOfferingId, context);
     }
 
     @Override
     public CourseOfferingInfo rolloveCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator ().rolloveCourseOffering(sourceCoId, targetTermId, optionKeys, context);
+        return getNextDecorator().rolloveCourseOffering(sourceCoId, targetTermId, optionKeys, context);
     }
 
     @Override
     public List<String> getValidRolloverOptionKeys(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator ().getValidRolloverOptionKeys(context);
+        return getNextDecorator().getValidRolloverOptionKeys(context);
     }
 
     @Override
     public List<String> getValidCanonicalCourseToCourseOfferingOptionKeys(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator ().getValidCanonicalCourseToCourseOfferingOptionKeys(context);
+        return getNextDecorator().getValidCanonicalCourseToCourseOfferingOptionKeys(context);
     } 
     
 }

@@ -79,7 +79,6 @@ import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CourseOfferingService {
 
-
     /**
      * Retrieves a single CourseOfferingAdminDisplayInfo by a
      * CourseOffering Id.
