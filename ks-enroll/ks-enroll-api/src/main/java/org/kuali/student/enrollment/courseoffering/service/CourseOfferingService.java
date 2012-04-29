@@ -80,34 +80,92 @@ import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 public interface CourseOfferingService {
 
 
+    /**
+     * Retrieves a single CourseOfferingAdminDisplayInfo by a
+     * CourseOffering Id.
+     *
+     * @param courseOfferingId an identifier for a CourseOffering
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a CourseOfferingAdminDisplay
+     * @throws DoesNotExistException courseOfferingId does not exist
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve information about a CourseOfferingAdminDisplayInfo
-
-     * @param courseOfferingIds
-     * @param context
-     * @return
-     * @throws DoesNotExistException     courseOfferingId in the list not found
-     * @throws InvalidParameterException invalid courseOfferingIds
-     * @throws MissingParameterException missing courseOfferingIds
+     * Retrieve a list of CourseOfferingAdminDisplayInfos
+     * corresponding to a list of CourseOfferingIds.
+     *
+     * @param courseOfferingIds a list of CourseOffering identifiers
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of CourseOfferingAdminDisplayInfos
+     * @throws DoesNotExistException a courseOfferingId in the list not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingIds, an Id in
+     *         courseOfferingId, or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<CourseOfferingAdminDisplayInfo> getCourseOfferingAdminDisplaysByIds(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<CourseOfferingAdminDisplayInfo> getCourseOfferingAdminDisplaysByIds(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve information about a CourseOfferingAdminDisplayInfo
-
-     * @param courseOfferingId
-     * @param context
-     * @return
-     * @throws DoesNotExistException     courseOfferingId in the list not found
-     * @throws InvalidParameterException invalid courseOfferingIds
-     * @throws MissingParameterException missing courseOfferingIds
+     * Retrieves a single ActivityOfferingAdminDisplayInfo by a
+     * ActivityOffering Id.
+     *
+     * @param activityOfferingId an identifier for an ActivityOffering
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return an ActivityOfferingAdminDisplay
+     * @throws DoesNotExistException activityOfferingId does not exist
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException activityOfferingId or
+     *         contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ActivityOfferingAdminDisplayInfo getActivityOfferingAdminDisplay(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieve a list of ActivityOfferingAdminDisplayInfos
+     * corresponding to a list of ActivityOfferingIds.
+     *
+     * @param activityOfferingIds a list of ActivityOffering identifiers
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of ActivityOfferingAdminDisplayInfos
+     * @throws DoesNotExistException an activityOfferingId in the list not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException activityOfferingIds, an Id in
+     *         activityOfferingId, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ActivityOfferingAdminDisplayInfo> getActivityOfferingAdminDisplaysByIds(@WebParam(name = "activityOfferingIds") List<String> activityOfferingIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieve a list of ActivityOfferingAdminDisplayInfos
+     * corresponding to a CourseOffering Id. Activity Offerings for
+     * all FormatOfferings within the given CourseOffering are used to
+     * assemble this administrative view.
+     *
+     * @param courseOfferingId the identifier for a CourseOffering
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of ActivityOfferingAdminDisplayInfos
+     * @throws DoesNotExistException courseOfferingId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ActivityOfferingAdminDisplayInfo> getActivityOfferingAdminDisplaysForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve information about a CourseOffering
@@ -788,7 +846,7 @@ public interface CourseOfferingService {
     public StatusInfo deleteActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Validates a activity offering. Depending on the value of validationType,
+     * Validates an activity offering. Depending on the value of validationType,
      * this validation could be limited to tests on just the current object and
      * its directly contained sub-objects or expanded to perform all tests
      * related to this object. If an identifier is present for the academic
