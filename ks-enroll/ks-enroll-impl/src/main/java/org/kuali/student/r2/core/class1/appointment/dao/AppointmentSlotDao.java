@@ -18,21 +18,24 @@ package org.kuali.student.r2.core.class1.appointment.dao;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 
-import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.TemporalType.DATE;
 
 /**
- * This class //TODO ...
+ * JPQL queries for Appointment Slots.
  *
  * @author Kuali Student Team
  */
 public class AppointmentSlotDao extends GenericEntityDao<AppointmentSlotEntity>  {
+    /**
+     * Get list of slots given an appointment window ID in chronological order earliest to latest
+     * @param apptWindowId The id of an appointment window (which slots will be fetched)
+     * @return List of AppointmentSlotEntity objects in chronological order (earliests first).
+     */
     public List<AppointmentSlotEntity> getSlotsByWindowIdSorted(String apptWindowId) {
-        return em.createQuery("from AppointmentSlotEntity a where a.apptWinEntity.id = :apptWindowId order by a.startDate asc")
+        return em.createQuery("FROM AppointmentSlotEntity a WHERE a.apptWinEntity.id = :apptWindowId ORDER BY a.startDate ASC")
                 .setParameter("apptWindowId", apptWindowId).getResultList();
     }
 }
