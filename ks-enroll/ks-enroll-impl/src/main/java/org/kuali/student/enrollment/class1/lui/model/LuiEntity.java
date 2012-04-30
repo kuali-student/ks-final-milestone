@@ -133,6 +133,28 @@ public class LuiEntity extends MetaEntity {
             this.getIdentifiers().add(new LuiIdentifierEntity(identifier));
         }
 
+        List<LuiUnitsContentOwnerEntity> luiUnitsContentOwnerEntities = new ArrayList<LuiUnitsContentOwnerEntity>();
+
+        if(lui.getUnitsContentOwner()!=null){
+            for(String unitContentOrgId: lui.getUnitsContentOwner() ){
+                LuiUnitsContentOwnerEntity luiUnitContentOwner = new LuiUnitsContentOwnerEntity();
+                luiUnitContentOwner.setLui(this);
+                luiUnitContentOwner.setOrgId(unitContentOrgId);
+                luiUnitsContentOwnerEntities.add(luiUnitContentOwner) ;
+            }
+        }
+
+
+        List<LuiUnitsDeploymentEntity> luiUnitsDeploymentEntities = new ArrayList<LuiUnitsDeploymentEntity>();
+        if(lui.getUnitsDeployment()!=null){
+            for(String unitDeploymentOrgId: lui.getUnitsDeployment() ){
+                LuiUnitsDeploymentEntity luiDeployment = new LuiUnitsDeploymentEntity();
+                luiDeployment.setLui(this);
+                luiDeployment.setOrgId(unitDeploymentOrgId);
+                luiUnitsDeploymentEntities.add(luiDeployment) ;
+            }
+        }
+
 
         // Lui Attributes
         this.setAttributes(new ArrayList<LuiAttributeEntity>());
