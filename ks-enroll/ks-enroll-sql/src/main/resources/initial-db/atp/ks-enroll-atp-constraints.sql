@@ -104,25 +104,6 @@
   ALTER TABLE "KSEN_ATPMSTONE_RELTN_ATTR" ADD PRIMARY KEY ("ID") ENABLE
 /
 
---------------------------------------------------------
---  Constraints for Table KSEN_ISSUE_ATTR
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_ISSUE_ATTR" MODIFY ("ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_ISSUE_ATTR" ADD PRIMARY KEY ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Constraints for Table KSEN_RESTRICTION_ATTR
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_RESTRICTION_ATTR" MODIFY ("ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_RESTRICTION_ATTR" ADD PRIMARY KEY ("ID") ENABLE
-/
 
 --------------------------------------------------------
 --  Constraints for Table KSEN_ATPATP_RELTN_ATTR
@@ -156,70 +137,6 @@
 
   ALTER TABLE "KSEN_ATPMSTONE_RELTN" ADD CONSTRAINT "KSEN_ATPMSTONE_RELTN_FK1" FOREIGN KEY ("ATP_ID")
 	  REFERENCES "KSEN_ATP" ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Ref Constraints for Table KSEN_ATP
---------------------------------------------------------
-
--- None anymore
-
---------------------------------------------------------
---  Ref Constraints for Table KSEN_HOLD
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_HOLD" ADD CONSTRAINT "FKEA92B02D654F946E" FOREIGN KEY ("TYPE_ID")
-	  REFERENCES "KSEN_HOLD_TYPE" ("TYPE_KEY") ENABLE
-/
- 
-  ALTER TABLE "KSEN_HOLD" ADD CONSTRAINT "FKEA92B02D98517E2C" FOREIGN KEY ("STATE_ID")
-	  REFERENCES "KSEN_COMM_STATE" ("ID") ENABLE
-/
- 
-  ALTER TABLE "KSEN_HOLD" ADD CONSTRAINT "FKEA92B02DB16974B" FOREIGN KEY ("ISSUE_ID")
-	  REFERENCES "KSEN_ISSUE" ("ID") ENABLE
-/
- 
-  ALTER TABLE "KSEN_HOLD" ADD CONSTRAINT "FKEA92B02DCDDEC8D3" FOREIGN KEY ("RT_DESCR_ID")
-	  REFERENCES "KSEN_HOLD_RICH_TEXT" ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Ref Constraints for Table KSEN_ISSUE
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_ISSUE" ADD CONSTRAINT "FK67D35B0B654F946E" FOREIGN KEY ("TYPE_ID")
-	  REFERENCES "KSEN_HOLD_TYPE" ("TYPE_KEY") ENABLE
-/
- 
-  ALTER TABLE "KSEN_ISSUE" ADD CONSTRAINT "FK67D35B0B98517E2C" FOREIGN KEY ("STATE_ID")
-	  REFERENCES "KSEN_COMM_STATE" ("ID") ENABLE
-/
- 
-  ALTER TABLE "KSEN_ISSUE" ADD CONSTRAINT "FK67D35B0BCDDEC8D3" FOREIGN KEY ("RT_DESCR_ID")
-	  REFERENCES "KSEN_HOLD_RICH_TEXT" ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Ref Constraints for Table KSEN_MSTONE
---------------------------------------------------------
-
--- None anymore
-
---------------------------------------------------------
---  Ref Constraints for Table KSEN_RESTRICTION
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_RESTRICTION" ADD CONSTRAINT "FKC2C6CC7E654F946E" FOREIGN KEY ("TYPE_ID")
-	  REFERENCES "KSEN_HOLD_TYPE" ("TYPE_KEY") ENABLE
-/
- 
-  ALTER TABLE "KSEN_RESTRICTION" ADD CONSTRAINT "FKC2C6CC7E98517E2C" FOREIGN KEY ("STATE_ID")
-	  REFERENCES "KSEN_COMM_STATE" ("ID") ENABLE
-/
- 
-  ALTER TABLE "KSEN_RESTRICTION" ADD CONSTRAINT "FKC2C6CC7ECDDEC8D3" FOREIGN KEY ("RT_DESCR_ID")
-	  REFERENCES "KSEN_HOLD_RICH_TEXT" ("ID") ENABLE
 /
 
 --------------------------------------------------------
@@ -261,49 +178,6 @@
   ALTER TABLE "KSEN_ATP_ATTR" ADD CONSTRAINT "KSEN_ATP_ATTR_FK1" FOREIGN KEY ("OWNER")
 	  REFERENCES "KSEN_ATP" ("ID") ENABLE
 /
-
---------------------------------------------------------
---  Constraints for Table KSEN_HOLD_ATTR
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_HOLD_ATTR" MODIFY ("ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_HOLD_ATTR" ADD PRIMARY KEY ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Ref Constraints for Table KSEN_HOLD_ATTR
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_HOLD_ATTR" ADD CONSTRAINT "FK87BEEEC3DE9EDF87" FOREIGN KEY ("OWNER")
-	  REFERENCES "KSEN_HOLD" ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Ref Constraints for Table KSEN_HOLD_TYPE_ATTR
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_HOLD_TYPE_ATTR" ADD CONSTRAINT "FK31328E449E7CA6E1" FOREIGN KEY ("OWNER")
-	  REFERENCES "KSEN_HOLD_TYPE" ("TYPE_KEY") ENABLE
-/
-
---------------------------------------------------------
---  Ref Constraints for Table KSEN_ISSUE_ATTR
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_ISSUE_ATTR" ADD CONSTRAINT "FKE52C5EA5E7C51BBD" FOREIGN KEY ("OWNER")
-	  REFERENCES "KSEN_ISSUE" ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Ref Constraints for Table KSEN_RESTRICTION_ATTR
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_RESTRICTION_ATTR" ADD CONSTRAINT "FK1F4DD12D828D9F0" FOREIGN KEY ("OWNER")
-	  REFERENCES "KSEN_RESTRICTION" ("ID") ENABLE
-/
-
 --------------------------------------------------------
 --  Ref Constraints for Table KSEN_MSTONE_ATTR
 --------------------------------------------------------
