@@ -51,68 +51,6 @@
 /
 
 --------------------------------------------------------
---  Constraints for Table KSEN_HOLD
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_HOLD" MODIFY ("ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_HOLD" MODIFY ("STATE_ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_HOLD" MODIFY ("TYPE_ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_HOLD" MODIFY ("ISSUE_ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_HOLD" ADD PRIMARY KEY ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Constraints for Table KSEN_HOLD_RICH_TEXT
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_HOLD_RICH_TEXT" MODIFY ("ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_HOLD_RICH_TEXT" ADD PRIMARY KEY ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Constraints for Table KSEN_HOLD_TYPE
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_HOLD_TYPE" MODIFY ("TYPE_KEY" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_HOLD_TYPE" ADD PRIMARY KEY ("TYPE_KEY") ENABLE
-/
-
---------------------------------------------------------
---  Constraints for Table KSEN_ISSRESTRCTN_RELTN
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_ISSRESTRCTN_RELTN" MODIFY ("ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_ISSRESTRCTN_RELTN" ADD PRIMARY KEY ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Constraints for Table KSEN_ISSUE
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_ISSUE" MODIFY ("ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_ISSUE" MODIFY ("TYPE_ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_ISSUE" ADD PRIMARY KEY ("ID") ENABLE
-/
-
---------------------------------------------------------
 --  Constraints for Table KSEN_MSTONE
 --------------------------------------------------------
 
@@ -144,22 +82,6 @@
 /
  
   ALTER TABLE "KSEN_STATEPROCESS_RELTN" ADD PRIMARY KEY ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Constraints for Table KSEN_RESTRICTION
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_RESTRICTION" MODIFY ("ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_RESTRICTION" MODIFY ("STATE_ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_RESTRICTION" MODIFY ("TYPE_ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_RESTRICTION" ADD PRIMARY KEY ("ID") ENABLE
 /
 
 --------------------------------------------------------
@@ -214,16 +136,6 @@
 --------------------------------------------------------
 
   ALTER TABLE "KSEN_ATP_ATTR" ADD CONSTRAINT "KSEN_ATP_ATTR_P" PRIMARY KEY ("ID") ENABLE
-/
-
---------------------------------------------------------
---  Constraints for Table KSEN_HOLD_TYPE_ATTR
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_HOLD_TYPE_ATTR" MODIFY ("ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_HOLD_TYPE_ATTR" ADD PRIMARY KEY ("ID") ENABLE
 /
 
 --------------------------------------------------------
