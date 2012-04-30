@@ -507,7 +507,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws OperationFailedException {
         List<LuiInfo> rels;
         try {
-            rels = luiService.getLuisByRelation(formatOfferingId,
+            rels = luiService.getLuisByRelatedLuiAndRelationType(formatOfferingId,
                     LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, context);
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
@@ -524,7 +524,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws OperationFailedException {
         List<LuiInfo> rels;
         try {
-            rels = luiService.getLuisByRelation(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, context);
+            rels = luiService.getLuisByRelatedLuiAndRelationType(activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, context);
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }

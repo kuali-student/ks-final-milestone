@@ -30,7 +30,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SocInfo", propOrder = {"id",
+@XmlType(name = "SocRolloverResultInfo", propOrder = {"id",
     "typeKey",
     "stateKey",
     "sourceSocId",

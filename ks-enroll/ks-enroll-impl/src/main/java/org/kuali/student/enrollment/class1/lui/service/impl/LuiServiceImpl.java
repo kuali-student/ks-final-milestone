@@ -355,9 +355,9 @@ public class LuiServiceImpl
     }
 
     @Override
-    public List<LuiInfo> getLuisByRelation(String relatedLuiId, 
-                                           String luiLuiRelationTypeKey, 
-                                           ContextInfo context) 
+    public List<LuiInfo> getLuisByRelatedLuiAndRelationType(String relatedLuiId,
+                                                            String luiLuiRelationTypeKey,
+                                                            ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
         
@@ -386,9 +386,9 @@ public class LuiServiceImpl
     }
 
     @Override
-    public List<String> getRelatedLuiIdsByLui(String luiId, 
-                                              String luiLuiRelationTypeKey, 
-                                              ContextInfo context) 
+    public List<String> getLuiIdsByRelatedLuiAndRelationType(String luiId,
+                                                             String luiLuiRelationTypeKey,
+                                                             ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
@@ -398,9 +398,9 @@ public class LuiServiceImpl
     }
 
     @Override
-    public List<LuiInfo> getRelatedLuisByLui(String luiId, 
-                                             String luiLuiRelationTypeKey, 
-                                             ContextInfo context) 
+    public List<LuiInfo> getRelatedLuisByLuiAndRelationType(String luiId,
+                                                            String luiLuiRelationTypeKey,
+                                                            ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 

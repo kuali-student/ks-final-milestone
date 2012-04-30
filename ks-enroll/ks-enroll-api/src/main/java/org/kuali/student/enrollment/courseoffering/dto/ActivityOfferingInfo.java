@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
                 "activityId", "termId",  "activityCode", "scheduleId", 
                 "isHonorsOffering", "gradingOptionKeys", "instructors",
                 "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
-                "weeklyTotalContactHours", 
+                "weeklyTotalContactHours",  "evaluationFlag",
                 "maximumEnrollment", "minimumEnrollment", 
                 "finalExamStartTime", "finalExamEndTime", 
                 "finalExamSpaceCode",

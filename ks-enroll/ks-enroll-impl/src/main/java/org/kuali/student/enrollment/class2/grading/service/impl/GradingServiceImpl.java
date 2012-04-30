@@ -704,7 +704,7 @@ public class GradingServiceImpl implements GradingService {
         } else if (associatedLuiIds.size() >  1) {
             activityOfferingIds = associatedLuiIds;
 
-            List<String> relatedLuis = luiService.getRelatedLuiIdsByLui(activityOfferingIds.get(0), LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
+            List<String> relatedLuis = luiService.getLuiIdsByRelatedLuiAndRelationType(activityOfferingIds.get(0), LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
             if (relatedLuis == null || relatedLuis.size() != 1) {
                 throw new OperationFailedException("The provided activity offering is not related to 1 and only 1 course offering.");
             }

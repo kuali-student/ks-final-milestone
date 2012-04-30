@@ -421,7 +421,7 @@ public interface CourseOfferingService {
             @WebParam(name = "targetTermId") String targetTermId, 
             @WebParam(name = "optionKeys") List<String> optionKeys, 
             @WebParam(name = "context") ContextInfo context) 
-            throws AlreadyExistsException, DataValidationErrorException, 
+            throws AlreadyExistsException,
             DoesNotExistException, DataValidationErrorException, 
             InvalidParameterException, MissingParameterException, 
             OperationFailedException, PermissionDeniedException, ReadOnlyException;

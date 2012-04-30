@@ -42,8 +42,8 @@ import org.w3c.dom.Element;
 @XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
         "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", "isHonorsOffering",
         "instructors", "subjectArea", "unitsDeploymentOrgIds", "unitsContentOwnerOrgIds",  "maximumEnrollment",
-        "minimumEnrollment", "jointOfferingIds", "creditOptionIds", "gradingOptionIds",
-        "hasWaitlist", "waitlistTypeKey",
+        "minimumEnrollment", "jointOfferingIds", "creditOptionIds", "gradingOptionIds", "waitlistLevelTypeKey",
+        "hasWaitlist", "waitlistTypeKey","campusLocations",
         "fundingSource", "feeIds", "isFinancialAidEligible",
         "meta", "attributes", "_futureElements"})
 

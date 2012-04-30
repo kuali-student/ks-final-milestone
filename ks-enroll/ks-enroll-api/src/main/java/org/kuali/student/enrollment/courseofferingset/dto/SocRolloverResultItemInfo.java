@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SocInfo", propOrder = {"id",
+@XmlType(name = "SocRolloverResultItemInfo", propOrder = {"id",
     "typeKey",
     "stateKey",
     "socRolloverResultId",

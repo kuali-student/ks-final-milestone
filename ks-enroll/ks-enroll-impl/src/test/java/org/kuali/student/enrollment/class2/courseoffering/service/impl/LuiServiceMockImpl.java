@@ -246,7 +246,7 @@ public class LuiServiceMockImpl
     }
 
     @Override
-    public List<LuiInfo> getLuisByRelation(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LuiInfo> getLuisByRelatedLuiAndRelationType(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
             List<String> ids = this.getLuiIdsByRelation(relatedLuiId, luiLuiRelationTypeKey, contextInfo);
             return this.getLuisByIds(ids, contextInfo);
@@ -257,7 +257,7 @@ public class LuiServiceMockImpl
 
 
     @Override
-    public List<String> getRelatedLuiIdsByLui(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getLuiIdsByRelatedLuiAndRelationType(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         Set<String> set = new HashSet<String>();
         for (LuiLuiRelationInfo info : this.luiLuiRelations.values()) {
             if (info.getLuiId().equals(luiId)) {
@@ -270,9 +270,9 @@ public class LuiServiceMockImpl
     }
 
     @Override
-    public List<LuiInfo> getRelatedLuisByLui(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LuiInfo> getRelatedLuisByLuiAndRelationType(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
-            return this.getLuisByIds(this.getRelatedLuiIdsByLui(luiId, luiLuiRelationTypeKey, contextInfo), contextInfo);
+            return this.getLuisByIds(this.getLuiIdsByRelatedLuiAndRelationType(luiId, luiLuiRelationTypeKey, contextInfo), contextInfo);
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("unexpected", ex);
         }

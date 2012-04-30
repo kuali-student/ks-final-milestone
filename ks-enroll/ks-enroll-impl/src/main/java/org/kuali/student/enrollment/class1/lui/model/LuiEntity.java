@@ -69,7 +69,7 @@ public class LuiEntity extends MetaEntity {
     )
     private List<LuiUnitsContentOwnerEntity> luiContentOwner;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(name="KSEN_LUI_UNITS_DEPLOYMENT",
             joinColumns=
             @JoinColumn(name="LUI_ID", referencedColumnName="ID"),

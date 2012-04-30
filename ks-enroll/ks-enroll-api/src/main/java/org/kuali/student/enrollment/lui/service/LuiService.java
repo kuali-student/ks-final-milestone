@@ -439,7 +439,7 @@ public interface LuiService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LuiInfo> getLuisByRelation(@WebParam(name = "relatedLuiId") String relatedLuiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<LuiInfo> getLuisByRelatedLuiAndRelationType(@WebParam(name = "relatedLuiId") String relatedLuiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** TODO ???
      * Retrieves the list of related LUI Ids for the specified LUI Id
@@ -457,11 +457,11 @@ public interface LuiService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getRelatedLuiIdsByLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getLuiIdsByRelatedLuiAndRelationType(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** TODO ???
      * Retrieves the list of related LUI information for the specified
-     * LUI Id and LU to LU relation type (getLuisByRelation from the
+     * LUI Id and LU to LU relation type (getLuisByRelatedLuiAndRelationType from the
      * other direction).
      *
      * @param luiId identifier of the LUI
@@ -475,7 +475,7 @@ public interface LuiService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LuiInfo> getRelatedLuisByLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<LuiInfo> getRelatedLuisByLuiAndRelationType(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiLuiRelationTypeKey") String luiLuiRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves all LuiLuiRelations between a Lui and Luis of the

@@ -40,8 +40,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import javax.jws.WebParam;
-
 
 public class LuiServiceDecorator 
     implements LuiService {
@@ -222,11 +220,11 @@ public class LuiServiceDecorator
     }
 
     @Override
-    public List<LuiInfo> getLuisByRelation(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
+    public List<LuiInfo> getLuisByRelatedLuiAndRelationType(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException,
                OperationFailedException, PermissionDeniedException {
 
-        return getNextDecorator().getLuisByRelation(relatedLuiId, luiLuiRelationTypeKey, contextInfo);
+        return getNextDecorator().getLuisByRelatedLuiAndRelationType(relatedLuiId, luiLuiRelationTypeKey, contextInfo);
     }
 
     @Override
@@ -238,19 +236,19 @@ public class LuiServiceDecorator
     }
 
     @Override
-    public List<LuiInfo> getRelatedLuisByLui(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
+    public List<LuiInfo> getRelatedLuisByLuiAndRelationType(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException,
                OperationFailedException, PermissionDeniedException {
 
-        return getNextDecorator().getRelatedLuisByLui(luiId, luiLuiRelationTypeKey, contextInfo);
+        return getNextDecorator().getRelatedLuisByLuiAndRelationType(luiId, luiLuiRelationTypeKey, contextInfo);
     }
 
     @Override
-    public List<String> getRelatedLuiIdsByLui(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
+    public List<String> getLuiIdsByRelatedLuiAndRelationType(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException,
                OperationFailedException, PermissionDeniedException {
 
-        return getNextDecorator().getRelatedLuiIdsByLui(luiId, luiLuiRelationTypeKey, contextInfo);
+        return getNextDecorator().getLuiIdsByRelatedLuiAndRelationType(luiId, luiLuiRelationTypeKey, contextInfo);
     }
 
     @Override

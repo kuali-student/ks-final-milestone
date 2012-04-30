@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FormatOfferingInfo", propOrder = {
     "id", "typeKey", "stateKey", "name", "descr",
-    "courseOfferingId", "formatId", "termId","hasFinalExam", "gradeRosterLevelTypeKey",
+    "courseOfferingId", "formatId", "termId","hasFinalExam",
     "activityOfferingTypeKeys", "gradeRosterLevelTypeKey", "finalExamLevelTypeKey",
     "meta", "attributes", "_futureElements"})
 public class FormatOfferingInfo

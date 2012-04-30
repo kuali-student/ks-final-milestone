@@ -1,7 +1,5 @@
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
-import org.junit.Ignore;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -22,23 +20,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.clu.dto.FeeInfo;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
-import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -182,7 +168,7 @@ public class TestLuiServiceImpl {
 //    @Ignore
     public void testGetLuisByRelation() throws Exception {
         try {
-            List<LuiInfo> luis = luiService.getLuisByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
+            List<LuiInfo> luis = luiService.getLuisByRelatedLuiAndRelationType("Lui-2", "kuali.lui.lui.relation.associated", callContext);
             assertNotNull(luis);
             assertEquals(2, luis.size());
             assertEquals("Lui-1", luis.get(0).getId());
@@ -556,7 +542,7 @@ public class TestLuiServiceImpl {
     }
     @Test
     public void testGetRelatedLuiIdsByLui() throws Exception{
-        List<String> luiRelationIds =  luiService.getRelatedLuiIdsByLui( "Lui-1", "kuali.lui.lui.relation.associated", callContext);
+        List<String> luiRelationIds =  luiService.getLuiIdsByRelatedLuiAndRelationType("Lui-1", "kuali.lui.lui.relation.associated", callContext);
         assertNotNull(luiRelationIds);
         assertEquals( 1, luiRelationIds.size());
         assertEquals("Lui-2", luiRelationIds.get(0) );
@@ -564,7 +550,7 @@ public class TestLuiServiceImpl {
     }
     @Test
     public void testGetRelatedLuisByLui() throws Exception{
-        List<LuiInfo> luiRelations =  luiService.getRelatedLuisByLui( "Lui-3", "kuali.lui.lui.relation.associated", callContext);
+        List<LuiInfo> luiRelations =  luiService.getRelatedLuisByLuiAndRelationType("Lui-3", "kuali.lui.lui.relation.associated", callContext);
         assertNotNull(luiRelations);
         assertEquals( 1, luiRelations.size());
         assertEquals("Lui-4", luiRelations.get(0).getId() );
