@@ -266,7 +266,8 @@
                         <!--<bean parent="Uif-TextControl" p:size="30" />-->
                     <!--</property>-->
                 <!--</bean>-->
-                <bean parent="Uif-InputField"  p:label="Max #"  p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot" p:refreshWhenChanged="#lp.windowTypeKey"
+                <bean parent="Uif-InputField"  p:label="Max #"  p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot"
+                      p:refreshWhenChanged="#lp.windowTypeKey"  p:required="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
                       p:readOnly = "@{#lp.windowTypeKey !='kuali.appointment.window.type.slotted.max' or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  p:style="font-weight:bold;">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5" />
