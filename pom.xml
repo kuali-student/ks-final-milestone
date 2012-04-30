@@ -62,6 +62,22 @@
       </modules>
     </profile>
     <profile>
+      <id>revision</id>
+      <properties>
+        <kuali.build.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-services-r${svn.revision}</kuali.build.version>
+      </properties>
+      <modules>
+        <module>ks-cfg-dbs</module>
+        <module>ks-common</module>
+        <module>ks-security</module>
+        <module>ks-admin</module>
+        <module>ks-core</module>
+        <module>ks-lum</module>
+        <module>ks-enroll</module>
+        <module>ks-web</module>
+      </modules>
+    </profile>
+    <profile>
       <id>skip-ui</id>
       <modules>
         <module>ks-common</module>
