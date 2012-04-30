@@ -250,7 +250,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<String> getCourseOfferingIdsByTermAndUnitsContentOwner(String termId, String unitsContentOwnerId,
                                                                        ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        //TODO: use custom search
+        List<String> luiIds = luiService.getLuiIdsByAtpAndType(termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
+        List<String> results = new ArrayList<String>();
+
+        for (String luiId : luiIds) {
+            CourseOfferingInfo co = getCourseOffering(luiId, context);
+
+            if (co.getUnitsContentOwnerOrgIds().contains(unitsContentOwnerId)) {
+                results.add(luiId);
+            }
+        }
+
+        return results;
+
     }
 
     @Override
