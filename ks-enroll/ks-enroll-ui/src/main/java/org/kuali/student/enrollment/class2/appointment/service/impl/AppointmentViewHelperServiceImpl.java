@@ -199,7 +199,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         //4)  when the start date and the end date are not null,  the start date should be before the end date
         if (isValid){
             try{
-                if (apptWindow.getEndDate() != null ){
+                if (apptWindow.getEndDate() != null && !apptWindow.getEndTime().isEmpty() && !apptWindow.getEndTimeAmPm().isEmpty()){
                     Date startDate = _updateTime(apptWindow.getStartDate(), apptWindow.getStartTime(), apptWindow.getStartTimeAmPm());
                     Date endDate = _updateTime(apptWindow.getEndDate(), apptWindow.getEndTime(), apptWindow.getEndTimeAmPm());
                     if(startDate.after(endDate)){
