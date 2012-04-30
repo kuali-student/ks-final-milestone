@@ -547,6 +547,23 @@ public interface CourseOfferingSetService {
             OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of rollover results items by id list.
+     *
+     * @param rolloverResultItemIds List of unique Ids of the rollover result items to be fetched
+     * @param context           Context information containing the principalId and locale
+     *                          information about the caller of service operation
+     * @throws DoesNotExistException     rolloverResultId in the list not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByIds(@WebParam(name = "rolloverResultItemIds") List<String> rolloverResultItemIds,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves a list of rollover result items by result id
      *
      * @param socRolloverResultId Unique Ids of the rollover result for which the items are to be fetched
@@ -563,7 +580,6 @@ public interface CourseOfferingSetService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
 
-    
     /**
      * Retrieves a list of rollover result items by result id and source course offering id
      *
@@ -578,7 +594,7 @@ public interface CourseOfferingSetService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultIdAndSourceCourseOfferingId(@WebParam(name = "socRolloverResultId") String socRolloverResultId,
-            @WebParam(name = "sourceCourseOfferingId") String targetCourseOfferingId,
+            @WebParam(name = "sourceCourseOfferingId") String sourceCourseOfferingId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
@@ -746,7 +762,7 @@ public interface CourseOfferingSetService {
      */
     public StatusInfo deleteSocRolloverResult(@WebParam(name = "socRolloverResultId") String socRolloverResultId,
             @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
+            throws DoesNotExistException, DependentObjectsExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**

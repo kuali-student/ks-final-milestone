@@ -218,19 +218,21 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
     }
 
     @Override
-    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultIdAndTargetCourseOfferingId(String socRolloverResultId, String targetCourseOfferingId, ContextInfo context) throws DoesNotExistException,
+    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultIdAndTargetCourseOfferingId(String socRolloverResultId, String targetCourseOfferingId, ContextInfo context) throws
+            DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getSocRolloverResultItemsByResultIdAndTargetCourseOfferingId(socRolloverResultId,
+        return getNextDecorator().getSocRolloverResultItemsByResultIdAndTargetCourseOfferingId(socRolloverResultId,
                 targetCourseOfferingId, context);
     }
 
     @Override
-    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultIdAndSourceCourseOfferingId(String socRolloverResultId, String targetCourseOfferingId, ContextInfo context) throws DoesNotExistException,
+    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultIdAndSourceCourseOfferingId(String socRolloverResultId, String sourceCourseOfferingId, ContextInfo context) throws
+            DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getSocRolloverResultItemsByResultIdAndSourceCourseOfferingId(socRolloverResultId,
-                targetCourseOfferingId, context);
+                sourceCourseOfferingId, context);
     }
-    
+
     @Override
     public List<String> getPublishedCourseOfferingIdsBySoc(String socId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -259,7 +261,8 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
 
     @Override
     public StatusInfo deleteSocRolloverResult(String socRolloverResultId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            DependentObjectsExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return getNextDecorator().deleteSocRolloverResult(socRolloverResultId, context);
     }
 
@@ -280,7 +283,8 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
             DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createSocRolloverResultItems(socRolloverResultId, rolloverResultItemTypeKey, socRolloverResultItemInfos, context);
+        return getNextDecorator().createSocRolloverResultItems(socRolloverResultId, rolloverResultItemTypeKey,
+                socRolloverResultItemInfos, context);
     }
 
     public SocRolloverResultItemInfo createSocRolloverResultItem(String socRolloverResultId, String socRolloverResultItemTypeKey, SocRolloverResultItemInfo socRolloverResultItemInfo, ContextInfo context) throws
@@ -305,4 +309,12 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
             PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createSoc(termId, socTypeKey, socInfo, context);
     }
+
+    @Override
+    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByIds(List<String> rolloverResultItemIds, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getSocRolloverResultItemsByIds(rolloverResultItemIds, context);
+    }
+    
+    
 }

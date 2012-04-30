@@ -4,35 +4,22 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.decorators;
 
+import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
-import org.kuali.student.r2.lum.clu.dto.FeeInfo;
-import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 
 /**
  *
@@ -40,14 +27,11 @@ import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
  */
 public class CourseOfferingRolloverRunner implements Runnable {
 
+    final static Logger logger = Logger.getLogger(CourseOfferingRolloverRunner.class);
     private CourseOfferingService coService;
     private CourseOfferingSetService socService;
     private CourseService courseService;
     private AcademicCalendarService acalService;
-    private String sourceSocId;
-    private String targetSocId;
-    private String targetTermId;
-    private List<String> optionKeys;
     private ContextInfo context;
     private SocRolloverResultInfo result;
 
@@ -97,40 +81,9 @@ public class CourseOfferingRolloverRunner implements Runnable {
 
     public void setResult(SocRolloverResultInfo result) {
         this.result = result;
-        loadResult();
     }
 
-    private void loadResult() {
-        this.context = null;
-        this.sourceSocId = null;
-        this.targetTermId = null;
-        this.targetSocId = null;
-        this.optionKeys = new ArrayList<String>();
-        this.progressFrequency = 100;
-        this.logSuccesses = false;
-        this.haltErrorsMax = -1;
-
-        if (result == null) {
-            return;
-        }
-        // this is how you would translate them from the general batch job parameter into specific ones for rollover
-//        for (AttributeInfo attr : this.result.getParameters()) {
-//            if (attr.getKey().equals(CourseOfferingSetServiceConstants.PARAMETER_SOURCE_SOC_ID_ATTR_KEY)) {
-//                this.sourceSocId = attr.getValue();
-//            }
-//            if (attr.getKey().equals(CourseOfferingSetServiceConstants.PARAMETER_TARGET_TERM_ID_ATTR_KEY)) {
-//                this.targetTermId = attr.getValue();
-//            }
-//            if (attr.getKey().equals(CourseOfferingSetServiceConstants.PARAMETER_OPTION_KEY_ATTR_KEY)) {
-//                this.optionKeys.add(attr.getValue());
-//            }
-//        }
-//        for (AttributeInfo attr : this.result.getGlobalResults()) {
-//            if (attr.getKey().equals(CourseOfferingSetServiceConstants.GLOBAL_RESULT_TARGET_SOC_ID_ATTR_KEY)) {
-//                this.targetSocId = attr.getValue();
-//            }
-//        }
-
+    private void loadOptionKeys() {
         this.skipIfAlreadyExists = getBooleanOption(CourseOfferingSetServiceConstants.SKIP_IF_ALREADY_EXISTS_OPTION_KEY, false);
         this.logSuccesses = getBooleanOption(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY, false);
         this.progressFrequency = getIntOption(CourseOfferingSetServiceConstants.LOG_FREQUENCY_OPTION_KEY_PREFIX, 10);
@@ -138,13 +91,13 @@ public class CourseOfferingRolloverRunner implements Runnable {
 
     }
     // TODO: implement these options
-    private boolean skipIfAlreadyExists = false; 
-    private boolean logSuccesses = false; 
-    private int progressFrequency = 100; 
-    private int haltErrorsMax = -1; 
+    private boolean skipIfAlreadyExists = false;
+    private boolean logSuccesses = false;
+    private int progressFrequency = 100;
+    private int haltErrorsMax = -1;
 
     private boolean getBooleanOption(String key, boolean defValue) {
-        for (String optionKey : this.optionKeys) {
+        for (String optionKey : this.result.getOptionKeys()) {
             if (optionKey.equals(key)) {
                 return true;
             }
@@ -154,7 +107,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
     }
 
     private int getIntOption(String keyPrefix, int defValue) {
-        for (String optionKey : this.optionKeys) {
+        for (String optionKey : this.result.getOptionKeys()) {
             if (optionKey.startsWith(keyPrefix)) {
                 return Integer.parseInt(optionKey);
             }
@@ -172,31 +125,37 @@ public class CourseOfferingRolloverRunner implements Runnable {
             runInternal();
         } catch (Exception ex) {
             try {
+                this.result = socService.getSocRolloverResult(result.getId(), context);
                 this.result.setStateKey(CourseOfferingSetServiceConstants.ABORTED_RESULT_STATE_KEY);
                 this.result.setMessage(new RichTextHelper().fromPlain("Got an unexpected exception running rolloever:\n" +
                         ex.toString()));
                 this.socService.updateSocRolloverResult(result.getId(), result, context);
             } catch (Exception ex1) {
-                Logger.getLogger(CourseOfferingRolloverRunner.class.getName()).log(Level.SEVERE, null, ex);
-                Logger.getLogger(CourseOfferingRolloverRunner.class.getName()).log(Level.SEVERE, null, ex1);
+                logger.fatal(result, ex);
                 throw new RuntimeException(ex1);
             }
         }
     }
 
     private void runInternal() throws Exception {
+        if (this.context == null) {
+            throw new NullPointerException("context not set");
+        }
+        loadOptionKeys();
         // mark running
+        result = this.socService.getSocRolloverResult(result.getId(), context);
         result.setStateKey(CourseOfferingSetServiceConstants.RUNNING_RESULT_STATE_KEY);
         this.socService.updateSocRolloverResult(result.getId(), result, context);
         // Check if there are any course in the target soc
         if (!skipIfAlreadyExists) {
-            List<String> targetCoIds = socService.getCourseOfferingIdsBySoc(targetSocId, context);
+            List<String> targetCoIds = socService.getCourseOfferingIdsBySoc(this.result.getTargetSocId(), context);
             if (!targetCoIds.isEmpty()) {
                 throw new OperationFailedException(targetCoIds.size() + " course offerings already exist in the target soc");
             }
         }
         // mark the number expected
-        List<String> sourceCoIds = socService.getCourseOfferingIdsBySoc(sourceSocId, context);
+        List<String> sourceCoIds = socService.getCourseOfferingIdsBySoc(this.result.getSourceSocId(), context);
+        result = this.socService.getSocRolloverResult(result.getId(), context);
         result.setItemsProcessed(0);
         result.setItemsExpected(sourceCoIds.size());
         this.socService.updateSocRolloverResult(result.getId(), result, context);
@@ -206,10 +165,12 @@ public class CourseOfferingRolloverRunner implements Runnable {
         int errors = 0;
         List<SocRolloverResultItemInfo> items = new ArrayList<SocRolloverResultItemInfo>();
         for (String sourceCoId : sourceCoIds) {
+            logger.info("Processing" + sourceCoId);
+            System.out.println("processing " + sourceCoId);
             try {
                 SocRolloverResultItemInfo item = rolloverOneCourseOfferingReturningItem(sourceCoId);
                 items.add(item);
-                reportProgress(items, i);
+                reportProgressIfModulo(items, i);
                 if (!item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
                     errors++;
                     if (this.haltErrorsMax != -1) {
@@ -221,30 +182,33 @@ public class CourseOfferingRolloverRunner implements Runnable {
                 }
             } catch (Exception ex) {
                 // log some conetxt for the exception
-                Logger.getLogger(CourseOfferingRolloverRunner.class.getName()).log(Level.SEVERE, "failed while processing the " +
-                        i + "th course offering " + sourceCoId, ex);
+                logger.fatal("failed while processing the " + i + "th course offering " + sourceCoId, ex);
                 throw ex;
             }
             i++;
-            this.socService.updateSocRolloverProgress(result.getId(), i, context);
         }
+        reportProgress(items, i);
         // mark finished
-        result.setItemsProcessed(i);
+        result = socService.getSocRolloverResult(result.getId(), context);
         result.setStateKey(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY);
         this.socService.updateSocRolloverResult(result.getId(), result, context);
     }
 
-    private void reportProgress(List<SocRolloverResultItemInfo> items, int i) throws Exception {
+    private void reportProgressIfModulo(List<SocRolloverResultItemInfo> items, int i) throws Exception {
         int modulo = i % progressFrequency;
         if (modulo != 0) {
             return;
         }
+        this.reportProgress(items, i);
+    }
+
+    private void reportProgress(List<SocRolloverResultItemInfo> items, int i) throws Exception {
         this.socService.updateSocRolloverProgress(result.getId(), i, context);
         if (!this.logSuccesses) {
             stripSuccesses(items);
         }
         if (!items.isEmpty()) {
-            this.socService.createSocRolloverResultItems(result.getId(),
+            Integer count = this.socService.createSocRolloverResultItems(result.getId(),
                     CourseOfferingSetServiceConstants.CREATE_RESULT_ITEM_TYPE_KEY,
                     items,
                     context);
@@ -270,7 +234,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
         CourseOfferingInfo targetCo = null;
         String error = null;
         try {
-            targetCo = this.coService.rolloveCourseOffering(sourceCoId, targetTermId, optionKeys, context);
+            targetCo = this.coService.rolloveCourseOffering(sourceCoId, this.result.getTargetTermId(), this.result.getOptionKeys(),
+                    context);
         } catch (AlreadyExistsException ex) {
             error = ex.getMessage();
         } catch (DataValidationErrorException ex) {
@@ -290,5 +255,4 @@ public class CourseOfferingRolloverRunner implements Runnable {
         item.setMessage(new RichTextHelper().fromPlain(error));
         return item;
     }
-   
 }

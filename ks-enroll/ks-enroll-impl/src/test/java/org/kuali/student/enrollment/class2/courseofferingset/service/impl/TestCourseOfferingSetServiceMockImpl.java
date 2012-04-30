@@ -108,7 +108,7 @@ public class TestCourseOfferingSetServiceMockImpl {
 
         // update
         orig = info;
-        orig.setName("test appt window name updated");
+        orig.setName("test name updated");
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1 updated",
                 "description formatted 1 updated"));
         orig.setStateKey(CourseOfferingSetServiceConstants.ACTIVE_SOC_STATE_KEY);

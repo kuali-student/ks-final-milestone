@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -24,7 +25,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class CourseOfferingSetServiceCalculationDecorator extends CourseOfferingSetServiceDecorator {
 
     private CourseOfferingService coService;
@@ -56,6 +59,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
     }
 
     @Override
+    @Transactional(readOnly = false)
     public StatusInfo scheduleSoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -63,6 +67,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
     }
 
     @Override
+    @Transactional(readOnly = false)
     public SocInfo rolloverSoc(String sourceSocId, String targetTermId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -73,10 +78,12 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
         if (sourceSoc.getTermId().equals(targetTermId)) {
             throw new InvalidParameterException("The term of the source soc and the target term must be different");
         }
+        // TODO: try to find the soc in the target term and use it instead of just creating a new one
         SocInfo targetSoc = new SocInfo(sourceSoc);
+        targetSoc.setId(null);
         targetSoc.setTermId(targetTermId);
         try {
-            targetSoc = this.createSoc(targetSoc.getTermId(), targetSoc.getTypeKey(), sourceSoc, context);
+            targetSoc = this.createSoc(targetSoc.getTermId(), targetSoc.getTypeKey(), targetSoc, context);
         } catch (DataValidationErrorException ex) {
             throw new OperationFailedException("Unexpected", ex);
         } catch (ReadOnlyException ex) {
@@ -101,9 +108,9 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
         CourseOfferingRolloverRunner runner = new CourseOfferingRolloverRunner();
         runner.setContext(context);
         runner.setCoService(coService);
-        runner.setSocService(this);
         runner.setCourseService(courseService);
         runner.setAcalService(acalService);
+        runner.setSocService(this);
         runner.setResult(result);
         Thread thread = new Thread(runner);
         thread.start();
@@ -118,6 +125,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
 //        return attr;
 //    }
     @Override
+    @Transactional(readOnly = false)
     public SocRolloverResultInfo reverseRollover(String rolloverResultId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {// validate the target term
@@ -183,6 +191,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
     }
 
     @Override
+    @Transactional(readOnly = false)
     public Integer deleteCourseOfferingsBySoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -297,5 +306,41 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
             }
         }
         return list;
+    }
+
+    @Override
+    public SocRolloverResultInfo getSocRolloverResult(String rolloverResultId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        SocRolloverResultInfo result = this.getNextDecorator().getSocRolloverResult(rolloverResultId, context);
+        this.updateCalculatedFields(result, context);
+        return result;
+    }
+
+    // TODO: push this logic down into the JPA layer for efficiency once the logic for the counts gets settled on 
+    // My GUT says that they may want more counts than just the 2 we are getting now... I.e. count of warnings?
+    private void updateCalculatedFields(SocRolloverResultInfo info, ContextInfo context) throws OperationFailedException {
+        try {
+            if (info.getSourceSocId() != null) {
+                SocInfo sourceSoc = this.getSoc(info.getSourceSocId(), context);
+                info.setSourceTermId(sourceSoc.getTermId());
+            }
+            // only do the calc once finished or the querying while running will be too long
+            if (info.getStateKey().equals(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY)) {
+                List<SocRolloverResultItemInfo> items = this.getSocRolloverResultItemsByResultId(info.getId(), context);
+                int success = 0;
+                int failure = 0;
+                for (SocRolloverResultItemInfo item : items) {
+                    if (item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
+                        success++;
+                    } else {
+                        failure++;
+                    }
+                }
+                info.setItemsCreated(success);
+                info.setItemsSkipped(failure);
+            }
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
     }
 }

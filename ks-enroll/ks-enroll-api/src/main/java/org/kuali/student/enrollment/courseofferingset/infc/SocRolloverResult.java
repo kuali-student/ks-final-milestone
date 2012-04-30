@@ -37,20 +37,7 @@ public interface SocRolloverResult
      */
     public String getSourceSocId();
 
-    /**
-     * The id of the target Soc
-     * 
-     * Note: this Soc could have already existed or it may have been created 
-     * based on the source soc but for the new term.
-     * 
-     * @name Target Soc Id
-     * @readOnly
-     * @required
-     * @impl set during the #rolloverSoc operation
-     */
-    public String getTargetSocId();
-
-    /**
+      /**
      * Academic target term of the courses that were rolled over
      * 
      * @name Target Term Id
@@ -71,10 +58,23 @@ public interface SocRolloverResult
     public List<String> getOptionKeys();
 
     /**
+     * The id of the target Soc
+     * 
+     * Note: this Soc could have already existed or it may have been created 
+     * based on the source soc but for the new term.
+     * 
+     * @name Target Soc Id
+     * @readOnly
+     * @required
+     * @impl set during the #rolloverSoc operation
+     */
+    public String getTargetSocId();
+
+  
+    /**
      * Number of items processed
      *     
      * @name Items Processed
-     * @readOnly
      * @impl set during the #rolloverSoc operation
      */
     public Integer getItemsProcessed();
@@ -83,7 +83,6 @@ public interface SocRolloverResult
      * Number of items expected to be processed
      *     
      * @name Items Expected
-     * @readOnly
      * @impl set during the #rolloverSoc operation
      */
     public Integer getItemsExpected();
@@ -94,7 +93,6 @@ public interface SocRolloverResult
      * Often left null if the status is that it is complete.
      * 
      * @name Message
-     * @readOnly
      * @impl set during the #rolloverSoc operation
      */
     public RichText getMessage();

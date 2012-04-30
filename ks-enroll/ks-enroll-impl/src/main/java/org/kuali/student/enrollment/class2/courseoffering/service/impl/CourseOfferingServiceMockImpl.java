@@ -228,6 +228,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         coTransformer.copyFromCanonical(courseInfo, courseOfferingInfo, optionKeys);
         copy.setMeta(newMeta(context));
         courseOfferingMap.put(copy.getId(), copy);
+        System.out.println ("CourseOfferingMockImpl: created course offering: " + copy.getId () + "term=" + copy.getTermId() + " for course =" + copy.getCourseId());
         return new CourseOfferingInfo(copy);
     }
 
@@ -314,7 +315,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatId, String formatOfferingType, FormatOfferingInfo formatOfferingInfo, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        this.getCourseOffering(courseOfferingId, context);
+        CourseOfferingInfo co = this.getCourseOffering(courseOfferingId, context);
         // create 
         if (!courseOfferingId.equals(formatOfferingInfo.getCourseOfferingId())) {
             throw new InvalidParameterException("The course offering id parameter does not match the course offering id on the info object");
@@ -330,8 +331,10 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         if (copy.getId() == null) {
             copy.setId(formatOfferingMap.size() + "");
         }
+        copy.setTermId(co.getTermId());
         copy.setMeta(newMeta(context));
         formatOfferingMap.put(copy.getId(), copy);
+        System.out.println ("CourseOfferingMockImpl: created format offering: " + copy.getId () + "term=" + copy.getTermId() + " for format =" + copy.getFormatId() + " and course offering=" + copy.getCourseOfferingId());
         return new FormatOfferingInfo(copy);
     }
 
@@ -452,7 +455,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public ActivityOfferingInfo createActivityOffering(String formatOfferingId, String activityId, String activityOfferingTypeKey, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        this.getFormatOffering(formatOfferingId, context);
+        FormatOfferingInfo fo = this.getFormatOffering(formatOfferingId, context);
         // create 
         if (!formatOfferingId.equals(activityOfferingInfo.getFormatOfferingId())) {
             throw new InvalidParameterException("The format offering id parameter does not match the format offering id on the info object");
@@ -468,9 +471,10 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         if (copy.getId() == null) {
             copy.setId(activityOfferingMap.size() + "");
         }
+        copy.setTermId(fo.getTermId());
         copy.setMeta(newMeta(context));
         activityOfferingMap.put(copy.getId(), copy);
-        System.out.println ("CoruseOfferingMockImpl: created activity offering" + copy.getId () + " " + copy.getFormatOfferingId());
+        System.out.println ("CourseOfferingMockImpl: created activity offering: " + copy.getId () + "term=" + copy.getTermId() + " for activity " + copy.getActivityId() + " and format offering=" + copy.getFormatOfferingId());
         return new ActivityOfferingInfo(copy);
     }
 

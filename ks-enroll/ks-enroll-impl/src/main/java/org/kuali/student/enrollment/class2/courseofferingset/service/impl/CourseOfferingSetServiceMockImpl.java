@@ -268,6 +268,17 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
+    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByIds(List<String> rolloverResultItemIds, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        List<SocRolloverResultItemInfo> list = new ArrayList<SocRolloverResultItemInfo>();
+        for (String id : rolloverResultItemIds) {
+            list.add(this.getSocRolloverResultItem(id, context));
+        }
+        return list;
+    }
+
+    @Override
     public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultId(String socRolloverResultId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -281,13 +292,13 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
-    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultIdAndSourceCourseOfferingId(String socRolloverResultId, String targetCourseOfferingId, ContextInfo context)
+    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultIdAndSourceCourseOfferingId(String socRolloverResultId, String sourceCourseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<SocRolloverResultItemInfo> list = new ArrayList<SocRolloverResultItemInfo>();
         for (SocRolloverResultItemInfo info : socRolloverResultItemMap.values()) {
             if (socRolloverResultId.equals(info.getSocRolloverResultId())) {
-                if (targetCourseOfferingId.equals(info.getTargetCourseOfferingId())) {
+                if (sourceCourseOfferingId.equals(info.getTargetCourseOfferingId())) {
                     list.add(info);
                 }
             }
@@ -385,13 +396,21 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     public SocRolloverResultInfo updateSocRolloverProgress(String socRolloverResultId, Integer itemsProcessed, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new OperationFailedException("updateSocRolloverProgress has not been implemented");
+        SocRolloverResultInfo info = this.getSocRolloverResult(socRolloverResultId, context);
+        info = new SocRolloverResultInfo(info);
+        info.setItemsProcessed(itemsProcessed);
+        return this.updateSocRolloverResult(info.getId(), info, context);
     }
 
     @Override
     public StatusInfo deleteSocRolloverResult(String socRolloverResultId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            throws DoesNotExistException, DependentObjectsExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
+        List<SocRolloverResultItemInfo> items = this.getSocRolloverResultItemsByResultId(socRolloverResultId, context);
+        if (!items.isEmpty()) {
+            throw new DependentObjectsExistException(items.size() + " items exist");
+        }
         if (this.socRolloverResultMap.remove(socRolloverResultId) == null) {
             throw new DoesNotExistException(socRolloverResultId);
         }
@@ -437,10 +456,16 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
-    public Integer createSocRolloverResultItems(String socRolloverResultId, String socRolloverResultItemTypeKey, List<SocRolloverResultItemInfo> socRolloverResultItemInfos, ContextInfo context)
+    public Integer createSocRolloverResultItems(String socRolloverResultId, String typeKey,
+            List<SocRolloverResultItemInfo> infos, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new OperationFailedException("createSocRolloverResultItems has not been implemented");
+        int count = 0;
+        for (SocRolloverResultItemInfo info : infos) {
+            count++;
+            this.createSocRolloverResultItem(socRolloverResultId, typeKey, info, context);
+        }
+        return new Integer(count);
     }
 
     @Override
