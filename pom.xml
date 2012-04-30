@@ -62,9 +62,9 @@
       </modules>
     </profile>
     <profile>
-      <id>revision</id>
+      <id>buildnumber</id>
       <properties>
-        <kuali.build.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-services-r${svn.revision}</kuali.build.version>
+        <kuali.build.version>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-services-build-${env.BUILD_NUMBER}</kuali.build.version>
       </properties>
       <modules>
         <module>ks-cfg-dbs</module>
