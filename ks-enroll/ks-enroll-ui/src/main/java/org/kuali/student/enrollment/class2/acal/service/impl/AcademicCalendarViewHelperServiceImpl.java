@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -52,7 +53,7 @@ import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
 
 /**
@@ -552,7 +553,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
             if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),eventWrapper.getStartDate()) ||
                 !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),eventWrapper.getEndDate())){
-                GlobalVariables.getMessageMap().putWarning("acal-info-event", "error.enroll.event.dateNotInAcal",eventWrapper.getEventTypeName());
+                GlobalVariables.getMessageMap().putWarningForSectionId("acal-info-event", "error.enroll.event.dateNotInAcal",eventWrapper.getEventTypeName());
             }
             if (eventWrapper.isDateRange() && !CommonUtils.isValidDateRange(eventWrapper.getStartDate(),eventWrapper.getEndDate())){
                 GlobalVariables.getMessageMap().putWarning("acal-info-event", "error.enroll.daterange.invalid",eventWrapper.getEventTypeName(),CommonUtils.formatDate(eventWrapper.getStartDate()),CommonUtils.formatDate(eventWrapper.getEndDate()));
@@ -567,24 +568,32 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     private boolean isValidAcalName(AcademicCalendarInfo acal){
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        qBuilder.setPredicates(equalIgnoreCase("name", acal.getName()));
+        List<Predicate> pList = new ArrayList<Predicate>();
+
+        Predicate p = equal("atpType",AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
+        pList.add(p);
+
+        p = equalIgnoreCase("name", acal.getName());
+        pList.add(p);
+
+        Predicate[] preds = new Predicate[pList.size()];
+        pList.toArray(preds);
+        qBuilder.setPredicates(and(preds));
+
         try {
             List<AcademicCalendarInfo> acals = getAcalService().searchForAcademicCalendars(qBuilder.build(),getContextInfo());
             boolean valid = acals.isEmpty();
             //Make sure it's not the same Acal which is being edited by the user
             if (!valid && StringUtils.isNotBlank(acal.getId())){
                 for (AcademicCalendarInfo academicCalendarInfo : acals) {
-                    if (StringUtils.equals(academicCalendarInfo.getTypeKey(),AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY)){
-                        if (!StringUtils.equals(academicCalendarInfo.getId(),acal.getId())){
-                            valid = false;
-                            break;
-                        }
+                    if (!StringUtils.equals(academicCalendarInfo.getId(),acal.getId())){
+                        valid = false;
+                        break;
                     }
                     valid = true;
                 }
-            }else{
-                valid = true;
             }
+
             return valid;
         } catch (Exception e) {
             throw new RuntimeException(e);
