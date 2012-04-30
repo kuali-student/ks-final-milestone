@@ -46,7 +46,9 @@ public class PeriodForAppWindowKeyDatesFinder extends UifKeyValuesFinderBase imp
                     for (KeyDateInfo keyDateInfo : keyDateInfoList) {
                         for (TypeTypeRelationInfo relationInfo : relations) {
                             String relatedTypeKey = relationInfo.getRelatedTypeKey();
-                            if (keyDateInfo.getTypeKey().equals(relatedTypeKey) && AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY.equals(keyDateInfo.getStateKey()) ) {
+                            if (keyDateInfo.getTypeKey().equals(relatedTypeKey) &&
+                                   (AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(keyDateInfo.getStateKey()) ||
+                                    AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(keyDateInfo.getStateKey()))) {
                                 keyValues.add(new ConcreteKeyValue(keyDateInfo.getId(), keyDateInfo.getName()));
                                 break;
                             }
