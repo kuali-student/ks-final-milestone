@@ -23,16 +23,20 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="luiServiceOnBus" parent="luiService" />
   <bean id="atpServiceOnBus" parent="atpServiceValidation" />
   <bean id="acalServiceOnBus" parent="acalServiceValidation" />
-  <bean id="courseOfferingServiceOnBus" class="courseOfferingValidation" />
+  <bean id="courseOfferingServiceOnBus" parent="courseOfferingValidation" />
 
   <!-- declare beans here -->
   <!-- declare impls here -->
   <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
     <property name="lprDao" ref="lprDao" />
-    <property name="lprTypeDao" ref="lprTypeDao" />
-    <property name="lprTransDao" ref="lprTransDao" />
-    <property name="lprStateDao" ref="lprStateDao" />
+    <property name="lprRosterDao" ref="lprRosterDao" />
+    <property name="lprTransDao" ref="lprTrasactionDao" />
+    <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
+      <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
   </bean>
+
+
+
 
   <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl" />
 
@@ -118,11 +122,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="kualiReadOnlyException" class="org.kuali.student.r2.common.exceptions.ReadOnlyException" />
 
 
-  <bean id="permissionService" class="org.kuali.rice.kim.service.impl.PermissionServiceImpl" />
+  <bean id="permissionService" class="org.kuali.rice.kim.impl.permission.PermissionServiceImpl" />
 
   <!-- decorators -->
   <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
-    <property name="nextDecorator" ref="lprPersistenceService" />
+    <property name="nextDecorator" ref="lprService" />
   </bean>
 
   <bean id="lprServiceAuthorization"
@@ -148,6 +152,19 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
    <bean id="acalServiceCalculationDecorator" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
     <property name="nextDecorator" ref="acalService" />
   </bean>
+
+    <bean id="enrollmentFeeDao" class="org.kuali.student.r2.core.fee.dao.EnrollmentFeeDao"/>
+    <bean id="feeService" class="org.kuali.student.r2.core.fee.service.impl.FeeServiceImpl">
+        <property name="enrollmentFeeDao" ref="enrollmentFeeDao"/>
+    </bean>
+
+
+    <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl">
+        <property name="socDao" ref="socDao" />
+        <property name="socRorDao" ref="socRolloverResultDao" />
+        <property name="socRorItemDao" ref="socRolloverResultItemDao" />
+    </bean>
+
 
   <!-- end of decorators -->
 

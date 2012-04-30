@@ -100,6 +100,7 @@
         <property name="em" ref="enrollEntityManager" />
     </bean>
 
+
     <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
@@ -137,4 +138,15 @@
     <bean id="enrollmentFeeDao" class="org.kuali.student.r2.core.fee.dao.EnrollmentFeeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
+
+    <bean id="socDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+    <bean id="socRolloverResultDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+    <bean id="socRolloverResultItemDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultItemDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
 </beans>
