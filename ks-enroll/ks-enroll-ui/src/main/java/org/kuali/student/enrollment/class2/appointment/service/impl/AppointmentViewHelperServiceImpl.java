@@ -183,7 +183,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                         AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
                 isValid = false;
             }
-            if (apptWindow.getEndDate() != null || !apptWindow.getEndDate().toString().isEmpty() ){
+            if (apptWindow.getEndDate() != null && !apptWindow.getEndDate().toString().isEmpty() ){
                 if (period.getStartDate().after(apptWindow.getEndDate()) || period.getEndDate().before(apptWindow.getEndDate()) ){
                     GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
                             AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
