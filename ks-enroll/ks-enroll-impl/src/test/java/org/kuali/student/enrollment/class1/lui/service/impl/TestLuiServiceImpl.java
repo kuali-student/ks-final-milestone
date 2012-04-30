@@ -308,6 +308,20 @@ public class TestLuiServiceImpl {
     }
 
     @Test
+    public void  testGetLuisByAtpAndClu() throws Exception{
+        List<LuiInfo> luis =  luiService.getLuisByAtpAndClu("cluId1", "atpId1", callContext)  ;
+        assertTrue(luis.size()>0);
+        assertNotNull(luis);
+        assertEquals(1, luis.size());
+        LuiInfo onlyLui = luis.get(0);
+        assertNotNull(onlyLui);
+        assertEquals("Lui-1",  onlyLui.getId() );
+        assertEquals("Lui one", onlyLui.getName());
+        assertEquals("cluId1", onlyLui.getCluId());
+        assertEquals("atpId1", onlyLui.getAtpId());
+    }
+
+    @Test
     public void testUpdateLui() throws Exception {
         LuiInfo info = luiService.getLui("Lui-1", callContext);
         assertNotNull(info);

@@ -60,24 +60,24 @@ public class LuiEntity extends MetaEntity {
     )
     private List<ResultValuesGroupEntity> resultValuesGroups;
 
-//    @ManyToMany
-//    @JoinTable(name="KSEN_LUI_UNITS_CONT_OWNER",
-//            joinColumns=
-//            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
-//            inverseJoinColumns=
-//            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
-//    )
-//    private List<String> luiContentOwner;
-//
-//    @ManyToMany
-//    @JoinTable(name="KSEN_LUI_UNITS_DEPLOYMENT",
-//            joinColumns=
-//            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
-//            inverseJoinColumns=
-//            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
-//    )
-//    private List<String> luiUnitsDeployment;
-//
+    @ManyToMany
+    @JoinTable(name="KSEN_LUI_UNITS_CONT_OWNER",
+            joinColumns=
+            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
+            inverseJoinColumns=
+            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
+    )
+    private List<LuiUnitsContentOwnerEntity> luiContentOwner;
+
+    @OneToMany
+    @JoinTable(name="KSEN_LUI_UNITS_DEPLOYMENT",
+            joinColumns=
+            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
+            inverseJoinColumns=
+            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
+    )
+    private List<LuiUnitsDeploymentEntity> luiUnitsDeployment;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuiIdentifierEntity> identifiers;
@@ -132,6 +132,8 @@ public class LuiEntity extends MetaEntity {
         for (LuiIdentifier identifier : lui.getAlternateIdentifiers()) {
             this.getIdentifiers().add(new LuiIdentifierEntity(identifier));
         }
+
+
         // Lui Attributes
         this.setAttributes(new ArrayList<LuiAttributeEntity>());
         for (Attribute att : lui.getAttributes()) {
@@ -183,6 +185,26 @@ public class LuiEntity extends MetaEntity {
                 info.getAttributes().add(att.toDto());
             }
         }
+        List<String> unitsDeploymentOrgIds = new ArrayList<String>();
+        if( this.luiUnitsDeployment!= null)   {
+            for(LuiUnitsDeploymentEntity unitsDep : this.luiUnitsDeployment){
+
+              unitsDeploymentOrgIds.add(unitsDep.getOrgId());
+            }
+        }
+        info.setUnitsContentOwner(unitsDeploymentOrgIds);
+
+        List<String> unitsContentOrgIds = new ArrayList<String>();
+
+        if(this.luiContentOwner!=null){
+            for(LuiUnitsContentOwnerEntity unitsContent : this.luiContentOwner){
+
+                unitsContentOrgIds.add(unitsContent.getOrgId());
+            }
+        }
+
+
+        info.setUnitsContentOwner(unitsContentOrgIds);
         return info;
     }
 
