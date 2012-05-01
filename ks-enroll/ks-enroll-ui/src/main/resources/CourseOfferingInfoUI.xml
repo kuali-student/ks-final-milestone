@@ -39,13 +39,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="CourseOfferingInfo.courseNumberSuffix"/>
                 <ref bean="CourseOfferingInfo.courseOfferingTitle"/>
                 <ref bean="CourseOfferingInfo.isHonorsOffering"/>
-                <ref bean="CourseOfferingInfo.hasFinalExam"/>
                 <ref bean="CourseOfferingInfo.minimumEnrollment"/>
-                <ref bean="CourseOfferingInfo.gradeRosterLevelTypeKey"/>
+                <ref bean="CourseOfferingInfo.waitlistLevelTypeKey"/>
                 <ref bean="CourseOfferingInfo.hasWaitlist"/>
                 <ref bean="CourseOfferingInfo.waitlistTypeKey"/>
-                <ref bean="CourseOfferingInfo.waitlistMaximum"/>
-                <ref bean="CourseOfferingInfo.isWaitlistCheckinRequired"/>
                 <ref bean="CourseOfferingInfo.fundingSource"/>
                 <ref bean="CourseOfferingInfo.isFinancialAidEligible"/>
             </list>
@@ -53,10 +50,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="complexAttributes">
             <list>
                 <ref bean="CourseOfferingInfo.descr"/>
-                <ref bean="CourseOfferingInfo.creditOptionIds"/>
-                <ref bean="CourseOfferingInfo.expenditure"/>
-                <ref bean="CourseOfferingInfo.waitlistCheckinFrequency"/>                
-                <ref bean="CourseOfferingInfo.meta"/>                
+                <ref bean="CourseOfferingInfo.meta"/>
             </list>
         </property> 
     </bean>
