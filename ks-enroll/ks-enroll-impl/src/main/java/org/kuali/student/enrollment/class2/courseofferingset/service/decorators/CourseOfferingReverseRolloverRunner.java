@@ -150,6 +150,10 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
         }
     }
 
+    public void runSynchronous() throws Exception {
+        runInternal();
+    }
+
     private void runInternal() throws Exception {
         this.loadOptions();
         // mark running

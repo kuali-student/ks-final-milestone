@@ -137,6 +137,10 @@ public class CourseOfferingRolloverRunner implements Runnable {
         }
     }
 
+    public void runSynchronous() throws Exception {
+        runInternal();
+    }
+
     private void runInternal() throws Exception {
         if (this.context == null) {
             throw new NullPointerException("context not set");
