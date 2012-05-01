@@ -1629,9 +1629,6 @@
         <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUILUI_RELTN_FK2">
             <reference foreign="ID" local="LUI_ID"/>
         </foreign-key>
-        <unique name="KSEN_LUILUI_RELTN_P">
-            <unique-column name="ID"/>
-        </unique>
         <index name="KSEN_LUILUI_RELTN_I1">
             <index-column name="LUILUI_RELTN_TYPE"/>
             <index-column name="RELATED_LUI_ID"/>
@@ -1660,9 +1657,6 @@
         <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_ATTR_FK1">
             <reference foreign="ID" local="OWNER_ID"/>
         </foreign-key>
-        <unique name="KSEN_LUI_ATTR_P">
-            <unique-column name="ID"/>
-        </unique>
     </table>
     <table name="KSEN_LUI_CAMPUS_LOC">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -1964,9 +1958,6 @@
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <unique name="KSEN_SCHED_RQST_P">
-            <unique-column name="ID"/>
-        </unique>
         <index name="KSEN_SCHED_RQST_I1">
             <index-column name="REF_OBJECT_ID"/>
             <index-column name="REF_OBJECT_TYPE"/>
@@ -1991,9 +1982,6 @@
         <foreign-key foreignTable="KSEN_SCHED_RQST" name="KSEN_SCHED_RQST_CMP_FK1">
             <reference foreign="ID" local="SCHED_RQST_ID"/>
         </foreign-key>
-        <unique name="KSEN_SCHED_RQST_CMP_P">
-            <unique-column name="ID"/>
-        </unique>
         <index name="KSEN_SCHED_RQST_CMP_IF1">
             <index-column name="SCHED_RQST_ID"/>
         </index>
@@ -2008,9 +1996,6 @@
         <unique name="KSEN_SCHED_RQST_CMP_BLDG_I1">
             <unique-column name="CMP_ID"/>
             <unique-column name="BUILDING_ID"/>
-        </unique>
-        <unique name="KSEN_SCHED_RQST_CMP_BLDG_P">
-            <unique-column name="ID"/>
         </unique>
         <index name="KSEN_SCHED_RQST_CMP_BLDG_IF1">
             <index-column name="CMP_ID"/>
@@ -2027,9 +2012,6 @@
             <unique-column name="CMP_ID"/>
             <unique-column name="CAMPUS_ID"/>
         </unique>
-        <unique name="KSEN_SCHED_RQST_CMP_CAMPUS_P">
-            <unique-column name="ID"/>
-        </unique>
         <index name="KSEN_SCHED_RQST_CMP_CAMPUS_IF1">
             <index-column name="CMP_ID"/>
         </index>
@@ -2044,9 +2026,6 @@
         <unique name="KSEN_SCHED_RQST_CMP_ORG_I1">
             <unique-column name="CMP_ID"/>
             <unique-column name="ORG_ID"/>
-        </unique>
-        <unique name="KSEN_SCHED_RQST_CMP_ORG_P">
-            <unique-column name="ID"/>
         </unique>
         <index name="KSEN_SCHED_RQST_CMP_ORG_IF1">
             <index-column name="CMP_ID"/>
@@ -2063,9 +2042,6 @@
             <unique-column name="CMP_ID"/>
             <unique-column name="ROOM_ID"/>
         </unique>
-        <unique name="KSEN_SCHED_RQST_CMP_ROOM_P">
-            <unique-column name="ID"/>
-        </unique>
         <index name="KSEN_SCHED_RQST_CMP_ROOM_IF1">
             <index-column name="CMP_ID"/>
         </index>
@@ -2081,9 +2057,6 @@
             <unique-column name="CMP_ID"/>
             <unique-column name="RSRC_TYPE_KEY"/>
         </unique>
-        <unique name="KSEN_SCHED_RQST_RT_P">
-            <unique-column name="ID"/>
-        </unique>
         <index name="KSEN_SCHED_RQST_RT_IF1">
             <index-column name="CMP_ID"/>
         </index>
@@ -2098,9 +2071,6 @@
         <unique name="KSEN_SCHED_RQST_CMP_TMSLOT_I1">
             <unique-column name="CMP_ID"/>
             <unique-column name="TM_SLOT_ID"/>
-        </unique>
-        <unique name="KSEN_SCHED_RQST_CMP_TMSLOT_P">
-            <unique-column name="ID"/>
         </unique>
         <index name="KSEN_SCHED_RQST_CMP_TMSLOT_IF1">
             <index-column name="CMP_ID"/>
