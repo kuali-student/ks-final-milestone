@@ -235,6 +235,7 @@ public class TestCourseOfferingSetServiceCalculationDecoratorWithMocks {
         TermInfo targetTerm = acalService.getTerm("2013SP", callContext);
         optionKeys = new ArrayList<String>();
         optionKeys.add(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY);
+        optionKeys.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
         SocInfo targetSoc = socService.rolloverSoc(sourceSoc.getId(), targetTerm.getId(), optionKeys, callContext);
         assertNotNull(targetSoc);
         assertEquals(targetTerm.getId(), targetSoc.getTermId());

@@ -69,6 +69,7 @@ public class CourseOfferingSetServiceConstants {
     public static final String LOG_SUCCESSES_OPTION_KEY = "kuali.rollover.processing.log.successes";
     public static final String LOG_FREQUENCY_OPTION_KEY_PREFIX = "kuali.rollover.processing.log.frequency.";
     public static final String HALT_ERRORS_MAX_OPTION_KEY_PREFIX = "kuali.rollover.processing.halt.error.max.";
+    public static final String RUN_SYNCHRONOUSLY_OPTION_KEY = "kuali.rollover.processing.run.synchronously";
     
     // general processing
     public static final String REVERSE_JUST_CREATES_OPTION_KEY = "kuali.reverse.rollover.just.creates";

@@ -112,12 +112,11 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
         runner.setAcalService(acalService);
         runner.setSocService(this);
         runner.setResult(result);
-//        Thread thread = new Thread(runner);
-//        thread.start();
-        try {
-            runner.runSynchronous();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (optionKeys.contains(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY)) {
+            runner.run();
+        } else {
+            Thread thread = new Thread(runner);
+            thread.start();
         }
         return targetSoc;
     }
@@ -162,12 +161,11 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
         runner.setAcalService(acalService);
         runner.setRolloverResult(rolloverResult);
         runner.setReverseResult(reverseResult);
-//        Thread thread = new Thread(runner);
-//        thread.start();
-        try {
-            runner.runSynchronous();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (optionKeys.contains(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY)) {
+            runner.run();
+        } else {
+            Thread thread = new Thread(runner);
+            thread.start();
         }
         return reverseResult;
     }
