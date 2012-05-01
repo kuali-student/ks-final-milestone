@@ -1105,8 +1105,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         DateRangeInfo dateRange = null;
         if (keyDate != null) {
             dateRange = new DateRangeInfo();
-            dateRange.setStart(keyDate.getStartDate());
-            dateRange.setEnd(keyDate.getEndDate());
+            dateRange.setStartDate(keyDate.getStartDate());
+            dateRange.setEndDate(keyDate.getEndDate());
         }
         return dateRange;
     }
@@ -1118,8 +1118,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         if (keyDate == null) {
             keyDate = new KeyDateInfo();
         }
-        keyDate.setStartDate(dateRange.getStart());
-        keyDate.setEndDate(dateRange.getEnd());
+        keyDate.setStartDate(dateRange.getStartDate());
+        keyDate.setEndDate(dateRange.getEndDate());
         keyDate.setIsDateRange(Boolean.TRUE);
         return keyDate;
     }

@@ -17,7 +17,6 @@
 package org.kuali.student.r2.core.fee.infc;
 
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
-import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.kuali.student.r2.common.infc.RichText;
 
 
@@ -45,7 +44,7 @@ public interface EnrollmentFee
      *
      * @name Fee Amount
      */
-    public CurrencyAmount getAmount();
+    public EnrollmentFeeAmount getAmount();
 
     /**
      * Gets the organization responsible for this fee.

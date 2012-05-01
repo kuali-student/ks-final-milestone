@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.common.dto;
+package org.kuali.student.r2.core.fee.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,11 +22,10 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.infc.CurrencyAmount;
+import org.kuali.student.r2.core.fee.infc.EnrollmentFeeAmount;
 import org.w3c.dom.Element;
 
 /**
@@ -38,59 +37,40 @@ import org.w3c.dom.Element;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CurrencyAmountInfo", propOrder = {
-                "id", "currencyTypeKey", "currencyQuantity",
-                "meta", "_futureElements"})
+@XmlType(name = "FeeAmountInfo", propOrder = {
+                "currencyTypeKey", "currencyQuantity",
+                "_futureElements"})
 
-public class CurrencyAmountInfo 
-    implements CurrencyAmount, Serializable {
+public class EnrollmentFeeAmountInfo 
+    implements EnrollmentFeeAmount, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlAttribute
-    private String id;
-    
     @XmlElement
     private String currencyTypeKey;
 
     @XmlElement
     private Integer currencyQuantity;
     
-    @XmlElement
-    private MetaInfo meta;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
     /**
-     * Constructs a new CurrencyAmount.
+     * Constructs a new FeeAmount.
      */
-    public CurrencyAmountInfo() {
+    public EnrollmentFeeAmountInfo() {
     }
 
     /**
-     * Constructs a new CurrencyAmount from another Currency.
+     * Constructs a new FeeAmount from another Currency.
      *
      * @param currency the currency to copy
      */   
-    public CurrencyAmountInfo(CurrencyAmount currency) {
+    public EnrollmentFeeAmountInfo(EnrollmentFeeAmount currency) {
         if (currency != null) {        
-            this.id = currency.getId();
             this.currencyQuantity = currency.getCurrencyQuantity();
             this.currencyTypeKey = currency.getCurrencyTypeKey();
-            if (currency.getMeta() != null ) {
-                this.meta = new MetaInfo(currency.getMeta());
-            }
         }
-    }
-    
-    @Override
-    public String getId() {
-        return id;
-    }
-    
-    public void setId(String id) {
-        this.id = id;
     }
 
     @Override
@@ -110,13 +90,4 @@ public class CurrencyAmountInfo
     public void setCurrencyQuantity(Integer currencyQuantity) {
         this.currencyQuantity = currencyQuantity;
     }
-	
-    @Override
-    public MetaInfo getMeta() {
-        return this.meta;
-    }
-
-    public void setMeta(MetaInfo metaInfo) {
-        this.meta = metaInfo;
-    }	
 }

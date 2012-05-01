@@ -16,7 +16,6 @@
 package org.kuali.student.r2.core.fee.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -27,7 +26,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.fee.infc.EnrollmentFee;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.w3c.dom.Element;
 
@@ -53,7 +51,7 @@ public class EnrollmentFeeInfo
     private RichTextInfo descr;
 
     @XmlElement
-    private CurrencyAmountInfo amount;
+    private EnrollmentFeeAmountInfo amount;
 
     @XmlElement
     private String orgId;
@@ -84,7 +82,7 @@ public class EnrollmentFeeInfo
 
         if (fee != null) {
             this.descr = new RichTextInfo(fee.getDescr());
-            this.amount = new CurrencyAmountInfo(fee.getAmount());
+            this.amount = new EnrollmentFeeAmountInfo(fee.getAmount());
             this.orgId = fee.getOrgId();
             this.refObjectURI = fee.getRefObjectURI();
             this.refObjectId = fee.getRefObjectId();
@@ -101,11 +99,11 @@ public class EnrollmentFeeInfo
     }
 
     @Override
-    public CurrencyAmountInfo getAmount() {
+    public EnrollmentFeeAmountInfo getAmount() {
         return amount;
     }
     
-    public void setAmount(CurrencyAmountInfo amount) {
+    public void setAmount(EnrollmentFeeAmountInfo amount) {
         this.amount = amount;;
     }
 

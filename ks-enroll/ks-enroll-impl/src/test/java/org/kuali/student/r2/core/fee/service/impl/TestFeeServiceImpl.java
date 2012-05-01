@@ -16,13 +16,12 @@
  */
 package org.kuali.student.r2.core.fee.service.impl;
 
+import org.kuali.student.r2.core.fee.dto.EnrollmentFeeAmountInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.kuali.student.r2.common.util.constants.FeeServiceConstants;
 import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.r2.core.fee.infc.EnrollmentFee;
@@ -58,7 +57,7 @@ public class TestFeeServiceImpl {
     
     private EnrollmentFeeInfo createFeeInfo() {
         EnrollmentFeeInfo feeInfo = new EnrollmentFeeInfo();
-        CurrencyAmountInfo amt = new CurrencyAmountInfo();
+        EnrollmentFeeAmountInfo amt = new EnrollmentFeeAmountInfo();
         amt.setCurrencyQuantity(10);
         amt.setCurrencyTypeKey("dollars");
         feeInfo.setTypeKey(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY);
@@ -72,7 +71,7 @@ public class TestFeeServiceImpl {
 
     private EnrollmentFeeInfo createFeeInfo(int n) {
         EnrollmentFeeInfo feeInfo = new EnrollmentFeeInfo();
-        CurrencyAmountInfo amt = new CurrencyAmountInfo();
+        EnrollmentFeeAmountInfo amt = new EnrollmentFeeAmountInfo();
         amt.setCurrencyQuantity(10);
         amt.setCurrencyTypeKey("dollars");
         feeInfo.setTypeKey(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY);

@@ -18,9 +18,7 @@ package org.kuali.student.r2.core.fee.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowAttributeEntity;
 import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.r2.core.fee.infc.EnrollmentFee;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -28,6 +26,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.student.r2.core.fee.dto.EnrollmentFeeAmountInfo;
 
 /**
  * This class //TODO ...
@@ -108,7 +107,7 @@ public class EnrollmentFeeEntity extends MetaEntity {
         feeInfo.setTypeKey(getEnrollFeeType());
         // Then, all the instance variables that are specific to EnrollmentFeeEntity
         if (getCurrencyType() != null) { // strange if it's null, but make the check anyway
-            CurrencyAmountInfo amtInfo = new CurrencyAmountInfo();
+            EnrollmentFeeAmountInfo amtInfo = new EnrollmentFeeAmountInfo();
             amtInfo.setCurrencyQuantity(getCurrencyQuantity());
             amtInfo.setCurrencyTypeKey(getCurrencyType());
             feeInfo.setAmount(amtInfo);

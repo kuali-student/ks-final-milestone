@@ -1,8 +1,9 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the Educational
- * Community License, Version 2.0 (the "License"); you may not use
- * this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
@@ -13,17 +14,17 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.common.infc;
+package org.kuali.student.r2.core.fee.infc;
 
 /**
- * Detailed information about an amount of currency including both the type of units and the quantity.
+ * Detailed information about an amount of currency including both the
+ * type of units and the quantity.
  *
  * @author Kamal
  * @since Mon Jan 11 15:20:51 PST 2010
  */
 
-public interface CurrencyAmount 
-    extends HasId, HasMeta {
+public interface EnrollmentFeeAmount {
         
     /**
      * The kind of units associated with the quantity, such as US
