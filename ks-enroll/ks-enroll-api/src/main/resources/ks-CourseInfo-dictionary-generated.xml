@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
+		This dictionary file was automatically generated on Tue May 01 14:33:18 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -65,7 +65,7 @@ this in.
 				<ref bean="CourseInfo.code"/>
 				<ref bean="CourseInfo.courseNumberSuffix"/>
 				<ref bean="CourseInfo.level"/>
-				<ref bean="CourseInfo.courseOfferingTitle"/>
+				<ref bean="CourseInfo.courseTitle"/>
 				<ref bean="CourseInfo.transcriptTitle"/>
 				<ref bean="CourseInfo.subjectArea"/>
 				<ref bean="CourseInfo.specialTopicsCourse"/>
@@ -97,7 +97,7 @@ this in.
 				<ref bean="CourseInfo.crossListings"/>
 				<ref bean="CourseInfo.variations"/>
 				<ref bean="CourseInfo.instructors"/>
-				<ref bean="CourseInfo.feeIds"/>
+				<ref bean="CourseInfo.fees"/>
 				<ref bean="CourseInfo.revenues"/>
 				<ref bean="CourseInfo.courseSpecificLOs"/>
 			</list>
@@ -243,8 +243,8 @@ division etc
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseInfo.courseOfferingTitle-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="courseOfferingTitle"/>
+	<bean id="CourseInfo.courseTitle-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseTitle"/>
 		<property name="shortLabel" value="Course Title"/>
 		<property name="summary">
 			<value>
@@ -811,8 +811,8 @@ Units Responsible for overseeing the content of this course
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="CourseInfo.feeIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="feeIds"/>
+	<bean id="CourseInfo.fees-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="fees"/>
 		<property name="shortLabel" value="Fees"/>
 		<property name="summary">
 			<value>
@@ -951,8 +951,8 @@ Grading options available for the course
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="CourseInfo.creditOptionIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="creditOptionIds"/>
+	<bean id="CourseInfo.creditOptions-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="creditOptions"/>
 		<property name="shortLabel" value="Credit Options"/>
 		<property name="summary">
 			<value>

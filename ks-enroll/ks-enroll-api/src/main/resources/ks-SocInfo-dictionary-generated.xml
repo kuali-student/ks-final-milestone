@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue May 01 14:33:18 EDT 2012
+		This dictionary file was automatically generated on Tue May 01 14:33:17 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -38,14 +38,16 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- LuiLuiRelationInfo-->
-	<bean id="LuiLuiRelationInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="luiLuiRelationInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo"/>
-		<property name="objectLabel" value="Lui Lui Relation"/>
+	<!-- SocInfo-->
+	<bean id="SocInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="socInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseofferingset.dto.SocInfo"/>
+		<property name="objectLabel" value="Soc"/>
 		<property name="objectDescription">
 			<value>
-Detailed information about a LUI to LUI relationship.
+Set of Offered Courses, Soc.
+
+Identifies a set of courses that are offered within a term.
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>
@@ -57,21 +59,20 @@ Detailed information about a LUI to LUI relationship.
 
 		<property name="attributes">
 			<list>
-				<ref bean="LuiLuiRelationInfo.id"/>
-				<ref bean="LuiLuiRelationInfo.typeKey"/>
-				<ref bean="LuiLuiRelationInfo.stateKey"/>
-				<ref bean="LuiLuiRelationInfo.name"/>
-				<ref bean="LuiLuiRelationInfo.luiId"/>
-				<ref bean="LuiLuiRelationInfo.relatedLuiId"/>
-				<ref bean="LuiLuiRelationInfo.effectiveDate"/>
-				<ref bean="LuiLuiRelationInfo.expirationDate"/>
+				<ref bean="SocInfo.id"/>
+				<ref bean="SocInfo.typeKey"/>
+				<ref bean="SocInfo.stateKey"/>
+				<ref bean="SocInfo.name"/>
+				<ref bean="SocInfo.termId"/>
+				<ref bean="SocInfo.subjectArea"/>
+				<ref bean="SocInfo.unitsContentOwnerId"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="LuiLuiRelationInfo.descr"/>
-				<ref bean="LuiLuiRelationInfo.meta"/>
+				<ref bean="SocInfo.descr"/>
+				<ref bean="SocInfo.meta"/>
 			</list>
 		</property>
 
@@ -81,23 +82,23 @@ Detailed information about a LUI to LUI relationship.
 		</property>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="SocInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="SocInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="SocInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.name-generated" abstract="true" parent="BaseKuali.name">
+	<bean id="SocInfo.name-generated" abstract="true" parent="BaseKuali.name">
 		<property name="name" value="name"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="SocInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="descr"/>
 		<property name="shortLabel" value="Descr"/>
 		<property name="summary">
@@ -125,8 +126,8 @@ A description of the entity.
 
 				<property name="attributes">
 					<list>
-						<ref bean="LuiLuiRelationInfo.descr.plain"/>
-						<ref bean="LuiLuiRelationInfo.descr.formatted"/>
+						<ref bean="SocInfo.descr.plain"/>
+						<ref bean="SocInfo.descr.formatted"/>
 					</list>
 				</property>
 
@@ -143,57 +144,92 @@ A description of the entity.
 		</property>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+	<bean id="SocInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
 		<property name="name" value="plain"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+	<bean id="SocInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.luiId-generated" abstract="true" parent="BaseKuali.luiId">
-		<property name="name" value="luiId"/>
-		<property name="shortLabel" value="Lui Id"/>
+	<bean id="SocInfo.termId-generated" abstract="true" parent="BaseKuali.termId">
+		<property name="name" value="termId"/>
+		<property name="shortLabel" value="Term Id"/>
 		<property name="summary">
 			<value>
-A unique identifier for a Learning Unit Instance (LUI).
+Academic term of the courses in the course offering set
 			</value>
 		</property>
-		<property name="label" value="Lui Id"/>
+		<property name="label" value="Term Id"/>
 		<property name="description">
 			<value>
-A unique identifier for a Learning Unit Instance (LUI).
+Academic term of the courses in the course offering set
 			</value>
 		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.relatedLuiId-generated" abstract="true" parent="BaseKuali.luiId">
-		<property name="name" value="relatedLuiId"/>
-		<property name="shortLabel" value="Related Lui Id"/>
+	<bean id="SocInfo.subjectArea-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="subjectArea"/>
+		<property name="shortLabel" value="Subject Area"/>
 		<property name="summary">
 			<value>
-A unique identifier for a Learning Unit Instance (LUI).
+Subject Area of the courses in the course offering set
+
+This is the first part of the course number, for example &quot;ENG&quot; in &quot;ENG 101&quot;
+
+
+THIS IS A PLACEHOLDER FOR DEFINING DEPARTMENTAL SOCS
+NOTE: if a course is cross-listed it is not clear yet if it appears in 
+Socs for both subject areas or just the one main one for the course.
 			</value>
 		</property>
-		<property name="label" value="Related Lui Id"/>
+		<property name="label" value="Subject Area"/>
 		<property name="description">
 			<value>
-A unique identifier for a Learning Unit Instance (LUI).
+Subject Area of the courses in the course offering set
+
+This is the first part of the course number, for example &quot;ENG&quot; in &quot;ENG 101&quot;
+
+
+THIS IS A PLACEHOLDER FOR DEFINING DEPARTMENTAL SOCS
+NOTE: if a course is cross-listed it is not clear yet if it appears in 
+Socs for both subject areas or just the one main one for the course.
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
-		<property name="name" value="effectiveDate"/>
+	<bean id="SocInfo.unitsContentOwnerId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="unitsContentOwnerId"/>
+		<property name="shortLabel" value="Units Content Owner Id"/>
+		<property name="summary">
+			<value>
+The Organization id of the content owner of the courses in this course offering 
+set.
+ 
+
+			</value>
+		</property>
+		<property name="label" value="Units Content Owner"/>
+		<property name="description">
+			<value>
+The Organization id of the content owner of the courses in this course offering 
+set.
+ 
+THIS IS A PLACEHOLDER FOR DEFINING DEPARTMENTAL SOCS
+NOTE: should this be a list of org ids not just one?
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
-		<property name="name" value="expirationDate"/>
-	</bean>
-
-	<bean id="LuiLuiRelationInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="SocInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -239,11 +275,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="LuiLuiRelationInfo.meta.versionInd"/>
-						<ref bean="LuiLuiRelationInfo.meta.createTime"/>
-						<ref bean="LuiLuiRelationInfo.meta.createId"/>
-						<ref bean="LuiLuiRelationInfo.meta.updateTime"/>
-						<ref bean="LuiLuiRelationInfo.meta.updateId"/>
+						<ref bean="SocInfo.meta.versionInd"/>
+						<ref bean="SocInfo.meta.createTime"/>
+						<ref bean="SocInfo.meta.createId"/>
+						<ref bean="SocInfo.meta.updateTime"/>
+						<ref bean="SocInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -260,23 +296,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="SocInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="SocInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="SocInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="SocInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="LuiLuiRelationInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="SocInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>

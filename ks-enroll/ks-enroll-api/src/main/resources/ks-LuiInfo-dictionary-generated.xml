@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
+		This dictionary file was automatically generated on Tue May 01 14:33:18 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -65,6 +65,7 @@ Detailed information about a single LUI.
 				<ref bean="LuiInfo.expirationDate"/>
 				<ref bean="LuiInfo.cluId"/>
 				<ref bean="LuiInfo.atpId"/>
+				<ref bean="LuiInfo.scheduleId"/>
 				<ref bean="LuiInfo.maximumEnrollment"/>
 				<ref bean="LuiInfo.minimumEnrollment"/>
 				<ref bean="LuiInfo.referenceURL"/>
@@ -75,7 +76,6 @@ Detailed information about a single LUI.
 			<list>
 				<ref bean="LuiInfo.descr"/>
 				<ref bean="LuiInfo.officialIdentifier"/>
-				<ref bean="LuiInfo.expenditure"/>
 				<ref bean="LuiInfo.meta"/>
 			</list>
 		</property>
@@ -84,9 +84,6 @@ Detailed information about a single LUI.
 			<list>
 				<ref bean="LuiInfo.alternateIdentifiers"/>
 				<ref bean="LuiInfo.luiCodes"/>
-				<ref bean="LuiInfo.feeIds"/>
-				<ref bean="LuiInfo.revenues"/>
-				<ref bean="LuiInfo.meetingSchedules"/>
 			</list>
 		</property>
 	</bean>
@@ -470,7 +467,7 @@ The unique identifier for the Canonical Learning Unit
 (CLU) of which this is an instance.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="LuiInfo.cluCluRelationIds-generated" abstract="true" parent="CollectionDefinition">
@@ -510,6 +507,44 @@ for which this instance is offered.
 			<value>
 The unique identifier for the Academic Time Period (ATP)
 for which this instance is offered.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="LuiInfo.campusLocations-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="campusLocations"/>
+		<property name="shortLabel" value="Campus Locations"/>
+		<property name="summary">
+			<value>
+Places where this LUI is offered. 
+			</value>
+		</property>
+		<property name="label" value="Campus Location Keys"/>
+		<property name="elementLabel" value="Campus Location"/>
+		<property name="description">
+			<value>
+Places where this LUI is offered. This is a temporary field
+that parallels the campus enumeration in CLU. It may evolve
+into a list of Campus Ids when we work that out.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="LuiInfo.scheduleId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="scheduleId"/>
+		<property name="shortLabel" value="Schedule Id"/>
+		<property name="summary">
+			<value>
+The Schedule Id.
+			</value>
+		</property>
+		<property name="label" value="Schedule Id"/>
+		<property name="description">
+			<value>
+The Schedule Id.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -681,206 +716,6 @@ These are the related lui types which may be related to this lui, e.g., activty
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="LuiInfo.feeIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="feeIds"/>
-		<property name="shortLabel" value="Fees"/>
-		<property name="summary">
-			<value>
-The feeIds associated with the course offering.
-			</value>
-		</property>
-		<property name="label" value="Fees"/>
-		<property name="elementLabel" value="Fee"/>
-		<property name="description">
-			<value>
-The feeIds associated with the course offering.
-			</value>
-		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.FeeInfo"/>
-	</bean>
-
-	<bean id="LuiInfo.revenues-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="revenues"/>
-		<property name="shortLabel" value="Revenues"/>
-		<property name="summary">
-			<value>
-The organization that receives the revenue associated with
-the course.
-			</value>
-		</property>
-		<property name="label" value="Revenues"/>
-		<property name="elementLabel" value="Revenue"/>
-		<property name="description">
-			<value>
-The organization that receives the revenue associated with
-the course.
-			</value>
-		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.RevenueInfo"/>
-	</bean>
-
-	<bean id="LuiInfo.expenditure-generated" abstract="true" parent="ComplexAttributeDefinition">
-		<property name="name" value="expenditure"/>
-		<property name="shortLabel" value="Expenditure"/>
-		<property name="summary">
-			<value>
-The organization that incurs the cost associated with the
-course.
-			</value>
-		</property>
-		<property name="label" value="Expenditure"/>
-		<property name="description">
-			<value>
-The organization that incurs the cost associated with the
-course.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-		<property name="dataObjectEntry">
-			<bean parent="DataObjectEntry">
-				<property name="name" value="expenditure"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.ExpenditureInfo"/>
-				<property name="objectLabel" value="Expenditure"/>
-				<property name="objectDescription">
-					<value>
-The organization that incurs the cost associated with the
-course.
-					</value>
-				</property>
-
-				<property name="attributes">
-					<list>
-						<ref bean="LuiInfo.expenditure.id"/>
-					</list>
-				</property>
-
-				<property name="complexAttributes">
-					<list>
-						<ref bean="LuiInfo.expenditure.meta"/>
-					</list>
-				</property>
-
-				<property name="collections">
-					<list>
-						<ref bean="LuiInfo.expenditure.affiliatedOrgs"/>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="LuiInfo.expenditure.id-generated" abstract="true" parent="BaseKuali.id">
-		<property name="name" value="id"/>
-	</bean>
-
-	<bean id="LuiInfo.expenditure.affiliatedOrgs-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="affiliatedOrgs"/>
-		<property name="shortLabel" value="Affiliated Orgs"/>
-		<property name="summary">
-			<value>
-List of affiliated organizations.
-			</value>
-		</property>
-		<property name="label" value="Affiliated Organizations"/>
-		<property name="elementLabel" value="Affiliated Org"/>
-		<property name="description">
-			<value>
-List of affiliated organizations.
-			</value>
-		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo"/>
-	</bean>
-
-	<bean id="LuiInfo.expenditure.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
-		<property name="name" value="meta"/>
-		<property name="shortLabel" value="Meta"/>
-		<property name="summary">
-			<value>
-Create and last update info for the structure. 
-			</value>
-		</property>
-		<property name="label" value="Meta"/>
-		<property name="description">
-			<value>
-Create and last update info for the structure. This is optional
-and treated as read only since the data is set by the internals
-of the service during maintenance operations.
-
-Contains audit trail information about the creation and last
-update of this object Also contains the version ind used for
-optimistic locking.
-
-Attempts to set or update should result in a ReadOnlyException
-being thrown.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-		<property name="dataObjectEntry">
-			<bean parent="DataObjectEntry">
-				<property name="name" value="meta"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Meta"/>
-				<property name="objectDescription">
-					<value>
-Create and last update info for the structure. This is optional
-and treated as read only since the data is set by the internals
-of the service during maintenance operations.
-
-Contains audit trail information about the creation and last
-update of this object Also contains the version ind used for
-optimistic locking.
-
-Attempts to set or update should result in a ReadOnlyException
-being thrown.
-					</value>
-				</property>
-
-				<property name="attributes">
-					<list>
-						<ref bean="LuiInfo.expenditure.meta.versionInd"/>
-						<ref bean="LuiInfo.expenditure.meta.createTime"/>
-						<ref bean="LuiInfo.expenditure.meta.createId"/>
-						<ref bean="LuiInfo.expenditure.meta.updateTime"/>
-						<ref bean="LuiInfo.expenditure.meta.updateId"/>
-					</list>
-				</property>
-
-				<property name="complexAttributes">
-					<list>
-					</list>
-				</property>
-
-				<property name="collections">
-					<list>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="LuiInfo.expenditure.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
-		<property name="name" value="versionInd"/>
-	</bean>
-
-	<bean id="LuiInfo.expenditure.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
-		<property name="name" value="createTime"/>
-	</bean>
-
-	<bean id="LuiInfo.expenditure.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
-		<property name="name" value="createId"/>
-	</bean>
-
-	<bean id="LuiInfo.expenditure.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
-		<property name="name" value="updateTime"/>
-	</bean>
-
-	<bean id="LuiInfo.expenditure.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
-		<property name="name" value="updateId"/>
-	</bean>
-
 	<bean id="LuiInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
@@ -966,24 +801,5 @@ being thrown.
 
 	<bean id="LuiInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
-	</bean>
-
-	<bean id="LuiInfo.meetingSchedules-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="meetingSchedules"/>
-		<property name="shortLabel" value="Meeting Schedules"/>
-		<property name="summary">
-			<value>
-Meeting schedules for the Lui
-			</value>
-		</property>
-		<property name="label" value="Meeting Schedule"/>
-		<property name="elementLabel" value="Meeting Schedule"/>
-		<property name="description">
-			<value>
-Meeting schedules for the Lui
-			</value>
-		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MeetingScheduleInfo"/>
 	</bean>
 </beans>

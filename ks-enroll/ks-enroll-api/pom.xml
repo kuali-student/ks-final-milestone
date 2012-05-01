@@ -266,11 +266,6 @@
                                 <className>LuiInfo</className>
                                 <className>LuiIdentifierInfo</className>
                                 <className>LuCodeInfo</className>
-                                <className>FeeInfo</className>
-                                <className>CurrencyAmountInfo</className>
-                                <className>RevenueInfo</className>
-                                <className>AffiliatedOrgInfo</className>
-                                <className>MeetingScheduleInfo</className>
                                 <className>LuiLuiRelationInfo</className>
                                 <className>LuiCapacityInfo</className>
 <!--                                Course Offering      -->
@@ -320,7 +315,14 @@
                                 <className>TypeTypeRelationInfo</className>
                                 <!-- State -->
                                 <className>StateInfo</className>
-                                <className>LifecycleInfo</className>                              
+                                <className>LifecycleInfo</className>          
+                                <!-- SOC Course Offering Set -->
+                                <className>SocInfo</className>    
+                                <className>SocRolloverResultInfo</className>    
+                                <className>SocRolloverResultItemInfo</className>       
+                                <!-- Enrollment Fee Set -->                                
+                                <className>EnrollmentFeeInfo</className>
+                                <className>EnrollmentFeeAmountInfo</className>
                             </classNames>                     
                         </configuration>
                     </execution>                  

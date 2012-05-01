@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
+		This dictionary file was automatically generated on Tue May 01 14:33:18 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -182,7 +182,9 @@ Window end date (&quot;Aug 07, 2012&quot;).
 		<property name="label" value="End Date"/>
 		<property name="description">
 			<value>
-Window end date (&quot;Aug 07, 2012&quot;). Window end date does not constrain a slot duration. It is to ensure that the slot start time is not after the window end date.
+Window end date (&quot;Aug 07, 2012&quot;). Window end date does not
+constrain a slot duration. It is to ensure that the slot start
+time is not after the window end date.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -384,13 +386,15 @@ Offset from midnight in milliseconds, representing the time portion of a day
 		<property name="shortLabel" value="Slot Start Interval"/>
 		<property name="summary">
 			<value>
-Interval between start times of two consecutive appointment slots (&quot;30 mins&quot;)
+Interval between start times of two consecutive appointment
+slots (&quot;30 mins&quot;)
 			</value>
 		</property>
 		<property name="label" value="Slot Start Interval"/>
 		<property name="description">
 			<value>
-Interval between start times of two consecutive appointment slots (&quot;30 mins&quot;)
+Interval between start times of two consecutive appointment
+slots (&quot;30 mins&quot;)
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -401,7 +405,8 @@ Interval between start times of two consecutive appointment slots (&quot;30 mins
 				<property name="objectLabel" value="Slot Start Interval"/>
 				<property name="objectDescription">
 					<value>
-Interval between start times of two consecutive appointment slots (&quot;30 mins&quot;)
+Interval between start times of two consecutive appointment
+slots (&quot;30 mins&quot;)
 					</value>
 				</property>
 
@@ -466,13 +471,16 @@ The amount of time.
 		<property name="shortLabel" value="Slot Duration"/>
 		<property name="summary">
 			<value>
-Duration of the appointment slot (&quot;20 mins&quot;) - advertised duration of the slot. 
+Duration of the appointment slot (&quot;20 mins&quot;) - advertised
+duration of the slot. 
 			</value>
 		</property>
 		<property name="label" value="Slot Duration"/>
 		<property name="description">
 			<value>
-Duration of the appointment slot (&quot;20 mins&quot;) - advertised duration of the slot. The slot duration is not constrained by the window end date/time
+Duration of the appointment slot (&quot;20 mins&quot;) - advertised
+duration of the slot. The slot duration is not constrained by
+the window end date/time
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -483,7 +491,9 @@ Duration of the appointment slot (&quot;20 mins&quot;) - advertised duration of 
 				<property name="objectLabel" value="Slot Duration"/>
 				<property name="objectDescription">
 					<value>
-Duration of the appointment slot (&quot;20 mins&quot;) - advertised duration of the slot. The slot duration is not constrained by the window end date/time
+Duration of the appointment slot (&quot;20 mins&quot;) - advertised
+duration of the slot. The slot duration is not constrained by
+the window end date/time
 					</value>
 				</property>
 
@@ -582,13 +592,15 @@ The Population Id to which the appointment window is assigned.
 		<property name="shortLabel" value="Assigned Order Type Key"/>
 		<property name="summary">
 			<value>
-Ordering for appointment slots assignment (&quot;random&quot;/&quot;last name&quot;/&quot;GPA&quot;)
+Ordering for appointment slots assignment (&quot;random&quot;/&quot;last
+name&quot;/&quot;GPA&quot;)
 			</value>
 		</property>
 		<property name="label" value="Assigned Order Type Key"/>
 		<property name="description">
 			<value>
-Ordering for appointment slots assignment (&quot;random&quot;/&quot;last name&quot;/&quot;GPA&quot;)
+Ordering for appointment slots assignment (&quot;random&quot;/&quot;last
+name&quot;/&quot;GPA&quot;)
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -599,13 +611,15 @@ Ordering for appointment slots assignment (&quot;random&quot;/&quot;last name&qu
 		<property name="shortLabel" value="Max Appointments Per Slot"/>
 		<property name="summary">
 			<value>
-Maximum number of persons that can be assigned to an appointment slot
+Maximum number of persons that can be assigned to an
+appointment slot
 			</value>
 		</property>
 		<property name="label" value="Max Appointments Per Slot"/>
 		<property name="description">
 			<value>
-Maximum number of persons that can be assigned to an appointment slot
+Maximum number of persons that can be assigned to an
+appointment slot
 			</value>
 		</property>
 		<property name="required" value="false"/>
