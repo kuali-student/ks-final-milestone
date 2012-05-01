@@ -179,9 +179,11 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 
         lprInfo.setMeta(super.toDTO());
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (LuiPersonRelationAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
+        if (getAttributes() != null) {
+            for (LuiPersonRelationAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                atts.add(attInfo);
+            }
         }
         lprInfo.setAttributes(atts);
 

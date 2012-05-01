@@ -85,7 +85,7 @@ public class TesLuiPersonRelationServiceImpl {
     @Test
     public void testGetLPR()throws  Exception{
 
-        LuiPersonRelationInfo lpr = lprService.getLpr("lpr-1", callContext);
+        LuiPersonRelationInfo lpr = lprService.getLpr("Lpr-1", callContext);
         assertNotNull(lpr);
         assertNotNull(lpr.getStateKey());
         assertNotNull(lpr.getTypeKey());
