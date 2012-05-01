@@ -215,13 +215,13 @@ public class RegistrationWindowsController extends UifControllerBase {
                 //Get feedback to the user6
                 if(status.getIsSuccess()){
                     GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                            AppointmentServiceConstants.APPOINTMENT_MSG_INFO_ASSIGNED,window.getAppointmentWindowInfo().getName(), status.getMessage(), String.valueOf(slots.size()));
+                            AppointmentConstants.APPOINTMENT_MSG_INFO_ASSIGNED,window.getAppointmentWindowInfo().getName(), status.getMessage(), String.valueOf(slots.size()));
                     //Update window state
                     window.getAppointmentWindowInfo().setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY);
                 }else{
                     //There was an error
                     GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                            AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_TOO_MANY_STUDENTS, status.getMessage());
+                            AppointmentConstants.APPOINTMENT_MSG_ERROR_TOO_MANY_STUDENTS, status.getMessage());
                 }
             }
         }
@@ -238,14 +238,14 @@ public class RegistrationWindowsController extends UifControllerBase {
             StatusInfo status = getAppointmentService().deleteAppointmentSlotsByWindowCascading(window.getAppointmentWindowInfo().getId(), new ContextInfo());
             if(status.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                        AppointmentServiceConstants.APPOINTMENT_MSG_INFO_BREAK_APPOINTMENTS_SUCCESS);
+                        AppointmentConstants.APPOINTMENT_MSG_INFO_BREAK_APPOINTMENTS_SUCCESS);
 
                 //Update window state back to draft
                 window.getAppointmentWindowInfo().setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
             }else{
                 //There was an error
                 GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                        AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE, status.getMessage());
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE, status.getMessage());
             }
         }
 
@@ -269,7 +269,7 @@ public class RegistrationWindowsController extends UifControllerBase {
                     }else{
                         //There was an error
                         GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                                AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE, status.getMessage());
+                                AppointmentConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE, status.getMessage());
                         return updateComponent(uifForm, result, request, response);
                     }
                 }else {

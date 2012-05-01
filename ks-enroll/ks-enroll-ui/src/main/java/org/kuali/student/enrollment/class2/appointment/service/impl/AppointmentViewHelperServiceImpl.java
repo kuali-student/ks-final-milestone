@@ -20,7 +20,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
@@ -33,6 +32,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
+import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentSlotRuleTypeConversion;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -81,7 +81,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
         //Check for exceptions
         if(terms == null || terms.isEmpty()){
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES,AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_NO_TERMS_FOUND);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_TERMS_FOUND);
             return; //Nothing found
         }
 
@@ -118,7 +118,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
         //Check if there are no periods (might want to handle this somewhere else and surface to the user)
         if(form.getPeriodMilestones()==null||form.getPeriodMilestones().isEmpty()){
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
         }
 
     }
@@ -160,17 +160,17 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)){
             if(apptWindow.getEndDate() == null)   {
                 GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
-                        AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_END_DATE_REQUIRED_FOR_UNIFORM);
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_REQUIRED_FOR_UNIFORM);
                 isValid = false;
             }
             if(apptWindow.getEndTime() == null){
                 GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].endTime",
-                        AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
                 isValid = false;
             }
             if  (apptWindow.getEndTime().isEmpty()){
                 GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].endTimeAmPm",
-                        AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
                 isValid = false;
             }
         }
@@ -180,19 +180,19 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
             if (period.getStartDate().after(apptWindow.getStartDate()) || period.getEndDate().before(apptWindow.getStartDate())){
                 GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].startDate",
-                        AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
                 isValid = false;
             }
             if (apptWindow.getEndDate() != null && !apptWindow.getEndDate().toString().isEmpty() ){
                 if (period.getStartDate().after(apptWindow.getEndDate()) || period.getEndDate().before(apptWindow.getEndDate()) ){
                     GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
-                            AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
+                            AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
                     isValid = false;
                 }
             }
         }catch (Exception e){
             LOG.error("Fail to find periods for a selected term.",e);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
             isValid = false;
         }
 
@@ -204,12 +204,12 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                     Date endDate = _updateTime(apptWindow.getEndDate(), apptWindow.getEndTime(), apptWindow.getEndTimeAmPm());
                     if(startDate.after(endDate)){
                         GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].endDate",
-                                AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
+                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
                     }
                 }
             } catch (Exception e){
                 LOG.error("Fail to find periods for a selected term.",e);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
                 isValid = false;
             }
         }
@@ -289,7 +289,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             //Add a success message
             if (isApptWindowSaved)
                 GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                        AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
+                        AppointmentConstants.APPOINTMENT_MSG_INFO_SAVED);
         }
         return allWindowsSaved;
     }
@@ -327,10 +327,10 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                     saveApptWindow((AppointmentWindowWrapper)addLine);
                     //Add a success message
                     GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,
-                            AppointmentServiceConstants.APPOINTMENT_MSG_INFO_SAVED);
+                            AppointmentConstants.APPOINTMENT_MSG_INFO_SAVED);
                 } catch (Exception e) {
                     LOG.error("Fail to create a window.",e);
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentServiceConstants.APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL);
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL);
                     isValid = false;
                 }
             }
