@@ -33,6 +33,90 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/appointment/AppointmentWindowInfo"
         TYPE_KEY="kuali.appointment.window.type.slotted.uniform" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="1 day period" DESCR_PLAIN="1 day period"
+        NAME="Day"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Day" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Four Year Program"
+        DESCR_PLAIN="Four Year Program" NAME="Four Years"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.FourYears" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Half semester (8 weeks)"
+        DESCR_PLAIN="Half semester (8 weeks)" NAME="Half Semester"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.HalfSemester" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="1 hour period" DESCR_PLAIN="1 hour period"
+        NAME="Hours"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Hours" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Very Short 3 week mini-mester used for Grad in Summer"
+        DESCR_PLAIN="Very Short 3 week mini-mester used for Grad in Summer"
+        NAME="Mini-mester"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Mini-mester" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="1 minute period" DESCR_PLAIN="1 minute period"
+        NAME="Minutes"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Minutes" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="1 month period" DESCR_PLAIN="1 month period"
+        NAME="Month"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Month" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Short one month term used for Winter Activities"
+        DESCR_PLAIN="Short one month term used for Winter Activities"
+        NAME="Period"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Period" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Full 11 week quarter"
+        DESCR_PLAIN="Full 11 week quarter" NAME="Quarter"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Quarter" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Full 16 week semester used in fall and spring"
+        DESCR_PLAIN="Full 16 week semester used in fall and spring"
+        NAME="Semester"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Semester" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Short 6 week sessions used in summer"
+        DESCR_PLAIN="Short 6 week sessions used in summer"
+        NAME="Session"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Session" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Ad hoc period required for negotiated sessions"
+        DESCR_PLAIN="Ad hoc period required for negotiated sessions"
+        NAME="TBD"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.TBD" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="12 week term used in the summer"
+        DESCR_PLAIN="12 week term used in the summer" NAME="Term"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Term" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Four Year Program"
+        DESCR_PLAIN="Four Year Program" NAME="Two Years"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.TwoYears" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="1 week period" DESCR_PLAIN="1 week period"
+        NAME="Week"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Week" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Full Year" DESCR_PLAIN="Full Year" NAME="Year"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/TimeAmountInfo"
+        TYPE_KEY="kuali.atp.duration.Year" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="This is the last day a student may register in courses on the web for the quarter."
         DESCR_PLAIN="This is the last day a student may register in courses on the web for the quarter."
         NAME="Last Day to Add Classes"
