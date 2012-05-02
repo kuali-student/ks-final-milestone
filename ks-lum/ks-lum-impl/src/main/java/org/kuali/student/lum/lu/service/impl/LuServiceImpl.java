@@ -1961,8 +1961,8 @@ public class LuServiceImpl implements CluService {
         }
         SearchRequest sr = new SearchRequest();
         sr.setSearchKey(query.getSearchTypeKey());
-        sr.setParams(query.getQueryParamValueList());
-        
+        sr.setParams(R1R2ConverterUtil.convertLists(query.getQueryParamValues(), org.kuali.student.r1.common.search.dto.SearchParam.class));
+
         SearchResult result = search(sr);
 
         Set<String> cluIds = new HashSet<String>();
