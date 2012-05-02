@@ -1,47 +1,34 @@
 package org.kuali.student.lum.course.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.junit.Test;
+import org.kuali.student.common.test.mock.MockProxyFactoryBean;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.lum.course.service.utils.*;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r1.common.validator.ServerDateParser;
+import org.kuali.student.r1.core.atp.service.AtpService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.common.test.mock.MockProxyFactoryBean;
-import org.kuali.student.common.test.util.ContextInfoTestUtility;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
-import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r1.core.atp.service.AtpService;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.course.service.utils.ActiveDatesValidator;
-import org.kuali.student.lum.course.service.utils.ActivityTypeValidator;
-import org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator;
-import org.kuali.student.lum.course.service.utils.RevenuePercentValidator;
-import org.kuali.student.lum.course.service.utils.SubjectAreaUnitOwnerValidator;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class TestCourseInfoDictionary {
 	
@@ -98,9 +85,9 @@ public class TestCourseInfoDictionary {
 		val.setDateParser(new ServerDateParser());
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		// TODO KSCM Do we need a mock for COurseInfo?
-		CourseInfo info; // TODO KSCM new CourseInfo();
-		ObjectStructureDefinition os = new ObjectStructureDefinition(); // TODO KSCM  (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
-		List<ValidationResultInfo> validationResults = new ArrayList();  // TODO KSCM  val.validateObject(info,	os, contextInfo);
+		CourseInfo info = new CourseInfo();
+		ObjectStructureDefinition os =(ObjectStructureDefinition) ac.getBean(info.getClass().getName());
+		List<ValidationResultInfo> validationResults =  val.validateObject(info,	os, contextInfo);
 		System.out.println("h3. With just a blank Course");
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
