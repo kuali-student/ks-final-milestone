@@ -678,7 +678,7 @@ public class TestProgramServiceImpl {
     	progReq.setLearningObjectives(los);
 
       	StatementTreeViewInfo statement = createStatementTree();
-    	progReq.setStatement(statement);
+    	progReq.setStatement(R1R2ConverterUtil.convert(statement, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class) );
     	progReq.setTypeKey(ProgramAssemblerConstants.PROGRAM_REQUIREMENT);
 		return progReq;
 	}

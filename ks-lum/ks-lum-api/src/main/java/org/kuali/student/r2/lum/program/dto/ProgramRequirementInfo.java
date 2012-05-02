@@ -156,10 +156,6 @@ public class ProgramRequirementInfo extends IdNamelessEntityInfo implements Prog
         this.maxCredits = maxCredits;
     }
 
-	public void setStatement(
-			org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo newSubRule) {
-		//statement = R1R2ConverterUtil.convert(newSubRule, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class);
-		
-	}
+
 
 }
