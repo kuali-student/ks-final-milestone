@@ -154,10 +154,10 @@ public class R1ToR2CopyHelper {
             return null;
         }
         CurrencyAmountInfo r2 = new CurrencyAmountInfo();
-        r2.setId(r1.getId());
+        //        r2.setId(r1.getId());
         r2.setCurrencyTypeKey(r1.getCurrencyTypeKey());
         r2.setCurrencyQuantity(r1.getCurrencyQuantity());
-        r2.setMeta(copyMetaInfo(r1.getMetaInfo()));
+        //r2.setMeta(copyMetaInfo(r1.getMetaInfo()));
         return r2;
     }
 

@@ -60,7 +60,7 @@
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
     
-    <bean id="issueDao" class="org.kuali.student.enrollment.class1.hold.dao.IssueDao">
+    <bean id="issueDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldIssueDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
     
@@ -100,6 +100,7 @@
         <property name="em" ref="enrollEntityManager" />
     </bean>
 
+
     <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
@@ -127,10 +128,36 @@
     <bean id="appointmentWindowDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
+
     <bean id="appointmentSlotDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
+
     <bean id="appointmentDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="enrollmentFeeDao" class="org.kuali.student.r2.core.fee.dao.EnrollmentFeeDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="socDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+    <bean id="socRolloverResultDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+    <bean id="socRolloverResultItemDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultItemDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <!-- Search Dao needs an implementation at some point -->
+    <bean id="searchDao" class="org.kuali.student.r2.core.class1.appointment.dao.AppointmentDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <!-- Enumeration Dao -->
+    <bean id="enumValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 

@@ -96,11 +96,10 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
-    <bean id="luiServiceImpl" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
+    <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
         <property name="luiDao" ref="luiDao"/>
         <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
     </bean>
-	
 
 
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />

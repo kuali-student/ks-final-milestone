@@ -16,12 +16,15 @@
  */
 package org.kuali.student.enrollment.class2.appointment.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -29,20 +32,23 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
+import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
+import org.kuali.student.enrollment.class2.appointment.util.AppointmentSlotRuleTypeConversion;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
+import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
+import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class //TODO ...
@@ -53,13 +59,13 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AppointmentViewHelperServiceImpl.class);
 
     @Override
-    public RegistrationWindowsManagementForm searchForTerm(String typeKey, String year, RegistrationWindowsManagementForm form) throws Exception {
+    public void searchForTerm(String typeKey, String year, RegistrationWindowsManagementForm form) throws Exception {
 
         //Parse the year to a date and the next year's date to compare against the startTerm
         DateFormat df = new SimpleDateFormat("yyyy");
         Date minBoundDate = df.parse(year);
         Date maxBoundDate = df.parse(Integer.toString(Integer.parseInt(year)+1));
-        
+
         //Build up a term search criteria
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
@@ -74,16 +80,15 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         List<TermInfo> terms = academicCalendarService.searchForTerms(criteria, null);
 
         //Check for exceptions
-        if(terms == null){
-            return null; //Nothing found and null
+        if(terms == null || terms.isEmpty()){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_TERMS_FOUND);
+            return; //Nothing found
         }
-        if(terms.isEmpty()){
-            return null; //Nothing found
-        }
+
         if(terms.size()>1){
             LOG.error("Too many terms!");
         }
-        
+
         TermInfo term = terms.get(0);
 
         //Populate the result form
@@ -94,7 +99,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         if(keyDates != null){
 
             //Get the valid period types
-            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydate","kuali.type.type.relation.type.group",new ContextInfo());
+            List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.appt.regperiods","kuali.type.type.relation.type.group",new ContextInfo());
             List<String> validMilestoneTypes = new ArrayList<String>();
             for(TypeTypeRelationInfo milestoneTypeRelation:milestoneTypeRelations){
                 validMilestoneTypes.add(milestoneTypeRelation.getRelatedTypeKey());
@@ -113,40 +118,180 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
         //Check if there are no periods (might want to handle this somewhere else and surface to the user)
         if(form.getPeriodMilestones()==null||form.getPeriodMilestones().isEmpty()){
-            throw new Exception("No periods exist for term");//TODO what happens in this case
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
         }
-        
-        return form;
+
     }
 
     public void loadTermAndPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {
         ContextInfo context = TestHelper.getContext1();
-//        try {
-            TermInfo term = getAcalService().getTerm(termId, context);
-            if (term.getId() != null && !term.getId().isEmpty()) {
-                form.setTermInfo(term);
-                List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
-                List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(term.getId(), context);
-                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
-                    if (AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
-                        System.out.println(">>>find "+keyDateInfo.getName());
-                        periodMilestones.add (keyDateInfo);
+        TermInfo term = getAcalService().getTerm(termId, context);
+
+        if (term.getId() != null && !term.getId().isEmpty()) {
+            form.setTermInfo(term);
+            loadPeriods(termId, form);
+        }
+
+    }
+
+    public void loadPeriods(String termId, RegistrationWindowsManagementForm form) throws Exception {
+        ContextInfo context = TestHelper.getContext1();
+        List<KeyDateInfo> periodMilestones = new ArrayList<KeyDateInfo>();
+        List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(termId, context);
+        List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.appt.regperiods","kuali.type.type.relation.type.group",context);
+        for (KeyDateInfo keyDateInfo : keyDateInfoList) {
+            for (TypeTypeRelationInfo relationInfo : relations) {
+                String relatedTypeKey = relationInfo.getRelatedTypeKey();
+                if (keyDateInfo.getTypeKey().equals(relatedTypeKey))  {
+                    periodMilestones.add(keyDateInfo);
+                    break;
+                }
+            }
+        }
+
+        form.setPeriodMilestones(periodMilestones);
+    }
+
+    public boolean validateApptWidnow(AppointmentWindowWrapper apptWindow) {
+        boolean isValid = true;
+        //  1) a window end date is not required for a One-Slot or Max Number Slot Allocation Method/Window Type
+        //  2) a window end date is required for uniform
+        String windowTypeKey = apptWindow.getWindowTypeKey();
+        if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)){
+            if(apptWindow.getEndDate() == null)   {
+                GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_REQUIRED_FOR_UNIFORM);
+                isValid = false;
+            }
+            if(apptWindow.getEndTime() == null){
+                GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].endTime",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
+                isValid = false;
+            }
+            if  (apptWindow.getEndTime().isEmpty()){
+                GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].endTimeAmPm",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
+                isValid = false;
+            }
+        }
+        // 3) when start/end date is not null, start/end date should be in the date range of the selected period
+        String periodId = apptWindow.getPeriodKey();
+        try {
+            KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
+            if (period.getStartDate().after(apptWindow.getStartDate()) || period.getEndDate().before(apptWindow.getStartDate())){
+                GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].startDate",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
+                isValid = false;
+            }
+            if (apptWindow.getEndDate() != null && !apptWindow.getEndDate().toString().isEmpty() ){
+                if (period.getStartDate().after(apptWindow.getEndDate()) || period.getEndDate().before(apptWindow.getEndDate()) ){
+                    GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
+                            AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
+                    isValid = false;
+                }
+            }
+        }catch (Exception e){
+            LOG.error("Fail to find periods for a selected term.",e);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
+            isValid = false;
+        }
+
+        //4)  when the start date and the end date are not null,  the start date should be before the end date
+        if (isValid){
+            try{
+                if (apptWindow.getEndDate() != null && !apptWindow.getEndTime().isEmpty() && !apptWindow.getEndTimeAmPm().isEmpty()){
+                    Date startDate = _updateTime(apptWindow.getStartDate(), apptWindow.getStartTime(), apptWindow.getStartTimeAmPm());
+                    Date endDate = _updateTime(apptWindow.getEndDate(), apptWindow.getEndTime(), apptWindow.getEndTimeAmPm());
+                    if(startDate.after(endDate)){
+                        GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].endDate",
+                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
                     }
                 }
-                form.setPeriodMilestones(periodMilestones);
+            } catch (Exception e){
+                LOG.error("Fail to find periods for a selected term.",e);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
+                isValid = false;
             }
-//        }catch (DoesNotExistException dnee){
-//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get DoesNotExistException:  "+dnee.toString());
-//        }catch (InvalidParameterException ipe){
-//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get InvalidParameterException:  "+ipe.toString());
-//        }catch (MissingParameterException mpe){
-//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get MissingParameterException:  "+mpe.toString());
-//        }catch (OperationFailedException ofe){
-//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get OperationFailedException:  "+ofe.toString());
-//        }catch (PermissionDeniedException pde){
-//            System.out.println("call getAcalService().getKeyDatesForTerm(term.getId(), context), and get PermissionDeniedException:  "+pde.toString());
-//        }
+        }
+        return isValid;
+    }
 
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if (addLine instanceof AppointmentWindowWrapper) {
+            //in the AddLine (/inputLine) when the periodId is not all, need to set the selected periodId and periodName
+            // in the addLine
+            RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
+            AppointmentWindowWrapper newCollectionLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
+            String periodId = form.getPeriodId();
+            if (periodId != "all" && !periodId.isEmpty()){
+                newCollectionLine.setPeriodName(form.getPeriodName());
+                newCollectionLine.setPeriodKey(form.getPeriodId());
+            }
+        }
+    }
+
+    public boolean saveApptWindow(AppointmentWindowWrapper appointmentWindowWrapper) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException{
+        boolean isSave = true;
+        //Copy the form data from the wrapper to the bean.
+        AppointmentWindowInfo appointmentWindowInfo = appointmentWindowWrapper.getAppointmentWindowInfo();
+        appointmentWindowInfo.setTypeKey(appointmentWindowWrapper.getWindowTypeKey());
+        appointmentWindowInfo.setPeriodMilestoneId(appointmentWindowWrapper.getPeriodKey());
+        appointmentWindowInfo.setStartDate(_updateTime(appointmentWindowWrapper.getStartDate(), appointmentWindowWrapper.getStartTime(), appointmentWindowWrapper.getStartTimeAmPm()));
+        appointmentWindowInfo.setEndDate(_updateTime(appointmentWindowWrapper.getEndDate(), appointmentWindowWrapper.getEndTime(), appointmentWindowWrapper.getEndTimeAmPm()));
+
+        //TODO Default to some value if nothing is entered(Service team needs to make up some real types or make not nullable)
+        if(appointmentWindowInfo.getAssignedOrderTypeKey() == null || appointmentWindowInfo.getAssignedOrderTypeKey().isEmpty()){
+            appointmentWindowInfo.setAssignedOrderTypeKey("DUMMY_ID");
+        }
+
+        //Default to single slot type if nothing is entered
+        if(appointmentWindowInfo.getTypeKey() == null || appointmentWindowInfo.getTypeKey().isEmpty()){
+            appointmentWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY);
+        }
+
+        if(appointmentWindowInfo.getId()==null||appointmentWindowInfo.getId().isEmpty()){
+            //Default the state to active
+            appointmentWindowInfo.setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
+
+            //Converting appointment rule type code to AppointmentSlotRuleInfo object when apptWindowInfo..getTypeKey != AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY
+            if(!AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY.equals(appointmentWindowInfo.getTypeKey())) {
+                appointmentWindowInfo.setSlotRule(AppointmentSlotRuleTypeConversion.convToAppointmentSlotRuleInfo(appointmentWindowWrapper.getSlotRuleEnumType()));
+            }
+            //appointmentWindowInfo.getSlotRule().setWeekdays(new ArrayList<Integer>());
+            //appointmentWindowInfo.getSlotRule().getWeekdays().add(1);
+            appointmentWindowInfo = getAppointmentService().createAppointmentWindow(appointmentWindowInfo.getTypeKey(),appointmentWindowInfo,new ContextInfo());
+        }else{
+            appointmentWindowInfo = getAppointmentService().updateAppointmentWindow(appointmentWindowInfo.getId(),appointmentWindowInfo,new ContextInfo());
+        }
+
+        //Reset the windowInfo from the service's returned value
+        appointmentWindowWrapper.setAppointmentWindowInfo(appointmentWindowInfo);
+        appointmentWindowWrapper.setId(appointmentWindowInfo.getId());
+        appointmentWindowWrapper.setWindowName(appointmentWindowInfo.getName());
+
+        return isSave;
+
+    }
+
+    public boolean saveWindows(RegistrationWindowsManagementForm form) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException {
+        boolean isApptWindowSaved = true;
+        boolean allWindowsSaved = true;
+        if(form.getAppointmentWindows()!=null){
+
+            for(AppointmentWindowWrapper appointmentWindowWrapper:form.getAppointmentWindows()){
+                boolean isValid = validateApptWidnow(appointmentWindowWrapper);
+                if (isValid) {
+                    isApptWindowSaved=saveApptWindow(appointmentWindowWrapper);
+                    if(!isApptWindowSaved)
+                        allWindowsSaved = isApptWindowSaved;
+                }
+            }
+            //Add a success message
+            if (isApptWindowSaved)
+                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                        AppointmentConstants.APPOINTMENT_MSG_INFO_SAVED);
+        }
+        return allWindowsSaved;
     }
 
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
@@ -165,17 +310,66 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                     break;
                 }
             }
+            String windowName =  ((AppointmentWindowWrapper) addLine).getAppointmentWindowInfo().getName();
+            ((AppointmentWindowWrapper) addLine).setWindowName(windowName);
         }
     }
-    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof AppointmentWindowWrapper) {
-            RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
-            AppointmentWindowWrapper newCollectionLine= (AppointmentWindowWrapper)form.getNewCollectionLines().get("appointmentWindows");
-            String periodId = form.getPeriodId();
-            if (periodId != "all" && !periodId.isEmpty()){
-                newCollectionLine.setPeriodName(form.getPeriodName());
+
+    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
+                                               Object addLine) {
+        boolean isValid = true;
+        if (addLine instanceof AppointmentWindowWrapper){
+            AppointmentWindowWrapper apptWindow = (AppointmentWindowWrapper) addLine;
+            isValid = validateApptWidnow(apptWindow);
+            if(isValid) {
+                try {
+                    //need to persist the window that has passed the validation to DB
+                    saveApptWindow((AppointmentWindowWrapper)addLine);
+                    //Add a success message
+                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,
+                            AppointmentConstants.APPOINTMENT_MSG_INFO_SAVED);
+                } catch (Exception e) {
+                    LOG.error("Fail to create a window.",e);
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL);
+                    isValid = false;
+                }
+            }
+
+        } else {
+            super.performAddLineValidation(view, collectionGroup, model, addLine);
+        }
+        return isValid;
+    }
+
+    //Copied from AcademicCalendarViewHelperServiceImpl //TODO(should be moved into common util class)
+    private Date _updateTime(Date date,String time,String amPm){
+
+        if(date == null || time == null || amPm == null){
+            return null;
+        }
+
+        //FIXME: Use Joda DateTime
+
+        // Get Calendar object set to the date and time of the given Date object
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        // Set time fields to zero
+        cal.set(Calendar.HOUR, Integer.parseInt(StringUtils.substringBefore(time, ":")));
+        cal.set(Calendar.MINUTE, Integer.parseInt(StringUtils.substringAfter(time,":")));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        if (StringUtils.isNotBlank(amPm)){
+            if (StringUtils.equalsIgnoreCase(amPm,"am")){
+                cal.set(Calendar.AM_PM,Calendar.AM);
+            }else if(StringUtils.equalsIgnoreCase(amPm,"pm")){
+                cal.set(Calendar.AM_PM,Calendar.PM);
+            }else{
+                throw new RuntimeException("Unknown AM/PM format.");
             }
         }
+
+        return cal.getTime();
     }
 
     public AcademicCalendarService getAcalService() {
@@ -185,4 +379,21 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     public TypeService getTypeService() {
         return (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeService.class.getSimpleName()));
     }
+
+    public AppointmentService getAppointmentService() {
+        return (AppointmentService) GlobalResourceLoader.getService(new QName(AppointmentServiceConstants.NAMESPACE, AppointmentServiceConstants.SERVICE_NAME_LOCAL_PART));
+    }
+
+    public ContextInfo getContextInfo() {
+        ContextInfo contextInfo = new ContextInfo();
+        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        LocaleInfo localeInfo = new LocaleInfo();
+        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
+        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
+        contextInfo.setLocale(localeInfo);
+        return contextInfo;
+    }
+
+
 }

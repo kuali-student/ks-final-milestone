@@ -27,4 +27,11 @@
 
   <bean id="Uif-CollectionGroupBase" abstract="true" parent="Uif-KS-CollectionGroupBase-parentBean"/>
 
+  <!--<bean id="Uif-GroupValidationMessages" parent="Uif-KSGroupValidationMessages-parentBean"/>
+
+  <bean id="Uif-KSGroupValidationMessages-parentBean" parent="Uif-GroupValidationMessages-parentBean">
+    <property name="displayMessages" value="true"/>
+  </bean>
+-->
+
 </beans>

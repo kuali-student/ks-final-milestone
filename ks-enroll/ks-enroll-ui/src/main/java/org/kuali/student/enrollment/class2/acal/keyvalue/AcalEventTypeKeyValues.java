@@ -25,9 +25,9 @@ import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConsta
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
+import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
-import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -53,7 +53,7 @@ public class AcalEventTypeKeyValues extends UifKeyValuesFinderBase implements Se
         //Hard code "Select Event Type"
         ConcreteKeyValue topKeyValue = new ConcreteKeyValue();
         topKeyValue.setKey("");
-        topKeyValue.setValue("Select Event Type...");
+        topKeyValue.setValue("Select Event Type");
         keyValues.add(topKeyValue);
 
         //TODO:Build real context.

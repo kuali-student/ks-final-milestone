@@ -26,12 +26,14 @@ import org.kuali.student.common.exceptions.UnsupportedActionException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
 
 /**
  *
@@ -47,6 +49,14 @@ public class CourseServiceR1MockImpl implements CourseService {
         if (courseInfo.getId() == null) {
             courseInfo.setId(courses.size() + "");
         }
+        VersionInfo version = new VersionInfo ();
+        version.setCurrentVersionStart(new Date ());
+        version.setCurrentVersionEnd(null);
+        version.setSequenceNumber(0l);
+        version.setVersionComment("initial version");
+        version.setVersionIndId(courseInfo.getId() + "ind");
+        version.setVersionedFromId(courseInfo.getId());
+        courseInfo.setVersionInfo(version);
         courses.put(courseInfo.getId(), courseInfo);
         return courseInfo;
     }
@@ -165,7 +175,8 @@ public class CourseServiceR1MockImpl implements CourseService {
     }
 
     @Override
-    public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI, String refObjectId, Date date) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI, String refObjectId, Date date)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -186,7 +197,26 @@ public class CourseServiceR1MockImpl implements CourseService {
 
     @Override
     public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+      
+        // Note: the refObjectTypeURI should only be clus because that is the only object that is versioned
+        List<VersionDisplayInfo> list = new ArrayList<VersionDisplayInfo> ();
+        for (CourseInfo info : this.courses.values()) {
+            // the refObjectid is the VERSION INDEPENDENT ID See LuDaoImpl from CM
+            if (refObjectId.equals(info.getVersionInfo().getVersionIndId())) {
+                VersionInfo vi = info.getVersionInfo();
+                VersionDisplayInfo vd = new VersionDisplayInfo ();
+                vd.setId(info.getId());
+                vd.setObjectTypeURI(LuServiceConstants.CLU_NAMESPACE_URI);
+                vd.setVersionedFromId(vi.getVersionedFromId());
+                vd.setCurrentVersionStart(vi.getCurrentVersionStart());
+                vd.setCurrentVersionEnd(vi.getCurrentVersionEnd());
+                vd.setSequenceNumber(vi.getSequenceNumber());
+                vd.setVersionComment(vi.getVersionComment());
+                vd.setVersionIndId(vi.getVersionIndId());
+                list.add (vd);
+            }
+        }
+        return list;
     }
 
     @Override

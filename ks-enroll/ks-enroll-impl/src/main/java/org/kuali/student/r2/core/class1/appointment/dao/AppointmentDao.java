@@ -17,18 +17,33 @@ package org.kuali.student.r2.core.class1.appointment.dao;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentEntity;
-import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
 
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * JPQL Queries which primarily accesses Appointment Entity
  *
  * @author Kuali Student Team
  */
 public class AppointmentDao extends GenericEntityDao<AppointmentEntity> {
+    /**
+     * Retrieve all appointments in a given slot
+     * @param apptSlotId The slot ID to retrieve by
+     * @return A list of appointment entities with the slot ID
+     */
     public List<AppointmentEntity> getAppointmentsBySlotId(String apptSlotId) {
-        return em.createQuery("from AppointmentEntity a where a.slotEntity.id = :apptSlotId")
+        return em.createQuery("FROM AppointmentEntity a WHERE a.slotEntity.id = :apptSlotId")
                 .setParameter("apptSlotId", apptSlotId).getResultList();
+    }
+
+    /**
+     * Relatively fast way to count number of appointments with appointment window id
+     * @param apptWinId The appointment window ID
+     * @return A count of how many appointments are in a window
+     */
+    public Long countAppointmentsByWindowId(String apptWinId) {
+        String query = "SELECT COUNT(*) FROM AppointmentSlotEntity slot, AppointmentEntity appt " +
+                "WHERE slot.apptWinEntity.id = :apptWinId AND appt.slotEntity.id = slot.id";
+        return (Long) em.createQuery(query).setParameter("apptWinId", apptWinId).getSingleResult();
     }
 }

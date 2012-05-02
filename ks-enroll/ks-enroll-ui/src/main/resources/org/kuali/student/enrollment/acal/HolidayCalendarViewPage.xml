@@ -21,6 +21,7 @@
             <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;"/>
                 <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;"/>
+                <bean parent="Uif-ActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;"/>
             </list>
         </property>
         <property name="items">
@@ -48,6 +49,7 @@
         </property>
         <property name="items">
             <list>
+                <bean parent="Uif-MessageField" p:messageText="@{updateTimeString}" p:styleClasses="font-light12"/>
                 <bean parent="Uif-GridGroup"
                       p:id="KS-HolidayCalendar-View-Meta-GridGroup"
                       p:layoutManager.numberOfColumns="2"

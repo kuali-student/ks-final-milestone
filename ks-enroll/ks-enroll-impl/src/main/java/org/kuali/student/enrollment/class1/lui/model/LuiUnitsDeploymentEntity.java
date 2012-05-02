@@ -21,7 +21,7 @@ public class LuiUnitsDeploymentEntity {
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
 
-    @Column(name = "ORG_ID", nullable = false)
+    @Column(name = "ORG_ID")
     private String orgId;
     
     public LuiUnitsDeploymentEntity(){

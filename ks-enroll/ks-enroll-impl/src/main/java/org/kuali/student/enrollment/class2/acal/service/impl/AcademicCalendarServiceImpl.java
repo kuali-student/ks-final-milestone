@@ -6,34 +6,16 @@ import org.joda.time.Days;
 import org.joda.time.Period;
 import org.joda.time.Weeks;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.dto.*;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
-import org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler;
-import org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler;
-import org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler;
-import org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler;
-import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
+import org.kuali.student.enrollment.class2.acal.service.assembler.*;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
@@ -47,16 +29,7 @@ import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AcademicCalendarServiceImpl implements AcademicCalendarService {
@@ -241,7 +214,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // TODO: move this to a validation layer
-        validateHolidayCalendarIds(academicCalendarInfo.getHolidayCalendarIds(), context);
         try {
             AtpInfo toCreate = acalAssembler.disassemble(academicCalendarInfo, context);
             AtpInfo createdAtp = atpService.createAtp(toCreate.getTypeKey(), toCreate, context);
@@ -269,13 +241,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public AcademicCalendarInfo updateAcademicCalendar(String academicCalendarId, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-        try {
-            AtpInfo existing = atpService.getAtp(academicCalendarId, context);
-        } catch (DoesNotExistException e1) {
-            throw new DoesNotExistException(academicCalendarId, e1);
-        }
-        // TODO: move this to a validation layer
-        validateHolidayCalendarIds(academicCalendarInfo.getHolidayCalendarIds(), context);
+
         try {
             AtpInfo toUpdate = acalAssembler.disassemble(academicCalendarInfo, context);
             AtpInfo updated = atpService.updateAtp(academicCalendarId, toUpdate, context);
@@ -293,19 +259,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
     }
 
-    private void validateHolidayCalendarIds(List<String> holidayCalendarIds, ContextInfo context)
-            throws OperationFailedException {
-        // TODO: move this validatation to the validation layer
-        for (String hcId : holidayCalendarIds) {
-            try {
-                atpService.getAtp(hcId, context);
-            } catch (DoesNotExistException e) {
-                throw new OperationFailedException("The HolidayCalendar Does Not Exist. " + hcId, e);
-            } catch (Exception e) {
-                throw new OperationFailedException("Unexpected" + hcId, e);
-            }
-        }
-    }
 
     @Override
     @Transactional(readOnly = false)
@@ -373,9 +326,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             throw new OperationFailedException("Unexpected", ex);
         }
         try {
-            System.out.println ("AcademicCalendarServiceImp: creating atp for holiday calendar ");
+            System.out.println("AcademicCalendarServiceImp: creating atp for holiday calendar ");
             atpInfo = atpService.createAtp(atpInfo.getTypeKey(), atpInfo, context);
-            System.out.println ("atp created for holiday calendar " + atpInfo.getId());
+            System.out.println("atp created for holiday calendar " + atpInfo.getId());
         } catch (ReadOnlyException ex) {
             throw new OperationFailedException("Unexpected", ex);
         }
@@ -521,7 +474,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         List<AtpInfo> results = atpService.getAtpsByIds(termIds, context);
 
-        List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
+        List<TermInfo> terms = new ArrayList<TermInfo>();
 
         for (AtpInfo atp : results) {
             try {
@@ -669,15 +622,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public TermInfo updateTerm(String termId, TermInfo termInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-        AtpInfo atp = atpService.getAtp(termId, context);
-
-        if (atp == null) {
-            throw new DoesNotExistException(termId);
-        }
-
-        if (!checkTypeForTermType(atp.getTypeKey(), context)) {
-            throw new InvalidParameterException("Invalid termId: " + termId + "  Given key does not map to a Term");
-        }
 
         TermInfo updatedTerm;
 
@@ -689,8 +633,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             updatedTerm = termAssembler.assemble(updated, context);
         } catch (AssemblyException e) {
             throw new OperationFailedException("AssemblyException : " + e.getMessage());
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException("Error updating ATP - " + e.getMessage(), e);
         } catch (ReadOnlyException e) {
             throw new OperationFailedException("Error updating ATP - " + e.getMessage(), e);
         }
@@ -721,7 +663,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     @Transactional(readOnly = false)
     public StatusInfo addTermToAcademicCalendar(String academicCalendarId,
-            String termId, ContextInfo context) throws DoesNotExistException,
+                                                String termId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException, PermissionDeniedException,
@@ -1096,17 +1038,16 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Transactional(readOnly = false)
     public HolidayInfo calculateHoliday(String holidayId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Sambit - THIS METHOD NEEDS JAVADOCS
         return getHoliday(holidayId, contextInfo);
     }
 
-   
+
     private DateRangeInfo getDateRangeFromKeyDate(KeyDateInfo keyDate) {
         DateRangeInfo dateRange = null;
         if (keyDate != null) {
             dateRange = new DateRangeInfo();
-            dateRange.setStart(keyDate.getStartDate());
-            dateRange.setEnd(keyDate.getEndDate());
+            dateRange.setStartDate(keyDate.getStartDate());
+            dateRange.setEndDate(keyDate.getEndDate());
         }
         return dateRange;
     }
@@ -1118,8 +1059,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         if (keyDate == null) {
             keyDate = new KeyDateInfo();
         }
-        keyDate.setStartDate(dateRange.getStart());
-        keyDate.setEndDate(dateRange.getEnd());
+        keyDate.setStartDate(dateRange.getStartDate());
+        keyDate.setEndDate(dateRange.getEndDate());
         keyDate.setIsDateRange(Boolean.TRUE);
         return keyDate;
     }
@@ -1138,7 +1079,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return keyDate;
     }
 
-   
+
     public AtpService getAtpService() {
         return atpService;
     }
@@ -1247,9 +1188,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     private void createDeleteAtpAtpRelations(String fromAtpId,
-            List<String> newRelatedAtpIds,
-            String relatedAtpType,
-            ContextInfo context)
+                                             List<String> newRelatedAtpIds,
+                                             String relatedAtpType,
+                                             ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
@@ -1289,9 +1230,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     private AtpAtpRelationInfo createAtpAtpRelation(String atpId,
-            String relatedAtpId,
-            String relationType,
-            ContextInfo context)
+                                                    String relatedAtpId,
+                                                    String relationType,
+                                                    ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -1733,11 +1674,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public AcalEventInfo updateAcalEvent(String acalEventId, AcalEventInfo acalEventInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
-        MilestoneInfo existingMilestone = atpService.getMilestone(acalEventId, contextInfo);
-
-        if (existingMilestone == null) {
-            throw new DoesNotExistException("AcalEvent doesnt exists " + acalEventId);
-        }
 
         try {
             MilestoneInfo milestoneInfo = acalEventAssembler.disassemble(acalEventInfo, contextInfo);
@@ -2007,11 +1943,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             List<HolidayInfo> holidays = getHolidaysByDateForAcademicCalendar(acal.getId(), instructionalPeriodKeyDate.getStartDate(), instructionalPeriodKeyDate.getEndDate(), contextInfo);
 
             for (HolidayInfo holiday : holidays) {
-
-                Period holidayPeriod = new Period(holiday.getStartDate().getTime(), holiday.getEndDate().getTime());
-
-                numberOfHolidayDays = numberOfHolidayDays + holidayPeriod.toStandardDays().getDays();
-
+                Period holidayPeriod;
+                if (holiday.getIsDateRange()){
+                    holidayPeriod = new Period(holiday.getStartDate().getTime(), holiday.getEndDate().getTime());
+                    numberOfHolidayDays = numberOfHolidayDays + holidayPeriod.toStandardDays().getDays();
+                }else{
+                    numberOfHolidayDays = numberOfHolidayDays + 1;
+                }
             }
         }
         return numberOfHolidayDays;
@@ -2052,8 +1990,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             List<HolidayInfo> holidays = getHolidaysForHolidayCalendar(holidayCalendarId, contextInfo);
 
             for (HolidayInfo holiday : holidays) {
-                if (holiday.getStartDate().after(startDate) && holiday.getEndDate().before(endDate)) {
-                    holidaysForAcal.add(holiday);
+                if (holiday.getStartDate().after(startDate)){
+                    if (holiday.getIsDateRange()){
+                        if (holiday.getEndDate().before(endDate)){
+                           holidaysForAcal.add(holiday);
+                        }
+                    }else{
+                        holidaysForAcal.add(holiday);
+                    }
                 }
             }
 

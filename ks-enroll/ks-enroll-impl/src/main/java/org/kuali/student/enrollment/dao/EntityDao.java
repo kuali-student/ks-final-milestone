@@ -24,7 +24,7 @@ public interface EntityDao<T> {
 	 * @param primaryKeys - list of Primary keys
 	 * @return Entity for given key
 	 */
-	public List<T> findByIds(List<? extends Serializable> primaryKeys);
+	public List<T> findByIds(List<? extends Serializable> primaryKeys) throws Exception;
 
 	/**
 	 * Load all entities of this type.

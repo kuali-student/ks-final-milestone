@@ -9,7 +9,7 @@
 
     <bean id="KS-AcademicCalendar-CopyPage" parent="Uif-Page"
           p:id="academicCalendarCopyPage"
-          p:title="Create New AcademicCalendar Calendar"
+          p:title="Create New Academic Calendar"
           p:header.id="KS-AcademicCalendar-CopyView-header"
           p:disclosure.render="false">
         <property name="header">
@@ -22,9 +22,8 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-MessageField"
-                                  p:messageText="Information from the existing calendar will copied over. Dates will recalculated to accurately reflect the new calendar's start date."
-                                  p:id="KS-AcademicCalendar-CopyView-header-text" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="toCreate" p:actionLabel="Start a blank calendar instead?" p:style="text-align:center;"/>
+                                  p:messageText="When copying an Academic Calendar, all term and milestone names, as well as dates and times from the source calendar are copied."/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="createBlankCalendar" p:actionLabel="Start a blank calendar instead?" p:style="text-align:center;"/>
                         </list>
                     </property>
                 </bean>
@@ -53,6 +52,7 @@
                               p:actionLabel="Copy Academic Calendar"
                               p:render="@{academicCalendarInfo != null}"
                               p:id="KS-AcademicCalendar-CopyView-CopyButton"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()"/>
                     </list>
                 </property>
             </bean>
@@ -136,10 +136,10 @@
                                   p:required="true"
                                   p:propertyName="academicCalendarInfo.name"
                                   p:labelField.width="15%">
-                                <property name="validCharactersConstraint">
-                                    <bean parent="AlphaNumericPatternConstraint"
-                                          p:allowWhitespace="true" />
-                                </property>
+                                <!--<property name="validCharactersConstraint">-->
+                                    <!--<bean parent="AlphaNumericPatternConstraint"-->
+                                          <!--p:allowWhitespace="true" />-->
+                                <!--</property>-->
                                 <property name="control">
                                     <bean parent="Uif-TextControl"
                                           p:size="40"

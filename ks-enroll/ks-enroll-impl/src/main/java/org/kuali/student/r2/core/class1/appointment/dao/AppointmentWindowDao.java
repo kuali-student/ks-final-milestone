@@ -22,13 +22,18 @@ import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntit
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * JPQL queries for AppointmentWindowEntity
  *
  * @author Kuali Student Team
  */
 public class AppointmentWindowDao extends GenericEntityDao<AppointmentWindowEntity> {
+    /**
+     * Fetch all appointment window given a period milestone ID
+     * @param periodMilestoneId The period milestone ID
+     * @return A list of AppointmentWindowEntity objects with a period milestone
+     */
     public List<AppointmentWindowEntity> getAppointmentWindowsByMilestoneId(String periodMilestoneId) {
-        return em.createQuery("from AppointmentWindowEntity a where a.periodMilestoneId = :periodMilestoneId")
+        return em.createQuery("FROM AppointmentWindowEntity a WHERE a.periodMilestoneId = :periodMilestoneId")
                 .setParameter("periodMilestoneId", periodMilestoneId).getResultList();
     }
 }

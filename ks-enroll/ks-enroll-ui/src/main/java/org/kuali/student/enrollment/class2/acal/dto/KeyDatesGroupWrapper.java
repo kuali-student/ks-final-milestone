@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class KeyDatesGroupWrapper {
     }
 
     public KeyDatesGroupWrapper(String keydateGroupType,String nameUI){
-        keydates = new ArrayList<KeyDateWrapper>();
+        this.keydates = new ArrayList<KeyDateWrapper>();
         this.keyDateGroupType = keydateGroupType;
         this.keyDateGroupNameUI = nameUI;
     }
@@ -55,5 +56,13 @@ public class KeyDatesGroupWrapper {
         this.typeInfo = typeInfo;
     }
 
+    public boolean isKeyDateExists(String keyDateType){
+        for (KeyDateWrapper keydate : keydates) {
+            if (StringUtils.equals(keyDateType,keydate.getKeyDateType())){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

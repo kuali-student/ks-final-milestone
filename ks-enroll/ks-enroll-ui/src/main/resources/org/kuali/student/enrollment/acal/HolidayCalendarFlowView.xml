@@ -10,11 +10,7 @@
         <property name="entryPageId" value="holidayCalendarCopyPage"/>
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
         <property name="header.render" value="false"/>
-        <!-- header is rendered by the page bean
         <property name="title" value="Holiday Calendar"/>
-        <property name="header">
-            <bean parent="Uif-HeaderField-Two"/>
-        </property> -->
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>

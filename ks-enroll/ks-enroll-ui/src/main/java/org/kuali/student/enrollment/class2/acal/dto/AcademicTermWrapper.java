@@ -1,7 +1,9 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
@@ -23,22 +25,44 @@ public class AcademicTermWrapper {
 
     private String termNameForUI;
     private List<KeyDatesGroupWrapper> keyDatesGroupWrappers;
-    private boolean readOnly = false;
 
     private TypeInfo typeInfo;
 
+    private List<KeyDateWrapper> keyDatesToDeleteOnSave;
+
+    private boolean isOfficial;
+    private boolean isAlreadySaved;
+
+
     public AcademicTermWrapper(){
         keyDatesGroupWrappers = new ArrayList();
+        keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
         termInfo = new TermInfo();
+        termInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        RichTextInfo desc = new RichTextInfo();
+        desc.setPlain("Test");
+        termInfo.setDescr(desc);
+
     }
 
-    public AcademicTermWrapper(TermInfo termInfo){
-        this.name = termInfo.getName();
+    public AcademicTermWrapper(TermInfo termInfo,boolean isCopy){
         this.startDate = termInfo.getStartDate();
         this.endDate = termInfo.getEndDate();
-        this.termInfo = termInfo;
         this.termType = termInfo.getTypeKey();
-        keyDatesGroupWrappers = new ArrayList();
+        this.keyDatesGroupWrappers = new ArrayList();
+        this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
+
+        if (isCopy){
+            setTermInfo(new TermInfo());
+            RichTextInfo desc = new RichTextInfo();
+            desc.setPlain(termInfo.getTypeKey());
+            getTermInfo().setDescr(desc);
+            getTermInfo().setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        } else{
+           setTermInfo(termInfo);
+           this.name = termInfo.getName();
+        }
+
     }
 
     public String getName() {
@@ -79,11 +103,6 @@ public class AcademicTermWrapper {
 
     public void setTermInfo(TermInfo termInfo) {
         this.termInfo = termInfo;
-        if (termInfo != null){
-            if (StringUtils.equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,termInfo.getStateKey())){
-                readOnly = true;
-            }
-        }
     }
 
     public int getInstructionalDays() {
@@ -102,14 +121,6 @@ public class AcademicTermWrapper {
         this.termNameForUI = termNameForUI;
     }
 
-    public boolean isReadOnly() {
-        return readOnly;
-    }
-
-    public void setReadOnly(boolean readOnly) {
-        this.readOnly = readOnly;
-    }
-
     public List<KeyDatesGroupWrapper> getKeyDatesGroupWrappers() {
         return keyDatesGroupWrappers;
     }
@@ -118,13 +129,21 @@ public class AcademicTermWrapper {
         this.keyDatesGroupWrappers = keyDatesGroupWrappers;
     }
 
+    public List<KeyDateWrapper> getKeyDatesToDeleteOnSave() {
+        return keyDatesToDeleteOnSave;
+    }
+
+    public void setKeyDatesToDeleteOnSave(List<KeyDateWrapper> keyDatesToDeleteOnSave) {
+        this.keyDatesToDeleteOnSave = keyDatesToDeleteOnSave;
+    }
+
     public void clear(){
         setEndDate(null);
         setStartDate(null);
         setTermType(null);
-//        setKeydates( new ArrayList<KeyDateWrapper>());
         setName(null);
         setTypeInfo(null);
+        keyDatesToDeleteOnSave.clear();
     }
 
     public TypeInfo getTypeInfo() {
@@ -134,4 +153,22 @@ public class AcademicTermWrapper {
     public void setTypeInfo(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;
     }
+
+    public boolean isOfficial() {
+        return StringUtils.equals(termInfo.getStateKey(), AcademicCalendarServiceConstants.TERM_OFFICIAL_STATE_KEY);
+    }
+
+    public boolean isNew() {
+        return StringUtils.isBlank(termInfo.getId());
+    }
+
+    public boolean isKeyDateGroupExists(String keydateGroupTypeKey){
+        for(KeyDatesGroupWrapper wrapper : keyDatesGroupWrappers){
+            if (StringUtils.equalsIgnoreCase(wrapper.getKeyDateGroupType(),keydateGroupTypeKey)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

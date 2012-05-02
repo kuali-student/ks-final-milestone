@@ -13,10 +13,11 @@ import org.kuali.student.r2.common.infc.Attribute;
 public class HoldAttributeEntity extends BaseAttributeEntity<HoldEntity> {
     
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private HoldEntity owner;
 
     public HoldAttributeEntity () {
+
     }
     
     public HoldAttributeEntity(String key, String value) {

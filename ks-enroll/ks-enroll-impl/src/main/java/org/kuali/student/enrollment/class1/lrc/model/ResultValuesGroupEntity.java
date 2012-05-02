@@ -30,16 +30,16 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     @Column(name = "NAME")
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private ResultValuesGroupRichTextEntity descr;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name= "RT_DESCR_ID")
+//    private ResultValuesGroupRichTextEntity descr;
 
     @Column(name = "RES_SCALE_ID")
     private String resultScaleId;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSEN_LRC_RVGP_RV_RELTN", joinColumns = @JoinColumn(name = "RES_VAL_GRP_ID"), inverseJoinColumns = @JoinColumn(name = "RES_VAL_ID"))
-    private List<ResultValueEntity> resultValues;
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "KSEN_LRC_RVGP_RV_RELTN", joinColumns = @JoinColumn(name = "RES_VAL_GRP_ID"), inverseJoinColumns = @JoinColumn(name = "RES_VAL_ID"))
+//    private List<ResultValueEntity> resultValues;
 
     @Column(name = "TYPE_ID")
     private String type;
@@ -73,7 +73,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
         this.setId(dto.getKey());
         if (dto.getDescr() != null) {
             ResultValuesGroupRichTextEntity entityDesc = new ResultValuesGroupRichTextEntity(dto.getDescr());
-            this.setDescr(entityDesc);
+//            this.setDescr(entityDesc);
         }
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setExpirationDate(dto.getExpirationDate());
@@ -134,14 +134,14 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
-
-    public ResultValuesGroupRichTextEntity getDescr() {
-        return descr;
-    }
-
-    public void setDescr(ResultValuesGroupRichTextEntity descr) {
-        this.descr = descr;
-    }
+//
+//    public ResultValuesGroupRichTextEntity getDescr() {
+//        return descr;
+//    }
+//
+//    public void setDescr(ResultValuesGroupRichTextEntity descr) {
+//        this.descr = descr;
+//    }
 
     public String getResultScaleId() {
         return resultScaleId;
@@ -151,13 +151,13 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
         this.resultScaleId = resultScaleId;
     }
 
-    public List<ResultValueEntity> getResultValues() {
-        return resultValues;
-    }
-
-    public void setResultValues(List<ResultValueEntity> resultValues) {
-        this.resultValues = resultValues;
-    }
+//    public List<ResultValueEntity> getResultValues() {
+//        return resultValues;
+//    }
+//
+//    public void setResultValues(List<ResultValueEntity> resultValues) {
+//        this.resultValues = resultValues;
+//    }
 
     public String getMinValue() {
         return minValue;
@@ -200,9 +200,9 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
         info.setKey(getId());
         info.setName(getName());
 
-        if (getDescr() != null) {
-            info.setDescr(getDescr().toDto());
-        }
+//        if (getDescr() != null) {
+//            info.setDescr(getDescr().toDto());
+//        }
 
         if (getState() != null) {
             info.setStateKey(getState());
@@ -218,9 +218,9 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
 
         info.setResultScaleKey(getResultScaleId());
         List<String> rvIDs = new ArrayList<String>();
-        for (ResultValueEntity rvEntity : getResultValues()) {
-            rvIDs.add(rvEntity.getId());
-        }
+//        for (ResultValueEntity rvEntity : getResultValues()) {
+//            rvIDs.add(rvEntity.getId());
+//        }
         info.setResultValueKeys(rvIDs);
 
         //No Entity available (not needed) for ResultValueRangeInfo as it's a 1-1 for ResultValuesGroup. But, Service contract has the ResultValueRangeInfo object

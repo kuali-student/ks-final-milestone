@@ -9,13 +9,20 @@
 
     <bean id="KS-AcademicCalendar-EditPage" parent="Uif-Page" p:disclosure.render="false">
         <property name="id" value="academicCalendarEditPage"/>
-        <property name="title" value="@{academicCalendarInfo.name != null? academicCalendarInfo.name : 'New Academic Calendar'}"/>
+        <property name="title" value="@{!newCalendar ? academicCalendarInfo.name : 'New Academic Calendar'}"/>
         <property name="header">
             <bean parent="Uif-HeaderField-Two"/>
         </property>
+        <property name="header.items">
+            <list>
+                <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
+                <bean parent="Uif-ActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete this academic calendar?')" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
+            </list>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-TabSection" >
+                <bean parent="Uif-TabGroup" >
                     <property name="items">
                         <list>
                             <ref bean="KS-AcademicCalendar-EditSection"/>
@@ -34,17 +41,24 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true"  p:render="@{!#view.readOnly}"/>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:render="@{officialButtonVisible and !#view.readOnly}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Close" p:methodToCall="close"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{deleteButtonVisible and !#view.readOnly}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:render="@{!#view.readOnly}"
+                              p:methodToCall="@{officialCalendar ? 'save' : 'makeAcalOfficial'}"
+                              p:actionLabel="@{officialCalendar ? 'Update Official' : 'Make Official'}"
+                              p:disabled="@{newCalendar}" p:clientSideValidate="true" />
+                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                              p:clientSideValidate="true" p:render="@{!officialCalendar and !#view.readOnly}"/>
+                        <bean parent="Uif-ActionLink" p:methodToCall="delete"
+                              p:actionLabel="@{officialCalendar ? 'Delete Calendar' : 'Delete Draft'}"
+                              p:clientSideJs="confirmDeletion('Are you sure you want to delete this academic calendar?')"
+                              p:render="@{!newCalendar and !#view.readOnly}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()" p:render="@{!#view.readOnly}"/>
                     </list>
                 </property>
             </bean>
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-Page" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
+    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
         <property name="title" value="Information" />
         <property name="items">
             <list>
@@ -62,15 +76,14 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="Academic Calendar Name"
-                      p:labelPlacement="TOP" p:labelField.renderColon="false"
-                      p:propertyName="academicCalendarInfo.name" p:labelField.style="display:block;">
+                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.name"
+                      p:label="Academic Calendar Name" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.adminOrgId"
-                      p:label="Organization" p:labelField.renderColon="false" p:labelField.style="display:block;">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="academicCalendarInfo.adminOrgId"
+                      p:label="Organization" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="org-options"/>
                     </property>
@@ -78,9 +91,8 @@
                       <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.OrgKeyValues"/>
                     </property>   -->
                 </bean>
-                <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP"
-                      p:labelField.renderColon="false" p:labelField.style="display:block;"
-                      p:propertyName="academicCalendarInfo.startDate">
+                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.startDate"
+                      p:label="Start Date" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy" />
                     </property>
@@ -88,9 +100,8 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:labelField.style="display:block;"
-                      p:labelField.styleClasses="labelTop" p:labelField.renderColon="false"
-                      p:propertyName="academicCalendarInfo.endDate">
+                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.endDate"
+                      p:label="End Date" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
                     </property>
@@ -98,15 +109,21 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
+                <!-- NOTE:
+                        This hidden button defeats a KRAD 2.0 bug which causes Enter to fire the next action
+                        found - in this case, the "add" button of the addline for the Holidays collection.
+                -->
+                <bean parent="Uif-SecondaryActionButton-Small" p:style="visibility:hidden;width:2px;" p:clientSideJs="void(0);"/>
+                <!-- END OF KRAD WORK-AROUND -->
             </list>
         </property>
     </bean>
 
 	<bean id="KS-AcademicCalendar-EventSection" parent="Uif-Disclosure-TableCollectionSection"
-		  p:layoutManager.numberOfColumns="@{#view.readOnly ? 5 : 9}" p:id="acal-info-event">
+		  p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 9}" p:id="acal-info-event">
 		<property name="title" value="Events" />
         <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
-        <property name="instructionalText" value="Adding events is optional. If events are added, Event type and Start Date are required fields."/>
+        <property name="instructionalText" value="@{!#view.readOnly ? 'Adding events is optional.' : ''}"/>
         <property name="instructionalMessageField.render" value="@{!#view.readOnly}"/>
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper" />
 		<property name="propertyName" value="events" />
@@ -126,7 +143,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues" />
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues" p:addBlankOption="false"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true"
@@ -195,14 +212,12 @@
                               -->
                     </property>
                  </bean>
-                 <bean parent="Uif-InputField" p:propertyName="allDay"
-                       p:label="All Day" p:alternateDisplayPropertyName="isAllDayUI">
+                 <bean parent="Uif-InputField" p:propertyName="allDay" p:label="All Day" p:render="@{!#view.readOnly}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                  </bean>
-                 <bean parent="Uif-InputField" p:propertyName="dateRange"
-                       p:label="Date Range" p:alternateDisplayPropertyName="isDateRangeUI">
+                 <bean parent="Uif-InputField" p:propertyName="dateRange" p:label="Date Range" p:render="@{!#view.readOnly}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" />
                     </property>
@@ -251,7 +266,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:render="@{#isAddLine}" p:refreshWhenChanged="academicCalendarInfo.startDate">
+                <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:render="@{#isAddLine}" p:refreshWhenChanged="academicCalendarInfo.startDate, academicCalendarInfo.endDate">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -363,7 +378,8 @@
              </property>
          </bean>
          <bean parent="Uif-InputField" p:propertyName="holidayInfo.isInstructionalDay" p:label="Instructional"
-               p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;">
+               p:style="font-weight:normal; text-align:center;" p:labelField.style="text-align:center;"
+               p:alternateDisplayValue="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}">
              <property name="control">
                 <bean parent="Uif-CheckboxControl"/>
              </property>

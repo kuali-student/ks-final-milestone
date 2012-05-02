@@ -18,7 +18,9 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -39,15 +41,17 @@ public class HolidayCalendarForm  extends UifFormBase {
     private Date newCalendarStartDate;
     private Date newCalendarEndDate;
     private String hcId;
-    private boolean officialButtonVisible;
-    private boolean deleteButtonVisible;
+    private String orgHcId;
+    private String updateTimeString;
+    private boolean newCalendar;
+    private boolean officialCalendar;
 
     public HolidayCalendarForm() {
         super();
         holidayCalendarInfo = new HolidayCalendarInfo();
         holidays = new ArrayList<HolidayWrapper>();
-        officialButtonVisible = false;
-        deleteButtonVisible = false;
+        newCalendar = true;
+        officialCalendar = false;
     }
 
     public HolidayCalendarInfo getHolidayCalendarInfo() {
@@ -58,6 +62,9 @@ public class HolidayCalendarForm  extends UifFormBase {
     }
 
     public List<HolidayWrapper> getHolidays() {
+        // Putting sort here causes list to be sorted when addLine "add" clicked, instead of having
+        // the new row added to the top of the collection as desired.  Just so you know.
+        //Collections.sort(holidays);
         return holidays;
     }
 
@@ -109,19 +116,43 @@ public class HolidayCalendarForm  extends UifFormBase {
         this.hcId = hcId;
     }
 
-    public boolean isDeleteButtonVisible() {
-        return deleteButtonVisible;
+    public String getOrgHcId() {
+        return orgHcId;
     }
 
-    public void setDeleteButtonVisible(boolean deleteButtonVisible) {
-        this.deleteButtonVisible = deleteButtonVisible;
+    public void setOrgHcId(String orgHcId) {
+        this.orgHcId = orgHcId;
     }
 
-    public boolean isOfficialButtonVisible() {
-        return officialButtonVisible;
+    public boolean isNewCalendar() {
+        return newCalendar;
     }
 
-    public void setOfficialButtonVisible(boolean officialButtonVisible) {
-        this.officialButtonVisible = officialButtonVisible;
+    public void setNewCalendar(boolean newCalendar) {
+        this.newCalendar = newCalendar;
+    }
+
+    public boolean isOfficialCalendar() {
+        return officialCalendar;
+    }
+
+    public void setOfficialCalendar(boolean officialCalendar) {
+        this.officialCalendar = officialCalendar;
+    }
+
+    public String getUpdateTimeString(){
+        updateTimeString = new String("");
+        if (getHolidayCalendarInfo() == null ||
+            getHolidayCalendarInfo().getId()== null ||
+            getHolidayCalendarInfo().getId().isEmpty()){
+            return updateTimeString;
+        }
+        else {
+            Date updateTime = getHolidayCalendarInfo().getMeta().getUpdateTime();
+            if (updateTime != null){
+                updateTimeString = "Last saved at "+new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(updateTime);
+            }
+            return updateTimeString;
+        }
     }
 }

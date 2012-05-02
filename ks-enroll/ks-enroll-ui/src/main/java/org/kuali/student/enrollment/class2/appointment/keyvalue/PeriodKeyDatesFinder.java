@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
@@ -43,11 +44,13 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
                 List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(term.getId(), context);
 
                 try{
-                    List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydate","kuali.type.type.relation.type.group",context);
+                    List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.appt.regperiods","kuali.type.type.relation.type.group",context);
                     for (KeyDateInfo keyDateInfo : keyDateInfoList) {
                          for (TypeTypeRelationInfo relationInfo : relations) {
                             String relatedTypeKey = relationInfo.getRelatedTypeKey();
-                            if (keyDateInfo.getTypeKey().equals(relatedTypeKey))  {
+                            if (keyDateInfo.getTypeKey().equals(relatedTypeKey) &&
+                                    (AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY.equals(keyDateInfo.getStateKey()) ||
+                                     AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(keyDateInfo.getStateKey())))  {
                                 keyValues.add(new ConcreteKeyValue(keyDateInfo.getId(), keyDateInfo.getName()));
                                 break;
                             }
@@ -55,17 +58,9 @@ public class PeriodKeyDatesFinder extends UifKeyValuesFinderBase implements Seri
                     }
 
                 }catch (Exception e){
-                    //ToDo
+                    //ToDo -- Log exception
                 }
 
-//                for (KeyDateInfo keyDateInfo : keyDateInfoList) {
-//                    if (keyDateInfo.getTypeKey().equals("kuali.atp.milestone.RegistrationPeriod")){
-//                        ConcreteKeyValue keyValue = new ConcreteKeyValue();
-//                        keyValue.setKey(keyDateInfo.getId());
-//                        keyValue.setValue(keyDateInfo.getName());
-//                        keyValues.add(keyValue);
-//                    }
-//                }
                 if (!keyValues.isEmpty())
                     keyValues.add(new ConcreteKeyValue("all", "All Registration Periods for this Term"));
             }

@@ -27,16 +27,16 @@ import java.util.Date;
 public interface DateRange {
 
     /**
-     * Get sthe start date of the range.
+     * Get the start date of the range.
      *
      * @name Start Date
      */
-    public Date getStart();
+    public Date getStartDate();
 
     /**
      * Gets the end date of the range.
      *
      * @name End Date
      */
-    public Date getEnd();
+    public Date getEndDate();
 }

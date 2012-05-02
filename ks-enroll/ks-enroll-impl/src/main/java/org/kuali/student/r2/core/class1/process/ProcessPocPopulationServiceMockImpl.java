@@ -75,9 +75,13 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService {
             createPopulation(athletesOnlyStudentsPopulation, new ContextInfo());
 
 
+            generateStudentPopulations(SUMMER_ONLY_STUDENTS, "SUMMER_ONLY_STUDENTS", 5000);
+            generateStudentPopulations(SENIOR_ONLY_STUDENTS,"SENIOR_ONLY_STUDENTS", 5000);
+            generateStudentPopulations(ATHLETES_ONLY_STUDENTS,"ATHLETES_ONLY_STUDENTS", 550);
+
+            // These values are needed for the unit tests.
             caches.get(SUMMER_ONLY_STUDENTS).add("2155");
 
-            caches.get(ALL_STUDENTS).addAll(caches.get(SUMMER_ONLY_STUDENTS));
             caches.get(ALL_STUDENTS).add("2005");
             caches.get(ALL_STUDENTS).add("2016");
             caches.get(ALL_STUDENTS).add("2132");
@@ -87,8 +91,22 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService {
             caches.get(ALL_STUDENTS).add("2397");
             caches.get(ALL_STUDENTS).add("2406");
 
+
+            caches.get(ALL_STUDENTS).addAll(caches.get(SUMMER_ONLY_STUDENTS));
+            caches.get(ALL_STUDENTS).addAll(caches.get(SENIOR_ONLY_STUDENTS));
+            caches.get(ALL_STUDENTS).addAll(caches.get(ATHLETES_ONLY_STUDENTS));
+
+
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void generateStudentPopulations(String populationCacheKey, String populationPrefix, int numToGenerate){
+        int base =  100000000;
+
+        for(int i = 0; i<numToGenerate; i++){
+            caches.get(populationCacheKey).add(populationPrefix + (base + i));
         }
     }
 

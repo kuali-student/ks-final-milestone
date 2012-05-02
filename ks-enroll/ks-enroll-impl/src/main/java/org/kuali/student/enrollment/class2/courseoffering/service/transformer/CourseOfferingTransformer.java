@@ -10,13 +10,10 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
@@ -27,7 +24,6 @@ public class CourseOfferingTransformer {
         co.setId(lui.getId());
         co.setTypeKey(lui.getTypeKey());
         co.setStateKey(lui.getStateKey());
-        co.setName(lui.getName());
         co.setDescr(lui.getDescr());
         co.setMeta(lui.getMeta());
         co.setAttributes(lui.getAttributes());
@@ -40,18 +36,18 @@ public class CourseOfferingTransformer {
         co.setUnitsDeployment(lui.getUnitsDeployment());
         co.setUnitsContentOwner(lui.getUnitsContentOwner());
 
-        co.setGradingOptionKeys(lui.getResultValuesGroupKeys());
+        co.setGradingOptionIds(lui.getResultValuesGroupKeys());
 
         LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
         if (identifier == null) {
             co.setCourseOfferingCode(null);
             co.setCourseNumberSuffix(null);
-            co.setCourseTitle(null);
+            co.setCourseOfferingTitle(null);
             co.setSubjectArea(null);
         } else {
             co.setCourseOfferingCode(identifier.getCode());
             co.setCourseNumberSuffix(identifier.getSuffixCode());
-            co.setCourseTitle(identifier.getLongName());
+            co.setCourseOfferingTitle(identifier.getLongName());
             co.setSubjectArea(identifier.getDivision());
         }
         // store honors in lu code
@@ -116,18 +112,17 @@ public class CourseOfferingTransformer {
         lui.setId(co.getId());
         lui.setTypeKey(co.getTypeKey());
         lui.setStateKey(co.getStateKey());
-        lui.setName(co.getName());
         lui.setDescr(co.getDescr());
         lui.setMeta(co.getMeta());
         lui.setAttributes(co.getAttributes());
 
         lui.setCluId(co.getCourseId());
         lui.setAtpId(co.getTermId());
-        lui.setUnitsContentOwner(co.getUnitsContentOwner());
-        lui.setUnitsDeployment(co.getUnitsDeployment());
+        lui.setUnitsContentOwner(co.getUnitsContentOwnerOrgIds());
+        lui.setUnitsDeployment(co.getUnitsDeploymentOrgIds());
         lui.setMaximumEnrollment(co.getMaximumEnrollment());
         lui.setMinimumEnrollment(co.getMinimumEnrollment());
-        lui.setResultValuesGroupKeys(co.getGradingOptionKeys());
+        lui.setResultValuesGroupKeys(co.getGradingOptionIds());
 
         LuiIdentifierInfo oi = lui.getOfficialIdentifier();
         if (oi == null) {
@@ -138,7 +133,7 @@ public class CourseOfferingTransformer {
         }
         oi.setCode(co.getCourseOfferingCode());
         oi.setSuffixCode(co.getCourseNumberSuffix());
-        oi.setLongName(co.getCourseTitle());
+        oi.setLongName(co.getCourseOfferingTitle());
         oi.setDivision(co.getSubjectArea());
 
         LuCodeInfo luCode = this.findAddLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
@@ -159,21 +154,30 @@ public class CourseOfferingTransformer {
 
     }
 
-    public void copyFromCanonical(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo) {
+    public void copyFromCanonical(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo, List<String> optionKeys) {
         courseOfferingInfo.setCourseId(courseInfo.getId());
         courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
-        courseOfferingInfo.setCourseTitle(courseInfo.getCourseTitle());
+        if (!optionKeys.contains(CourseOfferingSetServiceConstants.NOT_COURSE_TITLE_OPTION_KEY)) {
+         courseOfferingInfo.setCourseOfferingTitle(courseInfo.getCourseTitle());
+        }
         courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
         courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
         courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());
         courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
-        courseOfferingInfo.setGradingOptionKeys(courseInfo.getGradingOptions());
+        courseOfferingInfo.setGradingOptionIds(courseInfo.getGradingOptions());
         if (courseInfo.getCreditOptions() == null) {
-            courseOfferingInfo.setCreditOptions(null);
+            courseOfferingInfo.setCreditOptionIds(null);
         } else if (courseInfo.getCreditOptions().isEmpty()) {
-            courseOfferingInfo.setCreditOptions(null);
+            courseOfferingInfo.setCreditOptionIds(null);
         } else {
-            courseOfferingInfo.setCreditOptions(new R1ToR2CopyHelper().copyResultValuesGroup(courseInfo.getCreditOptions().get(0)));
+            List<String> creditOptionIds =  new ArrayList<String>();
+            for( ResultComponentInfo creditOption: courseInfo.getCreditOptions()){
+                creditOptionIds.add(creditOption.getId());
+
+             }
+
+            courseOfferingInfo.setCreditOptionIds(creditOptionIds);
+
         }
         courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
         courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));

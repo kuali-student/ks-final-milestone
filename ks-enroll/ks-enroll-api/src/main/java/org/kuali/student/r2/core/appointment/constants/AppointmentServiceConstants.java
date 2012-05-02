@@ -62,9 +62,4 @@ public class AppointmentServiceConstants {
     public static final String APPOINTMENT_STATE_ACTIVE_KEY = "kuali.appointment.state.active";
     public static final String[] APPOINTMENT_LIFECYCLE_STATES = {APPOINTMENT_STATE_ACTIVE_KEY};
 
-    //Message keys
-    public static final String APPOINTMENT_MSG_INFO_SAVED ="info.enroll.appointment.saved";
-    public static final String APPOINTMENT_MSG_INFO_ASSIGNED ="info.enroll.appointment.assigned";
-    public static final String APPOINTMENT_MSG_ERROR_TOO_MANY_STUDENTS = "error.enroll.appointment.tooManyStudents";
-
 }

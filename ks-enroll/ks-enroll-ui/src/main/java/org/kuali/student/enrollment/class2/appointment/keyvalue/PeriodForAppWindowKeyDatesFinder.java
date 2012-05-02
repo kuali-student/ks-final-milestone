@@ -12,6 +12,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
@@ -41,11 +42,13 @@ public class PeriodForAppWindowKeyDatesFinder extends UifKeyValuesFinderBase imp
                 if (!keyDateInfoList.isEmpty())
                     keyValues.add(new ConcreteKeyValue("", "Select Period..."));
                 try{
-                    List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.keydateforapp","kuali.atp.atp.relation.associated",context);
+                    List<TypeTypeRelationInfo> relations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.appt.regperiods","kuali.type.type.relation.type.group",context);
                     for (KeyDateInfo keyDateInfo : keyDateInfoList) {
                         for (TypeTypeRelationInfo relationInfo : relations) {
                             String relatedTypeKey = relationInfo.getRelatedTypeKey();
-                            if (keyDateInfo.getTypeKey().equals(relatedTypeKey))  {
+                            if (keyDateInfo.getTypeKey().equals(relatedTypeKey) &&
+                                   (AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(keyDateInfo.getStateKey()) ||
+                                    AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(keyDateInfo.getStateKey()))) {
                                 keyValues.add(new ConcreteKeyValue(keyDateInfo.getId(), keyDateInfo.getName()));
                                 break;
                             }

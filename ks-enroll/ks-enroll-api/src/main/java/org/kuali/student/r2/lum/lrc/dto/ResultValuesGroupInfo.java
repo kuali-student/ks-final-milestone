@@ -46,32 +46,25 @@ import org.w3c.dom.Element;
  * @Since Tue Apr 21 13:47:47 PDT 2009
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GradeValuesGroupInfo", propOrder = { 
-        "key", "typeKey", "stateKey", "name", "descr", "resultScaleKey", 
-        "resultValueKeys", "resultValueRange", "effectiveDate",
-        "expirationDate", "meta", "attributes", "_futureElements" })
-
-public class ResultValuesGroupInfo 
-        extends KeyEntityInfo 
+@XmlType(name = "GradeValuesGroupInfo", propOrder = {
+    "key", "typeKey", "stateKey", "name", "descr", "resultScaleKey",
+    "resultValueKeys", "resultValueRange", "effectiveDate",
+    "expirationDate", "meta", "attributes", "_futureElements"})
+public class ResultValuesGroupInfo
+        extends KeyEntityInfo
         implements ResultValuesGroup {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String resultScaleKey;
-
     @XmlElement
     private List<String> resultValueKeys;
-
     @XmlElement
     private ResultValueRangeInfo resultValueRange;
-
     @XmlElement
     private Date effectiveDate;
-
     @XmlElement
     private Date expirationDate;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -83,14 +76,18 @@ public class ResultValuesGroupInfo
         expirationDate = null;
     }
 
-    public ResultValuesGroupInfo(ResultValuesGroup resultValuesGroup) {
-        super(resultValuesGroup);
-        if (null != resultValuesGroup) {
-            this.resultScaleKey = resultValuesGroup.getResultScaleKey();
-            this.resultValueKeys = new ArrayList<String>(resultValuesGroup.getResultValueKeys());
-            this.resultValueRange = new ResultValueRangeInfo(resultValuesGroup.getResultValueRange());
-            this.effectiveDate = new Date(resultValuesGroup.getEffectiveDate().getTime());
-            this.expirationDate = new Date(resultValuesGroup.getExpirationDate().getTime());
+    public ResultValuesGroupInfo(ResultValuesGroup orig) {
+        super(orig);
+        if (null != orig) {
+            this.resultScaleKey = orig.getResultScaleKey();
+            this.resultValueKeys = new ArrayList<String>(orig.getResultValueKeys());
+            this.resultValueRange = new ResultValueRangeInfo(orig.getResultValueRange());
+            if (orig.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(orig.getEffectiveDate().getTime());
+            }
+            if (orig.getExpirationDate() != null) {
+                this.expirationDate = new Date(orig.getExpirationDate().getTime());
+            }
         }
     }
 
@@ -105,6 +102,9 @@ public class ResultValuesGroupInfo
 
     @Override
     public List<String> getResultValueKeys() {
+        if (this.resultValueKeys == null) {
+            this.resultValueKeys = new ArrayList<String>();
+        }
         return resultValueKeys;
     }
 

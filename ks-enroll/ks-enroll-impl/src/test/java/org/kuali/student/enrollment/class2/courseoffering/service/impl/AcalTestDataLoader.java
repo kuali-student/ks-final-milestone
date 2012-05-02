@@ -42,7 +42,7 @@ public class AcalTestDataLoader {
         loadTerm("testAtpId1", "test1", "description 1", AtpServiceConstants.ATP_FALL_TYPE_KEY, "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0");
     }
 
-    private void loadTerm(String id,
+    public void loadTerm(String id,
             String name,
             String description,
             String type,
@@ -51,6 +51,7 @@ public class AcalTestDataLoader {
 
         TermInfo info = new TermInfo();
         info.setId(id);
+        info.setCode(id);// use id for code
         info.setName(name);
         info.setDescr(new RichTextHelper ().fromPlain(description));
         info.setTypeKey(type);

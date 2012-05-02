@@ -158,7 +158,11 @@ public class LuiIdentifierEntity extends MetaEntity {
     }
 
     public List<LuiIdentifierAttributeEntity> getAttributes() {
-        return attributes;
+
+        if(this.attributes!= null)
+                 return attributes;
+
+        return new ArrayList<LuiIdentifierAttributeEntity>() ;
     }
 
     public LuiEntity getLui() {

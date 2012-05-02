@@ -56,7 +56,8 @@ public class HoldTestDataLoader {
         loadHoldIssue(HoldTestConstants.HOLD_ISSUE_3,"Test issue 3",HoldTestConstants.ISSUE_TYPE,HoldTestConstants.DRAFT_STATE,"Formatted","Plain",HoldTestConstants.ORG_2);
         loadHoldIssue(HoldTestConstants.HOLD_ISSUE_4,"Test issue 4",HoldTestConstants.ISSUE_TYPE,HoldTestConstants.DRAFT_STATE,"Formatted","Plain",HoldTestConstants.ORG_2);
 
-        //loadHold("kuali.hold.type.financialHold","kuali.hold.state.draft","Formatted","Plain","HOLDISSUE-1","testFakePerson1",new Date(),new Date());
+        //holds can be added here later as required for testing
+        //loadHold("kuali.hold.type.financialHold","kuali.hold.state.draft","Formatted","Plain","HOLDISSUE-1","testFakePerson1",str2Date("2011-01-01 00:00:00.0",context), new Date());
     }
 
     private void loadHoldIssue(String id, String name, String typeKey, String stateKey, String descrFormatted, String descrPlain, String orgID) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException {

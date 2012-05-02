@@ -35,7 +35,8 @@ import javax.jws.soap.SOAPBinding;
 import java.util.List;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultsInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 /**
@@ -229,16 +230,17 @@ public interface CourseOfferingSetService {
             ReadOnlyException, VersionMismatchException;
 
     /**
-     * Deletes an existing Soc. Deleting a course offering should
-     * also delete all the activity offerings and registrations groups within
-     * it. Cross listed course offerings should also be deleted along with
-     * passed in socId.
+     * Deletes an existing Soc.
+     * 
+     * Deleting the Soc does not automatically delete the course offerings in a soc
      *
      * @param socId the Id of the ActivityOffering to be deleted
      * @param context          Context information containing the principalId and locale
      *                         information about the caller of service operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     the SeatPoolDefinition does not exist
+     * @throws DoesNotExistException     the soc does not exist
+     * @throws DependentObjectsExistException if course offerings exist and the
+     *              implementation has the business rule that a course offering must have a Soc
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException  unable to complete request
@@ -246,7 +248,8 @@ public interface CourseOfferingSetService {
      */
     public StatusInfo deleteSoc(@WebParam(name = "socId") String socId,
             @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
+            throws DependentObjectsExistException,
+            DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -281,16 +284,13 @@ public interface CourseOfferingSetService {
 
     /**
      * Retrieve Soc Ids that contain the specified course offering
-     * 
-     * This could return multiple Soc ids but should always return the default main 
-     * SOC for the term for the course offering was created.
      *
      * @param courseOfferingId Unique Id of the course offering
      * @param context  Context information containing the principalId and locale
      *                 information about the caller of service operation
-     * @throws DoesNotExistException     courseId or termId not found
-     * @throws InvalidParameterException invalid courseId or termId
-     * @throws MissingParameterException missing courseId or termId
+     * @throws DoesNotExistException     courseOfferingId not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -318,6 +318,24 @@ public interface CourseOfferingSetService {
             OperationFailedException, PermissionDeniedException;
 
     /**
+     * Delete all the course offerings associated with the Soc
+     * 
+     * @return count of the course offerings deleted
+     * @param socId Unique Id of the soc
+     * @param context  Context information containing the principalId and locale
+     *                 information about the caller of service operation
+     * @throws DoesNotExistException    socId not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public Integer deleteCourseOfferingsBySoc(@WebParam(name = "socId") String socId,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
      * Checks if the specified course offering is or is not in the specified soc.
      * 
      * @return true if the course offering is in the soc else false.
@@ -331,7 +349,7 @@ public interface CourseOfferingSetService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public boolean isCourseOfferingInSoc(@WebParam(name = "socId") String socId,
+    public Boolean isCourseOfferingInSoc(@WebParam(name = "socId") String socId,
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -347,9 +365,9 @@ public interface CourseOfferingSetService {
      * @param socId Unique Id of the soc
      * @param context  Context information containing the principalId and locale
      *                 information about the caller of service operation
-     * @throws DoesNotExistException     courseId or termId not found
-     * @throws InvalidParameterException invalid courseId or termId
-     * @throws MissingParameterException missing courseId or termId
+     * @throws DoesNotExistException   socId not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -369,9 +387,9 @@ public interface CourseOfferingSetService {
      * @param socId Unique Id of the soc
      * @param context  Context information containing the principalId and locale
      *                 information about the caller of service operation
-     * @throws DoesNotExistException     courseId or termId not found
-     * @throws InvalidParameterException invalid courseId or termId
-     * @throws MissingParameterException missing courseId or termId
+     * @throws DoesNotExistException     socId not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -392,9 +410,9 @@ public interface CourseOfferingSetService {
      * @param socId Unique Id of the soc
      * @param context  Context information containing the principalId and locale
      *                 information about the caller of service operation
-     * @throws DoesNotExistException     courseId or termId not found
-     * @throws InvalidParameterException invalid courseId or termId
-     * @throws MissingParameterException missing courseId or termId
+     * @throws DoesNotExistException     socId not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -415,9 +433,9 @@ public interface CourseOfferingSetService {
      * @param socId Unique Id of the soc
      * @param context  Context information containing the principalId and locale
      *                 information about the caller of service operation
-     * @throws DoesNotExistException     courseId or termId not found
-     * @throws InvalidParameterException invalid courseId or termId
-     * @throws MissingParameterException missing courseId or termId
+     * @throws DoesNotExistException     socId not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -437,9 +455,9 @@ public interface CourseOfferingSetService {
      * @param socId Unique Id of the soc
      * @param context  Context information containing the principalId and locale
      *                 information about the caller of service operation
-     * @throws DoesNotExistException     courseId or termId not found
-     * @throws InvalidParameterException invalid courseId or termId
-     * @throws MissingParameterException missing courseId or termId
+     * @throws DoesNotExistException     socId not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -458,9 +476,9 @@ public interface CourseOfferingSetService {
      * @param socId Unique Id of the soc
      * @param context  Context information containing the principalId and locale
      *                 information about the caller of service operation
-     * @throws DoesNotExistException     courseId or termId not found
-     * @throws InvalidParameterException invalid courseId or termId
-     * @throws MissingParameterException missing courseId or termId
+     * @throws DoesNotExistException     socId not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -471,41 +489,42 @@ public interface CourseOfferingSetService {
             OperationFailedException, PermissionDeniedException;
 
     /**
-     * Requests that the course offerings in this Soc be rolled over from one term
-     * to the next.
+     * Creates a new SOC for the target term that corresponds to the 
+     * source soc and then rolls over all the course offerings in source Soc to
+     * the new soc using the supplied options.
      *
      * @param sourceSocId Unique Id of the source Soc
      * @param targetSocId Unique Id of the source Soc
      * @param optionKeys keys identifying optional processing to occur
-     * @return Soc Rollover Results
+     * @return newly created Soc 
      * @param context  Context information containing the principalId and locale
      *                 information about the caller of service operation
-     * @throws DoesNotExistException     courseId or termId not found
-     * @throws InvalidParameterException invalid courseId or termId
-     * @throws MissingParameterException missing courseId or termId
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public SocRolloverResultsInfo rolloverSoc(@WebParam(name = "sourceSocId") String sourceSocId,
-            @WebParam(name = "targetTermId") String targetTermId,
-            @WebParam(name = "optionKeys") String optionKeys,
-            @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves the results of a rollover.
-     *
-     * @param rolloverResultsId unique Id of the rollover results
-     * @param context           Context information containing the principalId and locale
-     *                          information about the caller of service operation
-     * @throws DoesNotExistException     rolloverResultsId in the list not found
+     * @throws DoesNotExistException     sourceSocId or targetTermId not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public SocRolloverResultsInfo getRolloverResults(@WebParam(name = "rolloverResultsId") String rolloverResultsId,
+    public SocInfo rolloverSoc(@WebParam(name = "sourceSocId") String sourceSocId,
+            @WebParam(name = "targetTermId") String targetTermId,
+            @WebParam(name = "optionKeys") List<String> optionKeys,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the result of a rollover.
+     *
+     * @param rolloverResultId unique Id of the rollover result
+     * @param context           Context information containing the principalId and locale
+     *                          information about the caller of service operation
+     * @throws DoesNotExistException     rolloverResultId in the list not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public SocRolloverResultInfo getSocRolloverResult(@WebParam(name = "rolloverResultId") String rolloverResultId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
@@ -513,86 +532,140 @@ public interface CourseOfferingSetService {
     /**
      * Retrieves a list of rollover results by id list.
      *
-     * @param rolloverResultsIds List of unique Ids of the rollover results to be fetched
+     * @param rolloverResultIds List of unique Ids of the rollover result to be fetched
      * @param context           Context information containing the principalId and locale
      *                          information about the caller of service operation
-     * @throws DoesNotExistException     rolloverResultsId in the list not found
+     * @throws DoesNotExistException     rolloverResultId in the list not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<SocRolloverResultsInfo> getRolloverResultsByIds(@WebParam(name = "rolloverResultsIds") List<String> rolloverResultsIds,
+    public List<SocRolloverResultInfo> getSocRolloverResultsByIds(@WebParam(name = "rolloverResultIds") List<String> rolloverResultIds,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
 
-    
     /**
-     * Retrieves a list of rollover result items by results id
+     * Retrieves a list of rollover results items by id list.
      *
-     * @param rolloverResultsId Unique Ids of the rollover results for which the items are to be fetched
+     * @param rolloverResultItemIds List of unique Ids of the rollover result items to be fetched
      * @param context           Context information containing the principalId and locale
      *                          information about the caller of service operation
-     * @throws DoesNotExistException     rolloverResultsId in the list not found
+     * @throws DoesNotExistException     rolloverResultId in the list not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<SocRolloverResultItemInfo> getRolloverResultItemsByResultsId(@WebParam(name = "rolloverResultsId") String rolloverResultsId,
+    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByIds(@WebParam(name = "rolloverResultItemIds") List<String> rolloverResultItemIds,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
-    
+
     /**
-     * Retrieves the rollover Results associated with the specified target Soc id
+     * Retrieves a list of rollover result items by result id
+     *
+     * @param socRolloverResultId Unique Ids of the rollover result for which the items are to be fetched
+     * @param context           Context information containing the principalId and locale
+     *                          information about the caller of service operation
+     * @throws DoesNotExistException     rolloverResultId in the list not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultId(@WebParam(name = "socRolloverResultId") String socRolloverResultId,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of rollover result items by result id and source course offering id
+     *
+     * @param socRolloverResultId Unique Id of the rollover result for which the items are to be fetched
+     * @param sourceCourseOfferingId Unique Id of source course offering id
+     * @param context           Context information containing the principalId and locale
+     *                          information about the caller of service operation
+     * @throws DoesNotExistException     rolloverResultId in the list not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultIdAndSourceCourseOfferingId(@WebParam(name = "socRolloverResultId") String socRolloverResultId,
+            @WebParam(name = "sourceCourseOfferingId") String sourceCourseOfferingId,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of rollover result items by result id and target course offering id
+     *
+     * @param socRolloverResultId Unique Id of the rollover result for which the items are to be fetched
+     * @param sourceCourseOfferingId Unique Id of target course offering id
+     * @param context           Context information containing the principalId and locale
+     *                          information about the caller of service operation
+     * @throws DoesNotExistException     rolloverResultId in the list not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultIdAndTargetCourseOfferingId(@WebParam(name = "socRolloverResultId") String socRolloverResultId,
+            @WebParam(name = "targetCourseOfferingId") String targetCourseOfferingId,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the rollover results associated with the specified target Soc id
      *
      * @param targetSocId     target Soc Id
      * @param context     Context information containing the principalId and locale
      *                    information about the caller of service operation
-     * @return List of Rollover Results Ids
+     * @return List of Rollover Result Ids
      * @throws DoesNotExistException     courseId or termId not found
      * @throws InvalidParameterException invalid courseId or termId
      * @throws MissingParameterException missing courseId or termId
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getRolloverResultsIdsByTargetSoc(@WebParam(name = "targetSocId") String targetSocId,
+    public List<String> getSocRolloverResultIdsByTargetSoc(@WebParam(name = "targetSocId") String targetSocId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException;
 
     /**
-     * Retrieves the rollover Results associated with the specified source Soc id
+     * Retrieves the rollover results associated with the specified source Soc id
      *
      * @param sourceSocId      Unique id of the source Soc
      * @param context     Context information containing the principalId and locale
      *                    information about the caller of service operation
-     * @return List of Rollover Results Ids
+     * @return List of Rollover Result Ids
      * @throws DoesNotExistException     courseId or termId not found
      * @throws InvalidParameterException invalid courseId or termId
      * @throws MissingParameterException missing courseId or termId
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getRolloverResultsIdsBySourceSoc(@WebParam(name = "targetSocId") String sourceSocId,
+    public List<String> getSocRolloverResultIdsBySourceSoc(@WebParam(name = "targetSocId") String sourceSocId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException;
 
     /**
-     * Requests that the rollover identified by the results be cleared.
+     * Requests that the rollover identified by the result be reversed.
      * 
-     * This attempts to clear or reverse the actions applied by the specified rollover results.
+     * This attempts to reverse or clear out the actions applied by the specified rollover result.
      * Depending on whether or not the resulting course offerings have been updated
      * and the optional processing flags a full reversal is not guaranteed.
      *
-     * @param rolloverResultsId Unique Id of the rollover results
-     * @param optionKeys keys identifying optional processing to happen when clearing the results
-     * @return a Rollover Results indicating what reversal actions were successful or not
+     * @param rolloverResultId Unique Id of the rollover result
+     * @param optionKeys keys identifying optional processing to happen when clearing the result
+     * @return a Rollover Result indicating what reversal actions were successful or not
      * @param context  Context information containing the principalId and locale
      *                 information about the caller of service operation
      * @throws DoesNotExistException     courseId or termId not found
@@ -601,9 +674,260 @@ public interface CourseOfferingSetService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public SocRolloverResultsInfo reverseRollover(@WebParam(name = "rolloverResultsId") String rolloverResultsId,
-            @WebParam(name = "optionKeys") String optionKeys,
+    public SocRolloverResultInfo reverseRollover(@WebParam(name = "rolloverResultId") String rolloverResultId,
+            @WebParam(name = "optionKeys") List<String> optionKeys,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a new SocRolloverResult
+     * 
+     * @param socRolloverResultTypeKey     soc rollover result type key
+     * @param socRolloverResultInfo    object to be created
+     * @param context      Context information containing the principalId and locale
+     *                     information about the caller of service operation
+     * @return newly created SocRolloverResultInfo
+     * @throws DoesNotExistException        termId or socRolloverResultTypeKey not found
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws InvalidParameterException    One or more parameters invalid
+     * @throws MissingParameterException    One or more parameters missing
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     */
+    public SocRolloverResultInfo createSocRolloverResult(@WebParam(name = "socRolloverResultTypeKey") String socRolloverResultTypeKey,
+            @WebParam(name = "socRolloverResultInfo") SocRolloverResultInfo socRolloverResultInfo,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates an existing SocRolloverResult.
+     *
+     * @param socRolloverResultId   Id of SocRolloverResult to be updated
+     * @param socRolloverResultInfo Details of updates to the SocRolloverResult
+     * @param context            Context information containing the principalId and locale
+     *                           information about the caller of service operation
+     * @return updated SocRolloverResult
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException      the SocRolloverResult does not exist
+     * @throws InvalidParameterException    One or more parameters invalid
+     * @throws MissingParameterException    One or more parameters missing
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws VersionMismatchException     The action was attempted on an out of date version.
+     */
+    public SocRolloverResultInfo updateSocRolloverResult(@WebParam(name = "socRolloverResultId") String socRolloverResultId,
+            @WebParam(name = "socRolloverResultInfo") SocRolloverResultInfo socRolloverResultInfo,
+            @WebParam(name = "context") ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Update progress information
+     *
+     * @param socRolloverResultId   Id of SocRolloverResult to be updated
+     * @param itemsProcessed new count of the number of items processed
+     * @param context            Context information containing the principalId and locale
+     *                           information about the caller of service operation
+     * @return StatusInfo indicates the update worked
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException      the SocRolloverResult does not exist
+     * @throws InvalidParameterException    One or more parameters invalid
+     * @throws MissingParameterException    One or more parameters missing
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws VersionMismatchException     The action was attempted on an out of date version.
+     */
+    public SocRolloverResultInfo updateSocRolloverProgress(@WebParam(name = "socRolloverResultId") String socRolloverResultId,
+            @WebParam(name = "itemsProcessed") Integer itemsProcessed,
+            @WebParam(name = "context") ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Deletes an existing SocRolloverResult. 
+     *
+     * @param socRolloverResultId the Id of the ActivityOffering to be deleted
+     * @param context          Context information containing the principalId and locale
+     *                         information about the caller of service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the SeatPoolDefinition does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteSocRolloverResult(@WebParam(name = "socRolloverResultId") String socRolloverResultId,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, DependentObjectsExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates a SocRolloverResult. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current object and
+     * its directly contained sub-objects or expanded to perform all tests
+     * related to this object. If an identifier is present for the academic
+     * calendar and a record is found for that identifier, the validation checks
+     * if the academic calendar can be shifted to the new values. If a record
+     * cannot be found for the identifier, it is assumed that the record does
+     * not exist and as such, the checks performed will be much shallower,
+     * typically mimicking those performed by setting the validationType to the
+     * current object. This is a slightly different pattern from the standard
+     * validation as the caller provides the identifier in the create statement
+     * instead of the server assigning an identifier.
+     *
+     * @param validationType     Identifier of the extent of validation
+     * @param socRolloverResultInfo the socRolloverResult information to be tested.
+     * @param context            Context information containing the principalId and locale
+     *                           information about the caller of service operation
+     * @return the results from performing the validation
+     * @throws DoesNotExistException     validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, socRolloverResultInfo
+     * @throws MissingParameterException missing validationTypeKey, socRolloverResultInfo
+     * @throws OperationFailedException  unable to complete request
+     */
+    public List<ValidationResultInfo> validateSocRolloverResult(@WebParam(name = "validationType") String validationType,
+            @WebParam(name = "socRolloverResultInfo") SocRolloverResultInfo socRolloverResultInfo,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieve information about a SocRolloverResultItem
+     *
+     * @param socRolloverResultItemId Unique Id of the SocRolloverResultItem
+     * @param context          Context information containing the principalId and locale
+     *                         information about the caller of service operation
+     * @throws DoesNotExistException     socRolloverResultItemId not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public SocRolloverResultItemInfo getSocRolloverResultItem(@WebParam(name = "socRolloverResultItemId") String socRolloverResultItemId,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a new SocRolloverResultItem
+     * 
+     * @param socRolloverResultId     Id of the corresponding soc rollover result
+     * @param socRolloverResultItemTypeKey     soc rollover result type key
+     * @param socRolloverResultItemInfo    object to be created
+     * @param context      Context information containing the principalId and locale
+     *                     information about the caller of service operation
+     * @return newly created SocRolloverResultItemInfo
+     * @throws DoesNotExistException        termId or socRolloverResultItemTypeKey not found
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws InvalidParameterException    One or more parameters invalid
+     * @throws MissingParameterException    One or more parameters missing
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     */
+    public SocRolloverResultItemInfo createSocRolloverResultItem(@WebParam(name = "socRolloverResultId") String socRolloverResultId,
+            @WebParam(name = "socRolloverResultItemTypeKey") String socRolloverResultItemTypeKey,
+            @WebParam(name = "socRolloverResultItemInfo") SocRolloverResultItemInfo socRolloverResultItemInfo,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Bulk create of  SocRolloverResultItems
+     * 
+     * All must be for the same result and type.
+     * 
+     * @param socRolloverResultId     Id of the corresponding soc rollover result
+     * @param socRolloverResultItemTypeKey     soc rollover result type key
+     * @param socRolloverResultItemInfos    objects to be created
+     * @param context      Context information containing the principalId and locale
+     *                     information about the caller of service operation
+     * @return count of number of items created
+     * @throws DoesNotExistException        termId or socRolloverResultItemTypeKey not found
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws InvalidParameterException    One or more parameters invalid
+     * @throws MissingParameterException    One or more parameters missing
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     */
+    public Integer createSocRolloverResultItems(@WebParam(name = "socRolloverResultId") String socRolloverResultId,
+            @WebParam(name = "socRolloverResultItemTypeKey") String socRolloverResultItemTypeKey,
+            @WebParam(name = "socRolloverResultItemInfos") List<SocRolloverResultItemInfo> socRolloverResultItemInfos,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates an existing SocRolloverResultItem.
+     *
+     * @param socRolloverResultItemId   Id of SocRolloverResultItem to be updated
+     * @param socRolloverResultItemInfo Details of updates to the SocRolloverResultItem
+     * @param context            Context information containing the principalId and locale
+     *                           information about the caller of service operation
+     * @return updated SocRolloverResultItem
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException      the SocRolloverResultItem does not exist
+     * @throws InvalidParameterException    One or more parameters invalid
+     * @throws MissingParameterException    One or more parameters missing
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws VersionMismatchException     The action was attempted on an out of date version.
+     */
+    public SocRolloverResultItemInfo updateSocRolloverResultItem(@WebParam(name = "socRolloverResultItemId") String socRolloverResultItemId,
+            @WebParam(name = "socRolloverResultItemInfo") SocRolloverResultItemInfo socRolloverResultItemInfo,
+            @WebParam(name = "context") ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Deletes an existing SocRolloverResultItem. 
+     *
+     * @param socRolloverResultItemId the Id of the ActivityOffering to be deleted
+     * @param context          Context information containing the principalId and locale
+     *                         information about the caller of service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the SeatPoolDefinition does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteSocRolloverResultItem(@WebParam(name = "socRolloverResultItemId") String socRolloverResultItemId,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates a SocRolloverResultItem. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current object and
+     * its directly contained sub-objects or expanded to perform all tests
+     * related to this object. If an identifier is present for the academic
+     * calendar and a record is found for that identifier, the validation checks
+     * if the academic calendar can be shifted to the new values. If a record
+     * cannot be found for the identifier, it is assumed that the record does
+     * not exist and as such, the checks performed will be much shallower,
+     * typically mimicking those performed by setting the validationType to the
+     * current object. This is a slightly different pattern from the standard
+     * validation as the caller provides the identifier in the create statement
+     * instead of the server assigning an identifier.
+     *
+     * @param validationType     Identifier of the extent of validation
+     * @param socRolloverResultItemInfo the socRolloverResultItem information to be tested.
+     * @param context            Context information containing the principalId and locale
+     *                           information about the caller of service operation
+     * @return the results from performing the validation
+     * @throws DoesNotExistException     validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, socRolloverResultItemInfo
+     * @throws MissingParameterException missing validationTypeKey, socRolloverResultItemInfo
+     * @throws OperationFailedException  unable to complete request
+     */
+    public List<ValidationResultInfo> validateSocRolloverResultItem(@WebParam(name = "validationType") String validationType,
+            @WebParam(name = "socRolloverResultItemInfo") SocRolloverResultItemInfo socRolloverResultItemInfo,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
 }

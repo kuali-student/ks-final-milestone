@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DateRangeInfo", propOrder = {
-                "start", "end", "_futureElements"})
+                "startDate", "endDate", "_futureElements"})
 
 public class DateRangeInfo 
     implements DateRange, Serializable {
@@ -45,10 +45,10 @@ public class DateRangeInfo
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private Date start;
+    private Date startDate;
     
     @XmlElement
-    private Date end;
+    private Date endDate;
     
     @XmlAnyElement
     private List<Element> _futureElements;    
@@ -67,31 +67,31 @@ public class DateRangeInfo
      */
     public DateRangeInfo(DateRange dateRange) {
         if (dateRange != null) {
-            if (dateRange.getStart() != null) {
-                this.start = new Date(dateRange.getStart().getTime());
+            if (dateRange.getStartDate() != null) {
+                this.startDate = new Date(dateRange.getStartDate().getTime());
             }
 
-            if (dateRange.getEnd() != null) {
-                this.end = new Date(dateRange.getEnd().getTime());
+            if (dateRange.getEndDate() != null) {
+                this.endDate = new Date(dateRange.getEndDate().getTime());
             }
 	}
     }
 
     @Override
-    public Date getStart() {
-        return start;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     @Override
-    public Date getEnd() {
-        return end;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

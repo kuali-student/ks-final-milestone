@@ -1,9 +1,8 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 public class AcalEventWrapper extends TimeSetWrapper{
 
@@ -15,10 +14,10 @@ public class AcalEventWrapper extends TimeSetWrapper{
         acalEventInfo = new AcalEventInfo();
         setAllDay(false);
         setDateRange(true);
+        acalEventInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
     }
 
-    public AcalEventWrapper(AcalEventInfo acalEventInfo){
-        this.setAcalEventInfo(acalEventInfo);
+    public AcalEventWrapper(AcalEventInfo acalEventInfo,boolean isCopy){
         this.setStartDate(acalEventInfo.getStartDate());
         this.setEndDate(acalEventInfo.getEndDate());
         this.setAllDay(acalEventInfo.getIsAllDay());
@@ -27,32 +26,16 @@ public class AcalEventWrapper extends TimeSetWrapper{
 
         buildDateAndTime();
 
-    }
-
-    public void copy(AcalEventInfo acalEventInfo){
-           AcalEventInfo newEventInfo = new AcalEventInfo();
-           newEventInfo.setTypeKey(acalEventInfo.getTypeKey());
-           newEventInfo.setIsDateRange(acalEventInfo.getIsDateRange());
-           newEventInfo.setIsAllDay(acalEventInfo.getIsAllDay());
-           setDateRange(acalEventInfo.getIsDateRange());
-           setAllDay(acalEventInfo.getIsAllDay());
-           setAcalEventInfo(newEventInfo);
-           setEventTypeKey(acalEventInfo.getTypeKey());
-           setStartDate(null);
-           setEndDate(null);
-
-        //Copy only start/end time
-        if (!isAllDay()){
-            DateFormat dfm = new SimpleDateFormat("hh:mm");
-
-            setStartTime(dfm.format(acalEventInfo.getStartDate()));
-            setEndTime(dfm.format(acalEventInfo.getEndDate()));
-
-            dfm = new SimpleDateFormat("a");
-            setStartTimeAmPm(dfm.format(acalEventInfo.getStartDate()));
-            setEndTimeAmPm(dfm.format(acalEventInfo.getEndDate()));
-
+        if (isCopy){
+            setAcalEventInfo(new AcalEventInfo());
+            RichTextInfo rti = new RichTextInfo();
+            rti.setPlain(getAcalEventInfo().getTypeKey());
+            getAcalEventInfo().setDescr(rti);
+            getAcalEventInfo().setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+        }else{
+           setAcalEventInfo(acalEventInfo);
         }
+
     }
 
     public AcalEventInfo getAcalEventInfo(){
@@ -77,6 +60,16 @@ public class AcalEventWrapper extends TimeSetWrapper{
     
     public void setEventTypeName(String eventTypeName) {
         this.eventTypeName = eventTypeName;
+    }
+
+    //This is for UI display purpose
+    public String getStartDateUI(){
+        return formatStartDateUI(acalEventInfo.getStartDate());
+    }
+
+    //This is for UI display purpose
+    public String getEndDateUI(){
+        return formatEndDateUI(acalEventInfo.getEndDate());
     }
 
 

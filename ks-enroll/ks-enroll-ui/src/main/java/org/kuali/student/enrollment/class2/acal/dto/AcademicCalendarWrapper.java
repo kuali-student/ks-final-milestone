@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 
 //This code is for core slice
@@ -54,5 +56,13 @@ public class AcademicCalendarWrapper implements Serializable {
 	public void setTermWrapperList(List<TermWrapper> termWrapperList) {
 		this.termWrapperList = termWrapperList;
 	}
+
+    public boolean isOfficial() {
+        return StringUtils.equals(academicCalendarInfo.getStateKey(), AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY);
+    }
+
+    public boolean isNew() {
+        return StringUtils.isBlank(academicCalendarInfo.getId());
+    }
 
 }

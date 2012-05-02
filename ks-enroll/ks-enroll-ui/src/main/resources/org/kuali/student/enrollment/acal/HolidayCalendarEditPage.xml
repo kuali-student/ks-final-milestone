@@ -25,10 +25,17 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:clientSideValidate="true" />
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:clientSideJs="submitForm();" p:render="@{officialButtonVisible}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{deleteButtonVisible}"/>
+                        <bean parent="Uif-PrimaryActionButton"
+                              p:methodToCall="@{officialCalendar ? 'save' : 'makeOfficial'}"
+                              p:actionLabel="@{officialCalendar ? 'Update Official' : 'Make Official'}"
+                              p:disabled="@{newCalendar}" p:clientSideValidate="@{officialCalendar}" />
+                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                              p:clientSideValidate="true" p:render="@{!officialCalendar}"/>
+                        <bean parent="Uif-ActionLink" p:methodToCall="delete"
+                              p:actionLabel="@{officialCalendar ? 'Delete Calendar' : 'Delete Draft'}"
+                              p:clientSideJs="confirmDeletion('Are you sure you want to delete this holiday calendar?')"
+                              p:render="@{!newCalendar}"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:clientSideJs="stepBrowserBack()"/>
                     </list>
                 </property>
             </bean>
@@ -73,11 +80,17 @@
 						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>
+                <!-- NOTE:
+                        This hidden button defeats a KRAD 2.0 bug which causes Enter to fire the next action
+                        found - in this case, the "add" button of the addline for the Holidays collection.
+                -->
+                <bean parent="Uif-SecondaryActionButton-Small" p:style="visibility:hidden;width:2px;" p:clientSideJs="void(0);"/>
+                <!-- END OF KRAD WORK-AROUND -->
             </list>
         </property>
     </bean>
 
-	<bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-TableCollectionSection"
+    <bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-TableCollectionSection"
 		  p:layoutManager.numberOfColumns="10"
           p:layoutManager.style="width: 100%; display:block;">
 		<property name="title" value="Holidays" />
@@ -107,77 +120,84 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startTime" p:label="Start Time"
-                      p:progressiveRender="@{#lp.allDay eq false}">
+                      p:id="timeFieldStart">
+                    <!--<property name="progressiveRender" value="@{#lp.allDay eq false}"/>-->
                     <!-- may work with Rice 2.2...
                     <property name="dependencyConstraints">
                         <list>
                             <bean parent="PrerequisiteConstraint" p:propertyName="startTimeAmPm" />
                         </list>
                     </property>
-                    -->
+                        Rice 2.2... -->
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm"/>
+                        <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
+                            <property name="disabled" value="@{#lp.allDay}"/>
+                        </bean>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm"
-                      p:required="@{!#empty(#lp.startTime)}" p:refreshWhenChanged="#lp.startTime"
-                      p:progressiveRender="@{#lp.allDay eq false}">
+                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:id="timeFieldStartAmPm">
+                    <!-- expression causes runtime exc on refresh with 'disabled' property
+                    <property name="required" value="@{!#empty(#lp.startTime)}"/>
+                    <property name="refreshWhenChanged" value="#lp.startTime"/>
+                        -->
+                    <!--<property name="progressiveRender" value="@{#lp.allDay eq false}"/>-->
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
-                              <!-- expression causes runtime exc on refresh
-                              p:disabled="@{#empty(#lp|#line.startTime)}"/>
-                              -->
+                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options">
+                            <property name="disabled" value="@{#lp.allDay or #empty(#lp.startTime)}"/>
+                        </bean>
                     </property>
                 </bean>
-                <!-- NOTE: for progressiveRender condition below, "dateRange eq true" DOESN'T WORK -->
                 <bean parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
-                      p:label="End Date" p:required="@{#lp.dateRange}"
-                      p:progressiveRender="@{#lp.dateRange}">
-                    <!-- BUG ALERT:
-                        Without the conditional readOnly property, a "delete" action will
-                        cause the endDate field ON THE NEXT LINE to be cleared.  Weird.
-                    -->
-                    <!-- NOTE:
-                        For some reason for HC this disables the dateRange checkbox on the
-                        addline; same code seems to works in AcademicCalendarEditPage.xml
-                    <property name="readOnly" value="@{#lp.dateRange eq false}"/>
-                    -->
-                    <!-- END OF BUG ALERT -->
+                      p:id="endDate" p:label="End Date">
+                    <!-- expression causes runtime exc on refresh with 'disabled' property
+                    <property name="required" value="@{#lp.dateRange}"/>
+                    <property name="refreshWhenChanged" value="#lp.dateRange"/>
+                        -->
+                    <!--<property name="progressiveRender" value="@{#lp.dateRange}"/>-->
                     <property name="control">
-                        <bean parent="Uif-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy" />
+                        <bean parent="Uif-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy">
+                            <property name="disabled" value="@{!#lp.dateRange}"/>
+                        </bean>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="endTime"
-                      p:label="End Time" p:progressiveRender="@{#lp.allDay eq false}">
+                <bean parent="Uif-InputField" p:propertyName="endTime" p:id="timeFieldEnd"
+                      p:label="End Time">
+                    <!--<property name="progressiveRender" value="@{#lp.allDay eq false}"/>-->
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm" />
+                        <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
+                            <property name="disabled" value="@{#lp.allDay}"/>
+                        </bean>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm"
-                      p:required="@{!#empty(#lp.endTime)}" p:refreshWhenChanged="#lp.endTime"
-                      p:progressiveRender="@{#lp.allDay eq false}">
+                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:id="timeFieldEndAmPm">
+                    <!-- expression causes runtime exc on refresh with 'disabled' property
+                    <property name="required" value="@{!#empty(#lp.endTime)}"/>
+                    <property name="refreshWhenChanged" value="#lp.endTime"/>
+                        -->
+                    <!--<property name="progressiveRender" value="@{#lp.allDay eq false}"/>-->
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
-                              <!-- expression causes runtime exc on refresh
-                              p:disabled="@{#empty(#lp.startTime)}"/>
-                              -->
+                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options">
+                            <property name="disabled" value="@{#lp.allDay or #empty(#lp.endTime)}"/>
+                        </bean>
                     </property>
                 </bean>
-	            <bean parent="Uif-InputField" p:propertyName="allDay" p:label="All Day">
+	            <bean parent="Uif-InputField" p:propertyName="allDay" p:id="allDayCheckbox"
+                      p:label="All Day">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl"/>
 					</property>
 				</bean>
-                <bean parent="Uif-InputField" p:propertyName="dateRange" p:label="Date Range">
+                <bean parent="Uif-InputField" p:propertyName="dateRange" p:id="dateRangeCheckbox"
+                      p:label="Date Range">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl"/>
 					</property>

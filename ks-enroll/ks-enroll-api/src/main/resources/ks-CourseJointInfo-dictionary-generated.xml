@@ -48,7 +48,7 @@ plus any of its dependencies -->
 * Information about course joints.
 			</value>
 		</property>
-		<property name="titleAttribute" value="courseTitle"/>
+		<property name="titleAttribute" value="courseOfferingTitle"/>
 		<property name="primaryKeys">
 			<list>
 				<value>typeKey</value>
@@ -60,7 +60,7 @@ plus any of its dependencies -->
 				<ref bean="CourseJointInfo.typeKey"/>
 				<ref bean="CourseJointInfo.stateKey"/>
 				<ref bean="CourseJointInfo.courseNumberSuffix"/>
-				<ref bean="CourseJointInfo.courseTitle"/>
+				<ref bean="CourseJointInfo.courseOfferingTitle"/>
 				<ref bean="CourseJointInfo.subjectArea"/>
 				<ref bean="CourseJointInfo.courseId"/>
 				<ref bean="CourseJointInfo.relationId"/>
@@ -159,8 +159,8 @@ A description of the entity.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseJointInfo.courseTitle-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="courseTitle"/>
+	<bean id="CourseJointInfo.courseOfferingTitle-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseOfferingTitle"/>
 		<property name="shortLabel" value="Course Title"/>
 		<property name="summary">
 			<value>

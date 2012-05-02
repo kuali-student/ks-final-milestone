@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -96,16 +97,17 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     termId, 
                     coi.getTypeKey(), 
                     coi, 
+                    Collections.EMPTY_LIST,
                     new ContextInfo());
         } catch (Exception ex) {
           throw new RuntimeException (ex);
         }
 
         //If grading options not present in course, set a default one in CO
-        if (coi.getGradingOptionKeys() == null || coi.getGradingOptionKeys().isEmpty()){
+        if (coi.getGradingOptionIds() == null || coi.getGradingOptionIds().isEmpty()){
             List<String> gradingOptions = new ArrayList();
             gradingOptions.add(LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE);
-            coi.setGradingOptionKeys(gradingOptions);
+            coi.setGradingOptionIds(gradingOptions);
         }
 
         //create a list of instructors
@@ -116,7 +118,6 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             coi.setInstructors(instructors);
             coi.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
             coi.setMaximumEnrollment(courseOfferingInfo.getMaximumEnrollment());
-            coi.setExpenditure(null);
 
             //update the CourseOfferingInfo coi in DB with instructors info
             try {
@@ -170,7 +171,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     String scheduleId = null;
                     activityOfferingInfo.setScheduleId(scheduleId);
                     // activityOfferingInfo.setMeetingSchedules(generateFakeMeetingTimes());
-                    List<FormatOfferingInfo> formats = this. getCourseOfferingService().getFormatOfferingByCourseOfferingId(coi.getId(), new ContextInfo ());
+                    List<FormatOfferingInfo> formats = this. getCourseOfferingService().getFormatOfferingsByCourseOffering(coi.getId(), new ContextInfo());
                     activityOfferingInfo.setFormatOfferingId(formats.get(0).getId ());
                     activityOfferingInfo = getCourseOfferingService().createActivityOffering
                             (activityOfferingInfo.getFormatOfferingId(),

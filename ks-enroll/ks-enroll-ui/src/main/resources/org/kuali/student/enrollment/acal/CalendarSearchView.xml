@@ -32,6 +32,11 @@
                 <value>/ks-enroll/css/hcal.css</value>
             </list>
         </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>/ks-enroll/scripts/common.js</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-CalendarSearch-Page" parent="Uif-Page" p:disclosure.render="false">
@@ -52,36 +57,36 @@
                      <property name="items">
                         <list>
                             <bean parent="Uif-HorizontalFieldGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="calendarType" p:label="Search For">
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:options-ref="search-options"/>
+                                <property name="items">
+                                    <list>
+                                    <bean parent="Uif-InputField-LabelTop" p:propertyName="calendarType" p:label="Search For">
+                                        <property name="control">
+                                            <bean parent="Uif-DropdownControl" p:options-ref="search-options"/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-InputField-LabelTop" p:label="Name" p:labelField.renderColon="false"
+                                        p:propertyName="name">
+                                        <property name="control">
+                                            <bean parent="Uif-TextControl" p:watermarkText="Name" p:size="30"/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-InputField-LabelTop" p:label="Year" p:labelField.renderColon="false"
+                                        p:propertyName="year" >
+                                        <property name="control">
+                                            <bean parent="Uif-TextControl" p:watermarkText="Year" p:size="4"/>
+                                        </property>
+                                    </bean>
+                                    </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Name" p:labelField.renderColon="false"
-                                p:propertyName="name">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:watermarkText="Name" p:size="30"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Year" p:labelField.renderColon="false"
-                                p:propertyName="year" >
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:watermarkText="Year" p:size="4"/>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
                             <bean parent="Uif-HorizontalFieldGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
-                        </list>
-                    </property>
-                </bean>
+                                <property name="items">
+                                    <list>
+                                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
@@ -148,7 +153,7 @@
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -196,7 +201,7 @@
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the academic calendar?')" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -243,7 +248,7 @@
               <list>
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="KS-SubmitActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the term?')" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>

@@ -1,6 +1,6 @@
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
-import org.junit.Ignore;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -9,6 +9,9 @@ import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
+import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
+
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -17,23 +20,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.clu.dto.FeeInfo;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
-import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -50,8 +41,39 @@ import static org.junit.Assert.fail;
 @Transactional
 public class TestLuiServiceImpl {
 
-    @Resource(name = "luiServiceImpl")
+    @Resource(name = "luiService")
     private LuiService luiService;
+
+    @Resource(name = "luiDao")
+    private LuiDao luiDao;
+
+    public LuiLuiRelationDao getLuiLuiRelationDao() {
+        return luiLuiRelationDao;
+    }
+
+    public void setLuiLuiRelationDao(LuiLuiRelationDao luiLuiRelationDao) {
+        this.luiLuiRelationDao = luiLuiRelationDao;
+    }
+
+    @Resource(name = "luiLuiRelationDao")
+    private LuiLuiRelationDao luiLuiRelationDao;
+
+    public LuiService getLuiService() {
+        return luiService;
+    }
+
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
+    }
+
+    public LuiDao getLuiDao() {
+        return luiDao;
+    }
+
+    public void setLuiDao(LuiDao luiDao) {
+        this.luiDao = luiDao;
+    }
+
     public static String principalId = "123";
     public ContextInfo callContext = null;
 
@@ -61,7 +83,7 @@ public class TestLuiServiceImpl {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
         try {
-            new LuiTestDataLoader (this.luiService).loadData();
+            new LuiTestDataLoader(luiDao, luiLuiRelationDao).loadData();
         } catch (Exception ex) {
             throw new RuntimeException (ex);
         }
@@ -96,7 +118,6 @@ public class TestLuiServiceImpl {
         assertEquals("LUI-IDENT-2", obj.getAlternateIdentifiers().get(0).getId());
 
         assertNotNull(obj.getEffectiveDate());
-        assertNotNull(obj.getExpirationDate());
 
         assertEquals("cluId1", obj.getCluId());
         assertEquals("atpId1", obj.getAtpId());
@@ -112,18 +133,18 @@ public class TestLuiServiceImpl {
 //        assertNotNull(obj.getCluCluRelationIds());
 //        assertEquals(2, obj.getCluCluRelationIds().size());
 //        assertTrue(obj.getCluCluRelationIds().contains("CluClu-2"));
-//        assertNotNull(obj.getUnitsContentOwner());
-//        assertEquals(1, obj.getUnitsContentOwner().size());
-//        assertTrue(obj.getUnitsContentOwner().contains("Org-2"));
-//        assertNotNull(obj.getUnitsDeployment());
-//        assertEquals(1, obj.getUnitsDeployment().size());
-//        assertTrue(obj.getUnitsDeployment().contains("Org-1"));
+//        assertNotNull(obj.getUnitsContentOwnerOrgIds());
+//        assertEquals(1, obj.getUnitsContentOwnerOrgIds().size());
+//        assertTrue(obj.getUnitsContentOwnerOrgIds().contains("Org-2"));
+//        assertNotNull(obj.getUnitsDeploymentOrgIds());
+//        assertEquals(1, obj.getUnitsDeploymentOrgIds().size());
+//        assertTrue(obj.getUnitsDeploymentOrgIds().contains("Org-1"));
 //        assertNotNull(obj.getResultValuesGroupKeys());
 //        assertEquals(3, obj.getResultValuesGroupKeys().size());
 //        assertTrue(obj.getResultValuesGroupKeys().contains("Val-Group-3"));
 //
-//        assertNotNull(obj.getFees());
-//        assertEquals(3, obj.getFees().size());
+//        assertNotNull(obj.getFeeIds());
+//        assertEquals(3, obj.getFeeIds().size());
 //        assertNotNull(obj.getRevenues());
 //        assertEquals(2, obj.getRevenues().size());
 //        assertNotNull(obj.getExpenditure());
@@ -131,7 +152,6 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetLuiIdsByRelation() throws Exception {
         try {
             List<String> luiIds = luiService.getLuiIdsByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
@@ -148,7 +168,7 @@ public class TestLuiServiceImpl {
 //    @Ignore
     public void testGetLuisByRelation() throws Exception {
         try {
-            List<LuiInfo> luis = luiService.getLuisByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
+            List<LuiInfo> luis = luiService.getLuisByRelatedLuiAndRelationType("Lui-2", "kuali.lui.lui.relation.associated", callContext);
             assertNotNull(luis);
             assertEquals(2, luis.size());
             assertEquals("Lui-1", luis.get(0).getId());
@@ -216,7 +236,7 @@ public class TestLuiServiceImpl {
 //        rtf.setPlain("fee.plain");
 //        rtf.setFormatted("fee.formatted");
 //        fee.setDescr(rtf);
-//        info.getFees().add(fee);
+//        info.getFeeIds().add(fee);
 //
 //        RevenueInfo revenue = new RevenueInfo();
 //        info.getRevenues().add(revenue);
@@ -244,18 +264,50 @@ public class TestLuiServiceImpl {
         assertEquals(orig.getReferenceURL(), info.getReferenceURL());
 
 //        assertTrue(info.getCluCluRelationIds().contains("CluClu-2"));
-//        assertTrue(info.getUnitsContentOwner().contains("Org-2"));
-//        assertTrue(info.getUnitsDeployment().contains("Org-1"));
+//        assertTrue(info.getUnitsContentOwnerOrgIds().contains("Org-2"));
+//        assertTrue(info.getUnitsDeploymentOrgIds().contains("Org-1"));
 //        assertTrue(info.getResultValuesGroupKeys().contains("Val-Group-3"));
 //
 //        assertEquals(1, info.getLuiCodes().size());
-//        assertEquals(1, info.getFees().size());
+//        assertEquals(1, info.getFeeIds().size());
 //        assertEquals(1, info.getRevenues().size());
 //        assertNotNull(info.getExpenditure().getId());
+        // test fetch after the create
+        info = luiService.getLui(info.getId(), callContext);
+        assertNotNull(info);
+        assertEquals(orig.getName(), info.getName());
+        assertEquals(orig.getStateKey(), info.getStateKey());
+        assertEquals(orig.getTypeKey(), info.getTypeKey());
+        assertEquals(orig.getEffectiveDate(), info.getEffectiveDate());
+        assertEquals(orig.getExpirationDate(), info.getExpirationDate());
+
+        assertNotNull(info.getOfficialIdentifier());
+        assertEquals(orig.getOfficialIdentifier().getShortName(), info.getOfficialIdentifier().getShortName());
+        assertEquals(orig.getAlternateIdentifiers().size(), info.getAlternateIdentifiers().size());
+        assertEquals(orig.getAlternateIdentifiers().get(0).getShortName(), info.getAlternateIdentifiers().get(0).getShortName());
+
+        assertEquals(orig.getMaximumEnrollment(), info.getMaximumEnrollment());
+        assertEquals(orig.getMinimumEnrollment(), info.getMinimumEnrollment());
+        assertEquals(orig.getCluId(), info.getCluId());
+        assertEquals(orig.getAtpId(), info.getAtpId());
+        assertEquals(orig.getReferenceURL(), info.getReferenceURL());
     }
 
     @Test
-    @Ignore
+    public void  testGetLuisByAtpAndClu() throws Exception{
+        List<LuiInfo> luis =  luiService.getLuisByAtpAndClu("cluId1", "atpId1", callContext)  ;
+        assertTrue(luis.size()>0);
+        assertNotNull(luis);
+        assertEquals(1, luis.size());
+        LuiInfo onlyLui = luis.get(0);
+        assertNotNull(onlyLui);
+        assertEquals("Lui-1",  onlyLui.getId() );
+        assertEquals("Lui one", onlyLui.getName());
+        assertEquals("cluId1", onlyLui.getCluId());
+        assertEquals("atpId1", onlyLui.getAtpId());
+    }
+
+    @Test
     public void testUpdateLui() throws Exception {
         LuiInfo info = luiService.getLui("Lui-1", callContext);
         assertNotNull(info);
@@ -284,8 +336,6 @@ public class TestLuiServiceImpl {
 
         modified.getCluCluRelationIds().remove("CluClu-2");
         modified.getCluCluRelationIds().add("CluClu-22");
-        modified.getUnitsContentOwner().add("Org-22");
-        modified.getUnitsDeployment().add("Org-11");
         modified.getResultValuesGroupKeys().remove("Val-Group-2");
         modified.getResultValuesGroupKeys().remove("Val-Group-3");
         modified.getResultValuesGroupKeys().add("Val-Group-33");
@@ -302,7 +352,7 @@ public class TestLuiServiceImpl {
         rtf.setPlain("fee.plain");
         rtf.setFormatted("fee.formatted");
         fee.setDescr(rtf);
-        //        modified.getFees().add(fee);
+        //        modified.getFeeIds().add(fee);
 
         //        RevenueInfo revenue = new RevenueInfo();
         //        modified.getRevenues().add(revenue);
@@ -319,36 +369,31 @@ public class TestLuiServiceImpl {
         assertEquals(Integer.valueOf(10), updated.getMinimumEnrollment());
         assertEquals("ref.update.url", updated.getReferenceURL());
         assertNotNull(updated.getEffectiveDate());
-        assertNotNull(updated.getExpirationDate());
-        assertEquals("updateCluId", updated.getCluId());
-        assertEquals("updateAtpId1", updated.getAtpId());
 
         assertNotNull(updated.getOfficialIdentifier());
         assertEquals("identifier.shortname", updated.getOfficialIdentifier().getShortName());
         assertEquals(1, updated.getAlternateIdentifiers().size());
         assertEquals("alternate.identifier.shortname", updated.getAlternateIdentifiers().get(0).getShortName());
+//
+//        assertTrue(updated.getCluCluRelationIds().contains("CluClu-1"));
+//        assertTrue(updated.getCluCluRelationIds().contains("CluClu-22"));
+//        assertEquals(2, updated.getResultValuesGroupKeys().size());
+//        assertTrue(updated.getUnitsContentOwnerOrgIds().contains("Org-22"));
+//        assertEquals(2, updated.getResultValuesGroupKeys().size());
+//        assertTrue(updated.getUnitsDeploymentOrgIds().contains("Org-11"));
+//        assertEquals(2, updated.getResultValuesGroupKeys().size());
+//        assertTrue(updated.getResultValuesGroupKeys().contains("Val-Group-33"));
+//        assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-2"));
+//        assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-3"));
 
-        assertEquals(2, updated.getResultValuesGroupKeys().size());
-        assertTrue(updated.getCluCluRelationIds().contains("CluClu-1"));
-        assertTrue(updated.getCluCluRelationIds().contains("CluClu-22"));
-        assertEquals(2, updated.getResultValuesGroupKeys().size());
-        assertTrue(updated.getUnitsContentOwner().contains("Org-22"));
-        assertEquals(2, updated.getResultValuesGroupKeys().size());
-        assertTrue(updated.getUnitsDeployment().contains("Org-11"));
-        assertEquals(2, updated.getResultValuesGroupKeys().size());
-        assertTrue(updated.getResultValuesGroupKeys().contains("Val-Group-33"));
-        assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-2"));
-        assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-3"));
-
-        assertEquals(2, updated.getLuiCodes().size());
-        //        assertEquals(4, updated.getFees().size());
+//        assertEquals(2, updated.getLuiCodes().size());
+        //        assertEquals(4, updated.getFeeIds().size());
         //        assertEquals(3, updated.getRevenues().size());
         //        assertTrue(!"LUI-Expen-1".equals(updated.getExpenditure().getId()));
 
     }
 
     @Test
-//    @Ignore
     public void testUpdateLuiLuiRelation() throws Exception{
         LuiLuiRelationInfo info = luiService.getLuiLuiRelation("LUILUIREL-2", callContext);
         assertNotNull(info);
@@ -358,7 +403,6 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetLuiLuiRelation() throws Exception {
         try {
             LuiLuiRelationInfo obj = luiService.getLuiLuiRelation("LUILUIREL-1", callContext);
@@ -372,7 +416,6 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetLuiLuiRelationsByLui() throws Exception {
 
         luiService.getLuiLuiRelationsByLui("Lui-Lui-Blah", callContext);
@@ -431,7 +474,6 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testDeleteLui()
             throws Exception{
         LuiInfo info = luiService.getLui("Lui-3", callContext);
@@ -456,4 +498,65 @@ public class TestLuiServiceImpl {
         } catch (DoesNotExistException ee) {
         }
     }
+
+    @Test
+    public void testGetLuisByIds() throws Exception {
+       List<String> luiIds = new ArrayList<String>();
+        luiIds.add("Lui-1");
+        luiIds.add("Lui-2");
+        luiIds.add("Lui-3");
+        List<LuiInfo> luis =  luiService.getLuisByIds(luiIds, callContext);
+
+        assertNotNull(luis);
+        assertTrue(luis.size() == 3);
+
+        try{
+            luiIds.add("Lui-3b");
+            luis =  luiService.getLuisByIds(luiIds, callContext);
+        }catch (DoesNotExistException ex) {
+            assertNotNull(ex.getMessage());
+        }
+
+    }
+    @Test
+    public void testGetLuiIdsByType() throws Exception {
+
+        List<String> luis =  luiService.getLuiIdsByType("kuali.lui.type.course.offering", callContext);
+
+        assertNotNull(luis);
+        assertTrue(luis.size() == 2);
+
+    }
+
+
+    @Test
+    public void testGetLuiIdsByAtpAndType() throws Exception{
+        List<String> luiIds =  luiService.getLuiIdsByAtpAndType( "atpId1", "kuali.lui.type.course.offering", callContext);
+        assertNotNull(luiIds);
+        assertEquals(luiIds.size(), 1);
+        assertEquals(luiIds.get(0) ,"Lui-1");
+        List<String> luiIdsNonExistent =  luiService.getLuiIdsByAtpAndType( "atpId21", "kuali.lui.type.course.offering", callContext);
+        assertNotNull(luiIdsNonExistent);
+        assertEquals(luiIdsNonExistent.size(),0);
+
+    }
+    @Test
+    public void testGetRelatedLuiIdsByLui() throws Exception{
+        List<String> luiRelationIds =  luiService.getLuiIdsByRelatedLuiAndRelationType("Lui-1", "kuali.lui.lui.relation.associated", callContext);
+        assertNotNull(luiRelationIds);
+        assertEquals( 1, luiRelationIds.size());
+        assertEquals("Lui-2", luiRelationIds.get(0) );
+
+    }
+    @Test
+    public void testGetRelatedLuisByLui() throws Exception{
+        List<LuiInfo> luiRelations =  luiService.getRelatedLuisByLuiAndRelationType("Lui-3", "kuali.lui.lui.relation.associated", callContext);
+        assertNotNull(luiRelations);
+        assertEquals( 1, luiRelations.size());
+        assertEquals("Lui-4", luiRelations.get(0).getId() );
+
+    }
+
+
+
 }

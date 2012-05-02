@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.scheduling.infc;
 
 import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 
 import java.util.List;
 
@@ -39,12 +40,12 @@ public interface Schedule extends IdEntity {
     public String getAtpId();
 
     /**
-     * The Schedule Component Ids. These provide a list of Time Slots
+     * The Schedule Components. These provide a list of Time Slots
      * coupled with Room locations.
      *
-     * @name Schedule Component Ids
+     * @name Schedule Components
      */
-    public List<String> getScheduleComponentIds();
+    public List<ScheduleComponentInfo> getScheduleComponents();
 
     /**
      * A list of blackout dates where a meeting time implied by the
@@ -52,7 +53,7 @@ public interface Schedule extends IdEntity {
      *
      * @name Blackout Dates
      * @deprecated Should this point to a shared set (not really
-     *              deprecated, but ignoreable for now.
+     *              deprecated, but ignorable for now.
      */
     public List<? extends DateRange> getBlackoutDates();
 

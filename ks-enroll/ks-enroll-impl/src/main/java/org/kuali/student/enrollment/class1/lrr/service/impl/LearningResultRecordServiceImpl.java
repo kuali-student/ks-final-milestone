@@ -93,9 +93,14 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
             LearningResultRecordEntity newLrr = new LearningResultRecordEntity(learningResultRecord);
 
             List<ResultSourceEntity> resultSourceEntities = new ArrayList();
+
             if (learningResultRecord.getResultSourceIds() != null
                     && !learningResultRecord.getResultSourceIds().isEmpty()) {
+                try{
                 resultSourceEntities = resultSourceDao.findByIds(learningResultRecord.getResultSourceIds());
+                }catch (DoesNotExistException doesNotExist){
+                        throw  new OperationFailedException( doesNotExist.getMessage(), doesNotExist);
+                }
             }
             newLrr.setResultSourceList(resultSourceEntities);
 

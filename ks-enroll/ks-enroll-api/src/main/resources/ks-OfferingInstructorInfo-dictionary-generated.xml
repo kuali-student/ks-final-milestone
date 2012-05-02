@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Wed Apr 11 10:29:08 EDT 2012
+		This dictionary file was automatically generated on Tue May 01 14:33:17 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -48,6 +48,7 @@ plus any of its dependencies -->
 Information about a potential instructor for a lui.
 			</value>
 		</property>
+		<property name="titleAttribute" value="personName"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>
@@ -59,6 +60,7 @@ Information about a potential instructor for a lui.
 				<ref bean="OfferingInstructorInfo.id"/>
 				<ref bean="OfferingInstructorInfo.personId"/>
 				<ref bean="OfferingInstructorInfo.percentageEffort"/>
+				<ref bean="OfferingInstructorInfo.personName"/>
 				<ref bean="OfferingInstructorInfo.typeKey"/>
 				<ref bean="OfferingInstructorInfo.stateKey"/>
 			</list>
@@ -109,6 +111,23 @@ Percentage involvement of the instructor in the activity.
 		<property name="description">
 			<value>
 Percentage involvement of the instructor in the activity.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="OfferingInstructorInfo.personName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="personName"/>
+		<property name="shortLabel" value="Person Name"/>
+		<property name="summary">
+			<value>
+Name of the instructor.
+			</value>
+		</property>
+		<property name="label" value="Person Name"/>
+		<property name="description">
+			<value>
+Name of the instructor.
 			</value>
 		</property>
 		<property name="required" value="false"/>

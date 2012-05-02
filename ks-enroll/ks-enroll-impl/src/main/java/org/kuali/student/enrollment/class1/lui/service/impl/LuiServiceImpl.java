@@ -46,9 +46,9 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 
 public class LuiServiceImpl 
     implements LuiService {
@@ -95,7 +95,9 @@ public class LuiServiceImpl
         List<LuiEntity> entityList = luiDao.findByIds(luiIds);
         List<LuiInfo> infoList = new ArrayList<LuiInfo>();
 
+
         for (LuiEntity luiEntity : entityList) {
+
             infoList.add(luiEntity.toDto());
         }
 
@@ -151,12 +153,11 @@ public class LuiServiceImpl
     }
 
     @Override
-    public List<String> getLuiIdsByAtpAndClu(String cluId, String atpId, 
-                                             ContextInfo context) 
+    public List<String> getLuiIdsByAtpAndClu(String cluId, String atpId,ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        List<LuiEntity> luis = luiDao.getLuisByAtpAndType(atpId, cluId);
+        List<LuiEntity> luis = luiDao.getLuisByAtpAndClu(atpId, cluId);
         List<String> luiIds = new ArrayList<String>();
 
         for (LuiEntity lui : luis) {
@@ -171,8 +172,14 @@ public class LuiServiceImpl
                                             ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-        // TODO
-        return new ArrayList<LuiInfo>();
+
+        List<LuiEntity> luiEntities = luiDao.getLuisByAtpAndClu(atpId, cluId);
+        List<LuiInfo> luiInfos = new ArrayList<LuiInfo>();
+        for(LuiEntity luiEntity: luiEntities){
+            luiInfos.add(luiEntity.toDto());
+        }
+      return luiInfos;
+
     }
 
     @Override
@@ -180,7 +187,6 @@ public class LuiServiceImpl
                                         ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-        // TODO
         return new ArrayList<String>();
     }
 
@@ -189,7 +195,7 @@ public class LuiServiceImpl
                                        ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-        // TODO
+
         return new ArrayList<LuiInfo>();
     }
 
@@ -203,7 +209,6 @@ public class LuiServiceImpl
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
-        // TODO
         return new ArrayList<ValidationResultInfo>();
     }
 
@@ -299,8 +304,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<LuiLuiRelationInfo>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -309,8 +313,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<String>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -319,12 +322,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException { 
 
-        // Ensure the lui id is valid
-        try {
-            getLui(luiId, context);
-        } catch (DoesNotExistException dnee) {
-            return new ArrayList<LuiLuiRelationInfo>();
-        }
+
 
         List<LuiLuiRelationEntity> relEntities = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
         List<LuiLuiRelationInfo> relInfos = new ArrayList<LuiLuiRelationInfo>();
@@ -334,7 +332,6 @@ public class LuiServiceImpl
                 relInfos.add(relInfo);
             }
         }
-
         return relInfos;
     }
 
@@ -345,8 +342,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException { 
 
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Override
@@ -355,14 +351,13 @@ public class LuiServiceImpl
                                                            ContextInfo contextInfo) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<LuiInfo> getLuisByRelation(String relatedLuiId, 
-                                           String luiLuiRelationTypeKey, 
-                                           ContextInfo context) 
+    public List<LuiInfo> getLuisByRelatedLuiAndRelationType(String relatedLuiId,
+                                                            String luiLuiRelationTypeKey,
+                                                            ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
         
@@ -391,9 +386,9 @@ public class LuiServiceImpl
     }
 
     @Override
-    public List<String> getRelatedLuiIdsByLui(String luiId, 
-                                              String luiLuiRelationTypeKey, 
-                                              ContextInfo context) 
+    public List<String> getLuiIdsByRelatedLuiAndRelationType(String luiId,
+                                                             String luiLuiRelationTypeKey,
+                                                             ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
@@ -403,13 +398,19 @@ public class LuiServiceImpl
     }
 
     @Override
-    public List<LuiInfo> getRelatedLuisByLui(String luiId, 
-                                             String luiLuiRelationTypeKey, 
-                                             ContextInfo context) 
+    public List<LuiInfo> getRelatedLuisByLuiAndRelationType(String luiId,
+                                                            String luiLuiRelationTypeKey,
+                                                            ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        return new ArrayList<LuiInfo>();
+        List<LuiInfo> relatedLuis =  new ArrayList<LuiInfo>();
+        List<LuiEntity> relatedLuiEntities =  luiLuiRelationDao.getRelatedLuisByLuiIdAndRelationType(luiId,luiLuiRelationTypeKey ) ;
+        for(LuiEntity relatedLuiEntity : relatedLuiEntities) {
+            relatedLuis.add(relatedLuiEntity.toDto());
+        }
+
+        return  relatedLuis;
     }
 
     @Override
@@ -442,8 +443,21 @@ public class LuiServiceImpl
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        // TODO
-        return new ArrayList<ValidationResultInfo>();
+       List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>() ;
+        ValidationResultInfo invalidIdsValidationInfo = new ValidationResultInfo();
+        if(luiLuiRelationInfo.getLuiId() ==null || luiLuiRelationInfo.getRelatedLuiId() == null)        {
+            invalidIdsValidationInfo.setError("Relation Info is missing relation id data");
+            invalidIdsValidationInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+            validationResultInfos.add(invalidIdsValidationInfo);
+        }
+        ValidationResultInfo typeStateValidation = new ValidationResultInfo();
+        if(luiLuiRelationInfo.getTypeKey() ==null || luiLuiRelationInfo.getStateKey()==null ){
+            typeStateValidation.setError("Missing type or state data");
+            typeStateValidation.setLevel(ValidationResult.ErrorLevel.ERROR);
+            validationResultInfos.add(typeStateValidation);
+
+        }
+            return validationResultInfos;
     }
 
     @Override
@@ -467,7 +481,7 @@ public class LuiServiceImpl
 
         entity.setRelatedLui(luiDao.find(relatedLuiId));
         if (entity.getRelatedLui() == null) {
-            throw new DoesNotExistException(luiId);
+            throw new DoesNotExistException(relatedLuiId);
         }
 
         entity.setLuiLuiRelationType(luiLuiRelationTypeKey);
@@ -491,7 +505,7 @@ public class LuiServiceImpl
                ReadOnlyException, VersionMismatchException {
 
         if (!luiLuiRelationId.equals(luiLuiRelationInfo.getId())) {
-            throw new InvalidParameterException(luiLuiRelationId + " doe not match the id on the object " + luiLuiRelationInfo.getId());
+            throw new InvalidParameterException(luiLuiRelationId + " does not match the id on the object " + luiLuiRelationInfo.getId());
         }
 
         LuiLuiRelationEntity entity = luiLuiRelationDao.find(luiLuiRelationId);
@@ -519,10 +533,8 @@ public class LuiServiceImpl
         if (entity == null) {
             throw new DoesNotExistException(luiLuiRelationId);
         }
-
         luiLuiRelationDao.remove(entity);
         StatusInfo status = new StatusInfo();
-        status.setSuccess(Boolean.FALSE);
         status.setSuccess(Boolean.TRUE);
 
         return status;
@@ -535,8 +547,7 @@ public class LuiServiceImpl
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
 
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -546,8 +557,7 @@ public class LuiServiceImpl
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<LuiCapacityInfo>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -556,7 +566,6 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -566,8 +575,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<String>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -576,8 +584,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<String>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -586,8 +593,7 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<LuiCapacityInfo>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -599,8 +605,7 @@ public class LuiServiceImpl
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<ValidationResultInfo>();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -612,8 +617,7 @@ public class LuiServiceImpl
                OperationFailedException, PermissionDeniedException, 
                ReadOnlyException {
 
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -625,8 +629,7 @@ public class LuiServiceImpl
                OperationFailedException, PermissionDeniedException, 
                ReadOnlyException, VersionMismatchException {
 
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -636,7 +639,6 @@ public class LuiServiceImpl
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
 
-        // TODO
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

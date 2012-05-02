@@ -43,4 +43,12 @@ public interface OfferingInstructor
      * @impl maps to lpr.commitmentPercent
      */
     public Float getPercentageEffort();
+
+    /**
+     * Name of the instructor.
+     *
+     * @name Person Name
+     * @impl Get from Person Service
+     */
+    public String getPersonName();
 }

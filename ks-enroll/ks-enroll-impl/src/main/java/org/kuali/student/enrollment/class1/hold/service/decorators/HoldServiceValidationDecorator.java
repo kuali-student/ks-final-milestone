@@ -34,6 +34,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldServiceDecorator;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
@@ -109,6 +110,21 @@ implements HoldsDataDictionaryService, HoldsValidator
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating hold", ex);
         }
+    }
+
+    @Override
+    public IssueInfo createIssue(String issueTypeKey, IssueInfo issueInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if(issueInfo.getDescr() == null || issueInfo.getDescr().getPlain() == null){
+                 throw new InvalidParameterException("Hold issue description cannot be null");
+        }
+        if(issueTypeKey == null || issueInfo.getTypeKey() == null){
+            throw new InvalidParameterException("Hold issue type cannot be null");
+        }
+        if(issueInfo.getStateKey() == null){
+            throw new InvalidParameterException("Hold issue state cannot be null");
+        }
+        return getNextDecorator().createIssue(issueTypeKey, issueInfo, context);
     }
 
 }

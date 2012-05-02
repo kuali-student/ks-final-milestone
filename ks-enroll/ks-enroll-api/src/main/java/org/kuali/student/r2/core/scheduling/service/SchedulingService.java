@@ -18,6 +18,8 @@ package org.kuali.student.r2.core.scheduling.service;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -30,7 +32,6 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchResponseInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleResponseInfo;
@@ -579,6 +580,25 @@ public interface SchedulingService {
     public List<String> getScheduleRequestIdsByType(@WebParam(name = "scheduleRequestTypeKey") String scheduleRequestTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of ScheduleRequest Ids by Ref Object Type.
+     *
+     * @param refObjectType an identifier for a ref object Type
+     * @param refObjectId   an
+     * @param contextInfo            Context information containing the
+     *                               principalId and locale information about
+     *                               the caller of service operation
+     * @return a list of ScheduleRequest identifiers matching
+     *         scheduleRequestTypeKey or an empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleRequestTypeKey or contextInfo
+     *                                   is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+
+    public List<String> getScheduleRequestsByRefObject(@WebParam(name = "refObjectType") String refObjectType, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves a list of ScheduleRequests associated with a ScheduleBatch
      *
      * @param scheduleBatchId an identifier for a ScheduleBatch
@@ -730,192 +750,6 @@ public interface SchedulingService {
     public StatusInfo deleteScheduleRequest(@WebParam(name = "scheduleRequestId") String scheduleRequestId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
-    /**
-     * Retrieves a ScheduleComponent
-     *
-     * @param scheduleComponentId a unique Id of a ScheduleComponent
-     * @param contextInfo         Context information containing the principalId
-     *                            and locale information about the caller of
-     *                            service operation
-     * @return the ScheduleComponent
-     * @throws DoesNotExistException     scheduleComponentId not found
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException scheduleComponentId or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public ScheduleComponentInfo getScheduleComponent(@WebParam(name = "scheduleComponentId") String scheduleComponentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves a list of ScheduleComponents corresponding to the given list of
-     * ScheduleComponent Ids.
-     *
-     * @param scheduleComponentIds list of ScheduleComponents to be retrieved
-     * @param contextInfo          Context information containing the
-     *                             principalId and locale information about the
-     *                             caller of service operation
-     * @return a list of ScheduleComponents
-     * @throws DoesNotExistException     a scheduleComponentId in list not
-     *                                   found
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException missing scheduleComponentId or
-     *                                   contextInfo is missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<ScheduleComponentInfo> getScheduleComponentsByIds(@WebParam(name = "scheduleComponentIds") List<String> scheduleComponentIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves a list of ScheduleComponent Ids by ScheduleComponent Type.
-     *
-     * @param scheduleComponentTypeKey an identifier for a ScheduleComponent
-     *                                 Type
-     * @param contextInfo              Context information containing the
-     *                                 principalId and locale information about
-     *                                 the caller of service operation
-     * @return a list of ScheduleComponent identifiers matching
-     *         scheduleComponentTypeKey or an empty list if none found
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException scheduleComponentTypeKey or contextInfo
-     *                                   is missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> getScheduleComponentIdsByType(@WebParam(name = "scheduleComponentTypeKey") String scheduleComponentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for ScheduleComponents based on the criteria and returns a list
-     * of ScheduleComponent identifiers which match the search criteria.
-     *
-     * @param criteria    the search criteria
-     * @param contextInfo Context information containing the principalId and
-     *                    locale information about the caller of service
-     *                    operation
-     * @return list of ScheduleComponent Ids
-     * @throws InvalidParameterException invalid criteria or contextInfo
-     * @throws MissingParameterException missing criteria or contextInfo
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<String> searchForScheduleComponentIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for ScheduleComponents based on the criteria and returns a list
-     * of ScheduleComponents which match the search criteria.
-     *
-     * @param criteria    the search criteria
-     * @param contextInfo Context information containing the principalId and
-     *                    locale information about the caller of service
-     *                    operation
-     * @return list of ScheduleComponents
-     * @throws InvalidParameterException invalid criteria or contextInfo
-     * @throws MissingParameterException missing criteria or contextInfo
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<ScheduleComponentInfo> searchForScheduleComponents(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Validates a ScheduleComponent. Depending on the value of validationType,
-     * this validation could be limited to tests on just the current
-     * ScheduleComponent and its directly contained sub-objects or expanded to
-     * perform all tests related to this ScheduleComponent. If an identifier is
-     * present for the ScheduleComponent (and/or one of its contained
-     * sub-objects) and a record is found for that identifier, the validation
-     * checks if the ScheduleComponent can be updated to the new values. If an
-     * identifier is not present or a record does not exist, the validation
-     * checks if the object with the given data can be created.
-     *
-     * @param validationTypeKey        the identifier for the validation Type
-     * @param scheduleComponentTypeKey the identifier for the scheduleComponent
-     *                                 Type
-     * @param scheduleComponentInfo    detailed information about the
-     *                                 scheduleComponent
-     * @param contextInfo              Context information containing the
-     *                                 principalId and locale information about
-     *                                 the caller of service operation
-     * @return a list of validation results or an empty list if validation
-     *         succeeded
-     * @throws DoesNotExistException     validationTypeKey, scheduleComponentId,
-     *                                   not found
-     * @throws InvalidParameterException invalid scheduleComponentInfo or
-     *                                   contextInfo
-     * @throws MissingParameterException validationTypeKey, scheduleComponentId
-     *                                   or contextInfo is missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<ValidationResultInfo> validateScheduleComponent(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "scheduleComponentTypeKey") String scheduleComponentTypeKey, @WebParam(name = "scheduleComponentInfo") ScheduleComponentInfo scheduleComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Creates a ScheduleComponent
-     *
-     * @param scheduleComponentTypeKey the identifier for the scheduleComponent
-     *                                 Type
-     * @param scheduleComponentInfo    detailed information about the
-     *                                 scheduleComponent
-     * @param contextInfo              Context information containing the
-     *                                 principalId and locale information about
-     *                                 the caller of service operation
-     * @return detailed information about the scheduleComponent
-     * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException        scheduleComponentId does not exist
-     * @throws InvalidParameterException    invalid scheduleComponentInfo or
-     *                                      contextInfo
-     * @throws MissingParameterException    scheduleComponentId or contextInfo
-     *                                      is missing or null
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    an authorization failure occurred
-     * @throws ReadOnlyException            an attempt at supplying information
-     *                                      designated as read only
-     */
-    public ScheduleComponentInfo createScheduleComponent(@WebParam(name = "scheduleComponentTypeKey") String scheduleComponentTypeKey, @WebParam(name = "scheduleComponentInfo") ScheduleComponentInfo scheduleComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
-    /**
-     * Updates a scheduleComponent.
-     *
-     * @param scheduleComponentId   identifier of the scheduleComponent
-     *                               to be updated
-     * @param scheduleComponentInfo information about the object scheduleComponentInfo
-     *                              to be updated
-     * @param contextInfo           context information containing the
-     *                              principalId and locale information about the
-     *                              caller of service operation
-     * @return updated scheduleComponent information
-     * @throws DataValidationErrorException one or more values invalid for this
-     *                                      operation
-     * @throws DoesNotExistException        scheduleComponentId not found
-     * @throws InvalidParameterException    invalid scheduleComponentInfo or
-     *                                      contextInfo
-     * @throws MissingParameterException    scheduleComponentId, scheduleComponentInfo
-     *                                      or contextInfo is missing or null
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    an authorization failure occurred
-     * @throws ReadOnlyException            an attempt at supplying information
-     *                                      designated as read-only
-     * @throws VersionMismatchException     optimistic locking failure or the
-     *                                      action was attempted on an out of
-     *                                      date version
-     */
-    public ScheduleComponentInfo updateScheduleComponent(@WebParam(name = "scheduleComponentId") String scheduleComponentId, @WebParam(name = "scheduleComponentInfo") ScheduleComponentInfo scheduleComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
-
-    /**
-     * Removes scheduleComponent relationship between a person and a slot.
-     *
-     * @param scheduleComponentId ScheduleComponent  identifier
-     * @param contextInfo         context information containing the principalId
-     *                            and locale information about the caller of
-     *                            service operation
-     * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     scheduleComponentId not found
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException scheduleComponentId or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public StatusInfo deleteScheduleComponent(@WebParam(name = "scheduleComponentId") String scheduleComponentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /**
@@ -969,6 +803,44 @@ public interface SchedulingService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> getTimeSlotIdsByType(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of TimeSlots by TimeSlot Type, days of week and start time.
+     * Parameter daysOfWeek follows the Java standard: Sunday=1 to Saturday=7
+     *
+     * @param timeSlotTypeKey identifier for the given slot type
+     * @param daysOfWeek      days of the week of interest
+     * @param startTime      start time of interest
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of TimeSlots matching timeSlotTypeKey, daysOfWeek and startTime; empty list if none found
+     * @throws InvalidParameterException invalid daysOfWeek, startTime or contextInfo
+     * @throws MissingParameterException timeSlotTypeKey, daysOfWeek, startTime or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TimeSlotInfo> getTimeSlotsByDaysAndStartTime(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek, @WebParam(name = "startTime") TimeOfDayInfo startTime, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of TimeSlots by TimeSlot Type, days of week, start time and duration.
+     * Parameter daysOfWeek follows the Java standard: Sunday=1 to Saturday=7
+     *
+     * @param timeSlotTypeKey identifier for the given slot type
+     * @param daysOfWeek      days of the week of interest
+     * @param startTime      start time of interest
+     * @param duration       duration of interest
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of TimeSlots matching timeSlotTypeKey, daysOfWeek, startTime and duration; empty list if none found
+     * @throws InvalidParameterException invalid daysOfWeek, startTime, duration or contextInfo
+     * @throws MissingParameterException timeSlotTypeKey, daysOfWeek, startTime, duration or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TimeSlotInfo> getTimeSlotsByDaysAndStartTimeAndDuration(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek, @WebParam(name = "startTime") TimeOfDayInfo startTime, @WebParam(name = "duration") TimeAmountInfo duration, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for TimeSlots based on the criteria and returns a list of
@@ -1218,6 +1090,56 @@ public interface SchedulingService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo commitSchedules(@WebParam(name = "scheduleBatchResponseId") String scheduleBatchResponseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves valid days of the week for the given slot type. Parameter daysOfWeek follows the Java standard: Sunday=1 to Saturday=7
+     *
+     * @param timeSlotTypeKey   identifier for the given slot type
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return Days of the week for the slot type; empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException timeSlotTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<Integer> getValidDaysOfWeek(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves valid duration for the given slot type, days of week and start time. Parameter daysOfWeek follows the Java standard: Sunday=1 to Saturday=7
+     *
+     * @param timeSlotTypeKey   identifier for the given slot type
+     * @param daysOfWeek        days of week of interest
+     * @param startTime        start time of interest
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return valid duration for the given slot type, days of week and start times; empty list if none found
+     * @throws InvalidParameterException invalid daysOfWeek, startTime or contextInfo
+     * @throws MissingParameterException timeSlotTypeKey, daysOfWeek, startTime or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TimeAmountInfo> getValidDurations(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek, @WebParam(name = "startTime") TimeOfDayInfo startTime, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves valid start times for the given slot type, days of week and durations of interest. Parameter daysOfWeek follows the Java standard: Sunday=1 to Saturday=7
+     * While the parameter durations lists any of the values of interest, parameter daysOfWeek is just one value (for the days pattern).
+     *
+     * @param timeSlotTypeKey   identifier for the given slot type
+     * @param daysOfWeek        days of the week of interest. Note: This is just one value, which happens to be a pattern.
+     * @param durations         durations of interest. Any of the given duration values is valid.
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return valid start times for the given slot type and days of week; empty list if none found
+     * @throws InvalidParameterException invalid daysOfWeek, durations or contextInfo
+     * @throws MissingParameterException timeSlotTypeKey, daysOfWeek, durations or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TimeOfDayInfo> getValidStartTimes(@WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "daysOfWeek") List<Integer> daysOfWeek, @WebParam(name = "durations") List<TimeAmountInfo> durations, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }
 

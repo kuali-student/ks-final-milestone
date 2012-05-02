@@ -23,6 +23,10 @@ import org.kuali.rice.krad.util.KRADConstants;
  * @author Kuali Student Team
  */
 public class CalendarConstants {
+
+    // Enrollment home page
+    public static final String ENROLLMENT_HOME_VIEW = "enrollmentHomeView";
+
     //HolidayCalendar pages
     public static final String HOLIDAYCALENDAR_COPYPAGE = "holidayCalendarCopyPage";
     public static final String HOLIDAYCALENDAR_EDITPAGE = "holidayCalendarEditPage";
@@ -53,7 +57,7 @@ public class CalendarConstants {
     public static final String AC_COPY_METHOD = "copyForNew";
     public static final String HC_EDIT_METHOD = KRADConstants.START_METHOD;
     public static final String HC_VIEW_METHOD = KRADConstants.START_METHOD;
-    public static final String HC_COPY_METHOD = "startNew";
+    public static final String HC_COPY_METHOD = "copyForNew";
 
     public static final String CALENDAR_ID = "id";
     public static final String PAGE_ID = "pageId";
@@ -68,4 +72,19 @@ public class CalendarConstants {
     public static final String DEFAULT_END_TIME = "11:59";
     public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
 
+    public static final String UPDATE_MAKEOFFICIAL = "makeOfficial";
+    public static final String UPDATE_SAVE = "save";
+
+    // Error & Information message constants (defined in KSEnroll-ApplicationResources.properties)
+    public static final String MSG_INFO_ACADEMIC_CALENDAR_OFFICIAL = "info.enroll.academiccalendar.official";
+    public static final String MSG_INFO_ACADEMIC_CALENDAR_SAVED = "info.enroll.academiccalendar.saved";
+    public static final String MSG_INFO_HOLIDAY_CALENDAR_OFFICIAL = "info.enroll.holidaycalendar.official";
+    public static final String MSG_INFO_HOLIDAY_CALENDAR_SAVED = "info.enroll.holidaycalendar.saved";
+    public static final String MSG_INFO_SEARCH_DELETE_SUCCESS = "info.enroll.search.delete.success";
+    public static final String MSG_ERROR_DATE_END_REQUIRED = "error.enroll.date.end.required";
+    public static final String MSG_ERROR_HOLIDAY_CALENDAR_DATE = "error.enroll.holidaycalendar.invalidDates";
+    public static final String MSG_ERROR_HOLIDAY_DATE = "error.enroll.holiday.invalidDates";
+    public static final String MSG_ERROR_HOLIDAY_DUPLICATE = "error.enroll.holiday.duplicate";
+    public static final String MSG_ERROR_TIME_AMPM_REQUIRED = "error.enroll.time.ampm.required";
+    public static final String ERROR_DUPLICATE_HCAL = "error.enroll.acal.duplicate.hcal";
 }

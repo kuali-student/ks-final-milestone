@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Properties;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
 
 public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl implements CalendarSearchViewHelperService {
 
@@ -32,28 +31,21 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
     public final static String NAME = "name";
     public final static String START_DATE = "startDate";
     public final static String END_DATE = "endDate";
+    public final static String CALENDAR_TYPE = "atpType";
 
 
     public List<TermInfo> searchForTerms(String name, String year,ContextInfo context)throws Exception {
 
     	List<TermInfo> termInfoList = new ArrayList<TermInfo>();
 
-        QueryByCriteria.Builder query = buildQueryByCriteria(name,year);
+        QueryByCriteria.Builder query = buildQueryByCriteria(name,year,"Term");
 
         List<TermInfo> terms = getAcademicCalendarService().searchForTerms(query.build(),context);
         for (TermInfo term : terms) {
-            if (!StringUtils.equals(term.getTypeKey(),AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY) &&
-                !StringUtils.equals(term.getTypeKey(),AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY)){
-                //Just make sure it has associated Acal (with some test data, acal would be missing for a term)
-                List<AcademicCalendarInfo> atps = getAcademicCalendarService().getAcademicCalendarsForTerm(term.getId(), context);
-                if (!atps.isEmpty()){
-                    termInfoList.add(term);
-                }
-            }
+            termInfoList.add(term);
         }
 
         return termInfoList;
-
 
     }
 
@@ -61,13 +53,11 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
         List<AcademicCalendarInfo> acalInfoList = new ArrayList<AcademicCalendarInfo>();
 
-        QueryByCriteria.Builder query = buildQueryByCriteria(name,year);
+        QueryByCriteria.Builder query = buildQueryByCriteria(name,year,AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
 
         List<AcademicCalendarInfo> acals = getAcademicCalendarService().searchForAcademicCalendars(query.build(), context);
         for (AcademicCalendarInfo acal : acals) {
-            if (StringUtils.equals(acal.getTypeKey(),AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY)){
-                acalInfoList.add(acal);
-            }
+            acalInfoList.add(acal);
         }
 
         return acalInfoList;
@@ -79,13 +69,11 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
         List<HolidayCalendarInfo> hCals = new ArrayList<HolidayCalendarInfo>();
 
-        QueryByCriteria.Builder query = buildQueryByCriteria(name,year);
+        QueryByCriteria.Builder query = buildQueryByCriteria(name,year,AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
 
         List<HolidayCalendarInfo> hcs = getAcademicCalendarService().searchForHolidayCalendars(query.build(), context);
         for (HolidayCalendarInfo hc : hcs) {
-            if (StringUtils.equals(hc.getTypeKey(),AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY)){
-                hCals.add(hc);
-            }
+            hCals.add(hc);
         }
 
         return hCals;
@@ -93,7 +81,7 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
     }
 
-    private QueryByCriteria.Builder buildQueryByCriteria(String name, String year){
+    private QueryByCriteria.Builder buildQueryByCriteria(String name, String year,String typeKey){
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
@@ -101,7 +89,7 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
         qBuilder.setPredicates();
         if (StringUtils.isNotBlank(name)){
-            p = like(NAME, name);
+            p = like(NAME, "%" + name + "%");
     		pList.add(p);
         }
 
@@ -122,6 +110,14 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
             }
 
         }
+
+        if (StringUtils.equalsIgnoreCase(typeKey, "Term")){
+            p = notIn(CALENDAR_TYPE,AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY,AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
+        }else{
+            p = equal(CALENDAR_TYPE,typeKey);
+        }
+
+        pList.add(p);
 
         if (!pList.isEmpty()){
             Predicate[] preds = new Predicate[pList.size()];

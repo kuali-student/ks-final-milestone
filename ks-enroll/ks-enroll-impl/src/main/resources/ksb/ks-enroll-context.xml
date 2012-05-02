@@ -192,7 +192,6 @@
   <bean id="coServiceValidation"
     class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
     <property name="nextDecorator" ref="coService" />
-    <property name="dataDictionaryService" ref="dataDictionaryServiceForCourseOffering" />
     <property name="validator" ref="validator" />
   </bean>
 
@@ -451,6 +450,30 @@
                 <property name="serviceInterface" value="org.kuali.student.r2.core.population.service.PopulationService" />
                 <property name="localServiceName" value="PopulationService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/population" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- enumeration service for Appt Rule Types -->
+    <bean id="enumerationService" class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+        <property name="enumValueDao" ref="enumValueDao" />
+    </bean>
+
+
+    <!-- Search service -->
+    <bean id="searchService" class="org.kuali.student.r2.core.class1.search.SearchServiceHardwiredImpl">
+        <property name="enrollmentDao" ref="searchDao"/>
+    </bean>
+
+    <bean id="ks.exp.searchService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="searchService" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.search.service.SearchService" />
+                <property name="localServiceName" value="SearchService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/search" />
                 <property name="busSecurity" value="${ks.lum.bus.security}" />
             </bean>
         </property>

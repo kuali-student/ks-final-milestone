@@ -166,6 +166,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
                                                        String termId, 
                                                        String courseOfferingTypeKey,
                                                        CourseOfferingInfo courseOfferingInfo,
+                                                       List<String> optionKeys,
                                                        ContextInfo context) 
             throws DoesNotExistException, DataValidationErrorException,
                    InvalidParameterException, MissingParameterException,
@@ -177,7 +178,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createCourseOffering", null)) {
-	        return getNextDecorator().createCourseOffering(courseId, termId, courseOfferingTypeKey, courseOfferingInfo, context);
+	        return getNextDecorator().createCourseOffering(courseId, termId, courseOfferingTypeKey, courseOfferingInfo, optionKeys, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -205,7 +206,8 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
 
 	@Override
 	public CourseOfferingInfo updateCourseOfferingFromCanonical(
-			String courseOfferingId, ContextInfo context)
+			String courseOfferingId,
+                        List<String> optionKeys, ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
@@ -215,7 +217,7 @@ public  class CourseOfferingServiceAuthorizationDecorator extends CourseOffering
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateCourseOfferingFromCanonical", null)) {
-	        return getNextDecorator().updateCourseOfferingFromCanonical(courseOfferingId, context);
+	        return getNextDecorator().updateCourseOfferingFromCanonical(courseOfferingId, optionKeys, context);
         }
         else {
            throw new PermissionDeniedException();

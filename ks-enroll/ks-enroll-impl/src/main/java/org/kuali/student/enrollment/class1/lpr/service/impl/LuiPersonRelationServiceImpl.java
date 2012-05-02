@@ -50,7 +50,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
-import org.kuali.student.r2.core.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -109,12 +108,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         return list;
     }
 
-    private LuiPersonRelationEntity toCluForCreate(LuiPersonRelationInfo luiPersonRelationInfo) {
-        LuiPersonRelationEntity lpr = new LuiPersonRelationEntity(luiPersonRelationInfo);
 
-        // TODO - Attributes?
-        return lpr;
-    }
 
     @Transactional(readOnly = false)
     private String createLprFromLprTransactionItem(LprTransactionItemInfo lprTransactionItemInfo, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -200,9 +194,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<LuiPersonRelationInfo> getLprsByPersonAndLui(String personId, String luiId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         List<LuiPersonRelationEntity> entityList = lprDao.getLprByLuiAndPerson(personId, luiId);
 
         List<LuiPersonRelationInfo> infoList = new ArrayList<LuiPersonRelationInfo>();
+
         if (entityList != null && !entityList.isEmpty()) {
             for (LuiPersonRelationEntity entity : entityList) {
                 infoList.add(entity.toDto());
@@ -255,8 +251,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<String> searchForLprIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException("Operation not supported");
     }
 
     @Override
@@ -268,7 +263,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         luiPersonRelationInfo.setLuiId(luiId);
         luiPersonRelationInfo.setTypeKey(luiPersonRelationType);
 
-        LuiPersonRelationEntity lpr = toCluForCreate(luiPersonRelationInfo);
+        LuiPersonRelationEntity lpr = new LuiPersonRelationEntity(luiPersonRelationInfo);
         lprDao.persist(lpr);
         return lpr.getId();
     }
@@ -316,9 +311,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<LuiPersonRelationInfo> searchForLprs(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+            throw new UnsupportedOperationException();
+   }
 
     /**
      * This overridden method ...
@@ -950,26 +944,23 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<LprTransactionInfo> searchForLprTransactions(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException("Operation not implemented");
     }
 
     @Override
     public List<String> searchForLprTransactionIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException("Operation not implemented");
     }
 
     @Override
     public List<LprRosterInfo> searchForLprRosters(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw  new UnsupportedOperationException("Operation not implemented");
     }
 
     @Override
     public List<String> searchForLprRosterIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new UnsupportedOperationException("Operation not implemented");
+
     }
 
     @Override

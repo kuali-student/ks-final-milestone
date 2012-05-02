@@ -40,14 +40,14 @@ import org.w3c.dom.Element;
                 "activityId", "termId",  "activityCode", "scheduleId", 
                 "isHonorsOffering", "gradingOptionKeys", "instructors",
                 "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
-                "weeklyTotalContactHours", 
+                "weeklyTotalContactHours",  "evaluationFlag",
                 "maximumEnrollment", "minimumEnrollment", 
                 "finalExamStartTime", "finalExamEndTime", 
-                "finalExamSpaceCode", 
+                "finalExamSpaceCode",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingInfo 
-    extends IdEntityInfo 
+    extends IdEntityInfo
     implements ActivityOffering {
 
     private static final long serialVersionUID = 1L;
@@ -96,9 +96,15 @@ public class ActivityOfferingInfo
     
     @XmlElement
     private Date finalExamEndTime;
-    
+
     @XmlElement
     private String finalExamSpaceCode;
+
+
+
+    @XmlElement
+    private Boolean evaluationFlag;
+
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -155,6 +161,7 @@ public class ActivityOfferingInfo
         }
 
         this.finalExamSpaceCode = offering.getFinalExamSpaceCode();
+        this.evaluationFlag = offering.getEvaluationFlag();
     }
 
     @Override
@@ -279,6 +286,11 @@ public class ActivityOfferingInfo
         return minimumEnrollment;
     }
 
+    @Override
+    public Boolean getEvaluationFlag() {
+        return this.evaluationFlag;
+    }
+
     public void setMinimumEnrollment(Integer minimumEnrollment) {
         this.minimumEnrollment = minimumEnrollment;
     }
@@ -308,5 +320,13 @@ public class ActivityOfferingInfo
 
     public void setFinalExamSpaceCode(String finalExamSpaceCode) {
         this.finalExamSpaceCode = finalExamSpaceCode;
+    }
+
+    public void setHonorsOffering(Boolean honorsOffering) {
+        isHonorsOffering = honorsOffering;
+    }
+
+    public void setEvaluationFlag(Boolean evaluationFlag) {
+        this.evaluationFlag = evaluationFlag;
     }
 }

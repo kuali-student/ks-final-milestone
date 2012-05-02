@@ -256,7 +256,7 @@
         <property name="layoutManager.summaryFields">
             <list>
                 <value>courseOffering.courseOfferingCode</value>
-                <value>courseOffering.courseTitle</value>
+                <value>courseOffering.courseOfferingTitle</value>
             </list>
         </property>
         <property name="items">

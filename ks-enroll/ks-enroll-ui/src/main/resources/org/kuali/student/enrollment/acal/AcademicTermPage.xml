@@ -13,8 +13,7 @@
      <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
      <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.termNameForUI}"/>
      <property name="propertyName" value="termWrapperList" />
-     <property name="layoutManager.lineGroupPrototype.instructionalText" value="@{#line.termNameForUI} Term Information"/>
-     <property name="layoutManager.lineGroupPrototype.readOnly" value="@{#line.readOnly}"/>
+     <property name="layoutManager.lineGroupPrototype.instructionalText" value="@{#line.termNameForUI} Information"/>
      <property name="addLineLabelField.labelText" value=""/>
      <property name="layoutManager.lineGroupPrototype.instructionalMessageField.styleClasses">
       <list merge="true">
@@ -33,8 +32,9 @@
       </property>
      <property name="actionFields">
       <list>
-        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Set as Official"  p:methodToCall="setTermOfficial" p:render="@{!#line.readOnly and #form.academicCalendarInfo.stateKey eq 'kuali.atp.state.Official'}"/>
-        <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete"/>
+        <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{!#line.official ? 'Make Official' : 'Update Official'}"  p:disabled="@{!(#form.academicCalendarInfo.stateKey eq 'kuali.atp.state.Official')}" p:methodToCall="makeTermOfficial" p:render="@{!#view.readOnly}"/>
+        <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="@{!#line.official ? 'Delete Draft' : 'Delete Term'}" p:render="@{!#view.readOnly and !#line.new}"/>
+        <bean parent="Uif-ActionLink" p:methodToCall="cancelTerm" p:actionLabel="Cancel"/>
       </list>
     </property>
      <property name="items">
@@ -44,7 +44,7 @@
                 <bean parent="Uif-DropdownControl"/>
              </property>
              <property name="optionsFinder">
-                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues"/>
+                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues" p:addBlankOption="false"/>
              </property>
          </bean>
          <bean parent="Uif-InputField" p:propertyName="name" p:render="@{!#isAddLine}" p:label="Name" p:required="true">
@@ -119,7 +119,7 @@
 
    <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection"
          p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}"
-         p:layoutManager.numberOfColumns="@{#view.readOnly ? 5 : 9}">
+         p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 9}">
      <property name="title" value="" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
      <property name="layoutManager.style" value="margin-top:1em; width:100%;"/>
@@ -218,14 +218,12 @@
                       -->
             </property>
         </bean>
-        <bean parent="Uif-InputField" p:propertyName="allDay" p:alternateDisplayPropertyName="isAllDayUI"
-              p:label="All Day">
+        <bean parent="Uif-InputField" p:propertyName="allDay" p:render="@{!#view.readOnly}" p:label="All Day">
             <property name="control">
                 <bean parent="Uif-CheckboxControl"/>
             </property>
         </bean>
-        <bean parent="Uif-InputField" p:propertyName="dateRange" p:alternateDisplayPropertyName="isDateRangeUI"
-              p:label="Date Range">
+        <bean parent="Uif-InputField" p:propertyName="dateRange" p:render="@{!#view.readOnly}" p:label="Date Range">
             <property name="control">
                 <bean parent="Uif-CheckboxControl"/>
             </property>

@@ -22,18 +22,6 @@
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
     <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
-	    <!--  Preloaded data -->
-    <!--<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-        <property name="jtaTxManager" ref="JtaTxManager"/>
-        <property name="shouldLoadData" value="true"/>
-        <property name="preloadMap">
-            <map>
-                <entry key="persistentUnit">
-                    <value>classpath:ks-hold.sql</value>
-                </entry>
-            </map>
-        </property>
-    </bean>-->
 
     <bean id="systemPropertyConfigurer"
         class="org.kuali.student.common.util.SystemPropertyConfigurer">

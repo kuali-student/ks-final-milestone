@@ -31,6 +31,7 @@ import org.kuali.student.r2.core.hold.service.HoldService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebService;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 

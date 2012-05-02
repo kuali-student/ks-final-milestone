@@ -2,12 +2,9 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
 import java.util.List;
 
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -21,19 +18,15 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
-import javax.jws.WebParam;
 
 public class CourseOfferingServiceValidationDecorator 
     extends CourseOfferingServiceDecorator 
-    implements HoldsValidator, HoldsDataDictionaryService {
+    implements HoldsValidator {
 
     private DataDictionaryValidator validator;
-    private DataDictionaryService dataDictionaryService;
-    private AcademicCalendarService aCalService;
 
     @Override
     public DataDictionaryValidator getValidator() {
@@ -45,16 +38,6 @@ public class CourseOfferingServiceValidationDecorator
         this.validator = validator;
     }
 
-    @Override
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    @Override
-    public void setDataDictionaryService(
-            DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
 
     @Override
     public List<ValidationResultInfo> validateCourseOffering(
@@ -133,13 +116,13 @@ public class CourseOfferingServiceValidationDecorator
     //createCourseOffering
     @Override
     public CourseOfferingInfo createCourseOffering(String courseId, String termId, String courseOfferingTypeKey,
-            CourseOfferingInfo coInfo, ContextInfo context)
+            CourseOfferingInfo coInfo, List<String> optionKeys, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
                    MissingParameterException, OperationFailedException, PermissionDeniedException, 
                    ReadOnlyException {
         CourseOfferingInfo courseOfferingInfo = getCourseOffering(courseId, context);
         _courseOfferingFullValidation(courseOfferingInfo, context);
-        return getNextDecorator().createCourseOffering(courseId, termId, courseOfferingTypeKey, coInfo, context);
+        return getNextDecorator().createCourseOffering(courseId, termId, courseOfferingTypeKey, coInfo, optionKeys, context);
     }
 
     //deleteCourseOffering
@@ -154,49 +137,6 @@ public class CourseOfferingServiceValidationDecorator
             throw new OperationFailedException("Error validating course offering", ex);
         }
         return getNextDecorator().deleteCourseOffering(courseOfferingId, context);
-    }
-    //getCourseOffering
-
-    @Override
-    public CourseOfferingInfo getCourseOffering(String courseOfferingId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        try {
-            CourseOfferingInfo courseOfferingInfo = getCourseOffering(courseOfferingId, context);
-            _courseOfferingFullValidation(courseOfferingInfo, context);
-        } catch (DataValidationErrorException ex) {
-            throw new OperationFailedException("Error validating course offering", ex);
-        }
-        return getNextDecorator().getCourseOffering(courseOfferingId, context);
-    }
-
-    //getCourseOfferingIdsByTerm
-    @Override
-    public List<String> getCourseOfferingIdsByTerm(String termId, Boolean useIncludedTerm, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        //_courseOfferingFullValidation(courseOfferingInfo, context);
-        if (null != aCalService.getTerm(termId, context)) {
-            return getNextDecorator().getCourseOfferingIdsByTerm(termId, useIncludedTerm, context);
-        } else {
-            throw new DoesNotExistException("termID: " + termId + " does not exist.");
-        }
-        //return getNextDecorator().getCourseOfferingIdsByTerm(courseOfferingId, courseOfferingInfo, context);
-        //return null;
-    }
-
-    //getCourseOfferingByCourseAndTerm
-    @Override
-    public List<CourseOfferingInfo> getCourseOfferingsByCourseAndTerm(String courseId, String termId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        try {
-            CourseOfferingInfo courseOfferingInfo = getCourseOffering(courseId, context);
-            _courseOfferingFullValidation(courseOfferingInfo, context);
-        } catch (DataValidationErrorException ex) {
-            throw new OperationFailedException("Error validating course offering", ex);
-        }
-        return getNextDecorator().getCourseOfferingsByCourseAndTerm(courseId, termId, context);
     }
 
     @Override

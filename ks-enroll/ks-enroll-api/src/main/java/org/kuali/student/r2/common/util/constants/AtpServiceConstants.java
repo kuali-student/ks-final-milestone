@@ -18,6 +18,7 @@ package org.kuali.student.r2.common.util.constants;
 
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -36,6 +37,7 @@ public class AtpServiceConstants {
     public static final String REF_OBJECT_URI_ATP = NAMESPACE + "/" + AtpInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_MILESTONE = NAMESPACE + "/" + MilestoneInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ATP_ATP_RELATION = NAMESPACE + "/" + AtpAtpRelationInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_TIME_AMOUNT_INFO = NAMESPACE + "/" + TimeAmountInfo.class.getSimpleName();
 
     /**
      * ATP Types
@@ -186,6 +188,7 @@ public class AtpServiceConstants {
 
     /**
      * Duration Types
+     * https://wiki.kuali.org/display/STUDENT/Academic+Time+Period+Types+and+States#AcademicTimePeriodTypesandStates-DurationTypes
      */
     public static final String DURATION_FOUR_YEARS_TYPE_KEY = "kuali.atp.duration.FourYears";
     public static final String DURATION_TWO_YEARS_TYPE_KEY = "kuali.atp.duration.TwoYears";
@@ -198,6 +201,8 @@ public class AtpServiceConstants {
     public static final String DURATION_SESSION_TYPE_KEY = "kuali.atp.duration.Session";
     public static final String DURATION_PERIOD_TYPE_KEY = "kuali.atp.duration.Period";
     public static final String DURATION_MINI_MESTER_TYPE_KEY = "kuali.atp.duration.Mini-mester";
+    public static final String DURATION_HOURS_TYPE_KEY = "kuali.atp.duration.Hours";
+    public static final String DURATION_MINUTES_TYPE_KEY = "kuali.atp.duration.Minutes";
 
     /**
      * Season Types

@@ -40,6 +40,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="AppointmentWindowInfo" parent="AppointmentWindowInfo-parent"/>
 	<bean id="AppointmentWindowInfo-parent" abstract="true" parent="AppointmentWindowInfo-generated">
 	<!-- insert any overrides to the generated object definitions here -->
+        <property name="titleAttribute" value="id"/>
 	</bean>
 
 	<bean id="AppointmentWindowInfo.id" parent="AppointmentWindowInfo.id-parent"/>

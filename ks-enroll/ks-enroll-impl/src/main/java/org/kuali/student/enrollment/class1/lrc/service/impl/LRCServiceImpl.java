@@ -101,9 +101,9 @@ public class LRCServiceImpl implements LRCService {
             newEntity.setType(gradeValuesGroupInfo.getTypeKey());
         }
 
-        if (gradeValuesGroupInfo.getResultValueKeys() != null) {
-            newEntity.setResultValues(resultValueDao.findByIds(gradeValuesGroupInfo.getResultValueKeys()));
-        }
+//        if (gradeValuesGroupInfo.getResultValueKeys() != null) {
+//            newEntity.setResultValues(resultValueDao.findByIds(gradeValuesGroupInfo.getResultValueKeys()));
+//        }
 
         resultValuesGroupDao.persist(newEntity);
 

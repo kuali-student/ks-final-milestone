@@ -16,7 +16,10 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>    
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>
-
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsContentOwnerEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
+        <class> org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
+        <class> org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupAttributeEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
     </persistence-unit>

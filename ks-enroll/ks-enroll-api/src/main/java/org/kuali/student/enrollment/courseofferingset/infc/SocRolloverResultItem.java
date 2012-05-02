@@ -28,6 +28,16 @@ public interface SocRolloverResultItem
         extends IdNamelessEntity {
 
     /**
+     * The id of the rollover result to which this item belongs
+     * 
+     * @name Soc Rollover Result Id
+     * @readOnly
+     * @required
+     * @impl set during the #rolloverSoc operation
+     */
+    public String getSocRolloverResultId();
+
+    /**
      * The id of the source course offering 
      * 
      * @name Source Course Offering Id
@@ -55,7 +65,6 @@ public interface SocRolloverResultItem
      * 
      * @name Message
      * @readOnly
-     * @required
      * @impl set during the #rolloverSoc operation
      */
     public RichText getMessage();

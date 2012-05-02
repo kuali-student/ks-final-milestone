@@ -1,10 +1,10 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class KeyDateWrapper extends TimeSetWrapper{
 
@@ -18,39 +18,31 @@ public class KeyDateWrapper extends TimeSetWrapper{
         setAllDay(false);
         setDateRange(true);
         keyDateInfo = new KeyDateInfo();
+        keyDateInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+        RichTextInfo desc = new RichTextInfo();
+        desc.setPlain("test");
+        keyDateInfo.setDescr(desc);
     }
 
-    public KeyDateWrapper(KeyDateInfo keydate){
-        this.setKeyDateInfo(keydate);
+    public KeyDateWrapper(KeyDateInfo keydate,boolean isCopy){
+
         this.setStartDate(keydate.getStartDate());
         this.setEndDate(keydate.getEndDate());
         this.setAllDay(keydate.getIsAllDay());
         this.setDateRange(keydate.getIsDateRange());
         this.setKeyDateType(keydate.getTypeKey());
 
-        buildDateAndTime();
-    }
-
-    public void copy(KeyDateInfo keydate){
-        keyDateInfo = new KeyDateInfo();
-        this.setKeyDateType(keydate.getTypeKey());
-        this.setAllDay(keydate.getIsAllDay());
-        this.setDateRange(keydate.getIsDateRange());
-        this.setStartDate(null);
-        this.setEndDate(null);
-
-        //Copy only start/end time
-        if (!isAllDay()){
-            DateFormat dfm = new SimpleDateFormat("hh:mm");
-
-            setStartTime(dfm.format(keydate.getStartDate()));
-            setEndTime(dfm.format(keydate.getEndDate()));
-
-            dfm = new SimpleDateFormat("a");
-            setStartTimeAmPm(dfm.format(keydate.getStartDate()));
-            setEndTimeAmPm(dfm.format(keydate.getEndDate()));
-
+        if (isCopy){
+            this.setKeyDateInfo(new KeyDateInfo());
+            RichTextInfo desc = new RichTextInfo();
+            desc.setPlain(keydate.getTypeKey());
+            getKeyDateInfo().setDescr(desc);
+            getKeyDateInfo().setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+        }else{
+            this.setKeyDateInfo(keydate);
         }
+
+        buildDateAndTime();
     }
 
     public String getKeyDateType() {
@@ -83,6 +75,20 @@ public class KeyDateWrapper extends TimeSetWrapper{
 
     public void setTypeInfo(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;
+    }
+
+    public boolean isNew() {
+        return StringUtils.isBlank(keyDateInfo.getId());
+    }
+
+    //This is for UI display purpose
+    public String getStartDateUI(){
+        return formatStartDateUI(keyDateInfo.getStartDate());
+    }
+
+    //This is for UI display purpose
+    public String getEndDateUI(){
+        return formatEndDateUI(keyDateInfo.getEndDate());
     }
 
 }

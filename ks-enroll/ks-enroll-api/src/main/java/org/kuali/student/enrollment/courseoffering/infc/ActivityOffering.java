@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 /**
  * Individual activity offerings correspond to events in a scheduling
@@ -26,8 +27,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  *
  * @author Kamal
  */
-public interface ActivityOffering
-        extends IdEntity {
+public interface ActivityOffering extends IdEntity {
 
     /**
      * Format offering Id used to create this activity
@@ -166,4 +166,12 @@ public interface ActivityOffering
      * @impl maps to Lui.minimumEnrollment
      */
     public Integer getMinimumEnrollment();
+
+
+    /**
+     * Is there an instructor evaluation for this activity offering
+     * @name Instructor Evaluation Flag
+     *
+     */
+    public Boolean getEvaluationFlag();
 }

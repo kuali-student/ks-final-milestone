@@ -14,19 +14,20 @@
  */
 package org.kuali.student.enrollment.class2.acal.form;
 
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-import java.text.SimpleDateFormat;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
-
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
+import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -47,11 +48,14 @@ public class AcademicCalendarForm extends UifFormBase {
     private List<AcademicTermWrapper> termWrapperList;
 
     //used by copying
-    private boolean officialButtonVisible;
-    private boolean deleteButtonVisible;
+    private boolean newCalendar;
+    private boolean officialCalendar;
 
     //This is useful when user edit term from calendar search. User should see the term tab. By default, info tab
     private String defaultTabToShow;
+
+    private List<AcalEventWrapper> eventsToDeleteOnSave;
+    private List<AcademicTermWrapper> termsToDeleteOnSave;
 
     public AcademicCalendarForm() {
         super();
@@ -59,9 +63,11 @@ public class AcademicCalendarForm extends UifFormBase {
         termWrapperList = new ArrayList<AcademicTermWrapper>();
         events = new ArrayList<AcalEventWrapper>();
         holidayCalendarList = new ArrayList<HolidayCalendarWrapper>();
-        officialButtonVisible = false;
-        deleteButtonVisible = false;
+        newCalendar = true;
+        officialCalendar = false;
         defaultTabToShow = CalendarConstants.ACAL_INFO_TAB;
+        eventsToDeleteOnSave = new ArrayList<AcalEventWrapper>();
+        termsToDeleteOnSave = new ArrayList<AcademicTermWrapper>();
     }
 
     public AcademicCalendarInfo getAcademicCalendarInfo() {
@@ -128,20 +134,20 @@ public class AcademicCalendarForm extends UifFormBase {
         this.events = events;
     }
 
-    public boolean isOfficialButtonVisible() {
-        return officialButtonVisible;
+    public boolean isNewCalendar() {
+        return newCalendar;
     }
 
-    public void setOfficialButtonVisible(boolean officialButtonVisible) {
-        this.officialButtonVisible = officialButtonVisible;
+    public void setNewCalendar(boolean newCalendar) {
+        this.newCalendar = newCalendar;
     }
 
-    public boolean isDeleteButtonVisible() {
-        return deleteButtonVisible;
+    public boolean isOfficialCalendar() {
+        return officialCalendar;
     }
 
-    public void setDeleteButtonVisible(boolean deleteButtonVisible) {
-        this.deleteButtonVisible = deleteButtonVisible;
+    public void setOfficialCalendar(boolean officialCalendar) {
+        this.officialCalendar = officialCalendar;
     }
 
     public String getDefaultTabToShow() {
@@ -152,6 +158,22 @@ public class AcademicCalendarForm extends UifFormBase {
         this.defaultTabToShow = defaultTabToShow;
     }
 
+    public List<AcalEventWrapper> getEventsToDeleteOnSave() {
+        return eventsToDeleteOnSave;
+    }
+
+    public void setEventsToDeleteOnSave(List<AcalEventWrapper> eventsToDeleteOnSave) {
+        this.eventsToDeleteOnSave = eventsToDeleteOnSave;
+    }
+
+    public List<AcademicTermWrapper> getTermsToDeleteOnSave() {
+        return termsToDeleteOnSave;
+    }
+
+    public void setTermsToDeleteOnSave(List<AcademicTermWrapper> termsToDeleteOnSave) {
+        this.termsToDeleteOnSave = termsToDeleteOnSave;
+    }
+
     public int getDefaultSelectedTabIndex() {
         if (StringUtils.equals(defaultTabToShow,CalendarConstants.ACAL_TERM_TAB)){
             return 1;
@@ -159,5 +181,28 @@ public class AcademicCalendarForm extends UifFormBase {
         return 0;
     }
 
+    public void reset(){
+        setAcademicCalendarInfo(new AcademicCalendarInfo());
+        setOfficialCalendar(false);
+        getView().setReadOnly(false);
+        setEvents(new ArrayList<AcalEventWrapper>());
+        setHolidayCalendarList(new ArrayList<HolidayCalendarWrapper>());
+        setEventsToDeleteOnSave(new ArrayList<AcalEventWrapper>());
+        setTermsToDeleteOnSave(new ArrayList<AcademicTermWrapper>());
+        setTermWrapperList(new ArrayList<AcademicTermWrapper>());
+        setNewCalendar(false);
+    }
+
+    public AcademicCalendarViewHelperService getViewHelperService(){
+        if (getView() != null && getView().getViewHelperServiceClassName() != null){
+            return (AcademicCalendarViewHelperService)getView().getViewHelperService();
+        }else{
+            return (AcademicCalendarViewHelperService)getPostedView().getViewHelperService();
+        }
+    }
+
+    public ContextInfo getContextInfo(){
+        return getViewHelperService().getContextInfo();
+    }
 
 }

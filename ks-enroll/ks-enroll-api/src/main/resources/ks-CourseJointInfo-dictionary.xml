@@ -72,8 +72,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseJointInfo.courseTitle" parent="CourseJointInfo.courseTitle-parent"/>
-	<bean id="CourseJointInfo.courseTitle-parent" abstract="true" parent="CourseJointInfo.courseTitle-generated">
+	<bean id="CourseJointInfo.courseOfferingTitle" parent="CourseJointInfo.courseOfferingTitle-parent"/>
+	<bean id="CourseJointInfo.courseOfferingTitle-parent" abstract="true" parent="CourseJointInfo.courseOfferingTitle-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

@@ -17,3 +17,16 @@ function tabToNextInput(e) {
         }
     }
 }
+
+function confirmDeletion(msg){
+    var response = confirm(msg);
+
+    if( response == true ){
+      submitForm();
+    }
+}
+
+function stepBrowserBack(){
+    window.history.back(-2);
+}
+

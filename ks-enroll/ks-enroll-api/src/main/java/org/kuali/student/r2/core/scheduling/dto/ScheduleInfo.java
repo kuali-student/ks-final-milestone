@@ -20,6 +20,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.core.scheduling.infc.MeetingTime;
 import org.kuali.student.r2.core.scheduling.infc.Schedule;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleComponent;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -37,14 +38,14 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "atpId", "scheduleComponentIds", "blackoutDates", "blackoutMilestoneIds", "additionalMeetingTimes",
+        "atpId", "scheduleComponents", "blackoutDates", "blackoutMilestoneIds", "additionalMeetingTimes",
         "meta", "attributes", "_futureElements"})
 public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable {
 
     @XmlElement
     private String atpId;
     @XmlElement
-    private List<String> scheduleComponentIds;
+    private List<ScheduleComponentInfo> scheduleComponents;
     @XmlElement
     private List<DateRangeInfo> blackoutDates;
     @XmlElement
@@ -60,12 +61,15 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
     public ScheduleInfo(Schedule schedule) {
         if (null != schedule) {
             this.atpId = schedule.getAtpId();
-            this.scheduleComponentIds = new ArrayList<String>(schedule.getScheduleComponentIds());
+            this.scheduleComponents = new ArrayList<ScheduleComponentInfo>();
+            for (ScheduleComponent scheduleComponent : schedule.getScheduleComponents()) {
+                this.scheduleComponents.add(new ScheduleComponentInfo(scheduleComponent));
+            }
             this.blackoutDates = new ArrayList<DateRangeInfo>();
             for (DateRange dateRange : schedule.getBlackoutDates()) {
                 this.blackoutDates.add(new DateRangeInfo(dateRange));
             }
-            this.blackoutMilestoneIds = new ArrayList<String>(schedule.getScheduleComponentIds());
+            this.blackoutMilestoneIds = new ArrayList<String>(schedule.getBlackoutMilestoneIds());
             this.additionalMeetingTimes = new ArrayList<MeetingTimeInfo>();
             for (MeetingTime meetingTime : schedule.getAdditionalMeetingTimes()) {
                 this.additionalMeetingTimes.add(new MeetingTimeInfo(meetingTime));
@@ -83,17 +87,17 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
     }
 
     @Override
-    public List<String> getScheduleComponentIds() {
-        if (null == this.scheduleComponentIds) {
-            return new ArrayList<String>();
+    public List<ScheduleComponentInfo> getScheduleComponents() {
+        if (null == this.scheduleComponents) {
+            return new ArrayList<ScheduleComponentInfo>();
         }
         else {
-            return this.scheduleComponentIds;
+            return this.scheduleComponents;
         }
     }
 
-    public void setScheduleComponentIds(List<String> scheduleComponentIds) {
-        this.scheduleComponentIds = scheduleComponentIds;
+    public void setScheduleComponentIds(List<ScheduleComponentInfo> scheduleComponents) {
+        this.scheduleComponents = scheduleComponents;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.junit.Ignore;
+import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.enrollment.class1.lui.service.impl.LuiTestDataLoader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,7 +65,7 @@ public class TestCourseOfferingServiceImpl {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
         try {
-            new LuiTestDataLoader(this.luiService).loadData();
+            new LuiServiceDataLoader(this.luiService).loadData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -175,15 +175,18 @@ public class TestCourseOfferingServiceImpl {
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
                                                   OperationFailedException, PermissionDeniedException, ReadOnlyException {
         String formatId = null;
+        List<String> optionKeys = new ArrayList<String>();
         CourseOfferingInfo coInfo = new CourseOfferingInfo();
-        CourseOfferingInfo created = courseOfferingService.createCourseOffering("CLU-1", "testAtpId1", formatId, coInfo, callContext);
+        CourseOfferingInfo created = courseOfferingService.createCourseOffering("CLU-1", "testAtpId1", formatId, coInfo, optionKeys, callContext);
 
         assertNotNull(created);
         assertEquals("CLU-1", created.getCourseId());
         assertEquals("testAtpId1", created.getTermId());
         assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, created.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, created.getTypeKey());
-
+        assertEquals("CHEM123", created.getCourseOfferingCode());
+        assertEquals("Chemistry 123", created.getCourseOfferingTitle());
+        
         // TODO Is this necessary?
         CourseOfferingInfo retrieved = courseOfferingService.getCourseOffering(created.getId(), callContext);
         assertNotNull(retrieved);
@@ -193,7 +196,7 @@ public class TestCourseOfferingServiceImpl {
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, retrieved.getTypeKey());
 
         assertEquals("CHEM123", retrieved.getCourseOfferingCode());
-        assertEquals("Chemistry 123", retrieved.getCourseTitle());
+        assertEquals("Chemistry 123", retrieved.getCourseOfferingTitle());
     }
 
     @Test
@@ -257,6 +260,32 @@ public class TestCourseOfferingServiceImpl {
         }
     }
 
+        @Test
+    public void testUpdateCourseOfferingWithDynAttrs() throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        try {
+            CourseOfferingInfo coi = courseOfferingService.getCourseOffering("Lui-1", callContext);
+            assertNotNull(coi);
+
+            coi.setTermId("testAtpId1");
+
+            //dynamic attributes
+            coi.setFundingSource("state");
+            CourseOfferingInfo updated =
+                    courseOfferingService.updateCourseOffering("Lui-1", coi, callContext);
+            assertNotNull(updated);
+
+            CourseOfferingInfo retrieved =
+                    courseOfferingService.getCourseOffering("Lui-1", callContext);
+            assertNotNull(retrieved);
+
+            assertEquals("state", coi.getFundingSource());
+            assertEquals("WaitlistLevelType1", coi.getWaitlistLevelTypeKey());
+        } catch (Exception ex) {
+            fail("Exception from service call :" + ex.getMessage());
+        }
+    }
     @Test
     public void testDeleteCourseOffering() throws AlreadyExistsException, DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
@@ -264,7 +293,8 @@ public class TestCourseOfferingServiceImpl {
         // Create a CO
         String formatId = null;
         CourseOfferingInfo coInfo = new CourseOfferingInfo();
-        CourseOfferingInfo created = courseOfferingService.createCourseOffering("CLU-1", "testAtpId1", formatId, coInfo, callContext);
+        List<String> optionKeys = new ArrayList<String>();
+        CourseOfferingInfo created = courseOfferingService.createCourseOffering("CLU-1", "testAtpId1", formatId, coInfo, optionKeys, callContext);
 
         // Verify that the CO was created
         assertNotNull(created);
