@@ -17,6 +17,7 @@ import org.kuali.student.r2.core.versionmanagement.infc.VersionDisplay;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
@@ -24,10 +25,13 @@ import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "VersionDisplayInfo", propOrder = {"versionIndId", "refObjectUri", "sequenceNumber", "currentVersionEnd", "currentVersionStart", "versionComment", "versionedFromId"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "VersionDisplayInfo", propOrder = {"id", "versionIndId", "refObjectUri", "sequenceNumber", "currentVersionEnd", "currentVersionStart", "versionComment", "versionedFromId"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class VersionDisplayInfo implements VersionDisplay, Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    @XmlAttribute
+    private String id;
 
     @XmlElement
     private String versionIndId;
@@ -62,6 +66,7 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
         super();
 
         if (null != versionDisplay) {
+            this.id = versionDisplay.getId();
             this.versionIndId = versionDisplay.getVersionIndId();
             this.sequenceNumber = versionDisplay.getSequenceNumber();
             this.currentVersionStart = (null != versionDisplay.getCurrentVersionStart()) ? new Date(versionDisplay.getCurrentVersionStart().getTime()) : null;
@@ -69,6 +74,15 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
             this.versionComment = versionDisplay.getVersionComment();
             this.versionedFromId = versionDisplay.getVersionedFromId();
         }
+    }
+    
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -133,14 +147,5 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
     public void setVersionComment(String versionComment) {
         this.versionComment = versionComment;
     }
-
-    // TODO KSCM-392
-    @Deprecated
-	public String getId() {
-        //TODO KSCM-392- investigate how Id related to R1 Entities since the lost of it might inflict problems when saving version
-
-
-        // Please note this was null before I put this.versionInId as the return value... this needs to be investigated...
-		return this.versionIndId;
-	}
+    
 }

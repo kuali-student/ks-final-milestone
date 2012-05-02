@@ -36,15 +36,14 @@ public class CoreConverterTest {
         org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo r1 = new org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo();
         r1.setCurrentVersionEnd(new Date());
         r1.setCurrentVersionStart(new Date());
-        //R2's Id property is deprecated and is marked to return null
-        //r1.setId("R1 Id");
+        r1.setId("R1 Id");
         r1.setObjectTypeURI("R1 Object Type URI");
         r1.setSequenceNumber(1L);
         r1.setVersionComment("R1 Version Comment");
         r1.setVersionedFromId("R1 Versioned From Id");
         r1.setVersionIndId("R1 Version Ind Id");
         VersionDisplayInfo r2 = R1R2ConverterUtil.convert(r1, VersionDisplayInfo.class);
-        //Assert.assertEquals(r1.getId(), r2.getId());
+        Assert.assertEquals(r1.getId(), r2.getId());
         Assert.assertEquals(r1.getObjectTypeURI(), r2.getRefObjectUri());
         Assert.assertEquals(r1.getVersionComment(), r2.getVersionComment());
         Assert.assertEquals(r1.getVersionedFromId(), r2.getVersionedFromId());

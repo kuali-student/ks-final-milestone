@@ -23,6 +23,7 @@ public class AttributeInfoConverter extends DozerConverter<Map, List> {
 			for (Object key : source.keySet()) {
 				String srcKey = (String) key;
 				AttributeInfo attrInfo = new AttributeInfo();
+				attrInfo.setId(srcKey);
 				attrInfo.setKey(srcKey);
 				attrInfo.setValue((String) source.get(srcKey));
 				convertedList.add(attrInfo);
