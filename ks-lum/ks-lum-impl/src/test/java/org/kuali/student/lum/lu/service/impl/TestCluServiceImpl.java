@@ -290,10 +290,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 //		cluSetInfo.getCluSetIds().add("CLUSET-1");
 //		cluSetInfo.getCluSetIds().add("CLUSET-2");
 
-        if(cluSetInfo.getAttributes() == null) {
-            cluSetInfo.setAttributes(new ArrayList<AttributeInfo>());
-        }
-		cluSetInfo.getAttributes().add(new AttributeInfo("cluSet1ArrtKey1", "cluSet1ArrtValue1"));
+        cluSetInfo.getAttributes().add(new AttributeInfo("cluSet1ArrtKey1", "cluSet1ArrtValue1"));
 		cluSetInfo.getAttributes().add(new AttributeInfo("cluSet1ArrtKey2", "cluSet1ArrtValue2"));
 
 		CluSetInfo createdSet1 = client.createCluSet("kuali.cluSet.type.CreditCourse", cluSetInfo, contextInfo);
@@ -2236,7 +2233,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdCluSet.getMembershipQuery().getId());
 		assertNotNull(createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
-		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
+		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValues());
 		assertNotNull(createdCluSet.getCluIds());
         assertEquals(107, createdCluSet.getCluIds().size());
 	}
@@ -2275,8 +2272,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdCluSet.getMembershipQuery().getId());
 		assertNotNull(createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
-		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
-		assertEquals(query.getQueryParamValueList().size(), createdCluSet.getMembershipQuery().getQueryParamValueList().size());
+		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValues());
+		assertEquals(query.getQueryParamValues().size(), createdCluSet.getMembershipQuery().getQueryParamValues().size());
 		assertNotNull(createdCluSet.getCluIds());
 		assertEquals(10, createdCluSet.getCluIds().size());
 
@@ -2287,8 +2284,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(getCluSet.getMembershipQuery().getId());
 		assertNotNull(getCluSet.getMembershipQuery().getSearchTypeKey());
 		assertEquals(query.getSearchTypeKey(), getCluSet.getMembershipQuery().getSearchTypeKey());
-		assertNotNull(getCluSet.getMembershipQuery().getQueryParamValueList());
-		assertEquals(query.getQueryParamValueList().size(), getCluSet.getMembershipQuery().getQueryParamValueList().size());
+		assertNotNull(getCluSet.getMembershipQuery().getQueryParamValues());
+		assertEquals(query.getQueryParamValues().size(), getCluSet.getMembershipQuery().getQueryParamValues().size());
 		assertNotNull(getCluSet.getCluIds());
 		assertEquals(10, getCluSet.getCluIds().size());
 	}
@@ -2371,8 +2368,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(getCluSet.getMembershipQuery().getId());
 		assertNotNull(getCluSet.getMembershipQuery().getSearchTypeKey());
 		assertEquals(query.getSearchTypeKey(), getCluSet.getMembershipQuery().getSearchTypeKey());
-		assertNotNull(getCluSet.getMembershipQuery().getQueryParamValueList());
-		assertEquals(query.getQueryParamValueList().size(), getCluSet.getMembershipQuery().getQueryParamValueList().size());
+		assertNotNull(getCluSet.getMembershipQuery().getQueryParamValues());
+		assertEquals(query.getQueryParamValues().size(), getCluSet.getMembershipQuery().getQueryParamValues().size());
 		assertEquals(createdCluSet.getCluIds().size(), getCluSet.getCluIds().size());
 		assertNotNull(getCluSet.getCluIds());
 		assertEquals(10, getCluSet.getCluIds().size());
