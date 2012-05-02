@@ -16,6 +16,7 @@
  */
 package org.kuali.student.r2.core.class1.appointment.service.impl;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.util.UUIDHelper;
@@ -253,6 +254,7 @@ public class TestAppointmentServiceImpl {
         return diff;
     }
     @Test
+    @Ignore //Ignoring for now since this could randomly break CI unit testing depending on outside factors.
     public void testMaxSlotGenerationTiming() {
         // This tests auto-slot generation for max case without end date
         before();
