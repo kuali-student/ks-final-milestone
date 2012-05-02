@@ -16,15 +16,14 @@
 
 package org.kuali.student.r2.common.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.HasAttributes;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
-
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.HasAttributes;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Information about a entities with attributes.
@@ -66,6 +65,9 @@ public abstract class HasAttributesInfo
     
     @Override
     public List<AttributeInfo> getAttributes() {
+        if(attributes == null) {
+            attributes = new ArrayList<AttributeInfo>();
+        }
         return attributes;
     }
     
