@@ -54,17 +54,9 @@ public class StatementInfo extends IdEntityInfo implements Statement,
 	public StatementInfo() {
 	}
 
-	public StatementInfo(Statement statement) {
-		super(statement);
-		if (null != statement) {
-			// shallow copy is fine here
-			this.operator = statement.getOperator();
-			this.statementIds = new ArrayList<String>(
-					statement.getStatementIds());
-			this.reqComponentIds = new ArrayList<String>(
-					statement.getReqComponentIds());
-		}
-	}
+    public void setOperator(StatementOperator operator) {
+        this.operator = operator;
+    }
 
 	@Override
 	public StatementOperator getOperator() {
