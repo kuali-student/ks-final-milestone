@@ -86,7 +86,7 @@ public class TestProgramInfoDictionary {
         programManagingBodiesValidator.setMessageService(messageServiceMock);
         programManagingBodiesValidator.setSearchDispatcher(new MockSearchDispatcher());
         List<Validator> validatorList = new ArrayList<Validator>();
-       //TODO KSCM-574 validatorList.add(programManagingBodiesValidator);
+        validatorList.add(programManagingBodiesValidator);
         val.getValidatorFactory().setValidatorList(validatorList);
         val.setDateParser(new ServerDateParser());
         val.setSearchDispatcher(new MockSearchDispatcher());
