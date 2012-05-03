@@ -286,24 +286,6 @@ public interface CourseOffering extends IdNamelessEntity{
      */
     public String getFundingSource();
 
-    /*
-     * TODO: Change CourseFeeInfo, CourseRevenueInfo and CourseExpenditureInfo
-     * to interfaces after course service is migrated to 1.3 Evaluate creating
-     * parallel financial structures in enrollment so that there is no
-     * referential dependencies from enr to curriculum module
-     */
-
-    /**
-     * Fees associated with the course offering. Initially copied from the
-     * course catalog but then, depending on the configuration it may be
-     * updatable.
-     * 
-     * @name Fees
-     * @impl initially copied from canonical CourseFeeInfo but subsequently
-     *       stored on the lui
-     */
-    public List<String> getFeeIds();
-
 
     /**
      * Flag indicating whether a course is eligible for Financial Aid. Derived
@@ -341,4 +323,23 @@ public interface CourseOffering extends IdNamelessEntity{
      * @name Financial Aid Eligible Flag
      */
     public Boolean getFinancialAidEligible();
+
+
+    /**
+     * Indicates whether a final exam is to be given  for this format Offering
+     * and if its true, the level at which it exists
+     *
+     * @name Has Final Exam
+     */
+    public Boolean getHasFinalExam();
+
+    /**
+     * Indicates whether the fee is at activity offering level or course offering
+     * level. If true its at Activity Offering level, if false its at CourseOffering level.
+     *
+     *
+     * @name Is Fee at Activity Offering
+     */
+    public Boolean getIsFeeAtActivityOffering();
+
 }

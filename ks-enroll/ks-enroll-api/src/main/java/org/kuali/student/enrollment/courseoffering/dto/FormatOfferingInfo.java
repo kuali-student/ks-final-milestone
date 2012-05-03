@@ -32,26 +32,27 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FormatOfferingInfo", propOrder = {
     "id", "typeKey", "stateKey", "name", "descr",
-    "courseOfferingId", "formatId", "termId","hasFinalExam",
+    "courseOfferingId", "formatId", "termId",
     "activityOfferingTypeKeys", "gradeRosterLevelTypeKey", "finalExamLevelTypeKey",
     "meta", "attributes", "_futureElements"})
-public class FormatOfferingInfo
-        extends IdEntityInfo
-        implements FormatOffering {
+public class FormatOfferingInfo extends IdEntityInfo implements FormatOffering {
 
     private static final long serialVersionUID = 1L;
+
     @XmlElement
     private String courseOfferingId;
+
     @XmlElement
     private String formatId;
+
     @XmlElement
     private String termId;
+
     @XmlElement
     private List<String> activityOfferingTypeKeys;
+
     @XmlElement
     private String gradeRosterLevelTypeKey;
-    @XmlElement
-    private Boolean hasFinalExam;
 
     @XmlElement
     private String finalExamLevelTypeKey;
@@ -75,7 +76,6 @@ public class FormatOfferingInfo
         if (offering == null) {
             return;
         }
-        this.hasFinalExam = offering.getHasFinalExam();
         this.gradeRosterLevelTypeKey = offering.getGradeRosterLevelTypeKey();
         this.finalExamLevelTypeKey = offering.getFinalExamLevelTypeKey ();
         this.courseOfferingId = offering.getCourseOfferingId();
@@ -114,6 +114,31 @@ public class FormatOfferingInfo
         return activityOfferingTypeKeys;
     }
 
+
+
+    @Override
+    public String getFinalExamLevelTypeKey() {
+        return this.finalExamLevelTypeKey;
+    }
+
+    @Override
+    public String getGradeRosterLevelTypeKey() {
+        return this.gradeRosterLevelTypeKey;
+    }
+
+
+    public void setGradeRosterLevelTypeKey(String gradeRosterLevelTypeKey) {
+        this.gradeRosterLevelTypeKey = gradeRosterLevelTypeKey;
+    }
+
+    public void setFinalExamLevelTypeKey(String finalExamLevelTypeKey) {
+        this.finalExamLevelTypeKey = finalExamLevelTypeKey;
+    }
+
+    public void set_futureElements(List<Element> _futureElements) {
+        this._futureElements = _futureElements;
+    }
+
     public void setActivityOfferingTypeKeys(List<String> activityOfferingTypeKeys) {
         this.activityOfferingTypeKeys = activityOfferingTypeKeys;
     }
@@ -126,18 +151,4 @@ public class FormatOfferingInfo
         this.termId = termId;
     }
 
-    @Override
-    public Boolean getHasFinalExam() {
-        return this.hasFinalExam;
-    }
-
-    @Override
-    public String getFinalExamLevelTypeKey() {
-        return this.finalExamLevelTypeKey;
-    }
-
-    @Override
-    public String getGradeRosterLevelTypeKey() {
-        return this.gradeRosterLevelTypeKey;
-    }
 }

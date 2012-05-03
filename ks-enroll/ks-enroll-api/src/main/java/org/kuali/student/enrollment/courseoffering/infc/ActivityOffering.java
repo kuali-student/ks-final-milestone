@@ -174,4 +174,14 @@ public interface ActivityOffering extends IdEntity {
      *
      */
     public Boolean getEvaluationFlag();
+
+
+    /**
+     * Is maximum enrollment estimate flag
+     * @name Is Maximum Enrollment Estimate Flag
+     *
+     */
+    public Boolean getIsMaxEnrollmentEstimate();
+
+
 }

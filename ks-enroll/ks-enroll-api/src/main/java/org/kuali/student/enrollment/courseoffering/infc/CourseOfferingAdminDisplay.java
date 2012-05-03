@@ -35,7 +35,7 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
      * Academic term of course offering
      *
      * @name Term Id
-     * @readOnly on updates
+     * @readOnly
      * @required
      * @impl set during the #createCourseOffering and then maps to
      *       the aptKey on the Lui
@@ -58,8 +58,6 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
      *
      * @name Course Offering Code
      * @readOnly
-     * @impl initialially this is copied from the course catalog code but then
-     *       is subsequently stored in the lui as lui.officialIdentifier.code
      */
     public String getCourseOfferingCode();
 
@@ -72,8 +70,6 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
      *
      * @name Subject Area
      * @readOnly
-     * @impl initially copied from the canonical course but then stored in the
-     *       Lui as lui.officialIdentifier.division
      */
     public String getSubjectArea();
 
@@ -90,9 +86,7 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
      *
      * @name Course Title
      * @readOnly
-     * @impl initially copied from the canonical course but then stored in the
-     *       Lui as lui.officialIdentifier.longName
-     */
+    \ */
     public String getCourseOfferingTitle();
 
 
@@ -104,6 +98,7 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
      *
      * @name Type name
      * @readOnly on updates
+     * @impl Name of the type the CO Info is of, read from TypeInfo object
      */
     public String getTypeName();
 
@@ -111,8 +106,9 @@ public interface CourseOfferingAdminDisplay extends IdNamelessEntity {
      * The name of the State that the Course Offering or the underlying LUI
      * is in.
      *
-     * @name Units Content Owner
+     * @name State Name Owner
      * @readOnly on updates
+     * @impl Name of the state the CO Info is in, read from StateInfo object
      */
     public String getStateName();
 

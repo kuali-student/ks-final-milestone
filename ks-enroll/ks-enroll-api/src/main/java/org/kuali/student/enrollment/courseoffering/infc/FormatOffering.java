@@ -78,15 +78,6 @@ public interface FormatOffering
      */
     public String getGradeRosterLevelTypeKey();
 
-    /********** Final Exam Information *****************/
-
-    /**
-     * Indicates whether a final exam is to be given  for this format Offering
-     * and if its true, the level at which it exists
-     *
-     * @name Has Final Exam
-     */
-    public Boolean getHasFinalExam();
 
     /**
      * Indicates what activity type does the final exam exist in

@@ -43,8 +43,8 @@ import org.w3c.dom.Element;
         "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", "isHonorsOffering",
         "instructors", "subjectArea", "unitsDeploymentOrgIds", "unitsContentOwnerOrgIds",  "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "creditOptionIds", "gradingOptionIds", "waitlistLevelTypeKey",
-        "hasWaitlist", "waitlistTypeKey","campusLocations",
-        "fundingSource", "feeIds", "isFinancialAidEligible",
+        "hasWaitlist", "waitlistTypeKey","campusLocations", "hasFinalExam",
+        "fundingSource", "isFeeAtActivityOffering", "isFinancialAidEligible",
         "meta", "attributes", "_futureElements"})
 
 public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseOffering {
@@ -81,8 +81,6 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     @XmlElement
     private List<OfferingInstructorInfo> instructors;
 
-
-
     @XmlElement
     private List<String> unitsDeploymentOrgIds;
 
@@ -110,6 +108,10 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     @XmlElement
     private Integer minimumEnrollment;
 
+
+    @XmlElement
+    private Boolean hasFinalExam;
+
     @XmlElement
     private List<String> jointOfferingIds;
 
@@ -117,10 +119,12 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     private String fundingSource;
 
     @XmlElement
-    private List<String> feeIds;
+    private Boolean isFinancialAidEligible;
+
+
 
     @XmlElement
-    private Boolean isFinancialAidEligible;
+    private Boolean  isFeeAtActivityOffering ;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -181,12 +185,14 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         this.waitlistLevelTypeKey = offering.getWaitlistLevelTypeKey();
 
         this.fundingSource = offering.getFundingSource();
-        this.feeIds = (null != offering.getFeeIds()) ? new ArrayList<String>(offering.getFeeIds()) : null;
 
         this.isFinancialAidEligible = offering.getIsFinancialAidEligible();
         if (offering.getDescr() != null) {
             this.descr = new RichTextInfo(offering.getDescr());
         }
+        this.isFeeAtActivityOffering = offering.getIsFeeAtActivityOffering();
+
+        this.hasFinalExam = offering.getHasFinalExam();
     }
 
     @Override
@@ -293,13 +299,7 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         return this.fundingSource;
     }
 
-    @Override
-    public List<String> getFeeIds() {
-        if (null == this.feeIds) {
-            this.feeIds = new ArrayList<String>();
-        }
-        return this.feeIds;
-    }
+
 
 
     @Override
@@ -392,9 +392,6 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         this.fundingSource = fundingSource;
     }
 
-    public void setFeeIds(List<String> feeIds) {
-        this.feeIds = feeIds;
-    }
 
 
     public void setIsFinancialAidEligible(Boolean isFinancialAidEligible) {
@@ -435,4 +432,39 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     public void setFinancialAidEligible(Boolean financialAidEligible) {
         isFinancialAidEligible = financialAidEligible;
     }
+
+    @Override
+    public Boolean getHasFinalExam(){
+          return this.hasFinalExam;
+    }
+
+    public void setUnitsDeploymentOrgIds(List<String> unitsDeploymentOrgIds) {
+        this.unitsDeploymentOrgIds = unitsDeploymentOrgIds;
+    }
+
+    public void setUnitsContentOwnerOrgIds(List<String> unitsContentOwnerOrgIds) {
+        this.unitsContentOwnerOrgIds = unitsContentOwnerOrgIds;
+    }
+
+    public void setWaitlistTypeKey(String waitlistTypeKey) {
+        this.waitlistTypeKey = waitlistTypeKey;
+    }
+
+    public void setWaitlistLevelTypeKey(String waitlistLevelTypeKey) {
+        this.waitlistLevelTypeKey = waitlistLevelTypeKey;
+    }
+
+    public void setHasFinalExam(Boolean hasFinalExam) {
+        this.hasFinalExam = hasFinalExam;
+    }
+
+    @Override
+    public Boolean getIsFeeAtActivityOffering() {
+        return isFeeAtActivityOffering;
+    }
+
+    public void setFeeAtActivityOffering(Boolean feeAtActivityOffering) {
+        isFeeAtActivityOffering = feeAtActivityOffering;
+    }
+
 }

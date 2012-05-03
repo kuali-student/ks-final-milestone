@@ -49,6 +49,7 @@ public interface OfferingInstructor
      *
      * @name Person Name
      * @impl Get from Person Service
+     * @readOnly
      */
     public String getPersonName();
 }
