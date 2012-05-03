@@ -406,13 +406,13 @@
 		<field>
 			<a get-method="isHasEarlyDropDeadline" set-method="setHasEarlyDropDeadline">hasEarlyDropDeadline
 			</a>
-			<b get-method="getHasEarlyDropDeadline" set-method="setIsHasEarlyDropDeadline">hasEarlyDropDeadline
+			<b get-method="getIsHasEarlyDropDeadline" set-method="setIsHasEarlyDropDeadline">hasEarlyDropDeadline
 			</b>
 		</field>
 		<field>
 			<a get-method="isHazardousForDisabledStudents" set-method="setHazardousForDisabledStudents">isHazardousForDisabledStudents
 			</a>
-			<b get-method="GetIsHazardousForDisabledStudents" set-method="setIsHazardousForDisabledStudents">isHazardousForDisabledStudents
+			<b get-method="getIsHazardousForDisabledStudents" set-method="setIsHazardousForDisabledStudents">isHazardousForDisabledStudents
 			</b>
 		</field>
 		<field>
