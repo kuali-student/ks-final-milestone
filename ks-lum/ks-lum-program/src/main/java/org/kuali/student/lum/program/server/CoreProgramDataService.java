@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.server.gwt.AbstractDataService;
+import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultCell;
 import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
 
@@ -130,11 +130,5 @@ public class CoreProgramDataService extends AbstractDataService {
     }
 
     
-    //TODO KSCM-392 : added this via automatic generation ... it needs logic 
-	@Override
-	public List<ValidationResultInfo> validateData(Data data,
-			ContextInfo contextInfo) throws OperationFailedException {
-		
-		return null;
-	}
+  
 }

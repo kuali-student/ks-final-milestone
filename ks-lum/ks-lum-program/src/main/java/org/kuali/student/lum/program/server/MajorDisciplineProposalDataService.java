@@ -147,18 +147,4 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
 		this.atpService = atpService;
 	}
 
-	//TODO KSCM-392 : need to add the logic to these methods ...
-	@Override
-	protected boolean checkDocumentLevelPermissions() {
-		// TODO Auto-generated method stub
-		return  true;
-	}
-	//TODO KSCM-392
-	@Override
-	public List<ValidationResultInfo> validateData(Data data,
-			ContextInfo contextInfo) throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
