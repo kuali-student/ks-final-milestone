@@ -557,8 +557,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals(2, createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgs().size());
 		assertEquals(35l, (long)createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgs().get(0).getPercentage());
 
-		assertTrue(createdClu.getHasEarlyDropDeadline());
-		assertTrue(createdClu.GetIsHazardousForDisabledStudents());
+		assertTrue(createdClu.getIsHasEarlyDropDeadline());
+		assertTrue(createdClu.getIsHazardousForDisabledStudents());
 
 		assertEquals("EXT-orgId-1", createdClu.getPrimaryInstructor()
 				.getOrgId());
@@ -887,8 +887,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals(1, createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgs().size());
 		assertEquals(65l, (long)createdClu.getFeeInfo().getCluFeeRecords().get(0).getAffiliatedOrgs().get(0).getPercentage());
 
-		assertFalse(updatedClu.getHasEarlyDropDeadline());
-		assertFalse(updatedClu.GetIsHazardousForDisabledStudents());
+		assertFalse(updatedClu.getIsHasEarlyDropDeadline());
+		assertFalse(updatedClu.getIsHazardousForDisabledStudents());
 
 		assertEquals("UPEXT-orgId-1", updatedClu.getPrimaryInstructor()
 				.getOrgId());
@@ -969,7 +969,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("luType.shell.program", updatedClu.getTypeKey());
 
 		assertEquals(false,updatedClu.getIsEnrollable());
-		assertEquals(false,updatedClu.GetIsHazardousForDisabledStudents());
+		assertEquals(false,updatedClu.getIsHazardousForDisabledStudents());
 		
 		assertNotNull(updatedClu.getMeta());
 		assertNotNull(updatedClu.getMeta().getVersionInd());

@@ -64,7 +64,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
     "nextReviewPeriod",
     "isEnrollable",
     "offeredAtpTypes",
-    "hasEarlyDropDeadline",
+    "isHasEarlyDropDeadline",
     "defaultEnrollmentEstimate",
     "defaultMaximumEnrollment",
     "isHazardousForDisabledStudents",
@@ -119,7 +119,7 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
     @XmlElement
     private List<String> offeredAtpTypes;
     @XmlElement
-    private Boolean hasEarlyDropDeadline;
+    private Boolean isHasEarlyDropDeadline;
     @XmlElement
     private int defaultEnrollmentEstimate;
     @XmlElement
@@ -183,10 +183,10 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
             this.nextReviewPeriod = clu.getNextReviewPeriod();
             this.isEnrollable = clu.getIsEnrollable();
             this.offeredAtpTypes = (null != clu.getOfferedAtpTypes()) ? new ArrayList<String>(clu.getOfferedAtpTypes()) : null;
-            this.hasEarlyDropDeadline = clu.getHasEarlyDropDeadline();
+            this.isHasEarlyDropDeadline = clu.getIsHasEarlyDropDeadline();
             this.defaultEnrollmentEstimate = clu.getDefaultEnrollmentEstimate();
             this.defaultMaximumEnrollment = clu.getDefaultMaximumEnrollment();
-            this.isHazardousForDisabledStudents = clu.GetIsHazardousForDisabledStudents();
+            this.isHazardousForDisabledStudents = clu.getIsHazardousForDisabledStudents();
             this.feeInfo = (null != clu.getFeeInfo()) ? new CluFeeInfo(clu.getFeeInfo()) : null;
             this.accountingInfo = (null != clu.getAccountingInfo()) ? new CluAccountingInfo(clu.getAccountingInfo()) : null;
             this.versionInfo = (null != clu.getVersionInfo()) ? new VersionInfo(clu.getVersionInfo()) : null;
@@ -370,12 +370,12 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
     }
 
     @Override
-    public Boolean getHasEarlyDropDeadline() {
-        return hasEarlyDropDeadline;
+    public Boolean getIsHasEarlyDropDeadline() {
+        return isHasEarlyDropDeadline;
     }
 
     public void setIsHasEarlyDropDeadline(Boolean hasEarlyDropDeadline) {
-        this.hasEarlyDropDeadline = hasEarlyDropDeadline;
+        this.isHasEarlyDropDeadline = hasEarlyDropDeadline;
     }
 
     @Override
@@ -397,7 +397,7 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
     }
 
     @Override
-    public Boolean GetIsHazardousForDisabledStudents() {
+    public Boolean getIsHazardousForDisabledStudents() {
         return isHazardousForDisabledStudents;
     }
 
@@ -437,7 +437,7 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
         return expectedFirstAtp;
     }
 
-    public void setExpectedFirstAtpId(String expectedFirstAtp) {
+    public void setExpectedFirstAtp(String expectedFirstAtp) {
         this.expectedFirstAtp = expectedFirstAtp;
     }
 

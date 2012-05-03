@@ -382,8 +382,8 @@ public class LumConverterTest {
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.isCanCreateLui(), r2.getCanCreateLui());
         Assert.assertEquals(r1.isEnrollable(), r2.getIsEnrollable());
-        Assert.assertEquals(r1.isHasEarlyDropDeadline(), r2.getHasEarlyDropDeadline());
-        Assert.assertEquals(r1.isHazardousForDisabledStudents(), r2.GetIsHazardousForDisabledStudents());
+        Assert.assertEquals(r1.isHasEarlyDropDeadline(), r2.getIsHasEarlyDropDeadline());
+        Assert.assertEquals(r1.isHazardousForDisabledStudents(), r2.getIsHazardousForDisabledStudents());
         Assert.assertEquals(r1.getDescr().getPlain(), r2.getDescr().getPlain());
         Assert.assertEquals(r1.getFeeInfo().getId(), r2.getFeeInfo().getId());
         Assert.assertEquals("R1-Value", r2.getFeeInfo().getAttributes().get(0).getValue());

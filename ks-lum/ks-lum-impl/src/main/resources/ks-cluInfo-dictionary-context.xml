@@ -25,7 +25,6 @@
                 <ref bean="cluInfo.expirationDate"/>
                 <ref bean="cluInfo.feeInfo"/>
                 <ref bean="cluInfo.isHasEarlyDropDeadline"/>
-                <ref bean="cluInfo.hasEarlyDropDeadline"/>
                 <ref bean="cluInfo.isHazardousForDisabledStudents"/>
                 <ref bean="cluInfo.id"/>
                 <ref bean="cluInfo.instructors"/>

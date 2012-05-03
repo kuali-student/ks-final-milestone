@@ -175,7 +175,7 @@ public interface Clu extends IdNamelessEntity, HasEffectiveDates {
      *
      * @name is Has Early Drop Deadline
      */
-    public Boolean getHasEarlyDropDeadline();
+    public Boolean getIsHasEarlyDropDeadline();
 
     /**
      * Default enrollment estimate for this CLU.
@@ -197,7 +197,7 @@ public interface Clu extends IdNamelessEntity, HasEffectiveDates {
      *
      * @name is Hazardous For Disabled Students
      */
-    public Boolean GetIsHazardousForDisabledStudents();
+    public Boolean getIsHazardousForDisabledStudents();
 
     /**
      * Fee information associated with this CLU.

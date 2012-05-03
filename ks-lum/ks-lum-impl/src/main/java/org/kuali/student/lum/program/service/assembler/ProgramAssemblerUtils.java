@@ -530,7 +530,7 @@ public class ProgramAssemblerUtils {
      */
     public CluInfo disassembleAtps(CluInfo clu, ProgramAtpAssembly program, NodeOperation operation) throws AssemblyException {
 
-        clu.setExpectedFirstAtpId(program.getStartTerm());
+        clu.setExpectedFirstAtp(program.getStartTerm());
         clu.setLastAtp(program.getEndTerm());
         clu.setLastAdmitAtp(program.getEndProgramEntryTerm());
 
