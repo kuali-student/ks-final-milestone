@@ -3102,6 +3102,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		adminOrg.getAttributes().add(new AttributeInfo("PrimaryAdminOrgAttrKey1","PrimaryAdminOrgAttrValue1"));
 		adminOrg.getAttributes().add(new AttributeInfo("PrimaryAdminOrgAttrKey2","PrimaryAdminOrgAttrValue2"));
 		adminOrg.setTypeKey("kuali.altadminType1");
+        adminOrg.setStateKey("kuali.altAdminState1");
 		
 		clu.getAdminOrgs().add(adminOrg);
 		AdminOrgInfo altAdminOrg1 = new AdminOrgInfo();
@@ -3110,12 +3111,14 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		altAdminOrg1.getAttributes().add(new AttributeInfo("AltAdminOrg1AttrKey2","AltAdminOrg1AttrValue2"));
 		altAdminOrg1.getAttributes().add(new AttributeInfo("AltAdminOrg1AttrKey3","AltAdminOrg1AttrValue3"));
 		altAdminOrg1.setTypeKey("kuali.altadminType1");
+        altAdminOrg1.setStateKey("kuali.altadminState1");
 		
 		AdminOrgInfo altAdminOrg2 = new AdminOrgInfo();
 		altAdminOrg2.setOrgId("ALT-ADMIN-ORG-ID2");
 		altAdminOrg2.getAttributes().add(new AttributeInfo("AltAdminOrg2AttrKey1","AltAdminOrg2AttrValue1"));
 		altAdminOrg2.getAttributes().add(new AttributeInfo("AltAdminOrg2AttrKey2","AltAdminOrg2AttrValue2"));
 		altAdminOrg2.setTypeKey("kuali.altadminType1");
+        altAdminOrg2.setStateKey("kuali.altadminState1");
 
 		clu.getAdminOrgs().add(altAdminOrg1);
 		clu.getAdminOrgs().add(altAdminOrg2);

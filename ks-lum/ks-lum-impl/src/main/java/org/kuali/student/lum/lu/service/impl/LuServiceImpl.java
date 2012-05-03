@@ -805,7 +805,7 @@ public class LuServiceImpl implements CluService {
             		LuCodeAttribute.class, R1R2ConverterUtil.convert(luCodeInfo, org.kuali.student.r1.lum.lu.dto.LuCodeInfo.class).getAttributes(), luCode,
             		luDao));
             BeanUtils.copyProperties(luCodeInfo, luCode, new String[]{
-                    "attributes", "metaInfo"});
+                    "attributes", "meta", "descr"});
             luCode.setDescr(luCodeInfo.getDescr().getPlain());
             luCode.setClu(clu);
             luCodes.add(luCode);
@@ -884,7 +884,7 @@ public class LuServiceImpl implements CluService {
                 "officialIdentifier", "alternateIdentifiers", "descr",
                 "luCodes", "primaryInstructor", "instructors", "stdDuration",
                 "offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
-                "metaInfo", "versionInfo", "intensity",
+                "meta", "versionInfo", "intensity",
                 "campusLocations", "accreditations",
                 "adminOrgs"});
 
@@ -1032,7 +1032,7 @@ public class LuServiceImpl implements CluService {
             		LuCodeAttribute.class, R1R2ConverterUtil.convert(luCodeInfo, org.kuali.student.r1.lum.lu.dto.LuCodeInfo.class).getAttributes(), luCode,
             		luDao));
             BeanUtils.copyProperties(luCodeInfo, luCode, new String[]{
-                    "attributes", "metaInfo"});
+                    "attributes", "meta"});
             luCode.setDescr(luCodeInfo.getDescr().getPlain());
             luCode.setClu(clu);
             clu.getLuCodes().add(luCode);
@@ -1228,7 +1228,7 @@ public class LuServiceImpl implements CluService {
                 "officialIdentifier", "alternateIdentifiers", "descr",
                 "luCodes", "primaryInstructor", "instructors", "stdDuration",
                 "offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
-                "metaInfo", "intensity",
+                "meta", "intensity",
                 "campusLocations", "accreditations",
                 "adminOrgs"});
         Clu updated = null;
@@ -1314,9 +1314,9 @@ public class LuServiceImpl implements CluService {
         Clu relatedClu = luDao.fetch(Clu.class, relatedCluId);
 
         CluCluRelation cluCluRelation = new CluCluRelation();
-        BeanUtils.copyProperties(cluCluRelationInfo, cluCluRelation,
+        BeanUtils.copyProperties(R1R2ConverterUtil.convert(cluCluRelationInfo, org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo.class), cluCluRelation,
                 new String[]{"cluId", "relatedCluId",
-                        "isCluRelationRequired", "attributes", "metaInfo"});
+                        "isCluRelationRequired", "attributes", "meta"});
 
         cluCluRelation.setClu(clu);
         cluCluRelation.setRelatedClu(relatedClu);
@@ -1357,7 +1357,7 @@ public class LuServiceImpl implements CluService {
                 cluCluRelationId);
         BeanUtils.copyProperties(cluCluRelationInfo, cluCluRelation,
                 new String[]{"cluId", "relatedCluId",
-                        "isCluRelationRequired", "attributes", "metaInfo"});
+                        "isCluRelationRequired", "attributes", "meta"});
 
         cluCluRelation.setClu(luDao.fetch(Clu.class, cluCluRelationInfo
                 .getCluId()));
@@ -1609,7 +1609,7 @@ public class LuServiceImpl implements CluService {
         for (ResultOptionInfo resOptInfo : cluResultInfo.getResultOptions()) {
             ResultOption resOpt = new ResultOption();
             BeanUtils.copyProperties(resOptInfo, resOpt, new String[]{"id",
-                    "metaInfo", "resultUsageType", "desc"});
+                    "meta", "resultUsageType", "desc"});
 
             if (resOptInfo.getResultUsageTypeKey() != null) {
                 ResultUsageType resUsageType = luDao.fetch(ResultUsageType.class,
@@ -1623,7 +1623,7 @@ public class LuServiceImpl implements CluService {
 
         CluResult cluResult = new CluResult();
         BeanUtils.copyProperties(cluResultInfo, cluResult, new String[]{"id",
-                "desc", "resultOptions", "metaInfo"});
+                "desc", "resultOptions", "meta"});
 
         cluResult.setDesc(LuServiceAssembler
         		.toRichText(LuRichText.class, R1R2ConverterUtil.convert(cluResultInfo, org.kuali.student.r1.lum.lu.dto.CluResultInfo.class).getDesc()));
@@ -1787,7 +1787,7 @@ public class LuServiceImpl implements CluService {
 
         CluLoRelation cluLoRelation = new CluLoRelation();
         BeanUtils.copyProperties(cluLoRelationInfo, cluLoRelation,
-                new String[]{"cluId", "attributes", "metaInfo", "type"});
+                new String[]{"cluId", "attributes", "meta", "type"});
 
         cluLoRelation.setClu(clu); 
         cluLoRelation.setAttributes(LuServiceAssembler.toGenericAttributes(
@@ -1836,7 +1836,7 @@ public class LuServiceImpl implements CluService {
         }
 
         BeanUtils.copyProperties(cluLoRelationInfo, reltn, new String[]{
-                "cluId", "attributes", "metaInfo", "type"});
+                "cluId", "attributes", "meta", "type"});
 
         reltn.setClu(clu); 
         reltn.setAttributes(LuServiceAssembler.toGenericAttributes(
