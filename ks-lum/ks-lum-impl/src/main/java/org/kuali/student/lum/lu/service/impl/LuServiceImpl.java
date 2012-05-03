@@ -2061,7 +2061,7 @@ public class LuServiceImpl implements CluService {
             List<CluSetInfo> origSubCSs = null;
             List<String> origSubCSIds = originalCluSet.getCluSetIds();
             if (origSubCSIds != null && !origSubCSIds.isEmpty()) {
-            	/* TODO KSCM-572 origSubCSs = getCluSetInfoByIdList(origSubCSIds);*/
+            	origSubCSs = getCluSetsByIds(origSubCSIds, contextInfo);
             }
             if (origSubCSs != null) {
                 for (CluSetInfo origSubCS : origSubCSs) {
