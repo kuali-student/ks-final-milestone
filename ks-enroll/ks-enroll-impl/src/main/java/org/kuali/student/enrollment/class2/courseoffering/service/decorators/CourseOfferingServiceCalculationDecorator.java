@@ -60,7 +60,7 @@ public class CourseOfferingServiceCalculationDecorator extends CourseOfferingSer
 
     @Override
     @Transactional(readOnly = false)
-    public CourseOfferingInfo rolloveCourseOffering(String sourceCoId,
+    public CourseOfferingInfo rolloverCourseOffering(String sourceCoId,
             String targetTermId,
             List<String> optionKeys,
             ContextInfo context) throws AlreadyExistsException,

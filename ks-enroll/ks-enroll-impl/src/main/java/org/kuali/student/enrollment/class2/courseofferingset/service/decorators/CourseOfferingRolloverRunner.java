@@ -234,7 +234,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
         CourseOfferingInfo targetCo = null;
         String error = null;
         try {
-            targetCo = this.coService.rolloveCourseOffering(sourceCoId, this.result.getTargetTermId(), this.result.getOptionKeys(),
+            targetCo = this.coService.rolloverCourseOffering(sourceCoId, this.result.getTargetTermId(), this.result.getOptionKeys(),
                     context);
         } catch (AlreadyExistsException ex) {
             error = ex.getMessage();

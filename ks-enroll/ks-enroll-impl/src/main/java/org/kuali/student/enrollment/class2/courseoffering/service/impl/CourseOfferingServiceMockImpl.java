@@ -853,7 +853,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public CourseOfferingInfo rolloveCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
+    public CourseOfferingInfo rolloverCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new UnsupportedOperationException("Configuration Error this method should have been implemented in the calculation layer and not reached here");

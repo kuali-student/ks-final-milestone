@@ -137,7 +137,7 @@ public class TestCourseOfferingServiceCalculationDecoratorWithMocks {
         
         // now try to rollover to new term
         TermInfo targetTerm = acalService.getTerm("2013SP", callContext);
-        CourseOfferingInfo targetCo = coService.rolloveCourseOffering(sourceCo.getId(), targetTerm.getId(), optionKeys,
+        CourseOfferingInfo targetCo = coService.rolloverCourseOffering(sourceCo.getId(), targetTerm.getId(), optionKeys,
                 callContext);
         assertNotNull(targetCo);
         assertEquals(sourceCo.getCourseId(), targetCo.getCourseId());

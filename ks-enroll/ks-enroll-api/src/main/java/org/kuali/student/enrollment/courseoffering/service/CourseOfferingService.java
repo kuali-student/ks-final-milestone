@@ -417,7 +417,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public CourseOfferingInfo rolloveCourseOffering(@WebParam(name = "sourceCourseOfferingId") String sourceCourseOfferingId,
+    public CourseOfferingInfo rolloverCourseOffering(@WebParam(name = "sourceCourseOfferingId") String sourceCourseOfferingId,
             @WebParam(name = "targetTermId") String targetTermId, 
             @WebParam(name = "optionKeys") List<String> optionKeys, 
             @WebParam(name = "context") ContextInfo context) 

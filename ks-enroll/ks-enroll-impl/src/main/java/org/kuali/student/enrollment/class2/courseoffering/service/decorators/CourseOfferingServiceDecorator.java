@@ -407,10 +407,10 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public CourseOfferingInfo rolloveCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
+    public CourseOfferingInfo rolloverCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().rolloveCourseOffering(sourceCoId, targetTermId, optionKeys, context);
+        return getNextDecorator().rolloverCourseOffering(sourceCoId, targetTermId, optionKeys, context);
     }
 
     @Override
