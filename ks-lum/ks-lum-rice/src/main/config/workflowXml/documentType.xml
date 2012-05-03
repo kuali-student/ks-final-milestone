@@ -91,9 +91,13 @@
       <active>true</active>
     </documentType>
     
+    <!-- KSLAB Responsibilities which tie users to Workflow nodes are defined via SQL  -->
+    <!-- for example 2012-01-01_03_KRIM-Course-Workflow-Roles-Responsibilities.sql -->
+    <!-- Because they are tied to the parent course doctype, and the workflow nodes -->
+    <!-- are defined the same way, the same users can be used to test retire workflow as create/modify. -->
     <documentType>
       <name>kuali.proposal.type.course.retire</name>
-      <parent>CluParentDocument</parent>
+      <parent>CluCreditCourseParentDocument</parent>
       <description>Credit Course Retirement</description>
       <label>Credit Course Retirement</label>
       <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_RETIRE_BY_PROPOSAL&amp;idType=documentNumber</docHandler>
@@ -101,9 +105,23 @@
       <active>true</active>
       <routePaths>
         <routePath>
-          <start name="PreRoute" nextNode="Department Review" />
-          <role name="Department Review" nextNode="Publication Review"/>
-          <role name="Publication Review"  />
+          <start name="PreRoute" nextNode="Department Review" />          
+          <!-- 5-2-2012 Even thought the decision was informally made to mimick modify workflow for retire in KS, 
+               these next two nodes don't currently work because the associated responsibilities are not set
+               to the parent doc type (unlike the responsibilities made for create course), 
+               they are set to only work for modify proposals.  Therefore they do not function 
+               for kuali.proposal.type.course.retire doctype.  You can see this in rice, admin, 
+               responsibilities.   The decision was made to comment on this issue to clarify and move on,
+               as we are out of time for finishing up our own functionality (UMD-CM). -mcm 
+               
+          <role name="Document Organization Review" nextNode="Publication Decision Review" />
+          <role name="Publication Decision Review" nextNode="Department Review" />  
+                -->
+          <role name="Department Review" nextNode="Division Review" />
+          <role name="Division Review" nextNode="College Review" />
+          <role name="College Review" nextNode="Senate Review" />
+          <role name="Senate Review" nextNode="Publication Review" />
+          <role name="Publication Review" />
         </routePath>
       </routePaths>
       <routeNodes>
@@ -112,14 +130,42 @@
           <mandatoryRoute>false</mandatoryRoute>
           <finalApproval>false</finalApproval>
         </start>
+        <!-- Currently these only work for modify (see above)
+        <role name="Document Organization Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationIdQualifierKey>orgId</organizationIdQualifierKey>
+        </role>
+        <role name="Publication Decision Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>176</organizationId>
+        </role> -->
         <role name="Department Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Department</organizationTypeCode>
           <organizationIdQualifierKey>department</organizationIdQualifierKey>
         </role>
+        <role name="Division Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Division</organizationTypeCode>
+          <organizationIdQualifierKey>division</organizationIdQualifierKey>
+        </role>
+        <role name="College Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.College</organizationTypeCode>
+          <organizationIdQualifierKey>college</organizationIdQualifierKey>
+        </role>
+        <role name="Senate Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
         <role name="Publication Review">
-	      <activationType>P</activationType>
+          <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
           <organizationId>176</organizationId>
         </role>
