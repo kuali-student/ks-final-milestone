@@ -3105,8 +3105,7 @@ public class LuServiceImpl implements CluService {
             //Set the Version data
             Version version = new Version();
             version.setSequenceNumber(latestClu.getVersion().getSequenceNumber() + 1);
-            
-            /* TODO KSCM-429 version.setVersionIndId(versionIndCluId);*/
+            version.setVersionIndId(cluId);
             version.setCurrentVersionStart(null);
             version.setCurrentVersionEnd(null);
             version.setVersionComment(versionComment);
