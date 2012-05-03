@@ -299,6 +299,48 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/AtpInfo"
         TYPE_KEY="kuali.atp.type.group.term" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="TRUE/FALSE flag indicating this couse should included in the end of term course evaluation process where students evaluate the course"
+        DESCR_PLAIN="TRUE/FALSE flag indicating this couse should included in the end of term course evaluation process where students evaluate the course"
+        NAME="Course Evaluation Indicator"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/common/AttributeInfo"
+        TYPE_KEY="kuali.attribute.course.evaluation.indicator" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="TRUE/FALSE flag indicating there is a final exam"
+        DESCR_PLAIN="TRUE/FALSE flag indicating there is a final exam"
+        NAME="Final Exam Indicator"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/common/AttributeInfo"
+        TYPE_KEY="kuali.attribute.final.exam.indicator" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Indicates the source of the funding STATE or SELF"
+        DESCR_PLAIN="Indicates the source of the funding STATE or SELF"
+        NAME="Funding Source"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/common/AttributeInfo"
+        TYPE_KEY="kuali.attribute.finding.source" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Captures the level at which grade rosters should be built, course offering or format offering or primary activity offering"
+        DESCR_PLAIN="Captures the level at which grade rosters should be built, course offering or format offering or primary activity offering"
+        NAME="Grade Roster Level Type"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/common/AttributeInfo"
+        TYPE_KEY="kuali.attribute.grade.roster.level.type.key" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="TRUE/FALSE flag indicates the enrollment is an estimate"
+        DESCR_PLAIN="TRUE/FALSE flag indicates the enrollment is an estimate"
+        NAME="Max Enrollment i Estimate"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/common/AttributeInfo"
+        TYPE_KEY="kuali.attribute.max.enrollment.is.estimate" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Dynamic attribute key used to store the the wait list level type key"
+        DESCR_PLAIN="Dynamic attribute key used to store the the wait list level type key"
+        NAME="Wait List Level Type Key"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/common/AttributeInfo"
+        TYPE_KEY="kuali.attribute.wait.list.level.type.key" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Indicates where fees are attached to CO or AO flag"
+        DESCR_PLAIN="Indicates where fees are attached to CO or AO flag"
+        NAME="Where Fees Attached Flag"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/common/AttributeInfo"
+        TYPE_KEY="kuali.attribute.where.fees.attached.flag" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for Registration Key Dates in Registration Appointments"
         DESCR_PLAIN="The list of milestone types that are used for Registration Key Dates in Registration Appointments"
         NAME="Registration Periods for Registration Appointments"
