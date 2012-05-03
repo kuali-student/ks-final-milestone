@@ -765,7 +765,7 @@
 
     <!-- RichTextInfo-->
     <bean id="org.kuali.student.r2.common.dto.RichTextInfo-parent"
-          abstract="true" parent="ObjectStructureDefinition">
+          abstract="true" parent="objectStructureDefinition">
         <property name="name" value="org.kuali.student.r2.common.dto.RichTextInfo" />
         <property name="attributes">
             <list>
@@ -779,7 +779,7 @@
 
     <!-- RichTextInfo-->
     <bean id="org.kuali.student.r1.common.dto.RichTextInfo-parent"
-          abstract="true" parent="ObjectStructureDefinition">
+          abstract="true" parent="objectStructureDefinition">
         <property name="name" value="org.kuali.student.r1.common.dto.RichTextInfo" />
         <property name="attributes">
             <list>
