@@ -208,38 +208,6 @@
 		</field>
 	</mapping>
 
-	<!-- ks-core-api: org.kuali.student.r*.core.enumerationmanagement.dto mappings -->
-	<mapping>
-		<class-a>org.kuali.student.r1.core.enumerationmanagement.dto.EnumContextValueInfo
-		</class-a>
-		<class-b>org.kuali.student.r2.core.enumerationmanagement.dto.EnumContextValueInfo
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.core.enumerationmanagement.dto.EnumeratedValueInfo
-		</class-a>
-		<class-b>org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.core.enumerationmanagement.dto.EnumerationInfo
-		</class-a>
-		<class-b>org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo
-		</class-b>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
-		</field>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.DescToRichTextConverter">
-			<a>descr</a><!-- This is a String -->
-			<b get-method="getDescr" set-method="setDescr">descr</b><!-- This is a RichTextInfo -->
-		</field>
-	</mapping>
-
 	<!-- ks-core-api: org.kuali.student.r*.core.organization.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.core.organization.dto.OrgCodeInfo

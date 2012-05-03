@@ -121,7 +121,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private List<String> gradingOptions;
 
     @XmlElement
-    private List<ResultComponentInfo> creditOptions;
+    private List<String> creditOptions;
 
     @XmlElement
     private boolean specialTopicsCourse;
@@ -479,14 +479,14 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Credit outcomes from taking the course
      */
-    public List<ResultComponentInfo> getCreditOptions() {
+    public List<String> getCreditOptions() {
         if (creditOptions == null) {
-            creditOptions = new ArrayList<ResultComponentInfo>(0);
+            creditOptions = new ArrayList<String>(0);
         }
         return creditOptions;
     }
 
-    public void setCreditOptions(List<ResultComponentInfo> creditOptions) {
+    public void setCreditOptions(List<String> creditOptions) {
         this.creditOptions = creditOptions;
     }
 

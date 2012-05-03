@@ -889,5 +889,14 @@ public class R1TestDataUtil {
         return r1CluCluRelationInfo;
     }
     
+    public static List<String> getCreditOptions() {
+        List<String> creditOptions = new ArrayList<String>();
+        creditOptions.add("kuali.resultComponentType.degree");
+        creditOptions.add("kuali.resultComponentType.credit.degree.range");
+        creditOptions.add("kuali.resultComponentType.credit.degree.fixed");
+        creditOptions.add("kuali.resultComponentType.grade.finalGrade");
+        return creditOptions;
+    }
+    
 
 }

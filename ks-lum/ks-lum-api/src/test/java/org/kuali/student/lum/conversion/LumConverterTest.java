@@ -90,8 +90,7 @@ public class LumConverterTest {
         org.kuali.student.r1.lum.course.dto.CourseInfo r1 = new org.kuali.student.r1.lum.course.dto.CourseInfo();
         r1.setAttributes(R1TestDataUtil.getAttributeData());
         r1.setCourseSpecificLOs(R1TestDataUtil.getLoDisplayInfoDataList());
-        //TODO KSCM-567 Don't know how to convert this
-        //r1.setCreditOptions(R1TestDataUtil.getResultComponentInfoDataList());
+        r1.setCreditOptions(R1TestDataUtil.getCreditOptions());
         r1.setCrossListings(R1TestDataUtil.getCourseCrossListingInfoDataList());
         r1.setDescr(R1TestDataUtil.getRichTextInfoData());
         r1.setDuration(R1TestDataUtil.getTimeAmountInfoData());
@@ -112,6 +111,7 @@ public class LumConverterTest {
         CourseInfo r2 = R1R2ConverterUtil.convert(r1, CourseInfo.class);
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getCourseSpecificLOs().get(0).getLoCategoryInfoList().get(0).getId(), r2.getCourseSpecificLOs().get(0).getLoCategoryInfoList().get(0).getId());
+        Assert.assertEquals(r1.getCreditOptions().get(0), r2.getCreditOptions().get(0));
         Assert.assertEquals(r1.getCrossListings().get(0).getId(), r2.getCrossListings().get(0).getId());
         Assert.assertEquals(r1.getDescr().getPlain(), r2.getDescr().getPlain());
         Assert.assertEquals(r1.getDuration().getAtpDurationTypeKey(), r2.getDuration().getAtpDurationTypeKey());

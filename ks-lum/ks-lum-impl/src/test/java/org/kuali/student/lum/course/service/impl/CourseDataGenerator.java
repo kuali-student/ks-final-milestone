@@ -1,5 +1,6 @@
 package org.kuali.student.lum.course.service.impl;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -39,11 +40,10 @@ public class CourseDataGenerator {
 
          testData.getAttributes().add(new AttributeInfo("proposalTitle", "proposalTitle-1"));
          testData.getAttributes().add(new AttributeInfo("proposalRationale", "proposalRationale"));
-//TODO KSCM-583  CourseInfo contains
-//        testData.getCreditOptions().get(0).getResultValues().set(0, "1");
-//         testData.getCreditOptions().get(0).getResultValues().set(1, "2");
-//         testData.getCreditOptions().get(1).getResultValues().set(0, "3");
-//         testData.getCreditOptions().get(1).getResultValues().set(1, "4");
+         testData.getCreditOptions().add(0, "kuali.resultComponentType.degree");
+         testData.getCreditOptions().set(0, "kuali.resultComponentType.credit.degree.range");
+         testData.getCreditOptions().set(1,"kuali.resultComponentType.credit.degree.fixed");
+         testData.getCreditOptions().set(2, "kuali.resultComponentType.grade.finalGrade");
 //         for (ResultComponentInfo resultComponent : testData.getCreditOptions()) {
 //         resultComponent.getAttributes().put("minCreditValue", "2");
 //         resultComponent.getAttributes().put("maxCreditValue", "5");
@@ -76,7 +76,14 @@ public class CourseDataGenerator {
             if (List.class.equals(pt)) {
                 // If this is a list then make a new list and make x amount of test data of that list type
                 // Get the list type:
-                Class<?> nestedClass = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
+                Class<?> nestedClass = null;
+                try {
+                    nestedClass = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
+                } catch (NoSuchFieldException e) {
+                    if ("attributes".equals(pd.getName())) {//just to get the Test Run.
+                        nestedClass = AttributeInfo.class;
+                    }
+                }
                 List list = new ArrayList();
                 for (int i = 0; i < 2; i++) {
                     propertyIndex++;
