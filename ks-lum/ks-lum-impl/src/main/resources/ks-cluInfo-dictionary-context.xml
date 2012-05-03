@@ -498,7 +498,7 @@
         <property name="attributes">
             <list>
                 <ref bean="amountInfo.unitQuantity"/>
-                <ref bean="amountInfo.unitType"/>
+                <ref bean="amountInfo.unitTypeKey"/>
             </list>
         </property>
     </bean>
@@ -513,7 +513,7 @@
 -->
         <property name="requireConstraint">
             <bean parent="requiresConstraint">
-                <property name="fieldPath" value="unitType"/>
+                <property name="fieldPath" value="unitTypeKey"/>
             </bean>
         </property>
     </bean>
@@ -521,15 +521,15 @@
 
     <bean id="constraint.lookup.unitTypes"
           class="org.kuali.student.r1.common.dictionary.dto.LookupConstraint"
-          parent="kuali.common.lookup.amountInfo.unitType">
+          parent="kuali.common.lookup.amountInfo.unitTypeKey">
         <property name="id" value="all.unitTypes"/>
     </bean>
 
-    <bean id="amountInfo.unitType-parent" abstract="true" parent="baseKualiType">
+    <bean id="amountInfo.unitTypeKey-parent" abstract="true" parent="baseKualiType">
         <property name="name" value="unitTypeKey"/>
         <property name="lookupDefinition" ref="constraint.lookup.unitTypes"/>
     </bean>
-    <bean id="amountInfo.unitType" parent="amountInfo.unitType-parent"/>
+    <bean id="amountInfo.unitTypeKey" parent="amountInfo.unitTypeKey-parent"/>
 
     <!-- AccreditationInfo-->
     <bean id="org.kuali.student.r2.lum.clu.dto.AccreditationInfo-parent"
@@ -899,7 +899,7 @@
     </bean>
     <bean id="cluCluRelationInfo.relatedCluId" parent="cluCluRelationInfo.relatedCluId-parent"/>
 
-    <bean id="cluCluRelationInfo.typeKey-parent" abstract="true" parent="baseKualiTypeRequired">
+    <bean id="cluCluRelationInfo.typeKey-parent" abstract="true" parent="baseKualiType">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="cluCluRelationInfo.typeKey" parent="cluCluRelationInfo.typeKey-parent"/>
