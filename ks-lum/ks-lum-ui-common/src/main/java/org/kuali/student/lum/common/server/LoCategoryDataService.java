@@ -31,7 +31,6 @@ import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import java.util.List;
 import java.util.Map;
 
-// TODO KSCM-242
 public class LoCategoryDataService extends AbstractDataService {
 
     private static final long serialVersionUID = 1L;
