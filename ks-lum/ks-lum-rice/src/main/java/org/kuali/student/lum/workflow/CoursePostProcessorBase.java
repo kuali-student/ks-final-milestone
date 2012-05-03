@@ -105,42 +105,49 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         // Get the new state the course should now change to        
         String newCourseState = getCluStateForRouteStatus(courseInfo.getState(), statusChangeEvent.getNewRouteStatus(), proposalInfo.getType());
         
-        //Use the state change service to update to active and update preceding versions  
-        if(DtoConstants.STATE_ACTIVE.equals(newCourseState)){     
-        	
-        	// Change the state using the effective date as the version start date
-        	// update course and save it for retire if state = retire        	
-        	getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId);
-        } else
-        	
-        	// Retire By Proposal will come through here, extra data will need 
-        	// to be copied from the proposalInfo to the courseInfo fields before 
-        	// the save happens.        	
-        	if(DtoConstants.STATE_RETIRED.equals(newCourseState)){
-        		retireCourseByProposalCopyAndSave(newCourseState, courseInfo, proposalInfo);
-        	    getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId);
-        }
-          else{
-        	updateCourse(statusChangeEvent, newCourseState, courseInfo, proposalInfo);
+        //Use the state change service to update to active and update preceding versions
+        if (newCourseState != null){
+	        if(DtoConstants.STATE_ACTIVE.equals(newCourseState)){     
+	        	
+	        	// Change the state using the effective date as the version start date
+	        	// update course and save it for retire if state = retire        	
+	        	getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId);
+	        } else
+	        	
+	        	// Retire By Proposal will come through here, extra data will need 
+	        	// to be copied from the proposalInfo to the courseInfo fields before 
+	        	// the save happens.        	
+	        	if(DtoConstants.STATE_RETIRED.equals(newCourseState)){
+	        		retireCourseByProposalCopyAndSave(newCourseState, courseInfo, proposalInfo);
+	        	    getCourseStateChangeService().changeState(courseId, newCourseState, prevEndTermAtpId);
+	        }
+	          else{ // newCourseState of null comes here, is this desired?
+	        	updateCourse(statusChangeEvent, newCourseState, courseInfo, proposalInfo);
+	        }        	       
         }
         return true;
     }
 
     /**
-	 * Normal Route will get you here, Route Statuses:
-	 * 'S' Saved 
-	 * 'R' Enroute 
-	 * 'A' Approved - After final approve, status is set to 'A'  
-	 * 'P' Processed - During this run through coursepostprocessorbase, assuming 
-	 * doctype is Retire, we end up here.  
+     * 
 	 * 
 	 * In this method, the proposal object fields are copied to the cluInfo object
 	 * fields to pass validation. This method copies data from the custom Retire
 	 * By Proposal proposalInfo Object Fields into the courseInfo object so that upon save it will
 	 * pass validation.
 	 * 
-	 * @param courseInfo
-	 * @param proposalInfo
+	 * Admin Retire and Retire by Proposal both end up here.
+	 * 
+	 * This Route will get you here, Route Statuses:
+	 * 'S' Saved 
+	 * 'R' Enroute 
+	 * 'A' Approved - After final approve, status is set to 'A'  
+	 * 'P' Processed - During this run through coursepostprocessorbase, assuming 
+	 * doctype is Retire, we end up here.  
+	 * 
+	 * @param courseState - used to confirm state is retired
+	 * @param courseInfo - course object we are updating
+	 * @param proposalInfo - proposal object which has the on-screen fields we are copying from
 	 */
     protected void retireCourseByProposalCopyAndSave(String courseState, CourseInfo courseInfo, ProposalInfo proposalInfo) throws Exception {
         
@@ -159,6 +166,21 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             courseInfo.getAttributes().put("retirementRationale", rationale);
             courseInfo.getAttributes().put("lastTermOffered", proposedLastTermOffered);
             courseInfo.getAttributes().put("lastPublicationYear", proposedLastCourseCatalogYear);
+            
+		      // lastTermOffered is a special case field, as it is required upon retire state
+              // but not required for submit.  Therefore it is possible for a user to submit a retire proposal
+              // without this field filled out, then when the course gets approved, and the state changes to RETIRED
+              // validation would fail and the proposal will then go into exception routing.  
+              // We can't simply make lastTermOffered a required field as it is not a desired field  
+              // on the course proposal screen.
+              //              
+		      // So in the case of lastTermOffered being null when a course is retired,
+		      // Just copy the "proposalInfo.proposedEndTerm" value (required for saves, so it will be filled out) 
+              // into "courseInfo.lastTermOffered" to pass validation.   
+		      if ((proposalInfo!=null) && (courseInfo!=null) && 
+		    		    (courseInfo.getAttributes().get("lastTermOffered")==null)) {
+			       courseInfo.getAttributes().put("lastTermOffered", proposalInfo.getAttributes().get("proposedEndTerm"));
+		      }
         	}
         }
         // Save the Data to the DB

@@ -25,7 +25,9 @@ public class CourseStateChangeServiceImpl {
 	private CourseService courseService;
 
 	/**
-	 * Change the state of a course to a new state
+	 * Change the state of a course to a new state.
+	 * This method exists to help handle some extra logic that was required
+	 * to implement Pilot courses, Administrative Retire and Retire by Proposal.
 	 * 
 	 * @param courseId id of course
 	 * @param newState the new state for the course
@@ -38,20 +40,25 @@ public class CourseStateChangeServiceImpl {
 		CourseInfo courseInfo = courseService.getCourse(courseId);
 
 		StatusInfo ret = new StatusInfo();
-		if (newState.equals(DtoConstants.STATE_ACTIVE)) {
-			if(courseInfo.isPilotCourse()){
-				//Pilot courses get Retired
-				//Add required fields for Retired State
+		if ((newState!=null) && (newState.equals(DtoConstants.STATE_ACTIVE))) {
+			if ((courseInfo!=null) && courseInfo.isPilotCourse()){
+				// Pilot Course Creates come through here the 2nd time and
+				// gets Retired but first, add fields which are required only for Retired State
 				courseInfo.getAttributes().put("retirementRationale", "Pilot Course");
 				courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
 				courseInfo.setState(DtoConstants.STATE_ACTIVE);
 				retireCourse(courseInfo);
 			}else{
+				// Pilot course gets activated the first time through 
 				activateCourse(courseInfo, prevEndTermAtpId);
 			}
-		} else if (newState.equals(DtoConstants.STATE_RETIRED)) {
-			retireCourse(courseInfo);
-		}
+		} else if (newState.equals(DtoConstants.STATE_RETIRED)){
+			      // Admin Retire and Retire by Proposal should both end up here.
+				  retireCourse(courseInfo);
+			} 
+		
+			
+		
 
 		ret.setSuccess(new Boolean(true));
 
