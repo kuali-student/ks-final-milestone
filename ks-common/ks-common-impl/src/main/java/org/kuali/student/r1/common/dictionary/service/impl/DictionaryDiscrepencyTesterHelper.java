@@ -125,7 +125,7 @@ public class DictionaryDiscrepencyTesterHelper
   List<String> alldiscrepancies = new ArrayList (1);
   for (String className: classesToProcess)
   {
-   System.out.println ("processing class " + className);
+	// Debuggin System.out.println ("processing class " + className);
    discrepancies = doTestOnClass (className, ac);
    if (discrepancies.size() > 0) {
 	   alldiscrepancies.addAll(discrepancies);
@@ -145,7 +145,7 @@ public class DictionaryDiscrepencyTesterHelper
  {
   ObjectStructureDefinition os =   os = objectStructures.get (className);
   String simpleName = calcSimpleName (className);
-  System.out.println("processing " + simpleName);
+//Debuggin System.out.println("processing " + simpleName);
   if (os == null)
   {
 

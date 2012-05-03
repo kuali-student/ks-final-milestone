@@ -57,7 +57,7 @@ public class Dictionary2BeanComparer
 	return discrepancies;
 }
   compareAddDiscrepancy (discrepancies, "Java class name", osDict.getName (), osBean.getName ());
-  System.out.println(osDict.getName());
+//Debuggin System.out.println(osDict.getName());
   if (!osDict.getClass().equals(RichTextInfo.class)) {	
   compareAddDiscrepancy (discrepancies, "Has meta data?" + osDict.getName() + " vs " + osBean.getName(), osDict.isHasMetaData (), osBean.isHasMetaData ());
   }
@@ -65,7 +65,7 @@ public class Dictionary2BeanComparer
   for (FieldDefinition fdDict : osDict.getAttributes ())
   {
    FieldDefinition fdBean = findField (fdDict.getName (), osBean);
-   System.out.println(fdDict.getName());
+// Debuggin System.out.println(fdDict.getName());
    if (fdBean == null)
    {
     if ( ! fdDict.isDynamic ())
@@ -80,12 +80,12 @@ public class Dictionary2BeanComparer
    for (FieldDefinition fdBean : osBean.getAttributes ())
   {
    FieldDefinition fdDict = findField (fdBean.getName (), osDict);
-   System.out.println(fdBean.getName());
+// Debuggin System.out.println(fdBean.getName());
    if (fdDict == null)	{ 
    if (!fdBean.getName().equals("meta") 
 		   && !fdBean.getName().equals("state")
 		   && !fdBean.getName().equals("type")) {
-	   System.out.println("test");
+	// Debuggin System.out.println("test");
     discrepancies.add (" Field " + fdBean.getName () + " missing from the dictictionary");
     continue;
    }

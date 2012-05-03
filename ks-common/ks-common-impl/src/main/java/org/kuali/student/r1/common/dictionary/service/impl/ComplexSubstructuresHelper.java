@@ -30,7 +30,7 @@ public class ComplexSubstructuresHelper {
 		Class<?> clazz;
 		try {
 			clazz = Class.forName(className);
-			System.out.println("The Class : " + className);
+			// Debuggin  System.out.println("The Class : " + className);
 		} catch (ClassNotFoundException ex) {
 			System.out
 					.println("ComplexSubstructuresHelper: Could not process because the class must be a freestanding object: "

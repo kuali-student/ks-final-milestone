@@ -75,7 +75,7 @@ public class DictionaryCreator
   StringBuffer s = new StringBuffer ();
   addSpringHeaderOpen (s);
 
-  System.out.println (clazz.getName ());
+//Debuggin System.out.println (clazz.getName ());
   addObjectStructure (clazz, s, new HashSet<Class<?>> ());
 
   addSpringHeaderClose (s);

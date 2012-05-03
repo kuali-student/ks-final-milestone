@@ -54,7 +54,7 @@ public class DictionaryTesterHelper
   for (ObjectStructureDefinition objStr: beansOfType.values ())
   {
    objectStructures.put (objStr.getName (), objStr);
-   System.out.println ("Loading object structure: " + objStr.getName ());
+// Debuggin System.out.println ("Loading object structure: " + objStr.getName ());
   }
   // First validate all the starting classes
   for (String className: startingClasses)
@@ -111,7 +111,7 @@ public class DictionaryTesterHelper
   out.println ("----");
   for (String className: classesToProcess)
   {
-   System.out.println ("processing class " + className);
+	// Debuggin System.out.println ("processing class " + className);
    doTestOnClass (className, ac);
   }
   out.close ();
@@ -125,7 +125,7 @@ public class DictionaryTesterHelper
 
  private void doTestOnClass (String className, ApplicationContext ac)
  {
-     System.out.println("Entering doTestOnClass");
+	// Debuggin System.out.println("Entering doTestOnClass");
   ObjectStructureDefinition os = objectStructures.get (className);
   String simpleName = calcSimpleName (className);
   if (os == null)
@@ -144,7 +144,7 @@ public class DictionaryTesterHelper
                                                1, // header level to start at
                                                this.processSubstructures);
   out.println (formatter.formatForWiki ());
-     System.out.println("Exiting doTestOnClass");
+//Debuggin System.out.println("Exiting doTestOnClass");
  }
 
  private String calcSimpleName (String name)
