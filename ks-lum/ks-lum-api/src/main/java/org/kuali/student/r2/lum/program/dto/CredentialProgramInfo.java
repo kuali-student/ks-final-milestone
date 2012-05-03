@@ -28,6 +28,7 @@ import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
 import org.kuali.student.r2.lum.program.infc.CredentialProgram;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 
 /**
  * Detailed information about a single credential program, e.g. Baccalaureate,
@@ -82,6 +83,9 @@ public class CredentialProgramInfo extends CommonWithCredentialProgramInfo imple
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
+ 
+    @XmlElement
+    private VersionInfo versionInfo;
     
     public CredentialProgramInfo() {
     }
@@ -154,10 +158,9 @@ public class CredentialProgramInfo extends CommonWithCredentialProgramInfo imple
         this.resultOptions = resultOptions;
     }
 
-    @Deprecated
-	public VersionDisplayInfo getVersionInfo(ContextInfo contextInfo) {
-		// TODO KSCM-392 what to repalce with
-		return null;
+  
+	public VersionInfo getVersionInfo(ContextInfo contextInfo) {
+    	return versionInfo;
 	}
 
     //KSCM-313 Should be removed, see https://wiki.kuali.org/display/STUDENT/R1+to+R2+Change+Log 
