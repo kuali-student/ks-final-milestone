@@ -51,6 +51,8 @@ import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 
 public class KualiStudentPostProcessorBase implements PostProcessor{
+
+
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiStudentPostProcessorBase.class);
 
     private ProposalService proposalService;
@@ -129,17 +131,49 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         // do nothing but allow for child classes to override
     }
 
-    //TODO KSCM-392
+    //TODO KSCM-392 we added the logic suplied in ks1.3 still neeeds to be tested. 
     @Override
     public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	    boolean success = true;
+	    // if document is transitioning from INITIATED to SAVED then transaction prevents us from retrieving the proposal
+	    if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD, documentRouteStatusChange.getOldRouteStatus()) && 
+	            StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, documentRouteStatusChange.getNewRouteStatus())) {
+	        // assume the proposal status is already correct
+            success = processCustomRouteStatusSavedStatusChange(documentRouteStatusChange);
+	    } else {
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId(), new ContextInfo());
+            
+            // update the proposal state if the proposalState value is not null (allows for clearing of the state)
+            String proposalState = getProposalStateForRouteStatus(proposalInfo.getStateKey(), documentRouteStatusChange.getNewRouteStatus());
+            updateProposal(documentRouteStatusChange, proposalState, proposalInfo, new ContextInfo());
+            success = processCustomRouteStatusChange(documentRouteStatusChange, proposalInfo, new ContextInfo());
+	    }
+        return new ProcessDocReport(success);
+	}
 
-    //TODO KSCM-392
+    //TODO KSCM-392 we added the logic suplied in ks1.3 still neeeds to be tested.
     @Override
     public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), new ContextInfo());
+
+		// if this is the initial route then clear only edit permissions as per KSLUM-192
+		if (StringUtils.equals(StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME,documentRouteLevelChange.getOldNodeName())) {
+			// remove edit perm for all adhoc action requests to a user for the route node we just exited
+	        WorkflowDocument doc = WorkflowDocumentFactory.createDocument(getPrincipalIdForSystemUser(), documentRouteLevelChange.getDocumentId());
+			for (ActionRequest actionRequestDTO : doc.getRootActionRequests()) {
+				if (actionRequestDTO.isAdHocRequest() && actionRequestDTO.isUserRequest() && 
+						StringUtils.equals(documentRouteLevelChange.getOldNodeName(),actionRequestDTO.getNodeName())) {
+					LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequestDTO.getPrincipalId());
+					removeEditAdhocPermissions(actionRequestDTO.getPrincipalId(), doc);
+				}
+	        }
+		}
+		else {
+			LOG.warn("Will not clear any permissions added via adhoc requests");
+		}
+		boolean success = processCustomRouteLevelChange(documentRouteLevelChange, proposalInfo);
+		return new ProcessDocReport(success);
+	}
 
     public ProcessDocReport doDeleteRouteHeader(DeleteEvent arg0) throws Exception {
         return new ProcessDocReport(true);
