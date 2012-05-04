@@ -2,7 +2,6 @@
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-	
 	<mapping>
 		<class-a>org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo
 		</class-a>
@@ -13,7 +12,7 @@
 			<b>refObjectUri</b>
 		</field>
 	</mapping>
-	
+
 	<!-- ks-core-api: org.kuali.student.r*.core.atp.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.core.atp.dto.AtpInfo</class-a>
@@ -466,6 +465,10 @@
 			<a>type</a>
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
+		<field>
+			<a>desc</a>
+			<b>descr</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.core.statement.dto.StatementInfo
@@ -525,5 +528,5 @@
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
-	
+
 </mappings>

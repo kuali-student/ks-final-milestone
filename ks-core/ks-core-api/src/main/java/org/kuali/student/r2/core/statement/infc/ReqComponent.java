@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.core.statement.infc;
 
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
@@ -42,4 +43,11 @@ public interface ReqComponent extends IdNamelessEntity, HasEffectiveDates{
      * @required
      */
     String getNaturalLanguageTranslation();
+    
+    /**
+     * Narrative description of this requirement component
+     * 
+     * @name Description
+     */
+    public RichTextInfo getDescr();
 }

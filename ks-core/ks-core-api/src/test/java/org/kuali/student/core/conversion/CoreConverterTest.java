@@ -324,18 +324,13 @@ public class CoreConverterTest {
     
     @Test
     public void testReqComponentInfo() {
-        org.kuali.student.r1.core.statement.dto.ReqComponentInfo r1 = new org.kuali.student.r1.core.statement.dto.ReqComponentInfo();
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        List<org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo> r1ReqCompList = new ArrayList<org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo>();
-        org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo r1ReqComFieldInfo = new org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo();
-        r1ReqComFieldInfo.setId("R1 Id");
-        r1ReqComFieldInfo.setType("R1 Type");
-        r1ReqComFieldInfo.setValue("R1 Value");
-        r1ReqCompList.add(r1ReqComFieldInfo);
-        r1.setReqCompFields(r1ReqCompList);
-        r1.setState("R1 State");
-        r1.setType("R1 Type");
+        org.kuali.student.r1.core.statement.dto.ReqComponentInfo r1 = R1TestDataUtil.getReqComponentInfoData();
         ReqComponentInfo r2 = R1R2ConverterUtil.convert(r1, ReqComponentInfo.class);
+        Assert.assertEquals(r1.getId(), r2.getId());
+        Assert.assertEquals(r1.getNaturalLanguageTranslation(), r2.getNaturalLanguageTranslation());
+        Assert.assertEquals(r1.getDesc().getPlain(), r2.getDescr().getPlain());
+        Assert.assertEquals(r1.getEffectiveDate(), r2.getEffectiveDate());
+        Assert.assertEquals(r1.getExpirationDate(), r2.getExpirationDate());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
         Assert.assertEquals("R1 Value", r2.getReqCompFields().get(0).getValue());
         Assert.assertEquals(r1.getState(), r2.getStateKey());

@@ -1,5 +1,20 @@
 package org.kuali.student.lum.program.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -19,7 +34,19 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
@@ -27,19 +54,16 @@ import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
-import org.kuali.student.r2.lum.program.dto.*;
+import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.beans.IntrospectionException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.*;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:program-test-context.xml"})
@@ -734,7 +758,7 @@ public class TestProgramServiceImpl {
 		} else if (reqComponent.getId() != null) {
 			assertEquals(reqComponent.getId(), reqComponent2.getId());
 		}
-		//TODO KSCM-575 checkRichText(reqComponent.getDesc(), reqComponent2.getDesc());
+		checkRichText(reqComponent.getDescr(), reqComponent2.getDescr());
 		checkReqCompFields(reqComponent.getReqCompFields(), reqComponent.getReqCompFields());
 		// TODO checkReqComponentType(reqComponent.getRequiredComponentType(), reqComponent2.getRequiredComponentType());
 	}
@@ -873,31 +897,31 @@ public class TestProgramServiceImpl {
 
         // req components
         ReqComponentInfo rc1 = new ReqComponentInfo();
-       // TODO KSCM-575 rc1.setDesc(toRichText("REQCOMP-1"));
+        rc1.setDescr(toRichText("REQCOMP-1"));
         rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
         ReqComponentInfo rc2 = new ReqComponentInfo();
-     // TODO KSCM-575 rc2.setDesc(toRichText("REQCOMP-2"));
+        rc2.setDescr(toRichText("REQCOMP-2"));
         rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         ReqComponentInfo rc3 = new ReqComponentInfo();
-     // TODO KSCM-575  rc3.setDesc(toRichText("REQCOMP-3"));
+        rc3.setDescr(toRichText("REQCOMP-3"));
         rc3.setTypeKey("kuali.reqComponent.type.course.courseset.completed.nof");
         ReqComponentInfo rc4 = new ReqComponentInfo();
-     // TODO KSCM-575   rc4.setDesc(toRichText("REQCOMP-4"));
+        rc4.setDescr(toRichText("REQCOMP-4"));
         rc4.setTypeKey("kuali.reqComponent.type.course.permission.instructor.required");
 
         // statement tree views
         StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
-     // TODO KSCM-575  statementTree.setDesc(toRichText("STMT-1"));
+        statementTree.setDescr(toRichText("STMT-1"));
         statementTree.setOperator(StatementOperatorTypeKey.OR);
         statementTree.setTypeKey("kuali.statement.type.program.entrance");
 
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
-     // TODO KSCM-575  subTree1.setDesc(toRichText("STMT-2"));
+        subTree1.setDescr(toRichText("STMT-2"));
         subTree1.setOperator(StatementOperatorTypeKey.AND);
         subTree1.setTypeKey("kuali.statement.type.program.entrance");
 
         StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
-     // TODO KSCM-575   subTree2.setDesc(toRichText("STMT-3"));
+        subTree2.setDescr(toRichText("STMT-3"));
         subTree2.setOperator(StatementOperatorTypeKey.AND);
         subTree2.setTypeKey("kuali.statement.type.program.entrance");
 
@@ -932,13 +956,13 @@ public class TestProgramServiceImpl {
 
         List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
         ReqComponentInfo rc1 = new ReqComponentInfo();
-     // TODO KSCM-575   rc1.setDesc(toRichText("REQCOMP-1"));
+        rc1.setDescr(toRichText("REQCOMP-1"));
         rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
         ReqComponentInfo rc2 = new ReqComponentInfo();
-     // TODO KSCM-575  rc2.setDesc(toRichText("REQCOMP-2"));
+        rc2.setDescr(toRichText("REQCOMP-2"));
         rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
-     // TODO KSCM-575   subTree1.setDesc(toRichText("STMT-5"));
+        subTree1.setDescr(toRichText("STMT-5"));
         subTree1.setOperator(StatementOperatorTypeKey.AND);
         subTree1.setTypeKey("kuali.statement.type.program.entrance");
         reqCompList1.add(rc1);
@@ -1076,9 +1100,14 @@ public class TestProgramServiceImpl {
     	assertNotNull(updatedMD);
 
         assertEquals(3, updatedMD.getAttributes().size());
-        //TODO KSCM-575     assertNotNull(updatedMD.getAttributes().get("PIES"));
-        //TODO KSCM-575     assertEquals("APPLE", updatedMD.getAttributes().get("PIES"));
-
+        for (AttributeInfo attribute : updatedMD.getAttributes()){
+            if ("PIES".equals(attribute.getKey())) {
+                assertNotNull(attribute.getValue());
+                assertEquals("APPLE", attribute.getValue());
+                break;
+            }
+        }
+        
         assertEquals(3, updatedMD.getCampusLocations().size());
         assertEquals("NO", updatedMD.getCampusLocations().get(0));
         assertEquals("SO", updatedMD.getCampusLocations().get(1));
@@ -1584,7 +1613,7 @@ public class TestProgramServiceImpl {
         
         assertNotNull(secondVersion);
         
-     // TODO KSCM-575  assertTrue(newCore.getVersionInfo(contextInfo).getSequenceNumber() != secondVersion.getVersionInfo(contextInfo).getSequenceNumber(), contextInfo);
+        assertTrue(newCore.getVersion().getSequenceNumber() != secondVersion.getVersion().getSequenceNumber());
         
     }
     

@@ -95,6 +95,20 @@ public class R1TestDataUtil {
         return r1ReqComponentInfoList;
     }
     
+    public static ReqComponentInfo getReqComponentInfoData() {
+        ReqComponentInfo r1ReqComponentInfo = new ReqComponentInfo();
+        r1ReqComponentInfo.setDesc(R1TestDataUtil.getRichTextInfoData());
+        r1ReqComponentInfo.setEffectiveDate(new Date());
+        r1ReqComponentInfo.setExpirationDate(new Date());
+        r1ReqComponentInfo.setId("R1 Id");
+        r1ReqComponentInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1ReqComponentInfo.setNaturalLanguageTranslation("R1 Natural Language Translation");
+        r1ReqComponentInfo.setReqCompFields(R1TestDataUtil.getReqCompFieldInfoDataList());
+        r1ReqComponentInfo.setState("R1 State");
+        r1ReqComponentInfo.setType("R1 Type");
+        return r1ReqComponentInfo; 
+    }
+    
     public static List<ReqCompFieldInfo> getReqCompFieldInfoDataList() {
         List<ReqCompFieldInfo> r1ReqCompFieldInfoList = new ArrayList<ReqCompFieldInfo>();
         ReqCompFieldInfo r1ReqCompFieldInfo = new ReqCompFieldInfo();
