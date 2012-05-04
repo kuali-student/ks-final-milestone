@@ -692,7 +692,6 @@ public class LuServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto, new String[]{"attributes",
                 "metaInfo", "descr"});
-
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 

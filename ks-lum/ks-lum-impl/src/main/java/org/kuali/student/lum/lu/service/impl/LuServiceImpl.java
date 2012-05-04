@@ -880,7 +880,7 @@ public class LuServiceImpl implements CluService {
         }
 
         // Now copy all not standard properties
-        BeanUtils.copyProperties(cluInfo, clu, new String[]{"luType",
+        BeanUtils.copyProperties(R1R2ConverterUtil.convert(cluInfo, org.kuali.student.r1.lum.lu.dto.CluInfo.class), clu, new String[]{"luType",
                 "officialIdentifier", "alternateIdentifiers", "descr",
                 "luCodes", "primaryInstructor", "instructors", "stdDuration",
                 "offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
