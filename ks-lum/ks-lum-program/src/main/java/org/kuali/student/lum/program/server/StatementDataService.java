@@ -35,20 +35,20 @@ public class StatementDataService implements StatementRpcService{
     private static final long serialVersionUID = 822326113643828855L;
     @Override
     @Transactional(readOnly=true)
-    public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
+    public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception  {
     
         List<StatementTypeInfo> allStatementTypes = new ArrayList<StatementTypeInfo>();
-              List<String> topStatementTypes = statementService.getStatementTypesForStatementType(statementTypeKey);
-        
+
+        List<String> topStatementTypes = statementService.getStatementTypesForStatementType(statementTypeKey);
+
         // loop through top statement types like enrollment eligibility and credit constraints
         for (String topStatementType : topStatementTypes) {           
-            //TODO KSCM-392 allStatementTypes.add(statementService.getStatementType(topStatementType));
-            //TODO KSCM-392 List<> types differ, I did not initialized the string 
-            //List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(topStatementType,ContextUtils.getContextInfo());
-            List<String> subStatementTypeNames = new ArrayList<String>();
+            allStatementTypes.add(statementService.getStatementType(topStatementType));
+            List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(topStatementType);
+
             // loop through statement types belonging to the top statement types
             for (String subStatementTypeName : subStatementTypeNames) {
-                // TODO KSCM-392 allStatementTypes.add(statementService.getStatementType(subStatementTypeName));
+                allStatementTypes.add(statementService.getStatementType(subStatementTypeName));
             }
         }
         
