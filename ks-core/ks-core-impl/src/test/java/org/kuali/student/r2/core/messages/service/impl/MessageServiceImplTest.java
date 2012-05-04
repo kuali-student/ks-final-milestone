@@ -92,10 +92,13 @@ public class MessageServiceImplTest extends AbstractServiceTest{
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    LocaleInfo localeInfo = new LocaleInfo();
 	    localeInfo.setLocaleRegion("US");
-		MessageInfo message;
+	    localeInfo.setLocaleLanguage("US");
+		MessageInfo message = new MessageInfo();
         try {
+        	//ES probleem
             message = messageService.getMessage(localeInfo, "Address", "State", contextInfo);
-            assertEquals(message.getLocale(), "US");
+            //
+            assertEquals(message.getLocale().getLocaleLanguage(), "US");
             assertEquals(message.getGroupName(), "Address");
             assertEquals(message.getKey(), "State");
             assertEquals(message.getValue(), "State:");
@@ -113,9 +116,11 @@ public class MessageServiceImplTest extends AbstractServiceTest{
 		
 		LocaleInfo localeInfo1 = new LocaleInfo();
         localeInfo1.setLocaleRegion("CA");
+        localeInfo1.setLocaleLanguage("CA");
 		try {
             message = messageService.getMessage(localeInfo1, "Address", "State", contextInfo);
-            assertEquals(message.getLocale(), "CA");
+            assertEquals(message.getLocale().getLocaleRegion(), "CA");
+            assertEquals(message.getLocale().getLocaleLanguage(), "CA");
             assertEquals(message.getGroupName(), "Address");
             assertEquals(message.getKey(), "State");
             assertEquals(message.getValue(), "Province:");
@@ -136,13 +141,13 @@ public class MessageServiceImplTest extends AbstractServiceTest{
 	public void testGetMessages(){
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    LocaleInfo localeInfo = new LocaleInfo();
-	    localeInfo.setLocaleRegion("US");
+	    localeInfo.setLocaleLanguage("US");
 		List<MessageInfo> messages;
         try {
             messages = messageService.getMessages(localeInfo, "Address", contextInfo);
             assertEquals(2, messages.size());
             for(MessageInfo m: messages){
-                assertEquals(m.getLocale(), "US");
+                assertEquals(m.getLocale().getLocaleLanguage(), "US");
                 assertEquals(m.getGroupName(), "Address");
                 assertTrue(m.getKey().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
             }
@@ -159,12 +164,12 @@ public class MessageServiceImplTest extends AbstractServiceTest{
         }
 		
 		LocaleInfo localeInfo1 = new LocaleInfo();
-		localeInfo1.setLocaleRegion("CA");
+		localeInfo1.setLocaleLanguage("CA");
 		try {
             messages = messageService.getMessages(localeInfo1, "Address", contextInfo);
             assertEquals(2, messages.size());
             for(MessageInfo m: messages){
-                assertEquals(m.getLocale(), "CA");
+                assertEquals(m.getLocale().getLocaleLanguage(), "CA");
                 assertEquals(m.getGroupName(), "Address");
                 assertTrue(m.getKey().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
             }
@@ -184,7 +189,7 @@ public class MessageServiceImplTest extends AbstractServiceTest{
             messages = messageService.getMessages(localeInfo, "Name", contextInfo);
             assertEquals(1, messages.size());
             for(MessageInfo m: messages){
-                assertEquals(m.getLocale(), "US");
+                assertEquals(m.getLocale().getLocaleLanguage(), "US");
                 assertEquals(m.getGroupName(), "Name");
                 assertEquals(m.getValue(), "Enter your last name:");
             }
@@ -208,13 +213,13 @@ public class MessageServiceImplTest extends AbstractServiceTest{
 		groupKeys.add("Address");
 		groupKeys.add("Name");
 		LocaleInfo localeInfo = new LocaleInfo();
-		localeInfo.setLocaleRegion("US");
+		localeInfo.setLocaleLanguage("US");
 		List<MessageInfo> messages;
         try {
             messages = messageService.getMessagesByGroups(localeInfo, groupKeys, contextInfo);
             assertEquals(3, messages.size());
             for(MessageInfo m: messages){
-                assertEquals(m.getLocale(), "US");
+                assertEquals(m.getLocale().getLocaleLanguage(), "US");
                 assertTrue(m.getGroupName().equals("Address") || m.getGroupName().equals("Name"));
             }
         } catch (DoesNotExistException e) {
@@ -230,12 +235,12 @@ public class MessageServiceImplTest extends AbstractServiceTest{
         }
 				
 		LocaleInfo localeInfo1 = new LocaleInfo();
-		localeInfo1.setLocaleRegion("CA");
+		localeInfo1.setLocaleLanguage("CA");
 		try {
             messages = messageService.getMessagesByGroups(localeInfo1, groupKeys, contextInfo);
             assertEquals(3, messages.size());
             for(MessageInfo m: messages){
-                assertEquals(m.getLocale(), "CA");
+                assertEquals(m.getLocale().getLocaleLanguage(), "CA");
                 assertTrue(m.getGroupName().equals("Address") || m.getGroupName().equals("Name"));
             }
         } catch (DoesNotExistException e) {
@@ -256,15 +261,15 @@ public class MessageServiceImplTest extends AbstractServiceTest{
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 		MessageInfo m = new MessageInfo();
 		LocaleInfo localeInfo = new LocaleInfo();
-		localeInfo.setLocaleRegion("US");
-		m.setGroupName("Course");
+		localeInfo.setLocaleLanguage("US");  // part of the where kry
+		m.setGroupName("Name");  // part of the where key
 		m.setKey("Grading");
 		m.setValue("Grading Scale");
-		
+		m.setLocale(localeInfo);
 		try {
-            messageService.updateMessage(localeInfo, "Name", m, contextInfo);
-            MessageInfo result = messageService.getMessage(localeInfo, "Course", "Grading", contextInfo );
-            assertEquals(result.getLocale(), m.getLocale());
+            messageService.updateMessage(localeInfo, "Last", m, contextInfo);
+            MessageInfo result = messageService.getMessage(localeInfo, "Name", "Grading", contextInfo );
+            assertEquals(result.getLocale().getLocaleLanguage(), m.getLocale().getLocaleLanguage());
             assertEquals(result.getKey(), m.getKey());
             assertEquals(result.getValue(), m.getValue());
             assertEquals(result.getGroupName(), m.getGroupName());
@@ -280,7 +285,8 @@ public class MessageServiceImplTest extends AbstractServiceTest{
             e.printStackTrace();
         } catch (PermissionDeniedException e) {
             e.printStackTrace();
-        } catch (ReadOnlyException e) {
+       }
+            catch (ReadOnlyException e) {
             e.printStackTrace();
         } catch (VersionMismatchException e) {
             e.printStackTrace();

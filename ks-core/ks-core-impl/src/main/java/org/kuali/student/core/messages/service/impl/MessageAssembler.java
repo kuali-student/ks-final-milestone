@@ -40,6 +40,7 @@ public class MessageAssembler {
 		message.setKey(messageEntity.getMessageId());
 		LocaleInfo locale = new LocaleInfo();
 		locale.setLocaleLanguage(messageEntity.getLocale());
+		locale.setLocaleRegion(messageEntity.getLocale());
 		message.setLocale(locale);
 		message.setValue(messageEntity.getValue());
 	}
