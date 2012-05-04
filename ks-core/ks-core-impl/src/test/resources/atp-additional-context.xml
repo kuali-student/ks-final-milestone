@@ -34,7 +34,7 @@
  	<bean id="atpServiceValidator" class="org.kuali.student.r1.core.dictionary.service.MockDefaultValidatorImpl"/>
 
 	<bean id="validatorFactory"
-  		class="org.kuali.student.r1.common.validator.ValidatorFactory">
+  		class="org.kuali.student.r2.common.validator.ValidatorFactory">
   	 <property name="defaultValidator" ref="atpServiceValidator"/>
   	</bean>
 
