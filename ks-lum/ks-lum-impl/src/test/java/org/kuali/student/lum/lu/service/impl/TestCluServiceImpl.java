@@ -523,7 +523,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				.get(1).getSuffixCode());
 		assertEquals("cluId2-orgid", createdClu.getAlternateIdentifiers()
 				.get(1).getOrgId());
-		assertEquals("AltIdentValue", createdClu.getAlternateIdentifiers().get(1).getAttributeInfoValue(createdClu.getAttributes(),"AltIdentKey"));
+		assertEquals("AltIdentValue", createdClu.getAlternateIdentifiers().get(1).getAttributeInfoValue(createdClu.getAlternateIdentifiers().get(1).getAttributes(),"AltIdentKey"));
 		
 		assertEquals("cluAttrValue1", createdClu.getAttributeInfoValue(createdClu.getAttributes(),"cluAttrKey1"));
 		assertEquals("cluAttrValue2", createdClu.getAttributeInfoValue(createdClu.getAttributes(),"cluAttrKey2"));
