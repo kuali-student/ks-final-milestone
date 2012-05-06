@@ -190,8 +190,10 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     registrationGroupInfo.setActivityOfferingIds(activityOfferingIds);
                     registrationGroupInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
                     registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
+                    // TODO Change this formatOffering to actual one when implementing
+                    String formatOfferingId = null;
                     try {
-                        getCourseOfferingService().createRegistrationGroup(coi.getId(), registrationGroupInfo, new ContextInfo());
+                        getCourseOfferingService().createRegistrationGroup(formatOfferingId,registrationGroupInfo.getTypeKey(), registrationGroupInfo, new ContextInfo());
                     } catch (OperationFailedException ofe) {
                         System.out.println("call courseOfferingService.createRegistrationGroup() method, and get OperationFailedException:  " + ofe.toString());
                     } catch (InvalidParameterException ipe) {

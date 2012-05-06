@@ -20,9 +20,24 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
+import javax.jws.WebParam;
 
 
 public class CourseOfferingServiceDecorator implements CourseOfferingService {
+    @Override
+    public StatusInfo deleteCourseOfferingCascaded(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteCourseOfferingCascaded(courseOfferingId,  context);
+    }
+
+    @Override
+    public StatusInfo deleteFormatOfferingCascaded(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteFormatOfferingCascaded(formatOfferingId,  context);
+    }
+
+    @Override
+    public RegistrationGroupInfo createRegistrationGroup( String formatOfferingId, String registrationGroupType,  RegistrationGroupInfo registrationGroupInfo,  ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createRegistrationGroup(formatOfferingId,registrationGroupType, registrationGroupInfo,  context);
+    }
 
     private CourseOfferingService nextDecorator;
 
@@ -342,12 +357,12 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo deleteCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
         return getNextDecorator().deleteCourseOffering(courseOfferingId, context);
     }
 
     @Override
-    public StatusInfo deleteActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
         return getNextDecorator().deleteActivityOffering(activityOfferingId, context);
     }
 
@@ -356,10 +371,6 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().createSeatPoolDefinition(seatPoolDefinitionInfo, context);
     }
 
-    @Override
-    public RegistrationGroupInfo createRegistrationGroup(String registrationGroupType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createRegistrationGroup(registrationGroupType, registrationGroupInfo, context);
-    }
 
     @Override
     public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatId, String formatOfferingType, FormatOfferingInfo formatOfferingInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {

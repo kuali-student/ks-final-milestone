@@ -48,9 +48,12 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Ac
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.lum.course.dto.FormatInfo;
 
+import javax.jws.WebParam;
+
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class CourseOfferingServiceImpl implements CourseOfferingService {
+
 
     private LuiService luiService;
     private TypeService typeService;
@@ -61,6 +64,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private LuiPersonRelationService lprService;
     // TODO - remove when KSENROLL-247 is resolved
     private static final Integer TEMP_MAX_ENROLLMENT_DEFAULT = 50;
+
+
+    @Override
+    public StatusInfo deleteCourseOfferingCascaded( String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public StatusInfo deleteFormatOfferingCascaded( String formatOfferingId,ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public RegistrationGroupInfo createRegistrationGroup( String formatOfferingId,  String registrationGroupType,  RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        throw new UnsupportedOperationException();
+    }
 
     public CriteriaLookupService getCriteriaLookupService() {
         return criteriaLookupService;
@@ -910,30 +929,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    @Transactional(readOnly = false)
-    public RegistrationGroupInfo createRegistrationGroup(String registrationTypeKey, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        registrationGroupInfo.setTypeKey(registrationTypeKey);
-        LuiInfo lui = registrationGroupAssembler.disassemble(registrationGroupInfo, context);
-        LuiInfo created;
-        try {
-            created = luiService.createLui(registrationGroupInfo.getFormatId(), registrationGroupInfo.getTermId(), lui.getTypeKey(), lui, context);
-            for (String activityOfferingId : registrationGroupInfo.getActivityOfferingIds()) {
-
-                LuiLuiRelationInfo activtyRegGroupRelation = new LuiLuiRelationInfo();
-                activtyRegGroupRelation.setEffectiveDate(new Date());
-
-                luiService.createLuiLuiRelation(activityOfferingId, lui.getId(), LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY, activtyRegGroupRelation, context);
-            }
-        } catch (CircularRelationshipException cre) {
-            throw new OperationFailedException(cre.getMessage());
-        }
-
-
-        return registrationGroupAssembler.assemble(created, context);
-    }
 
     @Override
     @Transactional(readOnly = false)

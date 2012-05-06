@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
                 "activityId", "termId",  "activityCode", "scheduleId", 
                 "isHonorsOffering", "gradingOptionKeys", "instructors",
                 "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
-                "weeklyTotalContactHours",  "evaluationFlag",
+                "weeklyTotalContactHours",  "isEvaluated",
                 "maximumEnrollment", "minimumEnrollment","isMaxEnrollmentEstimate",
                 "finalExamStartTime", "finalExamEndTime", 
                 "finalExamSpaceCode",
@@ -106,7 +106,7 @@ public class ActivityOfferingInfo
     private String finalExamSpaceCode;
 
     @XmlElement
-    private Boolean evaluationFlag;
+    private Boolean isEvaluated;
 
 
     @XmlAnyElement
@@ -167,7 +167,7 @@ public class ActivityOfferingInfo
         }
 
         this.finalExamSpaceCode = offering.getFinalExamSpaceCode();
-        this.evaluationFlag = offering.getEvaluationFlag();
+        this.isEvaluated = offering.getIsEvaluated();
     }
 
     @Override
@@ -293,8 +293,8 @@ public class ActivityOfferingInfo
     }
 
     @Override
-    public Boolean getEvaluationFlag() {
-        return this.evaluationFlag;
+    public Boolean getIsEvaluated() {
+        return this.isEvaluated;
     }
 
     public void setMinimumEnrollment(Integer minimumEnrollment) {
@@ -332,8 +332,8 @@ public class ActivityOfferingInfo
         isHonorsOffering = honorsOffering;
     }
 
-    public void setEvaluationFlag(Boolean evaluationFlag) {
-        this.evaluationFlag = evaluationFlag;
+    public void setIsEvaluated(Boolean isEvaluated) {
+        this.isEvaluated = isEvaluated;
     }
 
 

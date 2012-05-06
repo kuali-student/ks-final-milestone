@@ -75,7 +75,7 @@ public interface RegistrationGroup
      * @impl This maps the the version dependent id of the format
      *       clu. Stored as cluId in Lui.
      */
-    public String getFormatId();
+    public String getFormatOfferingId();
             
     /**
      * Uniquely identifies an instance of the course for the purposes

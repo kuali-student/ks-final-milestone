@@ -47,10 +47,11 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
+import javax.jws.WebParam;
+
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
-    
     private CourseService courseService;
     private AcademicCalendarService acalService;
     
@@ -69,9 +70,33 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public void setAcalService(AcademicCalendarService acalService) {
         this.acalService = acalService;
     }
-    
-    
-    
+
+
+
+    @Override
+    public StatusInfo deleteCourseOfferingCascaded( String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public StatusInfo deleteFormatOfferingCascaded( String formatOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public RegistrationGroupInfo createRegistrationGroup( String formatOfferingId,  String registrationGroupType,  RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // create
+        if (!registrationGroupType.equals(registrationGroupInfo.getTypeKey())) {
+            throw new InvalidParameterException("The type parameter does not match the type on the info object");
+        }
+        RegistrationGroupInfo copy = new RegistrationGroupInfo(registrationGroupInfo);
+        if (copy.getId() == null) {
+            copy.setId(registrationGroupMap.size() + "");
+        }
+        copy.setMeta(newMeta(context));
+        registrationGroupMap.put(copy.getId(), copy);
+        return new RegistrationGroupInfo(copy);    }
+
     @Override
     public CourseOfferingInfo getCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -594,22 +619,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, RegistrationGroupInfo> registrationGroupMap = new LinkedHashMap<String, RegistrationGroupInfo>();
 
-    @Override
-    public RegistrationGroupInfo createRegistrationGroup(String registrationGroupType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        // create 
-        if (!registrationGroupType.equals(registrationGroupInfo.getTypeKey())) {
-            throw new InvalidParameterException("The type parameter does not match the type on the info object");
-        }
-        RegistrationGroupInfo copy = new RegistrationGroupInfo(registrationGroupInfo);
-        if (copy.getId() == null) {
-            copy.setId(registrationGroupMap.size() + "");
-        }
-        copy.setMeta(newMeta(context));
-        registrationGroupMap.put(copy.getId(), copy);
-        return new RegistrationGroupInfo(copy);
-    }
+
 
     @Override
     public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(String formatOfferingId, ContextInfo context)

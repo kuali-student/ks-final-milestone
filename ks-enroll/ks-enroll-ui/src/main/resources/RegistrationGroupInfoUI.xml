@@ -30,7 +30,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <!--  other attributes not used by UI -->
                 <ref bean="RegistrationGroupInfo.courseOfferingId"/>
                 <ref bean="RegistrationGroupInfo.registrationCode"/>
-                <ref bean="RegistrationGroupInfo.formatId"/>
+                <ref bean="RegistrationGroupInfo.formatOfferingId"/>
                 <ref bean="RegistrationGroupInfo.isHonorsOffering"/>
                 <ref bean="RegistrationGroupInfo.maximumEnrollment"/>
                 <ref bean="RegistrationGroupInfo.minimumEnrollment"/>

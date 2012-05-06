@@ -168,12 +168,7 @@ public interface ActivityOffering extends IdEntity {
     public Integer getMinimumEnrollment();
 
 
-    /**
-     * Is there an instructor evaluation for this activity offering
-     * @name Instructor Evaluation Flag
-     *
-     */
-    public Boolean getEvaluationFlag();
+
 
 
     /**
@@ -183,5 +178,10 @@ public interface ActivityOffering extends IdEntity {
      */
     public Boolean getIsMaxEnrollmentEstimate();
 
-
+    /**
+     * Is there an instructor evaluation for this activity offering
+     * @name Instructor Evaluation Flag
+     *
+     */
+    public Boolean getIsEvaluated() ;
 }

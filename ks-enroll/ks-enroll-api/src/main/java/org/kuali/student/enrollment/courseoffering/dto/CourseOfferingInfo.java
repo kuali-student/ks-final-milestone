@@ -43,7 +43,7 @@ import org.w3c.dom.Element;
         "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", "isHonorsOffering",
         "instructors", "subjectArea", "unitsDeploymentOrgIds", "unitsContentOwnerOrgIds",  "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "creditOptionIds", "gradingOptionIds", "waitlistLevelTypeKey",
-        "hasWaitlist", "waitlistTypeKey","campusLocations", "hasFinalExam",
+        "hasWaitlist", "waitlistTypeKey","campusLocations", "hasFinalExam", "isEvaluated",
         "fundingSource", "isFeeAtActivityOffering", "isFinancialAidEligible",
         "meta", "attributes", "_futureElements"})
 
@@ -122,6 +122,8 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     private Boolean isFinancialAidEligible;
 
 
+    @XmlElement
+    private Boolean isEvaluated;
 
     @XmlElement
     private Boolean  isFeeAtActivityOffering ;
@@ -184,6 +186,7 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
         this.waitlistLevelTypeKey = offering.getWaitlistLevelTypeKey();
 
+        this.isEvaluated = offering.getIsEvaluated();
         this.fundingSource = offering.getFundingSource();
 
         this.isFinancialAidEligible = offering.getIsFinancialAidEligible();
@@ -467,4 +470,13 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         isFeeAtActivityOffering = feeAtActivityOffering;
     }
 
+    @Override
+    public Boolean getIsEvaluated() {
+        return isEvaluated;
+    }
+
+
+    public void setEvaluated(Boolean evaluated) {
+        isEvaluated = evaluated;
+    }
 }

@@ -17,13 +17,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemI
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -207,7 +201,11 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
         // to delete all for a term or delete all for a subject area intead of doing it one by one
         List<String> ids = this.getCourseOfferingIdsBySoc(socId, context);
         for (String id : ids) {
-            this.coService.deleteCourseOffering(socId, context);
+            try {
+                this.coService.deleteCourseOffering(socId, context);
+            } catch (DependentObjectsExistException e) {
+                throw new OperationFailedException( e.getMessage());
+            }
         }
         return ids.size();
     }

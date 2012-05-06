@@ -342,4 +342,12 @@ public interface CourseOffering extends IdNamelessEntity{
      */
     public Boolean getIsFeeAtActivityOffering();
 
+    /**
+     * Indicates whether the course offering has an evaluation
+     *
+     *
+     * @name Is Evaluated
+     */
+    public Boolean getIsEvaluated();
+
 }

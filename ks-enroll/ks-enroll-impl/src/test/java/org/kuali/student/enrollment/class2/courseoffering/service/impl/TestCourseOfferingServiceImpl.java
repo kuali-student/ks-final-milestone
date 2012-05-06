@@ -404,35 +404,29 @@ public class TestCourseOfferingServiceImpl {
             throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        String courseOfferingId = "Lui-1";
+        String formatOfferingId = "Lui-1";
         RegistrationGroupInfo rg = new RegistrationGroupInfo();
-        rg.setFormatId("CLU-1");
+        rg.setFormatOfferingId("CLU-1");
         rg.setName("RegGroup-1");
         rg.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
 
         try {
             RegistrationGroupInfo created =
-                    courseOfferingService.createRegistrationGroup(courseOfferingId, rg, callContext);
+                    courseOfferingService.createRegistrationGroup(formatOfferingId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, callContext);
             assertNotNull(created);
 
             RegistrationGroupInfo retrieved =
                     courseOfferingService.getRegistrationGroup(created.getId(), callContext);
             assertNotNull(retrieved);
 
-            assertEquals(rg.getFormatId(), retrieved.getFormatId());
+            assertEquals(rg.getFormatOfferingId(), retrieved.getFormatOfferingId());
             assertEquals(rg.getName(), retrieved.getName());
             assertEquals(rg.getStateKey(), retrieved.getStateKey());
             assertEquals(rg.getTypeKey(), retrieved.getTypeKey());
 
             // test getRegistrationGroupsForCourseOffering
-            List<RegistrationGroupInfo> rgs =
-                    courseOfferingService.getRegistrationGroupsForCourseOffering(courseOfferingId, callContext);
-            assertNotNull(rgs);
-            assertEquals(1, rgs.size());
-            assertEquals(created.getFormatId(), rgs.get(0).getFormatId());
-            assertEquals(created.getId(), rgs.get(0).getId());
-            assertEquals(courseOfferingId, rgs.get(0).getCourseOfferingId());
+
         } catch (Exception ex) {
             fail("Exception from service call :" + ex.getMessage());
         }

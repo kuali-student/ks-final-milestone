@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationGroupInfo", propOrder = {"activityOfferingIds", 
-    "courseOfferingId", "registrationCode", "termId", "formatId", 
+    "courseOfferingId", "registrationCode", "termId", "formatOfferingId",
     "isHonorsOffering", "maximumEnrollment", 
     "minimumEnrollment", "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", 
     "isWaitlistCheckinRequired", "waitlistCheckinFrequency", "id", 
@@ -48,7 +48,7 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     private Integer minimumEnrollment;
 
     @XmlElement
-    private String formatId;
+    private String formatOfferingId;
 
     @XmlElement
     private String registrationCode;
@@ -80,7 +80,7 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     public RegistrationGroupInfo() {
         this.activityOfferingIds = new ArrayList<String>();
         this.courseOfferingId = null;
-        this.formatId = null;
+        this.formatOfferingId = null;
         this.hasWaitlist = new Boolean(false);
         this.isHonorsOffering = new Boolean(false);
         this.isWaitlistCheckinRequired = new Boolean(false);
@@ -101,7 +101,7 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         
         this.activityOfferingIds = (null != registrationGroup.getActivityOfferingIds()) ? new ArrayList<String>(registrationGroup.getActivityOfferingIds()) : null;
         this.courseOfferingId = registrationGroup.getCourseOfferingId();
-        this.formatId = registrationGroup.getFormatId();
+        this.formatOfferingId = registrationGroup.getFormatOfferingId();
         this.hasWaitlist = registrationGroup.getHasWaitlist();
         this.isHonorsOffering = (null != registrationGroup.getIsHonorsOffering()) ? new Boolean(registrationGroup.getIsHonorsOffering()) : null;
         this.isWaitlistCheckinRequired = (null != registrationGroup.getIsWaitlistCheckinRequired()) ? new Boolean(registrationGroup.getIsWaitlistCheckinRequired()) : null;
@@ -135,8 +135,8 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     }
 
     @Override
-    public String getFormatId() {
-        return formatId;
+    public String getFormatOfferingId() {
+        return formatOfferingId;
     }
 
     @Override
@@ -195,8 +195,8 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         this.minimumEnrollment = minimumEnrollment;
     }
 
-    public void setFormatId(String formatId) {
-        this.formatId = formatId;
+    public void setFormatOfferingId(String formatOfferingId) {
+        this.formatOfferingId = formatOfferingId;
     }
 
     public void setRegistrationCode(String registrationCode) {

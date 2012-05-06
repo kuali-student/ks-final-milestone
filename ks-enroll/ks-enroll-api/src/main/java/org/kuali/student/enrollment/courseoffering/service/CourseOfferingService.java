@@ -417,11 +417,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public CourseOfferingInfo rolloverCourseOffering(@WebParam(name = "sourceCourseOfferingId") String sourceCourseOfferingId,
-            @WebParam(name = "targetTermId") String targetTermId, 
-            @WebParam(name = "optionKeys") List<String> optionKeys, 
-            @WebParam(name = "context") ContextInfo context) 
-            throws AlreadyExistsException,
+    public CourseOfferingInfo rolloverCourseOffering(@WebParam(name = "sourceCourseOfferingId") String sourceCourseOfferingId,  @WebParam(name = "targetTermId") String targetTermId, @WebParam(name = "optionKeys") List<String> optionKeys,  @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
             DoesNotExistException, DataValidationErrorException, 
             InvalidParameterException, MissingParameterException, 
             OperationFailedException, PermissionDeniedException, ReadOnlyException;
@@ -471,8 +467,25 @@ public interface CourseOfferingService {
             PermissionDeniedException, VersionMismatchException;
 
     /**
-     * Deletes an existing CourseOffering. Deleting a course offering should
-     * also delete all the activity offerings and registrations groups within
+     * Deletes an existing CourseOffering.
+     *
+     * @param courseOfferingId the Id of the ActivityOffering to be deleted
+     * @param context          Context information containing the principalId and locale
+     *                         information about the caller of service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the SeatPoolDefinition does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws DependentObjectsExistException dependent object exist  for course offering
+     */
+    public StatusInfo deleteCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
+
+    /**
+     * Deletes an existing CourseOffering cascaded style. Deleting a course offering
+     * cascaded style would also delete all the format offering, activity offerings
+     * and registrations groups within
      * it. Cross listed course offerings should also be deleted along with
      * passed in courseOfferingId.
      *
@@ -486,7 +499,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteCourseOfferingCascaded(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a course offering. Depending on the value of validationType,
@@ -624,8 +637,25 @@ public interface CourseOfferingService {
      * @throws MissingParameterException  Missing  formatOfferingId
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
+     * @throws DependentObjectsExistException if a dependent object exists
      */
     public StatusInfo deleteFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
+
+
+    /**
+     * Deletes an  Format Offering with dependent Activity Offering and Registration group
+     *
+     * @param formatOfferingId  The  Id formatOffering to be deleted
+     * @param context
+     * @return
+     * @throws DoesNotExistException  The formatOfferingId doesn't exist
+     * @throws InvalidParameterException  Invalid  formatOfferingId
+     * @throws MissingParameterException  Missing  formatOfferingId
+     * @throws OperationFailedException    unable to complete request
+     * @throws PermissionDeniedException   authorization failure
+     */
+
+    public StatusInfo deleteFormatOfferingCascaded(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * This method returns the TypeInfo for a given activity offering type key.
@@ -820,7 +850,8 @@ public interface CourseOfferingService {
     /**
      * Deletes an existing ActivityOffering. Deleting an activity will also
      * delete any relation it has with course offerings. An activity offering
-     * cannot be deleted if it is being referenced in a registration group. The
+     * cannot be deleted if it is being referenced in a registration group and will be
+     * DependentObjectsExistException. The
      * registration group needs to be updated to drop the activity offering
      * references before the activity offering can be deleted. The difference in
      * behavior is because of the relationship nature is different between
@@ -841,8 +872,9 @@ public interface CourseOfferingService {
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws  DependentObjectsExistException
      */
-    public StatusInfo deleteActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException , DependentObjectsExistException;
 
     /**
      * Validates an activity offering. Depending on the value of validationType,
@@ -1004,6 +1036,7 @@ public interface CourseOfferingService {
     /**
      * Creates a new Registration Group
      *
+     * @param formatOfferingId       formatofferingId that the  RegistrationGroup is based on
      * @param registrationGroupType      courseOffering Id that the RegistrationGroup will belong to
      * @param registrationGroupInfo Details of the RegistrationGroup to be created
      * @param context               Context information containing the principalId and locale
@@ -1016,7 +1049,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public RegistrationGroupInfo createRegistrationGroup(@WebParam(name = "registrationGroupType") String registrationGroupType, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public RegistrationGroupInfo createRegistrationGroup(@WebParam(name = "formatOfferingId") String formatOfferingId , @WebParam(name = "registrationGroupType") String registrationGroupType, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Generates all possible registration groups needed (not already in a regGroup) for the given format
