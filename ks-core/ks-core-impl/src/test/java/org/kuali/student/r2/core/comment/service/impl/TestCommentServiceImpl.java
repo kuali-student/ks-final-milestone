@@ -63,7 +63,7 @@ import org.kuali.student.r2.core.comment.service.CommentService;
 @PersistenceFileLocation("classpath:META-INF/comment-persistence.xml")
 public class TestCommentServiceImpl extends AbstractServiceTest {
 	final Logger LOG = Logger.getLogger(TestCommentServiceImpl.class);
-    @Client(value = "org.kuali.student.r1.core.comment.service.impl.CommentServiceImpl",additionalContextFile="classpath:comment-additional-context.xml")
+    @Client(value = "org.kuali.student.r2.core.comment.service.impl.CommentServiceImpl",additionalContextFile="classpath:comment-additional-context.xml")
     public CommentService client;
 
 
