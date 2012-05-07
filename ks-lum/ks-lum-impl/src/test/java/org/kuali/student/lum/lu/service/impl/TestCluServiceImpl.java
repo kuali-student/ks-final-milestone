@@ -22,12 +22,12 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.*;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
 import org.kuali.student.r1.common.search.dto.*;
-import org.kuali.student.r1.lum.lu.service.LuServiceConstants;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -2801,16 +2801,16 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		
 		CluInfo justMadeCurrentClu = client.getClu(cluV1.getId(), contextInfo);
 		assertTrue(justMadeCurrentClu.getVersionInfo().getCurrentVersionStart().compareTo(new Date())<1);
-		VersionDisplayInfo versionDisplayInfo = client.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, justMadeCurrentClu.getVersionInfo().getVersionIndId(), contextInfo);
+		VersionDisplayInfo versionDisplayInfo = client.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, justMadeCurrentClu.getVersionInfo().getVersionIndId(), contextInfo);
 		//Try to make a new versions from the current version
 		CluInfo cluV2 = client.createNewCluVersion(cluV1.getVersionInfo().getVersionIndId(),"CommentA", contextInfo);
 		CluInfo cluV3 = client.createNewCluVersion(cluV1.getVersionInfo().getVersionIndId(),"CommentB", contextInfo);
-		versionDisplayInfo = client.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersionInfo().getVersionIndId(), contextInfo);
+		versionDisplayInfo = client.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersionInfo().getVersionIndId(), contextInfo);
 		assertEquals(cluV1.getId(),versionDisplayInfo.getId());
 		assertEquals(cluV1.getVersionInfo().getVersionIndId(),cluV2.getVersionInfo().getVersionIndId());
 		assertEquals(cluV1.getVersionInfo().getVersionIndId(),cluV3.getVersionInfo().getVersionIndId());
 		client.setCurrentCluVersion(cluV3.getId(), null, contextInfo);
-		versionDisplayInfo = client.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersionInfo().getVersionIndId(), contextInfo);
+		versionDisplayInfo = client.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersionInfo().getVersionIndId(), contextInfo);
 		assertEquals(versionDisplayInfo.getId(),cluV3.getId());
 		
 		
