@@ -1390,7 +1390,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertTrue(null == luiIds || luiIds.size() == 0);
 	}*/
 
-	@Test
+	/* KSCM Unsupported in KSCM     @Test
 	public void testGetLuLuRelationTypeInfo() throws OperationFailedException,
 			DoesNotExistException, MissingParameterException, InvalidParameterException, PermissionDeniedException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
@@ -1412,9 +1412,9 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			fail("LuService.getLuLuRelationTypeInfo() did not throw DoesNotExistException when retrieving non-existent LuLuRelationType");
 		} catch (DoesNotExistException dnee) {
 		}
-	}
+	}*/
 
-	@Test
+	/* KSCM Unsupported in KSCM    @Test
 	public void testGetLuLuRelationTypeInfos() throws OperationFailedException,
 			DoesNotExistException, MissingParameterException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
@@ -1430,7 +1430,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 				});
         assertEquals(13, luLuRelTypeInfos.size());
         assertEquals("kuali.lu.lu.relation.type.hasCoreProgram", luLuRelTypeInfos.get(0).getKey());
-	}
+	}*/
 
 	/* LuiService not used in CM      @Test
 	public void testUpdateLuiState() throws DataValidationErrorException,
@@ -1592,7 +1592,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	}
 
-	@Test
+	/* KSCM Unsupported in KSCM     @Test
 	public void testResultUsageType() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -1602,7 +1602,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		List<TypeInfo> lrTypes = client.getResultUsageTypes(contextInfo);
 		assertEquals(2, lrTypes.size());
 
-	}
+	}*/
 
 	@Test
 	public void testGetClusByRelation() throws AlreadyExistsException,
