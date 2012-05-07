@@ -69,10 +69,15 @@ public class CourseDataService extends AbstractDataService {
 		//For retire course we don't want to actually save anything
 		if(LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))){
 			if(courseInfo.getVersionInfo()==null){
-				return get(courseInfo.getId());
-			}else{
-				return courseInfo;
-			}
+				courseInfo = (CourseInfo) get(courseInfo.getId());
+			} 
+	    	String startTerm = courseInfo.getStartTerm();
+	    	Map<String,String> proposalAttributes = new HashMap<String,String>();
+	    	if(startTerm!=null) {
+	    		proposalAttributes.put("prevStartTerm", startTerm);
+	    	}
+	    	properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);			    				
+			return courseInfo;
 		}
 		
 		//Set derived course fields before saving/updating
@@ -108,7 +113,7 @@ public class CourseDataService extends AbstractDataService {
 			}else{
 				courseInfo = courseService.updateCourse(courseInfo);
 			}
-		}else{
+		} else {
 			if (courseInfo.getId() == null){
 				courseInfo = courseService.createCourse(courseInfo);
 			} else {
