@@ -17,14 +17,18 @@
 
 <config>
 
+	<param name="kim.mode">LOCAL</param>
+  	<param name="kew.mode">LOCAL</param>
+  	<param name="ksb.mode">LOCAL</param>
+  
+	<param name="module.name">ks-lum-ui</param>
+	<param name="application.id">ks</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/ks-ksb-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
     
 	<param name="ks.ignore.rice.login">true</param>
 	
-    <param name="module.name">ks-lum-ui</param>
-    <param name="application.id">ks</param>
     <param name="db.vendor">derby</param>
 	<param name="jpa.vendor">hibernate</param>
 
@@ -61,5 +65,9 @@
 	<param name="ks.rice.actionList.serviceAddress">${ks.rice.application.url}/kew/ActionList.do</param>
     <param name="ks.rice.docSearch.serviceAddress">${ks.rice.application.url}/kew/DocumentSearch.do</param>
     <param name="ks.gwt.codeServer">gwt.codesvr=127.0.0.1:9997</param>
+    
+    <param name="rice.ksb.registry.serviceUrl" override="false">${ks.rice.application.url}/remoting/soap/ksb/v2_0/serviceRegistry</param>
+  	<param name="rice.ksb.serviceRegistry.security" override="false">true</param>
+  	<param name="rice.ksb.config.allowSelfSignedSSL" override="false">false</param>
     
 </config>
