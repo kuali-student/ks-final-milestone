@@ -603,23 +603,29 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     private boolean isValidHcalName(HolidayCalendarInfo hcal){
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        qBuilder.setPredicates(equalIgnoreCase("name", hcal.getName()));
+        List<Predicate> pList = new ArrayList<Predicate>();
+        Predicate p = equal("atpType",AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
+        pList.add(p);
+
+        p = equalIgnoreCase("name", hcal.getName());
+        pList.add(p);
+
+        Predicate[] preds = new Predicate[pList.size()];
+        pList.toArray(preds);
+        qBuilder.setPredicates(and(preds));
+
         try {
             List<HolidayCalendarInfo> hcals = getAcalService().searchForHolidayCalendars(qBuilder.build(), getContextInfo());
             boolean valid = hcals.isEmpty();
             //Make sure it's not the same Hcal which is being edited by the user
             if (!valid && StringUtils.isNotBlank(hcal.getId())){
                 for (HolidayCalendarInfo hc : hcals) {
-                    if (StringUtils.equals(hc.getTypeKey(),AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY)){
-                        if (!StringUtils.equals(hc.getId(),hcal.getId())){
-                            valid = false;
-                            break;
-                        }
+                    if (!StringUtils.equals(hc.getId(),hcal.getId())){
+                        valid = false;
+                        break;
                     }
                     valid = true;
                 }
-            }else{
-                valid = true;
             }
             return valid;
         } catch (Exception e) {
