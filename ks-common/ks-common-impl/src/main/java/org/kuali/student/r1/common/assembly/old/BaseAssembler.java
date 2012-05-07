@@ -109,16 +109,16 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         return metadata;
     }
 
-    // TODO KSCM-427 COnfirm this is working as it's different from CM-1.2
+
     protected void applyPermissionsToMetadata(Metadata metadata, String idType, String id){
         Boolean authorized = null;
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
             Map<String,String> qualification = getQualification(idType, id);
         	String currentUser = SecurityUtils.getCurrentUserId();
-//	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
-//	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
-//			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
-//					+ "' for user '" + currentUser + "': " + authorized);
+	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplate(currentUser, PermissionType.EDIT.getPermissionNamespace(),
+	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
+			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName()
+					+ "' for user '" + currentUser + "': " + authorized);
 	        metadata.setCanEdit(authorized.booleanValue());
         }  
         if(metadata != null && metadata.getProperties() != null) {
@@ -221,7 +221,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
      * 
      * @return the qualifications in at AttributeSet
      */
-    // TODO KSCM-427 COnfirm this is correct, changed the return type
+
     protected abstract Map<String,String> getQualification(String idType, String id);
     
     public void setPermissionService(PermissionService permissionService) {

@@ -198,7 +198,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
     	
     }
     
-    // TODO KSCM-427 COnfirm method work correctly different from CM-1.2
+
     protected Map<String, String> getFieldAccessPermissions(String dtoName, String idType, String id, String docType) {
         try {
             //get permissions and turn into a map of fieldName=>access
