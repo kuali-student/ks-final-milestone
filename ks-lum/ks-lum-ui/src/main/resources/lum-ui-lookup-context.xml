@@ -1091,7 +1091,7 @@
 
 
  <bean id="kuali.lu.lookup.amountInfo.unitType" class="org.kuali.student.r1.common.assembly.data.UILookupData"
-       parent="kuali.common.lookup.amountInfo.unitType">
+       parent="kuali.common.lookup.amountInfo.unitTypeKey">
   <property name="id" value="kuali.lu.lookup.amountInfo.unitType" />
   <property name="name" value="Get enumerations" />
   <property name="desc" value="Get enumerated lists of values given context" />
