@@ -190,7 +190,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
     @Override
 	public boolean isAuthorizationRequired() {
 		//FIXME: Need to add proper authorization checks for admin modify.
-		return false;
+		return true;
 	}
 
 	@Override
