@@ -31,7 +31,7 @@ import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumContextV
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
 
-@PersistenceFileLocation("classpath:META-INF/enum_persistence_jta.xml")
+@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao", testSqlFile = "classpath:ks-em.sql")
     public EnumeratedValueDao enumeratedValueDao;
