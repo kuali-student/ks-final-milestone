@@ -79,6 +79,8 @@
                 <value>classpath:org/kuali/student/enrollment/appointment/StudentPopulationLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/appointment/RegWindowAndAssignmentLookupAndInquiryView.xml</value>
 
+                <!-- Course Offering -->
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagementView.xml</value>
 			</list>
 		</property>
 		<property name="packagePrefixes">
