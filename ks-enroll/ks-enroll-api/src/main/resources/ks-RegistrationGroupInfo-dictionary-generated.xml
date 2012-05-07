@@ -62,7 +62,6 @@ activity offerings based on the canonical format.
 				<ref bean="RegistrationGroupInfo.courseOfferingId"/>
 				<ref bean="RegistrationGroupInfo.registrationCode"/>
 				<ref bean="RegistrationGroupInfo.termId"/>
-				<ref bean="RegistrationGroupInfo.formatId"/>
 				<ref bean="RegistrationGroupInfo.isHonorsOffering"/>
 				<ref bean="RegistrationGroupInfo.maximumEnrollment"/>
 				<ref bean="RegistrationGroupInfo.minimumEnrollment"/>

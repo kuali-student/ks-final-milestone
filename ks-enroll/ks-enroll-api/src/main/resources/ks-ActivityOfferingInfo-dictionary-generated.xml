@@ -71,7 +71,6 @@ system, each with a meeting pattern.
 				<ref bean="ActivityOfferingInfo.weeklyInclassContactHours"/>
 				<ref bean="ActivityOfferingInfo.weeklyOutofclassContactHours"/>
 				<ref bean="ActivityOfferingInfo.weeklyTotalContactHours"/>
-				<ref bean="ActivityOfferingInfo.evaluationFlag"/>
 				<ref bean="ActivityOfferingInfo.maximumEnrollment"/>
 				<ref bean="ActivityOfferingInfo.minimumEnrollment"/>
 				<ref bean="ActivityOfferingInfo.finalExamStartTime"/>

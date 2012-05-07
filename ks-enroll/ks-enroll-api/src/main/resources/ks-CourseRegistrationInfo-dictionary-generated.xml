@@ -929,7 +929,6 @@ Returns the reg group id for the RegGroupRegistration.
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.courseOfferingId"/>
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.registrationCode"/>
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.termId"/>
-						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.formatId"/>
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.isHonorsOffering"/>
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.maximumEnrollment"/>
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.minimumEnrollment"/>

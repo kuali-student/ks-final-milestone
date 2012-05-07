@@ -134,7 +134,6 @@ Returns the activity offering id for the activity registration.
 						<ref bean="ActivityRegistrationInfo.activityOffering.weeklyInclassContactHours"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.weeklyOutofclassContactHours"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.weeklyTotalContactHours"/>
-						<ref bean="ActivityRegistrationInfo.activityOffering.evaluationFlag"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.maximumEnrollment"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.minimumEnrollment"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.finalExamStartTime"/>
