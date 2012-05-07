@@ -19,6 +19,7 @@ import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.*;
 import org.kuali.student.r1.common.dto.AmountInfo;
 import org.kuali.student.r1.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r1.common.dto.RichTextInfo;
 import org.kuali.student.r1.common.dto.TimeAmountInfo;
 import org.kuali.student.r1.common.entity.Amount;
 import org.kuali.student.r1.common.entity.CurrencyAmount;
@@ -692,6 +693,9 @@ public class LuServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto, new String[]{"attributes",
                 "metaInfo", "descr"});
+        RichTextInfo desc = new RichTextInfo();
+        desc.setPlain(entity.getDescr());
+        dto.setDescr(desc);
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 

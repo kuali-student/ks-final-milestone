@@ -755,10 +755,10 @@ public class LuServiceImpl implements CluService {
         List<CluAdminOrg> adminOrgs = clu.getAdminOrgs();
         for (AdminOrgInfo orgInfo : cluInfo.getAdminOrgs()) {
             CluAdminOrg instructor = new CluAdminOrg();
-            BeanUtils.copyProperties(orgInfo, instructor,
+            BeanUtils.copyProperties(R1R2ConverterUtil.convert(orgInfo, org.kuali.student.r1.lum.lu.dto.AdminOrgInfo.class), instructor,
                     new String[]{"attributes"});
-            instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
-            		CluAdminOrgAttribute.class, R1R2ConverterUtil.convert(orgInfo, org.kuali.student.r1.lum.lu.dto.AdminOrgInfo.class).getAttributes(),
+
+            instructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluAdminOrgAttribute.class, R1R2ConverterUtil.convert(orgInfo, org.kuali.student.r1.lum.lu.dto.AdminOrgInfo.class).getAttributes(),
             		instructor, luDao));
             instructor.setClu(clu);
             adminOrgs.add(instructor);
@@ -2197,24 +2197,31 @@ public class LuServiceImpl implements CluService {
 
         CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
+        StatusInfo statusInfo = new StatusInfo();
+
         checkCluAlreadyAdded(cluSet, cluId);
 
-        try {
-            luDao.getCurrentCluVersionInfo(cluId, CluServiceConstants.CLU_NAMESPACE_URI);
-        } catch (NoResultException e) {
-            throw new DoesNotExistException();
+        //If the clu already exists return false but dont throw an exception
+        if(!checkCluAlreadyAdded(cluSet, cluId)){
+            statusInfo.setSuccess(Boolean.FALSE);
+            statusInfo.setMessage("CluSet already contains Clu (id='" + cluId + "')");
+        }else{
+            try{
+                luDao.getCurrentCluVersionInfo(cluId, CluServiceConstants.CLU_NAMESPACE_URI);
+            }catch(NoResultException e){
+                throw new DoesNotExistException();
+            }
+
+            CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
+            join.setCluSet(cluSet);
+            join.setCluVersionIndId(cluId);
+
+            cluSet.getCluVerIndIds().add(join);
+
+            luDao.update(cluSet);
+
+            statusInfo.setSuccess(true);
         }
-
-        CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
-        join.setCluSet(cluSet);
-        join.setCluVersionIndId(cluId);
-
-        cluSet.getCluVerIndIds().add(join);
-
-        luDao.update(cluSet);
-
-        StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(true);
 
         return statusInfo;
     }
@@ -2340,13 +2347,14 @@ public class LuServiceImpl implements CluService {
         return cluSetInfo;
     }
 
-    private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
+    private boolean checkCluAlreadyAdded(CluSet cluSet, String cluId)
             throws OperationFailedException {
         for (CluSetJoinVersionIndClu join : cluSet.getCluVerIndIds()) {
             if (join.getCluVersionIndId().equals(cluId)) {
-                throw new OperationFailedException("CluSet already contains Clu (id='" + cluId + "')");
+                return false;
             }
         }
+        return true;
     }
 
     private void checkCluSetAlreadyAdded(CluSet cluSet, String cluSetIdToAdd)
@@ -3045,18 +3053,23 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, UnsupportedActionException {
 
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+
         checkForMissingParameter(cluSetIds, "cluIdList");
         checkForMissingParameter(cluSetId, "cluSetId");
 
-        for (String cluId : cluSetIds) {
+        for(String cluId : cluSetIds) {
             StatusInfo status = addCluToCluSet(cluId, cluSetId, contextInfo);
             if (!status.getIsSuccess()) {
-                return status;
+                //One or more clus already existed
+                if(statusInfo.getMessage().isEmpty()){
+                    statusInfo.setMessage(status.getMessage());
+                }else{
+                    statusInfo.setMessage(statusInfo.getMessage()+"\n"+status.getMessage());
+                }
             }
         }
-
-        StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(true);
 
         return statusInfo;
     }
