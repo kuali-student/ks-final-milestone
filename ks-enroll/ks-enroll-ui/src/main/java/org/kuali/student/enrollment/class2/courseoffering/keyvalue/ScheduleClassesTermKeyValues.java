@@ -25,7 +25,10 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
-
+/**
+ * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
+ */
+@Deprecated
 public class ScheduleClassesTermKeyValues extends KeyValuesBase implements Serializable {
 
     private static final long serialVersionUID = 1L;

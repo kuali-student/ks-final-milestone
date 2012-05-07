@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
+ */
+@Deprecated
 public class CourseOfferingInfoLookupableImpl extends LookupableImpl {
 
     private transient CourseOfferingService courseOfferingService;

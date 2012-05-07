@@ -32,7 +32,10 @@ import java.util.Map;
 import java.util.Random;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
-
+/**
+ * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
+ */
+@Deprecated
 public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
     private static final long serialVersionUID = 1L;
     private static final String DEFAULT_DOCUMENT_DESC_FOR_CREATING_COURSE_OFFERING =

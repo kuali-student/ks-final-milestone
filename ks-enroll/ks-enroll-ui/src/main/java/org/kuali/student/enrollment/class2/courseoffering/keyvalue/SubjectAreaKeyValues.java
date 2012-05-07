@@ -33,7 +33,10 @@ import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
-
+/**
+ * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
+ */
+@Deprecated
 public class SubjectAreaKeyValues extends KeyValuesBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
