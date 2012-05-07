@@ -59,6 +59,7 @@ import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
     "resultOptions",
     "programLevel",
     "coreProgramIds",
+    "versionInfo",
     "meta",
     "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
     
