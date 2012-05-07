@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class2.courseoffering.service;
+package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
