@@ -55,6 +55,7 @@
 				<ref bean="retireCourseProposalInfo.proposedEndTerm" />
 				<ref bean="retireCourseProposalInfo.proposedLastTermOffered" />
 				<ref bean="retireCourseProposalInfo.proposedLastCourseCatalogYear" />	
+				<ref bean="retireCourseProposalInfo.prevStartTerm" />	
 			</list>
 		</property>	
 	</bean>	
@@ -94,7 +95,7 @@
 		<property name="minOccurs" value="1" />	
 	</bean>
 	<bean id="retireCourseProposalInfo.proposedEndTerm" parent="retireCourseProposalInfo.proposedEndTerm-parent" />
-	
+
 	<bean id="retireCourseProposalInfo.proposedLastTermOffered-parent" abstract="true"
 		parent="proposalInfo.prevEndTerm-parent">
 		<property name="name" value="proposedLastTermOffered" />
@@ -140,6 +141,7 @@
 		<property name="lookupDefinition" ref="constraint.lookup.atp"/>
 		<property name="dynamic" value="true"/>
 	</bean>
+	<bean id="retireCourseProposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
 	<bean id="courseProposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
 	<bean id="programProposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
 	
