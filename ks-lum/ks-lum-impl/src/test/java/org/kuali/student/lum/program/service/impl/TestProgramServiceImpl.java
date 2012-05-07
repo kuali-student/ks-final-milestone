@@ -83,13 +83,12 @@ public class TestProgramServiceImpl {
      * A set of methods that have a dummy implementation in ProgramServiceImpl.  Method names should be removed from here once
      * they have a working implementation.
      */
-    private final String[] DUMMY_SERVICE_METHODS = {"createHonorsProgram", "createMinorDiscipline", "deleteHonorsProgram", 
-            "deleteMinorDiscipline", "getCredentialProgramType", "getCredentialProgramTypes", 
-            "getHonorsByCredentialProgramType", "getHonorsProgram", "getMajorIdsByCredentialProgramType", 
-            "getMinorDiscipline", "getMinorsByCredentialProgramType", "updateHonorsProgram", "updateMinorDiscipline", 
-            "validateHonorsProgram", "validateMinorDiscipline", "getSearchCriteriaType", "getSearchCriteriaTypes", 
-            "getSearchResultType", "getSearchResultTypes", "getSearchType", "getSearchTypes", "getSearchTypesByCriteria", 
-            "getSearchTypesByResult", "search"};
+    private final String[] DUMMY_SERVICE_METHODS = {"createHonorsProgram", "createMinorDiscipline",
+            "deleteHonorsProgram", "deleteMinorDiscipline", "getHonorsProgram", "getMinorDiscipline",
+            "getMinorsByCredentialProgramType", "updateHonorsProgram", "updateMinorDiscipline",
+            "validateHonorsProgram", "validateMinorDiscipline", "getSearchCriteriaType", "getSearchCriteriaTypes",
+            "getSearchResultType", "getSearchResultTypes", "getSearchType", "getSearchTypes",
+            "getSearchTypesByCriteria", "getSearchTypesByResult", "search"};
 
     @Test
     public void testProgramServiceSetup() {
@@ -1511,20 +1510,20 @@ public class TestProgramServiceImpl {
         }
     }
     
-    //@Test
+    @Test
     public void testGetVersionMethodsForInvalidParameters() throws Exception {
         String[] getVersionMethods = {"getVersionBySequenceNumber", "getVersions", "getFirstVersion", "getVersionsInDateRange", "getCurrentVersion", "getCurrentVersionOnDate"};
         
         // build an object array with the appropriate number of arguments for each version method to be called
-        Object[][] getVersionParams = {new Object[3], new Object[2], new Object[2], new Object[4], new Object[2], new Object[3]};
+        Object[][] getVersionParams = {new Object[4], new Object[3], new Object[3], new Object[5], new Object[3], new Object[4]};
         
         // build a class array with the parameter types for each method call
-        Class<?>[][] getVersionParamTypes = {{String.class, String.class, Long.class}, // for getVersionBySequenceNumber
-                {String.class, String.class}, // for getVersions
-                {String.class, String.class}, // for getFirstVersion
-                {String.class, String.class, Date.class, Date.class}, // for getVersionsInDateRange
-                {String.class, String.class}, // for getCurrentVersion
-                {String.class, String.class, Date.class}}; // for getCurrentVersionOnDate
+        Class<?>[][] getVersionParamTypes = {{String.class, String.class, Long.class, ContextInfo.class}, // for getVersionBySequenceNumber
+                {String.class, String.class, ContextInfo.class}, // for getVersions
+                {String.class, String.class, ContextInfo.class}, // for getFirstVersion
+                {String.class, String.class, Date.class, Date.class, ContextInfo.class}, // for getVersionsInDateRange
+                {String.class, String.class, ContextInfo.class}, // for getCurrentVersion
+                {String.class, String.class, Date.class, ContextInfo.class}}; // for getCurrentVersionOnDate
         
         String badRefObjectTypeURI = "BADBADBAD";
         Collection<ServiceMethodInvocationData> methods = new ArrayList<ServiceMethodInvocationData>(getVersionMethods.length);
@@ -1555,7 +1554,7 @@ public class TestProgramServiceImpl {
      * 
      * @throws Exception
      */
-    //@Test
+    @Test
     public void testCallDummyMethods() throws Exception {
         // We need to get the Method objects, but we do not know or care about the parameter types for the methods
         // so get the all methods of the service and load them into a hashtable, indexed by method name
