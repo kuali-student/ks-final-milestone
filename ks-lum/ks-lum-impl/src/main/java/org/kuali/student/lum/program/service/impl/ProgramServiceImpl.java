@@ -1071,7 +1071,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results = majorDisciplineAssembler.disassemble(majorDisciplineInfo, operation, contextInfo);
         invokeServiceCalls(results);
-        return R1R2ConverterUtil.convert( results.getBusinessDTORef(), new org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo());
+        return (MajorDisciplineInfo) results.getBusinessDTORef();
     }
 
     private CredentialProgramInfo processCredentialProgramInfo(CredentialProgramInfo credentialProgramInfo, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {

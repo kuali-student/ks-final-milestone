@@ -65,7 +65,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         programAssemblerUtils.assembleBasicAdminOrgs(baseDTO, (ProgramBasicOrgAssembly) cpInfo);
         programAssemblerUtils.assembleAtps(baseDTO, (ProgramAtpAssembly) cpInfo);
         
-        // KSCM-313 ClassCastException. programAssemblerUtils.assembleLuCodes(baseDTO, (ProgramCodeAssembly) cpInfo);
+        programAssemblerUtils.assembleLuCodes(baseDTO, (ProgramCodeAssembly) cpInfo);
         
         programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) cpInfo, contextInfo);
 

@@ -75,8 +75,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         
         try {
 
-        	//TODO cpInfo.setCoreProgramIds(luService.getRelatedCluIdsByCluId(baseDTO.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM,contextInfo));
-        	 cpInfo.setCoreProgramIds(cluService.getCluIdsByRelatedCluAndRelationType(baseDTO.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM, contextInfo));
+        	 cpInfo.setCoreProgramIds(cluService.getRelatedCluIdsByCluAndRelationType(baseDTO.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM, contextInfo));
         } catch (Exception e) {
             throw new AssemblyException(e);
         }

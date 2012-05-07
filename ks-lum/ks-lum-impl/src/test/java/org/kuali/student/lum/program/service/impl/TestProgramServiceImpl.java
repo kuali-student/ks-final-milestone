@@ -96,11 +96,11 @@ public class TestProgramServiceImpl {
     	assertNotNull(statementService);
     }
 
-	//@Test
+	@Test
     public void testGetMetaData() {
         MetadataServiceImpl metadataService = new MetadataServiceImpl(programService);
         metadataService.setUiLookupContext("classpath:lum-ui-test-lookup-context.xml");
-        Metadata metadata = metadataService.getMetadata("org.kuali.student.lum.program.dto.MajorDisciplineInfo");
+        Metadata metadata = metadataService.getMetadata("org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo");
         assertNotNull(metadata);
 
         Map<String, Metadata> properties = metadata.getProperties();
@@ -112,7 +112,7 @@ public class TestProgramServiceImpl {
     }
 
 
-    //@Test
+    @Test
     public void testGetProgramRequirement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", contextInfo);
         assertNotNull(progReqInfo);
@@ -181,17 +181,17 @@ public class TestProgramServiceImpl {
         }
 	}
 
-    //@Test(expected = MissingParameterException.class)
+    @Test(expected = MissingParameterException.class)
     public void testGetProgramRequirement_nullId() throws Exception {
         programService.getProgramRequirement(null, contextInfo);
     }
 
-    //@Test(expected = DoesNotExistException.class)
+    @Test(expected = DoesNotExistException.class)
     public void testGetProgramRequirement_badId() throws Exception {
         programService.getProgramRequirement("CLU-XXX ", contextInfo);
     }
 
-    //@Test
+    @Test
     public void testGetCoreProgram() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         CoreProgramInfo core = null;
             try {
@@ -260,7 +260,7 @@ public class TestProgramServiceImpl {
             assertNotNull(core.getId());
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", core.getId());
     }
-    //@Test
+    @Test
     public void testGetMajorDiscipline() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         MajorDisciplineInfo major = null;
 //        	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
@@ -420,7 +420,7 @@ public class TestProgramServiceImpl {
 
     }
 
-    //@Test
+    @Test
     public void testGetVariationsByMajorDisciplineId() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         MajorDisciplineInfo majorDisciplineInfo = null;
 
@@ -441,7 +441,7 @@ public class TestProgramServiceImpl {
 
     }
 
-    //@Test
+    @Test
     public void testGetBaccCredentialProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 
     	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
@@ -461,7 +461,7 @@ public class TestProgramServiceImpl {
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", credentialProgramInfo.getCoreProgramIds().get(0));
     }
 
-    //@Test
+    @Test
     public void testCreateMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo major;
@@ -1388,7 +1388,7 @@ public class TestProgramServiceImpl {
     	ProgramRequirementInfo progReq = createProgramRequirementTestData();
     	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(null, progReq,  contextInfo);
 			programService.deleteProgramRequirement(createdProgReq.getId(), contextInfo);
-    	programService.getProgramRequirement(createdProgReq.getId(), contextInfo);
+    	programService.getProgramRequirement(createdProgReq.getId(),contextInfo);
     }
 
     //@Test
