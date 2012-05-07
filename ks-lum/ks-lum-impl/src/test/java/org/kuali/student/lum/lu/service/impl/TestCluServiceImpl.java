@@ -431,6 +431,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	}
 
+    // KSCM-484 TODO CluAdminOrg missing parameter state
 	@Test
 	public void testCluCrud() throws ParseException, AlreadyExistsException,
 			DataValidationErrorException, DoesNotExistException,

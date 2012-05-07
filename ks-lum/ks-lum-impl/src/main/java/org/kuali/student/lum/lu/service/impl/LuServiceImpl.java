@@ -1786,7 +1786,7 @@ public class LuServiceImpl implements CluService {
         }
 
         CluLoRelation cluLoRelation = new CluLoRelation();
-        BeanUtils.copyProperties(cluLoRelationInfo, cluLoRelation,
+        BeanUtils.copyProperties(R1R2ConverterUtil.convert(cluLoRelationInfo, org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo.class), cluLoRelation,
                 new String[]{"cluId", "attributes", "meta", "type"});
 
         cluLoRelation.setClu(clu); 
@@ -1835,10 +1835,10 @@ public class LuServiceImpl implements CluService {
                     + cluLoRelationInfo.getTypeKey());
         }
 
-        BeanUtils.copyProperties(cluLoRelationInfo, reltn, new String[]{
+        BeanUtils.copyProperties(R1R2ConverterUtil.convert(cluLoRelationInfo, org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo.class), reltn, new String[]{
                 "cluId", "attributes", "meta", "type"});
 
-        reltn.setClu(clu); 
+        reltn.setClu(clu);
         reltn.setAttributes(LuServiceAssembler.toGenericAttributes(
         		CluLoRelationAttribute.class,
         		R1R2ConverterUtil.convert(cluLoRelationInfo, org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo.class).getAttributes(), reltn, luDao));
