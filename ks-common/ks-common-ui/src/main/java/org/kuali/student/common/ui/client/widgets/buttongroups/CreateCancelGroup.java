@@ -23,6 +23,7 @@ import org.kuali.student.common.ui.client.widgets.buttonlayout.ButtonRow;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
+@Deprecated
 public class CreateCancelGroup extends ButtonGroup<CreateCancelEnum>{
     
     public CreateCancelGroup(Callback<CreateCancelEnum> callback){

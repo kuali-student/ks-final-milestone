@@ -45,6 +45,7 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
+@Deprecated
 public class KSDatePickerImpl extends KSDatePickerAbstract implements HasFocusHandlers, HasBlurHandlers{
 	private DatePicker picker = new DatePicker();
 	private KSTextBox dateField = new KSTextBox();

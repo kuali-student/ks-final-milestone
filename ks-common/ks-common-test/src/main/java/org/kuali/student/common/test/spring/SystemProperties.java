@@ -18,6 +18,7 @@ package org.kuali.student.common.test.spring;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+@Deprecated
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SystemProperties {
 	public Property[] properties();

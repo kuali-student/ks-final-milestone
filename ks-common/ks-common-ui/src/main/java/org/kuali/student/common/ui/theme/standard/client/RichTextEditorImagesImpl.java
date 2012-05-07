@@ -19,6 +19,7 @@ import org.kuali.student.common.ui.client.theme.RichTextEditorImages;
 
 import com.google.gwt.user.client.ui.Image;
 
+@Deprecated
 public class RichTextEditorImagesImpl implements RichTextEditorImages{
 
 	@Override

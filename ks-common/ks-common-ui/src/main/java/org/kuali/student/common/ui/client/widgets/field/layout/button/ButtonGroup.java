@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
 
+@Deprecated
 public abstract class ButtonGroup<T extends ButtonEnum> extends ButtonLayout{
     private List<Callback<T>> callbacks = new ArrayList<Callback<T>>();
     protected Map<T, KSButton> buttonMap = new HashMap<T, KSButton>();

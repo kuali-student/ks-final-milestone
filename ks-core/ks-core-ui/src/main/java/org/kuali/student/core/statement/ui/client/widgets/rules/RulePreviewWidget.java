@@ -11,8 +11,8 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -116,7 +116,7 @@ public class RulePreviewWidget extends FlowPanel {
     private void addSubRule(final StatementTreeViewInfo subTree) {
         //display AND/OR operator between subrules
         if (addRuleOperator) {
-            buildANDOperator(stmtTreeInfo.getOperator());
+        	buildANDOperator(stmtTreeInfo.getOperator());
         }
 
         final SubrulePreviewWidget newSubRuleWidget = new SubrulePreviewWidget(subTree, isReadOnly, clusetWidgets);        

@@ -4,12 +4,12 @@ import org.junit.Test;
 import java.beans.IntrospectionException;
 import java.io.IOException;
 
-import org.kuali.student.common.dictionary.service.impl.DictionaryCreator;
-import org.kuali.student.lum.lrc.dto.CredentialInfo;
-import org.kuali.student.lum.lrc.dto.CreditInfo;
-import org.kuali.student.lum.lrc.dto.GradeInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lrc.dto.ScaleInfo;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryCreator;
+import org.kuali.student.r1.lum.lrc.dto.CredentialInfo;
+import org.kuali.student.r1.lum.lrc.dto.CreditInfo;
+import org.kuali.student.r1.lum.lrc.dto.GradeInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
 
 public class TestDictionaryCreator
 {

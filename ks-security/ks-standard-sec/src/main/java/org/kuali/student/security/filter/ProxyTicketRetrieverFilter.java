@@ -41,7 +41,7 @@ public class ProxyTicketRetrieverFilter extends GenericFilterBean {
     private String proxyTargetService = null;
     private SamlIssuerService samlIssuerService;
     private boolean useCasProxyMechanism = false;
-   
+
     public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
@@ -51,12 +51,12 @@ public class ProxyTicketRetrieverFilter extends GenericFilterBean {
 			// TODO: handle this
 		}
 	}
-        
+
     public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-        CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+    	CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         
-        if(cat != null && !isSAMLInSecurityContext()){
+        if(cat != null && cat instanceof CasAuthenticationToken && !isSAMLInSecurityContext()){
             // This is not a SAML Assertion. It is CAS specific way to hold information about the authenticated user.
             // The information is returned from the CAS server as a response to a validation request.
             Assertion casAssertion = null;
@@ -64,8 +64,8 @@ public class ProxyTicketRetrieverFilter extends GenericFilterBean {
             String principal = null;
             
             System.out.println("ProxyTicketRetrieverFilter : inside if");
-            casAssertion = cat.getAssertion();
-            if(casAssertion != null){
+        	casAssertion = ((CasAuthenticationToken)cat).getAssertion();
+            if (casAssertion != null){
                 System.out.println("ProxyTicketRetrieverFilter : casAssertion is not null");
                 if(useCasProxyMechanism){
                     proxyTicket = casAssertion.getPrincipal().getProxyTicketFor(proxyTargetService);
@@ -106,18 +106,17 @@ public class ProxyTicketRetrieverFilter extends GenericFilterBean {
     }
     
     private boolean isSAMLInSecurityContext(){
-        CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+    	CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         if(cat.getDetails() instanceof SAMLAssertion){
             return true;
         }
         return false;
     }
 
-    /* I don't think we need this anymore
-    @Override
-    public int getOrder() {
-        return FilterChainOrder.CAS_PROCESSING_FILTER + 2;
-    }*/
+//    @Override
+//    public int getOrder() {
+//        return FilterChainOrder.CAS_PROCESSING_FILTER + 2;
+//    }
 
     public String getProxyTargetService() {
         return proxyTargetService;

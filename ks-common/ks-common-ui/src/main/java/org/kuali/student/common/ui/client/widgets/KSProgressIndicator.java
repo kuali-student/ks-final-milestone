@@ -29,6 +29,7 @@ import com.google.gwt.core.client.GWT;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class KSProgressIndicator extends KSProgressIndicatorAbstract{ 
     KSProgressIndicatorAbstract indicator = GWT.create(KSProgressIndicatorImpl.class);
     

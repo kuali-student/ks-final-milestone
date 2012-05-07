@@ -1,22 +1,18 @@
 package org.kuali.student.lum.course.service.impl;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
+import java.util.*;
 
 /**
  * Use this class to generate test data for a course (it may need improvements for creating real relationships for more
@@ -25,7 +21,10 @@ import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 public class CourseDataGenerator {
     private static final String[] campusLocations = {CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH, CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH};
     String activities[] = {CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_DISCUSSION_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_TUTORIAL_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_LECTURE_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE, /*
-                                                                                                                                                                                                                                                                                                                  * CourseAssemblerConstants.
+                                                                                                                                                                                                                                                                                                                  * \
+                                                                                                                                                                                                                                                                                                                  * *
+                                                                                                                                                                                                                                                                                                                  * CourseAssemblerConstants
+                                                                                                                                                                                                                                                                                                                  * .
                                                                                                                                                                                                                                                                                                                   * COURSE_ACTIVITY_WEBDISCUSS_TYPE
                                                                                                                                                                                                                                                                                                                   * ,
                                                                                                                                                                                                                                                                                                                   */// not
@@ -38,17 +37,18 @@ public class CourseDataGenerator {
 
     public CourseInfo getCourseTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException {
         CourseInfo testData = generateTestData(CourseInfo.class, 0, 0, null);
-        testData.getAttributes().put("proposalTitle", "proposalTitle-1");
-        testData.getAttributes().put("proposalRationale", "proposalRationale");
-        testData.getCreditOptions().get(0).getResultValues().set(0, "1");
-        testData.getCreditOptions().get(0).getResultValues().set(1, "2");
-        testData.getCreditOptions().get(1).getResultValues().set(0, "3");
-        testData.getCreditOptions().get(1).getResultValues().set(1, "4");
-        for (ResultComponentInfo resultComponent : testData.getCreditOptions()) {
-            resultComponent.getAttributes().put("minCreditValue", "2");
-            resultComponent.getAttributes().put("maxCreditValue", "5");
-            resultComponent.getAttributes().put("fixedCreditValue", "11");
-        }
+
+         testData.getAttributes().add(new AttributeInfo("proposalTitle", "proposalTitle-1"));
+         testData.getAttributes().add(new AttributeInfo("proposalRationale", "proposalRationale"));
+         testData.getCreditOptions().add(0, "kuali.resultComponentType.degree");
+         testData.getCreditOptions().set(0, "kuali.resultComponentType.credit.degree.range");
+         testData.getCreditOptions().set(1,"kuali.resultComponentType.credit.degree.fixed");
+         testData.getCreditOptions().set(2, "kuali.resultComponentType.grade.finalGrade");
+//         for (ResultComponentInfo resultComponent : testData.getCreditOptions()) {
+//         resultComponent.getAttributes().put("minCreditValue", "2");
+//         resultComponent.getAttributes().put("maxCreditValue", "5");
+//         resultComponent.getAttributes().put("fixedCreditValue", "11");
+//         }
         return testData;
     }
 
@@ -76,7 +76,14 @@ public class CourseDataGenerator {
             if (List.class.equals(pt)) {
                 // If this is a list then make a new list and make x amount of test data of that list type
                 // Get the list type:
-                Class<?> nestedClass = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
+                Class<?> nestedClass = null;
+                try {
+                    nestedClass = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
+                } catch (NoSuchFieldException e) {
+                    if ("attributes".equals(pd.getName())) {//just to get the Test Run.
+                        nestedClass = AttributeInfo.class;
+                    }
+                }
                 List list = new ArrayList();
                 for (int i = 0; i < 2; i++) {
                     propertyIndex++;
@@ -229,6 +236,12 @@ public class CourseDataGenerator {
         // TODO: make it return A, B, C...
         if ("variationCode".equals(name)) {
             return "A";
+        }
+        if ("startTerm".equals(name)) {
+            return "atp.2009FallSemester";
+        }
+        if ("endTerm".equals(name)) {
+            return "atp.2009FallSemester";
         }
         // Default
         return name + "-" + propertyIndex;

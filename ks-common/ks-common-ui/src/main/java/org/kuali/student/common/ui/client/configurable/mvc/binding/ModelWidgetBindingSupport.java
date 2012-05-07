@@ -17,18 +17,19 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Iterator;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.Key;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Data.StringKey;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data.Key;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.data.Data.StringKey;
 
 /**
  * Exposes common functionality to binding classes.
  * 
  * @author Kuali Student Team
  */
+@Deprecated
 public abstract class ModelWidgetBindingSupport<WidgetType> implements ModelWidgetBinding<WidgetType> {
     public static final StringKey RUNTIME_ROOT = new StringKey("_runtimeData");
     public static final StringKey DIRTY_PATH = new StringKey("dirty");

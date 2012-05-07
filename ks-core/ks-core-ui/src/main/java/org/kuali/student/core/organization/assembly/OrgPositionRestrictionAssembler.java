@@ -15,36 +15,36 @@
 
 package org.kuali.student.core.organization.assembly;
 
-import static org.kuali.student.common.assembly.util.AssemblerUtils.addVersionIndicator;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.isCreated;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.isDeleted;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.isModified;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.isUpdated;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isCreated;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isDeleted;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isModified;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isUpdated;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.old.Assembler;
-import org.kuali.student.common.assembly.old.data.SaveResult;
-import org.kuali.student.common.assembly.util.AssemblerUtils;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.old.Assembler;
+import org.kuali.student.r1.common.assembly.old.data.SaveResult;
+import org.kuali.student.r1.common.assembly.util.AssemblerUtils;
+import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgPositionHelper;
-import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 
 public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPositionHelper>{
 	final Logger LOG = Logger.getLogger(OrgPositionRestrictionAssembler.class);
@@ -73,13 +73,13 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
         List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
         Data orgPositionMap = null;
         try{
-            positions = orgService.getPositionRestrictionsByOrg(id);
+        	positions = orgService.getPositionRestrictionsByOrg(id);
             orgPositionMap = buildOrgPositionMap(positions);
         }
-        catch(DoesNotExistException dnee){
-            return null;
+        //catch(DoesNotExistException dnee){
+        //    return null;
             
-        }
+        //}
         catch(Exception e){
             LOG.error(e);
         }
@@ -128,6 +128,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                     OrgPositionRestrictionInfo orgPositionRestrictionInfo = buildOrgPositionRestrictionInfo(orgPositionHelper);
                     orgPositionRestrictionInfo.setId(orgPositionHelper.getId());
                     try {
+
                         OrgPositionRestrictionInfo result = orgService.updatePositionRestrictionForOrg(orgPositionRestrictionInfo.getOrgId(), orgPositionRestrictionInfo.getOrgPersonRelationTypeKey(), orgPositionRestrictionInfo);
                         addVersionIndicator(orgPositionHelper.getData(), OrgPositionRestrictionInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
                     } catch (Exception e) {
@@ -140,7 +141,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
             else if(isDeleted(orgPositionHelper.getData())&&orgPositionHelper.getId()!=null){
                 try{
                     if(orgPositionHelper.getId()!=null){
-                        StatusInfo  result = orgService.removePositionRestrictionFromOrg(orgPositionHelper.getOrgId(), orgPositionHelper.getPersonRelationType());
+                    	StatusInfo  result = orgService.removePositionRestrictionFromOrg(orgPositionHelper.getOrgId(), orgPositionHelper.getPersonRelationType());
                         propIter.remove();
                     }
                 }
@@ -153,8 +154,9 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                 orgPositionHelper.setOrgId((OrgHelper.wrap((Data)input.get("orgInfo")).getId()));
                 OrgPositionRestrictionInfo orgPositionRestrictionInfo = buildOrgPositionRestrictionInfo(orgPositionHelper);
                 try{
+
                     OrgPositionRestrictionInfo  result = orgService.addPositionRestrictionToOrg(orgPositionHelper.getOrgId(), 
-                            orgPositionHelper.getPersonRelationType(), orgPositionRestrictionInfo);
+                    		orgPositionHelper.getPersonRelationType(), orgPositionRestrictionInfo);
                     orgPositionHelper.setId(result.getId());
                     addVersionIndicator(orgPositionHelper.getData(),OrgPositionRestrictionInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
                 }

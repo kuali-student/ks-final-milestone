@@ -24,7 +24,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.common.entity.BaseEntity;
+import org.kuali.student.r1.common.entity.BaseEntity;
 
 @Entity
 @Table(name = "KSLU_MEMSHIP")

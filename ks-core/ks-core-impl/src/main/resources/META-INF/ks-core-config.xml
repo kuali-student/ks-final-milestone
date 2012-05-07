@@ -34,13 +34,6 @@ c
     <param name="ks.core.datasource.username.oracle">kscore</param>
     <param name="ks.core.datasource.password.oracle">kscore</param>
     <param name="ks.core.datasource.validationQuery.oracle">select 1 from dual</param>
-    
-    <param name="ks.core.jpa.DatabasePlatform.mysql">org.hibernate.dialect.MySQLDialect</param>
-    <param name="ks.core.datasource.driver.name.mysql">com.mysql.jdbc.Driver</param>
-    <param name="ks.core.datasource.url.mysql">jdbc:mysql://localhost/KSEMBEDDED</param>
-    <param name="ks.core.datasource.username.mysql">kscore</param>
-    <param name="ks.core.datasource.password.mysql">kscore</param>
-    <param name="ks.core.datasource.validationQuery.mysql">select 1</param>
 
    	<param name="ks.core.jpa.DatabasePlatform">${ks.core.jpa.DatabasePlatform.${db.vendor}}</param>
     <param name="ks.core.datasource.driver.name">${ks.core.datasource.driver.name.${db.vendor}}</param>

@@ -511,7 +511,7 @@
     <field-descriptor name="shortName" column="SHRT_NAME" jbdc-type="VARCHAR" />
     <field-descriptor name="longName" column="LNG_NAME" jbdc-type="VARCHAR" />
     <field-descriptor name="level" column="LVL" jbdc-type="VARCHAR" />
-    <field-descriptor name="division" column="DIV" jbdc-type="VARCHAR" />
+    <field-descriptor name="division" column="DIVISION" jbdc-type="VARCHAR" />
     <field-descriptor name="variation" column="VARTN" jbdc-type="VARCHAR" />
     <field-descriptor name="suffixCode" column="SUFX_CD" jbdc-type="VARCHAR" />
     <field-descriptor name="orgId" column="ORG_ID" jbdc-type="VARCHAR" />    

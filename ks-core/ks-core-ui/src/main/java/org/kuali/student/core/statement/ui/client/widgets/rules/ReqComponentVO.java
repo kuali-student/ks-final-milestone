@@ -17,8 +17,8 @@ package org.kuali.student.core.statement.ui.client.widgets.rules;
 
 import java.io.Serializable;
 
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.common.dto.Idable;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 
 public class ReqComponentVO extends Token implements Serializable, Idable {
 

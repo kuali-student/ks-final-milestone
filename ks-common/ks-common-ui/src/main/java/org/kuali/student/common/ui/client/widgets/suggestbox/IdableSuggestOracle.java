@@ -20,6 +20,7 @@ import java.util.Map;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
 
+@Deprecated
 public abstract class IdableSuggestOracle extends SuggestOracle{
     public static class IdableSuggestion implements Suggestion{
         private String id;
@@ -73,7 +74,11 @@ public abstract class IdableSuggestOracle extends SuggestOracle{
         public Map<String, String> getAttrMap(){
             return attrMap;
         }
-        
+
+        public void setAttrMap(Map<String, String> attrMap){
+            this.attrMap = attrMap;
+        }
+
 /*        public List<String> getAttrKeys(){
             return attrKeys;
         }*/

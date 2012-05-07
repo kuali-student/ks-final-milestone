@@ -39,6 +39,7 @@ import org.springframework.aop.aspectj.AspectJPointcutAdvisor;
 import org.springframework.aop.aspectj.SingletonAspectInstanceFactory;
 import org.springframework.aop.framework.ProxyFactory;
 
+@Deprecated
 @Daos( {
 		@Dao(value = "org.kuali.student.common_test_tester.support.MyDaoImpl", testDataFile = "classpath:META-INF/load-my-beans.xml",testSqlFile="classpath:test.sql"),
 		@Dao("org.kuali.student.common_test_tester.support.OtherDaoImpl") })

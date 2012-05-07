@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.mvc.HasActionState;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class SaveActionEvent extends ActionEvent<SaveActionHandler> implements HasActionState{
     public static final Type<SaveActionHandler> TYPE = new Type<SaveActionHandler>();
     

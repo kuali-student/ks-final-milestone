@@ -28,6 +28,7 @@ import org.junit.Assert;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
+@Deprecated
 public class ThreadMonitor {
 
 	private static List<Thread> threads = new ArrayList<Thread>();

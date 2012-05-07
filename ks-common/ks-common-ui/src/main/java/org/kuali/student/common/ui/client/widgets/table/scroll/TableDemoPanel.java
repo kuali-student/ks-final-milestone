@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class TableDemoPanel extends Composite{
 	DefaultTableModel tableModel = new DefaultTableModel();
 	public TableDemoPanel(){

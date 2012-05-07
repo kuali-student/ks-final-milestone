@@ -19,10 +19,12 @@
 
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/ks-ksb-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
     
 	<param name="ks.ignore.rice.login">true</param>
 	
     <param name="module.name">ks-lum-ui</param>
+    <param name="application.id">ks</param>
     <param name="db.vendor">derby</param>
 	<param name="jpa.vendor">hibernate</param>
 
@@ -40,6 +42,8 @@
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
     
+    <param name="transaction.timeout">3600</param>
+    
     <!-- Application dictionary -->
     <param name="ks.lum.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
     <param name="ks.lum.ui.lookupContextLocations">classpath:lum-ui-lookup-context.xml</param>
@@ -48,6 +52,10 @@
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-lum-ui-config.xml</param> 
     
     <param name="lum.application.url" override="false"></param>
+	
+	<!-- Caching  -->
+	<param name="ks.lum.gwt.cache.config.file">classpath:ks-lum-gwt-ehcache.xml</param>
+    <param name="ks.lum.gwt.metadata.enable.caching">true</param>
 	
 	<param name="ks.rice.application.url">http://localhost:8081/ks-embedded-dev/</param>
 	<param name="ks.rice.actionList.serviceAddress">${ks.rice.application.url}/kew/ActionList.do</param>

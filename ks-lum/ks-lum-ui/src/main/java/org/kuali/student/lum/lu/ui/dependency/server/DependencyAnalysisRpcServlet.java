@@ -3,14 +3,16 @@ package org.kuali.student.lum.lu.ui.dependency.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.lu.ui.dependency.client.service.DependencyAnalysisRpcService;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -40,7 +42,8 @@ public class DependencyAnalysisRpcServlet extends RemoteServiceServlet implement
 		
 	@Override
 	public ProgramRequirementInfo getProgramRequirement(String reqId) throws Exception {
-		ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(reqId, null, null);
+		//TODO fix null parameters?
+		ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(reqId, ContextUtils.getContextInfo());
 		
 		setProgReqNL(programRequirementInfo);
 		return programRequirementInfo;

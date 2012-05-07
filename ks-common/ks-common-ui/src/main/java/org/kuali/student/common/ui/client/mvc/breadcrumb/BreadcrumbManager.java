@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class BreadcrumbManager extends Composite{
 	
 	public static List<Hyperlink> links = new ArrayList<Hyperlink>();
@@ -58,6 +59,10 @@ public class BreadcrumbManager extends Composite{
 	 * @param historyStack
 	 */
 	public static void updateLinks(String historyStack){
+	    if (root == null){
+	        return;
+	    }
+	    
 		links.clear();
 		panel.clear();
 		panelEmpty = true;

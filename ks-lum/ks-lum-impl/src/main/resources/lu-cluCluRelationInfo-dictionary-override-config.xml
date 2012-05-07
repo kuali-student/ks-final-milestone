@@ -21,7 +21,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 xsi:schemaLocation="
 http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 ">
 <!-- *** Automatically Generated ***
 by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
@@ -33,12 +33,12 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.cluCluRelationInfo -->
 <!-- ********************************************** -->
 <!-- Detailed information about a CLU to CLU relationship. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluCluRelationInfo" id="object.cluCluRelationInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.CluCluRelationInfo" id="object.cluCluRelationInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.cluCluRelationInfo.HasCourseFormat"/>
 	<dict:typeRef bean="type.cluCluRelationInfo.HasCourseActivity"/>
 	<dict:typeRef bean="type.cluCluRelationInfo.Co-Located"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluCluRelationInfo" id="object.cluCluRelationInfo" parent="object.cluCluRelationInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.CluCluRelationInfo" id="object.cluCluRelationInfo" parent="object.cluCluRelationInfo.abstract"/>
 
 <!-- TODO: cross-check w/ SIMPLE -->
 <dict:type key="kuali.lu.relation.type.course.format" id="type.cluCluRelationInfo.HasCourseFormat.abstract" abstract="true">
@@ -177,10 +177,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluCluRelationInfo.metaInfo.Has Course Format.(default) -->
 <!-- ***************************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluCluRelationInfo.metaInfo.HasCourseFormat"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract"/>
 
 <dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.HasCourseFormat.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -323,10 +323,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluCluRelationInfo.metaInfo.Has Course Activity.(default) -->
 <!-- ******************************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluCluRelationInfo.metaInfo.HasCourseActivity"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity" parent="object.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract"/>
 
 <dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.HasCourseActivity.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -469,10 +469,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluCluRelationInfo.metaInfo.Co-Located.(default) -->
 <!-- ********************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluCluRelationInfo.metaInfo.Co-Located"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located" parent="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluCluRelationInfo.metaInfo.Co-Located" parent="object.field.cluCluRelationInfo.metaInfo.Co-Located.abstract"/>
 
 <dict:type key="*" id="type.field.cluCluRelationInfo.metaInfo.Co-Located.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -791,7 +791,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.course.format.relation.relation.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.hard.coded.active"/>
 	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
@@ -999,7 +999,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.course.activity.relation.relation.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.hard.coded.active"/>
 	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>
@@ -1210,7 +1210,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor id="dict.colocated.course.relation.relation.state.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.required"/>
 	<dict:constraintRef bean="constraint.single"/>
-	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.kuali.stateKey"/>
 	<dict:constraintRef bean="constraint.hard.coded.active"/>
 	<dict:constraintRef bean="constraint.read.only"/>
 </dict:constraintDescriptor>

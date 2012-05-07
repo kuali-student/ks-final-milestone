@@ -28,6 +28,7 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+@Deprecated
 public class ConfirmationDialog {
 	private KSLightBox dialog;
 
@@ -68,7 +69,7 @@ public class ConfirmationDialog {
 		layout.addStyleName("ks-confirmation-message-layout");
 		messageLabel.setStyleName("ks-confirmation-message-label");
 		dialog.setWidget(layout);
-		dialog.setSize(600, 100);
+		dialog.setSize(600, 130);
 	}
 	
 	public void show(){

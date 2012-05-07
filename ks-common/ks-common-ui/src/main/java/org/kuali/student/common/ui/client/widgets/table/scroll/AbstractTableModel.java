@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets.table.scroll;
 
 import java.util.ArrayList;
 
+@Deprecated
 public abstract class AbstractTableModel implements TableModel{
 	ArrayList<TableModelListener> tableModelListenerList = new ArrayList<TableModelListener>();
 

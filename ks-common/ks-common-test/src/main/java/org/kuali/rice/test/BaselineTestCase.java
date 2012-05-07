@@ -49,6 +49,7 @@ import org.kuali.rice.core.api.lifecycle.Lifecycle;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
+@Deprecated
 public class BaselineTestCase extends BaseModuleTestCase {
     /**
      * Enum of "baselining" modes that this test case supports

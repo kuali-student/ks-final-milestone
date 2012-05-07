@@ -30,6 +30,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.mortbay.jetty.webapp.WebAppClassLoader;
 
+@Deprecated
 public class TestUtilities {
 	
 	private static Thread exceptionThreader;

@@ -28,6 +28,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 
+@Deprecated
 public class Logger {
 	/**
 	 * Default log level is LogLevel.WARN
