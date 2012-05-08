@@ -26,12 +26,17 @@ import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -45,6 +50,13 @@ public class AtpStateKeyValues extends UifKeyValuesFinderBase implements Seriali
 
     private transient AcademicCalendarService acalService;
 
+    private static List<StateInfo> holidayStates;
+
+    private static List<StateInfo> acalStates;
+
+    private static List<StateInfo> termStates;
+
+
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         CalendarSearchForm form = (CalendarSearchForm)model;
@@ -52,19 +64,16 @@ public class AtpStateKeyValues extends UifKeyValuesFinderBase implements Seriali
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        //TODO:Build real context.
-        ContextInfo context = TestHelper.getContext1();
-
 
         try {
-            List<StateInfo> states = new ArrayList<StateInfo>();
+            List<StateInfo> states = null;
 
             if(atpType.equals(CalendarConstants.HOLIDAYCALENDER)){
-                states = getAcalService().getHolidayCalendarStates(context);
+                states = getHolidayStates();
             }else if(atpType.equals(CalendarConstants.ACADEMICCALENDER)) {
-                states = getAcalService().getAcademicCalendarStates(context);
+                states = getAcalStates();
             }else if(atpType.equals(CalendarConstants.TERM)){
-                states = getAcalService().getTermStates(context);
+                states = getTermStates();
             }
 
             for (StateInfo state : states) {
@@ -74,10 +83,41 @@ public class AtpStateKeyValues extends UifKeyValuesFinderBase implements Seriali
                 keyValues.add(keyValue);
             }
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException(e);
         }
 
         return keyValues;
+    }
+
+    public List<StateInfo> getHolidayStates() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        if(holidayStates == null) {
+            //TODO:Build real context.
+            ContextInfo context = TestHelper.getContext1();
+
+            holidayStates = Collections.unmodifiableList(getAcalService().getHolidayCalendarStates(context));
+        }
+        return holidayStates;
+    }
+
+    public List<StateInfo> getAcalStates() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        if(acalStates == null) {
+            //TODO:Build real context.
+            ContextInfo context = TestHelper.getContext1();
+
+            acalStates = Collections.unmodifiableList(getAcalService().getAcademicCalendarStates(context));
+        }
+
+        return acalStates;
+    }
+
+    public List<StateInfo> getTermStates() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        if(termStates == null) {
+            //TODO:Build real context.
+            ContextInfo context = TestHelper.getContext1();
+
+            termStates = Collections.unmodifiableList(getAcalService().getTermStates(context));
+        }
+        return termStates;
     }
 
     public AcademicCalendarService getAcalService() {

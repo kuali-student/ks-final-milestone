@@ -27,11 +27,16 @@ import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AcalEventTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
@@ -39,6 +44,8 @@ public class AcalEventTypeKeyValues extends UifKeyValuesFinderBase implements Se
     private static final long serialVersionUID = 1L;
 
     private transient AcademicCalendarService acalService;
+
+    private static List<TypeInfo> acalEventTypes;
 
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
@@ -56,11 +63,8 @@ public class AcalEventTypeKeyValues extends UifKeyValuesFinderBase implements Se
         topKeyValue.setValue("Select Event Type");
         keyValues.add(topKeyValue);
 
-        //TODO:Build real context.
-        ContextInfo context = TestHelper.getContext1();
-
         try {
-            List<TypeInfo> types = getAcalService().getAcalEventTypes(context);
+            List<TypeInfo> types = getAcalEventTypes();
             for (TypeInfo type : types) {
                 if (!alreadyAddedTypes.contains(type.getKey())){
                     ConcreteKeyValue keyValue = new ConcreteKeyValue();
@@ -74,6 +78,16 @@ public class AcalEventTypeKeyValues extends UifKeyValuesFinderBase implements Se
         }
 
         return keyValues;
+    }
+
+    private List<TypeInfo> getAcalEventTypes() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        if(acalEventTypes == null) {
+            //TODO:Build real context.
+            ContextInfo context = TestHelper.getContext1();
+
+            acalEventTypes = Collections.unmodifiableList(getAcalService().getAcalEventTypes(context));
+        }
+        return acalEventTypes;  //To change body of created methods use File | Settings | File Templates.
     }
 
     public AcademicCalendarService getAcalService() {

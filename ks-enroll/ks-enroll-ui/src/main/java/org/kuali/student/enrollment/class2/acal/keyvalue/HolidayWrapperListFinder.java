@@ -7,16 +7,12 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -46,34 +42,29 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
             startDate = new Date();
         }
 
-        //When an user only inputs the startDate or endDate, use the year information from either startDate or
-        // endDate field to pull out available official HC List
-        if ((startDate != null && endDate == null) || (startDate == null && endDate != null) ){
-            Integer theStartYear;
-            if (startDate != null)
-                theStartYear = new Integer(simpleDateformat.format(startDate));
-            else
-                theStartYear = new Integer(simpleDateformat.format(endDate));
-            holidayCalendarInfoList = _buildOfficialHolidayCalendarInfoList (theStartYear);
-        }
-
         //When the user inputs both startDate and endDate,
         if (startDate != null && endDate != null)  {
             Integer theStartYear = new Integer(simpleDateformat.format(startDate));
             Integer theEndYear = new Integer(simpleDateformat.format(endDate));
             if (theEndYear <= theStartYear){
                 //only query HC based on theStartYear
-                holidayCalendarInfoList = _buildOfficialHolidayCalendarInfoList (theStartYear);   
+                holidayCalendarInfoList = buildOfficialHolidayCalendarInfoList(theStartYear);
                 
             }else{
                 for (int year=theStartYear.intValue(); year<=theEndYear.intValue(); year++ ){
-                    try{
-                        holidayCalendarInfoList.addAll(_buildOfficialHolidayCalendarInfoList(new Integer(year)));
-                    }catch (Exception e){
-                        //ToDo:
-                    }
+                    holidayCalendarInfoList.addAll(buildOfficialHolidayCalendarInfoList(new Integer(year)));
                 }
             }
+        }
+        // When an user only inputs the startDate or endDate, use the year information from either startDate or
+        // endDate field to pull out available official HC List
+        else {
+            Integer theStartYear;
+            if (startDate != null)
+                theStartYear = new Integer(simpleDateformat.format(startDate));
+            else
+                theStartYear = new Integer(simpleDateformat.format(endDate));
+            holidayCalendarInfoList = buildOfficialHolidayCalendarInfoList(theStartYear);
         }
         
         for(HolidayCalendarInfo holidayCalendarInfo:holidayCalendarInfoList){
@@ -88,7 +79,7 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
     }
 
     //Only return HCs that are official
-    private List<HolidayCalendarInfo> _buildOfficialHolidayCalendarInfoList (Integer theStartYear){
+    private List<HolidayCalendarInfo> buildOfficialHolidayCalendarInfoList(Integer theStartYear){
         List<HolidayCalendarInfo> hcList = new ArrayList<HolidayCalendarInfo>();
         List<HolidayCalendarInfo> hcOfficialList = new ArrayList<HolidayCalendarInfo>();
         try{
@@ -99,13 +90,13 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
                 }
             }
         }catch (InvalidParameterException ipe){
-            System.out.println("call AcademicCalendarService.getHolidayCalendarsByStartYear(startYear, context), and get InvalidParameterException:  "+ipe.toString());
+            throw new RuntimeException(ipe);
         }catch (MissingParameterException mpe){
-            System.out.println("call AcademicCalendarService.getHolidayCalendarsByStartYear(startYear, context), and get MissingParameterException:  "+mpe.toString());
+            throw new RuntimeException(mpe);
         }catch (OperationFailedException ofe){
-            System.out.println("call AcademicCalendarService.getHolidayCalendarsByStartYear(startYear, context), and get OperationFailedException:  "+ofe.toString());
+            throw new RuntimeException(ofe);
         }catch (PermissionDeniedException pde){
-            System.out.println("call AcademicCalendarService.getHolidayCalendarsByStartYear(startYear, context), and get PermissionDeniedException:  "+pde.toString());
+            throw new RuntimeException(pde);
         }
         return  hcOfficialList;
         

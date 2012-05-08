@@ -43,6 +43,10 @@ import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
@@ -66,6 +70,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     private AcademicCalendarService acalService;
     private ContextInfo contextInfo;
     private TypeService typeService;
+
+    private List<TypeInfo> holidayTypes;
 
     public void saveHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
 
@@ -217,7 +223,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         keyValues.add(topKeyValue);
 
         try {
-            List<TypeInfo> types = getAcalService().getHolidayTypes(getContextInfo());
+            List<TypeInfo> types = getHolidayTypes();
             for (TypeInfo type : types) {
                 if (!alreadyAddedTypes.contains(type.getKey())){
                     ConcreteKeyValue keyValue = new ConcreteKeyValue();
@@ -1170,5 +1176,12 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }
 
         return adminOrgName;
+    }
+
+    public List<TypeInfo> getHolidayTypes() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        if(holidayTypes == null) {
+            holidayTypes = Collections.unmodifiableList(getAcalService().getHolidayTypes(getContextInfo()));
+        }
+        return holidayTypes;
     }
 }

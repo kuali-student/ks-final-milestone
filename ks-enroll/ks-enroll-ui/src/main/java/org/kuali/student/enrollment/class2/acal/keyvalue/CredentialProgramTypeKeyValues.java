@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.keyvalue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Iterator;
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import javax.xml.namespace.QName;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.kuali.student.lum.lu.service.LuService;
@@ -21,38 +23,25 @@ public class CredentialProgramTypeKeyValues extends KeyValuesBase implements Ser
 	private static final long serialVersionUID = 1L;	
 	
     private transient LuService luService;
-    
-    public List getKeyValues() {
-        List<ConcreteKeyValue> keyValues = new ArrayList<ConcreteKeyValue>();
 
-//        keyValues.add(new ConcreteKeyValue("kuali.lu.type.credential.Baccalaureate", "Baccalaureate" ));
-//        keyValues.add(new ConcreteKeyValue("kuali.lu.type.credential.Masters", "Masters"));
+    private static List<LuTypeInfo> luTypes;
 
- 
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
         try {
         	//pull out data from KSLU_LUTYPE
-           	List<LuTypeInfo> luTypeInfoList = getLuService().getLuTypes();
+           	List<LuTypeInfo> luTypeInfoList = getLuTypes();
         	
-        	if (luTypeInfoList == null){
-        		System.out.println(">>Didn't get luTypeInfoList, luTypeInfoList is null.");
-        	}
-        	else if (luTypeInfoList.size()== 0){
-        		System.out.println(">>Didn't get luTypeInfoList, luTypeInfoList is zero.");
-        	}
-        	else if (luTypeInfoList.size()>= 0){
-        		Iterator luTypeInfoIterator = luTypeInfoList.iterator();
-        		while (luTypeInfoIterator.hasNext()){
-        			LuTypeInfo luTypeInfo = (LuTypeInfo)luTypeInfoIterator.next();
-        			String luTypeInfoKey = luTypeInfo.getId();
-        			if (luTypeInfoKey.startsWith(CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX)){
-        				String name = luTypeInfo.getName();
-        				System.out.println(">>>luTypeInfoKey="+luTypeInfoKey+", name="+name);
-        				keyValues.add(new ConcreteKeyValue(luTypeInfoKey,name));
-        			}        			
-        		}
-        	}
-        }catch (OperationFailedException ofe){
-        	return keyValues;
+            for(LuTypeInfo luTypeInfo : luTypeInfoList) {
+                String luTypeInfoKey = luTypeInfo.getId();
+                if (luTypeInfoKey.startsWith(CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX)){
+                    String name = luTypeInfo.getName();
+                    keyValues.add(new ConcreteKeyValue(luTypeInfoKey,name));
+                }
+            }
+        }catch (OperationFailedException e) {
+            throw new RuntimeException(e);
         }
        
         return keyValues;
@@ -64,5 +53,13 @@ public class CredentialProgramTypeKeyValues extends KeyValuesBase implements Ser
         	luService = (LuService)GlobalResourceLoader.getService(new QName(LuServiceConstants.LU_NAMESPACE,"LuService"));
         }
         return this.luService;
+    }
+
+    public List<LuTypeInfo> getLuTypes() throws OperationFailedException {
+        if(luTypes == null) {
+            luTypes = Collections.unmodifiableList(getLuService().getLuTypes());
+        }
+
+        return luTypes;
     }
 }
