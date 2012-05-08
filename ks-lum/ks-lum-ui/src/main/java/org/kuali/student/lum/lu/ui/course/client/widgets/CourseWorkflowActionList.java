@@ -556,6 +556,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 
         if (!isCurrentVersion) {
             items.remove(modifyCourseActionItem);
+        	items.remove(retireCourseActionItem);
         }
 
         return items;
