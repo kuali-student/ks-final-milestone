@@ -23,6 +23,7 @@
   
 	<param name="module.name">ks-lum-ui</param>
 	<param name="application.id">ks</param>
+	<param name="dev.mode">true</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/ks-ksb-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
