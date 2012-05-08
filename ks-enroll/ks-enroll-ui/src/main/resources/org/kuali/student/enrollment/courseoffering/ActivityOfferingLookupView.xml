@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <import resource="classpath:ks-ActivityOfferingInfo-dictionary.xml"/>
+    <import resource="classpath:UifKSDefinitions.xml"/>
+
+    <!-- LookupView -->
+    <bean id="KS-ActivityOffering-LookupView" parent="KSLookupView">
+        <property name="title" value="ActivityOffering Lookup " />
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
+        <!--<property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingLookupableImpl" />-->
+
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="id" />
+                <!--<bean parent="Uif-DataField" p:propertyName="name"/>-->
+                <!--<bean parent="Uif-DataField" p:propertyName="typeKey" />-->
+                <!--<bean parent="Uif-DataField" p:propertyName="stateKey" />-->
+                <!--<bean parent="Uif-DataField" p:propertyName="termId" />-->
+            </list>
+        </property>
+    </bean>
+
+</beans>
