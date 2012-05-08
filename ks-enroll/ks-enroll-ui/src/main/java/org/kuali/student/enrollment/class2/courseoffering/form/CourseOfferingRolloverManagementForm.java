@@ -30,108 +30,28 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class CourseOfferingRolloverManagementForm extends UifFormBase {
-
-    private TermInfo termInfo;
-    private String termType;
-    private String termYear;
-    //period drop-down field in Appointment Windows page
-    private String periodId;
-    private String periodName;
-    private String periodInfoDetails;
-    private List<KeyDateInfo> periodMilestones;
-    private List<AppointmentWindowWrapper> appointmentWindows;
-
-    //    private List<String> appointmentWindowIdsToDelete;
-    boolean showAddWindows;
-
-//    private Map<String, List<AppointmentWindowInfo>> periodAndWindowsMap;
+    private String targetTerm;
+    private String sourceTerm;
 
     public CourseOfferingRolloverManagementForm(){
-        termInfo = new TermInfo();
-        periodInfoDetails = new String();
-        periodMilestones = new ArrayList<KeyDateInfo>();
-        appointmentWindows = new ArrayList<AppointmentWindowWrapper>();
-//        appointmentWindowIdsToDelete = new ArrayList<String>();
-        showAddWindows = false;
+        targetTerm = "Fall2012";
+        sourceTerm = "Fall2011";
     }
 
-    public TermInfo getTermInfo(){
-        return termInfo;
+    public String getTargetTerm() {
+        return targetTerm;
     }
 
-    public void setTermInfo(TermInfo termInfo) {
-        this.termInfo = termInfo;
+    public void setTargetTerm(String targetTerm) {
+        this.targetTerm = targetTerm;
     }
 
-    public String getTermType(){
-        return termType;
+    public String getSourceTerm() {
+        return sourceTerm;
     }
 
-    public void setTermType(String termType) {
-        this.termType = termType;
+    public void setSourceTerm(String sourceTerm) {
+        this.sourceTerm = sourceTerm;
     }
 
-    public String getTermYear(){
-        return termYear;
-    }
-
-    public void setTermYear(String termYear) {
-        this.termYear = termYear;
-    }
-
-    public String getPeriodId() {
-        return periodId;
-    }
-
-    public void setPeriodId(String periodId) {
-        this.periodId = periodId;
-    }
-
-    public String getPeriodName() {
-        return periodName;
-    }
-
-    public void setPeriodName(String periodName) {
-        this.periodName = periodName;
-    }
-
-    public String getPeriodInfoDetails() {
-        return periodInfoDetails;
-    }
-
-    public void setPeriodInfoDetails(String periodInfoDetails) {
-        this.periodInfoDetails = periodInfoDetails;
-    }
-
-    public List<KeyDateInfo> getPeriodMilestones() {
-        return periodMilestones;
-    }
-
-    public void setPeriodMilestones(List<KeyDateInfo> periodMilestones){
-        this.periodMilestones = periodMilestones;
-    }
-
-    public List<AppointmentWindowWrapper> getAppointmentWindows(){
-        return appointmentWindows;
-    }
-
-    public void setAppointmentWindows(List<AppointmentWindowWrapper> appointmentWindows){
-        this.appointmentWindows = appointmentWindows;
-    }
-
-//    public List<String> getAppointmentWindowIdsToDelete() {
-//        return appointmentWindowIdsToDelete;
-//    }
-//
-//    public void setAppointmentWindowIdsToDelete(List<String> appointmentWindowIdsToDelete) {
-//        this.appointmentWindowIdsToDelete = appointmentWindowIdsToDelete;
-//    }
-
-    public boolean isShowAddWindows() {
-        return showAddWindows;
-    }
-
-    public void setShowAddWindows(boolean showAddWindows) {
-        this.showAddWindows = showAddWindows;
-    }
 }

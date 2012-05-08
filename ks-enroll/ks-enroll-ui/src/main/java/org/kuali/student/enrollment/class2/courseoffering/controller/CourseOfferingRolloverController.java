@@ -57,4 +57,18 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         return getUIFModelAndView(theForm);
         // return super.start(theForm, result, request, response);
     }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=goTargetTerm")
+    public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.err.println(form.getSourceTerm());
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=goSourceTerm")
+    public ModelAndView goSourceTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+        System.err.println("SOURCE TERM");
+        return getUIFModelAndView(form);
+    }
 }

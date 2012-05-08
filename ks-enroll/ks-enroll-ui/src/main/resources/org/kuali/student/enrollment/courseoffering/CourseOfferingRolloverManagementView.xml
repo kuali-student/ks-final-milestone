@@ -47,25 +47,20 @@
                     <bean parent="Uif-HorizontalBoxSection">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-InputField" p:propertyName="termType" p:label="Term" p:labelPlacement="TOP" p:required="true">
+                                <bean parent="Uif-InputField" p:propertyName="targetTerm" p:label="Target Term" p:labelPlacement="TOP" p:required="true">
                                     <property name="control">
-                                        <bean parent="Uif-DropdownControl"/>
+                                        <bean parent="Uif-TextControl" p:size="8"/>
                                     </property>
+                                </bean>
+                                <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm"/>
 
-                                    <property name="optionsFinder">
-                                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues"/>
+                                <bean parent="Uif-InputField" p:propertyName="sourceTerm" p:label="Source Term" p:labelPlacement="TOP" p:required="true">
+                                    <property name="control">
+                                        <bean parent="Uif-TextControl" p:size="8"/>
                                     </property>
                                 </bean>
 
-                                <bean parent="Uif-InputField" p:propertyName="termYear" p:label="Year" p:labelPlacement="TOP" p:required="true">
-                                    <property name="control">
-                                        <bean parent="Uif-TextControl" p:size="4"/>
-                                    </property>
-
-                                    <property name="validCharactersConstraint">
-                                        <bean parent="NumericPatternConstraint"/>
-                                    </property>
-                                </bean>
+                                <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceTerm"/>
                             </list>
                         </property>
                     </bean>
