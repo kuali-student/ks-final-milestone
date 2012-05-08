@@ -62,11 +62,17 @@
                                                     </list>
                                                 </property>
                                             </bean>
-                                            <!-- More stuff on left side here -->
-                                            <bean parent="Uif-DataField" p:propertyName="targetTermCode" p:label="Term Code"/>
-                                            <bean parent="Uif-DataField" p:propertyName="targetTermStartDate" p:label="Term Start Date"/>
-                                            <bean parent="Uif-DataField" p:propertyName="targetTermEndDate" p:label="Term End Date"/>
-                                            <bean parent="Uif-DataField" p:propertyName="targetLastRolloverDate" p:label="Last Rollover Date"/>
+                                            <bean parent="Uif-VerticalBoxSection" p:title="Target Term Details">
+                                                <property name="items">
+                                                    <list>
+                                                    <!-- More stuff on left side here -->
+                                                        <bean parent="Uif-DataField" p:propertyName="targetTermCode" p:label="Term Code"/>
+                                                        <bean parent="Uif-DataField" p:propertyName="targetTermStartDate" p:label="Term Start Date"/>
+                                                        <bean parent="Uif-DataField" p:propertyName="targetTermEndDate" p:label="Term End Date"/>
+                                                        <bean parent="Uif-DataField" p:propertyName="targetLastRolloverDate" p:label="Last Rollover Date"/>
+                                                    </list>
+                                                </property>
+                                            </bean>
                                         </list>
                                     </property>
                                 </bean>
@@ -86,10 +92,16 @@
                                                     </list>
                                                 </property>
                                             </bean>
-                                            <!-- More stuff on right side here -->
-                                            <bean parent="Uif-DataField" p:propertyName="sourceTermCode" p:label="Term Code"/>
-                                            <bean parent="Uif-DataField" p:propertyName="sourceTermStartDate" p:label="Term Start Date"/>
-                                            <bean parent="Uif-DataField" p:propertyName="sourceTermEndDate" p:label="Term End Date"/>
+                                            <bean parent="Uif-VerticalBoxSection" p:title="Source Term Details">
+                                                <property name="items">
+                                                    <list>
+                                                        <!-- More stuff on right side here -->
+                                                        <bean parent="Uif-DataField" p:propertyName="sourceTermCode" p:label="Term Code"/>
+                                                        <bean parent="Uif-DataField" p:propertyName="sourceTermStartDate" p:label="Term Start Date"/>
+                                                        <bean parent="Uif-DataField" p:propertyName="sourceTermEndDate" p:label="Term End Date"/>
+                                                    </list>
+                                                </property>
+                                            </bean>
                                         </list>
                                     </property>
                                 </bean>
