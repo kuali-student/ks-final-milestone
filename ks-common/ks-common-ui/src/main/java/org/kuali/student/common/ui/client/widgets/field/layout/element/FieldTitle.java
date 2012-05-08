@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
-@Deprecated
 public abstract class FieldTitle extends ComplexPanel implements HasText{
 	 
 	/**

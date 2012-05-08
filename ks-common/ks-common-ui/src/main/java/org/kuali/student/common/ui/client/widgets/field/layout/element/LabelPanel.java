@@ -19,7 +19,6 @@ package org.kuali.student.common.ui.client.widgets.field.layout.element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 
-@Deprecated
 public class LabelPanel extends FieldTitle{
 	public LabelPanel(String text, String forID){
 		Element label = DOM.createLabel();
