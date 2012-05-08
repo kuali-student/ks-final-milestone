@@ -4,6 +4,7 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -35,6 +36,11 @@ public class ProgramDataGeneratorUtils {
 		}
 		
 		BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
+		
+		// KSCM-621 Get all the fields including inherited fields...
+		ArrayList<Field> fields = new ArrayList<Field>();
+	    fields = getAllFields(fields, clazz);
+	    
 		for(PropertyDescriptor pd:beanInfo.getPropertyDescriptors()){
 
 			if(ignoreProperty(pd)){
@@ -43,10 +49,13 @@ public class ProgramDataGeneratorUtils {
 			propertyIndex++;
 			Object value = null;
 			Class<?> pt = pd.getPropertyType();
+//			Field declaredField = clazz.getDeclaredField(pd.getName());		// KSCM-621 
+			Field declaredField = findField(pd.getName(), fields);
 			if(List.class.equals(pt)){
 				//If this is a list then make a new list and make x amount of test data of that list type
 				//Get the list type:
-				Class<?> nestedClass = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
+				Class<?> nestedClass = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[0];			
+				
 				List list = new ArrayList();
 				for(int i=0;i<2;i++){
 					propertyIndex++;
@@ -62,8 +71,8 @@ public class ProgramDataGeneratorUtils {
 				}
 				value = list;
 			}else if(Map.class.equals(pt)){
-				Class<?> keyType = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
-				Class<?> valueType = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[1];
+				Class<?> keyType = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[0];
+				Class<?> valueType = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[1];
 				Map map = new HashMap();
 				for(int i=0;i<2;i++){
 					propertyIndex++;
@@ -188,4 +197,26 @@ public class ProgramDataGeneratorUtils {
 			return name+"-"+"test";
 	}
 
+	// KSCM-621
+	public static ArrayList<Field> getAllFields(ArrayList<Field> fields, Class<?> type) {
+	    for (Field field: type.getDeclaredFields()) {
+	        fields.add(field);
+	    }
+
+	    if (type.getSuperclass() != null) {
+	        fields = getAllFields(fields, type.getSuperclass());
+	    }
+
+	    return fields;
+	}
+	
+	// KSCM-621
+	public static Field findField(String fieldName, ArrayList<Field> fields) {
+		for (Field field : fields) {
+			if (field.getName().equals(fieldName)) {
+				return field;
+			}
+		}
+		return null;
+	}
 }
