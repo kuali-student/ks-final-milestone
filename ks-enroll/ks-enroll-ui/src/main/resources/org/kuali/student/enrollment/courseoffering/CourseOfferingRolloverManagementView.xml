@@ -44,23 +44,55 @@
             </property>
             <property name="items">
                 <list>
-                    <bean parent="Uif-HorizontalBoxSection">
+                    <bean parent="Uif-HorizontalBoxSection" p:title="Hello" p:style="min-width:17cm">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-InputField" p:propertyName="targetTerm" p:label="Target Term" p:labelPlacement="TOP" p:required="true">
-                                    <property name="control">
-                                        <bean parent="Uif-TextControl" p:size="8"/>
+                                <bean parent="Uif-VerticalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-HorizontalBoxSection" p:valign="BOTTOM">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="Uif-InputField" p:propertyName="targetTerm" p:label="Target Term" p:labelPlacement="TOP" p:required="true">
+                                                            <property name="control">
+                                                                <bean parent="Uif-TextControl" p:size="8"/>
+                                                            </property>
+                                                        </bean>
+                                                        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go2" p:methodToCall="goTargetTerm" p:valign="bottom"/>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <!-- More stuff on left side here -->
+                                            <bean parent="Uif-DataField" p:propertyName="targetTermCode" p:label="Term Code"/>
+                                            <bean parent="Uif-DataField" p:propertyName="targetTermStartDate" p:label="Term Start Date"/>
+                                            <bean parent="Uif-DataField" p:propertyName="targetTermEndDate" p:label="Term End Date"/>
+                                            <bean parent="Uif-DataField" p:propertyName="targetLastRolloverDate" p:label="Last Rollover Date"/>
+                                        </list>
                                     </property>
                                 </bean>
-                                <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm"/>
+                                <bean parent="Uif-VerticalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-HorizontalFieldGroup">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="Uif-InputField" p:propertyName="sourceTerm" p:label="Source Term" p:labelPlacement="TOP" p:required="true">
+                                                            <property name="control">
+                                                                <bean parent="Uif-TextControl" p:size="8"/>
+                                                            </property>
+                                                        </bean>
 
-                                <bean parent="Uif-InputField" p:propertyName="sourceTerm" p:label="Source Term" p:labelPlacement="TOP" p:required="true">
-                                    <property name="control">
-                                        <bean parent="Uif-TextControl" p:size="8"/>
+                                                        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceTerm"/>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <!-- More stuff on right side here -->
+                                            <bean parent="Uif-DataField" p:propertyName="sourceTermCode" p:label="Term Code"/>
+                                            <bean parent="Uif-DataField" p:propertyName="sourceTermStartDate" p:label="Term Start Date"/>
+                                            <bean parent="Uif-DataField" p:propertyName="sourceTermEndDate" p:label="Term End Date"/>
+                                        </list>
                                     </property>
                                 </bean>
-
-                                <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceTerm"/>
                             </list>
                         </property>
                     </bean>

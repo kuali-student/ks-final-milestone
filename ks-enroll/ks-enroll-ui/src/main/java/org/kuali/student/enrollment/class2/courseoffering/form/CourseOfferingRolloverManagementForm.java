@@ -32,10 +32,24 @@ import java.util.List;
 public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private String targetTerm;
     private String sourceTerm;
+    private String targetTermCode;
+    private String targetTermStartDate;
+    private String targetTermEndDate;
+    private String targetLastRolloverDate;
+    private String sourceTermCode;
+    private String sourceTermStartDate;
+    private String sourceTermEndDate;
 
     public CourseOfferingRolloverManagementForm(){
         targetTerm = "Fall2012";
         sourceTerm = "Fall2011";
+        targetTermCode = "Spring 2012";
+        targetTermStartDate = "Feb 1, 2012";
+        targetTermEndDate = "May 1, 2012";
+        targetLastRolloverDate = "Jan 15, 2012";
+        sourceTermCode = "Spring 2011";
+        sourceTermStartDate = "Feb 1, 2011";
+        sourceTermEndDate = "May 1, 2011";
     }
 
     public String getTargetTerm() {
@@ -54,4 +68,59 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.sourceTerm = sourceTerm;
     }
 
+    public String getTargetTermCode() {
+        return targetTermCode;
+    }
+
+    public void setTargetTermCode(String targetTermCode) {
+        this.targetTermCode = targetTermCode;
+    }
+
+    public String getTargetTermStartDate() {
+        return targetTermStartDate;
+    }
+
+    public void setTargetTermStartDate(String targetTermStartDate) {
+        this.targetTermStartDate = targetTermStartDate;
+    }
+
+    public String getTargetTermEndDate() {
+        return targetTermEndDate;
+    }
+
+    public void setTargetTermEndDate(String targetTermEndDate) {
+        this.targetTermEndDate = targetTermEndDate;
+    }
+
+    public String getTargetLastRolloverDate() {
+        return targetLastRolloverDate;
+    }
+
+    public void setTargetLastRolloverDate(String targetLastRolloverDate) {
+        this.targetLastRolloverDate = targetLastRolloverDate;
+    }
+
+    public String getSourceTermCode() {
+        return sourceTermCode;
+    }
+
+    public void setSourceTermCode(String sourceTermCode) {
+        this.sourceTermCode = sourceTermCode;
+    }
+
+    public String getSourceTermStartDate() {
+        return sourceTermStartDate;
+    }
+
+    public void setSourceTermStartDate(String sourceTermStartDate) {
+        this.sourceTermStartDate = sourceTermStartDate;
+    }
+
+    public String getSourceTermEndDate() {
+        return sourceTermEndDate;
+    }
+
+    public void setSourceTermEndDate(String sourceTermEndDate) {
+        this.sourceTermEndDate = sourceTermEndDate;
+    }
 }

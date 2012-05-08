@@ -69,6 +69,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     public ModelAndView goSourceTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         System.err.println("SOURCE TERM");
+        form.setSourceTermCode("Spring 2010");
+        System.err.println("SOURCE TERM: " + form.getSourceTermCode());
         return getUIFModelAndView(form);
     }
 }
