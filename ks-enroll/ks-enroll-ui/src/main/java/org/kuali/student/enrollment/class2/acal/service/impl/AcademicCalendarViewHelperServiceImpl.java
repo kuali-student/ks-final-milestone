@@ -43,10 +43,7 @@ import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
@@ -72,6 +69,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     private TypeService typeService;
 
     private List<TypeInfo> holidayTypes;
+    private Map<String, List<TypeInfo>> typesByGroupTypeMap = new HashMap<String, List<TypeInfo>>();
 
     public void saveHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
 
@@ -378,13 +376,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         getAcalService().deleteAcalEvent(eventId, getContextInfo());
     }
 
-    private AcalEventWrapper assembleEventWrapperFromEventInfo (AcalEventInfo acalEventInfo) throws Exception {
-        AcalEventWrapper event  = new AcalEventWrapper(acalEventInfo,false);
-        TypeInfo type = getTypeService().getType(event.getEventTypeKey(), getContextInfo());
-        event.setEventTypeName(type.getName());
-        return event;
-    }
-
     private AcalEventInfo assembleEventInfoFromWrapper(AcalEventWrapper eventWrapper) throws Exception{
         AcalEventInfo eventInfo = eventWrapper.getAcalEventInfo();
 
@@ -427,7 +418,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             return;
         }
 
-        List keyValues = new ArrayList();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "Select Keydate Type"));
 
         CollectionGroup collectionGroup = (CollectionGroup)field.getContext().get(UifConstants.ContextVariableNames.PARENT);
@@ -435,7 +426,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         if (StringUtils.isNotBlank(groupWrapper.getKeyDateGroupType())){
             try {
-                List<TypeInfo> types = getTypeService().getTypesForGroupType(groupWrapper.getKeyDateGroupType(), getContextInfo());
+                List<TypeInfo> types = getTypesForGroupType(groupWrapper.getKeyDateGroupType());
                 for (TypeInfo type : types) {
                     if (!groupWrapper.isKeyDateExists(type.getKey())){
                         keyValues.add(new ConcreteKeyValue(type.getKey(), type.getName()));
@@ -457,7 +448,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             return;
         }
 
-        List keyValues = new ArrayList();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "Select Keydate Group Type"));
 
         CollectionGroup collectionGroup = (CollectionGroup)field.getContext().get(UifConstants.ContextVariableNames.COLLECTION_GROUP);
@@ -492,7 +483,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }
 
         //Validate Events
-        HolidayInfo holidayInfo;
         for (HolidayWrapper holiday : hcForm.getHolidays()) {
             if (!CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getStartDate()) ||
                 !CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getEndDate())){
@@ -1063,7 +1053,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy){
 
-        List<AcademicTermWrapper> termWrappers = new ArrayList();
+        List<AcademicTermWrapper> termWrappers = new ArrayList<AcademicTermWrapper>();
 
         try {
             List<TermInfo> termInfos = getAcalService().getTermsForAcademicCalendar(acalId, getContextInfo());
@@ -1094,7 +1084,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             List<KeyDateInfo> keydateList = getAcalService().getKeyDatesForTerm(termInfo.getId(),getContextInfo());
             List<TypeInfo> keyDateTypes = getTypeService().getAllowedTypesForType(termInfo.getTypeKey(),getContextInfo());
 
-            Map<String,KeyDatesGroupWrapper> keyDateGroup = new HashMap();
+            Map<String,KeyDatesGroupWrapper> keyDateGroup = new HashMap<String,KeyDatesGroupWrapper>();
 
             for (KeyDateInfo keyDateInfo : keydateList) {
                 KeyDateWrapper keyDateWrapper = new KeyDateWrapper(keyDateInfo,isCopy);
@@ -1120,7 +1110,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     private void addKeyDateGroup(List<TypeInfo> keyDateTypes,KeyDateWrapper keyDateWrapper,Map<String,KeyDatesGroupWrapper> keyDateGroup){
         for (TypeInfo keyDateType : keyDateTypes) {
             try {
-                List<TypeInfo> allowedTypes = getTypeService().getTypesForGroupType(keyDateType.getKey(),getContextInfo());
+                // TODO
+                List<TypeInfo> allowedTypes = getTypesForGroupType(keyDateType.getKey());
                 for (TypeInfo allowedType : allowedTypes) {
                     if (StringUtils.equals(allowedType.getKey(),keyDateWrapper.getKeyDateType())){
                         KeyDatesGroupWrapper keyDatesGroup = keyDateGroup.get(keyDateType.getKey());
@@ -1183,5 +1174,15 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             holidayTypes = Collections.unmodifiableList(getAcalService().getHolidayTypes(getContextInfo()));
         }
         return holidayTypes;
+    }
+
+    public List<TypeInfo> getTypesForGroupType(String groupTypeKey) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        List<TypeInfo> types = typesByGroupTypeMap.get(groupTypeKey);
+        if(types == null) {
+            types = Collections.unmodifiableList(getTypeService().getTypesForGroupType(groupTypeKey, getContextInfo()));
+            typesByGroupTypeMap.put(groupTypeKey, types);
+        }
+        return types;
     }
 }
