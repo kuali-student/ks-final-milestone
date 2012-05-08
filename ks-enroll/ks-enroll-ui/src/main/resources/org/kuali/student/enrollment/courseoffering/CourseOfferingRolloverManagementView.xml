@@ -44,7 +44,8 @@
             </property>
             <property name="items">
                 <list>
-                    <bean parent="Uif-HorizontalBoxSection" p:title="Hello" p:style="min-width:17cm">
+                    <bean parent="Uif-HeaderField-One" p:headerText="Select Source and Target Terms"/>
+                    <bean parent="Uif-HorizontalBoxSection" p:style="min-width:17cm">
                         <property name="items">
                             <list>
                                 <bean parent="Uif-VerticalFieldGroup">
