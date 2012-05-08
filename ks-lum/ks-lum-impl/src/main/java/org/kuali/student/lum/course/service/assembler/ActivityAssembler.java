@@ -20,11 +20,11 @@ import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r1.lum.course.dto.ActivityInfo;
-import org.kuali.student.r1.lum.lu.dto.CluInfo;
 
 
 /**
@@ -46,12 +46,12 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		ActivityInfo activityInfo = (null != businessDTO) ? businessDTO : new ActivityInfo();
 	    
 		activityInfo.setId(baseDTO.getId());
-		activityInfo.setActivityType(baseDTO.getType());
-		activityInfo.setState(baseDTO.getState());
+		activityInfo.setTypeKey(baseDTO.getTypeKey());
+		activityInfo.setStateKey(baseDTO.getStateKey());
 		activityInfo.setDefaultEnrollmentEstimate(baseDTO.getDefaultEnrollmentEstimate());
 		activityInfo.setDuration(baseDTO.getStdDuration());
 		activityInfo.setContactHours(baseDTO.getIntensity());
-		activityInfo.setMetaInfo(baseDTO.getMetaInfo());
+		activityInfo.setMeta(baseDTO.getMeta());
         activityInfo.setAttributes(baseDTO.getAttributes());
 		return activityInfo;
 	}
@@ -84,13 +84,13 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 
 		// Copy all fields
 		clu.setId(UUIDHelper.genStringUUID(businessDTO.getId()));
-		clu.setType(businessDTO.getActivityType());
-		clu.setState(businessDTO.getState());
+		clu.setTypeKey(businessDTO.getTypeKey());
+		clu.setStateKey(businessDTO.getStateKey());
 		clu.setDefaultEnrollmentEstimate(businessDTO
 				.getDefaultEnrollmentEstimate());
 		clu.setStdDuration(businessDTO.getDuration());
 		clu.setIntensity(businessDTO.getContactHours());
-		clu.setMetaInfo(businessDTO.getMetaInfo());
+		clu.setMeta(businessDTO.getMeta());
 		clu.setAttributes(businessDTO.getAttributes());
 
 		// Add the Clu to the result

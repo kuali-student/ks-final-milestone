@@ -34,12 +34,12 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r1.lum.course.dto.ActivityInfo;
-import org.kuali.student.r1.lum.course.dto.CourseInfo;
-import org.kuali.student.r1.lum.course.dto.FormatInfo;
-import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.r1.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 /**
  * Assembler for FormatInfo. Assembles/Disassemble FormatInfo from CluInfo and
  * other structures.
@@ -66,9 +66,9 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
 		// Copy base properties
 		format.setId(clu.getId());
-		format.setType(clu.getType());
-		format.setState(clu.getState());
-		format.setMetaInfo(clu.getMetaInfo());
+		format.setTypeKey(clu.getTypeKey());
+		format.setStateKey(clu.getStateKey());
+		format.setMeta(clu.getMeta());
 		format.setAttributes(clu.getAttributes());
 	    format.setDuration(clu.getStdDuration());
 	    format.setTermsOffered(clu.getOfferedAtpTypes());
@@ -113,7 +113,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
         try {
         	clu = null;
           
-        	clu = (NodeOperation.UPDATE == operation) ? clu = R1R2ConverterUtil.convert(luService.getClu(format.getId(),contextInfo),CluInfo.class) : new CluInfo();
+        	clu = (NodeOperation.UPDATE == operation) ? clu = luService.getClu(format.getId(),contextInfo) : new CluInfo();
         } catch (Exception e) {
             throw new AssemblyException("Error retrieving course format shell during update", e);
         } 
@@ -125,10 +125,10 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 															// for creating
 															// relations)
 	
-		clu.setType(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
-		clu.setState(format.getState());
+		clu.setTypeKey(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
+		clu.setStateKey(format.getStateKey());
 	
-		clu.setMetaInfo(format.getMetaInfo());
+		clu.setMeta(format.getMeta());
 
 		clu.setStdDuration(format.getDuration());
 		clu.setOfferedAtpTypes(format.getTermsOffered());
@@ -187,11 +187,11 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
-				List<CluCluRelationInfo> activityRelationships = R1R2ConverterUtil.convertLists(luService.getCluCluRelationsByClu(format.getId(),contextInfo),CluCluRelationInfo.class);
+				List<CluCluRelationInfo> activityRelationships = luService.getCluCluRelationsByClu(format.getId(),contextInfo);
 				
 				for (CluCluRelationInfo activityRelation : activityRelationships) {
 										if (CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE
-												.equals(activityRelation.getType())) {
+												.equals(activityRelation.getTypeKey())) {
 											currentActivityIds.put(activityRelation
 					.getRelatedCluId(), activityRelation.getId());
 										}
@@ -208,7 +208,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			// If this is a format create/new activity update then all activities will be created
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentActivityIds.containsKey(activity.getId()))) {
-		    			    	activity.setState(format.getState());
+		    			    	activity.setStateKey(format.getStateKey());
                 // the activity does not exist, so create
                 // Assemble and add the activity
                 BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
@@ -223,8 +223,8 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
                                                             // even if it's a
                                                             // create
 
-                relation.setType(CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
-                relation.setState(format.getState());
+                relation.setTypeKey(CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
+                relation.setStateKey(format.getStateKey());
 
                 BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<FormatInfo, CluCluRelationInfo>(
                         null);
@@ -236,7 +236,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 					&& currentActivityIds.containsKey(activity.getId())) {
 				// If the format already has this activity, then just update the
 				// activity
-            	            	activity.setState(format.getState());
+            	            	activity.setStateKey(format.getStateKey());
 				BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
 						.disassemble(activity, NodeOperation.UPDATE,contextInfo);
 				results.add(activityNode);

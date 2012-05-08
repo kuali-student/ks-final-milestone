@@ -153,10 +153,8 @@ public class CourseServiceImpl implements CourseService {
 
         CourseInfo course;
 
-        R1R2ConverterUtil.convert(clu, org.kuali.student.r1.lum.lu.dto.CluInfo.class);
-
         try {
-            course = R1R2ConverterUtil.convert(courseAssembler.assemble(R1R2ConverterUtil.convert(clu, org.kuali.student.r1.lum.lu.dto.CluInfo.class), null, false, contextInfo), CourseInfo.class);
+            course = courseAssembler.assemble(clu, null, false, contextInfo);
 
         } catch (AssemblyException e) {
             LOG.error("Error assembling course", e);
@@ -335,7 +333,7 @@ public class CourseServiceImpl implements CourseService {
 
     private CourseInfo processCourseInfo(CourseInfo courseInfo, NodeOperation operation, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AssemblyException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException, ReadOnlyException {
 
-        BaseDTOAssemblyNode<org.kuali.student.r1.lum.course.dto.CourseInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results = courseAssembler.disassemble(R1R2ConverterUtil.convert(courseInfo, new org.kuali.student.r1.lum.course.dto.CourseInfo()), operation, contextInfo);
+        BaseDTOAssemblyNode<CourseInfo, CluInfo> results = courseAssembler.disassemble(courseInfo, operation, contextInfo);
 
         // Use the results to make the appropriate service calls here
         courseServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
@@ -378,28 +376,28 @@ public class CourseServiceImpl implements CourseService {
         CluInfo newVersionClu = cluService.createNewCluVersion(versionIndCourseId, versionComment, contextInfo);
 
         try {
-            BaseDTOAssemblyNode<org.kuali.student.r1.lum.course.dto.CourseInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results;
+            BaseDTOAssemblyNode<CourseInfo, CluInfo> results;
 
             // Clear Ids from the original course
             CourseServiceUtils.resetIds(originalCourse);
 
             // Integrate changes into the original course. (should this just be just the id?)
-            courseAssembler.assemble(R1R2ConverterUtil.convert(newVersionClu, org.kuali.student.r1.lum.lu.dto.CluInfo.class), R1R2ConverterUtil.convert(originalCourse, org.kuali.student.r1.lum.course.dto.CourseInfo.class), true, contextInfo);
+            courseAssembler.assemble(newVersionClu, originalCourse, true, contextInfo);
 
             // Clear dates since they need to be set anyway
             originalCourse.setStartTerm(null);
             originalCourse.setEndTerm(null);
 
             // Disassemble the new course
-            results = courseAssembler.disassemble(R1R2ConverterUtil.convert(originalCourse, org.kuali.student.r1.lum.course.dto.CourseInfo.class), NodeOperation.UPDATE, contextInfo);
+            results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE, contextInfo);
 
             // Use the results to make the appropriate service calls here
             courseServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 
             // copy statements
-            CourseServiceUtils.copyStatements((String) currentVersion.getId(), results.getBusinessDTORef().getId(), results.getBusinessDTORef().getState(), statementService, cluService, this, contextInfo);
+            CourseServiceUtils.copyStatements((String) currentVersion.getId(), results.getBusinessDTORef().getId(), results.getBusinessDTORef().getStateKey(), statementService, cluService, this, contextInfo);
 
-            return R1R2ConverterUtil.convert(results.getBusinessDTORef(), CourseInfo.class);
+            return results.getBusinessDTORef();
 
         } catch (AlreadyExistsException e) {
             throw new OperationFailedException("Error creating new course version", e);

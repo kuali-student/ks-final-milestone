@@ -29,44 +29,44 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r1.common.dto.RichTextInfo;
 import org.kuali.student.r1.core.atp.dto.AtpInfo;
 import org.kuali.student.r1.core.atp.service.AtpService;
-import org.kuali.student.r1.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.r1.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.r1.lum.course.dto.CourseFeeInfo;
-import org.kuali.student.r1.lum.course.dto.CourseInfo;
-import org.kuali.student.r1.lum.course.dto.CourseJointInfo;
-import org.kuali.student.r1.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.r1.lum.course.dto.CourseVariationInfo;
-import org.kuali.student.r1.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
+import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
+import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
+import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
+import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.r1.lum.lu.dto.CluAccountingInfo;
-import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.r1.lum.lu.dto.CluFeeInfo;
-import org.kuali.student.r1.lum.lu.dto.CluFeeRecordInfo;
-import org.kuali.student.r1.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.r1.lum.lu.dto.CluInfo;
-import org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo;
-import org.kuali.student.r1.lum.lu.dto.CluResultInfo;
-import org.kuali.student.r1.lum.lu.dto.LuCodeInfo;
-import org.kuali.student.r1.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.CluAccountingInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
@@ -133,10 +133,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         List<String> courseAdminOrgs = new ArrayList<String>();
         List<String> courseSubjectOrgs = new ArrayList<String>();
         for(AdminOrgInfo adminOrg: clu.getAdminOrgs()){
-            if(adminOrg.getType().equals(CourseAssemblerConstants.ADMIN_ORG)){
+            if(adminOrg.getTypeKey().equals(CourseAssemblerConstants.ADMIN_ORG)){
                 courseAdminOrgs.add(adminOrg.getOrgId());
             }
-            if(adminOrg.getType().equals(CourseAssemblerConstants.SUBJECT_ORG)){
+            if(adminOrg.getTypeKey().equals(CourseAssemblerConstants.SUBJECT_ORG)){
                 courseSubjectOrgs.add(adminOrg.getOrgId());
             }
         }
@@ -163,14 +163,14 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     courseRevenue.setAffiliatedOrgs(cluFeeRecord.getAffiliatedOrgs());
                     courseRevenue.setAttributes(cluFeeRecord.getAttributes());
                     courseRevenue.setId(cluFeeRecord.getId());
-                    courseRevenue.setMetaInfo(cluFeeRecord.getMetaInfo());
+                    courseRevenue.setMeta(cluFeeRecord.getMeta());
                     revenues.add(courseRevenue);
                 }else{
                     CourseFeeInfo courseFee = new CourseFeeInfo();
                     courseFee.setFeeType(feeType);
                     courseFee.setRateType(cluFeeRecord.getRateType());
                     courseFee.setDescr(cluFeeRecord.getDescr());
-                    courseFee.setMetaInfo(cluFeeRecord.getMetaInfo());
+                    courseFee.setMeta(cluFeeRecord.getMeta());
                     courseFee.setId(cluFeeRecord.getId());
                     courseFee.setFeeAmounts(cluFeeRecord.getFeeAmounts());
                     courseFee.setAttributes(cluFeeRecord.getAttributes());
@@ -189,14 +189,14 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         }
 
         course.setId(clu.getId());
-        course.setType(clu.getType());
+        course.setTypeKey(clu.getTypeKey());
         course.setTermsOffered(clu.getOfferedAtpTypes());
         course.setPrimaryInstructor(clu.getPrimaryInstructor());
         course.setInstructors(clu.getInstructors());
-        course.setState(clu.getState());
+        course.setStateKey(clu.getStateKey());
         course.setSubjectArea(clu.getOfficialIdentifier().getDivision());
         course.setTranscriptTitle(clu.getOfficialIdentifier().getShortName());
-        course.setMetaInfo(clu.getMetaInfo());
+        course.setMeta(clu.getMeta());
         course.setVersionInfo(clu.getVersionInfo());
 
 
@@ -222,10 +222,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             try {
                 // Use the luService to find Joints, then convert and add to the
                 // course
-                List<CluCluRelationInfo> cluClus = R1R2ConverterUtil.convertLists(cluService.getCluCluRelationsByClu(clu.getId(),contextInfo), CluCluRelationInfo.class);
+                List<CluCluRelationInfo> cluClus = cluService.getCluCluRelationsByClu(clu.getId(),contextInfo);
 
                 for (CluCluRelationInfo cluRel : cluClus) {
-                    if (cluRel.getType().equals(CourseAssemblerConstants.JOINT_RELATION_TYPE)) {
+                    if (cluRel.getTypeKey().equals(CourseAssemblerConstants.JOINT_RELATION_TYPE)) {
                         CourseJointInfo jointInfo = null;
                         if(cluRel.getCluId().equals(clu.getId())){
                             jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getRelatedCluId(), null, false, contextInfo);
@@ -245,9 +245,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             try {
                 // Use the luService to find formats, then convert and add to
                 // the course
-                List<CluInfo> formats = R1R2ConverterUtil.convertLists(cluService.getRelatedClusByCluAndRelationType(course
+                List<CluInfo> formats = cluService.getRelatedClusByCluAndRelationType(course
                         .getId(),
-                        CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE , new ContextInfo()), CluInfo.class);
+                        CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE , new ContextInfo());
 
                 for (CluInfo format : formats) {
                     FormatInfo formatInfo = formatAssembler.assemble(format,
@@ -262,7 +262,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
             try{
                 //Set Credit and Grading options
-                List<CluResultInfo> cluResults = R1R2ConverterUtil.convertLists(cluService.getCluResultByClu(course.getId(),contextInfo), CluResultInfo.class);
+                List<CluResultInfo> cluResults = cluService.getCluResultByClu(course.getId(),contextInfo);
 
                 List<ResultComponentInfo> creditOptions = assembleCreditOptions(cluResults, contextInfo);
                 
@@ -313,7 +313,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         CluInfo clu;
         try {
-            clu = (NodeOperation.UPDATE == operation) ? R1R2ConverterUtil.convert(cluService.getClu(course.getId(),contextInfo), org.kuali.student.r1.lum.lu.dto.CluInfo.class) : new CluInfo();
+            clu = (NodeOperation.UPDATE == operation) ? cluService.getClu(course.getId(),contextInfo) : new CluInfo();
         } catch (Exception e) {
             throw new AssemblyException("Error getting existing learning unit during course update", e);
         }
@@ -324,12 +324,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         if (null == course.getId()) {
             course.setId(clu.getId());
         }
-        clu.setType(CourseAssemblerConstants.COURSE_TYPE);
-        clu.setState(course.getState());
+        clu.setTypeKey(CourseAssemblerConstants.COURSE_TYPE);
+        clu.setStateKey(course.getStateKey());
 
         CluIdentifierInfo identifier = new CluIdentifierInfo();
-        identifier.setType(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_TYPE);
-        identifier.setState(course.getState());
+        identifier.setTypeKey(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_TYPE);
+        identifier.setStateKey(course.getStateKey());
         identifier.setLongName(course.getCourseTitle());
         identifier.setShortName(course.getTranscriptTitle());
         identifier.setSuffixCode(course.getCourseNumberSuffix());
@@ -353,8 +353,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         //Remove any existing variations or crosslistings
         for(Iterator<CluIdentifierInfo> iter = clu.getAlternateIdentifiers().iterator();iter.hasNext();){
             CluIdentifierInfo cluIdentifier = iter.next();
-            if(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE.equals(cluIdentifier.getType()) ||
-                    CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE.equals(cluIdentifier.getType()) ){
+            if(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE.equals(cluIdentifier.getTypeKey()) ||
+                    CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE.equals(cluIdentifier.getTypeKey()) ){
                 iter.remove();
             }
         }
@@ -362,23 +362,23 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         for(CourseVariationInfo variation:course.getVariations()){
             CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
             cluIdentifier.setId(variation.getId());
-            cluIdentifier.setType(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE);
+            cluIdentifier.setTypeKey(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE);
             cluIdentifier.setCode(identifier.getCode());
             cluIdentifier.setSuffixCode(course.getCourseNumberSuffix());
             cluIdentifier.setDivision(course.getSubjectArea());
             cluIdentifier.setVariation(variation.getVariationCode());
             cluIdentifier.setLongName(variation.getVariationTitle());
-            cluIdentifier.setState(course.getState());
+            cluIdentifier.setStateKey(course.getStateKey());
             clu.getAlternateIdentifiers().add(cluIdentifier);
         }
         //Add in crosslistings
         for(CourseCrossListingInfo crossListing:course.getCrossListings()){
             CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
             cluIdentifier.setId(crossListing.getId());
-            cluIdentifier.setType(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE);
+            cluIdentifier.setTypeKey(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE);
             cluIdentifier.setSuffixCode(crossListing.getCourseNumberSuffix());
             cluIdentifier.setDivision(crossListing.getSubjectArea());
-            cluIdentifier.setState(course.getState());
+            cluIdentifier.setStateKey(course.getStateKey());
             cluIdentifier.setOrgId(crossListing.getDepartment());
             cluIdentifier.setAttributes(crossListing.getAttributes());
             cluIdentifier.setCode(crossListing.getCode());
@@ -388,7 +388,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         List<AdminOrgInfo> adminOrgInfos = new ArrayList<AdminOrgInfo>();
         for(String org:course.getUnitsDeployment()){
             AdminOrgInfo adminOrg = new AdminOrgInfo();
-            adminOrg.setType(CourseAssemblerConstants.ADMIN_ORG);
+            adminOrg.setTypeKey(CourseAssemblerConstants.ADMIN_ORG);
             adminOrg.setOrgId(org);
             adminOrgInfos.add(adminOrg);
         }
@@ -397,7 +397,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         List<AdminOrgInfo> subjectOrgs = new ArrayList<AdminOrgInfo>();
         for (String subOrg : course.getUnitsContentOwner()) {
             AdminOrgInfo subjectOrg = new AdminOrgInfo();
-            subjectOrg.setType(CourseAssemblerConstants.SUBJECT_ORG);
+            subjectOrg.setTypeKey(CourseAssemblerConstants.SUBJECT_ORG);
             subjectOrg.setOrgId(subOrg);
             subjectOrgs.add(subjectOrg);
         }
@@ -412,7 +412,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         //Default course effective dates to the atps if entered
         if(course.getStartTerm() != null){
             try {
-                AtpInfo startAtp = R1R2ConverterUtil.convert(atpService.getAtp(course.getStartTerm()), AtpInfo.class);
+                AtpInfo startAtp = atpService.getAtp(course.getStartTerm());
                 course.setEffectiveDate(startAtp.getStartDate());
             } catch (Exception e) {
                 throw new AssemblyException("Error getting start term Atp.",e);
@@ -420,7 +420,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         }
         if(course.getEndTerm() != null){
             try {
-                AtpInfo endAtp = R1R2ConverterUtil.convert(atpService.getAtp(course.getEndTerm()), AtpInfo.class);
+                AtpInfo endAtp = atpService.getAtp(course.getEndTerm());
                 course.setExpirationDate(endAtp.getEndDate());
             } catch (Exception e) {
                 throw new AssemblyException("Error getting end term Atp.",e);
@@ -439,7 +439,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         clu.setExpectedFirstAtp(course.getStartTerm());
         clu.setLastAtp(course.getEndTerm());
 
-        clu.setMetaInfo(course.getMetaInfo());
+        clu.setMeta(course.getMeta());
         clu.setVersionInfo(course.getVersionInfo());
 
         // Add the Clu to the result
@@ -465,15 +465,19 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         //Disassemble the CluResults (grading and credit options)
         //Special code to take audit from attributes and put into options
-        if(course.getAttributes().containsKey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)&&"true".equals(course.getAttributes().get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
-            if(!course.getGradingOptions().contains(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT)){
-                course.getGradingOptions().add(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
+        for (AttributeInfo attr : course.getAttributes()){
+            if (attr.getKey().equals(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)
+                    && "true".equals(attr.getValue()) ){
+                if(!course.getGradingOptions().contains(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT)){
+                    course.getGradingOptions().add(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
+                }
+                break;
             }
         }
 
         List<CluResultInfo> cluResultList;
         try {
-            cluResultList = R1R2ConverterUtil.convertLists(cluService.getCluResultByClu(clu.getId(),contextInfo), org.kuali.student.r1.lum.lu.dto.CluResultInfo.class);
+            cluResultList = cluService.getCluResultByClu(clu.getId(),contextInfo);
         } catch (DoesNotExistException e) {
             cluResultList = Collections.emptyList();
         } catch (Exception e) {
@@ -482,7 +486,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         List<BaseDTOAssemblyNode<?, ?>> creditOutcomes = disassembleCreditOutcomes(course, clu, cluResultList, operation, contextInfo);
         result.getChildNodes().addAll(creditOutcomes);
-        BaseDTOAssemblyNode<?, ?> gradingOptions = disassembleGradingOptions(clu.getId(), course.getState(), course.getGradingOptions(), cluResultList, operation);
+        BaseDTOAssemblyNode<?, ?> gradingOptions = disassembleGradingOptions(clu.getId(), course.getStateKey(), course.getGradingOptions(), cluResultList, operation);
         result.getChildNodes().add(gradingOptions);
 
         //Use the LoAssembler to disassemble Los
@@ -546,7 +550,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             cluFeeRecord.setAttributes(courseRevenue.getAttributes());
             cluFeeRecord.setAffiliatedOrgs(courseRevenue.getAffiliatedOrgs());
             cluFeeRecord.setId(courseRevenue.getId());
-            cluFeeRecord.setMetaInfo(courseRevenue.getMetaInfo());
+            cluFeeRecord.setMeta(courseRevenue.getMeta());
             clu.getFeeInfo().getCluFeeRecords().add(cluFeeRecord);
         }
         for(CourseFeeInfo courseFee : course.getFees()){
@@ -554,7 +558,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             cluFeeRecord.setFeeType(courseFee.getFeeType());
             cluFeeRecord.setRateType(courseFee.getRateType());
             cluFeeRecord.setDescr(courseFee.getDescr());
-            cluFeeRecord.setMetaInfo(courseFee.getMetaInfo());
+            cluFeeRecord.setMeta(courseFee.getMeta());
             cluFeeRecord.setId(courseFee.getId());
             cluFeeRecord.setFeeAmounts(courseFee.getFeeAmounts());
 
@@ -629,7 +633,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         //If this is not a create, lookup the results for this clu
         if (!NodeOperation.CREATE.equals(operation)) {
             for (CluResultInfo currentResult : currentCluResults) {
-                if (courseResultType.equals(currentResult.getType())) {
+                if (courseResultType.equals(currentResult.getTypeKey())) {
                     //There should only be one grading option per CluResult for credit outcomes
                     if (currentResult.getResultOptions().size() == 1) {
                         //Create a mapping to a list of cluresults with the same result componentId
@@ -662,13 +666,13 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                                             .containsKey(resultComponentInfo.getId()))) {
 
                                 ResultOptionInfo resultOption = new ResultOptionInfo();
-                                resultOption.setState(course.getState());
+                                resultOption.setStateKey(course.getStateKey());
                                 resultOption.setResultComponentId(resultComponentInfo.getId());
 
                                 CluResultInfo cluResult = new CluResultInfo();
                                 cluResult.setCluId(clu.getId());
-                                cluResult.setState(course.getState());
-                                cluResult.setType(courseResultType);
+                                cluResult.setStateKey(course.getStateKey());
+                                cluResult.setTypeKey(courseResultType);
 
                                 cluResult.getResultOptions().add(resultOption);
 
@@ -790,7 +794,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             ResultComponentInfo resultComponent = new ResultComponentInfo();
             resultComponent.setId(id);
             resultComponent.setType(type);
-            resultComponent.setState(course.getState());
+            resultComponent.setState(course.getStateKey());
             resultComponent.setResultValues(resultValues);
             resultComponent.setAttributes(attributes);
             BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo> node = new BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo>(
@@ -811,7 +815,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         List<String> results = new ArrayList<String>();
         //Loop through all the CluResults to find the one with the matching type
         for(CluResultInfo cluResult:cluResults){
-            if(courseResultType.equals(cluResult.getType())){
+            if(courseResultType.equals(cluResult.getTypeKey())){
                 //Loop through all options and add to the list of Strings
                 for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
                     results.add(resultOption.getResultComponentId());
@@ -828,7 +832,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         List<ResultComponentInfo> results = new ArrayList<ResultComponentInfo>();
         //Loop through all the CluResults to find the one with the matching type
         for(CluResultInfo cluResult:cluResults){
-            if(courseResultType.equals(cluResult.getType())){
+            if(courseResultType.equals(cluResult.getTypeKey())){
                 //Loop through all options and add to the list of Strings
                 for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
                     try {
@@ -856,9 +860,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         // id
         Map<String, CluLoRelationInfo> currentCluLoRelations = new HashMap<String, CluLoRelationInfo>();
         try {
-            List<CluLoRelationInfo> cluLoRelations = R1R2ConverterUtil.convertLists(cluService.getCluLoRelationsByClu(cluId,contextInfo), org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo.class);
+            List<CluLoRelationInfo> cluLoRelations = cluService.getCluLoRelationsByClu(cluId,contextInfo);
             for(CluLoRelationInfo cluLoRelation:cluLoRelations){
-                if(CourseAssemblerConstants.COURSE_LO_COURSE_SPECIFIC_RELATION.equals(cluLoRelation.getType())){
+                if(CourseAssemblerConstants.COURSE_LO_COURSE_SPECIFIC_RELATION.equals(cluLoRelation.getTypeKey())){
                     currentCluLoRelations.put(cluLoRelation.getLoId(), cluLoRelation);
                 }
             }
@@ -868,7 +872,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         }
 
         // Loop through all the los in this clu
-        for(LoDisplayInfo loDisplay : R1R2ConverterUtil.convertLists(course.getCourseSpecificLOs(), LoDisplayInfo.class)){
+        for(LoDisplayInfo loDisplay : course.getCourseSpecificLOs()){
 
             // If this is a clu create/new lo update then all los will be created
             if (NodeOperation.CREATE == operation
@@ -877,7 +881,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 // the lo does not exist, so create
                 // Assemble and add the lo
                 loDisplay.getLoInfo().setId(null);
-                loDisplay.getLoInfo().setStateKey(course.getState());
+                loDisplay.getLoInfo().setStateKey(course.getStateKey());
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
                         .disassemble(loDisplay, NodeOperation.CREATE,contextInfo);
                 results.add(loNode);
@@ -887,8 +891,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 relation.setCluId(cluId);
                 relation.setLoId(loNode.getNodeData().getId());
                 relation
-                        .setType(CourseAssemblerConstants.COURSE_LO_COURSE_SPECIFIC_RELATION);
-                relation.setState(course.getState());
+                        .setTypeKey(CourseAssemblerConstants.COURSE_LO_COURSE_SPECIFIC_RELATION);
+                relation.setStateKey(course.getStateKey());
 
                 BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo> relationNode = new BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo>(
                         null);
@@ -898,7 +902,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 results.add(relationNode);
             } else if (NodeOperation.UPDATE == operation
                     && currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId())) {
-                loDisplay.getLoInfo().setStateKey(course.getState());
+                loDisplay.getLoInfo().setStateKey(course.getStateKey());
                 // If the clu already has this lo, then just update the lo
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
                         .disassemble(loDisplay, NodeOperation.UPDATE,contextInfo);
@@ -941,7 +945,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             results.add(relationToDeleteNode);
 
             try{
-                LoInfo loToDelete = R1R2ConverterUtil.convert(loService.getLo(entry.getKey(),contextInfo), LoInfo.class);
+                LoInfo loToDelete = loService.getLo(entry.getKey(),contextInfo);
 
                 LoDisplayInfo loDisplayToDelete = loAssembler.assemble(loToDelete, null, false,contextInfo);
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
@@ -973,7 +977,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         //If this is not a create, lookup the results for this clu
         if (!NodeOperation.CREATE.equals(operation)) {
             for (CluResultInfo currentResult : currentCluResults) {
-                if (courseResultType.equals(currentResult.getType())) {
+                if (courseResultType.equals(currentResult.getTypeKey())) {
                     cluResult = currentResult;
                     if(NodeOperation.DELETE.equals(operation)){
                         //if this is a delete, then we only need the CluResultInfo
@@ -996,11 +1000,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 //Create a new resultInfo of the given type if one does not exist and set operation to Create
                 cluResult = new CluResultInfo();
                 cluResult.setCluId(cluId);
-                cluResult.setState(courseState);
-                cluResult.setType(courseResultType);
+                cluResult.setStateKey(courseState);
+                cluResult.setTypeKey(courseResultType);
                 RichTextInfo desc = new RichTextInfo();
                 desc.setPlain(resultsDescription);
-                cluResult.setDesc(desc);
+                cluResult.setDescr(desc);
                 cluResult.setEffectiveDate(new Date());
                 cluResultNode.setOperation(NodeOperation.CREATE);
             }
@@ -1018,9 +1022,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     ResultOptionInfo resultOptionInfo = new ResultOptionInfo();
                     RichTextInfo desc = new RichTextInfo();
                     desc.setPlain(resultDescription);
-                    resultOptionInfo.setDesc(desc);
+                    resultOptionInfo.setDescr(desc);
                     resultOptionInfo.setResultComponentId(optionType);
-                    resultOptionInfo.setState(courseState);
+                    resultOptionInfo.setStateKey(courseState);
 
                     cluResult.getResultOptions().add(resultOptionInfo);
                 }
@@ -1045,14 +1049,14 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         if (!NodeOperation.CREATE.equals(operation)) {
             try {
-                List<CluCluRelationInfo> formatRelationships = R1R2ConverterUtil.convertLists(cluService
-                        .getCluCluRelationsByClu(course.getId(),contextInfo), CluCluRelationInfo.class);
+                List<CluCluRelationInfo> formatRelationships = cluService
+                        .getCluCluRelationsByClu(course.getId(),contextInfo);
 
                 formatRelationships = (null == formatRelationships) ? new ArrayList<CluCluRelationInfo>() : formatRelationships;
 
                 for (CluCluRelationInfo formatRelation : formatRelationships) {
                     if (CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE
-                            .equals(formatRelation.getType())) {
+                            .equals(formatRelation.getTypeKey())) {
                         currentformatIds.put(formatRelation.getRelatedCluId(),
                                 formatRelation.getId());
                     }
@@ -1075,7 +1079,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     || (NodeOperation.UPDATE == operation && !currentformatIds.containsKey(format.getId()) )) {
                 // the format does not exist, so create
                 // Assemble and add the format
-                format.setState(course.getState());
+                format.setStateKey(course.getStateKey());
                 BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
                         .disassemble(format, NodeOperation.CREATE,contextInfo);
                 results.add(formatNode);
@@ -1090,8 +1094,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 // be set even if
                 // it's a create
                 relation
-                        .setType(CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);
-                relation.setState(course.getState());
+                        .setTypeKey(CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);
+                relation.setStateKey(course.getStateKey());
 
                 BaseDTOAssemblyNode<CourseInfo, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<CourseInfo, CluCluRelationInfo>(
                         null);
@@ -1103,7 +1107,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     && currentformatIds.containsKey(format.getId())) {
                 // If the course already has this format, then just update the
                 // format
-                format.setState(course.getState());
+                format.setStateKey(course.getStateKey());
                 BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
                         .disassemble(format, NodeOperation.UPDATE,contextInfo);
                 results.add(formatNode);
@@ -1145,7 +1149,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             relationToDeleteNode.setOperation(NodeOperation.DELETE);
             results.add(relationToDeleteNode);
 
-            CluInfo formatCluToDelete = R1R2ConverterUtil.convert(cluService.getClu(entry.getKey() , new ContextInfo()), CluInfo.class);
+            CluInfo formatCluToDelete = cluService.getClu(entry.getKey() , new ContextInfo());
             FormatInfo formatToDelete = formatAssembler.assemble(formatCluToDelete, null, false,contextInfo);
             BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
                     .disassemble(formatToDelete, NodeOperation.DELETE,contextInfo);
@@ -1159,11 +1163,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         List<CourseVariationInfo> variations = new ArrayList<CourseVariationInfo>();
         if (cluIdents != null) {
             for (CluIdentifierInfo cluIdent : cluIdents) {
-                if (cluIdent.getType() != null &&
-                        cluIdent.getType().equals(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE)) {
+                if (cluIdent.getTypeKey() != null &&
+                        cluIdent.getTypeKey().equals(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE)) {
                     CourseVariationInfo variation = new CourseVariationInfo();
                     variation.setId(cluIdent.getId());
-                    variation.setType(cluIdent.getType());
+                    variation.setTypeKey(cluIdent.getTypeKey());
                     variation.setCourseNumberSuffix(cluIdent.getSuffixCode());
                     variation.setSubjectArea(cluIdent.getDivision());
                     variation.setVariationCode(cluIdent.getVariation());
@@ -1180,28 +1184,33 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         List<CourseCrossListingInfo> crossListings = new ArrayList<CourseCrossListingInfo>();
         if (cluIdents != null) {
             for (CluIdentifierInfo cluIdent : cluIdents) {
-                if (cluIdent.getType() != null &&
-                        cluIdent.getType().equals(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE)) {
+                if (cluIdent.getTypeKey() != null &&
+                        cluIdent.getTypeKey().equals(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE)) {
                     CourseCrossListingInfo crosslisting = new CourseCrossListingInfo();
 
-                    if (cluIdent.getAttributes().containsKey("courseId")) {
-                        try {
-                            CluInfo cluInfo = R1R2ConverterUtil.convert(cluService.getClu(cluIdent.getAttributes().get("courseId") , new ContextInfo()), CluInfo.class);
-                            crosslisting.setId(cluIdent.getId());
-                            crosslisting.setCode(cluInfo.getOfficialIdentifier().getCode());
-                            crosslisting.setAttributes(cluIdent.getAttributes());
-                            crosslisting.setType(cluInfo.getType());
-                            crosslisting.setCourseNumberSuffix(cluInfo.getOfficialIdentifier().getSuffixCode());
-                            crosslisting.setSubjectArea(cluInfo.getOfficialIdentifier().getDivision());
-                            crosslisting.setDepartment(cluIdent.getOrgId());
-                        } catch (Exception e) {
-                            throw new AssemblyException("Error getting related clus", e);
+                    boolean found = false;
+                    for (AttributeInfo attr : cluIdent.getAttributes()){
+                        if (attr.getKey().equals("courseId")){
+                            found = true;
+                            try {
+                                CluInfo cluInfo = cluService.getClu(attr.getValue(), new ContextInfo());
+                                crosslisting.setId(cluIdent.getId());
+                                crosslisting.setCode(cluInfo.getOfficialIdentifier().getCode());
+                                crosslisting.setAttributes(cluIdent.getAttributes());
+                                crosslisting.setTypeKey(cluInfo.getTypeKey());
+                                crosslisting.setCourseNumberSuffix(cluInfo.getOfficialIdentifier().getSuffixCode());
+                                crosslisting.setSubjectArea(cluInfo.getOfficialIdentifier().getDivision());
+                                crosslisting.setDepartment(cluIdent.getOrgId());
+                            } catch (Exception e) {
+                                throw new AssemblyException("Error getting related clus", e);
+                            }
                         }
-                    } else {
+                    }
+                    if (!found) {
                         crosslisting.setId(cluIdent.getId());
                         crosslisting.setCode(cluIdent.getCode());
                         crosslisting.setAttributes(cluIdent.getAttributes());
-                        crosslisting.setType(cluIdent.getType());
+                        crosslisting.setTypeKey(cluIdent.getTypeKey());
                         crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
                         crosslisting.setSubjectArea(cluIdent.getDivision());
                         crosslisting.setDepartment(cluIdent.getOrgId());
@@ -1228,9 +1237,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         if (!NodeOperation.CREATE.equals(operation)) {
             try {
-                List<CluCluRelationInfo> jointRelationships = R1R2ConverterUtil.convertLists(cluService.getCluCluRelationsByClu(course.getId(),contextInfo), CluCluRelationInfo.class);
+                List<CluCluRelationInfo> jointRelationships = cluService.getCluCluRelationsByClu(course.getId(),contextInfo);
                 for (CluCluRelationInfo jointRelation : jointRelationships) {
-                    if (CourseAssemblerConstants.JOINT_RELATION_TYPE.equals(jointRelation.getType())) {
+                    if (CourseAssemblerConstants.JOINT_RELATION_TYPE.equals(jointRelation.getTypeKey())) {
                         if(jointRelation.getCluId().equals(course.getId())) {
                             cluService.getClu(jointRelation.getRelatedCluId(), contextInfo);
                             currentJointIds.put(jointRelation.getId(),jointRelation);
@@ -1259,7 +1268,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 // be deleted at the end
                 CluCluRelationInfo relation = currentJointIds.remove(joint.getRelationId());
                 relation.setRelatedCluId(joint.getCourseId());
-                relation.setState(course.getState());
+                relation.setStateKey(course.getStateKey());
                 BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> jointNode = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>(courseJointAssembler);
                 jointNode.setBusinessDTORef(joint);
                 jointNode.setNodeData(relation);
@@ -1270,7 +1279,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> jointNode = courseJointAssembler
                         .disassemble(joint, NodeOperation.CREATE,contextInfo);
                 jointNode.getNodeData().setCluId(nodeId);
-                jointNode.getNodeData().setState(course.getState());
+                jointNode.getNodeData().setStateKey(course.getStateKey());
                 results.add(jointNode);
             }
         }
