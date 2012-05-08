@@ -81,6 +81,9 @@
 
                 <!-- Course Offering -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/OfferingInstructorInfoLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/SocRolloverResultInfoLookpAndInquiryView.xml</value>
 			</list>
 		</property>
 		<property name="packagePrefixes">

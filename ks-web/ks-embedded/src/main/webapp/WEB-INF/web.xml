@@ -158,7 +158,7 @@
        <listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
     </listener>
 
-    <!-- uncomment for jetty
+    <!-- uncomment for jetty  -->
     <servlet>
         <servlet-name>default</servlet-name>
         <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
@@ -167,7 +167,7 @@
             <param-value>false</param-value>
         </init-param>
         <load-on-startup>0</load-on-startup>
-    </servlet-->
+    </servlet>
 
     <servlet>
 		<servlet-name>action</servlet-name>
