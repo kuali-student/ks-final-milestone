@@ -757,9 +757,10 @@ public class LuServiceImpl implements CluService {
             CluAdminOrg instructor = new CluAdminOrg();
             BeanUtils.copyProperties(R1R2ConverterUtil.convert(orgInfo, org.kuali.student.r1.lum.lu.dto.AdminOrgInfo.class), instructor,
                     new String[]{"attributes"});
-
-            instructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluAdminOrgAttribute.class, R1R2ConverterUtil.convert(orgInfo, org.kuali.student.r1.lum.lu.dto.AdminOrgInfo.class).getAttributes(),
+            instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
+            		CluAdminOrgAttribute.class, R1R2ConverterUtil.convert(orgInfo, org.kuali.student.r1.lum.lu.dto.AdminOrgInfo.class).getAttributes(),
             		instructor, luDao));
+            instructor.setType(orgInfo.getTypeKey());
             instructor.setClu(clu);
             adminOrgs.add(instructor);
         }
@@ -770,9 +771,9 @@ public class LuServiceImpl implements CluService {
                     primaryInstructor, new String[]{"attributes"});
 
             primaryInstructor.setAttributes(LuServiceAssembler
-            		.toGenericAttributes(CluInstructorAttribute.class, R1R2ConverterUtil.convert(cluInfo, org.kuali.student.r1.lum.lu.dto.CluInfo.class)
-            				.getPrimaryInstructor().getAttributes(),
-            				primaryInstructor, luDao));
+                    .toGenericAttributes(CluInstructorAttribute.class, R1R2ConverterUtil.convert(cluInfo, org.kuali.student.r1.lum.lu.dto.CluInfo.class)
+                            .getPrimaryInstructor().getAttributes(),
+                            primaryInstructor, luDao));
             clu.setPrimaryInstructor(primaryInstructor);
         }
 
@@ -806,7 +807,9 @@ public class LuServiceImpl implements CluService {
             		luDao));
             BeanUtils.copyProperties(luCodeInfo, luCode, new String[]{
                     "attributes", "meta", "descr"});
-            luCode.setDescr(luCodeInfo.getDescr().getPlain());
+            if(luCodeInfo.getDescr() != null){
+                luCode.setDescr(luCodeInfo.getDescr().getPlain());
+            }
             luCode.setClu(clu);
             luCodes.add(luCode);
         }
@@ -1786,7 +1789,7 @@ public class LuServiceImpl implements CluService {
         }
 
         CluLoRelation cluLoRelation = new CluLoRelation();
-        BeanUtils.copyProperties(R1R2ConverterUtil.convert(cluLoRelationInfo, org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo.class), cluLoRelation,
+        BeanUtils.copyProperties(cluLoRelationInfo, cluLoRelation,
                 new String[]{"cluId", "attributes", "meta", "type"});
 
         cluLoRelation.setClu(clu); 
@@ -1835,10 +1838,10 @@ public class LuServiceImpl implements CluService {
                     + cluLoRelationInfo.getTypeKey());
         }
 
-        BeanUtils.copyProperties(R1R2ConverterUtil.convert(cluLoRelationInfo, org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo.class), reltn, new String[]{
+        BeanUtils.copyProperties(cluLoRelationInfo, reltn, new String[]{
                 "cluId", "attributes", "meta", "type"});
 
-        reltn.setClu(clu);
+        reltn.setClu(clu); 
         reltn.setAttributes(LuServiceAssembler.toGenericAttributes(
         		CluLoRelationAttribute.class,
         		R1R2ConverterUtil.convert(cluLoRelationInfo, org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo.class).getAttributes(), reltn, luDao));
@@ -2197,31 +2200,24 @@ public class LuServiceImpl implements CluService {
 
         CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
-        StatusInfo statusInfo = new StatusInfo();
-
         checkCluAlreadyAdded(cluSet, cluId);
 
-        //If the clu already exists return false but dont throw an exception
-        if(!checkCluAlreadyAdded(cluSet, cluId)){
-            statusInfo.setSuccess(Boolean.FALSE);
-            statusInfo.setMessage("CluSet already contains Clu (id='" + cluId + "')");
-        }else{
-            try{
-                luDao.getCurrentCluVersionInfo(cluId, CluServiceConstants.CLU_NAMESPACE_URI);
-            }catch(NoResultException e){
-                throw new DoesNotExistException();
-            }
-
-            CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
-            join.setCluSet(cluSet);
-            join.setCluVersionIndId(cluId);
-
-            cluSet.getCluVerIndIds().add(join);
-
-            luDao.update(cluSet);
-
-            statusInfo.setSuccess(true);
+        try {
+            luDao.getCurrentCluVersionInfo(cluId, CluServiceConstants.CLU_NAMESPACE_URI);
+        } catch (NoResultException e) {
+            throw new DoesNotExistException();
         }
+
+        CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
+        join.setCluSet(cluSet);
+        join.setCluVersionIndId(cluId);
+
+        cluSet.getCluVerIndIds().add(join);
+
+        luDao.update(cluSet);
+
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
 
         return statusInfo;
     }
@@ -2347,14 +2343,13 @@ public class LuServiceImpl implements CluService {
         return cluSetInfo;
     }
 
-    private boolean checkCluAlreadyAdded(CluSet cluSet, String cluId)
+    private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
             throws OperationFailedException {
         for (CluSetJoinVersionIndClu join : cluSet.getCluVerIndIds()) {
             if (join.getCluVersionIndId().equals(cluId)) {
-                return false;
+                throw new OperationFailedException("CluSet already contains Clu (id='" + cluId + "')");
             }
         }
-        return true;
     }
 
     private void checkCluSetAlreadyAdded(CluSet cluSet, String cluSetIdToAdd)
@@ -3053,23 +3048,18 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, UnsupportedActionException {
 
-        StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(Boolean.TRUE);
-
         checkForMissingParameter(cluSetIds, "cluIdList");
         checkForMissingParameter(cluSetId, "cluSetId");
 
-        for(String cluId : cluSetIds) {
+        for (String cluId : cluSetIds) {
             StatusInfo status = addCluToCluSet(cluId, cluSetId, contextInfo);
             if (!status.getIsSuccess()) {
-                //One or more clus already existed
-                if(statusInfo.getMessage().isEmpty()){
-                    statusInfo.setMessage(status.getMessage());
-                }else{
-                    statusInfo.setMessage(statusInfo.getMessage()+"\n"+status.getMessage());
-                }
+                return status;
             }
         }
+
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
 
         return statusInfo;
     }

@@ -103,7 +103,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public CourseInfo updateCourse(String courseId, CourseInfo courseInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException {
+    public CourseInfo updateCourse(String courseId, CourseInfo courseInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException, ReadOnlyException {
 
         checkForMissingParameter(courseInfo, "CourseInfo");
 
@@ -129,7 +129,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteCourse(String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, UnsupportedActionException, DependentObjectsExistException, CircularRelationshipException, CircularReferenceException {
+    public StatusInfo deleteCourse(String courseId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, UnsupportedActionException, DependentObjectsExistException, CircularRelationshipException, CircularReferenceException, ReadOnlyException {
 
         try {
             CourseInfo course = getCourse(courseId, contextInfo);
@@ -333,12 +333,12 @@ public class CourseServiceImpl implements CourseService {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
-    private CourseInfo processCourseInfo(CourseInfo courseInfo, NodeOperation operation, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AssemblyException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException {
+    private CourseInfo processCourseInfo(CourseInfo courseInfo, NodeOperation operation, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AssemblyException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException, ReadOnlyException {
 
         BaseDTOAssemblyNode<org.kuali.student.r1.lum.course.dto.CourseInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results = courseAssembler.disassemble(R1R2ConverterUtil.convert(courseInfo, new org.kuali.student.r1.lum.course.dto.CourseInfo()), operation, contextInfo);
 
         // Use the results to make the appropriate service calls here
-        courseServiceMethodInvoker.invokeServiceCalls(results);
+        courseServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 
         return R1R2ConverterUtil.convert(results.getBusinessDTORef(), CourseInfo.class);
     }
@@ -394,7 +394,7 @@ public class CourseServiceImpl implements CourseService {
             results = courseAssembler.disassemble(R1R2ConverterUtil.convert(originalCourse, org.kuali.student.r1.lum.course.dto.CourseInfo.class), NodeOperation.UPDATE, contextInfo);
 
             // Use the results to make the appropriate service calls here
-            courseServiceMethodInvoker.invokeServiceCalls(results);
+            courseServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 
             // copy statements
             CourseServiceUtils.copyStatements((String) currentVersion.getId(), results.getBusinessDTORef().getId(), results.getBusinessDTORef().getState(), statementService, cluService, this, contextInfo);

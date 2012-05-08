@@ -51,18 +51,15 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	private LRCService lrcService;
 
 	@SuppressWarnings("unchecked")
+    @Override
 	public final void invokeServiceCalls(BaseDTOAssemblyNode results, ContextInfo contextInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, VersionMismatchException,
-			DependentObjectsExistException, CircularRelationshipException,
+			throws DependentObjectsExistException, CircularRelationshipException,
 			AssemblyException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException, ReadOnlyException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
 
 	    // For Delete operation process the tree from bottom up
 	    if(NodeOperation.DELETE == results.getOperation()) {
             for(BaseDTOAssemblyNode childNode: (List<BaseDTOAssemblyNode>) results.getChildNodes()){
-                invokeServiceCalls(childNode);
+                invokeServiceCalls(childNode,contextInfo);
             }
 	    }
 
@@ -71,7 +68,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 		// For create/update process the child nodes from top to bottom
 		if(NodeOperation.DELETE != results.getOperation()) {
 		    for(BaseDTOAssemblyNode childNode: (List<BaseDTOAssemblyNode>) results.getChildNodes()){
-		        invokeServiceCalls(childNode);
+		        invokeServiceCalls(childNode,contextInfo);
 		    }
 		}
 	}
@@ -384,19 +381,6 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 
 	public void setLrcService(LRCService lrcService) {
 		this.lrcService = lrcService;
-	}
-
-	@Override
-	public void invokeServiceCalls(BaseDTOAssemblyNode results)
-			throws AlreadyExistsException, DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, VersionMismatchException,
-			DependentObjectsExistException, CircularRelationshipException,
-			AssemblyException, UnsupportedActionException,
-			UnsupportedOperationException, CircularReferenceException {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -207,7 +207,7 @@ public class ProgramServiceImpl implements ProgramService{
 			results =  majorDisciplineAssembler.disassemble(originalMajorDiscipline, NodeOperation.UPDATE,contextInfo);
 			
 			// Use the results to make the appropriate service calls here
-			programServiceMethodInvoker.invokeServiceCalls(results);
+			programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 
 			return R1R2ConverterUtil.convert(results.getBusinessDTORef(), new MajorDisciplineInfo()) ;
 		} catch(AssemblyException e) {
@@ -1070,28 +1070,28 @@ public class ProgramServiceImpl implements ProgramService{
     private MajorDisciplineInfo processMajorDisciplineInfo(MajorDisciplineInfo majorDisciplineInfo, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
 
         BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results = majorDisciplineAssembler.disassemble(majorDisciplineInfo, operation, contextInfo);
-        invokeServiceCalls(results);
+        invokeServiceCalls(results, contextInfo);
         return (MajorDisciplineInfo) results.getBusinessDTORef();
     }
 
     private CredentialProgramInfo processCredentialProgramInfo(CredentialProgramInfo credentialProgramInfo, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
 
         BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> results = credentialProgramAssembler.disassemble(credentialProgramInfo, operation, contextInfo);
-        invokeServiceCalls(results);
+        invokeServiceCalls(results, contextInfo);
         return R1R2ConverterUtil.convert(results.getBusinessDTORef(), new CredentialProgramInfo());
     }
 
     private ProgramRequirementInfo processProgramRequirement(ProgramRequirementInfo programRequirementInfo, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
     	BOAssembler<ProgramRequirementInfo, CluInfo> passAlong;
         BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> results = programRequirementAssembler.disassemble(programRequirementInfo, operation, contextInfo);
-        invokeServiceCalls(results);
+        invokeServiceCalls(results, contextInfo);
         return R1R2ConverterUtil.convert( results.getBusinessDTORef(),new ProgramRequirementInfo());
     }
 
-	private void invokeServiceCalls(BaseDTOAssemblyNode<?, CluInfo> results) throws AssemblyException{
+	private void invokeServiceCalls(BaseDTOAssemblyNode<?, CluInfo> results, ContextInfo contextInfo) throws AssemblyException{
         // Use the results to make the appropriate service calls here
         try {
-            programServiceMethodInvoker.invokeServiceCalls(results);
+            programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
         } catch (AssemblyException e) {
         	throw e;
         } catch (Exception e) {
@@ -1183,7 +1183,7 @@ public class ProgramServiceImpl implements ProgramService{
     private CoreProgramInfo processCoreProgramInfo(CoreProgramInfo coreProgramInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
 
         BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results = coreProgramAssembler.disassemble(coreProgramInfo, operation, contextInfo);
-        invokeServiceCalls(results);
+        invokeServiceCalls(results, contextInfo);
         return R1R2ConverterUtil.convert(results.getBusinessDTORef(),new CoreProgramInfo());
     }
 
@@ -1234,7 +1234,7 @@ public class ProgramServiceImpl implements ProgramService{
 			results = coreProgramAssembler.disassemble(originalCoreProgram, NodeOperation.UPDATE, contextInfo);
 
 			// Use the results to make the appropriate service calls here
-			programServiceMethodInvoker.invokeServiceCalls(results);
+			programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 
 			return R1R2ConverterUtil.convert(results.getBusinessDTORef(),new CoreProgramInfo());
 		} catch(AssemblyException e) {
@@ -1362,7 +1362,7 @@ public class ProgramServiceImpl implements ProgramService{
 			results = credentialProgramAssembler.disassemble(originaCredentialProgram, NodeOperation.UPDATE, contextInfo);
 
 			// Use the results to make the appropriate service calls here
-			programServiceMethodInvoker.invokeServiceCalls(results);
+			programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 			
 			//Here we get a R1 object that is then convert to and R2 object and then returned via the return statement below.
 			return results.getBusinessDTORef();
