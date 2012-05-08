@@ -49,6 +49,7 @@ import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementOperator;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
@@ -911,17 +912,17 @@ public class TestProgramServiceImpl {
         // statement tree views
         StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
         statementTree.setDescr(toRichText("STMT-1"));
-        statementTree.setOperator(StatementOperatorTypeKey.OR);
+        statementTree.setOperator(StatementOperator.OR);
         statementTree.setTypeKey("kuali.statement.type.program.entrance");
 
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
         subTree1.setDescr(toRichText("STMT-2"));
-        subTree1.setOperator(StatementOperatorTypeKey.AND);
+        subTree1.setOperator(StatementOperator.AND);
         subTree1.setTypeKey("kuali.statement.type.program.entrance");
 
         StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
         subTree2.setDescr(toRichText("STMT-3"));
-        subTree2.setOperator(StatementOperatorTypeKey.AND);
+        subTree2.setOperator(StatementOperator.AND);
         subTree2.setTypeKey("kuali.statement.type.program.entrance");
 
         // construct tree with statements and req components
@@ -962,7 +963,7 @@ public class TestProgramServiceImpl {
         rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
         subTree1.setDescr(toRichText("STMT-5"));
-        subTree1.setOperator(StatementOperatorTypeKey.AND);
+        subTree1.setOperator(StatementOperator.AND);
         subTree1.setTypeKey("kuali.statement.type.program.entrance");
         reqCompList1.add(rc1);
         reqCompList1.add(rc2);
