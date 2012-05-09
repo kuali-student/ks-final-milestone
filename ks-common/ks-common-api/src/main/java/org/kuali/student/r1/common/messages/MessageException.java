@@ -15,7 +15,6 @@
 
 package org.kuali.student.r1.common.messages;
 
-@Deprecated
 public class MessageException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
