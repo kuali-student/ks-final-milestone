@@ -77,10 +77,11 @@ public class LUMMainEntryPoint implements EntryPoint{
     }
     
     private void loadMessages(final ApplicationContext context) throws SerializationException {
-        List<MessageInfo> commonMessages =  getMsgSerializedObject("commonMessages" );
-        List<MessageInfo> lumMessages =  getMsgSerializedObject("luMessages" );
-        context.addMessages(commonMessages);
-        context.addMessages(lumMessages);
+        MessageList commonMessageList =  getMsgSerializedObject("commonMessages" );
+        MessageList lumMessageList =  getMsgSerializedObject("luMessages" );
+
+        context.addMessages(commonMessageList.getMessages());
+        context.addMessages(lumMessageList.getMessages());
     }
 
     @SuppressWarnings("unchecked")
