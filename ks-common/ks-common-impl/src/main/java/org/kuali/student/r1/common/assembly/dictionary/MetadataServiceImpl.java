@@ -53,7 +53,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MetadataServiceImpl {
     final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
 
-    private Map<String, DictionaryService> dictionaryServiceMap = new HashMap<String, DictionaryService>();
+    //private Map<String, DictionaryService> dictionaryServiceMap = new HashMap<String, DictionaryService>();
+    private List<DictionaryService> dictionaryServices;
     private List<UILookupConfig> lookupObjectStructures;
     private String uiLookupContext;
 
@@ -99,7 +100,8 @@ public class MetadataServiceImpl {
     }
 
     public synchronized void setDictionaryServices(List<DictionaryService> dictionaryServices) {
-    	if (dictionaryServices != null) {
+        this.dictionaryServices = dictionaryServices;
+    	/*if (dictionaryServices != null) {
     		this.dictionaryServiceMap.clear();
             for (DictionaryService d : dictionaryServices) {
                 List<String> objectTypes = d.getObjectTypes();
@@ -107,7 +109,7 @@ public class MetadataServiceImpl {
                     dictionaryServiceMap.put(objectType, d);
                 }
             }
-    	}
+    	}*/
 	}
 
 
@@ -304,7 +306,17 @@ public class MetadataServiceImpl {
      * @return
      */
     protected ObjectStructureDefinition getObjectStructure(String objectKey) {
-        DictionaryService dictionaryService = dictionaryServiceMap.get(objectKey);
+        //DictionaryService dictionaryService = dictionaryServiceMap.get(objectKey);
+        
+        DictionaryService dictionaryService = null;
+        for (DictionaryService service : this.dictionaryServices){
+            List<String> objectTypes = service.getObjectTypes();
+            for (String objectType : objectTypes) {
+                if (objectType.equals(objectKey)){
+                    dictionaryService = service;
+                }
+            }
+        }
 
         if (dictionaryService == null) {
             throw new RuntimeException("Dictionary service not provided for objectKey=[" + objectKey + "].");
