@@ -16,6 +16,7 @@ public class TermAssembler implements DTOAssembler<TermInfo, AtpInfo>{
             term.setId(atp.getId());
             term.setName(atp.getName());
             term.setDescr(atp.getDescr());
+            term.setCode(atp.getCode());
             term.setStartDate(atp.getStartDate());
             term.setEndDate(atp.getEndDate());
             term.setTypeKey(atp.getTypeKey());
@@ -35,6 +36,7 @@ public class TermAssembler implements DTOAssembler<TermInfo, AtpInfo>{
         atp.setId(term.getId());
         atp.setName(term.getName());
         atp.setDescr(term.getDescr());
+        atp.setCode(term.getCode());
         atp.setStartDate(term.getStartDate());
         atp.setEndDate(term.getEndDate());
         atp.setTypeKey(term.getTypeKey());
