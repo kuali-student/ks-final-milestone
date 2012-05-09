@@ -13,6 +13,7 @@ import java.util.List;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
 import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.r1.common.messages.dto.MessageList;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -68,10 +69,12 @@ public class MessagesRpcGwtServlet extends RemoteServiceServlet implements Messa
     }
 
     @Override
-    public List<MessageInfo> getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public MessageList getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         LocaleInfo localeInfo = new LocaleInfo();
         localeInfo.setLocaleLanguage(localeKey);
-        return serviceImpl.getMessagesByGroups(localeInfo, messageGroupKeyList.getMessageGroupKeys(), ContextUtils.getContextInfo());
+        MessageList list = new MessageList();
+        list.setMessages(serviceImpl.getMessagesByGroups(localeInfo, messageGroupKeyList.getMessageGroupKeys(), ContextUtils.getContextInfo()));
+        return list;
     }
 
     @Override
