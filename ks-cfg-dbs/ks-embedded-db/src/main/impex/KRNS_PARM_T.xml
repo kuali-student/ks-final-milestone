@@ -95,6 +95,12 @@
         PARM_TYP_CD="CONFG"
         TXT="collectorInputFileType;procurementCardInputFileType;enterpriseFeederFileSetType;assetBarcodeInventoryInputFileType;customerLoadInputFileType" VER_NBR="1"/>
     <KRNS_PARM_T APPL_NMSPC_CD="KUALI" CONS_CD="A" NMSPC_CD="KR-NS"
+        OBJ_ID="92AB93B362565F2CE0404F8189D8219A"
+        PARM_DESC_TXT="Controls whether the nervous system will show the blanket approve button to a user who is authorized for blanket approval but is neither the initiator of the particular document nor the recipient of an active, pending, approve action request."
+        PARM_DTL_TYP_CD="Document"
+        PARM_NM="ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND"
+        PARM_TYP_CD="CONFG" TXT="N" VER_NBR="1"/>
+    <KRNS_PARM_T APPL_NMSPC_CD="KUALI" CONS_CD="A" NMSPC_CD="KR-NS"
         OBJ_ID="53680C68F59EAD9BE0404F8189D80A6C"
         PARM_DESC_TXT="If Y, the Route Report button will be displayed on the document actions bar if the document is using the default DocumentAuthorizerBase.getDocumentActionFlags to set the canPerformRouteReport property of the returned DocumentActionFlags instance."
         PARM_DTL_TYP_CD="Document"
@@ -214,7 +220,7 @@
         OBJ_ID="9BD6785416434C4D9E5F05AF077DB9B7"
         PARM_DESC_TXT="Flag to show the backdoor login."
         PARM_DTL_TYP_CD="Backdoor" PARM_NM="SHOW_BACK_DOOR_LOGIN_IND"
-        PARM_TYP_CD="CONFG" TXT="N" VER_NBR="1"/>
+        PARM_TYP_CD="CONFG" TXT="Y" VER_NBR="1"/>
     <KRNS_PARM_T APPL_NMSPC_CD="KUALI" CONS_CD="A" NMSPC_CD="KR-WKFLW"
         OBJ_ID="E78100F6F14C4932B54F7719FA5C27E9"
         PARM_DESC_TXT="Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window."

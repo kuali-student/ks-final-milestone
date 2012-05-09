@@ -12,63 +12,59 @@
         OBJ_ID="5ADF18B6D4917954E0404F8189D85002" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="101" LBL="College" NM="college"
-        NMSPC_CD="KS-LUM" OBJ_ID="COLLEGETYPE00000000000000ATTRDEF" VER_NBR="1"/>
+        KIM_ATTR_DEFN_ID="10000" LBL="DTO Name" NM="dtoName"
+        NMSPC_CD="KS-SYS" OBJ_ID="B1D601FDB62E471787DAA28241FFA2C1" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="102" LBL="Department" NM="department"
-        NMSPC_CD="KS-LUM" OBJ_ID="DEPARTMTYPE00000000000000ATTRDEF" VER_NBR="1"/>
+        KIM_ATTR_DEFN_ID="10001" LBL="DTO Field Key" NM="dtoFieldKey"
+        NMSPC_CD="KS-SYS" OBJ_ID="FB19E7AA23314F0BACBD835A49051111" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="103" LBL="Division" NM="division"
-        NMSPC_CD="KS-LUM" OBJ_ID="DIVISIONTYPE0000000000000ATTRDEF" VER_NBR="1"/>
+        KIM_ATTR_DEFN_ID="10002" LBL="Field Access Level"
+        NM="fieldAccessLevel" NMSPC_CD="KS-SYS"
+        OBJ_ID="2786B2CE01F548988C3682844CDA73E4" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="10003" LBL="Screen Component"
+        NM="screenComponent" NMSPC_CD="KS-SYS"
+        OBJ_ID="124230ABD60949EBBE0E3CD5281E8995" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="10004" LBL="College" NM="college"
+        NMSPC_CD="KS-LUM" OBJ_ID="02C6842512DD437BA1F6754B218B6F02" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="10005" LBL="Department" NM="department"
+        NMSPC_CD="KS-LUM" OBJ_ID="80F4E71A26F44605BB45693AE98BD02E" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="10006" LBL="Division" NM="division"
+        NMSPC_CD="KS-LUM" OBJ_ID="FE0498D7750443B7A44E822B83507D63" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="10007" LBL="Data Object Id" NM="dataId"
+        NMSPC_CD="KS-SYS" OBJ_ID="812E8CBF887D446EAE75F0A4B7FFF719" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="10008" LBL="Organization" NM="org"
+        NMSPC_CD="KS-SYS" OBJ_ID="9DEE3D5B1B064397A8198854E0608B6F" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="10009" LBL="Section Id" NM="sectionId"
+        NMSPC_CD="KS-SYS" OBJ_ID="C5B0169958674C52A8F6FA6A956BCB6A" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+        KIM_ATTR_DEFN_ID="10010" LBL="Reference Type Key"
+        NM="ksReferenceTypeKey" NMSPC_CD="KS-SYS"
+        OBJ_ID="2A68FFF5C7CF4C9585B603DA7C1B0FD7" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="11" NM="parameterName" NMSPC_CD="KR-NS"
         OBJ_ID="5ADF18B6D4927954E0404F8189D85002" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="110" NM="dtoName" NMSPC_CD="KS-SYS"
-        OBJ_ID="COLLEGESYSTYPE00000000000ATTRDEF" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="111" NM="dtoFieldKey" NMSPC_CD="KS-SYS"
-        OBJ_ID="COLLEGESY1TYPE00000000000ATTRDEF" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="112" NM="fieldAccessLevel" NMSPC_CD="KS-SYS"
-        OBJ_ID="COLLEGESY2TYPE00000000000ATTRDEF" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="114" LBL="Organization" NM="org"
-        NMSPC_CD="KS-SYS" OBJ_ID="DEPARTMTYPE08000005430000ATTRDEF" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="115" LBL="Screen Component"
-        NM="screenComponent" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTMTYPE080WF005430000ATTRDEF" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="116" LBL="Section ID" NM="sectionId"
-        NMSPC_CD="KS-SYS" OBJ_ID="DEPARTMTYPE080OFU05430000ATTRDEF" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="117" LBL="Descends Hierarchy"
-        NM="descendHierarchy" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTMTYPE080ED005430000ATTRDEF" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="118" LBL="Reference Type Key"
-        NM="ksReferenceTypeKey" NMSPC_CD="KS-SYS"
-        OBJ_ID="DEPARTMTYPE080ED005430000ATTRDEG" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="12" NM="campusCode" NMSPC_CD="KR-NS"
         OBJ_ID="5ADF18B6D4937954E0404F8189D85002" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
-        CMPNT_NM="org.kuali.rice.student.bo.KualiStudentKimAttributes"
-        KIM_ATTR_DEFN_ID="120" LBL="Student Data Id" NM="dataId"
-        NMSPC_CD="KS-SYS" OBJ_ID="DEPARUUUNTADMINREVIEWER000001236" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="13" NM="documentTypeName" NMSPC_CD="KR-WKFLW"
@@ -101,10 +97,6 @@
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="20" NM="responsibilityName" NMSPC_CD="KR-IDM"
         OBJ_ID="5ADF18B6D49B7954E0404F8189D85002" VER_NBR="1"/>
-    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
-        CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
-        KIM_ATTR_DEFN_ID="2000" NM="routeStatusCode" NMSPC_CD="KS-SYS"
-        OBJ_ID="05c1ece3-5d04-44d3-885c-2a90de623ba8" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="21" NM="groupName" NMSPC_CD="KR-IDM"
