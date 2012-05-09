@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:p="http://www.springframework.org/schema/p"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+      <import resource="classpath:ks-ActivityOfferingInfo-dictionary.xml"/>
+
+        <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView">
+        <property name="title" value="Activity Offering Maintenance"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject"/>
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
+        <property name="header">
+             <ref bean="KSHeader_Empty" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="title" value="Create a New Activity Offering"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="dto.termId" p:defaultValue="2012WINTER">
+                                <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
+                                <property name="fieldLookup.fieldConversions">
+                                    <map>
+                                        <entry key="code" value="dto.id"/>
+                                    </map>
+                                </property>-->
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20"/>
+                                </property>
+                             </bean>
+                            <bean parent="Uif-InputField" p:propertyName="dto.activityCode">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="dto.formatOfferingId" p:label="Format Offering Id" >
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="dto.maximumEnrollment">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="4"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="dto.isMaxEnrollmentEstimate" p:label="Is Max Enrollment estimate">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="dto.isEvaluated" p:label="This course requires an evaluation">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <!--<bean parent="Uif-MaintenanceStackedCollectionSection">
+                    <property name="title" value="Instructors"/>
+                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
+                    <property name="propertyName" value="instructors"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="Instructor ID">
+                                &lt;!&ndash;<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> &ndash;&gt;
+                                <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                                <property name="fieldLookup.fieldConversions">
+                                    <map>
+                                        <entry key="principalId" value="personId"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="layoutManager.summaryTitle" value="Instructor"/>
+                    <property name="layoutManager.summaryFields">
+                        <list>
+                            <value>personId</value>
+                        </list>
+                    </property>
+                </bean>
+-->
+            </list>
+        </property>
+        <property name="footer">
+	        <ref bean="KSFooter_SubmitCancel" />
+        </property>
+    </bean>
+
+
+      <bean id="ActivityOfferingMaintenanceDocument" parent="ActivityOfferingMaintenanceDocument-parentBean"/>
+
+      <bean id="ActivityOfferingMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject"/>
+        <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl"/>
+        <property name="documentTypeName" value="ActivityOfferingInfoMaintenanceDocument"/>
+        <property name="lockingKeys">
+          <list>
+            <value>dto.id</value>
+          </list>
+        </property>
+      </bean>
+
+
+</beans>
