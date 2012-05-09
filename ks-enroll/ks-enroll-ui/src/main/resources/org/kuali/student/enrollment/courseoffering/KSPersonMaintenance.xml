@@ -20,29 +20,26 @@
      limitations under the License.
     -->
 
+    <bean id="KS-Person-LookupView" parent="KSLookupView"
+          p:title="KS Person Lookup"
+          p:dataObjectClassName="org.kuali.rice.kim.bo.impl.PersonImpl">
 
-    <bean id="KS-OfferingInstructorInfo-LookupView" parent="KSLookupView"
-          p:title="OfferingInstructorInfo Lookup"
-            >
-        <!-- p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl" -->
-
-        <!--<property name="criteriaFields">-->
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalName" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalName" />
             </list>
         </property>
 
 
-        <!--<property name="resultFields">
+        <property name="resultFields">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="id" />
                 <bean parent="Uif-DataField" p:propertyName="principalId" />
                 <bean parent="Uif-DataField" p:propertyName="principalId" />
                 <bean parent="Uif-DataField" p:propertyName="EntityId" />
             </list>
-        </property>-->
+        </property>
     </bean>
 
 </beans>
