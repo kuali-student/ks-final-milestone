@@ -22,8 +22,8 @@
   	<param name="ksb.mode">LOCAL</param>
   
 	<param name="module.name">ks-lum-ui</param>
-	<param name="application.id">ks</param>
-	<param name="dev.mode">true</param>
+	<param name="application.id">KSLumUI</param>
+	<param name="dev.mode">false</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/ks-ksb-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
@@ -62,7 +62,7 @@
 	<param name="ks.lum.gwt.cache.config.file">classpath:ks-lum-gwt-ehcache.xml</param>
     <param name="ks.lum.gwt.metadata.enable.caching">true</param>
 	
-	<param name="ks.rice.application.url">http://localhost:8081/ks-embedded-dev/</param>
+	<param name="ks.rice.application.url">http://localhost:8081/ks-embedded-dev</param>
 	<param name="ks.rice.actionList.serviceAddress">${ks.rice.application.url}/kew/ActionList.do</param>
     <param name="ks.rice.docSearch.serviceAddress">${ks.rice.application.url}/kew/DocumentSearch.do</param>
     <param name="ks.gwt.codeServer">gwt.codesvr=127.0.0.1:9997</param>
