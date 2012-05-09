@@ -29,12 +29,12 @@
 
     <!-- BEGIN KUALI STUDENT SETTINGS -->
     <param name="config.location">classpath:ks-security-config.xml</param>
-    <param name="appserver.url">http://localhost:8081</param>
+    <param name="appserver.url">http://localhost:8083</param>
     <param name="app.code">ks-rice</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>
     
-    <param name="lum.application.url" override="false">http://localhost:8080/ks-standalone-dev</param>
+    <param name="lum.application.url" override="false">http://localhost:8084/ks-standalone-dev</param>
     <!-- OrgUrls -->
     <param name="ks.org.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp</param>
 
