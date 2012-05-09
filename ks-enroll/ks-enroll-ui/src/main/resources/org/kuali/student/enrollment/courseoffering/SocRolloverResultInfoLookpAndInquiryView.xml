@@ -19,24 +19,26 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
+    <import resource="classpath:ks-SocRolloverResultInfo-dictionary.xml"/>
 
     <!-- LookupView -->
-    <bean id="KS-SocRolloverResultInfo-LookupView" parent="KSLookupView"
-          p:title="SocRolloverResultInfo Lookup (Search not working)"
-          p:dataObjectClassName="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo" >
+    <bean id="KS-SocRolloverResultInfo-LookupView" parent="KSLookupView">
+        <property name="title" value="SocRolloverResultInfo Lookup (Search not working)"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo" />
         <!--p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl"-->
 
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="targetTermId"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="sourceTermId" />
+                <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="sourceTermId" />-->
+                <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />-->
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id" />
-                <bean parent="Uif-DataField" p:propertyName="targetTermId" />
-                <bean parent="Uif-DataField" p:propertyName="targetTermId" />
+                <!--<bean parent="Uif-DataField" p:propertyName="id" />-->
+               <bean parent="Uif-DataField" p:propertyName="targetTermId" />
+                <!--<bean parent="Uif-DataField" p:propertyName="targetTermId" />-->
                 <!--<bean parent="Uif-DataField" p:propertyName="percentageEffort" />-->
             </list>
         </property>
