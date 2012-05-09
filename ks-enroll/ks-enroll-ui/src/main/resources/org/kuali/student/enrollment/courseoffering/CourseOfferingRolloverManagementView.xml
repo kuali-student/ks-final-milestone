@@ -56,7 +56,7 @@
                                                     <list>
                                                         <bean parent="Uif-InputField" p:propertyName="targetTermCode" p:label="Target Term" p:labelPlacement="TOP" p:required="true">
                                                             <property name="control">
-                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2011"/>
+                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2011" p:minLength="7" p:maxLength="7"/>
                                                             </property>
                                                         </bean>
                                                         <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm" p:valign="bottom"/>
@@ -85,7 +85,7 @@
                                                     <list>
                                                         <bean parent="Uif-InputField" p:propertyName="sourceTermCode" p:label="Source Term" p:labelPlacement="TOP" p:required="true">
                                                             <property name="control">
-                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2010"/>
+                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2010" p:minLength="7" p:maxLength="7"/>
                                                             </property>
                                                         </bean>
 
