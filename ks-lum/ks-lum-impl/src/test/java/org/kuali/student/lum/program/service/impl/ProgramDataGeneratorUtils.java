@@ -6,7 +6,9 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,6 +42,9 @@ public class ProgramDataGeneratorUtils {
 		// KSCM-621 Get all the fields including inherited fields...
 		ArrayList<Field> fields = new ArrayList<Field>();
 	    fields = getAllFields(fields, clazz);
+	    ArrayList<Method> methods= new ArrayList<Method>();
+	    methods = getAllMethods(methods, clazz);
+	    
 	    
 		for(PropertyDescriptor pd:beanInfo.getPropertyDescriptors()){
 
@@ -47,10 +52,16 @@ public class ProgramDataGeneratorUtils {
 				continue;
 			}
 			propertyIndex++;
+
 			Object value = null;
-			Class<?> pt = pd.getPropertyType();
-//			Field declaredField = clazz.getDeclaredField(pd.getName());		// KSCM-621 
-			Field declaredField = findField(pd.getName(), fields);
+			Class<?> pt = pd.getPropertyType();	// KSCM-621
+			Field declaredField = findField(pd.getName(), fields);	 // KSCM-621
+			
+			// We're not interested in the Interface, List, Map but in the actual class
+			if (pt.isInterface() && !List.class.equals(pt) && !Map.class.equals(pt)) {
+				pt = declaredField.getType();
+			} 
+			
 			if(List.class.equals(pt)){
 				//If this is a list then make a new list and make x amount of test data of that list type
 				//Get the list type:
@@ -96,7 +107,12 @@ public class ProgramDataGeneratorUtils {
 			}else{
 				value = generateTestData(pt,programType, propertyIndex,sameClassNestLevel,pd.getName(), false);
 			}
-			pd.getWriteMethod().invoke(instance, value);
+			Method writeMethod = pd.getWriteMethod();
+			
+			if (writeMethod == null) {
+				writeMethod = findSetMethod(pd.getName(), methods);
+			}
+			writeMethod.invoke(instance, value);
 		}
 		return instance;
 	}
@@ -211,10 +227,32 @@ public class ProgramDataGeneratorUtils {
 	}
 	
 	// KSCM-621
+	public static ArrayList<Method> getAllMethods(ArrayList<Method> methods, Class<?> type) {
+	    for (Method method: type.getMethods()) {
+	        methods.add(method);
+	    }
+
+	    if (type.getSuperclass() != null) {
+	        methods = getAllMethods(methods, type.getSuperclass());
+	    }
+
+	    return methods;
+	}
+	// KSCM-621
 	public static Field findField(String fieldName, ArrayList<Field> fields) {
 		for (Field field : fields) {
 			if (field.getName().equals(fieldName)) {
 				return field;
+			}
+		}
+		return null;
+	}
+	// KSCM-621
+	public static Method findSetMethod(String fieldName, ArrayList<Method> methods) {
+		fieldName = ("set" + fieldName);
+		for (Method method : methods) {
+			if (method.getName().compareToIgnoreCase(fieldName) == 0) {
+				return method;
 			}
 		}
 		return null;
