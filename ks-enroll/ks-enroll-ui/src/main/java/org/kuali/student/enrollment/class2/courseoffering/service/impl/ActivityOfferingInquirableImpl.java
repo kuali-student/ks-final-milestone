@@ -11,12 +11,10 @@
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
- *
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
@@ -25,8 +23,6 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,17 +30,15 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class ActivityOfferingLookupableImpl extends LookupableImpl {
+public class ActivityOfferingInquirableImpl extends InquirableImpl {
     private transient CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-        List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
-
+    public ActivityOfferingInfo retrieveDataObject(Map<String, String> parameters) {
         try {
-            ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), getContextInfo());
-            activityOfferingInfos.add(activityOfferingInfo);
+            ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(parameters.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), getContextInfo());
+            return activityOfferingInfo;
         } catch (DoesNotExistException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (InvalidParameterException e) {
@@ -57,8 +51,9 @@ public class ActivityOfferingLookupableImpl extends LookupableImpl {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-        return activityOfferingInfos;
+        return null;
     }
+
 
     public CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService(courseOfferingService);
