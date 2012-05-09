@@ -11,10 +11,18 @@ public class R1R2ConverterUtil {
     private final static Mapper dozerMapper = DozerBeanMapperSingletonWrapper.getInstance();
     
     public static <T, X> X convert(T source, Class<X> target) {
+        if (source == null){
+            return null;
+        }
+        
         return dozerMapper.map(source, target);
     }
 
     public static <T, X> X convert(T source, X target) {
+        if (source == null){
+            return null;
+        }        
+        
         dozerMapper.map(source, target);
         return target;
     }
