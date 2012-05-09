@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class BreadcrumbManager extends Composite{
 	
 	public static List<Hyperlink> links = new ArrayList<Hyperlink>();
