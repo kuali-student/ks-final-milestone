@@ -17,12 +17,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class //TODO ...
@@ -30,42 +24,27 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class CourseOfferingRolloverManagementForm extends UifFormBase {
-    private String targetTerm;
-    private String sourceTerm;
+    // Properties of the form
     private String targetTermCode;
+    private String sourceTermCode;
+    private String displayedTargetTermCode;
     private String targetTermStartDate;
     private String targetTermEndDate;
     private String targetLastRolloverDate;
-    private String sourceTermCode;
+    private String displayedSourceTermCode;
     private String sourceTermStartDate;
     private String sourceTermEndDate;
 
     public CourseOfferingRolloverManagementForm(){
-        targetTerm = "Fall2012";
-        sourceTerm = "Fall2011";
-        targetTermCode = "Spring 2012";
-        targetTermStartDate = "Feb 1, 2012";
-        targetTermEndDate = "May 1, 2012";
-        targetLastRolloverDate = "Jan 15, 2012";
-        sourceTermCode = "Spring 2011";
-        sourceTermStartDate = "Feb 1, 2011";
-        sourceTermEndDate = "May 1, 2011";
-    }
-
-    public String getTargetTerm() {
-        return targetTerm;
-    }
-
-    public void setTargetTerm(String targetTerm) {
-        this.targetTerm = targetTerm;
-    }
-
-    public String getSourceTerm() {
-        return sourceTerm;
-    }
-
-    public void setSourceTerm(String sourceTerm) {
-        this.sourceTerm = sourceTerm;
+        targetTermCode = "";
+        sourceTermCode = "";
+        displayedTargetTermCode = "";
+        targetTermStartDate = "";
+        targetTermEndDate = "";
+        targetLastRolloverDate = "";
+        displayedSourceTermCode = "";
+        sourceTermStartDate = "";
+        sourceTermEndDate = "";
     }
 
     public String getTargetTermCode() {
@@ -74,6 +53,22 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
 
     public void setTargetTermCode(String targetTermCode) {
         this.targetTermCode = targetTermCode;
+    }
+
+    public String getSourceTermCode() {
+        return sourceTermCode;
+    }
+
+    public void setSourceTermCode(String sourceTermCode) {
+        this.sourceTermCode = sourceTermCode;
+    }
+
+    public String getDisplayedTargetTermCode() {
+        return displayedTargetTermCode;
+    }
+
+    public void setDisplayedTargetTermCode(String displayedTargetTermCode) {
+        this.displayedTargetTermCode = displayedTargetTermCode;
     }
 
     public String getTargetTermStartDate() {
@@ -100,12 +95,12 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.targetLastRolloverDate = targetLastRolloverDate;
     }
 
-    public String getSourceTermCode() {
-        return sourceTermCode;
+    public String getDisplayedSourceTermCode() {
+        return displayedSourceTermCode;
     }
 
-    public void setSourceTermCode(String sourceTermCode) {
-        this.sourceTermCode = sourceTermCode;
+    public void setDisplayedSourceTermCode(String displayedSourceTermCode) {
+        this.displayedSourceTermCode = displayedSourceTermCode;
     }
 
     public String getSourceTermStartDate() {

@@ -54,12 +54,12 @@
                                             <bean parent="Uif-HorizontalBoxSection" p:valign="BOTTOM">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="Uif-InputField" p:propertyName="targetTerm" p:label="Target Term" p:labelPlacement="TOP" p:required="true">
+                                                        <bean parent="Uif-InputField" p:propertyName="targetTermCode" p:label="Target Term" p:labelPlacement="TOP" p:required="true">
                                                             <property name="control">
-                                                                <bean parent="Uif-TextControl" p:size="8"/>
+                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2011"/>
                                                             </property>
                                                         </bean>
-                                                        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go2" p:methodToCall="goTargetTerm" p:valign="bottom"/>
+                                                        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm" p:valign="bottom"/>
                                                     </list>
                                                 </property>
                                             </bean>
@@ -67,7 +67,7 @@
                                                 <property name="items">
                                                     <list>
                                                     <!-- More stuff on left side here -->
-                                                        <bean parent="Uif-DataField" p:propertyName="targetTermCode" p:label="Term Code"/>
+                                                        <bean parent="Uif-DataField" p:propertyName="displayedTargetTermCode" p:label="Term Code"/>
                                                         <bean parent="Uif-DataField" p:propertyName="targetTermStartDate" p:label="Term Start Date"/>
                                                         <bean parent="Uif-DataField" p:propertyName="targetTermEndDate" p:label="Term End Date"/>
                                                         <bean parent="Uif-DataField" p:propertyName="targetLastRolloverDate" p:label="Last Rollover Date"/>
@@ -83,9 +83,9 @@
                                             <bean parent="Uif-HorizontalFieldGroup">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="Uif-InputField" p:propertyName="sourceTerm" p:label="Source Term" p:labelPlacement="TOP" p:required="true">
+                                                        <bean parent="Uif-InputField" p:propertyName="sourceTermCode" p:label="Source Term" p:labelPlacement="TOP" p:required="true">
                                                             <property name="control">
-                                                                <bean parent="Uif-TextControl" p:size="8"/>
+                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2010"/>
                                                             </property>
                                                         </bean>
 
@@ -97,7 +97,7 @@
                                                 <property name="items">
                                                     <list>
                                                         <!-- More stuff on right side here -->
-                                                        <bean parent="Uif-DataField" p:propertyName="sourceTermCode" p:label="Term Code"/>
+                                                        <bean parent="Uif-DataField" p:propertyName="displayedSourceTermCode" p:label="Term Code"/>
                                                         <bean parent="Uif-DataField" p:propertyName="sourceTermStartDate" p:label="Term Start Date"/>
                                                         <bean parent="Uif-DataField" p:propertyName="sourceTermEndDate" p:label="Term End Date"/>
                                                     </list>
@@ -116,7 +116,7 @@
                 <bean parent="Uif-FooterBase">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton" p:clientSideValidate="true" p:actionLabel="Search" p:methodToCall="searchForTerm"/>
+                            <bean parent="Uif-PrimaryActionButton" p:clientSideValidate="true" p:actionLabel="Rollover" p:methodToCall="performRollover"/>
                             <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
                         </list>
                     </property>
