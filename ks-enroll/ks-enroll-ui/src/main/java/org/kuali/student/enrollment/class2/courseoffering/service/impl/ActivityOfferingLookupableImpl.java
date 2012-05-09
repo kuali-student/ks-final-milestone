@@ -61,12 +61,12 @@ public class ActivityOfferingLookupableImpl extends LookupableImpl {
     }
 
     public CourseOfferingService getCourseOfferingService() {
-        CourseOfferingResourceLoader.loadCourseOfferingService(courseOfferingService);
-        return courseOfferingService;
+        return CourseOfferingResourceLoader.loadCourseOfferingService(courseOfferingService);
+        //return courseOfferingService;
     }
 
     public ContextInfo getContextInfo() {
-        ContextBuilder.loadContextInfo(contextInfo);
-        return contextInfo;
+        return ContextBuilder.loadContextInfo(contextInfo);
+        //return contextInfo;
     }
 }

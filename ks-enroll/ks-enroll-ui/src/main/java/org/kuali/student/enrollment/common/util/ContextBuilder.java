@@ -26,7 +26,7 @@ import java.util.Locale;
  * @author Kuali Student Team
  */
 public class ContextBuilder {
-    public static void loadContextInfo(ContextInfo contextInfo) {
+    public static ContextInfo loadContextInfo(ContextInfo contextInfo) {
         if (null == contextInfo) {
             contextInfo = new ContextInfo();
             contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
@@ -36,5 +36,7 @@ public class ContextBuilder {
             localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
             contextInfo.setLocale(localeInfo);
         }
+
+        return contextInfo;
     }
 }

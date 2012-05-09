@@ -29,9 +29,11 @@ import javax.xml.namespace.QName;
  */
 public class CourseOfferingResourceLoader {
 
-    public static void loadCourseOfferingService(CourseOfferingService courseOfferingService){
+    public static CourseOfferingService loadCourseOfferingService(CourseOfferingService courseOfferingService){
         if(courseOfferingService == null) {
             courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
+
+        return  courseOfferingService;
     }
 }

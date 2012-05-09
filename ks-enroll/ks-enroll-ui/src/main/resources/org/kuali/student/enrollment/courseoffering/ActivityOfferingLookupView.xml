@@ -11,7 +11,7 @@
     <bean id="KS-ActivityOffering-LookupView" parent="KSLookupView">
         <property name="title" value="ActivityOffering Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" />
-        <!--<property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingLookupableImpl" />-->
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingLookupableImpl" />
 
         <property name="criteriaFields">
             <list>
@@ -21,10 +21,10 @@
         <property name="resultFields">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="id" />
-                <!--<bean parent="Uif-DataField" p:propertyName="name"/>-->
-                <!--<bean parent="Uif-DataField" p:propertyName="typeKey" />-->
-                <!--<bean parent="Uif-DataField" p:propertyName="stateKey" />-->
-                <!--<bean parent="Uif-DataField" p:propertyName="termId" />-->
+                <bean parent="Uif-DataField" p:propertyName="name"/>
+                <bean parent="Uif-DataField" p:propertyName="typeKey" />
+                <bean parent="Uif-DataField" p:propertyName="stateKey" />
+                <bean parent="Uif-DataField" p:propertyName="termId" />
             </list>
         </property>
     </bean>
