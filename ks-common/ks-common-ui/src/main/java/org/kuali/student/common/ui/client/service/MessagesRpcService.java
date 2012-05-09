@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.r1.common.messages.dto.MessageList;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -59,7 +60,7 @@ public interface MessagesRpcService extends RemoteService {
     public List<MessageInfo> getMessages(String localeKey, 
             String messageGroupKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
-    public List<MessageInfo> getMessagesByGroups(String localeKey, 
+    public MessageList getMessagesByGroups(String localeKey, 
             MessageGroupKeyList messageGroupKeyList)throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     public MessageInfo updateMessage(String localeKey, 
