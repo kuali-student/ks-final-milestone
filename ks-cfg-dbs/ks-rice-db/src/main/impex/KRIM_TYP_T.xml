@@ -6,6 +6,70 @@
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10" NM="Namespace or Component"
         NMSPC_CD="KR-NS" OBJ_ID="5ADF18B6D4D77954E0404F8189D85002"
         SRVC_NM="namespaceOrComponentPermissionTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10000" NM="KS Permission"
+        NMSPC_CD="KS-SYS" OBJ_ID="1F81F05B5CF34104ACA44835D23F1B02"
+        SRVC_NM="permissionPermissionTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10001"
+        NM="Field Permission Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="6BB6E5FF4A84453EA1917E69FF0CF644" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10002"
+        NM="Derived Role: KS Non-Adhoc Action Request Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="DA7BC49509DA446F89EA27EC3BBBBB33"
+        SRVC_NM="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10003"
+        NM="Derived Role: KS Route Log Role Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="A5703EF5E89245BF8B9D53F2C92B52C0"
+        SRVC_NM="ksRouteLogDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10004"
+        NM="Derived Role: KS Document Editor Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="E11230E220D44F5F941A6E1F8FA58B9F"
+        SRVC_NM="ksEditDocumentRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10005"
+        NM="Derived Role: KS Document Commenter Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="6672DB350D2B4B10BC0576964C841EF7"
+        SRVC_NM="ksCommentOnDocumentRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10006"
+        NM="Derived Role: Affiliation Role Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="5770DDE11B57425EA4A1E9C680393AB7"
+        SRVC_NM="ksAffiliationService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10007" NM="College Type"
+        NMSPC_CD="KS-LUM" OBJ_ID="A33B989E890D4E0E957D46F4E7F393D0"
+        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10008" NM="Department Type"
+        NMSPC_CD="KS-LUM" OBJ_ID="8805C2ABC9B7424F9B6BC0D727D3587A"
+        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10009" NM="Division Type"
+        NMSPC_CD="KS-LUM" OBJ_ID="F35A0985ED2C4993B309746F83CFFD45"
+        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10010"
+        NM="Derived Role: Org Admin Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="A20E7508989E4C7CBC06B5238CFEFBFD"
+        SRVC_NM="ksOrgAdminRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10011"
+        NM="Derived Role: Org Committee Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="74B9AA4080D340369E940F223A651CB0"
+        SRVC_NM="ksOrgCommitteeRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10012"
+        NM="Derived Role: KS Adhoc Action Request Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="41F8A3984A924E93A0EEBCB1567C769E"
+        SRVC_NM="ksAdhocActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10013"
+        NM="Adhoc Permissions Type" NMSPC_CD="KS-SYS"
+        OBJ_ID="F7E28DC5594D4F1F8AF1C6F81D93F8B5"
+        SRVC_NM="kimRoleTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10014"
+        NM="Derived Role: KS Completed Adhoc Action Request Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="64517DC4265D4F9A8DB4E4A1F3AE5899"
+        SRVC_NM="ksAdhocDoneActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10015"
+        NM="Derived Role: KS Completed Non-Adhoc Action Request Role Type"
+        NMSPC_CD="KS-SYS" OBJ_ID="25BB3A80078F4CCCB81E6733DDE21A5E"
+        SRVC_NM="ksNonAdhocDoneActionRequestDerivedRoleTypeServiceImpl" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10016" NM="KS Use Screen"
+        NMSPC_CD="KS-SYS" OBJ_ID="BB5E34C754F7480E96D66EA4CEDAE1CC" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="10017"
+        NM="Document Type and Route Node" NMSPC_CD="KS-SYS"
+        OBJ_ID="7779A0C257B64A9A8D4AB628BF8B9FAE" VER_NBR="1"/>
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="11" NM="Component Field"
         NMSPC_CD="KR-NS" OBJ_ID="5ADF18B6D4DC7954E0404F8189D85002"
         SRVC_NM="componentFieldPermissionTypeService" VER_NBR="1"/>
