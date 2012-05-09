@@ -387,7 +387,7 @@
   <property name="attributes">
    <list>
     <ref bean="reqCompFieldInfo.id"/>
-    <ref bean="reqCompFieldInfo.typeKey"/>
+    <ref bean="reqCompFieldInfo.type"/>
     <ref bean="reqCompFieldInfo.value"/>
 
    </list>
@@ -403,10 +403,15 @@
  </bean>
  <bean id="reqCompFieldInfo.id" parent="reqCompFieldInfo.id-parent"/>
 
- <bean id="reqCompFieldInfo.typeKey-parent" abstract="true" parent="baseKualiType">
+ <bean id="reqCompFieldInfo.type-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="type"/>
  </bean>
- <bean id="reqCompFieldInfo.typeKey" parent="reqCompFieldInfo.typeKey-parent"/>
+ <bean id="reqCompFieldInfo.type" parent="reqCompFieldInfo.type-parent"/>
+
+    <bean id="reqCompFieldInfo.typeKey-parent" abstract="true" parent="baseKualiType">
+        <property name="name" value="typKeye"/>
+    </bean>
+    <bean id="reqCompFieldInfo.typeKey" parent="reqCompFieldInfo.typeKey-parent"/>
 
  <bean id="reqCompFieldInfo.stateKey-parent" abstract="true" parent="baseKualiState">
   <property name="name" value="state"/>
@@ -418,7 +423,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="typeKey"/>
+    <property name="fieldPath" value="type"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
