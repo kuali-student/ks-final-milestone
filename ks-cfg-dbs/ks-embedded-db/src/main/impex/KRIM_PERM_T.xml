@@ -5,7 +5,7 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows creation and modification of agendas via the agenda editor"
         NM="Maintain KRMS Agenda" NMSPC_CD="KR-RULE-TEST"
-        OBJ_ID="BF2683BD73303CF7E040C60AF05B3A4A" PERM_ID="10000"
+        OBJ_ID="BFB3B314C0E134B1E040C60AF05B737A" PERM_ID="10000"
         PERM_TMPL_ID="10000" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows users to access the Document Operation screen."
@@ -304,7 +304,7 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows use of the cache administration screen"
         NM="Use Cache Adminstration Screen" NMSPC_CD="KR-SYS"
-        OBJ_ID="BF2683BD73373CF7E040C60AF05B3A4A" PERM_ID="3114"
+        OBJ_ID="BFB3B314C0E834B1E040C60AF05B737A" PERM_ID="3114"
         PERM_TMPL_ID="29" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows user to create a new Term maintainence document"

@@ -5187,7 +5187,7 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="LUILUI_RELTN_TYPE" required="true" size="255" type="VARCHAR"/>
         <column name="LUILUI_RELTN_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="NAME" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
         <column name="LUI_ID" size="255" type="VARCHAR"/>
