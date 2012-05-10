@@ -241,7 +241,6 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
     
     @Test
     public void testValidateMethods() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	throw new UnsupportedOperationException("not yet implemented!");
 //        //FIXME validation needs to be tested, this code doesn't work and I need to refactor
 //    	  DocumentInfo documentInfo = new DocumentInfo();
 //        RichTextInfo desc = new RichTextInfo();
