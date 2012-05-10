@@ -60,18 +60,16 @@ public class ProcessServiceMockImplTest {
         // create
         String processRequestId = "request1";
         ProcessInfo info = new ProcessInfo();
-        info.setTypeKey(ProcessServiceConstants.PROCESS_TYPE_KEY);
         info.setStateKey(ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY);
-        info.setKey(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY);
         info.setName("basic eligiblity");
         Date before = new Date();
-        ProcessInfo result = instance.createProcess(processRequestId, info, context);
+        ProcessInfo result = instance.createProcess(processRequestId, ProcessServiceConstants.PROCESS_TYPE_KEY, info, context);
         Date after = new Date();
         if (result == info) {
             fail("returned object should not be the same as the one passed in");
         }
-        assertEquals(info.getKey (), result.getKey());
-        assertEquals(info.getTypeKey(), result.getTypeKey());
+        assertEquals(processRequestId, result.getKey());
+        assertEquals(ProcessServiceConstants.PROCESS_TYPE_KEY, result.getTypeKey());
         assertEquals(info.getStateKey(), result.getStateKey());
         assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
         if (result.getMeta().getCreateTime().before(before)) {
@@ -142,18 +140,17 @@ public class ProcessServiceMockImplTest {
     public void testInstructionCrud() throws Exception {
         System.out.println("createInstruction");
         InstructionInfo instructionInfo = new InstructionInfo();
-        instructionInfo.setTypeKey(ProcessServiceConstants.INSTRUCTION_TYPE_KEY);
         instructionInfo.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
 //        instructionInfo.setCheckKey(ProcessServiceConstants.);
         ContextInfo context = getContext();
         Date before = new Date();
-        InstructionInfo result = instance.createInstruction(instructionInfo.getProcessKey(), instructionInfo.getCheckKey(), instructionInfo, context);
+        InstructionInfo result = instance.createInstruction(instructionInfo.getProcessKey(), instructionInfo.getCheckKey(), ProcessServiceConstants.INSTRUCTION_TYPE_KEY, instructionInfo, context);
         Date after = new Date();
         if (result == instructionInfo) {
             fail("returned object should not be the same as the one passed in");
         }
         assertNotNull(result.getId());
-        assertEquals(instructionInfo.getTypeKey(), result.getTypeKey());
+        assertEquals(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, result.getTypeKey());
         assertEquals(instructionInfo.getStateKey(), result.getStateKey());
 //        assertEquals(instructionInfo.getPersonId(), result.getPersonId());
         assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());

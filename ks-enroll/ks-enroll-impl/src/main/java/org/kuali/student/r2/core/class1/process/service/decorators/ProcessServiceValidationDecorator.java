@@ -9,6 +9,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -41,7 +42,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
     }
 
     @Override
-    public List<ValidationResultInfo> validateProcessCategory(String validationTypeKey, ProcessCategoryInfo processCategoryInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateProcessCategory(String validationTypeKey, String processCategoryTypeKey, ProcessCategoryInfo processCategoryInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == validationTypeKey) {
             throw new MissingParameterException("validationTypeKey");
         }
@@ -56,7 +57,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         errors = new ArrayList<ValidationResultInfo>(); // TODO remove
 /*  TODO Need to add dictionary entry
         errors = ValidationUtils.validateInfo(validator, validationTypeKey, processCategoryInfo, contextInfo);
-        List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateProcessCategory(validationTypeKey, processCategoryInfo, contextInfo);
+        List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateProcessCategory(validationTypeKey, processCategoryTypeKey, processCategoryInfo, contextInfo);
         if (null != nextDecoratorErrors) {
             errors.addAll(nextDecoratorErrors);
         }
@@ -65,7 +66,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
     }
 
     @Override
-    public ProcessCategoryInfo createProcessCategory(ProcessCategoryInfo processCategoryInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public ProcessCategoryInfo createProcessCategory(String processCategoryTypeKey, ProcessCategoryInfo processCategoryInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (null == processCategoryInfo) {
             throw new MissingParameterException("processCategoryInfo");
         }
@@ -82,8 +83,8 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
 
         // TODO check for existing
 
-        _processCategoryFullValidation(processCategoryInfo, contextInfo);
-        return getNextDecorator().createProcessCategory(processCategoryInfo, contextInfo);
+        _processCategoryFullValidation(processCategoryTypeKey, processCategoryInfo, contextInfo);
+        return getNextDecorator().createProcessCategory(processCategoryTypeKey, processCategoryInfo, contextInfo);
     }
 
     @Override
@@ -112,7 +113,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
     }
 
     @Override
-    public List<ValidationResultInfo> validateProcess(String validationTypeKey, ProcessInfo processInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateProcess(String validationTypeKey, String processTypeKey, ProcessInfo processInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == validationTypeKey) {
             throw new MissingParameterException("validationTypeKey");
         }
@@ -127,7 +128,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         errors = new ArrayList<ValidationResultInfo>(); // TODO remove
 /*  TODO Need to add dictionary entry
         errors = ValidationUtils.validateInfo(validator, validationTypeKey, processInfo, contextInfo);
-        List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateProcess(validationTypeKey, processInfo, contextInfo);
+        List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateProcess(validationTypeKey, processTypeKey, processInfo, contextInfo);
         if (null != nextDecoratorErrors) {
             errors.addAll(nextDecoratorErrors);
         }
@@ -136,7 +137,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
     }
 
     @Override
-    public ProcessInfo createProcess(String processKey, ProcessInfo processInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public ProcessInfo createProcess(String processKey, String processTypeKey, ProcessInfo processInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (null == processKey) {
             throw new MissingParameterException("processKey");
         }
@@ -156,12 +157,12 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
 
         // TODO check for existing
 
-        _processFullValidation(processInfo, contextInfo);
-        return getNextDecorator().createProcess(processKey, processInfo, contextInfo);
+        _processFullValidation(processTypeKey, processInfo, contextInfo);
+        return getNextDecorator().createProcess(processKey, processTypeKey, processInfo, contextInfo);
     }
 
     @Override
-    public List<ValidationResultInfo> validateCheck(String validationTypeKey, CheckInfo checkInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateCheck(String validationTypeKey, String checkTypeKey, CheckInfo checkInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == validationTypeKey) {
             throw new MissingParameterException("validationTypeKey");
         }
@@ -176,7 +177,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         errors = new ArrayList<ValidationResultInfo>(); // TODO remove
 /* TODO populate dictionary entry
         errors = ValidationUtils.validateInfo(validator, validationTypeKey, checkInfo, contextInfo);
-        List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateCheck(validationTypeKey, checkInfo, contextInfo);
+        List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateCheck(validationTypeKey, checkTypeKey, checkInfo, contextInfo);
         if (null != nextDecoratorErrors) {
             errors.addAll(nextDecoratorErrors);
         }
@@ -185,9 +186,9 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
     }
 
     @Override
-    public CheckInfo createCheck(String checkKey, CheckInfo checkInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        if (null == checkKey) {
-            throw new MissingParameterException("checkKey");
+    public CheckInfo createCheck(String checkTypeKey, CheckInfo checkInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (null == checkTypeKey) {
+            throw new MissingParameterException("checkTypeKey");
         }
         if (null == checkInfo) {
             throw new MissingParameterException("checkInfo");
@@ -196,42 +197,34 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
             throw new MissingParameterException("contextInfo");
         }
 
-        if (StringUtils.isBlank(checkInfo.getTypeKey())){
-            throw new InvalidParameterException("Check typeKey is required");
-        }
-        if (StringUtils.isBlank(checkInfo.getStateKey())){
+        if (StringUtils.isBlank(checkInfo.getStateKey())) {
             throw new InvalidParameterException("Check stateKey is required");
         }
-        if (StringUtils.isBlank(checkInfo.getMilestoneTypeKey())){
+
+        if (StringUtils.isBlank(checkInfo.getMilestoneTypeKey())) {
             throw new InvalidParameterException("Check milestoneTypeKey is required");
         }
-        if (StringUtils.isBlank(checkInfo.getIssueId())){
+        if (StringUtils.isBlank(checkInfo.getIssueId())) {
             throw new InvalidParameterException("Check issueId is required");
         }
-        if (StringUtils.isBlank(checkInfo.getAgendaId())){
+        if (StringUtils.isBlank(checkInfo.getAgendaId())) {
             throw new InvalidParameterException("Check agendaId is required");
         }
-        if (StringUtils.isBlank(checkInfo.getTypeKey())){
-            throw new InvalidParameterException("Check typeKey is required");
-        }
 
-        if (null != checkInfo.getKey() && !checkKey.equals(checkInfo.getKey())) {
-            throw new InvalidParameterException("Check key different than supplied checkKey");
-        }
         if (null != checkInfo.getMeta()) {
             throw new ReadOnlyException("MetaInfo is not allowed to be supplied on a create");
         }
 
         // TODO check for existing
 
-        _checkFullValidation(checkInfo, contextInfo);
-        return getNextDecorator().createCheck(checkKey, checkInfo, contextInfo);
+        _checkFullValidation(checkTypeKey, checkInfo, contextInfo);
+        return getNextDecorator().createCheck(checkTypeKey, checkInfo, contextInfo);
     }
 
     @Override
-    public CheckInfo updateCheck(String checkKey, CheckInfo checkInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        if (null == checkKey) {
-            throw new MissingParameterException("checkKey");
+    public CheckInfo updateCheck(String checkId, CheckInfo checkInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        if (null == checkId) {
+            throw new MissingParameterException("checkId");
         }
         if (null == checkInfo) {
             throw new MissingParameterException("checkInfo");
@@ -240,41 +233,38 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
             throw new MissingParameterException("contextInfo");
         }
 
-        if (StringUtils.isBlank(checkInfo.getTypeKey())){
+        if (StringUtils.isBlank(checkInfo.getTypeKey())) {
             throw new InvalidParameterException("Check typeKey is required");
         }
-        if (StringUtils.isBlank(checkInfo.getStateKey())){
+        if (StringUtils.isBlank(checkInfo.getStateKey())) {
             throw new InvalidParameterException("Check stateKey is required");
         }
-        if (StringUtils.isBlank(checkInfo.getMilestoneTypeKey())){
+        if (StringUtils.isBlank(checkInfo.getMilestoneTypeKey())) {
             throw new InvalidParameterException("Check milestoneTypeKey is required");
         }
-        if (StringUtils.isBlank(checkInfo.getIssueId())){
+        if (StringUtils.isBlank(checkInfo.getIssueId())) {
             throw new InvalidParameterException("Check issueId is required");
         }
-        if (StringUtils.isBlank(checkInfo.getAgendaId())){
+        if (StringUtils.isBlank(checkInfo.getAgendaId())) {
             throw new InvalidParameterException("Check agendaId is required");
         }
-        if (StringUtils.isBlank(checkInfo.getTypeKey())){
-            throw new InvalidParameterException("Check typeKey is required");
+
+        if (null != checkInfo.getId() && !checkId.equals(checkInfo.getId())) {
+            throw new InvalidParameterException("Check Id different than supplied checkid");
         }
 
-        if (null != checkInfo.getKey() && !checkKey.equals(checkInfo.getKey())) {
-            throw new InvalidParameterException("Check key different than supplied checkKey");
-        }
-
-        return getNextDecorator().updateCheck(checkKey, checkInfo, contextInfo);
+        return getNextDecorator().updateCheck(checkId, checkInfo, contextInfo);
     }
 
     @Override
-    public StatusInfo deleteCheck(String checkKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (null == checkKey) {
-            throw new MissingParameterException("checkKey");
+    public StatusInfo deleteCheck(String checkId, ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == checkId) {
+            throw new MissingParameterException("checkId");
         }
         if (null == contextInfo) {
             throw new MissingParameterException("contextInfo");
         }
-        return getNextDecorator().deleteCheck(checkKey, contextInfo);
+        return getNextDecorator().deleteCheck(checkId, contextInfo);
     }
 
     @Override
@@ -290,15 +280,15 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
     }
 
     @Override
-    public List<ValidationResultInfo> validateInstruction(String validationTypeKey, String processKey, String checkKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateInstruction(String validationTypeKey, String processKey, String checkId, String instructionTypeKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == validationTypeKey) {
             throw new MissingParameterException("validationTypeKey");
         }
         if (null == processKey) {
             throw new MissingParameterException("processKey");
         }
-        if (null == checkKey) {
-            throw new MissingParameterException("checkKey");
+        if (null == checkId) {
+            throw new MissingParameterException("checkId");
         }
         if (null == instructionInfo) {
             throw new MissingParameterException("instructionInfo");
@@ -311,7 +301,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         errors = new ArrayList<ValidationResultInfo>(); // TODO remove
 /*  TODO Need to add dictionary entry
         errors = ValidationUtils.validateInfo(validator, validationTypeKey, instructionInfo, contextInfo);
-        List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateInstruction(validationTypeKey, processKey, checkKey, instructionInfo, contextInfo);
+        List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateInstruction(validationTypeKey, processKey, checkId, instructionTypeKey, instructionInfo, contextInfo);
         if (null != nextDecoratorErrors) {
             errors.addAll(nextDecoratorErrors);
         }
@@ -320,12 +310,12 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
     }
 
     @Override
-    public InstructionInfo createInstruction(String processKey, String checkKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public InstructionInfo createInstruction(String processKey, String checkId, String instructionTypeKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (null == processKey) {
             throw new MissingParameterException("processKey");
         }
-        if (null == checkKey) {
-            throw new MissingParameterException("checkKey");
+        if (null == checkId) {
+            throw new MissingParameterException("checkId");
         }
         if (null == instructionInfo) {
             throw new MissingParameterException("instructionInfo");
@@ -345,23 +335,19 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
             throw new InvalidParameterException("Instruction processKey different than supplied processKey");
         }
 
-        if (null != instructionInfo.getCheckKey() && !checkKey.equals(instructionInfo.getCheckKey())) {
-            throw new InvalidParameterException("Instruction checkKey different than supplied checkKey");
+        if (null != instructionInfo.getCheckKey() && !checkId.equals(instructionInfo.getCheckKey())) {
+            throw new InvalidParameterException("Instruction checkId different than supplied checkId");
         }
 
-        if (StringUtils.isBlank(instructionInfo.getTypeKey())){
-            throw new InvalidParameterException("Instruction typeKey is required");
-        }
-        if (StringUtils.isBlank(instructionInfo.getStateKey())){
+        if (StringUtils.isBlank(instructionInfo.getStateKey())) {
             throw new InvalidParameterException("Instruction stateKey is required");
         }
-        if (null == instructionInfo.getAppliedAtpTypeKeys() || instructionInfo.getAppliedAtpTypeKeys().isEmpty()){
+        if (null == instructionInfo.getAppliedAtpTypeKeys() || instructionInfo.getAppliedAtpTypeKeys().isEmpty()) {
             throw new InvalidParameterException("Instruction appliedAtpTypeKeys is required");
         }
 
-
-        _instructionFullValidation(processKey, checkKey, instructionInfo, contextInfo);
-        return getNextDecorator().createInstruction(processKey, checkKey, instructionInfo, contextInfo);
+        _instructionFullValidation(processKey, checkId, instructionTypeKey, instructionInfo, contextInfo);
+        return getNextDecorator().createInstruction(processKey, checkId, instructionTypeKey, instructionInfo, contextInfo);
     }
 
     @Override
@@ -384,12 +370,12 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
             throw new InvalidParameterException("Instruction processKey is required");
         }
         if (StringUtils.isBlank(instructionInfo.getCheckKey())) {
-            throw new InvalidParameterException("Instruction checkKey is required");
+            throw new InvalidParameterException("Instruction checkId is required");
         }
-        if (StringUtils.isBlank(instructionInfo.getTypeKey())){
+        if (StringUtils.isBlank(instructionInfo.getTypeKey())) {
             throw new InvalidParameterException("Instruction typeKey is required");
         }
-        if (StringUtils.isBlank(instructionInfo.getStateKey())){
+        if (StringUtils.isBlank(instructionInfo.getStateKey())) {
             throw new InvalidParameterException("Instruction stateKey is required");
         }
         if (null == instructionInfo.getAppliedAtpTypeKeys() || instructionInfo.getAppliedAtpTypeKeys().isEmpty()){
@@ -410,9 +396,9 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         return getNextDecorator().getInstructionsForEvaluation(processKey, contextInfo);
     }
 
-    private void _processCategoryFullValidation(ProcessCategoryInfo processCategoryInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private void _processCategoryFullValidation(String processCategoryTypeKey, ProcessCategoryInfo processCategoryInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
-            List<ValidationResultInfo> errors = this.validateProcessCategory(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), processCategoryInfo, context);
+            List<ValidationResultInfo> errors = this.validateProcessCategory(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), processCategoryTypeKey, processCategoryInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) validating process Category", errors);
             }
@@ -421,9 +407,9 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         }
     }
 
-    private void _processFullValidation(ProcessInfo processInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private void _processFullValidation(String processTypeKey, ProcessInfo processInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
-            List<ValidationResultInfo> errors = this.validateProcess(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), processInfo, context);
+            List<ValidationResultInfo> errors = this.validateProcess(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), processTypeKey, processInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) validating Process", errors);
             }
@@ -432,9 +418,9 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         }
     }
 
-    private void _checkFullValidation(CheckInfo checkInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private void _checkFullValidation(String checkTypeKey, CheckInfo checkInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
-            List<ValidationResultInfo> errors = this.validateCheck(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), checkInfo, context);
+            List<ValidationResultInfo> errors = this.validateCheck(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), checkTypeKey, checkInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) validating Check", errors);
             }
@@ -443,9 +429,9 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         }
     }
 
-    private void _instructionFullValidation(String processKey, String checkKey, InstructionInfo instructionInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private void _instructionFullValidation(String processKey, String checkId, String instructionTypeKey, InstructionInfo instructionInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         try {
-            List<ValidationResultInfo> errors = this.validateInstruction(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), processKey, checkKey, instructionInfo, context);
+            List<ValidationResultInfo> errors = this.validateInstruction(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), processKey, checkId, instructionTypeKey, instructionInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) validating Instruction", errors);
             }

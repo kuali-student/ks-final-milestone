@@ -210,10 +210,18 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
 
             if (check.getTypeKey().equals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY)) {
                 propositions.put(new RegistrationHoldProposition(check.getIssueId()), instruction);
-            } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_ALIVE)) {
-                propositions.put(new PersonLivingProposition(), instruction);
-            } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_NOT_SUMMER_TERM)) {
-                propositions.put(new SummerTermProposition(term), instruction);
+
+                
+                /*
+                  need to handle these differently
+                  
+                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_ALIVE)) {
+                  propositions.put(new PersonLivingProposition(), instruction);
+                  } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_NOT_SUMMER_TERM)) {
+                  propositions.put(new SummerTermProposition(term), instruction); 
+
+                */
+
             } else if (check.getTypeKey().equals(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY)) {
                 propositions.put(buildMilestoneCheckProposition(check, DateComparisonType.AFTER, processContext, context), instruction);
             } else if (check.getTypeKey().equals(ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY)) {
@@ -253,7 +261,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             throws OperationFailedException {
         List<ExemptionInfo> exemptions;
         try {
-            exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY, processContext.getProcessKey(), check.getKey(), processContext.getStudentId(), context);
+            exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY, processContext.getProcessKey(), check.getId(), processContext.getStudentId(), context);
         } catch (OperationFailedException ex) {
             throw ex;
         } catch (Exception ex) {
