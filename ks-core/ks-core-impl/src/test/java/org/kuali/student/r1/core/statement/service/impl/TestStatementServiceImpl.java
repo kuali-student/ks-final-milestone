@@ -1458,17 +1458,23 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     	reqInfo = new ReqComponentInfo();
     	resultInfo = statementService.validateReqComponent("SYSTEM", reqInfo);
-    	assertNotNull(resultInfo);
+    	assertNull(resultInfo);
 
     	reqInfo = createReqComponent1();
     	resultInfo = statementService.validateReqComponent("SYSTEM", reqInfo);
-    	assertNotNull(resultInfo);
-		System.out.println(resultInfo.size() + " errors");
-		for (ValidationResultInfo vri : resultInfo) {
+    	if (resultInfo != null){
+    	assertNull(resultInfo);
+    	System.out.println(resultInfo.size() + " errors");
+    	
+    	for (ValidationResultInfo vri : resultInfo) {
 			System.out.println(vri.getErrorLevel() + " " + vri.getElement()
 					+ " " + vri.getMessage());
 		}
 		assertEquals(0, resultInfo.size());
+    	}
+    	
+		
+		
 	}
 
     @Test
@@ -1477,8 +1483,10 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		refRelation.setState("ACTIVE");
 		refRelation.setType("cluStatementRelationType.academicreadiness");
 		List<ValidationResultInfo> resultInfo = statementService.validateRefStatementRelation("SYSTEM", refRelation);
-		assertNotNull(resultInfo);
+		if (resultInfo != null){
+		assertNull(resultInfo);
 		assertEquals(0, resultInfo.size());
+		}
     }
 
 	@Test
