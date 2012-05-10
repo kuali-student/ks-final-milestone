@@ -4,13 +4,17 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
@@ -39,16 +43,13 @@ public class CourseDataGenerator {
         CourseInfo testData = generateTestData(CourseInfo.class, 0, 0, null);
 
          testData.getAttributes().add(new AttributeInfo("proposalTitle", "proposalTitle-1"));
-         testData.getAttributes().add(new AttributeInfo("proposalRationale", "proposalRationale"));
-         testData.getCreditOptions().add(0, "kuali.resultComponentType.degree");
-         testData.getCreditOptions().set(0, "kuali.resultComponentType.credit.degree.range");
-         testData.getCreditOptions().set(1,"kuali.resultComponentType.credit.degree.fixed");
-         testData.getCreditOptions().set(2, "kuali.resultComponentType.grade.finalGrade");
-//         for (ResultComponentInfo resultComponent : testData.getCreditOptions()) {
-//         resultComponent.getAttributes().put("minCreditValue", "2");
-//         resultComponent.getAttributes().put("maxCreditValue", "5");
-//         resultComponent.getAttributes().put("fixedCreditValue", "11");
-//         }
+         testData.getAttributes().add(new AttributeInfo("proposalRationale", "proposalRationale"));         
+         List<String> creditOptions = new ArrayList<String>();
+         creditOptions.add("kuali.resultComponentType.degree");
+         creditOptions.add("kuali.resultComponentType.credit.degree.range");
+         creditOptions.add("kuali.resultComponentType.credit.degree.fixed");
+         creditOptions.add("kuali.resultComponentType.grade.finalGrade");
+         testData.setCreditOptions(creditOptions);
         return testData;
     }
 
@@ -66,6 +67,11 @@ public class CourseDataGenerator {
         }
 
         BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
+        ArrayList<Field> fields = new ArrayList<Field>();
+        fields = getAllFields(fields, clazz);
+        ArrayList<Method> methods= new ArrayList<Method>();
+        methods = getAllMethods(methods, clazz);
+        
         for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
             if (ignoreProperty(pd)) {
                 continue;
@@ -73,17 +79,16 @@ public class CourseDataGenerator {
             propertyIndex++;
             Object value = null;
             Class<?> pt = pd.getPropertyType();
+            Field declaredField = findField(pd.getName(), fields);
+            
+         // We're not interested in the Interface, List, Map but in the actual class
+            if (pt.isInterface() && !List.class.equals(pt) && !Map.class.equals(pt)) {
+                pt = declaredField.getType();
+            } 
             if (List.class.equals(pt)) {
                 // If this is a list then make a new list and make x amount of test data of that list type
                 // Get the list type:
-                Class<?> nestedClass = null;
-                try {
-                    nestedClass = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
-                } catch (NoSuchFieldException e) {
-                    if ("attributes".equals(pd.getName())) {//just to get the Test Run.
-                        nestedClass = AttributeInfo.class;
-                    }
-                }
+                Class<?> nestedClass = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[0];
                 List list = new ArrayList();
                 for (int i = 0; i < 2; i++) {
                     propertyIndex++;
@@ -99,8 +104,8 @@ public class CourseDataGenerator {
                 }
                 value = list;
             } else if (Map.class.equals(pt)) {
-                Class<?> keyType = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
-                Class<?> valueType = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[1];
+                Class<?> keyType = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[0];
+                Class<?> valueType = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[1];
                 Map map = new HashMap();
                 for (int i = 0; i < 2; i++) {
                     propertyIndex++;
@@ -123,11 +128,16 @@ public class CourseDataGenerator {
                 value = getStringValue(pd.getName(), parentPropertyName, propertyIndex);
             } else {
                 value = generateTestData(pt, propertyIndex, sameClassNestLevel, pd.getName());
+                Method writeMethod = pd.getWriteMethod();
+                
+                if (writeMethod == null) {
+                    writeMethod = findSetMethod(pd.getName(), methods);
+                }
+                writeMethod.invoke(instance, value);
             }
-            pd.getWriteMethod().invoke(instance, value);
         }
-        return instance;
-    }
+            return instance;
+        }
 
     private boolean ignoreProperty(PropertyDescriptor pd) {
         String name = pd.getName();
@@ -251,4 +261,45 @@ public class CourseDataGenerator {
         CourseDataGenerator generator = new CourseDataGenerator();
         generator.getCourseTestData();
     }
+    public static ArrayList<Field> getAllFields(ArrayList<Field> fields, Class<?> type) {
+        for (Field field: type.getDeclaredFields()) {
+            fields.add(field);
+        }
+
+        if (type.getSuperclass() != null) {
+            fields = getAllFields(fields, type.getSuperclass());
+        }
+
+        return fields;
+    }
+    
+    public static ArrayList<Method> getAllMethods(ArrayList<Method> methods, Class<?> type) {
+        for (Method method: type.getMethods()) {
+            methods.add(method);
+        }
+
+        if (type.getSuperclass() != null) {
+            methods = getAllMethods(methods, type.getSuperclass());
+        }
+
+        return methods;
+    }
+    public static Field findField(String fieldName, ArrayList<Field> fields) {
+        for (Field field : fields) {
+            if (field.getName().equals(fieldName)) {
+                return field;
+            }
+        }
+        return null;
+    }
+    public static Method findSetMethod(String fieldName, ArrayList<Method> methods) {
+        fieldName = ("set" + fieldName);
+        for (Method method : methods) {
+            if (method.getName().compareToIgnoreCase(fieldName) == 0) {
+                return method;
+            }
+        }
+        return null;
+    }
+
 }
