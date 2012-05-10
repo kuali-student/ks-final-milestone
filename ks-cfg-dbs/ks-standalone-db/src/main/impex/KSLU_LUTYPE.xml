@@ -40,7 +40,7 @@
         TYPE_DESC="The exchange of opinions or questions on course material."
         TYPE_KEY="kuali.lu.type.activity.Discussion" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Homework"
-        OBJ_ID="BFA2650820300430E040C60AF05B4FA6"
+        OBJ_ID="BFB4985559759C7EE040C60AF05B7581"
         TYPE_DESC="Student's doing homework, problem sets and reading assignments and writing"
         TYPE_KEY="kuali.lu.type.activity.Homework" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Lab"
@@ -56,7 +56,7 @@
         TYPE_DESC="Instructor or assistant walking through a learning practice."
         TYPE_KEY="kuali.lu.type.activity.Tutorial" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Web Discuss"
-        OBJ_ID="BFA26508202F0430E040C60AF05B4FA6"
+        OBJ_ID="BFB4985559749C7EE040C60AF05B7581"
         TYPE_DESC="Web-based or technologically-mediated activities replacing standard discussion sections"
         TYPE_KEY="kuali.lu.type.activity.WebDiscussion" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Web Lecture"
@@ -76,12 +76,12 @@
         TYPE_DESC="A Masters"
         TYPE_KEY="kuali.lu.type.credential.Masters" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Standardized Test"
-        OBJ_ID="BFA2650820310430E040C60AF05B4FA6"
+        OBJ_ID="BFB4985559769C7EE040C60AF05B7581"
         TYPE_DESC="Standardized Test"
         TYPE_KEY="kuali.lu.type.standardized.test" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000"
         NAME="Standardized Test Component"
-        OBJ_ID="BFA2650820320430E040C60AF05B4FA6"
+        OBJ_ID="BFB4985559779C7EE040C60AF05B7581"
         TYPE_DESC="Standardized Test Component"
         TYPE_KEY="kuali.lu.type.standardized.test.component" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Course"
