@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue May 01 14:33:17 EDT 2012
+		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -71,8 +71,10 @@ system, each with a meeting pattern.
 				<ref bean="ActivityOfferingInfo.weeklyInclassContactHours"/>
 				<ref bean="ActivityOfferingInfo.weeklyOutofclassContactHours"/>
 				<ref bean="ActivityOfferingInfo.weeklyTotalContactHours"/>
+				<ref bean="ActivityOfferingInfo.isEvaluated"/>
 				<ref bean="ActivityOfferingInfo.maximumEnrollment"/>
 				<ref bean="ActivityOfferingInfo.minimumEnrollment"/>
+				<ref bean="ActivityOfferingInfo.isMaxEnrollmentEstimate"/>
 				<ref bean="ActivityOfferingInfo.finalExamStartTime"/>
 				<ref bean="ActivityOfferingInfo.finalExamEndTime"/>
 				<ref bean="ActivityOfferingInfo.finalExamSpaceCode"/>
@@ -370,9 +372,9 @@ unit is hours.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.evaluationFlag-generated" abstract="true" parent="BaseKuali.boolean">
-		<property name="name" value="evaluationFlag"/>
-		<property name="shortLabel" value="Evaluation Flag"/>
+	<bean id="ActivityOfferingInfo.isEvaluated-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isEvaluated"/>
+		<property name="shortLabel" value="Is Evaluated"/>
 		<property name="summary">
 			<value>
 Is there an instructor evaluation for this activity offering
@@ -420,6 +422,23 @@ offering not to be canceled.
 			<value>
 Total minimum number of seats that must be filled for the
 offering not to be canceled.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.isMaxEnrollmentEstimate-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isMaxEnrollmentEstimate"/>
+		<property name="shortLabel" value="Is Max Enrollment Estimate"/>
+		<property name="summary">
+			<value>
+Is maximum enrollment estimate flag
+			</value>
+		</property>
+		<property name="label" value="Is Maximum Enrollment Estimate Flag"/>
+		<property name="description">
+			<value>
+Is maximum enrollment estimate flag
 			</value>
 		</property>
 		<property name="required" value="false"/>

@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
+		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -112,12 +112,22 @@ Appointment start date and time (&quot;Aug 05,2012 9:10am&quot;)
 		<property name="summary">
 			<value>
 Appointment end date and time (&quot;Aug 05,2012 9:20am&quot;)
+
+If null then it means it has no end but in practice the
+logic that checks to see if the student can register needs to also
+check the milestone for the overall registration period to see 
+if the date is not past that date.
 			</value>
 		</property>
 		<property name="label" value="End Date Time"/>
 		<property name="description">
 			<value>
 Appointment end date and time (&quot;Aug 05,2012 9:20am&quot;)
+
+If null then it means it has no end but in practice the
+logic that checks to see if the student can register needs to also
+check the milestone for the overall registration period to see 
+if the date is not past that date.
 			</value>
 		</property>
 		<property name="required" value="false"/>

@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Wed Apr 11 10:29:09 EDT 2012
+		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -139,6 +139,7 @@ Returns the reg group id for the RegGroupRegistration.
 						<ref bean="RegGroupRegistrationInfo.registrationGroup.courseOfferingId"/>
 						<ref bean="RegGroupRegistrationInfo.registrationGroup.registrationCode"/>
 						<ref bean="RegGroupRegistrationInfo.registrationGroup.termId"/>
+						<ref bean="RegGroupRegistrationInfo.registrationGroup.formatOfferingId"/>
 						<ref bean="RegGroupRegistrationInfo.registrationGroup.isHonorsOffering"/>
 						<ref bean="RegGroupRegistrationInfo.registrationGroup.maximumEnrollment"/>
 						<ref bean="RegGroupRegistrationInfo.registrationGroup.minimumEnrollment"/>
@@ -251,9 +252,9 @@ be nested term of courseOffering.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="RegGroupRegistrationInfo.registrationGroup.formatId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="formatId"/>
-		<property name="shortLabel" value="Format Id"/>
+	<bean id="RegGroupRegistrationInfo.registrationGroup.formatOfferingId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="formatOfferingId"/>
+		<property name="shortLabel" value="Format Offering Id"/>
 		<property name="summary">
 			<value>
 Canonical format to which this registration group belong to.

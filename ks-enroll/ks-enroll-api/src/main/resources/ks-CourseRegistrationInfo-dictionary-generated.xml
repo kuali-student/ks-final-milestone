@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue May 01 14:33:17 EDT 2012
+		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -136,7 +136,10 @@ Returns the Course offering id for this course registration.
 						<ref bean="CourseRegistrationInfo.courseOffering.waitlistLevelTypeKey"/>
 						<ref bean="CourseRegistrationInfo.courseOffering.hasWaitlist"/>
 						<ref bean="CourseRegistrationInfo.courseOffering.waitlistTypeKey"/>
+						<ref bean="CourseRegistrationInfo.courseOffering.hasFinalExam"/>
+						<ref bean="CourseRegistrationInfo.courseOffering.isEvaluated"/>
 						<ref bean="CourseRegistrationInfo.courseOffering.fundingSource"/>
+						<ref bean="CourseRegistrationInfo.courseOffering.isFeeAtActivityOffering"/>
 						<ref bean="CourseRegistrationInfo.courseOffering.isFinancialAidEligible"/>
 					</list>
 				</property>
@@ -654,6 +657,42 @@ Places where this Course offering is offered.
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
+	<bean id="CourseRegistrationInfo.courseOffering.hasFinalExam-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="hasFinalExam"/>
+		<property name="shortLabel" value="Has Final Exam"/>
+		<property name="summary">
+			<value>
+Indicates whether a final exam is to be given  for this format Offering
+and if its true, the level at which it exists
+			</value>
+		</property>
+		<property name="label" value="Has Final Exam"/>
+		<property name="description">
+			<value>
+Indicates whether a final exam is to be given  for this format Offering
+and if its true, the level at which it exists
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseRegistrationInfo.courseOffering.isEvaluated-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isEvaluated"/>
+		<property name="shortLabel" value="Is Evaluated"/>
+		<property name="summary">
+			<value>
+Indicates whether the course offering has an evaluation
+			</value>
+		</property>
+		<property name="label" value="Is Evaluated"/>
+		<property name="description">
+			<value>
+Indicates whether the course offering has an evaluation
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
 	<bean id="CourseRegistrationInfo.courseOffering.fundingSource-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="fundingSource"/>
 		<property name="shortLabel" value="Funding Source"/>
@@ -671,25 +710,23 @@ The primary source of funding for the offering.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseRegistrationInfo.courseOffering.feeIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="feeIds"/>
-		<property name="shortLabel" value="Fee Ids"/>
+	<bean id="CourseRegistrationInfo.courseOffering.isFeeAtActivityOffering-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isFeeAtActivityOffering"/>
+		<property name="shortLabel" value="Is Fee At Activity Offering"/>
 		<property name="summary">
 			<value>
-Fees associated with the course offering. 
+Indicates whether the fee is at activity offering level or course offering
+level. 
 			</value>
 		</property>
-		<property name="label" value="Fees"/>
-		<property name="elementLabel" value="Fee Id"/>
+		<property name="label" value="Is Fee at Activity Offering"/>
 		<property name="description">
 			<value>
-Fees associated with the course offering. Initially copied from the
-course catalog but then, depending on the configuration it may be
-updatable.
+Indicates whether the fee is at activity offering level or course offering
+level. If true its at Activity Offering level, if false its at CourseOffering level.
 			</value>
 		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="java.lang.String"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="CourseRegistrationInfo.courseOffering.isFinancialAidEligible-generated" abstract="true" parent="BaseKuali.boolean">
@@ -929,6 +966,7 @@ Returns the reg group id for the RegGroupRegistration.
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.courseOfferingId"/>
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.registrationCode"/>
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.termId"/>
+						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.formatOfferingId"/>
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.isHonorsOffering"/>
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.maximumEnrollment"/>
 						<ref bean="CourseRegistrationInfo.regGroupRegistration.registrationGroup.minimumEnrollment"/>
@@ -1041,9 +1079,9 @@ be nested term of courseOffering.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="CourseRegistrationInfo.regGroupRegistration.registrationGroup.formatId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="formatId"/>
-		<property name="shortLabel" value="Format Id"/>
+	<bean id="CourseRegistrationInfo.regGroupRegistration.registrationGroup.formatOfferingId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="formatOfferingId"/>
+		<property name="shortLabel" value="Format Offering Id"/>
 		<property name="summary">
 			<value>
 Canonical format to which this registration group belong to.
