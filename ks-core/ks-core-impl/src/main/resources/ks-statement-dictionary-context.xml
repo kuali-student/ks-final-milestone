@@ -778,7 +778,6 @@
                 <ref bean="richTextInfo.plain" />
             </list>
         </property>
-        <property name="hasMetaData" value="true" />
     </bean>
     <bean id="org.kuali.student.r2.common.dto.RichTextInfo" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent" />
 
