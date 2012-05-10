@@ -9,23 +9,29 @@
 
     <!-- LookupView -->
     <bean id="KS-EnrollmentFee-LookupView" parent="KSLookupView">
-        <property name="title" value="Enrollment Fee Lookup (Search Broken... fixing soon) " />
+        <property name="title" value="Enrollment Fee Lookup (Search: To be implemented soon) " />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo" />
-        <!--<property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingLookupableImpl" />-->
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeLookupableImpl" />
 
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="termId" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="setOrgId" />
+
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="id" />
-                <!--<bean parent="Uif-DataField" p:propertyName="name"/>-->
-                <!--<bean parent="Uif-DataField" p:propertyName="typeKey" />-->
-                <!--<bean parent="Uif-DataField" p:propertyName="stateKey" />-->
-                <!--<bean parent="Uif-DataField" p:propertyName="termId" />-->
+                <bean parent="Uif-InputField" p:propertyName="id"/>
+                <bean parent="Uif-DataField" p:propertyName="descr"/>
+                <bean parent="Uif-DataField" p:propertyName="stateKey" />
+                <bean parent="Uif-DataField" p:propertyName="typeKey" />
+                <!--<bean parent="Uif-DataField" p:propertyName="setOrgId" />
+                <bean parent="Uif-DataField" p:propertyName="setRefObjectId" /> -->
             </list>
         </property>
     </bean>
