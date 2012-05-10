@@ -145,4 +145,12 @@
         NM="XMLSearchableAttributeStdDateTime"
         OBJ_ID="6166CBA1B9CA644DE0404F8189D86C09" RULE_ATTR_ID="1238"
         RULE_ATTR_TYP_CD="SearchableXmlAttribute" VER_NBR="1" XML="&lt;searchingConfig>&#xa;        &lt;fieldDef name=&quot;testDateTimeKey&quot; title=&quot;Searchable Date Field&quot;>&#xa;          &lt;display>&#xa;            &lt;type>text&lt;/type>&#xa;          &lt;/display>&#xa;          &lt;searchDefinition dataType=&quot;datetime&quot; datePicker=&quot;false&quot;/>&#xa;          &lt;fieldEvaluation>&#xa;            &lt;xpathexpression>//putWhateverWordsIwantInsideThisTag/testDateTimeKey/value&lt;/xpathexpression>&#xa;          &lt;/fieldEvaluation>&#xa;        &lt;/fieldDef>&#xa;      &lt;/searchingConfig>"/>
+    <KREW_RULE_ATTR_T
+        CLS_NM="org.kuali.student.lum.workflow.search.OrgSearchAttribute"
+        DESC_TXT="CluCreditCourse Searchable attribute"
+        LBL="CluCreditCourse Searchable attribute"
+        NM="CluCreditCourse.OrgSearchAttribute"
+        OBJ_ID="4C3C651F-32C3-26BA-F264-F145A4C02EF6"
+        RULE_ATTR_ID="1645" RULE_ATTR_TYP_CD="SearchableXmlAttribute"
+        VER_NBR="1" XML="&lt;searchingConfig>&#xd;&#xa;                &lt;fieldDef name=&quot;id&quot; title=&quot;Organization&quot;>&#xd;&#xa;                    &lt;display>&#xd;&#xa;                        &lt;type>select&lt;/type>&#xd;&#xa;                           &lt;values>kuali_values_finder_class(org.kuali.rice.student.lookup.keyvalues.OrgCocValuesFinder)&lt;/values>&#xd;&#xa;                    &lt;/display>&#xd;&#xa;                    &lt;fieldEvaluation>&#xd;&#xa;                        &lt;xpathexpression>wf:xstreamsafe('//cluProposalDocInfo/orgId')&lt;/xpathexpression>&#xd;&#xa;                    &lt;/fieldEvaluation>&#xd;&#xa;                &lt;/fieldDef>&#xd;&#xa;            &lt;/searchingConfig>"/>
 </dataset>
