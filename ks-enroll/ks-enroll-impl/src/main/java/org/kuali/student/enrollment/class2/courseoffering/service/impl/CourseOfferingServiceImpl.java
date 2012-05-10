@@ -4,10 +4,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -16,23 +20,13 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.state.service.StateService;
@@ -40,15 +34,8 @@ import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.lum.course.dto.FormatInfo;
-
 import javax.jws.WebParam;
+import java.util.*;
 
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -690,7 +677,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        new ActivityOfferingTransformer().lui2Activity(ao, lui);
+        ActivityOfferingTransformer.lui2Activity(ao, lui);
         LuiInfo foLui = this.findFormatOfferingLui(activityOfferingId, context);
         ao.setFormatOfferingId(foLui.getId());
         return ao;
@@ -763,7 +750,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         aoInfo.setTermId(fo.getTermId());
         // copy to the lui
         LuiInfo lui = new LuiInfo();
-        new ActivityOfferingTransformer().activity2Lui(aoInfo, lui);
+        ActivityOfferingTransformer.activity2Lui(aoInfo, lui);
         try {
             lui = luiService.createLui(lui.getCluId(), lui.getAtpId(), lui.getTypeKey(), lui, context);
         } catch (Exception ex) {
@@ -783,7 +770,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throw new OperationFailedException("unexpected", ex);
         }
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        new ActivityOfferingTransformer().lui2Activity(ao, lui);
+        ActivityOfferingTransformer.lui2Activity(ao, lui);
         ao.setFormatOfferingId(luiRel.getLuiId());
         return ao;
 
@@ -819,12 +806,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
         // TODO: check that the lui being updated is an activity not another kind of lui
         // copy to lui
-        new ActivityOfferingTransformer().activity2Lui(activityOfferingInfo, lui);
+        ActivityOfferingTransformer.activity2Lui(activityOfferingInfo, lui);
         // update lui
         lui = luiService.updateLui(activityOfferingId, lui, context);
         // rebuild activity to return it
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        new ActivityOfferingTransformer().lui2Activity(ao, lui);
+        ActivityOfferingTransformer.lui2Activity(ao, lui);
         LuiInfo foLui = this.findFormatOfferingLui(lui.getId(), context);
         ao.setFormatOfferingId(foLui.getId());
         return ao;

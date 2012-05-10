@@ -40,15 +40,17 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="title" value="Activity Offering Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject"/>
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
-        <property name="header">
-             <ref bean="KSHeader_Empty" />
-        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-MaintenanceGridSection">
                     <property name="title" value="Create a New Activity Offering"/>
                     <property name="items">
                         <list>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.id" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20"/>
+                                </property>
+                            </bean>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.stateKey" p:readOnly="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="20"/>
@@ -71,6 +73,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                 </property>
                              </bean>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.activityCode">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityId" p:defaultValue="CLU-4">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="20"/>
                                 </property>

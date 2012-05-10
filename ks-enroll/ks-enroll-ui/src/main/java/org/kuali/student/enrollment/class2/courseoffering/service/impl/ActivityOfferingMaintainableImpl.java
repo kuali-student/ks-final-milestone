@@ -35,8 +35,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
                 ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
-                getCourseOfferingService().createActivityOffering("Lui-fo-2","CLU-4", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,activityOfferingFormObject.getAoInfo(),getContextInfo());
-                ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(activityOfferingFormObject.getAoInfo().getId(),getContextInfo());
+                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().createActivityOffering(activityOfferingFormObject.getAoInfo().getFormatOfferingId(),activityOfferingFormObject.getAoInfo().getActivityId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,activityOfferingFormObject.getAoInfo(),getContextInfo());
+//                ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(activityOfferingInfo.getId(),getContextInfo());
+                setDataObject(new ActivityOfferingFormObject(activityOfferingInfo));
 //                ActivityOfferingFormObject formObject = new ActivityOfferingFormObject(info);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -51,6 +52,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         try {
             ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(dataObjectKeys.get("aoInfo.id"),getContextInfo());
             ActivityOfferingFormObject formObject = new ActivityOfferingFormObject(info);
+            document.getNewMaintainableObject().setDataObject(formObject);
+            document.getOldMaintainableObject().setDataObject(formObject);
 //            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
 //            formObject.setStateName(state.getName());
             return formObject;

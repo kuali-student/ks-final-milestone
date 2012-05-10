@@ -1,19 +1,5 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.infc.LuiLuiRelation;
@@ -21,6 +7,11 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "KSEN_LUILUI_RELTN")
@@ -64,6 +55,7 @@ public class LuiLuiRelationEntity extends MetaEntity {
         this.setEffectiveDate(luiLuiRelation.getEffectiveDate());
         this.setExpirationDate(luiLuiRelation.getExpirationDate());
         this.setLuiLuiRelationState(luiLuiRelation.getStateKey());
+        this.setName(luiLuiRelation.getName());
         if (luiLuiRelation.getDescr() == null) {
             this.setDescrFormatted(null);
             this.setDescrPlain(null);

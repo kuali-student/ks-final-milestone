@@ -6,7 +6,7 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 
 public class ActivityOfferingTransformer {
-    public void lui2Activity(ActivityOfferingInfo ao, LuiInfo lui) {
+    public static void lui2Activity(ActivityOfferingInfo ao, LuiInfo lui) {
         ao.setId(lui.getId());
         ao.setMeta(lui.getMeta());
         ao.setStateKey(lui.getStateKey());
@@ -19,7 +19,7 @@ public class ActivityOfferingTransformer {
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
     }
 
-    public void activity2Lui (ActivityOfferingInfo ao, LuiInfo lui) {
+    public static void activity2Lui (ActivityOfferingInfo ao, LuiInfo lui) {
         lui.setId(ao.getId());
         lui.setTypeKey(ao.getTypeKey());
         lui.setStateKey(ao.getStateKey());
@@ -32,7 +32,7 @@ public class ActivityOfferingTransformer {
         lui.setMaximumEnrollment(ao.getMaximumEnrollment());
     }
 
-    public OfferingInstructorInfo transformInstructorForActivityOffering(LuiPersonRelationInfo lpr) {
+    public static OfferingInstructorInfo transformInstructorForActivityOffering(LuiPersonRelationInfo lpr) {
         OfferingInstructorInfo instructor = new OfferingInstructorInfo();
         instructor.setPersonId(lpr.getPersonId());
         instructor.setPercentageEffort(lpr.getCommitmentPercent());
