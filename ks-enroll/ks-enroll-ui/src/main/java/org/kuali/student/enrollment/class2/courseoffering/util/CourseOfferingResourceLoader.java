@@ -18,7 +18,9 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import javax.xml.namespace.QName;
 
@@ -35,5 +37,13 @@ public class CourseOfferingResourceLoader {
         }
 
         return  courseOfferingService;
+    }
+
+    public static CourseOfferingSetService loadCourseOfferingSetService(CourseOfferingSetService courseOfferingSetService){
+        if(courseOfferingSetService == null) {
+            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+
+        return  courseOfferingSetService;
     }
 }
