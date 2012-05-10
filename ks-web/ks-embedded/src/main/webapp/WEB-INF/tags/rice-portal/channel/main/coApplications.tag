@@ -16,5 +16,12 @@
 
     </ul>
 
+    <strong>Activity Offering Maintenance</strong> <br/>
+    <text>(Devs: Ingest ActivityOfferingWorkflowDocument.xml)</text>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Activity Offering (New)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+        <li><portal:portalLink displayTitle="true" title="Activity Offering (Edit)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject&aoInfo.id=Lui-4&overrideKeys=aoInfo.id&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+    </ul>
+
 </div>
 <channel:portalChannelBottom />

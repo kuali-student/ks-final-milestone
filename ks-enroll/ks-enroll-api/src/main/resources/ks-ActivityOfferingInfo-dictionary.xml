@@ -141,12 +141,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="ActivityOfferingInfo.maximumEnrollment" parent="ActivityOfferingInfo.maximumEnrollment-parent"/>
 	<bean id="ActivityOfferingInfo.maximumEnrollment-parent" abstract="true" parent="ActivityOfferingInfo.maximumEnrollment-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint" />
+        </property>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.minimumEnrollment" parent="ActivityOfferingInfo.minimumEnrollment-parent"/>
 	<bean id="ActivityOfferingInfo.minimumEnrollment-parent" abstract="true" parent="ActivityOfferingInfo.minimumEnrollment-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="validCharactersConstraint">
+            <bean parent="IntegerPatternConstraint" />
+        </property>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.finalExamStartTime" parent="ActivityOfferingInfo.finalExamStartTime-parent"/>

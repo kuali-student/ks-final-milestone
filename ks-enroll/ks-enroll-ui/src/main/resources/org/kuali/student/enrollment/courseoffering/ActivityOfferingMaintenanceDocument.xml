@@ -19,7 +19,22 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  limitations under the License.
 -->
 
-      <import resource="classpath:ks-ActivityOfferingInfo-dictionary.xml"/>
+      <bean id="ActivityOfferingFormObject" parent="ActivityOfferingFormObject-parentBean"/>
+
+      <bean id="ActivityOfferingFormObject-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject"/>
+        <property name="titleAttribute" value="aoInfo.id"/>
+        <property name="attributes">
+          <list>
+          </list>
+        </property>
+        <property name="objectLabel" value="Activity Offering"/>
+        <property name="primaryKeys">
+          <list>
+            <value>aoInfo.id</value>
+          </list>
+        </property>
+      </bean>
 
         <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView">
         <property name="title" value="Activity Offering Maintenance"/>
@@ -34,38 +49,53 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                     <property name="title" value="Create a New Activity Offering"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="dto.termId" p:defaultValue="2012WINTER">
-                                <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.stateKey" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.typeKey" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.termId" p:defaultValue="2012WINTER">
+                                <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.aoInfo.TermInfo"/>
                                 <property name="fieldLookup.fieldConversions">
                                     <map>
-                                        <entry key="code" value="dto.id"/>
+                                        <entry key="code" value="aoInfo.id"/>
                                     </map>
                                 </property>-->
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="20"/>
                                 </property>
                              </bean>
-                            <bean parent="Uif-InputField" p:propertyName="dto.activityCode">
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityCode">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="20"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="dto.formatOfferingId" p:label="Format Offering Id" >
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.formatOfferingId" p:label="Format Offering Id" p:defaultValue="Lui-fo-2">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="20"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="dto.maximumEnrollment">
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.maximumEnrollment" p:label="Total Maximum Enrollment">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="4"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="dto.isMaxEnrollmentEstimate" p:label="Is Max Enrollment estimate">
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="dto.isEvaluated" p:label="This course requires an evaluation">
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isEvaluated" p:label="This course requires an evaluation">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isHonorsOffering">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl"/>
                                 </property>
@@ -74,35 +104,43 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                     </property>
                 </bean>
 
-                <!--<bean parent="Uif-MaintenanceStackedCollectionSection">
-                    <property name="title" value="Instructors"/>
+                <bean parent="Uif-MaintenanceStackedCollectionSection">
+                    <property name="title" value="Personnel"/>
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
-                    <property name="propertyName" value="instructors"/>
+                    <property name="propertyName" value="aoInfo.instructors"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="Instructor ID">
-                                &lt;!&ndash;<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> &ndash;&gt;
+                            <bean parent="Uif-InputField" p:propertyName="personId">
+                                <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>-->
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="fieldLookup.fieldConversions">
                                     <map>
                                         <entry key="principalId" value="personId"/>
+                                        <entry key="principalName" value="personName"/>
                                     </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="personName" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="percentageEffort">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="3"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="IntegerPatternConstraint" p:allowNegative="false"/>
                                 </property>
                             </bean>
                         </list>
                     </property>
-                    <property name="layoutManager.summaryTitle" value="Instructor"/>
-                    <property name="layoutManager.summaryFields">
-                        <list>
-                            <value>personId</value>
-                        </list>
-                    </property>
                 </bean>
--->
+
             </list>
         </property>
-        <property name="footer">
-	        <ref bean="KSFooter_SubmitCancel" />
+        <property name="footer.items">
+            <list/>
         </property>
     </bean>
 
@@ -112,10 +150,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       <bean id="ActivityOfferingMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject"/>
         <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl"/>
+        <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.ActivityOfferingRule" />
         <property name="documentTypeName" value="ActivityOfferingInfoMaintenanceDocument"/>
         <property name="lockingKeys">
           <list>
-            <value>dto.id</value>
+            <value>aoInfo.id</value>
           </list>
         </property>
       </bean>
