@@ -86,6 +86,8 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/KSPersonMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SocRolloverResultInfoLookpAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeLookupView.xml</value>
+
 			</list>
 		</property>
 		<property name="packagePrefixes">
