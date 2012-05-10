@@ -573,13 +573,17 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarInfo acalInfo = academicCalendarForm.getAcademicCalendarInfo();
         List<HolidayCalendarWrapper> holidayCalendarList = academicCalendarForm.getHolidayCalendarList();
         List<String> holidayCalendarIds = new ArrayList<String>();
-        if (holidayCalendarList!=null && !holidayCalendarList.isEmpty()) {
+        if (holidayCalendarList != null && !holidayCalendarList.isEmpty()) {
             for (HolidayCalendarWrapper hcWrapper : holidayCalendarList){
                 holidayCalendarIds.add(hcWrapper.getHolidayCalendarInfo().getId());
             }
-            acalInfo.setHolidayCalendarIds(holidayCalendarIds);
-            academicCalendarForm.setAcademicCalendarInfo(acalInfo);
         }
+
+        // if the list from the form is empty, then all holiday calendars have been removed (or none have been assigned)
+        // so an empty list will be assigned to the AcademicCalendarInfo
+        acalInfo.setHolidayCalendarIds(holidayCalendarIds);
+        academicCalendarForm.setAcademicCalendarInfo(acalInfo);
+
         return acalInfo;
     }
 
