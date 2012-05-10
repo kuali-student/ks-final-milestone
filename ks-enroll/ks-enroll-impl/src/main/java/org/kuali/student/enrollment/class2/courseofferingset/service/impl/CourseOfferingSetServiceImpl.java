@@ -19,7 +19,11 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.jws.WebParam;
 
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultItemDao;
@@ -27,10 +31,12 @@ import org.kuali.student.enrollment.class2.courseofferingset.model.SocEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultOptionEntity;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -54,7 +60,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     private SocRolloverResultDao socRorDao;
     @Resource
     private SocRolloverResultItemDao socRorItemDao;
-    
+
+    private CriteriaLookupService criteriaLookupService;
+
     public SocDao getSocDao() {
         return socDao;
     }
@@ -585,4 +593,27 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public List<String> searchForSocRolloverResultIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<SocRolloverResultInfo> searchForSocRolloverResults(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<SocRolloverResultEntity> results = criteriaLookupService.lookup(SocRolloverResultEntity.class, criteria);
+        List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>(results.getResults().size());
+        for (SocRolloverResultEntity socRolloverResult : results.getResults()) {
+            SocRolloverResultInfo socRolloverResultInfo = socRolloverResult.toDto();
+            socRolloverResultInfos.add(socRolloverResultInfo);
+        }
+        return socRolloverResultInfos;
+    }
+
+
+
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
+    }
+
 }

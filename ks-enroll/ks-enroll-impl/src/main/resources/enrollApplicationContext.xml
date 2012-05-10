@@ -160,11 +160,16 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="enrollmentFeeDao" ref="enrollmentFeeDao"/>
     </bean>
 
+    <!-- TODO: this is a duplicate definition -->
+    <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+    </bean>
 
     <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl">
         <property name="socDao" ref="socDao" />
         <property name="socRorDao" ref="socRolloverResultDao" />
         <property name="socRorItemDao" ref="socRolloverResultItemDao" />
+        <property name="criteriaLookupService" ref="criteriaLookupService"/>
     </bean>
 
 

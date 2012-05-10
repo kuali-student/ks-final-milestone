@@ -15,6 +15,8 @@
  */
 package org.kuali.student.enrollment.courseofferingset.service;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -930,4 +932,34 @@ public interface CourseOfferingSetService {
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException;
+
+    /**
+     * Searches for soc rollover result ids using a free form search criteria.
+     *
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> searchForSocRolloverResultIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for soc rollover results using a free form search criteria
+     *
+     * @param criteria
+     * @param context
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<SocRolloverResultInfo> searchForSocRolloverResults(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context)  throws InvalidParameterException, MissingParameterException,
+            OperationFailedException,PermissionDeniedException;
+
 }

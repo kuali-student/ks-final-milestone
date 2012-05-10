@@ -5,6 +5,8 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.decorators;
 
 import java.util.List;
+
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -21,6 +23,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
+import javax.jws.WebParam;
 
 /**
  * Decorator for course offering set
@@ -43,6 +47,16 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         return getNextDecorator().validateSocRolloverResultItem(validationType, socRolloverResultItemInfo, context);
+    }
+
+    @Override
+    public List<String> searchForSocRolloverResultIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForSocRolloverResultIds(criteria, context);
+    }
+
+    @Override
+    public List<SocRolloverResultInfo> searchForSocRolloverResults(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForSocRolloverResults(criteria, context);
     }
 
     @Override
