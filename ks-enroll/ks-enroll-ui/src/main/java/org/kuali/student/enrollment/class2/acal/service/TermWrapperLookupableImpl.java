@@ -1,22 +1,8 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import org.apache.commons.lang.StringUtils;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.util.KRADUtils;
-import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.krad.util.KRADConstants;
-
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -25,6 +11,13 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+//Core slice class.
+@Deprecated
 public class TermWrapperLookupableImpl extends LookupableImpl {
     public final static String TERM_WRAPPER_KEY = "key";
 

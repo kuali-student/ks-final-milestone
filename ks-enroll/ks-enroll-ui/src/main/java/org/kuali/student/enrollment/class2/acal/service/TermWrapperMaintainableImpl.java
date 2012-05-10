@@ -1,20 +1,16 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
+import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
-
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.TermWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.infc.Context;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -23,8 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
-
+//Core slice class.
+@Deprecated
 public class TermWrapperMaintainableImpl extends MaintainableImpl {
 	private static final long serialVersionUID = 1L;
 

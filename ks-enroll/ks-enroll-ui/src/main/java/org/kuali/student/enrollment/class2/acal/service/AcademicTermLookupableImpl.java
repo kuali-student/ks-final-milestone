@@ -13,16 +13,21 @@ import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConsta
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 import javax.xml.namespace.QName;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
+//Core slice class.
+@Deprecated
 public class AcademicTermLookupableImpl  extends LookupableImpl {
 
     public final static String TERM_TYPE = "typeKey";

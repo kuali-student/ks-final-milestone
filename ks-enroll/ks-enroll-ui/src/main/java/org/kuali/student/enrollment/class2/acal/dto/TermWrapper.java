@@ -1,11 +1,13 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+
 import java.io.Serializable;
 
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-
 //This code is for core slice
+//Core slice class.
+@Deprecated
 public class TermWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

@@ -24,6 +24,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -31,7 +32,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.mock.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -44,6 +44,8 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
+//Core slice class.
+@Deprecated
 public class AtpStateKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
