@@ -223,6 +223,7 @@
                 <bean parent="Uif-InputField"
                       p:label="Instructional"
                       p:propertyName="holidayInfo.isInstructionalDay"
+                      p:alternateDisplayValue="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}"
                       p:align="center">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="true"/>
