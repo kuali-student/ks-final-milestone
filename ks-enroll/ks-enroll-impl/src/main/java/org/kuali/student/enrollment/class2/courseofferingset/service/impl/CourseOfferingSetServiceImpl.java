@@ -51,7 +51,6 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     
     @Resource
@@ -91,7 +90,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     //// implement service methods
     ////
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocInfo createSoc(String termId, String typeKey, SocInfo info, ContextInfo context) throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
@@ -113,7 +112,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocRolloverResultInfo createSocRolloverResult(String typeKey, SocRolloverResultInfo info, ContextInfo context) throws
             DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -133,7 +132,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocRolloverResultItemInfo createSocRolloverResultItem(String socRorId, String typeKey, SocRolloverResultItemInfo info, ContextInfo context) throws
             DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -153,7 +152,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public Integer createSocRolloverResultItems(String socRorId, String typeKey, List<SocRolloverResultItemInfo> infos, ContextInfo context)
             throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -180,14 +179,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public Integer deleteCourseOfferingsBySoc(String socId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteSoc(String id, ContextInfo context) throws DependentObjectsExistException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         SocEntity entity = socDao.find(id);
@@ -201,7 +200,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteSocRolloverResult(String id, ContextInfo context) throws DoesNotExistException,
             DependentObjectsExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -220,7 +219,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteSocRolloverResultItem(String id, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -235,12 +234,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getCourseOfferingIdsBySoc(String socId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Configuration error Implemented in the calculuation layer");
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getCourseOfferingIdsWithUnscheduledFinalExamsBySoc(String socId, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -248,12 +249,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getPublishedCourseOfferingIdsBySoc(String socId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Configuration error Implemented in the calculuation layer");
     }
     
     @Override
+    @Transactional(readOnly = true)
     public SocInfo getSoc(String id, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         SocEntity entity = socDao.find(id);
@@ -264,12 +267,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getSocIdsByCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Configuration error Implemented in the calculuation layer");
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getSocIdsByTerm(String termId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<SocEntity> entities = socDao.getByTerm(termId);
@@ -281,6 +286,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getSocIdsByTermAndSubjectArea(String termId, String subjectArea, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -293,6 +299,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getSocIdsByTermAndUnitsContentOwner(String termId, String unitsContentOwnerId, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -305,6 +312,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getSocIdsByType(String typeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<SocEntity> entities = socDao.getBySocTypeId(typeKey);
@@ -316,6 +324,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public SocRolloverResultInfo getSocRolloverResult(String id, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         SocRolloverResultEntity entity = socRorDao.find(id);
@@ -326,6 +335,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getSocRolloverResultIdsBySourceSoc(String sourceSocId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<SocRolloverResultEntity> entities = socRorDao.getBySourceSocId(sourceSocId);
@@ -337,6 +347,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getSocRolloverResultIdsByTargetSoc(String targetSocId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<SocRolloverResultEntity> entities = socRorDao.getByTargetSocId(targetSocId);
@@ -348,6 +359,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public SocRolloverResultItemInfo getSocRolloverResultItem(String id, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -359,6 +371,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultId(String socRolloverResultId, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -371,6 +384,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultIdAndSourceCourseOfferingId(String socRolloverResultId, String sourceCourseOfferingId, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -384,6 +398,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByResultIdAndTargetCourseOfferingId(String socRolloverResultId, String targetCourseOfferingId, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -397,6 +412,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<SocRolloverResultInfo> getSocRolloverResultsByIds(List<String> ids, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -414,6 +430,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<SocRolloverResultItemInfo> getSocRolloverResultItemsByIds(List<String> ids, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -431,6 +448,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<SocInfo> getSocsByIds(List<String> ids, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<SocEntity> entities = socDao.findByIds(ids);
@@ -447,31 +465,35 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getUnpublishedActivityOfferingIdsBySoc(String socId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Configuration error Implemented in the calculuation layer");
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getUnpublishedCourseOfferingIdsBySoc(String socId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Configuration error Implemented in the calculuation layer");
     }
     
     @Override
+    @Transactional(readOnly = true)
     public List<String> getUnscheduledActivityOfferingIdsBySoc(String socId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Configuration error Implemented in the calculuation layer");
     }
     
     @Override
+    @Transactional(readOnly = true)
     public Boolean isCourseOfferingInSoc(String socId, String courseOfferingId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Configuration error Implemented in the calculuation layer");
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocRolloverResultInfo reverseRollover(String rolloverResultId, List<String> optionKeys, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -479,7 +501,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocInfo rolloverSoc(String sourceSocId, String targetTermId, List<String> optionKeys, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -487,14 +509,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo scheduleSoc(String socId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Configuration error Implemented in the calculuation layer");
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocInfo updateSoc(String id, SocInfo info, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException, VersionMismatchException {
@@ -510,7 +532,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocRolloverResultInfo updateSocRolloverProgress(String id, Integer itemsProcessed, ContextInfo context) throws
             DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -527,7 +549,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocRolloverResultInfo updateSocRolloverResult(String id, SocRolloverResultInfo info, ContextInfo context) throws
             DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -557,7 +579,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
     
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocRolloverResultItemInfo updateSocRolloverResultItem(String id, SocRolloverResultItemInfo info, ContextInfo context) throws
             DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -595,11 +617,13 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForSocRolloverResultIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SocRolloverResultInfo> searchForSocRolloverResults(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         GenericQueryResults<SocRolloverResultEntity> results = criteriaLookupService.lookup(SocRolloverResultEntity.class, criteria);
         List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>(results.getResults().size());
@@ -609,8 +633,6 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         }
         return socRolloverResultInfos;
     }
-
-
 
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
         this.criteriaLookupService = criteriaLookupService;
