@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.RichTextArea;
  * Placeholder widget for future real rich text editor implementation
  * 
  */
-@Deprecated
 public class KSRichEditorImpl extends KSRichEditorAbstract {
 	private final RichTextArea textArea = new RichTextArea();
 	

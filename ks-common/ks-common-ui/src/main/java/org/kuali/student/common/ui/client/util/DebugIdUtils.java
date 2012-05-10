@@ -2,7 +2,6 @@ package org.kuali.student.common.ui.client.util;
 
 import com.google.gwt.user.client.ui.UIObject;
 
-@Deprecated
 public class DebugIdUtils {
     
     

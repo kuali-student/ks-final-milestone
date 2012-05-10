@@ -15,7 +15,6 @@
 
 package org.kuali.student.common.ui.client.widgets.list;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -34,7 +33,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team 
  *
  */
-@Deprecated
 public class KSLabelList extends KSSelectItemWidgetAbstract {
     private KSSelectItemWidgetAbstract selectItemWidget = GWT.create(KSLabelListImpl.class);
 

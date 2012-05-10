@@ -27,7 +27,6 @@ import com.google.gwt.core.client.GWT;
  *  This is a library of utility methods that can be used when working with the search rpc service. 
  *
  */
-@Deprecated
 public class SearchUtils {
 
 	/**

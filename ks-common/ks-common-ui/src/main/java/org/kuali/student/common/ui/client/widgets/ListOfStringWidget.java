@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
-@Deprecated
 public class ListOfStringWidget extends Composite implements HasBlurHandlers{
     private String addItemText;
 	

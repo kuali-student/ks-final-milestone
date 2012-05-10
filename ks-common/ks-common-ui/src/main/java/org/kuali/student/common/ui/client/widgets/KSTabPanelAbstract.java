@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team (gstruthers@berkeley.edu)
  *
  */
-@Deprecated
 public abstract class KSTabPanelAbstract extends Composite {
 
     public abstract void addStyleName(String style);
