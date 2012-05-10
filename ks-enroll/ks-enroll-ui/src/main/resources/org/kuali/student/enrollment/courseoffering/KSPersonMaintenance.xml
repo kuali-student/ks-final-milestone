@@ -22,7 +22,7 @@
 
     <bean id="KS-Person-LookupView" parent="KSLookupView"
           p:title="KS Person Lookup"
-          p:dataObjectClassName="org.kuali.rice.kim.bo.impl.PersonImpl">
+          p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person">
 
         <property name="criteriaFields">
             <list>
