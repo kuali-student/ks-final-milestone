@@ -236,6 +236,15 @@ public class TestCourseOfferingServiceImplWithMocks {
 //        assertEquals(orig.getActivityOfferingTypeKeys().size(), info.getActivityOfferingTypeKeys().size());
 //        assertEquals(orig.getActivityOfferingTypeKeys().get(0), info.getActivityOfferingTypeKeys().get(0));
 
+        List<FormatOfferingInfo> formats = courseOfferingService.getFormatOfferingsByCourseOffering(co.getId(), callContext);
+        info = formats.get(0);
+        assertNotNull(info);
+        assertNotNull(info.getId());
+        assertEquals(orig.getCourseOfferingId(), info.getCourseOfferingId());
+        assertEquals(orig.getStateKey(), info.getStateKey());
+        assertEquals(orig.getTypeKey(), info.getTypeKey());
+        assertEquals(orig.getFormatId(), info.getFormatId());
+
         orig = info;
         info = courseOfferingService.getFormatOffering(orig.getId(), callContext);
         assertNotNull(info);
