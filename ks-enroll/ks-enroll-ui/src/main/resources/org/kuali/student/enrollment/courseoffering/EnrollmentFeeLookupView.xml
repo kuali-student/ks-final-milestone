@@ -7,6 +7,13 @@
     <import resource="classpath:ks-EnrollmentFeeInfo-dictionary.xml"/>
     <import resource="classpath:UifKSDefinitions.xml"/>
 
+    <!-- EnrollmentFeeInfo-->
+    <bean id="EnrollmentFeeInfo" parent="EnrollmentFeeInfo-parent">
+        <property name="titleAttribute" value="id"/>
+    </bean>
+
+
+
     <!-- LookupView -->
     <bean id="KS-EnrollmentFee-LookupView" parent="KSLookupView">
         <property name="title" value="Enrollment Fee Lookup (Search: To be implemented soon) " />
