@@ -52,12 +52,7 @@ public class FormatOfferingInfoInquirableImpl extends InquirableImpl {
         } catch (PermissionDeniedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        FormatOfferingInfo formatOfferingInfo = new FormatOfferingInfo();
-        formatOfferingInfo.setCourseOfferingId("www");
-        formatOfferingInfo.setFormatId("sssssssss");
-        formatOfferingInfo.setTermId("ffffffffffffffffffff");
-        return formatOfferingInfo;
-        //return null;
+        return null;
     }
 
 
