@@ -345,14 +345,11 @@ public class AcademicCalendarController extends UifControllerBase {
                 AcademicTermWrapper termWrapperFromDB = academicCalendarForm.getViewHelperService().populateTermWrapper(termInfo, false);
                 academicCalendarForm.getTermWrapperList().set(selectedLineIndex,termWrapperFromDB);
 
-                //Calculate instructional days (if HC exists)
-                if (academicCalendarForm.getHolidayCalendarList() != null && !academicCalendarForm.getHolidayCalendarList().isEmpty()) {
-                   try{
-                        academicCalendarForm.getViewHelperService().populateInstructionalDays(termWrapperFromDB);
-                    }catch(Exception e){
-                        //TODO: FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
-                        e.printStackTrace();
-                    }
+               try{
+                    academicCalendarForm.getViewHelperService().populateInstructionalDays(termWrapperFromDB);
+                }catch(Exception e){
+                    //TODO: FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
+                    e.printStackTrace();
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -396,14 +393,11 @@ public class AcademicCalendarController extends UifControllerBase {
            throw new RuntimeException(e);
         }
 
-        //Calculate instructional days (if HC exists)
-        if (academicCalendarForm.getHolidayCalendarList() != null && !academicCalendarForm.getHolidayCalendarList().isEmpty()) {
-           try{
-                academicCalendarForm.getViewHelperService().populateInstructionalDays(termWrapper);
-            }catch(Exception e){
-                //TODO: FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
-                e.printStackTrace();
-            }
+       try{
+            academicCalendarForm.getViewHelperService().populateInstructionalDays(termWrapper);
+        }catch(Exception e){
+            //TODO: FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
+            e.printStackTrace();
         }
 
         return updateComponent(academicCalendarForm, result, request, response);
@@ -638,13 +632,11 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         //Calculate instructional days (if HC exists)
-        if (academicCalendarForm.getHolidayCalendarList() != null && !academicCalendarForm.getHolidayCalendarList().isEmpty()) {
-            try{
-                academicCalendarForm.getViewHelperService().populateInstructionalDays(academicCalendarForm.getTermWrapperList());
-            }catch(Exception e){
-                //FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
-                e.printStackTrace();
-            }
+        try{
+            academicCalendarForm.getViewHelperService().populateInstructionalDays(academicCalendarForm.getTermWrapperList());
+        }catch(Exception e){
+            //FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
+            e.printStackTrace();
         }
 
         academicCalendarForm.setNewCalendar(false);
