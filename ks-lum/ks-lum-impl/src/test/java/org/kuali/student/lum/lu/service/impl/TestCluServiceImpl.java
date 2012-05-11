@@ -2444,7 +2444,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		ArrayList<SearchParam> queryParamValues1 = new ArrayList<SearchParam>();
 		MembershipQueryInfo query1 = new MembershipQueryInfo();
 		query1.setSearchTypeKey("lu.search.clus");
-		query1.setQueryParamValueList(queryParamValues1);
+		// KSCM-484   query1.setQueryParamValues(queryParamValues1);
 
 		cluSet1.setMembershipQuery(query1);
 		// Version 0
