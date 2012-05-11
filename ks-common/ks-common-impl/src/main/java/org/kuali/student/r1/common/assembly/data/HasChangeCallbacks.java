@@ -16,7 +16,6 @@
 package org.kuali.student.r1.common.assembly.data;
 
 
-@Deprecated
 public interface HasChangeCallbacks {
 	public enum ChangeType {
 		ADD, REMOVE, UPDATE;
