@@ -36,4 +36,25 @@
         </property>
     </bean>
 
+    <!-- InquiryView -->
+    <bean id="KS-EnrollmentFee-InquiryView" parent="KSInquiryView"
+          p:title="EnrollmentFee Inquiry"
+          p:dataObjectClassName="org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo"
+          p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeInquirableImpl">
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSection">
+                <property name="layoutManager.numberOfColumns" value="2" />
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-DataField" p:propertyName="id" />
+                        <bean parent="Uif-DataField" p:propertyName="title" />
+                        <bean parent="Uif-DataField" p:propertyName="numOfPages" />
+                    </list>
+                </property>
+                </bean>
+            </list>
+        </property>
+      </bean>
+
 </beans>
