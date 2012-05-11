@@ -18,7 +18,6 @@ package org.kuali.student.common.ui.client.widgets.searchtable;
 
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 
-@Deprecated
 public class SearchColumnDefinition extends AbstractColumnDefinition<ResultRow, String> {
 
     private String columnKey;
