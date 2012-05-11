@@ -93,7 +93,7 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
     }
 
     @Override
-    // TODO KSCM-392 we added the logic suplied in ks1.3 still neeeds to be tested.
+    // KSCM-392 we added the logic suplied in ks1.3 still neeeds to be tested.
     public List<Map<String, String>> resolve(RouteContext context) {
         List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         XPath xPath = XPathHelper.newXPath();
