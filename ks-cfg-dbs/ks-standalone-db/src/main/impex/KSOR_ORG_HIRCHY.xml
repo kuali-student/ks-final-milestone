@@ -14,5 +14,5 @@
         DESCR="Hierarchy used to manage organizational units associated with curriculum (course, course offerings, programs, program offerings)."
         EFF_DT="20120501000000"
         ID="kuali.org.hierarchy.academic.curriculum" NAME="Curriculum"
-        OBJ_ID="2873acc0-9574-11e1-b0c4-0800200c9a66" ROOT_ORG="141" VER_NBR="0"/>
+        OBJ_ID="2873acc0-9574-11e1-b0c4-0800200c9a66" ROOT_ORG="UW000" VER_NBR="0"/>
 </dataset>
