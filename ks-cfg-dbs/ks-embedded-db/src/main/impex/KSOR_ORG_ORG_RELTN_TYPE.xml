@@ -61,7 +61,7 @@
         TYPE_KEY="kuali.org.HQ" VER_NBR="0"/>
     <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000"
         NAME="is Curriculum Parent of"
-        OBJ_ID="BFC14C190787379AE040C60AF05B11E8"
+        OBJ_ID="BFC5B6BC45A29D4FE040C60AF05B2BC2"
         ORG_HIRCHY="kuali.org.hierarchy.Curriculum"
         REV_DESCR="Indicates that this organization is the Child of another organization in the Curriculum Hierarchy"
         REV_NAME="is Curriculum Child of"
@@ -82,4 +82,12 @@
         REV_NAME="is Supervised by"
         TYPE_DESC="Indicates that the head of one organization has direct supervisory responsibility for the head of another organization"
         TYPE_KEY="kuali.org.Supervise" VER_NBR="0"/>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20000101000000"
+        NAME="Child Organization"
+        OBJ_ID="00b80ad0-9571-11e1-b0c4-0800200c9a6c"
+        ORG_HIRCHY="kuali.org.hierarchy.academic.curriculum"
+        REV_DESCR="Indicates that this organization is the Parent of the organization"
+        REV_NAME="is Parent of"
+        TYPE_DESC="Indicates the organization is the child of a parent organization"
+        TYPE_KEY="kuali.org.relation.type.child2parent" VER_NBR="0"/>
 </dataset>
