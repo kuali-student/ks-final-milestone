@@ -36,14 +36,18 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             try {
                 ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().createActivityOffering(activityOfferingFormObject.getAoInfo().getFormatOfferingId(),activityOfferingFormObject.getAoInfo().getActivityId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,activityOfferingFormObject.getAoInfo(),getContextInfo());
-//                ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(activityOfferingInfo.getId(),getContextInfo());
                 setDataObject(new ActivityOfferingFormObject(activityOfferingInfo));
-//                ActivityOfferingFormObject formObject = new ActivityOfferingFormObject(info);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
-        else {
+        else {   //should be edit action
+            ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
+            try {
+                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingFormObject.getAoInfo().getId(), activityOfferingFormObject.getAoInfo(), getContextInfo());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
