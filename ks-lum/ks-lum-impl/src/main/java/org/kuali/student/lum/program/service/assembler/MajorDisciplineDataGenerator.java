@@ -202,7 +202,7 @@ public class MajorDisciplineDataGenerator {
 //			throw new RuntimeException("Code what to do with this type");
 		}
 
-		if("state".equals(name)){
+		if("stateKey".equals(name)){
 			return DtoConstants.STATE_DRAFT;
 		}
 
