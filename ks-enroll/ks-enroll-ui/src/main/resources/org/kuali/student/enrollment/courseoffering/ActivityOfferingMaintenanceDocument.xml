@@ -46,21 +46,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                     <property name="title" value="Create a New Activity Offering"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.id" p:readOnly="true">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="20"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.stateKey" p:readOnly="true">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="20"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.typeKey" p:readOnly="true">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="20"/>
-                                </property>
-                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.id" p:readOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.stateKey" p:readOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.typeKey" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.termId" p:defaultValue="2012WINTER">
                                 <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.aoInfo.TermInfo"/>
                                 <property name="fieldLookup.fieldConversions">
@@ -68,45 +56,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                         <entry key="code" value="aoInfo.id"/>
                                     </map>
                                 </property>-->
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="20"/>
-                                </property>
                              </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityCode">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="20"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityId" p:defaultValue="CLU-4">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="20"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.formatOfferingId" p:label="Format Offering Id" p:defaultValue="Lui-fo-2">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="20"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.maximumEnrollment" p:label="Total Maximum Enrollment">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="4"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate">
-                                <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isEvaluated" p:label="This course requires an evaluation">
-                                <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isHonorsOffering">
-                                <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
-                                </property>
-                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityCode"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityId" p:defaultValue="CLU-4"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.formatOfferingId" p:label="Format Offering Id" p:defaultValue="Lui-fo-2"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.maximumEnrollment" p:label="Total Maximum Enrollment"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isEvaluated" p:label="This course requires an evaluation"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isHonorsOffering"/>
                         </list>
                     </property>
                 </bean>
@@ -127,19 +84,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                     </map>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="personName" p:readOnly="true">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="20"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="percentageEffort">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="3"/>
-                                </property>
-                                <property name="validCharactersConstraint">
-                                    <bean parent="IntegerPatternConstraint" p:allowNegative="false"/>
-                                </property>
-                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="personName" p:readOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="percentageEffort"/>
                         </list>
                     </property>
                 </bean>
