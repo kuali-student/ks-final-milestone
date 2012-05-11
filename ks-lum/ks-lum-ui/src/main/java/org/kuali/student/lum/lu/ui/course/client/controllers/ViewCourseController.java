@@ -407,8 +407,8 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     }
     
     private void updateStatus() {
-    	if(cluModel.get("state") != null){
-            statusLabel.setText(getMessage("courseStatusLabel") + ": " + cluModel.get("state"));
+    	if(cluModel.get("stateKey") != null){
+            statusLabel.setText(getMessage("courseStatusLabel") + ": " + cluModel.get("stateKey"));
     	}
     }
     

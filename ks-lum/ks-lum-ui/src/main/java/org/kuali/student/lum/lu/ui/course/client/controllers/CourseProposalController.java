@@ -1282,7 +1282,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     public String getCourseState(){
-        return cluProposalModel.<String>get("state");
+        return cluProposalModel.<String>get("stateKey");
     }
 
     public boolean isNew() {

@@ -441,7 +441,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
             @Override
             public void onModelReady(DataModel model) {
                 String courseId = model.getRoot().get("id");
-                String courseState = model.getRoot().get("state");
+                String courseState = model.getRoot().get("stateKey");
                 if (courseId == null) {
                     final ConfirmationDialog dialog = new ConfirmationDialog("Submit Course Title", "Before saving rules please submit course proposal title");
                     dialog.getConfirmButton().addClickHandler(new ClickHandler(){

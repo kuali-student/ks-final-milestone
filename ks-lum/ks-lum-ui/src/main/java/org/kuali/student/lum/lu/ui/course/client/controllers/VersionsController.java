@@ -298,8 +298,8 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
     }
     
     private void updateState(final DataModel cluModel) {
-    	if(cluModel.get("state") != null){
-            statusLabel.setText(getMessage("courseStatusLabel") + ": " + cluModel.get("state"));
+    	if(cluModel.get("stateKey") != null){
+            statusLabel.setText(getMessage("courseStatusLabel") + ": " + cluModel.get("stateKey"));
 	    	
 	    	for(CourseWorkflowActionList widget: actionDropDownWidgets){
 				widget.init(getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel, new Callback<String>() {

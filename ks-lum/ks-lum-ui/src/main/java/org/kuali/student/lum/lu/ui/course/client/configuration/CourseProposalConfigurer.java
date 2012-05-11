@@ -796,7 +796,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     protected VerticalSection generateLearningObjectivesNestedSection() {
         final VerticalSection los = initSection(null, NO_DIVIDER);
 
-        QueryPath path = QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc");
+        QueryPath path = QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "descr");
         Metadata meta = modelDefinition.getMetadata(path);
 
         LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", COURSE_SPECIFIC_LOS, meta);

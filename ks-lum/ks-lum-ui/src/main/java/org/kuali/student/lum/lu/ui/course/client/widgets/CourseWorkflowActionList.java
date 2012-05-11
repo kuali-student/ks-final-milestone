@@ -504,7 +504,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     
 	private void doUpdateCourseActionItems(DataModel cluModel) {
 		
-    	final String cluState = cluModel.get("state");
+    	final String cluState = cluModel.get("stateKey");
     	courseId = cluModel.get(CreditCourseConstants.ID);
     	
     	items.clear();      
