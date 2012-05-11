@@ -13,10 +13,18 @@ INSERT INTO KSOR_ORG_TYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
   VALUES (TO_DATE( '20120501000000', 'YYYYMMDDHH24MISS' ),'Academic Curriculum','74ccc0e43-94ad-11e1-b0c4-0800200c910','Academic organizational unit representing a curriculum','kuali.org.type.curriculum',0)
 /
 
+INSERT INTO KSOR_ORG_TYPE (EFF_DT,NAME,OBJ_ID,TYPE_DESC,TYPE_KEY,VER_NBR)
+  VALUES (TO_DATE( '20120501000000', 'YYYYMMDDHH24MISS' ),'University','4ccc0e42-94ad-11e1-b0c4-0800200d9a9','University','kuali.org.type.university',0)
+/
+
+-- Univeristy Org
+INSERT INTO KSOR_ORG (CREATETIME,EFF_DT,ID,LNG_NAME,OBJ_ID,SHRT_NAME,ST,TYPE,LNG_DESCR,SHRT_DESCR,VER_NBR) VALUES (TO_DATE( '20120501000000', 'YYYYMMDDHH24MISS' ),TO_DATE( '18610101000000', 'YYYYMMDDHH24MISS' ),'UW000','University of Washington','34c54990-9581-11e1-b0c4-0800200c9a67','UW','Active','kuali.org.type.university','University of Washington','UW',0)
+/
+
 -- ORG HEIRARCHY
 
 INSERT INTO KSOR_ORG_HIRCHY (DESCR,EFF_DT,ID,NAME,OBJ_ID,ROOT_ORG,VER_NBR)
-  VALUES ('Hierarchy used to manage organizational units associated with curriculum (course, course offerings, programs, program offerings).',TO_DATE( '20120501000000', 'YYYYMMDDHH24MISS' ),'kuali.org.hierarchy.academic.curriculum','Curriculum','2873acc0-9574-11e1-b0c4-0800200c9a66','141',0)
+  VALUES ('Hierarchy used to manage organizational units associated with curriculum (course, course offerings, programs, program offerings).',TO_DATE( '20120501000000', 'YYYYMMDDHH24MISS' ),'kuali.org.hierarchy.academic.curriculum','Curriculum','2873acc0-9574-11e1-b0c4-0800200c9a66','UW000',0)
 /
 
 -- ORG HEIRARCHY JN ORG TYPE
