@@ -28,7 +28,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
  * // TODO rename styles to remove references to course format and activity
  *
  */
-@Deprecated
 public class UnborderedHeadedLayout extends HeadedLayout {
 
     public UnborderedHeadedLayout(){

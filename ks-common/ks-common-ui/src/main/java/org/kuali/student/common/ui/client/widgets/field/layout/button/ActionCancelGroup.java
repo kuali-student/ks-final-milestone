@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
 
-@Deprecated
 public class ActionCancelGroup extends ButtonGroup<ButtonEnum> {
 	public ActionCancelGroup(ButtonEnum actionButtonEum, ButtonEnum cancelButtonEum){
 		super();

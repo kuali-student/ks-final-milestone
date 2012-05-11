@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * 
  * */
-@Deprecated
 public class Column {
 	/** Ascending order. */
 	public final static int Ascending = 1;

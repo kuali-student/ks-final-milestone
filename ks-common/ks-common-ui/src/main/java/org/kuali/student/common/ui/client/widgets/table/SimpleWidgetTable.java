@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
-@Deprecated
 public class SimpleWidgetTable extends Composite{
 	private FlexTable simpleTable = new FlexTable();
 	private int rowCount = 0;

@@ -7,7 +7,6 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
 
-@Deprecated
 public class MouseHoverFlexTable extends FlexTable {
     private TableModel tableModel;
     public MouseHoverFlexTable(){

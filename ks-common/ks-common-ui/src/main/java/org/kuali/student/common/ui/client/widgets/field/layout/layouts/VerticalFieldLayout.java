@@ -35,7 +35,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class VerticalFieldLayout extends FieldLayout {
     private Map<String, FlowPanel> fieldContainers = new HashMap<String, FlowPanel>();
 
