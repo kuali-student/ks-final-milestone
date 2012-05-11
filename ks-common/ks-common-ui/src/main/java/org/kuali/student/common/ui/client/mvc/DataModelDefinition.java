@@ -24,7 +24,6 @@ import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.assembly.data.Data.DataType;
 import org.kuali.student.r1.common.assembly.data.Data.Key;
 
-@Deprecated
 public class DataModelDefinition implements ModelDefinition {
     private Metadata metadata;
     /**
