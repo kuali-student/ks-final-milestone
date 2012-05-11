@@ -400,8 +400,7 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(cluId, "cluId");
-        List<CluCluRelation> cluCluRelations = luDao
-                .getCluCluRelationsByClu(cluId);
+        List<CluCluRelation> cluCluRelations = luDao.getCluCluRelationsByClu(cluId);
         return R1R2ConverterUtil.convertLists(LuServiceAssembler.toCluCluRelationInfos(cluCluRelations), CluCluRelationInfo.class);
     }
 
@@ -1358,7 +1357,7 @@ public class LuServiceImpl implements CluService {
 
         final CluCluRelation cluCluRelation = luDao.fetch(CluCluRelation.class,
                 cluCluRelationId);
-        BeanUtils.copyProperties(cluCluRelationInfo, cluCluRelation,
+        BeanUtils.copyProperties(R1R2ConverterUtil.convert(cluCluRelationInfo, org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo.class), cluCluRelation,
                 new String[]{"cluId", "relatedCluId",
                         "isCluRelationRequired", "attributes", "meta"});
 
@@ -1611,7 +1610,7 @@ public class LuServiceImpl implements CluService {
         List<ResultOption> resOptList = new ArrayList<ResultOption>();
         for (ResultOptionInfo resOptInfo : cluResultInfo.getResultOptions()) {
             ResultOption resOpt = new ResultOption();
-            BeanUtils.copyProperties(resOptInfo, resOpt, new String[]{"id",
+            BeanUtils.copyProperties(R1R2ConverterUtil.convert(resOptInfo, org.kuali.student.r1.lum.lu.dto.ResultOptionInfo.class), resOpt, new String[]{"id",
                     "meta", "resultUsageType", "desc"});
 
             if (resOptInfo.getResultUsageTypeKey() != null) {
@@ -1625,7 +1624,7 @@ public class LuServiceImpl implements CluService {
         }
 
         CluResult cluResult = new CluResult();
-        BeanUtils.copyProperties(cluResultInfo, cluResult, new String[]{"id",
+        BeanUtils.copyProperties(R1R2ConverterUtil.convert(cluResultInfo, org.kuali.student.r1.lum.lu.dto.CluResultInfo.class), cluResult, new String[]{"id",
                 "desc", "resultOptions", "meta"});
 
         cluResult.setDesc(LuServiceAssembler
@@ -1683,13 +1682,13 @@ public class LuServiceImpl implements CluService {
                 // New result option
                 opt = new ResultOption();
                 // Copy properties
-                BeanUtils.copyProperties(resOptInfo, opt, new String[]{
+                BeanUtils.copyProperties(R1R2ConverterUtil.convert(resOptInfo, org.kuali.student.r1.lum.lu.dto.ResultOptionInfo.class), opt, new String[]{
                         "resultUsageType", "desc"});
             } else {
                 // Get existing result option
                 opt = luDao.fetch(ResultOption.class, resOptInfo.getId());
                 // Copy properties
-                BeanUtils.copyProperties(resOptInfo, opt, new String[]{
+                BeanUtils.copyProperties(R1R2ConverterUtil.convert(resOptInfo, org.kuali.student.r1.lum.lu.dto.ResultOptionInfo.class), opt, new String[]{
                         "id", "resultUsageType", "desc"});
             }
             if (resOptInfo.getResultUsageTypeKey() != null && !resOptInfo.getResultUsageTypeKey().isEmpty()) {
@@ -1706,7 +1705,7 @@ public class LuServiceImpl implements CluService {
             luDao.delete(entry.getValue());
         }
 
-        BeanUtils.copyProperties(cluResultInfo, result, new String[]{"id",
+        BeanUtils.copyProperties(R1R2ConverterUtil.convert(cluResultInfo, org.kuali.student.r1.lum.lu.dto.CluResultInfo.class), result, new String[]{"id",
                 "desc", "resultOptions"});
  
         result.setDesc(LuServiceAssembler.toRichText(LuRichText.class, R1R2ConverterUtil.convert(cluResultInfo, org.kuali.student.r1.lum.lu.dto.CluResultInfo.class).getDesc()));
