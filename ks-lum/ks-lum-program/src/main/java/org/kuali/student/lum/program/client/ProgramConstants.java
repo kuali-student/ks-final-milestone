@@ -12,8 +12,8 @@ public class ProgramConstants {
     public static final String CREDENTIAL_PROGRAM_ID = "credentialProgramId";
     public static final String CREDENTIAL_PROGRAM_TYPE = "credentialProgramType";
     public static final String ID = "id";
-    public static final String STATE = "state";
-    public static final String TYPE = "type";
+    public static final String STATE = "stateKey";
+    public static final String TYPE = "typeKey";
     public static final String MAJOR_LU_TYPE_ID = "kuali.lu.type.MajorDiscipline";
     public static final String CORE_LU_TYPE_ID = "kuali.lu.type.CoreProgram";
     public static final String CRED_LU_TYPE_ID = "kuali.lu.type.CoreProgram";
