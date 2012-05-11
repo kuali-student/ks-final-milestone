@@ -49,7 +49,7 @@ public class SocRolloverResultItemInfoLookupableImpl extends LookupableImpl {
 
         String resultId = fieldValues.get(SOC_ROLLOVER_RESULT_ID);
         //String courseOfferingId = fieldValues.get(SOURCE_COURSE_OFFERING_ID);
-
+        /*
         try {
             socRolloverResultItemInfos = getCourseOfferingSetService().getSocRolloverResultItemsByResultId(resultId, getContextInfo());
         } catch (DoesNotExistException e) {
@@ -70,8 +70,10 @@ public class SocRolloverResultItemInfoLookupableImpl extends LookupableImpl {
         } catch (PermissionDeniedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+        */
 
         SocRolloverResultItemInfo socRolloverResultItemInfo = new  SocRolloverResultItemInfo();
+        socRolloverResultItemInfo.setId("11");
         socRolloverResultItemInfo.setSocRolloverResultId("1");
         socRolloverResultItemInfo.setSourceCourseOfferingId("2");
         socRolloverResultItemInfo.setTargetCourseOfferingId("3");

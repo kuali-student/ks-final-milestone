@@ -37,30 +37,33 @@
         </property>
         <property name="resultFields">
             <list>
-                <!--<bean parent="Uif-DataField" p:propertyName="id" />-->
+                <bean parent="Uif-DataField" p:propertyName="id" />
                 <bean parent="Uif-DataField" p:propertyName="socRolloverResultId" />
                 <bean parent="Uif-DataField" p:propertyName="sourceCourseOfferingId" />
                 <bean parent="Uif-DataField" p:propertyName="targetCourseOfferingId" />
             </list>
         </property>
-        <property name="resultsActionsField" value="edit" />
 
+        <!--<property name="resultsActionsField" value="edit" />-->
     </bean>
 
     <!-- InquiryView -->
-    <bean id="KS-SocRolloverResultItemInfo-InquiryView" parent="KSInquiryView"
-          p:title="SocRolloverResultItemInfo Inquiry"
-          p:dataObjectClassName="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo"
-          p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultItemInfoInquirableImpl">
+    <bean id="TermInfo-InquiryView" parent="KSInquiryView">
+        <property name="title" value="SocRolloverResultItemInfo Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo"/>
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultItemInfoInquirableImpl" />
+
         <property name="Items">
             <list>
-                <bean parent=”Uif-GridSection”>
-                    <property name=”layoutManager.numberOfColumns” value=”2” />
-                    <property name="Items">
+                <bean parent="Uif-GridSection">
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="title" value="SocRolloverResultItemInfo Inquiry"/>
+                    <property name="items">
                         <list>
-                            <bean parent=”Uif-DataField” p:propertyName=”id” />
-                            <bean parent=”Uif-DataField” p:propertyName=”title” />
-                            <bean parent=”Uif-DataField” p:propertyName=”numOfPages” />
+                            <bean parent="Uif-DataField" p:propertyName="id"/>
+                            <bean parent="Uif-DataField" p:propertyName="socRolloverResultId" />
+                            <bean parent="Uif-DataField" p:propertyName="sourceCourseOfferingId" />
+                            <bean parent="Uif-DataField" p:propertyName="targetCourseOfferingId" />
                         </list>
                     </property>
                 </bean>
