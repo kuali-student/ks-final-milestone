@@ -25,7 +25,7 @@
     <bean id="KS-SocRolloverResultInfo-LookupView" parent="KSLookupView">
         <property name="title" value="SocRolloverResultInfo Lookup (Search not working)"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo" />
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl" />
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultInfoLookupableImpl" />
 
         <property name="criteriaFields">
             <list>
@@ -38,8 +38,30 @@
             <list>
                 <bean parent="Uif-DataField" p:propertyName="id" />
                 <bean parent="Uif-DataField" p:propertyName="targetTermId" />
-                <bean parent="Uif-DataField" p:propertyName="targetTermId" />
+                <bean parent="Uif-DataField" p:propertyName="sourceTermId" />
                 <bean parent="Uif-DataField" p:propertyName="percentageEffort" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-SocRolloverResultInfo-InquiryView" parent="KSInquiryView">
+        <property name="title" value="SocRolloverResultInfo Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo"/>
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultInfoInquirableImpl" />
+        <property name="Items">
+            <list>
+                <bean parent="Uif-GridSection">
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="title" value="SocRolloverResultInfo Inquiry"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="id"/>
+                            <bean parent="Uif-InputField" p:propertyName="targetTermId"/>
+                            <bean parent="Uif-InputField" p:propertyName="sourceTermId"/>
+                            <bean parent="Uif-InputField" p:propertyName="percentageEffort"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

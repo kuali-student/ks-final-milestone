@@ -9,6 +9,7 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
  */
 public class CourseOfferingSetConstants {
     //Attributes defined in SocRolloverResultInfo
+    public final static String SOCROLLOVERRESULTINFO_ID = "id";
     public final static String SOCROLLOVERRESULTINFO_SOURCE_TERM_ID = "sourceTermId";
     public final static String SOCROLLOVERRESULTINFO_TARGET_TERM_ID = "targetTermId";
 

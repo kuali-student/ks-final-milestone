@@ -187,6 +187,14 @@
     </aop:aspect>
   </aop:config>
 
+   <!-- courseofferingset beans -->
+    <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl">
+        <property name="socDao" ref="socDao" />
+        <property name="socRorDao" ref="socRolloverResultDao" />
+        <property name="criteriaLookupService" ref="criteriaLookupService" />
+    </bean>
+    
+    
   <!-- course offering beans -->
 
   <bean id="coServiceValidation"
