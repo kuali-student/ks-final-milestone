@@ -5,38 +5,54 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 
-import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingSetConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 
-/**
- * Created by IntelliJ IDEA.
- * User: huangb
- * Date: 5/10/12
- * Time: 1:25 PM
- * To change this template use File | Settings | File Templates.
- */
 public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
     private transient CourseOfferingSetService courseOfferingSetService = null;
-    private ContextInfo contextInfo;
+    private ContextInfo contextInfo = null;
 
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>();
         String sourceTermId = fieldValues.get(CourseOfferingSetConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID);
         String targetTermId = fieldValues.get(CourseOfferingSetConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID);
 
-        return socRolloverResultInfos;
+        //Build up a term search criteria
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.equal(CourseOfferingSetConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID, sourceTermId),
+                PredicateFactory.equal(CourseOfferingSetConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID, targetTermId)));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        //Perform Search with Service Call
+        try{
+            List<String> socRolloverResultIds = getCourseOfferingSetService().searchForSocRolloverResultIds(criteria, null);
+            for (String socRolloverResultId  : socRolloverResultIds) {
+                SocRolloverResultInfo socRolloverResultInfo = getCourseOfferingSetService().getSocRolloverResult(socRolloverResultId, getContextInfo());
+                socRolloverResultInfos.add(socRolloverResultInfo);
+            }
+        }catch (InvalidParameterException e){
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }catch (MissingParameterException e){
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }catch (OperationFailedException e){
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }catch (PermissionDeniedException e){
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }catch(DoesNotExistException e){
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+       return socRolloverResultInfos;
 
     }
 
@@ -47,6 +63,9 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
     }
 
     public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo(contextInfo);
+        if (contextInfo == null){
+            contextInfo =  ContextBuilder.loadContextInfo(contextInfo);
+        }
+        return contextInfo;
     }
 }
