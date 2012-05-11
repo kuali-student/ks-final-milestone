@@ -22,24 +22,40 @@
 
     <bean id="KS-Person-LookupView" parent="KSLookupView"
           p:title="KS Person Lookup"
-          p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person">
+          >
 
-        <property name="criteriaFields">
+        <property name="items">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalName" />
+                <bean parent="Uif-InputField" p:propertyName="principalId" p:label="Instructor ID">
+                    <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> -->
+                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                    <!--<property name="fieldLookup.fieldConversions">
+                        <map>
+                            <entry key="principalId" value="principalId"/>
+                        </map>
+                    </property>-->
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="principalName" p:label="Instructor Name">
+                    <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> -->
+                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                    <!--<property name="fieldLookup.fieldConversions">
+                        <map>
+                            <entry key="principalId" value="principalId"/>
+                        </map>
+                    </property>-->
+                </bean>
             </list>
         </property>
 
 
-        <property name="resultFields">
+        <!--<property name="resultFields">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="id" />
                 <bean parent="Uif-DataField" p:propertyName="principalId" />
                 <bean parent="Uif-DataField" p:propertyName="principalId" />
                 <bean parent="Uif-DataField" p:propertyName="EntityId" />
             </list>
-        </property>
+        </property>-->
     </bean>
 
 </beans>

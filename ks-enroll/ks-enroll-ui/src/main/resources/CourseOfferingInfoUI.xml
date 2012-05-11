@@ -193,7 +193,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="fieldLookup.fieldConversions">
                                     <map>
-                                        <entry key="principalId" value="personId"/>
+                                        <entry key="principal   Id" value="personId"/>
                                     </map>
                                 </property> 
                             </bean>                             
