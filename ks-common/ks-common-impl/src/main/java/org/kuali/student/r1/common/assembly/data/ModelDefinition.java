@@ -28,7 +28,6 @@ import org.kuali.student.r1.common.assembly.data.Data.DataType;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public interface ModelDefinition extends Serializable{
 	public void ensurePath(final Data root, final QueryPath path, boolean includeLeafNode);
 	public DataType getType(final QueryPath path);

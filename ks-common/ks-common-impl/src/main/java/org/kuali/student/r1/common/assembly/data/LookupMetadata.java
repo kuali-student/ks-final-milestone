@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.kuali.student.r1.common.search.dto.SortDirection;
 
-@Deprecated
 public class LookupMetadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
