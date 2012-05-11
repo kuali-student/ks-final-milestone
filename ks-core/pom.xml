@@ -108,4 +108,7 @@
       </snapshots>
     </repository>
   </repositories>
+  <modules>
+  	<module>ks-core-krms</module>
+  </modules>
 </project>
