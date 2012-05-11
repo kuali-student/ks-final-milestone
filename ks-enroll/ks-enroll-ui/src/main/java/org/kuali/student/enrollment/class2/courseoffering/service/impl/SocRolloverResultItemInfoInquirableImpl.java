@@ -49,6 +49,10 @@ public class SocRolloverResultItemInfoInquirableImpl extends InquirableImpl {
         String resultId = parameters.get(SOC_ROLLOVER_RESULT_ID);
 
         try {
+            //TODO
+            // Notes from Bonnie, your implementation is not generic since you always try to return the same one for inquiry.
+            //inquiry should always use DTO's id as an input. You will count on lookup result id field to get into the inquiry page.
+            //So you should call getCourseOfferingSetService().getSocRolloverResultItem(id,getContextInfo());
             socRolloverResultItemInfos = getCourseOfferingSetService().getSocRolloverResultItemsByResultId(resultId, getContextInfo());
         } catch (DoesNotExistException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
