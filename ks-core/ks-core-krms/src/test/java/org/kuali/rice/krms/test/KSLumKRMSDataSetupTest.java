@@ -113,7 +113,13 @@ public class KSLumKRMSDataSetupTest extends KSLumAbstractBoTest {
 	private static final String TERM_SPEC_CREDITS = "Credits";
 	private static final String TERM_SPEC_ORG_NUMBER = "Org Number";
 	private static final String TERM_SPEC_COURSE = "Course";
-
+	private static final String TERM_SPEC_COURSE_NUMBER = "Course Number";
+	private static final String TERM_SPEC_DATE = "Date";
+	private static final String TERM_SPEC_GPA = "GPA";
+	private static final String TERM_SPEC_GRADE = "Grade";
+	private static final String TERM_SPEC_GRADE_TYPE = "GradeType";
+	private static final String TERM_SPEC_LEARNING_OBJECTIVES = "Learning Objectives";
+	
 	/**
 	 * 
 	 * Setting it up so that KRMS tables are not reset between test methods to
@@ -865,16 +871,27 @@ public class KSLumKRMSDataSetupTest extends KSLumAbstractBoTest {
 	//
 	private void createNumberOfCreditsTermDefinition(String nameSpace) {
 		// TODO NINA Add the context link to the Term Specification
+		TermSpecificationDefinition termSpec = createTermSpecification(nameSpace, TERM_SPEC_CREDITS);
+
+		TermDefinition termDefinition = TermDefinition.Builder.create(
+				null,
+				TermSpecificationDefinition.Builder.create(termSpec), null).build();
+		
+		termDefinition = termBoService.createTermDefinition(termDefinition);
+
+	}
+
+	private TermSpecificationDefinition createTermSpecification(String nameSpace, String termSpecName) {
 		Map<String, String> queryArgs = new HashMap<String, String>();
 		queryArgs.put("namespace", nameSpace);
-		queryArgs.put("name", TERM_SPEC_CREDITS);
+		queryArgs.put("name", termSpecName);
 		TermSpecificationBo termSpecBo = getBoService().findByPrimaryKey(
 				TermSpecificationBo.class, queryArgs);
 		//
 		TermSpecificationDefinition termSpec = null;
 		if (termSpecBo == null) {
 			 termSpec = TermSpecificationDefinition.Builder
-					.create(null, TERM_SPEC_CREDITS, nameSpace,
+					.create(null, termSpecName, nameSpace,
 							String.class.getCanonicalName()).build();
 
 			termSpec = termBoService.createTermSpecification(termSpec);
@@ -882,14 +899,7 @@ public class KSLumKRMSDataSetupTest extends KSLumAbstractBoTest {
 		} else {
 			termSpec = termSpecBo.to(termSpecBo);
 		}
-
-		TermDefinition termDefinition = TermDefinition.Builder.create(
-				null,
-				TermSpecificationDefinition.Builder.create(termSpec), null)
-				.build();
-		
-		termDefinition = termBoService.createTermDefinition(termDefinition);
-
+		return termSpec;
 	}
 
 	private void createDeptOrgNumberTermDefinition(String nameSpace) {
