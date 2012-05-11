@@ -2229,7 +2229,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		return query;
 	}
 
-	// KSCM-484 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
+	// KSCM-626 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
 	//@Test
 	public void testCreateDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
@@ -2323,7 +2323,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	}
 
-    // KSCM-484 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
+    // KSCM-626 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
 	//@Test
 	public void testGetDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
@@ -2433,7 +2433,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		}
 	}
 
-    // KSCM-484 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
+    // KSCM-626 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
 	//@Test
 	public void testUpdateDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException, UnsupportedActionException, CircularRelationshipException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
@@ -2444,7 +2444,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		ArrayList<SearchParam> queryParamValues1 = new ArrayList<SearchParam>();
 		MembershipQueryInfo query1 = new MembershipQueryInfo();
 		query1.setSearchTypeKey("lu.search.clus");
-		// KSCM-484   query1.setQueryParamValues(queryParamValues1);
+		// KSCM-626   query1.setQueryParamValues(queryParamValues1);
 
 		cluSet1.setMembershipQuery(query1);
 		// Version 0
