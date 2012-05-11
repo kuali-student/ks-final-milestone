@@ -12,14 +12,15 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by David Yin on 5/10/12
+ * Created by David Yin on 5/11/12
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.inquiry.InquirableImpl;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -36,19 +37,17 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class SocRolloverResultItemInfoLookupableImpl extends LookupableImpl {
+public class SocRolloverResultItemInfoInquirableImpl extends InquirableImpl {
     private transient CourseOfferingSetService courseOfferingSetService;
     private ContextInfo contextInfo;
 
     public final static String SOC_ROLLOVER_RESULT_ID = "socRolloverResultId";
-    //public final static String SOURCE_COURSE_OFFERING_ID = "sourceCourseOfferingId";
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public SocRolloverResultItemInfo retrieveDataObject(Map<String, String> parameters) {
         List<SocRolloverResultItemInfo> socRolloverResultItemInfos = new ArrayList<SocRolloverResultItemInfo>();
+        String resultId = parameters.get(SOC_ROLLOVER_RESULT_ID);
 
-        String resultId = fieldValues.get(SOC_ROLLOVER_RESULT_ID);
-        //String courseOfferingId = fieldValues.get(SOURCE_COURSE_OFFERING_ID);
         try {
             socRolloverResultItemInfos = getCourseOfferingSetService().getSocRolloverResultItemsByResultId(resultId, getContextInfo());
         } catch (DoesNotExistException e) {
@@ -63,8 +62,12 @@ public class SocRolloverResultItemInfoLookupableImpl extends LookupableImpl {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-        return socRolloverResultItemInfos;
+        return socRolloverResultItemInfos.get(0);
     }
+
+
+
+
 
     public CourseOfferingSetService getCourseOfferingSetService() {
         if (courseOfferingSetService == null) {
