@@ -319,6 +319,7 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setNewCalendarName(null);
         hcForm.setNewCalendarStartDate(null);
         hcForm.setNewCalendarEndDate(null);
+        hcForm.setNewCalendar(true);
         return copy(hcForm, result, request, response);
     }
 
