@@ -84,7 +84,6 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 	private TermBoService termBoService;
 	private SpringResourceLoader krmsTestResourceLoader;
 
-	private static final String TERM_SPEC_CREDITS = "Credits";
 	private static final String TERM_SPEC_ORG_NUMBER = "Org Number";
 	private static final String TERM_SPEC_COURSE = "Course";
 	private static final String TERM_SPEC_COURSE_NUMBER = "Course Number";
@@ -125,7 +124,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		String nameSpace = KSNAMESPACE;
 		// Create all the terms specifications...
 		TermSpecificationDefinition termSpec = null;
-		termSpec = createKRMSTermSpecification(nameSpace, TERM_SPEC_CREDITS);
+		termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS);
 		 termSpec = createKRMSTermSpecification(nameSpace, TERM_SPEC_ORG_NUMBER);
 		 termSpec = createKRMSTermSpecification(nameSpace, TERM_SPEC_COURSE);
 //		 termSpec = createKRMSTermSpecification(nameSpace, ???);
