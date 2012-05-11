@@ -206,7 +206,7 @@
                 </bean>
                 <bean parent="Uif-InputField"
                       p:label="Start Date"
-                      p:propertyName="holidayInfo.startDate"
+                      p:propertyName="startDateUI"
                       p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
@@ -214,7 +214,7 @@
                 </bean>
                 <bean parent="Uif-InputField"
                       p:label="End Date"
-                      p:propertyName="holidayInfo.endDate"
+                      p:propertyName="endDateUI"
                       p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>

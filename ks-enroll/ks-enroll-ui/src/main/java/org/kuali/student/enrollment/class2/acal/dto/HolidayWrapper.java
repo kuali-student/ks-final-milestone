@@ -22,8 +22,6 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import java.util.Date;
 
 /**
- * This class //TODO ...
- *
  * @author Kuali Student Team
  */
 public class HolidayWrapper extends TimeSetWrapper implements Comparable<HolidayWrapper> {
@@ -64,6 +62,12 @@ public class HolidayWrapper extends TimeSetWrapper implements Comparable<Holiday
     }
 
     public void setHolidayInfo(HolidayInfo holidayInfo) {
+
+        // check the flags against the values in the DTO
+        this.setAllDay(holidayInfo.getIsAllDay());
+        this.setDateRange(holidayInfo.getIsDateRange());
+        this.setInstructional(holidayInfo.getIsInstructionalDay());
+
         this.holidayInfo = holidayInfo;
     }
 

@@ -123,12 +123,12 @@
                       p:id="KS-HolidayCalendar-View-Holidays-name"/>
                 <bean parent="Uif-InputField"
                       p:label="Start Date"
-                      p:propertyName="startDate"
+                      p:propertyName="startDateUI"
                       p:readOnly="true"
                       p:id="KS-HolidayCalendar-View-Holidays-startDate"/>
                 <bean parent="Uif-DataField"
                       p:label="End Date"
-                      p:propertyName="endDate"
+                      p:propertyName="endDateUI"
                       p:readOnly="true"
                       p:id="KS-HolidayCalendar-View-Holidays-endDate"/>
                 <bean parent="Uif-DataField"
