@@ -61,7 +61,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public abstract class LayoutController extends Controller implements ViewLayoutController, View {
 
 	protected Map<Enum<?>, View> viewMap = new LinkedHashMap<Enum<?>, View>();
