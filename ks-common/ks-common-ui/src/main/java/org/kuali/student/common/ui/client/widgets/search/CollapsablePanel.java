@@ -8,7 +8,6 @@
 
 package org.kuali.student.common.ui.client.widgets.search;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
@@ -31,7 +30,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-@Deprecated
 public class CollapsablePanel extends Composite implements ReportExportWidget {
     protected KSButton label;
     protected VerticalFlowPanel layout = new VerticalFlowPanel();
