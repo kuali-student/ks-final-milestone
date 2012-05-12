@@ -1126,6 +1126,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         for (LuiEntity lui : results.getResults()) {
             try {
                 CourseOfferingInfo co = this.getCourseOffering(lui.getId(), context);
+                courseOfferings.add(co);
             } catch (DoesNotExistException ex) {
                 throw new OperationFailedException(lui.getId(), ex);
             }
@@ -1163,7 +1164,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     public List<ActivityOfferingInfo> searchForActivityOfferings(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
+        List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>(results.getResults().size());
+        for (LuiEntity lui : results.getResults()) {
+            try {
+                ActivityOfferingInfo ao = this.getActivityOffering(lui.getId(), context);
+                activityOfferingInfos.add(ao);
+            } catch (DoesNotExistException ex) {
+                throw new OperationFailedException(lui.getId(), ex);
+            }
+        }
+        return activityOfferingInfos;
     }
 
     @Override
