@@ -70,6 +70,13 @@
                             <bean parent="Uif-DataField" p:propertyName="typeKey" />
                             <bean parent="Uif-DataField" p:propertyName="stateKey" />
                             <bean parent="Uif-DataField" p:propertyName="termId" />
+                            <bean parent="Uif-DataField" p:propertyName="activityCode" p:label="Activity Code"/>
+                            <bean parent="Uif-DataField" p:propertyName="activityId"/>
+                            <bean parent="Uif-DataField" p:propertyName="formatOfferingId" p:label="Format Offering Id"/>
+                            <bean parent="Uif-DataField" p:propertyName="maximumEnrollment" p:label="Total Maximum Enrollment"/>
+                            <bean parent="Uif-DataField" p:propertyName="isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
+                            <bean parent="Uif-DataField" p:propertyName="isEvaluated" p:label="This course requires an evaluation"/>
+                            <bean parent="Uif-DataField" p:propertyName="isHonorsOffering"/>
                         </list>
                     </property>
                 </bean>
