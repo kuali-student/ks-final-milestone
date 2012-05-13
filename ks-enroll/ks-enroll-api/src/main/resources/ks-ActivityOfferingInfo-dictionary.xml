@@ -46,7 +46,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="ActivityOfferingInfo.id" parent="ActivityOfferingInfo.id-parent"/>
 	<bean id="ActivityOfferingInfo.id-parent" abstract="true" parent="ActivityOfferingInfo.id-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="label" value="ID"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.typeKey" parent="ActivityOfferingInfo.typeKey-parent"/>

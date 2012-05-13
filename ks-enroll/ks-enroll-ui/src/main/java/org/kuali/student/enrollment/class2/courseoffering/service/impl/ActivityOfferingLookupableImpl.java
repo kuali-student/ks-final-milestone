@@ -45,11 +45,8 @@ public class ActivityOfferingLookupableImpl extends LookupableImpl {
         try {
             QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
             activityOfferingInfos = getCourseOfferingService().searchForActivityOfferings(qbc, getContextInfo());
-
-            //ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), getContextInfo());
-            //activityOfferingInfos.add(activityOfferingInfo);
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new RuntimeException(e);
         }
 
         return activityOfferingInfos;

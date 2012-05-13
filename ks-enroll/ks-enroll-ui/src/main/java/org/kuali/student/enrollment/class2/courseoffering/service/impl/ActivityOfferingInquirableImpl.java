@@ -39,12 +39,9 @@ public class ActivityOfferingInquirableImpl extends InquirableImpl {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(parameters.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), getContextInfo());
             return activityOfferingInfo;
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new RuntimeException(e);
         }
-
-        return null;
     }
-
 
     public CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
