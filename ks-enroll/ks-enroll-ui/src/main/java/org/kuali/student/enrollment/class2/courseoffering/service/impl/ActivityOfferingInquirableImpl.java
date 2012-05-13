@@ -14,6 +14,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -31,24 +32,14 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class ActivityOfferingInquirableImpl extends InquirableImpl {
-    private transient CourseOfferingService courseOfferingService;
-    private ContextInfo contextInfo;
 
     @Override
     public ActivityOfferingInfo retrieveDataObject(Map<String, String> parameters) {
         try {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(parameters.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), getContextInfo());
             return activityOfferingInfo;
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MissingParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (OperationFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return null;
@@ -56,10 +47,10 @@ public class ActivityOfferingInquirableImpl extends InquirableImpl {
 
 
     public CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService(courseOfferingService);
+        return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
     public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo(contextInfo);
+        return ContextBuilder.loadContextInfo();
     }
 }

@@ -39,7 +39,6 @@ import java.util.Map;
  */
 public class SocRolloverResultItemInfoInquirableImpl extends InquirableImpl {
     private transient CourseOfferingSetService courseOfferingSetService;
-    private ContextInfo contextInfo;
 
     public final static String SOC_ROLLOVER_RESULT_ID = "socRolloverResultId";
 
@@ -81,6 +80,6 @@ public class SocRolloverResultItemInfoInquirableImpl extends InquirableImpl {
     }
 
     public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo(contextInfo);
+        return ContextBuilder.loadContextInfo();
     }
 }

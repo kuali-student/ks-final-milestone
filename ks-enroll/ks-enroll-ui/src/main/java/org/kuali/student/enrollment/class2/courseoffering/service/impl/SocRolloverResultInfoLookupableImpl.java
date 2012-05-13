@@ -64,7 +64,7 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
 
     public ContextInfo getContextInfo() {
         if (contextInfo == null){
-            contextInfo =  ContextBuilder.loadContextInfo(contextInfo);
+            contextInfo =  ContextBuilder.loadContextInfo();
         }
         return contextInfo;
     }

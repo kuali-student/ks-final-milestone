@@ -21,6 +21,10 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.StateServiceConstants;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.core.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 
@@ -31,11 +35,8 @@ import javax.xml.namespace.QName;
  */
 public class CourseOfferingResourceLoader {
 
-    public static CourseOfferingService loadCourseOfferingService(CourseOfferingService courseOfferingService){
-        if(courseOfferingService == null) {
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
+    public static CourseOfferingService loadCourseOfferingService(){
+        CourseOfferingService courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         return  courseOfferingService;
     }
 
@@ -46,4 +47,16 @@ public class CourseOfferingResourceLoader {
 
         return  courseOfferingSetService;
     }
+
+    public static TypeService loadTypeService() {
+        TypeService typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, "TypeService"));
+
+        return typeService;
+    }
+
+    public static StateService loadStateService() {
+        StateService stateService = (StateService) GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, "StateService"));
+        return stateService;
+    }
+
 }

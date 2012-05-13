@@ -65,53 +65,11 @@
                       p:layoutManager.applyDefaultCellWidths="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="id"
-                                  p:label="ID"
-                                  p:labelField.width="40%"
-                                  p:width="60%"
-                                  p:readOnly="true"
-                                  p:labelField.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="name"
-                                  p:label="Name"
-                                  p:readOnly="true"
-                                  p:labelField.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="typeKey"
-                                  p:label="Type"
-                                  p:readOnly="true"
-                                  p:labelField.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="stateKey"
-                                  p:label="State"
-                                  p:readOnly="true"
-                                  p:labelField.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="termId"
-                                  p:label="Term ID"
-                                  p:readOnly="true"
-                                  p:labelField.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="id" />
+                            <bean parent="Uif-DataField" p:propertyName="name"/>
+                            <bean parent="Uif-DataField" p:propertyName="typeKey" />
+                            <bean parent="Uif-DataField" p:propertyName="stateKey" />
+                            <bean parent="Uif-DataField" p:propertyName="termId" />
                         </list>
                     </property>
                 </bean>

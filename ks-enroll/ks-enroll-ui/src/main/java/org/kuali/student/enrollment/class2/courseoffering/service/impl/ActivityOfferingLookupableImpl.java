@@ -15,6 +15,10 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
@@ -25,9 +29,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class //TODO ...
@@ -35,36 +37,44 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class ActivityOfferingLookupableImpl extends LookupableImpl {
-    private transient CourseOfferingService courseOfferingService;
-    private ContextInfo contextInfo;
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
 
         try {
-            ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), getContextInfo());
-            activityOfferingInfos.add(activityOfferingInfo);
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MissingParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (OperationFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
+            activityOfferingInfos = getCourseOfferingService().searchForActivityOfferings(qbc, getContextInfo());
+
+            //ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), getContextInfo());
+            //activityOfferingInfos.add(activityOfferingInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return activityOfferingInfos;
     }
 
+    private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
+        String aoId = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID);
+
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if (!StringUtils.isEmpty(aoId)) {
+            predicates.add(PredicateFactory.equalIgnoreCase("id", aoId));
+        }
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+        QueryByCriteria qbc = qbcBuilder.build();
+
+        return qbc;
+    }
+
     public CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService(courseOfferingService);
+        return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
     public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo(contextInfo);
+        return ContextBuilder.loadContextInfo();
     }
 }

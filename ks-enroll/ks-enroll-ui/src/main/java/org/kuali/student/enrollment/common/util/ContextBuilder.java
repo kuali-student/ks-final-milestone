@@ -26,16 +26,15 @@ import java.util.Locale;
  * @author Kuali Student Team
  */
 public class ContextBuilder {
-    public static ContextInfo loadContextInfo(ContextInfo contextInfo) {
-        if (null == contextInfo) {
-            contextInfo = new ContextInfo();
-            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            LocaleInfo localeInfo = new LocaleInfo();
-            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-            contextInfo.setLocale(localeInfo);
-        }
+    public static ContextInfo loadContextInfo() {
+
+        ContextInfo contextInfo = new ContextInfo();
+        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+        LocaleInfo localeInfo = new LocaleInfo();
+        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
+        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
+        contextInfo.setLocale(localeInfo);
 
         return contextInfo;
     }

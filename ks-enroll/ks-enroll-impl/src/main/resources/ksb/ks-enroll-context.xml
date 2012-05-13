@@ -221,6 +221,7 @@
     <property name="acalService" ref="acalService" />
     <property name="stateService" ref="stateService" />
     <property name="lprService" ref="lprPersistenceService" />
+    <property name="criteriaLookupService" ref="criteriaLookupService" />
   </bean>
 
   <bean id="coMockService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">

@@ -31,8 +31,6 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class FormatOfferingInfoInquirableImpl extends InquirableImpl {
-    private transient CourseOfferingService courseOfferingService;
-    private ContextInfo contextInfo;
     public final static String FORMAT_ID = "formatId";
 
     @Override
@@ -57,10 +55,10 @@ public class FormatOfferingInfoInquirableImpl extends InquirableImpl {
 
 
     public CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService(courseOfferingService);
+        return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
     public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo(contextInfo);
+        return ContextBuilder.loadContextInfo();
     }
 }

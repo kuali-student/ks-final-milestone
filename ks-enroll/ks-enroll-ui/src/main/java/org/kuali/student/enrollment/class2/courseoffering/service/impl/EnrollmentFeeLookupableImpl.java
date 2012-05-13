@@ -39,9 +39,6 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class EnrollmentFeeLookupableImpl extends LookupableImpl {
-    private transient CourseOfferingService courseOfferingService;
-    private ContextInfo contextInfo;
-
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<EnrollmentFeeInfo> enrollmentFeeInfos = new ArrayList<EnrollmentFeeInfo>();
@@ -71,10 +68,10 @@ public class EnrollmentFeeLookupableImpl extends LookupableImpl {
     }
 
     public CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService(courseOfferingService);
+        return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
 
     public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo(contextInfo);
+        return ContextBuilder.loadContextInfo();
     }
 }
