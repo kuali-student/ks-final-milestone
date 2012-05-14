@@ -1,13 +1,12 @@
 package org.kuali.student.lum.common.client.widgets;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CluSetRangeModelUtil {
     
@@ -55,12 +54,12 @@ public class CluSetRangeModelUtil {
         if (membershipQueryInfo == null) {
             return null;
         }
-        List<SearchParamInfo> searchParams = membershipQueryInfo.getQueryParamValues();
+        List<SearchParam> searchParams = membershipQueryInfo.getQueryParamValueList();
         CluSetRangeHelper cluSetRangeHelper = CluSetRangeHelper.wrap(new Data());
         cluSetRangeHelper.setId(membershipQueryInfo.getId());
         cluSetRangeHelper.setSearchTypeKey(membershipQueryInfo.getSearchTypeKey());
         if (searchParams != null) {
-            for (SearchParamInfo searchParam : searchParams) {
+            for (SearchParam searchParam : searchParams) {
                 QueryParamHelper queryParamHelper = QueryParamHelper.wrap(new Data());
                 queryParamHelper.setValue((String)searchParam.getValue());
                 queryParamHelper.setListValue(null);
@@ -112,13 +111,13 @@ public class CluSetRangeModelUtil {
             }
             for (Data.Property p : queryParamsData) {
                 QueryParamHelper queryParamHelper = QueryParamHelper.wrap((Data)p.getValue());
-                SearchParamInfo searchParam = new SearchParamInfo();
+                SearchParam searchParam = new SearchParam();
                 searchParam.setKey(queryParamHelper.getKey());
                 searchParam.setValue(queryParamHelper.getValue());
-                if (membershipQueryInfo.getQueryParamValues() == null) {
-                    membershipQueryInfo.setQueryParamValues(new ArrayList<SearchParamInfo>());
+                if (membershipQueryInfo.getQueryParamValueList() == null) {
+                    membershipQueryInfo.setQueryParamValueList(new ArrayList<SearchParam>());
                 }
-                membershipQueryInfo.getQueryParamValues().add(searchParam);
+                membershipQueryInfo.getQueryParamValueList().add(searchParam);
             }
         }
         return membershipQueryInfo;

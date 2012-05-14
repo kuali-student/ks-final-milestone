@@ -1,13 +1,13 @@
 package org.kuali.student.lum.common.client.widgets;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
-
-import java.util.List;
 
 public class CluSetRangeDataHelper implements DataHelper {
 
@@ -20,9 +20,9 @@ public class CluSetRangeDataHelper implements DataHelper {
         int paramCounter = 0;
         membershipQueryInfo = CluSetRangeModelUtil.INSTANCE.toMembershipQueryInfo(data);
         if (membershipQueryInfo != null) {
-            if (membershipQueryInfo.getQueryParamValues() != null &&
-                    !membershipQueryInfo.getQueryParamValues().isEmpty()) {
-                for (SearchParamInfo searchParam : membershipQueryInfo.getQueryParamValues()) {
+            if (membershipQueryInfo.getQueryParamValueList() != null && 
+                    !membershipQueryInfo.getQueryParamValueList().isEmpty()) {
+                for (SearchParam searchParam : membershipQueryInfo.getQueryParamValueList()) {
                     if (paramCounter > 0) {
                         labelText.append(" ");
                     }

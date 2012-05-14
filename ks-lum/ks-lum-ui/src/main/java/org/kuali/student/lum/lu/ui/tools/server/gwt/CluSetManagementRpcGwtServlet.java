@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.ui.tools.server.gwt;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
@@ -263,7 +262,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         if (membershipQueryInfo != null) {
             SearchRequest searchRequest = new SearchRequest();
             searchRequest.setSearchKey(membershipQueryInfo.getSearchTypeKey());
-            searchRequest.setParams(R1R2ConverterUtil.convertLists(membershipQueryInfo.getQueryParamValues(), org.kuali.student.r1.common.search.dto.SearchParam.class));
+            searchRequest.setParams(membershipQueryInfo.getQueryParamValueList());
             SearchResult searchResult = null;
             try {
                 searchResult = cluService.search(searchRequest);

@@ -15,40 +15,45 @@
 
 package org.kuali.student.lum.lu.assembly;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+
 import org.apache.log4j.Logger;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
-import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
-import org.kuali.student.lum.common.client.widgets.CluSetHelper;
-import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
-import org.kuali.student.lum.common.client.widgets.CluSetRangeModelUtil;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.assembly.data.Data.Property;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r1.common.assembly.old.BaseAssembler;
 import org.kuali.student.r1.common.assembly.old.data.SaveResult;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultCell;
 import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
+import org.kuali.student.lum.common.client.widgets.CluSetHelper;
+import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
+import org.kuali.student.lum.common.client.widgets.CluSetRangeModelUtil;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
 
 @Transactional(readOnly=true,rollbackFor={Throwable.class})
 public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
@@ -350,7 +355,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         }
         SearchRequest sr = new SearchRequest();
         sr.setSearchKey(query.getSearchTypeKey());
-        sr.setParams(R1R2ConverterUtil.convertLists(query.getQueryParamValues(), org.kuali.student.r1.common.search.dto.SearchParam.class));
+        sr.setParams(query.getQueryParamValueList());
 
         SearchResult result = cluService.search(sr);
 

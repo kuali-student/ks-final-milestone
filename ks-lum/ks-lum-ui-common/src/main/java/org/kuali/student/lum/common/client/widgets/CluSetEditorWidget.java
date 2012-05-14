@@ -1,17 +1,11 @@
 package org.kuali.student.lum.common.client.widgets;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
@@ -36,17 +30,29 @@ import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.r1.common.assembly.data.*;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.assembly.data.Data.DataValue;
 import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class CluSetEditorWidget extends VerticalSectionView {
 
@@ -184,14 +190,14 @@ public class CluSetEditorWidget extends VerticalSectionView {
                     // look for the lookupMetaData corresponding to the searchRequest
                     List<LookupMetadata> lookupMDs = new ArrayList<LookupMetadata>();
                     lookupMDs.add(cluSetRangePicker.getInitLookupMetadata());
-                    lookupMetadata = findLookupMetadataByLookupId(selectedSearchKey,
-                            lookupMDs, R1R2ConverterUtil.convertLists(searchRequest.getParams(), org.kuali.student.r2.core.search.dto.SearchParamInfo.class));
+                    lookupMetadata = findLookupMetadataByLookupId(selectedSearchKey, 
+                            lookupMDs, searchRequest.getParams());
                     if (lookupMetadata == null || 
                             !nullSafeEquals(lookupMetadata.getSearchTypeId(), 
                                     selectedSearchKey)) {
-                        lookupMetadata = findLookupMetadataByLookupId(selectedSearchKey,
+                        lookupMetadata = findLookupMetadataByLookupId(selectedSearchKey, 
                                 cluSetRangePicker.getAdditionalLookupMetadata(),
-                                R1R2ConverterUtil.convertLists(searchRequest.getParams(), org.kuali.student.r2.core.search.dto.SearchParamInfo.class));
+                                searchRequest.getParams());
                     }
 
                     addClusetItemViewHandler(clusetRangeModelHelper,
@@ -488,7 +494,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
 
     private static LookupMetadata findLookupMetadataByLookupId(String searchTypeId,
             List<LookupMetadata> lookupMetadatas,
-            List<SearchParamInfo> searchParams) {
+            List<SearchParam> searchParams) {
         LookupMetadata result = null;
         if (lookupMetadatas != null) {
             for (LookupMetadata lookupMetadata : lookupMetadatas) {
@@ -683,19 +689,19 @@ public class CluSetEditorWidget extends VerticalSectionView {
                 List<LookupMetadata> lookupMDs = new ArrayList<LookupMetadata>();
                 lookupMDs.add(rangeEditMetaData.getInitialLookup());
                 LookupMetadata lookupMetadata = findLookupMetadataByLookupId(selectedSearchTypeKey, 
-                        lookupMDs, membershipQueryInfo.getQueryParamValues());
+                        lookupMDs, membershipQueryInfo.getQueryParamValueList());
                 if (lookupMetadata == null || 
                         !nullSafeEquals(lookupMetadata.getName(), 
                                 selectedSearchTypeKey)) {
                     lookupMetadata = findLookupMetadataByLookupId(selectedSearchTypeKey, 
                             rangeEditMetaData.getAdditionalLookups(),
-                            membershipQueryInfo.getQueryParamValues());
+                            membershipQueryInfo.getQueryParamValueList());
                 }
 
                 SearchRequest searchRequest = new SearchRequest();
                 searchRequest.setSearchKey(selectedSearchTypeKey);
 //              if ()
-                // KSCM-626 searchRequest.setParams(membershipQueryInfo.getQueryParamValues());
+                searchRequest.setParams(membershipQueryInfo.getQueryParamValueList());
                 searchRequest.setSortColumn(lookupMetadata.getResultSortKey());
                 
 //                if (showCluRangeDetailsHandlerRegs != null) {

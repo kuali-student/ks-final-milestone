@@ -1,14 +1,12 @@
 package org.kuali.student.lum.common.client.widgets;
 
 //import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.http.client.URL;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.*;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
 import org.kuali.student.common.ui.client.util.ExportElement;
@@ -20,11 +18,23 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
-import java.util.*;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class CluSetDetailsWidget extends Composite implements ReportExportWidget {
 
@@ -208,10 +218,10 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
             }
         }
         if (membershipQueryInfo != null) {
-            List<SearchParamInfo> searchParams = membershipQueryInfo.getQueryParamValues();
+            List<SearchParam> searchParams = membershipQueryInfo.getQueryParamValueList();
             if (searchParams != null) {
                 HorizontalPanel queryDisplayPanel = new HorizontalPanel();
-                for (SearchParamInfo searchParam : searchParams) {
+                for (SearchParam searchParam : searchParams) {
                     KSLabel paramDescLabel = new KSLabel();
                     KSLabel paramValueLabel = new KSLabel();
                     String paramDesc = translateSearchKey(searchParam.getKey());
