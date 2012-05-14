@@ -22,8 +22,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ViewLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
