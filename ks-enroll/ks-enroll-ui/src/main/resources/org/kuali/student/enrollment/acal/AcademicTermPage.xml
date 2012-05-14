@@ -182,7 +182,7 @@
         </bean>
         <!-- NOTE: for progressiveRender condition below, "dateRange eq true" DOESN'T WORK -->
         <bean parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
-              p:label="End Date" p:required="@{#lp.dateRange}"
+              p:label="End Date" p:required="@{#lp.dateRange and !#isAddLine}"
               p:progressiveRender="@{#lp.dateRange}">
             <!-- BUG ALERT:
                 Without the conditional readOnly property, a "delete" action will
