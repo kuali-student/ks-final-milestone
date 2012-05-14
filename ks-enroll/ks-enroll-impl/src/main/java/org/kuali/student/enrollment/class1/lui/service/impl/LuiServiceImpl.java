@@ -350,9 +350,9 @@ public class LuiServiceImpl
 
     @Override
     @Transactional(readOnly = true)
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLuis(String luiId, 
-                                                             String relatedLuiId, 
-                                                             ContextInfo context) 
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLuiAndRelatedLui(String luiId,
+                                                                         String relatedLuiId,
+                                                                         ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException { 
 
@@ -361,9 +361,9 @@ public class LuiServiceImpl
     
     @Override
     @Transactional(readOnly = true)
-    public List<LuiInfo> getLuiLuiRelationsByLuiAndLuiType(String luiId, 
-                                                           String relatedLuiTypeKey, 
-                                                           ContextInfo contextInfo) 
+    public List<LuiInfo> getLuiLuiRelationsByLuiAndRelatedLuiType(String luiId,
+                                                                  String relatedLuiTypeKey,
+                                                                  ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -391,9 +391,9 @@ public class LuiServiceImpl
 
     @Override
     @Transactional(readOnly = true)
-    public List<String> getLuiIdsByRelation(String relatedLuiId, 
-                                            String luiLuiRelationTypeKey, 
-                                            ContextInfo context) 
+    public List<String> getLuiIdsByRelatedLuiAndRelationType(String relatedLuiId,
+                                                             String luiLuiRelationTypeKey,
+                                                             ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
@@ -404,9 +404,9 @@ public class LuiServiceImpl
 
     @Override
     @Transactional(readOnly = true)
-    public List<String> getLuiIdsByRelatedLuiAndRelationType(String luiId,
-                                                             String luiLuiRelationTypeKey,
-                                                             ContextInfo context)
+    public List<String> getLuiIdsByLuiAndRelationType(String luiId,
+                                                      String luiLuiRelationTypeKey,
+                                                      ContextInfo context)
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 

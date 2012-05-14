@@ -208,15 +208,15 @@ public class LuiServiceDecorator
     }
 
     @Override
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLuis(String luiId, String relatedLuiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLuiAndRelatedLui(String luiId, String relatedLuiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return getNextDecorator().getLuiLuiRelationsByLuis(luiId, relatedLuiId, contextInfo);
+        return getNextDecorator().getLuiLuiRelationsByLuiAndRelatedLui(luiId, relatedLuiId, contextInfo);
     }
 
     @Override
-    public List<LuiInfo> getLuiLuiRelationsByLuiAndLuiType(String luiId, String relatedLuiTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LuiInfo> getLuiLuiRelationsByLuiAndRelatedLuiType(String luiId, String relatedLuiTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return getNextDecorator().getLuiLuiRelationsByLuiAndLuiType(luiId, relatedLuiTypeKey, contextInfo);
+        return getNextDecorator().getLuiLuiRelationsByLuiAndRelatedLuiType(luiId, relatedLuiTypeKey, contextInfo);
     }
 
     @Override
@@ -228,11 +228,11 @@ public class LuiServiceDecorator
     }
 
     @Override
-    public List<String> getLuiIdsByRelation(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
+    public List<String> getLuiIdsByRelatedLuiAndRelationType(String relatedLuiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException,
                OperationFailedException, PermissionDeniedException {
 
-        return getNextDecorator().getLuiIdsByRelation(relatedLuiId, luiLuiRelationTypeKey, contextInfo);
+        return getNextDecorator().getLuiIdsByRelatedLuiAndRelationType(relatedLuiId, luiLuiRelationTypeKey, contextInfo);
     }
 
     @Override
@@ -244,11 +244,11 @@ public class LuiServiceDecorator
     }
 
     @Override
-    public List<String> getLuiIdsByRelatedLuiAndRelationType(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
+    public List<String> getLuiIdsByLuiAndRelationType(String luiId, String luiLuiRelationTypeKey, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException,
                OperationFailedException, PermissionDeniedException {
 
-        return getNextDecorator().getLuiIdsByRelatedLuiAndRelationType(luiId, luiLuiRelationTypeKey, contextInfo);
+        return getNextDecorator().getLuiIdsByLuiAndRelationType(luiId, luiLuiRelationTypeKey, contextInfo);
     }
 
     @Override

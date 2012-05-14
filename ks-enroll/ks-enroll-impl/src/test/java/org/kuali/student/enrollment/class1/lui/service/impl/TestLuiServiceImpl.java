@@ -154,7 +154,7 @@ public class TestLuiServiceImpl {
     @Test
     public void testGetLuiIdsByRelation() throws Exception {
         try {
-            List<String> luiIds = luiService.getLuiIdsByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
+            List<String> luiIds = luiService.getLuiIdsByRelatedLuiAndRelationType("Lui-2", "kuali.lui.lui.relation.associated", callContext);
             assertNotNull(luiIds);
             assertEquals(2, luiIds.size());
             assertEquals("Lui-1", luiIds.get(0));
@@ -542,7 +542,7 @@ public class TestLuiServiceImpl {
     }
     @Test
     public void testGetRelatedLuiIdsByLui() throws Exception{
-        List<String> luiRelationIds =  luiService.getLuiIdsByRelatedLuiAndRelationType("Lui-1", "kuali.lui.lui.relation.associated", callContext);
+        List<String> luiRelationIds =  luiService.getLuiIdsByLuiAndRelationType("Lui-1", "kuali.lui.lui.relation.associated", callContext);
         assertNotNull(luiRelationIds);
         assertEquals( 1, luiRelationIds.size());
         assertEquals("Lui-2", luiRelationIds.get(0) );
