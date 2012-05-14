@@ -71,4 +71,44 @@ public interface Check
      * @name Process Key
      */
     public String getProcessKey();
+
+    /** 
+     *  A hard coded value for comparison Check Types of
+     *  min/max/equals. The left comparison value may be determined
+     *  from the context of the process or from an agenda Id.
+     *
+     *  For example, this value may indicate a hard-coded credit limit
+     *  per term for all students. The Check may be that the current
+     *  load does not exceed this hard coded value.
+     *
+     *  @name Right Comparison Value
+     */
+    public String getRightComparisonValue();
+    
+    /**
+     * The Left Comparison Agenda Id is for comparison Check Types of
+     * min/max/equals for determining the left-hand side of the
+     * comparison.
+     *
+     * For example, this rule evaluation may determine the current
+     * credit load for a particular student in a Term to compare it
+     * with a credit limit as determined by getRightComparisonValue()
+     * or an evaluation resulting from getRightComparisonAgendaId().
+     *
+     * @name Left Comparison Agenda Id
+     */
+    public String getLeftComparisonAgendaId();
+
+    /**
+     * The Right Comparison Agenda Id is for comparison Check Types of
+     * min/max/equals for determining the right-hand side of the
+     * comparison.
+     *
+     *  For example, the result of this rule evaluation may calculate
+     *  the credit limit for a particular student if it fluctuates by
+     *  other criteria such as Term or Population. 
+     *
+     * @name Right Comparison Agenda Id
+     */
+    public String getRightComparisonAgendaId();
 }

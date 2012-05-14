@@ -33,8 +33,9 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CheckInfo", propOrder = { "id", "typeKey", "stateKey", "name",
                 "descr", "issueId", "milestoneTypeKey", 
-                "agendaId", "processKey", "meta", "attributes",
-		"_futureElements" })
+                "agendaId", "processKey", 
+                "rightComparisonValue", "leftComparisonAgendaId", "rightComparisonAgendaId",
+                "meta", "attributes", "_futureElements" })
 
 public class CheckInfo 
     extends IdEntityInfo 
@@ -53,6 +54,15 @@ public class CheckInfo
 
     @XmlElement 
     private String processKey;
+
+    @XmlElement 
+    private String rightComparisonValue;
+
+    @XmlElement 
+    private String leftComparisonAgendaId;
+
+    @XmlElement 
+    private String rightComparisonAgendaId;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -77,6 +87,9 @@ public class CheckInfo
             this.milestoneTypeKey = check.getMilestoneTypeKey();
             this.agendaId = check.getAgendaId();
             this.processKey = check.getProcessKey();
+            this.rightComparisonValue = check.getRightComparisonValue();
+            this.leftComparisonAgendaId = check.getLeftComparisonAgendaId();
+            this.rightComparisonAgendaId = check.getRightComparisonAgendaId();
         }
     }
 
@@ -114,5 +127,32 @@ public class CheckInfo
 
     public void setProcessKey(String processKey) {
         this.processKey = processKey;
+    }
+
+    @Override
+    public String getRightComparisonValue() {
+        return this.rightComparisonValue;
+    }
+
+    public void setRightComparisonValue(String rightComparisonValue) {
+        this.rightComparisonValue = rightComparisonValue;
+    }
+
+    @Override
+    public String getLeftComparisonAgendaId() {
+        return this.leftComparisonAgendaId;
+    }
+
+    public void setLeftComparisonAgendaId(String leftComparisonAgendaId) {
+        this.leftComparisonAgendaId = leftComparisonAgendaId;
+    }
+
+    @Override
+    public String getRightComparisonAgendaId() {
+        return this.rightComparisonAgendaId;
+    }
+
+    public void setRightComparisonAgendaId(String rightComparisonAgendaId) {
+        this.rightComparisonAgendaId = rightComparisonAgendaId;
     }
 }
