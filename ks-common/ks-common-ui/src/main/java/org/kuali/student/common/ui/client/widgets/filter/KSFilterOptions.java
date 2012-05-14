@@ -35,7 +35,6 @@ import com.google.gwt.user.client.ui.Composite;
  * be inspected to update a results widget to reflect the filter option selected.
  * 
  */
-@Deprecated
 public class KSFilterOptions extends Composite{
     private VerticalFlowPanel filterPanel = new VerticalFlowPanel();
     private VerticalFlowPanel filterTitlePanel = new VerticalFlowPanel();

@@ -2,7 +2,6 @@ package org.kuali.student.common.ui.client.widgets.table.summary;
 
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 
-@Deprecated
 public class SummaryTableMultiplicityBlock extends SummaryTableFieldBlock{
 	MultiplicityConfiguration config;
 	
