@@ -48,12 +48,22 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
     private CourseService courseService;
     private AcademicCalendarService acalService;
+    private CourseOfferingServiceBusinessLogic businessLogic;
+
+    public CourseOfferingServiceBusinessLogic getBusinessLogic() {
+        return businessLogic;
+    }
+
+    public void setBusinessLogic(CourseOfferingServiceBusinessLogic businessLogic) {
+        this.businessLogic = businessLogic;
+    }
     
     public CourseService getCourseService() {
         return courseService;
@@ -276,12 +286,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId, 
-    List<String> optionKeys, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        throw new UnsupportedOperationException("Configuration Error this method should have been implemented in the calculation layer and not reached here");
-
+    public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId,
+                                                                List<String> optionKeys,
+                                                                ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+            VersionMismatchException {
+        return this.businessLogic.updateCourseOfferingFromCanonical(courseOfferingId, optionKeys, context);
     }
 
     @Override
@@ -302,11 +312,11 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateCourseOfferingFromCanonical(CourseOfferingInfo courseOfferingInfo, 
-       List<String> optionKeys, ContextInfo context)
+    public List<ValidationResultInfo> validateCourseOfferingFromCanonical(CourseOfferingInfo courseOfferingInfo,
+       List<String> optionKeys,
+       ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // validate
-        return new ArrayList<ValidationResultInfo>();
+       return this.businessLogic.validateCourseOfferingFromCanonical(courseOfferingInfo, optionKeys, context);
     }
 
     @Override
@@ -863,13 +873,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public CourseOfferingInfo rolloverCourseOffering(String sourceCoId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
+    public CourseOfferingInfo rolloverCourseOffering(String sourceCourseOfferingId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException("Configuration Error this method should have been implemented in the calculation layer and not reached here");
-
+       return this.businessLogic.rolloverCourseOffering(sourceCourseOfferingId, targetTermId, optionKeys, context);
     }
-
+    
     
     
     private MetaInfo newMeta(ContextInfo context) {

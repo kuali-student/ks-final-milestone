@@ -54,7 +54,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
  */
 @WebService(name = "CourseOfferingSetService", serviceName = "CourseOfferingSetService", portName = "CourseOfferingSetService", targetNamespace = CourseOfferingSetServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseOfferingSetService {
+public interface CourseOfferingSetService extends CourseOfferingSetServiceBusinessLogic {
 
     /**
      * Retrieve information about a Soc
@@ -314,6 +314,7 @@ public interface CourseOfferingSetService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
+    @Override
     public List<String> getCourseOfferingIdsBySoc(@WebParam(name = "socId") String socId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -332,6 +333,7 @@ public interface CourseOfferingSetService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
+    @Override
     public Integer deleteCourseOfferingsBySoc(@WebParam(name = "socId") String socId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -351,6 +353,7 @@ public interface CourseOfferingSetService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
+    @Override
     public Boolean isCourseOfferingInSoc(@WebParam(name = "socId") String socId,
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context)
@@ -374,6 +377,7 @@ public interface CourseOfferingSetService {
      * @throws PermissionDeniedException authorization failure
      */
     @Deprecated
+    @Override
     public List<String> getPublishedCourseOfferingIdsBySoc(@WebParam(name = "socId") String socId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -396,6 +400,7 @@ public interface CourseOfferingSetService {
      * @throws PermissionDeniedException authorization failure
      */
     @Deprecated
+    @Override
     public List<String> getUnpublishedCourseOfferingIdsBySoc(@WebParam(name = "socId") String socId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -419,6 +424,7 @@ public interface CourseOfferingSetService {
      * @throws PermissionDeniedException authorization failure
      */
     @Deprecated
+    @Override
     public List<String> getUnpublishedActivityOfferingIdsBySoc(@WebParam(name = "socId") String socId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -442,6 +448,7 @@ public interface CourseOfferingSetService {
      * @throws PermissionDeniedException authorization failure
      */
     @Deprecated
+    @Override
     public List<String> getUnscheduledActivityOfferingIdsBySoc(@WebParam(name = "socId") String socId,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -507,6 +514,7 @@ public interface CourseOfferingSetService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
+    @Override
     public SocInfo rolloverSoc(@WebParam(name = "sourceSocId") String sourceSocId,
             @WebParam(name = "targetTermId") String targetTermId,
             @WebParam(name = "optionKeys") List<String> optionKeys,
@@ -621,6 +629,28 @@ public interface CourseOfferingSetService {
             OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves the rollover results associated with the specified source and target Soc ids
+     *
+     * @param sourceSocId     source Soc Id
+     * @param targetSocId     target Soc Id
+     * @param context     Context information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return List of Rollover Results
+     * @throws DoesNotExistException     courseId or termId not found
+     * @throws InvalidParameterException invalid courseId or termId
+     * @throws MissingParameterException missing courseId or termId
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<SocRolloverResultInfo> getSocRolloverResultsBySourceAndTargetSocs(@WebParam(name = "sourceSocId") String sourceSocId,
+            @WebParam(name = "targetSocId") String targetSocId,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    
+    /**
      * Retrieves the rollover results associated with the specified target Soc id
      *
      * @param targetSocId     target Soc Id
@@ -676,6 +706,7 @@ public interface CourseOfferingSetService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
+    @Override
     public SocRolloverResultInfo reverseRollover(@WebParam(name = "rolloverResultId") String rolloverResultId,
             @WebParam(name = "optionKeys") List<String> optionKeys,
             @WebParam(name = "context") ContextInfo context)

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.enrollment.class2.courseofferingset.service.decorators;
+package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.log4j.Logger;
 import java.util.ArrayList;

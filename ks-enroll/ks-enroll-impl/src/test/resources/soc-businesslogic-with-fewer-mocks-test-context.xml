@@ -20,31 +20,27 @@
         <property name="properties" value="${propertiesPrefix.systemProperties}" />
     </bean>
     
-      <bean id="coCalcDecorator" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceCalculationDecorator">
-        <property name="nextDecorator" ref="coService" />
+    <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" >
         <property name="courseService" ref="courseService" />
         <property name="acalService" ref="acalService" />
+        <property name="businessLogic" ref="coBusinessLogic" />
     </bean>
     
-    
-    <bean id="socCalcDecorator" class="org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceCalculationDecorator" > 
-        <property name="nextDecorator" ref="socService" />
-        <property name="acalService" ref="acalService" />
+    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
-        <property name="coService" ref="coCalcDecorator" />
+        <property name="acalService" ref="acalService" />
+        <property name="coService" ref="coService" />
+    </bean>
+    
+    <bean id="socBusinessLogic" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceBusinessLogicImpl">
+        <property name="courseService" ref="courseService" />
+        <property name="acalService" ref="acalService" />
+        <property name="coService" ref="coService" />
+        <property name="socService" ref="socService" />
     </bean>
     
     <bean id="acalService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl" />
     <bean id="courseService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl" />
-    <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" >
-        <property name="courseService" ref="courseService" />
-        <property name="acalService" ref="acalService" />
-    </bean>
-    
-    
-    
-    
-    
     
     <bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init"
     destroy-method="close" depends-on="systemPropertyConfigurer">
@@ -98,6 +94,7 @@
         <property name="socDao" ref="socDao" />
         <property name="socRorDao" ref="socRolloverResultDao" />
         <property name="socRorItemDao" ref="socRolloverResultItemDao" />
+        <property name="businessLogic" ref="socBusinessLogic" />
     </bean>
 
     <bean id="socDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao">

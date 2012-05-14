@@ -2,18 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
+package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -30,17 +33,26 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author nwright
  */
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-public class CourseOfferingServiceCalculationDecorator extends CourseOfferingServiceDecorator {
+public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingServiceBusinessLogic  {
 
     private CourseService courseService;
     private AcademicCalendarService acalService;
+    private CourseOfferingService coService;
+
+    public CourseOfferingService getCoService() {
+        return coService;
+    }
+
+    public void setCoService(CourseOfferingService coService) {
+        this.coService = coService;
+    }
+
+    
 
     public AcademicCalendarService getAcalService() {
         return acalService;
@@ -59,7 +71,6 @@ public class CourseOfferingServiceCalculationDecorator extends CourseOfferingSer
     }
 
     @Override
-    @Transactional(readOnly = false)
     public CourseOfferingInfo rolloverCourseOffering(String sourceCoId,
             String targetTermId,
             List<String> optionKeys,
@@ -67,7 +78,7 @@ public class CourseOfferingServiceCalculationDecorator extends CourseOfferingSer
             DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        CourseOfferingInfo sourceCo = this.getCourseOffering(sourceCoId, context);
+        CourseOfferingInfo sourceCo = this.coService.getCourseOffering(sourceCoId, context);
         if (optionKeys.contains(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_OPTION_KEY)) {
             throw new DataValidationErrorException("Skipped because course offering was cancelled in source term");
         }
@@ -126,9 +137,9 @@ public class CourseOfferingServiceCalculationDecorator extends CourseOfferingSer
             CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
             coTransformer.copyFromCanonical(targetCourse, targetCo, optionKeys);
         }
-        targetCo = this.createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
+        targetCo = this.coService.createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
                 targetCo, optionKeys, context);
-        for (FormatOfferingInfo sourceFo : this.getFormatOfferingsByCourseOffering(sourceCo.getId(), context)) {
+        for (FormatOfferingInfo sourceFo : this.coService.getFormatOfferingsByCourseOffering(sourceCo.getId(), context)) {
             FormatOfferingInfo targetFo = new FormatOfferingInfo(sourceFo);
             targetFo.setId(null);
             // clear out the ids on the internal sub-objects
@@ -138,9 +149,9 @@ public class CourseOfferingServiceCalculationDecorator extends CourseOfferingSer
             targetFo.setCourseOfferingId(targetCo.getId());
             targetFo.setTermId(targetTermId);
             targetFo.setMeta(null);
-            targetFo = this.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
+            targetFo = this.coService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
                     targetFo.getTypeKey(), targetFo, context);
-            for (ActivityOfferingInfo sourceAo : this.getActivityOfferingsByFormatOffering(sourceFo.getId(), context)) {
+            for (ActivityOfferingInfo sourceAo : this.coService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context)) {
                 ActivityOfferingInfo targetAo = new ActivityOfferingInfo(sourceAo);
                 targetAo.setId(null);
                 // clear out the ids on the internal sub-objects
@@ -160,7 +171,7 @@ public class CourseOfferingServiceCalculationDecorator extends CourseOfferingSer
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
                     targetAo.getInstructors().clear();
                 }
-                targetAo = this.createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
+                targetAo = this.coService.createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
                         targetAo.getTypeKey(), targetAo, context);
             }
         }
@@ -168,24 +179,23 @@ public class CourseOfferingServiceCalculationDecorator extends CourseOfferingSer
     }
     
     @Override
-    @Transactional(readOnly = false)
     public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId, List<String> optionKeys, ContextInfo context)
             throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        CourseOfferingInfo co = this.getCourseOffering(courseOfferingId, context);
+        CourseOfferingInfo co = this.coService.getCourseOffering(courseOfferingId, context);
         CourseInfo course = new R1CourseServiceHelper(courseService, acalService).getCourse(co.getCourseId());
         // copy from cannonical
         CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
         coTransformer.copyFromCanonical(course, co, optionKeys);
         try {
-            return this.updateCourseOffering(courseOfferingId, co, context);
+            return this.coService.updateCourseOffering(courseOfferingId, co, context);
         } catch (ReadOnlyException ex) {
             throw new OperationFailedException("unexpected", ex);
         }
         // TODO: continue traversing down the formats and activities updating from the canonical
     }
-
+    
     @Override
     public List<ValidationResultInfo> validateCourseOfferingFromCanonical(CourseOfferingInfo courseOfferingInfo,
             List<String> optionKeys, ContextInfo context) throws DoesNotExistException,
@@ -219,7 +229,7 @@ public class CourseOfferingServiceCalculationDecorator extends CourseOfferingSer
 
     protected List<ValidationResultInfo> compareCreditsToSchedule(CourseInfo course, CourseOfferingInfo co) {
         // TODO: implement this complex logic
-
+        // This is protected because it is explected that implementing instituations will vary widely in this implementation
         return Collections.EMPTY_LIST;
     }
 
@@ -227,7 +237,7 @@ public class CourseOfferingServiceCalculationDecorator extends CourseOfferingSer
             throws DoesNotExistException, OperationFailedException {
         List<CourseOfferingInfo> list;
         try {
-            list = this.getCourseOfferingsByCourseAndTerm(targetCourseId, targetTermId, context);
+            list = this.coService.getCourseOfferingsByCourseAndTerm(targetCourseId, targetTermId, context);
         } catch (InvalidParameterException ex) {
             throw new OperationFailedException("unexpected", ex);
         } catch (MissingParameterException ex) {
@@ -240,4 +250,6 @@ public class CourseOfferingServiceCalculationDecorator extends CourseOfferingSer
         }
         return list.get(0).getId();
     }
+
+   
 }

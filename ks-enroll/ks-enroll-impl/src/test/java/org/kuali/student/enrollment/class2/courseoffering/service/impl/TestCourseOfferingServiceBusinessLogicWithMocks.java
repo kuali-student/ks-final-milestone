@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
+package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import java.util.Arrays;
 import org.kuali.student.lum.course.dto.ActivityInfo;
@@ -36,16 +36,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.AcalTestDataLoader;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseR1TestDataLoader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:co-calc-decorator-test-with-mocks-context.xml"})
-public class TestCourseOfferingServiceCalculationDecoratorWithMocks {
+@ContextConfiguration(locations = {"classpath:co-businesslogic-test-with-mocks-context.xml"})
+public class TestCourseOfferingServiceBusinessLogicWithMocks {
 
-    @Resource(name = "coCalcDecorator")
+    @Resource(name = "coService")
     private CourseOfferingService coService;
     public static String principalId = "123";
     public ContextInfo callContext = null;

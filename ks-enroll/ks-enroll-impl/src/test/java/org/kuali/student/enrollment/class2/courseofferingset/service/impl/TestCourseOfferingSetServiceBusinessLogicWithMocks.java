@@ -54,12 +54,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Kuali Student Team
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:soc-calc-decorator-with-mocks-test-context.xml"})
-public class TestCourseOfferingSetServiceCalculationDecoratorWithMocks {
+@ContextConfiguration(locations = {"classpath:soc-businesslogic-with-mocks-test-context.xml"})
+public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
 
-    @Resource(name = "socCalcDecorator")
+    @Resource(name = "socService")
     private CourseOfferingSetService socService;
-    @Resource(name = "coCalcDecorator")
+    @Resource(name = "coService")
     private CourseOfferingService coService;
     public static String principalId = "123";
     public ContextInfo callContext = null;
@@ -249,11 +249,10 @@ public class TestCourseOfferingSetServiceCalculationDecoratorWithMocks {
         assertEquals(targetSoc.getId(), result.getTargetSocId());
         assertEquals(targetTerm.getId(), result.getTargetTermId());
         compareStringList(optionKeys, result.getOptionKeys());
-        assertNull(result.getMessage());
-        for (int i = 0; i < 1000; i++) {
-            if (result.getStateKey().equals(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY)) {
-                break;
-            }
+//        for (int i = 0; i < 1000; i++) {
+//            if (result.getStateKey().equals(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY)) {
+//                break;
+//            }
             if (result.getStateKey().equals(CourseOfferingSetServiceConstants.ABORTED_RESULT_STATE_KEY)) {
                 System.out.println("Batch job aborted");
                 if (result.getMessage() != null) {
@@ -263,13 +262,14 @@ public class TestCourseOfferingSetServiceCalculationDecoratorWithMocks {
                 fail("aborted no message");
                 return;
             }
-            System.out.println("Batch job has not completed " + result.getStateKey() + " items processed=" +
-                    result.getItemsProcessed() +
-                    ", expected=" + result.getItemsExpected() + " sleeping for 1ms and trying again");
-            Thread.sleep(1);
-            result = socService.getSocRolloverResult(result.getId(), callContext);
-        }
+//            System.out.println("Batch job has not completed " + result.getStateKey() + " items processed=" +
+//                    result.getItemsProcessed() +
+//                    ", expected=" + result.getItemsExpected() + " sleeping for 1ms and trying again");
+//            Thread.sleep(1);
+//            result = socService.getSocRolloverResult(result.getId(), callContext);
+//        }
         assertEquals(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY, result.getStateKey());
+        assertNull(result.getMessage());        
         assertEquals (sourceTerm.getId(), result.getSourceTermId());
         assertEquals (sourceSoc.getId(), result.getSourceSocId());
         assertEquals(new Integer(2), result.getItemsExpected());

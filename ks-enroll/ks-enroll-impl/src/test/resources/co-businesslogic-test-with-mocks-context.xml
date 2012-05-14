@@ -19,26 +19,18 @@
     <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
         <property name="properties" value="${propertiesPrefix.systemProperties}" />
     </bean>
-    
-      <bean id="coCalcDecorator" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceCalculationDecorator">
-        <property name="nextDecorator" ref="coService" />
-        <property name="courseService" ref="courseService" />
-        <property name="acalService" ref="acalService" />
-    </bean>
-    
-    
-    <bean id="socCalcDecorator" class="org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceCalculationDecorator" > 
-        <property name="nextDecorator" ref="socServiceMockImpl" />
-        <property name="acalService" ref="acalService" />
-        <property name="courseService" ref="courseService" />
-        <property name="coService" ref="coCalcDecorator" />
-    </bean>
-    <bean id="socServiceMockImpl" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceMockImpl" />    
+
     <bean id="acalService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl" />
     <bean id="courseService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl" />
     <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" >
         <property name="courseService" ref="courseService" />
-        <property name="acalService" ref="acalService" />
+        <property name="businessLogic" ref="coBusinessLogic" />
     </bean>
-    
+
+    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
+        <property name="courseService" ref="courseService" />
+        <property name="acalService" ref="acalService" />
+        <property name="coService" ref="coService" />
+    </bean>
 </beans>
+

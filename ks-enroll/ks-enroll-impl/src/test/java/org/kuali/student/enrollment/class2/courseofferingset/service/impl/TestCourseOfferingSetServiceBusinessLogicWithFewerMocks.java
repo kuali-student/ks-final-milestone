@@ -16,10 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Kuali Student Team
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:soc-calc-decorator-with-fewer-mocks-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:soc-businesslogic-with-fewer-mocks-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-public class TestCourseOfferingSetServiceCalculationDecroatorWithFewerMocks 
-    extends TestCourseOfferingSetServiceCalculationDecoratorWithMocks {
+public class TestCourseOfferingSetServiceBusinessLogicWithFewerMocks 
+    extends TestCourseOfferingSetServiceBusinessLogicWithMocks {
 
 }

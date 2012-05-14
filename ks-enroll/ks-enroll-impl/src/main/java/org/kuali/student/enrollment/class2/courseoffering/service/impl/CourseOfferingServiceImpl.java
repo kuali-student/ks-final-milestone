@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
 import java.util.*;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
@@ -47,9 +48,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private RegistrationGroupAssembler registrationGroupAssembler;
     private StateService stateService;
     private LuiPersonRelationService lprService;
+    private CourseOfferingServiceBusinessLogic businessLogic;
     // TODO - remove when KSENROLL-247 is resolved
     private static final Integer TEMP_MAX_ENROLLMENT_DEFAULT = 50;
 
+    public CourseOfferingServiceBusinessLogic getBusinessLogic() {
+        return businessLogic;
+    }
+
+    public void setBusinessLogic(CourseOfferingServiceBusinessLogic businessLogic) {
+        this.businessLogic = businessLogic;
+    }  
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -331,7 +340,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public CourseOfferingInfo rolloverCourseOffering(String sourceCourseOfferingId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException("Configuration Error this method should have been implemented in the calculation layer and not reached here");
+       return this.businessLogic.rolloverCourseOffering(sourceCourseOfferingId, targetTermId, optionKeys, context);
     }
     
     
@@ -405,17 +414,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                                                 ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             VersionMismatchException {
-
-        CourseOfferingInfo co = this.getCourseOffering(courseOfferingId, context);
-        CourseInfo course = this.getCourse(co.getCourseId());
-        // TODO: move this logic to the calculation decorator do the persistence layer doesn't have this logic mixed in with it
-        new CourseOfferingTransformer().copyFromCanonical(course, co, optionKeys);
-        try {
-            co = this.updateCourseOffering(courseOfferingId, co, context);
-        } catch (ReadOnlyException roe) {
-            throw new OperationFailedException("updating read only fields", roe);
-        }
-        return co;
+        return this.businessLogic.updateCourseOfferingFromCanonical(courseOfferingId, optionKeys, context);
     }
 
     private void processInstructors(String courseOfferingId, List<OfferingInstructorInfo> instructors, String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
@@ -513,7 +512,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
        List<String> optionKeys,
        ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return new ArrayList<ValidationResultInfo>();
+       return this.businessLogic.validateCourseOfferingFromCanonical(courseOfferingInfo, optionKeys, context);
     }
 
     @Override

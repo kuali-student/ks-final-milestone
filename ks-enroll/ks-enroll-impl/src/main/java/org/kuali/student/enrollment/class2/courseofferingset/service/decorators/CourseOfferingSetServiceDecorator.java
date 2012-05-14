@@ -329,6 +329,13 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getSocRolloverResultItemsByIds(rolloverResultItemIds, context);
     }
+
+    @Override
+    public List<SocRolloverResultInfo> getSocRolloverResultsBySourceAndTargetSocs(String sourceSocId, String targetSocId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator ().getSocRolloverResultsBySourceAndTargetSocs(sourceSocId, targetSocId, context);
+    }
+    
     
     
 }

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.enrollment.class2.courseofferingset.service.decorators;
+package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,20 +14,28 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetServiceBusinessLogic;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-public class CourseOfferingSetServiceCalculationDecorator extends CourseOfferingSetServiceDecorator {
+public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOfferingSetServiceBusinessLogic {
 
     private CourseOfferingService coService;
     private CourseService courseService;
     private AcademicCalendarService acalService;
+    private CourseOfferingSetService socService;
 
+    public CourseOfferingSetService getSocService() {
+        return socService;
+    }
+
+    public void setSocService(CourseOfferingSetService socService) {
+        this.socService = socService;
+    }
+    
     public CourseOfferingService getCoService() {
         return coService;
     }
@@ -53,22 +61,13 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
     }
 
     @Override
-    @Transactional(readOnly = false)
-    public StatusInfo scheduleSoc(String socId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        throw new OperationFailedException("scheduleSoc has not been implemented");
-    }
-
-    @Override
-    @Transactional(readOnly = false)
     public SocInfo rolloverSoc(String sourceSocId, String targetTermId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // validate the target term
         TermInfo targetTerm = this.acalService.getTerm(targetTermId, context);
         // first create the new soc
-        SocInfo sourceSoc = this.getSoc(sourceSocId, context);
+        SocInfo sourceSoc = this.socService.getSoc(sourceSocId, context);
         if (sourceSoc.getTermId().equals(targetTermId)) {
             throw new InvalidParameterException("The term of the source soc and the target term must be different");
         }
@@ -77,7 +76,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
         targetSoc.setId(null);
         targetSoc.setTermId(targetTermId);
         try {
-            targetSoc = this.createSoc(targetSoc.getTermId(), targetSoc.getTypeKey(), targetSoc, context);
+            targetSoc = this.socService.createSoc(targetSoc.getTermId(), targetSoc.getTypeKey(), targetSoc, context);
         } catch (DataValidationErrorException ex) {
             throw new OperationFailedException("Unexpected", ex);
         } catch (ReadOnlyException ex) {
@@ -92,7 +91,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
         result.setOptionKeys(optionKeys);
         result.setTargetSocId(targetSoc.getId());
         try {
-            result = this.createSocRolloverResult(result.getTypeKey(), result, context);
+            result = this.socService.createSocRolloverResult(result.getTypeKey(), result, context);
         } catch (DataValidationErrorException ex) {
             throw new OperationFailedException("Unexpected", ex);
         } catch (ReadOnlyException ex) {
@@ -104,7 +103,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
         runner.setCoService(coService);
         runner.setCourseService(courseService);
         runner.setAcalService(acalService);
-        runner.setSocService(this);
+        runner.setSocService(this.socService);
         runner.setResult(result);
         if (optionKeys.contains(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY)) {
             runner.run();
@@ -123,11 +122,10 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
 //        return attr;
 //    }
     @Override
-    @Transactional(readOnly = false)
     public SocRolloverResultInfo reverseRollover(String rolloverResultId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {// validate the target term
-        SocRolloverResultInfo rolloverResult = this.getSocRolloverResult(rolloverResultId, context);
+        SocRolloverResultInfo rolloverResult = this.socService.getSocRolloverResult(rolloverResultId, context);
         if (optionKeys.contains(CourseOfferingSetServiceConstants.REVERSE_JUST_CREATES_OPTION_KEY)) {
             if (!rolloverResult.getOptionKeys().contains(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY)) {
                 throw new InvalidParameterException(
@@ -140,7 +138,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
         reverseResult.setOptionKeys(optionKeys);
 
         try {
-            reverseResult = this.createSocRolloverResult(reverseResult.getTypeKey(), reverseResult, context);
+            reverseResult = this.socService.createSocRolloverResult(reverseResult.getTypeKey(), reverseResult, context);
         } catch (DataValidationErrorException ex) {
             throw new OperationFailedException("Unexpected", ex);
         } catch (ReadOnlyException ex) {
@@ -150,7 +148,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
         CourseOfferingReverseRolloverRunner runner = new CourseOfferingReverseRolloverRunner();
         runner.setContext(context);
         runner.setCoService(coService);
-        runner.setSocService(this);
+        runner.setSocService(this.socService);
         runner.setCourseService(courseService);
         runner.setAcalService(acalService);
         runner.setRolloverResult(rolloverResult);
@@ -169,7 +167,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // THIS IS BASICALLY A SWITCH STATEMENT BASED ON THE TYPE OF THE SOC
-        SocInfo soc = this.getSoc(socId, context);
+        SocInfo soc = this.socService.getSoc(socId, context);
         // main
         if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
             return coService.getCourseOfferingIdsByTerm(soc.getTermId(), Boolean.TRUE, context);
@@ -193,7 +191,6 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
     }
 
     @Override
-    @Transactional(readOnly = false)
     public Integer deleteCourseOfferingsBySoc(String socId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -204,7 +201,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
             try {
                 this.coService.deleteCourseOffering(socId, context);
             } catch (DependentObjectsExistException e) {
-                throw new OperationFailedException( e.getMessage());
+                throw new OperationFailedException(e.getMessage());
             }
         }
         return ids.size();
@@ -215,7 +212,7 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        SocInfo soc = this.getSoc(socId, context);
+        SocInfo soc = this.socService.getSoc(socId, context);
         CourseOfferingInfo co = this.coService.getCourseOffering(courseOfferingId, context);
         // main
         if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
@@ -312,41 +309,5 @@ public class CourseOfferingSetServiceCalculationDecorator extends CourseOffering
             }
         }
         return list;
-    }
-
-    @Override
-    public SocRolloverResultInfo getSocRolloverResult(String rolloverResultId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        SocRolloverResultInfo result = this.getNextDecorator().getSocRolloverResult(rolloverResultId, context);
-        this.updateCalculatedFields(result, context);
-        return result;
-    }
-
-    // TODO: push this logic down into the JPA layer for efficiency once the logic for the counts gets settled on 
-    // My GUT says that they may want more counts than just the 2 we are getting now... I.e. count of warnings?
-    private void updateCalculatedFields(SocRolloverResultInfo info, ContextInfo context) throws OperationFailedException {
-        try {
-            if (info.getSourceSocId() != null) {
-                SocInfo sourceSoc = this.getSoc(info.getSourceSocId(), context);
-                info.setSourceTermId(sourceSoc.getTermId());
-            }
-            // only do the calc once finished or the querying while running will be too long
-            if (info.getStateKey().equals(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY)) {
-                List<SocRolloverResultItemInfo> items = this.getSocRolloverResultItemsByResultId(info.getId(), context);
-                int success = 0;
-                int failure = 0;
-                for (SocRolloverResultItemInfo item : items) {
-                    if (item.getStateKey().equals(CourseOfferingSetServiceConstants.SUCCESS_RESULT_ITEM_STATE_KEY)) {
-                        success++;
-                    } else {
-                        failure++;
-                    }
-                }
-                info.setItemsCreated(success);
-                info.setItemsSkipped(failure);
-            }
-        } catch (Exception ex) {
-            throw new OperationFailedException("unexpected", ex);
-        }
     }
 }
