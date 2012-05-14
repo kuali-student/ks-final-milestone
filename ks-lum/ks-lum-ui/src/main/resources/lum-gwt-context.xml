@@ -860,8 +860,8 @@
         <property name="idTranslatorFilter" ref="idTranslatorFilter"/>
         <property name="cachingEnabled" value="true"/>
     </bean>
-    <bean id="searchDispatcher" class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
-          <!-- init-method="init"-->
+    <bean id="searchDispatcher" class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl"
+          init-method="init">
         <property name="services">
             <list>
                 <ref bean="cluClient"/>
