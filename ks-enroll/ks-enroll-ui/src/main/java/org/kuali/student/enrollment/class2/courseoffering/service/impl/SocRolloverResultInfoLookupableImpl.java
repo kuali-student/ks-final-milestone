@@ -36,11 +36,8 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
 
         //Perform Search with Service Call
         try{
-            List<String> socRolloverResultIds = getCourseOfferingSetService().searchForSocRolloverResultIds(criteria, null);
-            for (String socRolloverResultId  : socRolloverResultIds) {
-                SocRolloverResultInfo socRolloverResultInfo = getCourseOfferingSetService().getSocRolloverResult(socRolloverResultId, getContextInfo());
-                socRolloverResultInfos.add(socRolloverResultInfo);
-            }
+            socRolloverResultInfos = getCourseOfferingSetService().searchForSocRolloverResults(criteria, null);
+
         }catch (InvalidParameterException e){
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }catch (MissingParameterException e){
@@ -48,8 +45,6 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
         }catch (OperationFailedException e){
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }catch (PermissionDeniedException e){
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }catch(DoesNotExistException e){
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
        return socRolloverResultInfos;
