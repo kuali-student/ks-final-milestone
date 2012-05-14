@@ -205,7 +205,7 @@
                 <property name="service" ref="atpServiceImpl"/>
                 <property name="serviceInterface" value="org.kuali.student.r1.core.atp.service.AtpService"/>
                 <property name="localServiceName" value="AtpService"/>
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/r1_atp"/>
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/atp"/>
                 <property name="busSecurity" value="${ks.core.bus.security}"/>
             </bean>
         </property>
