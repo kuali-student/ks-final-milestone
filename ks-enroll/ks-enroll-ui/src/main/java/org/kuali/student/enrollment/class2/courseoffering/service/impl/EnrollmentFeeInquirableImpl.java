@@ -56,10 +56,18 @@ public class EnrollmentFeeInquirableImpl extends InquirableImpl {
 
 
     public CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService(courseOfferingService);
+        if(courseOfferingService == null)   {
+            courseOfferingService = CourseOfferingResourceLoader.loadCourseOfferingService();
+        }
+        return courseOfferingService;
     }
 
     public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo(contextInfo);
+        if (contextInfo == null){
+            contextInfo =  ContextBuilder.loadContextInfo();
+        }
+        return contextInfo;
     }
 }
+
+
