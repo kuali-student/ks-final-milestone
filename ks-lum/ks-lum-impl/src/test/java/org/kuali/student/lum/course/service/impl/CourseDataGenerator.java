@@ -37,6 +37,12 @@ public class CourseDataGenerator {
             CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE};
     public static String subjectAreas[] = {"GEOG", "COMP", "BIOL", "ENGL", "SOCY"};
     public static String loCategories[] = {"category-1", "category-2"};
+    public static String loDisplayInfo[] = {"displayInfo-1", "displayInfo-2"};
+    public static String fees[] = {"fees-1", "fees-2"};
+    public static String courseSpecificLOs[] = {"courseSpecificLOs-1", "courseSpecificLOss-2"};
+    public static String revenues[] = {"revenues-1", "revenues-2"};
+    public static String affiliatedOrgs[] = {"affiliatedOrgs-1", "affiliatedOrgs-2"};
+    
     Random generator = new Random();
 
     public CourseInfo getCourseTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException {
@@ -50,6 +56,22 @@ public class CourseDataGenerator {
          creditOptions.add("kuali.resultComponentType.credit.degree.fixed");
          creditOptions.add("kuali.resultComponentType.grade.finalGrade");
          testData.setCreditOptions(creditOptions);
+         AttributeInfo rAttributeInfo= new AttributeInfo();
+         rAttributeInfo.setKey("minCreditValue");
+         rAttributeInfo.setValue("2"); 
+         
+         AttributeInfo rAttributeInfo2= new AttributeInfo();
+         rAttributeInfo.setKey("maxCreditValue");
+         rAttributeInfo.setValue("5");
+         
+         AttributeInfo rAttributeInfo3= new AttributeInfo();
+         rAttributeInfo.setKey("fixedCreditValue");
+         rAttributeInfo.setValue("11"); 
+         List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+         attributes.add(rAttributeInfo);
+         attributes.add(rAttributeInfo2);
+         attributes.add(rAttributeInfo3);
+         testData.setAttributes(attributes);
         return testData;
     }
 
@@ -168,7 +190,7 @@ public class CourseDataGenerator {
             }
             return null;
         }
-        if ("type".equals(name)) {
+        if ("typeKey".equals(name)) {
             if ("formats".equals(parentPropertyName)) {
                 return CourseAssemblerConstants.COURSE_FORMAT_TYPE;
             }
@@ -202,6 +224,21 @@ public class CourseDataGenerator {
             if ("creditOptions".equals(parentPropertyName)) {
                 return CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED;
             }
+            if ("loDisplayInfoList".equals(parentPropertyName)) {
+                return loDisplayInfo[propertyIndex % loCategories.length];
+            }
+            if ("courseSpecificLOs".equals(parentPropertyName)) {
+                return courseSpecificLOs[propertyIndex % courseSpecificLOs.length];
+            }
+            if ("affiliatedOrgs".equals(parentPropertyName)) {
+                return affiliatedOrgs[propertyIndex % affiliatedOrgs.length];
+            }
+            if ("fees".equals(parentPropertyName)) {
+                return fees[propertyIndex % fees.length];
+            }
+            if ("revenues".equals(parentPropertyName)) {
+                return revenues[propertyIndex % revenues.length];
+            }
             throw new RuntimeException("Code what to do with this type. Parent:" + parentPropertyName);
         }
         if ("resultValueIds".equals(name)) {
@@ -210,7 +247,7 @@ public class CourseDataGenerator {
         if ("activityType".equals(name)) {
             return activities[generator.nextInt(activities.length)];
         }
-        if ("state".equals(name)) {
+        if ("stateKey".equals(name)) {
             return DtoConstants.STATE_DRAFT;
         }
         if ("contactHours".equals(parentPropertyName) && "unitType".equals(name)) {
