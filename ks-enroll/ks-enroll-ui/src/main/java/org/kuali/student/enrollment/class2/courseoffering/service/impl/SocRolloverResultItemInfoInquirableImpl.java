@@ -40,19 +40,15 @@ import java.util.Map;
 public class SocRolloverResultItemInfoInquirableImpl extends InquirableImpl {
     private transient CourseOfferingSetService courseOfferingSetService;
 
-    public final static String SOC_ROLLOVER_RESULT_ID = "socRolloverResultId";
+    public final static String ID = "id";
 
     @Override
     public SocRolloverResultItemInfo retrieveDataObject(Map<String, String> parameters) {
-        List<SocRolloverResultItemInfo> socRolloverResultItemInfos = new ArrayList<SocRolloverResultItemInfo>();
-        String resultId = parameters.get(SOC_ROLLOVER_RESULT_ID);
+        String id = parameters.get(ID);
 
         try {
-            //TODO
-            // Notes from Bonnie, your implementation is not generic since you always try to return the same one for inquiry.
-            //inquiry should always use DTO's id as an input. You will count on lookup result id field to get into the inquiry page.
-            //So you should call getCourseOfferingSetService().getSocRolloverResultItem(id,getContextInfo());
-            socRolloverResultItemInfos = getCourseOfferingSetService().getSocRolloverResultItemsByResultId(resultId, getContextInfo());
+            SocRolloverResultItemInfo socRolloverResultItemInfo = getCourseOfferingSetService().getSocRolloverResultItem(id,getContextInfo());
+            return socRolloverResultItemInfo;
         } catch (DoesNotExistException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (InvalidParameterException e) {
@@ -65,7 +61,7 @@ public class SocRolloverResultItemInfoInquirableImpl extends InquirableImpl {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-        return socRolloverResultItemInfos.get(0);
+        return null;
     }
 
 
@@ -76,6 +72,7 @@ public class SocRolloverResultItemInfoInquirableImpl extends InquirableImpl {
         if (courseOfferingSetService == null) {
             courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
+
         return courseOfferingSetService;
     }
 

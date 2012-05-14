@@ -26,7 +26,6 @@
         <property name="title" value="SocRolloverResultItemInfo Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo" />
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultItemInfoLookupableImpl" />
-        <!--p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl"-->
 
         <property name="criteriaFields">
             <list>
@@ -38,10 +37,10 @@
         <property name="resultFields">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="id" />
-                <bean parent="Uif-InputField" p:propertyName="socRolloverResultId">
                     <property name="fieldInquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo" p:inquiryParameters="socRolloverResultId" />
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo" p:inquiryParameters="id" />
                     </property>
+                <bean parent="Uif-InputField" p:propertyName="socRolloverResultId">
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="sourceCourseOfferingId" />
                 <bean parent="Uif-InputField" p:propertyName="targetCourseOfferingId" p:label="TARGET COURSE OFFERING ID"/>

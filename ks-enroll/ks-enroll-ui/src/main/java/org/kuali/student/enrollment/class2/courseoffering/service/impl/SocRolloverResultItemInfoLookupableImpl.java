@@ -45,9 +45,8 @@ public class SocRolloverResultItemInfoLookupableImpl extends LookupableImpl {
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<SocRolloverResultItemInfo> socRolloverResultItemInfos = new ArrayList<SocRolloverResultItemInfo>();
-
         String resultId = fieldValues.get(SOC_ROLLOVER_RESULT_ID);
-        //String courseOfferingId = fieldValues.get(SOURCE_COURSE_OFFERING_ID);
+
         try {
             socRolloverResultItemInfos = getCourseOfferingSetService().getSocRolloverResultItemsByResultId(resultId, getContextInfo());
         } catch (DoesNotExistException e) {
