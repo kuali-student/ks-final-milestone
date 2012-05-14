@@ -37,13 +37,13 @@
 			<version>${kuali.rice.version}</version>
 		</dependency>
 
-		<dependency>
+		<!-- dependency>
 			<groupId>org.kuali.rice</groupId>
 			<version>${kuali.rice.version}</version>
 			<artifactId>rice-krms-impl</artifactId>
 			<scope>test</scope>
 			<type>test-jar</type>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
 			<artifactId>rice-krms-impl</artifactId>

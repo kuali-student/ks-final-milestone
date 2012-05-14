@@ -84,15 +84,6 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 	private TermBoService termBoService;
 	private SpringResourceLoader krmsTestResourceLoader;
 
-	private static final String TERM_SPEC_ORG_NUMBER = "Org Number";
-	private static final String TERM_SPEC_COURSE = "Course";
-	private static final String TERM_SPEC_COURSE_NUMBER = "Course Number";
-	private static final String TERM_SPEC_DATE = "Date";
-	private static final String TERM_SPEC_GPA = "GPA";
-	private static final String TERM_SPEC_GRADE = "Grade";
-	private static final String TERM_SPEC_GRADE_TYPE = "GradeType";
-	private static final String TERM_SPEC_LEARNING_OBJECTIVES = "Learning Objectives";
-	
 	@Before
 	public void setup() {
 		getLoadApplicationLifecycle();
@@ -124,11 +115,15 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		String nameSpace = KSNAMESPACE;
 		// Create all the terms specifications...
 		TermSpecificationDefinition termSpec = null;
-		termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS);
-		 termSpec = createKRMSTermSpecification(nameSpace, TERM_SPEC_ORG_NUMBER);
-		 termSpec = createKRMSTermSpecification(nameSpace, TERM_SPEC_COURSE);
-//		 termSpec = createKRMSTermSpecification(nameSpace, ???);
-//		 termSpec = createKRMSTermSpecification(nameSpace, ???);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_ORG_NUMBER);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_DATE);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GPA);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE_TYPE);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_LEARNING_OBJECTIVES);
 		
 	}
 
