@@ -150,13 +150,13 @@ public class CourseDataGenerator {
                 value = getStringValue(pd.getName(), parentPropertyName, propertyIndex);
             } else {
                 value = generateTestData(pt, propertyIndex, sameClassNestLevel, pd.getName());
-                Method writeMethod = pd.getWriteMethod();
-                
-                if (writeMethod == null) {
-                    writeMethod = findSetMethod(pd.getName(), methods);
-                }
-                writeMethod.invoke(instance, value);
             }
+            Method writeMethod = pd.getWriteMethod();
+            
+            if (writeMethod == null) {
+                writeMethod = findSetMethod(pd.getName(), methods);
+            }
+            writeMethod.invoke(instance, value);
         }
             return instance;
         }
@@ -187,6 +187,21 @@ public class CourseDataGenerator {
         if ("id".equals(name)) {
             if ("loCategoryInfoList".equals(parentPropertyName)) {
                 return loCategories[propertyIndex % loCategories.length];
+            }
+            if ("loDisplayInfoList".equals(parentPropertyName)) {
+                return loDisplayInfo[propertyIndex % loCategories.length];
+            }
+            if ("courseSpecificLOs".equals(parentPropertyName)) {
+                return courseSpecificLOs[propertyIndex % courseSpecificLOs.length];
+            }
+            if ("affiliatedOrgs".equals(parentPropertyName)) {
+                return affiliatedOrgs[propertyIndex % affiliatedOrgs.length];
+            }
+            if ("fees".equals(parentPropertyName)) {
+                return fees[propertyIndex % fees.length];
+            }
+            if ("revenues".equals(parentPropertyName)) {
+                return revenues[propertyIndex % revenues.length];
             }
             return null;
         }
@@ -225,19 +240,19 @@ public class CourseDataGenerator {
                 return CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED;
             }
             if ("loDisplayInfoList".equals(parentPropertyName)) {
-                return loDisplayInfo[propertyIndex % loCategories.length];
+                return null;
             }
             if ("courseSpecificLOs".equals(parentPropertyName)) {
-                return courseSpecificLOs[propertyIndex % courseSpecificLOs.length];
+                return  null;
             }
             if ("affiliatedOrgs".equals(parentPropertyName)) {
-                return affiliatedOrgs[propertyIndex % affiliatedOrgs.length];
+                return  null;
             }
             if ("fees".equals(parentPropertyName)) {
-                return fees[propertyIndex % fees.length];
+                return  "loCategoryType.skillarea";
             }
             if ("revenues".equals(parentPropertyName)) {
-                return revenues[propertyIndex % revenues.length];
+                return null;
             }
             throw new RuntimeException("Code what to do with this type. Parent:" + parentPropertyName);
         }
