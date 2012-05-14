@@ -104,6 +104,12 @@
   <property name="initialLookup" ref="kuali.lu.lookup.course.prevEndTerm.suggest" />
  </bean>
 
+<!-- KSLAB-2583 KSCM-1849 ui link required to reverse results. --> 
+ <bean id="retireCourseProposalInfo.prevStartTerm" parent="uilookupconfig-parent">
+  <property name="path" value="retireCourseProposalInfo.proposedLastCourseCatalogYear" />
+  <property name="initialLookup" ref="kuali.lu.lookup.course.startTerm.suggest" />
+ </bean>
+
 
  <bean id="courseProposalInfo.prevEndTerm" parent="uilookupconfig-parent">
   <property name="path" value="courseProposalInfo.prevEndTerm" />
