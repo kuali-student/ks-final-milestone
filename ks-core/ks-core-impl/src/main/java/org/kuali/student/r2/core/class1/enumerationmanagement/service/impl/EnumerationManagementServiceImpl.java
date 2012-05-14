@@ -17,11 +17,23 @@ package org.kuali.student.r2.core.class1.enumerationmanagement.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.core.statement.entity.RefStatementRelation;
+import org.kuali.student.r1.core.statement.entity.Statement;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -46,6 +58,9 @@ import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManage
 import org.springframework.transaction.annotation.Transactional;
 import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Enumeration Management Service implementation class.
  *
@@ -55,9 +70,21 @@ import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class EnumerationManagementServiceImpl implements EnumerationManagementService {
 
+    final static Logger logger = LoggerFactory.getLogger(EnumerationManagementServiceImpl.class);
+    
+    private SearchManager searchManager;
+    
     private EnumerationDao enumDao;
     private EnumeratedValueDao enumValueDao;
     private EnumContextValueDao enumContextValueDao;
+    
+    public SearchManager getSearchManager() {
+        return searchManager;
+    }
+
+    public void setSearchManager(SearchManager searchManager) {
+        this.searchManager = searchManager;
+    }
     
     public EnumerationDao getEnumDao() {
         return enumDao;
@@ -202,6 +229,139 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         
         return enumValueDao.find(entity.getId()).toDto();
         
+    }
+    
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes();
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchResultType(searchResultTypeKey);
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchResultTypes();
+    }
+
+    @Override
+    public SearchTypeInfo getSearchType(String searchTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchTypeKey, "searchTypeKey");
+        return searchManager.getSearchType(searchTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchTypes();
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(
+            String searchResultTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+    }
+
+    @Override
+    @Deprecated
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        List<EnumeratedValueEntity> enumeratedValues = null;
+        if(searchRequest.getSearchKey().equals("enumeration.management.search")){
+            String enumType = null;
+            List<String> enumCodes = null;
+            for(SearchParam parm : searchRequest.getParams()){
+                if((parm.getKey().equals("enumeration.queryParam.enumerationType")) && (parm.getValue() != null)){
+                    enumType = (String) parm.getValue();
+                } else if ((parm.getKey().equals("enumeration.queryParam.enumerationCode") && (parm.getValue() != null))){
+                    if (parm.getValue() instanceof String){
+                        enumCodes = new ArrayList<String>();
+                        enumCodes.add((String) parm.getValue());
+                    } else {
+                        enumCodes = (List<String>) parm.getValue();
+                    }
+                }
+            }
+            
+            if (enumType != null){
+                enumeratedValues = enumValueDao.getByEnumerationKey(enumType);
+                if ((enumCodes != null) && (enumCodes.size() >= 0)){
+                    List<EnumeratedValueEntity> values = new ArrayList<EnumeratedValueEntity>();
+                    for(EnumeratedValueEntity enumValue : enumeratedValues){
+                        for(String code : enumCodes){
+                            if (enumValue.getCode().equals(code)){
+                                values.add(enumValue);
+                                break;
+                            }
+                        }
+                    }
+                    enumeratedValues = values;
+                }
+            }
+        }
+        
+        if (enumeratedValues == null){
+            return null;
+        }
+        
+        SearchResult searchResult = new SearchResult();
+        
+        //Use a hashset of the cell values to remove duplicates
+        for(EnumeratedValueEntity enumValue : enumeratedValues){
+            SearchResultRow row = new SearchResultRow();
+            row.addCell("enumeration.resultColumn.code", enumValue.getCode());
+            row.addCell("enumeration.resultColumn.abbrevValue", enumValue.getAbbrevValue());
+            row.addCell("enumeration.resultColumn.value", enumValue.getValue());
+            //row.addCell("enumeration.resultColumn.effectiveDate", enumValue.getEffectiveDate());
+            //row.addCell("enumeration.resultColumn.expirationDate", enumValue.getExpirationDate());
+            row.addCell("enumeration.resultColumn.sortKey", enumValue.getSortKey());
+            searchResult.getRows().add(row);
+        }
+        
+        return searchResult;
+    }
+    
+    /**
+     * Check for missing parameter and throw localized exception if missing
+     *
+     * @param param
+     * @param parameter name
+     * @throws MissingParameterException
+     */
+    private void checkForMissingParameter(Object param, String paramName)
+            throws MissingParameterException {
+        if (param == null) {
+            throw new MissingParameterException(paramName + " can not be null");
+        }
     }
 
 }
