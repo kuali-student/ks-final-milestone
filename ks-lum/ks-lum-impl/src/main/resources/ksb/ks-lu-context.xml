@@ -232,7 +232,7 @@
                 <ref bean="cluClient"/>
                 <ref bean="lrcClient"/>
                 <ref bean="orgClient"/>
-                <!-- ref bean="enumServiceClient"/ -->
+                <ref bean="enumServiceClient"/>
                 <ref bean="atpClient"/>
                 <ref bean="statementServiceClient"/>
                 <ref bean="subjectCodeClient"/>
