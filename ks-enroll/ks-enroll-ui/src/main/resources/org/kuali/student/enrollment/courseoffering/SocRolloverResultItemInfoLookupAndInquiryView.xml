@@ -36,12 +36,12 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="id" />
+                <bean parent="Uif-InputField" p:propertyName="id">
                     <property name="fieldInquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo" p:inquiryParameters="id" />
                     </property>
-                <bean parent="Uif-InputField" p:propertyName="socRolloverResultId">
                 </bean>
+                <bean parent="Uif-InputField" p:propertyName="socRolloverResultId" />
                 <bean parent="Uif-InputField" p:propertyName="sourceCourseOfferingId" />
                 <bean parent="Uif-InputField" p:propertyName="targetCourseOfferingId" p:label="TARGET COURSE OFFERING ID"/>
             </list>
