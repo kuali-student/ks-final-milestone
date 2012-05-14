@@ -870,7 +870,7 @@
                 <ref bean="atpClient"/>
                 <ref bean="personSearchClient"/>
                 <ref bean="proposalClient"/>
-                <!-- ref bean="enumServiceClient"/ -->
+                <ref bean="enumServiceClient"/>
                 <ref bean="lrcClient"/>
                 <ref bean="subjectCodeClient"/>
             </list>
