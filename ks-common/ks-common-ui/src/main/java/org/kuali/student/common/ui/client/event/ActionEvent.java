@@ -33,7 +33,6 @@ import org.kuali.student.common.ui.client.mvc.ApplicationEventHandler;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public abstract class ActionEvent<H extends ApplicationEventHandler> extends ApplicationEvent<H>{
     private ActionCompleteCallback actionCompleteCallback;
 
