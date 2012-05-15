@@ -27,5 +27,10 @@
         <li><portal:portalLink displayTitle="true" title="Activity Offering (Edit)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject&aoInfo.id=Lui-4&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
     </ul>
 
+    <strong>Format Offering Maintenance</strong> <br/>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Format Offering" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+    </ul>
+
 </div>
 <channel:portalChannelBottom />
