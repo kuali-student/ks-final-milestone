@@ -1035,7 +1035,7 @@ public class LuServiceImpl implements CluService {
             		luDao));
             BeanUtils.copyProperties(luCodeInfo, luCode, new String[]{
                     "attributes", "meta"});
-            luCode.setDescr(luCodeInfo.getDescr().getPlain());
+            luCode.setDescr(luCodeInfo.getDescr() != null ? luCodeInfo.getDescr().getPlain() : null);
             luCode.setClu(clu);
             clu.getLuCodes().add(luCode);
         }
@@ -1213,11 +1213,12 @@ public class LuServiceImpl implements CluService {
 
             // Do Copy
             BeanUtils.copyProperties(orgInfo, cluOrg,
-                    new String[]{"attributes", "id"});
+                    new String[]{"attributes", "id", "typeKey"});
             cluOrg.setAttributes(LuServiceAssembler.toGenericAttributes(
             		CluAdminOrgAttribute.class, R1R2ConverterUtil.convert(orgInfo, org.kuali.student.r1.lum.lu.dto.AdminOrgInfo.class).getAttributes(),
             		cluOrg, luDao));
             cluOrg.setClu(clu);
+            cluOrg.setType(orgInfo.getTypeKey());
             clu.getAdminOrgs().add(cluOrg);
         }
 

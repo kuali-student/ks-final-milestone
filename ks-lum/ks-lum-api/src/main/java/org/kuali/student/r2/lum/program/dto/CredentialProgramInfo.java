@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
@@ -65,7 +66,7 @@ import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
     
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CredentialProgramInfo extends CommonWithCredentialProgramInfo implements CredentialProgram,
-        ProgramCommonAssembly,
+        ProgramCodeAssembly,
         ProgramIdentifierAssembly,
         ProgramAtpAssembly,
         ProgramBasicOrgAssembly,
@@ -173,6 +174,54 @@ public class CredentialProgramInfo extends CommonWithCredentialProgramInfo imple
     //KSCM-313 Should be removed, see https://wiki.kuali.org/display/STUDENT/R1+to+R2+Change+Log
     @Override
     public void setDiplomaTitle(String diplomaTitle) {
+        
+    }
+
+    @Override
+    public String getCip2000Code() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setCip2000Code(String cip2000Code) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public String getCip2010Code() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setCip2010Code(String cip2010Code) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public String getHegisCode() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setHegisCode(String hegisCode) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public String getSelectiveEnrollmentCode() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setSelectiveEnrollmentCode(String selectiveEnrollmentCode) {
+        // TODO Auto-generated method stub
         
     }
     

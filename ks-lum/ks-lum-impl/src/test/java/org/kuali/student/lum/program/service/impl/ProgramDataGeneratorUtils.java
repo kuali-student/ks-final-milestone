@@ -122,7 +122,7 @@ public class ProgramDataGeneratorUtils {
 		if("class".equals(name)){
 			return true;
 		}
-		if("metaInfo".equals(name)){
+		if("meta".equals(name)){
 			return true;
 		}
 		
@@ -155,7 +155,7 @@ public class ProgramDataGeneratorUtils {
 			return ProgramAssemblerConstants.CATALOG;
 		}
         
-		if("type".equals(name)){
+		if("typeKey".equals(name)){
 			
 			if(null==parentPropertyName){
 				return programType;
@@ -194,7 +194,7 @@ public class ProgramDataGeneratorUtils {
 			}
 		}
 
-		if("state".equals(name)){
+		if("stateKey".equals(name)){
 			return DtoConstants.STATE_DRAFT;
 		}
 

@@ -16,6 +16,7 @@ import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.dto.StatementOperator;
 
 public class R1TestDataUtil {
 
@@ -74,9 +75,46 @@ public class R1TestDataUtil {
         r1.setOperator(StatementOperatorTypeKey.AND);
         r1.setReqComponents(R1TestDataUtil.getReqComponentInfoDataList());
         r1.setState("R1 State");
-        r1.setStatements(null);
+        r1.setStatements(R1TestDataUtil.getNestedStatementTreeViewInfoDataList());
         r1.setType("R1 Type");
         return r1;
+    }
+    
+    public static List<StatementTreeViewInfo> getNestedStatementTreeViewInfoDataList() {
+        List<StatementTreeViewInfo> statements = new ArrayList<StatementTreeViewInfo>();
+        //Sub tree 1
+        StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
+        subTree1.setDesc(R1TestDataUtil.getRichTextInfoData());
+        subTree1.setOperator(StatementOperatorTypeKey.AND);
+        subTree1.setType("kuali.statement.type.program.entrance");
+        ReqComponentInfo rc1 = new ReqComponentInfo();
+        rc1.setDesc(R1TestDataUtil.getRichTextInfoData());
+        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        ReqComponentInfo rc2 = new ReqComponentInfo();
+        rc2.setDesc(R1TestDataUtil.getRichTextInfoData());
+        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
+        reqCompList1.add(rc1);
+        reqCompList1.add(rc2);
+        subTree1.setReqComponents(reqCompList1);
+        statements.add(subTree1);
+        //Sub tree 2
+        StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
+        subTree1.setDesc(R1TestDataUtil.getRichTextInfoData());
+        subTree1.setOperator(StatementOperatorTypeKey.AND);
+        subTree1.setType("kuali.statement.type.program.entrance");
+        ReqComponentInfo rc3 = new ReqComponentInfo();
+        rc3.setDesc(R1TestDataUtil.getRichTextInfoData());
+        rc3.setType("kuali.reqComponent.type.course.courseset.completed.nof");
+        ReqComponentInfo rc4 = new ReqComponentInfo();
+        rc4.setDesc(R1TestDataUtil.getRichTextInfoData());
+        rc4.setType("kuali.reqComponent.type.course.permission.instructor.required");
+        List<ReqComponentInfo> reqCompList2 = new ArrayList<ReqComponentInfo>(3);
+        reqCompList2.add(rc3);
+        reqCompList2.add(rc4);
+        subTree2.setReqComponents(reqCompList2);
+        statements.add(subTree2);
+        return statements;
     }
     
     public static List<ReqComponentInfo> getReqComponentInfoDataList() {

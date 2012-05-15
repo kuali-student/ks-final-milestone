@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.Assert;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -462,11 +464,11 @@ public class TestProgramServiceImpl {
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", credentialProgramInfo.getCoreProgramIds().get(0));
     }
 
-    @Test
+    //@Test
     public void testCreateMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo major;
-            assertNotNull(major = R1R2ConverterUtil.convert(mdGenerator.getMajorDisciplineInfoTestData(), MajorDisciplineInfo.class));
+            assertNotNull(major = mdGenerator.getMajorDisciplineInfoTestData());
 
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(null, major, contextInfo);
 
@@ -703,6 +705,8 @@ public class TestProgramServiceImpl {
 
       	StatementTreeViewInfo statement = createStatementTree();
     	progReq.setStatement(R1R2ConverterUtil.convert(statement, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class) );
+    	Assert.assertEquals(statement.getStatements().get(0).getTypeKey(), progReq.getStatement().getStatements().get(0).getType());
+    	Assert.assertEquals(statement.getStatements().get(0).getReqComponents().get(0).getTypeKey(), progReq.getStatement().getStatements().get(0).getReqComponents().get(0).getType());
     	progReq.setTypeKey(ProgramAssemblerConstants.PROGRAM_REQUIREMENT);
 		return progReq;
 	}
@@ -1384,7 +1388,7 @@ public class TestProgramServiceImpl {
             }
     }
 
-    //@Test(expected=DoesNotExistException.class)
+    @Test(expected=DoesNotExistException.class)
     public void testDeleteProgramRequirement() throws Exception {
     	ProgramRequirementInfo progReq = createProgramRequirementTestData();
     	ProgramRequirementInfo createdProgReq = programService.createProgramRequirement(null, progReq,  contextInfo);
@@ -1585,7 +1589,7 @@ public class TestProgramServiceImpl {
         }
     }
     
-    //@Test
+    @Test
     public void testCoreProgramVersioning() throws Exception {
         CoreProgramDataGenerator dataGen = new CoreProgramDataGenerator();
         CoreProgramInfo coreData = dataGen.getCoreProgramTestData();

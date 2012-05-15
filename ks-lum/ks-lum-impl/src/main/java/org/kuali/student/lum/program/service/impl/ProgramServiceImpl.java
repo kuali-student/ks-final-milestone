@@ -6,20 +6,20 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.lum.course.service.impl.CourseServiceUtils;
+import org.kuali.student.lum.program.service.assembler.CoreProgramAssembler;
+import org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler;
+import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
+import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.r2.common.assembler.AssemblyException;
-import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r1.common.dictionary.dto.DataType;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.dto.DtoConstants;
-import org.kuali.student.r2.common.dto.StatusInfo;
-
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
@@ -27,26 +27,43 @@ import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r1.common.validator.ServerDateParser;
-import org.kuali.student.r2.common.validator.Validator;
-import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.common.validator.ValidatorUtils;
-import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r1.core.atp.dto.AtpInfo;
 import org.kuali.student.r1.core.atp.service.AtpService;
 import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r1.core.document.service.DocumentService;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularReferenceException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
@@ -55,34 +72,8 @@ import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
-import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
-import org.kuali.student.lum.program.service.assembler.CoreProgramAssembler;
-import org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler;
-import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
-import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
-
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException ;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException; 
-import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
-import org.kuali.student.r2.common.exceptions.CircularReferenceException;
-
-import javax.jws.WebParam;
-
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 
 public class ProgramServiceImpl implements ProgramService{
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
@@ -494,7 +485,11 @@ public class ProgramServiceImpl implements ProgramService{
      * @throws DoesNotExistException
      */
     private void copyProgramRequirements(List<String> originalProgramRequirementIds,String state,ContextInfo contextInfo) throws OperationFailedException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException{
-		//Pull out the current requirement ids to be replaced by the ids of the new copies 
+		if (originalProgramRequirementIds == null) {
+		    return;
+		}
+        
+        //Pull out the current requirement ids to be replaced by the ids of the new copies 
 		List<String> programRequirementIds = new ArrayList<String>(originalProgramRequirementIds);
 		originalProgramRequirementIds.clear();
 		
@@ -1071,21 +1066,21 @@ public class ProgramServiceImpl implements ProgramService{
 
         BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results = majorDisciplineAssembler.disassemble(majorDisciplineInfo, operation, contextInfo);
         invokeServiceCalls(results, contextInfo);
-        return (MajorDisciplineInfo) results.getBusinessDTORef();
+        return results.getBusinessDTORef();
     }
 
     private CredentialProgramInfo processCredentialProgramInfo(CredentialProgramInfo credentialProgramInfo, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
 
         BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> results = credentialProgramAssembler.disassemble(credentialProgramInfo, operation, contextInfo);
         invokeServiceCalls(results, contextInfo);
-        return R1R2ConverterUtil.convert(results.getBusinessDTORef(), new CredentialProgramInfo());
+        return results.getBusinessDTORef();
     }
 
     private ProgramRequirementInfo processProgramRequirement(ProgramRequirementInfo programRequirementInfo, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
     	BOAssembler<ProgramRequirementInfo, CluInfo> passAlong;
         BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> results = programRequirementAssembler.disassemble(programRequirementInfo, operation, contextInfo);
         invokeServiceCalls(results, contextInfo);
-        return R1R2ConverterUtil.convert( results.getBusinessDTORef(),new ProgramRequirementInfo());
+        return results.getBusinessDTORef();
     }
 
 	private void invokeServiceCalls(BaseDTOAssemblyNode<?, CluInfo> results, ContextInfo contextInfo) throws AssemblyException{
@@ -1181,10 +1176,9 @@ public class ProgramServiceImpl implements ProgramService{
 	}
 
     private CoreProgramInfo processCoreProgramInfo(CoreProgramInfo coreProgramInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
-
         BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results = coreProgramAssembler.disassemble(coreProgramInfo, operation, contextInfo);
         invokeServiceCalls(results, contextInfo);
-        return R1R2ConverterUtil.convert(results.getBusinessDTORef(),new CoreProgramInfo());
+        return results.getBusinessDTORef();
     }
 
     @Override
@@ -1215,7 +1209,7 @@ public class ProgramServiceImpl implements ProgramService{
 			PermissionDeniedException, VersionMismatchException,
 			DataValidationErrorException, ReadOnlyException {
 		//step one, get the original
-		VersionDisplayInfo currentVersion = cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, coreProgramId,contextInfo);
+		VersionDisplayInfo currentVersion = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, coreProgramId,contextInfo);
 		CoreProgramInfo originalCoreProgram = getCoreProgram(currentVersion.getId(),contextInfo);
 
 		//Version the Clu
@@ -1236,7 +1230,7 @@ public class ProgramServiceImpl implements ProgramService{
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 
-			return R1R2ConverterUtil.convert(results.getBusinessDTORef(),new CoreProgramInfo());
+			return results.getBusinessDTORef();
 		} catch(AssemblyException e) {
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		} catch (AlreadyExistsException e) {
@@ -1340,7 +1334,7 @@ public class ProgramServiceImpl implements ProgramService{
                                                                     ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
 		//step one, get the original
-		VersionDisplayInfo currentVersion = cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, credentialProgramId,contextInfo);
+		VersionDisplayInfo currentVersion = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, credentialProgramId,contextInfo);
 		CredentialProgramInfo originaCredentialProgram = getCredentialProgram(currentVersion.getId(),contextInfo);
 
 		//Version the Clu
@@ -1409,7 +1403,7 @@ public class ProgramServiceImpl implements ProgramService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1421,7 +1415,7 @@ public class ProgramServiceImpl implements ProgramService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getCurrentVersionOnDate(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, date,contextInfo);
+			return cluService.getCurrentVersionOnDate(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, date,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1433,7 +1427,7 @@ public class ProgramServiceImpl implements ProgramService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getFirstVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getFirstVersion(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 
@@ -1446,7 +1440,7 @@ public class ProgramServiceImpl implements ProgramService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getLatestVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getLatestVersion(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 
@@ -1460,7 +1454,7 @@ public class ProgramServiceImpl implements ProgramService{
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getVersionBySequenceNumber(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence,contextInfo);
+			return cluService.getVersionBySequenceNumber(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1472,7 +1466,7 @@ public class ProgramServiceImpl implements ProgramService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getVersions(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1485,7 +1479,7 @@ public class ProgramServiceImpl implements ProgramService{
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getVersionsInDateRange(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to,contextInfo);
+			return cluService.getVersionsInDateRange(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}

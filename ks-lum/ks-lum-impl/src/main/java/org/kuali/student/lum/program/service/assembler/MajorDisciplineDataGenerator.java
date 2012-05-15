@@ -1,13 +1,14 @@
 package org.kuali.student.lum.program.service.assembler;
 
-import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -40,6 +41,11 @@ public class MajorDisciplineDataGenerator {
 		}
 		
 		BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
+		
+		// KSCM-621 Get all the fields including inherited fields...
+        ArrayList<Field> fields = new ArrayList<Field>();
+        fields = getAllFields(fields, clazz);
+        
 		for(PropertyDescriptor pd:beanInfo.getPropertyDescriptors()){
 
 			if(ignoreProperty(pd)){
@@ -48,10 +54,11 @@ public class MajorDisciplineDataGenerator {
 			propertyIndex++;
 			Object value = null;
 			Class<?> pt = pd.getPropertyType();
+			Field declaredField = findField(pd.getName(), fields);
 			if(List.class.equals(pt)){
 				//If this is a list then make a new list and make x amount of test data of that list type
 				//Get the list type:
-				Class<?> nestedClass = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
+			    Class<?> nestedClass = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[0];
 				List list = new ArrayList();
 				for(int i=0;i<2;i++){
 					propertyIndex++;
@@ -67,8 +74,8 @@ public class MajorDisciplineDataGenerator {
 				}
 				value = list;
 			}else if(Map.class.equals(pt)){
-				Class<?> keyType = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[0];
-				Class<?> valueType = (Class<?>) ((ParameterizedType) clazz.getDeclaredField(pd.getName()).getGenericType()).getActualTypeArguments()[1];
+			    Class<?> keyType = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[0];
+                Class<?> valueType = (Class<?>) ((ParameterizedType) declaredField.getGenericType()).getActualTypeArguments()[1];
 				Map map = new HashMap();
 				for(int i=0;i<2;i++){
 					propertyIndex++;
@@ -104,7 +111,7 @@ public class MajorDisciplineDataGenerator {
 		if("class".equals(name)){
 			return true;
 		}
-		if("metaInfo".equals(name)){
+		if("meta".equals(name)){
 			return true;
 		}
 		
@@ -140,7 +147,7 @@ public class MajorDisciplineDataGenerator {
         if("catalogPublicationTargets".equals(name)){
 			return ProgramAssemblerConstants.CATALOG;
 		}
-		if("type".equals(name)){
+		if("typeKey".equals(name)){
 			
 			if(null==parentPropertyName){
 				return ProgramAssemblerConstants.MAJOR_DISCIPLINE;
@@ -215,6 +222,29 @@ public class MajorDisciplineDataGenerator {
 		else
 			return name+"-"+"test";
 	}
+	
+	// KSCM-621
+    public static ArrayList<Field> getAllFields(ArrayList<Field> fields, Class<?> type) {
+        for (Field field: type.getDeclaredFields()) {
+            fields.add(field);
+        }
+
+        if (type.getSuperclass() != null) {
+            fields = getAllFields(fields, type.getSuperclass());
+        }
+
+        return fields;
+    }
+    
+    // KSCM-621
+    public static Field findField(String fieldName, ArrayList<Field> fields) {
+        for (Field field : fields) {
+            if (field.getName().equals(fieldName)) {
+                return field;
+            }
+        }
+        return null;
+    }
 
 	public static void main(String[] args) throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException{
 		MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();

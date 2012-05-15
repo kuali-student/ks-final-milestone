@@ -7,9 +7,7 @@ import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.apache.commons.lang.StringUtils.isEmpty;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
@@ -26,11 +24,11 @@ import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r1.core.statement.service.assembler.StatementTreeViewAssembler;
-import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -132,8 +130,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
         if (operation.equals(NodeOperation.DELETE)) {
             try {
-				final List<CluCluRelationInfo> relations = null;
-				    cluService.getCluCluRelationsByClu(progReq.getId(), contextInfo);
+				final List<CluCluRelationInfo> relations = cluService.getCluCluRelationsByClu(progReq.getId(), contextInfo);
 	            final BaseDTOAssemblyNode<ProgramRequirementInfo, CluCluRelationInfo> cluRelation = new BaseDTOAssemblyNode<ProgramRequirementInfo, CluCluRelationInfo>(null);
 	            if (relations.size() > 1) {
 	            	throw new AssemblyException("Unable to dissamble ProgramRequirement, more than one CluCluRelation found");

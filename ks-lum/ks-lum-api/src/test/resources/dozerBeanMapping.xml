@@ -12,7 +12,61 @@
 		</field>
 	</mapping>
 	<!-- End of copy -->
-
+	
+	<!-- Copied from ks-core -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a get-method="getDesc" set-method="setDesc">desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.ReqComponentInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.ReqComponentInfo
+		</class-b>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>desc</a>
+			<b>descr</b>
+		</field>
+	</mapping>
+	<!-- End of copy -->
+	
 	<!-- org.kuali.student.r*.lum.course.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.course.dto.ActivityInfo</class-a>
@@ -406,13 +460,13 @@
 		<field>
 			<a get-method="isHasEarlyDropDeadline" set-method="setHasEarlyDropDeadline">hasEarlyDropDeadline
 			</a>
-			<b get-method="getHasEarlyDropDeadline" set-method="setIsHasEarlyDropDeadline">hasEarlyDropDeadline
+			<b get-method="getIsHasEarlyDropDeadline" set-method="setIsHasEarlyDropDeadline">hasEarlyDropDeadline
 			</b>
 		</field>
 		<field>
 			<a get-method="isHazardousForDisabledStudents" set-method="setHazardousForDisabledStudents">isHazardousForDisabledStudents
 			</a>
-			<b get-method="GetIsHazardousForDisabledStudents" set-method="setIsHazardousForDisabledStudents">isHazardousForDisabledStudents
+			<b get-method="getIsHazardousForDisabledStudents" set-method="setIsHazardousForDisabledStudents">isHazardousForDisabledStudents
 			</b>
 		</field>
 		<field>

@@ -37,7 +37,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo;
@@ -49,6 +48,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -369,7 +369,7 @@ public class CourseServiceImpl implements CourseService {
     public CourseInfo createNewCourseVersion(String versionIndCourseId, String versionComment, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException {
 
         // step one, get the original course
-        VersionDisplayInfo currentVersion = cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, versionIndCourseId, contextInfo);
+        VersionDisplayInfo currentVersion = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndCourseId, contextInfo);
         CourseInfo originalCourse = getCourse((String) currentVersion.getId(), contextInfo);
 
         // Version the Clu
@@ -425,7 +425,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)) {
-            return cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, contextInfo);
+            return cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, contextInfo);
         }
         throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
     }
@@ -433,7 +433,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI, String refObjectId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)) {
-            return cluService.getCurrentVersionOnDate(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, date, contextInfo);
+            return cluService.getCurrentVersionOnDate(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, date, contextInfo);
         }
         throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
     }
@@ -441,7 +441,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public VersionDisplayInfo getFirstVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)) {
-            return cluService.getFirstVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, contextInfo);
+            return cluService.getFirstVersion(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, contextInfo);
         }
         throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 
@@ -450,7 +450,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public VersionDisplayInfo getLatestVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)) {
-            return cluService.getLatestVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, contextInfo);
+            return cluService.getLatestVersion(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, contextInfo);
         }
         throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 
@@ -459,7 +459,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public VersionDisplayInfo getVersionBySequenceNumber(String refObjectTypeURI, String refObjectId, Long sequence, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)) {
-            return cluService.getVersionBySequenceNumber(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence, contextInfo);
+            return cluService.getVersionBySequenceNumber(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence, contextInfo);
         }
         throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
     }
@@ -467,7 +467,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)) {
-            return cluService.getVersions(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, contextInfo);
+            return cluService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, contextInfo);
         }
         throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
     }
@@ -475,7 +475,7 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(readOnly = true)
     public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectTypeURI, String refObjectId, Date from, Date to, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)) {
-            return cluService.getVersionsInDateRange(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to, contextInfo);
+            return cluService.getVersionsInDateRange(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to, contextInfo);
         }
         throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
     }
