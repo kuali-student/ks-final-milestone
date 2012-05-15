@@ -54,7 +54,7 @@ public class LumConverterTest {
         Assert.assertEquals(r1.getActivityType(), r2.getTypeKey());
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-        Assert.assertEquals(r1.getContactHours().getUnitType(), r2.getContactHours().getUnitTypeKey());
+        Assert.assertEquals(r1.getContactHours().getUnitTypeKey(), r2.getContactHours().getUnitTypeKey());
         Assert.assertEquals(r1.getDuration().getAtpDurationTypeKey(), r2.getDuration().getAtpDurationTypeKey());
     }
 
@@ -122,7 +122,7 @@ public class LumConverterTest {
         Assert.assertEquals(r1.getInstructors().get(0).getOrgId(), r2.getInstructors().get(0).getOrgId());
         Assert.assertEquals(r1.getJoints().get(0).getCourseId(), r2.getJoints().get(0).getCourseId());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-        Assert.assertEquals(r1.getOutOfClassHours().getUnitType(), r2.getOutOfClassHours().getUnitTypeKey());
+        Assert.assertEquals(r1.getOutOfClassHours().getUnitTypeKey(), r2.getOutOfClassHours().getUnitTypeKey());
         Assert.assertEquals(r1.getPrimaryInstructor().getPersonId(), r2.getPrimaryInstructor().getPersonId());
         Assert.assertEquals(r1.getRevenues().get(0).getId(), r2.getRevenues().get(0).getId());
         Assert.assertEquals(r1.getVariations().get(0).getId(), r2.getVariations().get(0).getId());
@@ -392,7 +392,7 @@ public class LumConverterTest {
         Assert.assertEquals(r1.getFeeInfo().getCluFeeRecords().get(0).getFeeAmounts().get(0).getCurrencyTypeKey(), r2.getFeeInfo().getCluFeeRecords().get(0).getFeeAmounts().get(0).getCurrencyTypeKey());
         Assert.assertEquals(r1.getInstructors().get(0).getPersonId(), r2.getInstructors().get(0).getPersonId());
         Assert.assertEquals("R1-Value", r2.getInstructors().get(0).getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getIntensity().getUnitType(), r2.getIntensity().getUnitTypeKey());
+        Assert.assertEquals(r1.getIntensity().getUnitTypeKey(), r2.getIntensity().getUnitTypeKey());
         Assert.assertEquals(r1.getLuCodes().get(0).getId(), r2.getLuCodes().get(0).getId());
         Assert.assertEquals("R1-Value", r2.getLuCodes().get(0).getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());

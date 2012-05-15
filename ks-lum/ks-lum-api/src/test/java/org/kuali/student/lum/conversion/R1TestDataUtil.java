@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.r1.common.versionmanagement.dto.VersionInfo;
-import org.kuali.student.r1.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r1.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r1.common.dto.RichTextInfo;
-import org.kuali.student.r1.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
@@ -347,7 +347,7 @@ public class R1TestDataUtil {
     public static AmountInfo getAmountInfoData() {
         AmountInfo r1AmountInfo = new AmountInfo();
         r1AmountInfo.setUnitQuantity("R1 Unit Quantity");
-        r1AmountInfo.setUnitType("R1 Unit Type");
+        r1AmountInfo.setUnitTypeKey("R1 Unit Type");
         return r1AmountInfo;
     }
     
