@@ -8,8 +8,8 @@ import java.util.Map;
 
 import org.kuali.student.r1.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.common.dto.AmountInfo;
-import org.kuali.student.r1.common.dto.CurrencyAmountInfo;
-import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r1.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
@@ -296,7 +296,7 @@ public class R1TestDataUtil {
         r1CurAmountInfo.setCurrencyQuantity(1);
         r1CurAmountInfo.setCurrencyTypeKey("R1 Currency Type Key");
         r1CurAmountInfo.setId("R1 Id");
-        r1CurAmountInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1CurAmountInfo.setMeta(R1TestDataUtil.getMetadataInfoData());
         r1List.add(r1CurAmountInfo);
         return r1List;
     }

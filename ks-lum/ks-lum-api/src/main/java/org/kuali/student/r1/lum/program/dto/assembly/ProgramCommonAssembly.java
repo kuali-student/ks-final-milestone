@@ -15,10 +15,8 @@
 
 package org.kuali.student.r1.lum.program.dto.assembly;
 
-import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public interface ProgramCommonAssembly {
