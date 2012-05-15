@@ -188,25 +188,9 @@
   </aop:config>
 
    <!-- courseofferingset beans -->
-
-    <bean id="coCalcDecorator" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceCalculationDecorator">
-        <property name="nextDecorator" ref="coService" />
-        <property name="courseService" ref="courseServiceImpl" />
-        <property name="acalService" ref="acalService" />
-    </bean>
-
-    <!-- The socService is actually a decorator which runs prior to the CourseOfferingSetServiceImpl -->
-    <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceCalculationDecorator" >
-        <property name="nextDecorator" ref="socServiceBaseImpl" />
-        <property name="acalService" ref="acalService" />
-        <property name="courseService" ref="courseServiceImpl" />
-        <property name="coService" ref="coCalcDecorator" />
-    </bean>
-
-    <bean id="socServiceBaseImpl" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl">
+    <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl">
         <property name="socDao" ref="socDao" />
         <property name="socRorDao" ref="socRolloverResultDao" />
-        <property name="socRorItemDao" ref="socRolloverResultItemDao" />
         <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
 
