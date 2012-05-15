@@ -118,19 +118,20 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		String nameSpace = KSNAMESPACE;
 		// Create all the terms specifications...
 		TermSpecificationDefinition termSpec = null;
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS, KSKRMSConstants.CREDITS_DESCR);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_ORG_NUMBER, KSKRMSConstants.ORG_NUMBER_DESCR);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.COURSE_DESCR);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.COURSE_NUMBER_DESCR);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_DATE,KSKRMSConstants.DATE_DESCR);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GPA, KSKRMSConstants.GPA_DESCR);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE, KSKRMSConstants.GRADE_DESCR);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE_TYPE, KSKRMSConstants.GRADE_TYPE_DESCR);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_LEARNING_OBJECTIVES,KSKRMSConstants.LEARNING_OBJECTIVES_DESCR);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS, KSKRMSConstants.CREDITS_DESCR,String.class.getCanonicalName());
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_ORG_NUMBER, KSKRMSConstants.ORG_NUMBER_DESCR,String.class.getCanonicalName());
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.COURSE_DESCR,String.class.getCanonicalName());
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.COURSE_NUMBER_DESCR, "int");
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_DATE,KSKRMSConstants.DATE_DESCR, "Java.util.Date");
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GPA, KSKRMSConstants.GPA_DESCR, String.class.getCanonicalName());
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE, KSKRMSConstants.GRADE_DESCR, String.class.getCanonicalName());
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE_TYPE, KSKRMSConstants.GRADE_TYPE_DESCR, String.class.getCanonicalName());
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_LEARNING_OBJECTIVES,KSKRMSConstants.LEARNING_OBJECTIVES_DESCR, String.class.getCanonicalName());
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_SUBJECT_CODE,KSKRMSConstants.SUBJECT_CODE_DESCR, String.class.getCanonicalName());
 		
 	}
 
-	private TermSpecificationDefinition createKRMSTermSpecification(String nameSpace, String termSpecName, String descr) {
+	private TermSpecificationDefinition createKRMSTermSpecification(String nameSpace, String termSpecName, String descr, String termType) {
 		Map<String, String> queryArgs = new HashMap<String, String>();
 		queryArgs.put("namespace", nameSpace);
 		queryArgs.put("name", termSpecName);
@@ -142,8 +143,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		if (termSpecBo == null) {
 			
 			Builder termSpecDefBuilder = TermSpecificationDefinition.Builder
-					.create(null, termSpecName, nameSpace,
-							String.class.getCanonicalName());
+					.create(null, termSpecName, nameSpace, termType);
 			termSpecDefBuilder.setDescription(descr);
 			
 			termSpec = termSpecDefBuilder.build();
@@ -159,24 +159,18 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 	
 	@Test
 	public void createAllLumTermDefinitions() {
-		String nameSpace = "KR-RULE-TEST";
+		String nameSpace = KSNAMESPACE;
 		// Create all the terms...
 		//createNumberOfCreditsTermDefinition(nameSpace);
-		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS);
-		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_ORG_NUMBER);
-		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE);
-		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER);
-		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_DATE);
-		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_GPA);
-		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE);
-		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE_TYPE);
-		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_LEARNING_OBJECTIVES);
-		
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.TERM_APPROVED_COURSE);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.TERM_APPROVED_COURSES);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.TERM_COURSE_NUMBER_RANGE);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_SUBJECT_CODE, KSKRMSConstants.TERM_SUBJECT_CODE);
 		//createProposedCourseTermDefinition(nameSpace);
 		//createApprovedCourseTermDefinition(nameSpace);
 	}
 
-	private void createDeptOrgNumberTermDefinition(String nameSpace, String termSpecName) {
+	private void createDeptOrgNumberTermDefinition(String nameSpace, String termSpecName, String termName ) {
 
 		Map<String, String> queryArgs = new HashMap<String, String>();
 		queryArgs.put("namespace", nameSpace);
@@ -186,13 +180,16 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 				TermSpecificationBo.class, queryArgs);
 		//
 		TermSpecificationDefinition termSpec = null;
-
-			termSpec = termSpecBo.to(termSpecBo);
-
-		TermDefinition termDefinition = TermDefinition.Builder.create(
-				null,
-				TermSpecificationDefinition.Builder.create(termSpec), null)
-				.build();
+		
+		termSpec = termSpecBo.to(termSpecBo);
+		
+		Builder termSpecDefBuilder = TermSpecificationDefinition.Builder
+				.create(termSpec);			
+		TermDefinition.Builder termDefBuilder = TermDefinition.Builder.create(
+				null, termSpecDefBuilder, null);
+		termDefBuilder.setDescription(termName);
+		
+		TermDefinition termDefinition = termDefBuilder.build();
 		
 		termDefinition = termBoService.createTermDefinition(termDefinition);
 
