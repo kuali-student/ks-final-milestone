@@ -5,7 +5,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingSetConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 
@@ -18,7 +18,7 @@ public class SocRolloverResultInfoInquirableImpl extends InquirableImpl {
     public SocRolloverResultInfo retrieveDataObject(Map<String, String> parameters) {
         try {
             SocRolloverResultInfo socRolloverResultInfo = getCourseOfferingSetService().getSocRolloverResult(
-                                    parameters.get(CourseOfferingSetConstants.SOCROLLOVERRESULTINFO_ID), getContextInfo());
+                                    parameters.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_ID), getContextInfo());
             return socRolloverResultInfo;
         } catch (DoesNotExistException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -38,7 +38,7 @@ public class SocRolloverResultInfoInquirableImpl extends InquirableImpl {
 
     public CourseOfferingSetService getCourseOfferingSetService() {
         if(courseOfferingSetService == null)
-            courseOfferingSetService= CourseOfferingResourceLoader.loadCourseOfferingSetService(courseOfferingSetService);
+            courseOfferingSetService= CourseOfferingResourceLoader.loadCourseOfferingSetService();
         return courseOfferingSetService;
     }
 

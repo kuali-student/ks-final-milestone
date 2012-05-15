@@ -40,11 +40,8 @@ public class CourseOfferingResourceLoader {
         return  courseOfferingService;
     }
 
-    public static CourseOfferingSetService loadCourseOfferingSetService(CourseOfferingSetService courseOfferingSetService){
-        if(courseOfferingSetService == null) {
-            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
+    public static CourseOfferingSetService loadCourseOfferingSetService(){
+        CourseOfferingSetService courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         return  courseOfferingSetService;
     }
 

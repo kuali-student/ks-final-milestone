@@ -9,7 +9,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingSetConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 
@@ -23,14 +23,14 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
 
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>();
-        String sourceTermId = fieldValues.get(CourseOfferingSetConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID);
-        String targetTermId = fieldValues.get(CourseOfferingSetConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID);
+        String sourceTermId = fieldValues.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID);
+        String targetTermId = fieldValues.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID);
 
         //Build up a term search criteria
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.equal(CourseOfferingSetConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID, sourceTermId),
-                PredicateFactory.equal(CourseOfferingSetConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID, targetTermId)));
+                PredicateFactory.equal(CourseOfferingConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID, sourceTermId),
+                PredicateFactory.equal(CourseOfferingConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID, targetTermId)));
 
         QueryByCriteria criteria = qbcBuilder.build();
 
@@ -53,7 +53,7 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
 
     public CourseOfferingSetService getCourseOfferingSetService() {
         if(courseOfferingSetService == null)
-            courseOfferingSetService= CourseOfferingResourceLoader.loadCourseOfferingSetService(courseOfferingSetService);
+            courseOfferingSetService= CourseOfferingResourceLoader.loadCourseOfferingSetService();
         return courseOfferingSetService;
     }
 
