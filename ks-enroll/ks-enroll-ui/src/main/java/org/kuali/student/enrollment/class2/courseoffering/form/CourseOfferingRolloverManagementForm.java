@@ -34,6 +34,13 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private String displayedSourceTermCode;
     private String sourceTermStartDate;
     private String sourceTermEndDate;
+    // rollover details fields
+    private String rolloverSourceTerm;
+    private String rolloverTargetTerm;
+    private String dateInitiated;
+    private String dateCompleted;
+    private String courseOfferingsNotAllowed;
+    private String activityOfferingsNotAllowed;
 
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
@@ -117,5 +124,52 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
 
     public void setSourceTermEndDate(String sourceTermEndDate) {
         this.sourceTermEndDate = sourceTermEndDate;
+    }
+
+    public String getRolloverSourceTerm() {
+        return rolloverSourceTerm;
+    }
+
+    public void setRolloverSourceTerm(String rolloverSourceTerm) {
+        this.rolloverSourceTerm = rolloverSourceTerm;
+    }
+    public String getDateInitiated() {
+        return dateInitiated;
+    }
+
+    public void setDateInitiated(String dateInitiated) {
+        this.dateInitiated = dateInitiated;
+    }
+
+    public String getRolloverTargetTerm() {
+        return rolloverTargetTerm;
+    }
+
+    public void setRolloverTargetTerm(String rolloverTargetTerm) {
+        this.rolloverTargetTerm = rolloverTargetTerm;
+    }
+
+    public String getDateCompleted() {
+        return dateCompleted;
+    }
+
+    public void setDateCompleted(String dateCompleted) {
+        this.dateCompleted = dateCompleted;
+    }
+
+    public String getCourseOfferingsNotAllowed() {
+        return courseOfferingsNotAllowed;
+    }
+
+    public void setCourseOfferingsNotAllowed(String courseOfferingsNotAllowed) {
+        this.courseOfferingsNotAllowed = courseOfferingsNotAllowed;
+    }
+
+    public String getActivityOfferingsNotAllowed() {
+        return activityOfferingsNotAllowed;
+    }
+
+    public void setActivityOfferingsNotAllowed(String activityOfferingsNotAllowed) {
+        this.activityOfferingsNotAllowed = activityOfferingsNotAllowed;
     }
 }

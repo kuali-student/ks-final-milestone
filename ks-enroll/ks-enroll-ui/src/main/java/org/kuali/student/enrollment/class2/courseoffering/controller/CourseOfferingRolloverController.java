@@ -134,4 +134,15 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         }
         return viewHelperService;
     }
+
+    @RequestMapping(params = "methodToCall=goRolloverTerm")
+    public ModelAndView goRolloverTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+        form.setRolloverSourceTerm("Fall 2011");
+        form.setDateInitiated("March 12 2012");
+        form.setCourseOfferingsNotAllowed("In progress");
+        form.setDateCompleted("In progress");
+        form.setActivityOfferingsNotAllowed("In progress");
+        return getUIFModelAndView(form);
+    }
 }

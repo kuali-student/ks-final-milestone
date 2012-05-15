@@ -88,6 +88,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SocRolloverResultItemInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/RolloverResultsPageView.xml</value>
 
 			</list>
 		</property>
