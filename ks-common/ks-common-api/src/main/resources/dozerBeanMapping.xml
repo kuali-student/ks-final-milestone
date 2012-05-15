@@ -15,14 +15,6 @@
 
 	<!-- ks-common-api: org.kuali.student.r*.common.dto mappings -->
 	<mapping>
-		<class-a>org.kuali.student.r1.common.dto.AmountInfo</class-a>
-		<class-b>org.kuali.student.r2.common.dto.AmountInfo</class-b>
-		<field>
-			<a>unitType</a>
-			<b>unitTypeKey</b>
-		</field>
-	</mapping>
-	<mapping>
 		<class-a>org.kuali.student.r1.common.dto.CurrencyAmountInfo</class-a>
 		<class-b>org.kuali.student.r2.common.dto.CurrencyAmountInfo</class-b>
 		<field>
@@ -45,10 +37,6 @@
 			<a>success</a>
 			<b>isSuccess</b>
 		</field>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.dto.TimeAmountInfo</class-a>
-		<class-b>org.kuali.student.r2.common.dto.TimeAmountInfo</class-b>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.common.dto.TypeInfo</class-a>
