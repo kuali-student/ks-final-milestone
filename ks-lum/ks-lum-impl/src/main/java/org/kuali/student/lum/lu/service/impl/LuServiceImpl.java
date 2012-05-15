@@ -792,7 +792,7 @@ public class LuServiceImpl implements CluService {
         }
 
         if (cluInfo.getStdDuration() != null) {
-            clu.setStdDuration(LuServiceAssembler.toTimeAmount(R1R2ConverterUtil.convert(cluInfo.getStdDuration(), org.kuali.student.r1.common.dto.TimeAmountInfo.class)));
+            clu.setStdDuration(LuServiceAssembler.toTimeAmount(cluInfo.getStdDuration()));
         }
 
         if (clu.getLuCodes() == null) {
