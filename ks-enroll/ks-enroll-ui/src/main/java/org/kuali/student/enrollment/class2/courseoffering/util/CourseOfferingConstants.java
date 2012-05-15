@@ -10,7 +10,7 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
 public class CourseOfferingConstants {
     //Attributes defined in CourseOfferingInfo
     public final static String COURSEOFFERING_ID = "id";
-    public final static String COURSEOFFERING_TERM_KEY = "termKey";
+    public final static String COURSEOFFERING_TERM_ID = "termId";
     public final static String COURSEOFFERING_SUBJECT_AREA = "subjectArea";
 
     //Attributes defined in SocRolloverResultInfo
