@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dao.CrudDao;
-import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r1.common.dto.RichTextInfo;
 import org.kuali.student.r1.common.dto.TypeInfo;
 import org.kuali.student.r1.common.entity.Attribute;
