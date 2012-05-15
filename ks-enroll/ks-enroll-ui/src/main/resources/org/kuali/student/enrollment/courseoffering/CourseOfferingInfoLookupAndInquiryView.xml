@@ -10,7 +10,7 @@
     <bean id="KS-CourseOfferingInfo-LookupView" parent="KSLookupView">
         <property name="title" value="CourseOfferingInfo Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo" />
-        <!--<property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoLookupableImpl" />&ndash;&gt;-->
+        <!--<property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoLookupableImpl" />  -->
 
         <property name="criteriaFields">
             <list>
