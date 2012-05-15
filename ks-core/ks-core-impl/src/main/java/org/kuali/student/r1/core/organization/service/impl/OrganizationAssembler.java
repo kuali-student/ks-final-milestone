@@ -18,7 +18,7 @@ package org.kuali.student.r1.core.organization.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r1.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r1.common.entity.TimeAmount;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
