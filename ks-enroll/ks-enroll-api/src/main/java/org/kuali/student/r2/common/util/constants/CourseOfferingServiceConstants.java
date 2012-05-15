@@ -47,7 +47,6 @@ public class CourseOfferingServiceConstants {
     public static final String MAX_ENROLLMENT_IS_ESTIMATED_ATTR = "kuali.attribute.max.enrollment.is.estimate";
     public static final String WHERE_FEES_ATTACHED_FLAG_ATTR = "kuali.attribute.where.fees.attached.flag ";
     public static final String IS_MAX_ENROLLMENT_ESTIMATE_ATTR = "kuali.attribute.max.enrollment.is.estimate";
-    public static final String HONORS_OFFERING_INDICATOR_ATTR = "kuali.attribute.honors.offering.indicator";
     public static final String WAIT_LIST_INDICATOR_ATTR = "kuali.attribute.wait.list.indicator";
 
 

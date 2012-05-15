@@ -30,6 +30,7 @@ public class CourseOfferingTransformer {
         co.setStateKey(lui.getStateKey());
         co.setDescr(lui.getDescr());
         co.setMeta(lui.getMeta());
+        co.setCourseOfferingURL(lui.getReferenceURL());
 
         //Dynamic attributes
         List<AttributeInfo> attributes = co.getAttributes();
@@ -75,6 +76,7 @@ public class CourseOfferingTransformer {
             co.setCourseOfferingTitle(identifier.getLongName());
             co.setSubjectArea(identifier.getDivision());
         }
+
         // store honors in lu code
         LuCodeInfo luCode = this.findLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
         if (luCode == null) {
@@ -139,7 +141,7 @@ public class CourseOfferingTransformer {
         lui.setStateKey(co.getStateKey());
         lui.setDescr(co.getDescr());
         lui.setMeta(co.getMeta());
-
+        lui.setReferenceURL(co.getCourseOfferingURL());
 
         //Dynamic Attributes
         List<AttributeInfo> attributes = lui.getAttributes();

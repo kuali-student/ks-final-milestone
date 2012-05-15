@@ -2,11 +2,15 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
 import java.util.List;
 
@@ -22,6 +26,10 @@ public class ActivityOfferingTransformer {
         ao.setTermId(lui.getAtpId());
         ao.setMinimumEnrollment(lui.getMinimumEnrollment());
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
+        ao.setScheduleId(lui.getScheduleId());
+        ao.setActivityOfferingURL(lui.getReferenceURL());
+
+        ao.setActivityCode(lui.getOfficialIdentifier().getCode());
 
         //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
         List<AttributeInfo> attributes = ao.getAttributes();
@@ -30,13 +38,20 @@ public class ActivityOfferingTransformer {
                 ao.setIsEvaluated(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.MAX_ENROLLMENT_IS_ESTIMATED_ATTR.equals(attr.getKey())){
                 ao.setIsMaxEnrollmentEstimate(Boolean.valueOf(attr.getValue()));
-            } else if (CourseOfferingServiceConstants.HONORS_OFFERING_INDICATOR_ATTR.equals(attr.getKey())){
-                ao.setIsHonorsOffering(Boolean.valueOf(attr.getValue()));
             } else {
                 attributes.add(new AttributeInfo(attr));
             }
         }
         ao.setAttributes(attributes);
+
+        // store honors in lu code
+        LuCodeInfo luCode = findLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
+        if (luCode == null) {
+            ao.setIsHonorsOffering(false);
+        } else {
+            ao.setIsHonorsOffering(Boolean.valueOf(luCode.getValue()));
+        }
+
     }
 
     public static void activity2Lui (ActivityOfferingInfo ao, LuiInfo lui) {
@@ -49,6 +64,13 @@ public class ActivityOfferingTransformer {
         lui.setAtpId(ao.getTermId());
         lui.setMinimumEnrollment(ao.getMinimumEnrollment());
         lui.setMaximumEnrollment(ao.getMaximumEnrollment());
+        lui.setScheduleId(ao.getScheduleId());
+        lui.setReferenceURL(ao.getActivityOfferingURL());
+
+        //Lui Official Identifier
+        LuiIdentifierInfo officialIdentifier = new LuiIdentifierInfo();
+        officialIdentifier.setCode(ao.getActivityCode());
+        lui.setOfficialIdentifier(officialIdentifier);
 
         //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
         List<AttributeInfo> attributes = lui.getAttributes();
@@ -66,12 +88,11 @@ public class ActivityOfferingTransformer {
         isMaxEnrollmentEstimate.setValue(String.valueOf(ao.getIsMaxEnrollmentEstimate()));
         attributes.add(isMaxEnrollmentEstimate);
 
-        AttributeInfo honorsOffering = new AttributeInfo();
-        honorsOffering.setKey(CourseOfferingServiceConstants.HONORS_OFFERING_INDICATOR_ATTR);
-        honorsOffering.setValue(String.valueOf(ao.getIsHonorsOffering()));
-        attributes.add(honorsOffering);
-
         lui.setAttributes(attributes);
+
+        //Honors code
+        LuCodeInfo luCode = findAddLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
+        luCode.setValue(String.valueOf(ao.getIsHonorsOffering()));
     }
 
     public static OfferingInstructorInfo transformInstructorForActivityOffering(LuiPersonRelationInfo lpr) {
@@ -84,4 +105,25 @@ public class ActivityOfferingTransformer {
         return instructor;
 
     }
+
+    public static LuCodeInfo findLuCode(LuiInfo lui, String typeKey) {
+        for (LuCodeInfo info : lui.getLuiCodes()) {
+            if (info.getTypeKey().equals(typeKey)) {
+                return info;
+            }
+        }
+        return null;
+    }
+
+    public static LuCodeInfo findAddLuCode(LuiInfo lui, String typeKey) {
+        LuCodeInfo info = findLuCode(lui, typeKey);
+        if (info != null) {
+            return info;
+        }
+        info = new LuCodeInfo();
+        info.setTypeKey(typeKey);
+        lui.getLuiCodes().add(info);
+        return info;
+    }
+
 }
