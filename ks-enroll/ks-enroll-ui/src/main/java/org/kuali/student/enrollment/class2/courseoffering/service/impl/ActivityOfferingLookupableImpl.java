@@ -43,8 +43,10 @@ public class ActivityOfferingLookupableImpl extends LookupableImpl {
         List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
 
         try {
-            QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
-            activityOfferingInfos = getCourseOfferingService().searchForActivityOfferings(qbc, getContextInfo());
+            if(hasCriteria(fieldValues)){
+                QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
+                activityOfferingInfos = getCourseOfferingService().searchForActivityOfferings(qbc, getContextInfo());
+            }
         } catch (Exception e) {
            throw new RuntimeException(e);
         }
@@ -56,7 +58,7 @@ public class ActivityOfferingLookupableImpl extends LookupableImpl {
         String aoId = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID);
 
         List<Predicate> predicates = new ArrayList<Predicate>();
-        if (!StringUtils.isEmpty(aoId)) {
+        if (StringUtils.isNotBlank(aoId)) {
             predicates.add(PredicateFactory.equalIgnoreCase("id", aoId));
         }
 
@@ -65,6 +67,10 @@ public class ActivityOfferingLookupableImpl extends LookupableImpl {
         QueryByCriteria qbc = qbcBuilder.build();
 
         return qbc;
+    }
+
+    private boolean hasCriteria(Map<String, String> fieldValues){
+        return StringUtils.isNotBlank(fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID));
     }
 
     public CourseOfferingService getCourseOfferingService() {
