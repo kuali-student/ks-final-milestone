@@ -46,6 +46,7 @@ import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
+import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition.Builder;
 import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.impl.repository.ActionBoService;
@@ -62,6 +63,8 @@ import org.kuali.rice.test.BaselineTestCase.BaselineMode;
 import org.kuali.rice.test.BaselineTestCase.Mode;
 import org.kuali.rice.test.ClearDatabaseLifecycle;
 import org.kuali.rice.test.TransactionalLifecycle;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -115,37 +118,42 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		String nameSpace = KSNAMESPACE;
 		// Create all the terms specifications...
 		TermSpecificationDefinition termSpec = null;
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_ORG_NUMBER);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_DATE);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GPA);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE_TYPE);
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_LEARNING_OBJECTIVES);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS, KSKRMSConstants.CREDITS_DESCR);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_ORG_NUMBER, KSKRMSConstants.ORG_NUMBER_DESCR);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.COURSE_DESCR);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.COURSE_NUMBER_DESCR);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_DATE,KSKRMSConstants.DATE_DESCR);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GPA, KSKRMSConstants.GPA_DESCR);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE, KSKRMSConstants.GRADE_DESCR);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE_TYPE, KSKRMSConstants.GRADE_TYPE_DESCR);
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_LEARNING_OBJECTIVES,KSKRMSConstants.LEARNING_OBJECTIVES_DESCR);
 		
 	}
 
-	private TermSpecificationDefinition createKRMSTermSpecification(String nameSpace, String termSpecName) {
+	private TermSpecificationDefinition createKRMSTermSpecification(String nameSpace, String termSpecName, String descr) {
 		Map<String, String> queryArgs = new HashMap<String, String>();
 		queryArgs.put("namespace", nameSpace);
 		queryArgs.put("name", termSpecName);
 		TermSpecificationBo termSpecBo = getBoService().findByPrimaryKey(
 				TermSpecificationBo.class, queryArgs);
-		//
+		
 		// TODO Figure out how to set the Description
 		TermSpecificationDefinition termSpec = null;
 		if (termSpecBo == null) {
-			 termSpec = TermSpecificationDefinition.Builder
+			
+			Builder termSpecDefBuilder = TermSpecificationDefinition.Builder
 					.create(null, termSpecName, nameSpace,
-							String.class.getCanonicalName()).build();
+							String.class.getCanonicalName());
+			termSpecDefBuilder.setDescription(descr);
+			
+			termSpec = termSpecDefBuilder.build();
 
-			 
 			termSpec = termBoService.createTermSpecification(termSpec);
+
 		} else {
 			termSpec = termSpecBo.to(termSpecBo);
 		}
+		System.out.println("Elmien :     " + termSpec.getDescription() + "     " + termSpec.getName());
 		return termSpec;
 	}
 	
