@@ -34,7 +34,7 @@ import org.kuali.student.r1.common.dto.HasTypeState;
 import org.kuali.student.r1.common.dto.Idable;
 import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r1.common.dto.RichTextInfo;
-import org.kuali.student.r1.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r1.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r1.lum.lu.dto.AccreditationInfo;

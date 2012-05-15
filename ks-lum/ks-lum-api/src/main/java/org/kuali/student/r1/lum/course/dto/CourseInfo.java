@@ -16,10 +16,16 @@
 package org.kuali.student.r1.lum.course.dto;
 
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.r1.common.dto.*;
+import org.kuali.student.r1.common.dto.HasAttributes;
+import org.kuali.student.r1.common.dto.HasTypeState;
+import org.kuali.student.r1.common.dto.Idable;
+import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r1.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.r2.common.dto.AmountInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

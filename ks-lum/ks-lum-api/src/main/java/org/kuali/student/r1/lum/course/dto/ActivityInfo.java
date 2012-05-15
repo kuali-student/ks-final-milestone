@@ -27,11 +27,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.r1.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r1.common.dto.HasAttributes;
 import org.kuali.student.r1.common.dto.Idable;
 import org.kuali.student.r1.common.dto.MetaInfo;
-import org.kuali.student.r1.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**

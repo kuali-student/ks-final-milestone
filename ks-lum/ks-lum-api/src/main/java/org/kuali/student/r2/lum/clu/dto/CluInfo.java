@@ -482,24 +482,12 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
         return "CluInfo[id=" + this.getId() + ", type=" + this.getTypeKey() + "]";
     }
 
-	public void setStdDuration(
-			org.kuali.student.r1.common.dto.TimeAmountInfo timeAmountInfo) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void setAttributes(Map<String, String> attributeMap) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	public void setMeta(MetaInfo metaInfo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setIntensity(
-			org.kuali.student.r1.common.dto.AmountInfo amountInfo) {
 		// TODO Auto-generated method stub
 		
 	}
