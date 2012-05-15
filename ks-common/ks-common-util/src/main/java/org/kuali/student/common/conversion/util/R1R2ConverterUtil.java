@@ -28,6 +28,10 @@ public class R1R2ConverterUtil {
     }
 
     public static <T, X> List<X> convertLists(List<T> sourceList, Class<X> targetListType) {
+        if (sourceList == null){
+            return null;
+        }
+        
         List<X> targetList = new ArrayList<X>();
         for (T sourceObject : sourceList) {
             X targetObject = convert(sourceObject, targetListType);
