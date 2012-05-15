@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:p="http://www.springframework.org/schema/p"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+      <bean id="EnrollmentFeeFormObject" parent="EnrollmentFeeFormObject-parentBean"/>
+
+      <bean id="EnrollmentFeeFormObject-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.EnrollmentFeeFormObject"/>
+        <property name="titleAttribute" value="aoInfo.id"/>
+        <property name="attributes">
+          <list>
+          </list>
+        </property>
+        <property name="objectLabel" value="Enrollment Fee"/>
+        <property name="primaryKeys">
+          <list>
+            <value>aoInfo.id</value>
+          </list>
+        </property>
+      </bean>
+
+        <bean id="EnrollmentFee-MaintenanceView" parent="KSMaintenanceView">
+        <property name="title" value="Enrollment Fee Maintenance"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.EnrollmentFeeFormObject"/>
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeMaintainableImpl" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="title" value="Create a New Enrollment Fee"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.id" p:readOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.stateKey" p:readOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.typeKey" p:readOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.termId" p:defaultValue="2012WINTER">
+                                <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.aoInfo.TermInfo"/>
+                                <property name="fieldLookup.fieldConversions">
+                                    <map>
+                                        <entry key="code" value="aoInfo.id"/>
+                                    </map>
+                                </property>-->
+                             </bean>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityCode"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityId" p:defaultValue="CLU-4"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.formatOfferingId" p:label="Format Offering Id" p:defaultValue="Lui-fo-2"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.maximumEnrollment" p:label="Total Maximum Enrollment"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isEvaluated" p:label="This course requires an evaluation"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isHonorsOffering"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-MaintenanceStackedCollectionSection">
+                    <property name="title" value="Personnel"/>
+                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
+                    <property name="propertyName" value="aoInfo.instructors"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="personId">
+                                <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>-->
+                                <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                                <property name="fieldLookup.fieldConversions">
+                                    <map>
+                                        <entry key="principalId" value="personId"/>
+                                        <entry key="principalName" value="personName"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="personName" p:readOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="percentageEffort"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="footer.items">
+            <list/>
+        </property>
+    </bean>
+
+
+      <bean id="EnrollmentFeeMaintenanceDocument" parent="EnrollmentFeeMaintenanceDocument-parentBean"/>
+
+      <bean id="EnrollmentFeeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.EnrollmentFeeFormObject"/>
+        <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.EnrollmentFeeMaintainableImpl"/>
+        <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.EnrollmentFeeRule" />
+        <property name="documentTypeName" value="EnrollmentFeeMaintenanceDocument"/>
+        <property name="lockingKeys">
+          <list>
+            <value>aoInfo.id</value>
+          </list>
+        </property>
+      </bean>
+
+
+</beans>
