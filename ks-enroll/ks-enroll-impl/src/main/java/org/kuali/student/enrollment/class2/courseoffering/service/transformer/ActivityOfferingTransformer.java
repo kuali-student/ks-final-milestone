@@ -29,7 +29,9 @@ public class ActivityOfferingTransformer {
         ao.setScheduleId(lui.getScheduleId());
         ao.setActivityOfferingURL(lui.getReferenceURL());
 
-        ao.setActivityCode(lui.getOfficialIdentifier().getCode());
+        if (lui.getOfficialIdentifier() != null){
+            ao.setActivityCode(lui.getOfficialIdentifier().getCode());
+        }
 
         //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
         List<AttributeInfo> attributes = ao.getAttributes();
