@@ -656,7 +656,8 @@ public class CourseSummaryConfigurer extends Configurer implements
         customBindings.put("resultValues", resultValuesBinding);
         String outcomesKey = COURSE + QueryPath.getPathSeparator()
                 + CREDIT_OPTIONS;
-        MultiplicityConfiguration outcomesConfig = getMultiplicityConfig(
+     // TODO: KSCM-635
+        /*MultiplicityConfiguration outcomesConfig = getMultiplicityConfig(
                 outcomesKey,
                 LUUIConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
                 Arrays.asList(
@@ -676,7 +677,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                         Arrays.asList(
                                 "resultValues",
                                 LUUIConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY,
-                                OPTIONAL)), customBindings);
+                                OPTIONAL)), customBindings);*/
 
         // Massive workaround for result values problem where we dont want to
         // show them on certain selections,
@@ -685,7 +686,8 @@ public class CourseSummaryConfigurer extends Configurer implements
         // but since this data is sometimes not empty/null when we dont want to
         // show it, it requires a show
         // condition callback
-        tableSection.addShowRowCallback(new ShowRowConditionCallback() {
+     // TODO: KSCM-635
+        /*tableSection.addShowRowCallback(new ShowRowConditionCallback() {
             @Override
             public void processShowConditions(SummaryTableFieldRow row, //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
                     DataModel column1, DataModel column2) {
@@ -720,9 +722,9 @@ public class CourseSummaryConfigurer extends Configurer implements
                     }
                 }
             }
-        });
+        });*/
 
-        block.addSummaryMultiplicity(outcomesConfig);
+        // TODO: KSCM-635 block.addSummaryMultiplicity(outcomesConfig);
 
         // Formats
         MultiplicityConfiguration formatsConfig = getMultiplicityConfig(COURSE
@@ -1065,7 +1067,8 @@ public class CourseSummaryConfigurer extends Configurer implements
         customBindings.put("resultValues", resultValuesBinding);
         String outcomesKey = COURSE + QueryPath.getPathSeparator()
                 + CREDIT_OPTIONS;
-        MultiplicityConfiguration outcomesConfig = getMultiplicityConfig(
+        // TODO: KSCM-635        
+        /*MultiplicityConfiguration outcomesConfig = getMultiplicityConfig(
                 outcomesKey,
                 LUUIConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
                 Arrays.asList(
@@ -1085,7 +1088,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                         Arrays.asList(
                                 "resultValues",
                                 LUUIConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY,
-                                OPTIONAL)), customBindings);
+                                OPTIONAL)), customBindings);*/
 
         // Massive workaround for result values problem where we dont want to
         // show them on certain selections,
@@ -1094,7 +1097,8 @@ public class CourseSummaryConfigurer extends Configurer implements
         // but since this data is sometimes not empty/null when we dont want to
         // show it, it requires a show
         // condition callback
-        courseBriefSection.addShowRowCallback(new ShowRowConditionCallback() {
+     // TODO: KSCM-635 
+        /*courseBriefSection.addShowRowCallback(new ShowRowConditionCallback() {
             @Override
             public void processShowConditions(SummaryTableFieldRow row,
                     DataModel column1, DataModel column2) {
@@ -1129,8 +1133,8 @@ public class CourseSummaryConfigurer extends Configurer implements
                     }
                 }
             }
-        });
-        block.addSummaryMultiplicity(outcomesConfig);
+        });*/
+        // TODO: KSCM-635 block.addSummaryMultiplicity(outcomesConfig);
 
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + TERMS_OFFERED,
                 generateMessageInfo(LUUIConstants.TERMS_OFFERED_LABEL_KEY)));
