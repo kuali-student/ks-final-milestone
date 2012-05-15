@@ -40,7 +40,7 @@ public class CommonConverterTest {
 
     @Test
     public void testCurrencyAmountInfo() {
-        org.kuali.student.r1.common.dto.CurrencyAmountInfo r1 = new org.kuali.student.r1.common.dto.CurrencyAmountInfo();
+        org.kuali.student.r2.common.dto.CurrencyAmountInfo r1 = new org.kuali.student.r2.common.dto.CurrencyAmountInfo();
         r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
         r1.setCurrencyQuantity(1);
         r1.setCurrencyTypeKey("R1 Currency Type Key");
@@ -53,7 +53,7 @@ public class CommonConverterTest {
 
     @Test
     public void testMetaInfo() {
-        org.kuali.student.r1.common.dto.MetaInfo r1 = R1TestDataUtil.getMetadataInfoData();
+        org.kuali.student.r2.common.dto.MetaInfo r1 = R1TestDataUtil.getMetadataInfoData();
         MetaInfo r2 = R1R2ConverterUtil.convert(r1, MetaInfo.class);
         Assert.assertEquals(r1.getCreateId(), r2.getCreateId());
         Assert.assertEquals(r1.getCreateTime(), r2.getCreateTime());
