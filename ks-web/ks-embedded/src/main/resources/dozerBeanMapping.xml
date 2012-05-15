@@ -2,17 +2,6 @@
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-	<!-- Copied from ks-common -->
-	<mapping>
-		<class-a>org.kuali.student.r1.common.dto.AmountInfo</class-a>
-		<class-b>org.kuali.student.r2.common.dto.AmountInfo</class-b>
-		<field>
-			<a>unitType</a>
-			<b>unitTypeKey</b>
-		</field>
-	</mapping>
-	<!-- End of copy -->
-	
 	<!-- org.kuali.student.r*.lum.course.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.course.dto.ActivityInfo</class-a>
