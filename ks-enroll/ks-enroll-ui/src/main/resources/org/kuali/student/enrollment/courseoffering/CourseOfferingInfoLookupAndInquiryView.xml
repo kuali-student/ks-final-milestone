@@ -4,13 +4,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <import resource="classpath:ks-CourseOfferingInfo-dictionary.xml"/>
+    <!--<import resource="classpath:ks-CourseOfferingInfo-dictionary.xml"/>-->
 
     <!-- LookupView -->
     <bean id="KS-CourseOfferingInfo-LookupView" parent="KSLookupView">
         <property name="title" value="CourseOfferingInfo Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo" />
-        <!--<property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingLookupableImpl" />-->
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoLookupableImpl" />-->
 
         <property name="criteriaFields">
             <list>

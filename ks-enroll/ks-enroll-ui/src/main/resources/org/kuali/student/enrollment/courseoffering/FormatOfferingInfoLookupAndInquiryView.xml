@@ -19,8 +19,8 @@
      limitations under the License.
     -->
 
-    <import resource="classpath:ks-FormatOfferingInfo-dictionary.xml"/>
-    <import resource="classpath:UifKSDefinitions.xml"/>
+    <!--<import resource="classpath:ks-FormatOfferingInfo-dictionary.xml"/>-->
+    <!--<import resource="classpath:UifKSDefinitions.xml"/>-->
 
     <!-- LookupView -->
     <bean id="KS-FormatOfferingInfo-LookupView" parent="KSLookupView"

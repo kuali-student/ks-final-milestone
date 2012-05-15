@@ -4,8 +4,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <import resource="classpath:ks-ActivityOfferingInfo-dictionary.xml"/>
-    <import resource="classpath:UifKSDefinitions.xml"/>
+    <!--<import resource="classpath:ks-ActivityOfferingInfo-dictionary.xml"/>-->
+    <!--<import resource="classpath:UifKSDefinitions.xml"/>-->
 
     <!-- LookupView -->
     <bean id="KS-ActivityOffering-LookupView" parent="KSLookupView">

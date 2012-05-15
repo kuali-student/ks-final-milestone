@@ -19,7 +19,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <import resource="classpath:ks-SocRolloverResultItemInfo-dictionary.xml"/>
+    <!--<import resource="classpath:ks-SocRolloverResultItemInfo-dictionary.xml"/>-->
 
     <!-- LookupView -->
     <bean id="KS-SocRolloverResultItemInfo-LookupView" parent="KSLookupView">
