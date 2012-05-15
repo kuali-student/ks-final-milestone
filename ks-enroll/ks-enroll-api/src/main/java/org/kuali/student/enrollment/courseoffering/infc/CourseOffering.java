@@ -58,6 +58,13 @@ public interface CourseOffering extends IdNamelessEntity{
     public String getTermId();
 
     /**
+     * Custom Description for the course Offering.
+     *
+     * @name Course Offering Description
+     */
+    public RichText getDescr();
+
+    /**
      * Identifies the number of a course as reflected in the course catalog.
      * This typically must be unique across all courses offered during that
      * term. If the user wants to create two separate offerings for the same
@@ -286,7 +293,6 @@ public interface CourseOffering extends IdNamelessEntity{
      */
     public String getFundingSource();
 
-
     /**
      * Flag indicating whether a course is eligible for Financial Aid. Derived
      * from course catalog (canonical) TODO: find a place to store this on the
@@ -299,31 +305,27 @@ public interface CourseOffering extends IdNamelessEntity{
     public Boolean getIsFinancialAidEligible();
 
     /**
+     * Is this Course Offering Financial aid eligible.  (why is this
+     * here?) use getIsFinancialAidEligible().
+     *
+     * @name Financial Aid Eligible Flag
+     */
+    @Deprecated
+    public Boolean getFinancialAidEligible();
+
+    /**
      * Places where this Course offering is offered.
      *
      * @name Campus Locations
      */
-    public List<String> getCampusLocations() ;
+    public List<String> getCampusLocations();
 
     /**
-     * Custom Descr for the course Offering
-     * @name Course Offering Description
-     */
-    public RichText getDescr();
-
-    /**
-     *  Is this a Honors Course offering
-     * @name   Honors Flag
+     * Is this a Honors Course offering
+     *
+     * @name Honors Flag
      */
     public Boolean getHonorsOffering();
-
-
-    /**
-     * Is this Course Offering Financial aid eligible
-     * @name Financial Aid Eligible Flag
-     */
-    public Boolean getFinancialAidEligible();
-
 
     /**
      * Indicates whether a final exam is to be given  for this format Offering
@@ -334,20 +336,25 @@ public interface CourseOffering extends IdNamelessEntity{
     public Boolean getHasFinalExam();
 
     /**
-     * Indicates whether the fee is at activity offering level or course offering
-     * level. If true its at Activity Offering level, if false its at CourseOffering level.
-     *
+     * Indicates whether the fee is at activity offering level or
+     * course offering level. If true its at Activity Offering level,
+     * if false its at CourseOffering level.
      *
      * @name Is Fee at Activity Offering
      */
     public Boolean getIsFeeAtActivityOffering();
 
     /**
-     * Indicates whether the course offering has an evaluation
-     *
+     * Indicates whether the course offering has an evaluation.
      *
      * @name Is Evaluated
      */
     public Boolean getIsEvaluated();
 
+    /**
+     * Gets the Course Offering URL.
+     *
+     * @name Course Offering URL
+     */
+    public String getCourseOfferingURL();
 }

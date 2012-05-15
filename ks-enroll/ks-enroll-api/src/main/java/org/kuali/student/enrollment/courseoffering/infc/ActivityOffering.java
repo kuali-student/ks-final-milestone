@@ -167,21 +167,24 @@ public interface ActivityOffering extends IdEntity {
      */
     public Integer getMinimumEnrollment();
 
-
-
-
-
     /**
      * Is maximum enrollment estimate flag
-     * @name Is Maximum Enrollment Estimate Flag
      *
+     * @name Is Maximum Enrollment Estimate Flag
      */
     public Boolean getIsMaxEnrollmentEstimate();
 
     /**
-     * Is there an instructor evaluation for this activity offering
-     * @name Instructor Evaluation Flag
+     * Is there an instructor evaluation for this activity offering.
      *
+     * @name Instructor Evaluation Flag
      */
-    public Boolean getIsEvaluated() ;
+    public Boolean getIsEvaluated();
+
+    /**
+     * Gets the URL for this offering.
+     *
+     * @name Activity Offering URL
+     */
+    public String getActivityOfferingURL();
 }

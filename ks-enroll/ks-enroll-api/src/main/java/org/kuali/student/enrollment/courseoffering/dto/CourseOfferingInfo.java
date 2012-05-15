@@ -44,7 +44,7 @@ import org.w3c.dom.Element;
         "instructors", "subjectArea", "unitsDeploymentOrgIds", "unitsContentOwnerOrgIds",  "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "creditOptionIds", "gradingOptionIds", "waitlistLevelTypeKey",
         "hasWaitlist", "waitlistTypeKey","campusLocations", "hasFinalExam", "isEvaluated",
-        "fundingSource", "isFeeAtActivityOffering", "isFinancialAidEligible",
+        "fundingSource", "isFeeAtActivityOffering", "isFinancialAidEligible", "courseOfferingURL",
         "meta", "attributes", "_futureElements"})
 
 public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseOffering {
@@ -126,7 +126,10 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     private Boolean isEvaluated;
 
     @XmlElement
-    private Boolean  isFeeAtActivityOffering ;
+    private Boolean isFeeAtActivityOffering;
+
+    @XmlElement
+    private String courseOfferingURL;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -196,6 +199,7 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         this.isFeeAtActivityOffering = offering.getIsFeeAtActivityOffering();
 
         this.hasFinalExam = offering.getHasFinalExam();
+        this.courseOfferingURL = offering.getCourseOfferingURL();
     }
 
     @Override
@@ -203,51 +207,26 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         return this.courseId;
     }
 
-
-
-    @Override
-    public String getSubjectArea() {
-        return this.subjectArea;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
-
-    @Override
-    public Boolean getIsHonorsOffering() {
-        return this.isHonorsOffering;
-    }
-
-    @Override
-    public List<String> getUnitsDeploymentOrgIds() {
-        if (null == this.unitsDeploymentOrgIds) {
-            this.unitsDeploymentOrgIds = new ArrayList<String>();
-        }
-
-        return this.unitsDeploymentOrgIds;
-    }
-
-    @Override
-    public List<String> getUnitsContentOwnerOrgIds() {
-        if (null == this.unitsContentOwnerOrgIds) {
-            this.unitsContentOwnerOrgIds = new ArrayList<String>();
-        }
-
-        return this.unitsContentOwnerOrgIds;
-    }
-
-
-    @Override
-    public String getWaitlistTypeKey() {
-        return this.waitlistTypeKey;
-    }
-
-    @Override
-    public String getWaitlistLevelTypeKey() {
-        return this.waitlistLevelTypeKey;
-    }
-
 
     @Override
     public String getTermId() {
         return this.termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
     }
 
     @Override
@@ -255,9 +234,26 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         return this.courseOfferingCode;
     }
 
+    public void setCourseOfferingCode(String courseOfferingCode) {
+        this.courseOfferingCode = courseOfferingCode;
+    }
+
+    @Override
+    public String getSubjectArea() {
+        return this.subjectArea;
+    }
+
+    public void setSubjectArea(String subjectArea) {
+        this.subjectArea = subjectArea;
+    }
+
     @Override
     public String getCourseNumberSuffix() {
         return this.courseNumberSuffix;
+    }
+
+    public void setCourseNumberSuffix(String courseNumberSuffix) {
+        this.courseNumberSuffix = courseNumberSuffix;
     }
 
     @Override
@@ -265,14 +261,36 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         return this.courseOfferingTitle;
     }
 
+    public void setCourseOfferingTitle(String courseOfferingTitle) {
+        this.courseOfferingTitle = courseOfferingTitle;
+    }
+
+    @Override
+    public Boolean getIsHonorsOffering() {
+        return this.isHonorsOffering;
+    }
+
+    public void setIsHonorsOffering(Boolean isHonorsOffering) {
+        this.isHonorsOffering = isHonorsOffering;
+    }
+
+
     @Override
     public Integer getMaximumEnrollment() {
         return this.maximumEnrollment;
     }
 
+    public void setMaximumEnrollment(Integer maximumEnrollment) {
+        this.maximumEnrollment = maximumEnrollment;
+    }
+
     @Override
     public Integer getMinimumEnrollment() {
         return this.minimumEnrollment;
+    }
+
+    public void setMinimumEnrollment(Integer minimumEnrollment) {
+        this.minimumEnrollment = minimumEnrollment;
     }
 
     @Override
@@ -284,35 +302,26 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         return this.jointOfferingIds;
     }
 
-    @Override
-    public List<String> getCreditOptionIds() {
-        return this.creditOptionIds;
-    }
-
-
-
-    @Override
-    public Boolean getHasWaitlist() {
-        return this.hasWaitlist;
-    }
-
-
-    @Override
-    public String getFundingSource() {
-        return this.fundingSource;
-    }
-
-
-
-
-    @Override
-    public Boolean getIsFinancialAidEligible() {
-        return this.isFinancialAidEligible;
+    public void setJointOfferingIds(List<String> jointOfferingIds) {
+        this.jointOfferingIds = jointOfferingIds;
     }
 
     @Override
     public List<String> getGradingOptionIds() {
         return this.gradingOptionIds;
+    }
+
+    public void setGradingOptionIds(List<String> gradingOptionIds) {
+        this.gradingOptionIds = gradingOptionIds;
+    }
+
+    @Override
+    public List<String> getCreditOptionIds() {
+        return this.creditOptionIds;
+    }
+
+    public void setCreditOptionIds(List<String> creditOptionIds) {
+        this.creditOptionIds = creditOptionIds;
     }
 
     @Override
@@ -327,104 +336,85 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         this.instructors = instructors;
     }
 
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
+    @Override
+    public List<String> getUnitsDeploymentOrgIds() {
+        if (null == this.unitsDeploymentOrgIds) {
+            this.unitsDeploymentOrgIds = new ArrayList<String>();
+        }
+
+        return this.unitsDeploymentOrgIds;
     }
 
-    public void setSubjectArea(String subjectArea) {
-        this.subjectArea = subjectArea;
+    public void setUnitsDeploymentOrgIds(List<String> unitsDeploymentOrgIds) {
+        this.unitsDeploymentOrgIds = unitsDeploymentOrgIds;
     }
 
-    public void setIsHonorsOffering(Boolean isHonorsOffering) {
-        this.isHonorsOffering = isHonorsOffering;
-    }
-
+    @Deprecated
     public void setUnitsDeployment(List<String> unitsDeployment) {
         this.unitsDeploymentOrgIds = unitsDeployment;
     }
 
+    @Override
+    public List<String> getUnitsContentOwnerOrgIds() {
+        if (null == this.unitsContentOwnerOrgIds) {
+            this.unitsContentOwnerOrgIds = new ArrayList<String>();
+        }
+
+        return this.unitsContentOwnerOrgIds;
+    }
+    
+    public void setUnitsContentOwnerOrgIds(List<String> unitsContentOwnerOrgIds) {
+        this.unitsContentOwnerOrgIds = unitsContentOwnerOrgIds;
+    }
+
+    @Deprecated
     public void setUnitsContentOwner(List<String> unitsContentOwner) {
         this.unitsContentOwnerOrgIds = unitsContentOwner;
     }
 
-
-
-    public void setTermId(String termId) {
-        this.termId = termId;
+    @Override
+    public Boolean getHasWaitlist() {
+        return this.hasWaitlist;
     }
-
-    public void setCourseOfferingCode(String courseOfferingCode) {
-        this.courseOfferingCode = courseOfferingCode;
-    }
-
-    public void setCourseNumberSuffix(String courseNumberSuffix) {
-        this.courseNumberSuffix = courseNumberSuffix;
-    }
-
-    public void setCourseOfferingTitle(String courseOfferingTitle) {
-        this.courseOfferingTitle = courseOfferingTitle;
-    }
-
-    public void setMaximumEnrollment(Integer maximumEnrollment) {
-        this.maximumEnrollment = maximumEnrollment;
-    }
-
-    public void setMinimumEnrollment(Integer minimumEnrollment) {
-        this.minimumEnrollment = minimumEnrollment;
-    }
-
-    public void setJointOfferingIds(List<String> jointOfferingIds) {
-        this.jointOfferingIds = jointOfferingIds;
-    }
-
-    public void setCreditOptionIds(List<String> creditOptionIds) {
-        this.creditOptionIds = creditOptionIds;
-    }
-
-    public void setGradingOptionIds(List<String> gradingOptionIds) {
-        this.gradingOptionIds = gradingOptionIds;
-    }
-
 
     public void setHasWaitlist(Boolean hasWaitlist) {
         this.hasWaitlist = hasWaitlist;
     }
 
+    @Override
+    public String getWaitlistTypeKey() {
+        return this.waitlistTypeKey;
+    }
+
+    public void setWaitlistTypeKey(String waitlistTypeKey) {
+        this.waitlistTypeKey = waitlistTypeKey;
+    }
+
+    @Override
+    public String getWaitlistLevelTypeKey() {
+        return this.waitlistLevelTypeKey;
+    }
+
+    public void setWaitlistLevelTypeKey(String waitlistLevelTypeKey) {
+        this.waitlistLevelTypeKey = waitlistLevelTypeKey;
+    }
+
+    @Override
+    public String getFundingSource() {
+        return this.fundingSource;
+    }
 
     public void setFundingSource(String fundingSource) {
         this.fundingSource = fundingSource;
     }
 
-
+    @Override
+    public Boolean getIsFinancialAidEligible() {
+        return this.isFinancialAidEligible;
+    }
 
     public void setIsFinancialAidEligible(Boolean isFinancialAidEligible) {
         this.isFinancialAidEligible = isFinancialAidEligible;
-    }
-
-    @Override
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
-    }
-    @Override
-    public Boolean getHonorsOffering() {
-        return isHonorsOffering;
-    }
-
-    public void setHonorsOffering(Boolean honorsOffering) {
-        isHonorsOffering = honorsOffering;
-    }
-
-    @Override
-    public List<String> getCampusLocations() {
-        return campusLocations;
-    }
-
-    public void setCampusLocations(List<String> campusLocations) {
-        this.campusLocations = campusLocations;
     }
 
     @Override
@@ -437,24 +427,26 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     }
 
     @Override
-    public Boolean getHasFinalExam(){
+    public List<String> getCampusLocations() {
+        return campusLocations;
+    }
+
+    public void setCampusLocations(List<String> campusLocations) {
+        this.campusLocations = campusLocations;
+    }
+
+    @Override
+    public Boolean getHonorsOffering() {
+        return isHonorsOffering;
+    }
+
+    public void setHonorsOffering(Boolean honorsOffering) {
+        isHonorsOffering = honorsOffering;
+    }
+
+    @Override
+    public Boolean getHasFinalExam() {
           return this.hasFinalExam;
-    }
-
-    public void setUnitsDeploymentOrgIds(List<String> unitsDeploymentOrgIds) {
-        this.unitsDeploymentOrgIds = unitsDeploymentOrgIds;
-    }
-
-    public void setUnitsContentOwnerOrgIds(List<String> unitsContentOwnerOrgIds) {
-        this.unitsContentOwnerOrgIds = unitsContentOwnerOrgIds;
-    }
-
-    public void setWaitlistTypeKey(String waitlistTypeKey) {
-        this.waitlistTypeKey = waitlistTypeKey;
-    }
-
-    public void setWaitlistLevelTypeKey(String waitlistLevelTypeKey) {
-        this.waitlistLevelTypeKey = waitlistLevelTypeKey;
     }
 
     public void setHasFinalExam(Boolean hasFinalExam) {
@@ -475,8 +467,16 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         return isEvaluated;
     }
 
-
     public void setEvaluated(Boolean evaluated) {
         isEvaluated = evaluated;
+    }
+
+    @Override
+    public String getCourseOfferingURL() {
+        return courseOfferingURL;
+    }
+
+    public void setCourseOfferingURL(String courseOfferingURL) {
+        this.courseOfferingURL = courseOfferingURL;
     }
 }

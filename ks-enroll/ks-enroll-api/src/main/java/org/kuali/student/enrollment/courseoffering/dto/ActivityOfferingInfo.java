@@ -43,7 +43,7 @@ import org.w3c.dom.Element;
                 "weeklyTotalContactHours",  "isEvaluated",
                 "maximumEnrollment", "minimumEnrollment","isMaxEnrollmentEstimate",
                 "finalExamStartTime", "finalExamEndTime", 
-                "finalExamSpaceCode",
+                "finalExamSpaceCode", "activityOfferingURL",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingInfo 
@@ -76,8 +76,6 @@ public class ActivityOfferingInfo
     @XmlElement
     private List<OfferingInstructorInfo> instructors;
 
-
-
     @XmlElement
     private String weeklyInclassContactHours;
     
@@ -108,6 +106,8 @@ public class ActivityOfferingInfo
     @XmlElement
     private Boolean isEvaluated;
 
+    @XmlElement
+    private String activityOfferingURL;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -168,6 +168,7 @@ public class ActivityOfferingInfo
 
         this.finalExamSpaceCode = offering.getFinalExamSpaceCode();
         this.isEvaluated = offering.getIsEvaluated();
+        this.activityOfferingURL = offering.getActivityOfferingURL();
     }
 
     @Override
@@ -336,15 +337,21 @@ public class ActivityOfferingInfo
         this.isEvaluated = isEvaluated;
     }
 
-
     @Override
-    public Boolean getIsMaxEnrollmentEstimate(){
-       return this.isMaxEnrollmentEstimate ;
+    public Boolean getIsMaxEnrollmentEstimate() {
+       return isMaxEnrollmentEstimate;
     }
 
-
-    public void setIsMaxEnrollmentEstimate(Boolean isMaxEnrollmentEstimate){
+    public void setIsMaxEnrollmentEstimate(Boolean isMaxEnrollmentEstimate) {
          this.isMaxEnrollmentEstimate  = isMaxEnrollmentEstimate;
     }
 
+    @Override
+    public String getActivityOfferingURL() {
+        return activityOfferingURL;
+    }
+
+    public void setActivityOfferingURL(String activityOfferingURL) {
+        this.activityOfferingURL = activityOfferingURL;
+    }
 }
