@@ -157,6 +157,41 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		return termSpec;
 	}
 	
+	@Test
+	public void createAllLumTermDefinitions() {
+		String nameSpace = "KR-RULE-TEST";
+		// Create all the terms...
+		//createNumberOfCreditsTermDefinition(nameSpace);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS);
+		
+		//createProposedCourseTermDefinition(nameSpace);
+		//createApprovedCourseTermDefinition(nameSpace);
+	}
+
+	private void createDeptOrgNumberTermDefinition(String nameSpace, String termSpecName) {
+
+		Map<String, String> queryArgs = new HashMap<String, String>();
+		queryArgs.put("namespace", nameSpace);
+		queryArgs.put("name", termSpecName);
+		String a = queryArgs.get("name");
+		TermSpecificationBo termSpecBo = getBoService().findByPrimaryKey(
+				TermSpecificationBo.class, queryArgs);
+		//
+		TermSpecificationDefinition termSpec = null;
+
+			termSpec = termSpecBo.to(termSpecBo);
+
+		TermDefinition termDefinition = TermDefinition.Builder.create(
+				null,
+				TermSpecificationDefinition.Builder.create(termSpec), null)
+				.build();
+		
+		termDefinition = termBoService.createTermDefinition(termDefinition);
+
+	}
+	
+	
+	
     protected BusinessObjectService getBoService() {
 		return KRADServiceLocator.getBusinessObjectService();
 	}
