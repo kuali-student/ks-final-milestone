@@ -5,11 +5,9 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.HasAttributesInfo;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityOfferingTransformer {
@@ -28,11 +26,11 @@ public class ActivityOfferingTransformer {
         //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
         List<AttributeInfo> attributes = ao.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
-            if (LuiServiceConstants.LUI_COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
+            if (CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
                 ao.setIsEvaluated(Boolean.valueOf(attr.getValue()));
-            } else if (LuiServiceConstants.LUI_IS_MAX_ENROLLMENT_ESTIMATE_ATTR.equals(attr.getKey())){
+            } else if (CourseOfferingServiceConstants.MAX_ENROLLMENT_IS_ESTIMATED_ATTR.equals(attr.getKey())){
                 ao.setIsMaxEnrollmentEstimate(Boolean.valueOf(attr.getValue()));
-            } else if (LuiServiceConstants.LUI_HONORS_OFFERING_INDICATOR_ATTR.equals(attr.getKey())){
+            } else if (CourseOfferingServiceConstants.HONORS_OFFERING_INDICATOR_ATTR.equals(attr.getKey())){
                 ao.setIsHonorsOffering(Boolean.valueOf(attr.getValue()));
             } else {
                 attributes.add(new AttributeInfo(attr));
@@ -59,17 +57,17 @@ public class ActivityOfferingTransformer {
         }
 
         AttributeInfo isEvaluated = new AttributeInfo();
-        isEvaluated.setKey(LuiServiceConstants.LUI_COURSE_EVALUATION_INDICATOR_ATTR);
+        isEvaluated.setKey(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR);
         isEvaluated.setValue(String.valueOf(ao.getIsEvaluated()));
         attributes.add(isEvaluated);
 
         AttributeInfo isMaxEnrollmentEstimate = new AttributeInfo();
-        isMaxEnrollmentEstimate.setKey(LuiServiceConstants.LUI_IS_MAX_ENROLLMENT_ESTIMATE_ATTR);
+        isMaxEnrollmentEstimate.setKey(CourseOfferingServiceConstants.MAX_ENROLLMENT_IS_ESTIMATED_ATTR);
         isMaxEnrollmentEstimate.setValue(String.valueOf(ao.getIsMaxEnrollmentEstimate()));
         attributes.add(isMaxEnrollmentEstimate);
 
         AttributeInfo honorsOffering = new AttributeInfo();
-        honorsOffering.setKey(LuiServiceConstants.LUI_HONORS_OFFERING_INDICATOR_ATTR);
+        honorsOffering.setKey(CourseOfferingServiceConstants.HONORS_OFFERING_INDICATOR_ATTR);
         honorsOffering.setValue(String.valueOf(ao.getIsHonorsOffering()));
         attributes.add(honorsOffering);
 

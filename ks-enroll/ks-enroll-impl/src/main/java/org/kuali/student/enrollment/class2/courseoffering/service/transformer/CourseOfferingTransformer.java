@@ -13,6 +13,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -33,17 +34,17 @@ public class CourseOfferingTransformer {
         //Dynamic attributes
         List<AttributeInfo> attributes = co.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
-            if (LuiServiceConstants.LUI_WAITLIST_LEVEL_TYPE_KEY_ATTR.equals(attr.getKey())){
+            if (CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY_ATTR.equals(attr.getKey())){
                 co.setWaitlistLevelTypeKey(attr.getValue());
-            } else if (LuiServiceConstants.LUI_WAITLIST_INDICATOR_ATTR.equals((attr.getKey()))){
+            } else if (CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR.equals((attr.getKey()))){
                 co.setHasWaitlist(Boolean.valueOf(attr.getValue()));
-            } else if (LuiServiceConstants.LUI_FINAL_EXAM_INDICATOR_ATTR.equals(attr.getKey())){
+            } else if (CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR.equals(attr.getKey())){
                 co.setHasFinalExam(Boolean.valueOf(attr.getValue()));
-            } else if(LuiServiceConstants.LUI_COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
+            } else if(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
                 co.setEvaluated(Boolean.valueOf(attr.getValue()));
-            } else if (LuiServiceConstants.LUI_WHERE_FEES_ATTACHED_FLAG_ATTR.equals(attr.getKey())){
+            } else if (CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR.equals(attr.getKey())){
                 co.setFeeAtActivityOffering(Boolean.valueOf(attr.getValue()));
-            } else if (LuiServiceConstants.LUI_FUNDING_SOURCE_ATTR.equals(attr.getKey())){
+            } else if (CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR.equals(attr.getKey())){
                 co.setFundingSource(attr.getValue());
             } else {
                 attributes.add(new AttributeInfo(attr));
@@ -147,32 +148,32 @@ public class CourseOfferingTransformer {
         }
 
         AttributeInfo waitlistLevelTypeKey = new AttributeInfo();
-        waitlistLevelTypeKey.setKey(LuiServiceConstants.LUI_WAITLIST_LEVEL_TYPE_KEY_ATTR);
+        waitlistLevelTypeKey.setKey(CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY_ATTR);
         waitlistLevelTypeKey.setValue(String.valueOf(co.getWaitlistLevelTypeKey()));
         attributes.add(waitlistLevelTypeKey);
 
         AttributeInfo waitlistIndicator = new AttributeInfo();
-        waitlistIndicator.setKey(LuiServiceConstants.LUI_WAITLIST_INDICATOR_ATTR);
+        waitlistIndicator.setKey(CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR);
         waitlistIndicator.setValue(String.valueOf(co.getHasWaitlist()));
         attributes.add(waitlistIndicator);
 
         AttributeInfo finalExamIndicator = new AttributeInfo();
-        finalExamIndicator.setKey(LuiServiceConstants.LUI_FINAL_EXAM_INDICATOR_ATTR);
+        finalExamIndicator.setKey(CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR);
         finalExamIndicator.setValue(String.valueOf(co.getHasFinalExam()));
         attributes.add(finalExamIndicator);
 
         AttributeInfo courseEvaluationIndicator = new AttributeInfo();
-        courseEvaluationIndicator.setKey(LuiServiceConstants.LUI_COURSE_EVALUATION_INDICATOR_ATTR);
+        courseEvaluationIndicator.setKey(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR);
         courseEvaluationIndicator.setValue(String.valueOf(co.getIsEvaluated()));
         attributes.add(courseEvaluationIndicator);
 
         AttributeInfo whereFeesAttachedFlag = new AttributeInfo();
-        whereFeesAttachedFlag.setKey(LuiServiceConstants.LUI_WHERE_FEES_ATTACHED_FLAG_ATTR);
+        whereFeesAttachedFlag.setKey(CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR);
         whereFeesAttachedFlag.setValue(String.valueOf(co.getIsFeeAtActivityOffering()));
         attributes.add(whereFeesAttachedFlag);
 
         AttributeInfo fundingSource = new AttributeInfo();
-        fundingSource.setKey(LuiServiceConstants.LUI_FUNDING_SOURCE_ATTR);
+        fundingSource.setKey(CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR);
         fundingSource.setValue(co.getFundingSource());
         attributes.add(fundingSource);
 
