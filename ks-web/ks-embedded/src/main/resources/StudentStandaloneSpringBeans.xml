@@ -37,9 +37,19 @@
 		<property name="initializeDataDictionary" value="true" />
 		<property name="dataDictionaryPackages">
 			<list>
+                <!-- rice and basic ks xmls -->
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
                 <value>classpath:UifKRADOverrideDefinitions.xml</value>
 				<value>classpath:UifKSDefinitions.xml</value>
+                <value>classpath:ks-ActivityOfferingInfo-dictionary.xml</value>
+                <value>classpath:ks-CourseOfferingInfo-dictionary.xml</value>
+                <value>classpath:ks-EnrollmentFeeInfo-dictionary.xml</value>
+                <value>classpath:ks-FormatOfferingInfo-dictionary.xml</value>
+                <value>classpath:ks-OfferingInstructorInfo-dictionary.xml</value>
+                <value>classpath:ks-SocRolloverResultInfo-dictionary.xml</value>
+                <value>classpath:ks-SocRolloverResultItemInfo-dictionary.xml</value>
+
+                <!--
 				<value>classpath:AcademicCalendarInfoUI.xml</value>
 				<value>classpath:TermInfoUI.xml</value>
 				<value>classpath:KeyDateInfoUI.xml</value>
@@ -55,9 +65,9 @@
                 <value>classpath:RegistrationGroupWrapper.xml</value>
                 <value>classpath:ActivityOfferingWrapper.xml</value>
                 <value>classpath:MeetingScheduleWrapper.xml</value>
-                <value>classpath:RegistrationUI.xml</value>
+                <value>classpath:RegistrationUI.xml</value>  -->
 
-                <!-- M1 Section -->
+                <!-- Acal -->
                 <value>classpath:org/kuali/student/enrollment/main/EnrollmentHomeView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/CalendarSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarFlowView.xml</value>
