@@ -21,10 +21,34 @@
         <property name="resultFields">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="id" />
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingTitle"/>
                 <bean parent="Uif-DataField" p:propertyName="termId" />
                 <bean parent="Uif-DataField" p:propertyName="courseOfferingCode"/>
-                <bean parent="Uif-DataField" p:propertyName="typeKey" />
-                <bean parent="Uif-DataField" p:propertyName="stateKey" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- InquiryView -->
+    <bean id="KS-CourseOfferingInfo-InquiryView" parent="KSInquiryView">
+        <property name="title" value="CourseOfferingInfo Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoInquirableImpl" />
+        <property name="Items">
+            <list>
+                <bean parent="Uif-GridSection">
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="title" value="CourseOfferingInfo Inquiry"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="id"/>
+                            <bean parent="Uif-InputField" p:propertyName="termId"/>
+                            <bean parent="Uif-InputField" p:propertyName="courseOfferingTitle"/>
+                            <bean parent="Uif-InputField" p:propertyName="courseOfferingCode"/>
+                            <bean parent="Uif-InputField" p:propertyName="typeKey"/>
+                            <bean parent="Uif-InputField" p:propertyName="stateKey"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
