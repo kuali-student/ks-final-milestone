@@ -98,6 +98,12 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         orig.setCourseOfferingTitle("my name");
+        orig.setWaitlistLevelTypeKey("waitlist key");
+        orig.setHasWaitlist(true);
+        orig.setHasFinalExam(true);
+        orig.setEvaluated(true);
+        orig.setFeeAtActivityOffering(false);
+        orig.setFundingSource("funding source");
         CourseOfferingInfo info = courseOfferingService.createCourseOffering(orig.getCourseId(), orig.getTermId(), 
                 orig.getTypeKey(), orig, optionKeys, callContext);
         assertNotNull(info);
@@ -106,6 +112,11 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getTypeKey(), info.getTypeKey());
+        assertEquals(orig.getWaitlistLevelTypeKey(), info.getWaitlistLevelTypeKey());
+        assertEquals(orig.getHasWaitlist(), info.getHasWaitlist());
+        assertEquals(orig.getHasFinalExam(), info.getHasFinalExam());
+        assertEquals(orig.getIsFeeAtActivityOffering(), info.getIsFeeAtActivityOffering());
+        assertEquals(orig.getFundingSource(), info.getFundingSource());
         assertEquals(course.getCode(), info.getCourseOfferingCode());
         assertEquals(course.getCourseNumberSuffix(), info.getCourseNumberSuffix());
         assertEquals(course.getSubjectArea(), info.getSubjectArea());
@@ -284,6 +295,9 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         orig.setMinimumEnrollment(100);
         orig.setMaximumEnrollment(150);
+        orig.setIsEvaluated(true);
+        orig.setIsMaxEnrollmentEstimate(false);
+        orig.setIsHonorsOffering(true);
         ActivityOfferingInfo info = courseOfferingService.createActivityOffering(orig.getFormatOfferingId(), orig.getActivityId(), orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -293,6 +307,9 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(orig.getActivityId(), info.getActivityId());
         assertEquals(orig.getMinimumEnrollment(), info.getMinimumEnrollment());
         assertEquals(orig.getMaximumEnrollment(), info.getMaximumEnrollment());
+        assertEquals(orig.getIsEvaluated(), info.getIsEvaluated());
+        assertEquals(orig.getIsMaxEnrollmentEstimate(), info.getIsMaxEnrollmentEstimate());
+        assertEquals(orig.getIsHonorsOffering(), info.getIsHonorsOffering());
 
         orig = info;
         info = courseOfferingService.getActivityOffering(orig.getId(), callContext);

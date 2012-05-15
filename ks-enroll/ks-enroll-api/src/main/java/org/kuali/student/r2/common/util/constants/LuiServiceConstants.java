@@ -15,6 +15,7 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.rice.krad.keyvalues.IndicatorPersonSearchTypeValuesFinder;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -172,4 +173,18 @@ public class LuiServiceConstants {
      * known lu codes
      */
     public static final String HONORS_LU_CODE = "kuali.lu.code.honorsOffering";
+
+    /**
+     *  Course/Activity Offering Dynamic Attributes
+     */
+    public static final String LUI_WAITLIST_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.wait.list.level.type.key";
+    public static final String LUI_GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.grade.roster.level.type.key ";
+    public static final String LUI_COURSE_EVALUATION_INDICATOR_ATTR = "kuali.attribute.course.evaluation.indicator";
+    public static final String LUI_FINAL_EXAM_INDICATOR_ATTR = "kuali.attribute.final.exam.indicator ";
+    public static final String LUI_FUNDING_SOURCE_ATTR = "kuali.attribute.finding.source ";
+    public static final String LUI_WHERE_FEES_ATTACHED_FLAG_ATTR = "kuali.attribute.where.fees.attached.flag ";
+    public static final String LUI_IS_MAX_ENROLLMENT_ESTIMATE_ATTR = "kuali.attribute.max.enrollment.is.estimate";
+    public static final String LUI_HONORS_OFFERING_INDICATOR_ATTR = "kuali.attribute.honors.offering.indicator";
+    public static final String LUI_WAITLIST_INDICATOR_ATTR = "kuali.attribute.wait.list.indicator";
+
 }
