@@ -453,13 +453,12 @@ public class LrcServiceImpl implements LRCService {
 	 	return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
 		
 	}
-
+	
 	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-			throws OperationFailedException {
-		// TODO KSCM-267 return searchManager.getSearchCriteriaTypes();
-		return null;
-	}
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes();
+    }
 
 	@Override
 	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
@@ -514,8 +513,6 @@ public class LrcServiceImpl implements LRCService {
 	public void setSearchManager(SearchManager searchManager) {
 		this.searchManager = searchManager;
 	}
-
-
 
     @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
@@ -682,11 +679,10 @@ public class LrcServiceImpl implements LRCService {
 		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
 	}
 
-	//TODO KSCM-267 
 	@Override
-	public SearchResult search(SearchRequest searchRequest)
-			throws MissingParameterException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        checkForMissingParameter(searchRequest, "searchRequest");
+        return searchManager.search(searchRequest, lrcDao);
+    }
+	
 }
