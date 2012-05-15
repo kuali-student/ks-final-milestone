@@ -261,9 +261,9 @@
  </bean>
  <bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" />
 
- <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseKualiTypeRepeating">
+ <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseKualiCodeRepeating">
   <property name="name" value="creditOptions"/>
-<!--  <property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultComponentInfo"/>-->
+  <!-- property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultComponentInfo"/-->
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
