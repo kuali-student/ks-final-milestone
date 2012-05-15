@@ -4,7 +4,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
-@Deprecated
 public class KSFooter  extends Composite{
    FlowPanel contentPanel = new FlowPanel();
    KSLabel firstLinePanel = new KSLabel();

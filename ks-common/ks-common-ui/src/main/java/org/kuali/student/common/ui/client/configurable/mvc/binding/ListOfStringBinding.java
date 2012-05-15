@@ -17,7 +17,6 @@ import org.kuali.student.r1.common.assembly.data.Data.Property;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class ListOfStringBinding implements ModelWidgetBinding<ListOfStringWidget> {
 
 	@Override

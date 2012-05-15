@@ -47,7 +47,6 @@ import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-@Deprecated
 public class StylishDropDown extends Composite{
 	
     protected ClickablePanel namePanel = new ClickablePanel();

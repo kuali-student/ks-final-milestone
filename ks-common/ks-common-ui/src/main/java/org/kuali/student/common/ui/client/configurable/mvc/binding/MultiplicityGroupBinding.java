@@ -29,7 +29,6 @@ import org.kuali.student.r1.common.assembly.data.Data.Property;
  *
  * @author Kuali Student Team
  */
-@Deprecated
 public class MultiplicityGroupBinding extends ModelWidgetBindingSupport<MultiplicityGroup> {
     public static MultiplicityGroupBinding INSTANCE = new MultiplicityGroupBinding();
 
