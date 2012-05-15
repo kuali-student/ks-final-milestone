@@ -7,7 +7,12 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
  * Time: 1:51 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CourseOfferingSetConstants {
+public class CourseOfferingConstants {
+    //Attributes defined in CourseOfferingInfo
+    public final static String COURSEOFFERING_ID = "id";
+    public final static String COURSEOFFERING_TERM_KEY = "termKey";
+    public final static String COURSEOFFERING_SUBJECT_AREA = "subjectArea";
+
     //Attributes defined in SocRolloverResultInfo
     public final static String SOCROLLOVERRESULTINFO_ID = "id";
     public final static String SOCROLLOVERRESULTINFO_SOURCE_TERM_ID = "sourceTermId";
