@@ -41,6 +41,7 @@
                                p:inquiryParameters="formatId" />
                     </property>
                 </bean>
+                <bean parent="Uif-DataField" p:propertyName="id" />
                 <bean parent="Uif-DataField" p:propertyName="courseOfferingId" />
                 <bean parent="Uif-DataField" p:propertyName="termId" />
                 <bean parent="Uif-DataField" p:propertyName="gradeRosterLevelTypeKey" />
@@ -61,6 +62,7 @@
                     <property name="title" value="Format OfferingInfo Inquiry"/>
                     <property name="items">
                         <list>
+                            <bean parent="Uif-InputField" p:propertyName="id"/>
                             <bean parent="Uif-InputField" p:propertyName="formatId"/>
                             <bean parent="Uif-InputField" p:propertyName="courseOfferingId"/>
                             <bean parent="Uif-InputField" p:propertyName="termId"/>
