@@ -43,8 +43,7 @@ public class AtpContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			AtpDurationTypeInfo atpDurationType = null;
-			// TODO KSCM-504		this.atpService.getAtpDurationType(atpDurationTypeKey);
+			AtpDurationTypeInfo atpDurationType = this.atpService.getAtpDurationType(atpDurationTypeKey);
 			return atpDurationType;
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);

@@ -41,15 +41,15 @@ import java.util.Map.Entry;
 
 public class LuServiceAssembler extends BaseAssembler {
 
-    public static List<CluLoRelationTypeInfo> toCluLoRelationTypeInfos(
-            List<CluLoRelationType> entities) {
-        return toGenericTypeInfoList(CluLoRelationTypeInfo.class, entities);
-    }
+    //public static List<CluLoRelationTypeInfo> toCluLoRelationTypeInfos(
+    //        List<CluLoRelationType> entities) {
+    //    return toGenericTypeInfoList(CluLoRelationTypeInfo.class, entities);
+    //}
 
-    public static CluLoRelationTypeInfo toCluLoRelationTypeInfo(
-            CluLoRelationType entity) {
-        return toGenericTypeInfo(CluLoRelationTypeInfo.class, entity);
-    }
+    //public static CluLoRelationTypeInfo toCluLoRelationTypeInfo(
+    //        CluLoRelationType entity) {
+    //    return toGenericTypeInfo(CluLoRelationTypeInfo.class, entity);
+    //}
 
     public static List<CluCluRelationInfo> toCluCluRelationInfos(
             List<CluCluRelation> entities) {
@@ -345,45 +345,45 @@ public class LuServiceAssembler extends BaseAssembler {
         return entity;
     }
 
-    public static List<ResultUsageTypeInfo> toResultUsageTypeInfos(
-            List<ResultUsageType> entities) {
-        return toGenericTypeInfoList(ResultUsageTypeInfo.class, entities);
-    }
+    //public static List<ResultUsageTypeInfo> toResultUsageTypeInfos(
+    //        List<ResultUsageType> entities) {
+    //    return toGenericTypeInfoList(ResultUsageTypeInfo.class, entities);
+    //}
 
-    public static ResultUsageTypeInfo toResultUsageTypeInfo(
-            ResultUsageType entity) {
-        return toGenericTypeInfo(ResultUsageTypeInfo.class, entity);
-    }
+    //public static ResultUsageTypeInfo toResultUsageTypeInfo(
+    //        ResultUsageType entity) {
+    //    return toGenericTypeInfo(ResultUsageTypeInfo.class, entity);
+    //}
 
-    public static List<DeliveryMethodTypeInfo> toDeliveryMethodTypeInfos(
-            List<DeliveryMethodType> entities) {
-        return toGenericTypeInfoList(DeliveryMethodTypeInfo.class, entities);
-    }
+    //public static List<DeliveryMethodTypeInfo> toDeliveryMethodTypeInfos(
+    //        List<DeliveryMethodType> entities) {
+    //    return toGenericTypeInfoList(DeliveryMethodTypeInfo.class, entities);
+    //}
 
-    public static DeliveryMethodTypeInfo toDeliveryMethodTypeInfo(
-            DeliveryMethodType entity) {
-        return toGenericTypeInfo(DeliveryMethodTypeInfo.class, entity);
-    }
+    //public static DeliveryMethodTypeInfo toDeliveryMethodTypeInfo(
+    //        DeliveryMethodType entity) {
+    //    return toGenericTypeInfo(DeliveryMethodTypeInfo.class, entity);
+    //}
 
-    public static List<InstructionalFormatTypeInfo> toInstructionalFormatTypeInfos(
-            List<InstructionalFormatType> entities) {
-        return toGenericTypeInfoList(InstructionalFormatTypeInfo.class,
-                entities);
-    }
+    //public static List<InstructionalFormatTypeInfo> toInstructionalFormatTypeInfos(
+    //        List<InstructionalFormatType> entities) {
+    //    return toGenericTypeInfoList(InstructionalFormatTypeInfo.class,
+    //            entities);
+    //}
 
-    public static InstructionalFormatTypeInfo toInstructionalFormatTypeInfo(
-            InstructionalFormatType entity) {
-        return toGenericTypeInfo(InstructionalFormatTypeInfo.class, entity);
-    }
+    //public static InstructionalFormatTypeInfo toInstructionalFormatTypeInfo(
+    //        InstructionalFormatType entity) {
+    //    return toGenericTypeInfo(InstructionalFormatTypeInfo.class, entity);
+    //}
 
-    public static List<LuCodeTypeInfo> toLuCodeTypeInfos(
-            List<LuCodeType> entities) {
-        return toGenericTypeInfoList(LuCodeTypeInfo.class, entities);
-    }
+    //public static List<LuCodeTypeInfo> toLuCodeTypeInfos(
+    //        List<LuCodeType> entities) {
+    //    return toGenericTypeInfoList(LuCodeTypeInfo.class, entities);
+    //}
 
-    public static LuCodeTypeInfo toLuCodeTypeInfo(LuCodeType entity) {
-        return toGenericTypeInfo(LuCodeTypeInfo.class, entity);
-    }
+    //public static LuCodeTypeInfo toLuCodeTypeInfo(LuCodeType entity) {
+    //    return toGenericTypeInfo(LuCodeTypeInfo.class, entity);
+    //}
 
     public static List<CluResultTypeInfo> toCluResultTypeInfos(
             List<CluResultType> entities) {
@@ -394,14 +394,14 @@ public class LuServiceAssembler extends BaseAssembler {
         return toGenericTypeInfo(CluResultTypeInfo.class, entity);
     }
 
-    public static CluSetTypeInfo toCluSetTypeInfo(CluSetType entity) {
-        return toGenericTypeInfo(CluSetTypeInfo.class, entity);
-    }
+    //public static CluSetTypeInfo toCluSetTypeInfo(CluSetType entity) {
+    //    return toGenericTypeInfo(CluSetTypeInfo.class, entity);
+    //}
 
-    public static List<CluSetTypeInfo> toCluSetTypeInfos(
-            List<CluSetType> entities) {
-        return toGenericTypeInfoList(CluSetTypeInfo.class, entities);
-    }
+    //public static List<CluSetTypeInfo> toCluSetTypeInfos(
+    //        List<CluSetType> entities) {
+    //    return toGenericTypeInfoList(CluSetTypeInfo.class, entities);
+    //}
 
     public static CluResultInfo toCluResultInfo(CluResult entity) {
         if (entity == null) {
@@ -465,43 +465,43 @@ public class LuServiceAssembler extends BaseAssembler {
         return dto;
     }
 
-    public static List<LuLuRelationTypeInfo> toLuLuRelationTypeInfos(
-            List<LuLuRelationType> entities) {
-        List<LuLuRelationTypeInfo> dtos = new ArrayList<LuLuRelationTypeInfo>(
-                entities.size());
-        if (entities != null) {
-            for (LuLuRelationType entity : entities) {
-                dtos.add(toLuLuRelationTypeInfo(entity));
-            }
-        }
-        return dtos;
+    //public static List<LuLuRelationTypeInfo> toLuLuRelationTypeInfos(
+    //        List<LuLuRelationType> entities) {
+    //    List<LuLuRelationTypeInfo> dtos = new ArrayList<LuLuRelationTypeInfo>(
+   //             entities.size());
+    //    if (entities != null) {
+    //        for (LuLuRelationType entity : entities) {
+    //            dtos.add(toLuLuRelationTypeInfo(entity));
+    //        }
+    //    }
+    //    return dtos;
 
-    }
+    //}
 
-    public static LuLuRelationTypeInfo toLuLuRelationTypeInfo(
-            LuLuRelationType entity) {
-        if (entity == null) {
-            return null;
-        }
-        LuLuRelationTypeInfo dto = new LuLuRelationTypeInfo();
+    //public static LuLuRelationTypeInfo toLuLuRelationTypeInfo(
+    //        LuLuRelationType entity) {
+    //    if (entity == null) {
+    //        return null;
+    //    }
+    //    LuLuRelationTypeInfo dto = new LuLuRelationTypeInfo();
+//
+    //    BeanUtils.copyProperties(entity, dto, new String[]{"attributes"});
+    //    dto.setAttributes(toAttributeMap(entity.getAttributes()));
 
-        BeanUtils.copyProperties(entity, dto, new String[]{"attributes"});
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+    //    return dto;
+    //}
 
-        return dto;
-    }
+    //public static List<LuTypeInfo> toLuTypeInfos(List<LuType> entities) {
+    //    return toGenericTypeInfoList(LuTypeInfo.class, entities);
+    //}
 
-    public static List<LuTypeInfo> toLuTypeInfos(List<LuType> entities) {
-        return toGenericTypeInfoList(LuTypeInfo.class, entities);
-    }
+   // public static LuTypeInfo toLuTypeInfo(LuType entity) {
+    //    LuTypeInfo typeInfo = toGenericTypeInfo(LuTypeInfo.class, entity);
+    //    typeInfo.setDeliveryMethod(entity.getDeliveryMethod());
+    //    typeInfo.setInstructionalFormat(entity.getInstructionalFormat());
 
-    public static LuTypeInfo toLuTypeInfo(LuType entity) {
-        LuTypeInfo typeInfo = toGenericTypeInfo(LuTypeInfo.class, entity);
-        typeInfo.setDeliveryMethod(entity.getDeliveryMethod());
-        typeInfo.setInstructionalFormat(entity.getInstructionalFormat());
-
-        return typeInfo;
-    }
+    //    return typeInfo;
+    //}
 
     public static List<LuiInfo> toLuiInfos(List<Lui> entities) {
         List<LuiInfo> dtos = new ArrayList<LuiInfo>(entities.size());
@@ -880,15 +880,15 @@ public class LuServiceAssembler extends BaseAssembler {
         return dto;
     }
 
-    public static List<LuPublicationTypeInfo> toLuPublicationTypeInfos(
-            List<LuPublicationType> entities) {
-        return toGenericTypeInfoList(LuPublicationTypeInfo.class, entities);
-    }
+    //public static List<LuPublicationTypeInfo> toLuPublicationTypeInfos(
+    //        List<LuPublicationType> entities) {
+    //    return toGenericTypeInfoList(LuPublicationTypeInfo.class, entities);
+    //}
 
-    public static LuPublicationTypeInfo toLuPublicationTypeInfo(
-            LuPublicationType entity) {
-        return toGenericTypeInfo(LuPublicationTypeInfo.class, entity);
-    }
+    //public static LuPublicationTypeInfo toLuPublicationTypeInfo(
+    //        LuPublicationType entity) {
+    //    return toGenericTypeInfo(LuPublicationTypeInfo.class, entity);
+    //}
 
     public static CluFee toCluFee(Clu clu, boolean isUpdate, CluFeeInfo feeInfo,
             LuDao dao) throws DoesNotExistException, VersionMismatchException,
