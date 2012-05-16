@@ -103,6 +103,16 @@ public interface ActivityOffering extends IdEntity {
      */
     public List<? extends OfferingInstructor> getInstructors();
 
+    /**
+     * Course Offering id the activity is being offered in.
+     *
+     * @name Course Offering Id
+     * @required
+     * @readonly
+     * @impl maps to the containing formatOffering's courseOfferingId
+     */
+    public String getCourseOfferingId();
+
     /********************** Final Exam Information ******************/
     /**
      * Start time of final exam

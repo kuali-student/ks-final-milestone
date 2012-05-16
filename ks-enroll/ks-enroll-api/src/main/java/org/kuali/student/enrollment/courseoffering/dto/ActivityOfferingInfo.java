@@ -109,6 +109,9 @@ public class ActivityOfferingInfo
     @XmlElement
     private String activityOfferingURL;
 
+    @XmlElement
+    private String courseOfferingId;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -354,4 +357,15 @@ public class ActivityOfferingInfo
     public void setActivityOfferingURL(String activityOfferingURL) {
         this.activityOfferingURL = activityOfferingURL;
     }
+
+    @Override
+    public String getCourseOfferingId() {
+        return courseOfferingId;
+    }
+
+    public void setCourseOfferingId(String courseOfferingId) {
+        this.courseOfferingId = courseOfferingId;
+    }
+
+
 }
