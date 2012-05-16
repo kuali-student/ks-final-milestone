@@ -39,6 +39,15 @@ public interface ActivityOffering extends IdEntity {
     public String getFormatOfferingId();
 
     /**
+     * Format offering Name used to create this activity
+     *
+     * @name Format Offering Name
+     * @required
+     * @readonly
+     */
+    public String getFormatOfferingName();
+
+    /**
      * Canonical activity whose instance is this activity offering.
      *
      * @name Activity Id
@@ -59,6 +68,19 @@ public interface ActivityOffering extends IdEntity {
      * @impl map to Lui.getAtpId
      */
     public String getTermId();
+
+    /**
+     * Academic term code the activity is being offered in.
+     *
+     * Same as course offering term or a nested term of course
+     * offering.
+     *
+     * @name Term Code
+     * @required
+     * @readonly
+     * @impl map to Lui.getAtpCode
+     */
+    public String getTermCode();
 
     /**
      * Alphanumeric character that identifies the section of the
@@ -112,6 +134,26 @@ public interface ActivityOffering extends IdEntity {
      * @impl maps to the containing formatOffering's courseOfferingId
      */
     public String getCourseOfferingId();
+
+    /**
+     * Course Offering code the activity is being offered in.
+     *
+     * @name Course Offering Code
+     * @required
+     * @readonly
+     * @impl maps to the containing formatOffering's courseOffering's code
+     */
+    public String getCourseOfferingCode();
+
+    /**
+     * Course Offering title the activity is being offered in.
+     *
+     * @name Course Offering Title
+     * @required
+     * @readonly
+     * @impl maps to the containing formatOffering's courseOffering's title
+     */
+    public String getCourseOfferingTitle();
 
     /********************** Final Exam Information ******************/
     /**

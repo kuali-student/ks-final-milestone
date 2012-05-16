@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -27,14 +28,20 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
+import org.kuali.student.r2.core.appointment.service.AppointmentService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
+import javax.xml.namespace.QName;
 import java.util.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 
@@ -45,6 +52,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private TypeService typeService;
     private CourseService courseService;
     private AcademicCalendarService acalService;
+    private AtpService atpService;
     private RegistrationGroupAssembler registrationGroupAssembler;
     private StateService stateService;
     private LuiPersonRelationService lprService;
@@ -716,8 +724,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
         ActivityOfferingTransformer.lui2Activity(ao, lui);
+
         LuiInfo foLui = this.findFormatOfferingLui(activityOfferingId, context);
+        LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(),context);
         ao.setFormatOfferingId(foLui.getId());
+        ao.setCourseOfferingId(coLui.getId());
         return ao;
     }
 
@@ -810,6 +821,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
         ActivityOfferingTransformer.lui2Activity(ao, lui);
         ao.setFormatOfferingId(luiRel.getLuiId());
+        ao.setCourseOfferingId(co.getId());
+        ao.setFormatOfferingName(fo.getName());
+        ao.setCourseOfferingCode(co.getCourseOfferingCode());
+        ao.setCourseOfferingTitle(co.getCourseOfferingTitle());
+        AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(),context);
+        ao.setTermCode(termAtp.getCode());
         return ao;
 
     }
@@ -851,7 +868,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
         ActivityOfferingTransformer.lui2Activity(ao, lui);
         LuiInfo foLui = this.findFormatOfferingLui(lui.getId(), context);
+        LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(),context);
         ao.setFormatOfferingId(foLui.getId());
+        ao.setCourseOfferingId(coLui.getId());
         return ao;
     }
 
@@ -1209,5 +1228,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<String> searchForSeatpoolDefintionIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
+    }
+
+
+    public AtpService getAtpService() {
+        if(atpService == null) {
+            atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpService.class.getSimpleName()));
+        }
+        return atpService;
     }
 }

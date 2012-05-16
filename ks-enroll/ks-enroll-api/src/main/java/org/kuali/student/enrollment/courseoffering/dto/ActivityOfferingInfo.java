@@ -36,17 +36,18 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
-                "formatOfferingId",
-                "activityId", "termId",  "activityCode", "scheduleId", 
+                "formatOfferingId", "formatOfferingName",
+                "activityId", "termId", "termCode", "activityCode", "scheduleId",
                 "isHonorsOffering", "gradingOptionKeys", "instructors",
                 "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
                 "weeklyTotalContactHours",  "isEvaluated",
                 "maximumEnrollment", "minimumEnrollment","isMaxEnrollmentEstimate",
                 "finalExamStartTime", "finalExamEndTime", 
                 "finalExamSpaceCode", "activityOfferingURL",
+                "courseOfferingId", "courseOfferingTitle", "courseOfferingCode",
                 "meta", "attributes", "_futureElements"})
 
-public class ActivityOfferingInfo 
+public class ActivityOfferingInfo
     extends IdEntityInfo
     implements ActivityOffering {
 
@@ -54,12 +55,18 @@ public class ActivityOfferingInfo
 
     @XmlElement
     private String formatOfferingId;
+
+    @XmlElement
+    private String formatOfferingName;
     
     @XmlElement
     private String activityId;
         
     @XmlElement
     private String termId;
+
+    @XmlElement
+    private String termCode;
 
     @XmlElement
     private String activityCode;   
@@ -111,6 +118,12 @@ public class ActivityOfferingInfo
 
     @XmlElement
     private String courseOfferingId;
+
+    @XmlElement
+    private String courseOfferingTitle;
+
+    @XmlElement
+    private String courseOfferingCode;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -182,8 +195,16 @@ public class ActivityOfferingInfo
     public void setFormatOfferingId(String formatOfferingId) {
         this.formatOfferingId = formatOfferingId;
     }
-    
-    
+
+    @Override
+    public String getFormatOfferingName() {
+        return formatOfferingName;
+    }
+
+    public void setFormatOfferingName(String formatOfferingName) {
+        this.formatOfferingName = formatOfferingName;
+    }
+
     @Override
     public String getActivityId() {
         return activityId;
@@ -201,6 +222,16 @@ public class ActivityOfferingInfo
     public void setTermId(String termId) {
         this.termId = termId;
     }
+
+    @Override
+    public String getTermCode() {
+        return termCode;
+    }
+
+    public void setTermCode(String termCode) {
+        this.termCode = termCode;
+    }
+
 
     @Override
     public String getActivityCode() {
@@ -365,6 +396,25 @@ public class ActivityOfferingInfo
 
     public void setCourseOfferingId(String courseOfferingId) {
         this.courseOfferingId = courseOfferingId;
+    }
+
+
+    @Override
+    public String getCourseOfferingCode() {
+        return courseOfferingCode;
+    }
+
+    public void setCourseOfferingCode(String courseOfferingCode) {
+        this.courseOfferingCode = courseOfferingCode;
+    }
+
+    @Override
+    public String getCourseOfferingTitle() {
+        return courseOfferingTitle;
+    }
+
+    public void setCourseOfferingTitle(String courseOfferingTitle) {
+        this.courseOfferingTitle = courseOfferingTitle;
     }
 
 
