@@ -166,6 +166,19 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.TERM_APPROVED_COURSES);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.TERM_COURSE_NUMBER_RANGE);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_SUBJECT_CODE, KSKRMSConstants.TERM_SUBJECT_CODE);
+		//createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants., KSKRMSConstants.TERM_COURSE_SET);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_DATE, KSKRMSConstants.TERM_DATE_EFFECTIVE_FROM);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_DATE, KSKRMSConstants.TERM_DATE_EFFECTIVE_TO);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_GPA, KSKRMSConstants.TERM_GPA);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE, KSKRMSConstants.TERM_GRADE);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE_TYPE, KSKRMSConstants.TERM_GRADE_TYPE);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_LEARNING_OBJECTIVES, KSKRMSConstants.TERM_LEARNING_OBJ_DESCRIPTION);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.TERM_NUMBER_OF_COURSES);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.TERM_NUMBER_OF_CREDITS);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS, KSKRMSConstants.TERM_PROPOSED_COURSE);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.TERM_PROPOSED_COURSES);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS, KSKRMSConstants.TERM_SCORE);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.TERM_TEST);
 		//createProposedCourseTermDefinition(nameSpace);
 		//createApprovedCourseTermDefinition(nameSpace);
 	}
