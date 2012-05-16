@@ -753,7 +753,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         Set<OrgTreeInfo> results = new HashSet<OrgTreeInfo>();
         Org rootOrg = organizationDao.fetch(Org.class, rootOrgId);
         OrgTreeInfo root = new OrgTreeInfo(rootOrgId, null, rootOrg.getLongName());
-        root.setPositions(this.organizationDao.getOrgMemebershipCount(root.getOrgId()));
+        root.setPositions(this.organizationDao.getOrgMembershipCount(root.getOrgId()));
         root.setOrgHierarchyId(orgHierarchyId);
         results.add(root);
         if (maxLevels >= 0) {
@@ -767,7 +767,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (maxLevels == 0 || currentLevel < maxLevels) {
             List<OrgTreeInfo> orgTreeInfos = this.organizationDao.getOrgTreeInfo(rootOrgId, orgHierarchyId);
             for (OrgTreeInfo orgTreeInfo : orgTreeInfos) {
-                orgTreeInfo.setPositions(this.organizationDao.getOrgMemebershipCount(orgTreeInfo.getOrgId()));
+                orgTreeInfo.setPositions(this.organizationDao.getOrgMembershipCount(orgTreeInfo.getOrgId()));
                 results.addAll(parseOrgTree(orgTreeInfo.getOrgId(), orgHierarchyId, maxLevels, currentLevel + 1));
             }
             results.addAll(orgTreeInfos);
@@ -824,7 +824,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * 
-     * This method ...
+      This method ...
      * 
      * @param dictionaryServiceDelegate
      */
@@ -859,7 +859,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
 
-        // Look for a Organization Search instance.
+        // Look for a Organization Search instance-.
         if (searchOperations != null) {
             OrganizationSearch search = searchOperations.get(searchRequest.getSearchKey());
             if (search != null) {

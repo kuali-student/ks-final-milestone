@@ -15,25 +15,18 @@
 
 package org.kuali.student.r1.core.organization.dao.impl;
 
+import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r1.core.organization.dao.OrganizationDao;
+import org.kuali.student.r1.core.organization.entity.*;
+import org.kuali.student.r1.core.organization.dto.OrgTreeInfo;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
-import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.r1.core.organization.dao.OrganizationDao;
-import org.kuali.student.r1.core.organization.dto.OrgTreeInfo;
-import org.kuali.student.r1.core.organization.entity.Org;
-import org.kuali.student.r1.core.organization.entity.OrgOrgRelation;
-import org.kuali.student.r1.core.organization.entity.OrgOrgRelationType;
-import org.kuali.student.r1.core.organization.entity.OrgPersonRelation;
-import org.kuali.student.r1.core.organization.entity.OrgPersonRelationType;
-import org.kuali.student.r1.core.organization.entity.OrgPositionRestriction;
 
 public class OrganizationDaoImpl extends AbstractSearchableCrudDaoImpl implements OrganizationDao {
 
@@ -253,23 +246,10 @@ public class OrganizationDaoImpl extends AbstractSearchableCrudDaoImpl implement
 	}
 
     @Override
-    public Long getOrgMemebershipCount(String orgId) {
+    public Long getOrgMembershipCount(String orgId) {
         Query query = em.createNamedQuery("OrgPersonRelation.getOrgMembershipCount");
         query.setParameter("orgId", orgId);
         
         return (Long)query.getSingleResult();
-    }
-    
-    @Override
-    public Org getOrgByRelatedOrgAndType(String relatedOrgId, String relationTypeKey) {
-        Query query = em.createNamedQuery("Org.getOrgByRelatedOrgAndType");
-        query.setParameter("relatedOrgId", relatedOrgId);
-        query.setParameter("relationTypeKey", relationTypeKey);
-
-        try{
-            return (Org) query.getSingleResult();
-        }catch(NoResultException e){
-            return null;
-        }
     }
 }

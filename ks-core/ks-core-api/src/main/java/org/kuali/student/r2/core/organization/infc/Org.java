@@ -16,11 +16,11 @@
 
 package org.kuali.student.r2.core.organization.infc;
 
-import java.util.List;
-
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
+
+import java.util.List;
 
 /**
  * Information about a single organization. 

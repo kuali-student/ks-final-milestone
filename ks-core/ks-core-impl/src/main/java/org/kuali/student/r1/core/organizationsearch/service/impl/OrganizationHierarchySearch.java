@@ -40,7 +40,7 @@ public class OrganizationHierarchySearch implements OrganizationSearch {
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.core.organizationsearch.service.impl.OrganizationSearch#search(org.kuali.student.common.search.dto.SearchRequest)
+     * @see org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationSearch#search(org.kuali.student.r1.common.search.dto.SearchRequest)
      */
     @Override
     public SearchResult search(SearchRequest searchRequest) {
@@ -153,7 +153,7 @@ public class OrganizationHierarchySearch implements OrganizationSearch {
             return org;
         }
         // Recursive call
-        return findParentOrgForType(organizationDao.getOrgByRelatedOrgAndType(org.getId(), relationTypeKey), orgTypeKey, relationTypeKey);
+        return findParentOrgForType(null/*KSCM-541 organizationDao.getOrgByRelatedOrgAndType(org.getId(), relationTypeKey)*/, orgTypeKey, relationTypeKey);
     }
 
 }

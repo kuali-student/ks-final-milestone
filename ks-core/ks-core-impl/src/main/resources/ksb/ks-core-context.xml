@@ -133,21 +133,21 @@
         <property name="em" ref="orgEntityManager"/>
     </bean>
 
+    <bean id="extendedOrgDao"
+          class="org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao">
+        <property name="em" ref="orgEntityManager"/>
+    </bean>
+
     <bean id="organizationSearch"
           class="org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationHierarchySearch">
         <property name="organizationDao" ref="orgDao"/>
     </bean>
 
     <bean id="orgServiceImpl"
-          class="org.kuali.student.r1.core.organization.service.impl.OrganizationServiceImpl">
+          class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao"/>
-        <property name="searchManager" ref="orgSearchManager"/>
+        <property name="extendedOrgDao" ref="extendedOrgDao"/>
         <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
-        <property name="searchOperations">
-            <map>
-                <entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" value-ref="organizationSearch"/>
-            </map>
-        </property>
     </bean>
 
     <bean id="orgSearchManager"
@@ -161,7 +161,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="orgServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.r1.core.organization.service.OrganizationService"/>
+                          value="org.kuali.student.r2.core.organization.service.OrganizationService"/>
                 <property name="localServiceName" value="OrganizationService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization"/>
                 <property name="busSecurity" value="${ks.core.bus.security}"/>
@@ -586,7 +586,7 @@
         <aop:aspect id="dataAccessToBusinessException"
                     ref="mapExceptionAdvisor">
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.r1.core.organization.service.*.*(..))"
+                    pointcut="execution(* org.kuali.student.r2.core.organization.service.*.*(..))"
                     method="afterThrowing" throwing="ex"/>
             <aop:after-throwing
                     pointcut="execution(* org.kuali.student.r1.core.personsearch.service.*.*(..))"

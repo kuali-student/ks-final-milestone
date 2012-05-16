@@ -8,13 +8,6 @@
 
 package org.kuali.student.r2.core.class1.organization.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.jws.WebService;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -40,23 +33,20 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao;
-import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
-import org.kuali.student.r2.core.organization.dto.OrgInfo;
-import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
-import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
-import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
-import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r2.core.organization.dto.*;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @WebService(endpointInterface = "org.kuali.student.r2.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -74,9 +64,9 @@ public class OrganizationServiceImpl implements OrganizationService {
      * Check for missing parameter and throw localized exception if missing
      * 
      * @param param
-     * @param parameter
+     * @param paramName
      *            name
-     * @throws MissingParameterException
+     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
      */
     private void checkForMissingParameter(Object param, String paramName) throws MissingParameterException {
         if (param == null) {
@@ -344,6 +334,15 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Deprecated
+    public TypeInfo getOrgOrgRelationTypeForOrgType(String orgTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkForMissingParameter(orgTypeKey, "orgTypeKey");
+        List<TypeInfo> infos = getOrgOrgRelationTypesForOrgType(orgTypeKey,contextInfo );
+
+        return (infos.size() >0 ? infos.get(0) : new TypeInfo());
+    }
+
+    @Override
     public List<TypeInfo> getOrgOrgRelationTypesForOrgHierarchy(String orgHierarchyId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgHierarchyId, "orgHierarchyId");
 
@@ -596,6 +595,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         List<OrgPersonRelation> orgPersonRelations = extendedOrgDao.getOrgPersonRelationsByTypeAndOrg(orgPersonRelationTypeKey, orgId);
         return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelations);
+    }
+
+    @Override
+    @Deprecated
+    public OrgPersonRelationInfo getOrgPersonRelationByTypeAndOrg(String orgPersonRelationTypeKey, String orgId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<OrgPersonRelationInfo> infos = getOrgPersonRelationsByTypeAndOrg(orgPersonRelationTypeKey, orgId, contextInfo);
+        return (infos.size() >0 ? infos.get(0) : new OrgPersonRelationInfo());
     }
 
     @Override
@@ -935,7 +941,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             root.setOrgId(rootOrgId);
             root.setParentId(null);
             root.setDisplayName(rootOrg.getLongName());
-            root.setPositions(this.organizationDao.getOrgMemebershipCount(root.getOrgId()));
+            root.setPositions(this.organizationDao.getOrgMembershipCount(root.getOrgId()));
             root.setOrgHierarchyId(orgHierarchyId);
             results.add(root);
             if (maxLevels >= 0) {
@@ -964,7 +970,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 treeInfo.setPersonId(orgTreeInfo.getPersonId());
                 treeInfo.setPositionId(orgTreeInfo.getPositionId());
                 treeInfo.setRelationTypeKey(orgTreeInfo.getRelationType());
-                treeInfo.setPositions(this.organizationDao.getOrgMemebershipCount(orgTreeInfo.getOrgId()));
+                treeInfo.setPositions(this.organizationDao.getOrgMembershipCount(orgTreeInfo.getOrgId()));
                 
                 results.add(treeInfo);
                 
@@ -975,70 +981,53 @@ public class OrganizationServiceImpl implements OrganizationService {
         return results;
     }
 
-    /**
-     * 
-     * This method ...
-     * 
-     * @param objectTypeKey
-     * @return
-     * @
-     */
-    @Deprecated
-    public ObjectStructure getObjectStructure(String objectTypeKey)  {
+    public ObjectStructure getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
+
     @Override
     public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public SearchTypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public SearchResultTypeInfo getSearchResultType(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

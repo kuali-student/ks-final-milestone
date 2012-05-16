@@ -85,7 +85,6 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 		} 
 	}
 
-	@Override
 	public List<ValidationResultInfo> validate(Data data)throws OperationFailedException {
 		try{
 		    List<ValidationResultInfo> result= dataService.validateData(data, ContextUtils.getContextInfo());    //result info loaded with info about conflicts 
