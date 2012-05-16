@@ -700,14 +700,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     public TypeInfo getActivityOfferingType(String activityOfferingTypeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        return typeService.getType(activityOfferingTypeKey, context);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<TypeInfo> getActivityOfferingTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+        try {
+            return typeService.getTypesForGroupType(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, context);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("Invalid group type used to retrieve Activity Offering Types: " + LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY);
+        }
     }
 
     @Override

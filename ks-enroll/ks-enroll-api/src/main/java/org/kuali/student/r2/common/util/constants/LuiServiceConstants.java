@@ -40,6 +40,7 @@ public class LuiServiceConstants {
      public static final String FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.format.offering";
     public static final String REGISTRATION_GROUP_TYPE_KEY = "kuali.lui.type.registration.group";
 //    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
+    public static final String ACTIVITY_OFFERING_GROUP_TYPE_KEY = "kuali.lui.type.grouping.activity";
 
     /**
      * Activity types
