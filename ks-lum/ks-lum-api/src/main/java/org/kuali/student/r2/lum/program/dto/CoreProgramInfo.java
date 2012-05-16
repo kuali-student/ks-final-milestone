@@ -16,8 +16,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;

@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r1.common.entity.Amount;
 import org.kuali.student.r1.common.entity.CurrencyAmount;
 import org.kuali.student.r1.common.entity.TimeAmount;
+import org.kuali.student.r1.common.entity.Version;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.service.impl.BaseAssembler;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
@@ -31,6 +32,7 @@ import org.kuali.student.r1.lum.lu.dto.*;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -194,6 +196,21 @@ public class LuServiceAssembler extends BaseAssembler {
 
         return dto;
 
+    }
+    
+    public static VersionInfo toVersionInfo(Version version) {
+        if(version==null){
+            return null;
+        }
+        VersionInfo versionInfo = new VersionInfo();
+        versionInfo.setCurrentVersionStart(version.getCurrentVersionStart());
+        versionInfo.setCurrentVersionEnd(version.getCurrentVersionEnd());
+        versionInfo.setSequenceNumber(version.getSequenceNumber());
+        versionInfo.setVersionComment(version.getVersionComment());
+        versionInfo.setVersionIndId(version.getVersionIndId());
+        versionInfo.setVersionedFromId(version.getVersionedFromId());
+        
+        return versionInfo;
     }
 
     public static List<CluSetInfo> toCluSetInfos(List<CluSet> entities) {

@@ -18,7 +18,6 @@ package org.kuali.student.r1.lum.lo.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -162,16 +161,4 @@ public class LoRepositoryInfo implements Serializable, Idable, HasAttributes {
     public void setId(String id) {
         this.id = id;
     }
-    
-	public static LoRepositoryInfo convertR1toR2(
-			org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo loRepositoryInfo) {
-		// TODO Carel 
-		return null;
-	}
-	
-	public static List<org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo> convertListR1toR2(
-			List<LoRepositoryInfo> loRepositoryList) {
-		// TODO Carel 
-		return null;
-	}
 }
