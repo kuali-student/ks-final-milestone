@@ -20,6 +20,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -96,7 +98,12 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
     	throw new UnsupportedOperationException("This method is not implemented.");
 	}
 
-	public void setCopyCourseService(CopyCourseServiceImpl copyCourseService) {
+	@Override
+    public Boolean isAnyOtherRetireProposalsInWorkflow(String courseCluId) {
+	    throw new UnsupportedOperationException("This method is not implemented.");
+    }
+
+    public void setCopyCourseService(CopyCourseServiceImpl copyCourseService) {
 		this.copyCourseService = copyCourseService;
 	}
 

@@ -35,3 +35,7 @@ VALUES ('488D129E24624EFFAEEF03064B09C77C', 'courseProposedLastCatalogYear-instr
 INSERT INTO KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE, OBJ_ID, VER_NBR) 
 VALUES ('CAF783BB01C846298C681EB1FCD4B0B9', 'courseOtherComments', 'en', 'course', 'Other Comments', '381EDA4D3A5D4EF5B2ACE26D1CFAD576', 1)
 /
+--preventSubmission of more than one retire proposal
+INSERT INTO KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE, OBJ_ID, VER_NBR) 
+VALUES ('305fb5d3-5f53-456b-9069-3241f57b988e', 'courseProposeRetireSingleProposal', 'en', 'course', 'Unable to submit your proposal to retire a course into workflow. Another user is already working on a proposal to retire this course and only one proposal to retire a course is allowed at a time. To proceed with this retire course proposal, you will need to identify who is working on the proposal and have them cancel it.', '45ba8f8d-2b9b-4201-8b0d-1eac4585d178', 1)
+/

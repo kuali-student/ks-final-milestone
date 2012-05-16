@@ -25,6 +25,7 @@ import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
@@ -41,6 +42,10 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	private static final long serialVersionUID = 1L;
 
     private CourseService courseService;
+    /**
+     * The proposal service is injected via spring.
+     */
+    private ProposalService proposalService;
     private LuService luService;
 	private StatementService statementService;
 	private CourseStateChangeServiceImpl stateChangeService;
@@ -129,7 +134,30 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     public StatusInfo changeState(String courseId, String newState, String prevEndTerm) throws Exception {
     	return stateChangeService.changeState(courseId, newState, prevEndTerm);
     }
-
+	
+	/**
+	 * Perform a search using the proposal service to look for any retire
+	 * proposals in saved or enroute state.  Note that you can run this
+	 * search through soapUI for quick testing/debugging.  
+	 * <p>
+	 */
+	public Boolean isAnyOtherRetireProposalsInWorkflow(String courseCluId) throws Exception{
+	        // Fill the request with the key to identify the search
+	        SearchRequest request = new SearchRequest("proposal.search.countForProposals");
+	        
+	        // Add search parms.  In this case, we will use the cluId of the course
+	        // we are trying to retire
+	        request.addParam("proposal.queryParam.cluId", courseCluId);
+	        
+	        // Perform search and get the result
+ 	        SearchResult result = proposalService.search(request);	        
+	        String resultString = result.getRows().get(0).getCells().get(0).getValue();
+	        
+	        // If there are no retire proposals enroute or in saved status/
+	        // return false, else return true
+	        return !"0".equals(resultString);
+	}
+	
     private void setReqCompNL(StatementTreeViewInfo tree) throws Exception {
         List<StatementTreeViewInfo> statements = tree.getStatements();
         List<ReqComponentInfo> reqComponentInfos = tree.getReqComponents();
@@ -185,4 +213,9 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	public void setLuService(LuService luService) {
 		this.luService = luService;
 	}
+
+    public void setProposalService(ProposalService proposalService) {
+        this.proposalService = proposalService;
+    }
+	
 }

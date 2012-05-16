@@ -52,7 +52,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     
 	private static final BlockingTask processingTask = new BlockingTask("Processing State Change....");
 	private static final CourseRpcServiceAsync courseServiceAsync = GWT.create(CourseRpcService.class);    
-
+ 
     private KSMenuItemData modifyCourseActionItem;
 	private KSMenuItemData activateCourseActionItem;
 	private KSMenuItemData inactivateCourseActionItem;
@@ -350,13 +350,17 @@ public class CourseWorkflowActionList extends StylishDropDown {
    
         continueButton.addClickHandler(new ClickHandler(){
 			@Override
-			public void onClick(ClickEvent event) {
-				if (radioOptionAdminRetire.getValue()){
+			public void onClick(ClickEvent event) {				
+			    if (radioOptionAdminRetire.getValue()){
 					viewContext.setId((String)model.get(CreditCourseConstants.ID));
 					viewContext.setIdType(IdType.OBJECT_ID);
 					Application.navigate(AppLocations.Locations.COURSE_RETIRE.getLocation(), viewContext);
 				} else if (radioOptionRetireByProposal.getValue()){
-					 checkLatestVersionRetire(viewContext, retirePath, model);										    			    
+				    // If user did NOT choose admin retire from the lightbox
+				    // then check if another retire proposal is saved or
+				    // enroute for this course, and retire if there are no
+				    // other retire proposals for this course
+				    checkOnlyOneRetireProposalInWorkflow(viewContext, retirePath, model);										    			    
 				}
 		    	retireDialog.hide();
 			}        	
@@ -417,29 +421,48 @@ public class CourseWorkflowActionList extends StylishDropDown {
     
     
     /**
-     * Do a latest version check, if successful, call the modify action else display an error message that the current
-     * version of the selected course is under modification. 
+     * We can only have one retire proposal in workflow at a time.  This method
+     * will call the proposal webservice and run a custom search that will look
+     * for any retire proposals that are in the saved or enroute state.  A 
+     * count is returned and, if the count is > 0, we display an error message
+     * and prevent the user from proposing to retire this course until the outstanding 
+     * proposal is approved or canceled.
      * 
      * @param viewContext
      * @param modifyPath
      * @param model
      * @param reviewOption
      */
-    private void checkLatestVersionRetire(final ViewContext viewContext, final String retirePath, final DataModel model){
-        String courseVerIndId = getCourseVersionIndId(model);
-        Long courseVersionSequence = getCourseVersionSequenceNumber(model);
+    private void checkOnlyOneRetireProposalInWorkflow(final ViewContext viewContext, final String retirePath, final DataModel model){
+        
+        // Get the course clu ID from the model
+        String courseId = getCourseCluIdFromModel(model);
     
-        courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, new AsyncCallback<Boolean>(){
+        // Call server to check how many other retire proposals for this course are in
+        // workflow
+        courseServiceAsync.isAnyOtherRetireProposalsInWorkflow(courseId, new AsyncCallback<Boolean>(){
         
             public void onFailure(Throwable caught) {
-                KSNotifier.add(new KSNotification("Error determining latest version of course", false, 5000));
+                KSNotifier.add(new KSNotification("Error checking number of proposals in workflow", false, 5000));
             }
         
             public void onSuccess(Boolean result) {
-                doRetireActionItem(viewContext, retirePath, model);
+                
+                // If there are no other retire proposals in workflow, display
+                // the dialog and let the user propose to retire the course
+                if (result != null && result.booleanValue() == false){
+                    doRetireActionItem(viewContext, retirePath, model);
+                }
+                else{
+                    // Else, do not allow the user to propose to retire the course
+                    // Instead, show this error message
+                    KSNotifier.add(new KSNotification(getMessage("courseProposeRetireSingleProposal"), false, 15000));
+                }
             }
         });
     }
+    
+    
     
     // TODO: add Retire and Inactivate Dialogs
     
@@ -619,6 +642,17 @@ public class CourseWorkflowActionList extends StylishDropDown {
     }
     
     /**
+     * 
+     * This method get the cluid of the course in the data model.
+     * 
+     * @param courseModel
+     * @return the cluId from the model
+     */
+    private String getCourseCluIdFromModel(DataModel courseModel){
+        return (String)courseModel.get(CreditCourseConstants.ID);    
+    }
+    
+    /**
      * Retrieves the version sequence number from the course data model
      * 
      * @param courseModel
@@ -666,7 +700,10 @@ public class CourseWorkflowActionList extends StylishDropDown {
 			            } else {
 			            	//Non-admin users are only allowed to retire via proposal.
 			            	//Clicking the "Retire Course" item will simply navigate user directly to modify course by proposal screen.
-			            	checkLatestVersionRetire(viewContext, retirePath, model);
+			                
+			                // Only display retire dialog if there are no other retire course proposals
+			                // in workflow.  Else, display an error to user.
+			            	checkOnlyOneRetireProposalInWorkflow(viewContext, retirePath, model);
 			            }
 					}
 				});
