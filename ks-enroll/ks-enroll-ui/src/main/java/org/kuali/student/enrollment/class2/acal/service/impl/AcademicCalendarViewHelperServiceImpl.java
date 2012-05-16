@@ -405,6 +405,12 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                         return false;
                     }
                 }
+            } else if (addLine instanceof KeyDateWrapper) {
+                KeyDateWrapper keydate = (KeyDateWrapper)addLine;
+                if(StringUtils.isEmpty(keydate.getKeyDateType())) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId( "acal-term-keydates", CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
+                    return false;
+                }
             }
         }
 
@@ -1027,11 +1033,13 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }else if (addLine instanceof KeyDateWrapper){
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
             try {
-                TypeInfo type = getTypeService().getType(keydate.getKeyDateType(),getContextInfo());
-                keydate.setKeyDateNameUI(type.getName());
-                keydate.setTypeInfo(type);
-                if (!CommonUtils.isValidDateRange(keydate.getStartDate(),keydate.getEndDate())){
-                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", "error.enroll.daterange.invalid",keydate.getKeyDateNameUI(),CommonUtils.formatDate(keydate.getStartDate()),CommonUtils.formatDate(keydate.getEndDate()));
+                if(!StringUtils.isEmpty(keydate.getKeyDateType())) {
+                    TypeInfo type = getTypeService().getType(keydate.getKeyDateType(),getContextInfo());
+                    keydate.setKeyDateNameUI(type.getName());
+                    keydate.setTypeInfo(type);
+                    if (!CommonUtils.isValidDateRange(keydate.getStartDate(),keydate.getEndDate())){
+                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", "error.enroll.daterange.invalid",keydate.getKeyDateNameUI(),CommonUtils.formatDate(keydate.getStartDate()),CommonUtils.formatDate(keydate.getEndDate()));
+                    }
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

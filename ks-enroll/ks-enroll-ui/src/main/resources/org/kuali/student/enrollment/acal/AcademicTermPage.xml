@@ -144,9 +144,9 @@
      <property name="layoutManager.richTable.render" value="false" />
      <property name="items">
        <list>
-         <bean parent="Uif-InputField" p:propertyName="keyDateType"
+         <bean parent="Uif-InputField" p:propertyName="keyDateType" p:required="true"
                p:readOnly="@{!#isAddLine}" p:alternateDisplayPropertyName="keyDateNameUI"
-               p:label="Key Date Type" p:required="true"
+               p:label="Key Date Type"
                p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;">
              <property name="control">
                 <bean parent="Uif-DropdownControl"/>
