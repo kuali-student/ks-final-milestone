@@ -58,6 +58,10 @@ import java.util.*;
 public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl implements AppointmentViewHelperService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AppointmentViewHelperServiceImpl.class);
 
+    private transient AcademicCalendarService academicCalendarService;
+    private transient TypeService typeService;
+    private transient AppointmentService appointmentService;
+
     @Override
     public void searchForTerm(String typeKey, String year, RegistrationWindowsManagementForm form) throws Exception {
 
@@ -373,16 +377,29 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     }
 
     public AcademicCalendarService getAcalService() {
-        return (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if(academicCalendarService == null) {
+            academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.academicCalendarService;
     }
 
-    public TypeService getTypeService() {
-        return (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeService.class.getSimpleName()));
-    }
 
     public AppointmentService getAppointmentService() {
-        return (AppointmentService) GlobalResourceLoader.getService(new QName(AppointmentServiceConstants.NAMESPACE, AppointmentServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if(appointmentService == null) {
+            appointmentService = (AppointmentService) GlobalResourceLoader.getService(new QName(AppointmentServiceConstants.NAMESPACE, AppointmentServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return appointmentService;
     }
+
+
+    public TypeService getTypeService() {
+        if(typeService == null) {
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.typeService;
+    }
+
+
 
     public ContextInfo getContextInfo() {
         ContextInfo contextInfo = new ContextInfo();

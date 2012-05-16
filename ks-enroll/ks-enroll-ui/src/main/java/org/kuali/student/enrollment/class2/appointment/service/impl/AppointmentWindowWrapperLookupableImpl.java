@@ -34,6 +34,12 @@ import java.util.Map;
 public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AppointmentWindowWrapperLookupableImpl.class);
 
+    private transient AppointmentService appointmentService;
+    private transient AcademicCalendarService academicCalendarService;
+    private transient TypeService typeService;
+    private transient PopulationService populationService;
+
+
     public final static String TERM_TYPE_KEY = "termType";
     public final static String TERM_YEAR_KEY = "termYear";
 
@@ -170,17 +176,33 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
     }
 
     public AcademicCalendarService getAcalService() {
-        return (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if(academicCalendarService == null) {
+            academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.academicCalendarService;
     }
-    public TypeService getTypeService() {
-        return (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeService.class.getSimpleName()));
-    }
-    public AppointmentService getAppointmentService() {
-        return (AppointmentService) GlobalResourceLoader.getService(new QName(AppointmentServiceConstants.NAMESPACE, AppointmentServiceConstants.SERVICE_NAME_LOCAL_PART));
-    }
-    public PopulationService getPopulationService() {
-        return (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationService.class.getSimpleName()));
 
+
+    public AppointmentService getAppointmentService() {
+        if(appointmentService == null) {
+            appointmentService = (AppointmentService) GlobalResourceLoader.getService(new QName(AppointmentServiceConstants.NAMESPACE, AppointmentServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return appointmentService;
+    }
+
+
+    public TypeService getTypeService() {
+        if(typeService == null) {
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.typeService;
+    }
+
+    public PopulationService getPopulationService() {
+        if(populationService == null) {
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationService.class.getSimpleName()));
+        }
+        return populationService;
     }
 
 }

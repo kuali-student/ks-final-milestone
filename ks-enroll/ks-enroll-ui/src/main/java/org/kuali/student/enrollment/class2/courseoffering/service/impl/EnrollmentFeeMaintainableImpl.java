@@ -24,10 +24,10 @@ import java.util.Map;
 
 public class EnrollmentFeeMaintainableImpl extends MaintainableImpl implements EnrollmentFeeMaintainable {
 
-    private CourseOfferingService courseOfferingService;
+    private transient CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
-    private TypeService typeService;
-    private StateService stateService;
+    private transient TypeService typeService;
+    private transient StateService stateService;
 
     @Override
     public void saveDataObject() {
@@ -93,14 +93,14 @@ public class EnrollmentFeeMaintainableImpl extends MaintainableImpl implements E
 
     public TypeService getTypeService() {
         if(typeService == null) {
-            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, "TypeService"));
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.typeService;
     }
 
     public StateService getStateService() {
         if(stateService == null) {
-            stateService = (StateService) GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, "StateService"));
+            stateService = (StateService) GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return stateService;
     }

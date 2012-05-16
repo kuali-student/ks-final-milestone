@@ -23,22 +23,17 @@
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="termId" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="setOrgId" />
-
             </list>
         </property>
         <property name="resultFields">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="id"/>
-                <bean parent="Uif-DataField" p:propertyName="descr"/>
+                <bean parent="Uif-DataField" p:propertyName="descr.plain"/>
                 <bean parent="Uif-DataField" p:propertyName="stateKey" />
                 <bean parent="Uif-DataField" p:propertyName="typeKey" />
-                <!--<bean parent="Uif-DataField" p:propertyName="setOrgId" />
-                <bean parent="Uif-DataField" p:propertyName="setRefObjectId" /> -->
             </list>
         </property>
     </bean>
