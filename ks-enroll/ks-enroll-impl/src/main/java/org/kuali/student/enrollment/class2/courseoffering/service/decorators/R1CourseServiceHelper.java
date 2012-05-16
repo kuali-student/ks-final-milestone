@@ -4,20 +4,21 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -100,7 +101,7 @@ public class R1CourseServiceHelper {
         // all versions of the course
         List<VersionDisplayInfo> versions;
         try {
-            versions = courseService.getVersions(LuServiceConstants.CLU_NAMESPACE_URI, versionIndCourseId);
+            versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, versionIndCourseId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
             // TODO: if no version exists for the target term should we return null instead?
             throw new DoesNotExistException("The course does not exist. course: " + versionIndCourseId, e);
