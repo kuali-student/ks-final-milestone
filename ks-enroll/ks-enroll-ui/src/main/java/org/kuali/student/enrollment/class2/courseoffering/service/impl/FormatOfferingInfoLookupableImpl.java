@@ -35,33 +35,40 @@ import java.util.Map;
  */
 public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
     public final static String COURSE_OFFER_ID = "courseOfferingId";
+    private transient CourseOfferingService courseOfferingService;
+    private ContextInfo contextInfo = null;
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-        List<FormatOfferingInfo> formatOfferingInfos = new ArrayList<FormatOfferingInfo>();
+        List<FormatOfferingInfo> formatOfferingInfos;
 
         try {
             formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(fieldValues.get(COURSE_OFFER_ID), getContextInfo());
         } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException(e);
         } catch (InvalidParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException(e);
         } catch (MissingParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException(e);
         } catch (OperationFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException(e);
         } catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException(e);
         }
 
         return formatOfferingInfos;
     }
 
     public CourseOfferingService getCourseOfferingService() {
-        return CourseOfferingResourceLoader.loadCourseOfferingService();
+        if(courseOfferingService == null)
+            courseOfferingService= CourseOfferingResourceLoader.loadCourseOfferingService();
+        return courseOfferingService;
     }
 
     public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo();
+        if (contextInfo == null){
+            contextInfo =  ContextBuilder.loadContextInfo();
+        }
+        return contextInfo;
     }
 }

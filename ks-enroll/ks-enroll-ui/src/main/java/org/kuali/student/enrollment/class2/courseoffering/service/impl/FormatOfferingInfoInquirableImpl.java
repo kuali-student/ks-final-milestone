@@ -31,26 +31,17 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class FormatOfferingInfoInquirableImpl extends InquirableImpl {
-    public final static String FORMAT_ID = "formatId";
+    public final static String FORMAT_OFFERING_ID = "id";
 
     @Override
     public FormatOfferingInfo retrieveDataObject(Map<String, String> parameters) {
 
         try {
-            FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(parameters.get(FORMAT_ID), getContextInfo());
+            FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(parameters.get(FORMAT_OFFERING_ID), getContextInfo());
             return formatOfferingInfo;
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MissingParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (OperationFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
 
