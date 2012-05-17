@@ -33,6 +33,7 @@
     </ul>
 
     <strong>Enrollment Fee Maintenance</strong> <br/>
+    <text>(Devs: Ingest EnrollmentFeeWorkflowDocument.xml)</text>
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Enrollment Fee Info" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.EnrollmentFeeFormObject&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
     </ul>
