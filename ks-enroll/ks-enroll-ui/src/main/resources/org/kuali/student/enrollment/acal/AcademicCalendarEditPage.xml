@@ -77,7 +77,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.name"
-                      p:label="Academic Calendar Name" p:labelPlacement="TOP">
+                      p:label="Academic Calendar Name" p:labelPlacement="TOP" p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" />
                     </property>
@@ -92,7 +92,7 @@
                     </property>   -->
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.startDate"
-                      p:label="Start Date" p:labelPlacement="TOP">
+                      p:label="Start Date" p:labelPlacement="TOP" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy" />
                     </property>
@@ -101,7 +101,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.endDate"
-                      p:label="End Date" p:labelPlacement="TOP">
+                      p:label="End Date" p:labelPlacement="TOP" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
                     </property>
