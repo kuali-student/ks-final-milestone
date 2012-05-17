@@ -22,8 +22,7 @@
             <list>
                 <bean parent="Uif-DataField" p:propertyName="id">
                     <property name="inquiry">
-                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo"
-                               p:inquiryParameters="id" />
+                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" p:inquiryParameters="id" />
                     </property>
                 </bean>
 
@@ -72,17 +71,17 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="id" />
-                            <bean parent="Uif-InputField" p:propertyName="name"/>
-                            <bean parent="Uif-InputField" p:propertyName="typeKey" />
-                            <bean parent="Uif-InputField" p:propertyName="stateKey" />
-                            <bean parent="Uif-InputField" p:propertyName="termId" />
-                            <bean parent="Uif-InputField" p:propertyName="activityCode" />
-                            <bean parent="Uif-InputField" p:propertyName="activityId"/>
-                            <bean parent="Uif-InputField" p:propertyName="formatOfferingId" p:label="Format Offering Id"/>
-                            <bean parent="Uif-InputField" p:propertyName="maximumEnrollment" p:label="Total Maximum Enrollment"/>
-                            <bean parent="Uif-InputField" p:propertyName="isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
-                            <bean parent="Uif-InputField" p:propertyName="isEvaluated" p:label="This course requires an evaluation"/>
-                            <bean parent="Uif-InputField" p:propertyName="isHonorsOffering"/>
+                            <bean parent="Uif-DataField" p:propertyName="name"/>
+                            <bean parent="Uif-DataField" p:propertyName="typeKey" />
+                            <bean parent="Uif-DataField" p:propertyName="stateKey" />
+                            <bean parent="Uif-DataField" p:propertyName="termId" />
+                            <bean parent="Uif-DataField" p:propertyName="activityCode" />
+                            <bean parent="Uif-DataField" p:propertyName="activityId"/>
+                            <bean parent="Uif-DataField" p:propertyName="formatOfferingId" p:label="Format Offering Id"/>
+                            <bean parent="Uif-DataField" p:propertyName="maximumEnrollment" p:label="Total Maximum Enrollment"/>
+                            <bean parent="Uif-DataField" p:propertyName="isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
+                            <bean parent="Uif-DataField" p:propertyName="isEvaluated" p:label="This course requires an evaluation"/>
+                            <bean parent="Uif-DataField" p:propertyName="isHonorsOffering"/>
                         </list>
                     </property>
                 </bean>
