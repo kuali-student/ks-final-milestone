@@ -123,7 +123,7 @@ public class OrganizationAssembler {
         longDescr.setFormatted(org.getLongDesc());
         longDescr.setPlain(org.getLongDesc());
         orgInfo.setLongDescr(longDescr);
-        
+        orgInfo.setStateKey(org.getState());
         return orgInfo;
     }
     
@@ -147,6 +147,7 @@ public class OrganizationAssembler {
         relationInfo.setAttributes(AssemblerHelper.toAttributeList(relation.getAttributes()));
         relationInfo.setMeta(AssemblerHelper.toMetaInfo(relation.getMeta(), relation.getVersionNumber()));
         relationInfo.setTypeKey(relation.getType().getId());
+        relationInfo.setStateKey(relation.getState());
         //relationInfo.setId(relation.getId());
         return relationInfo;
     }
@@ -178,7 +179,7 @@ public class OrganizationAssembler {
         orgOrgRelationInfo.setTypeKey(orgOrgRelation.getType().getId());
         orgOrgRelationInfo.setOrgId(orgOrgRelation.getOrg().getId());
         orgOrgRelationInfo.setRelatedOrgId(orgOrgRelation.getRelatedOrg().getId());
-        
+        orgOrgRelationInfo.setStateKey(orgOrgRelation.getState());
         return orgOrgRelationInfo;
     }
     
@@ -257,7 +258,7 @@ public class OrganizationAssembler {
             throw new InvalidParameterException("OrgType does not exist for id: " + orgInfo.getTypeKey());
         }
         org.setType(orgType);
-        
+        org.setState(orgInfo.getStateKey());
         return org;
     }
     
@@ -329,7 +330,7 @@ public class OrganizationAssembler {
                                                 "OrgOrgRelationType does not exist for id: " + orgOrgRelationInfo.getTypeKey());
         }
         orgOrgRelation.setType(orgOrgRelationType);
-        
+        orgOrgRelation.setState(orgOrgRelationInfo.getStateKey());
         return orgOrgRelation;
     }
     
@@ -395,6 +396,7 @@ public class OrganizationAssembler {
             throw new InvalidParameterException("OrgPersonRelationType does not exist for id: " + orgPersonRelationInfo.getTypeKey());
         }
         orgPersonRelation.setType(orgPersonRelationType);
+        orgPersonRelation.setState(orgPersonRelationInfo.getStateKey());
         
         return orgPersonRelation;
     }
