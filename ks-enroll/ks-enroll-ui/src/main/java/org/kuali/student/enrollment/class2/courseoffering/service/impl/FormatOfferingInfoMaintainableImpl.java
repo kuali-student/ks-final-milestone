@@ -16,19 +16,113 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject;
 import org.kuali.student.enrollment.class2.courseoffering.service.FormatOfferingInfoMaintainable;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.core.type.service.TypeService;
+
+import javax.xml.namespace.QName;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
-public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl implements FormatOfferingInfoMaintainable {
+public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
+    private static final String DEFAULT_DOCUMENT_DESC_FOR_CREATING_FORMAT_OFFERING =
+            "Create a new Format offering";
+    private static final String DEFAULT_DOCUMENT_DESC_FOR_EDITING_FORMAT_OFFERING =
+            "Edit an existing Format offering";
+    private static final String DEFAULT_DOCUMENT_DESC_FOR_COPYING_FORMAT_OFFERING =
+            "Copy from an existing Format offering to create a new one";
 
+    private CourseOfferingService courseOfferingService;
+    private ContextInfo contextInfo;
+
+    @Override
+    public void saveDataObject() {
+        FormatOfferingInfo formatOfferingInfoMaintenance = (FormatOfferingInfo) getDataObject();
+
+        if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
+                getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
+            try {
+                FormatOfferingInfo formatOfferingInfoCreated = getCourseOfferingService().createFormatOffering(formatOfferingInfoMaintenance.getCourseOfferingId(), formatOfferingInfoMaintenance.getFormatId(),
+                                                                                            LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, formatOfferingInfoMaintenance, getContextInfo());
+                //setDataObject(new FormatOfferingInfo(formatOfferingInfoCreated));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {   //should be edit action
+            try {
+                FormatOfferingInfo formatOfferingInfoUpdated = getCourseOfferingService().updateFormatOffering(formatOfferingInfoMaintenance.getId(), formatOfferingInfoMaintenance, getContextInfo());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
+     * @see org.kuali.rice.krad.maintenance.Maintainable#processAfterCopy
+     */
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        //set documentDescription to document.documentHeader.documentDescription
+        document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_COPYING_FORMAT_OFFERING);
+    }
+
+    /**
+     * @see org.kuali.rice.krad.maintenance.Maintainable#processAfterEdit
+     */
+    @Override
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        //set documentDescription to document.documentHeader.documentDescription
+        document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_EDITING_FORMAT_OFFERING);
+
+    }
+
+    /**
+     * @see org.kuali.rice.krad.maintenance.Maintainable#processAfterNew
+     */
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        //set documentDescription to document.documentHeader.documentDescription
+        document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_CREATING_FORMAT_OFFERING);
+
+    }
+
+    public ContextInfo getContextInfo() {
+        if (null == contextInfo) {
+            contextInfo = new ContextInfo();
+            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+            LocaleInfo localeInfo = new LocaleInfo();
+            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
+            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
+            contextInfo.setLocale(localeInfo);
+        }
+        return contextInfo;
+    }
+
+    protected CourseOfferingService getCourseOfferingService() {
+        if (courseOfferingService == null) {
+            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));
+        }
+        return courseOfferingService;
+    }
 }
 
