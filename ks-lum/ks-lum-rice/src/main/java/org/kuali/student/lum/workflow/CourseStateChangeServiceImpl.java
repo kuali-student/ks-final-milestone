@@ -37,29 +37,70 @@ public class CourseStateChangeServiceImpl {
 	 */
 	public StatusInfo changeState(String courseId, String newState,	String prevEndTermAtpId) throws Exception {
 
+	    // Get the newest version of the course.  This is the one with the latest
+	    // sequence number - the very latest course.  Confusing, huh?
 		CourseInfo courseInfo = courseService.getCourse(courseId);
-
+		
+		// This naming is a bit confusing since current version means
+		// different things.  Just find the cluId in the debugger and
+		// compare against what is in the KSLU_CLU table.  It is older
+		// than the courseInfo variable above
+		CourseInfo currVerCourse = getCurrentVersionOfCourse(courseInfo);
+		
+		// If the versions are equal, this is the only version.  
+		// There are no versions before it
+		boolean isOnlyVersion = (courseInfo.getId().equals(currVerCourse.getId()));
+		
+		// This variable is used to return if this method was successful
 		StatusInfo ret = new StatusInfo();
+		 
+		// If we are trying to activate the course (new state coming in is active)
 		if ((newState!=null) && (newState.equals(DtoConstants.STATE_ACTIVE))) {
+		    
+		    // Processing for pilot courses.  These are handled a bit differently.
+		    // Instead of activating, we are going to retire it.  Also, if there
+		    // is a previous version, we'll supersede it.
 			if ((courseInfo!=null) && courseInfo.isPilotCourse()){
+			    
+			    // If this is the only version, it means there are no previous version of the pilot course
+			    // in this case, we don't need to supersede anything.  
+			    if (!isOnlyVersion){
+ 			        currVerCourse.setState(DtoConstants.STATE_SUPERSEDED);
+ 			        courseService.updateCourse(currVerCourse);
+ 		            updateStatementTreeViewInfoState(currVerCourse);
+
+			    }
+			    
 				// Pilot Course Creates come through here the 2nd time and
 				// gets Retired but first, add fields which are required only for Retired State
 				courseInfo.getAttributes().put("retirementRationale", "Pilot Course");
 				courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
 				courseInfo.setState(DtoConstants.STATE_ACTIVE);
 				retireCourse(courseInfo);
+				
+				// We MUST run this after the call to retireCourse or else we
+				// will get a version mismatch exception
+                if (!isOnlyVersion){
+                    
+                    // For some reason we need to read the course back in to avoid the
+                    // version mismatch exception
+                    courseInfo = courseService.getCourse(courseId);
+                    
+                    // Now update the CURR_VER_START and CURR_VER_END
+                    courseService.setCurrentCourseVersion(courseInfo.getId(),
+                           null);
+                     
+                }
+				
 			}else{
-				// Pilot course gets activated the first time through 
+				// If NOT a pilot, just activate the course
 				activateCourse(courseInfo, prevEndTermAtpId);
 			}
 		} else if (newState.equals(DtoConstants.STATE_RETIRED)){
-			      // Admin Retire and Retire by Proposal should both end up here.
+			      // The new state coming in is retired, so just retire the course
 				  retireCourse(courseInfo);
 			} 
-		
-			
-		
-
+		 
 		ret.setSuccess(new Boolean(true));
 
 		return ret;
