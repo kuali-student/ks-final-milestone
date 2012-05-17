@@ -19,7 +19,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.r1.common.dto.HasAttributes;
 import org.kuali.student.r1.common.dto.Idable;
 import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
