@@ -2,9 +2,7 @@ package org.kuali.student.common.conversion;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,23 +28,23 @@ public class CommonConverterTest {
     
     @Test
     public void testAmountInfo() {
-        org.kuali.student.r1.common.dto.AmountInfo r1 = new org.kuali.student.r1.common.dto.AmountInfo();
+        org.kuali.student.r2.common.dto.AmountInfo r1 = new org.kuali.student.r2.common.dto.AmountInfo();
         r1.setUnitQuantity("R1 Unit Quantity");
-        r1.setUnitType("R1 Unit Type");
+        r1.setUnitTypeKey("R1 Unit Type");
         AmountInfo r2 = R1R2ConverterUtil.convert(r1, AmountInfo.class);
         Assert.assertEquals(r1.getUnitQuantity(), r2.getUnitQuantity());
-        Assert.assertEquals(r1.getUnitType(), r2.getUnitTypeKey());
+        Assert.assertEquals(r1.getUnitTypeKey(), r2.getUnitTypeKey());
     }
 
     @Test
     public void testCurrencyAmountInfo() {
         org.kuali.student.r2.common.dto.CurrencyAmountInfo r1 = new org.kuali.student.r2.common.dto.CurrencyAmountInfo();
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setMeta(R1TestDataUtil.getMetadataInfoData());
         r1.setCurrencyQuantity(1);
         r1.setCurrencyTypeKey("R1 Currency Type Key");
         CurrencyAmountInfo r2 = R1R2ConverterUtil.convert(r1, CurrencyAmountInfo.class);
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-        Assert.assertEquals(r1.getMetaInfo().getCreateTime(), r2.getMeta().getCreateTime());
+        Assert.assertEquals(r1.getMeta().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals(r1.getMeta().getCreateTime(), r2.getMeta().getCreateTime());
         Assert.assertEquals(r1.getCurrencyQuantity(), r2.getCurrencyQuantity());
         Assert.assertEquals(r1.getCurrencyTypeKey(), r2.getCurrencyTypeKey());
     }
@@ -64,7 +62,7 @@ public class CommonConverterTest {
 
     @Test
     public void testRichTextInfo() {
-        org.kuali.student.r1.common.dto.RichTextInfo r1 = R1TestDataUtil.getRichTextInfoData();
+        org.kuali.student.r2.common.dto.RichTextInfo r1 = R1TestDataUtil.getRichTextInfoData();
         RichTextInfo r2 = R1R2ConverterUtil.convert(r1, RichTextInfo.class);
         Assert.assertEquals(r1.getFormatted(), r2.getFormatted());
         Assert.assertEquals(r1.getPlain(), r2.getPlain());
@@ -82,7 +80,7 @@ public class CommonConverterTest {
 
     @Test
     public void testTimeAmountInfo() {
-        org.kuali.student.r1.common.dto.TimeAmountInfo r1 = new org.kuali.student.r1.common.dto.TimeAmountInfo();
+        org.kuali.student.r2.common.dto.TimeAmountInfo r1 = new org.kuali.student.r2.common.dto.TimeAmountInfo();
         r1.setAtpDurationTypeKey("R1 Atp Duration Key");
         r1.setTimeQuantity(1);
         TimeAmountInfo r2 = R1R2ConverterUtil.convert(r1, TimeAmountInfo.class);
