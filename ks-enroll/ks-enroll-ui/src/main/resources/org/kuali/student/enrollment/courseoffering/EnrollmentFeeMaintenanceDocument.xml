@@ -47,62 +47,18 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                     <property name="headerText" value="Create a New Enrollment Fee"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="ID" p:propertyName="efInfo.id"/>
-                            <bean parent="Uif-InputField" p:label="Description" p:propertyName="efInfo.descr"/>
-                            <bean parent="Uif-InputField" p:label="State Key" p:propertyName="efInfo.stateKey"/>
-                            <bean parent="Uif-InputField" p:label="Type Key" p:propertyName="efInfo.typeKey"/>
-                            <bean parent="Uif-InputField" p:label="Amount" p:propertyName="efInfo.amount"/>
+                            <bean parent="Uif-InputField" p:label="ID" p:propertyName="efInfo.id" p:readOnly="true" />
+
+                            <bean parent="Uif-InputField" p:label="State Key" p:propertyName="efInfo.stateKey" p:readOnly="true" />
+                            <bean parent="Uif-InputField" p:label="Type Key" p:propertyName="efInfo.typeKey" p:readOnly="true" />
+                            <bean parent="Uif-InputField" p:label="Plain Description" p:propertyName="efInfo.descr.plain"/>
+                            <bean parent="Uif-InputField" p:label="Amount" p:propertyName="efInfo.amount.currencyQuantity"/>
                             <bean parent="Uif-InputField" p:label="Organization ID" p:propertyName="efInfo.orgId"/>
                             <bean parent="Uif-InputField" p:label="RefObjectURI" p:propertyName="efInfo.refObjectURI"/>
                             <bean parent="Uif-InputField" p:label="RefObjectID" p:propertyName="efInfo.refObjectId"/>
-                           <!-- <bean parent="Uif-InputField" p:propertyName="aoInfo.id" p:readOnly="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.stateKey" p:readOnly="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.typeKey" p:readOnly="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.termId" p:defaultValue="2012WINTER"/>
-                            <bean parent="Uif-InputField" p:propertyName="id"/>
-                            <bean parent="Uif-InputField" p:propertyName="descr"/>
-                            <bean parent="Uif-InputField" p:propertyName="stateKey"/>  -->
-
-                            <!--<bean parent="Uif-InputField" p:propertyName="efInfo.termId" p:defaultValue="2012WINTER">-->
-                                <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.aoInfo.TermInfo"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="code" value="aoInfo.id"/>
-                                    </map>
-                                </property>
-                             </bean>  -->
-                            <!--<bean parent="Uif-InputField" p:propertyName="efInfo.activityCode"/>
-                            <bean parent="Uif-InputField" p:propertyName="efInfo.activityId" p:defaultValue="CLU-4"/>
-                            <bean parent="Uif-InputField" p:propertyName="efInfo.formatOfferingId" p:label="Format Offering Id" p:defaultValue="Lui-fo-2"/>
-                            <bean parent="Uif-InputField" p:propertyName="efInfo.maximumEnrollment" p:label="Total Maximum Enrollment"/>
-                            <bean parent="Uif-InputField" p:propertyName="efInfo.isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
-                            <bean parent="Uif-InputField" p:propertyName="efInfo.isEvaluated" p:label="This course requires an evaluation"/>
-                            <bean parent="Uif-InputField" p:propertyName="efInfo.isHonorsOffering"/>  -->
                         </list>
                     </property>
                 </bean>
-
-              <!-- <bean parent="Uif-MaintenanceStackedCollectionSection">
-                    <property name="headerText" value="Personnel"/>
-                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
-                    <property name="propertyName" value="efInfo.instructors"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField" p:propertyName="personId">  -->
-                                <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>-->
-                             <!--  <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="principalId" value="personId"/>
-                                        <entry key="principalName" value="personName"/>
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="personName" p:readOnly="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="percentageEffort"/>
-                        </list>
-                    </property>
-                </bean>   -->
 
             </list>
         </property>
