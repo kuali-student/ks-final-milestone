@@ -1147,8 +1147,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>(results.getResults().size());
         for (LuiEntity lui : results.getResults()) {
             try {
-                CourseOfferingInfo co = this.getCourseOffering(lui.getId(), context);
-                courseOfferings.add(co);
+                if(checkTypeForCourseOfferingType(lui.getLuiType())){
+                    CourseOfferingInfo co = this.getCourseOffering(lui.getId(), context);
+                    courseOfferings.add(co);
+                }
             } catch (DoesNotExistException ex) {
                 throw new OperationFailedException(lui.getId(), ex);
             }
@@ -1190,8 +1192,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>(results.getResults().size());
         for (LuiEntity lui : results.getResults()) {
             try {
-                ActivityOfferingInfo ao = this.getActivityOffering(lui.getId(), context);
-                activityOfferingInfos.add(ao);
+                if(checkTypeForActivityOfferingType(lui.getLuiType(), context)){
+                    ActivityOfferingInfo ao = this.getActivityOffering(lui.getId(), context);
+                    activityOfferingInfos.add(ao);
+                }
             } catch (DoesNotExistException ex) {
                 throw new OperationFailedException(lui.getId(), ex);
             }
@@ -1234,6 +1238,26 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         throw new UnsupportedOperationException();
     }
 
+    private boolean checkTypeForCourseOfferingType(String typeKey){
+        return typeKey.equals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
+    }
+
+    private boolean checkTypeForActivityOfferingType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<TypeInfo> types = getActivityOfferingTypes(context);
+        return checkTypeInTypes(typeKey, types);
+    }
+
+    private boolean checkTypeInTypes(String typeKey, List<TypeInfo> types) {
+        if (types != null && !types.isEmpty()) {
+            for (TypeInfo type : types) {
+                if (type.getKey().equals(typeKey)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     public AtpService getAtpService() {
         if(atpService == null) {
