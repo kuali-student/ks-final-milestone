@@ -16,20 +16,14 @@
 package org.kuali.student.r2.lum.clu.dto;
 
 
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.infc.SearchParam;
 import org.kuali.student.r2.lum.clu.infc.MembershipQuery;
 
-import javax.xml.bind.Element;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
-import org.kuali.student.r2.core.search.infc.SearchParam;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MembershipQueryInfo", propOrder = {"id", "searchTypeKey", "queryParamValues" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
@@ -40,8 +34,8 @@ public class MembershipQueryInfo implements Serializable, MembershipQuery {
     @XmlAttribute
     private String id;
     
-    //@XmlAttribute
-    //private List<SearchParamInfo> queryParamValueList;
+    @XmlElement
+    private List<org.kuali.student.r1.common.search.dto.SearchParam> queryParamValueList;
 
     @XmlElement
     private String searchTypeKey;
@@ -101,15 +95,15 @@ public class MembershipQueryInfo implements Serializable, MembershipQuery {
     // TODO KSCM-392 HOW TO IMPL 
     @Deprecated
 	public List<org.kuali.student.r1.common.search.dto.SearchParam> getQueryParamValueList() {
-		// TODO Auto-generated method stub
-		return null;
+        if (queryParamValueList == null) {
+            queryParamValueList = new ArrayList<org.kuali.student.r1.common.search.dto.SearchParam>(0);
+        }
+        return queryParamValueList;
 	}
 
  // TODO KSCM-392 HOW TO IMPL 
     @Deprecated
-	public void setQueryParamValueList(
-			ArrayList<org.kuali.student.r1.common.search.dto.SearchParam> arrayList) {
-		// TODO Auto-generated method stub
-		
+	public void setQueryParamValueList(List<org.kuali.student.r1.common.search.dto.SearchParam> queryParamValueList) {
+        this.queryParamValueList = queryParamValueList;
 	}
 }

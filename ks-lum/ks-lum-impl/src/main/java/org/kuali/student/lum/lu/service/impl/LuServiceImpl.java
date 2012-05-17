@@ -2200,25 +2200,30 @@ public class LuServiceImpl implements CluService {
 
         CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
-        checkCluAlreadyAdded(cluSet, cluId);
-
-        try {
-            luDao.getCurrentCluVersionInfo(cluId, CluServiceConstants.CLU_NAMESPACE_URI);
-        } catch (NoResultException e) {
-            throw new DoesNotExistException();
-        }
-
-        CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
-        join.setCluSet(cluSet);
-        join.setCluVersionIndId(cluId);
-
-        cluSet.getCluVerIndIds().add(join);
-
-        luDao.update(cluSet);
-
         StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(true);
 
+        //If the clu already exists return false but dont throw an exception
+        if(!checkCluAlreadyAdded(cluSet, cluId)){
+            statusInfo.setSuccess(Boolean.FALSE);
+            statusInfo.setMessage("CluSet already contains Clu (id='" + cluId + "')");
+        }else{
+            try{
+                luDao.getCurrentCluVersionInfo(cluId, CluServiceConstants.CLU_NAMESPACE_URI);
+            }catch(NoResultException e){
+                throw new DoesNotExistException();
+            }
+
+            CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
+            join.setCluSet(cluSet);
+            join.setCluVersionIndId(cluId);
+
+            cluSet.getCluVerIndIds().add(join);
+
+            luDao.update(cluSet);
+
+
+            statusInfo.setSuccess(true);
+        }
         return statusInfo;
     }
 
@@ -2343,13 +2348,14 @@ public class LuServiceImpl implements CluService {
         return cluSetInfo;
     }
 
-    private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
+    private boolean checkCluAlreadyAdded(CluSet cluSet, String cluId)
             throws OperationFailedException {
         for (CluSetJoinVersionIndClu join : cluSet.getCluVerIndIds()) {
             if (join.getCluVersionIndId().equals(cluId)) {
-                throw new OperationFailedException("CluSet already contains Clu (id='" + cluId + "')");
+                return false;
             }
         }
+        return true;
     }
 
     private void checkCluSetAlreadyAdded(CluSet cluSet, String cluSetIdToAdd)
@@ -3048,18 +3054,23 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, UnsupportedActionException {
 
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+
         checkForMissingParameter(cluSetIds, "cluIdList");
         checkForMissingParameter(cluSetId, "cluSetId");
 
-        for (String cluId : cluSetIds) {
+        for(String cluId : cluSetIds) {
             StatusInfo status = addCluToCluSet(cluId, cluSetId, contextInfo);
             if (!status.getIsSuccess()) {
-                return status;
+                //One or more clus already existed
+                if(statusInfo.getMessage().isEmpty()){
+                    statusInfo.setMessage(status.getMessage());
+                }else{
+                    statusInfo.setMessage(statusInfo.getMessage()+"\n"+status.getMessage());
+                }
             }
         }
-
-        StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(true);
 
         return statusInfo;
     }

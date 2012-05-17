@@ -28,7 +28,6 @@ import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -1638,11 +1637,11 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ParseException, VersionMismatchException {
-		List<SearchParam> queryParamValues = new ArrayList<SearchParam>(
+		List<SearchParam> queryParamValueList = new ArrayList<SearchParam>(
 				0);
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setSearchKey("lu.search.clus");
-		searchRequest.setParams(queryParamValues);
+		searchRequest.setParams(queryParamValueList);
 		SearchResult clus = client.search(searchRequest);
 		Collections.sort(clus.getRows(), new Comparator<SearchResultRow>() {
 			@Override
@@ -1672,14 +1671,14 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testSearchCourseLevelRanges() throws MissingParameterException {
-        List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+        List<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
         SearchParam courseLevelsParam = new SearchParam();
         courseLevelsParam.setKey("lu.queryParam.luOptionalCrsNoRange");
         courseLevelsParam.setValue("100 -200");
-        queryParamValues.add(courseLevelsParam);
+        queryParamValueList.add(courseLevelsParam);
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.setSearchKey("lu.search.generic");
-        searchRequest.setParams(queryParamValues);
+        searchRequest.setParams(queryParamValueList);
         SearchResult clus = client.search(searchRequest);
         Collections.sort(clus.getRows(), new Comparator<SearchResultRow>() {
             @Override
@@ -2206,25 +2205,25 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdCluSet.getMembershipQuery().getId());
 		assertNotNull(createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
-		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValues());
+		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
 		assertNotNull(createdCluSet.getCluIds());
         assertEquals(107, createdCluSet.getCluIds().size());
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {
-		List<SearchParamInfo> queryParamValues = new ArrayList<SearchParamInfo>();
-        SearchParamInfo sp1 = new SearchParamInfo();
+		List<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
+        SearchParam sp1 = new SearchParam();
 		sp1.setKey("lu.queryParam.startsWith.cluCode");
 		sp1.setValue("AAST");
-		queryParamValues.add(sp1);
-		SearchParamInfo sp2 = new SearchParamInfo();
+        queryParamValueList.add(sp1);
+		SearchParam sp2 = new SearchParam();
 		sp2.setKey("lu.queryParam.cluState");
 		sp2.setValue("Active");
-		queryParamValues.add(sp2);
+        queryParamValueList.add(sp2);
 
 		MembershipQueryInfo query = new MembershipQueryInfo();
 		query.setSearchTypeKey("lu.search.cluByCodeAndState");
-		query.setQueryParamValues(queryParamValues);
+		query.setQueryParamValueList(queryParamValueList);
 
 		return query;
 	}
@@ -2246,8 +2245,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(createdCluSet.getMembershipQuery().getId());
 		assertNotNull(createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
-		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValues());
-		assertEquals(query.getQueryParamValues().size(), createdCluSet.getMembershipQuery().getQueryParamValues().size());
+		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
+		assertEquals(query.getQueryParamValueList().size(), createdCluSet.getMembershipQuery().getQueryParamValueList().size());
 		assertNotNull(createdCluSet.getCluIds());
 		assertEquals(10, createdCluSet.getCluIds().size());
 
@@ -2258,8 +2257,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(getCluSet.getMembershipQuery().getId());
 		assertNotNull(getCluSet.getMembershipQuery().getSearchTypeKey());
 		assertEquals(query.getSearchTypeKey(), getCluSet.getMembershipQuery().getSearchTypeKey());
-		assertNotNull(getCluSet.getMembershipQuery().getQueryParamValues());
-		assertEquals(query.getQueryParamValues().size(), getCluSet.getMembershipQuery().getQueryParamValues().size());
+		assertNotNull(getCluSet.getMembershipQuery().getQueryParamValueList());
+		assertEquals(query.getQueryParamValueList().size(), getCluSet.getMembershipQuery().getQueryParamValueList().size());
 		assertNotNull(getCluSet.getCluIds());
 		assertEquals(10, getCluSet.getCluIds().size());
 	}
@@ -2343,8 +2342,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(getCluSet.getMembershipQuery().getId());
 		assertNotNull(getCluSet.getMembershipQuery().getSearchTypeKey());
 		assertEquals(query.getSearchTypeKey(), getCluSet.getMembershipQuery().getSearchTypeKey());
-		assertNotNull(getCluSet.getMembershipQuery().getQueryParamValues());
-		assertEquals(query.getQueryParamValues().size(), getCluSet.getMembershipQuery().getQueryParamValues().size());
+		assertNotNull(getCluSet.getMembershipQuery().getQueryParamValueList());
+		assertEquals(query.getQueryParamValueList().size(), getCluSet.getMembershipQuery().getQueryParamValueList().size());
 		assertEquals(createdCluSet.getCluIds().size(), getCluSet.getCluIds().size());
 		assertNotNull(getCluSet.getCluIds());
 		assertEquals(10, getCluSet.getCluIds().size());
@@ -2441,10 +2440,10 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	    CluSetInfo cluSet1 = createCluSetInfo();
 
 		//Create clu set
-		ArrayList<SearchParam> queryParamValues1 = new ArrayList<SearchParam>();
+		ArrayList<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
 		MembershipQueryInfo query1 = new MembershipQueryInfo();
 		query1.setSearchTypeKey("lu.search.clus");
-		// KSCM-626   query1.setQueryParamValues(queryParamValues1);
+		query1.setQueryParamValueList(queryParamValueList);
 
 		cluSet1.setMembershipQuery(query1);
 		// Version 0
@@ -3321,13 +3320,13 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setSearchKey("cluset.search.generic");
 
-		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+		List<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
         SearchParam searchParam = new SearchParam();
         searchParam.setKey("cluset.queryParam.luOptionalId");
         searchParam.setValue("CLU-5");
-        queryParamValues.add(searchParam);
+        queryParamValueList.add(searchParam);
 
-		searchRequest.setParams(queryParamValues);
+		searchRequest.setParams(queryParamValueList);
 		SearchResult cluSets = client.search(searchRequest);
 
 		Assert.assertEquals(2, cluSets.getRows().size());
@@ -3338,13 +3337,13 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setSearchKey("cluset.search.generic");
 
-		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+		List<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
         SearchParam searchParam = new SearchParam();
         searchParam.setKey("lu.queryParam.luOptionalId");
         searchParam.setValue("XXX");
-        queryParamValues.add(searchParam);
+        queryParamValueList.add(searchParam);
 
-		searchRequest.setParams(queryParamValues);
+		searchRequest.setParams(queryParamValueList);
 		SearchResult cluSets = client.search(searchRequest);
 
 		Assert.assertEquals(0, cluSets.getRows().size());
@@ -3355,13 +3354,13 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setSearchKey("lu.search.cluCluRelation");
 
-		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+		List<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
         SearchParam searchParam = new SearchParam();
         searchParam.setKey("lu.queryParam.luOptionalId");
         searchParam.setValue("CLU-1");
-        queryParamValues.add(searchParam);
+        queryParamValueList.add(searchParam);
 
-		searchRequest.setParams(queryParamValues);
+		searchRequest.setParams(queryParamValueList);
 		SearchResult clus = client.search(searchRequest);
 
 		Assert.assertEquals(2, clus.getRows().size());
@@ -3372,13 +3371,13 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setSearchKey("lu.search.cluCluRelation");
 
-		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
+		List<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
         SearchParam searchParam = new SearchParam();
         searchParam.setKey("lu.queryParam.luOptionalId");
         searchParam.setValue("XXX");
-        queryParamValues.add(searchParam);
+        queryParamValueList.add(searchParam);
 
-		searchRequest.setParams(queryParamValues);
+		searchRequest.setParams(queryParamValueList);
 		SearchResult clus = client.search(searchRequest);
 
 		Assert.assertEquals(0, clus.getRows().size());
