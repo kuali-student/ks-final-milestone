@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.core.service.util.AssemblerHelper;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -78,78 +79,6 @@ public class LuServiceImpl implements CluService {
      * SETUP OPERATION *
      **************************************************************************/
 
-    /* TODO KSCM-422
-    @Override
-    public List<DeliveryMethodTypeInfo> getDeliveryMethodTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return LuServiceAssembler.toDeliveryMethodTypeInfos(luDao
-    			.find(DeliveryMethodType.class));
-    }
-
-    @Override
-    public DeliveryMethodTypeInfo getDeliveryMethodType(String deliveryMethodTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-    	checkForMissingParameter(deliveryMethodTypeKey, "deliveryMethodTypeKey");
-
-    	return LuServiceAssembler.toDeliveryMethodTypeInfo(luDao.fetch(
-    			DeliveryMethodType.class, deliveryMethodTypeKey));
-    }
-
-    @Override
-    public List<InstructionalFormatTypeInfo> getInstructionalFormatTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return LuServiceAssembler.toInstructionalFormatTypeInfos(luDao
-    			.find(InstructionalFormatType.class));
-    }
-
-    @Override
-    public InstructionalFormatTypeInfo getInstructionalFormatType(String instructionalFormatTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	checkForMissingParameter(instructionalFormatTypeKey,
-    			"instructionalFormatTypeKey");
-
-    	return LuServiceAssembler.toInstructionalFormatTypeInfo(luDao.fetch(
-    			InstructionalFormatType.class, instructionalFormatTypeKey));
-    }
-
-    @Override
-    public List<LuTypeInfo> getLuTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return LuServiceAssembler.toLuTypeInfos(luDao.find(LuType.class));
-    }
-
-    @Override
-    public LuTypeInfo getLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	checkForMissingParameter(luTypeKey, "luTypeKey");
-
-    	return LuServiceAssembler.toLuTypeInfo(luDao.fetch(LuType.class,
-    			luTypeKey));
-    }
-
-    @Override
-    public LuCodeTypeInfo getLuCodeType(String luCodeTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	checkForMissingParameter(luCodeTypeKey, "luCodeTypeKey");
-    	return LuServiceAssembler.toLuCodeTypeInfo(luDao.fetch(
-    			LuCodeType.class, luCodeTypeKey));
-    }
-
-    @Override
-    public List<LuCodeTypeInfo> getLuCodeTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return LuServiceAssembler.toLuCodeTypeInfos(luDao
-    			.find(LuCodeType.class));
-    }
-
-    @Override
-    public List<LuLuRelationTypeInfo> getLuLuRelationTypes(ContextInfo contextInfo) throws OperationFailedException, UnsupportedOperationException {
-    	return LuServiceAssembler.toLuLuRelationTypeInfos(luDao
-    			.find(LuLuRelationType.class));
-    }
-
-    @Override
-    public LuLuRelationTypeInfo getLuLuRelationType(String cluCluRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	checkForMissingParameter(cluCluRelationTypeKey, "luLuRelationTypeKey");
-
-    	LuLuRelationType luLuRelationType = luDao.fetch(LuLuRelationType.class,
-    	        cluCluRelationTypeKey);
-    	return LuServiceAssembler.toLuLuRelationTypeInfo(luLuRelationType);
-    }*/
-
     @Override
     public List<String> getAllowedLuLuRelationTypesForLuType(String luTypeKey, String relatedLuTypeKey,
             ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
@@ -162,60 +91,12 @@ public class LuServiceImpl implements CluService {
                 relatedLuTypeKey);
     }
 
-    /* TODO KSCM-422
-    @Override
-    public List<LuPublicationTypeInfo> getLuPublicationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return LuServiceAssembler.toLuPublicationTypeInfos(luDao
-    			.find(LuPublicationType.class));
-    }
-
-    @Override
-    public LuPublicationTypeInfo getLuPublicationType(String luPublicationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	checkForMissingParameter(luPublicationTypeKey, "luPublicationTypeKey");
-
-    	return LuServiceAssembler.toLuPublicationTypeInfo(luDao.fetch(
-    			LuPublicationType.class, luPublicationTypeKey));
-    }*/
-
     @Override
     public List<String> getLuPublicationTypesForLuType(String luTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("getLuPublicationTypesForLuType");
     }
-
-    /* TODO KSCM-422
-    @Override
-    public List<CluResultTypeInfo> getCluResultTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return LuServiceAssembler.toCluResultTypeInfos(luDao
-    			.find(CluResultType.class));
-    }
-
-    @Override
-    public CluResultTypeInfo getCluResultType(String cluResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return LuServiceAssembler.toCluResultTypeInfo(luDao.fetch(
-    			CluResultType.class, cluResultTypeKey));
-    }
-
-    @Override
-    public List<CluResultTypeInfo> getCluResultTypesForLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	checkForMissingParameter(luTypeKey, "luTypeKey");
-    	return LuServiceAssembler.toCluResultTypeInfos((luDao
-    			.getAllowedCluResultTypesForLuType(luTypeKey)));
-    }
-
-    @Override
-    public List<ResultUsageTypeInfo> getResultUsageTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return LuServiceAssembler.toResultUsageTypeInfos(luDao
-    			.find(ResultUsageType.class));
-    }
-
-    @Override
-    public ResultUsageTypeInfo getResultUsageType(String resultUsageTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	checkForMissingParameter(resultUsageTypeKey, "resultUsageTypeKey");
-    	return LuServiceAssembler.toResultUsageTypeInfo(luDao.fetch(
-    			ResultUsageType.class, resultUsageTypeKey));
-    }*/
 
     @Override
     public List<String> getAllowedResultUsageTypesForLuType(String luTypeKey, ContextInfo contextInfo)
@@ -237,23 +118,6 @@ public class LuServiceImpl implements CluService {
                 .getAllowedResultComponentTypesForResultUsageType(resultUsageTypeKey);
     }
 
-    /* TODO KSCM-422
-    @Override
-    public CluLoRelationTypeInfo getCluLoRelationType(String cluLoRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	checkForMissingParameter(cluLoRelationTypeKey, "cluLoRelationTypeKey");
-
-    	CluLoRelationType cluLoRelationType = luDao.fetch(
-    			CluLoRelationType.class, cluLoRelationTypeKey);
-    	return LuServiceAssembler.toCluLoRelationTypeInfo(cluLoRelationType);
-    }*/
-
-    /* TODO KSCM-422
-    @Override
-    public List<CluLoRelationTypeInfo> getCluLoRelationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return LuServiceAssembler.toCluLoRelationTypeInfos(luDao
-    			.find(CluLoRelationType.class));
-    }*/
-
     @Override
     public List<String> getAllowedCluLoRelationTypesForLuType(String luTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -263,21 +127,6 @@ public class LuServiceImpl implements CluService {
 
         return luDao.getAllowedCluLoRelationTypesForLuType(luTypeKey);
     }
-
-    /* TODO KSCM-422
-    @Override
-    public List<CluSetTypeInfo> getCluSetTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return LuServiceAssembler.toCluSetTypeInfos(luDao
-    			.find(CluSetType.class));
-    }*/
-
-    /* TODO KSCM-422
-    @Override
-    public CluSetTypeInfo getCluSetType(String cluSetTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	checkForMissingParameter(cluSetTypeKey, "cluSetTypeKey");
-    	return LuServiceAssembler.toCluSetTypeInfo(luDao.fetch(
-    			CluSetType.class, cluSetTypeKey));
-    }*/
 
     /**************************************************************************
      * READ OPERATION *
@@ -742,7 +591,7 @@ public class LuServiceImpl implements CluService {
         }
         clu.setAlternateIdentifiers(LuServiceAssembler.createAlternateIdentifiers(R1R2ConverterUtil.convert(cluInfo, org.kuali.student.r1.lum.lu.dto.CluInfo.class), luDao));
         if (cluInfo.getDescr() != null) {
-            LuRichText descr = LuServiceAssembler.toRichText(LuRichText.class, R1R2ConverterUtil.convert(cluInfo.getDescr(), org.kuali.student.r1.common.dto.RichTextInfo.class));
+            LuRichText descr = LuServiceAssembler.toRichText(LuRichText.class, cluInfo.getDescr());
             if (descr.getPlain() != null || descr.getFormatted() != null) {
                 clu.setDescr(descr);
             }
@@ -3384,181 +3233,204 @@ public class LuServiceImpl implements CluService {
     @Override
     public List<TypeInfo> getDeliveryMethodTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getDeliveryMethodTypes");
+        return AssemblerHelper.toGenericTypeInfoList(luDao
+                .find(DeliveryMethodType.class));
     }
 
     @Override
     public TypeInfo getDeliveryMethodType(String deliveryMethodTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getDeliveryMethodType");
+        checkForMissingParameter(deliveryMethodTypeKey, "deliveryMethodTypeKey");
+
+        return AssemblerHelper.toGenericTypeInfo(luDao.fetch(
+                DeliveryMethodType.class, deliveryMethodTypeKey));
     }
 
     @Override
     public List<TypeInfo> getInstructionalFormatTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getInstructionalFormatTypes");
+        return AssemblerHelper.toGenericTypeInfoList(luDao
+                .find(InstructionalFormatType.class));
     }
 
     @Override
     public TypeInfo getInstructionalFormatType(String instructionalFormatTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getInstructionalFormatType");
+        checkForMissingParameter(instructionalFormatTypeKey,
+                "instructionalFormatTypeKey");
+
+        return AssemblerHelper.toGenericTypeInfo(luDao.fetch(
+                InstructionalFormatType.class, instructionalFormatTypeKey));
     }
 
     @Override
     public List<TypeInfo> getLuTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getLuTypes");
+        return AssemblerHelper.toGenericTypeInfoList(luDao.find(LuType.class));
     }
 
     @Override
     public TypeInfo getLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getLuType");
+        checkForMissingParameter(luTypeKey, "luTypeKey");
+
+        return AssemblerHelper.toGenericTypeInfo(luDao.fetch(LuType.class,
+                luTypeKey));
     }
 
     @Override
     public List<TypeInfo> getLuCodeTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getLuCodeTypes");
+        return AssemblerHelper.toGenericTypeInfoList(luDao
+                .find(LuCodeType.class));
     }
 
     @Override
     public TypeInfo getLuCodeType(String luCodeTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getLuCodeType");
+        checkForMissingParameter(luCodeTypeKey, "luCodeTypeKey");
+        return AssemblerHelper.toGenericTypeInfo(luDao.fetch(
+                LuCodeType.class, luCodeTypeKey));
     }
 
     @Override
     public TypeInfo getLuLuRelationType(String cluCluRelationTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getLuLuRelationType");
+        checkForMissingParameter(cluCluRelationTypeKey, "luLuRelationTypeKey");
+
+        LuLuRelationType luLuRelationType = luDao.fetch(LuLuRelationType.class,
+                cluCluRelationTypeKey);
+        
+        return this.toTypeInfo(luLuRelationType);
     }
 
     @Override
     public List<TypeInfo> getLuPublicationTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getLuPublicationTypes");
+        return AssemblerHelper.toGenericTypeInfoList(luDao
+                .find(LuPublicationType.class));
     }
 
     @Override
     public TypeInfo getLuPublicationType(String luPublicationTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getLuPublicationType");
+        checkForMissingParameter(luPublicationTypeKey, "luPublicationTypeKey");
+
+        return AssemblerHelper.toGenericTypeInfo(luDao.fetch(
+                LuPublicationType.class, luPublicationTypeKey));
     }
 
     @Override
     public List<TypeInfo> getCluResultTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getCluResultTypes");
+        return AssemblerHelper.toGenericTypeInfoList(luDao
+                .find(CluResultType.class));
     }
 
     @Override
     public TypeInfo getCluResultType(String cluResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getCluResultType");
+        return AssemblerHelper.toGenericTypeInfo(luDao.fetch(
+                CluResultType.class, cluResultTypeKey));
     }
 
     @Override
     public List<TypeInfo> getCluResultTypesForLuType(String luTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getCluResultTypesForLuType");
+        checkForMissingParameter(luTypeKey, "luTypeKey");
+        return AssemblerHelper.toGenericTypeInfoList((luDao
+                .getAllowedCluResultTypesForLuType(luTypeKey)));
     }
 
     @Override
     public List<TypeInfo> getResultUsageTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getResultUsageTypes");
+        return AssemblerHelper.toGenericTypeInfoList(luDao
+                .find(ResultUsageType.class));
     }
 
     @Override
     public TypeInfo getResultUsageType(String resultUsageTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getResultUsageType");
+        checkForMissingParameter(resultUsageTypeKey, "resultUsageTypeKey");
+        return AssemblerHelper.toGenericTypeInfo(luDao.fetch(
+                ResultUsageType.class, resultUsageTypeKey));
     }
 
     @Override
     public List<TypeInfo> getCluLoRelationTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getCluLoRelationTypes");
+        return AssemblerHelper.toGenericTypeInfoList(luDao
+                .find(CluLoRelationType.class));
     }
 
     @Override
     public TypeInfo getCluLoRelationType(String cluLoRelationTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getCluLoRelationType");
+        CluLoRelationType cluLoRelationType = luDao.fetch(
+                CluLoRelationType.class, cluLoRelationTypeKey);
+        return AssemblerHelper.toGenericTypeInfo(cluLoRelationType);
     }
-
+    
     @Override
     public List<TypeInfo> getCluSetTypes(ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getCluSetTypes");
+        return AssemblerHelper.toGenericTypeInfoList(luDao.find(
+                CluSetType.class));
     }
-
+    
     @Override
-    public TypeInfo getCluSetType(String cluSetTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	throw new UnsupportedOperationException("getCluSetType");
+    public TypeInfo getCluSetType(String cluSetTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkForMissingParameter(cluSetTypeKey, "cluSetTypeKey");
+        return AssemblerHelper.toGenericTypeInfo(luDao.fetch(
+                CluSetType.class, cluSetTypeKey));
     }
 
     @Override
     public List<TypeInfo> getLuLuRelationTypes(ContextInfo contextInfo) throws OperationFailedException,
             UnsupportedOperationException {
-    	throw new UnsupportedOperationException("getLuLuRelationTypes");
+        List<TypeInfo> types = new ArrayList<TypeInfo>();
+        List<LuLuRelationType> relationTypes = luDao.find(LuLuRelationType.class);
+        for (LuLuRelationType relationType : relationTypes){
+            types.add(this.toTypeInfo(relationType));
+        }
+        return types;
     }
+    
+    private TypeInfo toTypeInfo(LuLuRelationType luluType){
+        TypeInfo typeInfo;
+        try {
+            // Create a new TypeInfo based on the <T> class and copy the
+            // properties
+            typeInfo = new TypeInfo();
+            BeanUtils.copyProperties(luluType, typeInfo,
+                                     new String[] { "attributes", "descr" });
+            
+            typeInfo.setKey(luluType.getId());
+            
+            // Copy the attributes
+            typeInfo.setAttributes(AssemblerHelper.toAttributeList(luluType.getAttributes()));
+            
+            //Copy the description
+            RichTextInfo richText = new RichTextInfo();
+            richText.setFormatted(luluType.getDescr());
+            richText.setPlain(luluType.getDescr());
+            typeInfo.setDescr(richText);
+            
+            return typeInfo;
 
-    //    @Override
-    //    public TypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM-422 
-    //        return null;
-    //    }
-    //
-    //    @Override
-    //    public List<TypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM-422 
-    //        return null;
-    //    }
-    //
-    //    @Override
-    //    public TypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM-422 
-    //        return null;
-    //    }
-    //
-    //    @Override
-    //    public List<TypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM-422 
-    //        return null;
-    //    }
-    //
-    //    @Override
-    //    public TypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM-422 
-    //        return null;
-    //    }
-    //
-    //    @Override
-    //    public List<TypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM-422 
-    //        return null;
-    //    }
-    //
-    //    @Override
-    //    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM-422 
-    //        return null;
-    //    }
-    //
-    //    @Override
-    //    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-    //        // TODO KSCM-422 
-    //        return null;
-    //    }
+        } catch (Exception e) {
+            logger.error("Exception occured: ", e);
+        }
+        
+        return null;
+    }
+    
 }

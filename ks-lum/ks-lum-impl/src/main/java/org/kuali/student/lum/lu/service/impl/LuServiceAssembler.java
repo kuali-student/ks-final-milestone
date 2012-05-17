@@ -19,7 +19,7 @@ import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.*;
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
-import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r1.common.entity.Amount;
 import org.kuali.student.r1.common.entity.CurrencyAmount;
