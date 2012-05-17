@@ -19,13 +19,13 @@
          See the License for the specific language governing permissions and
          limitations under the License.
         -->
-        <bean id="KS-RolloverResultsPage-View" parent="KSFormView" p:validateDirty="true"
-              p:id="rolloverResultsPageView" p:title="Roll Over Details"
+        <bean id="KS-RolloverResultsPage-View" parent="KSFormView" p:applyDirtyCheck="true"
+              p:id="rolloverResultsPageView" p:headerText="Roll Over Details"
               p:entryPageId="selectTermForRolloverDetails"
-              p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingViewHelperServiceImpl"
+              p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingViewHelperServiceImpl"
               p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm">
             <property name="header">
-                <bean parent="Uif-HeaderField-One"/>
+                <bean parent="Uif-HeaderOne"/>
             </property>
 
             <property name="footer">
@@ -36,16 +36,16 @@
                 <list>
                     <bean id="KS-RolloverResultsPage-SelectTermPage" parent="Uif-Page" p:disclosure.render="false"
                           p:id="selectTermForRolloverDetails"
-                          p:title="">
+                          p:headerText="">
                         <property name="header">
-                            <bean parent="Uif-HeaderField-Two"/>
+                            <bean parent="Uif-HeaderTwo"/>
                         </property>
                         <property name="items">
                             <list>
                                <bean parent="Uif-VerticalBoxGroup">
                                     <property name="items">
                                         <list>
-                                             <bean parent="Uif-MessageField" p:messageText="Specify a term to review the details of the associated rollover."/>
+                                             <bean parent="Uif-Message" p:messageText="Specify a term to review the details of the associated rollover."/>
                                              <bean parent="Uif-HorizontalBoxSection">
                                                   <property name="items">
                                                        <list>
@@ -54,28 +54,28 @@
                                                                <bean parent="Uif-TextControl" p:size="10" p:watermarkText="Fall 2012p" p:minLength="10" p:maxLength="10"/>
                                                             </property>
                                                          </bean>
-                                                         <bean parent="Uif-SecondaryActionButton" p:clientSideValidate="true" p:actionLabel="Go" p:methodToCall="goRolloverTerm" p:valign="bottom"/>
+                                                         <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Go" p:methodToCall="goRolloverTerm" p:valign="bottom"/>
                                                        </list>
                                                   </property>
                                              </bean>
-                                             <bean parent="Uif-GridSection" p:title="Fall 2012 Rollover" p:layoutManager.numberOfColumns="5">
+                                             <bean parent="Uif-GridSection" p:headerText="Fall 2012 Rollover" p:layoutManager.numberOfColumns="5">
                                                 <property name="items">
                                                     <list>
-                                                        <bean parent="Uif-HorizontalBoxSubSection" p:title="Source Term">
+                                                        <bean parent="Uif-HorizontalBoxSubSection" p:headerText="Source Term">
                                                             <property name="items">
                                                                 <list>
                                                                     <bean parent="Uif-DataField" p:propertyName="rolloverSourceTerm"/>
                                                                 </list>
                                                             </property>
                                                         </bean>
-                                                        <bean parent="Uif-HorizontalBoxSubSection" p:title="Date Initiated">
+                                                        <bean parent="Uif-HorizontalBoxSubSection" p:headerText="Date Initiated">
                                                             <property name="items">
                                                                 <list>
                                                                     <bean parent="Uif-DataField" p:propertyName="dateInitiated"/>
                                                                 </list>
                                                             </property>
                                                         </bean>
-                                                        <bean parent="Uif-HorizontalBoxSubSection" p:title="Course Offerings Not Rolled Over" >
+                                                        <bean parent="Uif-HorizontalBoxSubSection" p:headerText="Course Offerings Not Rolled Over" >
                                                             <property name="items">
                                                                 <list>
                                                                     <bean parent="Uif-DataField" p:propertyName="courseOfferingsNotAllowed"/>
@@ -96,14 +96,14 @@
                                                                 </bean>
                                                             </property>
                                                         </bean>
-                                                        <bean parent="Uif-HorizontalBoxSubSection" p:title="Date Completed">
+                                                        <bean parent="Uif-HorizontalBoxSubSection" p:headerText="Date Completed">
                                                             <property name="items">
                                                                 <list>
                                                                     <bean parent="Uif-DataField" p:propertyName="dateCompleted"/>
                                                                 </list>
                                                             </property>
                                                         </bean>
-                                                        <bean parent="Uif-HorizontalBoxSubSection" p:title="Activity Offerings Not Rolled Over" >
+                                                        <bean parent="Uif-HorizontalBoxSubSection" p:headerText="Activity Offerings Not Rolled Over" >
                                                             <property name="items">
                                                                 <list>
                                                                     <bean parent="Uif-DataField" p:propertyName="activityOfferingsNotAllowed"/>

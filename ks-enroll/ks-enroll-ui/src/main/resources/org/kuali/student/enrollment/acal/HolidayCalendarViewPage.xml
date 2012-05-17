@@ -9,10 +9,10 @@
 
     <bean id="KS-HolidayCalendar-ViewPage" parent="Uif-Page"
           p:id="holidayCalendarViewPage"
-          p:title="@{holidayCalendarInfo.name}"
+          p:headerText="@{holidayCalendarInfo.name}"
           p:header.id="KS-HolidayCalendar-View-header">
         <property name="header">
-            <bean parent="Uif-HeaderField-Two"/>
+            <bean parent="Uif-HeaderTwo"/>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
@@ -42,14 +42,14 @@
     </bean>
 
     <bean id="KS-HolidayCalendar-View-Meta" parent="Uif-Disclosure-VerticalBoxSection"
-          p:title="Holiday Calendar Information"
+          p:headerText="Holiday Calendar Information"
           p:id="KS-HolidayCalendar-View-Meta">
         <property name="header">
-            <bean parent="Uif-HeaderField-Three"/>
+            <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{updateTimeString}" p:styleClasses="font-light12"/>
+                <bean parent="Uif-Message" p:messageText="@{updateTimeString}" p:cssClasses="font-light12"/>
                 <bean parent="Uif-GridGroup"
                       p:id="KS-HolidayCalendar-View-Meta-GridGroup"
                       p:layoutManager.numberOfColumns="2"
@@ -60,39 +60,39 @@
                                   p:propertyName="holidayCalendarInfo.name"
                                   p:label="Holiday Calendar Name"
                                   p:id="KS-HolidayCalendar-View-Meta-name"
-                                  p:labelField.width="40%"
+                                  p:fieldLabel.width="40%"
                                   p:width="60%"
                                   p:readOnly="true"
                                   p:required="false"
-                                  p:labelField.renderColon="false"/>
+                                  p:fieldLabel.renderColon="false"/>
                             <bean parent="Uif-InputField"
                                   p:propertyName="adminOrgName"
                                   p:label="Organization"
                                   p:id="KS-HolidayCalendar-View-Meta-adminOrgName"
                                   p:readOnly="true"
                                   p:required="false"
-                                  p:labelField.renderColon="false"/>
+                                  p:fieldLabel.renderColon="false"/>
                             <bean parent="Uif-InputField"
                                   p:propertyName="holidayCalendarInfo.startDate"
                                   p:label="Start Date"
                                   p:id="KS-HolidayCalendar-View-Meta-startDate"
                                   p:readOnly="true"
                                   p:required="false"
-                                  p:labelField.renderColon="false"/>
+                                  p:fieldLabel.renderColon="false"/>
                             <bean parent="Uif-InputField"
                                   p:propertyName="holidayCalendarInfo.endDate"
                                   p:label="End Date"
                                   p:id="KS-HolidayCalendar-View-Meta-endDate"
                                   p:readOnly="true"
                                   p:required="false"
-                                  p:labelField.renderColon="false"/>
+                                  p:fieldLabel.renderColon="false"/>
                             <bean parent="Uif-InputField"
                                   p:propertyName="stateName"
                                   p:label="State"
                                   p:id="KS-HolidayCalendar-View-Meta-stateName"
                                   p:readOnly="true"
                                   p:required="false"
-                                  p:labelField.renderColon="false"/>
+                                  p:fieldLabel.renderColon="false"/>
                         </list>
                     </property>
                 </bean>
@@ -102,7 +102,7 @@
 
 <!--    p:layoutManager.richTable.render="false">-->
     <bean id="KS-HolidayCalendar-View-Holidays" parent="Uif-TableCollectionSection"
-            p:title="Holidays"
+            p:headerText="Holidays"
             p:id="KS-HolidayCalendar-View-Holidays"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper"
             p:propertyName="holidays"
@@ -112,7 +112,7 @@
             p:layoutManager.applyDefaultCellWidths="false"
             p:layoutManager.renderSequenceField="false">
         <property name="header">
-            <bean parent="Uif-HeaderField-Three"/>
+            <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="items">
             <list>
@@ -135,13 +135,13 @@
                       p:label="Instructional"
                       p:propertyName="holidayInfo.isInstructionalDay"
                       p:readOnly="true"
-                      p:alternateDisplayValue="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}"
+                      p:readOnlyDisplayReplacement="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}"
                       p:id="KS-HolidayCalendar-View-Holidays-isInstructionalDay"/>
             </list>
         </property>
         <!--
 -->
-        <property name="layoutManager.richTable.componentOptions">
+        <property name="layoutManager.richTable.templateOptions">
             <!-- see http://datatables.net/ref for all options -->
             <map merge="true">
                 <entry key="bFilter" value="false"/>

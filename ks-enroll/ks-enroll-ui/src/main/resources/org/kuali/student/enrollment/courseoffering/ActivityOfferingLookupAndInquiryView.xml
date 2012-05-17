@@ -9,9 +9,9 @@
 
     <!-- LookupView -->
     <bean id="KS-ActivityOffering-LookupView" parent="KSLookupView">
-        <property name="title" value="ActivityOffering Lookup " />
+        <property name="headerText" value="ActivityOffering Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" />
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingLookupableImpl" />
 
         <property name="criteriaFields">
             <list>
@@ -31,9 +31,9 @@
 
     <!-- InquiryView -->
     <bean id="KS-ActivityOffering-InquiryView" parent="KSInquiryView"
-        p:title="ActivityOffering Inquiry"
+        p:headerText="ActivityOffering Inquiry"
         p:dataObjectClassName="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo"
-        p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingInquirableImpl">
+        p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingInquirableImpl">
         <property name="page.header">
             <ref bean="KSHeader_Empty" />
         </property>
@@ -54,9 +54,9 @@
     </bean>
 
     <bean id="KS-ActivityOffering-MetaSection" parent="Uif-VerticalBoxSection"
-          p:title="ActivityOffering Information">
+          p:headerText="ActivityOffering Information">
         <property name="header">
-            <bean parent="Uif-HeaderField-Three"/>
+            <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="items">
             <list>

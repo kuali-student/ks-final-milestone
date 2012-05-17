@@ -37,21 +37,21 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       </bean>
 
         <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView">
-        <property name="title" value="Activity Offering Maintenance"/>
+        <property name="headerText" value="Activity Offering Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
         <property name="items">
             <list>
                 <bean parent="Uif-MaintenanceGridSection">
-                    <property name="title" value="Create a New Activity Offering"/>
+                    <property name="headerText" value="Create a New Activity Offering"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.id" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.stateKey" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.typeKey" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.termId" p:defaultValue="2012WINTER">
-                                <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.aoInfo.TermInfo"/>
-                                <property name="fieldLookup.fieldConversions">
+                                <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.aoInfo.TermInfo"/>
+                                <property name="quickfinder.fieldConversions">
                                     <map>
                                         <entry key="code" value="aoInfo.id"/>
                                     </map>
@@ -69,15 +69,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 </bean>
 
                 <bean parent="Uif-MaintenanceStackedCollectionSection">
-                    <property name="title" value="Personnel"/>
+                    <property name="headerText" value="Personnel"/>
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
                     <property name="propertyName" value="aoInfo.instructors"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="personId">
-                                <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>-->
-                                <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
-                                <property name="fieldLookup.fieldConversions">
+                                <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>-->
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                                <property name="quickfinder.fieldConversions">
                                     <map>
                                         <entry key="principalId" value="personId"/>
                                         <entry key="principalName" value="personName"/>

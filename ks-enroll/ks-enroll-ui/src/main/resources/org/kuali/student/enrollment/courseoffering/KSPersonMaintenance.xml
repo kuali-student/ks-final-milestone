@@ -21,24 +21,24 @@
     -->
 
     <bean id="KS-Person-LookupView" parent="KSLookupView"
-          p:title="KS Person Lookup"
+          p:headerText="KS Person Lookup"
           >
 
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="principalId" p:label="Instructor ID">
-                    <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> -->
-                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
-                    <!--<property name="fieldLookup.fieldConversions">
+                    <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> -->
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                    <!--<property name="quickfinder.fieldConversions">
                         <map>
                             <entry key="principalId" value="principalId"/>
                         </map>
                     </property>-->
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="principalName" p:label="Instructor Name">
-                    <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> -->
-                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
-                    <!--<property name="fieldLookup.fieldConversions">
+                    <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> -->
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                    <!--<property name="quickfinder.fieldConversions">
                         <map>
                             <entry key="principalId" value="principalId"/>
                         </map>

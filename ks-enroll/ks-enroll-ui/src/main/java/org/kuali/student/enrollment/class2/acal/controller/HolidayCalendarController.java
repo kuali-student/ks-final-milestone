@@ -76,13 +76,13 @@ public class HolidayCalendarController extends UifControllerBase {
                             boolean duplicated = isDuplicateHoliday(newHoliday, holiday);
                             if(duplicated){
                                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: The holiday being added is already in the collection.");
-                                return updateComponent(form, result, request, response);
+                                return getUIFModelAndView(form);
                             }
                         }
                     }
                 }
                 else {
-                    return updateComponent(form, result, request, response);
+                    return getUIFModelAndView(form);
                 }
             }
         }
@@ -383,7 +383,7 @@ public class HolidayCalendarController extends UifControllerBase {
             e.printStackTrace();
         }
 
-        return updateComponent(hcForm, result, request, response);
+        return getUIFModelAndView(hcForm);
     }
 
     private ModelAndView updateHolidayCalendarForm(HolidayCalendarForm hcForm, String updateMsg, String from) throws Exception {
@@ -463,7 +463,7 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
     private AcademicCalendarViewHelperService getHolidayCalendarFormHelper(HolidayCalendarForm hcForm) {
-        if (hcForm.getView() != null && hcForm.getView().getViewHelperServiceClassName() != null){
+        if (hcForm.getView() != null && hcForm.getView().getViewHelperServiceClass() != null){
             return (AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService();
         } else {
             return (AcademicCalendarViewHelperService)hcForm.getPostedView().getViewHelperService();

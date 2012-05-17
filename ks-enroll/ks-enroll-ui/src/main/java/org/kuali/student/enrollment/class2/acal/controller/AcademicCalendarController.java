@@ -356,7 +356,7 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         }
 
-        return updateComponent(academicCalendarForm, result, request, response);
+        return getUIFModelAndView(academicCalendarForm);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=makeTermOfficial")
@@ -400,7 +400,7 @@ public class AcademicCalendarController extends UifControllerBase {
             e.printStackTrace();
         }
 
-        return updateComponent(academicCalendarForm, result, request, response);
+        return getUIFModelAndView(academicCalendarForm);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelAddingTerm")
@@ -409,7 +409,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         ((AcademicTermWrapper)academicCalendarForm.getNewCollectionLines().get("termWrapperList")).clear();
 
-        return updateComponent(academicCalendarForm, result, request, response);
+        return getUIFModelAndView(academicCalendarForm);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelAddingHoliday")
@@ -418,7 +418,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         ((HolidayCalendarWrapper)academicCalendarForm.getNewCollectionLines().get("holidayCalendarList")).setId(StringUtils.EMPTY);
 
-        return updateComponent(academicCalendarForm, result, request, response);
+        return getUIFModelAndView(academicCalendarForm);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteTerm")
@@ -448,7 +448,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         academicCalendarForm.getTermWrapperList().remove(selectedLineIndex);
 
-        return updateComponent(academicCalendarForm, result, request, response);
+        return getUIFModelAndView(academicCalendarForm);
 
     }
 
@@ -484,7 +484,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         keydateGroup.getKeydates().remove(selectedLineIndex);
 
-        return updateComponent(academicCalendarForm, result, request, response);
+        return getUIFModelAndView(academicCalendarForm);
 
     }
 
@@ -519,7 +519,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         termWrapper.getKeyDatesGroupWrappers().remove(keydateGroup);
 
-        return updateComponent(academicCalendarForm, result, request, response);
+        return getUIFModelAndView(academicCalendarForm);
 
     }
 

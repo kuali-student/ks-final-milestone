@@ -22,9 +22,9 @@
 
     <!-- LookupView -->
     <bean id="KS-SocRolloverResultInfo-LookupView" parent="KSLookupView">
-        <property name="title" value="SocRolloverResultInfo Lookup (Search not working)"/>
+        <property name="headerText" value="SocRolloverResultInfo Lookup (Search not working)"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo" />
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultInfoLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultInfoLookupableImpl" />
 
         <property name="criteriaFields">
             <list>
@@ -44,14 +44,14 @@
     </bean>
 
     <bean id="KS-SocRolloverResultInfo-InquiryView" parent="KSInquiryView">
-        <property name="title" value="SocRolloverResultInfo Inquiry"/>
+        <property name="headerText" value="SocRolloverResultInfo Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultInfoInquirableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultInfoInquirableImpl" />
         <property name="Items">
             <list>
                 <bean parent="Uif-GridSection">
                     <property name="layoutManager.numberOfColumns" value="2"/>
-                    <property name="title" value="SocRolloverResultInfo Inquiry"/>
+                    <property name="headerText" value="SocRolloverResultInfo Inquiry"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="id"/>

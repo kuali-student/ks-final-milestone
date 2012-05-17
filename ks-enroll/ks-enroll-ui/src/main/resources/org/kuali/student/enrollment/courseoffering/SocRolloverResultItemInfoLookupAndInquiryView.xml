@@ -23,9 +23,9 @@
 
     <!-- LookupView -->
     <bean id="KS-SocRolloverResultItemInfo-LookupView" parent="KSLookupView">
-        <property name="title" value="SocRolloverResultItemInfo Lookup"/>
+        <property name="headerText" value="SocRolloverResultItemInfo Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo" />
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultItemInfoLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultItemInfoLookupableImpl" />
 
         <property name="criteriaFields">
             <list>
@@ -37,7 +37,7 @@
         <property name="resultFields">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="id">
-                    <property name="fieldInquiry">
+                    <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo" p:inquiryParameters="id" />
                     </property>
                 </bean>
@@ -52,15 +52,15 @@
 
     <!-- InquiryView -->
     <bean id="TermInfo-InquiryView" parent="KSInquiryView">
-        <property name="title" value="SocRolloverResultItemInfo Inquiry"/>
+        <property name="headerText" value="SocRolloverResultItemInfo Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultItemInfoInquirableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.SocRolloverResultItemInfoInquirableImpl" />
 
         <property name="Items">
             <list>
                 <bean parent="Uif-GridSection">
                     <property name="layoutManager.numberOfColumns" value="2"/>
-                    <property name="title" value="SocRolloverResultItemInfo Inquiry"/>
+                    <property name="headerText" value="SocRolloverResultItemInfo Inquiry"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="id"/>

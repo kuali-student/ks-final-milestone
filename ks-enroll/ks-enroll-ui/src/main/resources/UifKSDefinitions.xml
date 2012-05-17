@@ -22,12 +22,12 @@
 
     <bean id="KSTheme" abstract="true" parent="KSTheme-parentBean"/>
     <bean id="KSTheme-parentBean" parent="Uif-KradTheme">
-        <property name="stylesheets">
+        <property name="cssFiles">
             <list merge="true">
                 <value>/ks-enroll/css/enroll.css</value>
             </list>
         </property>
-        <property name="jsFiles">
+        <property name="scriptFiles">
             <list merge="true">
                 <value>ks-enroll/scripts/enroll.js</value>
             </list>
@@ -102,7 +102,7 @@
     <bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"
           class="org.kuali.student.enrollment.uif.field.ActionFieldJsOverride">
         <property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>
-        <property name="styleClasses" value="ui-priority-secondary-sm"/>
+        <property name="cssClasses" value="ui-priority-secondary-sm"/>
     </bean>
 
     <bean id="KSFooterDocument" parent="Uif-FooterBase">
@@ -149,16 +149,16 @@
       </property>
     </bean>
 
-    <bean id="KSHeader_Empty" parent="Uif-HeaderField-One">
+    <bean id="KSHeader_Empty" parent="Uif-HeaderOne">
       <property name="items">
           <list/>
       </property>
     </bean>
 
     <bean id="KSInputField" abstract="true" parent="Uif-InputField"
-          p:labelField.renderColon="false" p:labelField.styleClasses="labelTop"
-          p:labelPlacement="TOP" p:labelField.requiredMessagePlacement="LEFT"
-          p:instructionalMessageField.render="false" />
+          p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
+          p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
+          p:instructionalMessage.render="false" />
 
     <!-- If the action button is in collection, this will submits the form (useful for redirect) instead of KRAD's default ajax callback and update the collection component -->
     <bean id="KS-SubmitActionLink" parent="Uif-ActionLink" p:clientSideJs="jq('#kualiForm').submit();" abstract="true" />
@@ -172,7 +172,7 @@
             <property name="lineGroupPrototype">
               <bean parent="Uif-HorizontalBoxSection">
                 <property name="header">
-                  <bean parent="Uif-HeaderField-Four"/>
+                  <bean parent="Uif-HeaderFour"/>
                 </property>
                 <property name="disclosure.renderImage" value="true"/>
                 <property name="disclosure.defaultOpen" value="true"/>
@@ -180,7 +180,7 @@
             </property>
             <property name="addLineGroup">
               <bean parent="Uif-CollectionHorizontalBoxItem">
-                <property name="styleClasses">
+                <property name="cssClasses">
                   <list merge="true">
                     <value>uif-collectionAddItem</value>
                   </list>
@@ -188,7 +188,7 @@
               </bean>
             </property>
             <property name="subCollectionFieldGroupPrototype">
-              <bean parent="Uif-HorizontalFieldGroup" p:labelField.render="true"/>
+              <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="true"/>
             </property>
           </bean>
         </property>

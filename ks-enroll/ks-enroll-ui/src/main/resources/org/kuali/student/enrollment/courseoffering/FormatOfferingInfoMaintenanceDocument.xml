@@ -22,21 +22,21 @@
     <import resource="classpath:ks-FormatOfferingInfo-dictionary.xml"/>
 
     <bean id="FormatOfferingInfo-MaintenanceView" parent="KSMaintenanceView">
-        <property name="title" value="Format Offering Maintenance"/>
+        <property name="headerText" value="Format Offering Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo"/>
-        <!--<property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoMaintainableImpl" />-->
+        <!--<property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoMaintainableImpl" />-->
         <property name="items">
             <list>
                 <bean parent="Uif-MaintenanceGridSection">
-                    <property name="title" value="Create a New Format Offering"/>
+                    <property name="headerText" value="Create a New Format Offering"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="id" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="courseOfferingId" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="formatId" />
                             <bean parent="Uif-InputField" p:propertyName="termId" p:defaultValue="2012WINTER">
-                                <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.aoInfo.TermInfo"/>
-                                <property name="fieldLookup.fieldConversions">
+                                <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.aoInfo.TermInfo"/>
+                                <property name="quickfinder.fieldConversions">
                                     <map>
                                         <entry key="code" value="aoInfo.id"/>
                                     </map>

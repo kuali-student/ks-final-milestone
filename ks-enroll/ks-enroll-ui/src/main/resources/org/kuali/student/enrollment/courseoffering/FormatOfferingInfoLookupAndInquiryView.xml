@@ -24,9 +24,9 @@
 
     <!-- LookupView -->
     <bean id="KS-FormatOfferingInfo-LookupView" parent="KSLookupView"
-        p:title="Format Offering Info Lookup"
+        p:headerText="Format Offering Info Lookup"
         p:dataObjectClassName="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo">
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoLookupableImpl"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoLookupableImpl"/>
 
         <property name="criteriaFields">
             <list>
@@ -36,7 +36,7 @@
         <property name="resultFields">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="formatId" >
-                    <property name="fieldInquiry">
+                    <property name="inquiry">
                          <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo"
                                p:inquiryParameters="formatId" />
                     </property>
@@ -52,14 +52,14 @@
 
     <!-- InquiryView -->
     <bean id="FormatOfferingInfo-InquiryView" parent="KSInquiryView">
-        <property name="title" value="Format OfferingInfo Inquiry"/>
+        <property name="headerText" value="Format OfferingInfo Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoInquirableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoInquirableImpl" />
         <property name="Items">
             <list>
                 <bean parent="Uif-Disclosure-GridSection">
                     <property name="layoutManager.numberOfColumns" value="2"/>
-                    <property name="title" value="Format OfferingInfo Inquiry"/>
+                    <property name="headerText" value="Format OfferingInfo Inquiry"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="id"/>

@@ -8,9 +8,9 @@
 
     <!-- LookupView -->
     <bean id="KS-CourseOfferingInfo-LookupView" parent="KSLookupView">
-        <property name="title" value="CourseOfferingInfo Lookup " />
+        <property name="headerText" value="CourseOfferingInfo Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo" />
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoLookupableImpl" />
 
         <property name="criteriaFields">
             <list>
@@ -30,14 +30,14 @@
 
     <!-- InquiryView -->
     <bean id="KS-CourseOfferingInfo-InquiryView" parent="KSInquiryView">
-        <property name="title" value="CourseOfferingInfo Inquiry"/>
+        <property name="headerText" value="CourseOfferingInfo Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoInquirableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingInfoInquirableImpl" />
         <property name="Items">
             <list>
                 <bean parent="Uif-GridSection">
                     <property name="layoutManager.numberOfColumns" value="2"/>
-                    <property name="title" value="CourseOfferingInfo Inquiry"/>
+                    <property name="headerText" value="CourseOfferingInfo Inquiry"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="id"/>

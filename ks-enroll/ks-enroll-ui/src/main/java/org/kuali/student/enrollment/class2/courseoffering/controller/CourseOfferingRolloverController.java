@@ -126,7 +126,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
 
     public CourseOfferingViewHelperService getViewHelperService(CourseOfferingRolloverManagementForm rolloverForm){
         if (viewHelperService == null) {
-            if (rolloverForm.getView().getViewHelperServiceClassName() != null){
+            if (rolloverForm.getView().getViewHelperServiceClass() != null){
                 viewHelperService = (CourseOfferingViewHelperService) rolloverForm.getView().getViewHelperService();
             }else{
                 viewHelperService= (CourseOfferingViewHelperService) rolloverForm.getPostedView().getViewHelperService();

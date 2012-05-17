@@ -85,9 +85,9 @@
 
     <!-- LookupView -->
     <bean id="KS-AppointmentWindowWrapper-LookupView" parent="KSLookupView"
-        p:title="Appointment Window (with Assignments) Lookup"
+        p:headerText="Appointment Window (with Assignments) Lookup"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
-        p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl">
+        p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperLookupableImpl">
 
         <property name="criteriaFields">
             <list>
@@ -107,9 +107,9 @@
 
     <!-- InquiryView -->
     <bean id="KS-AppointmentWindowWrapper-InquiryView" parent="KSInquiryView"
-        p:title="Appointment Window and Assignment Detail"
+        p:headerText="Appointment Window and Assignment Detail"
         p:dataObjectClassName="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
-        p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperInquiryViewHelperServiceImpl">
+        p:viewHelperServiceClass="org.kuali.student.enrollment.class2.appointment.service.impl.AppointmentWindowWrapperInquiryViewHelperServiceImpl">
         <property name="page.header">
             <ref bean="KSHeader_Empty" />
         </property>
@@ -132,9 +132,9 @@
 
 
     <bean id="KS-AppointmentWindowWrapper-Assignment" parent="Uif-VerticalBoxSection"
-          p:title="Assignment Information">
+          p:headerText="Assignment Information">
         <property name="header">
-            <bean parent="Uif-HeaderField-Three"/>
+            <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="items">
             <list>
@@ -146,10 +146,10 @@
                             <bean parent="Uif-InputField"
                                   p:propertyName="numberOfStudents"
                                   p:label="# of Students"
-                                  p:labelField.width="40%"
+                                  p:fieldLabel.width="40%"
                                   p:width="60%"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -158,7 +158,7 @@
                                   p:propertyName="numberOfSlots"
                                   p:label="# Of Slots"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -166,9 +166,9 @@
                             <bean parent="Uif-InputField"
                                   p:propertyName="meanStudentsPerSlot"
                                   p:label="Students Per Slot"
-                                  p:title="This displays the most common allotment size (mode), not the average."
+                                  p:headerText="This displays the most common allotment size (mode), not the average."
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -177,7 +177,7 @@
                                   p:propertyName="firstSlotPopulated"
                                   p:label="First Slot Populated "
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -186,7 +186,7 @@
                                   p:propertyName="lastSlotPopulated"
                                   p:label="Last Slot Populated "
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -199,9 +199,9 @@
     </bean>
 
     <bean id="KS-AppointmentWindowWrapper-Window" parent="Uif-VerticalBoxSection"
-          p:title="Window Information">
+          p:headerText="Window Information">
         <property name="header">
-            <bean parent="Uif-HeaderField-Three"/>
+            <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="items">
             <list>
@@ -213,10 +213,10 @@
                             <bean parent="Uif-InputField"
                                   p:propertyName="periodName"
                                   p:label="Period"
-                                  p:labelField.width="40%"
+                                  p:fieldLabel.width="40%"
                                   p:width="60%"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -225,7 +225,7 @@
                                   p:propertyName="appointmentWindowInfo.name"
                                   p:label="Window"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -234,7 +234,7 @@
                                   p:propertyName="assignedPopulationName"
                                   p:label="Student Group"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -243,7 +243,7 @@
                                   p:propertyName="appointmentWindowInfo.startDate"
                                   p:label="Start Date"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -252,7 +252,7 @@
                                   p:propertyName="appointmentWindowInfo.endDate"
                                   p:label="Last Date"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -261,7 +261,7 @@
                                   p:propertyName="windowTypeName"
                                   p:label="Slot Allocation Method"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -270,7 +270,7 @@
                                   p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot"
                                   p:label="Max Number"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -279,7 +279,7 @@
                                   p:propertyName="assignmentsCreated"
                                   p:label="Assignments Created"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>

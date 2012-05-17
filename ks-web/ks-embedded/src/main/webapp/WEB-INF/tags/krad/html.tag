@@ -19,11 +19,11 @@
               description="The view instance the html page is being rendered for."
               type="org.kuali.rice.krad.uif.view.View"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-
-  <!----------------------------------- #BEGIN HEAD --------------------------------------->
+<!DOCTYPE HTML>
+<html lang="en">
+  <%----------------------------------- HEAD ---------------------------------------%>
   <head>
+
     <c:if test="${not empty SESSION_TIMEOUT_WARNING_MILLISECONDS}">
       <script type="text/javascript">
         <!--
@@ -35,34 +35,59 @@
     <krad:scriptingVariables/>
 
     <title>
-      ${view.title}
+      ${view.headerText}
     </title>
 
-    <c:forEach items="${view.theme.stylesheets}" var="cssFile" >
-      <c:if test="${fn:startsWith(cssFile, '/')}">
-        <c:set var="cssFile" value="${pageContext.request.contextPath}/${fn:substringAfter(cssFile,'/')}"/>
-      </c:if>
+    <c:forEach items="${view.theme.cssFiles}" var="cssFile">
+      <c:choose>
+        <c:when test="${fn:startsWith(cssFile,'http')}">
       <link href="${cssFile}" rel="stylesheet" type="text/css" />
+        </c:when>
+        <c:otherwise>
+          <link href="${pageContext.request.contextPath}/${cssFile}" rel="stylesheet" type="text/css"/>
+        </c:otherwise>
+      </c:choose>
     </c:forEach>
 
     <c:forEach items="${view.additionalCssFiles}" var="cssFile" >
-      <c:if test="${fn:startsWith(cssFile, '/')}">
-        <c:set var="cssFile" value="${pageContext.request.contextPath}/${fn:substringAfter(cssFile,'/')}"/>
+      <c:if test="${fn:length(fn:trim(cssFile)) > 0}">
+        <c:choose>
+          <c:when test="${fn:startsWith(cssFile,'http')}">
+            <link href="${cssFile}" rel="stylesheet" type="text/css"/>
+          </c:when>
+          <c:otherwise>
+            <link href="${pageContext.request.contextPath}/${cssFile}" rel="stylesheet" type="text/css"/>
+          </c:otherwise>
+        </c:choose>
       </c:if>
-      <link href="${cssFile}" rel="stylesheet" type="text/css" />
     </c:forEach>
 
-    <c:forEach items="${view.theme.jsFiles}"	var="javascriptFile">
+    <c:forEach items="${view.theme.scriptFiles}" var="javascriptFile">
       <c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
-        <script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/${javascriptFile}"></script>
+        <c:choose>
+          <c:when test="${fn:startsWith(javascriptFile,'http')}">
+            <script language="JavaScript" type="text/javascript" src="${javascriptFile}"></script>
+          </c:when>
+          <c:otherwise>
+            <script language="JavaScript" type="text/javascript"
+                    src="${pageContext.request.contextPath}/${javascriptFile}"></script>
+          </c:otherwise>
+        </c:choose>
       </c:if>
     </c:forEach>
 
     <c:forEach items="${view.additionalScriptFiles}" var="scriptFile" >
-      <c:if test="${fn:startsWith(scriptFile, '/')}">
-        <c:set var="scriptFile" value="${pageContext.request.contextPath}/${fn:substringAfter(scriptFile,'/')}"/>
+      <c:if test="${fn:length(fn:trim(scriptFile)) > 0}">
+        <c:choose>
+          <c:when test="${fn:startsWith(scriptFile,'http')}">
+            <script language="JavaScript" type="text/javascript" src="${scriptFile}"></script>
+          </c:when>
+          <c:otherwise>
+            <script language="JavaScript" type="text/javascript"
+                    src="${pageContext.request.contextPath}/${scriptFile}"></script>
+          </c:otherwise>
+        </c:choose>
       </c:if>
-      <script language="JavaScript" type="text/javascript" src="${scriptFile}"></script>
     </c:forEach>
 
     <!-- preload script (server variables) -->
@@ -72,50 +97,14 @@
 
     <!-- custom script for the view -->
     <script type="text/javascript">
-      jq(document).ready(function() {
+      jQuery(document).ready(function() {
         ${view.onLoadScript}
       })
     </script>
   </head>
 
-  <!----------------------------------- #BEGIN BODY --------------------------------------->
-
+  <%----------------------------------- BODY ---------------------------------------%>
   <body>
-    <div id="view_div">
-     <krad:div component="${view}">
-
-      <krad:backdoor/>
-
-      <!----------------------------------- #BEGIN FORM --------------------------------------->
-      <c:if test="${view.renderForm}">
-        <c:set var="postUrl" value="${view.formPostUrl}"/>
-        <c:if test="${empty postUrl}">
-          <c:set var="postUrl" value="${KualiForm.formPostUrl}"/>
-        </c:if>
-
-        <form:form
-           id="kualiForm"
-           action="${postUrl}"
-           method="post"
-           enctype="multipart/form-data"
-           modelAttribute="KualiForm"
-           onsubmit="${view.onSubmitScript}"
-           cssStyle="form_format topLabel page">
-
-           <a name="topOfForm"></a>
-
            <jsp:doBody/>
-
-           <span id="formComplete"></span>
-        </form:form>
-        <!----------------------------------- End Form --------------------------------------->
-      </c:if>
-
-      <c:if test="${!view.renderForm}">
-         <jsp:doBody/>
-      </c:if>
-
-     </krad:div>
-    </div>
   </body>
 </html>

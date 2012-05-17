@@ -73,9 +73,9 @@
 
     <!-- LookupView -->
     <bean id="KS-HolidayCalendarWrapper-LookupView" parent="KSLookupView">
-        <property name="title" value="Holiday Calendar (with Holidays) Lookup " />
+        <property name="headerText" value="Holiday Calendar (with Holidays) Lookup " />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarWrapperLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarWrapperLookupableImpl" />
 
         <property name="criteriaFields">
             <list>
@@ -94,9 +94,9 @@
     </bean>
 
     <bean id="KS-HolidayCalendarWrapper-InquiryView" parent="KSInquiryView">
-        <property name="title" value="Holiday Calendar Inquiry"/>
+        <property name="headerText" value="Holiday Calendar Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarWrapperInquiryViewHelperServiceImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarWrapperInquiryViewHelperServiceImpl" />
 
         <property name="Items">
             <list>
@@ -116,9 +116,9 @@
     </bean>
 
     <bean id="KS-HolidayCalendarWrapper-InquiryView-Meta" parent="Uif-Disclosure-VerticalBoxSection"
-          p:title="Holiday Calendar Information">
+          p:headerText="Holiday Calendar Information">
         <property name="header">
-            <bean parent="Uif-HeaderField-Three"/>
+            <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="items">
             <list>
@@ -130,10 +130,10 @@
                             <bean parent="Uif-InputField"
                                   p:propertyName="holidayCalendarInfo.name"
                                   p:label="Holiday Calendar Name"
-                                  p:labelField.width="40%"
+                                  p:fieldLabel.width="40%"
                                   p:width="60%"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -142,7 +142,7 @@
                                   p:propertyName="adminOrgName"
                                   p:label="Organization"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -151,7 +151,7 @@
                                   p:propertyName="holidayCalendarInfo.startDate"
                                   p:label="Start Date"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -160,7 +160,7 @@
                                   p:propertyName="holidayCalendarInfo.endDate"
                                   p:label="End Date"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -169,7 +169,7 @@
                                   p:propertyName="stateName"
                                   p:label="State"
                                   p:readOnly="true"
-                                  p:labelField.renderColon="false">
+                                  p:fieldLabel.renderColon="false">
                                 <property name="control">
                                     <bean parent="Uif-TextControl"/>
                                 </property>
@@ -182,7 +182,7 @@
     </bean>
 
     <bean id="KS-HolidayCalendarWrapper-InquiryView-Holidays" parent="Uif-TableCollectionSection"
-          p:title="Holidays"
+          p:headerText="Holidays"
           p:collectionObjectClass="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper"
           p:propertyName="holidays"
           p:renderAddLine="false"
@@ -192,7 +192,7 @@
           p:layoutManager.renderSequenceField="false"
           p:layoutManager.sequencePropertyName="startDate">
         <property name="header">
-            <bean parent="Uif-HeaderField-Three"/>
+            <bean parent="Uif-HeaderThree"/>
         </property>
         <property name="items">
             <list>
@@ -223,7 +223,7 @@
                 <bean parent="Uif-InputField"
                       p:label="Instructional"
                       p:propertyName="holidayInfo.isInstructionalDay"
-                      p:alternateDisplayValue="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}"
+                      p:readOnlyDisplayReplacement="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}"
                       p:align="center">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="true"/>
@@ -231,7 +231,7 @@
                 </bean>
             </list>
         </property>
-        <property name="layoutManager.richTable.componentOptions">
+        <property name="layoutManager.richTable.templateOptions">
             <!-- see http://datatables.net/ref for all options -->
             <map merge="true">
                 <entry key="bFilter" value="false"/>

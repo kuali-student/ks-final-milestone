@@ -266,7 +266,7 @@ public class CalendarSearchController  extends UifControllerBase {
     }
 
     private CalendarSearchViewHelperService getViewHelperService(CalendarSearchForm form){
-         if (form.getView().getViewHelperServiceClassName() != null){
+         if (form.getView().getViewHelperServiceClass() != null){
              return (CalendarSearchViewHelperService)form.getView().getViewHelperService();
          } else {
              return (CalendarSearchViewHelperService)form.getPostedView().getViewHelperService();

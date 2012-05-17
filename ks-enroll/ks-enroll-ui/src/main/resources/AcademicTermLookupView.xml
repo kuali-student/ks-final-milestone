@@ -24,9 +24,9 @@
 
   <bean id="AcademicTerm-LookupView" parent="KSLookupView">
     <property name="id" value="academicTermLookupView"/>
-    <property name="title" value="Academic Term Edit" />
+    <property name="headerText" value="Academic Term Edit" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
-    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicTermLookupableImpl" />
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicTermLookupableImpl" />
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" />

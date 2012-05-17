@@ -9,14 +9,14 @@
 
     <bean id="KS-CalendarSearch-View" parent="KSFormView">
         <property name="id" value="calendarSearchView"/>
-        <property name="title" value="Calendar Search"/>
+        <property name="headerText" value="Calendar Search"/>
         <property name="singlePageView" value="true"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.CalendarSearchViewHelperServiceImpl"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.CalendarSearchViewHelperServiceImpl"/>
         <property name="page">
             <bean parent="Uif-Page"/>
         </property>
         <property name="header">
-            <bean parent="Uif-HeaderField-Two" />
+            <bean parent="Uif-HeaderTwo" />
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
@@ -52,7 +52,7 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-GridSubSection" p:title="Search for Calendar or Term" p:layoutManager.numberOfColumns="2">
+                <bean parent="Uif-GridSubSection" p:headerText="Search for Calendar or Term" p:layoutManager.numberOfColumns="2">
                      <property name="layoutManager.applyDefaultCellWidths" value="false" />
                      <property name="items">
                         <list>
@@ -64,13 +64,13 @@
                                             <bean parent="Uif-DropdownControl" p:options-ref="search-options"/>
                                         </property>
                                     </bean>
-                                    <bean parent="Uif-InputField-LabelTop" p:label="Name" p:labelField.renderColon="false"
+                                    <bean parent="Uif-InputField-LabelTop" p:label="Name" p:fieldLabel.renderColon="false"
                                         p:propertyName="name">
                                         <property name="control">
                                             <bean parent="Uif-TextControl" p:watermarkText="Name" p:size="30"/>
                                         </property>
                                     </bean>
-                                    <bean parent="Uif-InputField-LabelTop" p:label="Year" p:labelField.renderColon="false"
+                                    <bean parent="Uif-InputField-LabelTop" p:label="Year" p:fieldLabel.renderColon="false"
                                         p:propertyName="year" >
                                         <property name="control">
                                             <bean parent="Uif-TextControl" p:watermarkText="Year" p:size="4"/>
@@ -99,7 +99,7 @@
     </bean>
 
     <bean id="KS-CalendarSearch-ResultSection" parent="Uif-VerticalBoxSection">
-        <property name="title" value="Search Results" />
+        <property name="headerText" value="Search Results" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
@@ -114,11 +114,11 @@
 		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'HolidayCalendar'" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
 		<property name="propertyName" value="holidayCalendars" />
-        <property name="collectionLookup.quickfinderActionField.render" value="false" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.componentOptions">
+        <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
                 <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
@@ -148,7 +148,7 @@
         <property name="layoutManager.actionFieldPrototype">
             <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
         </property>
-        <property name="actionFields">
+        <property name="lineActions">
               <list>
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
@@ -162,11 +162,11 @@
 		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'AcademicCalendar'" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo" />
 		<property name="propertyName" value="academicCalendars" />
-        <property name="collectionLookup.quickfinderActionField.render" value="false" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.componentOptions">
+        <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
                 <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
@@ -196,7 +196,7 @@
         <property name="layoutManager.actionFieldPrototype">
             <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
         </property>
-        <property name="actionFields">
+        <property name="lineActions">
               <list>
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
@@ -210,11 +210,11 @@
 		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'AcademicTerm'" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
 		<property name="propertyName" value="terms" />
-        <property name="collectionLookup.quickfinderActionField.render" value="false" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.componentOptions">
+        <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
                 <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
@@ -244,7 +244,7 @@
         <property name="layoutManager.actionFieldPrototype">
             <bean parent="Uif-HorizontalFieldGroup" p:align="center" p:required="false" p:label="Actions" p:style="display:inline;"/>
         </property>
-        <property name="actionFields">
+        <property name="lineActions">
               <list>
                   <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
