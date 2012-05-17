@@ -324,7 +324,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 final StatementTreeViewInfo newSubRule = new StatementTreeViewInfo();
                 newSubRule.setId(generateStatementTreeId());
                 newSubRule.setType(stmtTypeId);
-                org.kuali.student.r1.common.dto.RichTextInfo text = new org.kuali.student.r1.common.dto.RichTextInfo();
+                RichTextInfo text = new RichTextInfo();
                 text.setPlain("");
                 newSubRule.setDesc(text);
                 parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>() {
@@ -572,7 +572,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
             stmtTree.setId(generateStatementTreeId());
             stmtTree.setType(stmtTypeId);
-            org.kuali.student.r1.common.dto.RichTextInfo text2 = new org.kuali.student.r1.common.dto.RichTextInfo();
+            RichTextInfo text2 = new RichTextInfo();
             text2.setPlain("");
             stmtTree.setDesc(text2);
             stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement

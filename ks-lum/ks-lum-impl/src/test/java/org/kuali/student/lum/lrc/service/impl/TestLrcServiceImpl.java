@@ -67,7 +67,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         RichTextInfo richText = new RichTextInfo();
         richText.setFormatted("<p>New ResultComponent</p>");
         richText.setPlain("New ResultComponent");
-        rci.setDesc(R1R2ConverterUtil.convert(richText, org.kuali.student.r1.common.dto.RichTextInfo.class));
+        rci.setDesc(richText);
         
         List<String> resultValueIds = new ArrayList<String>();
         resultValueIds.add("LRC-RESULT_VALUE-GRADE-1");
@@ -340,7 +340,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         RichTextInfo richText = new RichTextInfo();
         richText.setFormatted("<p>ResultComponent</p>");
         richText.setPlain("ResultComponent");
-        rc.setDesc(R1R2ConverterUtil.convert(richText, org.kuali.student.r1.common.dto.RichTextInfo.class));
+        rc.setDesc(richText);
     	
         String specificGradeId = "LRC-RESULT_VALUE-GRADE-1";
         
