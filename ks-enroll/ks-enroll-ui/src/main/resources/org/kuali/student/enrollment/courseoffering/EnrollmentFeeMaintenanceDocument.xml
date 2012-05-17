@@ -23,7 +23,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
       <bean id="EnrollmentFeeFormObject-parentBean" abstract="true" parent="DataObjectEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.EnrollmentFeeFormObject"/>
-        <property name="titleAttribute" value="aoInfo.id"/>
+        <!--<property name="titleAttribute" value="efInfo.id"/>   -->
+        <property name="titleAttribute" value="id"/>
         <property name="attributes">
           <list>
           </list>
@@ -31,7 +32,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="objectLabel" value="Enrollment Fee"/>
         <property name="primaryKeys">
           <list>
-            <value>aoInfo.id</value>
+            <value>efInfo.id</value>
           </list>
         </property>
       </bean>
@@ -46,37 +47,43 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                     <property name="title" value="Create a New Enrollment Fee"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.id" p:readOnly="true"/>
+
+                           <!-- <bean parent="Uif-InputField" p:propertyName="aoInfo.id" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.stateKey" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.typeKey" p:readOnly="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.termId" p:defaultValue="2012WINTER">
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.termId" p:defaultValue="2012WINTER"/>
+                            <bean parent="Uif-InputField" p:propertyName="id"/>
+                            <bean parent="Uif-InputField" p:propertyName="descr"/>
+                            <bean parent="Uif-InputField" p:propertyName="stateKey"/>  -->
+
+                            <!--<bean parent="Uif-InputField" p:propertyName="efInfo.termId" p:defaultValue="2012WINTER">-->
                                 <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.aoInfo.TermInfo"/>
                                 <property name="fieldLookup.fieldConversions">
                                     <map>
                                         <entry key="code" value="aoInfo.id"/>
                                     </map>
-                                </property>-->
-                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityCode"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityId" p:defaultValue="CLU-4"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.formatOfferingId" p:label="Format Offering Id" p:defaultValue="Lui-fo-2"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.maximumEnrollment" p:label="Total Maximum Enrollment"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isEvaluated" p:label="This course requires an evaluation"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isHonorsOffering"/>
+                                </property>
+                             </bean>  -->
+                            <!--<bean parent="Uif-InputField" p:propertyName="efInfo.activityCode"/>
+                            <bean parent="Uif-InputField" p:propertyName="efInfo.activityId" p:defaultValue="CLU-4"/>
+                            <bean parent="Uif-InputField" p:propertyName="efInfo.formatOfferingId" p:label="Format Offering Id" p:defaultValue="Lui-fo-2"/>
+                            <bean parent="Uif-InputField" p:propertyName="efInfo.maximumEnrollment" p:label="Total Maximum Enrollment"/>
+                            <bean parent="Uif-InputField" p:propertyName="efInfo.isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
+                            <bean parent="Uif-InputField" p:propertyName="efInfo.isEvaluated" p:label="This course requires an evaluation"/>
+                            <bean parent="Uif-InputField" p:propertyName="efInfo.isHonorsOffering"/>  -->
                         </list>
                     </property>
                 </bean>
 
-                <bean parent="Uif-MaintenanceStackedCollectionSection">
+              <!-- <bean parent="Uif-MaintenanceStackedCollectionSection">
                     <property name="title" value="Personnel"/>
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
-                    <property name="propertyName" value="aoInfo.instructors"/>
+                    <property name="propertyName" value="efInfo.instructors"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="personId">
+                            <bean parent="Uif-InputField" p:propertyName="personId">  -->
                                 <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>-->
-                                <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                             <!--  <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="fieldLookup.fieldConversions">
                                     <map>
                                         <entry key="principalId" value="personId"/>
@@ -88,7 +95,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                             <bean parent="Uif-InputField" p:propertyName="percentageEffort"/>
                         </list>
                     </property>
-                </bean>
+                </bean>   -->
 
             </list>
         </property>
@@ -107,7 +114,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="documentTypeName" value="EnrollmentFeeMaintenanceDocument"/>
         <property name="lockingKeys">
           <list>
-            <value>aoInfo.id</value>
+            <value>efInfo.id</value>
           </list>
         </property>
       </bean>
