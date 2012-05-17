@@ -28,4 +28,11 @@
         LUI_STATE="kuali.lui.state.draft"
         LUI_TYPE="kuali.lui.type.activity.offering.lecture"
         NAME="Lui four" VER_NBR="0"/>
+    <KSEN_LUI CLU_ID="cluId4" CREATEID="admin"
+        CREATETIME="19700101000000" DESCR_FORMATTED="Lui-fo-Desc"
+        DESCR_PLAIN="Lui-fo-Desc" EFF_DT="20110101000000"
+        EXPIR_DT="20111231000000" ID="Lui-fo-2"
+        LUI_STATE="kuali.lui.state.draft"
+        LUI_TYPE="kuali.lui.type.format.offering"
+        NAME="Lui format offering" VER_NBR="0"/>
 </dataset>
