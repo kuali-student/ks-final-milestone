@@ -287,7 +287,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                                 final StatementTreeViewInfo newRule = new StatementTreeViewInfo();
                                 newRule.setId(generateStatementTreeId());
                                 newRule.setType(stmtId);
-                                org.kuali.student.r1.common.dto.RichTextInfo text = new org.kuali.student.r1.common.dto.RichTextInfo();
+                                RichTextInfo text = new RichTextInfo();
                                 text.setPlain("");
                                 newRule.setDesc(text);
                                 parentController.getView(
