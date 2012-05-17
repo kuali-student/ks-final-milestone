@@ -7,16 +7,18 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.EnrollmentFeeFormObject;
 import org.kuali.student.enrollment.class2.courseoffering.service.EnrollmentFeeMaintainable;
+import org.kuali.student.r2.common.util.constants.*;
+import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
+
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.StateServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.service.TypeService;
+
+
+import org.kuali.student.r2.core.fee.service.FeeService;
 
 import javax.xml.namespace.QName;
 import java.util.Locale;
@@ -29,14 +31,20 @@ public class EnrollmentFeeMaintainableImpl extends MaintainableImpl implements E
     private transient TypeService typeService;
     private transient StateService stateService;
 
+
+    private FeeService feeService;
+
+
+
     @Override
     public void saveDataObject() {
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
                 EnrollmentFeeFormObject enrollmentFeeFormObject = (EnrollmentFeeFormObject) getDataObject();
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().createActivityOffering(enrollmentFeeFormObject.getAoInfo().getFormatOfferingId(),enrollmentFeeFormObject.getAoInfo().getActivityId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,enrollmentFeeFormObject.getAoInfo(),getContextInfo());
-                setDataObject(new EnrollmentFeeFormObject(activityOfferingInfo));
+                EnrollmentFeeInfo  feeInfo  = getFeeService().createFee(enrollmentFeeFormObject.getEfInfo().getTypeKey(), enrollmentFeeFormObject.getEfInfo(),getContextInfo() );
+
+                setDataObject(new EnrollmentFeeFormObject(feeInfo));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -44,7 +52,7 @@ public class EnrollmentFeeMaintainableImpl extends MaintainableImpl implements E
         else {   //should be edit action
             EnrollmentFeeFormObject enrollmentFeeFormObject = (EnrollmentFeeFormObject) getDataObject();
             try {
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(enrollmentFeeFormObject.getAoInfo().getId(), enrollmentFeeFormObject.getAoInfo(), getContextInfo());
+                EnrollmentFeeInfo  feeInfo  = getFeeService().updateFee(enrollmentFeeFormObject.getEfInfo().getId(), enrollmentFeeFormObject.getEfInfo(),getContextInfo());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -54,7 +62,7 @@ public class EnrollmentFeeMaintainableImpl extends MaintainableImpl implements E
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
-            ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(dataObjectKeys.get("aoInfo.id"),getContextInfo());
+            EnrollmentFeeInfo info = getFeeService().getFee(dataObjectKeys.get("efInfo.id"),getContextInfo());
             EnrollmentFeeFormObject formObject = new EnrollmentFeeFormObject(info);
             document.getNewMaintainableObject().setDataObject(formObject);
             document.getOldMaintainableObject().setDataObject(formObject);
@@ -98,17 +106,10 @@ public class EnrollmentFeeMaintainableImpl extends MaintainableImpl implements E
         return this.typeService;
     }
 
-    public StateService getStateService() {
-        if(stateService == null) {
-            stateService = (StateService) GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART));
+    protected FeeService getFeeService() {
+        if (feeService == null) {
+            feeService = (FeeService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, FeeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
-        return stateService;
-    }
-
-    protected CourseOfferingService getCourseOfferingService() {
-        if (courseOfferingService == null) {
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));
-        }
-        return courseOfferingService;
+        return feeService;
     }
 }
