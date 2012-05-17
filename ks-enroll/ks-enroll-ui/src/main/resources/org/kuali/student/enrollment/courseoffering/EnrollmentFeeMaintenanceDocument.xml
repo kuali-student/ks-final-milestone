@@ -47,7 +47,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                     <property name="headerText" value="Create a New Enrollment Fee"/>
                     <property name="items">
                         <list>
-
+                            <bean parent="Uif-InputField" p:label="ID" p:propertyName="efInfo.id"/>
+                            <bean parent="Uif-InputField" p:label="Description" p:propertyName="efInfo.descr"/>
+                            <bean parent="Uif-InputField" p:label="State Key" p:propertyName="efInfo.stateKey"/>
+                            <bean parent="Uif-InputField" p:label="Type Key" p:propertyName="efInfo.typeKey"/>
+                            <bean parent="Uif-InputField" p:label="Amount" p:propertyName="efInfo.amount"/>
+                            <bean parent="Uif-InputField" p:label="Organization ID" p:propertyName="efInfo.orgId"/>
+                            <bean parent="Uif-InputField" p:label="RefObjectURI" p:propertyName="efInfo.refObjectURI"/>
+                            <bean parent="Uif-InputField" p:label="RefObjectID" p:propertyName="efInfo.refObjectId"/>
                            <!-- <bean parent="Uif-InputField" p:propertyName="aoInfo.id" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.stateKey" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.typeKey" p:readOnly="true"/>
