@@ -13,9 +13,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.kuali</groupId>
+    <groupId>org.kuali.pom</groupId>
     <artifactId>kuali-common</artifactId>
-    <version>15</version>
+    <version>1.2.12</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
@@ -103,7 +103,7 @@
   </scm>
   <properties>
     <!-- Remove this property as soon as the devs are comfortable with Maven 3
--->
+    -->
     <kuali.site.plugin.version>2.0.1</kuali.site.plugin.version>
 
     <kuali.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</kuali.clover.exclude.pattern.1>
@@ -153,7 +153,7 @@
     <net.sourceforge.jexcelapi.version>2.6.10</net.sourceforge.jexcelapi.version>
     <selenium.version>2.7.0</selenium.version>
     <httpcomponents.httpclient.version>4.1.2</httpcomponents.httpclient.version>
-    
+
     <!-- plugin versions -->
     <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
     <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
@@ -319,20 +319,20 @@
         <version>1.2.1</version>
       </dependency>
       <dependency>
-		<groupId>org.seleniumhq.selenium</groupId>
-		<artifactId>selenium-java</artifactId>
-		<version>${selenium.version}</version>
-		<scope>test</scope>
-	  </dependency>
-	<!-- This httpclient dependency works with the Selenium tests, but must 
-		have compile scope. Please see ks-common/ks-common-ui/pom.xml and ks-lum/ks-lum-ui/pom.xml 
-		for more info. -->
-	<dependency>
-		<groupId>org.apache.httpcomponents</groupId>
-		<artifactId>httpclient</artifactId>
-		<version>${httpcomponents.httpclient.version}</version>
-		<scope>compile</scope>
-	</dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>${selenium.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <!-- This httpclient dependency works with the Selenium tests, but must
+        have compile scope. Please see ks-common/ks-common-ui/pom.xml and ks-lum/ks-lum-ui/pom.xml
+        for more info. -->
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>${httpcomponents.httpclient.version}</version>
+        <scope>compile</scope>
+      </dependency>
 
       <!-- Hibernate -->
       <dependency>
@@ -444,7 +444,7 @@
       </dependency>
 
       <!-- This jar is only needed if you are using CAS with Spring Security
--->
+      -->
       <dependency>
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-cas-client</artifactId>
@@ -528,7 +528,7 @@
 
       <!-- CXF Dependencies -->
       <!-- Libraries not required for Java 1.6_04+ are being excluding (based cxf WHICH_JARS file)
--->
+      -->
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-api</artifactId>
@@ -791,20 +791,20 @@
         <groupId>org.apache.velocity</groupId>
         <artifactId>velocity-tools</artifactId>
         <version>${velocity.tools.version}</version>
-        <!--  Exclude versions of struts-core that conflict with rice dependencies & exclude struts-tiles & strats-taglibs, not used by ks-->
+        <!-- Exclude versions of struts-core that conflict with rice dependencies & exclude struts-tiles & strats-taglibs, not used by ks -->
         <exclusions>
-			<exclusion>
-	            <groupId>org.apache.struts</groupId>
-	            <artifactId>struts-core</artifactId>			
-			</exclusion>
-			<exclusion>
-	            <groupId>org.apache.struts</groupId>
-	            <artifactId>struts-tiles</artifactId>			
-			</exclusion>
-			<exclusion>
-	            <groupId>org.apache.struts</groupId>
-	            <artifactId>struts-taglib</artifactId>			
-			</exclusion>
+          <exclusion>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-core</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-tiles</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-taglib</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -994,20 +994,20 @@
             <groupId>org.eclipse.jdt</groupId>
             <artifactId>core</artifactId>
           </exclusion>
-          
-		  <!-- JOTM - uncomment out to switch to Bitronix -->        
-	      <!-- 
-	      <exclusion>                                 
-	        <groupId>xapool</groupId>                 
-	        <artifactId>xapool</artifactId>           
-	      </exclusion>                                
-	      <exclusion>                                 
-	        <groupId>jotm</groupId>                   
-	        <artifactId>jotm</artifactId>             
-	      </exclusion>
-	       -->
-	       
-	      <!-- itext -->
+
+          <!-- JOTM - uncomment out to switch to Bitronix -->
+          <!--
+            <exclusion>
+            <groupId>xapool</groupId>
+            <artifactId>xapool</artifactId>
+            </exclusion>
+            <exclusion>
+            <groupId>jotm</groupId>
+            <artifactId>jotm</artifactId>
+            </exclusion>
+          -->
+
+          <!-- itext -->
           <exclusion>
             <groupId>itext</groupId>
             <artifactId>itext</artifactId>
@@ -1055,11 +1055,11 @@
         <artifactId>jasperreports</artifactId>
         <version>${net.sf.jasperreports.version}</version>
       </dependency>
-	  <!-- dependency>
-		<groupId>net.sf.jasperreports</groupId>
-		<artifactId>jasperreports-fonts</artifactId>
-		<version>4.0.1</version>
-	  </dependency-->
+      <!-- dependency>
+        <groupId>net.sf.jasperreports</groupId>
+        <artifactId>jasperreports-fonts</artifactId>
+        <version>4.0.1</version>
+        </dependency -->
       <dependency>
         <groupId>com.lowagie</groupId>
         <artifactId>itext</artifactId>
