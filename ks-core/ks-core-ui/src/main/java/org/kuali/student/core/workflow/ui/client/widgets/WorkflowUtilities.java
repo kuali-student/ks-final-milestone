@@ -23,7 +23,7 @@ import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.r1.common.assembly.data.ModelDefinition;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.dto.DtoConstants.DtoState;
-import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r1.core.comment.dto.CommentInfo;

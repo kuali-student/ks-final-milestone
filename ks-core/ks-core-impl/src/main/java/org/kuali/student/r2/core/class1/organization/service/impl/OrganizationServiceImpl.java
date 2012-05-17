@@ -34,11 +34,10 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao;
 import org.kuali.student.r2.core.organization.dto.*;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.service.util.AssemblerHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
@@ -156,7 +155,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<TypeInfo> getOrgTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return OrganizationAssembler.toOrgTypeInfos(organizationDao.find(OrgType.class));
+        return AssemblerHelper.toGenericTypeInfoList(organizationDao.find(OrgType.class));
     }
 
     @Override
@@ -322,7 +321,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<TypeInfo> getOrgOrgRelationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.find(OrgOrgRelationType.class);
-        return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
+        return AssemblerHelper.toGenericTypeInfoList(orgOrgRelationTypes);
     }
 
     @Override
@@ -330,7 +329,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         checkForMissingParameter(orgTypeKey, "orgTypeKey");
 
         List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.getOrgOrgRelationTypesForOrgType(orgTypeKey);
-        return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
+        return AssemblerHelper.toGenericTypeInfoList(orgOrgRelationTypes);
     }
 
     @Override
@@ -347,7 +346,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         checkForMissingParameter(orgHierarchyId, "orgHierarchyId");
 
         List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.getOrgOrgRelationTypesForOrgHierarchy(orgHierarchyId);
-        return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
+        return AssemblerHelper.toGenericTypeInfoList(orgOrgRelationTypes);
     }
 
     @Override
@@ -524,7 +523,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<TypeInfo> getOrgPersonRelationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<OrgPersonRelationType> oprts = organizationDao.find(OrgPersonRelationType.class);
-        return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
+        return AssemblerHelper.toGenericTypeInfoList(oprts);
     }
 
     @Override
@@ -532,7 +531,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         checkForMissingParameter(orgTypeKey, "orgTypeKey");
 
         List<OrgPersonRelationType> oprts = organizationDao.getOrgPersonRelationTypesForOrgType(orgTypeKey);
-        return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
+        return AssemblerHelper.toGenericTypeInfoList(oprts);
     }
 
     @Override
