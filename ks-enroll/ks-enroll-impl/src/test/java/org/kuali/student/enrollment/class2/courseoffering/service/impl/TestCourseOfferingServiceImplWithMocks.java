@@ -44,7 +44,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-//@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-with-mocks-context.xml"})
 public class TestCourseOfferingServiceImplWithMocks {
@@ -78,7 +77,6 @@ public class TestCourseOfferingServiceImplWithMocks {
     }
 
     @Test
-    @Ignore //TODO this is temporary
     public void testCRUD() throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException,

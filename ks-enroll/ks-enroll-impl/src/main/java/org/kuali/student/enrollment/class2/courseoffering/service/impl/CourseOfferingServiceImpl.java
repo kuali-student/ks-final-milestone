@@ -731,6 +731,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(),context);
         ao.setFormatOfferingId(foLui.getId());
         ao.setCourseOfferingId(coLui.getId());
+        ao.setFormatOfferingName(foLui.getName());
+        ao.setCourseOfferingCode(coLui.getOfficialIdentifier().getCode());
+        ao.setCourseOfferingTitle(coLui.getOfficialIdentifier().getLongName());
+        AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(),context);
+        ao.setTermCode(termAtp.getCode());
         return ao;
     }
 
@@ -873,6 +878,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiInfo coLui = this.findCourseOfferingLui(foLui.getId(),context);
         ao.setFormatOfferingId(foLui.getId());
         ao.setCourseOfferingId(coLui.getId());
+        ao.setFormatOfferingName(foLui.getName());
+        ao.setCourseOfferingCode(coLui.getOfficialIdentifier().getCode());
+        ao.setCourseOfferingTitle(coLui.getOfficialIdentifier().getLongName());
+        AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(),context);
+        ao.setTermCode(termAtp.getCode());
         return ao;
     }
 
@@ -1262,5 +1272,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpService.class.getSimpleName()));
         }
         return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
     }
 }

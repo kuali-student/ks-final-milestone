@@ -1,9 +1,6 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
+import org.kuali.student.r2.common.entity.BaseEntity;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
@@ -60,31 +58,17 @@ public class LuiEntity extends MetaEntity {
     )
     private List<ResultValuesGroupEntity> resultValuesGroups;
 
-    @ManyToMany
-    @JoinTable(name="KSEN_LUI_UNITS_CONT_OWNER",
-            joinColumns=
-            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
-            inverseJoinColumns=
-            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
-    )
-    private List<LuiUnitsContentOwnerEntity> luiContentOwner;
-
-    @ManyToMany
-    @JoinTable(name="KSEN_LUI_UNITS_DEPLOYMENT",
-            joinColumns=
-            @JoinColumn(name="LUI_ID", referencedColumnName="ID"),
-            inverseJoinColumns=
-            @JoinColumn(name="ORG_ID", referencedColumnName="ORG_ID")
-    )
-    private List<LuiUnitsDeploymentEntity> luiUnitsDeployment;
-
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuiIdentifierEntity> identifiers;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
+    private List<LuiUnitsContentOwnerEntity> luiContentOwner;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
+    private List<LuiUnitsDeploymentEntity> luiUnitsDeployment;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
     private List<LuCodeEntity> luiCodes;
-
-
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiAttributeEntity> attributes;
@@ -102,7 +86,10 @@ public class LuiEntity extends MetaEntity {
         fromDto(lui);
     }
 
-    public void fromDto(Lui lui) {
+    public List<Object> fromDto(Lui lui) {
+
+        List<Object> orphansToDelete = new ArrayList<Object>();
+
         this.setName(lui.getName());
         this.setMaxSeats(lui.getMaximumEnrollment());
         this.setMinSeats(lui.getMinimumEnrollment());
@@ -124,47 +111,116 @@ public class LuiEntity extends MetaEntity {
         }
 
         // Lui Identifiers
-        // TODO: find the old matching one and update that one instead of clobbbering and resetting
-        this.setIdentifiers(new ArrayList<LuiIdentifierEntity>());
-        if (lui.getOfficialIdentifier() != null) {
-            this.getIdentifiers().add(new LuiIdentifierEntity(lui.getOfficialIdentifier()));
+
+        //Map the exisiting idents by their id
+        Map<String,LuiIdentifierEntity> existingIdents = new HashMap<String,LuiIdentifierEntity>();
+        if(this.getIdentifiers() != null){
+            for(LuiIdentifierEntity ident : this.getIdentifiers()){
+                existingIdents.put(ident.getId(),ident);
+            }
         }
-        for (LuiIdentifier identifier : lui.getAlternateIdentifiers()) {
-            this.getIdentifiers().add(new LuiIdentifierEntity(identifier));
+        //Clear the list of current idents
+        this.setIdentifiers(new ArrayList<LuiIdentifierEntity>());
+
+        //Add official identifiers
+        if (lui.getOfficialIdentifier() != null) {
+            LuiIdentifierEntity identEntity;
+            //See if this exists already
+            if(existingIdents.containsKey(lui.getOfficialIdentifier().getId())){
+                //Pull the existing one out of the map
+                identEntity = existingIdents.remove(lui.getOfficialIdentifier().getId());
+                identEntity.fromDto(lui.getOfficialIdentifier()); //Make sure this copies all fields
+            }else{
+                //This is new so create a new identifier
+                identEntity = new LuiIdentifierEntity(lui.getOfficialIdentifier());
+            }
+
+            identEntity.setLui(this);
+            this.getIdentifiers().add(identEntity);
         }
 
-        List<LuiUnitsContentOwnerEntity> luiUnitsContentOwnerEntities = new ArrayList<LuiUnitsContentOwnerEntity>();
+        //Add alternate identifiers
+        for (LuiIdentifier identifier : lui.getAlternateIdentifiers()) {
+            LuiIdentifierEntity identEntity;
+            //See if this exists already
+            if(existingIdents.containsKey(identifier.getId())){
+                //Pull the existing one out of the map
+                identEntity = existingIdents.remove(identifier.getId());
+                identEntity.fromDto(identifier); //Make sure this copies all fields
+            }else{
+                //This is new so create a new identifier
+                identEntity = new LuiIdentifierEntity(identifier);
+                identEntity.setLui(this);
+            }
+
+            this.getIdentifiers().add(identEntity);
+        }
+
+        //Now we need to delete the leftovers (orphaned idents)
+        orphansToDelete.addAll(existingIdents.values());
+
+        //lui-org relations
+
+        //Map the exisiting orgrelations by their id
+        Map<String,LuiUnitsContentOwnerEntity> existinguUnitsContentOwnerEntities = new HashMap<String,LuiUnitsContentOwnerEntity>();
+        if(this.getLuiContentOwner() != null){
+            for(LuiUnitsContentOwnerEntity unitEntity : this.getLuiContentOwner()){
+                existinguUnitsContentOwnerEntities.put(unitEntity.getOrgId(), unitEntity);
+            }
+        }
+
+        //Clear out the current list
+        this.setLuiContentOwner(new ArrayList<LuiUnitsContentOwnerEntity>());
 
         if(lui.getUnitsContentOwner()!=null){
-            for(String unitContentOrgId: lui.getUnitsContentOwner() ){
-                LuiUnitsContentOwnerEntity luiUnitContentOwner = new LuiUnitsContentOwnerEntity();
-                luiUnitContentOwner.setLui(this);
-                luiUnitContentOwner.setOrgId(unitContentOrgId);
-                luiUnitsContentOwnerEntities.add(luiUnitContentOwner) ;
+            for(String unitContentOrgId : lui.getUnitsContentOwner() ){
+                LuiUnitsContentOwnerEntity luiUnitContentOwner;
+                if(existinguUnitsContentOwnerEntities.containsKey(unitContentOrgId)){
+                    luiUnitContentOwner = existinguUnitsContentOwnerEntities.remove(unitContentOrgId);
+                }else{
+                    luiUnitContentOwner = new LuiUnitsContentOwnerEntity(this, unitContentOrgId);
+                }
+                this.getLuiContentOwner().add(luiUnitContentOwner);
             }
         }
 
+        //Now we need to delete the leftovers (orphaned entities)
+        orphansToDelete.addAll(existinguUnitsContentOwnerEntities.values());
 
-        List<LuiUnitsDeploymentEntity> luiUnitsDeploymentEntities = new ArrayList<LuiUnitsDeploymentEntity>();
-        if(lui.getUnitsDeployment()!=null){
-            for(String unitDeploymentOrgId: lui.getUnitsDeployment() ){
-                LuiUnitsDeploymentEntity luiDeployment = new LuiUnitsDeploymentEntity();
-                luiDeployment.setLui(this);
-                luiDeployment.setOrgId(unitDeploymentOrgId);
-                luiUnitsDeploymentEntities.add(luiDeployment) ;
+        //Map the exisiting orgrelations by their id
+        Map<String,LuiUnitsDeploymentEntity> existinguLuiUnitsDeploymentEntities = new HashMap<String,LuiUnitsDeploymentEntity>();
+        if(this.getLuiUnitsDeployment() != null){
+            for(LuiUnitsDeploymentEntity unitEntity : this.getLuiUnitsDeployment()){
+                existinguLuiUnitsDeploymentEntities.put(unitEntity.getOrgId(),unitEntity);
             }
         }
 
+        //Clear out the current list
+        this.setLuiUnitsDeployment(new ArrayList<LuiUnitsDeploymentEntity>());
+
+        if(lui.getUnitsDeployment() != null){
+            for(String unitDeploymentOrgId : lui.getUnitsDeployment()){
+                LuiUnitsDeploymentEntity luiUnitDeployment;
+                if(existinguLuiUnitsDeploymentEntities.containsKey(unitDeploymentOrgId)){
+                    luiUnitDeployment = existinguLuiUnitsDeploymentEntities.remove(unitDeploymentOrgId);
+                }else{
+                    luiUnitDeployment = new LuiUnitsDeploymentEntity(this, unitDeploymentOrgId);
+                }
+                this.getLuiUnitsDeployment().add(luiUnitDeployment);
+            }
+        }
+
+        //Now we need to delete the leftovers (orphaned entities)
+        orphansToDelete.addAll(existinguLuiUnitsDeploymentEntities.values());
 
         // Lui Attributes
+        //TODO map the attributes (merge and delete orphans, don't do delete all and add all)
         this.setAttributes(new ArrayList<LuiAttributeEntity>());
         for (Attribute att : lui.getAttributes()) {
             this.getAttributes().add(new LuiAttributeEntity(att));
         }
 
-        this.resultValuesGroups = resultValuesGroups;
-
-
+        return orphansToDelete;
     }
 
     public LuiInfo toDto() {
@@ -391,5 +447,21 @@ public class LuiEntity extends MetaEntity {
 
     public void setLuiCodes(List<LuCodeEntity> luiCodes) {
         this.luiCodes = luiCodes;
+    }
+
+    public List<LuiUnitsContentOwnerEntity> getLuiContentOwner() {
+        return luiContentOwner;
+    }
+
+    public void setLuiContentOwner(List<LuiUnitsContentOwnerEntity> luiContentOwner) {
+        this.luiContentOwner = luiContentOwner;
+    }
+
+    public List<LuiUnitsDeploymentEntity> getLuiUnitsDeployment() {
+        return luiUnitsDeployment;
+    }
+
+    public void setLuiUnitsDeployment(List<LuiUnitsDeploymentEntity> luiUnitsDeployment) {
+        this.luiUnitsDeployment = luiUnitsDeployment;
     }
 }

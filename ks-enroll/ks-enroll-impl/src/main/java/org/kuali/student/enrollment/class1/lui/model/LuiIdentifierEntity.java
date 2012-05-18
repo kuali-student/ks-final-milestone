@@ -49,12 +49,12 @@ public class LuiIdentifierEntity extends MetaEntity {
     public LuiIdentifierEntity(LuiIdentifier luiIdentifier) {
         super(luiIdentifier);
         this.setId(luiIdentifier.getId());
-        this.setState(luiIdentifier.getStateKey());
         this.setType(luiIdentifier.getTypeKey());
         fromDto(luiIdentifier);
     }
 
     public void fromDto(LuiIdentifier luiIdentifier) {
+        this.setState(luiIdentifier.getStateKey());
         this.setCode(luiIdentifier.getCode());
         this.setDivision(luiIdentifier.getDivision());
         this.setLongName(luiIdentifier.getLongName());
@@ -62,6 +62,7 @@ public class LuiIdentifierEntity extends MetaEntity {
         this.setSuffixCode(luiIdentifier.getSuffixCode());
         this.setVariation(luiIdentifier.getVariation());
         this.setAttributes(new ArrayList<LuiIdentifierAttributeEntity>());
+        //TODO This will cause all sorts of leftovers and duplicate data
         for (Attribute att : luiIdentifier.getAttributes()) {
             LuiIdentifierAttributeEntity attEntity = new LuiIdentifierAttributeEntity(att);
             this.getAttributes().add(attEntity);
@@ -158,11 +159,14 @@ public class LuiIdentifierEntity extends MetaEntity {
     }
 
     public List<LuiIdentifierAttributeEntity> getAttributes() {
+        return attributes;
 
-        if(this.attributes!= null)
-                 return attributes;
-
-        return new ArrayList<LuiIdentifierAttributeEntity>() ;
+        //This is bad, never change the collection in the getter/setter it will cause jpa problems
+        //Also always use braces for if statements
+//        if(this.attributes!= null)
+//                 return attributes;
+//
+//        return new ArrayList<LuiIdentifierAttributeEntity>() ;
     }
 
     public LuiEntity getLui() {

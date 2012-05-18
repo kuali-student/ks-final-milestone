@@ -282,6 +282,19 @@
     <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
   </bean>
 
+    <bean id="ks.exp.luiService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="luiService" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.lui.service.LuiService" />
+                <property name="localServiceName" value="LuiService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lui" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
   <bean id="statementServiceImpl" class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
     <property name="statementDao" ref="statementDao" />
     <property name="searchManager" ref="statementSearchManager" />

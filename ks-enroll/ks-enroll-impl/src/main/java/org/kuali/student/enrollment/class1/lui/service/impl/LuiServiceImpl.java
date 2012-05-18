@@ -24,11 +24,13 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.enrollment.lui.service.LuiService;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -247,6 +249,14 @@ public class LuiServiceImpl
         entity.setCreateTime(context.getCurrentDate());
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
+        if(entity.getIdentifiers()!=null){
+            for(LuiIdentifierEntity ident:entity.getIdentifiers()){
+                ident.setCreateId(context.getPrincipalId());
+                ident.setCreateTime(context.getCurrentDate());
+                ident.setUpdateId(context.getPrincipalId());
+                ident.setUpdateTime(context.getCurrentDate());
+            }
+        }
         luiDao.persist(entity);
 
         return entity.toDto();
@@ -269,10 +279,20 @@ public class LuiServiceImpl
             throw new DoesNotExistException(luiId);
         }
 
-        entity.fromDto(luiInfo);
+        //Transform the DTO to the entity
+        List<Object> orphans = entity.fromDto(luiInfo);
+
+        //Delete any orphaned children
+        for(Object orphan : orphans){
+            luiDao.getEm().remove(orphan);
+        }
+
+        //Update any Meta information
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
-        luiDao.merge(entity);
+
+        //Perform the merge
+        entity = luiDao.merge(entity);
 
         return entity.toDto();
     }
