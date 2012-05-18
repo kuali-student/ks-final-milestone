@@ -21,10 +21,7 @@ import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject;
-import org.kuali.student.enrollment.class2.courseoffering.service.FormatOfferingInfoMaintainable;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingInfoForm;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -94,6 +91,20 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
         super.prepareForSave();
     }
 
+    @Override
+    public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
+        try {
+            FormatOfferingInfo info = getCourseOfferingService().getFormatOffering(dataObjectKeys.get("formatOfferingInfo.id"), getContextInfo());
+            FormatOfferingInfoForm formObject = new FormatOfferingInfoForm(info);
+            document.getNewMaintainableObject().setDataObject(formObject);
+            document.getOldMaintainableObject().setDataObject(formObject);
+//            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
+//            formObject.setStateName(state.getName());
+            return formObject;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * @see org.kuali.rice.krad.maintenance.Maintainable#processAfterCopy
