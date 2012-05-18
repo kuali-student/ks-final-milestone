@@ -23,7 +23,7 @@ import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
 import org.kuali.student.r2.common.dto.ContextInfo;

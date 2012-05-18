@@ -146,6 +146,7 @@
     <bean id="orgServiceImpl"
           class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao"/>
+        <property name="searchManager" ref="orgSearchManager"/>
         <property name="extendedOrgDao" ref="extendedOrgDao"/>
         <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
     </bean>

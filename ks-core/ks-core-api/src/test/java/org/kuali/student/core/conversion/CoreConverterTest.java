@@ -7,27 +7,28 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.core.conversion.R1TestDataUtil;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SortDirection;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.TagInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgCodeInfo;
 import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
-import org.kuali.student.r2.core.organization.dto.OrgInfo;
-import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
-import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
-import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
-import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalDocRelationInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementInfo;
-import org.kuali.student.r2.core.statement.dto.StatementOperator;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 
@@ -192,94 +193,7 @@ public class CoreConverterTest {
         OrgHierarchyInfo r2 = R1R2ConverterUtil.convert(r1, OrgHierarchyInfo.class);
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getDescr(), r2.getDescr().getPlain());
-    }
-    
-    @Test
-    public void testOrgInfo() {
-        org.kuali.student.r1.core.organization.dto.OrgInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgInfo();
-        r1.setLongDesc("R1 Long Desc");
-        r1.setLongName("R1 Long Name");
-        List<org.kuali.student.r1.core.organization.dto.OrgCodeInfo> r1OrgCodeList = new ArrayList<org.kuali.student.r1.core.organization.dto.OrgCodeInfo>();
-        org.kuali.student.r1.core.organization.dto.OrgCodeInfo r1OrgCodeInfo = new org.kuali.student.r1.core.organization.dto.OrgCodeInfo();
-        r1OrgCodeInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        r1OrgCodeInfo.setDesc("R1 Org Code Info");
-        r1OrgCodeInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1OrgCodeInfo.setValue("R1 Org Code Value");
-        r1OrgCodeList.add(r1OrgCodeInfo);
-        r1.setOrgCodes(r1OrgCodeList);
-        r1.setShortDesc("R1 Short Desc");
-        r1.setShortName("R1 Short Name");
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1.setState("R1 State");
-        r1.setType("R1 Type");
-        OrgInfo r2 = R1R2ConverterUtil.convert(r1, OrgInfo.class);
-        Assert.assertEquals(r1.getLongDesc(), r2.getLongDescr().getPlain());
-        Assert.assertEquals(r1.getLongName(), r2.getLongName());
-        Assert.assertEquals("R1-Value", r2.getOrgCodes().get(0).getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getOrgCodes().get(0).getDesc(), r2.getOrgCodes().get(0).getDescr().getPlain());
-        Assert.assertEquals(r1.getOrgCodes().get(0).getMetaInfo().getVersionInd(), r2.getOrgCodes().get(0).getMeta().getVersionInd());
-        Assert.assertEquals(r1.getShortDesc(), r2.getShortDescr().getPlain());
-        Assert.assertEquals(r1.getShortName(), r2.getShortName());
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-        Assert.assertEquals(r1.getState(), r2.getStateKey());
-        Assert.assertEquals(r1.getType(), r2.getTypeKey());
-    }
-    
-    @Test
-    public void testOrgOrgRelationInfo() {
-        org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo();
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1.setState("R1 State");
-        r1.setType("R1 Type");
-        OrgOrgRelationInfo r2 = R1R2ConverterUtil.convert(r1, OrgOrgRelationInfo.class);
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-        Assert.assertEquals(r1.getState(), r2.getStateKey());
-        Assert.assertEquals(r1.getType(), r2.getTypeKey());
-    }
-    
-    @Test
-    public void testOrgPersonRelationInfo() {
-        org.kuali.student.r1.core.organization.dto.OrgPersonRelationInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgPersonRelationInfo();
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        r1.setState("R1 State");
-        r1.setType("R1 Type");
-        OrgPersonRelationInfo r2 = R1R2ConverterUtil.convert(r1, OrgPersonRelationInfo.class);
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-        Assert.assertEquals(r1.getState(), r2.getStateKey());
-        Assert.assertEquals(r1.getType(), r2.getTypeKey());
-    }
-    
-    @Test
-    public void testOrgPositionRestrictionInfo() {
-        org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo();
-        r1.setAttributes(R1TestDataUtil.getAttributeData());
-        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
-        org.kuali.student.r1.common.dto.TimeAmountInfo r1TimeAmountInfo = new org.kuali.student.r1.common.dto.TimeAmountInfo();
-        r1TimeAmountInfo.setAtpDurationTypeKey("R1 Duration Key");
-        r1TimeAmountInfo.setTimeQuantity(1);
-        r1.setStdDuration(r1TimeAmountInfo);
-        r1.setDesc("R1 desc");
-        OrgPositionRestrictionInfo r2 = R1R2ConverterUtil.convert(r1, OrgPositionRestrictionInfo.class);
-        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-        Assert.assertEquals(r1.getStdDuration().getAtpDurationTypeKey(), r2.getStdDuration().getAtpDurationTypeKey());
-        Assert.assertEquals(r1.getStdDuration().getTimeQuantity(), r2.getStdDuration().getTimeQuantity());
-        Assert.assertEquals(r1.getDesc(), r2.getDescr().getPlain());
-    }
-    
-    @Test
-    public void testOrgTreeInfo() {
-        org.kuali.student.r1.core.organization.dto.OrgTreeInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgTreeInfo();
-        r1.setRelationType("R1 Type");
-        OrgTreeInfo r2 = R1R2ConverterUtil.convert(r1, OrgTreeInfo.class);
-        Assert.assertEquals(r1.getRelationType(), r2.getRelationTypeKey());
-    }
+    }   
     
     @Test
     public void testProposalDocRelationInfo() {
@@ -374,4 +288,89 @@ public class CoreConverterTest {
         Assert.assertEquals(r1.getType(), r2.getTypeKey());
     }
     
+    @Test
+    public void testSearchParamInfo() {
+        org.kuali.student.r1.common.search.dto.SearchParam r1 = new org.kuali.student.r1.common.search.dto.SearchParam();
+        r1.setKey("R1 Key");
+        double chance = Math.random();
+        if (chance <= 0.5) {
+            List<String> r1ValueList = new ArrayList<String>();
+            r1ValueList.add("R1 Value in List");
+            r1.setValue(r1ValueList);
+        } else {
+            r1.setValue("R1 Value Not in List");
+        }
+        
+        SearchParamInfo r2 = R1R2ConverterUtil.convert(r1, SearchParamInfo.class);
+        Assert.assertEquals(r1.getKey(), r2.getKey());
+        if (r1.getValue() instanceof List<?>) {
+            Assert.assertEquals(((List<String>) r1.getValue()).get(0), ((List<String>) r2.getValue()).get(0));
+        } else {
+            Assert.assertEquals(r1.getValue(), r2.getValue());
+        }
+    }
+    
+    @Test
+    public void testSearchRequestInfo() {
+        org.kuali.student.r1.common.search.dto.SearchRequest r1 = new org.kuali.student.r1.common.search.dto.SearchRequest();
+        r1.setMaxResults(1);
+        r1.setNeededTotalResults(false);
+        List<SearchParam> r1SearchParams = new ArrayList<SearchParam>();
+        SearchParam r1SearchParam = new SearchParam();
+        r1SearchParam.setKey("R1 Search Param");
+        List<String> r1ListValue = new ArrayList<String>();
+        r1ListValue.add("R1 List Value");
+        r1SearchParam.setValue(r1ListValue);
+        r1SearchParam.setValue("R1 String Value");
+        r1SearchParams.add(r1SearchParam);
+        r1.setParams(r1SearchParams);
+        r1.setSearchKey("R1 Search Key");
+        r1.setSortColumn("R1 Sort Column");
+        r1.setSortDirection(SortDirection.ASC);
+        r1.setStartAt(1);
+        SearchRequestInfo r2 = R1R2ConverterUtil.convert(r1, SearchRequestInfo.class);
+        Assert.assertEquals(r1.getMaxResults(), r2.getMaxResults());
+        Assert.assertEquals(r1.getNeededTotalResults(), r2.getNeededTotalResults());
+        Assert.assertEquals(r1.getParams().get(0).getKey(), r2.getParams().get(0).getKey());
+        Assert.assertEquals(r1.getParams().get(0).getValue(), r2.getParams().get(0).getValue());
+        Assert.assertEquals(r1.getSearchKey(), r2.getSearchKey());
+        Assert.assertEquals(r1.getSortColumn(), r2.getSortColumn());
+        Assert.assertEquals(r1.getSortDirection().name(), r2.getSortDirection().name());
+        Assert.assertEquals(r1.getStartAt(), r2.getStartAt());
+    }
+    
+    @Test
+    public void testSearchResultCellInfo() {
+        org.kuali.student.r1.common.search.dto.SearchResultCell r1 = new org.kuali.student.r1.common.search.dto.SearchResultCell();
+        r1.setKey("R1 Key");
+        r1.setValue("R1 Value");
+        SearchResultCellInfo r2 = R1R2ConverterUtil.convert(r1, SearchResultCellInfo.class);
+        Assert.assertEquals(r1.getKey(), r2.getKey());
+        Assert.assertEquals(r1.getValue(), r2.getValue());
+    }
+    
+    @Test
+    public void testSearchResultInfo() {
+        org.kuali.student.r1.common.search.dto.SearchResult r1 = new org.kuali.student.r1.common.search.dto.SearchResult();
+        List<SearchResultRow> r1SearchResultRows = new ArrayList<SearchResultRow>();
+        SearchResultRow r1SearchResultRow = new SearchResultRow();
+        List<SearchResultCell> r1SearchResultCellList = new ArrayList<SearchResultCell>();
+        SearchResultCell r1SearchResultCell = new SearchResultCell();
+        r1SearchResultCell.setKey("R1 Cell Key");
+        r1SearchResultCell.setValue("R1 Cell Value");
+        r1SearchResultCellList.add(r1SearchResultCell);
+        r1SearchResultRow.setCells(r1SearchResultCellList);
+        r1SearchResultRows.add(r1SearchResultRow);
+        r1.setRows(r1SearchResultRows);
+        r1.setSortColumn("R1 Sort Column");
+        r1.setSortDirection(SortDirection.ASC);
+        r1.setStartAt(1);
+        r1.setTotalResults(1);
+        SearchResultInfo r2 = R1R2ConverterUtil.convert(r1, SearchResultInfo.class);
+        Assert.assertEquals(r1.getRows().get(0).getCells().get(0).getKey(), r2.getRows().get(0).getCells().get(0).getKey());
+        Assert.assertEquals(r1.getSortColumn(), r2.getSortColumn());
+        Assert.assertEquals(r1.getSortDirection().name(), r2.getSortDirection().name());
+        Assert.assertEquals(r1.getStartAt(), r2.getStartAt());
+        Assert.assertEquals(r1.getTotalResults(), r2.getTotalResults());
+    }
 }

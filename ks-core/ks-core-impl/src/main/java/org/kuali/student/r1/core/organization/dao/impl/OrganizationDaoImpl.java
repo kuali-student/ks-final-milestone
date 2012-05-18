@@ -17,8 +17,13 @@ package org.kuali.student.r1.core.organization.dao.impl;
 
 import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.r1.core.organization.dao.OrganizationDao;
-import org.kuali.student.r1.core.organization.entity.*;
-import org.kuali.student.r1.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r1.core.organization.entity.Org;
+import org.kuali.student.r1.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.r1.core.organization.entity.OrgOrgRelationType;
+import org.kuali.student.r1.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.r1.core.organization.entity.OrgPersonRelationType;
+import org.kuali.student.r1.core.organization.entity.OrgPositionRestriction;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

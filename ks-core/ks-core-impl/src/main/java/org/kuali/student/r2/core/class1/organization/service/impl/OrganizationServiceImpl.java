@@ -18,6 +18,7 @@ import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r1.common.validator.old.Validator;
 import org.kuali.student.r1.core.organization.dao.OrganizationDao;
 import org.kuali.student.r1.core.organization.entity.Org;
@@ -40,7 +41,6 @@ import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.service.util.AssemblerHelper;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -56,6 +56,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationDao organizationDao;
     private ExtendedOrgDao extendedOrgDao;
     private DictionaryService dictionaryServiceDelegate;
+    private SearchManager searchManager;
     private Validator validator;
     private CriteriaLookupService criteriaLookupService;
 
@@ -79,6 +80,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
+    }
+    
+    public SearchManager getSearchManager() {
+        return searchManager;
+    }
+
+    public void setSearchManager(SearchManager searchManager) {
+        this.searchManager = searchManager;
     }
 
     public Validator getValidator() {
@@ -953,30 +962,18 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         return new ArrayList<OrgTreeInfo>(results);
     }
-
-    private List<OrgTreeInfo> parseOrgTree(String rootOrgId, String orgHierarchyId, int maxLevels, int currentLevel) {
+    
+    private List<OrgTreeInfo> parseOrgTree(String rootOrgId,
+            String orgHierarchyId, int maxLevels, int currentLevel) {
         List<OrgTreeInfo> results = new ArrayList<OrgTreeInfo>();
-
-        if (maxLevels == 0 || currentLevel < maxLevels) {
-            List<org.kuali.student.r1.core.organization.dto.OrgTreeInfo> orgTreeInfos = this.organizationDao.getOrgTreeInfo(rootOrgId, orgHierarchyId);
-            for (org.kuali.student.r1.core.organization.dto.OrgTreeInfo orgTreeInfo : orgTreeInfos) {
-                
-                OrgTreeInfo treeInfo = new OrgTreeInfo();
-                treeInfo.setOrgId(orgTreeInfo.getOrgId());
-                treeInfo.setDisplayName(orgTreeInfo.getDisplayName());
-                treeInfo.setOrgHierarchyId(orgTreeInfo.getOrgHierarchyId());
-                treeInfo.setParentId(orgTreeInfo.getParentId());
-                treeInfo.setPersonId(orgTreeInfo.getPersonId());
-                treeInfo.setPositionId(orgTreeInfo.getPositionId());
-                treeInfo.setRelationTypeKey(orgTreeInfo.getRelationType());
-                treeInfo.setPositions(this.organizationDao.getOrgMembershipCount(orgTreeInfo.getOrgId()));
-                
-                results.add(treeInfo);
-                
-                results.addAll(parseOrgTree(orgTreeInfo.getOrgId(), orgHierarchyId, maxLevels, currentLevel + 1));
+        if(maxLevels==0||currentLevel<maxLevels){
+            List<OrgTreeInfo> orgTreeInfos = this.organizationDao.getOrgTreeInfo(rootOrgId,orgHierarchyId);
+            for(OrgTreeInfo orgTreeInfo:orgTreeInfos){
+                orgTreeInfo.setPositions(this.organizationDao.getOrgMembershipCount(orgTreeInfo.getOrgId()));
+                results.addAll(parseOrgTree(orgTreeInfo.getOrgId(),orgHierarchyId, maxLevels, currentLevel+1));
             }
+            results.addAll(orgTreeInfos);
         }
-
         return results;
     }
 
@@ -984,49 +981,70 @@ public class OrganizationServiceImpl implements OrganizationService {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
-
-    @Override
-    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public SearchTypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public SearchResultTypeInfo getSearchResultType(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     @Override
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        checkForMissingParameter(searchRequest, "searchRequest");
+        return searchManager.search(searchRequest, organizationDao);
+    }
+    
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes();
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchResultType(searchResultTypeKey);
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchResultTypes();
+    }
+
+    @Override
+    public SearchTypeInfo getSearchType(String searchTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchTypeKey, "searchTypeKey");
+        return searchManager.getSearchType(searchTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchTypes();
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(
+            String searchResultTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchTypesByResult(searchResultTypeKey);
     }
 }

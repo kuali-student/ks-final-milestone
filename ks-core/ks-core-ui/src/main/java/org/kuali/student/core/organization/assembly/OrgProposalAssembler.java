@@ -29,8 +29,8 @@ import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.assembly.old.BaseAssembler;
 import org.kuali.student.r1.common.assembly.old.data.SaveResult;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r1.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -42,6 +42,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
@@ -117,7 +118,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper> {
         Data result = new Data();
 //      SaveResult<Data> result = new SaveResult<Data>();
         try{
-            orgInfo = R1R2ConverterUtil.convert(orgService.getOrg(id, ContextUtils.getContextInfo()), org.kuali.student.r1.core.organization.dto.OrgInfo.class);
+            orgInfo = orgService.getOrg(id, ContextUtils.getContextInfo());
             OrgInfoData orgInfoData = new OrgInfoData();
             orgInfoData.setOrgInfo(orgInfo);
             OrgHelper resultOrg = buildOrgDataMap(orgInfoData);
@@ -166,7 +167,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper> {
 //            Data resultData = new Data();
 //            resultData.set("orgInfo", resultOrg.getData());       //Set the map to the key "orgInfo"
             String orgId = orgInfoData.getOrgInfo().getId();
-            addVersionIndicator(orgHelper.getData(),OrgInfo.class.getName(),orgId,orgInfoData.getOrgInfo().getMetaInfo().getVersionInd());
+            addVersionIndicator(orgHelper.getData(),OrgInfo.class.getName(),orgId,orgInfoData.getOrgInfo().getMeta().getVersionInd());
             
             orgHelper.setId(orgId);
             if(orgId!=null&&input.get("orgOrgRelationInfo")!=null){
@@ -209,8 +210,11 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper> {
         OrgInfo orgInfo = new OrgInfo();
         OrgInfoData result = new OrgInfoData();
                 
-        orgInfo.setType(org.getType());
-        orgInfo.setLongDesc(org.getDescription());
+        orgInfo.setTypeKey(org.getType());
+        RichTextInfo richText = new RichTextInfo();
+        richText.setFormatted(org.getDescription());
+        richText.setPlain(org.getDescription());
+        orgInfo.setLongDescr(richText);
         orgInfo.setShortName(org.getAbbreviation());
         orgInfo.setLongName(org.getName());
         orgInfo.setEffectiveDate(org.getEffectiveDate());
@@ -222,7 +226,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper> {
         if (isModified(org.getData())) {
 //           if (isUpdated(org.getData())) {
                 MetaInfo metaInfo = new MetaInfo();
-                orgInfo.setMetaInfo(metaInfo);
+                orgInfo.setMeta(metaInfo);
                 result.setModificationState(ModificationState.UPDATED);
 //            } else if (isDeleted(org.getData())) {
 //                result.setModificationState(ModificationState.DELETED);
@@ -232,8 +236,8 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper> {
             setCreated(org.getData(), true);
             result.setModificationState(ModificationState.CREATED);
         }
-        if(orgInfo.getMetaInfo()!=null){
-            orgInfo.getMetaInfo().setVersionInd(getVersionIndicator(org.getData()));
+        if(orgInfo.getMeta()!=null){
+            orgInfo.getMeta().setVersionInd(getVersionIndicator(org.getData()));
         }
 //        result.setModificationState(ModificationState.CREATED);
         result.setOrgInfo(orgInfo);
@@ -252,7 +256,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper> {
                 org.kuali.student.r2.core.organization.dto.OrgInfo orgInfoR2  = R1R2ConverterUtil.convert(orgInfo,org.kuali.student.r2.core.organization.dto.OrgInfo.class);
                 switch (input.getModificationState()) {
                     case CREATED:
-                        result = R1R2ConverterUtil.convert(orgService.createOrg(orgInfo.getType(), orgInfoR2, context), OrgInfo.class);
+                        result = R1R2ConverterUtil.convert(orgService.createOrg(orgInfo.getTypeKey(), orgInfoR2, context), OrgInfo.class);
                         break;
                     case UPDATED:
                         result = R1R2ConverterUtil.convert(orgService.updateOrg(orgInfo.getId(), orgInfoR2, context), OrgInfo.class);
@@ -285,14 +289,14 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper> {
     private OrgHelper buildOrgDataMap(OrgInfoData orgInfoData){
         OrgHelper org =  OrgHelper.wrap(new Data());
         org.setId(orgInfoData.getOrgInfo().getId());
-        org.setType(orgInfoData.getOrgInfo().getType());
+        org.setType(orgInfoData.getOrgInfo().getTypeKey());
         org.setName(orgInfoData.getOrgInfo().getLongName());
         org.setAbbreviation(orgInfoData.getOrgInfo().getShortName());
-        org.setDescription(orgInfoData.getOrgInfo().getLongDesc());
+        org.setDescription(orgInfoData.getOrgInfo().getLongDescr().getPlain());
         org.setEffectiveDate(orgInfoData.getOrgInfo().getEffectiveDate());
         org.setExpirationDate(orgInfoData.getOrgInfo().getExpirationDate());
         setUpdated(org.getData(), true);
-        addVersionIndicator(org.getData(),OrgInfo.class.getName(),orgInfoData.getOrgInfo().getId(),orgInfoData.getOrgInfo().getMetaInfo().getVersionInd());
+        addVersionIndicator(org.getData(),OrgInfo.class.getName(),orgInfoData.getOrgInfo().getId(),orgInfoData.getOrgInfo().getMeta().getVersionInd());
 
         return org;
     }
