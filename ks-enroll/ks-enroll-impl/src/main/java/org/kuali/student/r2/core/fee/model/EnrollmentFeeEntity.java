@@ -18,6 +18,7 @@ package org.kuali.student.r2.core.fee.model;
 
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.r2.core.fee.infc.EnrollmentFee;
@@ -105,6 +106,14 @@ public class EnrollmentFeeEntity extends MetaEntity {
         feeInfo.setId(getId());
         feeInfo.setStateKey(getEnrollFeeState());
         feeInfo.setTypeKey(getEnrollFeeType());
+
+        String plain = getPlain();
+        String formatted = getFormatted();
+
+        if((plain != null && !"".equals(plain)) || (formatted != null && !"".equals(formatted))  ){
+            RichTextInfo descr = new RichTextInfo(plain, formatted);
+            feeInfo.setDescr(descr);
+        }
         // Then, all the instance variables that are specific to EnrollmentFeeEntity
         if (getCurrencyType() != null) { // strange if it's null, but make the check anyway
             EnrollmentFeeAmountInfo amtInfo = new EnrollmentFeeAmountInfo();

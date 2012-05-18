@@ -23,9 +23,15 @@
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="refObjectURI"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="refObjectId"/>
+
+
+                <!-- not implemented
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" />
+                -->
             </list>
         </property>
         <property name="resultFields">
