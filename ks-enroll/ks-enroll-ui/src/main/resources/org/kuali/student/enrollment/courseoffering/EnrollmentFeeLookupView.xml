@@ -55,9 +55,10 @@
                 <property name="layoutManager.numberOfColumns" value="2" />
                 <property name="items">
                     <list>
-                        <bean parent="Uif-DataField" p:propertyName="id" />
-                        <bean parent="Uif-DataField" p:propertyName="title" />
-                        <bean parent="Uif-DataField" p:propertyName="numOfPages" />
+                        <bean parent="Uif-DataField" p:propertyName="id"/>
+                        <bean parent="Uif-DataField" p:propertyName="descr.plain"/>
+                        <bean parent="Uif-DataField" p:propertyName="stateKey" />
+                        <bean parent="Uif-DataField" p:propertyName="typeKey" />
                     </list>
                 </property>
                 </bean>
