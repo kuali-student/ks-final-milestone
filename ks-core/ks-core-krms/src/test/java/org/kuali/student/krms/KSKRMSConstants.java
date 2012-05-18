@@ -22,6 +22,9 @@ public class KSKRMSConstants {
 	public static final String LEARNING_OBJECTIVES_DESCR = "Learning Objective Term Specification";
 	public static final String TERM_SPEC_SUBJECT_CODE = "Subject Code";
 	public static final String SUBJECT_CODE_DESCR = "Subject Code Term Specification";
+	public static final String TERM_SPEC_STRING = "String text";
+	public static final String STRING_DESCR = "Term Specification";
+
 	
 	public static final String TERM_APPROVED_COURSE = "Approved course";
 	public static final String TERM_APPROVED_COURSES = "Approved courses";
@@ -40,6 +43,7 @@ public class KSKRMSConstants {
 	public static final String TERM_PROPOSED_COURSES = "Proposed Courses";
 	public static final String TERM_SCORE = "Score";
 	public static final String TERM_TEST = "Test";
+	public static final String TERM_FREE_TEXT = "Free Text";
 	
 	
 }
