@@ -56,7 +56,6 @@
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
-        <property name="footer" ref="KSFooterDocument"/>
     </bean>
 
     <bean id="KSGroup" abstract="true" parent="Uif-VerticalBoxSection">
@@ -105,7 +104,7 @@
         <property name="cssClasses" value="ui-priority-secondary-sm"/>
     </bean>
 
-    <bean id="KSFooterDocument" parent="Uif-FooterBase">
+    <!--<bean id="KSFooterDocument" parent="Uif-FooterBase">
       <property name="items">
         <list>
           <bean parent="Uif-PrimaryActionButton" p:methodToCall="performRouteReport" p:actionLabel="Route Report"
@@ -136,9 +135,9 @@
                 p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
         </list>
       </property>
-    </bean>
+    </bean>-->
 
-    <bean id="KSFooter_SubmitCancel" parent="KSFooterDocument">
+    <!--<bean id="KSFooter_SubmitCancel" parent="KSFooterDocument">
       <property name="items">
         <list>
             <bean parent="Uif-PrimaryActionButton" p:clientSideJs="validateAndSubmit('route', replacePage);" p:actionLabel="Submit"
@@ -147,7 +146,7 @@
                 p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
         </list>
       </property>
-    </bean>
+    </bean>-->
 
     <bean id="KSHeader_Empty" parent="Uif-HeaderOne">
       <property name="items">
