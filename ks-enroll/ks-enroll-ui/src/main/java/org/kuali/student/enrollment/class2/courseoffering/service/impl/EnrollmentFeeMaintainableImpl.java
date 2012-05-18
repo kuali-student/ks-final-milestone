@@ -35,14 +35,23 @@ public class EnrollmentFeeMaintainableImpl extends MaintainableImpl implements E
     private FeeService feeService;
 
 
+    @Override
+    public void prepareForSave() {
+        System.out.println("This is prepareForSave");
+    }
+
 
     @Override
     public void saveDataObject() {
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
+
                 EnrollmentFeeFormObject enrollmentFeeFormObject = (EnrollmentFeeFormObject) getDataObject();
-                EnrollmentFeeInfo  feeInfo  = getFeeService().createFee(enrollmentFeeFormObject.getEfInfo().getTypeKey(), enrollmentFeeFormObject.getEfInfo(),getContextInfo() );
+
+                EnrollmentFeeInfo efi = enrollmentFeeFormObject.getEfInfo();
+
+                EnrollmentFeeInfo  feeInfo  = getFeeService().createFee(efi.getTypeKey(), efi,getContextInfo() );
 
                 setDataObject(new EnrollmentFeeFormObject(feeInfo));
             } catch (Exception e) {
@@ -108,7 +117,7 @@ public class EnrollmentFeeMaintainableImpl extends MaintainableImpl implements E
 
     protected FeeService getFeeService() {
         if (feeService == null) {
-            feeService = (FeeService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, FeeServiceConstants.SERVICE_NAME_LOCAL_PART));
+            feeService = (FeeService) GlobalResourceLoader.getService(new QName(FeeServiceConstants.NAMESPACE, FeeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return feeService;
     }
