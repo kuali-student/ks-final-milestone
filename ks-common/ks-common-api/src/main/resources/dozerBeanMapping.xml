@@ -27,10 +27,6 @@
 		<class-b>org.kuali.student.r2.common.dto.MetaInfo</class-b>
 	</mapping>
 	<mapping>
-		<class-a>org.kuali.student.r1.common.dto.RichTextInfo</class-a>
-		<class-b>org.kuali.student.r2.common.dto.RichTextInfo</class-b>
-	</mapping>
-	<mapping>
 		<class-a>org.kuali.student.r1.common.dto.StatusInfo</class-a>
 		<class-b>org.kuali.student.r2.common.dto.StatusInfo</class-b>
 		<field>
