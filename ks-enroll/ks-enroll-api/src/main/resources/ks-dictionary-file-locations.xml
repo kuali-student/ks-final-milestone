@@ -141,6 +141,7 @@
                 <bean parent="luiLuiRelationInfoDictionaryLocation" />  
                 <bean parent="courseOfferingInfoDictionaryLocation" />
                 <bean parent="activityOfferingInfoDictionaryLocation" />
+                <bean parent="formatOfferingInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>
