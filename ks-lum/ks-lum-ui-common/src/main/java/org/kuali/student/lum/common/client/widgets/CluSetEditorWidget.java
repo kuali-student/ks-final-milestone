@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
@@ -30,6 +29,7 @@ import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
+import org.kuali.student.lum.common.client.helpers.SearchParamHelper;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
@@ -687,21 +687,21 @@ public class CluSetEditorWidget extends VerticalSectionView {
             if (membershipQueryInfo != null) {
                 String selectedSearchTypeKey = membershipQueryInfo.getSearchTypeKey();
                 List<LookupMetadata> lookupMDs = new ArrayList<LookupMetadata>();
+                List<SearchParam> searchParams = SearchParamHelper.toSearchParamInfos(membershipQueryInfo.getQueryParamValues());
                 lookupMDs.add(rangeEditMetaData.getInitialLookup());
                 LookupMetadata lookupMetadata = findLookupMetadataByLookupId(selectedSearchTypeKey, 
-                        lookupMDs, membershipQueryInfo.getQueryParamValueList());
+                        lookupMDs, searchParams);
                 if (lookupMetadata == null || 
                         !nullSafeEquals(lookupMetadata.getName(), 
                                 selectedSearchTypeKey)) {
                     lookupMetadata = findLookupMetadataByLookupId(selectedSearchTypeKey, 
-                            rangeEditMetaData.getAdditionalLookups(),
-                            membershipQueryInfo.getQueryParamValueList());
+                            rangeEditMetaData.getAdditionalLookups(), searchParams);
                 }
 
                 SearchRequest searchRequest = new SearchRequest();
                 searchRequest.setSearchKey(selectedSearchTypeKey);
 //              if ()
-                searchRequest.setParams(membershipQueryInfo.getQueryParamValueList());
+                searchRequest.setParams(searchParams);
                 searchRequest.setSortColumn(lookupMetadata.getResultSortKey());
                 
 //                if (showCluRangeDetailsHandlerRegs != null) {

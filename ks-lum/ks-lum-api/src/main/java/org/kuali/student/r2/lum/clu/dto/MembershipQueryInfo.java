@@ -26,16 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MembershipQueryInfo", propOrder = {"id", "queryParamValueList", "searchTypeKey", "queryParamValues" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "MembershipQueryInfo", propOrder = {"id", "searchTypeKey", "queryParamValues" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class MembershipQueryInfo implements Serializable, MembershipQuery {
 
     private static final long serialVersionUID = 1L;
 
     @XmlAttribute
     private String id;
-    
-    @XmlElement
-    private List<org.kuali.student.r1.common.search.dto.SearchParam> queryParamValueList;
 
     @XmlElement
     private String searchTypeKey;
@@ -43,9 +40,8 @@ public class MembershipQueryInfo implements Serializable, MembershipQuery {
     @XmlElement
     private List<SearchParamInfo> queryParamValues;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public MembershipQueryInfo() {
 
@@ -87,23 +83,8 @@ public class MembershipQueryInfo implements Serializable, MembershipQuery {
         }
         return queryParamValues;
     }
-
+    
     public void setQueryParamValues(List<SearchParamInfo> queryParamValues) {
         this.queryParamValues = queryParamValues;
     }
-
-    // TODO KSCM-392 HOW TO IMPL 
-    @Deprecated
-	public List<org.kuali.student.r1.common.search.dto.SearchParam> getQueryParamValueList() {
-        if (queryParamValueList == null) {
-            queryParamValueList = new ArrayList<org.kuali.student.r1.common.search.dto.SearchParam>(0);
-        }
-        return queryParamValueList;
-	}
-
- // TODO KSCM-392 HOW TO IMPL 
-    @Deprecated
-	public void setQueryParamValueList(List<org.kuali.student.r1.common.search.dto.SearchParam> queryParamValueList) {
-        this.queryParamValueList = queryParamValueList;
-	}
 }

@@ -19,6 +19,7 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
@@ -218,10 +219,10 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
             }
         }
         if (membershipQueryInfo != null) {
-            List<SearchParam> searchParams = membershipQueryInfo.getQueryParamValueList();
+            List<SearchParamInfo> searchParams = membershipQueryInfo.getQueryParamValues();
             if (searchParams != null) {
                 HorizontalPanel queryDisplayPanel = new HorizontalPanel();
-                for (SearchParam searchParam : searchParams) {
+                for (SearchParamInfo searchParam : searchParams) {
                     KSLabel paramDescLabel = new KSLabel();
                     KSLabel paramValueLabel = new KSLabel();
                     String paramDesc = translateSearchKey(searchParam.getKey());
