@@ -21,6 +21,9 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -43,10 +47,6 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/courseOfferingRollover")
 public class CourseOfferingRolloverController extends UifControllerBase {
-    private boolean isTargetTermValid = false;
-    private boolean isSourceTermValid = false;
-    private TermInfo targetTermInfo = null;
-    private TermInfo sourceTermInfo = null;
     private CourseOfferingViewHelperService viewHelperService;
 
     @Override
@@ -71,7 +71,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         List<TermInfo> termList = helper.findTermByTermCode(form.getTargetTermCode());
-        if (termList != null && !termList.isEmpty()) {
+        if (termList != null && termList.size() == 1) {
             // Get first term
             TermInfo matchingTerm = termList.get(0);
             String targetTermCode = matchingTerm.getCode();
@@ -85,9 +85,10 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             Date endDate = matchingTerm.getEndDate();
             String endDateStr = format.format(endDate);
             form.setTargetTermEndDate(endDateStr);
-            // TODO: Put in last rollover date
-            isTargetTermValid = true;
-            targetTermInfo = matchingTerm;
+            // TODO: Put in last rollover date (Kirk says this may be unnecessary in new wireframes 5/18/2012)
+            form.setTargetTerm(matchingTerm);
+        } else {
+            form.setTargetTerm(null);
         }
         return getUIFModelAndView(form);
     }
@@ -97,7 +98,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         List<TermInfo> termList = helper.findTermByTermCode(form.getSourceTermCode());
-        if (termList != null && !termList.isEmpty()) {
+        if (termList != null && termList.size() == 1) {
             // Get first term
             TermInfo matchingTerm = termList.get(0);
             String sourceTermCode = matchingTerm.getCode();
@@ -111,8 +112,9 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             Date endDate = matchingTerm.getEndDate();
             String endDateStr = format.format(endDate);
             form.setSourceTermEndDate(endDateStr);
-            isSourceTermValid = true;
-            sourceTermInfo = matchingTerm;
+            form.setSourceTerm(matchingTerm);
+        } else {
+            form.setTargetTerm(null);
         }
         return getUIFModelAndView(form);
     }
@@ -120,7 +122,69 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=performRollover")
     public ModelAndView performRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
-        System.err.println("In perform rollover!!!");
+        CourseOfferingViewHelperService helper =  getViewHelperService(form);
+
+        if (form.getSourceTerm() == null || form.getTargetTerm() == null) {
+            form.setStatusField("(setUp) Source/target term objects appear to be missing");
+            return getUIFModelAndView(form);
+        }
+        form.setStatusField("");
+        String sourceTermId = form.getSourceTerm().getId();
+        String targetTermId = form.getTargetTerm().getId();
+
+        helper.performRollover(sourceTermId, targetTermId, form);
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=setUpSourceTerm")
+    public ModelAndView setUpSourceTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseOfferingViewHelperService helper =  getViewHelperService(form);
+        
+        if (form.getSourceTerm() == null || form.getTargetTerm() == null) {
+            form.setStatusField("(setUp) Source/target term objects appear to be missing");
+            return getUIFModelAndView(form);
+        }
+        form.setStatusField("");
+        // Delete previous SOC and course offerings (allows for us to redefine SOC/course offering later on
+
+        boolean success = helper.cleanSourceTerm(form.getSourceTerm().getId(), form);
+        if (success) {
+            helper.createSocCoFoAoForTerm(form.getSourceTerm().getId(), form);
+        }
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=performReverseRollover")
+    public ModelAndView performReverseRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseOfferingViewHelperService helper =  getViewHelperService(form);
+        if (form.getSourceTerm() == null || form.getTargetTerm() == null) {
+            form.setStatusField("(cleanUp) Source/target term objects appear to be missing");
+            return getUIFModelAndView(form);
+        }
+        form.setStatusField("");
+
+        String sourceTermId = form.getSourceTerm().getId();
+        String targetTermId = form.getTargetTerm().getId();
+        SocRolloverResultInfo info = helper.performReverseRollover(sourceTermId, targetTermId, form);
+        if (info != null) {
+            form.setStatusField("Num items processed: " + info.getItemsProcessed());
+        }
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=cleanTargetTerm")
+    public ModelAndView cleanTargetTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CourseOfferingViewHelperService helper =  getViewHelperService(form);
+        if (form.getSourceTerm() == null || form.getTargetTerm() == null) {
+            form.setStatusField("(cleanUp) Source/target term objects appear to be missing");
+            return getUIFModelAndView(form);
+        }
+        form.setStatusField("");
+
+        helper.cleanTargetTerm(form.getTargetTerm().getId(), form);
         return getUIFModelAndView(form);
     }
 
@@ -135,14 +199,14 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         return viewHelperService;
     }
 
-    @RequestMapping(params = "methodToCall=goRolloverTerm")
-    public ModelAndView goRolloverTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
-        form.setRolloverSourceTerm("Fall 2011");
-        form.setDateInitiated("March 12 2012");
-        form.setCourseOfferingsNotAllowed("In progress");
-        form.setDateCompleted("In progress");
-        form.setActivityOfferingsNotAllowed("In progress");
-        return getUIFModelAndView(form);
-    }
+//    @RequestMapping(params = "methodToCall=goRolloverTerm")
+//    public ModelAndView goRolloverTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
+//                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        form.setRolloverSourceTerm("Fall 2011");
+//        form.setDateInitiated("March 12 2012");
+//        form.setCourseOfferingsNotAllowed("In progress");
+//        form.setDateCompleted("In progress");
+//        form.setActivityOfferingsNotAllowed("In progress");
+//        return getUIFModelAndView(form);
+//    }
 }

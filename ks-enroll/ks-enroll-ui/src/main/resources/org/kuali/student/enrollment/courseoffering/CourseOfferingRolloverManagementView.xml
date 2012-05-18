@@ -45,6 +45,7 @@
             <property name="items">
                 <list>
                     <bean parent="Uif-HeaderOne" p:headerText="Select Source and Target Terms"/>
+                    <bean parent="Uif-DataField" p:propertyName="statusField" p:label="Status (temp)"/>
                     <bean parent="Uif-HorizontalBoxSection" p:style="min-width:17cm">
                         <property name="items">
                             <list>
@@ -56,7 +57,7 @@
                                                     <list>
                                                         <bean parent="Uif-InputField" p:propertyName="targetTermCode" p:label="Target Term" p:labelPlacement="TOP" p:required="true">
                                                             <property name="control">
-                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2011" p:minLength="7" p:maxLength="7"/>
+                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2009" p:minLength="7" p:maxLength="7"/>
                                                             </property>
                                                         </bean>
                                                         <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm" p:valign="bottom"/>
@@ -85,7 +86,7 @@
                                                     <list>
                                                         <bean parent="Uif-InputField" p:propertyName="sourceTermCode" p:label="Source Term" p:labelPlacement="TOP" p:required="true">
                                                             <property name="control">
-                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2010" p:minLength="7" p:maxLength="7"/>
+                                                                <bean parent="Uif-TextControl" p:size="7" p:watermarkText="FAL2008" p:minLength="7" p:maxLength="7"/>
                                                             </property>
                                                         </bean>
 
@@ -117,6 +118,9 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Rollover" p:methodToCall="performRollover"/>
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set up Source Term" p:methodToCall="setUpSourceTerm"/>
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Reverse Rollover" p:methodToCall="performReverseRollover"/>
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Clean Target" p:methodToCall="cleanTargetTerm"/>
                             <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
                         </list>
                     </property>

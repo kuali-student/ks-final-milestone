@@ -809,15 +809,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<SeatPoolDefinitionInfo> searchForSeatpoolDefintions(QueryByCriteria criteria, ContextInfo context)
+    public List<SeatPoolDefinitionInfo> searchForSeatpoolDefinitions(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("searchForSeatpoolDefintions has not been implemented");
+        throw new OperationFailedException("searchForSeatpoolDefinitions has not been implemented");
     }
 
     @Override
-    public List<String> searchForSeatpoolDefintionIds(QueryByCriteria criteria, ContextInfo context)
+    public List<String> searchForSeatpoolDefinitionIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("searchForSeatpoolDefintionIds has not been implemented");
+        throw new OperationFailedException("searchForSeatpoolDefinitionIds has not been implemented");
     }
 
     @Override
@@ -829,7 +829,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     @Override
     public List<CourseOfferingAdminDisplayInfo> getCourseOfferingAdminDisplaysByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("searchForSeatpoolDefintionIds has not been implemented");
+        throw new OperationFailedException("searchForSeatpoolDefinitionIds has not been implemented");
     }
 
     @Override

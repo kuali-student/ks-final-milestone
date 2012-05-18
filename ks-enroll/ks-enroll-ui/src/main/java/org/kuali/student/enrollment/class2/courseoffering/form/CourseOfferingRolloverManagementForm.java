@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 
 /**
  * This class //TODO ...
@@ -34,13 +35,9 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private String displayedSourceTermCode;
     private String sourceTermStartDate;
     private String sourceTermEndDate;
-    // rollover details fields
-    private String rolloverSourceTerm;
-    private String rolloverTargetTerm;
-    private String dateInitiated;
-    private String dateCompleted;
-    private String courseOfferingsNotAllowed;
-    private String activityOfferingsNotAllowed;
+    private String statusField;
+    private TermInfo sourceTerm;
+    private TermInfo targetTerm;
 
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
@@ -126,50 +123,27 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.sourceTermEndDate = sourceTermEndDate;
     }
 
-    public String getRolloverSourceTerm() {
-        return rolloverSourceTerm;
+    public String getStatusField() {
+        return statusField;
     }
 
-    public void setRolloverSourceTerm(String rolloverSourceTerm) {
-        this.rolloverSourceTerm = rolloverSourceTerm;
-    }
-    public String getDateInitiated() {
-        return dateInitiated;
+    public void setStatusField(String statusField) {
+        this.statusField = statusField;
     }
 
-    public void setDateInitiated(String dateInitiated) {
-        this.dateInitiated = dateInitiated;
+    public TermInfo getSourceTerm() {
+        return sourceTerm;
     }
 
-    public String getRolloverTargetTerm() {
-        return rolloverTargetTerm;
+    public void setSourceTerm(TermInfo sourceTerm) {
+        this.sourceTerm = sourceTerm;
     }
 
-    public void setRolloverTargetTerm(String rolloverTargetTerm) {
-        this.rolloverTargetTerm = rolloverTargetTerm;
+    public TermInfo getTargetTerm() {
+        return targetTerm;
     }
 
-    public String getDateCompleted() {
-        return dateCompleted;
-    }
-
-    public void setDateCompleted(String dateCompleted) {
-        this.dateCompleted = dateCompleted;
-    }
-
-    public String getCourseOfferingsNotAllowed() {
-        return courseOfferingsNotAllowed;
-    }
-
-    public void setCourseOfferingsNotAllowed(String courseOfferingsNotAllowed) {
-        this.courseOfferingsNotAllowed = courseOfferingsNotAllowed;
-    }
-
-    public String getActivityOfferingsNotAllowed() {
-        return activityOfferingsNotAllowed;
-    }
-
-    public void setActivityOfferingsNotAllowed(String activityOfferingsNotAllowed) {
-        this.activityOfferingsNotAllowed = activityOfferingsNotAllowed;
+    public void setTargetTerm(TermInfo targetTerm) {
+        this.targetTerm = targetTerm;
     }
 }

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
@@ -32,7 +34,10 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+
+import javax.xml.namespace.QName;
 
 /**
  *
@@ -52,8 +57,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         this.coService = coService;
     }
 
-    
-
     public AcademicCalendarService getAcalService() {
         return acalService;
     }
@@ -70,6 +73,14 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         this.courseService = courseService;
     }
 
+    private CourseOfferingService _getCoService() {
+        if (coService == null) {
+            coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
+                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return coService;
+    }
+
     @Override
     public CourseOfferingInfo rolloverCourseOffering(String sourceCoId,
             String targetTermId,
@@ -78,13 +89,15 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        CourseOfferingInfo sourceCo = this.coService.getCourseOffering(sourceCoId, context);
+        CourseOfferingInfo sourceCo = this._getCoService().getCourseOffering(sourceCoId, context);
         if (optionKeys.contains(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_OPTION_KEY)) {
             throw new DataValidationErrorException("Skipped because course offering was cancelled in source term");
         }
-        CourseInfo sourceCourse = new R1CourseServiceHelper(courseService, acalService).getCourse(sourceCo.getCourseId());
-        List<CourseInfo> targetCourses = new R1CourseServiceHelper(courseService, acalService).getCoursesForTerm(
-                sourceCourse.getId(), targetTermId, context);
+        R1CourseServiceHelper helper = new R1CourseServiceHelper(courseService, acalService);
+        
+        CourseInfo sourceCourse = helper.getCourse(sourceCo.getCourseId());
+        String sourceCourseId = sourceCourse.getId();
+        List<CourseInfo> targetCourses = helper.getCoursesForTerm(sourceCourseId, targetTermId, context);
         if (targetCourses.isEmpty()) {
             throw new InvalidParameterException("Skipped because there is no valid version of the course in the target term");
         }
@@ -137,9 +150,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
             coTransformer.copyFromCanonical(targetCourse, targetCo, optionKeys);
         }
-        targetCo = this.coService.createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
+        targetCo = this._getCoService().createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
                 targetCo, optionKeys, context);
-        for (FormatOfferingInfo sourceFo : this.coService.getFormatOfferingsByCourseOffering(sourceCo.getId(), context)) {
+        for (FormatOfferingInfo sourceFo : this._getCoService().getFormatOfferingsByCourseOffering(sourceCo.getId(), context)) {
             FormatOfferingInfo targetFo = new FormatOfferingInfo(sourceFo);
             targetFo.setId(null);
             // clear out the ids on the internal sub-objects
@@ -149,9 +162,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetFo.setCourseOfferingId(targetCo.getId());
             targetFo.setTermId(targetTermId);
             targetFo.setMeta(null);
-            targetFo = this.coService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
+            CourseOfferingService locoService = this.getCoService();
+            targetFo = locoService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
                     targetFo.getTypeKey(), targetFo, context);
-            for (ActivityOfferingInfo sourceAo : this.coService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context)) {
+            for (ActivityOfferingInfo sourceAo : locoService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context)) {
                 ActivityOfferingInfo targetAo = new ActivityOfferingInfo(sourceAo);
                 targetAo.setId(null);
                 // clear out the ids on the internal sub-objects
@@ -171,7 +185,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
                     targetAo.getInstructors().clear();
                 }
-                targetAo = this.coService.createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
+                targetAo = this._getCoService().createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
                         targetAo.getTypeKey(), targetAo, context);
             }
         }
@@ -183,13 +197,13 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        CourseOfferingInfo co = this.coService.getCourseOffering(courseOfferingId, context);
+        CourseOfferingInfo co = this._getCoService().getCourseOffering(courseOfferingId, context);
         CourseInfo course = new R1CourseServiceHelper(courseService, acalService).getCourse(co.getCourseId());
         // copy from cannonical
         CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
         coTransformer.copyFromCanonical(course, co, optionKeys);
         try {
-            return this.coService.updateCourseOffering(courseOfferingId, co, context);
+            return this._getCoService().updateCourseOffering(courseOfferingId, co, context);
         } catch (ReadOnlyException ex) {
             throw new OperationFailedException("unexpected", ex);
         }
@@ -237,7 +251,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             throws DoesNotExistException, OperationFailedException {
         List<CourseOfferingInfo> list;
         try {
-            list = this.coService.getCourseOfferingsByCourseAndTerm(targetCourseId, targetTermId, context);
+            list = this._getCoService().getCourseOfferingsByCourseAndTerm(targetCourseId, targetTermId, context);
         } catch (InvalidParameterException ex) {
             throw new OperationFailedException("unexpected", ex);
         } catch (MissingParameterException ex) {

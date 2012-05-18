@@ -4,6 +4,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
+import org.apache.oro.text.regex.PatternMatcher;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -19,6 +20,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -106,7 +109,7 @@ public class R1CourseServiceHelper {
             // TODO: if no version exists for the target term should we return null instead?
             throw new DoesNotExistException("The course does not exist. course: " + versionIndCourseId, e);
         } catch (Exception e) {
-            throw new OperationFailedException("unxpected trying to get course " + versionIndCourseId, e);
+            throw new OperationFailedException("unexpected trying to get course " + versionIndCourseId, e);
         }
         // TODO: consider sorting this in reverse order so the latest versions are checked first
         for (VersionDisplayInfo version : versions) {
@@ -116,6 +119,19 @@ public class R1CourseServiceHelper {
             }
         }
         return list;
+    }
+
+    // TODO: Remove hack once data is valid (converts kuali.atp.term.xxx to 2008Fall, which is what is in Acal)
+    private String _hackTerm(String termId) {
+        if (termId.startsWith("kuali")) {
+            Pattern p = Pattern.compile("\\d\\d\\d\\d");
+            Matcher m = p.matcher(termId);
+            if (m.find()) {
+                String s = m.group();
+                return s + "FALL";
+            }
+        }
+        return termId;
     }
 
     private boolean isCourseValidToBeOfferendInTerm(CourseInfo course, TermInfo targetTerm, ContextInfo context)
@@ -131,8 +147,10 @@ public class R1CourseServiceHelper {
         // TODO: find out if the course's Effective and expiration dates can be used so I don't have to fetch all the terms to 
         // compare start/end dates
         TermInfo startTerm;
+        String startTermStr = course.getStartTerm();
+        startTermStr = _hackTerm(startTermStr); // TODO: Fix hack once term data is good
         try {
-            startTerm = acalService.getTerm(course.getStartTerm(), context);
+            startTerm = acalService.getTerm(startTermStr, context);
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("unexpected", ex);
         } catch (InvalidParameterException ex) {
@@ -146,7 +164,7 @@ public class R1CourseServiceHelper {
             return false;
         }
         // if no end term the all done
-        if (course.getEndTerm() == null) {
+        if (course.getEndTerm() == null || course.getEndTerm().indexOf("9999") != -1) { // TODO: Hack
             return true;
         }
         TermInfo endTerm;

@@ -2,6 +2,10 @@ package org.kuali.student.enrollment.class2.courseoffering.service;
 
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 
 import java.util.List;
 
@@ -30,4 +34,14 @@ public interface CourseOfferingViewHelperService extends ViewHelperService {
      * @throws Exception
      */
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception;
+
+    public SocInfo createSocCoFoAoForTerm(String termId, CourseOfferingRolloverManagementForm form);
+
+    public boolean cleanSourceTerm(String targetTermId, CourseOfferingRolloverManagementForm form);
+    
+    public SocInfo performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form);
+
+    public SocRolloverResultInfo performReverseRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form);
+
+    public void cleanTargetTerm(String targetTermId, CourseOfferingRolloverManagementForm form);
 }

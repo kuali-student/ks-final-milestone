@@ -6,6 +6,8 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -20,6 +22,8 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+
+import javax.xml.namespace.QName;
 
 public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOfferingSetServiceBusinessLogic {
 
@@ -60,6 +64,35 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         this.acalService = acalService;
     }
 
+    private CourseOfferingSetService _getSocService() {
+        // If it hasn't been set by Spring, then look it up by GlobalResourceLoader
+        if (socService == null) {
+            socService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
+                                                                                    CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return socService;
+    }
+
+    private SocInfo _findTargetSoc(String targetTermId) {
+        try {
+            List<String> socIds = this._getSocService().getSocIdsByTerm(targetTermId, new ContextInfo());
+            if (socIds != null) {
+                if (socIds.isEmpty()) {
+                    return null;
+                }
+                for (String socId: socIds) {
+                    SocInfo targetSoc = this._getSocService().getSoc(socId, new ContextInfo());
+                    if (targetSoc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                        return targetSoc;
+                    }
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @Override
     public SocInfo rolloverSoc(String sourceSocId, String targetTermId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -67,16 +100,20 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         // validate the target term
         TermInfo targetTerm = this.acalService.getTerm(targetTermId, context);
         // first create the new soc
-        SocInfo sourceSoc = this.socService.getSoc(sourceSocId, context);
+        SocInfo sourceSoc = this._getSocService().getSoc(sourceSocId, context);
         if (sourceSoc.getTermId().equals(targetTermId)) {
             throw new InvalidParameterException("The term of the source soc and the target term must be different");
         }
         // TODO: try to find the soc in the target term and use it instead of just creating a new one
-        SocInfo targetSoc = new SocInfo(sourceSoc);
+        SocInfo targetSoc = _findTargetSoc(targetTermId);
+        if (targetSoc == null) {
+            targetSoc = new SocInfo(sourceSoc);
+        }
+
         targetSoc.setId(null);
         targetSoc.setTermId(targetTermId);
         try {
-            targetSoc = this.socService.createSoc(targetSoc.getTermId(), targetSoc.getTypeKey(), targetSoc, context);
+            targetSoc = this._getSocService().createSoc(targetSoc.getTermId(), targetSoc.getTypeKey(), targetSoc, context);
         } catch (DataValidationErrorException ex) {
             throw new OperationFailedException("Unexpected", ex);
         } catch (ReadOnlyException ex) {
@@ -91,7 +128,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         result.setOptionKeys(optionKeys);
         result.setTargetSocId(targetSoc.getId());
         try {
-            result = this.socService.createSocRolloverResult(result.getTypeKey(), result, context);
+            result = this._getSocService().createSocRolloverResult(result.getTypeKey(), result, context);
         } catch (DataValidationErrorException ex) {
             throw new OperationFailedException("Unexpected", ex);
         } catch (ReadOnlyException ex) {
@@ -103,7 +140,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         runner.setCoService(coService);
         runner.setCourseService(courseService);
         runner.setAcalService(acalService);
-        runner.setSocService(this.socService);
+        runner.setSocService(this._getSocService());
         runner.setResult(result);
         if (optionKeys.contains(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY)) {
             runner.run();
@@ -125,7 +162,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     public SocRolloverResultInfo reverseRollover(String rolloverResultId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {// validate the target term
-        SocRolloverResultInfo rolloverResult = this.socService.getSocRolloverResult(rolloverResultId, context);
+        SocRolloverResultInfo rolloverResult = this._getSocService().getSocRolloverResult(rolloverResultId, context);
         if (optionKeys.contains(CourseOfferingSetServiceConstants.REVERSE_JUST_CREATES_OPTION_KEY)) {
             if (!rolloverResult.getOptionKeys().contains(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY)) {
                 throw new InvalidParameterException(
@@ -138,7 +175,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         reverseResult.setOptionKeys(optionKeys);
 
         try {
-            reverseResult = this.socService.createSocRolloverResult(reverseResult.getTypeKey(), reverseResult, context);
+            reverseResult = this._getSocService().createSocRolloverResult(reverseResult.getTypeKey(), reverseResult, context);
         } catch (DataValidationErrorException ex) {
             throw new OperationFailedException("Unexpected", ex);
         } catch (ReadOnlyException ex) {
@@ -148,7 +185,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         CourseOfferingReverseRolloverRunner runner = new CourseOfferingReverseRolloverRunner();
         runner.setContext(context);
         runner.setCoService(coService);
-        runner.setSocService(this.socService);
+        runner.setSocService(this._getSocService());
         runner.setCourseService(courseService);
         runner.setAcalService(acalService);
         runner.setRolloverResult(rolloverResult);
@@ -167,7 +204,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // THIS IS BASICALLY A SWITCH STATEMENT BASED ON THE TYPE OF THE SOC
-        SocInfo soc = this.socService.getSoc(socId, context);
+        SocInfo soc = this._getSocService().getSoc(socId, context);
         // main
         if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
             return coService.getCourseOfferingIdsByTerm(soc.getTermId(), Boolean.TRUE, context);
@@ -212,7 +249,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        SocInfo soc = this.socService.getSoc(socId, context);
+        SocInfo soc = this._getSocService().getSoc(socId, context);
         CourseOfferingInfo co = this.coService.getCourseOffering(courseOfferingId, context);
         // main
         if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
