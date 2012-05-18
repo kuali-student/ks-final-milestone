@@ -128,7 +128,8 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE_TYPE, KSKRMSConstants.GRADE_TYPE_DESCR, String.class.getCanonicalName());
 		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_LEARNING_OBJECTIVES,KSKRMSConstants.LEARNING_OBJECTIVES_DESCR, String.class.getCanonicalName());
 		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_SUBJECT_CODE,KSKRMSConstants.SUBJECT_CODE_DESCR, String.class.getCanonicalName());
-		
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_STRING,KSKRMSConstants.STRING_DESCR, String.class.getCanonicalName());
+			
 	}
 
 	private TermSpecificationDefinition createKRMSTermSpecification(String nameSpace, String termSpecName, String descr, String termType) {
@@ -166,7 +167,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.TERM_APPROVED_COURSES);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.TERM_COURSE_NUMBER_RANGE);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_SUBJECT_CODE, KSKRMSConstants.TERM_SUBJECT_CODE);
-		//createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants., KSKRMSConstants.TERM_COURSE_SET);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_STRING, KSKRMSConstants.TERM_COURSE_SET);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_DATE, KSKRMSConstants.TERM_DATE_EFFECTIVE_FROM);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_DATE, KSKRMSConstants.TERM_DATE_EFFECTIVE_TO);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_GPA, KSKRMSConstants.TERM_GPA);
@@ -179,6 +180,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.TERM_PROPOSED_COURSES);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS, KSKRMSConstants.TERM_SCORE);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.TERM_TEST);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_STRING, KSKRMSConstants.TERM_FREE_TEXT);
 		//createProposedCourseTermDefinition(nameSpace);
 		//createApprovedCourseTermDefinition(nameSpace);
 	}
