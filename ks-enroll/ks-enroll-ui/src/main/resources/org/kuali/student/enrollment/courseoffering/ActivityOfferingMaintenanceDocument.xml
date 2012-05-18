@@ -61,9 +61,21 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.activityId" p:defaultValue="CLU-4"/>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.formatOfferingId" p:label="Format Offering Id" p:defaultValue="Lui-fo-2"/>
                             <bean parent="Uif-InputField" p:propertyName="aoInfo.maximumEnrollment" p:label="Total Maximum Enrollment"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isEvaluated" p:label="This course requires an evaluation"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isHonorsOffering"/>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate">
+                                    <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isEvaluated" p:label="This course requires an evaluation">
+                                    <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isHonorsOffering" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
