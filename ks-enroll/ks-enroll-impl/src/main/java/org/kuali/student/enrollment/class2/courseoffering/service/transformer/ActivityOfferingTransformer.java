@@ -71,6 +71,8 @@ public class ActivityOfferingTransformer {
 
         //Lui Official Identifier
         LuiIdentifierInfo officialIdentifier = new LuiIdentifierInfo();
+        officialIdentifier.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        officialIdentifier.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
         officialIdentifier.setCode(ao.getActivityCode());
         lui.setOfficialIdentifier(officialIdentifier);
 
