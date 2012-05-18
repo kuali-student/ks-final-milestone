@@ -15,6 +15,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Co
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -31,8 +32,6 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
-import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.state.service.StateService;
@@ -43,7 +42,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.*;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
@@ -896,7 +894,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                                                ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
             throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException();
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
