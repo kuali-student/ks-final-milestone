@@ -17,12 +17,7 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="id">
-                    <property name="inquiry">
-                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" p:inquiryParameters="id" />
-                    </property>
-                </bean>
-
+                <bean parent="Uif-DataField" p:propertyName="id" />
                 <bean parent="Uif-DataField" p:propertyName="name"/>
                 <bean parent="Uif-DataField" p:propertyName="typeKey" />
                 <bean parent="Uif-DataField" p:propertyName="stateKey" />

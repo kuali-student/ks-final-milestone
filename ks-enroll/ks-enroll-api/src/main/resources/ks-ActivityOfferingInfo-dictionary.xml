@@ -41,7 +41,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ActivityOfferingInfo-->
 	<bean id="ActivityOfferingInfo" parent="ActivityOfferingInfo-parent"/>
 	<bean id="ActivityOfferingInfo-parent" abstract="true" parent="ActivityOfferingInfo-generated">
-	<!-- insert any overrides to the generated object definitions here -->
+	    <property name="titleAttribute" value="id"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.id" parent="ActivityOfferingInfo.id-parent"/>
