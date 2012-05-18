@@ -48,14 +48,17 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition.Builder;
 import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeAttribute;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.impl.repository.ActionBoService;
 import org.kuali.rice.krms.impl.repository.AgendaBoService;
+import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.repository.FunctionBoServiceImpl;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.RuleBoService;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermBoService;
+import org.kuali.rice.krms.impl.repository.TermBoServiceImpl;
 import org.kuali.rice.krms.impl.repository.TermSpecificationBo;
 import org.kuali.rice.krms.test.KRMSTestCase;
 import org.kuali.rice.krms.test.KSLumAbstractBoTest;
@@ -81,6 +84,7 @@ import static org.junit.Assert.*;
 public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 
 	static final String KSNAMESPACE = "KR-RULE-TEST";
+	protected ContextBoService contextRepository;
 
 
 	// // Services needed for creation:
@@ -128,7 +132,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_GRADE_TYPE, KSKRMSConstants.GRADE_TYPE_DESCR, String.class.getCanonicalName());
 		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_LEARNING_OBJECTIVES,KSKRMSConstants.LEARNING_OBJECTIVES_DESCR, String.class.getCanonicalName());
 		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_SUBJECT_CODE,KSKRMSConstants.SUBJECT_CODE_DESCR, String.class.getCanonicalName());
-		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_STRING,KSKRMSConstants.STRING_DESCR, String.class.getCanonicalName());
+		 termSpec = createKRMSTermSpecification(nameSpace, KSKRMSConstants.TERM_SPEC_TEXT,KSKRMSConstants.TEXT_DESCR, String.class.getCanonicalName());
 			
 	}
 
@@ -159,7 +163,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 	}
 	
 	@Test
-	public void createAllLumTermDefinitions() {
+	public void createAllLumTermDefinitions(){
 		String nameSpace = KSNAMESPACE;
 		// Create all the terms...
 		//createNumberOfCreditsTermDefinition(nameSpace);
@@ -167,7 +171,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.TERM_APPROVED_COURSES);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.TERM_COURSE_NUMBER_RANGE);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_SUBJECT_CODE, KSKRMSConstants.TERM_SUBJECT_CODE);
-		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_STRING, KSKRMSConstants.TERM_COURSE_SET);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_TEXT, KSKRMSConstants.TERM_COURSE_SET);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_DATE, KSKRMSConstants.TERM_DATE_EFFECTIVE_FROM);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_DATE, KSKRMSConstants.TERM_DATE_EFFECTIVE_TO);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_GPA, KSKRMSConstants.TERM_GPA);
@@ -180,7 +184,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE_NUMBER, KSKRMSConstants.TERM_PROPOSED_COURSES);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_CREDITS, KSKRMSConstants.TERM_SCORE);
 		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_COURSE, KSKRMSConstants.TERM_TEST);
-		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_STRING, KSKRMSConstants.TERM_FREE_TEXT);
+		createDeptOrgNumberTermDefinition(nameSpace, KSKRMSConstants.TERM_SPEC_TEXT, KSKRMSConstants.TERM_FREE_TEXT);
 		//createProposedCourseTermDefinition(nameSpace);
 		//createApprovedCourseTermDefinition(nameSpace);
 	}
@@ -211,6 +215,47 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 	}
 	
 	
+	@Test
+	public void createAllContexts() {
+		String nameSpace = KSNAMESPACE;
+		// Create all the contexts...
+		KrmsTypeDefinition krmsTypeDefinition = createContextType(nameSpace);
+		createContext(nameSpace, KSKRMSConstants.CONTEXT_ANTI_REQUISITE, krmsTypeDefinition);
+		createContext(nameSpace, KSKRMSConstants.CONTEXT_CORE_REQUISITE, krmsTypeDefinition);
+		createContext(nameSpace, KSKRMSConstants.CONTEXT_COURSE_RESTRICTS, krmsTypeDefinition);
+		createContext(nameSpace, KSKRMSConstants.CONTEXT_RECOMMENDED_PREPARATION, krmsTypeDefinition);
+		createContext(nameSpace, KSKRMSConstants.CONTEXT_REPEATED_CREDITS, krmsTypeDefinition);
+		createContext(nameSpace, KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, krmsTypeDefinition);
+		
+	}
+	
+	protected KrmsTypeDefinition createContextType(String nameSpace) {
+        KrmsTypeDefinition.Builder krmsContextTypeDefnBuilder = KrmsTypeDefinition.Builder.create(KSKRMSConstants.CONTEXT_TYPE_COURSE, nameSpace);   
+        krmsContextTypeDefnBuilder.setServiceName("myKSService");
+        
+        int contextAttrSequenceIndex = 0;
+        List<KrmsTypeAttribute.Builder> contextAttributeBuilders = new ArrayList<KrmsTypeAttribute.Builder>();
+//        for (KrmsAttributeDefinition attrDef : ksLumAttributeDefinitions.values()) {
+//            contextAttributeBuilders.add(KrmsTypeAttribute.Builder.create(null, attrDef.getId(),
+//                    contextAttrSequenceIndex));
+//            contextAttrSequenceIndex += 1;
+//			
+//		}
+        krmsContextTypeDefnBuilder.setAttributes(contextAttributeBuilders);
+        KrmsTypeDefinition krmsContextTypeDefinition = krmsContextTypeDefnBuilder.build();
+//        krmsContextTypeDefinition = krmsTypeRepository.createKrmsType(krmsContextTypeDefinition);
+		return krmsContextTypeDefinition;
+	}
+	
+	public ContextDefinition createContext(String nameSpace, String name,
+			KrmsTypeDefinition krmsContextTypeDefinition) {
+        ContextDefinition.Builder contextBuilder = ContextDefinition.Builder.create(nameSpace, name);
+        contextBuilder.setTypeId(krmsContextTypeDefinition.getId());
+        ContextDefinition contextDefinition = contextBuilder.build();
+		contextRepository = KrmsRepositoryServiceLocator.getContextBoService();
+        contextDefinition = contextRepository.createContext(contextDefinition);
+		return contextDefinition;
+	}
 	
     protected BusinessObjectService getBoService() {
 		return KRADServiceLocator.getBusinessObjectService();

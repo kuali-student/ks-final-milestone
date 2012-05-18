@@ -22,8 +22,8 @@ public class KSKRMSConstants {
 	public static final String LEARNING_OBJECTIVES_DESCR = "Learning Objective Term Specification";
 	public static final String TERM_SPEC_SUBJECT_CODE = "Subject Code";
 	public static final String SUBJECT_CODE_DESCR = "Subject Code Term Specification";
-	public static final String TERM_SPEC_STRING = "String text";
-	public static final String STRING_DESCR = "Term Specification";
+	public static final String TERM_SPEC_TEXT = "Text";
+	public static final String TEXT_DESCR = "Text Term Specification";
 
 	
 	public static final String TERM_APPROVED_COURSE = "Approved course";
@@ -44,6 +44,17 @@ public class KSKRMSConstants {
 	public static final String TERM_SCORE = "Score";
 	public static final String TERM_TEST = "Test";
 	public static final String TERM_FREE_TEXT = "Free Text";
+	
+	public static final String CONTEXT_TYPE_COURSE = "KSLumContextType-Course";
+	
+	public static final String CONTEXT_ANTI_REQUISITE = "Antirequisite";
+	public static final String CONTEXT_CORE_REQUISITE = "Corerequisite";
+	public static final String CONTEXT_COURSE_RESTRICTS = "Course that Restricts Credits";
+	public static final String CONTEXT_RECOMMENDED_PREPARATION = "Recommended Preparation";
+	public static final String CONTEXT_REPEATED_CREDITS = "Repeated Credits";
+	public static final String CONTEXT_STUD_ELIGIBILITY = "Stud Elegebility and Prereq";
+	
+	
 	
 	
 }
