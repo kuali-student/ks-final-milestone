@@ -24,7 +24,7 @@
     <bean id="KSTheme-parentBean" parent="Uif-KradTheme">
         <property name="cssFiles">
             <list merge="true">
-                <value>/ks-enroll/css/enroll.css</value>
+                <value>ks-enroll/css/enroll.css</value>
             </list>
         </property>
         <property name="scriptFiles">

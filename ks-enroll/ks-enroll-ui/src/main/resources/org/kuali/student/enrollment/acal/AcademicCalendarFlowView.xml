@@ -27,13 +27,13 @@
         <!--<property name="defaultBindingObjectPath" value=""/>-->
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>/ks-enroll/css/acal.css</value>
+                <value>ks-enroll/css/acal.css</value>
             </list>
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
-                <value>/ks-enroll/scripts/common.js</value>
-                <value>/ks-enroll/scripts/acal.js</value>
+                <value>ks-enroll/scripts/common.js</value>
+                <value>ks-enroll/scripts/acal.js</value>
             </list>
         </property>
     </bean>

@@ -22,13 +22,13 @@
     <bean id="ks_studentFacing_registrationView" parent="KSFormView">
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>/ks-enroll/css/registration.css</value>
-                <value>/ks-enroll/css/schedule.css</value>
+                <value>ks-enroll/css/registration.css</value>
+                <value>ks-enroll/css/schedule.css</value>
             </list>
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
-                <value>/ks-enroll/scripts/schedule-plugin.js</value>
+                <value>ks-enroll/scripts/schedule-plugin.js</value>
             </list>
         </property>
         <property name="id" value="studentRegistrationView"/>
