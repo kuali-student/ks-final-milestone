@@ -47,7 +47,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
  * @Author sambit
  * @Since Tue May 10 14:09:46 PDT 2011
  */
-@WebService(name = "LrcService", targetNamespace = LrcServiceConstants.NAMESPACE)
+@WebService(name = "LrcService", serviceName = "LrcService", portName = "LrcService", targetNamespace = LrcServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface LRCService {

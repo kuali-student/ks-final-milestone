@@ -35,7 +35,6 @@ import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebService(name = "HoldService", serviceName = "HoldService", portName = "HoldService", targetNamespace = "http://student.kuali.org/wsdl/hold")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class HoldServiceImpl implements HoldService {
 

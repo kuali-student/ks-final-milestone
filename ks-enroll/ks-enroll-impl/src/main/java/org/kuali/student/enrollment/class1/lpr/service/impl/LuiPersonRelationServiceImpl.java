@@ -55,7 +55,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author sambit
  */
-@WebService(name = "LuiPersonRelationService", serviceName = "LuiPersonRelationService", portName = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/lpr")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 

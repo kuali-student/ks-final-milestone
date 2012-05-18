@@ -46,7 +46,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 
-@WebService(name = "EnumerationManagementService", targetNamespace = EnumerationManagementServiceConstants.NAMESPACE)
+@WebService(name = "EnumerationManagementService", serviceName = "EnumerationManagementService", portName = "EnumerationManagementService", targetNamespace = EnumerationManagementServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface EnumerationManagementService {
 

@@ -56,7 +56,7 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
  * href="https://wiki.kuali.org/display/KULSTU/LUI+Person+Relation+Service"
  * >LuiPersonRelationService</>
  */
-@WebService(name = "LuiPersonRelationService", targetNamespace = LuiPersonRelationServiceConstants.NAMESPACE)
+@WebService(name = "LuiPersonRelationService", serviceName = "LuiPersonRelationService", portName = "LuiPersonRelationService",targetNamespace = LuiPersonRelationServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuiPersonRelationService {
 

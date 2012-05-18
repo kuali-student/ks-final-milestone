@@ -50,7 +50,6 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @Version 2.0
  */
-@WebService(name = "EnumerationManagementService", serviceName = "EnumerationManagementService", portName = "EnumerationManagementService", targetNamespace = EnumerationManagementServiceConstants.NAMESPACE)
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class EnumerationManagementServiceImpl implements EnumerationManagementService {
 

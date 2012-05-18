@@ -58,9 +58,8 @@ import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
  * @since Sun May 1 14:22:34 EDT 2011
  */
 
-@WebService(name = "HoldService", targetNamespace = HoldServiceConstants.NAMESPACE)
+@WebService(name = "HoldService", serviceName = "HoldService", portName = "HoldService", targetNamespace = HoldServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-
 public interface HoldService {
 
     /** 
