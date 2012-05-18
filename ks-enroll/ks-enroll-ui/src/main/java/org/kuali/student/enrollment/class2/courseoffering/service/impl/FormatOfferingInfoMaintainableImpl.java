@@ -21,6 +21,7 @@ import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject;
 import org.kuali.student.enrollment.class2.courseoffering.service.FormatOfferingInfoMaintainable;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -28,6 +29,8 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.state.service.StateService;
@@ -43,6 +46,8 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
+    private static final long serialVersionUID = 1L;
+
     private static final String DEFAULT_DOCUMENT_DESC_FOR_CREATING_FORMAT_OFFERING =
             "Create a new Format offering";
     private static final String DEFAULT_DOCUMENT_DESC_FOR_EDITING_FORMAT_OFFERING =
@@ -50,19 +55,18 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
     private static final String DEFAULT_DOCUMENT_DESC_FOR_COPYING_FORMAT_OFFERING =
             "Copy from an existing Format offering to create a new one";
 
-    private CourseOfferingService courseOfferingService;
+    private transient CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
 
     @Override
     public void saveDataObject() {
         FormatOfferingInfo formatOfferingInfoMaintenance = (FormatOfferingInfo) getDataObject();
-
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
                 FormatOfferingInfo formatOfferingInfoCreated = getCourseOfferingService().createFormatOffering(formatOfferingInfoMaintenance.getCourseOfferingId(), formatOfferingInfoMaintenance.getFormatId(),
                                                                                             LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, formatOfferingInfoMaintenance, getContextInfo());
-                //setDataObject(new FormatOfferingInfo(formatOfferingInfoCreated));
+                setDataObject(new FormatOfferingInfo(formatOfferingInfoCreated));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -75,6 +79,21 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
             }
         }
     }
+
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#prepareForSave()
+     */
+    @Override
+    public void prepareForSave() {
+        System.out.println (">>> in prepareForSave ");
+        if (getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION)) {
+            FormatOfferingInfo formatOfferingInfoMaintenance = (FormatOfferingInfo) getDataObject();
+            formatOfferingInfoMaintenance.setTypeKey("kuali.atp.type.FormatOfferingInfo");
+            formatOfferingInfoMaintenance.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+        }
+        super.prepareForSave();
+    }
+
 
     /**
      * @see org.kuali.rice.krad.maintenance.Maintainable#processAfterCopy

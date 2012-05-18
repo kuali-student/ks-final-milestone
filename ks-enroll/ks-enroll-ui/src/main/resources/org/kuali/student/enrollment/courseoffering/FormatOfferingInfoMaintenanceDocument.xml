@@ -19,12 +19,11 @@
      limitations under the License.
     -->
 
-    <import resource="classpath:ks-FormatOfferingInfo-dictionary.xml"/>
 
     <bean id="FormatOfferingInfo-MaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="Format Offering Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo"/>
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoMaintainableImpl" />
+        <!--<property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoMaintainableImpl" />-->
         <property name="items">
             <list>
                 <bean parent="Uif-MaintenanceGridSection">
@@ -35,13 +34,6 @@
                             <bean parent="Uif-InputField" p:propertyName="courseOfferingId" />
                             <bean parent="Uif-InputField" p:propertyName="formatId" />
                             <bean parent="Uif-InputField" p:propertyName="termId" p:defaultValue="2012WINTER" />
-                                <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.aoInfo.TermInfo"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="code" value="aoInfo.id"/>
-                                    </map>
-                                </property>-->
-
                             <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"/>
                             <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"/>
                         </list>
@@ -54,8 +46,8 @@
         </property>
     </bean>
 
-    <bean id="FormatOfferingInfoMaintenanceDocument" parent="FormatOfferingInfoMaintenanceDocument-parentBean"/>
-    <bean id="FormatOfferingInfoMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+    <bean id="FormatOfferingMaintenanceDocument" parent="FormatOfferingMaintenanceDocument-parentBean"/>
+    <bean id="FormatOfferingMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo"/>
         <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoMaintainableImpl"/>
         <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.FormatOfferingInfoRule" />
