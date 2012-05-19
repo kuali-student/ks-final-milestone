@@ -335,7 +335,7 @@
         <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
-            <id>attach-sources</id>
+            <id>sources</id>
             <!-- No need to attach sources -->
             <phase>none</phase>
           </execution>
