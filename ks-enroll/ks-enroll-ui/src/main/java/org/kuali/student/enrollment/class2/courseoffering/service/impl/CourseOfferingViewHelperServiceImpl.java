@@ -296,6 +296,9 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
                 return result;
             }
         } catch (Exception e) {
+            System.err.println("--------- rollover exception in performRollover [START]");
+            e.printStackTrace();
+            System.err.println("--------- rollover exception in performRollover [END]");
             form.setStatusField("performRollover: Exception thrown");
         }
         return null;
