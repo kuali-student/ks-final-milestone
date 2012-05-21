@@ -1,12 +1,23 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2011 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may	obtain a copy of the License at
+ *
+ * 	http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.student.r2.core.exemption.service;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -21,23 +32,309 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.dto.ExemptionRequestInfo;
 
-/**
- *
- * @author nwright
- */
 public class ExemptionServiceMockImpl implements ExemptionService {
 
-    private Map<String, ExemptionRequestInfo> exemptionRequests = new HashMap<String, ExemptionRequestInfo>();
-    private Map<String, ExemptionInfo> exemptions = new HashMap<String, ExemptionInfo>();
+    @Override
+    public List<ValidationResultInfo> validateExemptionRequest(String validationTypeKey, ExemptionRequestInfo exemptionRequestInfo, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // validate
+        return new ArrayList<ValidationResultInfo>();
+    }
+    // cache variable 
+    // The LinkedHashMap is just so the values come back in a predictable order
+    private Map<String, ExemptionRequestInfo> exemptionRequestMap = new LinkedHashMap<String, ExemptionRequestInfo>();
 
     @Override
-    public StatusInfo addUseToExemption(String exemptionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public ExemptionRequestInfo createExemptionRequest(String personId, String exemptionRequestTypeKey, ExemptionRequestInfo exemptionRequestInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // create 
+        if (!exemptionRequestTypeKey.equals(exemptionRequestInfo.getTypeKey())) {
+            throw new InvalidParameterException("The type parameter does not match the type on the info object");
+        }
+        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
+        ExemptionRequestInfo copy = new ExemptionRequestInfo(exemptionRequestInfo);
+        if (copy.getId() == null) {
+            copy.setId(exemptionRequestMap.size() + "");
+        }
+        copy.setMeta(newMeta(context));
+        exemptionRequestMap.put(copy.getId(), copy);
+        return new ExemptionRequestInfo(copy);
     }
+
+    @Override
+    public ExemptionRequestInfo updateExemptionRequest(String exemptionRequestId, ExemptionRequestInfo exemptionRequestInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        // update
+        if (!exemptionRequestId.equals(exemptionRequestInfo.getId())) {
+            throw new InvalidParameterException("The id parameter does not match the id on the info object");
+        }
+        ExemptionRequestInfo copy = new ExemptionRequestInfo(exemptionRequestInfo);
+        ExemptionRequestInfo old = this.getExemptionRequest(exemptionRequestInfo.getId(), context);
+        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
+        }
+        copy.setMeta(updateMeta(copy.getMeta(), context));
+        this.exemptionRequestMap.put(exemptionRequestInfo.getId(), copy);
+        return new ExemptionRequestInfo(copy);
+    }
+
+    @Override
+    public StatusInfo deleteExemptionRequest(String exemptionRequestId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (this.exemptionRequestMap.remove(exemptionRequestId) == null) {
+            throw new DoesNotExistException(exemptionRequestId);
+        }
+        return newStatus();
+    }
+
+    @Override
+    public ExemptionRequestInfo getExemptionRequest(String exemptionRequestId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (!this.exemptionRequestMap.containsKey(exemptionRequestId)) {
+            throw new DoesNotExistException(exemptionRequestId);
+        }
+        return this.exemptionRequestMap.get(exemptionRequestId);
+    }
+
+    @Override
+    public List<ExemptionRequestInfo> getExemptionRequestsByIds(List<String> exemptionRequestIds, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ExemptionRequestInfo> list = new ArrayList<ExemptionRequestInfo>();
+        for (String id : exemptionRequestIds) {
+            list.add(this.getExemptionRequest(id, context));
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> getExemptionRequestIdsByType(String exemptionRequestTypeKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
+        for (ExemptionRequestInfo info : exemptionRequestMap.values()) {
+            if (exemptionRequestTypeKey.equals(info.getTypeKey())) {
+                list.add(info.getId());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<ExemptionRequestInfo> getRequestsForPerson(String personId, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("getRequestsForPerson has not been implemented");
+    }
+
+    @Override
+    public List<ExemptionRequestInfo> getRequestsByTypeForPerson(String typeKey, String personId, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ExemptionRequestInfo> list = new ArrayList<ExemptionRequestInfo>();
+        for (ExemptionRequestInfo info : exemptionRequestMap.values()) {
+            if (typeKey.equals(info.getTypeKey())) {
+                if (personId.equals(info.getPersonId())) {
+                    list.add(info);
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> getExemptionRequestIdsByCheck(String checkKey, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
+        for (ExemptionRequestInfo info : exemptionRequestMap.values()) {
+            if (checkKey.equals(info.getCheckKey())) {
+                list.add(info.getId());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateExemption(String validationTypeKey, ExemptionInfo exemptionInfo, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // validate
+        return new ArrayList<ValidationResultInfo>();
+    }
+    // cache variable 
+    // The LinkedHashMap is just so the values come back in a predictable order
+    private Map<String, ExemptionInfo> exemptionMap = new LinkedHashMap<String, ExemptionInfo>();
+
+    @Override
+    public ExemptionInfo createExemption(String exemptionRequestId, String exemptionTypeKey, ExemptionInfo exemptionInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // create 
+        if (!exemptionTypeKey.equals(exemptionInfo.getTypeKey())) {
+            throw new InvalidParameterException("The type parameter does not match the type on the info object");
+        }
+        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
+        ExemptionInfo copy = new ExemptionInfo(exemptionInfo);
+        if (copy.getId() == null) {
+            copy.setId(exemptionMap.size() + "");
+        }
+        copy.setMeta(newMeta(context));
+        exemptionMap.put(copy.getId(), copy);
+        return new ExemptionInfo(copy);
+    }
+
+    @Override
+    public ExemptionInfo updateExemption(String exemptionId, ExemptionInfo exemptionInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        // update
+        if (!exemptionId.equals(exemptionInfo.getId())) {
+            throw new InvalidParameterException("The id parameter does not match the id on the info object");
+        }
+        ExemptionInfo copy = new ExemptionInfo(exemptionInfo);
+        ExemptionInfo old = this.getExemption(exemptionInfo.getId(), context);
+        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
+        }
+        copy.setMeta(updateMeta(copy.getMeta(), context));
+        this.exemptionMap.put(exemptionInfo.getId(), copy);
+        return new ExemptionInfo(copy);
+    }
+
+    @Override
+    public StatusInfo addUseToExemption(String exemptionId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("addUseToExemption has not been implemented");
+    }
+
+    @Override
+    public StatusInfo deleteExemption(String exemptionId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (this.exemptionMap.remove(exemptionId) == null) {
+            throw new DoesNotExistException(exemptionId);
+        }
+        return newStatus();
+    }
+
+    @Override
+    public ExemptionInfo getExemption(String exemptionId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (!this.exemptionMap.containsKey(exemptionId)) {
+            throw new DoesNotExistException(exemptionId);
+        }
+        return this.exemptionMap.get(exemptionId);
+    }
+
+    @Override
+    public List<ExemptionInfo> getExemptionsByIds(List<String> exemptionIds, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
+        for (String id : exemptionIds) {
+            list.add(this.getExemption(id, context));
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> getExemptionIdsByType(String exemptionTypeKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
+        for (ExemptionInfo info : exemptionMap.values()) {
+            if (exemptionTypeKey.equals(info.getTypeKey())) {
+                list.add(info.getId());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<ExemptionInfo> getExemptionsForPerson(String personId, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("getExemptionsForPerson has not been implemented");
+    }
+
+    @Override
+    public List<ExemptionInfo> getExemptionsForRequest(String requestId, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("getExemptionsForRequest has not been implemented");
+    }
+
+    @Override
+    public List<ExemptionInfo> getActiveExemptionsForPerson(String personId, Date asOfDate, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException("getActiveExemptionsForPerson has not been implemented");
+    }
+
+    @Override
+    public List<ExemptionInfo> getExemptionsByTypeForPerson(String typeKey, String personId, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
+        for (ExemptionInfo info : exemptionMap.values()) {
+            if (typeKey.equals(info.getTypeKey())) {
+                if (personId.equals(info.getPersonId())) {
+                    list.add(info);
+                }
+            }
+        }
+        return list;
+    }
+
+    private boolean asOfCheck(Date asOfDate, ExemptionInfo info) {
+        if (info.getEffectiveDate() != null) {
+            if (asOfDate.before(info.getEffectiveDate())) {
+                return false;
+
+            }
+        }
+        if (info.getExpirationDate() != null) {
+            if (asOfDate.after(info.getExpirationDate())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public List<ExemptionInfo> getActiveExemptionsByTypeForPerson(String typeKey, String personId, Date asOfDate, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
+        for (ExemptionInfo info : exemptionMap.values()) {
+            if (typeKey.equals(info.getTypeKey())) {
+                if (personId.equals(info.getPersonId())) {
+                    if (asOfCheck(asOfDate, info)) {
+                        list.add(info);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+        @Override
+        public List<ExemptionInfo> getActiveExemptionsByTypeProcessAndCheckForPerson
+        (String typeKey, String processId
+        , String checkKey, String personId
+        , Date asOfDate, ContextInfo context
+        )
+		throws InvalidParameterException
+		      ,MissingParameterException
+		      ,OperationFailedException
+		      ,PermissionDeniedException
+	{
+            List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
+            for (ExemptionInfo info : exemptionMap.values()) {
+                if (typeKey.equals(info.getTypeKey())) {
+                    if (processId.equals(info.getProcessId())) {
+                        if (checkKey.equals(info.getCheckKey())) {
+                            if (personId.equals(info.getPersonId())) {
+                                if (asOfCheck (asOfDate, info)) {
+                                    list.add(info);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return list;
+        }
+	
+    
 
     private MetaInfo newMeta(ContextInfo context) {
         MetaInfo meta = new MetaInfo();
@@ -49,191 +346,10 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         return meta;
     }
 
-    @Override
-    public ExemptionInfo createExemption(String exemptionRequestId, ExemptionInfo exemptionInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ExemptionInfo copy = new ExemptionInfo(exemptionInfo);
-        copy.setId(exemptions.size() + "");
-        copy.setMeta(newMeta(context));
-        exemptions.put(copy.getId(), copy);
-        return new ExemptionInfo(copy);
-    }
-
-    @Override
-    public ExemptionRequestInfo createExemptionRequest(ExemptionRequestInfo exemptionRequestInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ExemptionRequestInfo copy = new ExemptionRequestInfo(exemptionRequestInfo);
-        copy.setId(exemptionRequests.size() + "");
-        copy.setMeta(newMeta(context));
-        this.exemptionRequests.put(copy.getId(), copy);
-        return new ExemptionRequestInfo(copy);
-    }
-
     private StatusInfo newStatus() {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
-    }
-
-    @Override
-    public StatusInfo deleteExemption(String exemptionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (this.exemptions.remove(exemptionId) == null) {
-            throw new DoesNotExistException(exemptionId);
-        }
-        return newStatus();
-    }
-
-    @Override
-    public StatusInfo deleteExemptionRequest(String exemptionRequestId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (this.exemptionRequests.remove(exemptionRequestId) == null) {
-            throw new DoesNotExistException(exemptionRequestId);
-        }
-        return newStatus();
-    }
-
-    @Override
-    public List<ExemptionInfo> getActiveExemptionsByTypeForPerson(String typeKey, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
-        for (ExemptionInfo info : this.getExemptionsByTypeForPerson(typeKey, personId, context)) {
-            if (info.getStateKey().equals(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY)) {
-                list.add(info);
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<ExemptionInfo> getActiveExemptionsForPerson(String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
-        for (ExemptionInfo info : this.getExemptionsForPerson(personId, context)) {
-            if (info.getStateKey().equals(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY)) {
-                list.add(info);
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public ExemptionInfo getExemption(String exemptionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ExemptionInfo info = this.exemptions.get(exemptionId);
-        if (info == null) {
-            throw new DoesNotExistException(exemptionId);
-        }
-        return new ExemptionInfo(info);
-    }
-
-    @Override
-    public List<String> getExemptionIdsByType(String exemptionTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> list = new ArrayList<String>();
-        for (ExemptionInfo info : this.exemptions.values()) {
-            if (info.getTypeKey().equals(exemptionTypeKey)) {
-                list.add(info.getId());
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public ExemptionRequestInfo getExemptionRequest(String exemptionRequestId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ExemptionRequestInfo info = this.exemptionRequests.get(exemptionRequestId);
-        if (info == null) {
-            throw new DoesNotExistException(exemptionRequestId);
-        }
-        return new ExemptionRequestInfo(info);
-    }
-
-    @Override
-    public List<String> getExemptionRequestIdsByCheck(String checkKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> list = new ArrayList<String>();
-        for (ExemptionRequestInfo info : this.exemptionRequests.values()) {
-            if (info.getCheckKey().equals(checkKey)) {
-                list.add(info.getId());
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<String> getExemptionRequestIdsByType(String exemptionRequestTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> list = new ArrayList<String>();
-        for (ExemptionRequestInfo info : this.exemptionRequests.values()) {
-            if (info.getTypeKey().equals(exemptionRequestTypeKey)) {
-                list.add(info.getId());
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<ExemptionRequestInfo> getExemptionRequestsByIds(List<String> exemptionRequestIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ExemptionRequestInfo> list = new ArrayList<ExemptionRequestInfo>(exemptionRequestIds.size());
-        for (String id : exemptionRequestIds) {
-            list.add(this.getExemptionRequest(id, context));
-        }
-        return list;
-    }
-
-    @Override
-    public List<ExemptionInfo> getExemptionsByIds(List<String> exemptionIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>(exemptionIds.size());
-        for (String id : exemptionIds) {
-            list.add(this.getExemption(id, context));
-        }
-        return list;
-    }
-
-    @Override
-    public List<ExemptionInfo> getExemptionsByTypeForPerson(String typeKey, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
-        for (ExemptionInfo info : this.exemptions.values()) {
-            if (info.getTypeKey().equals(typeKey)) {
-                if (info.getPersonId().equals(personId)) {
-                    list.add(info);
-                }
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<ExemptionInfo> getExemptionsForPerson(String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
-        for (ExemptionInfo info : this.exemptions.values()) {
-            if (info.getPersonId().equals(personId)) {
-                list.add(info);
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<ExemptionRequestInfo> getRequestsByTypeForPerson(String typeKey, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ExemptionRequestInfo> list = new ArrayList<ExemptionRequestInfo>();
-        for (ExemptionRequestInfo info : this.getRequestsForPerson(personId, context)) {
-            if (info.getTypeKey().equals(typeKey)) {
-                list.add(info);
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<ExemptionRequestInfo> getRequestsForPerson(String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ExemptionRequestInfo> list = new ArrayList<ExemptionRequestInfo>();
-        for (ExemptionRequestInfo info : this.exemptionRequests.values()) {
-            if (info.getPersonId().equals(personId)) {
-                list.add(info);
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public ExemptionInfo retrieveDateExemption(String checkKey, String personId, String milestoneId, String qualifierTypeKey, String qualifierId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ExemptionInfo retrieveMilestoneExemption(String checkKey, String personId, String milestoneId, String qualifierTypeKey, String qualifierId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private MetaInfo updateMeta(MetaInfo old, ContextInfo context) {
@@ -243,46 +359,4 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
     }
-
-    @Override
-    public ExemptionInfo updateExemption(String exemptionId, ExemptionInfo exemptionInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        ExemptionInfo copy = new ExemptionInfo(exemptionInfo);
-        ExemptionInfo old = this.getExemption(exemptionId, context);
-        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
-            throw new VersionMismatchException (old.getMeta().getVersionInd());
-        }
-        copy.setMeta(updateMeta(copy.getMeta(), context));        
-        this.exemptions.put(exemptionInfo.getId(), copy);
-        return new ExemptionInfo(copy);
-    }
-
-    @Override
-    public ExemptionRequestInfo updateExemptionRequest(String exemptionRequestId, ExemptionRequestInfo exemptionRequestInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        ExemptionRequestInfo copy = new ExemptionRequestInfo(exemptionRequestInfo);
-        ExemptionRequestInfo old = this.getExemptionRequest(exemptionRequestId, context);
-        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
-            throw new VersionMismatchException (old.getMeta().getVersionInd());
-        }        
-        copy.setMeta(updateMeta(copy.getMeta(), context));
-        this.exemptionRequests.put(exemptionRequestInfo.getId(), copy);
-        return new ExemptionRequestInfo(copy);
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateExemption(String validationTypeKey, ExemptionInfo exemptionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateExemptionRequest(String validationTypeKey, ExemptionRequestInfo exemptionRequestInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<ExemptionInfo> getActiveExemptionsByTypeProcessAndCheckForPerson(String typeKey, String processKey, String checkKey, String personId, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
 }

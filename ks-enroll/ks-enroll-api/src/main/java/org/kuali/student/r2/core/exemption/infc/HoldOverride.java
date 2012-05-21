@@ -26,8 +26,8 @@ package org.kuali.student.r2.core.exemption.infc;
 public interface HoldOverride {
 
     /**
-     * Name: Hold Id
-     * The Id for the Hold.
+     * The Id for the Hold that is being exempted
+     * @name Hold Id
      */
     public String getHoldId();
 }

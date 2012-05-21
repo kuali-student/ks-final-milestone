@@ -64,7 +64,7 @@ public class ProcessPocExemptionServiceDecorator extends ExemptionServiceDecorat
         request.setRequestDate(new Date());
         request.setName("test exemption for " + personId);
         try {
-            request = this.createExemptionRequest(request, context);
+            request = this.createExemptionRequest(request.getPersonId(), request.getTypeKey(), request, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating exemption request", ex);
         }
@@ -78,10 +78,10 @@ public class ProcessPocExemptionServiceDecorator extends ExemptionServiceDecorat
         info.setTypeKey(ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY);
         info.setStateKey(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY);
         info.setName(request.getName());
-        info.setProcessKey(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
+        info.setProcessId(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
         info.setCheckKey(ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_OPEN);
         try {
-            info = this.createExemption(info.getExemptionRequestId(), info, context);
+            info = this.createExemption(info.getExemptionRequestId(), info.getTypeKey(), info, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating exemption request", ex);
         }
@@ -95,14 +95,14 @@ public class ProcessPocExemptionServiceDecorator extends ExemptionServiceDecorat
         info.setTypeKey(ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY);
         info.setStateKey(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY);
         info.setName(request.getName());
-        info.setProcessKey(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
+        info.setProcessId(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
         info.setCheckKey(ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_NOT_CLOSED);
         DateOverrideInfo dateOverride = new DateOverrideInfo();
         dateOverride.setMilestoneId(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
         dateOverride.setEffectiveEndDate(endDate);
         info.setDateOverride(dateOverride);
         try {
-            info = this.createExemption(info.getExemptionRequestId(), info, context);
+            info = this.createExemption(info.getExemptionRequestId(), info.getType(), info, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating exemption request", ex);
         }
