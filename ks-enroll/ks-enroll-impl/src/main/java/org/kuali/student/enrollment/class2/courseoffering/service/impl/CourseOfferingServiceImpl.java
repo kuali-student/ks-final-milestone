@@ -680,21 +680,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throw new OperationFailedException("Unexpected", aee);
         }
         // now connect it to the course offering lui
-        LuiLuiRelationInfo rel = new LuiLuiRelationInfo();
-        rel.setLuiId(courseOfferingId);
-        rel.setRelatedLuiId(lui.getId());
-        rel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
-        rel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
-        rel.setEffectiveDate(new Date());
+        LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
+        luiRel.setLuiId(courseOfferingId);
+        luiRel.setName("co-fo-relation"); // TODO: This fixes a DB required field error--find more meaningful value.
+        luiRel.setRelatedLuiId(lui.getId());
+        luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
+        luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
+        luiRel.setEffectiveDate(new Date());
         try {
-            rel = luiService.createLuiLuiRelation(rel.getLuiId(), rel.getRelatedLuiId(), rel.getTypeKey(), rel, context);
+            luiRel = luiService.createLuiLuiRelation(luiRel.getLuiId(), luiRel.getRelatedLuiId(), luiRel.getTypeKey(), luiRel, context);
         } catch (Exception aee) {
             throw new OperationFailedException("Unexpected", aee);
         }
         // reubild to return it
         FormatOfferingInfo formatOffering = new FormatOfferingInfo();
         new FormatOfferingTransformer().lui2Format(lui, formatOffering);
-        formatOffering.setCourseOfferingId(rel.getLuiId());
+        formatOffering.setCourseOfferingId(luiRel.getLuiId());
         return formatOffering;
     }
 
@@ -850,6 +851,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // now build the lui lui relation
         LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
         luiRel.setLuiId(formatOfferingId);
+        luiRel.setName("fo-ao-relation"); // TODO: This fixes a DB required field error--find more meaningful value.
         luiRel.setRelatedLuiId(lui.getId());
         luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
         luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
