@@ -252,7 +252,7 @@ public class OrganizationDynamicNode implements DynamicNode {
         Set<String> relatedOrgIds = new HashSet<String>();
         try {
             List<OrgOrgRelationInfo> relatedOrgRelationInfos = null;
-         // TODO KSCM-541 relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(currentNodeOrgId, contextInfo);
+            relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(currentNodeOrgId, contextInfo);
             for (OrgOrgRelationInfo orgOrgRelationInfo : relatedOrgRelationInfos) {
                 if (StringUtils.equals("Active", orgOrgRelationInfo.getStateKey())) {
                     if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getTypeKey())) {
