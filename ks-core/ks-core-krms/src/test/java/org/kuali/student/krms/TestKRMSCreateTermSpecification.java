@@ -81,22 +81,30 @@ import javax.xml.namespace.QName;
 
 import static org.junit.Assert.*;
 
-@BaselineMode(Mode.CLEAR_DB)
+@BaselineMode(Mode.NONE)
 public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 
 	static final String KSNAMESPACE = "KR-RULE-TEST";
 	protected ContextBoService contextRepository;
     protected KrmsTypeRepositoryService krmsTypeRepository;
+    private AgendaBoService agendaBoService;
 
 
 	// // Services needed for creation:
 	private TermBoService termBoService;
 	private SpringResourceLoader krmsTestResourceLoader;
-
+// Agendas
+	Map<String, ContextDefinition> phase1ContextDefs = new HashMap<String, ContextDefinition>();
+	KrmsTypeDefinition krmsTypeDefinition;
+	ContextDefinition contextStudElig;
+	 static final String AGENDA1 = "Must have successfully completed <course>";
+	 static final String EARTHQUAKE_EVENT = "Earthquake";
 	@Before
 	public void setup() {
 		getLoadApplicationLifecycle();
 		termBoService = KrmsRepositoryServiceLocator.getTermBoService();
+		agendaBoService = KrmsRepositoryServiceLocator.getAgendaBoService();
+		contextRepository = KrmsRepositoryServiceLocator.getContextBoService();
 	}
 
 	@Override
@@ -110,6 +118,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
         tablesNotToClear.add("KRMS_.*");
 		return tablesNotToClear;
 	}
+	
 	@Override
 	protected Lifecycle getLoadApplicationLifecycle() {
 	    if (krmsTestResourceLoader == null) {
@@ -221,13 +230,16 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 	public void createAllContexts() {
 		String nameSpace = KSNAMESPACE;
 		// Create all the contexts...
-		KrmsTypeDefinition krmsTypeDefinition = createContextType(nameSpace);
+		krmsTypeDefinition = createContextType(nameSpace);
 		createContext(nameSpace, KSKRMSConstants.CONTEXT_ANTI_REQUISITE, krmsTypeDefinition);
 		createContext(nameSpace, KSKRMSConstants.CONTEXT_CORE_REQUISITE, krmsTypeDefinition);
 		createContext(nameSpace, KSKRMSConstants.CONTEXT_COURSE_RESTRICTS, krmsTypeDefinition);
 		createContext(nameSpace, KSKRMSConstants.CONTEXT_RECOMMENDED_PREPARATION, krmsTypeDefinition);
 		createContext(nameSpace, KSKRMSConstants.CONTEXT_REPEATED_CREDITS, krmsTypeDefinition);
-		createContext(nameSpace, KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, krmsTypeDefinition);
+		contextStudElig = createContext(nameSpace, KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, krmsTypeDefinition);
+		
+		// Creating all the agendas
+		createAgendaDefinition(AGENDA1, phase1ContextDefs.get(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY), EARTHQUAKE_EVENT, KSNAMESPACE);
 		
 	}
 	
@@ -256,13 +268,58 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
         ContextDefinition.Builder contextBuilder = ContextDefinition.Builder.create(nameSpace, name);
         contextBuilder.setTypeId(krmsContextTypeDefinition.getId());
         ContextDefinition contextDefinition = contextBuilder.build();
-		contextRepository = KrmsRepositoryServiceLocator.getContextBoService();
+		
         contextDefinition = contextRepository.createContext(contextDefinition);
+        phase1ContextDefs.put(name, contextDefinition);
 		return contextDefinition;
 	}
 	
     protected BusinessObjectService getBoService() {
 		return KRADServiceLocator.getBusinessObjectService();
 	}
+    
+
+    // @Test
+    public void createAgendasPhase1() {
+        // Create multiple agendas so that we can test selection
+        createAgendaDefinition(AGENDA1, contextStudElig, EARTHQUAKE_EVENT, KSNAMESPACE);
+	}
+    
+    private void createAgendaDefinition(String agendaName, ContextDefinition contextDefinition, String eventName, String nameSpace ) {
+        AgendaDefinition agendaDef =
+        AgendaDefinition.Builder.create(null, agendaName, krmsTypeDefinition.getId(), contextDefinition.getId()).build();
+        agendaDef = agendaBoService.createAgenda(agendaDef);
+
+//        AgendaItemDefinition.Builder agendaItemBuilder1 = AgendaItemDefinition.Builder.create(null, agendaDef.getId());
+//        agendaItemBuilder1.setRuleId(createRuleDefinition1(contextDefinition, agendaName, nameSpace).getId());
+//
+//        AgendaItemDefinition.Builder agendaItemBuilder2 = AgendaItemDefinition.Builder.create(null, agendaDef.getId());
+//        agendaItemBuilder1.setAlways(agendaItemBuilder2);
+//        agendaItemBuilder2.setRuleId(createRuleDefinition2(contextDefinition, agendaName, nameSpace).getId());
+//
+//        AgendaItemDefinition.Builder agendaItemBuilder3 = AgendaItemDefinition.Builder.create(null, agendaDef.getId());
+//        agendaItemBuilder2.setAlways(agendaItemBuilder3);
+//        agendaItemBuilder3.setRuleId(createRuleDefinition3(contextDefinition, agendaName, nameSpace).getId());
+//
+//        AgendaItemDefinition.Builder agendaItemBuilder4 = AgendaItemDefinition.Builder.create(null, agendaDef.getId());
+//        agendaItemBuilder3.setAlways(agendaItemBuilder4);
+//        agendaItemBuilder4.setRuleId(createRuleDefinition4(contextDefinition, agendaName, nameSpace).getId());
+//
+//        // String these puppies together.  Kind of a PITA because you need the id from the next item before you insert the previous one
+//        AgendaItemDefinition agendaItem4 = agendaBoService.createAgendaItem(agendaItemBuilder4.build());
+//        agendaItemBuilder3.setAlwaysId(agendaItem4.getId());
+//        AgendaItemDefinition agendaItem3 = agendaBoService.createAgendaItem(agendaItemBuilder3.build());
+//        agendaItemBuilder2.setAlwaysId(agendaItem3.getId());
+//        AgendaItemDefinition agendaItem2 = agendaBoService.createAgendaItem(agendaItemBuilder2.build());
+//        agendaItemBuilder1.setAlwaysId(agendaItem2.getId());
+//        AgendaItemDefinition agendaItem1 = agendaBoService.createAgendaItem(agendaItemBuilder1.build());
+//
+//        AgendaDefinition.Builder agendaDefBuilder1 = AgendaDefinition.Builder.create(agendaDef);
+//        agendaDefBuilder1.setAttributes(Collections.singletonMap("Event", eventName));
+//        agendaDefBuilder1.setFirstItemId(agendaItem1.getId());
+//        agendaDef = agendaDefBuilder1.build();
+//
+//        agendaBoService.updateAgenda(agendaDef);
+    }
 
 }
