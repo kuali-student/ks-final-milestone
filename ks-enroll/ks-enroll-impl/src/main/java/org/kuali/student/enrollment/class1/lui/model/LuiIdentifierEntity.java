@@ -82,9 +82,11 @@ public class LuiIdentifierEntity extends MetaEntity {
         info.setVariation(variation);
         info.setMeta(super.toDTO());
 
-        for (LuiIdentifierAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            info.getAttributes().add(attInfo);
+        if(attributes != null){
+            for (LuiIdentifierAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                info.getAttributes().add(attInfo);
+            }
         }
         return info;
     }

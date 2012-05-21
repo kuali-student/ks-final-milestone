@@ -174,6 +174,7 @@ public class TestLuiServiceImpl {
             assertEquals("Lui-1", luis.get(0).getId());
             assertEquals("Lui-5", luis.get(1).getId());
         } catch (Exception e) {
+            e.printStackTrace();
             fail(e.getMessage());
         }
     }
