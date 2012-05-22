@@ -17,7 +17,6 @@ package org.kuali.student.r2.core.scheduling.infc;
 
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.TimeAmount;
 
 import java.util.List;
 
@@ -48,10 +47,10 @@ public interface TimeSlot extends IdEntity {
     public TimeOfDayInfo getStartTime();
 
     /**
-     * The duration for this time slot
+     * End time of the time slot
      *
-     * @name Duration
+     * @name End Time
      * @required
      */
-    public TimeAmount getDuration();
+    public TimeOfDayInfo getEndTime();
 }
