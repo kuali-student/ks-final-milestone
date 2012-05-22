@@ -112,41 +112,22 @@ public class AcademicCalendarController extends UifControllerBase {
     }
 
     /**
-     * This GET method either copies an academic calendar or finds a latest to copy.
+     * This GET method is called before the Create New Academic Calendar page is displayed
      *
-     * Request Parameter(s)
-     * 1. id - If it's not empty, use this academic calendar as template for copying. If it's empty, find the
-     * latest academic calendar and use it as a template for copy.
-     * 2. pageId - should be copy page id.
+     * It fills in the original Acal for the form with the latest calendar found, by default
      */
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startNew")
     public ModelAndView startNew( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
 
-        String acalId = request.getParameter(CalendarConstants.CALENDAR_ID);
-        String pageId = request.getParameter(CalendarConstants.PAGE_ID);
-
-        if (StringUtils.isNotBlank(acalId)) {
-            if (StringUtils.equals(CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE,pageId)) {
-                try {
-                    AcademicCalendarInfo acalInfo= getAcalService().getAcademicCalendar(acalId, acalForm.getContextInfo());
-                    acalForm.setOrgAcalInfo(acalInfo);
-
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
+        try {
+            AcademicCalendarInfo acalInfo = acalForm.getViewHelperService().getLatestAcademicCalendar();
+            acalForm.setOrgAcalInfo(acalInfo);
         }
-        else {
-            try {
-                AcademicCalendarInfo acalInfo = acalForm.getViewHelperService().getLatestAcademicCalendar();
-                acalForm.setOrgAcalInfo(acalInfo);
-            }
-            catch (Exception x) {
-                throw new RuntimeException(x);
-            }
-
+        catch (Exception x) {
+            throw new RuntimeException(x);
         }
+
 
         return getUIFModelAndView(acalForm);
     }
@@ -192,9 +173,11 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         }
         else {
-            // try to get the latest AC from DB
+            // try to get the AC from the form (in case of copy from the Acal view page) and set it as the Original Acal
             try {
-                acalInfo = acalForm.getViewHelperService().getLatestAcademicCalendar();
+                acalInfo = acalForm.getAcademicCalendarInfo();
+                acalForm.reset();
+                acalForm.setNewCalendar(true);
                 acalForm.setOrgAcalInfo(acalInfo);
             }
             catch (Exception x) {
@@ -205,26 +188,27 @@ public class AcademicCalendarController extends UifControllerBase {
         return copy(acalForm, result, request, response);
     }
 
+    /**
+     * Passes on request from Acal view to copy the Acal to the copyForNew method.  Needed a forwarder here because the
+     * call is a GET rather than a POST
+     *
+     * @param acalForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(params = "methodToCall=toCopy")
     public ModelAndView toCopy(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response){
 
-        AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
-        acalForm.reset();
-        acalForm.setOrgAcalInfo(acalInfo);
-
-        return copy(acalForm, result, request, response);
+        return copyForNew(acalForm, result, request, response);
     }
 
     //copy over from the existing AcalInfo to create a new
     @RequestMapping(method = RequestMethod.POST, params="methodToCall=copy")
     public ModelAndView copy( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-//        if ( null == acalForm.getOrgAcalInfo() || null == acalForm.getOrgAcalInfo().getId()) {
-//            return getUIFModelAndView(acalForm);
-//        }
-
-        acalForm.setNewCalendar(false);
         try {
            acalForm.getViewHelperService().copyToCreateAcademicCalendar(acalForm);
         }catch (Exception ex) {
@@ -553,12 +537,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         //Calculate instructional days (if HC exists)
         if (acalForm.getHolidayCalendarList() != null && !acalForm.getHolidayCalendarList().isEmpty()) {
-           try{
-                acalForm.getViewHelperService().populateInstructionalDays(acalForm.getTermWrapperList());
-            }catch(Exception e){
-                //TODO: FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
-                e.printStackTrace();
-            }
+            acalForm.getViewHelperService().populateInstructionalDays(acalForm.getTermWrapperList());
         }
 
     }
