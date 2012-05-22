@@ -1575,12 +1575,11 @@ public class ProgramServiceImpl implements ProgramService{
 		return documentService;
 	}
 
-	// TODO KSCM-267
 	@Override
 	public SearchResult search(SearchRequest searchRequest
 			) throws MissingParameterException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("ProgramService.search");//also unimplemented in trunk
+		//return null;
 	}
 
 	@Override
@@ -1589,8 +1588,8 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getCredentialProgramsByIds");
+		//return null;
 	}
 
 	@Override
@@ -1599,8 +1598,8 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getMajorDisciplinesByIds");
+		//return null;
 	}
 
 	@Override
@@ -1608,8 +1607,8 @@ public class ProgramServiceImpl implements ProgramService{
 			String programType, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getMajorDisciplineIdsByCredentialProgramType");
+		//return null;
 	}
 
 	@Override
@@ -1618,8 +1617,8 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getHonorsProgramsByIds");
+		//return null;
 	}
 
 	@Override
@@ -1627,8 +1626,8 @@ public class ProgramServiceImpl implements ProgramService{
 			String programType, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getHonorProgramIdsByCredentialProgramType");
+		//return null;
 	}
 
 	@Override
@@ -1638,8 +1637,8 @@ public class ProgramServiceImpl implements ProgramService{
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, VersionMismatchException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("updateHonorsProgram");
+		//return null;
 	}
 
 	@Override
@@ -1648,8 +1647,8 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getCoreProgramsByIds");
+		//return null;
 	}
 
 	@Override
@@ -1658,8 +1657,8 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getProgramRequirementsByIds");
+		//return null;
 	}
 
 	@Override
@@ -1667,19 +1666,8 @@ public class ProgramServiceImpl implements ProgramService{
 			String majorDisciplineId, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getProgramVariationsByMajorDiscipline");
+		//return null;
 	}
-
-//	@Override
-//	public MinorDisciplineInfo updateMinorDiscipline(
-//			MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo)
-//			throws DataValidationErrorException, DoesNotExistException,
-//			InvalidParameterException, MissingParameterException,
-//			VersionMismatchException, OperationFailedException,
-//			PermissionDeniedException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 }
