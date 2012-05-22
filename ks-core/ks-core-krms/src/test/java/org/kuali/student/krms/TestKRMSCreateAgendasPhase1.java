@@ -112,6 +112,8 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
     static final String BOOL1 = "bool1";
     static final String BOOL2 = "bool2";
     static final String PREREQ_TERM_NAME = "prereqTermSpec";
+	private static final String AGENDA11 = "Must have earned a minimum cumulative GPA of <GPA>";
+	private static final String AGENDA4 = "xxxMust have successfully completed a minimum of <n> courses from <courses>";
 
 
 	@Before
@@ -194,7 +196,20 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 //				AGENDA1, contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
 //				null, KSNAMESPACE);
 		
-		createAgenda2(AGENDA2, contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE), null, KSNAMESPACE);
+//		createAgenda2(AGENDA2, contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE), null, KSNAMESPACE);
+		
+		// Change specifically to the rule being created...
+					Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
+					propositionsMap.put(krmsTermLookup(KSKRMSConstants.TERM_NUMBER_OF_CREDITS).getId(),PropositionParameterType.TERM);
+					propositionsMap.put("13", PropositionParameterType.CONSTANT);
+					propositionsMap.put("=", PropositionParameterType.OPERATOR);
+					PropositionParametersBuilder proposition1 = buildKRMSProposition(propositionsMap);
+					propositionsMap = new HashMap<String, PropositionParameterType>();
+					propositionsMap.put(krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSES).getId(),PropositionParameterType.TERM);
+					propositionsMap.put("MATH111, MATH140, MATH141", PropositionParameterType.CONSTANT);
+					propositionsMap.put("=", PropositionParameterType.OPERATOR);
+					PropositionParametersBuilder proposition2 = buildKRMSProposition(propositionsMap);
+					createAgenda3(AGENDA4, contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE), null, KSNAMESPACE, proposition1, proposition2);
 
 	}
 
@@ -250,6 +265,68 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 			propositionsMap.put("MATH111, MATH211", PropositionParameterType.CONSTANT);
 			propositionsMap.put("=", PropositionParameterType.OPERATOR);
 			PropositionParametersBuilder proposition = buildKRMSProposition(propositionsMap);
+
+			
+			String ruleDefinitionID = createKRMSRuleDefinition(nameSpace, agendaName + "::Rule1",
+					contextDefinition, LogicalOperator.OR, proposition).getId();
+			
+			agendaItemBuilder1.setRuleId(ruleDefinitionID);
+			
+			//
+//			 AgendaItemDefinition.Builder agendaItemBuilder2 =
+//			 AgendaItemDefinition.Builder.create(null, agendaDef.getId());
+//			 agendaItemBuilder1.setAlways(agendaItemBuilder2);
+//			 agendaItemBuilder2.setRuleId(createRuleDefinition2(contextDefinition,
+//			 agendaName, nameSpace).getId());
+//			
+//			 AgendaItemDefinition.Builder agendaItemBuilder3 =
+//			 AgendaItemDefinition.Builder.create(null, agendaDef.getId());
+//			 agendaItemBuilder2.setAlways(agendaItemBuilder3);
+//			 agendaItemBuilder3.setRuleId(createRuleDefinition3(contextDefinition,
+//			 agendaName, nameSpace).getId());
+//			
+//			 AgendaItemDefinition.Builder agendaItemBuilder4 =
+//			 AgendaItemDefinition.Builder.create(null, agendaDef.getId());
+//			 agendaItemBuilder3.setAlways(agendaItemBuilder4);
+//			 agendaItemBuilder4.setRuleId(createRuleDefinition4(contextDefinition,
+//			 agendaName, nameSpace).getId());
+			
+			 // String these puppies together. Kind of a PITA because you need the
+//			 id from the next item before you insert the previous one
+//			 AgendaItemDefinition agendaItem4 =
+//			 agendaBoService.createAgendaItem(agendaItemBuilder4.build());
+//			 agendaItemBuilder3.setAlwaysId(agendaItem4.getId());
+//			 AgendaItemDefinition agendaItem3 =
+//			 agendaBoService.createAgendaItem(agendaItemBuilder3.build());
+//			 agendaItemBuilder2.setAlwaysId(agendaItem3.getId());
+//			 AgendaItemDefinition agendaItem2 =
+//			 agendaBoService.createAgendaItem(agendaItemBuilder2.build());
+//			 agendaItemBuilder1.setAlwaysId(agendaItem2.getId());
+			AgendaItemDefinition agendaItem1 = agendaBoService
+					.createAgendaItem(agendaItemBuilder1.build());
+			//
+			AgendaDefinition.Builder agendaDefBuilder1 = AgendaDefinition.Builder
+					.create(agendaDef);
+			// agendaDefBuilder1.setAttributes(Collections.singletonMap("Event",
+			// eventName));
+			agendaDefBuilder1.setFirstItemId(agendaItem1.getId());
+			agendaDef = agendaDefBuilder1.build();
+			//
+			agendaBoService.updateAgenda(agendaDef);
+		
+	}
+	
+	private void createAgenda3(String agendaName,
+			ContextDefinition contextDefinition, String eventName,
+			String nameSpace, PropositionParametersBuilder... proposition) {
+			// Create Agenda...
+			AgendaDefinition agendaDef = createKRMSAgendaDefinition(agendaName,
+				contextDefinition);
+		
+			AgendaItemDefinition.Builder agendaItemBuilder1 = AgendaItemDefinition.Builder
+					.create(null, agendaDef.getId());
+			
+			
 
 			
 			String ruleDefinitionID = createKRMSRuleDefinition(nameSpace, agendaName + "::Rule1",
@@ -360,8 +437,14 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		RuleDefinition.Builder ruleDefBuilder = RuleDefinition.Builder.create(
 				null, ruleName, nameSpace, null, null);
 		ruleDefBuilder.setDescription(ruleName + "::Description");
-		RuleDefinition ruleDef = ruleBoService.createRule(ruleDefBuilder
-				.build());
+		
+		//
+		RuleDefinition ruleDef = ruleBoService.getRuleByNameAndNamespace(ruleName, KSNAMESPACE);
+		//
+		if (ruleDef == null) {
+			ruleDef = ruleBoService.createRule(ruleDefBuilder
+					.build());			
+		}
 
 		// Create the proposition for the rule
 		PropositionDefinition.Builder parentProposition = PropositionDefinition.Builder
@@ -376,6 +459,9 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 
 		ruleDefBuilder = RuleDefinition.Builder.create(ruleDef);
 
+		
+		//
+		ArrayList<PropositionDefinition.Builder> newComponentList = new ArrayList<PropositionDefinition.Builder>();
 		for (PropositionParametersBuilder params : pbs) {
 
 			StringBuilder propositionNameBuilder = new StringBuilder(ruleName);
@@ -391,14 +477,18 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 
 			if (pbs.length > 1) {
 				// add it to the compound prop
-				parentProposition.getCompoundComponents().add(
-						propositionBuilder);
+//				List<org.kuali.rice.krms.api.repository.proposition.PropositionDefinition.Builder> compoundComponents = parentProposition.getCompoundComponents();
+				newComponentList.add(propositionBuilder);
 			} else {
 				// if there is only one proposition to build, make it the parent
 				parentProposition = propositionBuilder;
 			}
+			
 		}
-
+		if (newComponentList.size() > 0) {
+			parentProposition.setCompoundComponents(newComponentList);
+			
+		}
 		ruleDefBuilder.setProposition(parentProposition);
 		ruleDef = ruleDefBuilder.build();
 		ruleBoService.updateRule(ruleDef);	// Creating the krms_prop_parm_t & krms_prop_t
