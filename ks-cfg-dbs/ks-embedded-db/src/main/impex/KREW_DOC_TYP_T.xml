@@ -299,7 +299,17 @@
         DOC_TYP_NM="ActivityOfferingInfoMaintenanceDocument"
         DOC_TYP_VER_NBR="0" GRP_ID="1"
         LBL="org.kuali.student.r2.lum.course.infc.Activity Offering Info Maintenance Document"
-        OBJ_ID="57770b06-8ccc-4751-be8a-8555b0f84d4a" PARNT_ID="2681"
+        OBJ_ID="C0A617FC243F0AB7E040C60AF05B50F7" PARNT_ID="2681"
+        POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
+        RTE_VER_NBR="2" VER_NBR="1"/>
+    <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
+        DOC_HDLR_URL="${application.url}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingInfo"
+        DOC_TYP_DESC="Create a New Format Offering Maintenance Document"
+        DOC_TYP_ID="3023"
+        DOC_TYP_NM="FormatOfferingInfoMaintenanceDocument"
+        DOC_TYP_VER_NBR="0" GRP_ID="1"
+        LBL="org.kuali.student.r2.lum.course.infc.Format Offering Info Maintenance Document"
+        OBJ_ID="C0A617FC24400AB7E040C60AF05B50F7" PARNT_ID="2681"
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
 </dataset>
