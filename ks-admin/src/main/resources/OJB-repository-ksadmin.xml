@@ -38,7 +38,7 @@
   <class-descriptor class="org.kuali.student.core.enumerationmanagement.bo.Enumeration" table="KSEM_ENUM_T">
     <field-descriptor name="id" column="ENUM_KEY" jbdc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="name" column="NAME" jbdc-type="VARCHAR" />
-    <field-descriptor name="description" column="DESCR" jbdc-type="VARCHAR" />
+    <field-descriptor name="description" column="DESCR_PLAIN" jbdc-type="VARCHAR" />
     <field-descriptor name="activeFromDate" column="EFF_DT" jdbc-type="TIMESTAMP" />
     <field-descriptor name="activeToDate" column="EXPIR_DT" jdbc-type="TIMESTAMP" />
     <field-descriptor name="objectId" column="OBJ_ID" jbdc-type="VARCHAR" index="true" />
