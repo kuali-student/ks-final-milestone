@@ -26,6 +26,32 @@
         </property>
     </bean>
 
+    <bean id="KS-ActivityOffering-LookupView2" parent="KSLookupView">
+        <property name="headerText" value="Advance ActivityOffering Lookup " />
+        <property name="viewName" value="KS-ActivityOffering-LookupView2"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.AdvanceActivityOfferingLookupableImpl" />
+
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="termCode" p:label="Term"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseOfferingCode" p:label="Course Offering Code"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="stateKey" />
+                <bean parent="Uif-DataField" p:propertyName="id" />
+                <bean parent="Uif-DataField" p:propertyName="typeKey" />
+                <bean parent="Uif-DataField" p:propertyName="formatOfferingName" />
+                <!--<bean parent="Uif-DataField" p:propertyName="time" />-->
+                <!--<bean parent="Uif-DataField" p:propertyName="Days" />-->
+                <!--<bean parent="Uif-DataField" p:propertyName="Instructor" />-->
+                <!--<bean parent="Uif-DataField" p:propertyName="Seats" />-->
+            </list>
+        </property>
+    </bean>
+
     <!-- InquiryView -->
     <bean id="KS-ActivityOffering-InquiryView" parent="KSInquiryView"
         p:headerText="ActivityOffering Inquiry"

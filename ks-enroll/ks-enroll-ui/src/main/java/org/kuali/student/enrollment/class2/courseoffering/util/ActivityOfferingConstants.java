@@ -22,4 +22,10 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
  */
 public class ActivityOfferingConstants {
     public final static String ACTIVITYOFFERING_ID = "id";
+    public final static String ACTIVITYOFFERING_TERM_ID = "termId";
+    public final static String ACTIVITYOFFERING_TERM_CODE = "termCode";
+    public final static String ACTIVITYOFFERING_COURSE_OFFERING_ID = "courseOfferingId";
+    public final static String ACTIVITYOFFERING_COURSE_OFFERING_CODE = "courseOfferingCode";
+
+    public static final String ATP_CODE = "atpCode";
 }
