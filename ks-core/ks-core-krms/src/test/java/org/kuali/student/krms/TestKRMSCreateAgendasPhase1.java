@@ -109,12 +109,11 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 	static final String AGENDA2 = "Must have successfully completed all courses from <courses>";
 	static final String EARTHQUAKE_EVENT = "Earthquake";
 	public static final String CAMPUS_CODE_TERM_NAME = "campusCodeTermSpec";
-    static final String BOOL1 = "bool1";
-    static final String BOOL2 = "bool2";
-    static final String PREREQ_TERM_NAME = "prereqTermSpec";
+	static final String BOOL1 = "bool1";
+	static final String BOOL2 = "bool2";
+	static final String PREREQ_TERM_NAME = "prereqTermSpec";
 	private static final String AGENDA11 = "Must have earned a minimum cumulative GPA of <GPA>";
 	private static final String AGENDA4 = "xxxMust have successfully completed a minimum of <n> courses from <courses>";
-
 
 	@Before
 	public void setup() {
@@ -125,7 +124,8 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		ruleBoService = KrmsRepositoryServiceLocator.getRuleBoService();
 		krmsTypeRepository = KrmsRepositoryServiceLocator
 				.getKrmsTypeRepositoryService();
-		functionBoService = KrmsRepositoryServiceLocator.getBean("functionRepositoryService");
+		functionBoService = KrmsRepositoryServiceLocator
+				.getBean("functionRepositoryService");
 
 	}
 
@@ -155,251 +155,267 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		return krmsTestResourceLoader;
 	}
 
-	//@Test
+	// @Test
 	public void createRuleDefinitions() {
-		
-//		RuleDefinition ruleDefinition = createRuleDefinition1(contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-//				AGENDA1, KSNAMESPACE, KSKRMSConstants.TERM_APPROVED_COURSE);
+
+		// RuleDefinition ruleDefinition =
+		// createRuleDefinition1(contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY,
+		// KSNAMESPACE),
+		// AGENDA1, KSNAMESPACE, KSKRMSConstants.TERM_APPROVED_COURSE);
 		Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
-		propositionsMap.put(krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE).getId(),PropositionParameterType.TERM);
+		propositionsMap.put(
+				krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE).getId(),
+				PropositionParameterType.TERM);
 		propositionsMap.put("MATH111", PropositionParameterType.CONSTANT);
 		propositionsMap.put("=", PropositionParameterType.OPERATOR);
 		PropositionParametersBuilder proposition = buildKRMSProposition(propositionsMap);
 	}
-	
+
 	// @Test
 	public void TestBuildProposition() {
-		
-//		RuleDefinition ruleDefinition = createRuleDefinition1(contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-//				AGENDA1, KSNAMESPACE, KSKRMSConstants.TERM_APPROVED_COURSE);
+
+		// RuleDefinition ruleDefinition =
+		// createRuleDefinition1(contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY,
+		// KSNAMESPACE),
+		// AGENDA1, KSNAMESPACE, KSKRMSConstants.TERM_APPROVED_COURSE);
 		Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
-		propositionsMap.put(krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE).getId(),PropositionParameterType.TERM);
+		propositionsMap.put(
+				krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE).getId(),
+				PropositionParameterType.TERM);
 		propositionsMap.put("MATH111", PropositionParameterType.CONSTANT);
 		propositionsMap.put("=", PropositionParameterType.OPERATOR);
 		PropositionParametersBuilder proposition = buildKRMSProposition(propositionsMap);
 	}
-	
-	//@Test
+
+	// @Test
 	public void createAllAgendasPhase1() {
 		// Creating all the agendas
 
-		
 		AgendaDefinition agendaDef = createKRMSAgendaDefinition(AGENDA1,
-				contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE));
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE));
 
 	}
 
 	@Test
 	public void createAllAgendasAndRulesPhase1() {
+		Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
 		// Creating all the agendas
-//		createAgenda1(
-//				AGENDA1, contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-//				null, KSNAMESPACE);
-		
-//		createAgenda2(AGENDA2, contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE), null, KSNAMESPACE);
-		
+		propositionsMap = new HashMap<String, PropositionParameterType>();
+		propositionsMap.put(
+				krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE).getId(),
+				PropositionParameterType.TERM);
+		propositionsMap.put("MATH111", PropositionParameterType.CONSTANT);
+		propositionsMap.put("=", PropositionParameterType.OPERATOR);
+		PropositionParametersBuilder proposition = buildKRMSProposition(propositionsMap);
+
+		createAgendaAndRuleAndPropositions(AGENDA1,
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				null, KSNAMESPACE);
+
 		// Change specifically to the rule being created...
-					Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
-					propositionsMap.put(krmsTermLookup(KSKRMSConstants.TERM_NUMBER_OF_CREDITS).getId(),PropositionParameterType.TERM);
-					propositionsMap.put("13", PropositionParameterType.CONSTANT);
-					propositionsMap.put("=", PropositionParameterType.OPERATOR);
-					PropositionParametersBuilder proposition1 = buildKRMSProposition(propositionsMap);
-					propositionsMap = new HashMap<String, PropositionParameterType>();
-					propositionsMap.put(krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSES).getId(),PropositionParameterType.TERM);
-					propositionsMap.put("MATH111, MATH140, MATH141", PropositionParameterType.CONSTANT);
-					propositionsMap.put("=", PropositionParameterType.OPERATOR);
-					PropositionParametersBuilder proposition2 = buildKRMSProposition(propositionsMap);
-					createAgenda3(AGENDA4, contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE), null, KSNAMESPACE, proposition1, proposition2);
+		propositionsMap = new HashMap<String, PropositionParameterType>();
+		propositionsMap.put(
+				krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSES).getId(),
+				PropositionParameterType.TERM);
+		propositionsMap.put("MATH111, MATH211",
+				PropositionParameterType.CONSTANT);
+		propositionsMap.put("=", PropositionParameterType.OPERATOR);
+		proposition = buildKRMSProposition(propositionsMap);
+		createAgendaAndRuleAndPropositions(AGENDA2,
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				null, KSNAMESPACE);
+
+		// Change specifically to the rule being created...
+		propositionsMap = new HashMap<String, PropositionParameterType>();
+		propositionsMap.put(
+				krmsTermLookup(KSKRMSConstants.TERM_NUMBER_OF_CREDITS).getId(),
+				PropositionParameterType.TERM);
+		propositionsMap.put("13", PropositionParameterType.CONSTANT);
+		propositionsMap.put("=", PropositionParameterType.OPERATOR);
+		PropositionParametersBuilder proposition1 = buildKRMSProposition(propositionsMap);
+		propositionsMap = new HashMap<String, PropositionParameterType>();
+		propositionsMap.put(
+				krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSES).getId(),
+				PropositionParameterType.TERM);
+		propositionsMap.put("MATH111, MATH140, MATH141",
+				PropositionParameterType.CONSTANT);
+		propositionsMap.put("=", PropositionParameterType.OPERATOR);
+		PropositionParametersBuilder proposition2 = buildKRMSProposition(propositionsMap);
+		createAgendaAndRuleAndPropositions(AGENDA4,
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				null, KSNAMESPACE, proposition1, proposition2);
 
 	}
-
 
 	private void createAgenda1(String agendaName,
 			ContextDefinition contextDefinition, String eventName,
 			String nameSpace) {
-			// Create Agenda...
-			AgendaDefinition agendaDef = createKRMSAgendaDefinition(agendaName,
+		// Create Agenda...
+		AgendaDefinition agendaDef = createKRMSAgendaDefinition(agendaName,
 				contextDefinition);
-		
-			AgendaItemDefinition.Builder agendaItemBuilder1 = AgendaItemDefinition.Builder
-					.create(null, agendaDef.getId());
-			
-			Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
-			propositionsMap.put(krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE).getId(),PropositionParameterType.TERM);
-			propositionsMap.put("MATH111", PropositionParameterType.CONSTANT);
-			propositionsMap.put("=", PropositionParameterType.OPERATOR);
-			PropositionParametersBuilder proposition = buildKRMSProposition(propositionsMap);
 
-			
-			String ruleDefinitionID = createKRMSRuleDefinition(nameSpace, agendaName + "::Rule1",
-					contextDefinition, LogicalOperator.OR, proposition).getId();
-			
-			agendaItemBuilder1.setRuleId(ruleDefinitionID);
-			AgendaItemDefinition agendaItem1 = agendaBoService
-					.createAgendaItem(agendaItemBuilder1.build());
-			//
-			AgendaDefinition.Builder agendaDefBuilder1 = AgendaDefinition.Builder
-					.create(agendaDef);
-			// agendaDefBuilder1.setAttributes(Collections.singletonMap("Event",
-			// eventName));
-			agendaDefBuilder1.setFirstItemId(agendaItem1.getId());
-			agendaDef = agendaDefBuilder1.build();
-			//
-			agendaBoService.updateAgenda(agendaDef);
-		
+		AgendaItemDefinition.Builder agendaItemBuilder1 = AgendaItemDefinition.Builder
+				.create(null, agendaDef.getId());
+
+		Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
+		propositionsMap.put(
+				krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE).getId(),
+				PropositionParameterType.TERM);
+		propositionsMap.put("MATH111", PropositionParameterType.CONSTANT);
+		propositionsMap.put("=", PropositionParameterType.OPERATOR);
+		PropositionParametersBuilder proposition = buildKRMSProposition(propositionsMap);
+
+		String ruleDefinitionID = createKRMSRuleDefinition(nameSpace,
+				agendaName + "::Rule1", contextDefinition, LogicalOperator.OR,
+				proposition).getId();
+
+		agendaItemBuilder1.setRuleId(ruleDefinitionID);
+		AgendaItemDefinition agendaItem1 = agendaBoService
+				.createAgendaItem(agendaItemBuilder1.build());
+		//
+		AgendaDefinition.Builder agendaDefBuilder1 = AgendaDefinition.Builder
+				.create(agendaDef);
+		// agendaDefBuilder1.setAttributes(Collections.singletonMap("Event",
+		// eventName));
+		agendaDefBuilder1.setFirstItemId(agendaItem1.getId());
+		agendaDef = agendaDefBuilder1.build();
+		//
+		agendaBoService.updateAgenda(agendaDef);
+
 	}
-	
+
 	private void createAgenda2(String agendaName,
 			ContextDefinition contextDefinition, String eventName,
 			String nameSpace) {
-			// Create Agenda...
-			AgendaDefinition agendaDef = createKRMSAgendaDefinition(agendaName,
+		// Create Agenda...
+		AgendaDefinition agendaDef = createKRMSAgendaDefinition(agendaName,
 				contextDefinition);
-		
-			AgendaItemDefinition.Builder agendaItemBuilder1 = AgendaItemDefinition.Builder
-					.create(null, agendaDef.getId());
-			
-			// Change specifically to the rule being created...
-			Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
-			propositionsMap.put(krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSES).getId(),PropositionParameterType.TERM);
-			propositionsMap.put("MATH111, MATH211", PropositionParameterType.CONSTANT);
-			propositionsMap.put("=", PropositionParameterType.OPERATOR);
-			PropositionParametersBuilder proposition = buildKRMSProposition(propositionsMap);
 
-			
-			String ruleDefinitionID = createKRMSRuleDefinition(nameSpace, agendaName + "::Rule1",
-					contextDefinition, LogicalOperator.OR, proposition).getId();
-			
-			agendaItemBuilder1.setRuleId(ruleDefinitionID);
-			
-			//
-//			 AgendaItemDefinition.Builder agendaItemBuilder2 =
-//			 AgendaItemDefinition.Builder.create(null, agendaDef.getId());
-//			 agendaItemBuilder1.setAlways(agendaItemBuilder2);
-//			 agendaItemBuilder2.setRuleId(createRuleDefinition2(contextDefinition,
-//			 agendaName, nameSpace).getId());
-//			
-//			 AgendaItemDefinition.Builder agendaItemBuilder3 =
-//			 AgendaItemDefinition.Builder.create(null, agendaDef.getId());
-//			 agendaItemBuilder2.setAlways(agendaItemBuilder3);
-//			 agendaItemBuilder3.setRuleId(createRuleDefinition3(contextDefinition,
-//			 agendaName, nameSpace).getId());
-//			
-//			 AgendaItemDefinition.Builder agendaItemBuilder4 =
-//			 AgendaItemDefinition.Builder.create(null, agendaDef.getId());
-//			 agendaItemBuilder3.setAlways(agendaItemBuilder4);
-//			 agendaItemBuilder4.setRuleId(createRuleDefinition4(contextDefinition,
-//			 agendaName, nameSpace).getId());
-			
-			 // String these puppies together. Kind of a PITA because you need the
-//			 id from the next item before you insert the previous one
-//			 AgendaItemDefinition agendaItem4 =
-//			 agendaBoService.createAgendaItem(agendaItemBuilder4.build());
-//			 agendaItemBuilder3.setAlwaysId(agendaItem4.getId());
-//			 AgendaItemDefinition agendaItem3 =
-//			 agendaBoService.createAgendaItem(agendaItemBuilder3.build());
-//			 agendaItemBuilder2.setAlwaysId(agendaItem3.getId());
-//			 AgendaItemDefinition agendaItem2 =
-//			 agendaBoService.createAgendaItem(agendaItemBuilder2.build());
-//			 agendaItemBuilder1.setAlwaysId(agendaItem2.getId());
-			AgendaItemDefinition agendaItem1 = agendaBoService
-					.createAgendaItem(agendaItemBuilder1.build());
-			//
-			AgendaDefinition.Builder agendaDefBuilder1 = AgendaDefinition.Builder
-					.create(agendaDef);
-			// agendaDefBuilder1.setAttributes(Collections.singletonMap("Event",
-			// eventName));
-			agendaDefBuilder1.setFirstItemId(agendaItem1.getId());
-			agendaDef = agendaDefBuilder1.build();
-			//
-			agendaBoService.updateAgenda(agendaDef);
-		
+		AgendaItemDefinition.Builder agendaItemBuilder1 = AgendaItemDefinition.Builder
+				.create(null, agendaDef.getId());
+
+		// Change specifically to the rule being created...
+		Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
+		propositionsMap.put(
+				krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSES).getId(),
+				PropositionParameterType.TERM);
+		propositionsMap.put("MATH111, MATH211",
+				PropositionParameterType.CONSTANT);
+		propositionsMap.put("=", PropositionParameterType.OPERATOR);
+		PropositionParametersBuilder proposition = buildKRMSProposition(propositionsMap);
+
+		String ruleDefinitionID = createKRMSRuleDefinition(nameSpace,
+				agendaName + "::Rule1", contextDefinition, LogicalOperator.OR,
+				proposition).getId();
+
+		agendaItemBuilder1.setRuleId(ruleDefinitionID);
+
+		//
+		// AgendaItemDefinition.Builder agendaItemBuilder2 =
+		// AgendaItemDefinition.Builder.create(null, agendaDef.getId());
+		// agendaItemBuilder1.setAlways(agendaItemBuilder2);
+		// agendaItemBuilder2.setRuleId(createRuleDefinition2(contextDefinition,
+		// agendaName, nameSpace).getId());
+		//
+		// AgendaItemDefinition.Builder agendaItemBuilder3 =
+		// AgendaItemDefinition.Builder.create(null, agendaDef.getId());
+		// agendaItemBuilder2.setAlways(agendaItemBuilder3);
+		// agendaItemBuilder3.setRuleId(createRuleDefinition3(contextDefinition,
+		// agendaName, nameSpace).getId());
+		//
+		// AgendaItemDefinition.Builder agendaItemBuilder4 =
+		// AgendaItemDefinition.Builder.create(null, agendaDef.getId());
+		// agendaItemBuilder3.setAlways(agendaItemBuilder4);
+		// agendaItemBuilder4.setRuleId(createRuleDefinition4(contextDefinition,
+		// agendaName, nameSpace).getId());
+
+		// String these puppies together. Kind of a PITA because you need the
+		// id from the next item before you insert the previous one
+		// AgendaItemDefinition agendaItem4 =
+		// agendaBoService.createAgendaItem(agendaItemBuilder4.build());
+		// agendaItemBuilder3.setAlwaysId(agendaItem4.getId());
+		// AgendaItemDefinition agendaItem3 =
+		// agendaBoService.createAgendaItem(agendaItemBuilder3.build());
+		// agendaItemBuilder2.setAlwaysId(agendaItem3.getId());
+		// AgendaItemDefinition agendaItem2 =
+		// agendaBoService.createAgendaItem(agendaItemBuilder2.build());
+		// agendaItemBuilder1.setAlwaysId(agendaItem2.getId());
+		AgendaItemDefinition agendaItem1 = agendaBoService
+				.createAgendaItem(agendaItemBuilder1.build());
+		//
+		AgendaDefinition.Builder agendaDefBuilder1 = AgendaDefinition.Builder
+				.create(agendaDef);
+		// agendaDefBuilder1.setAttributes(Collections.singletonMap("Event",
+		// eventName));
+		agendaDefBuilder1.setFirstItemId(agendaItem1.getId());
+		agendaDef = agendaDefBuilder1.build();
+		//
+		agendaBoService.updateAgenda(agendaDef);
+
 	}
-	
-	private void createAgenda3(String agendaName,
+
+	private void createAgendaAndRuleAndPropositions(String agendaName,
 			ContextDefinition contextDefinition, String eventName,
 			String nameSpace, PropositionParametersBuilder... proposition) {
-			// Create Agenda...
-			AgendaDefinition agendaDef = createKRMSAgendaDefinition(agendaName,
+		// Create Agenda...
+		AgendaDefinition agendaDef = createKRMSAgendaDefinition(agendaName,
 				contextDefinition);
-		
-			AgendaItemDefinition.Builder agendaItemBuilder1 = AgendaItemDefinition.Builder
-					.create(null, agendaDef.getId());
-			
-			
 
-			
-			String ruleDefinitionID = createKRMSRuleDefinition(nameSpace, agendaName + "::Rule1",
-					contextDefinition, LogicalOperator.OR, proposition).getId();
-			
-			agendaItemBuilder1.setRuleId(ruleDefinitionID);
-			
-			//
-//			 AgendaItemDefinition.Builder agendaItemBuilder2 =
-//			 AgendaItemDefinition.Builder.create(null, agendaDef.getId());
-//			 agendaItemBuilder1.setAlways(agendaItemBuilder2);
-//			 agendaItemBuilder2.setRuleId(createRuleDefinition2(contextDefinition,
-//			 agendaName, nameSpace).getId());
-//			
-//			 AgendaItemDefinition.Builder agendaItemBuilder3 =
-//			 AgendaItemDefinition.Builder.create(null, agendaDef.getId());
-//			 agendaItemBuilder2.setAlways(agendaItemBuilder3);
-//			 agendaItemBuilder3.setRuleId(createRuleDefinition3(contextDefinition,
-//			 agendaName, nameSpace).getId());
-//			
-//			 AgendaItemDefinition.Builder agendaItemBuilder4 =
-//			 AgendaItemDefinition.Builder.create(null, agendaDef.getId());
-//			 agendaItemBuilder3.setAlways(agendaItemBuilder4);
-//			 agendaItemBuilder4.setRuleId(createRuleDefinition4(contextDefinition,
-//			 agendaName, nameSpace).getId());
-			
-			 // String these puppies together. Kind of a PITA because you need the
-//			 id from the next item before you insert the previous one
-//			 AgendaItemDefinition agendaItem4 =
-//			 agendaBoService.createAgendaItem(agendaItemBuilder4.build());
-//			 agendaItemBuilder3.setAlwaysId(agendaItem4.getId());
-//			 AgendaItemDefinition agendaItem3 =
-//			 agendaBoService.createAgendaItem(agendaItemBuilder3.build());
-//			 agendaItemBuilder2.setAlwaysId(agendaItem3.getId());
-//			 AgendaItemDefinition agendaItem2 =
-//			 agendaBoService.createAgendaItem(agendaItemBuilder2.build());
-//			 agendaItemBuilder1.setAlwaysId(agendaItem2.getId());
-			AgendaItemDefinition agendaItem1 = agendaBoService
-					.createAgendaItem(agendaItemBuilder1.build());
-			//
-			AgendaDefinition.Builder agendaDefBuilder1 = AgendaDefinition.Builder
-					.create(agendaDef);
-			// agendaDefBuilder1.setAttributes(Collections.singletonMap("Event",
-			// eventName));
-			agendaDefBuilder1.setFirstItemId(agendaItem1.getId());
-			agendaDef = agendaDefBuilder1.build();
-			//
-			agendaBoService.updateAgenda(agendaDef);
-		
+		// Create AgendaItems
+		AgendaItemDefinition.Builder agendaItemBuilder1 = AgendaItemDefinition.Builder
+				.create(null, agendaDef.getId());
+
+		// Create Rules
+		String ruleDefinitionID = createKRMSRuleDefinition(nameSpace,
+				agendaName + "::Rule1", contextDefinition, LogicalOperator.OR,
+				proposition).getId();
+
+		agendaItemBuilder1.setRuleId(ruleDefinitionID);
+
+		// Create Agenda Items on DB
+		AgendaItemDefinition agendaItem1 = agendaBoService
+				.createAgendaItem(agendaItemBuilder1.build());
+		AgendaDefinition.Builder agendaDefBuilder1 = AgendaDefinition.Builder
+				.create(agendaDef);
+		// agendaDefBuilder1.setAttributes(Collections.singletonMap("Event",
+		// eventName));
+		agendaDefBuilder1.setFirstItemId(agendaItem1.getId());
+		agendaDef = agendaDefBuilder1.build();
+		// Update Agenda with the AgendaItems id...
+		agendaBoService.updateAgenda(agendaDef);
+
 	}
 
 	private AgendaDefinition createKRMSAgendaDefinition(String agendaName,
 			ContextDefinition contextDefinition) {
-		AgendaDefinition agendaDef = agendaBoService.getAgendaByNameAndContextId(agendaName, contextDefinition.getId());
+		AgendaDefinition agendaDef = agendaBoService
+				.getAgendaByNameAndContextId(agendaName,
+						contextDefinition.getId());
 		if (krmsTypeDefinition == null) {
 			krmsTypeDefinition = getKSKRMSType(KSNAMESPACE);
 		}
 		if (agendaDef == null) {
-			agendaDef = AgendaDefinition.Builder.create(null,
-					agendaName, krmsTypeDefinition.getId(),
-					contextDefinition.getId()).build();
+			agendaDef = AgendaDefinition.Builder.create(null, agendaName,
+					krmsTypeDefinition.getId(), contextDefinition.getId())
+					.build();
 			agendaDef = agendaBoService.createAgenda(agendaDef);
 
 		}
 		return agendaDef;
 	}
 
-	private PropositionParametersBuilder buildKRMSProposition(Map<String, PropositionParameterType> propositionsMap) {
+	private PropositionParametersBuilder buildKRMSProposition(
+			Map<String, PropositionParameterType> propositionsMap) {
 		PropositionParametersBuilder params1 = new PropositionParametersBuilder();
-		Set<Entry<String, PropositionParameterType>> allValues = propositionsMap.entrySet();
+		Set<Entry<String, PropositionParameterType>> allValues = propositionsMap
+				.entrySet();
 		for (Entry<String, PropositionParameterType> entry : allValues) {
 			System.out.println(entry.getKey() + " " + entry.getValue());
-			params1.add(entry.getKey(),entry.getValue());
+			params1.add(entry.getKey(), entry.getValue());
 		}
 		return params1;
 	}
@@ -437,13 +453,13 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		RuleDefinition.Builder ruleDefBuilder = RuleDefinition.Builder.create(
 				null, ruleName, nameSpace, null, null);
 		ruleDefBuilder.setDescription(ruleName + "::Description");
-		
+
 		//
-		RuleDefinition ruleDef = ruleBoService.getRuleByNameAndNamespace(ruleName, KSNAMESPACE);
+		RuleDefinition ruleDef = ruleBoService.getRuleByNameAndNamespace(
+				ruleName, KSNAMESPACE);
 		//
 		if (ruleDef == null) {
-			ruleDef = ruleBoService.createRule(ruleDefBuilder
-					.build());			
+			ruleDef = ruleBoService.createRule(ruleDefBuilder.build());
 		}
 
 		// Create the proposition for the rule
@@ -459,12 +475,11 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 
 		ruleDefBuilder = RuleDefinition.Builder.create(ruleDef);
 
-		
 		//
 		ArrayList<PropositionDefinition.Builder> newComponentList = new ArrayList<PropositionDefinition.Builder>();
 		for (PropositionParametersBuilder params : pbs) {
 
-			StringBuilder propositionNameBuilder = new StringBuilder(ruleName);
+			StringBuilder propositionNameBuilder = new StringBuilder("Proposition");
 
 			propositionNameBuilder.append("::");
 			for (Object[] param : params.params) {
@@ -477,21 +492,24 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 
 			if (pbs.length > 1) {
 				// add it to the compound prop
-//				List<org.kuali.rice.krms.api.repository.proposition.PropositionDefinition.Builder> compoundComponents = parentProposition.getCompoundComponents();
+				// List<org.kuali.rice.krms.api.repository.proposition.PropositionDefinition.Builder>
+				// compoundComponents =
+				// parentProposition.getCompoundComponents();
 				newComponentList.add(propositionBuilder);
 			} else {
 				// if there is only one proposition to build, make it the parent
 				parentProposition = propositionBuilder;
 			}
-			
+
 		}
 		if (newComponentList.size() > 0) {
 			parentProposition.setCompoundComponents(newComponentList);
-			
+
 		}
 		ruleDefBuilder.setProposition(parentProposition);
 		ruleDef = ruleDefBuilder.build();
-		ruleBoService.updateRule(ruleDef);	// Creating the krms_prop_parm_t & krms_prop_t
+		ruleBoService.updateRule(ruleDef); // Creating the krms_prop_parm_t &
+											// krms_prop_t
 
 		// Action
 		// ActionDefinition.Builder actionDefBuilder1 =
@@ -504,35 +522,36 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		return ruleDef;
 	}
 
-//	private TermDefinition createTermDefinition(String termName,
-//			Class termValueType, ContextDefinition contextDefinition) {
-//
-//		// this may be called more than once, we only want to create one though
-//		Map<String, String> queryArgs = new HashMap<String, String>();
-//		queryArgs.put("specification.namespace",
-//				contextDefinition.getNamespace());
-//		queryArgs.put("specification.name", termName);
-//		TermBo termBo = getBoService()
-//				.findByPrimaryKey(TermBo.class, queryArgs);
-//		if (termBo != null) {
-//			return TermBo.to(termBo);
-//		}
-//
-//		// campusCode TermSpec
-//		TermSpecificationDefinition termSpec = TermSpecificationDefinition.Builder
-//				.create(null, termName, contextDefinition.getNamespace(),
-//						termValueType.getCanonicalName()).build();
-//
-//		termSpec = termBoService.createTermSpecification(termSpec);
-//
-//		// Term 1
-//		TermDefinition termDefinition = TermDefinition.Builder.create(null,
-//				TermSpecificationDefinition.Builder.create(termSpec), null)
-//				.build();
-//		termDefinition = termBoService.createTermDefinition(termDefinition);
-//
-//		return termDefinition;
-//	}
+	// private TermDefinition createTermDefinition(String termName,
+	// Class termValueType, ContextDefinition contextDefinition) {
+	//
+	// // this may be called more than once, we only want to create one though
+	// Map<String, String> queryArgs = new HashMap<String, String>();
+	// queryArgs.put("specification.namespace",
+	// contextDefinition.getNamespace());
+	// queryArgs.put("specification.name", termName);
+	// TermBo termBo = getBoService()
+	// .findByPrimaryKey(TermBo.class, queryArgs);
+	// if (termBo != null) {
+	// return TermBo.to(termBo);
+	// }
+	//
+	// // campusCode TermSpec
+	// TermSpecificationDefinition termSpec =
+	// TermSpecificationDefinition.Builder
+	// .create(null, termName, contextDefinition.getNamespace(),
+	// termValueType.getCanonicalName()).build();
+	//
+	// termSpec = termBoService.createTermSpecification(termSpec);
+	//
+	// // Term 1
+	// TermDefinition termDefinition = TermDefinition.Builder.create(null,
+	// TermSpecificationDefinition.Builder.create(termSpec), null)
+	// .build();
+	// termDefinition = termBoService.createTermDefinition(termDefinition);
+	//
+	// return termDefinition;
+	// }
 
 	private TermDefinition krmsTermLookup(String termName) {
 		// this may be called more than once, we only want to create one though
@@ -574,119 +593,154 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 			return results;
 		}
 	}
-	
-//    private RuleDefinition createRuleDefinition2(ContextDefinition contextDefinition, String agendaName, String nameSpace) {
-//
-//        PropositionParametersBuilder params1 = new PropositionParametersBuilder();
-//        params1.add(createTermDefinition2(contextDefinition, nameSpace).getId(), PropositionParameterType.TERM);
-//        params1.add("RESULT1", PropositionParameterType.CONSTANT);
-//        params1.add("=", PropositionParameterType.OPERATOR);
-//
-//        PropositionParametersBuilder params2 = new PropositionParametersBuilder();
-//        params2.add(createTermDefinition2(contextDefinition, nameSpace).getId(), PropositionParameterType.TERM);
-//        params2.add("NotGonnaBeEqual", PropositionParameterType.CONSTANT);
-//        params2.add("=", PropositionParameterType.OPERATOR);
-//
-//        return createKRMSRuleDefinition(nameSpace, agendaName+"::Rule2", contextDefinition, LogicalOperator.AND, params1, params2);
-//    }
 
-//    private RuleDefinition createRuleDefinition3(ContextDefinition contextDefinition, String agendaName, String nameSpace) {
-//
-//        FunctionDefinition gcdFunction = functionBoService.getFunctionByNameAndNamespace("gcd", contextDefinition.getNamespace());
-//
-//        if (null == gcdFunction) {
-//            // better configure a custom fuction for this
-//            // KrmsType for custom function
-//            KrmsTypeDefinition.Builder krmsFunctionTypeDefnBuilder = KrmsTypeDefinition.Builder.create("KrmsTestFunctionType", nameSpace);
-//            krmsFunctionTypeDefnBuilder.setServiceName("testFunctionTypeService");
-//            KrmsTypeDefinition krmsFunctionTypeDefinition = krmsTypeRepository.createKrmsType(krmsFunctionTypeDefnBuilder.build());
-//
-//            FunctionDefinition.Builder functionBuilder =
-//                    FunctionDefinition.Builder.create(contextDefinition.getNamespace(), "gcd", Integer.class.getName(), krmsFunctionTypeDefinition.getId());
-//
-//            functionBuilder.getParameters().add(FunctionParameterDefinition.Builder.create("arg0", Integer.class.getName(), 0));
-//            functionBuilder.getParameters().add(FunctionParameterDefinition.Builder.create("arg1", Integer.class.getName(), 1));
-//            functionBuilder.setReturnType(Integer.class.getName());
-//
-//            gcdFunction = functionBoService.createFunction(functionBuilder.build());
-//        }
-//
-//        PropositionParametersBuilder params = new PropositionParametersBuilder();
-//
-//        // leverage our stack based evaluation in reverse polish notation
-//        params.add("1024", PropositionParameterType.CONSTANT);
-//        params.add("768", PropositionParameterType.CONSTANT);
-//        params.add(gcdFunction.getId(), PropositionParameterType.FUNCTION); // this should evaluate first: gcd(1024, 768)
-//        params.add("256", PropositionParameterType.CONSTANT);
-//        params.add("=", PropositionParameterType.OPERATOR); // this should evaluate second: gcdResult == 256
-//
-//        return createKRMSRuleDefinition(nameSpace, agendaName+"::Rule3", contextDefinition, null, params);
-//    }
+	// private RuleDefinition createRuleDefinition2(ContextDefinition
+	// contextDefinition, String agendaName, String nameSpace) {
+	//
+	// PropositionParametersBuilder params1 = new
+	// PropositionParametersBuilder();
+	// params1.add(createTermDefinition2(contextDefinition, nameSpace).getId(),
+	// PropositionParameterType.TERM);
+	// params1.add("RESULT1", PropositionParameterType.CONSTANT);
+	// params1.add("=", PropositionParameterType.OPERATOR);
+	//
+	// PropositionParametersBuilder params2 = new
+	// PropositionParametersBuilder();
+	// params2.add(createTermDefinition2(contextDefinition, nameSpace).getId(),
+	// PropositionParameterType.TERM);
+	// params2.add("NotGonnaBeEqual", PropositionParameterType.CONSTANT);
+	// params2.add("=", PropositionParameterType.OPERATOR);
+	//
+	// return createKRMSRuleDefinition(nameSpace, agendaName+"::Rule2",
+	// contextDefinition, LogicalOperator.AND, params1, params2);
+	// }
 
+	// private RuleDefinition createRuleDefinition3(ContextDefinition
+	// contextDefinition, String agendaName, String nameSpace) {
+	//
+	// FunctionDefinition gcdFunction =
+	// functionBoService.getFunctionByNameAndNamespace("gcd",
+	// contextDefinition.getNamespace());
+	//
+	// if (null == gcdFunction) {
+	// // better configure a custom fuction for this
+	// // KrmsType for custom function
+	// KrmsTypeDefinition.Builder krmsFunctionTypeDefnBuilder =
+	// KrmsTypeDefinition.Builder.create("KrmsTestFunctionType", nameSpace);
+	// krmsFunctionTypeDefnBuilder.setServiceName("testFunctionTypeService");
+	// KrmsTypeDefinition krmsFunctionTypeDefinition =
+	// krmsTypeRepository.createKrmsType(krmsFunctionTypeDefnBuilder.build());
+	//
+	// FunctionDefinition.Builder functionBuilder =
+	// FunctionDefinition.Builder.create(contextDefinition.getNamespace(),
+	// "gcd", Integer.class.getName(), krmsFunctionTypeDefinition.getId());
+	//
+	// functionBuilder.getParameters().add(FunctionParameterDefinition.Builder.create("arg0",
+	// Integer.class.getName(), 0));
+	// functionBuilder.getParameters().add(FunctionParameterDefinition.Builder.create("arg1",
+	// Integer.class.getName(), 1));
+	// functionBuilder.setReturnType(Integer.class.getName());
+	//
+	// gcdFunction = functionBoService.createFunction(functionBuilder.build());
+	// }
+	//
+	// PropositionParametersBuilder params = new PropositionParametersBuilder();
+	//
+	// // leverage our stack based evaluation in reverse polish notation
+	// params.add("1024", PropositionParameterType.CONSTANT);
+	// params.add("768", PropositionParameterType.CONSTANT);
+	// params.add(gcdFunction.getId(), PropositionParameterType.FUNCTION); //
+	// this should evaluate first: gcd(1024, 768)
+	// params.add("256", PropositionParameterType.CONSTANT);
+	// params.add("=", PropositionParameterType.OPERATOR); // this should
+	// evaluate second: gcdResult == 256
+	//
+	// return createKRMSRuleDefinition(nameSpace, agendaName+"::Rule3",
+	// contextDefinition, null, params);
+	// }
 
-//    private RuleDefinition createRuleDefinition4(ContextDefinition contextDefinition, String agendaName, String nameSpace) {
-//
-//        PropositionParametersBuilder params1 = new PropositionParametersBuilder();
-//        params1.add(createTermDefinition(BOOL1, Boolean.class, contextDefinition).getId(), PropositionParameterType.TERM);
-//        params1.add(createTermDefinition(BOOL2, Boolean.class, contextDefinition).getId(), PropositionParameterType.TERM);
-//        params1.add("=", PropositionParameterType.OPERATOR);
-//
-//        PropositionParametersBuilder params2 = new PropositionParametersBuilder();
-//        params2.add(createTermDefinition(BOOL2, Boolean.class, contextDefinition).getId(), PropositionParameterType.TERM);
-//        params2.add(createTermDefinition(BOOL1, Boolean.class, contextDefinition).getId(), PropositionParameterType.TERM);
-//        params2.add("=", PropositionParameterType.OPERATOR);
-//
-//        return createKRMSRuleDefinition(nameSpace, agendaName+"::Rule4", contextDefinition, LogicalOperator.AND, params1, params2);
-//    }
-    
-//    private TermDefinition createTermDefinition2(ContextDefinition contextDefinition, String nameSpace) {
-//
-//        Map<String, String> queryArgs = new HashMap<String, String>();
-//        queryArgs.put("specification.namespace", contextDefinition.getNamespace());
-//        queryArgs.put("specification.name", "outputTermSpec");
-//        TermBo result = getBoService().findByPrimaryKey(TermBo.class, queryArgs);
-//        if (result != null) return TermBo.to(result);
-//
-//        // output TermSpec
-//        TermSpecificationDefinition outputTermSpec =
-//            TermSpecificationDefinition.Builder.create(null, "outputTermSpec", contextDefinition.getNamespace(),
-//                    "java.lang.String").build();
-//        outputTermSpec = termBoService.createTermSpecification(outputTermSpec);
-//
-//        // prereq TermSpec
-//        TermSpecificationDefinition prereqTermSpec =
-//            TermSpecificationDefinition.Builder.create(null, PREREQ_TERM_NAME, contextDefinition.getNamespace(),
-//                    "java.lang.String").build();
-//        prereqTermSpec = termBoService.createTermSpecification(prereqTermSpec);
-//
-//        // Term Param
-//        TermParameterDefinition.Builder termParamBuilder2 =
-//            TermParameterDefinition.Builder.create(null, null, "testParamName", "testParamValue");
-//
-//        // Term
-//        TermDefinition termDefinition2 =
-//            TermDefinition.Builder.create(null, TermSpecificationDefinition.Builder.create(outputTermSpec), Collections.singletonList(termParamBuilder2)).build();
-//        termDefinition2 = termBoService.createTermDefinition(termDefinition2);
-//
-//		// KrmsType for TermResolver
-//		KrmsTypeDefinition.Builder krmsTermResolverTypeDefnBuilder = KrmsTypeDefinition.Builder.create("KrmsTestResolverType", nameSpace);
-//		krmsTermResolverTypeDefnBuilder.setServiceName("testTermResolverTypeService");
-//
-//		KrmsTypeDefinition krmsTermResolverTypeDefinition = krmsTypeRepository.createKrmsType(krmsTermResolverTypeDefnBuilder.build());
-//
-//        // TermResolver
-//		TermResolverDefinition termResolverDef =
-//			TermResolverDefinition.Builder.create(null, contextDefinition.getNamespace(), "testResolver1", krmsTermResolverTypeDefinition.getId(),
-//					TermSpecificationDefinition.Builder.create(outputTermSpec),
-//					Collections.singleton(TermSpecificationDefinition.Builder.create(prereqTermSpec)),
-//					null,
-//					Collections.singleton("testParamName")).build();
-//		termResolverDef = termBoService.createTermResolver(termResolverDef);
-//
-//        return termDefinition2;
-//    }
-    
-    // methods used
+	// private RuleDefinition createRuleDefinition4(ContextDefinition
+	// contextDefinition, String agendaName, String nameSpace) {
+	//
+	// PropositionParametersBuilder params1 = new
+	// PropositionParametersBuilder();
+	// params1.add(createTermDefinition(BOOL1, Boolean.class,
+	// contextDefinition).getId(), PropositionParameterType.TERM);
+	// params1.add(createTermDefinition(BOOL2, Boolean.class,
+	// contextDefinition).getId(), PropositionParameterType.TERM);
+	// params1.add("=", PropositionParameterType.OPERATOR);
+	//
+	// PropositionParametersBuilder params2 = new
+	// PropositionParametersBuilder();
+	// params2.add(createTermDefinition(BOOL2, Boolean.class,
+	// contextDefinition).getId(), PropositionParameterType.TERM);
+	// params2.add(createTermDefinition(BOOL1, Boolean.class,
+	// contextDefinition).getId(), PropositionParameterType.TERM);
+	// params2.add("=", PropositionParameterType.OPERATOR);
+	//
+	// return createKRMSRuleDefinition(nameSpace, agendaName+"::Rule4",
+	// contextDefinition, LogicalOperator.AND, params1, params2);
+	// }
+
+	// private TermDefinition createTermDefinition2(ContextDefinition
+	// contextDefinition, String nameSpace) {
+	//
+	// Map<String, String> queryArgs = new HashMap<String, String>();
+	// queryArgs.put("specification.namespace",
+	// contextDefinition.getNamespace());
+	// queryArgs.put("specification.name", "outputTermSpec");
+	// TermBo result = getBoService().findByPrimaryKey(TermBo.class, queryArgs);
+	// if (result != null) return TermBo.to(result);
+	//
+	// // output TermSpec
+	// TermSpecificationDefinition outputTermSpec =
+	// TermSpecificationDefinition.Builder.create(null, "outputTermSpec",
+	// contextDefinition.getNamespace(),
+	// "java.lang.String").build();
+	// outputTermSpec = termBoService.createTermSpecification(outputTermSpec);
+	//
+	// // prereq TermSpec
+	// TermSpecificationDefinition prereqTermSpec =
+	// TermSpecificationDefinition.Builder.create(null, PREREQ_TERM_NAME,
+	// contextDefinition.getNamespace(),
+	// "java.lang.String").build();
+	// prereqTermSpec = termBoService.createTermSpecification(prereqTermSpec);
+	//
+	// // Term Param
+	// TermParameterDefinition.Builder termParamBuilder2 =
+	// TermParameterDefinition.Builder.create(null, null, "testParamName",
+	// "testParamValue");
+	//
+	// // Term
+	// TermDefinition termDefinition2 =
+	// TermDefinition.Builder.create(null,
+	// TermSpecificationDefinition.Builder.create(outputTermSpec),
+	// Collections.singletonList(termParamBuilder2)).build();
+	// termDefinition2 = termBoService.createTermDefinition(termDefinition2);
+	//
+	// // KrmsType for TermResolver
+	// KrmsTypeDefinition.Builder krmsTermResolverTypeDefnBuilder =
+	// KrmsTypeDefinition.Builder.create("KrmsTestResolverType", nameSpace);
+	// krmsTermResolverTypeDefnBuilder.setServiceName("testTermResolverTypeService");
+	//
+	// KrmsTypeDefinition krmsTermResolverTypeDefinition =
+	// krmsTypeRepository.createKrmsType(krmsTermResolverTypeDefnBuilder.build());
+	//
+	// // TermResolver
+	// TermResolverDefinition termResolverDef =
+	// TermResolverDefinition.Builder.create(null,
+	// contextDefinition.getNamespace(), "testResolver1",
+	// krmsTermResolverTypeDefinition.getId(),
+	// TermSpecificationDefinition.Builder.create(outputTermSpec),
+	// Collections.singleton(TermSpecificationDefinition.Builder.create(prereqTermSpec)),
+	// null,
+	// Collections.singleton("testParamName")).build();
+	// termResolverDef = termBoService.createTermResolver(termResolverDef);
+	//
+	// return termDefinition2;
+	// }
+
+	// methods used
 	private KrmsTypeDefinition getKSKRMSType(String nameSpace) {
 		KrmsTypeDefinition krmsContextTypeDefinition = krmsTypeRepository
 				.getTypeByName(nameSpace, KSKRMSConstants.CONTEXT_TYPE_COURSE);
@@ -711,15 +765,15 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 			//
 			// }
 			// krmsContextTypeDefnBuilder.setAttributes(contextAttributeBuilders);
-			
+
 			krmsContextTypeDefinition = krmsTypeRepository
 					.createKrmsType(krmsContextTypeDefnBuilder.build());
 			return krmsContextTypeDefinition;
 		}
-		
+
 		return krmsContextTypeDefinition;
 	}
-	
+
 	protected BusinessObjectService getBoService() {
 		return KRADServiceLocator.getBusinessObjectService();
 	}
