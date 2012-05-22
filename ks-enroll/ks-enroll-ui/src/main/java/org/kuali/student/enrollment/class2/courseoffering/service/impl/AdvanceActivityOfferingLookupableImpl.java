@@ -55,6 +55,8 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                     new Exception("Error: Does not find a valid term with the termCode equal to "+ termCode);
                 }
             }
+
+            //get courseOfferingId based on courseOfferingCode
             if (StringUtils.isNotBlank(courseOfferingCode)) {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
                 qbcBuilder.setPredicates(PredicateFactory.equal(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_CODE, courseOfferingCode));
@@ -75,6 +77,7 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                 }
             }
 
+            //get all AOs based on termId and courseOfferingId
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             if (StringUtils.isNotBlank(termId) && StringUtils.isNotBlank(courseOfferingId)) {
                 qbcBuilder.setPredicates(PredicateFactory.and(
