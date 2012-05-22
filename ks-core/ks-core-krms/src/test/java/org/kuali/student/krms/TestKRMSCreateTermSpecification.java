@@ -150,7 +150,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		return krmsTestResourceLoader;
 	}
 
-	@Test
+	// @Test
 	public void createAllKRMSTermSpecificationsPhase1() {
 		String nameSpace = KSNAMESPACE;
 		// Create all the terms specifications...
@@ -223,7 +223,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		return termSpec;
 	}
 
-	 @Test
+	// @Test
 	public void createAllKRMSTermDefinitions() {
 		String nameSpace = KSNAMESPACE;
 		// Create all the terms...
@@ -301,7 +301,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 
 	}
 
-	@Test
+	// @Test
 	public void createAllContexts() {
 		String nameSpace = KSNAMESPACE;
 		// Create all the contexts...
@@ -317,16 +317,19 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 				krmsTypeDefinition);
 		createContext(nameSpace, KSKRMSConstants.CONTEXT_REPEATED_CREDITS,
 				krmsTypeDefinition);
-		contextStudElig = createContext(nameSpace,
+		createContext(nameSpace,
 				KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, krmsTypeDefinition);
-
-		// Creating all the agendas
-		createAgendaDefinition(
-				AGENDA1, contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, nameSpace),
-				EARTHQUAKE_EVENT, KSNAMESPACE);
 
 	}
 
+	@Test
+	public void createAllAgendasPhase1() {
+		// Creating all the agendas
+		createAgendaAndRulesDefinition(
+				AGENDA1, contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				EARTHQUAKE_EVENT, KSNAMESPACE);
+
+	}
 	private KrmsTypeDefinition getKSKRMSType(String nameSpace) {
 		KrmsTypeDefinition krmsContextTypeDefinition = krmsTypeRepository
 				.getTypeByName(nameSpace, KSKRMSConstants.CONTEXT_TYPE_COURSE);
@@ -386,22 +389,18 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		return KRADServiceLocator.getBusinessObjectService();
 	}
 
-	private void createAgendaDefinition(String agendaName,
+	private void createAgendaAndRulesDefinition(String agendaName,
 			ContextDefinition contextDefinition, String eventName,
 			String nameSpace) {
 		
-		AgendaDefinition agendaDef = agendaBoService.getAgendaByNameAndContextId(agendaName, contextDefinition.getId());
-		if (agendaDef == null) {
-			agendaDef = AgendaDefinition.Builder.create(null,
-					agendaName, krmsTypeDefinition.getId(),
-					contextDefinition.getId()).build();
-			agendaDef = agendaBoService.createAgenda(agendaDef);
-
-		}
+		AgendaDefinition agendaDef = createAgendaDefinition(agendaName,
+				contextDefinition);
+		
 			AgendaItemDefinition.Builder agendaItemBuilder1 = AgendaItemDefinition.Builder
 					.create(null, agendaDef.getId());
-			agendaItemBuilder1.setRuleId(createRuleDefinition1(contextDefinition,
-					agendaName, nameSpace).getId());
+			String ruleDefinitionID = createRuleDefinition1(contextDefinition,
+					agendaName, nameSpace, KSKRMSConstants.TERM_APPROVED_COURSE).getId();
+			agendaItemBuilder1.setRuleId(ruleDefinitionID);
 			
 			//
 //			 AgendaItemDefinition.Builder agendaItemBuilder2 =
@@ -447,12 +446,28 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		
 	}
 
+	private AgendaDefinition createAgendaDefinition(String agendaName,
+			ContextDefinition contextDefinition) {
+		AgendaDefinition agendaDef = agendaBoService.getAgendaByNameAndContextId(agendaName, contextDefinition.getId());
+		if (krmsTypeDefinition == null) {
+			krmsTypeDefinition = getKSKRMSType(KSNAMESPACE);
+		}
+		if (agendaDef == null) {
+			agendaDef = AgendaDefinition.Builder.create(null,
+					agendaName, krmsTypeDefinition.getId(),
+					contextDefinition.getId()).build();
+			agendaDef = agendaBoService.createAgenda(agendaDef);
+
+		}
+		return agendaDef;
+	}
+
 	private RuleDefinition createRuleDefinition1(
 			ContextDefinition contextDefinition, String agendaName,
-			String nameSpace) {
+			String nameSpace, String term) {
 
 		PropositionParametersBuilder params1 = new PropositionParametersBuilder();
-		params1.add(krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE)
+		params1.add(krmsTermLookup(term)
 				.getId(), PropositionParameterType.TERM);
 		params1.add("MATH111", PropositionParameterType.CONSTANT);
 		params1.add("=", PropositionParameterType.OPERATOR);
