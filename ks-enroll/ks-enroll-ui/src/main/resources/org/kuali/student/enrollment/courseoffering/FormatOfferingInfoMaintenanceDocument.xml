@@ -19,10 +19,10 @@
      limitations under the License.
     -->
 
-    <bean id="FormatOfferingInfoForm" parent="FormatOfferingInfoForm-parentBean"/>
+    <bean id="FormatOfferingInfoFormObject" parent="FormatOfferingInfoFormObject-parentBean"/>
 
-    <bean id="FormatOfferingInfoForm-parentBean" abstract="true" parent="DataObjectEntry">
-      <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingInfoForm"/>
+    <bean id="FormatOfferingInfoFormObject-parentBean" abstract="true" parent="DataObjectEntry">
+      <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingInfoFormObject"/>
       <property name="titleAttribute" value="formatOfferingInfo.id"/>
       <property name="attributes">
         <list>

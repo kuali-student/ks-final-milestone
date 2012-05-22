@@ -21,7 +21,7 @@ import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingInfoForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingInfoFormObject;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -95,7 +95,7 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
             FormatOfferingInfo info = getCourseOfferingService().getFormatOffering(dataObjectKeys.get("formatOfferingInfo.id"), getContextInfo());
-            FormatOfferingInfoForm formObject = new FormatOfferingInfoForm(info);
+            FormatOfferingInfoFormObject formObject = new FormatOfferingInfoFormObject(info);
             document.getNewMaintainableObject().setDataObject(formObject);
             document.getOldMaintainableObject().setDataObject(formObject);
 //            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
