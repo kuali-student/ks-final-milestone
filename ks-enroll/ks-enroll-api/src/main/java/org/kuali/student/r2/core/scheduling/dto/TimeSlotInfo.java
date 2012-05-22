@@ -36,7 +36,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeSlotInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "weekdays", "startTime", "duration",
+        "weekdays", "startTime", "endTime",
         "meta", "attributes", "_futureElements"})
 public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable {
 
@@ -45,7 +45,7 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
     @XmlElement
     private TimeOfDayInfo startTime;
     @XmlElement
-    private TimeAmountInfo duration;
+    private TimeOfDayInfo endTime;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -56,7 +56,7 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
         if (null != timeSlot) {
             this.weekdays = new ArrayList<Integer>(timeSlot.getWeekdays());
             this.startTime = (null != timeSlot.getStartTime()) ? new TimeOfDayInfo(timeSlot.getStartTime()) : null;
-            this.duration = (null != timeSlot.getDuration()) ? new TimeAmountInfo(timeSlot.getDuration()) : null;
+            this.endTime = (null != timeSlot.getEndTime()) ? new TimeOfDayInfo(timeSlot.getEndTime()) : null;
         }
     }
 
@@ -84,11 +84,11 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
     }
 
     @Override
-    public TimeAmountInfo getDuration() {
-        return duration;
+    public TimeOfDayInfo getEndTime() {
+        return endTime;
     }
 
-    public void setDuration(TimeAmountInfo duration) {
-        this.duration = duration;
+    public void setEndTime(TimeOfDayInfo endTime) {
+        this.endTime = endTime;
     }
 }
