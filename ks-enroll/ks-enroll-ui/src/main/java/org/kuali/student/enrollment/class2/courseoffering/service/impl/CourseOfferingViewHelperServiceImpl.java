@@ -27,18 +27,14 @@ import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRol
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
-import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -88,7 +84,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         coInfo.setCourseOfferingCode("MATH106");
         coInfo.setCourseNumberSuffix("106");
         coInfo.setEvaluated(Boolean.TRUE);
-        coInfo.setHasFinalExam(Boolean.TRUE);
+        coInfo.setFinalExamType(FinalExam.STANDARD.fromEnum());
         coInfo.setTermId(termId);
         coInfo.setFeeAtActivityOffering(Boolean.FALSE);
         coInfo.setInstructors(new ArrayList<OfferingInstructorInfo>());

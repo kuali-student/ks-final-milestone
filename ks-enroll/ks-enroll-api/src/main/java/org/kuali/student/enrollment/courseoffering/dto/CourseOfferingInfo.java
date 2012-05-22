@@ -29,10 +29,6 @@ import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
-import org.kuali.student.r2.lum.clu.dto.FeeInfo;
-import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 import org.w3c.dom.Element;
 
 /**
@@ -43,7 +39,7 @@ import org.w3c.dom.Element;
         "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", "isHonorsOffering",
         "instructors", "subjectArea", "unitsDeploymentOrgIds", "unitsContentOwnerOrgIds",  "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "creditOptionIds", "gradingOptionIds", "waitlistLevelTypeKey",
-        "hasWaitlist", "waitlistTypeKey","campusLocations", "hasFinalExam", "isEvaluated",
+        "hasWaitlist", "waitlistTypeKey","campusLocations", "finalExamType", "isEvaluated",
         "fundingSource", "isFeeAtActivityOffering", "isFinancialAidEligible", "courseOfferingURL",
         "meta", "attributes", "_futureElements"})
 
@@ -110,7 +106,7 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
 
     @XmlElement
-    private Boolean hasFinalExam;
+    private String finalExamType;
 
     @XmlElement
     private List<String> jointOfferingIds;
@@ -139,6 +135,7 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
      * Constructs a new CourseOfferingInfo.
      */
     public CourseOfferingInfo() {
+        this.finalExamType = FinalExam.NONE.fromEnum();
     }
 
     /**
@@ -198,7 +195,7 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         }
         this.isFeeAtActivityOffering = offering.getIsFeeAtActivityOffering();
 
-        this.hasFinalExam = offering.getHasFinalExam();
+        this.finalExamType = offering.getFinalExamType();
         this.courseOfferingURL = offering.getCourseOfferingURL();
     }
 
@@ -445,12 +442,12 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     }
 
     @Override
-    public Boolean getHasFinalExam() {
-          return this.hasFinalExam;
+    public String getFinalExamType() {
+          return this.finalExamType;
     }
 
-    public void setHasFinalExam(Boolean hasFinalExam) {
-        this.hasFinalExam = hasFinalExam;
+    public void setFinalExamType(String finalExamType) {
+        this.finalExamType = finalExamType;
     }
 
     @Override

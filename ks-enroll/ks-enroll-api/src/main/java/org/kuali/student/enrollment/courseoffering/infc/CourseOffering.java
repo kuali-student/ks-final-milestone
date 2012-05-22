@@ -16,16 +16,10 @@
 
 package org.kuali.student.enrollment.courseoffering.infc;
 
-import java.util.List;
-
-import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
-import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
-import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
-import org.kuali.student.r2.lum.clu.infc.Fee;
+
+import java.util.List;
 
 /**
  * @author Kamal
@@ -328,12 +322,11 @@ public interface CourseOffering extends IdNamelessEntity{
     public Boolean getHonorsOffering();
 
     /**
-     * Indicates whether a final exam is to be given  for this format Offering
-     * and if its true, the level at which it exists
+     * Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
      *
-     * @name Has Final Exam
+     * @name Final Exam Type
      */
-    public Boolean getHasFinalExam();
+    public String getFinalExamType();
 
     /**
      * Indicates whether the fee is at activity offering level or

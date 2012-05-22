@@ -40,7 +40,7 @@ public class CourseOfferingTransformer {
             } else if (CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR.equals((attr.getKey()))){
                 co.setHasWaitlist(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR.equals(attr.getKey())){
-                co.setHasFinalExam(Boolean.valueOf(attr.getValue()));
+                co.setFinalExamType(attr.getValue());
             } else if(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
                 co.setEvaluated(Boolean.valueOf(attr.getValue()));
             } else if (CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR.equals(attr.getKey())){
@@ -161,7 +161,7 @@ public class CourseOfferingTransformer {
 
         AttributeInfo finalExamIndicator = new AttributeInfo();
         finalExamIndicator.setKey(CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR);
-        finalExamIndicator.setValue(String.valueOf(co.getHasFinalExam()));
+        finalExamIndicator.setValue(co.getFinalExamType());
         attributes.add(finalExamIndicator);
 
         AttributeInfo courseEvaluationIndicator = new AttributeInfo();

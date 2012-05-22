@@ -1,32 +1,24 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.junit.Ignore;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
-import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-
-import javax.annotation.Resource;
-
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
-import org.springframework.test.context.ContextConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
+import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -34,9 +26,14 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -106,7 +103,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setCourseOfferingTitle("my name");
         orig.setWaitlistLevelTypeKey("waitlist key");
         orig.setHasWaitlist(true);
-        orig.setHasFinalExam(true);
+        orig.setFinalExamType(FinalExam.STANDARD.fromEnum());
         orig.setEvaluated(true);
         orig.setFeeAtActivityOffering(false);
         orig.setFundingSource("funding source");
@@ -122,7 +119,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(orig.getTypeKey(), info.getTypeKey());
         assertEquals(orig.getWaitlistLevelTypeKey(), info.getWaitlistLevelTypeKey());
         assertEquals(orig.getHasWaitlist(), info.getHasWaitlist());
-        assertEquals(orig.getHasFinalExam(), info.getHasFinalExam());
+        assertEquals(orig.getFinalExamType(), info.getFinalExamType());
         assertEquals(orig.getIsFeeAtActivityOffering(), info.getIsFeeAtActivityOffering());
         assertEquals(orig.getFundingSource(), info.getFundingSource());
         assertEquals(course.getCode(), info.getCourseOfferingCode());
