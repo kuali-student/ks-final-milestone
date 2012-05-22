@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
@@ -51,7 +52,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
         try {
             List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
             // find the OrgOrgRelationInfo objects associated with the org from the route node instance
-            List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgIdValue, null);	// TODO KSCM-267
+            List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgIdValue, ContextUtils.getContextInfo());
             for (OrgOrgRelationInfo orgOrgRelationInfo : orgRelationInfos) {
                 // check that the relationship is active
                 if (StringUtils.equals("Active", orgOrgRelationInfo.getStateKey())) {

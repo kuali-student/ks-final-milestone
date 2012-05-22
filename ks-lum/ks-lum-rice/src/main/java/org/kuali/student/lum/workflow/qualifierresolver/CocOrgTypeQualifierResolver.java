@@ -16,6 +16,7 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -169,7 +170,7 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
                 List<String> orgIds = new ArrayList<String>();
                 // add the existing org in to the list to check for the given type
                 orgIds.add(orgId);
-                orgIds.addAll(getOrganizationService().getAllAncestors(orgId, getOrganizationHierarchyTypeCode(), null));		// TODO KSCM-267
+                orgIds.addAll(getOrganizationService().getAllAncestors(orgId, getOrganizationHierarchyTypeCode(), ContextUtils.getContextInfo()));	
                 orgsForRouting = null;
                 orgsForRouting = getOrganizationService().getOrgsByIds(orgIds, null);
             } catch (Exception e) {
