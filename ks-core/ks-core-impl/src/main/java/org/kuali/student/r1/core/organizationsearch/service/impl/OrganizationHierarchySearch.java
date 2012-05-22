@@ -153,7 +153,7 @@ public class OrganizationHierarchySearch implements OrganizationSearch {
             return org;
         }
         // Recursive call
-        return findParentOrgForType(null/*KSCM-541 organizationDao.getOrgByRelatedOrgAndType(org.getId(), relationTypeKey)*/, orgTypeKey, relationTypeKey);
+        return findParentOrgForType(organizationDao.getOrgByRelatedOrgAndType(org.getId(), relationTypeKey), orgTypeKey, relationTypeKey);
     }
 
 }

@@ -75,8 +75,11 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 			//If the includedOrgPersonRelationType is set, restrict members to that relationship type
 			if(includedOrgPersonRelationTypes!=null){
 				for(String orgPersonRelationType:includedOrgPersonRelationTypes){
-					List<String> principalIds = null;
-					// TODO KSCM-541 principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType, contextInfo);
+					List<String> principalIds = new ArrayList<String>();
+					List<OrgPersonRelationInfo> orgPersonRelationInfos = orgService.getOrgPersonRelationsByTypeAndOrg(orgPersonRelationType, orgId, contextInfo);
+					for (OrgPersonRelationInfo orgPersonRelationInfo : orgPersonRelationInfos) {
+					    principalIds.add(orgPersonRelationInfo.getPersonId());
+                    }
 					for(String principalId:principalIds){
 						RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, attributes).build();
 						members.add(member);

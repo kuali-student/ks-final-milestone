@@ -477,7 +477,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	@Test
     public void getOrgByRelatedOrgAndType() {
 		
-	    Org org = null;//KSCM-541 dao.getOrgByRelatedOrgAndType("51", "kuali.org.Part");
+	    Org org = dao.getOrgByRelatedOrgAndType("51", "kuali.org.Part");
         assertNotNull(org);
     }
 	

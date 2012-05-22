@@ -45,4 +45,6 @@ public interface OrganizationDao extends CrudDao, SearchableDao {
 	public boolean hasOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey);
 	public OrgPositionRestriction getPositionRestrictionByOrgAndPersonRelationTypeKey(String orgId, String orgPersonRelationTypeKey);
 	public Long getOrgMembershipCount(String orgId);
+    @Deprecated
+	public Org getOrgByRelatedOrgAndType(String relatedOrgId, String relationTypeKey);
 }
