@@ -36,7 +36,7 @@ import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
 import org.kuali.student.core.messages.bo.MessageEntity;
 import org.springframework.beans.factory.InitializingBean;
 
-@WebService(endpointInterface = "org.kuali.student.common.messages.service.MessageService", serviceName = "MessageService", portName = "MessageService", targetNamespace = "http://student.kuali.org/wsdl/messages")
+@WebService(endpointInterface = "org.kuali.student.r2.common.messages.service.MessageService", serviceName = "MessageService", portName = "MessageService", targetNamespace = "http://student.kuali.org/wsdl/messages")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class MessageServiceImpl implements MessageService, InitializingBean {
 

@@ -46,7 +46,7 @@ import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.springframework.beans.factory.InitializingBean;
 import org.kuali.student.common.util.DateFormatThread;
 
-@WebService(endpointInterface = "org.kuali.student.core.subjectcode.service.SubjectCodeService", serviceName = "SubjectCodeService", portName = "SubjectCodeService", targetNamespace = "http://student.kuali.org/wsdl/subjectCode")
+@WebService(endpointInterface = "org.kuali.student.r1.core.subjectcode.service.SubjectCodeService", serviceName = "SubjectCodeService", portName = "SubjectCodeService", targetNamespace = "http://student.kuali.org/wsdl/subjectCode")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingBean{
 

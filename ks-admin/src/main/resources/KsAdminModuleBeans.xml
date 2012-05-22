@@ -5,9 +5,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-  <bean id="ksAdminModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
+  <bean id="ksAdminModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
     <property name="namespaceCode" value="KS-ADMIN" />
-    <property name="dataSourceName" value="ksAdminDataSource" />
+    <!--property name="dataSourceName" value="ksAdminDataSource" /-->
     <property name="databaseRepositoryFilePaths">
       <list>
         <value>OJB-repository-ksadmin.xml</value>
@@ -88,16 +88,16 @@
   <bean id="ksAdminModuleService" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
     <property name="moduleConfiguration" ref="ksAdminModuleConfiguration" />
   </bean>
+        
 
-
-  <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+  <!--bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
     <property name="localServiceName" value="KSCoreContext" />
 	<property name="beanNames">
 		<set>
 			<value>ks.messageService</value>
 		</set>
 	</property>
-  </bean>
+  </bean-->
 
   <bean id="ks.messageService" class="org.kuali.student.admin.messages.service.impl.MessageServiceImpl" >
   	<!--<property name="cachingEnabled" value="${ks.messageService.enableCaching}"/>-->
@@ -106,7 +106,7 @@
 
   <bean id="ks.subjectCodeService" class="org.kuali.student.core.subjectcode.service.impl.SubjectCodeServiceImpl" >
   	<!--<property name="cachingEnabled" value="${ks.messageService.enableCaching}"/>-->
-  	<property name="cachingEnabled" value="true"/>
+  	<property name="cachingEnabled" value="false"/>
   	<property name="searchManager" ref="ks.subjectCode.searchManager"/>
   </bean>
 
