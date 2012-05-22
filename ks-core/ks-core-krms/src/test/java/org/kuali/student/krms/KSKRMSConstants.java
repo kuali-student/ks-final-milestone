@@ -52,7 +52,19 @@ public class KSKRMSConstants {
 	public static final String CONTEXT_COURSE_RESTRICTS = "Course that Restricts Credits";
 	public static final String CONTEXT_RECOMMENDED_PREPARATION = "Recommended Preparation";
 	public static final String CONTEXT_REPEATED_CREDITS = "Repeated Credits";
-	public static final String CONTEXT_STUD_ELIGIBILITY = "Stud Elegebility and Prereq";
+	public static final String CONTEXT_STUD_ELIGIBILITY = "Stud Eligibility and Prereq";
+	
+	public static final String AGENDA1 = "Must have successfully completed <course>";
+	public static final String AGENDA2 = "Must have successfully completed all courses from <courses>";
+	public static final String AGENDA3 = "Must have successfully completed a minimum of <n> courses from <courses>";
+	public static final String AGENDA4 = "Must have successfully completed a minimum of <n> credits from <courses>";
+	public static final String AGENDA5 = "Must have earned a minimum GPA of <GPA> in <courses>";
+	public static final String AGENDA6 = "Must have earned a minimum grade of <gradeType> <grade> in <courses>";
+	public static final String AGENDA7 = "Must have successfully completed a minimum of <n> courses from <courses> with a minimum grade of <gradeType> <grade>";
+	public static final String AGENDA8 = "Must not have earned a minimum grade of <gradeType> <grade> or higher in <courses>";
+	public static final String AGENDA9 = "Permission of instructor required";
+	public static final String AGENDA10 = "Free form text";
+	public static final String AGENDA11 = "Must have earned a cumulative GPA of <GPA>";
 	
 	
 	
