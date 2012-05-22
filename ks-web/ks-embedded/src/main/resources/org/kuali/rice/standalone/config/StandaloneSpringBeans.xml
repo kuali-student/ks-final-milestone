@@ -81,19 +81,16 @@
         <property name="targetMethod" value="getProperties"/>
     </bean>
 
+	<import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml"/>
-    <import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
-
 
     <import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
 
     <import resource="classpath:ksb/ks-core-context.xml"/>
     <import resource="classpath:ksb/ks-lu-context.xml"/>
-    <!--<import resource="classpath:ksb/ks-enroll-context.xml"/> -->
-    <!-- TODO: RICE-M7 UPGRADE fix ks-admin
-    <import resource="classpath:ks-embedded-admin-context.xml"/-->
-
-    <import resource="classpath:StudentStandaloneSpringBeans.xml"/>
+    <!--import resource="classpath:ksb/ks-enroll-context.xml"/-->
+    <import resource="classpath:ks-embedded-admin-context.xml"/>
+    <!--import resource="classpath:StudentStandaloneSpringBeans.xml"/-->
 
 </beans>
