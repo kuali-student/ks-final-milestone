@@ -84,7 +84,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         coInfo.setCourseOfferingCode("MATH106");
         coInfo.setCourseNumberSuffix("106");
         coInfo.setEvaluated(Boolean.TRUE);
-        coInfo.setFinalExamType(FinalExam.STANDARD.fromEnum());
+        coInfo.setFinalExamType(FinalExam.STANDARD.toString());
         coInfo.setTermId(termId);
         coInfo.setFeeAtActivityOffering(Boolean.FALSE);
         coInfo.setSubjectArea("MATH");

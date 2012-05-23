@@ -103,7 +103,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setCourseOfferingTitle("my name");
         orig.setWaitlistLevelTypeKey("waitlist key");
         orig.setHasWaitlist(true);
-        orig.setFinalExamType(FinalExam.STANDARD.fromEnum());
+        orig.setFinalExamType(FinalExam.STANDARD.toString());
         orig.setEvaluated(true);
         orig.setFeeAtActivityOffering(false);
         orig.setFundingSource("funding source");
