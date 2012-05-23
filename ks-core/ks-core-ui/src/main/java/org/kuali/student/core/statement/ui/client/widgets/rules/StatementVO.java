@@ -877,7 +877,7 @@ public class StatementVO extends Token implements Serializable {
             List<ReqComponentInfo> reqComponentList = new ArrayList<ReqComponentInfo>();
             for (ReqComponentVO reqComponent : reqComponentVOs) {
                 ReqComponentInfo newReqComp = null;
-             // TODO KSCM-569 newReqComp = RulesUtil.clone(reqComponent.getReqComponentInfo());
+                newReqComp = RulesUtil.clone(reqComponent.getReqComponentInfo());
                 reqComponentList.add(newReqComp);
             }
             statementTreeViewInfo.setReqComponents(reqComponentList);
