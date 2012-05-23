@@ -87,7 +87,8 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		clu.setTypeKey(businessDTO.getTypeKey());
 		clu.setStateKey(businessDTO.getStateKey());
 		clu.setDefaultEnrollmentEstimate(businessDTO
-				.getDefaultEnrollmentEstimate());
+				.getDefaultEnrollmentEstimate() != null ? businessDTO
+		                .getDefaultEnrollmentEstimate() : 0);
 		clu.setStdDuration(businessDTO.getDuration());
 		clu.setIntensity(businessDTO.getContactHours());
 		clu.setMeta(businessDTO.getMeta());
