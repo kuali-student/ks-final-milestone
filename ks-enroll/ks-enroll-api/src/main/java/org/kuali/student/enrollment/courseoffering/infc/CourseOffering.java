@@ -286,7 +286,6 @@ public interface CourseOffering extends IdNamelessEntity{
      */
     public String getFundingSource();
 
-
     /**
      * Flag indicating whether a course is eligible for Financial Aid. Derived
      * from course catalog (canonical) TODO: find a place to store this on the
@@ -317,13 +316,11 @@ public interface CourseOffering extends IdNamelessEntity{
      */
     public Boolean getHonorsOffering();
 
-
     /**
      * Is this Course Offering Financial aid eligible
      * @name Financial Aid Eligible Flag
      */
     public Boolean getFinancialAidEligible();
-
 
     /**
      * Indicates whether a final exam is to be given  for this format Offering
@@ -349,5 +346,5 @@ public interface CourseOffering extends IdNamelessEntity{
      * @name Is Evaluated
      */
     public Boolean getIsEvaluated();
-
 }
+

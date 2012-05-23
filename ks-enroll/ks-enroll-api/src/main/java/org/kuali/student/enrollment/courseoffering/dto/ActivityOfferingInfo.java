@@ -76,8 +76,6 @@ public class ActivityOfferingInfo
     @XmlElement
     private List<OfferingInstructorInfo> instructors;
 
-
-
     @XmlElement
     private String weeklyInclassContactHours;
     
