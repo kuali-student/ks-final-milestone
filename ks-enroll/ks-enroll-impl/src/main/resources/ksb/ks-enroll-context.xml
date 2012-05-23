@@ -227,6 +227,22 @@
             </bean>
         </property>
     </bean>
+
+    <!-- socService mock implementation -->
+    <bean id="socService1" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceMockImpl"/>
+
+    <bean id="ks.exp.socService1" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="socService1" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService" />
+                <property name="localServiceName" value="socService1" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOfferingSet" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
   <!-- course offering beans -->
 
   <bean id="coServiceValidation"

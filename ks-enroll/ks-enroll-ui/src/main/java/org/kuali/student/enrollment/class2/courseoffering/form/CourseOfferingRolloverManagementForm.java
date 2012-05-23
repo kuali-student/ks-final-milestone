@@ -18,7 +18,9 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 
+import java.util.List;
 /**
  * This class //TODO ...
  *
@@ -38,6 +40,15 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     private String statusField;
     private TermInfo sourceTerm;
     private TermInfo targetTerm;
+    
+    // rollover details fields
+    private String rolloverSourceTerm;
+    private String rolloverTargetTerm;
+    private String dateInitiated;
+    private String dateCompleted;
+    private String courseOfferingsAllowed;
+    private String activityOfferingsAllowed;
+    private List<SocRolloverResultItemInfo> socRolloverResultItemInfos;
 
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
@@ -49,6 +60,13 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         displayedSourceTermCode = "";
         sourceTermStartDate = "";
         sourceTermEndDate = "";
+        statusField = "";
+        //rollover details fields
+        rolloverSourceTerm = "";
+        rolloverTargetTerm = "";
+        dateInitiated = "";
+        dateCompleted = "";
+
     }
 
     public String getTargetTermCode() {
@@ -123,6 +141,61 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
         this.sourceTermEndDate = sourceTermEndDate;
     }
 
+    public String getRolloverSourceTerm() {
+        return rolloverSourceTerm;
+    }
+
+    public void setRolloverSourceTerm(String rolloverSourceTerm) {
+        this.rolloverSourceTerm = rolloverSourceTerm;
+    }
+    public String getDateInitiated() {
+        return dateInitiated;
+    }
+
+    public void setDateInitiated(String dateInitiated) {
+        this.dateInitiated = dateInitiated;
+    }
+
+    public String getRolloverTargetTerm() {
+        return rolloverTargetTerm;
+    }
+
+    public void setRolloverTargetTerm(String rolloverTargetTerm) {
+        this.rolloverTargetTerm = rolloverTargetTerm;
+    }
+
+    public String getDateCompleted() {
+        return dateCompleted;
+    }
+
+    public void setDateCompleted(String dateCompleted) {
+        this.dateCompleted = dateCompleted;
+    }
+
+    public String getCourseOfferingsAllowed() {
+        return courseOfferingsAllowed;
+    }
+
+    public void setCourseOfferingsAllowed(String courseOfferingsAllowed) {
+        this.courseOfferingsAllowed = courseOfferingsAllowed;
+    }
+
+    public String getActivityOfferingsAllowed() {
+        return activityOfferingsAllowed;
+    }
+
+    public void setActivityOfferingsNotAllowed(String activityOfferingsNotAllowed) {
+        this.activityOfferingsAllowed = activityOfferingsNotAllowed;
+    }
+    
+    public List<SocRolloverResultItemInfo> getSocRolloverResultItemInfos(){
+        return socRolloverResultItemInfos;
+    }
+    
+    public void setSocRolloverResultItemInfos(List<SocRolloverResultItemInfo> socRolloverResultItemInfos){
+        this.socRolloverResultItemInfos = socRolloverResultItemInfos;
+    }
+
     public String getStatusField() {
         return statusField;
     }
@@ -146,4 +219,4 @@ public class CourseOfferingRolloverManagementForm extends UifFormBase {
     public void setTargetTerm(TermInfo targetTerm) {
         this.targetTerm = targetTerm;
     }
-}
+ }

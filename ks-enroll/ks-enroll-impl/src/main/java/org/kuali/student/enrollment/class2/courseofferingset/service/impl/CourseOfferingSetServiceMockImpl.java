@@ -4,34 +4,24 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
+import org.apache.commons.lang.UnhandledException;
+import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetServiceBusinessLogic;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import javax.jws.WebParam;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetServiceBusinessLogic;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import java.util.*;
 
 public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetService {
 
@@ -45,6 +35,77 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         this.businessLogic = businessLogic;
     }
 
+    public CourseOfferingSetServiceMockImpl(){
+        Integer year = 2001;
+        for(int i=0;i<10;i++){
+            SocRolloverResultInfo result = new SocRolloverResultInfo();
+            result.setMessage(new RichTextHelper().toRichTextInfo("message plain " +i, "message formatted "+i));
+            result.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
+            result.setStateKey(CourseOfferingSetServiceConstants.SUBMITTED_RESULT_STATE_KEY);
+            result.setItemsExpected(5);
+            result.setItemsProcessed(2);
+            result.setItemsSkipped(3);
+            result.setSourceSocId("sourceSocId"+i);
+            result.setTargetSocId("targetSocId"+i);
+            result.setSourceTermId("Fall " + year);
+            result.setTargetTermId("Fall " + ++year);
+            result.getOptionKeys().add("my first option");
+            result.getOptionKeys().add("my 2nd option");
+            try{
+                result = createSocRolloverResult(result.getTypeKey(), result,new ContextInfo());
+                List<SocRolloverResultItemInfo> socRolloverResultItemInfos = new ArrayList<SocRolloverResultItemInfo>();
+                SocRolloverResultItemInfo socRolloverResultItemInfo1 = new SocRolloverResultItemInfo();
+                socRolloverResultItemInfo1.setSocRolloverResultId(result.getSourceSocId()+result.getTargetSocId());
+                socRolloverResultItemInfo1.setMessage(new RichTextHelper().toRichTextInfo("Cancelled;Cancelled during source term", "Cancelled;Cancelled during source term"));
+                socRolloverResultItemInfo1.setSourceCourseOfferingId("ENG428");
+                socRolloverResultItemInfo1.setTargetCourseOfferingId("ENG428");
+                socRolloverResultItemInfo1.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
+                socRolloverResultItemInfos.add(socRolloverResultItemInfo1);
+                SocRolloverResultItemInfo socRolloverResultItemInfo2 = new SocRolloverResultItemInfo();
+                socRolloverResultItemInfo2.setSocRolloverResultId(result.getSourceSocId()+result.getTargetSocId());
+                socRolloverResultItemInfo2.setMessage(new RichTextHelper().toRichTextInfo("New version;New version of the course exists","New version;New version of the course exists"));
+                socRolloverResultItemInfo2.setSourceCourseOfferingId("ENG364");
+                socRolloverResultItemInfo2.setTargetCourseOfferingId("ENG364");
+                socRolloverResultItemInfo2.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
+                socRolloverResultItemInfos.add(socRolloverResultItemInfo2);
+                SocRolloverResultItemInfo socRolloverResultItemInfo3 = new SocRolloverResultItemInfo();
+                socRolloverResultItemInfo3.setSocRolloverResultId(result.getSourceSocId()+result.getTargetSocId());
+                socRolloverResultItemInfo3.setMessage(new RichTextHelper().toRichTextInfo("Retired;No longer offered,as of January 1, 2012","Retired;No longer offered,as of January 1, 2012"));
+                socRolloverResultItemInfo3.setSourceCourseOfferingId("MATH140");
+                socRolloverResultItemInfo3.setTargetCourseOfferingId("MATH140");
+                socRolloverResultItemInfo3.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
+                socRolloverResultItemInfos.add(socRolloverResultItemInfo3);
+                SocRolloverResultItemInfo socRolloverResultItemInfo4 = new SocRolloverResultItemInfo();
+                socRolloverResultItemInfo4.setSocRolloverResultId(result.getSourceSocId()+result.getTargetSocId());
+                socRolloverResultItemInfo4.setMessage(new RichTextHelper().toRichTextInfo("Cancelled;Cancelled during source term","Cancelled;Cancelled during source term"));
+                socRolloverResultItemInfo4.setSourceCourseOfferingId("MATH140");
+                socRolloverResultItemInfo4.setTargetCourseOfferingId("MATH140");
+                socRolloverResultItemInfo4.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
+                socRolloverResultItemInfos.add(socRolloverResultItemInfo4);
+                createSocRolloverResultItems(result.getSourceSocId()+result.getTargetSocId(),CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY,socRolloverResultItemInfos,new ContextInfo());
+            }catch(DoesNotExistException de){
+
+            }
+            catch(DataValidationErrorException dve){
+
+            }
+            catch(ReadOnlyException roe){
+
+            }
+            catch(MissingParameterException mpe){
+
+            }
+            catch(PermissionDeniedException pde){
+
+            }
+            catch(InvalidParameterException ipe){
+
+            }
+            catch(OperationFailedException ofe){
+
+            }
+        }
+    }
     
     
     // implement the methods
@@ -575,7 +636,27 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     @Override
     public List<SocRolloverResultInfo> searchForSocRolloverResults(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
+        List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>();
+
+        EqualPredicate predicate = (EqualPredicate)criteria.getPredicate();
+        String targetTerm = (String)predicate.getValue().getValue();
+        SocRolloverResultInfo result = new SocRolloverResultInfo();
+        for(Map.Entry<String,SocRolloverResultInfo> entry : socRolloverResultMap.entrySet()){
+            if(entry.getValue().getTargetTermId().equalsIgnoreCase(targetTerm)){
+                socRolloverResultInfos.add(entry.getValue());
+                try{
+                List<SocRolloverResultItemInfo> socRolloverResultItemInfos = getSocRolloverResultItemsByResultId(entry.getValue().getSourceSocId()+entry.getValue().getTargetSocId(),
+                                    new ContextInfo());
+                }catch(UnhandledException ue){
+
+                }
+                catch(DoesNotExistException dne){
+
+                }
+            }
+        }
+        return socRolloverResultInfos;
     }
 
     private MetaInfo newMeta(ContextInfo context) {

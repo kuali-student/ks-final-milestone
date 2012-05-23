@@ -447,6 +447,22 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         return acalService;
     }
 
+    // This method make service call to fetch soc rollover result infos for target term
+    @Override
+    public List<SocRolloverResultInfo> findRolloverByTerm(String term) throws Exception{
+        List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>();
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        String term1[] = term.split(" ");
+        term1[0] = term1[0].toUpperCase();
+        term = term1[1] + term1[0];
+        qbcBuilder.setPredicates(PredicateFactory.equal("targetTermId", term));
+        ContextInfo contextInfo = new ContextInfo();
+        QueryByCriteria criteria = qbcBuilder.build();
+        socRolloverResultInfos = _getSocService().searchForSocRolloverResults(criteria, contextInfo);
+        return socRolloverResultInfos;
+    }
+
+
     private CourseOfferingService _getCourseOfferingService() {
         if (coService == null) {
             coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,

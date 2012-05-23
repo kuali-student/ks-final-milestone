@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 
@@ -44,4 +43,6 @@ public interface CourseOfferingViewHelperService extends ViewHelperService {
     public SocRolloverResultInfo performReverseRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form);
 
     public void cleanTargetTerm(String targetTermId, CourseOfferingRolloverManagementForm form);
+
+    public List<SocRolloverResultInfo> findRolloverByTerm(String term) throws Exception;
 }
