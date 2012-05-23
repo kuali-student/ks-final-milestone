@@ -279,7 +279,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
             relationToDeleteNode.setOperation(NodeOperation.DELETE);
             results.add(relationToDeleteNode);
 
-            CluInfo activityCluToDelete = null;
+            CluInfo activityCluToDelete = luService.getClu(entry.getKey(), contextInfo);
 
             luService.getClu(entry.getKey(),contextInfo);
             ActivityInfo activityToDelete = activityAssembler.assemble(activityCluToDelete, null, false,contextInfo);
