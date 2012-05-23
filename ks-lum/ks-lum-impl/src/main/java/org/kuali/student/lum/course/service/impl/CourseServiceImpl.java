@@ -338,7 +338,7 @@ public class CourseServiceImpl implements CourseService {
         // Use the results to make the appropriate service calls here
         courseServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 
-        return R1R2ConverterUtil.convert(results.getBusinessDTORef(), CourseInfo.class);
+        return results.getBusinessDTORef();
     }
 
     public ValidatorFactory getValidatorFactory() {
