@@ -212,7 +212,7 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		createAgendaAndRuleAndPropositions(AGENDA1,
 				contextRepository.getContextByNameAndNamespace(
 						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-				null, KSNAMESPACE);
+				null, KSNAMESPACE, proposition);
 
 		// Change specifically to the rule being created...
 		propositionsMap = new HashMap<String, PropositionParameterType>();
@@ -226,7 +226,7 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		createAgendaAndRuleAndPropositions(AGENDA2,
 				contextRepository.getContextByNameAndNamespace(
 						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-				null, KSNAMESPACE);
+				null, KSNAMESPACE, proposition);
 
 		// Change specifically to the rule being created...
 		propositionsMap = new HashMap<String, PropositionParameterType>();

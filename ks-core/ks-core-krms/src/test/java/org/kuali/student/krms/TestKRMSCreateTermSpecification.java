@@ -150,7 +150,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		return krmsTestResourceLoader;
 	}
 
-	// @Test
+	@Test
 	public void createAllKRMSTermSpecificationsPhase1() {
 		String nameSpace = KSNAMESPACE;
 		// Create all the terms specifications...
@@ -223,7 +223,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		return termSpec;
 	}
 
-	// @Test
+	@Test
 	public void createAllKRMSTermDefinitions() {
 		String nameSpace = KSNAMESPACE;
 		// Create all the terms...
@@ -301,7 +301,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 
 	}
 
-	// @Test
+	@Test
 	public void createAllContexts() {
 		String nameSpace = KSNAMESPACE;
 		// Create all the contexts...
@@ -363,7 +363,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		return krmsContextTypeDefinition;
 	}
 	
-	// @Test
+	@Test
 	public void TestCreateType() {
 		getKSKRMSType(KSNAMESPACE);
 	}
@@ -631,7 +631,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		}
 	}
 	
-	// @Test
+	@Test
 	public void testTermLookup() {
 		
 		TermDefinition term = krmsTermLookup(KSKRMSConstants.TERM_APPROVED_COURSE);
