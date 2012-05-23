@@ -96,13 +96,4 @@ public class CluFeeInfo extends HasAttributesAndMetaInfo implements CluFee, Seri
         this.descr = descr;
     }
 
-	public void setAttributes(Map<String, String> attributeMap) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setMeta(MetaInfo metaInfo) {
-		// TODO Auto-generated method stub
-		
-	}
 }
