@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.widgets.table.scroll;
 /**
  * @author Igor
  */
+@Deprecated
 class TablePredicateFactory {
 
     static interface Predicate {

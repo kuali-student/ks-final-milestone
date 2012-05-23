@@ -23,6 +23,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 
+@Deprecated
 public class DaoPostProcessor implements BeanFactoryPostProcessor {
 	private String daoImplClasses;
 

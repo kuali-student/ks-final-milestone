@@ -15,20 +15,22 @@
 
 package org.kuali.student.lum.statement.config.context;
 
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.lum.statement.config.context.util.NLCluSet;
+import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
-import org.kuali.student.lum.statement.config.context.util.NLCluSet;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 /**
  * This class creates the template context for course list types.
@@ -37,7 +39,7 @@ public class LuContextImpl extends BasicContextImpl {
     /**
      * Learning unit service.
      */
-	private LuService luService;
+	private CluService luService;
 
 	/**
 	 * <code>clu</code> token (key) references a Clu object used in templates.
@@ -64,7 +66,7 @@ public class LuContextImpl extends BasicContextImpl {
 	 *
 	 * @param luService LU service
 	 */
-    public void setLuService(LuService luService) {
+    public void setLuService(CluService luService) {
 		this.luService = luService;
 	}
 
@@ -80,8 +82,8 @@ public class LuContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId);
-			CluInfo clu = this.luService.getClu(versionInfo.getId());
+			VersionDisplayInfo versionInfo = R1R2ConverterUtil.convert( luService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI,  cluId, new ContextInfo()),VersionDisplayInfo.class);
+			CluInfo clu = 	this.luService.getClu(versionInfo.getId(),new ContextInfo());
 			return clu;
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
@@ -104,12 +106,13 @@ public class LuContextImpl extends BasicContextImpl {
      * @return CLU set
      * @throws OperationFailedException If retrieving CLU set fails
      */
-    public CluSetInfo getCluSetInfo(String cluSetId) throws OperationFailedException {
+    public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo) throws OperationFailedException {
 		if (cluSetId == null) {
 			return null;
 		}
 		try {
-	    	CluSetInfo cluSet = this.luService.getCluSetInfo(cluSetId);
+	    	CluSetInfo cluSet = null;
+            cluSet =    	this.luService.getCluSetInfo(cluSetId, contextInfo);
 	    	return cluSet;
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
@@ -123,16 +126,18 @@ public class LuContextImpl extends BasicContextImpl {
      * @return CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public NLCluSet getCluSet(String cluSetId) throws OperationFailedException {
+    public NLCluSet getCluSet(String cluSetId, ContextInfo contextInfo) throws OperationFailedException {
 		if (cluSetId == null) {
 			return null;
 		}
-    	CluSetInfo cluSet = getCluSetInfo(cluSetId);
+    	CluSetInfo cluSet = getCluSetInfo(cluSetId, contextInfo);
 		try {
 	    	List<CluInfo> list = new ArrayList<CluInfo>();
-	    	CluSetTreeViewInfo tree = luService.getCluSetTreeView(cluSetId);
+	    	CluSetTreeViewInfo tree = null;
+
+	    	tree = luService.getCluSetTreeView(cluSetId,new ContextInfo());
 	    	findClusInCluSet(tree, list);
-	    	return new NLCluSet(cluSet.getId(), list);
+	    	return new NLCluSet(cluSet.getId(), list, cluSet);
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
@@ -185,12 +190,12 @@ public class LuContextImpl extends BasicContextImpl {
      * @return custom CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */
-    public NLCluSet getCluSet(ReqComponentInfo reqComponent, String key) throws OperationFailedException {
+    public NLCluSet getCluSet(ReqComponentInfo reqComponent, String key, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, String> map = getReqComponentFieldMap(reqComponent);
     	NLCluSet cluSet = null;
     	if(map.containsKey(key)) {
         	String cluSetId = map.get(key);
-            cluSet = getCluSet(cluSetId);
+            cluSet = getCluSet(cluSetId, contextInfo);
         }
     	return cluSet;
     }
@@ -201,7 +206,7 @@ public class LuContextImpl extends BasicContextImpl {
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = super.createContextMap(reqComponent);
 
         CluInfo clu = getClu(reqComponent, ReqComponentFieldTypes.CLU_KEY.getId());
@@ -221,19 +226,19 @@ public class LuContextImpl extends BasicContextImpl {
 	        contextMap.put(TEST_CLU_TOKEN, testClu);
         }
 
-        NLCluSet cluSet = getCluSet(reqComponent, ReqComponentFieldTypes.CLUSET_KEY.getId());
+        NLCluSet cluSet = getCluSet(reqComponent, ReqComponentFieldTypes.CLUSET_KEY.getId(), contextInfo);
         if(cluSet != null) {
         	contextMap.put(CLU_SET_TOKEN, cluSet);
         }
-        NLCluSet courseCluSet = getCluSet(reqComponent, ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId());
+        NLCluSet courseCluSet = getCluSet(reqComponent, ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId(), contextInfo);
         if(courseCluSet != null) {
         	contextMap.put(COURSE_CLU_SET_TOKEN, courseCluSet);
         }
-        NLCluSet programCluSet = getCluSet(reqComponent, ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId());
+        NLCluSet programCluSet = getCluSet(reqComponent, ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId(), contextInfo);
         if(programCluSet != null) {
         	contextMap.put(PROGRAM_CLU_SET_TOKEN, programCluSet);
         }
-        NLCluSet testCluSet = getCluSet(reqComponent, ReqComponentFieldTypes.TEST_CLUSET_KEY.getId());
+        NLCluSet testCluSet = getCluSet(reqComponent, ReqComponentFieldTypes.TEST_CLUSET_KEY.getId(), contextInfo);
         if(testCluSet != null) {
         	contextMap.put(TEST_CLU_SET_TOKEN, testCluSet);
         }

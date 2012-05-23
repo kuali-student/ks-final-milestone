@@ -17,11 +17,11 @@ package org.kuali.student.lum.lo.dao;
 
 import java.util.List;
 
-import org.kuali.student.common.dao.CrudDao;
-import org.kuali.student.common.dao.SearchableDao;
-import org.kuali.student.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r1.common.dao.CrudDao;
+import org.kuali.student.r1.common.dao.SearchableDao;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.lum.lo.entity.Lo;
 import org.kuali.student.lum.lo.entity.LoCategory;
 import org.kuali.student.lum.lo.entity.LoLoRelation;
@@ -30,7 +30,7 @@ public interface LoDao extends CrudDao, SearchableDao  {
 	public List<Lo> getLoByIdList(List<String> loIds);
 	public List<Lo> getLosByLoCategory(String loCategoryId);
 	public List<LoCategory> getLoCategories(String loHierarchyKey);
-    public boolean addLoCategoryToLo(String loCategoryId, String loId) throws UnsupportedActionException, DoesNotExistException;
+    public boolean addLoCategoryToLo(String loCategoryId, String loId) throws UnsupportedActionException, DoesNotExistException,UnsupportedActionException;
     public boolean removeLoCategoryFromLo(String loCategoryId, String loId) throws DoesNotExistException;
     public boolean deleteLoCategory(String loCategoryId) throws DoesNotExistException, DependentObjectsExistException;
     public boolean deleteLo(String loId) throws DoesNotExistException, DependentObjectsExistException;

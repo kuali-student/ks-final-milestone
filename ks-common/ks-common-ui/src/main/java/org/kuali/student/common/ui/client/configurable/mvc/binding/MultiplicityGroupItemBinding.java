@@ -15,11 +15,11 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.SectionBinding;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -48,35 +48,44 @@ public class MultiplicityGroupItemBinding extends ModelWidgetBindingSupport<Mult
         String itemPath = QueryPath.concat(path, String.valueOf(multiplicityItem.getItemKey())).toString();
     	String itemRuntimePath = itemPath;
         Widget widget = multiplicityItem.getItemWidget();
-        if (widget instanceof Section) {
-        	itemPath = "";
-            SectionBinding.INSTANCE.setModelValue((Section) widget, model, itemPath);
+        
+        boolean multiplicityItemIsDirty = false;
+        if (widget instanceof Section) {        	
+        	if (((Section)widget).isDirty()){
+        		//Only update model if multiplicity section is dirty.
+	        	itemPath = "";
+	            SectionBinding.INSTANCE.setModelValue((Section) widget, model, itemPath);
+	            multiplicityItemIsDirty = true;
+        	} 
         } else if (widget instanceof ModelWidgetBinding) {
             ((ModelWidgetBinding) widget).setModelValue(widget, model, path);
+            multiplicityItemIsDirty = true;
         } else {
             GWT.log(itemPath + " has no widget binding.", null);
         }
 
         // Multiplicity metadata?
-       QueryPath qPath;
-        if (multiplicityItem.isCreated()) {
-            qPath = QueryPath.parse(itemRuntimePath + QueryPath.getPathSeparator() + RT_CREATED);
-        } else if (multiplicityItem.isDeleted()) {
-            qPath = QueryPath.parse(itemRuntimePath + QueryPath.getPathSeparator() + RT_DELETED);
-        } else {
-            qPath = QueryPath.parse(itemRuntimePath + QueryPath.getPathSeparator() + RT_UPDATED);
-        }
-        try {
-            Boolean oldValue = model.get(qPath);
-            Boolean newValue = true;
-            if (!nullsafeEquals(oldValue, newValue)) {
-                model.set(qPath, newValue);
-                setDirtyFlag(model, qPath);
-            }
-        } catch (IllegalArgumentException e) {
-            // model.get(qPath) will throw this exception if there is no such path
-            GWT.log("Warning: Ignoring error attempting to setValue for " + widget.getClass().getName() + " path: " + qPath, e);
-        }
+       if (multiplicityItemIsDirty || multiplicityItem.isDeleted()){
+	        QueryPath qPath;
+	        if (multiplicityItem.isCreated()) {
+	            qPath = QueryPath.parse(itemRuntimePath + QueryPath.getPathSeparator() + RT_CREATED);
+	        } else if (multiplicityItem.isDeleted()) {
+	            qPath = QueryPath.parse(itemRuntimePath + QueryPath.getPathSeparator() + RT_DELETED);
+	        } else {
+	            qPath = QueryPath.parse(itemRuntimePath + QueryPath.getPathSeparator() + RT_UPDATED);
+	        }
+	        try {
+	            Boolean oldValue = model.get(qPath);
+	            Boolean newValue = true;
+	            if (!nullsafeEquals(oldValue, newValue)) {
+	                model.set(qPath, newValue);
+	                setDirtyFlag(model, qPath);
+	            }
+	        } catch (IllegalArgumentException e) {
+	            // model.get(qPath) will throw this exception if there is no such path
+	            GWT.log("Warning: Ignoring error attempting to setValue for " + widget.getClass().getName() + " path: " + qPath, e);
+	        }
+       }
 
     }
 

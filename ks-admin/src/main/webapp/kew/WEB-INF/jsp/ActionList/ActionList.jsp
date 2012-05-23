@@ -326,8 +326,8 @@
                                     </kul:inquiry>
 								</c:when>
 								<c:when test="${result.delegatorGroup != null}">
-                                    <kul:inquiry boClassName="org.kuali.rice.kim.impl.group.GroupBo" keyValues="id=${result.group.id}" render="true">
-                                        <c:out value="${result.delegatorGroup.name}" />
+                                    <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.GroupImpl" keyValues="groupId=${result.delegatorGroup.groupId}" render="true">
+                                        <c:out value="${result.delegatorGroup.groupName}" />
                                     </kul:inquiry>
 								</c:when>
 								<c:otherwise>
@@ -356,12 +356,12 @@
 					<c:if
 						test="${preferences.showWorkgroupRequest == Constants.PREFERENCES_YES_VAL}">
 						<display-el:column sortable="true"
-							title="${workgroupRequestLabel}" sortProperty="group.name"
+							title="${workgroupRequestLabel}" sortProperty="group.groupName"
 							class="infocell">
 							<c:choose>
 								<c:when test="${!empty result.groupId}">
-                                    <kul:inquiry boClassName="org.kuali.rice.kim.impl.group.GroupBo" keyValues="id=${result.group.id}" render="true">
-                                        <c:out value="${result.group.name}" />
+                                    <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.GroupImpl" keyValues="groupId=${result.group.groupId}" render="true">
+                                        <c:out value="${result.group.groupName}" />
                                     </kul:inquiry>
 								</c:when>
 								<c:otherwise>

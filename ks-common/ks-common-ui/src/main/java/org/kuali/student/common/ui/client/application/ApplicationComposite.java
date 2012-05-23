@@ -30,7 +30,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  * @see LayoutController
  */
-@Deprecated
 public class ApplicationComposite  extends Composite {
 	private final Panel body = new VerticalPanel();
 	//private final Header header = GWT.create(Header.class);

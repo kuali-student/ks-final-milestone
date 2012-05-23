@@ -26,6 +26,7 @@ import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.webapp.WebAppContext;
 
+@Deprecated
 public class JettyServer implements Lifecycle {
 	
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger

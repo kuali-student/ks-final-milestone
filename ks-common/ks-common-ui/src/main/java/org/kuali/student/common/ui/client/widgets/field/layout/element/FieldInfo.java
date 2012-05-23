@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets.field.layout.element;
 
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class FieldInfo {
 	public String fieldTitle;
 	public boolean required = false;

@@ -3,7 +3,7 @@ package org.kuali.student.lum.program.client.events;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
-import org.kuali.student.common.assembly.data.ModelDefinition;
+import org.kuali.student.r1.common.assembly.data.ModelDefinition;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 

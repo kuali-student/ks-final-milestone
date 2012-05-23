@@ -36,16 +36,16 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.dto.DtoConstants.DtoState;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r1.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus.UploadTransferStatus;
-import org.kuali.student.core.document.dto.DocumentBinaryInfo;
-import org.kuali.student.core.document.dto.DocumentInfo;
-import org.kuali.student.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.core.document.service.DocumentService;
+import org.kuali.student.r1.core.document.dto.DocumentBinaryInfo;
+import org.kuali.student.r1.core.document.dto.DocumentInfo;
+import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r1.core.document.service.DocumentService;
 
 public class UploadServlet extends HttpServlet{
 	final Logger LOG = Logger.getLogger(UploadServlet.class);
@@ -119,8 +119,7 @@ public class UploadServlet extends HttpServlet{
 			        	text.setPlain(value);
 			        	info.setDesc(text);
 			        }
-			    } 
-			    else {
+			    } else {
 			    	String fullFileName = item.getName();
 			    	if (fullFileName != null) {
 			            String filename = FilenameUtils.getName(fullFileName);
@@ -160,11 +159,13 @@ public class UploadServlet extends HttpServlet{
 			    	}
 			    }
 			     
-		    	if(info.getDesc() != null && info.getDocumentBinaryInfo() != null && info.getType() != null){
+		    	if(info.getDesc() != null 
+		    	   && info.getDocumentBinaryInfo() != null && 
+		    	   info.getType() != null){
 		    		//FileStatus fileStatus = status.getFileStatusMap().get(info.getFileName());
 		    		FileStatus fileStatus = status.getFileStatusList().get(currentItem);
 		    		try{
-			    		DocumentInfo createdDoc = documentService.createDocument(info.getType(), "documentCategory.proposal", info);
+		    		    DocumentInfo createdDoc = documentService.createDocument(info.getType(), "documentCategory.proposal", info);
 			    		fileStatus.setStatus(FileTransferStatus.COMMIT_FINISHED);
 			    		if(createdDoc != null){
 			    			status.getCreatedDocIds().add(createdDoc.getId());
@@ -180,8 +181,7 @@ public class UploadServlet extends HttpServlet{
 			    		relationInfo.setDocumentId(createdDoc.getId());
 			    		relationInfo.setType(request.getParameter("refDocRelationTypeKey"));
 			    		documentService.createRefDocRelation(relationInfo.getRefObjectTypeKey(),relationInfo.getRefObjectId(),relationInfo.getDocumentId(),relationInfo.getType(), relationInfo);
-		    		}
-		    		catch(Exception e){
+		    		}catch(Exception e){
 		    			fileError = true;
 		    			LOG.error(e);
 		    			fileStatus.setStatus(FileTransferStatus.ERROR);
@@ -215,13 +215,15 @@ public class UploadServlet extends HttpServlet{
 				LOG.error(e);
 			}
 			
-			if(info != null && info.getDocumentBinaryInfo() != null && info.getDocumentBinaryInfo().getBinary() != null && 
-					!(info.getDocumentBinaryInfo().getBinary().isEmpty())){
+			if(info != null 
+			      && info.getDocumentBinaryInfo() != null 
+			      && info.getDocumentBinaryInfo().getBinary() != null 
+			      && !(info.getDocumentBinaryInfo().getBinary().isEmpty())
+			        ){
 				
 				ServletOutputStream op = response.getOutputStream();
 				try {
-				
-					byte[] fileBytes = Base64.decodeBase64(info.getDocumentBinaryInfo().getBinary().getBytes());
+				    byte[] fileBytes = Base64.decodeBase64(info.getDocumentBinaryInfo().getBinary().getBytes());
 					int length = fileBytes.length;
 			        
 			        ServletContext context = getServletConfig().getServletContext();

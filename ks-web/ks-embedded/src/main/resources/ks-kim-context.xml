@@ -19,9 +19,21 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-	<!-- This is an override to default the kimIdentityDelegateService to fix encrypted passwords in rice db -->
-	<bean id="kimIdentityDelegateService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl"
+    <!-- This is an override to default the kimIdentityDelegateService to fix encrypted passwords in rice db -->
+    <bean id="kimIdentityDelegateService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl"
           p:businessObjectService-ref="rice.kim.import.businessObjectService"
           p:criteriaLookupService-ref="rice.kim.import.criteriaLookupService" />
+
+
+    <!--bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceBus" ref="rice.ksb.serviceBus"/>
+        <property name="serviceDefinition">
+            <bean parent="kimService" p:service-ref="kimPermissionService"
+                  p:localServiceName="kimPermissionService">
+                <property name="busSecurity" value="${ks.core.bus.security}"/>
+                <property name="jaxWsService" value="true"/>
+            </bean>
+        </property>
+    </bean-->
 
 </beans>

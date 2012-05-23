@@ -29,7 +29,8 @@ public interface CreditCourseConstants
 	public static final String FINAL_EXAM_RATIONALE = "finalExamRationale";
 	public static final String TRANSCRIPT_TITLE = "transcriptTitle";
 	public static final String COURSE_TITLE = "courseTitle";
-	public static final String DESCRIPTION = "description";
+	public static final String COURSE_CODE = "code";
+	public static final String DESCRIPTION = "descr";
 	public static final String PROPOSAL_DESCRIPTION = "descr";
 	public static final String DEPARTMENT = "department";
 	public static final String SUBJECT_AREA = "subjectArea";
@@ -37,8 +38,11 @@ public interface CreditCourseConstants
 	public static final String COURSE_NUMBER_SUFFIX = "courseNumberSuffix";
 	public static final String START_TERM = "startTerm";
 	public static final String END_TERM = "endTerm";
+	public static final String PREV_START_TERM = "prevStartTerm";
+	public static final String PREV_END_TERM = "prevEndTerm";
 	public static final String PILOT_COURSE = "pilotCourse";
 	public static final String CROSS_LISTINGS = "crossListings";
+	public static final String CROSSLISTED_AND_JOINTS = "crossListedAndJoints";
 	public static final String VERSIONS = "variations";
 	public static final String GRADING_OPTIONS = "gradingOptions";
 	public static final String CREDIT_OPTIONS = "creditOptions";
@@ -53,8 +57,8 @@ public interface CreditCourseConstants
 	public static final String FEES = "fees";
 	public static final String EXPENDITURE_INFO = "expenditureInfo";
 	public static final String REVENUE_INFO = "revenueInfo";
-	public static final String STATE = "state";
-	public static final String TYPE = "type";
+	public static final String STATE = "stateKey";
+	public static final String TYPE = "typeKey";
 	public static final String EFFECTIVE_DATE = "effectiveDate";
 	public static final String EXPIRATION_DATE = "expirationDate";
 	public static final String CURRICULUM_OVERSIGHT_ORGS_ = "unitsContentOwner";
@@ -64,11 +68,21 @@ public interface CreditCourseConstants
 	public static final String INSTRUCTORS = "instructors";
 	public static final String COURSE_SPECIFIC_LOS = "courseSpecificLOs";
 	public static final String COURSE_SPECIFIC_LRTS = "courseSpecificLRTs";
+	public static final String RETIREMENT_RATIONALE = "retirementRationale";
+	public static final String LAST_TERM_OFFERED = "lastTermOffered";
+	public static final String LAST_PUBLICATION_YEAR = "lastPublicationYear";
+	public static final String SPECIAL_CIRCUMSTANCES = "specialCircumstances";	
 	public static final String VERSION_INFO = "versionInfo";
 	public static final String VERSION_CURRENT_VERSION_START = "currentVersionStart";
 	public static final String VERSION_CURRENT_VERSION_END = "currentVersionEnd";
 	public static final String VERSION_SEQ_NUMBER = "sequenceNumber";
 	public static final String VERSION_IND_ID = "versionIndId";
 	public static final String _RUNTIME_DATA = "_runtimeData";
+	// Course Retire by Proposal KSLAB-2583
+    public static final String OTHER_COMMENTS = "otherComments";
+    public static final String PROPOSED_END_TERM = "proposedEndTerm";
+    public static final String PROPOSED_RETIREMENT_RATIONALE = "proposedRetirementRationale";
+    public static final String PROPOSED_LAST_TERM_OFFERED = "proposedLastTermOffered";
+    public static final String PROPOSED_LAST_COURSE_CATALOG_YEAR = "proposedLastCourseCatalogYear";
 }
 

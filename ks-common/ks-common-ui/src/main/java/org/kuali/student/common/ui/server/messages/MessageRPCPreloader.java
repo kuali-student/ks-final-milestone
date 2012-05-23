@@ -17,19 +17,25 @@ package org.kuali.student.common.ui.server.messages;
 
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.common.messages.dto.Message;
-import org.kuali.student.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.common.messages.dto.MessageList;
-import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet;
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
 import org.kuali.student.common.ui.server.serialization.SerializationUtils;
+import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.r1.common.messages.dto.MessageList;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
+import org.kuali.student.r2.common.messages.service.MessageService;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 import com.google.gwt.user.server.rpc.RPC;
 
@@ -48,7 +54,7 @@ public class MessageRPCPreloader {
         if (messageService == null){
             setMessageService((MessageService)GlobalResourceLoader.getService(MESSAGE_SERVICE_MOCK));
             if (messageService == null){
-                setMessageService((MessageService)GlobalResourceLoader.getService(MESSAGE_SERVICE));
+                setMessageService((MessageService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/messages","MessageService")));
             }
         }
         return messageService;
@@ -61,24 +67,32 @@ public class MessageRPCPreloader {
     public String getMessagesByGroupsEncodingString(String locale, String[] keys){
         Method serviceMethod;
         try {
-            serviceMethod = MessagesRpcGwtServlet.class.getMethod("getMessagesByGroups", String.class,MessageGroupKeyList.class);
+            serviceMethod = MessagesRpcGwtServlet.class.getMethod("getMessagesByGroups", String.class, MessageGroupKeyList.class);
             
             MessageGroupKeyList messageGroupKeyList = new MessageGroupKeyList();
             messageGroupKeyList.setMessageGroupKeys(Arrays.asList(keys));
             
-            MessageList messageList = getMessageService().getMessagesByGroups(locale,messageGroupKeyList);
-
+            LocaleInfo localeInfo = new LocaleInfo();
+            localeInfo.setLocaleLanguage(locale);
+            
+            MessageList messageList = new MessageList();
+            ArrayList<MessageInfo> messages = new ArrayList<MessageInfo>();
+            for (MessageInfo info : getMessageService().getMessagesByGroups(localeInfo, messageGroupKeyList.getMessageGroupKeys(), ContextUtils.getContextInfo())){
+                messages.add(info);
+            }
+            messageList.setMessages(messages);
+            
             Map<Class<?>, Boolean> whitelist = new HashMap<Class<?>, Boolean>();
             whitelist.put(MessageService.class, true);
             whitelist.put(MessageList.class, true);
             whitelist.put(MessageGroupKeyList.class,true);
-            whitelist.put(Message.class,true);
-            whitelist.put(MessageGroupKeyList.class,true);
+            whitelist.put(MessageInfo.class,true);
+            whitelist.put(LocaleInfo.class,true);
             
             KSSerializationPolicy myPolicy = new KSSerializationPolicy(whitelist);
             
             //String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messageList,KSSerializationPolicy.getInstance());
-            String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messageList,myPolicy);
+            String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messageList, myPolicy);
             
             
             return SerializationUtils.escapeForSingleQuotedJavaScriptString(serializedData);

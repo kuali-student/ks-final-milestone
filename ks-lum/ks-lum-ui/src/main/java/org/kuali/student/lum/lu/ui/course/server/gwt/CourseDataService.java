@@ -15,36 +15,46 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
-import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.lum.lu.LUConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.util.StringUtils;
 
 public class CourseDataService extends AbstractDataService {
 
-	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CourseDataService.class);
 
 	private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
 	
-	private CourseService courseService;
-	
+	protected CourseService courseService;
+	protected CluService cluService;
 
 	@Override
-	protected Object get(String id) throws Exception {
+	protected Object get(String id, ContextInfo contextInfo) throws Exception {
 		CourseInfo courseInfo = null;
 
 		try {
-			courseInfo = courseService.getCourse(id);
+			courseInfo = courseService.getCourse(id, contextInfo);
 		} catch (DoesNotExistException dne) {
 			LOG.info("Course not found for key " + id + ". Course loaded from proposal instead.");
 		}		
@@ -53,29 +63,67 @@ public class CourseDataService extends AbstractDataService {
 	}
 
 	@Override
-	protected Object save(Object dto, Map<String, Object> properties) throws Exception {
+	protected Object save(Object dto, Map<String, Object> properties, ContextInfo contextInfo) throws Exception {
 		CourseInfo courseInfo = (CourseInfo)dto;
+		
+		//For retire course we don't want to actually save anything
+        if(LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))){
+            if(courseInfo.getVersionInfo()==null){
+                return get(courseInfo.getId(), contextInfo);
+            }else{
+                return courseInfo;
+            }
+        }
 		
 		//Set derived course fields before saving/updating
 		courseInfo = calculateCourseDerivedFields(courseInfo);
 		
-		if(properties!=null&&"kuali.proposal.type.course.modify".equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))){
+		if(properties!=null&&(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))||
+				LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE)))){
 			//For Modify Course, see if we need to create a new version instead of create
 			if(courseInfo.getId() == null){
-				courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment());
+			    
+			    if (isLatestVersion(courseInfo.getVersionInfo().getVersionIndId(), contextInfo)){
+	            	String courseIndId = courseInfo.getVersionInfo().getVersionIndId();
+	            	
+	            	//Get the currentCourse from the service
+	            	VersionDisplayInfo versionInfo =  courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseIndId, contextInfo);
+	            	CourseInfo originalCourseInfo =  courseService.getCourse(versionInfo.getId(), contextInfo);
+	            	
+			    	//Save the start and end terms from the old version and put into filter properties
+			    	String startTerm = originalCourseInfo.getStartTerm();
+			    	String endTerm = originalCourseInfo.getEndTerm();
+			    	Map<String,String> proposalAttributes = new HashMap<String,String>();
+			    	if(startTerm!=null)
+			    		proposalAttributes.put("prevStartTerm",startTerm);
+			    	if(endTerm!=null)
+			    		proposalAttributes.put("prevEndTerm",endTerm);
+			    	
+			    	properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);
+			    	
+			        courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment(), contextInfo);
+			    } else {
+			        throw new OperationFailedException("Error creating new version for course, this course is currently under modification.");
+			    }
 			}else{
-				courseInfo = courseService.updateCourse(courseInfo);
+				courseInfo = courseService.updateCourse(courseInfo.getId(), courseInfo, contextInfo);
 			}
 		}else{
 			if (courseInfo.getId() == null){
-				courseInfo = courseService.createCourse(courseInfo);
+				courseInfo = courseService.createCourse(courseInfo, contextInfo);
 			} else {
-				courseInfo = courseService.updateCourse(courseInfo);
+				courseInfo = courseService.updateCourse(courseInfo.getId(), courseInfo, contextInfo);
 			}
 		}
 		return courseInfo;
 	}
 	
+	
+	@Override
+	protected List<ValidationResultInfo> validate(Object dto, ContextInfo contextInfo) throws Exception {
+		return courseService.validateCourse("OBJECT", (CourseInfo)dto, contextInfo);
+	}
+
 	@Override
 	protected String getDefaultMetaDataState() {
 		return DEFAULT_METADATA_STATE;
@@ -83,7 +131,7 @@ public class CourseDataService extends AbstractDataService {
 
 	@Override
 	protected String getDefaultWorkflowDocumentType() {
-		return "kuali.proposal.type.course.create";
+		return LUConstants.PROPOSAL_TYPE_COURSE_CREATE;
 	}
 
 	@Override
@@ -100,19 +148,11 @@ public class CourseDataService extends AbstractDataService {
 		this.courseService = courseService;
 	}
 
-	public Data createNewCourseVersion(String courseId, String versionComment) throws OperationFailedException {
-		try {
-			//FIXME calling getData after createNewCourseVersion is inefficient, but we need to have the transformations/filters be applied
-			CourseInfo course = this.courseService.createNewCourseVersion(courseId, versionComment);
-			return getData(course.getId());
-		} catch (Exception e) {
-			throw new OperationFailedException("Error getting data",e);
-		} 
-		
-	}	
+	public void setCluService(CluService cluService) {
+        this.cluService = cluService;
+    }
 
-
-	/**
+    /**
 	 * This calculates and sets fields on course object that are derived from other course object fields.
 	 */
 	protected CourseInfo calculateCourseDerivedFields(CourseInfo courseInfo){
@@ -143,4 +183,22 @@ public class CourseDataService extends AbstractDataService {
 	    return subjectArea + suffixNumber;
 	}
 	
+	public Boolean isLatestVersion(String versionIndId, ContextInfo contextInfo) throws Exception {
+	    VersionDisplayInfo currentVersion = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndId, contextInfo);
+        //Perform a search to see if there are any new versions of the course that are approved, draft, etc.
+        //We don't want to version if there are
+        SearchRequest request = new SearchRequest("lu.search.isVersionable");
+        request.addParam("lu.queryParam.versionIndId", versionIndId);
+        request.addParam("lu.queryParam.sequenceNumber", currentVersion.getSequenceNumber().toString());
+        List<String> states = new ArrayList<String>();
+        states.add("Approved");
+        states.add("Active");
+        states.add("Draft");
+        states.add("Superseded");
+        request.addParam("lu.queryParam.luOptionalState", states);
+        SearchResult result = cluService.search(request);
+        
+        String resultString = result.getRows().get(0).getCells().get(0).getValue();
+        return "0".equals(resultString);
+    }
 }

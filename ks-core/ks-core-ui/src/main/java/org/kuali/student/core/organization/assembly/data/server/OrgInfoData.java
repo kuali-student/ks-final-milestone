@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.organization.assembly.data.server;
 
-import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
 public class OrgInfoData {
 	public enum ModificationState {

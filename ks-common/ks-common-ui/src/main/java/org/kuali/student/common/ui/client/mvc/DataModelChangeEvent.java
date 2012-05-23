@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.mvc;
 
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
 /**
  * Event that is fired when the model is changed.
@@ -23,6 +23,7 @@ import org.kuali.student.common.assembly.data.QueryPath;
  * @author Kuali Student Team
  * @param <T>
  */
+@Deprecated
 public class DataModelChangeEvent extends ModelChangeEvent {
     private final QueryPath path;
     

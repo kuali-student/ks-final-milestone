@@ -27,6 +27,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
+@Deprecated
 public class SQLDataLoader {
 
     private static final Logger LOG = Logger.getLogger(SQLDataLoader.class);

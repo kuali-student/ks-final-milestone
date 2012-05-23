@@ -23,11 +23,11 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
+import org.kuali.student.r2.common.dto.TypeInfo;
 
 public class OrgRelationTypePicker extends KSDropDown{
 
@@ -40,13 +40,13 @@ public class OrgRelationTypePicker extends KSDropDown{
 	public void onLoad() {
 		super.onLoad();
 		
-		orgRpcServiceAsync.getOrgOrgRelationTypes(new KSAsyncCallback<List<OrgOrgRelationTypeInfo>>(){
-			public void onSuccess(final List<OrgOrgRelationTypeInfo> orgRelTypes) {
+		orgRpcServiceAsync.getOrgOrgRelationTypes(new KSAsyncCallback<List<TypeInfo>>(){
+			public void onSuccess(final List<TypeInfo> orgRelTypes) {
 			    final Map<String,String> map = new LinkedHashMap<String, String>();
-                for(OrgOrgRelationTypeInfo info : orgRelTypes) {
-                    map.put(info.getId(), info.getName());
+                for(TypeInfo info : orgRelTypes) {
+                    map.put(info.getKey(), info.getName());
                     //Add the reverse relation types in the dropdown and add the prefix REV to differentiate from the original key
-                    map.put("REV_" + info.getId(), info.getRevName());
+                    map.put("REV_" + info.getKey(), info.getName());
                 }
                 orgRelTypeList = new ListItems() {
 

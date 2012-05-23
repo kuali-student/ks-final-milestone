@@ -22,7 +22,7 @@
 	xsi:schemaLocation="
     http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
     http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<search:searchType id="enumeration.management.search" parent="enumeration.management.search-parent"/>
 	<search:searchType id="enumeration.management.search-parent" abstract="true">
@@ -195,7 +195,7 @@
 		<property name="sourceMap">
 			<map>
 				<entry key="enumeration.management.search">
-					<value>SELECT DISTINCT enumValue.id, enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValue enumValue LEFT JOIN enumValue.contextEntityList enumContext WHERE enumValue.enumeration.id = :enumeration_queryParam_enumerationType</value>
+					<value>SELECT DISTINCT enumValue.id, enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValue enumValue LEFT JOIN enumValue.contextEntityList enumContext WHERE enumValue.enumeration.id IN(:enumeration_queryParam_enumerationType)</value>
 				</entry>
 				<entry key="enumeration.queryParam.enumerationCode">
 					<value>enumValue.code IN(:enumeration_queryParam_enumerationCode)</value>

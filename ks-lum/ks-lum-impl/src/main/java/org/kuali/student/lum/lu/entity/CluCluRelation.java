@@ -30,8 +30,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.entity.AttributeOwner;
-import org.kuali.student.common.entity.MetaEntity;
+import org.kuali.student.r1.common.entity.AttributeOwner;
+import org.kuali.student.r1.common.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_CLUCLU_RELTN")
@@ -41,7 +41,9 @@ import org.kuali.student.common.entity.MetaEntity;
 	@NamedQuery(name="CluCluRelation.getCluIdsByRelatedCluId", query = "SELECT rel.clu.id FROM CluCluRelation rel WHERE rel.relatedClu.id = :relatedCluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
 	@NamedQuery(name="CluCluRelation.getRelationTypeByCluId", query="SELECT distinct rel.luLuRelationType.id FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.relatedClu.id = :relatedCluId"),
 	@NamedQuery(name="CluCluRelation.getRelatedClusByCluId", query="SELECT rel.relatedClu FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
-	@NamedQuery(name="CluCluRelation.getClusByRelatedCluId", query="SELECT rel.clu FROM CluCluRelation rel WHERE rel.relatedClu.id = :relatedCluId AND rel.luLuRelationType.id = :luLuRelationTypeId")
+	@NamedQuery(name="CluCluRelation.getClusByRelatedCluId", query="SELECT rel.clu FROM CluCluRelation rel WHERE rel.relatedClu.id = :relatedCluId AND rel.luLuRelationType.id = :luLuRelationTypeId"),
+	@NamedQuery(name="CluCluRelation.getRelatedClusByCluIdSt", query="SELECT rel.relatedClu FROM CluCluRelation rel WHERE rel.clu.id = :cluId AND rel.luLuRelationType.id = :luLuRelationTypeId AND rel.relatedClu.state in (:luStateList)"),
+	@NamedQuery(name="CluCluRelation.getClusByRelatedCluIdSt", query="SELECT rel.clu FROM CluCluRelation rel WHERE rel.relatedClu.id = :relatedCluId AND rel.luLuRelationType.id = :luLuRelationTypeId AND rel.clu.state in (:luStateList)")
 })
 public class CluCluRelation extends MetaEntity implements
 		AttributeOwner<CluCluRelationAttribute> {

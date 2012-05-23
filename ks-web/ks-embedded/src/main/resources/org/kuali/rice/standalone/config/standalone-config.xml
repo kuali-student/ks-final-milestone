@@ -23,16 +23,15 @@
         syntax: ${varname} ${institution}
     -->
 <config>
-	<param name="module.name">ks-embedded</param>
-	<param name="application.id">ks</param>
+    <param name="module.name">ks-embedded</param>
+    <param name="application.id">ks</param>
     <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
-    
+
     <!-- BEGIN KUALI STUDENT SETTINGS -->
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
-    <param name="config.location">classpath:META-INF/ks-enroll-config.xml</param>
     <param name="config.location">classpath:ks-security-config.xml</param>
 
     <param name="db.vendor">oracle</param>
@@ -74,10 +73,6 @@
     <param name="ks.lum.datasource.url">${datasource.url}</param>
     <param name="ks.lum.datasource.username">${datasource.username}</param>
     <param name="ks.lum.datasource.password">${datasource.password}</param>
-    
-    <param name="ks.enroll.datasource.url">${datasource.url}</param>
-    <param name="ks.enroll.datasource.username">${datasource.username}</param>
-    <param name="ks.enroll.datasource.password">${datasource.password}</param>
 
     <param name="ks.core.datasource.url">${datasource.url}</param>
     <param name="ks.core.datasource.username">${datasource.username}</param>
@@ -88,7 +83,7 @@
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
-	<param name="transaction.timeout">3600</param>  
+    <param name="transaction.timeout">3600</param>
 
     <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
     <!--    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>-->
@@ -99,26 +94,27 @@
     <!--
         Setting this property allows selective loading lum or core project or both
     -->
-    <!-- 
     <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
         classpath:ks-spring-security-saml.xml,classpath:ks-spring-security-sts.xml
 	</param>
-	 -->
   
     <!--
       this property allows switching between the ks-embedded-admin-context which loads
       the ks admin app into rice the old ks-embedded-context.xml which skips ks admin
       and loads a mock messageservice impl
     -->
-    <!-- <param name="ks.embedded.context">classpath:ks-embedded-admin-context.xml</param> -->
+    <param name="ks.embedded.context">classpath:ks-embedded-admin-context.xml</param>
 
     <!-- additional context files -->
-    <!-- 
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.KS-SYS.additionalSpringFiles">${ks.projects},${ks.embedded.context},${ks.authentication.context},${ks.institutional.context}</param>
-	-->
-	
-	<param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
+    
+    <!-- This property is removed in Rice 2.0, don't know where to add this parameter. -->
+    <!--param name="rice.additionalSpringFiles">${ks.institutional.context}</param-->
+    
+    <param name="rice.kr.additionalSpringFiles">classpath:ks-spring-security-saml.xml,classpath:ks-spring-security-sts.xml</param>
+    <!-- param name="rice.kew.additionalSpringFiles"></param-->
+    <!-- param name="rice.ksb.additionalSpringFiles"></param-->
+    <param name="rice.kim.additionalSpringFiles">${ks.authentication.context},classpath:ks-kim-context.xml</param>
 
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">${application.url}</param>
@@ -154,6 +150,9 @@
     <param name="ks.org.enable.caching">true</param>
     <param name="ks.lrc.enable.caching">true</param>
     <param name="ks.statement.enable.caching">true</param>
+    
+	<param name="ks.lum.gwt.cache.config.file">classpath:ks-lum-gwt-ehcache.xml</param>
+    <param name="ks.lum.gwt.metadata.enable.caching">true</param>
     
     <!-- default config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>

@@ -17,11 +17,11 @@ package org.kuali.rice.student.lookup.keyvalues;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.rice.core.api.util.KeyValue;
 
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 public class AllOrgsValuesFinder extends StudentKeyValuesBase {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
@@ -33,7 +33,7 @@ public class AllOrgsValuesFinder extends StudentKeyValuesBase {
         searchRequest.setSearchKey("org.search.generic");
 
         try {
-            for (SearchResultRow result : getOrganizationService().search(searchRequest).getRows()) {
+        	for (SearchResultRow result : getOrganizationService().search(searchRequest).getRows()) {
                 String orgId = "";
                 String orgShortName = "";
                 String orgOptionalLongName = "";
@@ -49,10 +49,9 @@ public class AllOrgsValuesFinder extends StudentKeyValuesBase {
                     	orgType = resultCell.getValue();
                     }
                 }
-                departments.add(buildKeyValue(orgId, orgShortName, orgOptionalLongName, orgType));
+                departments.add(buildKeyLabelPair(orgId, orgShortName, orgOptionalLongName, orgType));
             }
-
-            return departments;
+        	return departments;
         } catch (Exception e) {
         	LOG.error("Error building KeyValues List", e);
             throw new RuntimeException(e);

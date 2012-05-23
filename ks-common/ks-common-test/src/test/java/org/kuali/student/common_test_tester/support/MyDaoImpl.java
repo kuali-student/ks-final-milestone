@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+@Deprecated
 public class MyDaoImpl implements MyDao {
 	
 	private EntityManager entityManager;

@@ -21,8 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ViewLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -42,8 +41,9 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -142,37 +142,41 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
     }
     
     private void validate(DataModel model, final ValidateRequestEvent event) {
-    	if(event.validateSingleField()){
-    		model.validateField(event.getFieldDescriptor(), new Callback<List<ValidationResultInfo>>() {
+        if(event.validateSingleField()){
+            model.validateField(event.getFieldDescriptor(), new Callback<List<ValidationResultInfo>>() {
                 @Override
                 public void exec(List<ValidationResultInfo> result) {
-                	if(event.getFieldDescriptor() != null){
-                		//We dont need to traverse since it is single field, so don't do isValid call here
-                		//instead add the error messages directly
-                		FieldElement element = event.getFieldDescriptor().getFieldElement();
-                		if(element != null){
-	                		element.clearValidationPanel();
-	                		for(int i = 0; i < result.size(); i++){
-	                    		ValidationResultInfo vr = result.get(i);
-	                    		if(vr.getElement().equals(event.getFieldDescriptor().getFieldKey()) 
-	                    				&& event.getFieldDescriptor().hasHadFocus()){
-	    							element.processValidationResult(vr);
-	                    		}
-	                    	}
-                		}
-                	}
-                	
+                    if(event.getFieldDescriptor() != null) {
+                        // We dont need to traverse since it is single field, so don't do isValid call here
+                        // instead add the error messages directly
+                        FieldElement element = event.getFieldDescriptor().getFieldElement();
+                        Widget w = event.getFieldDescriptor().getFieldWidget();
+                        if(element != null) {
+                            element.clearValidationErrors();
+
+                            if ((w instanceof CanProcessValidationResults) && ((CanProcessValidationResults) w).doesOnTheFlyValidation()) {
+                                ((CanProcessValidationResults) w).Validate(event, result);
+                            } else {
+                                for(int i = 0; i < result.size(); i++) {
+                                    ValidationResultInfo vr = result.get(i);
+                                    if (vr.getElement().equals(event.getFieldDescriptor().getFieldKey()) && event.getFieldDescriptor().hasHadFocus()) {
+                                        element.processValidationResult(vr);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 }
-    		});
-    	}
-    	else{
+            });
+        } else {
             model.validate(new Callback<List<ValidationResultInfo>>() {
                 @Override
                 public void exec(List<ValidationResultInfo> result) {
                     isValid(result, false, true);
                 }
             });
-    	}
+        }
     }
     
     /**
@@ -407,8 +411,11 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	 * @return
 	 */
 	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly, boolean allFields){
+		
 		boolean isValid = true;
-
+		
+		clearAllWarnings();
+		
 		if (checkCurrentSectionOnly){
 			//Check for validation errors on the currently displayed section only
 	    	View v = getCurrentView();
@@ -449,7 +456,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		return isValid;
 	}
 
-	private boolean isValid(List<ValidationResultInfo> validationResults, Section section, boolean allFields){
+	private boolean isValid(List<ValidationResultInfo> validationResults, Section section, boolean allFields){		
 		ErrorLevel status;
 		if(allFields){
 			section.setFieldHasHadFocusFlags(true);
@@ -460,6 +467,18 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		}
 
 		return (status != ErrorLevel.ERROR);
+	}
+	
+	/**
+	 * This clears all warnings that currently displayed on all fields and sections.
+	 */
+	protected void clearAllWarnings(){
+		for (Entry<Enum<?>, View> entry:viewMap.entrySet()) {
+			View v = entry.getValue();
+			if (v instanceof Section){
+				((Section)v).clearValidationWarnings();
+			}
+		}
 	}
 	
 	/**
@@ -480,14 +499,20 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 		else{
 			okToChange.exec(true);
 		}
-        if(this instanceof MenuSectionController){
-            ((MenuSectionController)this).showExport(isExportButtonActive());
-        } else if(this instanceof TabMenuController){
-            ((TabMenuController)this).showExport(isExportButtonActive());
-        }
-
+	    
+	    this.showExport(isExportButtonActive());
 	}
 
+	/**
+	 * Shows warnings stored to the application context
+	 * (i.e: dark-yellow highlighting of conflicts during review of a Course Proposal)
+	 */
+	protected void showWarnings(){		
+		if (!Application.getApplicationContext().getValidationWarnings().isEmpty()){
+			isValid(Application.getApplicationContext().getValidationWarnings(), true);
+    	}				
+	}
+	
 	@Override
 	public Widget asWidget() {
 		return this;
@@ -560,5 +585,11 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 	public boolean isExportButtonActive() {
 	    return false;
+	}
+
+	@Override
+	public void showExport(boolean show) {
+		// TODO Auto-generated method stub
+		
 	}
 }

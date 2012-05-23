@@ -31,6 +31,7 @@ import org.kuali.student.common.util.ManifestInspector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+@Deprecated
 @SuppressWarnings("serial")
 public class ServerPropertiesRpcGwtServlet extends RemoteServiceServlet implements ServerPropertiesRpcService {
 

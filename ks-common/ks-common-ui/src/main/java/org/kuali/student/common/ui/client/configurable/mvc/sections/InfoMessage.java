@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class InfoMessage extends Composite{
 	private HorizontalBlockFlowPanel layout = new HorizontalBlockFlowPanel();
 	private Image icon = Theme.INSTANCE.getCommonImages().getWarningDiamondIcon();

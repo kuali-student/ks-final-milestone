@@ -14,45 +14,35 @@
  */
 
 package org.kuali.student.lum.workflow;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-//import org.kuali.rice.kew.actionrequest.ActionRequestValue;
-//import org.kuali.rice.kew.actiontaken.ActionTakenValue;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
-import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
-import org.kuali.rice.kew.framework.postprocessor.AfterProcessEvent;
-import org.kuali.rice.kew.framework.postprocessor.BeforeProcessEvent;
-import org.kuali.rice.kew.framework.postprocessor.DeleteEvent;
-import org.kuali.rice.kew.framework.postprocessor.DocumentLockingEvent;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
-import org.kuali.rice.kew.framework.postprocessor.PostProcessor;
-import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
-import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.framework.postprocessor.*;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.student.StudentWorkflowConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.core.proposal.ProposalConstants;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.core.proposal.ProposalConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
+
+import javax.xml.namespace.QName;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KualiStudentPostProcessorBase implements PostProcessor{
+
+
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiStudentPostProcessorBase.class);
 
     private ProposalService proposalService;
@@ -65,11 +55,11 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         return new ProcessDocReport(true);
 	}
 
-	public ProcessDocReport doActionTaken(ActionTakenEvent actionTakenEvent) throws Exception {
+	public ProcessDocReport doActionTaken(ActionTakenEvent actionTakenEvent, ContextInfo contextInfo) throws Exception {
 /*		ActionTakenValue actionTaken = KEWServiceLocator.getActionTakenService().findByActionTakenId(actionTakenEvent.getActionTaken().getActionTakenId());
 		if (actionTaken == null) {
 		    if (LOG.isInfoEnabled()) {
-		        LOG.info("Could not find valid ActionTakenValue for doc id '" + actionTakenEvent.getDocumentId() + "'" + 
+		        LOG.info("Could not find valid ActionTakenValue for doc id '" + actionTakenEvent.getDocumentId() + "'" +
 		                ((actionTakenEvent.getActionTaken() == null) ? "" : " for action: " + actionTakenEvent.getActionTaken().getActionTakenLabel()));
 		    }
 		    actionTaken = actionTakenEvent.getActionTaken();
@@ -80,15 +70,15 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         String actionTakeCode = actionTakenEvent.getActionTaken().getActionTaken().getCode();
 		// on a save action we may not have access to the proposal object because the transaction may not have committed
 		if (!StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, actionTakeCode)) {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString());
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString(), contextInfo);
             if (actionTaken == null) {
                 throw new OperationFailedException("No action taken found for document id " + actionTakenEvent.getDocumentId());
             }
     	    if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_SU_DISAPPROVED_CD, actionTakeCode)) {
     	        // the custom method below is needed for the unique problem of the states being set for a Withdraw action in KS
-    	        processSuperUserDisapproveActionTaken(actionTakenEvent, actionTaken, proposalInfo);
+    	        processSuperUserDisapproveActionTaken(actionTakenEvent, actionTaken, proposalInfo, contextInfo);
     	    }
-            // only attempt to remove the adhoc permission if the action taken was not an adhoc revocation 
+            // only attempt to remove the adhoc permission if the action taken was not an adhoc revocation
     	    else if (!StringUtils.equals(KewApiConstants.ACTION_TAKEN_ADHOC_REVOKED_CD, actionTakeCode)) {
                 List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(actionTakenEvent.getDocumentId());
      			for (ActionRequest actionRequest : actionRequests) {
@@ -97,14 +87,14 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     		        }
     	        }
             }
-            success = processCustomActionTaken(actionTakenEvent, actionTaken, proposalInfo);
+            success = processCustomActionTaken(actionTakenEvent, actionTaken, proposalInfo, contextInfo);
 		} else {
 		    success = processCustomSaveActionTaken(actionTakenEvent, actionTaken);
 		}
         return new ProcessDocReport(success);
 	}
 
-    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
+    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
         // do nothing
         return true;
     }
@@ -120,23 +110,72 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
     }
 
-    protected void processSuperUserDisapproveActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
+    protected void processSuperUserDisapproveActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
         LOG.info("Action taken was 'Super User Disapprove' which is a 'Withdraw' in Kuali Student");
         LOG.info("Will set proposal state to '" + ProposalConstants.PROPOSAL_STATE_WITHDRAWN + "'");
-        updateProposal(actionTakenEvent, ProposalConstants.PROPOSAL_STATE_WITHDRAWN, proposalInfo);
-        processWithdrawActionTaken(actionTakenEvent, proposalInfo);
+        updateProposal(actionTakenEvent, ProposalConstants.PROPOSAL_STATE_WITHDRAWN, proposalInfo, contextInfo);
+        processWithdrawActionTaken(actionTakenEvent, proposalInfo, contextInfo);
 	}
 
-    protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
+    protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
         // do nothing but allow for child classes to override
     }
+
+    //TODO KSCM-392 we added the logic suplied in ks1.3 still neeeds to be tested. 
+    @Override
+    public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) throws Exception {
+	    boolean success = true;
+	    // if document is transitioning from INITIATED to SAVED then transaction prevents us from retrieving the proposal
+	    if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD, documentRouteStatusChange.getOldRouteStatus()) && 
+	            StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, documentRouteStatusChange.getNewRouteStatus())) {
+	        // assume the proposal status is already correct
+            success = processCustomRouteStatusSavedStatusChange(documentRouteStatusChange);
+	    } else {
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId(), new ContextInfo());
+            
+            // update the proposal state if the proposalState value is not null (allows for clearing of the state)
+            String proposalState = getProposalStateForRouteStatus(proposalInfo.getStateKey(), documentRouteStatusChange.getNewRouteStatus());
+            updateProposal(documentRouteStatusChange, proposalState, proposalInfo, new ContextInfo());
+            success = processCustomRouteStatusChange(documentRouteStatusChange, proposalInfo, new ContextInfo());
+	    }
+        return new ProcessDocReport(success);
+	}
+
+    //TODO KSCM-392 we added the logic suplied in ks1.3 still neeeds to be tested.
+    @Override
+    public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
+        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), new ContextInfo());
+
+		// if this is the initial route then clear only edit permissions as per KSLUM-192
+		if (StringUtils.equals(StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME,documentRouteLevelChange.getOldNodeName())) {
+			// remove edit perm for all adhoc action requests to a user for the route node we just exited
+	        WorkflowDocument doc = WorkflowDocumentFactory.createDocument(getPrincipalIdForSystemUser(), documentRouteLevelChange.getDocumentId());
+			for (ActionRequest actionRequestDTO : doc.getRootActionRequests()) {
+				if (actionRequestDTO.isAdHocRequest() && actionRequestDTO.isUserRequest() && 
+						StringUtils.equals(documentRouteLevelChange.getOldNodeName(),actionRequestDTO.getNodeName())) {
+					LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequestDTO.getPrincipalId());
+					removeEditAdhocPermissions(actionRequestDTO.getPrincipalId(), doc);
+				}
+	        }
+		}
+		else {
+			LOG.warn("Will not clear any permissions added via adhoc requests");
+		}
+		boolean success = processCustomRouteLevelChange(documentRouteLevelChange, proposalInfo);
+		return new ProcessDocReport(success);
+	}
 
     public ProcessDocReport doDeleteRouteHeader(DeleteEvent arg0) throws Exception {
         return new ProcessDocReport(true);
 	}
 
-	public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
-        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId());
+    @Override
+    public ProcessDocReport doActionTaken(ActionTakenEvent actionTakenEvent) throws Exception {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange, ContextInfo contextInfo) throws Exception {
+        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), contextInfo);
 
 		// if this is the initial route then clear only edit permissions as per KSLUM-192
 		if (StringUtils.equals(StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME,documentRouteLevelChange.getOldNodeName())) {
@@ -144,7 +183,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 	        WorkflowDocument doc = WorkflowDocumentFactory.createDocument(getPrincipalIdForSystemUser(), documentRouteLevelChange.getDocumentId());
                 // TODO: evaluate group or role level changes by not using isUserRequest()
 			for (ActionRequest actionRequest : doc.getRootActionRequests()) {
-				if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest() && 
+				if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest() &&
 						StringUtils.equals(documentRouteLevelChange.getOldNodeName(),actionRequest.getNodeName())) {
 					LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequest.getPrincipalId());
 					removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
@@ -163,7 +202,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 	    return true;
 	}
 
-	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
+	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ContextInfo contextInfo) throws Exception {
 	    boolean success = true;
 	    // if document is transitioning from INITIATED to SAVED then transaction prevents us from retrieving the proposal
 	    if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD, statusChangeEvent.getOldRouteStatus()) &&
@@ -171,17 +210,17 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 	        // assume the proposal status is already correct
             success = processCustomRouteStatusSavedStatusChange(statusChangeEvent);
 	    } else {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(statusChangeEvent.getDocumentId());
-            
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(statusChangeEvent.getDocumentId(), contextInfo);
+
             // update the proposal state if the proposalState value is not null (allows for clearing of the state)
-            String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), statusChangeEvent.getNewRouteStatus());
-            updateProposal(statusChangeEvent, proposalState, proposalInfo);
-            success = processCustomRouteStatusChange(statusChangeEvent, proposalInfo);
+            String proposalState = getProposalStateForRouteStatus(proposalInfo.getStateKey(), statusChangeEvent.getNewRouteStatus());
+            updateProposal(statusChangeEvent, proposalState, proposalInfo, contextInfo);
+            success = processCustomRouteStatusChange(statusChangeEvent, proposalInfo, contextInfo);
 	    }
         return new ProcessDocReport(success);
 	}
 
-	protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
+	protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
 	    // do nothing but allow override
 	    return true;
 	}
@@ -252,7 +291,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         Map<String,String> qualifications = new LinkedHashMap<String,String>();
         qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME,doc.getDocumentTypeName());
         qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID,doc.getApplicationDocumentId());
-        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);       
+        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);
     }
 
     protected void removeCommentAdhocPermissions(String roleNamespace, String roleName, String principalId, WorkflowDocument doc) {
@@ -270,18 +309,18 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         return principal.getPrincipalId();
     }
 
-    protected void updateProposal(IDocumentEvent iDocumentEvent, String proposalState, ProposalInfo proposalInfo) throws Exception {
+    protected void updateProposal(IDocumentEvent iDocumentEvent, String proposalState, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
         if (LOG.isInfoEnabled()) {
             LOG.info("Setting state '" + proposalState + "' on Proposal with docId='" + proposalInfo.getWorkflowId() + "' and proposalId='" + proposalInfo.getId() + "'");
         }
         boolean requiresSave = false;
         if (proposalState != null) {
-            proposalInfo.setState(proposalState);
+            proposalInfo.setStateKey(proposalState);
             requiresSave = true;
         }
         requiresSave |= preProcessProposalSave(iDocumentEvent, proposalInfo);
         if (requiresSave) {
-            getProposalService().updateProposal(proposalInfo.getId(), proposalInfo);
+            getProposalService().updateProposal(proposalInfo.getId(), proposalInfo, contextInfo);
         }
     }
 

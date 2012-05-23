@@ -53,6 +53,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  * @since 0.9
  *
  */
+@Deprecated
 public class ClearDatabaseLifecycle extends BaseLifecycle {
 
     protected static final Logger LOG = Logger.getLogger(ClearDatabaseLifecycle.class);

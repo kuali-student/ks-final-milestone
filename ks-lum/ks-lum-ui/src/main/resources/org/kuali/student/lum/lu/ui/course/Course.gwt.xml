@@ -19,6 +19,7 @@
 	<inherits name='org.kuali.student.core.workflow.ui.WorkflowUI' />
 	<inherits name='org.kuali.student.core.comments.ui.CommentsUI' />
 	<inherits name='org.kuali.student.core.document.ui.DocumentUI' />
+	<inherits name='org.kuali.student.r2.core.versionmanagement.VersionManagement' />
 
 	<replace-with
 		class="org.kuali.student.lum.lu.ui.course.client.widgets.a.dynamictable.impl.DynamicTableImplDefault">

@@ -2634,10 +2634,6 @@
         ID="bc2083d4-c7f5-43e0-aa75-5105b8777913"
         OBJ_ID="b9f1ea1b-0dae-495d-a4c7-d04e404a536a"
         PLAIN="Fall Semester of 2017" VER_NBR="0"/>
-    <KSAP_RICH_TEXT_T FORMATTED="Fall Semester of 9999"
-        ID="bc2083d6-c7f5-43e0-aa75-5105b8777913"
-        OBJ_ID="b9f1ea1b-0dae-495d-a4c7-d04e404a536a"
-        PLAIN="Fall Semester of 9999" VER_NBR="0"/>
     <KSAP_RICH_TEXT_T
         FORMATTED="Summer Grad 6-week Block 1 mini-mester of 1999"
         ID="bc5fa168-77c5-41b3-aaa5-23a831d5a770"
@@ -2991,10 +2987,6 @@
         ID="d45ace9c-4f0a-440c-a6e9-1a363d649f24"
         OBJ_ID="63629f85-00ab-4298-9d5b-47c19d837e11"
         PLAIN="Winter Semester of 2016" VER_NBR="0"/>
-    <KSAP_RICH_TEXT_T FORMATTED="Winter Semester of 9999"
-        ID="d45ace9d-4f0a-440c-a6e9-1a363d649f24"
-        OBJ_ID="63629f85-00ab-4298-9d5b-47c19d837e11"
-        PLAIN="Winter Semester of 9999" VER_NBR="0"/>
     <KSAP_RICH_TEXT_T FORMATTED="Class of 2017"
         ID="d49073bf-84dd-49c9-97d7-4745ecdec4e3"
         OBJ_ID="260ee726-c795-45e3-b0e1-ee45854ccf57"
@@ -3362,10 +3354,6 @@
         ID="ee4babc1-2fe8-460d-a480-ba143831f006"
         OBJ_ID="575d6079-114c-4aa4-97c9-5179af5e476d"
         PLAIN="Spring Semester of 2020" VER_NBR="0"/>
-    <KSAP_RICH_TEXT_T FORMATTED="Spring Semester of 9999"
-        ID="ee4babc2-2fe8-460d-a480-ba143831f006"
-        OBJ_ID="575d6079-114c-4aa4-97c9-5179af5e476d"
-        PLAIN="Spring Semester of 9999" VER_NBR="0"/>
     <KSAP_RICH_TEXT_T FORMATTED="Spring Semester of 2006 2nd Half"
         ID="ee771b24-ced5-4957-8731-0e0a5ea3a2ff"
         OBJ_ID="9642a40a-11bb-4ba5-8804-795421c8b411"
@@ -3414,10 +3402,6 @@
         ID="f2509371-0486-4fdd-ae4d-c75bdc24a237"
         OBJ_ID="987176e9-ccf3-44f8-bfdf-73c0754221c1"
         PLAIN="Summer Semester of 2012" VER_NBR="0"/>
-    <KSAP_RICH_TEXT_T FORMATTED="Summer Semester of 9999"
-        ID="f2509372-0486-4fdd-ae4d-c75bdc24a237"
-        OBJ_ID="987176e9-ccf3-44f8-bfdf-73c0754221c1"
-        PLAIN="Summer Semester of 9999" VER_NBR="0"/>
     <KSAP_RICH_TEXT_T FORMATTED="Summer Evening Session of 2015"
         ID="f25c7780-b8fe-4c2c-a03b-b998806ecc26"
         OBJ_ID="502901ec-fff0-47ff-8107-f76ea94eebed"

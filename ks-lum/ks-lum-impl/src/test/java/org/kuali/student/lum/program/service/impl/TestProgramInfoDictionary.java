@@ -1,32 +1,37 @@
 package org.kuali.student.lum.program.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import org.junit.Test;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.core.messages.service.impl.MessageServiceMock;
+import org.kuali.student.lum.course.service.impl.MockSearchDispatcher;
+import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
+import org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r1.common.validator.ServerDateParser;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.lum.program.dto.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.common.validator.ServerDateParser;
-import org.kuali.student.common.validator.ValidatorFactory;
-import org.kuali.student.lum.course.service.impl.MockSearchDispatcher;
-import org.kuali.student.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.service.assembler.MajorDisciplineDataGenerator;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class TestProgramInfoDictionary {
 
+	 ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+	
     @Test
     public void testLoadProgramInfoDictionary() {
         Set<String> startingClasses = new LinkedHashSet();
@@ -70,12 +75,25 @@ public class TestProgramInfoDictionary {
                 "classpath:ks-programInfo-dictionary-context.xml");
         DefaultValidatorImpl val = new DefaultValidatorImpl();
         val.setValidatorFactory(new ValidatorFactory());
+        ProgramManagingBodiesValidator programManagingBodiesValidator = new ProgramManagingBodiesValidator();
+        MessageServiceMock messageServiceMock = new MessageServiceMock();
+        //Message message = new Message();
+        //message.setGroupName("validation");
+        //message.setLocale("en");
+        //message.setId("validation.programManagingBodiesMatch");
+        //message.setValue("validation.programManagingBodiesMatch");
+        //messageServiceMock.addMessage(message);
+        programManagingBodiesValidator.setMessageService(messageServiceMock);
+        programManagingBodiesValidator.setSearchDispatcher(new MockSearchDispatcher());
+        List<Validator> validatorList = new ArrayList<Validator>();
+        validatorList.add(programManagingBodiesValidator);
+        val.getValidatorFactory().setValidatorList(validatorList);
         val.setDateParser(new ServerDateParser());
         val.setSearchDispatcher(new MockSearchDispatcher());
         MajorDisciplineInfo info = new MajorDisciplineInfo();
         ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(
                 info.getClass().getName());
-        List<ValidationResultInfo> validationResults = val.validateObject(info, os);
+        List<ValidationResultInfo> validationResults = val.validateObject(info, os, contextInfo);
         System.out.println("h2. with just a blank record");
         for (ValidationResultInfo vr : validationResults) {
             System.out.println(vr.getElement() + " " + vr.getMessage());
@@ -88,13 +106,12 @@ public class TestProgramInfoDictionary {
         assertEquals(5, validationResults.size());
 
         try {
-            info =
-                    new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData();
+            info = new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData();
         }
         catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-        validationResults = val.validateObject(info, os);
+        validationResults = val.validateObject(info, os, contextInfo);
         System.out.println("h2. with generated data");
         for (ValidationResultInfo vr : validationResults) {
             System.out.println(vr.getElement() + " " + vr.getMessage());

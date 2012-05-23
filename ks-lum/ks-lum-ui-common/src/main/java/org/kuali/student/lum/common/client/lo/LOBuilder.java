@@ -16,24 +16,31 @@
 package org.kuali.student.lum.common.client.lo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.CanProcessValidationResults;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -70,35 +77,43 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 
 	LearningObjectiveList loList;
 	KSLabel instructions;
+	
+	private static int loListDescLength;
+	
+	private boolean onTheFlyValidation = true;
 
 	protected LOBuilder() {
 	}
 
     public LOBuilder(String luType, String luState, String luGroup, String loRepoKey, String queryPathStart, final Metadata metadata) {
 		super();
-
+		
+		loListDescLength = metadata.getProperties().get("plain").getConstraints().get(0).getMaxLength();
+		
 		type = luType;
 		state = luState;
 		repoKey = loRepoKey;
 		messageGroup = luGroup;
-        startOfPath = queryPathStart;
+        startOfPath = queryPathStart;       
 
-		 if(metadata.getInitialLookup() != null) {
-		 	searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
-		  	searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>() {
-		  		public void onValueChange(ValueChangeEvent<List<String>> event) {
-		  		        List<String> selection = event.getValue();
-		  				loList.addSelectedLOs(selection);
-		  			}
-		  	    }
-		  	);
-		  	searchMainPanel.add(searchWindow);
-		  }
-		 		 
+        if (metadata.getInitialLookup() != null) {
+            searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+            searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>() {
+                public void onValueChange(ValueChangeEvent<List<String>> event) {
+                    List<String> selection = event.getValue();
+                    loList.addSelectedLOs(selection);
+                }
+            });
+            searchMainPanel.add(searchWindow);
+        }
+        
+        Metadata descMeta = new Metadata();
+        descMeta = metadata.getProperties().get("plain");
 
-		instructions = new KSLabel(getLabel(LUUIConstants.LO_INSTRUCTIONS_KEY));
+		instructions = new KSLabel(getLabel(LUUIConstants.LO_INSTRUCTIONS_KEY, descMeta));
 
-        loList = new LearningObjectiveList();
+        loList = GWT.create(LearningObjectiveList.class);
+        loList.setLoInfoMaxLength(loListDescLength);
 
 		searchMainPanel.addStyleName("KS-LOBuilder-Search-Panel");
 
@@ -110,6 +125,7 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
         this.addWidget(searchMainPanel);
         this.addWidget(instructions);
         this.addSection(loList);
+        
 	}
 
 	/**
@@ -144,11 +160,14 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<OutlineNode<LOPicker>>> handler) {
 		return loList.addValueChangeHandler(handler);
 	}
+	
+    private static String getLabel(String labelKey) {
+        return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
+    }
 
-	private static String getLabel(String labelKey) {
-		return Application.getApplicationContext().getUILabel(messageGroup,
-				type, state, labelKey);
-	}
+    private static String getLabel(String labelKey, Metadata metadata) {
+        return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey, metadata);
+    }
 
 	/**
 	 * @return the type
@@ -177,8 +196,10 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 
     public static class LearningObjectiveList extends VerticalSection implements HasValue<List<OutlineNode<LOPicker>>> {
 		OutlineNodeModel<LOPicker> outlineModel = new OutlineNodeModel<LOPicker>();
-        KSButton addNew;
+        protected KSButton addNew;
         OutlineManager outlineComposite;
+        
+        private int loInfoMaxLength = 0;
 		
 		SelectionChangeHandler loPickerChangeHandler = new SelectionChangeHandler(){
 			public void onSelectionChange(SelectionChangeEvent event) {
@@ -187,13 +208,14 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 		};
 		
         public LearningObjectiveList() {
-            addNew = new KSButton("Add item", ButtonStyle.SECONDARY, new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					setValue(getValue());
-					appendLO("");
-					reDraw();
-				}
-			});
+            addNew = new KSButton(getLabel(LUUIConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY), ButtonStyle.SECONDARY,
+                    new ClickHandler() {
+                        public void onClick(ClickEvent event) {
+                            setValue(getValue());
+                            appendLO("");
+                            reDraw();
+                        }
+                    });
 			
             addNew.addStyleName("KS-LOBuilder-New");
 
@@ -205,6 +227,7 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 			});
 
             initEmptyLoList();
+//			reDraw();
 		}
 
 		protected void initEmptyLoList(){
@@ -243,11 +266,14 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 				reDraw();
 			}
 		}
+		
+        public void setLoInfoMaxLength(int loInfoMaxLength) {
+            this.loInfoMaxLength = loInfoMaxLength;
+        }
 
         private void appendLO(String loValue) {
 			OutlineNode<LOPicker> aNode = new OutlineNode<LOPicker>();
-			LOPicker newPicker = new LOPicker(messageGroup, type, state,
-					repoKey);
+			LOPicker newPicker = new LOPicker(messageGroup, type, state, repoKey, this.loInfoMaxLength);
 
 			newPicker.addSelectionChangeHandler(loPickerChangeHandler);
 			newPicker.setLOText(loValue);
@@ -268,13 +294,14 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 			for (String strValue : loDescription) {
 
 				boolean foundEmptyBox = false;
-				while (ix > 0) {
-					ix--;
-					if (existingLOs.get(ix).getUserObject().getLOText().trim()
+				
+				for(int i=0;i<ix;i++)
+				{
+					if (existingLOs.get(i).getUserObject().getLOText().trim()
 							.length() == 0) {
-						existingLOs.get(ix).getUserObject().setLOText(strValue);
+						existingLOs.get(i).getUserObject().setLOText(strValue);
 						foundEmptyBox = true;
-						break;
+						i=ix;
 					}
 				}
 
@@ -319,17 +346,71 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
     }
 
     @Override
-    public ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results, boolean clearAllValidation) {
-
+    public ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results, boolean clearErrors) {
+        
         ErrorLevel status = ErrorLevel.OK;
         
         for (Section section : getSections()) {
-            ErrorLevel level = section.processValidationResults(results, clearAllValidation);
+            ErrorLevel level = section.processValidationResults(results, clearErrors);
             if (level.getLevel() > status.getLevel()) {
                 status = level;
             }
         }
         return status;
     }
+    
+    public static int getLoListDescLength() {
+        return loListDescLength; 
+        
+    }
+
+    @Override
+    public boolean doesOnTheFlyValidation() {      
+        return onTheFlyValidation;
+    }
+
+    @Override
+    public void Validate(ValidateRequestEvent event, List<ValidationResultInfo> result) {
+
+        if (event.getFieldDescriptor().hasHadFocus()) {
+            Map<String, FieldElement> loFieldModelMapping = doLOFieldModelMapping();
+
+            for (int i = 0; i < result.size(); i++) {
+                ValidationResultInfo vr = result.get(i);
+                FieldElement element = loFieldModelMapping.get(vr.getElement());
+
+                if (element != null) {
+                    element.clearValidationErrors();
+                    element.processValidationResult(vr);
+                }
+            }
+        }
+
+    }
+    
+    private Map<String, FieldElement> doLOFieldModelMapping() {
+        Map<String, FieldElement> loFieldModelMapping = new HashMap<String, FieldElement>();
+
+        int z = 0;
+
+        for (int i = 0; i < this.getValue().size(); i++) {
+            String startPath = startOfPath + "/";
+            String endPathFormatted = "/" + "loInfo/desc/formatted";
+            String endPathPlain = "/" + "loInfo/desc/plain";
+
+            this.getFields().get(i).getFieldElement().clearValidationErrors();
+            
+            String desc = this.getValue().get(i).getUserObject().getLOText();
+            int indentLevel = this.getValue().get(i).getIndentLevel();
+            List<LoCategoryInfo> categories = this.getValue().get(i).getUserObject().getLoCategories();
+
+            if (desc != null && desc.trim().length() > 0 || indentLevel > 0 || categories != null && !categories.isEmpty()) {
+                loFieldModelMapping.put(startPath + z + endPathFormatted, this.getFields().get(i).getFieldElement());
+                loFieldModelMapping.put(startPath + z++ + endPathPlain, this.getFields().get(i).getFieldElement());
+            }
+
+        }        
+        return loFieldModelMapping;
+    }   
 
 }

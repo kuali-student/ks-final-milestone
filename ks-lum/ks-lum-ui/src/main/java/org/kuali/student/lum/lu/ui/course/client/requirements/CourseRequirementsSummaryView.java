@@ -1,13 +1,27 @@
 package org.kuali.student.lum.lu.ui.course.client.requirements;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
@@ -17,10 +31,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButto
 import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
@@ -28,7 +38,7 @@ import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.lu.ui.course.client.configuration.AbstractCourseConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 
 import com.google.gwt.core.client.GWT;
@@ -45,29 +55,50 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     private static CluSetRetriever cluSetRetriever = new CluSetRetrieverImpl();
 
     //view's widgets
-    private FlowPanel layout = new FlowPanel();
-    private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveContinueCancelEnum.SAVE_CONTINUE, ButtonEnumerations.SaveContinueCancelEnum.CANCEL);
-    private Map<String, Widget> addButtonsList = new HashMap<String, Widget>();
+    protected FlowPanel layout = new FlowPanel();
+    protected ActionCancelGroup actionCancelButtons = new ActionCancelGroup(
+            ButtonEnumerations.SaveContinueCancelEnum.SAVE_CONTINUE, ButtonEnumerations.SaveContinueCancelEnum.CANCEL);
+    protected Map<String, Widget> addButtonsList = new HashMap<String, Widget>();
 
     //view's data
-    private CourseRequirementsViewController parentController;
-    private CourseRequirementsDataModel rules;
-    private boolean isReadOnly;
+    protected CourseRequirementsViewController parentController;
+    protected CourseRequirementsDataModel rules;
+    protected boolean isReadOnly;
+    protected boolean showSaveButtons;
     private static int tempProgReqInfoID = 9999;
     public static final String NEW_STMT_TREE_ID = "NEWSTMTTREE";
     public static final String NEW_REQ_COMP_ID = "NEWREQCOMP";    
 
-    private Map<String, SpanPanel> perCourseRequisiteTypePanel = new LinkedHashMap<String, SpanPanel>();
+    protected Map<String, SpanPanel> perCourseRequisiteTypePanel = new LinkedHashMap<String, SpanPanel>();
+    
+    protected boolean displayInitialized = false;
+
+    public CourseRequirementsSummaryView() {
+        super();
+    }
 
     public CourseRequirementsSummaryView(final CourseRequirementsViewController parentController, Enum<?> viewEnum, String name,
-                                                            String modelId, CourseRequirementsDataModel rulesData, boolean isReadOnly) {
+                                                            String modelId, CourseRequirementsDataModel rulesData, boolean isReadOnly, boolean showSaveButtons) {
         super(viewEnum, name, modelId);
         this.parentController = parentController;
         rules = rulesData;
         rules.setInitialized(false);
         this.isReadOnly = isReadOnly;
+        this.showSaveButtons = showSaveButtons;
+        if (!isReadOnly && showSaveButtons) {
+            setupSaveCancelButtons();
+        }
+    }
 
-        if (!isReadOnly) {
+    public void init(final CourseRequirementsViewController parentController, Enum<?> viewEnum, String name,
+            String modelId, CourseRequirementsDataModel rulesData, boolean isReadOnly, boolean showSaveButtons) {
+        super.init(viewEnum, name, modelId, true);
+        this.parentController = parentController;
+        rules = rulesData;
+        rules.setInitialized(false);
+        this.isReadOnly = isReadOnly;
+        this.showSaveButtons = showSaveButtons;
+        if (!isReadOnly && showSaveButtons) {
             setupSaveCancelButtons();
         }
     }
@@ -82,7 +113,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
         //only when user wants to see rules then load requirements from database if they haven't been loaded yet
         if (!rules.isInitialized()) {
-            rules.retrieveCourseRequirements(AbstractCourseConfigurer.CLU_PROPOSAL_MODEL, new Callback<Boolean>() {
+            rules.retrieveCourseRequirements(AbstractCourseConfigurer.COURSE_PROPOSAL_MODEL, new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
                     if (result) {
@@ -99,6 +130,11 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
             displayRules();            
             onReadyCallback.exec(true);
             return;
+        }
+        
+        //Check if the display was ever drawn (it's being set to false in ()
+        if(!displayInitialized){
+            displayRules();
         }
 
         //see if we need to update a rule if user is returning from rule manage screen
@@ -132,7 +168,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         displayRules();
     }
 
-    private void updateRequirementWidgets(StatementTreeViewInfo rule) {
+    protected void updateRequirementWidgets(StatementTreeViewInfo rule) {
         if (rule != null) {
             StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(rule.getType());
             SpanPanel reqPanel = perCourseRequisiteTypePanel.get(affectedStatementTypeInfo.getId());
@@ -149,9 +185,13 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
             for (int i = 0; i < reqPanel.getWidgetCount(); i++) {
                 SubrulePreviewWidget subrulePreviewWidget = (SubrulePreviewWidget)reqPanel.getWidget(i);
-                SubrulePreviewWidget newRulePreviewWidget = addCourseRequisite(reqPanel, rule);
-                reqPanel.insert(newRulePreviewWidget, i);
+                if (!rule.getStatements().isEmpty() || !rule.getReqComponents().isEmpty()) {
+                    SubrulePreviewWidget newRulePreviewWidget = addCourseRequisite(reqPanel, rule);
+                    reqPanel.insert(newRulePreviewWidget, i);
+                }   
                 reqPanel.remove(subrulePreviewWidget);
+                if (rule.getStatements().isEmpty() && rule.getReqComponents().isEmpty())                 
+                    addButtonsList.get(rule.getType()).setVisible(true);                    
                 break; //there should be only one rule per requisite type
             }
         }
@@ -189,20 +229,25 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
             //now display each requirement for this Course Requisites type; should be only one for courses
             for (StatementTreeViewInfo ruleInfo : rules.getCourseReqInfo(stmtTypeInfo.getId())) {
-                SubrulePreviewWidget subrulePreviewWidget = addCourseRequisite(requirementsPanel, ruleInfo);
-                requirementsPanel.add(subrulePreviewWidget);
+                if (!ruleInfo.getStatements().isEmpty() || !ruleInfo.getReqComponents().isEmpty()) {
+                    SubrulePreviewWidget subrulePreviewWidget = addCourseRequisite(requirementsPanel, ruleInfo);
+                    requirementsPanel.add(subrulePreviewWidget);
+                }  
             }
         }
 
         //save and cancel buttons
-        if (!isReadOnly) {
+        if (!isReadOnly && showSaveButtons) {
             layout.add(actionCancelButtons);
         }
 
         addWidget(layout);
+        
+        displayInitialized = true;
     }
 
-    private void displayRequirementSectionForGivenType(final SpanPanel requirementsPanel, final StatementTypeInfo stmtTypeInfo, boolean firstSubHeader) {
+    protected void displayRequirementSectionForGivenType(final SpanPanel requirementsPanel,
+            final StatementTypeInfo stmtTypeInfo, boolean firstSubHeader) {
 
         //display header for this Course Requisites type e.g. Enrollment Eligibility
         SectionTitle title = SectionTitle.generateH3Title(stmtTypeInfo.getName());
@@ -245,7 +290,9 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                                 RichTextInfo text = new RichTextInfo();
                                 text.setPlain("");
                                 newRule.setDesc(text);
-                                parentController.getView(CourseRequirementsViewController.CourseRequirementsViews.MANAGE, new Callback<View>(){
+                                parentController.getView(
+                                        CourseRequirementsViewController.CourseRequirementsViews.MANAGE,
+                                        new Callback<View>() {
                                     @Override
                                     public void exec(View result) {
                                         rules.addRule(newRule);
@@ -258,7 +305,17 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                     });
                 };
             });
-            addCourseReqButton.setVisible(rules.getCourseReqInfo(stmtId).isEmpty());
+            if (!rules.getCourseReqInfo(stmtId).isEmpty()) {
+                boolean checkReqs = true;
+                for(StatementTreeViewInfo ruleInfo : rules.getCourseReqInfo(stmtId)) {
+                    if (!ruleInfo.getStatements().isEmpty() || !ruleInfo.getReqComponents().isEmpty()) {
+                        checkReqs = false;
+                        break;
+                    }
+                }    
+                addCourseReqButton.setVisible(checkReqs);
+            } else
+                addCourseReqButton.setVisible(rules.getCourseReqInfo(stmtId).isEmpty());
             addButtonsList.put(stmtId, addCourseReqButton);
             layout.add(addCourseReqButton);
             VerticalPanel spacer = new VerticalPanel();
@@ -269,7 +326,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         layout.add(requirementsPanel);
     }
 
-    private SubrulePreviewWidget addCourseRequisite(final SpanPanel requirementsPanel,final StatementTreeViewInfo rule) {
+    protected SubrulePreviewWidget addCourseRequisite(final SpanPanel requirementsPanel,
+            final StatementTreeViewInfo rule) {
 
         Integer internalProgReqID =  rules.getInternalCourseReqID(rule);
         String stmtTypeId = rule.getType();
@@ -280,7 +338,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         return rulePreviewWidget;
     }
 
-    private void addRulePreviewWidgetHandlers(final SpanPanel requirementsPanel, final SubrulePreviewWidget subRuleWidget, final String stmtTypeId, final Integer internalProgReqID) {
+    protected void addRulePreviewWidgetHandlers(final SpanPanel requirementsPanel, final SubrulePreviewWidget subRuleWidget, final String stmtTypeId, final Integer internalProgReqID) {
 
         subRuleWidget.addEditButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
@@ -356,13 +414,13 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                             if (result) {
                                 CourseProposalController courseController = ((CourseProposalController) parentController.getParentController());
                                 courseController.showNextViewOnMenu();
-                                courseController.getReqDataModel().retrieveStatementTypes(courseController.getCourseId(), Controller.NO_OP_CALLBACK);
+                                //courseController.getReqDataModel().retrieveStatementTypes(courseController.getCourseId(), Controller.NO_OP_CALLBACK);
                             }
                         }
                     });                    
                 } else {
                     if(! ((CourseProposalController)parentController.getController()).isNew()){
-                        (parentController.getController()).showView(CourseConfigurer.CourseSections.SUMMARY);
+                        (parentController.getController()).showView(CourseProposalConfigurer.CourseSections.SUMMARY);
                     }
                     else{
                         Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
@@ -373,7 +431,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     }
 
     public void storeRules(final boolean storeRules, final Callback<Boolean> callback) {
-        parentController.requestModel(CourseRequirementsViewController.CLU_PROPOSAL_MODEL, new ModelRequestCallback() {
+        parentController.requestModel(CourseRequirementsViewController.COURSE_PROPOSAL_MODEL, new ModelRequestCallback<DataModel>() {
             @Override
             public void onRequestFail(Throwable cause) {
                 Window.alert(cause.getMessage());
@@ -381,9 +439,9 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                 callback.exec(false);
             }
             @Override
-            public void onModelReady(Model model) {
-                String courseId = ((DataModel)model).getRoot().get("id");
-                String courseState = ((DataModel)model).getRoot().get("state");
+            public void onModelReady(DataModel model) {
+                String courseId = model.getRoot().get("id");
+                String courseState = model.getRoot().get("stateKey");
                 if (courseId == null) {
                     final ConfirmationDialog dialog = new ConfirmationDialog("Submit Course Title", "Before saving rules please submit course proposal title");
                     dialog.getConfirmButton().addClickHandler(new ClickHandler(){

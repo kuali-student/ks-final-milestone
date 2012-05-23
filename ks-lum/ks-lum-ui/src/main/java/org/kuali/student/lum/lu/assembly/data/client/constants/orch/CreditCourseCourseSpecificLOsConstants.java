@@ -22,8 +22,8 @@ public interface CreditCourseCourseSpecificLOsConstants
 	public static final String ID = "id";
 	public static final String INCLUDED_SINGLE_USE_LO = "includedSingleUseLo";
 	public static final String EFFECTIVE_DATE = "effectiveDate";
-	public static final String TYPE = "type";
-	public static final String STATE = "state";
+	public static final String TYPE = "typeKey";
+	public static final String STATE = "stateKey";
 	public static final String SEQUENCE = "sequence";
 }
 

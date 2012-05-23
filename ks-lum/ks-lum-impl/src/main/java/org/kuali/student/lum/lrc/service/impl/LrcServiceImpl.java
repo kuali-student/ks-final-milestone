@@ -19,49 +19,47 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dictionary.service.DictionaryService;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.search.service.SearchManager;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.Validator;
-import org.kuali.student.common.validator.ValidatorFactory;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.lrc.dao.LrcDao;
-import org.kuali.student.lum.lrc.dto.CredentialInfo;
-import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
-import org.kuali.student.lum.lrc.dto.CreditInfo;
-import org.kuali.student.lum.lrc.dto.CreditTypeInfo;
-import org.kuali.student.lum.lrc.dto.GradeInfo;
-import org.kuali.student.lum.lrc.dto.GradeTypeInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
-import org.kuali.student.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.lum.lrc.entity.ResultComponent;
 import org.kuali.student.lum.lrc.entity.ResultComponentType;
 import org.kuali.student.lum.lrc.entity.Scale;
-import org.kuali.student.lum.lrc.service.LrcService;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
+import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author lindholm
  *
  */
-@WebService(endpointInterface = "org.kuali.student.lum.lrc.service.LrcService", serviceName = "LrcService", portName = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-public class LrcServiceImpl implements LrcService {
+@WebService(endpointInterface = "org.kuali.student.r2.lum.lrc.service.LRCService", serviceName = "LRCService", portName = "LRCService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
+public class LrcServiceImpl implements LRCService {
 	private LrcDao lrcDao;
     private SearchManager searchManager;
     private DictionaryService dictionaryServiceDelegate;
@@ -71,22 +69,22 @@ public class LrcServiceImpl implements LrcService {
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#compareGrades(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	@Override
-	public String compareGrades(String gradeKey, String scaleKey,
-			String compareGradeKey, String compareScaleKey)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException("Method not yet implemented!");
-	}
+//	@Override
+//	public String compareGrades(String gradeKey, String scaleKey,
+//			String compareGradeKey, String compareScaleKey, ContextInfo contextInfo)
+//			throws InvalidParameterException, MissingParameterException,
+//			OperationFailedException {
+//		throw new UnsupportedOperationException("Method not yet implemented!");
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#createResultComponent(java.lang.String, org.kuali.student.lum.lrc.dto.ResultComponentInfo)
 	 */
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ResultComponentInfo createResultComponent(
 			String resultComponentTypeKey,
-			ResultComponentInfo resultComponentInfo)
+			ResultComponentInfo resultComponentInfo, ContextInfo contextInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -97,10 +95,10 @@ public class LrcServiceImpl implements LrcService {
 	    // Validate Result component
         ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure, contextInfo);
 
         if (null != validationResults && validationResults.size() > 0) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+        	throw new DataValidationErrorException("Validation error!", validationResults);
         }
                 
 	    ResultComponent rc = LrcServiceAssembler.toResultComponent(resultComponentTypeKey, resultComponentInfo, lrcDao);
@@ -112,8 +110,8 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#deleteResultComponent(java.lang.String)
 	 */
 	@Override
-	@Transactional(readOnly=false)
-	public StatusInfo deleteResultComponent(String resultComponentId)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	public StatusInfo deleteResultComponent(String resultComponentId, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -126,165 +124,166 @@ public class LrcServiceImpl implements LrcService {
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCredential(java.lang.String)
 	 */
-	@Override
-	public CredentialInfo getCredential(String credentialKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public CredentialInfo getCredential(String credentialKey)
+//			throws DoesNotExistException, InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//		throw new UnsupportedOperationException();
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCredentialKeysByCredentialType(java.lang.String)
 	 */
-	@Override
-	public List<String> getCredentialKeysByCredentialType(
-			String credentialTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public List<String> getCredentialKeysByCredentialType(
+//			String credentialTypeKey) throws DoesNotExistException,
+//			InvalidParameterException, MissingParameterException,
+//			OperationFailedException {
+//		throw new UnsupportedOperationException();
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCredentialType(java.lang.String)
 	 */
-	@Override
-	public CredentialTypeInfo getCredentialType(String credentialTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public CredentialTypeInfo getCredentialType(String credentialTypeKey)
+//			throws DoesNotExistException, InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//		throw new UnsupportedOperationException();
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCredentialTypes()
 	 */
-	@Override
-	public List<CredentialTypeInfo> getCredentialTypes()
-			throws OperationFailedException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public List<CredentialTypeInfo> getCredentialTypes()
+//			throws OperationFailedException {
+//		throw new UnsupportedOperationException();
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCredentialsByKeyList(java.util.List)
 	 */
-	@Override
-	public List<CredentialInfo> getCredentialsByKeyList(
-			List<String> credentialKeyList) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public List<CredentialInfo> getCredentialsByKeyList(
+//			List<String> credentialKeyList) throws DoesNotExistException,
+//			InvalidParameterException, MissingParameterException,
+//			OperationFailedException {
+//		throw new UnsupportedOperationException();
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCredit(java.lang.String)
 	 */
-	@Override
-	public CreditInfo getCredit(String creditKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public CreditInfo getCredit(String creditKey) throws DoesNotExistException,
+//			InvalidParameterException, MissingParameterException,
+//			OperationFailedException {
+//		throw new UnsupportedOperationException();
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCreditKeysByCreditType(java.lang.String)
 	 */
-	@Override
-	public List<String> getCreditKeysByCreditType(String creditTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public List<String> getCreditKeysByCreditType(String creditTypeKey)
+//			throws DoesNotExistException, InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//		throw new UnsupportedOperationException();
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCreditType(java.lang.String)
 	 */
-	@Override
-	public CreditTypeInfo getCreditType(String creditTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public CreditTypeInfo getCreditType(String creditTypeKey)
+//			throws DoesNotExistException, InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//		throw new UnsupportedOperationException();
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCreditTypes()
 	 */
-	@Override
-	public List<CreditTypeInfo> getCreditTypes()
-			throws OperationFailedException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public List<CreditTypeInfo> getCreditTypes()
+//			throws OperationFailedException {
+//		throw new UnsupportedOperationException();
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCreditsByKeyList(java.util.List)
 	 */
-	@Override
-	public List<CreditInfo> getCreditsByKeyList(List<String> creditKeyList)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public List<CreditInfo> getCreditsByKeyList(List<String> creditKeyList)
+//			throws DoesNotExistException, InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//		throw new UnsupportedOperationException();
+//	}
 
     /* (non-Javadoc)
      * @see org.kuali.student.lum.lrc.service.LrcService#getGrade(java.lang.String)
      */
-    @Override
-    public GradeInfo getGrade(String gradeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-		throw new UnsupportedOperationException();
-    }
+//    @Override
+//    public GradeInfo getGrade(String gradeKey) throws DoesNotExistException,
+//            InvalidParameterException, MissingParameterException,
+//            OperationFailedException {
+//		throw new UnsupportedOperationException();
+//    }
 
     /* (non-Javadoc)
      * @see org.kuali.student.lum.lrc.service.LrcService#getGradeKeysByGradeType(java.lang.String)
      */
-    @Override
-    public List<String> getGradeKeysByGradeType(String gradeTypeKey)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException();
-    }
+//    @Override
+//    public List<String> getGradeKeysByGradeType(String gradeTypeKey)
+//            throws DoesNotExistException, InvalidParameterException,
+//            MissingParameterException, OperationFailedException {
+//		throw new UnsupportedOperationException();
+//    }
 
     /* (non-Javadoc)
      * @see org.kuali.student.lum.lrc.service.LrcService#getGradeType(java.lang.String)
      */
-    @Override
-    public GradeTypeInfo getGradeType(String gradeTypeKey)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException();
-    }
+//    @Override
+//    public GradeTypeInfo getGradeType(String gradeTypeKey)
+//            throws DoesNotExistException, InvalidParameterException,
+//            MissingParameterException, OperationFailedException {
+//		throw new UnsupportedOperationException();
+//    }
 
     /* (non-Javadoc)
      * @see org.kuali.student.lum.lrc.service.LrcService#getGradeTypes()
      */
-    @Override
-    public List<GradeTypeInfo> getGradeTypes() throws OperationFailedException {
-		throw new UnsupportedOperationException();
-    }
+//    @Override
+//    public List<GradeTypeInfo> getGradeTypes() throws OperationFailedException {
+//		throw new UnsupportedOperationException();
+//    }
 
     /* (non-Javadoc)
      * @see org.kuali.student.lum.lrc.service.LrcService#getGradesByKeyList(java.util.List)
      */
-    @Override
-    public List<GradeInfo> getGradesByKeyList(List<String> gradeKeyList)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException();
-    }
+//    @Override
+//    public List<GradeInfo> getGradesByKeyList(List<String> gradeKeyList)
+//            throws DoesNotExistException, InvalidParameterException,
+//            MissingParameterException, OperationFailedException {
+//		throw new UnsupportedOperationException();
+//    }
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getGradesByScale(java.lang.String)
 	 */
-	@Override
-	public List<GradeInfo> getGradesByScale(String scale)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException();
-	}
+//	@Override
+//	public List<GradeInfo> getGradesByScale(String scale)
+//			throws DoesNotExistException, InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//		throw new UnsupportedOperationException();
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponent(java.lang.String)
 	 */
 	@Override
-	public ResultComponentInfo getResultComponent(String resultComponentId)
+    @Transactional(readOnly=true)
+	public ResultComponentInfo getResultComponent(String resultComponentId, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(resultComponentId, "resultComponentId");
@@ -292,13 +291,22 @@ public class LrcServiceImpl implements LrcService {
 
 	    return LrcServiceAssembler.toResultComponentInfo(resultComponent);
 	}
+	
+	@Override
+    public ResultValuesGroupInfo getResultValuesGroup(String resultValuesGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+//		ResultComponentInfo temp = this.getResultComponent(resultValuesGroupId);
+//		return LrcServiceAssembler.convertR1toR2(temp);
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented - replacing getResultComponent!");
+    }
+
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentIdsByResult(java.lang.String, java.lang.String)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getResultComponentIdsByResult(String resultValueId,
-			String resultComponentTypeKey) throws DoesNotExistException,
+			String resultComponentTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    checkForMissingParameter(resultValueId, "resultValueId");
@@ -311,8 +319,9 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentIdsByResultComponentType(java.lang.String)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getResultComponentIdsByResultComponentType(
-			String resultComponentTypeKey) throws DoesNotExistException,
+			String resultComponentTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
@@ -324,8 +333,9 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentType(java.lang.String)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public ResultComponentTypeInfo getResultComponentType(
-			String resultComponentTypeKey) throws DoesNotExistException,
+			String resultComponentTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
@@ -337,7 +347,8 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentTypes()
 	 */
 	@Override
-	public List<ResultComponentTypeInfo> getResultComponentTypes()
+    @Transactional(readOnly=true)
+	public List<ResultComponentTypeInfo> getResultComponentTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
 		List<ResultComponentType> rct = lrcDao.find(ResultComponentType.class);
 		return LrcServiceAssembler.toResultComponentTypeInfos(rct);
@@ -347,31 +358,37 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getScale(java.lang.String)
 	 */
 	@Override
-	public ScaleInfo getScale(String scaleKey) throws DoesNotExistException,
+    @Transactional(readOnly=true)
+	public ScaleInfo getScale(String scaleKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(scaleKey, "scaleKey");
 		Scale scale = lrcDao.fetch(Scale.class, scaleKey);
 		return LrcServiceAssembler.toScaleInfo(scale);
 	}
+	
+	public ResultScaleInfo getResultScale(String resultScaleKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented - replacing getScale!");
+	}
+		
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#translateGrade(java.lang.String, java.lang.String, java.lang.String)
 	 */
-	@Override
-	public List<GradeInfo> translateGrade(String gradeKey, String scaleKey,
-			String translateScaleKey) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		throw new UnsupportedOperationException("Method not yet implemented!");
-	}
+//	@Override
+//	public List<GradeInfo> translateGrade(String gradeKey, String scaleKey,
+//			String translateScaleKey) throws InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//		throw new UnsupportedOperationException("Method not yet implemented!");
+//	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#updateResultComponent(java.lang.String, org.kuali.student.lum.lrc.dto.ResultComponentInfo)
 	 */
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ResultComponentInfo updateResultComponent(String resultComponentId,
-			ResultComponentInfo resultComponentInfo)
+			ResultComponentInfo resultComponentInfo, ContextInfo contextInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
@@ -382,10 +399,10 @@ public class LrcServiceImpl implements LrcService {
         // Validate Result component
         ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure, contextInfo);
 
         if (null != validationResults && validationResults.size() > 0) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+        	throw new DataValidationErrorException("Validation error!", validationResults);
         }
         
         ResultComponent entity = lrcDao.fetch(ResultComponent.class, resultComponentId);
@@ -433,14 +450,15 @@ public class LrcServiceImpl implements LrcService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+	 	return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+		
 	}
-
+	
 	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-			throws OperationFailedException {
-		return searchManager.getSearchCriteriaTypes();
-	}
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+            throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes();
+    }
 
 	@Override
 	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
@@ -453,7 +471,7 @@ public class LrcServiceImpl implements LrcService {
 	@Override
 	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchResultTypes();
+	    return searchManager.getSearchResultTypes();
 	}
 
 	@Override
@@ -496,12 +514,6 @@ public class LrcServiceImpl implements LrcService {
 		this.searchManager = searchManager;
 	}
 
-	@Override
-	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        checkForMissingParameter(searchRequest, "searchRequest");
-        return searchManager.search(searchRequest, lrcDao);
-	}
-
     @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
@@ -532,4 +544,145 @@ public class LrcServiceImpl implements LrcService {
     public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
+
+	@Override
+	public List<ResultValuesGroupInfo> getResultValuesGroupsByIds(
+			List<String> resultValuesGroupIds, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(
+			String resultValueId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public List<String> getResultValuesGroupIdsByType(
+			String resultValuesGroupTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public ResultValuesGroupInfo createResultValuesGroup(
+			ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public ResultValuesGroupInfo updateResultValuesGroup(
+			String resultValuesGroupId,
+			ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public StatusInfo deleteResultValuesGroup(String resultValuesGroupId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateResultValuesGroup(
+			String validationType, ResultValuesGroupInfo gradeValuesGroupInfo,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public ResultValueInfo getResultValue(String resultValueId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public List<ResultValueInfo> getResultValuesByIds(
+			List<String> resultValueIds, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public List<ResultValueInfo> getResultValuesForResultValuesGroup(
+			String resultValuesGroupId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public ResultValueInfo createResultValue(ResultValueInfo resultValueInfo,
+			ContextInfo context) throws AlreadyExistsException,
+			DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public ResultValueInfo updateResultValue(String resultValueId,
+			ResultValueInfo resultValueInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public StatusInfo deleteResultValue(String resultValueId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateResultValue(
+			String validationType, ResultValueInfo resultValueInfo,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+	public List<ResultValueInfo> getResultValuesForScale(String resultScaleKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	@Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        checkForMissingParameter(searchRequest, "searchRequest");
+        return searchManager.search(searchRequest, lrcDao);
+    }
+	
 }

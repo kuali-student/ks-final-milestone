@@ -5,13 +5,13 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.ULPanel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -135,7 +135,7 @@ public class SubrulePreviewWidget extends FlowPanel {
      * @param list
      */
     private void populateRequirementComponentWidgets(StatementTreeViewInfo statement, ULPanel list) {
-        StatementOperatorTypeKey includedOperator = null;
+    	StatementOperatorTypeKey includedOperator = null;
         for (ReqComponentInfo reqComp : statement.getReqComponents()) {
             String nl = getPreviewNaturalLanguageForReqComponent(reqComp);
             
@@ -143,7 +143,7 @@ public class SubrulePreviewWidget extends FlowPanel {
             
             // only pass the operator after the first requirement panel is built
             if(includedOperator == null) {
-                includedOperator = statement.getOperator();
+            	includedOperator = statement.getOperator();
             }
         }
     }
@@ -159,26 +159,28 @@ public class SubrulePreviewWidget extends FlowPanel {
      * @return
      */
     private Widget buildSubStatementWidget(StatementTreeViewInfo subStatement, StatementTreeViewInfo parentStatement, boolean firstInList) {
-        
-        StatementOperatorTypeKey prefixOperator = null;
-        if(!firstInList) {
-            prefixOperator = subStatement.getOperator();
-        }
+    	StatementOperatorTypeKey prefixOperator = null;
         
         boolean hasReqComponents = (subStatement.getReqComponents() != null && !subStatement.getReqComponents().isEmpty());
         
         // simplest case:  statement has one requisite component and its operator is the same as its parent
-        if(hasReqComponents && subStatement.getReqComponents().size() == 1 && subStatement.getOperator() == parentStatement.getOperator()) {
+        if(hasReqComponents && subStatement.getReqComponents().size() == 1) {
             // return requirement component text, including operator text if applicable
             ReqComponentInfo reqComp = subStatement.getReqComponents().iterator().next();
             String nl = getPreviewNaturalLanguageForReqComponent(reqComp);
-            
+            if (!firstInList) {
+            	prefixOperator = parentStatement.getOperator();
+            }
             return buildRequirementPanel(reqComp, prefixOperator, nl);
-        }
+          }
         
         // The statement has one or more requisite components or sub-statements, so build the header text
         StringBuilder headerText = new StringBuilder();
         
+        if (!firstInList) {
+        	prefixOperator = parentStatement.getOperator();
+        }
+
         appendOperatorTag(headerText, prefixOperator);
         
         headerText.append(subStatement.getOperator() == StatementOperatorTypeKey.AND ? OPERATOR_HEADER_AND : OPERATOR_HEADER_OR);
@@ -189,18 +191,18 @@ public class SubrulePreviewWidget extends FlowPanel {
         if(hasReqComponents) {
             // requisite component case: a sub-statement with only requisite components
             ULPanel subrulePanel = new ULPanel();
-            subrulePanel.setULClassName(SUBRULE_UL_CSS_CLASS);
-            
-            populateRequirementComponentWidgets(subStatement, subrulePanel);
-            
-            panel.add(subrulePanel);
-            
+            subrulePanel.setULClassName(SUBRULE_UL_CSS_CLASS);           
+            populateRequirementComponentWidgets(subStatement, subrulePanel);            
+            panel.add(subrulePanel);            
         }
         else {
             // sub-statement case: for each sub statement, call this method recursively
             boolean firstInSubList = true;
             for(StatementTreeViewInfo childStatement : subStatement.getStatements()) {
-                panel.add(buildSubStatementWidget(childStatement, subStatement, firstInSubList));
+                ULPanel subStatementPanel = new ULPanel();
+                subStatementPanel.setULClassName(SUBRULE_UL_CSS_CLASS);
+                subStatementPanel.add(buildSubStatementWidget(childStatement, subStatement, firstInSubList), SUBRULE_LI_CSS_CLASS);
+                panel.add(subStatementPanel);
                 firstInSubList = false;
             }
             
@@ -217,9 +219,9 @@ public class SubrulePreviewWidget extends FlowPanel {
 
     private String getPreviewNaturalLanguageForReqComponent(ReqComponentInfo reqComp) {
         String nl = null;
-        if (reqComp instanceof ReqComponentInfoUi) {
-            nl = ((ReqComponentInfoUi)reqComp).getPreviewNaturalLanguageTranslation();
-        }
+     if (reqComp instanceof ReqComponentInfoUi) {
+        	 nl = ((ReqComponentInfoUi)reqComp).getPreviewNaturalLanguageTranslation();
+      }
         if ( nl == null) {
             nl = reqComp.getNaturalLanguageTranslation();
         }

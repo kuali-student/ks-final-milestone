@@ -19,6 +19,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+@Deprecated
 @WebService(name = "MyService", targetNamespace = "http://student.kuali.org/poc/wsdl/test/my")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface MyService {

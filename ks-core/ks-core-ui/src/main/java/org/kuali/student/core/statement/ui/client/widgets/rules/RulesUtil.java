@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.core.statement.dto.StatementInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
 public class RulesUtil {
 
@@ -134,9 +134,9 @@ public class RulesUtil {
             clonedReqComponentInfo.setId(inReqComponentInfo.getId());
 //            clonedReqComponentInfo.setRequiredComponentType(inReqComponentInfo.getRequiredComponentType());
             clonedReqComponentInfo.setNaturalLanguageTranslation(inReqComponentInfo.getNaturalLanguageTranslation());
-            if (inReqComponentInfo instanceof ReqComponentInfoUi) {
-            	clonedReqComponentInfo.setPreviewNaturalLanguageTranslation(((ReqComponentInfoUi)inReqComponentInfo).getPreviewNaturalLanguageTranslation());
-            }
+          if (inReqComponentInfo instanceof ReqComponentInfoUi) {
+                      	clonedReqComponentInfo.setPreviewNaturalLanguageTranslation(((ReqComponentInfoUi)inReqComponentInfo).getPreviewNaturalLanguageTranslation());
+                      }
         }
         return clonedReqComponentInfo;
     }
@@ -212,7 +212,7 @@ public class RulesUtil {
                 // retrieve all req. component LEAFS
                 List<ReqComponentInfo> clonedReqComponentList = new ArrayList<ReqComponentInfo>();
                 for (ReqComponentInfo inReqComponent : inReqComponentInfos) {
-                    clonedReqComponentList.add(RulesUtil.clone(inReqComponent));
+                	clonedReqComponentList.add(RulesUtil.clone(inReqComponent));
                 }
                 clonedStatementTreeViewInfoInfo.setReqComponents(clonedReqComponentList);
             }

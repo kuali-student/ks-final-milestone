@@ -3,9 +3,6 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayoutWithContentHeader;
@@ -18,21 +15,25 @@ import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
+import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.views.SelectVersionsView;
 import org.kuali.student.lum.lu.ui.course.client.views.ShowVersionView;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -40,7 +41,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
-public class VersionsController extends BasicLayoutWithContentHeader{
+public class VersionsController extends BasicLayoutWithContentHeader implements HasRequirements{
 	
 	public static enum Views{VERSION_SELECT, VERSION_VIEW, VERSION_COMPARE}
 	
@@ -62,6 +63,8 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	private String lastId2 = "";
 	private HorizontalSection workflowVersionInfoSection = new HorizontalSection();
 	
+    private final CourseRequirementsDataModel reqDataModel1;
+    private final CourseRequirementsDataModel reqDataModel2;
 	
 	private boolean initialized = false;
 	private String versionIndId = "";
@@ -85,7 +88,10 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     		}
     	});
         versionHistoryButton.addStyleName("versionHistoryLink");
-        
+
+        reqDataModel1 = new CourseRequirementsDataModel(this);
+        reqDataModel2 = new CourseRequirementsDataModel(this);
+
         workflowVersionInfoSection.addWidget(this.getStatusLabel());
         workflowVersionInfoSection.addWidget(this.generateActionDropDown());
         workflowVersionInfoSection.addWidget(versionHistoryButton);
@@ -159,8 +165,16 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	        			view.showWarningMessage(true);
 	        		}
 	        		updateState(cluModel1);
-	 	            callback.onModelReady(cluModel1);
-	 	            lastId1 = courseId;
+
+	 	            reqDataModel1.retrieveStatementTypes(cluModel1.<String>get("id"), new Callback<Boolean>() {
+	                    @Override
+	                    public void exec(Boolean result) {
+	                        if (result) {
+	                            KSBlockingProgressIndicator.removeTask(loadDataTask);
+	        	 	            callback.onModelReady(cluModel1);
+	                        }
+	                    }
+	                }); 
 	        	}
 	        	else{
 	        		cluModel2 = new DataModel();
@@ -172,13 +186,18 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	        		else{
 	        			cluModel2.setModelName("Version " + cluModel2.get("versionInfo/sequenceNumber"));
 	        		}
-	 	            callback.onModelReady(cluModel2);
-	 	            lastId2 = courseId;
-	        	}
-	            
-	            KSBlockingProgressIndicator.removeTask(loadDataTask);
-	        }
-	
+
+	 	            reqDataModel2.retrieveStatementTypes(cluModel2.<String>get("id"), new Callback<Boolean>() {
+	                    @Override
+	                    public void exec(Boolean result) {
+	                        if (result) {
+	                            KSBlockingProgressIndicator.removeTask(loadDataTask);
+	        	 	            callback.onModelReady(cluModel2);
+	                        }
+	                    }
+	                });
+	        	}	            
+	        }	
 	    });
 	}
 	
@@ -212,34 +231,30 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     public void beforeShow(Callback<Boolean> onReadyCallback) {
     	workflowVersionInfoSection.setVisible(false);
     	this.getHeader().showPrint(false);
-    	this.getHeader().showJasper(false);
+    	this.getHeader().showExport(false);
     	showDefaultView(onReadyCallback);
     }
     
     private void init(final Callback<Boolean> onReadyCallback) {
 
-        if (initialized) {
-            onReadyCallback.exec(true);
-        } else {
-        	KSBlockingProgressIndicator.addTask(loadDataTask);
-    		
-        	rpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>(){
+        KSBlockingProgressIndicator.addTask(loadDataTask);
 
-	        	public void handleFailure(Throwable caught) {
-	        		initialized = false;
-                	onReadyCallback.exec(false);
-                	KSBlockingProgressIndicator.removeTask(loadDataTask);
-                    throw new RuntimeException("Failed to get model definition.", caught);
-                }
+        rpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>() {
 
-                public void onSuccess(Metadata result) {
-                	definition = new DataModelDefinition(result);
-                    KSBlockingProgressIndicator.removeTask(loadDataTask);
-                    configureScreens(onReadyCallback);
-                }
-	          });
-            
-        }
+            public void handleFailure(Throwable caught) {
+                initialized = false;
+                onReadyCallback.exec(false);
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
+                throw new RuntimeException("Failed to get model definition.", caught);
+            }
+
+            public void onSuccess(Metadata result) {
+                definition = new DataModelDefinition(result);
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
+                configureScreens(onReadyCallback);
+            }
+        });
+
     }
 
     private void configureScreens(final Callback<Boolean> onReadyCallback) {
@@ -258,7 +273,8 @@ public class VersionsController extends BasicLayoutWithContentHeader{
                     }
                 }
 
-                summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, definition, stmtTypesOut, VersionsController.this, "Model");
+                summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
+                summaryConfigurer.init(type, state, groupName, definition, stmtTypesOut, VersionsController.this, "Model");
                 view = new ShowVersionView(Views.VERSION_VIEW, "Version", "Model", VersionsController.this, stmtTypesOut);
                 compare = summaryConfigurer.generateCourseSummarySection();
                 compare.setLayoutController(VersionsController.this);
@@ -282,8 +298,8 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     }
     
     private void updateState(final DataModel cluModel) {
-    	if(cluModel.get("state") != null){
-	    	statusLabel.setText("Status: " + cluModel.get("state"));
+    	if(cluModel.get("stateKey") != null){
+            statusLabel.setText(getMessage("courseStatusLabel") + ": " + cluModel.get("stateKey"));
 	    	
 	    	for(CourseWorkflowActionList widget: actionDropDownWidgets){
 				widget.init(getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel, new Callback<String>() {
@@ -292,20 +308,14 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 			            if (newState != null) {
 			                KSNotifier.add(new KSNotification(getMessage("cluStateChangeNotification" + newState), false, 5000));
 			                // FIXME: this is not updating the cluModel so state will not be updated in the model.  May not be a problem.
-			                statusLabel.setText("Status: " + newState);
+                                    statusLabel.setText(getMessage("courseStatusLabel") + ": " + newState);
 			            } else {
 			            	KSNotifier.add(new KSNotification(getMessage("cluStateChangeFailedNotification"), false, 5000));
 			            }
 			        }
 				});
 				widget.updateCourseActionItems(cluModel);
-				widget.setEnabled(true);
-				if(widget.isEmpty()) {
-					widget.setVisible(false);
-				}
-				else{
-					widget.setVisible(true);
-				}
+
 			}
     	}
     }
@@ -345,12 +355,12 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 		if(viewType != Views.VERSION_SELECT){
 			workflowVersionInfoSection.setVisible(true);
 			this.getHeader().showPrint(true);
-			this.getHeader().showJasper(true);
+			this.getHeader().showExport(true);
 		}
 		else{
 			workflowVersionInfoSection.setVisible(false);
 			this.getHeader().showPrint(false);
-			this.getHeader().showJasper(false);
+			this.getHeader().showExport(false);
 		}
 		super.showView(viewType, onReadyCallback);
 	}
@@ -360,4 +370,14 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	public void setCurrentTitle(String currentTitle) {
     	this.getHeader().setTitle(currentTitle);
 	}
+	
+	
+	@Override
+	public CourseRequirementsDataModel getReqDataModel() {
+		return reqDataModel1;
+	}
+
+	public CourseRequirementsDataModel getReqDataModelComp() {
+		return reqDataModel2;
+	} 
 }

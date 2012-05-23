@@ -17,23 +17,26 @@ package org.kuali.student.lum.program.server;
 
 import java.util.List;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 
-public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> implements StatementRpcService {
+public class StatementRpcServlet extends BaseRpcGwtServletAbstract<CluService> implements StatementRpcService {
 
 	private static final long serialVersionUID = 1L;
 	private StatementRpcService statmentDataService;
 
 	public void setStatmentDataService(StatementRpcService statmentDataService) {
+		
 		this.statmentDataService = statmentDataService;
 	}
 

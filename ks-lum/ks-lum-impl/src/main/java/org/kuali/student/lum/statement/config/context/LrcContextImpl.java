@@ -16,37 +16,40 @@
 package org.kuali.student.lum.statement.config.context;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List   ;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
-import org.kuali.student.lum.lrc.service.LrcService;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
  * This class creates the template context for grade condition type.
  */
 public class LrcContextImpl extends BasicContextImpl {
 	
-	private LrcService lrcService;
+	private LRCService lrcService;
 	
 	/** Total credits template token */ 
 	public final static String GRADE_TOKEN = "grade";
     public final static String GRADE_TYPE_TOKEN = "gradeType";	
 
-	public void setLrcService(LrcService lrcService) {
+	public void setLrcService(LRCService lrcService) {
 		this.lrcService = lrcService;
 	}
 
-	private ResultComponentInfo getResultComponentByResultComponentId(String resultComponentId) throws OperationFailedException {
+	private ResultComponentInfo getResultComponentByResultComponentId(String resultComponentId, ContextInfo contextInfo) throws OperationFailedException {
 		if (resultComponentId == null) {
 			return null;
 		}
 		try {
-			return lrcService.getResultComponent(resultComponentId);
+
+
+			return  lrcService.getResultComponent(resultComponentId, contextInfo);
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
@@ -64,17 +67,18 @@ public class LrcContextImpl extends BasicContextImpl {
 		throw new OperationFailedException("Result value not found: "+resultValue);
 	}
 	
-	private ResultComponentInfo getResultComponentByResultValueId(String resultValueId) throws OperationFailedException {
+	private ResultComponentInfo getResultComponentByResultValueId(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
 		if(resultValueId == null) {
 			return null;
 		}
 		
 		try {
-			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes();
+
+			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes(contextInfo);
 			for(ResultComponentTypeInfo type : typeList) {
-				List<String> resultComponentIdList = lrcService.getResultComponentIdsByResultComponentType(type.getId());
+				List<String> resultComponentIdList = lrcService.getResultComponentIdsByResultComponentType(type.getId(), contextInfo);
 				for(String resultComponentId : resultComponentIdList) {
-					ResultComponentInfo resultComponent = lrcService.getResultComponent(resultComponentId);
+					ResultComponentInfo resultComponent = lrcService.getResultComponent(resultComponentId, contextInfo);
 					if(resultComponent.getResultValues().contains(resultValueId)) {
 						return resultComponent;
 					}
@@ -92,7 +96,7 @@ public class LrcContextImpl extends BasicContextImpl {
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();
 
 //        String gradeTypeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
@@ -112,12 +116,12 @@ public class LrcContextImpl extends BasicContextImpl {
         String gradeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getId());
         if (gradeId == null) {
 			String gradeTypeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
-			gradeTypeResultComponent = getResultComponentByResultComponentId(gradeTypeId);
+			gradeTypeResultComponent = getResultComponentByResultComponentId(gradeTypeId, contextInfo);
 			if (gradeTypeResultComponent != null) {
 				contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);
 			}
         } else {
-        	gradeTypeResultComponent = getResultComponentByResultValueId(gradeId);
+        	gradeTypeResultComponent = getResultComponentByResultValueId(gradeId, contextInfo);
         }
 		if (gradeTypeResultComponent != null) {
 			contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);

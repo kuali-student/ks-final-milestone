@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 
+@Deprecated
 @XmlRootElement(name = "findStringIdResponse", namespace = "http://student.kuali.org/poc/wsdl/test/my")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "findStringIdResponse", namespace = "http://student.kuali.org/poc/wsdl/test/my")

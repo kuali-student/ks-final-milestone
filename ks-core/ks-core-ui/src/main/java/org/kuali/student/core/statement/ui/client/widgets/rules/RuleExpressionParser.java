@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.kuali.student.core.statement.dto.StatementInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
 import com.google.gwt.core.client.GWT;
@@ -262,7 +262,7 @@ public class RuleExpressionParser {
             if (!doValidateExpression(new ArrayList<String>(), tokenList, rcs)) return null;
             List<Node<Token>> nodeList = toNodeList(tokenList);
             List<Node<Token>> rpnList = getRPN(nodeList);
-            parsedS = statementVOFromRPN(rpnList, rcs, statementType);
+            parsedS = statementVOFromRPN(rpnList, rcs, statementType, statementVO);
 
             if (parsedS != null) {
                 parsedS.simplify();
@@ -287,7 +287,7 @@ public class RuleExpressionParser {
     }
     
     /** Build the binary tree from list of tokens*/
-    private StatementVO statementVOFromRPN(List<Node<Token>> rpnList, List<ReqComponentVO> rcs, String statementType) {
+    private StatementVO statementVOFromRPN(List<Node<Token>> rpnList, List<ReqComponentVO> rcs, String statementType, StatementVO oldStatementVO) {
         StatementVO statementVO;        
 
         //if rule is empty
@@ -318,6 +318,9 @@ public class RuleExpressionParser {
                 StatementInfo statementInfo = new StatementInfo();
                 statementInfo.setOperator(op);
                 statementInfo.setType(statementType);
+                statementInfo.setId(oldStatementVO.getStatementInfo().getId());
+                //Need to copy the metadata here to ensure that the statement can be updated correctly.
+                statementInfo.setMetaInfo(oldStatementVO.getStatementInfo().getMetaInfo());
                 subS.setStatementInfo(statementInfo);
                 Token right = conditionStack.pop().getUserObject();
                 Token left = conditionStack.pop().getUserObject();

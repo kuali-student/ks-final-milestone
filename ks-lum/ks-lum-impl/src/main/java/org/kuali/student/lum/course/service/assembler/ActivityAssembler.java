@@ -15,14 +15,17 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
-import org.kuali.student.common.assembly.BOAssembler;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.BOAssembler;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuService;
+
 
 /**
  * Assembles/Disassembles ActivityInfo DTO from/To CluInfo 
@@ -32,73 +35,80 @@ import org.kuali.student.lum.lu.service.LuService;
  */
 public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 
-    private LuService luService;
-    
-	@Override
-	public ActivityInfo assemble(CluInfo clu, ActivityInfo activity, boolean shallowBuild) {
-		if(clu == null){
+    private CluService cluService;
+
+    @Override
+    public ActivityInfo assemble(CluInfo baseDTO, ActivityInfo businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
+    	if(baseDTO == null){
 			return null;
 		}
 		
-		ActivityInfo activityInfo = (null != activity) ? activity : new ActivityInfo();
+		ActivityInfo activityInfo = (null != businessDTO) ? businessDTO : new ActivityInfo();
 	    
-		activityInfo.setId(clu.getId());
-		activityInfo.setActivityType(clu.getType());
-		activityInfo.setState(clu.getState());
-		activityInfo.setDefaultEnrollmentEstimate(clu.getDefaultEnrollmentEstimate());
-		activityInfo.setDuration(clu.getStdDuration());
-		activityInfo.setContactHours(clu.getIntensity());
-		activityInfo.setMetaInfo(clu.getMetaInfo());
-        activityInfo.setAttributes(clu.getAttributes());
+		activityInfo.setId(baseDTO.getId());
+		activityInfo.setTypeKey(baseDTO.getTypeKey());
+		activityInfo.setStateKey(baseDTO.getStateKey());
+		activityInfo.setDefaultEnrollmentEstimate(baseDTO.getDefaultEnrollmentEstimate());
+		activityInfo.setDuration(baseDTO.getStdDuration());
+		activityInfo.setContactHours(baseDTO.getIntensity());
+		activityInfo.setMeta(baseDTO.getMeta());
+        activityInfo.setAttributes(baseDTO.getAttributes());
 		return activityInfo;
 	}
 
-	@Override
-	public BaseDTOAssemblyNode<ActivityInfo,CluInfo> disassemble(
-			ActivityInfo activity, NodeOperation operation) throws AssemblyException {
-		if (activity==null) {
-			//FIXME Unsure now if this is an exception or just return null or empty assemblyNode 
+    @Override
+    public BaseDTOAssemblyNode<ActivityInfo, CluInfo> disassemble(ActivityInfo businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
+		
+    	if (businessDTO == null) {
+			// FIXME Unsure now if this is an exception or just return null or
+			// empty assemblyNode
 			throw new AssemblyException("Activity can not be null");
 		}
-		if (NodeOperation.CREATE != operation && null == activity.getId()) {
+		if (NodeOperation.CREATE != operation && null == businessDTO.getId()) {
 			throw new AssemblyException("Activity's id can not be null");
 		}
-		
-		BaseDTOAssemblyNode<ActivityInfo,CluInfo> result = new BaseDTOAssemblyNode<ActivityInfo,CluInfo>(this);
-		
+
+		BaseDTOAssemblyNode<ActivityInfo, CluInfo> result = new BaseDTOAssemblyNode<ActivityInfo, CluInfo>(
+				this);
+
 		CluInfo clu;
-        try {
-            clu = (NodeOperation.UPDATE == operation) ? luService.getClu(activity.getId()) : new CluInfo();
-        } catch (Exception e) {
-            throw new AssemblyException("Error retrieving activity learning unit during update", e);
-        }
-	
-		//Copy all fields 
-		clu.setId(UUIDHelper.genStringUUID(activity.getId()));//Create the id if it's not there already(important for creating relations)
-		clu.setType(activity.getActivityType());
-		clu.setState(activity.getState());
-		clu.setDefaultEnrollmentEstimate(activity.getDefaultEnrollmentEstimate());
-		clu.setStdDuration(activity.getDuration());
-		clu.setIntensity(activity.getContactHours());
-		clu.setMetaInfo(activity.getMetaInfo());
-		clu.setAttributes(activity.getAttributes());
-				
-		//Add the Clu to the result 
+		try {
+			clu = (NodeOperation.UPDATE == operation) ? cluService.getClu(
+							businessDTO.getId(), contextInfo) : new CluInfo();
+		} catch (Exception e) {
+			throw new AssemblyException(
+					"Error retrieving activity learning unit during update", e);
+		}
+
+		// Copy all fields
+		clu.setId(UUIDHelper.genStringUUID(businessDTO.getId()));
+		clu.setTypeKey(businessDTO.getTypeKey());
+		clu.setStateKey(businessDTO.getStateKey());
+		clu.setDefaultEnrollmentEstimate(businessDTO
+				.getDefaultEnrollmentEstimate() != null ? businessDTO
+		                .getDefaultEnrollmentEstimate() : 0);
+		clu.setStdDuration(businessDTO.getDuration());
+		clu.setIntensity(businessDTO.getContactHours());
+		clu.setMeta(businessDTO.getMeta());
+		clu.setAttributes(businessDTO.getAttributes());
+
+		// Add the Clu to the result
 		result.setNodeData(clu);
 
 		// Add refernce to Activity
-		result.setBusinessDTORef(activity);
-		
+		result.setBusinessDTORef(businessDTO);
+
 		result.setOperation(operation);
 
 		return result;
 	}
 
-    public void setLuService(LuService luService) {
-        this.luService = luService;
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 
-    public LuService getLuService() {
-        return luService;
+    public CluService getCluService() {
+        return cluService;
     }
+
 }

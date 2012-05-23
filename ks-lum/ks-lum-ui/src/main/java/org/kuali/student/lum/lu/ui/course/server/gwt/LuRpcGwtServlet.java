@@ -18,12 +18,14 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
-import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
+import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to
@@ -32,7 +34,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
  * @author Kuali Student Team
  * 
  */
-public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService>
+public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 		implements LuRpcService {
 
 	private static final long serialVersionUID = 1L;
@@ -41,9 +43,10 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService>
 	 * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#createClu(java.lang.String,
 	 *      org.kuali.student.lum.lu.dto.CluInfo)
 	 */
+	@Override
 	public CluInfo createClu(String luTypeKey, CluInfo cluInfo) {
 		try {
-			return service.createClu(luTypeKey, cluInfo);
+			return service.createClu(luTypeKey, cluInfo, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error(e);
 		}
@@ -57,16 +60,17 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService>
 	@Override
 	public CluInfo updateClu(String cluId, CluInfo cluInfo) {
 		try {
-			return service.updateClu(cluId, cluInfo);
+			return service.updateClu(cluId, cluInfo, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error(e);
 		}
 		return null;
 	}
-
+	
+	@Override
 	public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId) {
 		try {
-			return service.getCluLoRelationsByClu(cluId);
+			return service.getCluLoRelationsByClu(cluId, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error(e);
 		}
@@ -76,17 +80,19 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService>
 	@Override
 	public CluInfo getClu(String cluId) {
 		try {
-			return service.getClu(cluId);
+			return service.getClu(cluId, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error(e);
 		}
 		return null;
 	}
 
+	
     @Override
     public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) {
 		try {
-			return service.getCurrentVersion(refObjectTypeURI, refObjectId);
+			return R1R2ConverterUtil.convert(service.getCurrentVersion(refObjectTypeURI, refObjectId, ContextUtils.getContextInfo()),VersionDisplayInfo.class) ;
+			
 		} catch (Exception e) {
 			LOG.error(e);
 		}

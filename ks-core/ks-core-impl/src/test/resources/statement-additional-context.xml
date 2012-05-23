@@ -26,7 +26,7 @@
     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
     <bean id="lumSearchDispatcher"
-          class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
         <property name="services">
             <list>
                 <ref bean="StatementServiceImpl"/>
@@ -34,11 +34,11 @@
         </property>
     </bean>
     <bean id="lumCrossServiceSearchManager"
-          class="org.kuali.student.common.search.service.impl.CrossSearchManager">
+          class="org.kuali.student.r1.common.search.service.impl.CrossSearchManager">
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
     <bean id="statementSearchManager"
-          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0"
                          value="classpath:statement-search-config.xml"/>
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
@@ -65,14 +65,14 @@
     <bean id="mapExceptionAdvisor"
         class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
-            value="org.kuali.student.common.exceptions.OperationFailedException" />
+            value="org.kuali.student.r2.common.exceptions.OperationFailedException" />
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"
-                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
                 <entry
                     key="org.hibernate.exception.ConstraintViolationException"
-                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
             </map>
         </property>
     </bean>
@@ -80,30 +80,30 @@
         <aop:aspect id="dataAccessToBusinessException"
             ref="mapExceptionAdvisor">
             <aop:after-throwing
-                pointcut="execution(* org.kuali.student.core.statement.service.*.*(..))"
+                pointcut="execution(* org.kuali.student.r1.core.statement.service.*.*(..))"
                 method="afterThrowing" throwing="ex" />
         </aop:aspect>
     </aop:config>
 
 
-    <bean id="courseListContext" class="org.kuali.student.core.statement.config.context.lu.CourseListContextImpl" />
-    <bean id="gradeCheckContext" class="org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl" />
-    <bean id="creditContext" class="org.kuali.student.core.statement.config.context.lu.CreditContextImpl" />
+    <bean id="courseListContext" class="org.kuali.student.r1.core.statement.config.context.lu.CourseListContextImpl" />
+    <bean id="gradeCheckContext" class="org.kuali.student.r1.core.statement.config.context.lu.GradeCheckContextImpl" />
+    <bean id="creditContext" class="org.kuali.student.r1.core.statement.config.context.lu.CreditContextImpl" />
 
     <!--bean id="contextRegistryLuStatement"
-        class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
+        class="org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map-->
                 <!-- Header Contexts-->
                 <!--entry key="kuali.statement.type.course.academicReadiness.prereq">
-                    <bean class="org.kuali.student.core.statement.config.contexts.HeaderContextImpl" />
+                    <bean class="org.kuali.student.r1.core.statement.config.contexts.HeaderContextImpl" />
                 </entry>
             </map>
         </constructor-arg>
     </bean-->
 
     <bean id="contextRegistryReqComponent"
-        class="org.kuali.student.core.statement.naturallanguage.ContextRegistry">
+        class="org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
                 <!-- Pre-Req Contexts-->
@@ -205,18 +205,18 @@
     </bean>
 
     <bean id="naturalLanguageMessageBuilder"
-        class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder">
         <constructor-arg index="0" ref="messageBuilderMap" />
     </bean>
 
     <bean id="reqComponentTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.ReqComponentTranslator">
         <property name="contextRegistry" ref="contextRegistryReqComponent" />
         <property name="language" value="en" />
     </bean>
 
     <bean id="statementTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.StatementTranslator">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.StatementTranslator">
         <!--property name="contextRegistry" ref="contextRegistryStatement" /-->
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="messageBuilder" ref="naturalLanguageMessageBuilder" />
@@ -224,23 +224,23 @@
     </bean>
 
     <bean id="naturalLanguageTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
+        class="org.kuali.student.r1.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
         <property name="reqComponentTranslator" ref="reqComponentTranslator" />
         <property name="statementTranslator" ref="statementTranslator" />
     </bean>
 
     <bean id="statementAssembler"
-        class="org.kuali.student.core.statement.service.impl.StatementAssembler">
+        class="org.kuali.student.r1.core.statement.service.impl.StatementAssembler">
         <property name="statementDao" ref="StatementDaoImpl"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
     </bean>
 
    <bean id="StatementServiceImpl"
-        class="org.kuali.student.core.statement.service.impl.StatementServiceImpl" autowire="no">
+        class="org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl" autowire="no">
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="StatementDaoImpl"/>
         <property name="dictionaryServiceDelegate">
-		    <bean class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+		    <bean class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
 		        <constructor-arg>
 			        <value>classpath:ks-statement-dictionary-context.xml;</value>
 		        </constructor-arg>
@@ -251,10 +251,10 @@
         <property name="searchManager" ref="statementSearchManager"/>
     </bean>
     
-    <bean id="serviceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl"/>
+    <bean id="serviceValidator" class="org.kuali.student.r2.common.validator.DefaultValidatorImpl"/>
 
     <bean id="validatorFactory"
-          class="org.kuali.student.common.validator.ValidatorFactory">
+          class="org.kuali.student.r2.common.validator.ValidatorFactory">
         <property name="defaultValidator" ref="serviceValidator"/>
     </bean>       
     

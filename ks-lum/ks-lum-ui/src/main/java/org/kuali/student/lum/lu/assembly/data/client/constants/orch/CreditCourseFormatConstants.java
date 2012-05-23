@@ -21,7 +21,7 @@ public interface CreditCourseFormatConstants
 {
 	public static final String ID = "id";
 	public static final String ACTIVITIES = "activities";
-	public static final String STATE = "state";
+	public static final String STATE = "stateKey";
 	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 
