@@ -12,7 +12,17 @@
   <properties>
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
     <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
+    <!--web.launch.context.path>/sample-app</web.launch.context.path-->
+    <!--bootstrap.spring.file>classpath:SampleAppBeans.xml</bootstrap.spring.file-->
+    <!--maven.surefire.skip>true</maven.surefire.skip-->
+    <war.overlay.pattern.1>WEB-INF/web.xml</war.overlay.pattern.1>
+    <war.overlay.exclude.2>DO_NOT_MATCH_ANYTHING_PATTERN</war.overlay.exclude.2>
+    <!--kuali.testjar.phase>none</kuali.testjar.phase-->
+    <!--kuali.generate.reports>false</kuali.generate.reports-->
   </properties>
+  
+  
+  
   <build>
     <plugins>
       <plugin>
@@ -40,7 +50,7 @@
           </modules>
         </configuration>
       </plugin>
-      <!--  added by bonnie -->
+      
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
@@ -68,7 +78,7 @@
           </dependency>
         </dependencies>
       </plugin>
-      <!-- end -->
+      
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>tomcat-maven-plugin</artifactId>
@@ -90,14 +100,35 @@
           </dependency>
         </dependencies>
       </plugin>
+      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
           <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-          <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,**/sampleTravelApplication.tag </dependentWarExcludes>
+          <dependentWarExcludes>**/web.xml,WEB-INF/lib/**</dependentWarExcludes>
+          <overlays>
+            <overlay>
+              <groupId>org.kuali.rice</groupId>
+              <artifactId>rice-web</artifactId>
+              <includes>
+                <include>${war.overlay.pattern.1}</include>
+              </includes>
+              <filtered>true</filtered>
+            </overlay>
+            <overlay>
+              <groupId>org.kuali.rice</groupId>
+              <artifactId>rice-web</artifactId>
+              <excludes>
+                <exclude>${war.overlay.pattern.1}</exclude>
+                <exclude>${war.overlay.exclude.2}</exclude>
+              </excludes>
+              <filtered>false</filtered>
+            </overlay>
+          </overlays>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
   <dependencies>
@@ -115,8 +146,7 @@
       <artifactId>rice-web</artifactId>
       <version>${kuali.rice.version}</version>
       <type>war</type>
-      <scope>runtime</scope>
-    </dependency>
+    </dependency>    
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
