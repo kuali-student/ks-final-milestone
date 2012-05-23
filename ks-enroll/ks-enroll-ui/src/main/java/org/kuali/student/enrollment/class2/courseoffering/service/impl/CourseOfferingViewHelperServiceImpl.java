@@ -87,6 +87,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         coInfo.setFinalExamType(FinalExam.STANDARD.fromEnum());
         coInfo.setTermId(termId);
         coInfo.setFeeAtActivityOffering(Boolean.FALSE);
+        coInfo.setSubjectArea("MATH");
         coInfo.setInstructors(new ArrayList<OfferingInstructorInfo>());
         try {
             String courseId = coInfo.getCourseId();

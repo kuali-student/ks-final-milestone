@@ -41,11 +41,11 @@ public class CourseOfferingServiceConstants {
     public static final String WAIT_LIST_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.wait.list.level.type.key";
     public static final String GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.grade.roster.level.type.key";
     public static final String COURSE_EVALUATION_INDICATOR_ATTR = "kuali.attribute.course.evaluation.indicator";
-    public static final String FINAL_EXAM_INDICATOR_ATTR = "kuali.attribute.final.exam.indicator ";
-    public static final String FUNDING_SOURCE_ATTR = "kuali.attribute.finding.source";
+    public static final String FINAL_EXAM_INDICATOR_ATTR = "kuali.attribute.final.exam.indicator";
+    public static final String FUNDING_SOURCE_ATTR = "kuali.attribute.funding.source";
     public static final String FEES_ATTACHED_FLAG_ATTR = "kuali.attribute.where.fees.attached.flag";
     public static final String MAX_ENROLLMENT_IS_ESTIMATED_ATTR = "kuali.attribute.max.enrollment.is.estimate";
-    public static final String WHERE_FEES_ATTACHED_FLAG_ATTR = "kuali.attribute.where.fees.attached.flag ";
+    public static final String WHERE_FEES_ATTACHED_FLAG_ATTR = "kuali.attribute.where.fees.attached.flag";
     public static final String IS_MAX_ENROLLMENT_ESTIMATE_ATTR = "kuali.attribute.max.enrollment.is.estimate";
     public static final String WAIT_LIST_INDICATOR_ATTR = "kuali.attribute.wait.list.indicator";
 
