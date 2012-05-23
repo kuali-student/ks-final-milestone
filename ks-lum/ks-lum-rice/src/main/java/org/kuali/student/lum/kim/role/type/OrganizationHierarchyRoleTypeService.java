@@ -53,8 +53,7 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
 
     protected OrganizationService orgService;
 
-    // TODO KSCM-577
-    // @Override
+    @Override
     protected boolean performMatch(Map<String, String> inputQualification, Map<String, String> roleMemberQualifier) {
         // if no qualification is passed, then we have no basis to reject this
         // (if a null is let through, then we get an NPE below)
