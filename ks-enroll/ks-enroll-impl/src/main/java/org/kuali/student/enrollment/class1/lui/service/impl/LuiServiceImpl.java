@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
+import org.kuali.student.enrollment.class1.lui.model.LuCodeEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
@@ -249,7 +250,7 @@ public class LuiServiceImpl
         entity.setCreateTime(context.getCurrentDate());
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
-        if(entity.getIdentifiers()!=null){
+        if(entity.getIdentifiers() != null){
             for(LuiIdentifierEntity ident:entity.getIdentifiers()){
                 ident.setCreateId(context.getPrincipalId());
                 ident.setCreateTime(context.getCurrentDate());
@@ -257,6 +258,16 @@ public class LuiServiceImpl
                 ident.setUpdateTime(context.getCurrentDate());
             }
         }
+        if(entity.getLuiCodes() != null){
+            for(LuCodeEntity code : entity.getLuiCodes()){
+                code.setCreateId(context.getPrincipalId());
+                code.setCreateTime(context.getCurrentDate());
+                code.setUpdateId(context.getPrincipalId());
+                code.setUpdateTime(context.getCurrentDate());
+            }
+        }
+
+
         luiDao.persist(entity);
 
         return entity.toDto();
@@ -290,6 +301,19 @@ public class LuiServiceImpl
         //Update any Meta information
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
+
+        if(entity.getIdentifiers() != null){
+            for(LuiIdentifierEntity ident:entity.getIdentifiers()){
+                ident.setUpdateId(context.getPrincipalId());
+                ident.setUpdateTime(context.getCurrentDate());
+            }
+        }
+        if(entity.getLuiCodes() != null){
+            for(LuCodeEntity code : entity.getLuiCodes()){
+                code.setUpdateId(context.getPrincipalId());
+                code.setUpdateTime(context.getCurrentDate());
+            }
+        }
 
         //Perform the merge
         entity = luiDao.merge(entity);
