@@ -89,11 +89,6 @@ public class CluCluRelationInfo extends RelationshipInfo implements CluCluRelati
         return "CluCluRelationInfo[id=" + this.getId() + ", cluId=" + cluId + ", relatedCluId=" + relatedCluId + ", type=" + this.getTypeKey() + ", cluRelationRequired=" + isCluRelationRequired + "]";
     }
 
-	public void setMeta(MetaInfo metaInfo) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void setAttributes(Map<String, String> attributeMap) {
 		// TODO Auto-generated method stub
 		

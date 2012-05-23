@@ -164,9 +164,4 @@ public class CluSetInfo extends IdEntityInfo implements Serializable, CluSet {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public void setMeta(MetaInfo metaInfo) {
-		// TODO Auto-generated method stub
-		
-	}
 }
