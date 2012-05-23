@@ -62,7 +62,7 @@ public class CourseOfferingSetServiceConstants {
     public static final String IGNORE_CANCELLED_OPTION_KEY = "kuali.rollover.whatcourses.ignorecancelled";
     public static final String SKIP_IF_ALREADY_EXISTS_OPTION_KEY = "kuali.rollover.whatcourses.skipifalreadyexists";
     // what data
-    public static final String USE_CANNONICAL_OPTION_KEY = "kuali.rollover.whatdata.usecanonical";
+    public static final String USE_CANONICAL_OPTION_KEY = "kuali.rollover.whatdata.usecanonical";
     public static final String NO_SCHEDULE_OPTION_KEY = "kuali.rollover.whatdata.noschedule";
     public static final String NO_INSTRUCTORS_OPTION_KEY = "kuali.rollover.whatdata.noinstructors";
     // general processing

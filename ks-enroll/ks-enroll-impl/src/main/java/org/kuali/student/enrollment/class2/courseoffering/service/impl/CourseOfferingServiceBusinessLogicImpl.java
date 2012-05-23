@@ -145,7 +145,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetCo.getInstructors().clear();
         }
         targetCo.setCourseId(targetCourse.getId());
-        if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANNONICAL_OPTION_KEY)) {
+        if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY)) {
             // copy from cannonical
             CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
             coTransformer.copyFromCanonical(targetCourse, targetCo, optionKeys);

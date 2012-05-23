@@ -866,7 +866,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         options.add(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_OPTION_KEY);
         options.add(CourseOfferingSetServiceConstants.SKIP_IF_ALREADY_EXISTS_OPTION_KEY);
         // what data
-        options.add(CourseOfferingSetServiceConstants.USE_CANNONICAL_OPTION_KEY);
+        options.add(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY);
         options.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
         options.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
         return options;
