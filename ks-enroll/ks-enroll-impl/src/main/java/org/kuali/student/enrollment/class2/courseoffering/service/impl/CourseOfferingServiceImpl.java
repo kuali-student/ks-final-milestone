@@ -257,8 +257,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         for (String luiId : luiIds) {
             CourseOfferingInfo co = getCourseOffering(luiId, context);
-
-            if (StringUtils.equals(co.getSubjectArea(), subjectArea)) {
+            // Make the comparison more robust by ignoring spaces and case
+            if (StringUtils.equalsIgnoreCase(co.getSubjectArea().trim(), subjectArea.trim())) {
                 results.add(luiId);
             }
         }
