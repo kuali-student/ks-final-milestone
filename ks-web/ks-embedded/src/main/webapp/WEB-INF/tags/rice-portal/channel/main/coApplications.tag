@@ -30,7 +30,7 @@
     <strong>Format Offering Maintenance</strong> <br/>
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Format Offering" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
-        <li><portal:portalLink displayTitle="true" title="Format Offering (Edit)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingInfoFormObject&formatOfferingInfo.id=Lui-fo-2&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+        <li><portal:portalLink displayTitle="true" title="Format Offering (Edit)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo&id=Lui-fo-2&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
     </ul>
 
     <strong>Enrollment Fee Maintenance</strong> <br/>
