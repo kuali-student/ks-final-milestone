@@ -28,8 +28,8 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.core.web.format.BooleanFormatter;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -37,6 +37,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 
@@ -54,7 +55,7 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
 
     // TODO KSCM-577
     // @Override
-    protected boolean performMatch(Map<String, String> inputQualification, Map<String, String> roleMemberQualifier, ContextInfo contextInfo) {
+    protected boolean performMatch(Map<String, String> inputQualification, Map<String, String> roleMemberQualifier) {
         // if no qualification is passed, then we have no basis to reject this
         // (if a null is let through, then we get an NPE below)
         if (inputQualification == null || inputQualification.isEmpty() || roleMemberQualifier == null || roleMemberQualifier.isEmpty()) {
@@ -74,7 +75,7 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
             Boolean b = (Boolean) format.convertFromPresentationFormat(roleMemberQualifier.get(KualiStudentKimAttributes.DESCEND_HIERARCHY));
             if (b.booleanValue()) {
                 // inputSets.addAll(getHierarchyOrgShortNames(inputOrgId));
-                inputSets.addAll(getHierarchyOrgIds(inputOrgId, contextInfo));
+                inputSets.addAll(getHierarchyOrgIds(inputOrgId, ContextUtils.getContextInfo()));
             }
             /*
 	        // add in the original org short name
