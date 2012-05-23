@@ -135,7 +135,7 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
      * Constructs a new CourseOfferingInfo.
      */
     public CourseOfferingInfo() {
-        this.finalExamType = FinalExam.NONE.fromEnum();
+        this.finalExamType = FinalExam.NONE.toString();
     }
 
     /**

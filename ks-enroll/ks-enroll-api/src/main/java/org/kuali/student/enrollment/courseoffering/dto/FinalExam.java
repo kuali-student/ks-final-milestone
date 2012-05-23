@@ -1,7 +1,5 @@
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import javax.xml.bind.annotation.XmlEnum;
-
 /**
  * @Author Sri komandur@uw.edu
  *
@@ -9,7 +7,6 @@ import javax.xml.bind.annotation.XmlEnum;
  * This design, explicitly specifying 'business type'  gives flexibility and avoids pitfalls in the future when a stored enum
  * is renamed, for example.
  */
-@XmlEnum(String.class)
 public enum FinalExam {
 
     STANDARD("STANDARD"), ALTERNATE("ALTERNATE"), NONE("NONE");
@@ -31,7 +28,8 @@ public enum FinalExam {
         return FinalExam.NONE;
     }
 
-    public String fromEnum() {
+    @Override
+    public String toString() {
         return name;
     }
 }
