@@ -37,6 +37,7 @@ import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 
 /**
  *Detailed information about a single CLU.

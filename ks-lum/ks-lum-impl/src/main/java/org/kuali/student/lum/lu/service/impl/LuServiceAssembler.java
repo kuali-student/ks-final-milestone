@@ -33,6 +33,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;

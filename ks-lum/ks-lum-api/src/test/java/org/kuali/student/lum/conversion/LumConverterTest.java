@@ -426,16 +426,6 @@ public class LumConverterTest {
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getState(), r2.getStateKey());
     }
-    
-    @Test
-    public void testCluInstructorInfo() {
-        org.kuali.student.r1.lum.lu.dto.CluInstructorInfo r1 = R1TestDataUtil.getCluInstructorInfoData();
-        CluInstructorInfo r2 = R1R2ConverterUtil.convert(r1, CluInstructorInfo.class);
-        Assert.assertEquals(r1.getOrgId(), r2.getOrgId());
-        Assert.assertEquals(r1.getPersonId(), r2.getPersonId());
-        Assert.assertEquals(r1.getPersonInfoOverride(), r2.getPersonInfoOverride());
-        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
-    }
 
     @Test 
     public void testCluLoRelationInfo(){

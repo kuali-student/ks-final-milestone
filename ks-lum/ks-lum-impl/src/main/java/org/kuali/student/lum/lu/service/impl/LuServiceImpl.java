@@ -618,7 +618,7 @@ public class LuServiceImpl implements CluService {
             BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),
                     primaryInstructor, new String[]{"attributes"});
 
-            primaryInstructor.setAttributes(LuServiceAssembler
+            primaryInstructor.setAttributes(AssemblerHelper
                     .toGenericAttributes(CluInstructorAttribute.class, R1R2ConverterUtil.convert(cluInfo, org.kuali.student.r1.lum.lu.dto.CluInfo.class)
                             .getPrimaryInstructor().getAttributes(),
                             primaryInstructor, luDao));
@@ -634,9 +634,8 @@ public class LuServiceImpl implements CluService {
             BeanUtils.copyProperties(instructorInfo, instructor,
                     new String[]{"attributes"});
 
-            instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
-            		CluInstructorAttribute.class, R1R2ConverterUtil.convert(instructorInfo, org.kuali.student.r1.lum.lu.dto.CluInstructorInfo.class)
-            				.getAttributes(), instructor, luDao));
+            instructor.setAttributes(AssemblerHelper.toGenericAttributes(
+            		CluInstructorAttribute.class, instructorInfo.getAttributes(), instructor, luDao));
             instructors.add(instructor);
         }
 
@@ -803,7 +802,7 @@ public class LuServiceImpl implements CluService {
             BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(), clu
                     .getPrimaryInstructor(), new String[]{"attributes"});
             clu.getPrimaryInstructor().setAttributes(
-            		LuServiceAssembler.toGenericAttributes(
+            		AssemblerHelper.toGenericAttributes(
             				CluInstructorAttribute.class, R1R2ConverterUtil.convert(cluInfo, org.kuali.student.r1.lum.lu.dto.CluInfo.class)
             						.getPrimaryInstructor().getAttributes(),
             				clu.getPrimaryInstructor(), luDao));
@@ -834,9 +833,8 @@ public class LuServiceImpl implements CluService {
             // Do Copy
             BeanUtils.copyProperties(instructorInfo, cluInstructor,
                     new String[]{"attributes"});
-            cluInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(
-            		CluInstructorAttribute.class, R1R2ConverterUtil.convert(instructorInfo, org.kuali.student.r1.lum.lu.dto.CluInstructorInfo.class)
-            				.getAttributes(), cluInstructor, luDao));
+            cluInstructor.setAttributes(AssemblerHelper.toGenericAttributes(
+            		CluInstructorAttribute.class, instructorInfo.getAttributes(), cluInstructor, luDao));
             clu.getInstructors().add(cluInstructor);
         }
 

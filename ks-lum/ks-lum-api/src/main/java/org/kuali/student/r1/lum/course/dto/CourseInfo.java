@@ -22,9 +22,9 @@ import org.kuali.student.r1.common.dto.Idable;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r1.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
