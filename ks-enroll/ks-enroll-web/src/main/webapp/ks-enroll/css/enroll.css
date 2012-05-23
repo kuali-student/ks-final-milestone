@@ -21,10 +21,11 @@
     margin-bottom: 0px;
 }
 
+/* Brian S says we ought not to do this
 .uif-dropdownControl {
     margin: 0.3em 0;
     padding: 3px 3px 4px 3px;
-}
+}*/
 
 .ui-widget-content a {
     color: #3F7826;

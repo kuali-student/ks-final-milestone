@@ -91,6 +91,7 @@
     </bean>
 
     <bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-TableCollectionSection"
+          p:id="KS-HolidayCalendar-HolidaySection"
 		  p:layoutManager.numberOfColumns="10"
           p:layoutManager.style="width: 100%; display:block;">
 		<property name="headerText" value="Holidays" />
@@ -101,7 +102,12 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-		<property name="items">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-holidays-collection</value>
+            </list>
+        </property>
+        <property name="items">
 			<list>
                 <bean parent="Uif-InputField" p:propertyName="typeKey"  p:readOnlyDisplayReplacementPropertyName="typeName"
                       p:label="Holiday Type" p:required="true" p:readOnly="@{!#isAddLine}"
@@ -132,6 +138,7 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
                             <property name="disabled" value="@{#lp.allDay}"/>
+                            <property name="onKeyUpScript" value="setAttributesFromTimeField(jq(this));"/>
                         </bean>
                     </property>
                     <property name="validCharactersConstraint">
@@ -140,8 +147,8 @@
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:id="timeFieldStartAmPm">
                     <!-- expression causes runtime exc on refresh with 'disabled' property
-                    <property name="required" value="@{!#empty(#lp.startTime)}"/>
-                    <property name="refreshWhenChangedPropertyNames" value="#lp.startTime"/>
+                    <property name="required" value="@{!#lp.allDay and !#empty(#lp.startTime)}"/>
+                    <property name="refreshWhenChangedPropertyNames" value="#lp.startTime,#lp.allDay"/>
                         -->
                     <!--<property name="progressiveRender" value="@{#lp.allDay eq false}"/>-->
                     <property name="control">
@@ -152,11 +159,8 @@
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
                       p:id="endDate" p:label="End Date">
-                    <!-- expression causes runtime exc on refresh with 'disabled' property
                     <property name="required" value="@{#lp.dateRange}"/>
                     <property name="refreshWhenChangedPropertyNames" value="#lp.dateRange"/>
-                        -->
-                    <!--<property name="progressiveRender" value="@{#lp.dateRange}"/>-->
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy">
                             <property name="disabled" value="@{!#lp.dateRange}"/>
@@ -172,6 +176,7 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
                             <property name="disabled" value="@{#lp.allDay}"/>
+                            <property name="onKeyUpScript" value="setAttributesFromTimeField(jq(this));"/>
                         </bean>
                     </property>
                     <property name="validCharactersConstraint">
@@ -192,6 +197,7 @@
                 </bean>
 	            <bean parent="Uif-InputField" p:propertyName="allDay" p:id="allDayCheckbox"
                       p:label="All Day">
+                    <property name="onClickScript" value="setAttributesFromAllDayCheckbox(jq(this));"/>
 					<property name="control">
 						<bean parent="Uif-CheckboxControl"/>
 					</property>
