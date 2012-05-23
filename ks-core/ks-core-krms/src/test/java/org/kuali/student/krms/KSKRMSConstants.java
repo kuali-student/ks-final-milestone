@@ -60,8 +60,8 @@ public class KSKRMSConstants {
 	public static final String AGENDA4 = "Must have successfully completed a minimum of <n> credits from <courses>";
 	public static final String AGENDA5 = "Must have earned a minimum GPA of <GPA> in <courses>";
 	public static final String AGENDA6 = "Must have earned a minimum grade of <gradeType> <grade> in <courses>";
-	public static final String AGENDA7 = "Must have successfully completed a minimum of <n> courses from <courses> with a minimum grade of <gradeType> <grade>";
-	public static final String AGENDA8 = "Must not have earned a minimum grade of <gradeType> <grade> or higher in <courses>";
+	public static final String AGENDA7 = "Must've completed a min of <n> courses from <courses> with a min grade of <gradeType> <grade>";
+	public static final String AGENDA8 = "Must not have earned a minimum grade of <gradeType> <grade> or higher in <course>";
 	public static final String AGENDA9 = "Permission of instructor required";
 	public static final String AGENDA10 = "Free form text";
 	public static final String AGENDA11 = "Must have earned a cumulative GPA of <GPA>";
