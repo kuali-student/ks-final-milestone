@@ -63,15 +63,15 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="@{updateTimeString}" p:cssClasses="font-light12"/>
-                <ref bean="KS-AcademicCalendar-MetaSection"/>
-                <ref bean="KS-AcademicCalendar-EventSection"/>
-                <ref bean="KS-AcademicCalendar-HolidaySection"/>
+                <ref bean="KS-AcademicCalendar-MetaSubSection"/>
+                <ref bean="KS-AcademicCalendar-EventSubSection"/>
+                <ref bean="KS-AcademicCalendar-HolidaySubSection"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-MetaSection" parent="Uif-HorizontalBoxSection">
-        <property name="id" value="KS-AcademicCalendar-MetaSection" />
+    <bean id="KS-AcademicCalendar-MetaSubSection" parent="Uif-HorizontalBoxSubSection">
+        <property name="id" value="KS-AcademicCalendar-MetaSubSection" />
         <property name="headerText" value="Calendar Information" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -119,8 +119,8 @@
         </property>
     </bean>
 
-	<bean id="KS-AcademicCalendar-EventSection" parent="Uif-Disclosure-TableCollectionSection"
-		  p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 9}" p:id="acal-info-event">
+	<bean id="KS-AcademicCalendar-EventSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
+		  p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 7}" p:id="acal-info-event">
 		<property name="headerText" value="Events" />
         <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
         <property name="instructionalText" value="@{!#view.readOnly ? 'Adding events is optional.' : ''}"/>
@@ -226,7 +226,7 @@
 		</property>
 	</bean>
 
-    <bean id="KS-AcademicCalendar-HolidaySection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-holidays" >
+    <bean id="KS-AcademicCalendar-HolidaySubSection" parent="Uif-Disclosure-StackedCollectionSubSection" p:id="acal-holidays" >
         <property name="headerText" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>

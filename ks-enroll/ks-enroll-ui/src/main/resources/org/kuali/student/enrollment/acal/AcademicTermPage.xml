@@ -82,7 +82,7 @@
      </property>
    </bean>
 
-    <bean id="KS-KeyDatesGroup-EditSubSection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-term-keydatesgroup" p:readOnly="@{#view.readOnly}">
+    <bean id="KS-KeyDatesGroup-EditSubSection" parent="Uif-Disclosure-StackedCollectionSubSection" p:id="acal-term-keydatesgroup" p:readOnly="@{#view.readOnly}">
      <property name="headerText" value="Key Dates Group" />
      <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
