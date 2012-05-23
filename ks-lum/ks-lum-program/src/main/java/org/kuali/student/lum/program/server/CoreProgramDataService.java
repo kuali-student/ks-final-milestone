@@ -60,12 +60,11 @@ public class CoreProgramDataService extends AbstractDataService {
             CoreProgramInfo cpInfo = (CoreProgramInfo) dto;
             if (cpInfo.getId() == null && cpInfo.getVersion() != null) {
             	String coreVersionIndId = cpInfo.getVersion().getVersionIndId();
-            	cpInfo = programService.createNewCoreProgramVersion(coreVersionIndId, "New core program version",contextInfo);
+            	cpInfo = programService.createNewCoreProgramVersion(coreVersionIndId, "New core program version", contextInfo);
             } else if (cpInfo.getId() == null) {
-                cpInfo = programService.createCoreProgram(cpInfo.getTypeKey(),cpInfo,contextInfo);
+                cpInfo = programService.createCoreProgram(cpInfo.getTypeKey(), cpInfo,contextInfo);
             } else {
-            	//TOD KSCM : The parameters I adjusted might not be the correct one for this service
-                cpInfo = programService.updateCoreProgram(cpInfo.getId(),cpInfo.getTypeKey(),cpInfo,contextInfo);
+            	cpInfo = programService.updateCoreProgram(cpInfo.getId(), cpInfo.getTypeKey(), cpInfo, contextInfo);
             }
             return cpInfo;
         } else {
