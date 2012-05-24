@@ -215,7 +215,7 @@ public interface Course extends IdEntity {
      * 
      * @name Special Topics Course?
      */
-    public Boolean isSpecialTopicsCourse();
+    public boolean isSpecialTopicsCourse();
 
     /**
      * Flag to indicate a one-time or pilot course, which is likely to have
@@ -223,7 +223,7 @@ public interface Course extends IdEntity {
      * 
      * @name Pilot Course?
      */
-    public Boolean isPilotCourse();
+    public boolean isPilotCourse();
 
     /**
      * The first academic time period that this Course would be effective.
