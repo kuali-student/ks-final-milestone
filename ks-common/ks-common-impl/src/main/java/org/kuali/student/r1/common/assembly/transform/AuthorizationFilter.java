@@ -168,8 +168,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         	setReadOnly(metadata, true);
         } else {
         	///User allowed to edit document, need to check permissions for individual fields.
-	        //Map<String, String> permissions = getFieldAccessPermissions(dtoName,idType,id, docType);
-	        Map<String, String> permissions = null; // TODO: Remove once defaultTypeService on PermissionsServiceImpl is sorted.
+	        Map<String, String> permissions = getFieldAccessPermissions(dtoName,idType,id, docType);
 	        if (permissions != null) {
 	            for (Map.Entry<String, String> permission : permissions.entrySet()) {
 	                String dtoFieldPath = permission.getKey();
