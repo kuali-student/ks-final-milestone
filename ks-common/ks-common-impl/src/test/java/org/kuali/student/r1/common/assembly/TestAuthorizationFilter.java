@@ -64,7 +64,6 @@ public class TestAuthorizationFilter {
 		authzFilter.setPermissionService(mockPermissionService);        
 	}
 	
-	@Ignore
 	@Test
 	public void testEditPermissions() throws Exception{
 	
@@ -107,7 +106,6 @@ public class TestAuthorizationFilter {
 		assertTrue(((Metadata)properties.get("gpa")).isCanEdit());					
 	}
 	
-	@Ignore
 	@Test
 	public void testMaskPermissions() throws Exception{
 		Metadata metadata = metadataService.getMetadata(SIMPLE_STUDENT);		
