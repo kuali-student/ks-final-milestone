@@ -516,7 +516,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         learningResults.addSection(generateGradesAssessmentsSection());
         learningResults.addSection(generateStudentRegistrationOptionsSection());
         learningResults.addSection(generateFinalExamSection());
-        learningResults.addSection(generateOutcomesSection());
+        // TODO: KSCM-635 learningResults.addSection(generateOutcomesSection());
 
         return learningResults;
     }
