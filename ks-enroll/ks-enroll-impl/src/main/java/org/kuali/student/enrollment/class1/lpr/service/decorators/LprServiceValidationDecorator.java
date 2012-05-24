@@ -13,7 +13,7 @@ package org.kuali.student.enrollment.class1.lpr.service.decorators;
 import java.util.List;
 
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -53,32 +53,5 @@ public class LprServiceValidationDecorator extends LprServiceDecorator implement
         this.validator = validator;
     }
 
-    @Override
-    public LprTransactionInfo getLprTransaction(String lprTransactionId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        if (lprTransactionId == null) {
-            throw new InvalidParameterException("Id is mandatory to be supplied on a get*");
-        }
-
-        return getNextDecorator().getLprTransaction(lprTransactionId, context);
-    }
-
-
-
-    private void checkReadOnly(String field, Object orig, Object supplied) throws ReadOnlyException {
-        checkReadOnly(field, orig, supplied, "" + orig, "" + supplied);
-    }
-
-    private void checkReadOnly(String field, Object orig, Object supplied, String origStr, String suppliedStr)
-            throws ReadOnlyException {
-        if (orig != null) {
-            if (orig.equals(supplied)) {
-                return;
-            }
-        }
-        throw new ReadOnlyException(field + " is read only but the original value " + origStr
-                + " and the supplied new=" + suppliedStr);
-    }
 
 }

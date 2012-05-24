@@ -240,7 +240,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
-			ReadOnlyException {
+			ReadOnlyException, DoesNotExistException {
 		
         if (null == context) {
             throw new MissingParameterException();
@@ -334,7 +334,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 			String existingRegRequestId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
-			DoesNotExistException {
+			DoesNotExistException, DataValidationErrorException {
         if (null == context) {
             throw new MissingParameterException();
         }

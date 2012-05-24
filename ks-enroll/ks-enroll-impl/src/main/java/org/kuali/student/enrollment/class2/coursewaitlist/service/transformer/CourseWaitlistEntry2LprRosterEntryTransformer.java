@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class2.coursewaitlist.service.transformer;
 
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
-import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
+import org.kuali.student.enrollment.roster.dto.LprRosterEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 

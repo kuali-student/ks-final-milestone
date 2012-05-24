@@ -18,70 +18,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourseRegistrationServiceValidationDecorator extends CourseRegistrationServiceDecorator {
 
-    private DataDictionaryValidator validator;
-    private DataDictionaryService dataDictionaryService;
-
-    public void setLprService(LprService lprService) {
-        this.lprService = lprService;
-    }
-
-    private LprService lprService;
-
-    public DataDictionaryValidator getValidator() {
-        return validator;
-    }
-
-    public void setValidator(DataDictionaryValidator validator) {
-        this.validator = validator;
-    }
-
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
-
-    
-    @Override
-	public RegRequestInfo createRegRequest(String regRequestTypeKey,
-			RegRequestInfo regRequestInfo, ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			ReadOnlyException {
-		
-        if (regRequestInfo.getRequestorId() == null)
-            throw new DataValidationErrorException("Null field requestorId");
-        if (regRequestInfo.getRegRequestItems() == null)
-            throw new DataValidationErrorException("Not a valid request, missing request items");
-
-        return getNextDecorator().createRegRequest(regRequestTypeKey, regRequestInfo, context);
-    }
-    
-    @Override
-    public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
-    InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-    AlreadyExistsException {
-
-        LprTransactionInfo storedLprTransaction = lprService.getLprTransaction(regRequestId, context);
-        List<ValidationResultInfo> validationErrors = new ArrayList<ValidationResultInfo>();
-
-         if(storedLprTransaction.getStateKey().equals(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY)||
-                storedLprTransaction.getStateKey().equals(LprServiceConstants.LPRTRANS_DISCARDED_STATE_KEY)||
-                 storedLprTransaction.getStateKey().equals(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY)){
-
-             throw new OperationFailedException ("The state key validation failed", new DataValidationErrorException("The state key validation failed", validationErrors));
-         }
-        return getNextDecorator().submitRegRequest(regRequestId, context);
-    }
 }

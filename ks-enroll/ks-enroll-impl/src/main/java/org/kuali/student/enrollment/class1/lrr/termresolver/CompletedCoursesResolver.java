@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class1.lrr.termresolver;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.infc.LearningResultRecord;
@@ -103,12 +103,12 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
         Collection<String> results = null;
 
         try {
-            List<LuiPersonRelationInfo> lprs = lprService.getLprsByPerson(studentId, context);
+            List<LprInfo> lprs = lprService.getLprsByPerson(studentId, context);
 
             Map<String, String> lprIdToCluId = new HashMap<String, String>();
             List<String> lprIds = new ArrayList<String>(lprs.size());
 
-            for(LuiPersonRelationInfo lpr : lprs) {
+            for(LprInfo lpr : lprs) {
                 String luiId = lpr.getLuiId();
                 LuiInfo lui = luiService.getLui(luiId, context);
                 lprIdToCluId.put(lpr.getId(), lui.getCluId());
@@ -126,9 +126,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
 
         } catch (DoesNotExistException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters, e);
-        } catch (DisabledIdentifierException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters, e);
-        } catch (InvalidParameterException e) {
+        }catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters, e);
         } catch (MissingParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters, e);

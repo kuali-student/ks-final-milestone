@@ -2,7 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 
 public class ActivityOfferingTransformer {
@@ -32,7 +32,7 @@ public class ActivityOfferingTransformer {
         lui.setMaximumEnrollment(ao.getMaximumEnrollment());
     }
 
-    public OfferingInstructorInfo transformInstructorForActivityOffering(LuiPersonRelationInfo lpr) {
+    public OfferingInstructorInfo transformInstructorForActivityOffering(LprInfo lpr) {
         OfferingInstructorInfo instructor = new OfferingInstructorInfo();
         instructor.setPersonId(lpr.getPersonId());
         instructor.setPercentageEffort(lpr.getCommitmentPercent());

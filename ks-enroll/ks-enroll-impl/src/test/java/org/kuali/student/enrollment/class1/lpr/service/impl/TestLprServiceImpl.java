@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
 import org.kuali.student.enrollment.class1.lpr.service.impl.mock.LprTestDataLoader;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(locations = {"classpath:lpr-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-public class TestLuiPersonRelationServiceImpl {
+public class TestLprServiceImpl {
     public LprService getLprService() {
         return lprService;
     }
@@ -70,7 +70,7 @@ public class TestLuiPersonRelationServiceImpl {
     @Test
       public void testCreateLPR()throws  Exception{
 
-        LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
+        LprInfo lpr = new LprInfo();
         lpr.setId("lpr-4");
         lpr.setLuiId("lui-4");
         lpr.setPersonId("person-4");
@@ -85,7 +85,7 @@ public class TestLuiPersonRelationServiceImpl {
     @Test
     public void testGetLPR()throws  Exception{
 
-        LuiPersonRelationInfo lpr = lprService.getLpr("Lpr-1", callContext);
+        LprInfo lpr = lprService.getLpr("Lpr-1", callContext);
         assertNotNull(lpr);
         assertNotNull(lpr.getStateKey());
         assertNotNull(lpr.getTypeKey());

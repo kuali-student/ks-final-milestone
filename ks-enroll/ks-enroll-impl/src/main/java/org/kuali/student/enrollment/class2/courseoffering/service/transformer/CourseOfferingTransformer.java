@@ -5,7 +5,7 @@ import java.util.List;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -186,14 +186,14 @@ public class CourseOfferingTransformer {
     // this is not currently in use and needs to be revisited and plugged into the impl
     public void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context, LprService lprService)
             throws OperationFailedException {
-        List<LuiPersonRelationInfo> lprs = null;;
+        List<LprInfo> lprs = null;;
         try {
             lprs = lprService.getLprsByLui(luiId, context);
         } catch (Exception e) {
             throw new OperationFailedException("DoesNotExistException: " + e.getMessage());
         }
 
-        for (LuiPersonRelationInfo lpr : lprs) {
+        for (LprInfo lpr : lprs) {
             if (lpr.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
                 OfferingInstructorInfo instructor = new OfferingInstructorInfo();
                 instructor.setPersonId(lpr.getPersonId());

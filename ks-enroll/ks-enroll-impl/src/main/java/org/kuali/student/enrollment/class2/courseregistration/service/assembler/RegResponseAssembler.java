@@ -43,7 +43,8 @@ public class RegResponseAssembler implements DTOAssembler<RegResponseInfo, LprTr
         }
         regResponseItem.setRegRequestItemId(baseDTO.getId());
         OperationStatusInfo operationStatus = new OperationStatusInfo();
-        operationStatus.setStatus(baseDTO.getLprTransactionItemResult().getStatus());
+        // TODO: deal with status
+//        operationStatus.setStatus(baseDTO.getLprTransactionItemResult().getStatus());
         operationStatus.setMessages(baseDTO.getLprTransactionItemResult().getMessages());
 
         regResponseItem.setOperationStatus(operationStatus);
@@ -56,7 +57,7 @@ public class RegResponseAssembler implements DTOAssembler<RegResponseInfo, LprTr
         boolean isSuccessful = true;
         for (LprTransactionItemInfo transItem : lprTransaction.getLprTransactionItems()) {
             if (transItem.getLprTransactionItemResult() != null) {
-                if (transItem.getLprTransactionItemResult().getStatus() != "SUCCESS") {
+                if (transItem.getLprTransactionItemResult().getStatus()) {
                     isSuccessful = false;
                 }
             }

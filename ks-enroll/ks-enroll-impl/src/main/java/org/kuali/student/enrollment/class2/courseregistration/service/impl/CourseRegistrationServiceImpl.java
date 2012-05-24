@@ -23,23 +23,22 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
-import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
-import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.enrollment.roster.dto.LprRosterEntryInfo;
+import org.kuali.student.enrollment.roster.dto.LprRosterInfo;
+import org.kuali.student.enrollment.roster.service.LprRosterService;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.OperationStatusInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -66,6 +65,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 public class CourseRegistrationServiceImpl implements CourseRegistrationService {
 
     private LprService lprService;
+    private LprRosterService lprRosterService;
     private CourseOfferingService courseOfferingService;
     private RegRequestAssembler regRequestAssembler;
     private RegResponseAssembler regResponseAssembler;
@@ -216,7 +216,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             LprTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
             activtyItemInfo.setId(null);
             activtyItemInfo.setExistingLuiId(activityOfferingId);
-            activtyItemInfo.setGroupId(regRequestItem.getId());
+//            activtyItemInfo.setGroupId(regRequestItem.getId());
             newTransactionItems.add(activtyItemInfo);
 
         }
@@ -225,7 +225,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         LprTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
         courseOfferingItemInfo.setId(null);
         courseOfferingItemInfo.setExistingLuiId(courseOfferingId);
-        courseOfferingItemInfo.setGroupId(regRequestItem.getId());
+//        courseOfferingItemInfo.setGroupId(regRequestItem.getId());
         lprActivityTransactionItems.add(courseOfferingItemInfo);
         newTransactionItems.add(courseOfferingItemInfo);
         // regRequestAssembler.disassembleItem(regRequestItem, null, context);
@@ -234,7 +234,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     private LprTransactionInfo createModifiedTransactionItems(LprTransactionInfo storedLprTransaction, RegRequestInfo storedRegRequest, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
         List<LprTransactionItemInfo> newTransactionItems = new ArrayList<LprTransactionItemInfo>();
         List<RegRequestItemInfo> regRequestItems = storedRegRequest.getRegRequestItems();
         for (RegRequestItemInfo regRequestItem : regRequestItems) {
@@ -433,7 +433,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     @Override
 	public RegRequestInfo createRegRequest(String regRequestTypeKey,
 			RegRequestInfo regRequestInfo, ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
+			throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException {
@@ -463,7 +463,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     @Override
     public RegRequestInfo createRegRequestFromExisting(String existingRegRequestId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+            OperationFailedException, DataValidationErrorException, PermissionDeniedException {
 
         LprTransactionInfo newLprTransaction = lprService.createLprTransactionFromExisting(existingRegRequestId, context);
         RegRequestInfo createdRegRequestInfo = null;
@@ -528,6 +528,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 			multipleItemsTransaction = createModifiedTransactionItems(storedLprTransaction, storedRegRequest, context);
 		} catch (DataValidationErrorException dataValidException) {
 			 throw new OperationFailedException(dataValidException.getMessage(), dataValidException);
+		}catch (VersionMismatchException ex) {
+			 throw new OperationFailedException(ex.getMessage(), ex);
 		}
 
         LprTransactionInfo submittedLprTransaction = lprService.processLprTransaction(multipleItemsTransaction.getId(), context);
@@ -542,9 +544,12 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         if (checkSuccessfulRegCriteria(returnRegResponse)) {
 
             try {
-				createGradeRosterEntryForRegisteredStudent(submittedLprTransaction, context);
-			} catch (DataValidationErrorException dataValidException) {
-				 throw new OperationFailedException(dataValidException.getMessage(), dataValidException);			}
+                createGradeRosterEntryForRegisteredStudent(submittedLprTransaction, context);
+            } catch (DataValidationErrorException dataValidException) {
+                throw new OperationFailedException(dataValidException.getMessage(), dataValidException);
+            }catch (ReadOnlyException dataValidException) {
+                throw new OperationFailedException(dataValidException.getMessage(), dataValidException);
+            }
 
         }
 
@@ -557,7 +562,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     private void createGradeRosterEntryForRegisteredStudent(LprTransactionInfo submittedLprTransaction, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException,
-            InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
+            InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         // TODO: since we're creating at a minimum 3 lprs per course reg we
         // shouldn't loop through all of them. need a way to get directly to the
@@ -569,11 +574,15 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                 newLprRosterEntry.setTypeKey(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADE_TYPE_KEY);
                 newLprRosterEntry.setStateKey(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_READY_STATE_KEY);
 
-                List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndType(lprItem.getNewLuiId(), LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY,
-                        context);
+                List<LprRosterInfo> lprRosters = lprRosterService.getLprRostersByTypeAndLui(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, 
+                        lprItem.getNewLuiId(), context);
                 if (lprRosters.size() == 1) {
                     newLprRosterEntry.setLprRosterId(lprRosters.get(0).getId());
-                    lprService.createLprRosterEntry(newLprRosterEntry, context);
+                    lprRosterService.createLprRosterEntry(
+                            newLprRosterEntry.getLprRosterId(),
+                            newLprRosterEntry.getLprId(), 
+                            newLprRosterEntry.getTypeKey(),
+                            newLprRosterEntry, context);
                 }
 
             }
@@ -679,8 +688,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     	
     	 List<CourseRegistrationInfo> courseRegistrationInfos = new ArrayList<CourseRegistrationInfo>();
        ResultValuesGroup rvGroup = null;
-       List<LuiPersonRelationInfo> lprs = lprService.getLprsByIds(courseRegistrationIds, context);
-       for (LuiPersonRelationInfo lpr : lprs) {
+       List<LprInfo> lprs = lprService.getLprsByIds(courseRegistrationIds, context);
+       for (LprInfo lpr : lprs) {
            for (String rvGroupKey : lpr.getResultValuesGroupKeys()) {
                rvGroup = lrcService.getResultValuesGroup(rvGroupKey, context);
                if (rvGroup != null) {
@@ -700,9 +709,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 	}
 
 	// TODO - post core slice need to ensure that the list has one
-    private List<LuiPersonRelationInfo> filterLprByState(List<LuiPersonRelationInfo> lprInfoList, String stateKey) {
-        List<LuiPersonRelationInfo> filteredLprInfoList = new ArrayList<LuiPersonRelationInfo>();
-        for (LuiPersonRelationInfo lprInfo : filteredLprInfoList) {
+    private List<LprInfo> filterLprByState(List<LprInfo> lprInfoList, String stateKey) {
+        List<LprInfo> filteredLprInfoList = new ArrayList<LprInfo>();
+        for (LprInfo lprInfo : filteredLprInfoList) {
             if (lprInfo.getStateKey().equals(stateKey)) {
                 filteredLprInfoList.add(lprInfo);
             }
@@ -718,19 +727,19 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         List<CourseRegistrationInfo> courseRegistrationList = new ArrayList<CourseRegistrationInfo>();
 
-        List<LuiPersonRelationInfo> courseLprList = lprService.getLprsByPersonForAtpAndLuiType(studentId, termKey, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
+        List<LprInfo> courseLprList = lprService.getLprsByPersonForAtpAndLuiType(studentId, termKey, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
 
-        List<LuiPersonRelationInfo> regGroupLprList = lprService.getLprsByPersonForAtpAndLuiType(studentId, termKey, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, context);
+        List<LprInfo> regGroupLprList = lprService.getLprsByPersonForAtpAndLuiType(studentId, termKey, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, context);
 
         getCourseRegistration(studentId, courseRegistrationList, courseLprList, regGroupLprList, context);
 
         return courseRegistrationList;
     }
 
-    private void getCourseRegistration(String studentId, List<CourseRegistrationInfo> courseRegistrationList, List<LuiPersonRelationInfo> courseLprList, List<LuiPersonRelationInfo> regGroupLprList,
+    private void getCourseRegistration(String studentId, List<CourseRegistrationInfo> courseRegistrationList, List<LprInfo> courseLprList, List<LprInfo> regGroupLprList,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
         if (courseLprList != null && !courseLprList.isEmpty()) {
-            for (LuiPersonRelationInfo courseOfferinglprInfo : courseLprList) {
+            for (LprInfo courseOfferinglprInfo : courseLprList) {
 
                 if (courseOfferinglprInfo.getTypeKey().equals(LprServiceConstants.REGISTRANT_TYPE_KEY)) {
                     CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(courseOfferinglprInfo.getLuiId(), context);
@@ -741,9 +750,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
                         RegistrationGroupInfo reg = new RegistrationGroupInfo();
 
-                        Map<LuiPersonRelationInfo, ActivityOfferingInfo> activtiesLprInfoMap = new HashMap<LuiPersonRelationInfo, ActivityOfferingInfo>();
+                        Map<LprInfo, ActivityOfferingInfo> activtiesLprInfoMap = new HashMap<LprInfo, ActivityOfferingInfo>();
 
-                        for (LuiPersonRelationInfo regGroupLprInfo : regGroupLprList) {
+                        for (LprInfo regGroupLprInfo : regGroupLprList) {
 
                             if (regGroup.getId().equals(regGroupLprInfo.getLuiId()) && regGroupLprInfo.getTypeKey().equals(LprServiceConstants.REGISTRANT_TYPE_KEY)) {
 
@@ -751,9 +760,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
                                 for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
 
-                                    List<LuiPersonRelationInfo> lprsForActivity = lprService.getLprsByPersonAndLui(studentId, activityOfferingId, context);
+                                    List<LprInfo> lprsForActivity = lprService.getLprsByPersonAndLui(studentId, activityOfferingId, context);
 
-                                    for (LuiPersonRelationInfo activityLpr : lprsForActivity) {
+                                    for (LprInfo activityLpr : lprsForActivity) {
 
                                         if (activityLpr.getTypeKey().equals(LprServiceConstants.REGISTRANT_TYPE_KEY) && activityLpr.getStateKey().equals(regGroupLprInfo.getStateKey())) {
 
@@ -779,27 +788,19 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     
     @Override
-	public List<RegRequestItemInfo> getRegRequestItemsByCourseRegistration(
-			String courseRegistrationId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		
+    public List<RegRequestItemInfo> getRegRequestItemsByCourseRegistration(
+            String courseRegistrationId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         List<RegRequestItemInfo> regrequests = new ArrayList<RegRequestItemInfo>();
-        List<LprTransactionInfo> lprTransactions = lprService.getLprTransactionsWithItemsByResultingLpr(courseRegistrationId, context);
-        for (LprTransactionInfo lprTransaction : lprTransactions) {
-
-			List<LprTransactionItemInfo> lprTransactionItems = lprTransaction
-					.getLprTransactionItems();
-
-			for (LprTransactionItemInfo lprTransactionItem : lprTransactionItems) {
-
-					regrequests.add(regRequestAssembler.assembleItem(
-							lprTransactionItem, context));
-				
-			}
+        List<LprTransactionItemInfo> lprTransactionItems = lprService.getLprTransactionsWithItemsByResultingLpr(
+                courseRegistrationId, context);
+        for (LprTransactionItemInfo lprTransactionItem : lprTransactionItems) {
+            regrequests.add(regRequestAssembler.assembleItem(
+                    lprTransactionItem, context));
         }
-
         return regrequests;
     }
 
@@ -832,9 +833,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
         List<CourseRegistrationInfo> courseRegistrationList = new ArrayList<CourseRegistrationInfo>();
 
-        List<LuiPersonRelationInfo> courseLprList = lprService.getLprsByPersonAndLuiType(studentId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
+        List<LprInfo> courseLprList = lprService.getLprsByPersonAndLuiType(studentId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
 
-        List<LuiPersonRelationInfo> regGroupLprList = lprService.getLprsByPersonAndLuiType(studentId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, context);
+        List<LprInfo> regGroupLprList = lprService.getLprsByPersonAndLuiType(studentId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, context);
 
         getCourseRegistration(studentId, courseRegistrationList, courseLprList, regGroupLprList, context);
 

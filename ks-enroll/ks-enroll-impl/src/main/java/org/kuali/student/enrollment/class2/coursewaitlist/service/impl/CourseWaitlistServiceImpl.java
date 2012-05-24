@@ -8,7 +8,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitlistService;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -21,15 +21,15 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 public class CourseWaitlistServiceImpl implements CourseWaitlistService {
 
-    private LuiPersonRelationService lprService;
+    private LprService lprService;
     private CourseOfferingService courseOfferingService;
     private StatementService statementService;
 
-    public LuiPersonRelationService getLprService() {
+    public LprService getLprService() {
         return lprService;
     }
 
-    public void setLprService(LuiPersonRelationService lprService) {
+    public void setLprService(LprService lprService) {
         this.lprService = lprService;
     }
 

@@ -10,7 +10,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.transformer.Fo
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -273,9 +273,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     public List<CourseOfferingInfo> getCourseOfferingsByTermAndInstructor(String termId, String instructorId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelationInfo> lprInfos = lprService.getLprsByPersonAndTypeForAtp(instructorId, termId, LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, context);
+        List<LprInfo> lprInfos = lprService.getLprsByPersonAndTypeForAtp(instructorId, termId, LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, context);
         List<CourseOfferingInfo> cos = new ArrayList<CourseOfferingInfo>();
-        for (LuiPersonRelationInfo lprInfo : lprInfos) {
+        for (LprInfo lprInfo : lprInfos) {
             cos.add(getCourseOffering(lprInfo.getLuiId(), context));
         }
         return cos;
@@ -438,7 +438,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             for (OfferingInstructorInfo instructor : instructors) {
                 try {
                     if (currrentInstructors.contains(instructor.getPersonId())) {
-                        LuiPersonRelationInfo existingLpr = getLpr(instructor.getPersonId(), courseOfferingId, context);
+                        LprInfo existingLpr = getLpr(instructor.getPersonId(), courseOfferingId, context);
                         if (existingLpr != null) {
                             existingLpr.setCommitmentPercent(instructor.getPercentageEffort());
                             lprService.updateLpr(existingLpr.getId(), existingLpr, context);
@@ -447,10 +447,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     } else {
                         lprService.createLpr(instructor.getPersonId(), courseOfferingId, instructor.getTypeKey(), getNewLpr(instructor, courseOfferingId), context);
                     }
-                } catch (AlreadyExistsException e) {
-                    throw new OperationFailedException();
-                } catch (DisabledIdentifierException e) {
-                    throw new OperationFailedException();
                 } catch (ReadOnlyException e) {
                     throw new OperationFailedException();
                 }
@@ -460,7 +456,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (currrentInstructors != null && currrentInstructors.size() > 0) {
             if (atpId != null) {
                 for (String instructorId : currrentInstructors) {
-                    LuiPersonRelationInfo lpr = getLpr(instructorId, courseOfferingId, context);
+                    LprInfo lpr = getLpr(instructorId, courseOfferingId, context);
                     if (lpr != null) {
                         lprService.deleteLpr(lpr.getId(), context);
                     }
@@ -469,8 +465,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
-    private LuiPersonRelationInfo getNewLpr(OfferingInstructorInfo instructor, String courseOfferingId) {
-        LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
+    private LprInfo getNewLpr(OfferingInstructorInfo instructor, String courseOfferingId) {
+        LprInfo lpr = new LprInfo();
         lpr.setPersonId(instructor.getPersonId());
         lpr.setCommitmentPercent(instructor.getPercentageEffort());
         lpr.setId(UUIDHelper.genStringUUID());
@@ -480,23 +476,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return lpr;
     }
 
-    private LuiPersonRelationInfo getLpr(String instructor, String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    private LprInfo getLpr(String instructor, String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        LuiPersonRelationInfo lpr = null;
-        try {
-            List<LuiPersonRelationInfo> lprs = lprService.getLprsByPersonAndLui(instructor, courseOfferingId, context);
+        LprInfo lpr = null;
+            List<LprInfo> lprs = lprService.getLprsByPersonAndLui(instructor, courseOfferingId, context);
 
             if (lprs != null && !lprs.isEmpty()) {
-                for (LuiPersonRelationInfo lpri : lprs) {
+                for (LprInfo lpri : lprs) {
                     if (lpri.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
                         lpr = lpri;
                     }
                 }
             }
-        } catch (DisabledIdentifierException e) {
-            throw new OperationFailedException();
-        }
-
         return lpr;
     }
 

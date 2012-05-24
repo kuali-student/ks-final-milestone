@@ -16,8 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -58,7 +58,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 
     public LuiPersonRelationEntity() {}
 
-    public LuiPersonRelationEntity(LuiPersonRelation dto) {
+    public LuiPersonRelationEntity(Lpr dto) {
         super(dto);
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setExpirationDate(dto.getExpirationDate());
@@ -69,7 +69,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         fromDto(dto);
     }
 
-    public void fromDto(LuiPersonRelation dto){
+    public void fromDto(Lpr dto){
         this.setCommitmentPercent(dto.getCommitmentPercent());
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
@@ -156,8 +156,8 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.attributes = attributes;
     }
 
-    public LuiPersonRelationInfo toDto() {
-        LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
+    public LprInfo toDto() {
+        LprInfo lprInfo = new LprInfo();
         lprInfo.setId(getId());
         lprInfo.setLuiId(luiId);
         lprInfo.setCommitmentPercent(commitmentPercent);
