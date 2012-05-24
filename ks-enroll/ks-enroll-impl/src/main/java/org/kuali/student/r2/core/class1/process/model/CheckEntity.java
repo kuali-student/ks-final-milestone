@@ -64,7 +64,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
 
     public CheckEntity(Check check) {
         super(check);
-        this.setId(check.getKey());
+        this.setId(check.getId());
         this.setName(check.getName());
         if (check.getDescr() != null) {
             this.setDescr(new CheckRichTextEntity(check.getDescr()));
@@ -91,7 +91,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     public CheckInfo toDto() {
         CheckInfo obj = new CheckInfo();
         obj.setMeta(super.toDTO());
-        obj.setKey(getId());
+        obj.setId(getId());
         obj.setName(name);
         if (checkType != null) {
             obj.setTypeKey(checkType);

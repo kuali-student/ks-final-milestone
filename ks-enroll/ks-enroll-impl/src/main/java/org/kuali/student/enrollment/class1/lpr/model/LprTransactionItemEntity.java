@@ -64,7 +64,6 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
             this.setNewLuiId(lprTransactionItem.getNewLuiId());
             this.setExistingLuiId(lprTransactionItem.getExistingLuiId());
             this.setPersonId(lprTransactionItem.getPersonId());
-            this.setGroupId(lprTransactionItem.getGroupId());
             this.setLprTransactionItemState(lprTransactionItem.getStateKey());
             this.setAttributes(new ArrayList<LprTransItemAttributeEntity>());
             if (null != lprTransactionItem.getAttributes()) {
@@ -75,7 +74,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
             }
             if (lprTransactionItem.getLprTransactionItemResult() != null) {
                 this.setResultingLprId(lprTransactionItem.getLprTransactionItemResult().getResultingLprId());
-                this.setStatus(lprTransactionItem.getLprTransactionItemResult().getStatus());
+                this.setStatus(lprTransactionItem.getLprTransactionItemResult().getStatus()?"Y":"N");
             }
         }
 
@@ -105,8 +104,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
         LprTransactionItemResultInfo lprItemResult = new LprTransactionItemResultInfo();
         lprItemResult.setResultingLprId(this.getResultingLprId());
-        lprItemResult.setStatus(this.getStatus());
-        lprTransItemInfo.setGroupId(this.getGroupId());
+        lprItemResult.setStatus(new Boolean("Y".equals(this.getStatus())?true:false));
         lprTransItemInfo.setLprTransactionItemResult(lprItemResult);
         return lprTransItemInfo;
 

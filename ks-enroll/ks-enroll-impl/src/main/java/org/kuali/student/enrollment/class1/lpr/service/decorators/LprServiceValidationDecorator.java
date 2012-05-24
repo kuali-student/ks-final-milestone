@@ -54,87 +54,6 @@ public class LprServiceValidationDecorator extends LprServiceDecorator implement
     }
 
     @Override
-    public List<ValidationResultInfo> validateLpr(String validationType, LuiPersonRelationInfo luiPersonRelationInfo,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        List<ValidationResultInfo> errors;
-        try {
-            errors = ValidationUtils.validateInfo(validator, validationType, luiPersonRelationInfo, context);
-            List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateLpr(validationType,
-                    luiPersonRelationInfo, context);
-            if (null != nextDecoratorErrors) {
-                errors.addAll(nextDecoratorErrors);
-            }
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("Error trying to validate lui-person relation", ex);
-        }
-        return errors;
-    }
-
-    @Override
-    public LprTransactionInfo updateLprTransaction(String lprTransactionId, LprTransactionInfo lprTransactionInfo,
-            ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (lprTransactionInfo.getId() == null) {
-            throw new DataValidationErrorException("Id is mandatory on an update");
-        }
-        if(lprTransactionId==null || !lprTransactionId.equals(lprTransactionInfo.getId()))
-            throw new DataValidationErrorException("Ids are not same in the update parameter");
-
-        return getNextDecorator().updateLprTransaction(lprTransactionId, lprTransactionInfo, context);
-    }
-
-    @Override
-    public String createLpr(String personId, String luiId, String luiPersonRelationType,
-            LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws AlreadyExistsException,
-            DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, DataValidationErrorException, ReadOnlyException, PermissionDeniedException {
-        if (luiPersonRelationInfo.getId() != null) {
-            throw new ReadOnlyException("Id is not allowed to be supplied on a create");
-        }
-        if (luiPersonRelationInfo.getMeta() != null) {
-            throw new ReadOnlyException("MetaInfo is not allowed to be supplied on a create");
-        }
-
-        _luiPersonRelationFullValidation(luiPersonRelationInfo, context);
-        return getNextDecorator().createLpr(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
-    }
-
-    @Override
-    public LuiPersonRelationInfo updateLpr(String luiPersonRelationId, LuiPersonRelationInfo luiPersonRelationInfo,
-            ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException,
-            VersionMismatchException {
-        _luiPersonRelationFullValidation(luiPersonRelationInfo, context);
-        LuiPersonRelationInfo orig = this.getLpr(luiPersonRelationId, context);
-
-        checkReadOnly("id", orig.getId(), luiPersonRelationInfo.getId());
-        checkReadOnly("type", orig.getTypeKey(), luiPersonRelationInfo.getTypeKey());
-        checkReadOnly("createId", orig.getMeta().getCreateId(), luiPersonRelationInfo.getMeta().getCreateId());
-        checkReadOnly("createTime", orig.getMeta().getCreateTime(), luiPersonRelationInfo.getMeta().getCreateTime());
-
-        if (orig.getMeta().getVersionInd().equals(luiPersonRelationInfo.getMeta().getVersionInd())) {
-            checkReadOnly("updateId", orig.getMeta().getUpdateId(), luiPersonRelationInfo.getMeta().getUpdateId());
-            checkReadOnly("updateTime", orig.getMeta().getUpdateTime(), luiPersonRelationInfo.getMeta().getUpdateTime());
-        }
-
-        return getNextDecorator().updateLpr(luiPersonRelationId, luiPersonRelationInfo, context);
-    }
-
-    @Override
-    public LprTransactionInfo createLprTransaction(String lprTransactionTypeKey,
-        LprTransactionInfo lprTransactionInfo,
-            ContextInfo context) throws DataValidationErrorException,
-            AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        if (lprTransactionInfo.getId() != null) {
-            throw new DataValidationErrorException("Id is not allowed to be supplied on a create");
-        }
-
-        return getNextDecorator().createLprTransaction(lprTransactionTypeKey, lprTransactionInfo, context);
-    }
-
-    @Override
     public LprTransactionInfo getLprTransaction(String lprTransactionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -145,49 +64,7 @@ public class LprServiceValidationDecorator extends LprServiceDecorator implement
         return getNextDecorator().getLprTransaction(lprTransactionId, context);
     }
 
-    @Override
-    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIds,
-                String relationState, String luiPersonRelationTypeKey,
-                LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException, DisabledIdentifierException,
-                DoesNotExistException, InvalidParameterException, MissingParameterException,
-                OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        if (null == personId || personId.isEmpty()) {
-            throw new MissingParameterException("Person ID is required");
-        }
-        if (null == luiIds || luiIds.isEmpty()) {
-            throw new MissingParameterException("A list of LUI's is required");
-        }
-        if (null == luiPersonRelationTypeKey || luiPersonRelationTypeKey.isEmpty()) {
-            throw new MissingParameterException("Relation state is required");
-        }
-        if (null == relationState || relationState.isEmpty()) {
-            throw new MissingParameterException("LUI-Person relation type key is required");
-        }
-        if (null == luiPersonRelationInfo) {
-            throw new MissingParameterException("LUI-Person relation info is required");
-        }
-
-        return getNextDecorator().createBulkRelationshipsForPerson(
-                personId, luiIds, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
-    }
-
-
-
-    private void _luiPersonRelationFullValidation(LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        try {
-            List<ValidationResultInfo> errors = this.validateLpr(
-                    DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), luiPersonRelationInfo, context);
-            if (!errors.isEmpty()) {
-                throw new DataValidationErrorException("Error(s) validating lui-person relation", errors);
-            }
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("Error validating lui-person relation", ex);
-        }
-    }
 
     private void checkReadOnly(String field, Object orig, Object supplied) throws ReadOnlyException {
         checkReadOnly(field, orig, supplied, "" + orig, "" + supplied);

@@ -51,7 +51,7 @@ import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.Context;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -84,8 +84,8 @@ public class RegistrationController extends UifControllerBase {
         String id = context.getPrincipalId();
         RegRequestInfo info = new RegRequestInfo();
         info.setTermId(regForm.getTermId());
-        info.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        info.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        info.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        info.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
         info.setRequestorId(id);
         info.setRegRequestItems(new ArrayList<RegRequestItemInfo>());
         return info;
@@ -93,8 +93,8 @@ public class RegistrationController extends UifControllerBase {
 
     protected RegRequestItemInfo generateRegRequestItem(RegistrationGroupWrapper regGroupWrapper, Context context){
         RegRequestItemInfo regRequestItem = new RegRequestItemInfo();
-        regRequestItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
-        regRequestItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        regRequestItem.setTypeKey(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
+        regRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         regRequestItem.setStudentId(context.getPrincipalId());
         regRequestItem.setNewRegGroupId(regGroupWrapper.getRegistrationGroup().getId());
         regRequestItem.setCreditOptionKey("kuali.credit.option.RVG1");
@@ -107,8 +107,8 @@ public class RegistrationController extends UifControllerBase {
 
     protected RegRequestItemInfo generateDropRegRequestItem(RegistrationGroupWrapper regGroupWrapper, Context context){
         RegRequestItemInfo regRequestItem = new RegRequestItemInfo();
-        regRequestItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
-        regRequestItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        regRequestItem.setTypeKey(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
+        regRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         regRequestItem.setStudentId(context.getPrincipalId());
         regRequestItem.setExistingRegGroupId(regGroupWrapper.getRegistrationGroup().getId());
         regRequestItem.setCreditOptionKey("kuali.credit.option.RVG1");
@@ -172,7 +172,7 @@ public class RegistrationController extends UifControllerBase {
 
             //Pull any existing 'new' cart out
             List<String> states = new ArrayList<String>();
-            states.add(LuiPersonRelationServiceConstants.LPRTRANS_NEW_STATE_KEY);
+            states.add(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
             List<RegRequestInfo> regRequestInfos = getCourseRegistrationService().getRegRequestsForStudentByTerm(context.getPrincipalId(), regForm.getTermId(), states, context);
             RegRequestInfo regRequest = null;
             if(regRequestInfos != null){

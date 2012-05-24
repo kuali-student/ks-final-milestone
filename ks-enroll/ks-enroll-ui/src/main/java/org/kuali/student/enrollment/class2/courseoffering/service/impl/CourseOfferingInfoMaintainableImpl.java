@@ -17,11 +17,11 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -245,8 +245,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             List<OfferingInstructorInfo> instructors =  newCourseOffering.getInstructors();
             for(OfferingInstructorInfo instructor: instructors){
                 instructor.setId(instructor.getPersonId());
-                instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
-                instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+                instructor.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
+                instructor.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
             }
         }
         super.prepareForSave();

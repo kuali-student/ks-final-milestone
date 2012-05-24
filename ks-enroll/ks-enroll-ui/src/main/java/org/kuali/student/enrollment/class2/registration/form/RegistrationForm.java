@@ -26,7 +26,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.*;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,7 +117,7 @@ public class RegistrationForm extends UifFormBase {
                 // TODO - remove this cast below if CourseRegistrationInfo.getCourseOffering() method is fixed
                 CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) courseRegistrationInfo.getCourseOffering();
                 RegGroupRegistrationInfo regGroupRegistrationInfo = courseRegistrationInfo.getRegGroupRegistration();
-                if(regGroupRegistrationInfo.getStateKey().equals(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY)){
+                if(regGroupRegistrationInfo.getStateKey().equals(LprServiceConstants.REGISTERED_STATE_KEY)){
                     for (ActivityRegistrationInfo activityRegistrationInfo : regGroupRegistrationInfo.getActivityRegistrations()) {
                         ActivityOfferingInfo activityOfferingInfo = activityRegistrationInfo.getActivityOffering();
                         // TODO: fix this to get the meeting schedule from the schedule Id and the schedule service

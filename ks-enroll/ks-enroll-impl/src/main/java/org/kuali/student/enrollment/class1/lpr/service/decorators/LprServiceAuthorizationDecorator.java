@@ -43,37 +43,12 @@ public class LprServiceAuthorizationDecorator extends LprServiceDecorator implem
 		this.permissionService = permissionService;
 	}
 
-	
-	@Override
-	public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIds, String relationState, String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		List<String> bulkRelationshipValues = new ArrayList<String>();
-		System.out.println("Inside authorization impl for createBulkRelationshipsForPerson" );
-		//Simulating unknown exception behavior
-		if(personId != null){
-			bulkRelationshipValues.addAll(getNextDecorator().createBulkRelationshipsForPerson(personId, luiIds, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context));
-		}else {
-			throw new NullPointerException("person id is null");
-		}
-		return super.createBulkRelationshipsForPerson(personId, luiIds, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);		
-	}
 
     @Override
     public List<LuiPersonRelationInfo> getLprsByLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	return getNextDecorator().getLprsByLui(luiId, context);
     }
 
-	@Override
-	public List<ValidationResultInfo> validateLpr(String validationType,
-			LuiPersonRelationInfo luiPersonRelationInfo,
-			ContextInfo context)
-			throws DoesNotExistException,
-			MissingParameterException,
-			OperationFailedException,
-			PermissionDeniedException, 
-			InvalidParameterException {
-		return getNextDecorator().validateLpr(validationType, luiPersonRelationInfo, context);
-	}
 
 	  /**
      * Fake authorization method.
