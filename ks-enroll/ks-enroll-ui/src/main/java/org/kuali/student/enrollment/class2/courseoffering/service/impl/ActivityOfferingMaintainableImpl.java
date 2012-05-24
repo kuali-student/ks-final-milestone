@@ -8,6 +8,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -35,6 +37,19 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
                 ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
+                ActivityOfferingInfo toSave = activityOfferingFormObject.getAoInfo();
+
+                FormatOfferingInfo foInfo = getCourseOfferingService().getFormatOffering(toSave.getFormatOfferingId(), getContextInfo());
+
+                toSave.setFormatOfferingName(foInfo.getName());
+                toSave.setTermCode(foInfo.getTermId());
+
+                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(foInfo.getCourseOfferingId(), getContextInfo());
+
+                toSave.setCourseOfferingId(coInfo.getId());
+                toSave.setCourseOfferingCode(coInfo.getCourseOfferingCode());
+                toSave.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
+
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().createActivityOffering(activityOfferingFormObject.getAoInfo().getFormatOfferingId(),activityOfferingFormObject.getAoInfo().getActivityId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,activityOfferingFormObject.getAoInfo(),getContextInfo());
                 setDataObject(new ActivityOfferingFormObject(activityOfferingInfo));
             } catch (Exception e) {
