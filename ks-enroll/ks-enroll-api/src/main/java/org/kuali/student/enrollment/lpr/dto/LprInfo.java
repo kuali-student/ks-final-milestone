@@ -20,15 +20,15 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
+import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiPersonRelationInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId",
+@XmlType(name = "LprInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId",
         "resultValuesGroupKeys", "commitmentPercent", "effectiveDate", "expirationDate", "meta", "attributes",
         "_futureElements"})
-public class LuiPersonRelationInfo extends RelationshipInfo implements LuiPersonRelation, Serializable {
+public class LprInfo extends RelationshipInfo implements Lpr, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,13 +47,13 @@ public class LuiPersonRelationInfo extends RelationshipInfo implements LuiPerson
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public LuiPersonRelationInfo() {
+    public LprInfo() {
         luiId = null;
         personId = null;
         _futureElements = null;
     }
 
-    public LuiPersonRelationInfo(LuiPersonRelation lpr) {
+    public LprInfo(Lpr lpr) {
         super(lpr);
         if (lpr != null) {
             this.luiId = lpr.getLuiId();

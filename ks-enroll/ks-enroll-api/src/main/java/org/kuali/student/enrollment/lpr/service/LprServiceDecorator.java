@@ -56,7 +56,7 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateLpr(String validationType, String luiId, String personId, String lprTypeKey, LuiPersonRelationInfo lprInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateLpr(String validationType, String luiId, String personId, String lprTypeKey, LprInfo lprInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().validateLpr(validationType, luiId, personId, lprTypeKey, lprInfo, contextInfo);
     }
 
@@ -66,12 +66,12 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
-    public LuiPersonRelationInfo updateLpr(String lprId, LuiPersonRelationInfo lprInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public LprInfo updateLpr(String lprId, LprInfo lprInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         return getNextDecorator().updateLpr(lprId, lprInfo, contextInfo);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> searchForLprs(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> searchForLprs(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().searchForLprs(criteria, contextInfo);
     }
 
@@ -111,47 +111,47 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndLuiType(String personId, String atpId, String luiTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByPersonForAtpAndLuiType(String personId, String atpId, String luiTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByPersonForAtpAndLuiType(personId, atpId, luiTypeKey, contextInfo);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonForAtp(String personId, String atpId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByPersonForAtp(String personId, String atpId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByPersonForAtp(personId, atpId, contextInfo);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonAndTypeForAtp(String personId, String atpId, String lprTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByPersonAndTypeForAtp(String personId, String atpId, String lprTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByPersonAndTypeForAtp(personId, atpId, lprTypeKey, contextInfo);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonAndLuiType(String personId, String luiTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByPersonAndLuiType(String personId, String luiTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByPersonAndLuiType(personId, luiTypeKey, contextInfo);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonAndLui(String personId, String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByPersonAndLui(String personId, String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByPersonAndLui(personId, luiId, contextInfo);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPerson(String personId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByPerson(String personId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByPerson(personId, contextInfo);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByLuiAndType(String luiId, String lprTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByLuiAndType(String luiId, String lprTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByLuiAndType(luiId, lprTypeKey, contextInfo);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByLui(String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByLui(String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByLui(luiId, contextInfo);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByIds(List<String> lprIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByIds(List<String> lprIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByIds(lprIds, contextInfo);
     }
 
@@ -181,7 +181,7 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
-    public LuiPersonRelationInfo getLpr(String lprId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public LprInfo getLpr(String lprId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLpr(lprId, contextInfo);
     }
 
@@ -196,12 +196,12 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
-    public List<BulkStatusInfo> createLprsForPerson(String personId, String lprTypeKey, List<LuiPersonRelationInfo> lprInfos, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public List<BulkStatusInfo> createLprsForPerson(String personId, String lprTypeKey, List<LprInfo> lprInfos, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createLprsForPerson(personId, lprTypeKey, lprInfos, contextInfo);
     }
 
     @Override
-    public List<String> createLprsForLui(String luiId, String lprTypeKey, List<LuiPersonRelationInfo> lprInfos, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public List<String> createLprsForLui(String luiId, String lprTypeKey, List<LprInfo> lprInfos, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createLprsForLui(luiId, lprTypeKey, lprInfos, contextInfo);
     }
 
@@ -216,7 +216,7 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
-    public String createLpr(String personId, String luiId, String lprTypeKey, LuiPersonRelationInfo lprInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public String createLpr(String personId, String luiId, String lprTypeKey, LprInfo lprInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createLpr(personId, luiId, lprTypeKey, lprInfo, contextInfo);
     }
 }

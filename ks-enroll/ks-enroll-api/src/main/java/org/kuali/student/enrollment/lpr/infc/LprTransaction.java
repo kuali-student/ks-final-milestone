@@ -5,7 +5,7 @@ import java.util.List;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
- * The LuiPersonRelationTransaction represents an object to capture an overall
+ * The LprTransaction represents an object to capture an overall
  * transaction request. The requesting person ID is the person who creates this
  * overall request. There are multiple transaction items,
  * {@link LprTransactionItem}, in a single overall transaction.

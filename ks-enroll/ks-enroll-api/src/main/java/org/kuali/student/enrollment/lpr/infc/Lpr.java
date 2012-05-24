@@ -10,7 +10,6 @@
  */
 package org.kuali.student.enrollment.lpr.infc;
 
-// import com.sun.xml.internal.bind.AnyTypeAdapter;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.Relationship;
@@ -21,14 +20,8 @@ import org.kuali.student.r2.common.infc.Relationship;
  * domains as a student registering in a course or an instructor being assigned
  * to advise students in a particular program.
  * 
- * @Author KSContractMojo
- * @Author Kamal
- * @Since Tue Mar 01 15:53:57 PST 2011
- * @See <a href=
- *      "https://wiki.kuali.org/display/KULSTU/luiPersonRelationInfo+Structure"
- *      >LuiPersonRelationInfo</a>
  */
-public interface LuiPersonRelation extends Relationship {
+public interface Lpr extends Relationship {
 
     /**
      * Unique identifier for a Learning Unit Instance (LUI).

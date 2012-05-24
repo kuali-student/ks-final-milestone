@@ -56,7 +56,7 @@ public interface LprService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public LuiPersonRelationInfo getLpr(@WebParam(name = "lprId") String lprId,
+    public LprInfo getLpr(@WebParam(name = "lprId") String lprId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -77,7 +77,7 @@ public interface LprService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LuiPersonRelationInfo> getLprsByIds(@WebParam(name = "lprIds") List<String> lprIds,
+    public List<LprInfo> getLprsByIds(@WebParam(name = "lprIds") List<String> lprIds,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
@@ -158,7 +158,7 @@ public interface LprService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-    public List<LuiPersonRelationInfo> getLprsByPersonAndLui(@WebParam(name = "personId") String personId,
+    public List<LprInfo> getLprsByPersonAndLui(@WebParam(name = "personId") String personId,
             @WebParam(name = "luiId") String luiId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
@@ -182,7 +182,7 @@ public interface LprService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-    public List<LuiPersonRelationInfo> getLprsByPerson(@WebParam(name = "personId") String personId,
+    public List<LprInfo> getLprsByPerson(@WebParam(name = "personId") String personId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
@@ -203,7 +203,7 @@ public interface LprService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LuiPersonRelationInfo> getLprsByLui(@WebParam(name = "luiId") String luiId,
+    public List<LprInfo> getLprsByLui(@WebParam(name = "luiId") String luiId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
@@ -225,7 +225,7 @@ public interface LprService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LuiPersonRelationInfo> getLprsByLuiAndType (@WebParam(name = "luiId") String luiId,
+    public List<LprInfo> getLprsByLuiAndType (@WebParam(name = "luiId") String luiId,
             @WebParam(name = "lprTypeKey") String lprTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -250,7 +250,7 @@ public interface LprService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LuiPersonRelationInfo> getLprsByPersonForAtp(@WebParam(name = "personId") String personId,
+    public List<LprInfo> getLprsByPersonForAtp(@WebParam(name = "personId") String personId,
             @WebParam(name = "atpId") String atpId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -277,7 +277,7 @@ public interface LprService {
      * @throws PermissionDeniedException authorization failure
      *
      */
-    public List<LuiPersonRelationInfo> getLprsByPersonAndTypeForAtp(@WebParam(name = "personId") String personId,
+    public List<LprInfo> getLprsByPersonAndTypeForAtp(@WebParam(name = "personId") String personId,
             @WebParam(name = "atpId") String atpId,
             @WebParam(name = "lprTypeKey") String lprTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -301,7 +301,7 @@ public interface LprService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LuiPersonRelationInfo> getLprsByPersonAndLuiType(@WebParam(name = "personId") String personId,
+    public List<LprInfo> getLprsByPersonAndLuiType(@WebParam(name = "personId") String personId,
             @WebParam(name = "luiTypeKey") String luiTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -325,7 +325,7 @@ public interface LprService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndLuiType(@WebParam(name = "personId") String personId,
+    public List<LprInfo> getLprsByPersonForAtpAndLuiType(@WebParam(name = "personId") String personId,
             @WebParam(name = "atpId") String atpId,
             @WebParam(name = "luiTypeKey") String luiTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -339,7 +339,7 @@ public interface LprService {
      * @param luiId                 the identifier of the lui
      * @param personId              the identifier of the person
      * @param lprTypeKey       the key to the type of the relationship
-     * @param lprInfo LuiPersonRelation to be validated
+     * @param lprInfo   lpr to be validated
      * @param contextInfo               Context information containing the principalId and locale
      *                              information about the caller of service operation
      * @return list of validation results, list should be be zero length if no
@@ -355,7 +355,7 @@ public interface LprService {
             @WebParam (name="luiId") String luiId,
             @WebParam (name="personId") String personId,
             @WebParam (name="lprTypeKey")  String lprTypeKey,
-            @WebParam(name = "lprInfo") LuiPersonRelationInfo lprInfo,
+            @WebParam(name = "lprInfo") LprInfo lprInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
@@ -391,7 +391,7 @@ public interface LprService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LuiPersonRelationInfo> searchForLprs(@WebParam(name = "criteria") QueryByCriteria criteria,
+    public List<LprInfo> searchForLprs(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
@@ -407,7 +407,7 @@ public interface LprService {
      * @param contextInfo                  Context information containing the principalId and locale
      *                                 information about the caller of service operation
      * @return Structure containing LUI Person relation identifiers
-     * @throws DataValidationErrorException if luiPersonRelationInfo is not
+     * @throws DataValidationErrorException if lprInfo is not
      *                                      valid
      * @throws DoesNotExistException        personId, luiId, relationState,
      *                                      lprTypeKey does not exist
@@ -422,7 +422,7 @@ public interface LprService {
     public String createLpr(@WebParam(name = "personId") String personId,
             @WebParam(name = "luiId") String luiId,
             @WebParam(name = "lprTypeKey") String lprTypeKey,
-            @WebParam(name = "lprInfo") LuiPersonRelationInfo lprInfo,
+            @WebParam(name = "lprInfo") LprInfo lprInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -450,7 +450,7 @@ public interface LprService {
      */
     public List<BulkStatusInfo> createLprsForPerson(@WebParam(name = "personId") String personId,
             @WebParam(name = "lprTypeKey") String lprTypeKey,
-            @WebParam(name = "lprInfos") List<LuiPersonRelationInfo> lprInfos,
+            @WebParam(name = "lprInfos") List<LprInfo> lprInfos,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -478,7 +478,7 @@ public interface LprService {
      */
     public List<String> createLprsForLui(@WebParam(name = "luiId") String luiId,
             @WebParam(name = "lprTypeKey") String lprTypeKey,
-            @WebParam(name = "lprInfos") List<LuiPersonRelationInfo> lprInfos,
+            @WebParam(name = "lprInfos") List<LprInfo> lprInfos,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -506,8 +506,8 @@ public interface LprService {
      * @throws VersionMismatchException     if optimistic lock version ind has
      *                                      changed
      */
-    public LuiPersonRelationInfo updateLpr(@WebParam(name = "lprId") String lprId,
-            @WebParam(name = "lprInfo") LuiPersonRelationInfo lprInfo,
+    public LprInfo updateLpr(@WebParam(name = "lprId") String lprId,
+            @WebParam(name = "lprInfo") LprInfo lprInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException,

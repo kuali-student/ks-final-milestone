@@ -34,7 +34,7 @@ import org.junit.Test;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult;
@@ -124,7 +124,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
     public void testValidate() throws Exception {
         System.out.println("validate");
         DataDictionaryValidator.ValidationType validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
-        LuiPersonRelationInfo lpri = new LuiPersonRelationInfo();
+        LprInfo lpri = new LprInfo();
         lpri.setPersonId("personId.1");
         lpri.setLuiId("luiId.1");
         lpri.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);

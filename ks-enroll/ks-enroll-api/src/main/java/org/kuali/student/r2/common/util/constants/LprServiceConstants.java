@@ -10,7 +10,7 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 /**
@@ -25,7 +25,7 @@ public class LprServiceConstants {
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "lpr";
     public static final String REF_OBJECT_URI_LUI_PERSON_RELATION = NAMESPACE + "/"
-            + LuiPersonRelationInfo.class.getSimpleName();
+            + LprInfo.class.getSimpleName();
     /**
      * Types and known groups of types
      */
