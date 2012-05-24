@@ -33,12 +33,6 @@ public class RegResponseItemInfo implements RegResponseItem, Serializable {
     private List<Element> _futureElements;
 
     public RegResponseItemInfo() {
-        super();
-        this.courseRegistrationId = null;
-        this.courseWaitlistEntryId = null;
-        this.operationStatus = null;
-        this._futureElements = null;
-
     }
 
     public RegResponseItemInfo(RegResponseItem regResponseItem) {
@@ -49,7 +43,6 @@ public class RegResponseItemInfo implements RegResponseItem, Serializable {
             if (regResponseItem.getOperationStatus() != null) {
                 this.operationStatus = new OperationStatusInfo(regResponseItem.getOperationStatus());
             }
-            this._futureElements = null;
         }
     }
     @Override

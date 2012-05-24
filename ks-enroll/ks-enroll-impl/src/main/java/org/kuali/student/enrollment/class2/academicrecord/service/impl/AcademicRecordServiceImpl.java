@@ -84,7 +84,7 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 			MissingParameterException, OperationFailedException {
 		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
 		try {
-			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudentByTerm(personId, termId, context);
+			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
 			if(regs != null && !regs.isEmpty()){
 				for (CourseRegistrationInfo reg : regs ){
 					StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, context);
@@ -109,7 +109,7 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 			OperationFailedException {
 		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
 		try {
-			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudent(personId, context);
+			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudent(personId, context);
 			getCompletedCourseRecords(courseRecords, regs, context);
 		} catch (PermissionDeniedException e) {
 			throw new OperationFailedException();
@@ -127,7 +127,7 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 			MissingParameterException, OperationFailedException {
 		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
 		try {
-			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudentByTerm(personId, termId, context);
+			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
 			getCompletedCourseRecords(courseRecords, regs, context);
 		} catch (PermissionDeniedException e) {
 			throw new OperationFailedException();

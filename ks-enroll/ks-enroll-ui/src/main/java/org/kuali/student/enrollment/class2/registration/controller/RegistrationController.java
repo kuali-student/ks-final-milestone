@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.registration.controller;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.cache.RuntimeCacheException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -152,7 +153,7 @@ public class RegistrationController extends UifControllerBase {
 
     protected List<CourseRegistrationInfo> getCourseRegistrations(String studentId, String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, DisabledIdentifierException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         if (getCourseRegistrationService() != null) {
-            return getCourseRegistrationService().getCourseRegistrationsForStudentByTerm(studentId, termKey, context);
+            return getCourseRegistrationService().getCourseRegistrationsByStudentAndTerm(studentId, termKey, context);
         }
         return new ArrayList<CourseRegistrationInfo>();                                    }
 
@@ -172,8 +173,9 @@ public class RegistrationController extends UifControllerBase {
 
             //Pull any existing 'new' cart out
             List<String> states = new ArrayList<String>();
-            states.add(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
-            List<RegRequestInfo> regRequestInfos = getCourseRegistrationService().getRegRequestsForStudentByTerm(context.getPrincipalId(), regForm.getTermId(), states, context);
+            // FIXME
+//            List<RegRequestInfo> regRequestInfos = getCourseRegistrationService().getRegRequestsByStudentAndTerm(context.getPrincipalId(), regForm.getTermId(), states, context);
+            List<RegRequestInfo> regRequestInfos = new ArrayList<RegRequestInfo>();
             RegRequestInfo regRequest = null;
             if(regRequestInfos != null){
                 for(RegRequestInfo info: regRequestInfos){
@@ -354,9 +356,12 @@ public class RegistrationController extends UifControllerBase {
 
             regRequest.getRegRequestItems().add(regRequestItem);
 
-            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(regRequest, context);
+            String validationTypeKey = "FIXME";
+			String regRequestTypeKey = "FIXME";
+			
+            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(validationTypeKey, regRequestTypeKey, regRequest, context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
-                regRequest = getCourseRegistrationService().createRegRequest(regRequest, context);
+                regRequest = getCourseRegistrationService().createRegRequest(regRequestTypeKey, regRequest, context);
                 registrationForm.getRegistrationGroupWrappersById().put(regGroupWrapper.getRegistrationGroup().getId(), regGroupWrapper);
             } else {
                 StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
@@ -379,7 +384,9 @@ public class RegistrationController extends UifControllerBase {
             throw new RuntimeException(e);
         } catch (AlreadyExistsException e) {
             throw new RuntimeException(e);
-        }
+        } catch (ReadOnlyException e) {
+        	 throw new RuntimeException(e);
+		}
 
 
         return getUIFModelAndView(registrationForm);
@@ -396,10 +403,13 @@ public class RegistrationController extends UifControllerBase {
             RegRequestItemInfo regRequestItem = generateRegRequestItem(regGroupWrapper, context);
 
             regRequest.getRegRequestItems().add(regRequestItem);
+            
+            String validationTypeKey = "FIXME";
+         	String regRequestTypeKey = "FIXME";
 
-            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(regRequest, context);
+            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(validationTypeKey, regRequestTypeKey, regRequest, context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
-                regRequest = getCourseRegistrationService().createRegRequest(regRequest, context);
+                regRequest = getCourseRegistrationService().createRegRequest(regRequestTypeKey, regRequest, context);
                 registrationForm.getRegistrationGroupWrappersById().put(regGroupWrapper.getRegistrationGroup().getId(), regGroupWrapper);
             } else {
                 StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
@@ -422,7 +432,9 @@ public class RegistrationController extends UifControllerBase {
             throw new RuntimeException(e);
         } catch (AlreadyExistsException e) {
             throw new RuntimeException(e);
-        }
+        } catch (ReadOnlyException e) {
+        	 throw new RuntimeException(e);
+		}
 
 
         return getUIFModelAndView(registrationForm);
@@ -438,7 +450,11 @@ public class RegistrationController extends UifControllerBase {
     protected void processSubmitRegRequest(RegRequestInfo regRequest, RegistrationForm registrationForm, boolean oneClick){
        ContextInfo context = new ContextInfo();
         try {
-            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(regRequest, context);
+        	  String validationTypeKey = "FIXME";
+           	String regRequestTypeKey = "FIXME";
+
+           	
+            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(validationTypeKey, regRequestTypeKey, regRequest, context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
                 //RegRequestInfo regRequest = saveRegRequest(registrationForm.getRegRequest(), context);
                 RegResponseInfo regResponse = getCourseRegistrationService().submitRegRequest(regRequest.getId(), context);
@@ -537,8 +553,10 @@ public class RegistrationController extends UifControllerBase {
         }
 
         try {
+        	  String validationTypeKey = "FIXME";
+             	String regRequestTypeKey = "FIXME";
 
-            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(registrationForm.getRegRequest(), context);
+            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(validationTypeKey, regRequestTypeKey, registrationForm.getRegRequest(), context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
                 RegRequestInfo regRequestInfo = getCourseRegistrationService().updateRegRequest(registrationForm.getRegRequest().getId(), registrationForm.getRegRequest(), context);
                 registrationForm.setRegRequest(getCourseRegistrationService().getRegRequest(regRequestInfo.getId(),context));
@@ -563,7 +581,9 @@ public class RegistrationController extends UifControllerBase {
             throw new RuntimeException(e);
         } catch (MissingParameterException e) {
             throw new RuntimeException(e);
-        }
+        } catch (ReadOnlyException e) {
+        	 throw new RuntimeException(e);
+		}
 
         return getUIFModelAndView(registrationForm);
     }
@@ -589,10 +609,12 @@ public class RegistrationController extends UifControllerBase {
             RegRequestItemInfo regRequestItem = generateRegRequestItem(regGroupWrapper, context);
             registrationForm.getRegRequest().getRegRequestItems().add(regRequestItem);
 
-            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(registrationForm.getRegRequest(), context);
+            String validationTypeKey = "FIXME";
+			String regRequestTypeKey = "FIXME";
+			List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(validationTypeKey, regRequestTypeKey, registrationForm.getRegRequest(), context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
                 if (StringUtils.isBlank(registrationForm.getRegRequest().getId())) {
-                    RegRequestInfo regRequestInfo = getCourseRegistrationService().createRegRequest(registrationForm.getRegRequest(), context);
+                    RegRequestInfo regRequestInfo = getCourseRegistrationService().createRegRequest(regRequestTypeKey, registrationForm.getRegRequest(), context);
                     regRequestInfo = getCourseRegistrationService().getRegRequest(regRequestInfo.getId(),context);
                     registrationForm.setRegRequest(regRequestInfo);
                 } else {
@@ -625,7 +647,9 @@ public class RegistrationController extends UifControllerBase {
             throw new RuntimeException(e);
         } catch (AlreadyExistsException e) {
             throw new RuntimeException(e);
-        }
+        } catch (ReadOnlyException e) {
+			throw new RuntimeException(e);
+		}
 
         return getUIFModelAndView(registrationForm);
     }

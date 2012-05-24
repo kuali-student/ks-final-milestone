@@ -51,6 +51,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -283,13 +284,6 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public List<DateRangeInfo> getAppointmentWindows(String studentId, String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
     public List<ValidationResultInfo> checkStudentEligibiltyForCourseOffering(String studentId, String courseOfferingId, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -409,7 +403,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public Integer getAvailableSeatsInSeatpool(String seatpoolId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public Integer getAvailableSeatsInSeatPool(String seatpoolId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
@@ -434,30 +428,15 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         return lprService.deleteLprTransaction(regRequestId, context);
     }
 
-    @Override
-    public List<ValidationResultInfo> validateRegRequest(RegRequestInfo regRequestInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+  
 
     @Override
-    public List<ValidationResultInfo> verifyRegRequest(RegRequestInfo regRequestInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return new ArrayList<ValidationResultInfo>();
-    }
-
-    @Override
-    public RegResponseInfo verifySavedReqRequest(String regRequestId, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public RegRequestInfo createRegRequest(RegRequestInfo regRequestInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-
+	public RegRequestInfo createRegRequest(String regRequestTypeKey,
+			RegRequestInfo regRequestInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
         LprTransactionInfo lprTransaction = null;
         try {
             lprTransaction = regRequestAssembler.disassemble(regRequestInfo, context);
@@ -497,7 +476,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, AlreadyExistsException {
         LprTransactionInfo storedLprTransaction = lprService.getLprTransaction(regRequestId, context);
 
@@ -509,12 +488,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         }
 
         try {
-            List<ValidationResultInfo> listValidationResult = validateRegRequest(storedRegRequest, context);
-
-            if (listValidationResult != null && listValidationResult.size() > 0) {
-                throw new DataValidationErrorException("Reg Request is invalid:", listValidationResult);
-            }
-            List<ValidationResultInfo> verificationResultList = verifyRegRequest(storedRegRequest, context);
+           
+            List<ValidationResultInfo> verificationResultList = verifyRegRequestForSubmission(regRequestId, context);
             for (ValidationResultInfo verificationResult : verificationResultList) {
                 if (!verificationResult.isOk()) {
                     throw new DataValidationErrorException("Error while verifying registration request: " + verificationResult.getMessage());
@@ -548,7 +523,12 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             }
         }
 
-        LprTransactionInfo multipleItemsTransaction = createModifiedTransactionItems(storedLprTransaction, storedRegRequest, context);
+        LprTransactionInfo multipleItemsTransaction;
+		try {
+			multipleItemsTransaction = createModifiedTransactionItems(storedLprTransaction, storedRegRequest, context);
+		} catch (DataValidationErrorException dataValidException) {
+			 throw new OperationFailedException(dataValidException.getMessage(), dataValidException);
+		}
 
         LprTransactionInfo submittedLprTransaction = lprService.processLprTransaction(multipleItemsTransaction.getId(), context);
 
@@ -561,7 +541,10 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         if (checkSuccessfulRegCriteria(returnRegResponse)) {
 
-            createGradeRosterEntryForRegisteredStudent(submittedLprTransaction, context);
+            try {
+				createGradeRosterEntryForRegisteredStudent(submittedLprTransaction, context);
+			} catch (DataValidationErrorException dataValidException) {
+				 throw new OperationFailedException(dataValidException.getMessage(), dataValidException);			}
 
         }
 
@@ -599,37 +582,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     }
 
-    @Override
-    public StatusInfo cancelRegRequest(String regRequestId, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<RegRequestInfo> getRegRequestsByIds(List<String> regRequestIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termKey, List<String> requestStates, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LprTransactionInfo> retrievedLprTransactions = lprService.getLprTransactionsByRequestingPersonAndAtp(studentId, termKey, context);
-        List<RegRequestInfo> regRequestInfos = new ArrayList<RegRequestInfo>();
-        for (LprTransactionInfo retrievedLprTransaction : retrievedLprTransactions) {
-            if (requestStates.contains(retrievedLprTransaction.getStateKey())) {
-                try {
-                    regRequestInfos.add(regRequestAssembler.assemble(retrievedLprTransaction, context));
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
-                }
-            }
-        }
-        return regRequestInfos;
-    }
-
+    
+  
     @Override
     public CourseWaitlistEntryInfo getCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -644,12 +598,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         return null;
     }
 
-    @Override
-    public StatusInfo reorderCourseWaitlistEntries(List<String> courseWaitlistEntryIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+  
 
     @Override
     public StatusInfo insertCourseWaitlistEntryAtPosition(String courseWaitlistEntryId, Integer position, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
@@ -722,33 +671,35 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsByIds(List<String> courseRegistrationIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public List<CourseRegistrationInfo> getCourseRegistrationsByIds(
+			List<String> courseRegistrationIds, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+    	
+    	 List<CourseRegistrationInfo> courseRegistrationInfos = new ArrayList<CourseRegistrationInfo>();
+       ResultValuesGroup rvGroup = null;
+       List<LuiPersonRelationInfo> lprs = lprService.getLprsByIds(courseRegistrationIds, context);
+       for (LuiPersonRelationInfo lpr : lprs) {
+           for (String rvGroupKey : lpr.getResultValuesGroupKeys()) {
+               rvGroup = lrcService.getResultValuesGroup(rvGroupKey, context);
+               if (rvGroup != null) {
+                   ResultScaleInfo resScale = lrcService.getResultScale(rvGroup.getResultScaleKey(), context);
+                   if (resScale != null) {
+                       if (StringUtils.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, resScale.getTypeKey())) {
+                           courseRegistrationInfos.add(courseRegistrationAssembler.assemble(lpr, rvGroup, context));
+                           break;
+                       }
+                   }
+               }
 
-        List<CourseRegistrationInfo> courseRegistrationInfos = new ArrayList<CourseRegistrationInfo>();
-        ResultValuesGroup rvGroup = null;
-        List<LuiPersonRelationInfo> lprs = lprService.getLprsByIds(courseRegistrationIds, context);
-        for (LuiPersonRelationInfo lpr : lprs) {
-            for (String rvGroupKey : lpr.getResultValuesGroupKeys()) {
-                rvGroup = lrcService.getResultValuesGroup(rvGroupKey, context);
-                if (rvGroup != null) {
-                    ResultScaleInfo resScale = lrcService.getResultScale(rvGroup.getResultScaleKey(), context);
-                    if (resScale != null) {
-                        if (StringUtils.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, resScale.getTypeKey())) {
-                            courseRegistrationInfos.add(courseRegistrationAssembler.assemble(lpr, rvGroup, context));
-                            break;
-                        }
-                    }
-                }
+           }
+       }
 
-            }
-        }
+       return courseRegistrationInfos;
+	}
 
-        return courseRegistrationInfos;
-
-    }
-
-    // TODO - post core slice need to ensure that the list has one
+	// TODO - post core slice need to ensure that the list has one
     private List<LuiPersonRelationInfo> filterLprByState(List<LuiPersonRelationInfo> lprInfoList, String stateKey) {
         List<LuiPersonRelationInfo> filteredLprInfoList = new ArrayList<LuiPersonRelationInfo>();
         for (LuiPersonRelationInfo lprInfo : filteredLprInfoList) {
@@ -759,15 +710,10 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         return filteredLprInfoList;
     }
 
-    @Override
-    public CourseRegistrationInfo getActiveCourseRegistrationForStudentByCourseOffering(String studentId, String courseOfferingId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-
-        return new CourseRegistrationInfo();
-    }
+   
 
     @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndTerm(String studentId, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
 
         List<CourseRegistrationInfo> courseRegistrationList = new ArrayList<CourseRegistrationInfo>();
@@ -831,99 +777,34 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         }
     }
 
+    
     @Override
-    public List<CourseRegistrationInfo> getActiveCourseRegistrationsByCourseOfferingId(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<CourseRegistrationInfo> courseRegInfoList = courseRegistrationAssembler.assembleList(lprService.getLprsByLui(courseOfferingId, context), context);
-        return courseRegInfoList;
-    }
-
-    @Override
-    public List<RegRequestInfo> getRegRequestsForCourseRegistration(String courseRegistrationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<RegRequestInfo> regrequests = new ArrayList<RegRequestInfo>();
+	public List<RegRequestItemInfo> getRegRequestItemsByCourseRegistration(
+			String courseRegistrationId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+        List<RegRequestItemInfo> regrequests = new ArrayList<RegRequestItemInfo>();
         List<LprTransactionInfo> lprTransactions = lprService.getLprTransactionsWithItemsByResultingLpr(courseRegistrationId, context);
         for (LprTransactionInfo lprTransaction : lprTransactions) {
 
-            try {
-                regrequests.add(regRequestAssembler.assemble(lprTransaction, context));
-            } catch (AssemblyException e) {
-                throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
-            }
+			List<LprTransactionItemInfo> lprTransactionItems = lprTransaction
+					.getLprTransactionItems();
 
+			for (LprTransactionItemInfo lprTransactionItem : lprTransactionItems) {
+
+					regrequests.add(regRequestAssembler.assembleItem(
+							lprTransactionItem, context));
+				
+			}
         }
 
         return regrequests;
     }
 
-    @Override
-    public List<RegRequestInfo> getRegRequestsForCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return regRequestAssembler.assembleList(lprService.getLprTransactionsWithItemsByLui(courseOfferingId, context), context);
+  
 
-    }
-
-    @Override
-    public List<RegRequestInfo> getRegRequestsForCourseOfferingByStudent(String courseOfferingId, String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return regRequestAssembler.assembleList(lprService.getLprTransactionsWithItemsByPersonAndLui(studentId, courseOfferingId, context), context);
-    }
-
-    @Override
-    public List<CourseRegistrationInfo> searchForCourseRegistrations(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<String> searchForCourseOfferingRegistrationIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<ActivityRegistrationInfo> searchForActivityRegistrations(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<String> searchForActivityRegistrationIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<RegGroupRegistrationInfo> searchForRegGroupRegistrations(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<String> searchForRegGroupRegistrationIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<CourseWaitlistEntryInfo> searchForCourseWaitlistEntries(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<String> searchForCourseWaitlistEntryIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
 
     @Override
     public RegRequestInfo getRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -945,36 +826,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         return null;
     }
 
+   
     @Override
-    public RegResponseInfo dropStudentsFromRegGroups(List<String> regGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public RegResponseInfo moveStudentsBetweenRegGroups(String sourceRegGroupId, String destinationRegGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByCourseOffering(String studentId, String courseOfferingId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<CourseRegistrationInfo> getDroppedCourseRegistrationsByCourseOfferingId(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsForStudent(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<CourseRegistrationInfo> getCourseRegistrationsByStudent(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
         List<CourseRegistrationInfo> courseRegistrationList = new ArrayList<CourseRegistrationInfo>();
 
@@ -986,4 +840,150 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         return courseRegistrationList;
     }
+
+	@Override
+	public List<ValidationResultInfo> verifyRegRequestForSubmission(
+			String regRequestId, ContextInfo context)
+			throws DataValidationErrorException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateRegRequest(
+			String validationTypeKey, String regRequestTypeKey,
+			RegRequestInfo regRequestInfo, ContextInfo context)
+			throws DataValidationErrorException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RegRequestInfo> getRegRequestsByIds(List<String> regRequestIds,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RegRequestInfo> getUnsubmittedRegRequestsByRequestorAndTerm(
+			String requestorId, String termId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo reorderCourseWaitlistEntries(
+			List<String> courseWaitlistEntryIds, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getCourseRegistrationIdsByType(
+			String courseRegistrationTypeKey, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndCourseOffering(
+			String studentId, String courseOfferingId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			DisabledIdentifierException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+	@Override
+	public List<CourseRegistrationInfo> getCourseRegistrationsByCourseOffering(
+			String courseOfferingId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CourseRegistrationInfo> searchForCourseRegistrations(
+			QueryByCriteria criteria, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RegRequestItemInfo> getRegRequestItemsByCourseOfferingAndStudent(
+			String courseOfferingId, String studentId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> searchForCourseOfferingRegistrationIds(
+			QueryByCriteria criteria, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ActivityRegistrationInfo> searchForActivityRegistrations(
+			QueryByCriteria criteria, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> searchForActivityRegistrationIds(
+			QueryByCriteria criteria, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CourseWaitlistEntryInfo> searchForCourseWaitlistEntries(
+			QueryByCriteria criteria, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> searchForCourseWaitlistEntryIds(
+			QueryByCriteria criteria, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
+    
 }

@@ -62,7 +62,7 @@ public class EnrolledCoursesResolver implements TermResolver<Collection<String>>
         Collection<String> results = null;
 
         try {
-            List<CourseRegistrationInfo> registrations = courseRegService.getCourseRegistrationsForStudent(studentId, context);
+            List<CourseRegistrationInfo> registrations = courseRegService.getCourseRegistrationsByStudent(studentId, context);
 
             results = new ArrayList<String>(registrations.size());
 

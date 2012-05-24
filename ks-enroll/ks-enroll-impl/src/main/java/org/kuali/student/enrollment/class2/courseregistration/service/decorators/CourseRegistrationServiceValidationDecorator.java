@@ -17,6 +17,9 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,22 +51,27 @@ public class CourseRegistrationServiceValidationDecorator extends CourseRegistra
         this.dataDictionaryService = dataDictionaryService;
     }
 
+    
     @Override
-    public RegRequestInfo createRegRequest(RegRequestInfo regRequestInfo, ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public RegRequestInfo createRegRequest(String regRequestTypeKey,
+			RegRequestInfo regRequestInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
+		
         if (regRequestInfo.getRequestorId() == null)
             throw new DataValidationErrorException("Null field requestorId");
         if (regRequestInfo.getRegRequestItems() == null)
             throw new DataValidationErrorException("Not a valid request, missing request items");
 
-        return getNextDecorator().createRegRequest(regRequestInfo, context);
+        return getNextDecorator().createRegRequest(regRequestTypeKey, regRequestInfo, context);
     }
     
     @Override
     public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
     InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-    DataValidationErrorException, AlreadyExistsException {
+    AlreadyExistsException {
 
         LprTransactionInfo storedLprTransaction = lprService.getLprTransaction(regRequestId, context);
         List<ValidationResultInfo> validationErrors = new ArrayList<ValidationResultInfo>();
@@ -72,7 +80,7 @@ public class CourseRegistrationServiceValidationDecorator extends CourseRegistra
                 storedLprTransaction.getStateKey().equals(LprServiceConstants.LPRTRANS_DISCARDED_STATE_KEY)||
                  storedLprTransaction.getStateKey().equals(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY)){
 
-             throw new DataValidationErrorException("The state key validation failed", validationErrors);
+             throw new OperationFailedException ("The state key validation failed", new DataValidationErrorException("The state key validation failed", validationErrors));
          }
         return getNextDecorator().submitRegRequest(regRequestId, context);
     }

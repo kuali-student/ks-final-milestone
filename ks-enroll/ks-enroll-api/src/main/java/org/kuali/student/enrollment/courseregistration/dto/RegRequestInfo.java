@@ -33,10 +33,6 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
 
     public RegRequestInfo() {
         super();
-        this.requestorId = null;
-        this.termId = null;
-        this.regRequestItems = new ArrayList<RegRequestItemInfo>();
-        this._futureElements = null;
 
     }
 
@@ -52,7 +48,6 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
                 }
             }
 
-            this._futureElements = null;
         }
 
     }
@@ -82,6 +77,11 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
 
     @Override
     public List<RegRequestItemInfo> getRegRequestItems() {
+
+        if (this.regRequestItems == null) {
+            this.regRequestItems = new ArrayList<RegRequestItemInfo>();
+        }
+
         return regRequestItems;
     }
 

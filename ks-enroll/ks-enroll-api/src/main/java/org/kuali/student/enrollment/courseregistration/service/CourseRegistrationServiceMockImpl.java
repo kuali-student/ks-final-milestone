@@ -14,6 +14,7 @@ import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationI
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
@@ -31,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 /**
@@ -49,11 +51,7 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public StatusInfo cancelRegRequest(String regRequestId, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+   
     @Override
     public List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -99,9 +97,15 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
     }
     private Map<String, RegRequestInfo> regRequests = new HashMap<String, RegRequestInfo>();
 
+    
     @Override
-    public RegRequestInfo createRegRequest(RegRequestInfo regRequestInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        RegRequestInfo copy = new RegRequestInfo(regRequestInfo);
+	public RegRequestInfo createRegRequest(String regRequestTypeKey,
+			RegRequestInfo regRequestInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
+		   RegRequestInfo copy = new RegRequestInfo(regRequestInfo);
         copy.setId(regRequests.size() + "");
         copy.setMeta(newMeta(context));
         regRequests.put(copy.getId(), copy);
@@ -126,25 +130,7 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
         return newStatus();
     }
 
-    @Override
-    public RegResponseInfo dropStudentsFromRegGroups(List<String> regGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public CourseRegistrationInfo getActiveCourseRegistrationForStudentByCourseOffering(String studentId, String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<CourseRegistrationInfo> getActiveCourseRegistrationsByCourseOfferingId(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<DateRangeInfo> getAppointmentWindows(String studentId, String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    
 
     @Override
     public Integer getAvailableSeatsForCourseOffering(String courseOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -161,10 +147,6 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public Integer getAvailableSeatsInSeatpool(String seatpoolId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     @Override
     public CourseRegistrationInfo getCourseRegistration(String courseRegistrationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -173,21 +155,6 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByIds(List<String> courseRegistrationIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsForStudent(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByCourseOffering(String studentId, String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -221,11 +188,7 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public List<CourseRegistrationInfo> getDroppedCourseRegistrationsByCourseOfferingId(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+  
     @Override
     public List<RegistrationGroupInfo> getEligibleRegGroupsForStudentInCourseOffering(String studentId, String courseOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -244,35 +207,12 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public List<RegRequestInfo> getRegRequestsForCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<RegRequestInfo> getRegRequestsForCourseOfferingByStudent(String courseOfferingId, String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<RegRequestInfo> getRegRequestsForCourseRegistration(String courseRegistrationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termKey, List<String> requestStates, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+   
     @Override
     public StatusInfo insertCourseWaitlistEntryAtPosition(String courseWaitlistEntryId, Integer position, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public RegResponseInfo moveStudentsBetweenRegGroups(String sourceRegGroupId, String destinationRegGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     @Override
     public RegResponseInfo registerStudentFromWaitlist(String courseWaitlistEntryId, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -319,21 +259,7 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public List<String> searchForRegGroupRegistrationIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<RegGroupRegistrationInfo> searchForRegGroupRegistrations(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, AlreadyExistsException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+   
     @Override
     public StatusInfo updateCourseWaitlistEntry(String courseWaitlistEntryId, CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -356,20 +282,113 @@ public class CourseRegistrationServiceMockImpl implements CourseRegistrationServ
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public List<ValidationResultInfo> validateRegRequest(RegRequestInfo regRequestInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public Integer getAvailableSeatsInSeatPool(String seatPoolId,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		 throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    @Override
-    public List<ValidationResultInfo> verifyRegRequest(RegRequestInfo regRequestInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public List<ValidationResultInfo> validateRegRequest(
+			String validationTypeKey, String regRequestTypeKey,
+			RegRequestInfo regRequestInfo, ContextInfo context)
+			throws DataValidationErrorException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		 throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    @Override
-    public RegResponseInfo verifySavedReqRequest(String regRequestId, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public List<ValidationResultInfo> verifyRegRequestForSubmission(
+			String regRequestId, ContextInfo context)
+			throws DataValidationErrorException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		 throw new UnsupportedOperationException("Not supported yet.");
+	}
 
+	@Override
+	public RegResponseInfo submitRegRequest(String regRequestId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			AlreadyExistsException {
+		 throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public List<RegRequestInfo> getUnsubmittedRegRequestsByRequestorAndTerm(
+			String requestorId, String termId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		 throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public List<String> getCourseRegistrationIdsByType(
+			String courseRegistrationTypeKey, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		 throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public List<CourseRegistrationInfo> getCourseRegistrationsByStudent(
+			String studentId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, DisabledIdentifierException {
+		 throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndCourseOffering(
+			String studentId, String courseOfferingId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			DisabledIdentifierException {
+		 throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndTerm(
+			String studentId, String termId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, DisabledIdentifierException {
+		 throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public List<CourseRegistrationInfo> getCourseRegistrationsByCourseOffering(
+			String courseOfferingId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		 throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public List<RegRequestItemInfo> getRegRequestItemsByCourseRegistration(
+			String courseRegistrationId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		 throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public List<RegRequestItemInfo> getRegRequestItemsByCourseOfferingAndStudent(
+			String courseOfferingId, String studentId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException { 
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+    
+  
     
 }
