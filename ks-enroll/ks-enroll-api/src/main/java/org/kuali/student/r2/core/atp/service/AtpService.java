@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the Educational Community
  * License, Version 2.0 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -43,9 +43,10 @@ import javax.jws.soap.SOAPBinding;
  * associated Milestones. The intent is to provide a flexible but
  * structured way to define the various time frames that are used
  * throughout the definition, offering and scheduling of Learning
- * Units. This is a catalogue service with basic operations. Version:
- * 1.0 (Dev)
+ * Units. 
  * 
+ * 
+ * @Version 1.0 (Dev)
  * @Author tom
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */
