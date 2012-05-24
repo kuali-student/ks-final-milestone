@@ -161,7 +161,7 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
-    public List<LprTransactionItemInfo> getLprTransactionsItemsByPersonAndLui(String personId, String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprTransactionItemInfo> getLprTransactionItemsByPersonAndLui(String personId, String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprTransactionsItemsByPersonAndLui(personId, luiId, contextInfo);
     }
 
