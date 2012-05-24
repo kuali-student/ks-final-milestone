@@ -116,11 +116,6 @@
 			<b get-method="getOutOfClassHours" set-method="setOutOfClassHours">outOfClassHours</b>
 		</field>
 		<field>
-			<a>primaryInstructor</a>
-			<b get-method="getPrimaryInstructor" set-method="setPrimaryInstructor">primaryInstructor
-			</b>
-		</field>
-		<field>
 			<a>versionInfo</a>
 			<b get-method="getVersionInfo" set-method="setVersionInfo">versionInfo</b>
 		</field>
@@ -370,11 +365,6 @@
 			<b get-method="getStdDuration" set-method="setStdDuration">stdDuration</b>
 		</field>
 		<field>
-			<a>primaryInstructor</a>
-			<b set-method="setPrimaryInstructor" get-method="getPrimaryInstructor">primaryInstructor
-			</b>
-		</field>
-		<field>
 			<a>stdDuration</a>
 			<b get-method="getStdDuration"
 				set-method="setStdDuration(org.kuali.student.r2.common.dto.TimeAmountInfo)">stdDuration</b>
@@ -452,18 +442,6 @@
 		<field>
 			<a>type</a>
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
-		</field>
-	</mapping>
-
-	<mapping>
-		<class-a>org.kuali.student.r1.lum.lu.dto.CluInstructorInfo</class-a>
-		<class-b>org.kuali.student.r2.lum.clu.dto.CluInstructorInfo</class-b>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
 		</field>
 	</mapping>
 
