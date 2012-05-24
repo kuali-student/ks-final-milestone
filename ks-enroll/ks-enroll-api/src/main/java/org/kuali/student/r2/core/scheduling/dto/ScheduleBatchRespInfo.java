@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleBatchResponse;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleBatchResp;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,10 +34,10 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleBatchResponseInfo", propOrder = {"id", "typeKey", "stateKey",
+@XmlType(name = "ScheduleBatchRespInfo", propOrder = {"id", "typeKey", "stateKey",
         "submittedDate", "statusMessage", "finalStatus",
         "meta", "attributes", "_futureElements"})
-public class ScheduleBatchResponseInfo extends IdNamelessEntityInfo implements ScheduleBatchResponse, Serializable {
+public class ScheduleBatchRespInfo extends IdNamelessEntityInfo implements ScheduleBatchResp, Serializable {
     
     @XmlElement 
     private Date submittedDate;
@@ -48,15 +48,15 @@ public class ScheduleBatchResponseInfo extends IdNamelessEntityInfo implements S
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public ScheduleBatchResponseInfo() {
+    public ScheduleBatchRespInfo() {
 
     }
 
-    public ScheduleBatchResponseInfo(ScheduleBatchResponse scheduleBatchResponse) {
-        if (null != scheduleBatchResponse) {
-            this.submittedDate = scheduleBatchResponse.getSubmittedDate();
-            this.statusMessage = scheduleBatchResponse.getStatusMessage();
-            this.finalStatus = new StatusInfo(scheduleBatchResponse.getFinalStatus());
+    public ScheduleBatchRespInfo(ScheduleBatchResp scheduleBatchResp) {
+        if (null != scheduleBatchResp) {
+            this.submittedDate = scheduleBatchResp.getSubmittedDate();
+            this.statusMessage = scheduleBatchResp.getStatusMessage();
+            this.finalStatus = new StatusInfo(scheduleBatchResp.getFinalStatus());
         }
     }
     

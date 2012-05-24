@@ -16,9 +16,7 @@
 package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.infc.Status;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleResponse;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleResp;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,13 +32,13 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleResponseInfo", propOrder = {"id", "typeKey", "stateKey",
-        "batchResponseId", "scheduleRequestId", "scheduleId", "statusMessage",
+@XmlType(name = "ScheduleRespInfo", propOrder = {"id", "typeKey", "stateKey",
+        "batchRespId", "scheduleRequestId", "scheduleId", "statusMessage",
         "meta", "attributes", "_futureElements"})
-public class ScheduleResponseInfo extends IdNamelessEntityInfo implements ScheduleResponse, Serializable {
+public class ScheduleRespInfo extends IdNamelessEntityInfo implements ScheduleResp, Serializable {
 
     @XmlElement
-    private String batchResponseId;
+    private String batchRespId;
     @XmlElement
     private String scheduleRequestId;
     @XmlElement
@@ -50,25 +48,25 @@ public class ScheduleResponseInfo extends IdNamelessEntityInfo implements Schedu
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public ScheduleResponseInfo() {
+    public ScheduleRespInfo() {
     }
 
-    public ScheduleResponseInfo(ScheduleResponse scheduleResponse) {
-        if (null != scheduleResponse) {
-            this.batchResponseId = scheduleResponse.getBatchResponseId();
-            this.scheduleRequestId = scheduleResponse.getScheduleRequestId();
-            this.scheduleId = scheduleResponse.getScheduleId();
-            this.statusMessage = scheduleResponse.getStatusMessage();
+    public ScheduleRespInfo(ScheduleResp scheduleResp) {
+        if (null != scheduleResp) {
+            this.batchRespId = scheduleResp.getBatchRespId();
+            this.scheduleRequestId = scheduleResp.getScheduleRequestId();
+            this.scheduleId = scheduleResp.getScheduleId();
+            this.statusMessage = scheduleResp.getStatusMessage();
         }
     }
 
     @Override
-    public String getBatchResponseId() {
-        return this.batchResponseId;
+    public String getBatchRespId() {
+        return this.batchRespId;
     }
 
-    public void setBatchResponseId(String batchResponseId) {
-        this.batchResponseId = batchResponseId;
+    public void setBatchRespId(String batchRespId) {
+        this.batchRespId = batchRespId;
     }
 
     @Override

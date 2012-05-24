@@ -40,6 +40,7 @@ public class CourseOfferingServiceConstants {
     //dynamic attribute keys
     public static final String WAIT_LIST_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.wait.list.level.type.key";
     public static final String GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.grade.roster.level.type.key";
+    public static final String FINAL_EXAM_LEVEL_TYPE_KEY_ATTR = "kuali.attribute.final.exam.level.type";
     public static final String COURSE_EVALUATION_INDICATOR_ATTR = "kuali.attribute.course.evaluation.indicator";
     public static final String FINAL_EXAM_INDICATOR_ATTR = "kuali.attribute.final.exam.indicator";
     public static final String FUNDING_SOURCE_ATTR = "kuali.attribute.funding.source";

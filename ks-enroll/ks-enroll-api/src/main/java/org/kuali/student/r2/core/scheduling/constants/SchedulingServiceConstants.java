@@ -15,9 +15,15 @@
 package org.kuali.student.r2.core.scheduling.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.MeetingTimeInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchRespInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRespInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleResponseItemInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 
@@ -37,5 +43,11 @@ public class SchedulingServiceConstants {
     public static final String REF_OBJECT_URI_SCHEDULE = NAMESPACE + "/" + ScheduleInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SCHEDULE_COMPONENT = NAMESPACE + "/" + ScheduleComponentInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SCHEDULE_REQUEST = NAMESPACE + "/" + ScheduleRequestInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_SCHEDULE_REQUEST_COMPONENT = NAMESPACE + "/" + ScheduleRequestComponentInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SCHEDULE_TIME_SLOT = NAMESPACE + "/" + TimeSlotInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_MEETING_TIME = NAMESPACE + "/" + MeetingTimeInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_SCHEDULE_BATCH = NAMESPACE + "/" + ScheduleBatchInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_SCHEDULE_BATCH_RESPONSE = NAMESPACE + "/" + ScheduleBatchRespInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_SCHEDULE_RESPONSE = NAMESPACE + "/" + ScheduleRespInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_SCHEDULE_RESPONSE_ITEM = NAMESPACE + "/" + ScheduleResponseItemInfo.class.getSimpleName();
 }
