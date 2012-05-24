@@ -2,10 +2,16 @@ package org.kuali.student.enrollment.class1.lpr.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.kuali.student.r2.common.entity.MetaEntity;
 
-@Embeddable
+@Entity
+@Table(name="KSEN_LPR_TRANS_ITEM_RQST_OPT")
 public class RequestOptionEntity extends MetaEntity {
 
     @Column(name = "OPTION_KEY")
@@ -14,6 +20,10 @@ public class RequestOptionEntity extends MetaEntity {
     @Column(name = "OPTION_VALUE")
     private String optionValue;
 
+    @ManyToOne 
+    @JoinColumn (name="LPR_TRANS_ITEM_ID")
+    private LprTransactionItemEntity lprTransactionItem;
+    
     public String getOptionKey() {
         return optionKey;
     }
@@ -30,4 +40,13 @@ public class RequestOptionEntity extends MetaEntity {
         this.optionValue = optionValue;
     }
 
+	public LprTransactionItemEntity getLprTransactionItem() {
+		return lprTransactionItem;
+	}
+
+	public void setLprTransactionItem(LprTransactionItemEntity lprTransactionItem) {
+		this.lprTransactionItem = lprTransactionItem;
+	}
+
+    
 }

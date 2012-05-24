@@ -28,22 +28,23 @@ import org.kuali.student.r2.common.infc.Attribute;
  */
 @Entity
 @Table(name = "KSEN_LPR")
-public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwner<LuiPersonRelationAttributeEntity> {
+public class LuiPersonRelationEntity extends MetaEntity  {
 
-    @Column(name = "PERSONID")
+    @Column(name = "PERS_ID")
     private String personId;
 
-    @Column(name = "LUIID")
+    @Column(name = "LUI_ID")
     private String luiId;
 
-
-    @Column(name = "COMMITMENTPERCENT")
+    @Column(name = "COMMIT_PERCT")
     private Float commitmentPercent;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="EFF_DT")
     private Date effectiveDate;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="EXPIR_DT")
     private Date expirationDate;
 
     @Column(name = "LPR_TYPE")
@@ -53,7 +54,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     private String personRelationStateId;
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy = "owner" )
     private List<LuiPersonRelationAttributeEntity> attributes;
 
     public LuiPersonRelationEntity() {}
@@ -146,12 +147,10 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 //        this.resultValuesGroups = resultValuesGroups;
 //    }
 
-    @Override
     public List<LuiPersonRelationAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    @Override
     public void setAttributes(List<LuiPersonRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }

@@ -28,6 +28,7 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -364,7 +365,10 @@ public class LprServiceImpl implements LprService {
             lprTransactionEntity.setLprTransType(lprTransactionInfo.getTypeKey());
         }
         if (null != lprTransactionInfo.getDescr()) {
-            lprTransactionEntity.setDescr(new LprRichTextEntity(lprTransactionInfo.getDescr()));
+        	RichTextInfo descr = lprTransactionInfo.getDescr();
+            
+        	lprTransactionEntity.setDescrFormatted(descr.getFormatted());
+        	lprTransactionEntity.setDescrPlain(descr.getPlain());
         }
 
         List<LprTransactionItemEntity> lprTransItemEntities = new ArrayList<LprTransactionItemEntity>();
@@ -408,7 +412,8 @@ public class LprServiceImpl implements LprService {
         if (existingLprTransactionEntity != null) {
             newLprTransactionEntity.setId(UUIDHelper.genStringUUID());
             newLprTransactionEntity.setAttributes(existingLprTransactionEntity.getAttributes());
-            newLprTransactionEntity.setDescr(existingLprTransactionEntity.getDescr());
+            newLprTransactionEntity.setDescrFormatted(existingLprTransactionEntity.getDescrFormatted());
+            newLprTransactionEntity.setDescrPlain(existingLprTransactionEntity.getDescrPlain());
             List<LprTransactionItemEntity> newItems = new ArrayList(existingLprTransactionEntity.getLprTransactionItems().size());
             for (LprTransactionItemEntity existingItem : existingLprTransactionEntity.getLprTransactionItems()) {
                 LprTransactionItemEntity newItem = new LprTransactionItemEntity();
@@ -418,7 +423,9 @@ public class LprServiceImpl implements LprService {
                 newItem.setLprTransactionItemType(existingItem.getLprTransactionItemType());
                 newItem.setNewLuiId(existingItem.getNewLuiId());
                 newItem.setPersonId(existingItem.getPersonId());
-                newItem.setDescr(existingItem.getDescr());
+                newItem.setDescrFormatted(existingItem.getDescrFormatted());
+                newItem.setDescrPlain(existingItem.getDescrPlain());
+
             }
             newLprTransactionEntity.setLprTransactionItems(newItems);
             newLprTransactionEntity.setLprTransState(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
@@ -646,7 +653,9 @@ public class LprServiceImpl implements LprService {
             modifiedLprItemEntity.setLprTransactionItemType(modifiedTransactionItemInfo.getTypeKey());
         }
         if (null != modifiedTransactionItemInfo.getDescr()) {
-            modifiedLprItemEntity.setDescr(new LprRichTextEntity(modifiedTransactionItemInfo.getDescr()));
+        	RichTextInfo descr = modifiedTransactionItemInfo.getDescr();
+            modifiedLprItemEntity.setDescrFormatted(descr.getFormatted());
+            modifiedLprItemEntity.setDescrPlain(descr.getPlain());
         }
         lprTransItemDao.merge(modifiedLprItemEntity);
         return modifiedLprItemEntity;
@@ -666,7 +675,9 @@ public class LprServiceImpl implements LprService {
             lprTransItemEntity.setLprTransactionItemType(lprTransactionItemInfo.getTypeKey());
         }
         if (null != lprTransactionItemInfo.getDescr()) {
-            lprTransItemEntity.setDescr(new LprRichTextEntity(lprTransactionItemInfo.getDescr()));
+        	RichTextInfo descr = lprTransactionItemInfo.getDescr();
+        	lprTransItemEntity.setDescrFormatted(descr.getFormatted());
+        	lprTransItemEntity.setDescrPlain(descr.getPlain());
         }
 
         lprTransItemDao.persist(lprTransItemEntity);

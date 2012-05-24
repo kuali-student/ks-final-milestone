@@ -76,7 +76,7 @@ public interface LprTransactionItem extends IdEntity {
      * 
      * @name Request Options
      */
-    public List<? extends RequestOption> getRequestOptions();
+    public List<? extends LprRequestOption> getRequestOptions();
 
     /**
      * Returns the result for this transaction item once it has been processed.

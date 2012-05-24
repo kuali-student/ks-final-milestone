@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.common.entity.RichText;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.LprTransaction;
@@ -19,32 +21,35 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS")
-public class LprTransactionEntity extends MetaEntity implements AttributeOwner<LprTransAttributeEntity> {
+public class LprTransactionEntity extends MetaEntity {
 
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "REQ_PERSON_ID")
+    @Column(name = "REQUESTING_PERS_ID")
     private String requestingPersonId;
 
     @Column(name = "ATP_ID")
     private String atpId;
+
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrFormatted;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private LprRichTextEntity descr;
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
+    private String descrPlain;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "LPR_TRANS_ID")
     private List<LprTransactionItemEntity> lprTransactionItems;
 
-    @Column(name = "LPR_TYPE_ID")
+    @Column(name = "LPR_TRANS_TYPE")
     private String lprTransType;
 
-    @Column(name = "STATE_ID")
+    @Column(name = "LRP_TRANS_STATE")
     private String lprTransState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
@@ -61,7 +66,13 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         this.setLprTransState(lprTransaction.getStateKey());
         this.setLprTransType(lprTransaction.getTypeKey());
         this.setId(lprTransaction.getId());
-        this.setDescr(new LprRichTextEntity(lprTransaction.getDescr()));
+        if (lprTransaction.getDescr() != null) {
+            this.setDescrFormatted(lprTransaction.getDescr().getFormatted());
+            this.setDescrPlain(lprTransaction.getDescr().getPlain());
+        } else {
+            this.setDescrFormatted(null);
+            this.setDescrPlain(null);
+        }
         // this.setAttributes(new ArrayList<LprTransAttributeEntity>());
         if (null != lprTransaction.getAttributes()) {
             for (Attribute att : lprTransaction.getAttributes()) {
@@ -82,8 +93,8 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         if (this.getLprTransState() != null)
             lpr.setStateKey(this.getLprTransState());
         lpr.setMeta(super.toDTO());
-        if (this.getDescr() != null)
-            lpr.setDescr(this.getDescr().toDto());
+        
+       
         if (getAttributes() != null) {
             List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
             for (LprTransAttributeEntity att : getAttributes()) {
@@ -92,6 +103,9 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
             }
             lpr.setAttributes(atts);
         }
+        
+        lpr.setDescr(new RichTextHelper().toRichTextInfo(getDescrPlain(), getDescrFormatted()));
+
         lpr.setName(getName());
         lpr.setRequestingPersonId(getRequestingPersonId());
         lpr.setAtpId(getAtpId());        
@@ -112,14 +126,6 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public LprRichTextEntity getDescr() {
-        return descr;
-    }
-
-    public void setDescr(LprRichTextEntity descr) {
-        this.descr = descr;
     }
 
     public String getLprTransType() {
@@ -164,14 +170,28 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         this.lprTransactionItems = lprTransactionItems;
     }
 
-    @Override
     public void setAttributes(List<LprTransAttributeEntity> attributes) {
         this.setAttributes(attributes);
     }
 
-    @Override
     public List<LprTransAttributeEntity> getAttributes() {
         return this.attributes;
     }
+
+	public String getDescrFormatted() {
+		return descrFormatted;
+	}
+
+	public void setDescrFormatted(String descrFormatted) {
+		this.descrFormatted = descrFormatted;
+	}
+
+	public String getDescrPlain() {
+		return descrPlain;
+	}
+
+	public void setDescrPlain(String descrPlain) {
+		this.descrPlain = descrPlain;
+	}
 
 }

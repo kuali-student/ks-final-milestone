@@ -18,18 +18,15 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.lpr.infc.RequestOption;
+import org.kuali.student.enrollment.lpr.infc.LprRequestOption;
 import org.w3c.dom.Element;
 
 /**
- * This is a description of what this class does - sambitpatnaik don't forget to
- * fill this in.
- * 
  * @author Kuali Student Team (sambitpatnaik)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RequestOptionInfo", propOrder = {"id","optionKey", "optionValue", "_futureElements"})
-public class RequestOptionInfo implements RequestOption {
+public class RequestOptionInfo implements LprRequestOption {
 
     @XmlElement
     private String id;
@@ -49,7 +46,7 @@ public class RequestOptionInfo implements RequestOption {
         this._futureElements = null;
     }
 
-    public RequestOptionInfo(RequestOption reqOp) {
+    public RequestOptionInfo(LprRequestOption reqOp) {
         if (null == reqOp)
             return;
 

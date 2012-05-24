@@ -31,12 +31,17 @@ public abstract class MetaEntity extends BaseVersionEntity {
     // @Version
     // private long versionInd;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable = false)
+    @Column(name="CREATETIME", updatable = false)
     private Date createTime;
-    @Column(updatable = false)
+    
+    @Column(name="CREATEID", updatable = false)
     private String createId;
+    
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="UPDATETIME")
     private Date updateTime;
+    
+    @Column(name="UPDATEID")
     private String updateId;
 
     // public long getVersionInd() {

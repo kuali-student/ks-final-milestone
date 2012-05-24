@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
-import org.kuali.student.enrollment.lpr.infc.RequestOption;
+import org.kuali.student.enrollment.lpr.infc.LprRequestOption;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
@@ -68,7 +68,7 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
 
             this.requestOptions = new ArrayList<RequestOptionInfo>();
             if (null != lprTransactionItem.getRequestOptions()) {
-                for (RequestOption reqOp : lprTransactionItem.getRequestOptions()) {
+                for (LprRequestOption reqOp : lprTransactionItem.getRequestOptions()) {
                     this.requestOptions.add(new RequestOptionInfo(reqOp));
                 }
             }

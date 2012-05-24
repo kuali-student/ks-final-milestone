@@ -17,14 +17,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
 import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_LPR_ATTR")
-public class LuiPersonRelationAttributeEntity extends BaseAttributeEntity<LuiPersonRelationEntity> {
+public class LuiPersonRelationAttributeEntity extends BaseAttributeEntityNew<LuiPersonRelationEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private LuiPersonRelationEntity owner;
 
     public LuiPersonRelationAttributeEntity() {}

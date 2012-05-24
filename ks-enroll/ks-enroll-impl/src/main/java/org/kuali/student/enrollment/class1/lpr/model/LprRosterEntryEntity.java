@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_LPR_ROSTER_ENTRY")
-public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<LprRosterEntryAttributeEntity> {
+public class LprRosterEntryEntity extends MetaEntity {
 
     @Column(name = "LPRROSTER_ID")
     private String lprRosterId;
@@ -110,12 +110,10 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
         this.position = position;
     }
 
-    @Override
     public List<LprRosterEntryAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    @Override
     public void setAttributes(List<LprRosterEntryAttributeEntity> attributes) {
         this.attributes = attributes;
     }

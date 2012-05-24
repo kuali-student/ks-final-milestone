@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
@@ -18,33 +19,36 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 
 @Entity
-@Table(name = "KSEN_LPR_TRANS_ITEMS")
-public class LprTransactionItemEntity extends MetaEntity implements AttributeOwner<LprTransItemAttributeEntity> {
+@Table(name = "KSEN_LPR_TRANS_ITEM")
+public class LprTransactionItemEntity extends MetaEntity {
 
-    @Column(name = "PERSON_ID")
+    @Column(name = "PERS_ID")
     private String personId;
 
     @Column(name = "NEW_LUI_ID")
     private String newLuiId;
 
-    @Column(name = "EXIST_LUI_ID")
+    @Column(name = "EXISTING_LUI_ID")
     private String existingLuiId;
 
-    @Column(name = "RESULTING_LPR_ID")
+    @Column(name = "LTI_RESULTING_LPR_ID")
     private String resultingLprId;
 
-    @Column(name = "STATUS")
+    @Column(name = "LTI_RESULTING_STATUS")
     private String status;
 
     @Column(name = "GROUP_ID")
     private String groupId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private LprRichTextEntity descr;
-
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrFormatted;
+    
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
+    private String descrPlain;
+    
     @Column(name = "TYPE_ID")
     private String lprTransactionItemType;
 
@@ -72,6 +76,13 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
                     this.getAttributes().add(attEntity);
                 }
             }
+            if (lprTransactionItem.getDescr() != null) {
+                this.setDescrFormatted(lprTransactionItem.getDescr().getFormatted());
+                this.setDescrPlain(lprTransactionItem.getDescr().getPlain());
+            } else {
+                this.setDescrFormatted(null);
+                this.setDescrPlain(null);
+            }
             if (lprTransactionItem.getLprTransactionItemResult() != null) {
                 this.setResultingLprId(lprTransactionItem.getLprTransactionItemResult().getResultingLprId());
                 this.setStatus(lprTransactionItem.getLprTransactionItemResult().getStatus()?"Y":"N");
@@ -91,8 +102,8 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         lprTransItemInfo.setNewLuiId(this.getNewLuiId());
         lprTransItemInfo.setPersonId(this.getPersonId());
         lprTransItemInfo.setMeta(super.toDTO());
-        if (this.getDescr() != null)
-            lprTransItemInfo.setDescr(this.getDescr().toDto());
+        lprTransItemInfo.setDescr(new RichTextHelper().toRichTextInfo(getDescrPlain(), getDescrFormatted()));
+
         if (getAttributes() != null) {
             List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
             for (LprTransItemAttributeEntity att : getAttributes()) {
@@ -110,15 +121,25 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
     }
 
-    public LprRichTextEntity getDescr() {
-        return descr;
-    }
+   
 
-    public void setDescr(LprRichTextEntity descr) {
-        this.descr = descr;
-    }
+    public String getDescrFormatted() {
+		return descrFormatted;
+	}
 
-    public String getResultingLprId() {
+	public void setDescrFormatted(String descrFormatted) {
+		this.descrFormatted = descrFormatted;
+	}
+
+	public String getDescrPlain() {
+		return descrPlain;
+	}
+
+	public void setDescrPlain(String descrPlain) {
+		this.descrPlain = descrPlain;
+	}
+
+	public String getResultingLprId() {
         return resultingLprId;
     }
 
@@ -182,12 +203,10 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         this.lprTransactionItemState = lprTransactionState;
     }
 
-    @Override
     public List<LprTransItemAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    @Override
     public void setAttributes(List<LprTransItemAttributeEntity> attributes) {
         this.attributes = attributes;
     }
