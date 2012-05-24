@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.enrollment.class2.acal.service.impl;
+package org.kuali.student.enrollment.test.util;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
@@ -17,8 +17,49 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
  */
 public class AttributeTester {
 
-    public void compare(List<AttributeInfo> origList, List<AttributeInfo> infoList) {
-        if (origList.size () != infoList.size ()) {
+    public void add2ForCreate(List<AttributeInfo> orig) {
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key1");
+        attr.setValue("attribute value1");
+        orig.add(attr);
+        attr = new AttributeInfo();
+        attr.setKey("attribute.key2");
+        attr.setValue("attribute value2");
+        orig.add(attr);
+    }
+
+    public void delete1Update1Add1ForUpdate(List<AttributeInfo> orig) {
+        orig.remove(0);
+        orig.get(0).setValue("updated value");
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key3");
+        attr.setValue("attribute value3");
+        orig.add(attr);
+    }
+
+    public AttributeInfo toAttribute(String key, String value) {
+        if (key == null) {
+            return null;
+        }
+        AttributeInfo info = new AttributeInfo();
+        info.setKey(key);
+        info.setValue(value);
+        return info;
+    }
+
+    public List<AttributeInfo> findAttributes(List<AttributeInfo> attrs, String key) {
+        List<AttributeInfo> list = new ArrayList<AttributeInfo>();
+        for (AttributeInfo info : attrs) {
+            if (key.equals(info.getKey())) {
+                list.add(info);
+            }
+        }
+        return list;
+    }
+    
+    
+    public void check(List<AttributeInfo> origList, List<AttributeInfo> infoList) {
+        if (origList.size() != infoList.size()) {
             this.dump(origList, infoList);
         }
         assertEquals(origList.size(), infoList.size());
@@ -37,13 +78,13 @@ public class AttributeTester {
         }
     }
 
-    public void dump (List<AttributeInfo> origList, List<AttributeInfo> infoList) {
-         System.out.println ("Original List");
+    public void dump(List<AttributeInfo> origList, List<AttributeInfo> infoList) {
+        System.out.println("Original List");
         this.dump(origList);
-        System.out.println ("Updated List");
+        System.out.println("Updated List");
         this.dump(infoList);
     }
-    
+
     public void dump(List<AttributeInfo> list) {
         for (int i = 0; i < list.size(); i++) {
             AttributeInfo orig = list.get(i);
@@ -72,4 +113,5 @@ public class AttributeTester {
             return sb.toString();
         }
     }
+
 }

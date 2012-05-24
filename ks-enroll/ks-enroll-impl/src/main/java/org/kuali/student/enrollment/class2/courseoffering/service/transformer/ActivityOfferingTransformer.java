@@ -35,7 +35,11 @@ public class ActivityOfferingTransformer {
     public OfferingInstructorInfo transformInstructorForActivityOffering(LprInfo lpr) {
         OfferingInstructorInfo instructor = new OfferingInstructorInfo();
         instructor.setPersonId(lpr.getPersonId());
-        instructor.setPercentageEffort(lpr.getCommitmentPercent());
+        if (lpr.getCommitmentPercent() != null) {
+            instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+        } else {
+            instructor.setPercentageEffort(null);
+        }
         instructor.setId(lpr.getId());
         instructor.setTypeKey(lpr.getTypeKey());
         instructor.setStateKey(lpr.getStateKey());

@@ -74,7 +74,7 @@ public class TestLprServiceImpl {
         lpr.setId("lpr-4");
         lpr.setLuiId("lui-4");
         lpr.setPersonId("person-4");
-        lpr.setCommitmentPercent(20.0F);
+        lpr.setCommitmentPercent("20.0");
         lpr.setStateKey("kuali.courseoffering.");
         LprInfo newLprInfo = lprService.createLpr( "lui-4","person-4","kuali.lpr.type.courseoffering.instructor.main",lpr,  callContext);
         assertNotNull(newLprInfo.getId());

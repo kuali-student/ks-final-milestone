@@ -70,7 +70,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     }
 
     public void fromDto(Lpr dto){
-        this.setCommitmentPercent(dto.getCommitmentPercent());
+        this.setCommitmentPercent(Float.parseFloat(dto.getCommitmentPercent()));
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setPersonRelationStateId(dto.getStateKey());
@@ -160,7 +160,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         LprInfo lprInfo = new LprInfo();
         lprInfo.setId(getId());
         lprInfo.setLuiId(luiId);
-        lprInfo.setCommitmentPercent(commitmentPercent);
+        lprInfo.setCommitmentPercent("" + commitmentPercent);
         lprInfo.setPersonId(personId);
         lprInfo.setEffectiveDate(effectiveDate);
         lprInfo.setExpirationDate(expirationDate);

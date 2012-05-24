@@ -440,7 +440,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     if (currrentInstructors.contains(instructor.getPersonId())) {
                         LprInfo existingLpr = getLpr(instructor.getPersonId(), courseOfferingId, context);
                         if (existingLpr != null) {
-                            existingLpr.setCommitmentPercent(instructor.getPercentageEffort());
+                            if (instructor.getPercentageEffort() != null) {
+                                existingLpr.setCommitmentPercent("" + instructor.getPercentageEffort());
+                            } else {
+                                existingLpr.setCommitmentPercent(null);
+                            }
                             lprService.updateLpr(existingLpr.getId(), existingLpr, context);
                             currrentInstructors.remove(instructor.getPersonId());
                         }
@@ -468,7 +472,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private LprInfo getNewLpr(OfferingInstructorInfo instructor, String courseOfferingId) {
         LprInfo lpr = new LprInfo();
         lpr.setPersonId(instructor.getPersonId());
-        lpr.setCommitmentPercent(instructor.getPercentageEffort());
+        if (instructor.getPercentageEffort() != null) {
+            lpr.setCommitmentPercent("" + instructor.getPercentageEffort());
+        } else {
+            lpr.setCommitmentPercent(null);
+        }
         lpr.setId(UUIDHelper.genStringUUID());
         lpr.setLuiId(courseOfferingId);
         lpr.setTypeKey(instructor.getTypeKey());

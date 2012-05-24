@@ -12,8 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.class2.acal.service.impl.AttributeHelper;
-import org.kuali.student.enrollment.class2.acal.service.impl.AttributeTester;
+import org.kuali.student.enrollment.test.util.AttributeTester;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -69,8 +68,8 @@ public class TestCourseOfferingSetServiceMockImpl {
         orig.setTermId("myTermId");
         orig.setSubjectArea("ENG");
         orig.setUnitsContentOwnerId("myUnitId");
-        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
         SocInfo info = socService.createSoc(orig.getTermId(), orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -83,7 +82,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getSubjectArea(), info.getSubjectArea());
         assertEquals(orig.getUnitsContentOwnerId(), info.getUnitsContentOwnerId());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -101,7 +100,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getSubjectArea(), info.getSubjectArea());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -112,7 +111,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1 updated",
                 "description formatted 1 updated"));
         orig.setStateKey(CourseOfferingSetServiceConstants.ACTIVE_SOC_STATE_KEY);
-        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
+        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
                 "value1Updated");
         info = this.socService.updateSoc(orig.getId(), orig,
                 callContext);
@@ -126,7 +125,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getSubjectArea(), info.getSubjectArea());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -146,7 +145,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getSubjectArea(), info.getSubjectArea());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -197,8 +196,8 @@ public class TestCourseOfferingSetServiceMockImpl {
         orig.setTargetTermId("my term");
         orig.getOptionKeys().add("my first option");
         orig.getOptionKeys().add("my 2nd option");
-        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
         SocRolloverResultInfo info = socService.createSocRolloverResult(orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -213,7 +212,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getTargetSocId(), info.getTargetSocId());
         assertEquals(orig.getTargetTermId(), info.getTargetTermId());
         compareStringList(orig.getOptionKeys(), info.getOptionKeys());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -234,7 +233,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getTargetSocId(), info.getTargetSocId());
         assertEquals(orig.getTargetTermId(), info.getTargetTermId());
         compareStringList(orig.getOptionKeys(), info.getOptionKeys());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -251,7 +250,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         orig.setTargetSocId(sourceSoc.getId());
         orig.getOptionKeys().remove(0);
         orig.getOptionKeys().add("added a 3rd option");
-        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
+        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
                 "value1Updated");
         info = this.socService.updateSocRolloverResult(orig.getId(), orig,
                 callContext);
@@ -268,7 +267,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getTargetSocId(), info.getTargetSocId());
         assertEquals(orig.getTargetTermId(), info.getTargetTermId());
         compareStringList(orig.getOptionKeys(), info.getOptionKeys());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -291,7 +290,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getTargetSocId(), info.getTargetSocId());
         assertEquals(orig.getTargetTermId(), info.getTargetTermId());
         compareStringList(orig.getOptionKeys(), info.getOptionKeys());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -342,8 +341,8 @@ public class TestCourseOfferingSetServiceMockImpl {
         result.setTargetTermId("my term");
         result.getOptionKeys().add("my first option");
         result.getOptionKeys().add("my 2nd option");
-        result.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
-        result.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
+        result.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
+        result.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
         result = socService.createSocRolloverResult(result.getTypeKey(), result, callContext);
         
         // create
@@ -354,8 +353,8 @@ public class TestCourseOfferingSetServiceMockImpl {
         orig.setStateKey(CourseOfferingSetServiceConstants.SUBMITTED_RESULT_STATE_KEY);
         orig.setSourceCourseOfferingId("co1");
         orig.setTargetCourseOfferingId("co2");
-        orig.getAttributes().add(new AttributeHelper().toAttribute("key1", "value1"));
-        orig.getAttributes().add(new AttributeHelper().toAttribute("key2", "value2"));
+        orig.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
+        orig.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
         SocRolloverResultItemInfo info = socService.createSocRolloverResultItem(orig.getSocRolloverResultId(), orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -366,7 +365,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getSourceCourseOfferingId(), info.getSourceCourseOfferingId());
         assertEquals(orig.getTargetCourseOfferingId(), info.getTargetCourseOfferingId());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -383,7 +382,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getSourceCourseOfferingId(), info.getSourceCourseOfferingId());
         assertEquals(orig.getTargetCourseOfferingId(), info.getTargetCourseOfferingId());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -397,7 +396,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getTargetCourseOfferingId(), info.getTargetCourseOfferingId());
         orig.setSourceCourseOfferingId("coIdDiff1");
         orig.setTargetCourseOfferingId("coIddiff2");
-        new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
+        new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
                 "value1Updated");
         info = this.socService.updateSocRolloverResultItem(orig.getId(), orig,
                 callContext);
@@ -410,7 +409,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getSourceCourseOfferingId(), info.getSourceCourseOfferingId());
         assertEquals(orig.getTargetCourseOfferingId(), info.getTargetCourseOfferingId());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
@@ -429,7 +428,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getSourceCourseOfferingId(), info.getSourceCourseOfferingId());
         assertEquals(orig.getTargetCourseOfferingId(), info.getTargetCourseOfferingId());
-        new AttributeTester().compare(orig.getAttributes(), info.getAttributes());
+        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
         assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
