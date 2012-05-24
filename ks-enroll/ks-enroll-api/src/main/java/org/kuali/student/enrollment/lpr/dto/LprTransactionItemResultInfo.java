@@ -48,7 +48,7 @@ public class LprTransactionItemResultInfo implements LprTransactionItemResult, S
     private List<String> messages;
     
     @XmlElement    
-    private String status;
+    private Boolean status;
     
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -80,7 +80,7 @@ public class LprTransactionItemResultInfo implements LprTransactionItemResult, S
         this.messages = messages;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
     
@@ -95,7 +95,7 @@ public class LprTransactionItemResultInfo implements LprTransactionItemResult, S
     }
 
     @Override
-    public String getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 

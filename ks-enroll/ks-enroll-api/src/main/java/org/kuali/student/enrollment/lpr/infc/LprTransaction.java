@@ -19,8 +19,7 @@ public interface LprTransaction extends IdEntity {
      * Note this does not have to be the same as the person on the transaction 
      * item. It could be, for example, an administrator creating registrations 
      * on behalf of the student.
-     * 
-     * @required
+     *
      * @name Requesting Person Id
      */
     public String getRequestingPersonId();
@@ -32,7 +31,6 @@ public interface LprTransaction extends IdEntity {
      * This constrains which lui's can be manipulated by this transaction's items. 
      * The items may only refer to this ATP or nested ATPs.
      * 
-     * @required
      * @name ATP Id
      */
     public String getAtpId();

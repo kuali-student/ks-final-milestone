@@ -14,17 +14,17 @@
  */
 package org.kuali.student.r2.common.infc;
 
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.LprService;
 
 /**
- * Holds LuiPersonRelationService
+ * Holds LprService
  * 
  * @author nwright
  */
 public interface HoldsLprService {
 
-	public LuiPersonRelationService getLprService();
+	public LprService getLprService();
 
 
-	public void setLprService(LuiPersonRelationService lprService);
+	public void setLprService(LprService lprService);
 }

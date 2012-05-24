@@ -12,14 +12,17 @@ public interface RequestOption extends HasId{
     /**
      * The option value data type of the request option e.g., Boolean, String
      * etc.
-     * 
+     *
+     * @name Option Key
      * @return
+     * @required
      */
     public String getOptionKey();
 
     /**
      * This value of the option
-     * 
+     *
+     * @name Option Value
      * @return
      */
     public String getOptionValue();

@@ -16,8 +16,8 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprTransactionItemInfo", propOrder = {"id","personId", "newLuiId", "existingLuiId", "resultValuesGroupKeys", "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey",
-        "stateKey", "meta", "attributes", "groupId", "_futureElements"})
+@XmlType(name = "LprTransactionItemInfo", propOrder = {"id","personId", "transactionId", "newLuiId", "existingLuiId", "resultValuesGroupKeys", "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey",
+        "stateKey", "meta", "attributes", "_futureElements"})
 public class LprTransactionItemInfo extends IdEntityInfo implements LprTransactionItem, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,13 +26,13 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
     private String personId;
 
     @XmlElement
+    private String transactionId;
+
+    @XmlElement
     private String newLuiId;
 
     @XmlElement
     private String existingLuiId;
-
-    @XmlElement
-    private String groupId;
 
     @XmlElement
     private List<String> resultValuesGroupKeys;
@@ -49,6 +49,7 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
     public LprTransactionItemInfo() {
         super();
         this.personId = null;
+        this.transactionId = null;
         this.newLuiId = null;
         this.existingLuiId = null;
         this.requestOptions = new ArrayList<RequestOptionInfo>();
@@ -61,6 +62,7 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
         super(lprTransactionItem);
         if (null != lprTransactionItem) {
             this.personId = lprTransactionItem.getPersonId();
+            this.transactionId = lprTransactionItem.getTransactionId();
             this.newLuiId = lprTransactionItem.getNewLuiId();
             this.existingLuiId = lprTransactionItem.getExistingLuiId();
 
@@ -127,6 +129,14 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
         this.personId = personId;
     }
 
+    public String getTransactionId () {
+        return transactionId;
+    }
+
+    public void setTransactionId (String transactionId) {
+        this.transactionId = transactionId;
+    }
+
     @Override
     public List<String> getResultValuesGroupKeys() {
         return resultValuesGroupKeys;
@@ -140,12 +150,4 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
         this.lprTransactionItemResult = lprTransactionItemResult;
     }
 
-    @Override
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
 }

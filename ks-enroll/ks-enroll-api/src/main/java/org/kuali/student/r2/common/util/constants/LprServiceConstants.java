@@ -14,11 +14,11 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 /**
- * Constants used by for LuiPersonRelationService
+ * Constants used by for LprService
  * 
  * @author nwright
  */
-public class LuiPersonRelationServiceConstants {
+public class LprServiceConstants {
 
     /**
      * Reference Object URI's

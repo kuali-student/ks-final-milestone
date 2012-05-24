@@ -20,7 +20,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
- * Constants used by for LuiPersonRelationService
+ * Constants used by for LprService
  *
  * @author nwright
  */
