@@ -91,7 +91,7 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		this.setClearTables(false);
 	}
 
-	static final String KSNAMESPACE = "KR-RULE-TEST";
+	static final String KSNAMESPACE = "KS-SYS";
 	protected ContextBoService contextRepository;
 	protected KrmsTypeRepositoryService krmsTypeRepository;
 	private AgendaBoService agendaBoService;
@@ -181,16 +181,6 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		propositionsMap.put("MATH111", PropositionParameterType.CONSTANT);
 		propositionsMap.put("=", PropositionParameterType.OPERATOR);
 		PropositionParametersBuilder proposition = buildKRMSProposition(propositionsMap);
-	}
-
-	// @Test
-	public void createAllAgendasPhase1() {
-		// Creating all the agendas
-
-		AgendaDefinition agendaDef = createKRMSAgendaDefinition(KSKRMSConstants.AGENDA1,
-				contextRepository.getContextByNameAndNamespace(
-						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE));
-
 	}
 
 	@Test

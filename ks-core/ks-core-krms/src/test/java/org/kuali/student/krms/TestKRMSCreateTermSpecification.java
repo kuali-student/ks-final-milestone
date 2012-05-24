@@ -212,6 +212,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 			termSpecDefBuilder.setDescription(descr);
 
 			termSpec = termSpecDefBuilder.build();
+			
 
 			termSpec = termBoService.createTermSpecification(termSpec);
 
@@ -367,6 +368,7 @@ public class TestKRMSCreateTermSpecification extends KRMSTestCase {
 		if (contextDefinition == null) {
 			ContextDefinition.Builder contextBuilder = ContextDefinition.Builder
 					.create(nameSpace, name);
+			
 			contextBuilder.setTypeId(krmsContextTypeDefinition.getId());
 			contextDefinition = contextBuilder.build();
 
