@@ -269,7 +269,7 @@ public interface CourseRegistrationService  {
      * @param regRequestInfo The registration request object to be created
      * @param context  Information Containing the principalId and locale information about the caller of the service operation.
      * @return The modified RegRequest object after it has
-     * @throws AlreadyExistsException
+     * @throws DoesNotExistException if the type key does not exist
      * @throws DataValidationErrorException Invalid data in the create request
      * @throws InvalidParameterException Invalid parameter
      *             {@link RegRequestInfo} in the input
@@ -279,8 +279,12 @@ public interface CourseRegistrationService  {
      * @throws PermissionDeniedException Not authorized to do this action
      * @throws ReadOnlyException 	An attempt at supplying information designated as read only
      */
-    public RegRequestInfo createRegRequest(@WebParam(name = "regRequestTypeKey") String regRequestTypeKey, @WebParam(name = "regRequestInfo") RegRequestInfo regRequestInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException,InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public RegRequestInfo createRegRequest(@WebParam(name = "regRequestTypeKey") String regRequestTypeKey,
+            @WebParam(name = "regRequestInfo") RegRequestInfo regRequestInfo, @WebParam(name = "context") ContextInfo context)
+            throws AlreadyExistsException,
+            DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException;
 
     /**
      * Check the request state and if its in DRAFT, updates it with the input
@@ -400,8 +404,11 @@ public interface CourseRegistrationService  {
      * @throws OperationFailedException Unable to complete request
      * @throws PermissionDeniedException Not authorized to do this action
      */
-    public RegRequestInfo createRegRequestFromExisting(@WebParam(name = "existingRegRequestId") String existingRegRequestId, @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+    public RegRequestInfo createRegRequestFromExisting(@WebParam(name = "existingRegRequestId") String existingRegRequestId, 
+            @WebParam(name = "context") ContextInfo context)
+            throws DataValidationErrorException, 
+            InvalidParameterException, MissingParameterException, 
+            OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /**
      * Fetches the {@link RegRequestInfo}, validates and checks eligibility
