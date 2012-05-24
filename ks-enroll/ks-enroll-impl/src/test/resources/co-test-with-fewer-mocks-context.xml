@@ -205,7 +205,7 @@
 
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
-    <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
+    <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
         <property name="lprDao" ref="lprDao" />
         <property name="lprRosterDao" ref="lprRosterDao" />
         <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />

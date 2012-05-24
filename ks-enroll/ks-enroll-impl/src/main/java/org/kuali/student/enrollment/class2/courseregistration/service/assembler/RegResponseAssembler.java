@@ -11,7 +11,7 @@ import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.OperationStatusInfo;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
 public class RegResponseAssembler implements DTOAssembler<RegResponseInfo, LprTransactionInfo> {
 
@@ -36,7 +36,7 @@ public class RegResponseAssembler implements DTOAssembler<RegResponseInfo, LprTr
 
     public RegResponseItemInfo assembleItem(LprTransactionItemInfo baseDTO, ContextInfo context) {
         RegResponseItemInfo regResponseItem = new RegResponseItemInfo();
-        if (baseDTO.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY)) {
+        if (baseDTO.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY)) {
             regResponseItem.setCourseWaitlistEntryId(baseDTO.getLprTransactionItemResult().getResultingLprId());
         } else {
             regResponseItem.setCourseRegistrationId(baseDTO.getLprTransactionItemResult().getResultingLprId());

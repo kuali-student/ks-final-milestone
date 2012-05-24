@@ -27,7 +27,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
   <!-- declare beans here -->
   <!-- declare impls here -->
-  <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
+  <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
     <property name="lprDao" ref="lprDao" />
     <property name="lprRosterDao" ref="lprRosterDao" />
     <property name="lprTransDao" ref="lprTrasactionDao" />
@@ -125,12 +125,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   <bean id="permissionService" class="org.kuali.rice.kim.impl.permission.PermissionServiceImpl" />
 
   <!-- decorators -->
-  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
+  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
     <property name="nextDecorator" ref="lprService" />
   </bean>
 
   <bean id="lprServiceAuthorization"
-    class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceAuthorizationDecorator">
+    class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceAuthorizationDecorator">
     <property name="nextDecorator" ref="lprServiceValidation" />
     <property name="permissionService" ref="permissionService" />
   </bean>

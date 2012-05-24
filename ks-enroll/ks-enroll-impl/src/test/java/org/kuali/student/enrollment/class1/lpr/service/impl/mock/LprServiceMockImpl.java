@@ -22,7 +22,7 @@ import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.datadictionary.util.CriteriaValidatorParser;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -41,13 +41,13 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsLprService;
 import org.kuali.student.r2.common.infc.HoldsLuiService;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.mock.utilities.MockHelper;
 
 /**
  * @author nwright
  */
-public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationService, HoldsLprService, HoldsLuiService {
+public class LprServiceMockImpl implements LprService, HoldsLprService, HoldsLuiService {
 
     private LuiService luiService;
 
@@ -129,7 +129,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
 //            }
 //            return states;
 //        }
-//        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
+//        if (processKey.equals(LprServiceConstants.ADVISOR_TYPE_KEY)) {
 //            List<StateInfo> states = new ArrayList<StateInfo>(
 //                    LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
 //            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
@@ -332,7 +332,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
             PermissionDeniedException {
 
 //        // get the dictionary entry for the LPR object
-        String dictionaryEntryKey = LuiPersonRelationServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION;
+        String dictionaryEntryKey = LprServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION;
 //        DictionaryEntry dictionaryEntry;
 //        try {
 //            dictionaryEntry = this.getDataDictionaryEntry(dictionaryEntryKey, context);
@@ -367,7 +367,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
 //                    return (StateInfo.getInstance(state));
 //            }
 //        }
-//        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
+//        if (processKey.equals(LprServiceConstants.ADVISOR_TYPE_KEY)) {
 //            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
 //                if (state.getKey().equals(stateKey))
 //                    return (StateInfo.getInstance(state));
@@ -390,13 +390,13 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
 //    }
 
     @Override
-    public LuiPersonRelationService getLprService() {
+    public LprService getLprService() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void setLprService(LuiPersonRelationService lprService) {
+    public void setLprService(LprService lprService) {
         // TODO Auto-generated method stub
 
     }
@@ -448,7 +448,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLprTransaction(java.lang.String,
+     * @see org.kuali.student.enrollment.lpr.service.LprService#getLprTransaction(java.lang.String,
      *      org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
@@ -462,7 +462,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#deleteLprTransaction(java.lang.String,
+     * @see org.kuali.student.enrollment.lpr.service.LprService#deleteLprTransaction(java.lang.String,
      *      org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
@@ -475,7 +475,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLprsByPersonForAtp(java.lang.String,
+     * @see org.kuali.student.enrollment.lpr.service.LprService#getLprsByPersonForAtp(java.lang.String,
      *      java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override

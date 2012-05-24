@@ -19,7 +19,7 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.infc.LearningResultRecord;
 import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
@@ -51,7 +51,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
 
     private LearningResultRecordService lrrService;
 
-    private LuiPersonRelationService lprService;
+    private LprService lprService;
 
     private LuiService luiService;
 
@@ -66,7 +66,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
         this.lrrService = lrrService; 
     }
 
-    public void setLprService(LuiPersonRelationService lprService) {
+    public void setLprService(LprService lprService) {
         this.lprService = lprService;
     }
 

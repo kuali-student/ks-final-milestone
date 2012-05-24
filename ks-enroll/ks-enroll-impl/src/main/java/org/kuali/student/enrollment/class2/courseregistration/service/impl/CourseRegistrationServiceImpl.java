@@ -35,7 +35,7 @@ import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -53,8 +53,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import org.kuali.student.r2.core.process.service.ProcessService;
@@ -64,7 +64,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 public class CourseRegistrationServiceImpl implements CourseRegistrationService {
 
-    private LuiPersonRelationService lprService;
+    private LprService lprService;
     private CourseOfferingService courseOfferingService;
     private RegRequestAssembler regRequestAssembler;
     private RegResponseAssembler regResponseAssembler;
@@ -92,11 +92,11 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         this.lrcService = lrcService;
     }
 
-    public LuiPersonRelationService getLprService() {
+    public LprService getLprService() {
         return lprService;
     }
 
-    public void setLprService(LuiPersonRelationService lprService) {
+    public void setLprService(LprService lprService) {
         this.lprService = lprService;
     }
 
@@ -196,8 +196,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             // and then on that item mark the original with a state
             // of failed
 
-            lprTransactionItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY);
-            lprTransactionItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+            lprTransactionItem.setTypeKey(LprServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY);
+            lprTransactionItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         }
         newTransactionItems.add(lprTransactionItem);
         return newTransactionItems;
@@ -237,14 +237,14 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         List<LprTransactionItemInfo> newTransactionItems = new ArrayList<LprTransactionItemInfo>();
         List<RegRequestItemInfo> regRequestItems = storedRegRequest.getRegRequestItems();
         for (RegRequestItemInfo regRequestItem : regRequestItems) {
-            if (regRequestItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)
-                    || regRequestItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)
-                    || regRequestItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY)) {
-                if (regRequestItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
+            if (regRequestItem.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)
+                    || regRequestItem.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)
+                    || regRequestItem.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY)) {
+                if (regRequestItem.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
 
                     newTransactionItems.addAll(createModifiedLprTransactionItemsForNew(regRequestItem, context));
 
-                } else if (regRequestItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
+                } else if (regRequestItem.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
 
                     newTransactionItems.addAll(createModifiedLprTransactionItemsForDrop(regRequestItem, context));
                 }
@@ -526,7 +526,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         // check eligibility requirements
         for (RegRequestItemInfo item : storedRegRequest.getRegRequestItems()) {
-            if (!StringUtils.equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY, item.getTypeKey())) {
+            if (!StringUtils.equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY, item.getTypeKey())) {
                 RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(item.getNewRegGroupId(), context);
 
                 List<ValidationResultInfo> validations = checkStudentEligibiltyForCourseOffering(storedLprTransaction.getRequestingPersonId(), regGroup.getCourseOfferingId(), context);
@@ -580,13 +580,13 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         // shouldn't loop through all of them. need a way to get directly to the
         // grade roster
         for (LprTransactionItemInfo lprItem : submittedLprTransaction.getLprTransactionItems()) {
-            if (lprItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
+            if (lprItem.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
                 LprRosterEntryInfo newLprRosterEntry = new LprRosterEntryInfo();
                 newLprRosterEntry.setLprId(lprItem.getLprTransactionItemResult().getResultingLprId());
-                newLprRosterEntry.setTypeKey(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADE_TYPE_KEY);
-                newLprRosterEntry.setStateKey(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_READY_STATE_KEY);
+                newLprRosterEntry.setTypeKey(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADE_TYPE_KEY);
+                newLprRosterEntry.setStateKey(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_READY_STATE_KEY);
 
-                List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndType(lprItem.getNewLuiId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY,
+                List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndType(lprItem.getNewLuiId(), LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY,
                         context);
                 if (lprRosters.size() == 1) {
                     newLprRosterEntry.setLprRosterId(lprRosters.get(0).getId());
@@ -786,7 +786,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         if (courseLprList != null && !courseLprList.isEmpty()) {
             for (LuiPersonRelationInfo courseOfferinglprInfo : courseLprList) {
 
-                if (courseOfferinglprInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY)) {
+                if (courseOfferinglprInfo.getTypeKey().equals(LprServiceConstants.REGISTRANT_TYPE_KEY)) {
                     CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(courseOfferinglprInfo.getLuiId(), context);
 
                     List<RegistrationGroupInfo> regGroupList = courseOfferingService.getRegistrationGroupsForCourseOffering(courseOfferinglprInfo.getLuiId(), context);
@@ -799,7 +799,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
                         for (LuiPersonRelationInfo regGroupLprInfo : regGroupLprList) {
 
-                            if (regGroup.getId().equals(regGroupLprInfo.getLuiId()) && regGroupLprInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY)) {
+                            if (regGroup.getId().equals(regGroupLprInfo.getLuiId()) && regGroupLprInfo.getTypeKey().equals(LprServiceConstants.REGISTRANT_TYPE_KEY)) {
 
                                 reg = courseOfferingService.getRegistrationGroup(regGroup.getId(), context);
 
@@ -809,7 +809,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
                                     for (LuiPersonRelationInfo activityLpr : lprsForActivity) {
 
-                                        if (activityLpr.getTypeKey().equals(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY) && activityLpr.getStateKey().equals(regGroupLprInfo.getStateKey())) {
+                                        if (activityLpr.getTypeKey().equals(LprServiceConstants.REGISTRANT_TYPE_KEY) && activityLpr.getStateKey().equals(regGroupLprInfo.getStateKey())) {
 
                                             ActivityOfferingInfo activityOffering = courseOfferingService.getActivityOffering(activityOfferingId, context);
 

@@ -4,6 +4,7 @@ import java.util.*;
 
 
 import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.student.enrollment.lpr.service.LprServiceDecorator;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
@@ -15,20 +16,18 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceDecorator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 /**
- * An example authorization decorator for the {@link LuiPersonRelationService}.
+ * An example authorization decorator for the {@link org.kuali.student.enrollment.lpr.service.LprService}.
  * We would like to decorate the createBulkRelationshipsForPerson method here with authorization checks and custom logic
  * 
  * @author sambit
  *
  */
 
-public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRelationServiceDecorator  implements HoldsPermissionService {
+public class LprServiceAuthorizationDecorator extends LprServiceDecorator implements HoldsPermissionService {
  
 	private PermissionService permissionService;
 	 

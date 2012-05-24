@@ -12,12 +12,9 @@ package org.kuali.student.enrollment.class1.lpr.service.decorators;
 
 import java.util.List;
 
-import javax.jws.WebParam;
-
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceDecorator;
+import org.kuali.student.enrollment.lpr.service.LprServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -35,13 +32,13 @@ import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
 /**
- * An example Validation decorator for the {@link LuiPersonRelationService}.
+ * An example Validation decorator for the {@link org.kuali.student.enrollment.lpr.service.LprService}.
  * Additional validations are performed for the validateLuiPersonRelation,
  * createLuiPersonRelation and updateLuiPersonRelation methods here
  * 
  * @author sambit
  */
-public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelationServiceDecorator implements
+public class LprServiceValidationDecorator extends LprServiceDecorator implements
         HoldsValidator {
 
     private DataDictionaryValidator validator;

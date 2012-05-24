@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.jws.WebService;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
@@ -35,7 +33,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -49,15 +47,14 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author sambit
  */
-@WebService(name = "LuiPersonRelationService", serviceName = "LuiPersonRelationService", portName = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/lpr")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
+public class LprServiceImpl implements LprService {
 
     private LprDao lprDao;
     private LprRosterDao lprRosterDao;
@@ -117,11 +114,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         luiPersonRelation.setEffectiveDate(new Date());
         luiPersonRelation.setLuiId(lprTransactionItemInfo.getNewLuiId());
         luiPersonRelation.setPersonId(lprTransactionItemInfo.getPersonId());
-        luiPersonRelation.setStateKey(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY);
-        luiPersonRelation.setTypeKey(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);
+        luiPersonRelation.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
+        luiPersonRelation.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
         String createdLpr;
         try {
-            createdLpr = createLpr(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getNewLuiId(), LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY, luiPersonRelation, context);
+            createdLpr = createLpr(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getNewLuiId(), LprServiceConstants.REGISTRANT_TYPE_KEY, luiPersonRelation, context);
 
         } catch (DisabledIdentifierException e) {
             throw new OperationFailedException(e.getMessage(), e);
@@ -302,7 +299,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public StatusInfo deleteLpr(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         _checkForMissingParameter(luiPersonRelationId, "luiPersonRelationId");
         LuiPersonRelationEntity lprEntity = lprDao.find(luiPersonRelationId);
-        lprEntity.setPersonRelationStateId(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY);
+        lprEntity.setPersonRelationStateId(LprServiceConstants.DROPPED_STATE_KEY);
         lprDao.merge(lprEntity);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
@@ -317,7 +314,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLprTransaction(java.lang.String,
+     * @see org.kuali.student.enrollment.lpr.service.LprService#getLprTransaction(java.lang.String,
      *      org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
@@ -331,7 +328,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#deleteLprTransaction(java.lang.String,
+     * @see org.kuali.student.enrollment.lpr.service.LprService#deleteLprTransaction(java.lang.String,
      *      org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
@@ -357,7 +354,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLprsByPersonForAtp(java.lang.String,
+     * @see org.kuali.student.enrollment.lpr.service.LprService#getLprsByPersonForAtp(java.lang.String,
      *      java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
@@ -652,14 +649,14 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 LprTransactionItemEntity newItem = new LprTransactionItemEntity();
                 newItem.setId(UUIDHelper.genStringUUID());
                 newItem.setExistingLuiId(lprTransactionId);
-                newItem.setLprTransactionItemState(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+                newItem.setLprTransactionItemState(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
                 newItem.setLprTransactionItemType(existingItem.getLprTransactionItemType());
                 newItem.setNewLuiId(existingItem.getNewLuiId());
                 newItem.setPersonId(existingItem.getPersonId());
                 newItem.setDescr(existingItem.getDescr());
             }
             newLprTransactionEntity.setLprTransactionItems(newItems);
-            newLprTransactionEntity.setLprTransState(LuiPersonRelationServiceConstants.LPRTRANS_NEW_STATE_KEY);
+            newLprTransactionEntity.setLprTransState(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
             newLprTransactionEntity.setLprTransType(existingLprTransactionEntity.getLprTransType());
             newLprTransactionEntity.setRequestingPersonId(existingLprTransactionEntity.getRequestingPersonId());
             lprTransDao.persist(newLprTransactionEntity);
@@ -696,12 +693,12 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
         for (LprTransactionItemInfo lprTransactionItemInfo : lprTransaction.getLprTransactionItems()) {
             LprTransactionItemResultInfo lprTransResultInfo = new LprTransactionItemResultInfo();
-            if (lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY) || lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY)) {
+            if (lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY) || lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY)) {
                 String lprCreated = createLprFromLprTransactionItem(lprTransactionItemInfo, context);
 
                 lprTransResultInfo.setResultingLprId(lprCreated);
 
-            } else if (lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
+            } else if (lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
                 /**
                  * TODO this needs to be implemented for drop to work, read below Be careful with the implementation here,
                  * because we DO NOT want to delete all lprs that are matched by lui, person, and state, but instead only the
@@ -719,7 +716,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                  */
                 List<LuiPersonRelationInfo> toBeDroppedLPRs;
                 try {
-                    toBeDroppedLPRs = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getExistingLuiId(), LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, context);
+                    toBeDroppedLPRs = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getExistingLuiId(), LprServiceConstants.REGISTERED_STATE_KEY, context);
                 } catch (DisabledIdentifierException ex) {
                     throw new OperationFailedException("unexpected", ex);
                 }
@@ -728,9 +725,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                     throw new OperationFailedException("Multiple LuiPersonRelations between person:" + lprTransactionItemInfo.getPersonId() + " and lui:" + lprTransactionItemInfo.getExistingLuiId() + "; unimplemented functionality required to deal with this scenario is currentluy unimplemented");
                 }
                 for (LuiPersonRelationInfo lprInfo : toBeDroppedLPRs) {
-                    // TODO - change state to LuiPersonRelationServiceConstants.DROPPED_STATE_KEY, rather than deleting
+                    // TODO - change state to LprServiceConstants.DROPPED_STATE_KEY, rather than deleting
                     /*
-                     * do this instead of delete lprInfo.setStateKey(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY);
+                     * do this instead of delete lprInfo.setStateKey(LprServiceConstants.DROPPED_STATE_KEY);
                      * try { updateLpr(lprInfo.getId(), lprInfo, context); } catch (ReadOnlyException e) { throw new
                      * OperationFailedException("updateLpr() failure in processLprTransaction()", e); }
                      */
@@ -738,11 +735,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                     lprTransResultInfo.setResultingLprId(lprInfo.getId());
                 }
 
-            } else if (lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
+            } else if (lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
 
                 List<LuiPersonRelationInfo> toBeDroppedLPRs;
                 try {
-                    toBeDroppedLPRs = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getExistingLuiId(), LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, context);
+                    toBeDroppedLPRs = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getExistingLuiId(), LprServiceConstants.REGISTERED_STATE_KEY, context);
                 } catch (DisabledIdentifierException ex) {
                     throw new OperationFailedException("unexpected", ex);
                 }
@@ -750,9 +747,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                     throw new OperationFailedException("Multiple LuiPersonRelations between person:" + lprTransactionItemInfo.getPersonId() + " and lui:" + lprTransactionItemInfo.getExistingLuiId() + "; unimplemented functionality required to deal with this scenario is currentluy unimplemented");
                 }
                 for (LuiPersonRelationInfo lprInfo : toBeDroppedLPRs) {
-                    // TODO - change state to LuiPersonRelationServiceConstants.DROPPED_STATE_KEY, rather than deleting
+                    // TODO - change state to LprServiceConstants.DROPPED_STATE_KEY, rather than deleting
                     /*
-                     * do this instead of delete lprInfo.setStateKey(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY);
+                     * do this instead of delete lprInfo.setStateKey(LprServiceConstants.DROPPED_STATE_KEY);
                      * try { updateLpr(lprInfo.getId(), lprInfo, context); } catch (ReadOnlyException e) { throw new
                      * OperationFailedException("updateLpr() failure in processLprTransaction()", e); }
                      */
@@ -766,12 +763,12 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 throw new OperationFailedException("The LPR Transaction Item did not have one of the supported type ");
             }
             lprTransResultInfo.setStatus("SUCCESS");
-            lprTransactionItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY);
+            lprTransactionItemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY);
             lprTransactionItemInfo.setLprTransactionItemResult(lprTransResultInfo);
 
         }
         try {
-            lprTransaction.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY);
+            lprTransaction.setStateKey(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY);
             updateLprTransaction(lprTransactionId, lprTransaction, context);
         } catch (DataValidationErrorException ex) {
             throw new OperationFailedException(ex.getMessage());

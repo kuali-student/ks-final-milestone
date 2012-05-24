@@ -292,7 +292,7 @@
     <property name="statementDao" ref="statementDao" />
   </bean>
 
-  <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
+  <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
     <property name="lprDao" ref="lprDao" />
     <property name="lprRosterDao" ref="lprRosterDao" />
     <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
@@ -300,7 +300,7 @@
     <property name="lprTransItemDao" ref="lprTrasactionItemDao" />
   </bean>
 
-  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
+  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
     <property name="nextDecorator" ref="lprPersistenceService" />
     <property name="validator" ref="validator" />
   </bean>

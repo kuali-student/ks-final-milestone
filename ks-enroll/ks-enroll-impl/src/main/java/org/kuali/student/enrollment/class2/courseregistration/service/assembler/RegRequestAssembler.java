@@ -12,7 +12,7 @@ import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.assembler.EntityDTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.GradingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
@@ -84,10 +84,10 @@ public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTran
         regRequestItemInfo.setExistingRegGroupId(baseDTO.getExistingLuiId());
         regRequestItemInfo.setNewRegGroupId(baseDTO.getNewLuiId());
         for (RequestOptionInfo option : baseDTO.getRequestOptions()) {
-            if (option.getOptionKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_HOLD_UNTIL_LIST_OPTION_KEY))
+            if (option.getOptionKey().equals(LprServiceConstants.LPRTRANS_ITEM_HOLD_UNTIL_LIST_OPTION_KEY))
                 regRequestItemInfo.setOkToHoldList(Boolean.valueOf(option.getOptionValue()));
 
-            else if (option.getOptionKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM__WAITLIST_OPTION_KEY))
+            else if (option.getOptionKey().equals(LprServiceConstants.LPRTRANS_ITEM__WAITLIST_OPTION_KEY))
                 regRequestItemInfo.setOkToWaitlist(Boolean.valueOf(option.getOptionValue()));
 
             else
