@@ -809,7 +809,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
             Date endDateToInfo = updateTime(endDate,endTime,endTimeApPm);
             holidayWrapper.getHolidayInfo().setEndDate(endDateToInfo);
-            holidayWrapper.getHolidayInfo().setIsDateRange(true);
         }else{
             Date endDateToInfo;
             if (holidayWrapper.isDateRange()) {
