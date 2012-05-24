@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.lpr.infc;
+package org.kuali.student.enrollment.roster.infc;
 
 import java.util.List;
 

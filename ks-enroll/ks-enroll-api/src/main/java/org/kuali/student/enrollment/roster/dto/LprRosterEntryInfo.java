@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.lpr.dto;
+package org.kuali.student.enrollment.roster.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.lpr.infc.LprRosterEntry;
+import org.kuali.student.enrollment.roster.infc.LprRosterEntry;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.w3c.dom.Element;
 
