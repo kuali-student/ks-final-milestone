@@ -23,7 +23,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRespInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleResponseItemInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRespItemInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 
@@ -47,7 +47,7 @@ public class SchedulingServiceConstants {
     public static final String REF_OBJECT_URI_SCHEDULE_TIME_SLOT = NAMESPACE + "/" + TimeSlotInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_MEETING_TIME = NAMESPACE + "/" + MeetingTimeInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SCHEDULE_BATCH = NAMESPACE + "/" + ScheduleBatchInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_SCHEDULE_BATCH_RESPONSE = NAMESPACE + "/" + ScheduleBatchRespInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_SCHEDULE_RESPONSE = NAMESPACE + "/" + ScheduleRespInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_SCHEDULE_RESPONSE_ITEM = NAMESPACE + "/" + ScheduleResponseItemInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_SCHEDULE_BATCH_RESP = NAMESPACE + "/" + ScheduleBatchRespInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_SCHEDULE_RESP = NAMESPACE + "/" + ScheduleRespInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_SCHEDULE_RESP_ITEM = NAMESPACE + "/" + ScheduleRespItemInfo.class.getSimpleName();
 }

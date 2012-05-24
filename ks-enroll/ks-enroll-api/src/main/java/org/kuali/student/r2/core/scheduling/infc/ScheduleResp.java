@@ -30,7 +30,7 @@ public interface ScheduleResp extends IdNamelessEntity {
     /**
      *  Batch response identifier
      *
-     *  @name Batch Response Id
+     *  @name Batch Resp Id
      */
     public String getBatchRespId();
 

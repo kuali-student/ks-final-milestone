@@ -15,9 +15,9 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
-import java.util.List;
-
 import org.kuali.student.r2.common.infc.HasId;
+
+import java.util.List;
 
 
 /**
@@ -27,16 +27,16 @@ import org.kuali.student.r2.common.infc.HasId;
  * @since Thu Nov 3 14:22:34 EDT 2011
  */ 
 
-public interface ScheduleResponseItem extends HasId {
+public interface ScheduleRespItem extends HasId {
 
     /**
      * The Schedule Response Id.
      *
-     * @name Schedule Response Id
+     * @name Schedule Resp Id
      * @required
      * @readonly
      */
-    public String getScheduleResponseId();
+    public String getScheduleRespId();
 
     /**
      * The Schedule Request Item Id.
