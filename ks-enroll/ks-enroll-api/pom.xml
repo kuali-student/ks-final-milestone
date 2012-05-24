@@ -162,7 +162,6 @@
                                 <inputFile>ks-LuiCapacityInfo-dictionary.xml</inputFile>
                                 <!-- Course Offering -->      
                                 <inputFile>ks-CourseOfferingInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-CourseWaitlistEntryInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-OfferingInstructorInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-FormatOfferingInfo-dictionary.xml</inputFile>
@@ -176,6 +175,8 @@
                                 <inputFile>ks-RegRequestItemInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegResponseInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegResponseItemInfo-dictionary.xml</inputFile>
+                                <!-- Course waitlist -->      
+                                <inputFile>ks-CourseWaitlistEntryInfo-dictionary.xml</inputFile>
                                 <!-- Exemption -->
                                 <inputFile>ks-ExemptionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ExemptionRequestInfo-dictionary.xml</inputFile>
@@ -275,7 +276,6 @@
                                 <className>LuiCapacityInfo</className>
 <!--                                Course Offering      -->
                                 <className>CourseOfferingInfo</className>
-                                <className>CourseWaitlistEntryInfo</className>
                                 <className>OfferingInstructorInfo</className>
                                 <className>FormatOfferingInfo</className>
                                 <className>ActivityOfferingInfo</className>
@@ -289,6 +289,8 @@
                                 <className>RegRequestItemInfo</className>
                                 <className>RegResponseInfo</className>
                                 <className>RegResponseItemInfo</className>
+                                <!-- Course waitlist -->
+                                <className>CourseWaitlistEntryInfo</className>
                                 <!-- Exemption -->
                                 <className>ExemptionInfo</className>
                                 <className>ExemptionRequestInfo</className>
@@ -415,6 +417,18 @@
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
                             <className>org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService</className>
+                            <genWsdl>true</genWsdl>
+                            <verbose>true</verbose>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>courseWaitlistService-wsdl</id>
+                        <phase>${ks.java2ws.phase}</phase>
+                        <configuration>
+                            <className>org.kuali.student.enrollment.coursewaitlist.service.CourseWaitlistService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>

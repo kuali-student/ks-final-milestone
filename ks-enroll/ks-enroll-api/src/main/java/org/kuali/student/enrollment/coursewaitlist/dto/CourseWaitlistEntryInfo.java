@@ -42,10 +42,6 @@ public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseW
 
     public CourseWaitlistEntryInfo() {
         super();
-        this.studentId = null;
-        this.position = null;
-        this.lastCheckedIn = null;
-        this._futureElements = null;
     }
 
     public CourseWaitlistEntryInfo(CourseWaitlistEntry courseWaitlistEntry) {
@@ -56,7 +52,6 @@ public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseW
             this.position = courseWaitlistEntry.getPosition();
             this.lastCheckedIn = courseWaitlistEntry.getLastCheckedIn();
             this.courseOfferingId = courseWaitlistEntry.getCourseOfferingId();
-            this._futureElements = null;
         }
     }
 
