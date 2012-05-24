@@ -38,7 +38,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
     private Map<String, ScheduleBatchRespInfo> scheduleBatchResponseMap = new LinkedHashMap<String, ScheduleBatchRespInfo>();
     private Map<String, ScheduleRespInfo> scheduleResponseMap = new LinkedHashMap<String, ScheduleRespInfo>();
 
-    public void initializeData () {
+    public SchedulingServiceMockImpl () {
         // M W F 8 - 8.50
         TimeSlotInfo ts = new TimeSlotInfo();
         List<Integer> dow = new ArrayList<Integer>();
@@ -109,7 +109,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
         tod.setMilliSeconds((long) (11 * 60 * 60 * 1000 + 70 * 60 * 1000));
-        timeSlotsMap.put("5", ts);
+        timeSlotsMap.put("6", ts);
 
     }
     /////////////////////////////

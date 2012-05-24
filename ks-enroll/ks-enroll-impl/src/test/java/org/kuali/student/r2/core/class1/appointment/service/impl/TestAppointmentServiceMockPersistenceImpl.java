@@ -506,7 +506,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         // test dependent objects exists exceptions (slot for window)
         StatusInfo status = null;
 //        try {
-//            status = appointmentService.deleteAppointmentWindowCascading(window.getId(), callContext);
+//            status = appointmentService.deleteAppointmentWindowCascading(window.getId(), contextInfo);
 //
 //        } catch (DependentObjectsExistException ex) {
 //            // expected
@@ -519,14 +519,14 @@ public class TestAppointmentServiceMockPersistenceImpl {
 //
 //        // test dependent objects exists exceptions appointment for slot
 //        try {
-//            status = appointmentService.deleteAppointmentSlot(slot.getId(), callContext);
+//            status = appointmentService.deleteAppointmentSlot(slot.getId(), contextInfo);
 //            fail("should have thrown DependentObjectsExistException");
 //        } catch (DependentObjectsExistException ex) {
 //            // expected
 //        }
 //        // test dependent objects exists exceptions appointment for slot in bulk delete method
 //        try {
-//            status = appointmentService.deleteAppointmentSlotsByWindow(window.getId(), callContext);
+//            status = appointmentService.deleteAppointmentSlotsByWindow(window.getId(), contextInfo);
 //            fail("should have thrown DependentObjectsExistException");
 //        } catch (DependentObjectsExistException ex) {
 //            // expected

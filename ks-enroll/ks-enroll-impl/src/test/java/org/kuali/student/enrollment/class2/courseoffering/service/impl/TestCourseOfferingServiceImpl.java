@@ -128,13 +128,13 @@ public class TestCourseOfferingServiceImpl {
         
         try {
         try {
-        coServiceAuthDecorator.getCourseOfferingsByIds(idsList, callContext);
+        coServiceAuthDecorator.getCourseOfferingsByIds(idsList, contextInfo);
         fail("idsList should have thrown DoesNotExistException");
         } catch (DoesNotExistException enee) {
         // expected
         }
         
-        List<CourseOfferingInfo> co = coServiceAuthDecorator.getCourseOfferingsByIds(idsList, callContext);
+        List<CourseOfferingInfo> co = coServiceAuthDecorator.getCourseOfferingsByIds(idsList, contextInfo);
         
         assertNotNull(co);
         for (CourseOfferingInfo coItem : co) {

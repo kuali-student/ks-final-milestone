@@ -18,7 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.class1.scheduling.impl.SchedulingServiceMockImpl;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -31,21 +31,19 @@ import static org.junit.Assert.assertNotNull;
  * @Author Mezba Mahtab
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:soc-mock-persistence-impl-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:scheduling-mock-impl-test-context.xml"})
 public class TestSchedulingServiceMockImpl {
 
     @Resource(name = "schedulingService")
-    private SchedulingServiceMockImpl schedulingService;
+    private SchedulingService schedulingService;
     public static String principalId = "123";
-    public ContextInfo callContext = null;
+    public ContextInfo contextInfo = null;
 
     @Before
     public void setUp() {
         principalId = "123";
-        callContext = new ContextInfo();
-        callContext.setPrincipalId(principalId);
-        schedulingService = new SchedulingServiceMockImpl();
-        schedulingService.initializeData();
+        contextInfo = new ContextInfo();
+        contextInfo.setPrincipalId(principalId);
     }
 
     @Test
@@ -53,9 +51,15 @@ public class TestSchedulingServiceMockImpl {
         assertNotNull(schedulingService);
     }
 
-
     @Test
-    public void testCRUD() throws Exception {
-
+    public void testGet() throws Exception {
+        assertNotNull(schedulingService.getTimeSlot("1", contextInfo));
+        assertNotNull(schedulingService.getTimeSlot("2", contextInfo));
+        assertNotNull(schedulingService.getTimeSlot("3", contextInfo));
+        assertNotNull(schedulingService.getTimeSlot("4", contextInfo));
+        assertNotNull(schedulingService.getTimeSlot("5", contextInfo));
+        assertNotNull(schedulingService.getTimeSlot("6", contextInfo));
+        // assertNull(schedulingService.getTimeSlot("7", contextInfo));
     }
+
 }
