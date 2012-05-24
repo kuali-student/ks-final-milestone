@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseRegistrationInfo", propOrder = {"id", "typeKey", "stateKey", "courseOfferingId", "studentId",
-        "regGroupRegistration", "credits", "gradingOptionKey", "effectiveDate", "expirationDate", "meta",
+        "credits", "gradingOptionKey", "effectiveDate", "expirationDate", "meta",
         "attributes", "_futureElements"})
 
 public class CourseRegistrationInfo 
