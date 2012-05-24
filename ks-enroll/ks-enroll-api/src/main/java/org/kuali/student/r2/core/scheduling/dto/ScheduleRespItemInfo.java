@@ -15,7 +15,7 @@
 
 package org.kuali.student.r2.core.scheduling.dto;
 
-import org.kuali.student.r2.core.scheduling.infc.ScheduleResponseItem;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleRespItem;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -32,8 +32,8 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleResponseItemInfo", propOrder = {"id", "scheduleIds", "scheduleRequestItemId", "scheduleResponseId", "_futureElements"})
-public class ScheduleResponseItemInfo implements ScheduleResponseItem, Serializable {
+@XmlType(name = "ScheduleRespItemInfo", propOrder = {"id", "scheduleIds", "scheduleRequestItemId", "scheduleResponseId", "_futureElements"})
+public class ScheduleRespItemInfo implements ScheduleRespItem, Serializable {
 
     @XmlElement
     private String id;
@@ -46,15 +46,15 @@ public class ScheduleResponseItemInfo implements ScheduleResponseItem, Serializa
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public ScheduleResponseItemInfo() {
+    public ScheduleRespItemInfo() {
     }
 
-    public ScheduleResponseItemInfo(ScheduleResponseItem scheduleResponseItem) {
-        if (null != scheduleResponseItem) {
-            this.id = scheduleResponseItem.getId();
-            this.scheduleIds = new ArrayList<String>(scheduleResponseItem.getScheduleIds());
-            this.scheduleRequestItemId = scheduleResponseItem.getScheduleRequestItemId();
-            this.scheduleResponseId = scheduleResponseItem.getScheduleResponseId();
+    public ScheduleRespItemInfo(ScheduleRespItem scheduleRespItem) {
+        if (null != scheduleRespItem) {
+            this.id = scheduleRespItem.getId();
+            this.scheduleIds = new ArrayList<String>(scheduleRespItem.getScheduleIds());
+            this.scheduleRequestItemId = scheduleRespItem.getScheduleRequestItemId();
+            this.scheduleResponseId = scheduleRespItem.getScheduleRespId();
         }
     }
 
@@ -91,7 +91,7 @@ public class ScheduleResponseItemInfo implements ScheduleResponseItem, Serializa
     }
 
     @Override
-    public String getScheduleResponseId() {
+    public String getScheduleRespId() {
         return this.scheduleResponseId;
     }
 
