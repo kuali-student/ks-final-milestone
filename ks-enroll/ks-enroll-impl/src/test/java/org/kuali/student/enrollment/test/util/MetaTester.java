@@ -13,28 +13,28 @@ import org.kuali.student.r2.common.dto.MetaInfo;
  */
 public class MetaTester {
 
-    public void checkAfterCreate(MetaInfo info) {
-        assertNotNull(info);
-        assertNotNull(info.getCreateId());
-        assertNotNull(info.getCreateTime());
-        assertNotNull(info.getVersionInd());
+    public void checkAfterCreate(MetaInfo actual) {
+        assertNotNull(actual);
+        assertNotNull(actual.getCreateId());
+        assertNotNull(actual.getCreateTime());
+        assertNotNull(actual.getVersionInd());
     }
 
-    public void checkAfterUpdate(MetaInfo orig, MetaInfo info) {
-        assertNotNull(info);
-        assertEquals(orig.getCreateId(), info.getCreateId());
-        assertEquals(orig.getCreateTime(), info.getCreateTime());
-        assertNotNull(info.getUpdateId());
-        assertNotNull(info.getUpdateTime());
-        assertNotSame(orig.getVersionInd(), info.getVersionInd());
+    public void checkAfterUpdate(MetaInfo expected, MetaInfo actual) {
+        assertNotNull(actual);
+        assertEquals(expected.getCreateId(), actual.getCreateId());
+        assertEquals(expected.getCreateTime(), actual.getCreateTime());
+        assertNotNull(actual.getUpdateId());
+        assertNotNull(actual.getUpdateTime());
+        assertNotSame(expected.getVersionInd(), actual.getVersionInd());
     }
 
-    public void checkAfterGet(MetaInfo orig, MetaInfo info) {
-        assertNotNull(info);
-        assertEquals(orig.getCreateId(), info.getCreateId());
-        assertEquals(orig.getCreateTime(), info.getCreateTime());
-        assertEquals(orig.getUpdateId(), info.getUpdateId());
-        assertEquals(orig.getUpdateTime(), info.getUpdateTime());
-        assertEquals (orig.getVersionInd(), info.getVersionInd());
+    public void checkAfterGet(MetaInfo expected, MetaInfo actual) {
+        assertNotNull(actual);
+        assertEquals(expected.getCreateId(), actual.getCreateId());
+        assertEquals(expected.getCreateTime(), actual.getCreateTime());
+        assertEquals(expected.getUpdateId(), actual.getUpdateId());
+        assertEquals(expected.getUpdateTime(), actual.getUpdateTime());
+        assertEquals (expected.getVersionInd(), actual.getVersionInd());
     }
 }

@@ -13,12 +13,7 @@
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <context:annotation-config />
-<!--
-    <import resource="classpath:META-INF/default-property-config-context-test.xml" />
 
-    <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
-        <property name="properties" value="${propertiesPrefix.systemProperties}" />
-    </bean>-->
     
     <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceMockImpl" />
 </beans>

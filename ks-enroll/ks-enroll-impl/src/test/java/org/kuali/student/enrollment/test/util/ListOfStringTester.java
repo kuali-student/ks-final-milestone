@@ -15,33 +15,33 @@ import java.util.List;
  */
 public class ListOfStringTester {
 
-    public void check(List<String> origList, List<String> infoList) {
-        if (origList.size () != infoList.size ()) {
-            this.dump(origList, infoList);
+    public void check(List<String> expectedList, List<String> actualList) {
+        if (expectedList.size () != actualList.size ()) {
+            this.dump(expectedList, actualList);
         }
-        assertEquals(origList.size(), infoList.size());
-        List<String> origSorted = new ArrayList(origList);
-        Collections.sort(origSorted);
-        List<String> infoSorted = new ArrayList(infoList);
-        Collections.sort(infoSorted);
-        for (int i = 0; i < origSorted.size(); i++) {
-            String orig = origSorted.get(i);
-            String info = infoSorted.get(i);
-            assertEquals(i + "", orig, info);
+        assertEquals(expectedList.size(), actualList.size());
+        List<String> expectedSorted = new ArrayList(expectedList);
+        Collections.sort(expectedSorted);
+        List<String> actualSorted = new ArrayList(actualList);
+        Collections.sort(actualSorted);
+        for (int i = 0; i < expectedSorted.size(); i++) {
+            String expected = expectedSorted.get(i);
+            String actual = actualSorted.get(i);
+            assertEquals(i + "", expected, actual);
         }
     }
 
-    public void dump (List<String> origList, List<String> infoList) {
+    public void dump (List<String> expectedList, List<String> actualList) {
          System.out.println ("Original List");
-        this.dump(origList);
+        this.dump(expectedList);
         System.out.println ("Updated List");
-        this.dump(infoList);
+        this.dump(actualList);
     }
     
     public void dump(List<String> list) {
         for (int i = 0; i < list.size(); i++) {
-            String orig = list.get(i);
-            System.out.println(i + ".) " + orig);
+            String expected = list.get(i);
+            System.out.println(i + ".) " + expected);
         }
     }
 

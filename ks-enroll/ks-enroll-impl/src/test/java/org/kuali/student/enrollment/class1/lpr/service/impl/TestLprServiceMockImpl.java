@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
+import org.kuali.student.enrollment.test.util.IdEntityTester;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import static org.junit.Assert.*;
 import org.kuali.student.enrollment.test.util.ListOfStringTester;
 import org.kuali.student.enrollment.test.util.RelationshipTester;
@@ -53,74 +55,148 @@ public class TestLprServiceMockImpl {
 
     @Test
     public void testCrudLpr() throws Exception {
-        // test lpr create
-        LprInfo orig = new LprInfo();
-        orig.setPersonId("person1");
-        orig.setLuiId("lui1");
-        orig.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-        orig.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
-        orig.setEffectiveDate(new Date());
-        orig.setExpirationDate(new Date(new Date().getTime() + 1000));
-        orig.setCommitmentPercent("100.00");
-        orig.getResultValuesGroupKeys().add("rvg1");
-        orig.getResultValuesGroupKeys().add("rvg2");
-        new AttributeTester().add2ForCreate(orig.getAttributes());
-        LprInfo info = lprService.createLpr(orig.getPersonId(), orig.getLuiId(), orig.getTypeKey(), orig, callContext);
-        assertNotNull(info.getId());
-        new RelationshipTester().check(orig, info);
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
-        new MetaTester().checkAfterCreate(info.getMeta());
-        new ListOfStringTester().check(orig.getResultValuesGroupKeys(), info.getResultValuesGroupKeys());
-        assertEquals(orig.getCommitmentPercent(), info.getCommitmentPercent());
+        // test create
+        LprInfo expected = new LprInfo();
+        expected.setPersonId("person1");
+        expected.setLuiId("lui1");
+        expected.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+        expected.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
+        expected.setEffectiveDate(new Date());
+        expected.setExpirationDate(new Date(new Date().getTime() + 1000));
+        expected.setCommitmentPercent("100.00");
+        expected.getResultValuesGroupKeys().add("rvg1");
+        expected.getResultValuesGroupKeys().add("rvg2");
+        new AttributeTester().add2ForCreate(expected.getAttributes());
+        LprInfo actual = lprService.createLpr(expected.getPersonId(), expected.getLuiId(), expected.getTypeKey(), expected, callContext);
+        assertNotNull(actual.getId());
+        new RelationshipTester().check(expected, actual);
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        new ListOfStringTester().check(expected.getResultValuesGroupKeys(), actual.getResultValuesGroupKeys());
+        assertEquals(expected.getPersonId(), actual.getPersonId());
+        assertEquals(expected.getLuiId(), actual.getLuiId());
+        assertEquals(expected.getCommitmentPercent(), actual.getCommitmentPercent());
 
-        // test lpr read
-        orig = info;
-        info = lprService.getLpr(info.getId(), callContext);
-        assertEquals(orig.getId(), info.getId());
-        new RelationshipTester().check(orig, info);
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
-        new MetaTester().checkAfterGet(orig.getMeta(), info.getMeta());
-        new ListOfStringTester().check(orig.getResultValuesGroupKeys(), info.getResultValuesGroupKeys());
-        assertEquals(orig.getCommitmentPercent(), info.getCommitmentPercent());
+        // test read
+        expected = actual;
+        actual = lprService.getLpr(actual.getId(), callContext);
+        assertEquals(expected.getId(), actual.getId());
+        new RelationshipTester().check(expected, actual);
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
+        new ListOfStringTester().check(expected.getResultValuesGroupKeys(), actual.getResultValuesGroupKeys());
+        assertEquals(expected.getPersonId(), actual.getPersonId());
+        assertEquals(expected.getLuiId(), actual.getLuiId());
+        assertEquals(expected.getCommitmentPercent(), actual.getCommitmentPercent());
 
-        // test lpr update
-        orig = info;
-        orig.setEffectiveDate(new Date(orig.getEffectiveDate().getTime() - 2000));
-        orig.setExpirationDate(new Date(orig.getExpirationDate().getTime() + 2000));
-        orig.setCommitmentPercent("33.33");
-        orig.getResultValuesGroupKeys().remove(0);
-        orig.getResultValuesGroupKeys().add("rvg3");
-        new AttributeTester().delete1Update1Add1ForUpdate(orig.getAttributes());
-        info = lprService.updateLpr(orig.getId(), orig, callContext);
-        assertEquals(orig.getId(), info.getId());
-        new RelationshipTester().check(orig, info);
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
-        new MetaTester().checkAfterUpdate(orig.getMeta(), info.getMeta());
-        new ListOfStringTester().check(orig.getResultValuesGroupKeys(), info.getResultValuesGroupKeys());
-        assertEquals(orig.getCommitmentPercent(), info.getCommitmentPercent());
+        // test update
+        expected = actual;
+        expected.setEffectiveDate(new Date(expected.getEffectiveDate().getTime() - 2000));
+        expected.setExpirationDate(new Date(expected.getExpirationDate().getTime() + 2000));
+        expected.setCommitmentPercent("33.33");
+        expected.getResultValuesGroupKeys().remove(0);
+        expected.getResultValuesGroupKeys().add("rvg3");
+        new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
+        actual = lprService.updateLpr(expected.getId(), expected, callContext);
+        assertEquals(expected.getId(), actual.getId());
+        new RelationshipTester().check(expected, actual);
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
+        new ListOfStringTester().check(expected.getResultValuesGroupKeys(), actual.getResultValuesGroupKeys());
+        assertEquals(expected.getPersonId(), actual.getPersonId());
+        assertEquals(expected.getLuiId(), actual.getLuiId());
+        assertEquals(expected.getCommitmentPercent(), actual.getCommitmentPercent());
 
-        // test lpr read
-        orig = info;
-        info = lprService.getLpr(info.getId(), callContext);
-        assertEquals(orig.getId(), info.getId());
-        new RelationshipTester().check(orig, info);
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
-        new MetaTester().checkAfterCreate(info.getMeta());
-        new ListOfStringTester().check(orig.getResultValuesGroupKeys(), info.getResultValuesGroupKeys());
-        assertEquals(orig.getCommitmentPercent(), info.getCommitmentPercent());
+        // test read
+        expected = actual;
+        actual = lprService.getLpr(actual.getId(), callContext);
+        assertEquals(expected.getId(), actual.getId());
+        new RelationshipTester().check(expected, actual);
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        new ListOfStringTester().check(expected.getResultValuesGroupKeys(), actual.getResultValuesGroupKeys());
+        assertEquals(expected.getPersonId(), actual.getPersonId());
+        assertEquals(expected.getLuiId(), actual.getLuiId());
+        assertEquals(expected.getCommitmentPercent(), actual.getCommitmentPercent());
 
-        // test lpr delete
-        StatusInfo status = lprService.deleteLpr(orig.getId(), callContext);
+        // test delete
+        StatusInfo status = lprService.deleteLpr(expected.getId(), callContext);
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            info = lprService.getLpr(orig.getId(), callContext);
+            actual = lprService.getLpr(expected.getId(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted LprEntity");
         } catch (DoesNotExistException dnee) {
             // expected
         }
     }
     
+    @Test
+    public void testCrudLprTransaction() throws Exception {
+        // test create
+        LprTransactionInfo expected = new LprTransactionInfo();
+        expected.setRequestingPersonId("person1");
+        expected.setAtpId("atp1");
+        expected.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        expected.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+        new AttributeTester().add2ForCreate(expected.getAttributes());
+        new LprTransactionItemTester ().add2ForCreate(expected.getLprTransactionItems());
+        LprTransactionInfo actual = lprService.createLprTransaction (expected.getTypeKey(), expected, callContext);
+        assertNotNull(actual.getId());
+        new IdEntityTester().check(expected, actual);
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
+        assertEquals(expected.getAtpId(), actual.getAtpId());
+        new LprTransactionItemTester ().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
+        
+
+        // test read
+        expected = actual;
+        actual = lprService.getLprTransaction(actual.getId(), callContext);
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
+        assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
+        assertEquals(expected.getAtpId(), actual.getAtpId());
+        new LprTransactionItemTester ().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
+
+        // test update
+        expected = actual;
+        new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
+        actual = lprService.updateLprTransaction(expected.getId(), expected, callContext);
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
+        assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
+        assertEquals(expected.getAtpId(), actual.getAtpId());
+        new LprTransactionItemTester ().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
+
+        // test read
+        expected = actual;
+        actual = lprService.getLprTransaction(actual.getId(), callContext);
+        assertEquals(expected.getId(), actual.getId());
+        new IdEntityTester().check(expected, actual);
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
+        assertEquals(expected.getAtpId(), actual.getAtpId());
+        new LprTransactionItemTester ().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
+
+        // test delete
+        StatusInfo status = lprService.deleteLprTransaction(expected.getId(), callContext);
+        assertNotNull(status);
+        assertTrue(status.getIsSuccess());
+        try {
+            actual = lprService.getLprTransaction(expected.getId(), callContext);
+            fail("Did not receive DoesNotExistException when attempting to get already-deleted LprTransactionEntity");
+        } catch (DoesNotExistException dnee) {
+            // expected
+        }
+    }
     
+   
     
 }

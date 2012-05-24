@@ -13,11 +13,11 @@ import static org.junit.Assert.*;
  */
 public class RelationshipTester {
 
-    public void check (RelationshipInfo orig, RelationshipInfo info) {
-        assertEquals(orig.getTypeKey(), info.getTypeKey());
-        assertEquals(orig.getStateKey(), info.getStateKey());
-        assertEquals(orig.getEffectiveDate(), info.getEffectiveDate());
-        assertEquals(orig.getExpirationDate(), info.getExpirationDate());
+    public void check (RelationshipInfo expected, RelationshipInfo actual) {
+        assertEquals(expected.getTypeKey(), actual.getTypeKey());
+        assertEquals(expected.getStateKey(), actual.getStateKey());
+        assertEquals(expected.getEffectiveDate(), actual.getEffectiveDate());
+        assertEquals(expected.getExpirationDate(), actual.getExpirationDate());
     }
 
    

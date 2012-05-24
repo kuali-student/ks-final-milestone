@@ -17,78 +17,78 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
  */
 public class AttributeTester {
 
-    public void add2ForCreate(List<AttributeInfo> orig) {
+    public void add2ForCreate(List<AttributeInfo> expected) {
         AttributeInfo attr = new AttributeInfo();
         attr.setKey("attribute.key1");
         attr.setValue("attribute value1");
-        orig.add(attr);
+        expected.add(attr);
         attr = new AttributeInfo();
         attr.setKey("attribute.key2");
         attr.setValue("attribute value2");
-        orig.add(attr);
+        expected.add(attr);
     }
 
-    public void delete1Update1Add1ForUpdate(List<AttributeInfo> orig) {
-        orig.remove(0);
-        orig.get(0).setValue("updated value");
+    public void delete1Update1Add1ForUpdate(List<AttributeInfo> expected) {
+        expected.remove(0);
+        expected.get(0).setValue("updated value");
         AttributeInfo attr = new AttributeInfo();
         attr.setKey("attribute.key3");
         attr.setValue("attribute value3");
-        orig.add(attr);
+        expected.add(attr);
     }
 
     public AttributeInfo toAttribute(String key, String value) {
         if (key == null) {
             return null;
         }
-        AttributeInfo info = new AttributeInfo();
-        info.setKey(key);
-        info.setValue(value);
-        return info;
+        AttributeInfo actual = new AttributeInfo();
+        actual.setKey(key);
+        actual.setValue(value);
+        return actual;
     }
 
     public List<AttributeInfo> findAttributes(List<AttributeInfo> attrs, String key) {
         List<AttributeInfo> list = new ArrayList<AttributeInfo>();
-        for (AttributeInfo info : attrs) {
-            if (key.equals(info.getKey())) {
-                list.add(info);
+        for (AttributeInfo actual : attrs) {
+            if (key.equals(actual.getKey())) {
+                list.add(actual);
             }
         }
         return list;
     }
     
     
-    public void check(List<AttributeInfo> origList, List<AttributeInfo> infoList) {
-        if (origList.size() != infoList.size()) {
-            this.dump(origList, infoList);
+    public void check(List<AttributeInfo> expectedList, List<AttributeInfo> actualList) {
+        if (expectedList.size() != actualList.size()) {
+            this.dump(expectedList, actualList);
         }
-        assertEquals(origList.size(), infoList.size());
-        List<AttributeInfo> origSorted = new ArrayList(origList);
-        Collections.sort(origSorted, new AttributeInfoComparator());
-        List<AttributeInfo> infoSorted = new ArrayList(infoList);
-        Collections.sort(infoSorted, new AttributeInfoComparator());
-        for (int i = 0; i < origSorted.size(); i++) {
-            AttributeInfo orig = origSorted.get(i);
-            AttributeInfo info = infoSorted.get(i);
-            if (orig.getId() != null) {
-                assertEquals(i + "", orig.getId(), info.getId());
+        assertEquals(expectedList.size(), actualList.size());
+        List<AttributeInfo> expectedSorted = new ArrayList(expectedList);
+        Collections.sort(expectedSorted, new AttributeInfoComparator());
+        List<AttributeInfo> actualSorted = new ArrayList(actualList);
+        Collections.sort(actualSorted, new AttributeInfoComparator());
+        for (int i = 0; i < expectedSorted.size(); i++) {
+            AttributeInfo expected = expectedSorted.get(i);
+            AttributeInfo actual = actualSorted.get(i);
+            if (expected.getId() != null) {
+                assertEquals(i + "", expected.getId(), actual.getId());
             }
-            assertEquals(i + "", orig.getKey(), info.getKey());
-            assertEquals(i + "", orig.getValue(), info.getValue());
+            assertEquals(i + "", expected.getKey(), actual.getKey());
+            assertEquals(i + "", expected.getValue(), actual.getValue());
         }
     }
 
-    public void dump(List<AttributeInfo> origList, List<AttributeInfo> infoList) {
+    public void dump(List<AttributeInfo> expectedList, List<AttributeInfo> actualList) {
         System.out.println("Original List");
-        this.dump(origList);
+        this.dump(expectedList);
         System.out.println("Updated List");
-        this.dump(infoList);
+        this.dump(actualList);
     }
 
     public void dump(List<AttributeInfo> list) {
         for (int i = 0; i < list.size(); i++) {
-            AttributeInfo orig = list.get(i);
-            System.out.println(i + ".) " + orig.getKey() + "=" + orig.getValue() + "\t" + orig.getId());
+            AttributeInfo expected = list.get(i);
+            System.out.println(i + ".) " + expected.getKey() + "=" + expected.getValue() + "\t" + expected.getId());
         }
     }
 
