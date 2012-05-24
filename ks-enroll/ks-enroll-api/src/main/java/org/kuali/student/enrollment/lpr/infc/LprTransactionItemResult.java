@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.lpr.infc;
 
-import java.util.List;
 
 
 public interface LprTransactionItemResult{
@@ -33,7 +32,7 @@ public interface LprTransactionItemResult{
      * @name Messages
 	 * @return
 	 */
-	public List<String> getMessages();
+	public String getMessage();
 	
 
 }

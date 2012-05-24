@@ -37,26 +37,34 @@ public class LprTransactionItemEntity extends MetaEntity {
     @Column(name = "LTI_RESULTING_LPR_ID")
     private String resultingLprId;
 
+    @Column(name="LTI_RESULT_MESSAGE")
+    private String resultMessage;
+    
     @Column(name = "LTI_RESULTING_STATUS")
     private String status;
 
     @Column(name = "GROUP_ID")
     private String groupId;
 
+    @Column (name="NAME")
+    private String name;
+    
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String descrFormatted;
     
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
     private String descrPlain;
     
-    @Column(name = "TYPE_ID")
+    @Column(name = "LPR_TRANS_ITEM_TYPE")
     private String lprTransactionItemType;
 
-    @Column(name = "STATE_ID")
+    @Column(name = "LPR_TRANS_ITEM_STATE")
     private String lprTransactionItemState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LprTransItemAttributeEntity> attributes;
+    
+    
 
     public LprTransactionItemEntity() {}
 
@@ -114,6 +122,8 @@ public class LprTransactionItemEntity extends MetaEntity {
         }
 
         LprTransactionItemResultInfo lprItemResult = new LprTransactionItemResultInfo();
+        
+        
         lprItemResult.setResultingLprId(this.getResultingLprId());
         lprItemResult.setStatus(new Boolean("Y".equals(this.getStatus())?true:false));
         lprTransItemInfo.setLprTransactionItemResult(lprItemResult);
@@ -211,4 +221,21 @@ public class LprTransactionItemEntity extends MetaEntity {
         this.attributes = attributes;
     }
 
+	public String getResultMessage() {
+		return resultMessage;
+	}
+
+	public void setResultMessage(String resultMessage) {
+		this.resultMessage = resultMessage;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+    
 }
