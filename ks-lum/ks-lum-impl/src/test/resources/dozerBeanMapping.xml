@@ -116,6 +116,11 @@
 			<b get-method="getOutOfClassHours" set-method="setOutOfClassHours">outOfClassHours</b>
 		</field>
 		<field>
+			<a>primaryInstructor</a>
+			<b get-method="getPrimaryInstructor" set-method="setPrimaryInstructor">primaryInstructor
+			</b>
+		</field>
+		<field>
 			<a>versionInfo</a>
 			<b get-method="getVersionInfo" set-method="setVersionInfo">versionInfo</b>
 		</field>
@@ -353,6 +358,11 @@
 		<field>
 			<a>officialIdentifier</a>
 			<b get-method="getOfficialIdentifier" set-method="setOfficialIdentifier">officialIdentifier
+			</b>
+		</field>
+		<field>
+			<a>primaryInstructor</a>
+			<b set-method="setPrimaryInstructor" get-method="getPrimaryInstructor">primaryInstructor
 			</b>
 		</field>
 		<field>
