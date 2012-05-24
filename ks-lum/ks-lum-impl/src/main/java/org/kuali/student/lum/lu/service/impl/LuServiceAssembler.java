@@ -32,6 +32,7 @@ import org.kuali.student.r1.lum.lu.dto.*;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.service.util.AssemblerHelper;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.springframework.beans.BeanUtils;
@@ -665,8 +666,8 @@ public class LuServiceAssembler extends BaseAssembler {
         CluInstructorInfo dto = new CluInstructorInfo();
 
         BeanUtils.copyProperties(entity, dto,
-                new String[]{"id", "attributes"});
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+                new String[]{"attributes"});
+        dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
 
         return dto;
     }

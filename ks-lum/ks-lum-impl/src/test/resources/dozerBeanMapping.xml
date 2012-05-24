@@ -442,18 +442,6 @@
 	</mapping>
 
 	<mapping>
-		<class-a>org.kuali.student.r1.lum.lu.dto.CluInstructorInfo</class-a>
-		<class-b>org.kuali.student.r2.lum.clu.dto.CluInstructorInfo</class-b>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
-		</field>
-	</mapping>
-
-	<mapping>
 		<class-a>org.kuali.student.r1.lum.lo.dto.LoInfo</class-a>
 		<class-b>org.kuali.student.r2.lum.lo.dto.LoInfo</class-b>
 		<field

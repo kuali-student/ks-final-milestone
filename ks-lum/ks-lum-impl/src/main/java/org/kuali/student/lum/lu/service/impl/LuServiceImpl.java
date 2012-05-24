@@ -815,8 +815,7 @@ public class LuServiceImpl implements CluService {
         // list
         Map<String, CluInstructor> oldInstructorMap = new HashMap<String, CluInstructor>();
         for (CluInstructor cluInstructor : clu.getInstructors()) {
-            oldInstructorMap.put(cluInstructor.getOrgId() + "_"
-                    + cluInstructor.getPersonId(), cluInstructor);
+            oldInstructorMap.put(cluInstructor.getId(), cluInstructor);
         }
         clu.getInstructors().clear();
 
@@ -824,9 +823,7 @@ public class LuServiceImpl implements CluService {
         // remove from the list
         // otherwise create a new entry
         for (CluInstructorInfo instructorInfo : cluInfo.getInstructors()) {
-            CluInstructor cluInstructor = oldInstructorMap
-                    .remove(instructorInfo.getOrgId() + "_"
-                            + instructorInfo.getPersonId());
+            CluInstructor cluInstructor = oldInstructorMap.remove(instructorInfo.getId());
             if (cluInstructor == null) {
                 cluInstructor = new CluInstructor();
             }
@@ -3017,6 +3014,15 @@ public class LuServiceImpl implements CluService {
         for (LuCodeInfo luCode : clu.getLuCodes()) {
             luCode.setId(null);
         }
+        
+        for (CluInstructorInfo cluInstructor : clu.getInstructors()) {
+            cluInstructor.setId(null);
+        }
+        
+        if (clu.getPrimaryInstructor() != null) {
+            clu.getPrimaryInstructor().setId(null);
+        }
+        
         if (clu.getOfficialIdentifier() != null) {
             clu.getOfficialIdentifier().setId(null);
         }

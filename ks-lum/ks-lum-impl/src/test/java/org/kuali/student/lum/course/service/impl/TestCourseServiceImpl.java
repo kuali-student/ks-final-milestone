@@ -57,7 +57,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
@@ -790,42 +789,8 @@ public class TestCourseServiceImpl{
 
     @Test
     public void testCourseVersioning() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, IllegalVersionSequencingException {
-        //CourseDataGenerator generator = new CourseDataGenerator();
-        CourseInfo cInfo = new CourseInfo();//= generator.getCourseTestData();
-        VersionInfo versionInfo = new VersionInfo();
-        versionInfo.setVersionIndId("99");
-        versionInfo.setVersionedFromId("Versioned From Id");
-        versionInfo.setVersionComment("Version Comment");
-        versionInfo.setSequenceNumber(Long.parseLong("1"));
-        versionInfo.setCurrentVersionStart(new Date());
-        versionInfo.setCurrentVersionEnd(new Date());
-        AttributeInfo rAttributeInfo= new AttributeInfo();
-        rAttributeInfo.setKey("attrKey");
-        rAttributeInfo.setValue("attrValue");   
-        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
-        attributes.add(rAttributeInfo);
-        cInfo.setAttributes(attributes);
-        cInfo.setName("New course");
-        RichTextInfo richText = new RichTextInfo();
-        richText.setFormatted("<p>New Course Info</p>");
-        richText.setPlain("New Course Info");
-        cInfo.setDescr(richText);
-        cInfo.setEffectiveDate(new Date());
-        cInfo.setExpirationDate(new Date());
-        cInfo.setCampusLocations(null);
-        cInfo.setCode("code");
-        cInfo.setCourseNumberSuffix(null);
-        cInfo.setMeta(null);
-        cInfo.setStateKey(DtoConstants.STATE_DRAFT);
-        cInfo.setTypeKey("kuali.lo.type.singleUse");
-        cInfo.setVersionInfo(versionInfo);
-        List<String> creditOptions = new ArrayList<String>();
-        creditOptions.add("kuali.resultComponentType.degree");
-        creditOptions.add("kuali.resultComponentType.credit.degree.range");
-        creditOptions.add("kuali.resultComponentType.credit.degree.fixed");
-        creditOptions.add("kuali.resultComponentType.grade.finalGrade");
-        cInfo.setCreditOptions(creditOptions);
-        
+        CourseDataGenerator generator = new CourseDataGenerator();
+        CourseInfo cInfo = generator.getCourseTestData();
         CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
 
         CourseInfo newCourse = null;

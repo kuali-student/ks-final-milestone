@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.r2.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -64,6 +65,15 @@ public class R1TestDataUtil {
         Map<String, String> r1Attributes = new HashMap<String, String>();
         r1Attributes.put("R1-Key", "R1-Value");
         return r1Attributes;
+    }
+    
+    public static List<AttributeInfo> getAttributeListData() {
+        List<AttributeInfo> r2Attributes = new ArrayList<AttributeInfo>();
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("R1-Key");
+        attr.setValue("R1-Value");
+        r2Attributes.add(attr);
+        return r2Attributes;
     }
 
     public static MetaInfo getMetadataInfoData() {
@@ -359,7 +369,7 @@ public class R1TestDataUtil {
     
     public static CluInstructorInfo getCluInstructorInfoData() {
         CluInstructorInfo r1CluInstrInfo = new CluInstructorInfo();
-        r1CluInstrInfo.setAttributes(R1TestDataUtil.getAttributeData());
+        r1CluInstrInfo.setAttributes(R1TestDataUtil.getAttributeListData());
         r1CluInstrInfo.setOrgId("R1 Org Id");
         r1CluInstrInfo.setPersonId("R1 Person Id");
         r1CluInstrInfo.setPersonInfoOverride("R1 Person Info Overide");

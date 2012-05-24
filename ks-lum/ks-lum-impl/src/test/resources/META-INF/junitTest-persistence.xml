@@ -57,7 +57,6 @@
         <!-- ATP r2 Persistence -->
         <class>org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity</class>
         <class>org.kuali.student.r2.core.class1.type.entity.AtpTypeAttributeEntity</class>
-        <class>org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity</class>
 
         <!-- Enumeration Persistence -->
         <class>org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity</class>
