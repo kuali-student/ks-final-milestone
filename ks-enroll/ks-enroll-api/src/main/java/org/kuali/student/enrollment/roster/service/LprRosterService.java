@@ -440,8 +440,8 @@ public interface LprRosterService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LprRosterEntryInfo> getLprRosterEntriesForLprRoster(@WebParam(name = "lprRosterId") String lprRosterId,
-                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<LprRosterEntryInfo> getLprRosterEntriesByLprRoster(@WebParam(name = "lprRosterId") String lprRosterId,
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException,
@@ -462,8 +462,8 @@ public interface LprRosterService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LprRosterEntryInfo> getLprRosterEntriesForLpr(@WebParam(name = "lprId") String lprId,
-                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<LprRosterEntryInfo> getLprRosterEntriesByLpr(@WebParam(name = "lprId") String lprId,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException,
@@ -486,7 +486,7 @@ public interface LprRosterService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<LprRosterEntryInfo> getLprRosterEntriesForLprRosterAndLpr(@WebParam(name = "lprRosterId") String lprRosterId,
+    public List<LprRosterEntryInfo> getLprRosterEntriesByLprRosterAndLpr(@WebParam(name = "lprRosterId") String lprRosterId,
                                                                           @WebParam(name = "lprId") String lprId,
                                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException, 
