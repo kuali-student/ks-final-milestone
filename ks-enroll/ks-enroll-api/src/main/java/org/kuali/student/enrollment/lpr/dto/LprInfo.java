@@ -55,6 +55,7 @@ public class LprInfo extends RelationshipInfo implements Lpr, Serializable {
         if (lpr != null) {
             this.luiId = lpr.getLuiId();
             this.personId = lpr.getPersonId();
+            this.commitmentPercent = lpr.getCommitmentPercent();
             if (lpr.getResultValuesGroupKeys() != null) {
                 this.resultValuesGroupKeys = new ArrayList<String>(lpr.getResultValuesGroupKeys());
             }
