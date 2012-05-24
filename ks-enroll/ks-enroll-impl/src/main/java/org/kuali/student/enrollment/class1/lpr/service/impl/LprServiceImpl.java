@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -49,6 +50,8 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebParam;
 
 /**
  * @author sambit
@@ -104,7 +107,7 @@ public class LprServiceImpl implements LprService {
         }
         return list;
     }
-
+    /*
     @Transactional(readOnly = false)
     private String createLprFromLprTransactionItem(LprTransactionItemInfo lprTransactionItemInfo, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         LuiPersonRelationInfo luiPersonRelation = new LuiPersonRelationInfo();
@@ -126,7 +129,7 @@ public class LprServiceImpl implements LprService {
 
         return createdLpr;
     }
-
+    */
     private void _checkForMissingParameter(Object param, String paramName) throws MissingParameterException {
         if (null == param) {
             throw new MissingParameterException("Parameter '" + paramName + "' cannot be null");
@@ -145,14 +148,15 @@ public class LprServiceImpl implements LprService {
 
     @Override
     @Transactional
-    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIds, String relationState, String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DisabledIdentifierException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        String lprId;
-        List<String> lprIds = new ArrayList<String>();
-        for (String luiId : luiIds) {
-            lprId = createLpr(personId, luiId, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
-            lprIds.add(lprId);
-        }
-        return lprIds;
+    public List<BulkStatusInfo> createLprsForPerson(String personId,
+                                                    String lprTypeKey,
+                                                    List<LuiPersonRelationInfo> lprInfos,
+                                                    ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException {
+        // TODO Implement method
+        return null;
     }
 
     @Override
@@ -173,7 +177,7 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
-    public List<String> getLuiIdsByPersonAndTypeAndState(String personId, String luiPersonRelationType, String relationState, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getLuiIdsByPersonAndTypeAndState(String personId, String luiPersonRelationType, String relationState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
@@ -188,7 +192,7 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonAndLui(String personId, String luiId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LuiPersonRelationInfo> getLprsByPersonAndLui(String personId, String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<LuiPersonRelationEntity> entityList = lprDao.getLprByLuiAndPerson(personId, luiId);
 
@@ -204,16 +208,9 @@ public class LprServiceImpl implements LprService {
 
     }
 
-    @Override
-    public List<String> getLprIdsByPersonAndLui(String personId, String luiId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> returnVals = new ArrayList<String>();
-
-        returnVals.addAll(lprDao.getLprIdsByLuiAndPerson(personId, luiId));
-        return returnVals;
-    }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPerson(String personId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LuiPersonRelationInfo> getLprsByPerson(String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPerson(personId);
 
         List<LuiPersonRelationInfo> infoList = new ArrayList<LuiPersonRelationInfo>();
@@ -226,17 +223,8 @@ public class LprServiceImpl implements LprService {
         return infoList;
     }
 
-    @Override
-    public List<String> getLprIdsByPerson(String personId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
 
-    @Override
-    public List<String> getLprIdsByLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+
 
     @Override
     public List<ValidationResultInfo> validateLpr(String validationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -251,7 +239,11 @@ public class LprServiceImpl implements LprService {
 
     @Override
     @Transactional
-    public String createLpr(String personId, String luiId, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public String createLpr(String personId, String luiId, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
+            throws DataValidationErrorException,
+    DoesNotExistException, InvalidParameterException,
+    MissingParameterException, OperationFailedException,
+    PermissionDeniedException, ReadOnlyException {
 
         // make sure params are consistent with lprInfo:
         luiPersonRelationInfo.setPersonId(personId);
@@ -263,11 +255,7 @@ public class LprServiceImpl implements LprService {
         return lpr.getId();
     }
 
-    @Override
-    public List<String> createBulkRelationshipsForLui(String luiId, List<String> personIds, String relationState, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+
 
     @Override
     @Transactional
@@ -586,7 +574,8 @@ public class LprServiceImpl implements LprService {
 
     @Override
     @Transactional(readOnly = false)
-    public LprTransactionInfo createLprTransaction(String lprTransactionType, LprTransactionInfo lprTransactionInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public LprTransactionInfo createLprTransaction(String lprTransactionType, LprTransactionInfo lprTransactionInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         LprTransactionEntity lprTransactionEntity = new LprTransactionEntity(lprTransactionInfo);
         if (lprTransactionEntity.getId() == null) {
@@ -616,7 +605,8 @@ public class LprServiceImpl implements LprService {
         LprTransactionEntity existing = lprTransDao.find(lprTransactionEntity.getId());
 
         if (existing != null) {
-            throw new AlreadyExistsException();
+            // throw new AlreadyExistsException();
+            // TODO Mezba - decide what to do here
         }
 
         lprTransDao.persist(lprTransactionEntity);
@@ -692,10 +682,12 @@ public class LprServiceImpl implements LprService {
         for (LprTransactionItemInfo lprTransactionItemInfo : lprTransaction.getLprTransactionItems()) {
             LprTransactionItemResultInfo lprTransResultInfo = new LprTransactionItemResultInfo();
             if (lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY) || lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY)) {
+                /*
+                // TODO Mezba - the method createLprFromLprTransactionItem is no longer there, decide what to do
                 String lprCreated = createLprFromLprTransactionItem(lprTransactionItemInfo, context);
 
                 lprTransResultInfo.setResultingLprId(lprCreated);
-
+                 */
             } else if (lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
                 /**
                  * TODO this needs to be implemented for drop to work, read below Be careful with the implementation here,
@@ -752,15 +744,19 @@ public class LprServiceImpl implements LprService {
                      * OperationFailedException("updateLpr() failure in processLprTransaction()", e); }
                      */
                     deleteLpr(lprInfo.getId(), context);
+                    /*
+                     // TODO Mezba - the method createLprFromLprTransactionItem is no longer there, decide what to do
+
                     String lprCreated = createLprFromLprTransactionItem(lprTransactionItemInfo, context);
 
                     lprTransResultInfo.setResultingLprId(lprCreated);
+                    */
                 }
             } else {
 
                 throw new OperationFailedException("The LPR Transaction Item did not have one of the supported type ");
             }
-            lprTransResultInfo.setStatus("SUCCESS");
+            lprTransResultInfo.setStatus(true);
             lprTransactionItemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY);
             lprTransactionItemInfo.setLprTransactionItemResult(lprTransResultInfo);
 
@@ -815,7 +811,7 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsWithItemsByResultingLpr(String lprId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprTransactionItemInfo> getLprTransactionsWithItemsByResultingLpr(String lprId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<LprTransactionItemEntity> lprTransItems = lprTransItemDao.getLprTransactionItemsByLpr(lprId);
         List<LprTransactionEntity> lprTrans = new ArrayList<LprTransactionEntity>();
@@ -828,7 +824,9 @@ public class LprServiceImpl implements LprService {
         for (LprTransactionEntity lprTransEntity : lprTrans) {
             lprTransInfos.add(lprTransEntity.toDto());
         }
-        return lprTransInfos;
+        // return lprTransInfos;
+        return null;
+        // TODO Mezba - implement method
     }
 
     @Override
@@ -1010,8 +1008,67 @@ public class LprServiceImpl implements LprService {
         return infoList;
     }
 
+    public List<ValidationResultInfo> verifyLprTransaction(String lprTransactionId,
+                                                           ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return null;
+        // TODO Mezba - implement method
+    }
+
     @Override
     public LprRosterInfo updateLprRosterEntry(String lprRosterEntryId, LprRosterEntryInfo lprRosterEntryInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public List<ValidationResultInfo> validateLpr(String validationType,
+                                                  String luiId,
+                                                  String personId,
+                                                  String lprTypeKey,
+                                                  LuiPersonRelationInfo lprInfo,
+                                                  ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+        // TODO Mezba - implement method
+    }
+
+    public List<LprTransactionItemInfo> getLprTransactionItemsByLui(String luiId, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+        // TODO Mezba - implement method
+    }
+
+    public List<LprTransactionInfo> getUnsubmittedLprTransactionsByRequestingPersonAndAtp(
+            String requestingPersonId,
+            String atpId,
+            ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+        // TODO Mezba - implement method
+    }
+
+    public List<LprTransactionItemInfo> getLprTransactionItemsByPersonAndLui(
+            String personId, String luiId,ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return null;
+        // TODO Mezba - implement method
+
+    }
+
+    public List<String> createLprsForLui(String luiId,
+                                         String lprTypeKey,
+                                         List<LuiPersonRelationInfo> lprInfos,
+                                         ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException {
+        return null;
+        // TODO Mezba - implement method
+    }
+
+
+
+
 }

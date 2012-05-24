@@ -639,7 +639,7 @@ public interface LprService {
      * @throws OperationFailedException  Unable to complete request
      * @throws PermissionDeniedException Authorization failure
      */
-    public List<LprTransactionItemInfo> getLprTransactionsItemsByPersonAndLui(@WebParam(name = "personId") String personId,
+    public List<LprTransactionItemInfo> getLprTransactionItemsByPersonAndLui(@WebParam(name = "personId") String personId,
             @WebParam(name = "luiId") String luiId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
