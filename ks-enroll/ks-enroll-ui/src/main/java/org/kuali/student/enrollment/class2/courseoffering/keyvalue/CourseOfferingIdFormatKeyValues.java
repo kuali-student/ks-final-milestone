@@ -56,9 +56,6 @@ public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase impl
         List<FormatInfo> formats = new ArrayList<FormatInfo>();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-//        FormatOfferingInfo form = (FormatOfferingInfo)model;
-
-//        RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm)model;
         MaintenanceForm form1 = (MaintenanceForm)model;
         FormatOfferingInfo form = (FormatOfferingInfo)form1.getDocument().getDocumentDataObject();
 
