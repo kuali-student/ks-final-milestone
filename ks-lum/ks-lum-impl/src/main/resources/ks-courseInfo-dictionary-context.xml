@@ -65,10 +65,10 @@
          their model structure
     see https://jira.kuali.org/browse/KSLUM-375
     -->
-<!-- TODO KSCM-      <ref bean="courseInfo.searchCourseVersions"/> 
+	<ref bean="courseInfo.searchCourseVersions"/> 
 
     <ref bean="freestanding.search.cluset" />
-    <ref bean="freestanding.search.findCourse" />-->
+    <ref bean="freestanding.search.findCourse" />
 
    </list>
   </property>
