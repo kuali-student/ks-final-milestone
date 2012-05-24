@@ -15,7 +15,7 @@ import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseRegistrationInfo", propOrder = {"id", "typeKey", "stateKey", "courseOffering", "studentId",
+@XmlType(name = "CourseRegistrationInfo", propOrder = {"id", "typeKey", "stateKey", "courseOfferingId", "studentId",
         "regGroupRegistration", "credits", "gradingOptionKey", "effectiveDate", "expirationDate", "meta",
         "attributes", "_futureElements"})
 
