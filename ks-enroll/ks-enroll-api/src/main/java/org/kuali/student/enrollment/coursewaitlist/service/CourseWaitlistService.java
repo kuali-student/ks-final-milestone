@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.util.constants.CourseWaitlistServiceConstants
 @WebService(name = "CourseWaitlistService", targetNamespace = CourseWaitlistServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CourseWaitlistService  {
+
     /**
      * Retrieves the open seat count for a particular course offering. It sums
      * up the open seats for individual registration groups under the same

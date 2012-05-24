@@ -15,7 +15,6 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
-import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -33,14 +32,15 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 
 /**
- * The Course Registration Service is a Class II service supporting the process
- * of registering a student in course(s) for a term. The service provides
- * operations for creating and validating registration requests , registering
- * for a course, waitlist processing, and dropping a course. This service
- * supports the concept of registration cart in the application and all of the
- * transactional requests for registration are made through this service. As
- * part of negotiating the student's registration, operations are provided to
- * manage related exceptions and holds related to registration.
+ * The Course Registration Service is a Class II service supporting
+ * the process of registering a student in course(s) for a term. The
+ * service provides operations for creating and validating
+ * registration requests , registering for a course, and dropping a
+ * course. This service supports the concept of registration cart in
+ * the application and all of the transactional requests for
+ * registration are made through this service. As part of negotiating
+ * the student's registration, operations are provided to manage
+ * related exceptions and holds related to registration.
  * 
  * @author Kuali Student Team (sambit)
  */
@@ -492,218 +492,6 @@ public interface CourseRegistrationService  {
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Gets a course waitlist entry by id.
-     * 
-     * @param courseWaitlistEntryId Id of the course waitlist entry
-     * @param context Information Containing the principalId and locale information about the caller of the service operation.
-     * @return The CourseWaitlistEntry object for the specified courseWaitlistEntry identifier.
-     * @throws DoesNotExistException No courseWaitlistEntryId exists
-     * @throws InvalidParameterException Invalid courseWaitlistEntryId
-     * @throws MissingParameterException Missing courseWaitlistEntryId in the input
-     * @throws OperationFailedException Unable to complete request
-     * @throws PermissionDeniedException Not authorized to do this operation
-     *
-     */
-    public CourseWaitlistEntryInfo getCourseWaitlistEntry(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId, @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Updates a course waitlist entry
-     * 
-     * @param courseWaitlistEntryId Id of the course waitlist entry to be
-     *            updated
-     * @param courseWaitlistEntryInfo The modified
-     *            {@link CourseWaitlistEntryInfo}
-     * @param context   Information Containing the principalId and locale information about the caller of the service operation.
-     * @return The Status object from the result of updating the identified courseWaitlistEntry object.
-     * @throws AlreadyExistsException
-     * @throws DataValidationErrorException The courseWaitlistEntryInfo is not valid
-     * @throws InvalidParameterException Invalid courseWaitlistEntryId or courseWaitlistEntryInfo in the input
-     * @throws MissingParameterException Missing courseWaitlistEntryId or courseWaitlistEntryInfo in the input
-     * @throws OperationFailedException Unable to complete request
-     * @throws PermissionDeniedException Not authorized to do this operation
-     */
-    public StatusInfo updateCourseWaitlistEntry(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
-            @WebParam(name = "courseWaitlistEntryInfo") CourseWaitlistEntryInfo courseWaitlistEntryInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Reorder all the entries that are passed in in the input list, i.e.,
-     * update each of the entries rank to begin from the top and push the
-     * entries not in the list to the ranks after the entries.
-     * 
-     * @param courseWaitlistEntryIds The CourseWaitlistEntry identifier's that should be pushed to the top of the list.
-     * @param context  Information Containing the principalId and locale information about the caller of the service operation.
-     * @return The Status of the reorder operation.
-     * @throws DataValidationErrorException
-     * @throws InvalidParameterException Invalid courseWaitlistEntryIds in the
-     *             input
-     * @throws MissingParameterException Missing courseWaitlistEntryIdsin the
-     *             input
-     * @throws OperationFailedException Unable to complete request
-     * @throws PermissionDeniedException Not authorized to do this operation
-     */
-    public StatusInfo reorderCourseWaitlistEntries(@WebParam(name = "courseWaitlistEntryIds") List<String> courseWaitlistEntryIds, @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Insert a waitlist entry at a particular position in the waitlist. The
-     * courseWaitlistEntryId would be moved to the position and all other
-     * waitlist entries for that reg group would have adjusted rank
-     * 
-     * @param courseWaitlistEntryId The id of the course waitlist entry
-     * @param position The new rank for the waitlist entry
-     * @param context   Information Containing the principalId and locale information about the caller of the service operation.
-     * @return The status of the insertion into the waitlist operation.
-     * @throws DoesNotExistException The courseWaitlistEntryId is not found
-     * @throws InvalidParameterException The courseWaitlistEntryId is invalid
-     * @throws MissingParameterException Input courseWaitlistEntryId or position
-     *             is missing
-     * @throws OperationFailedException Unable to complete request
-     * @throws PermissionDeniedException Not authorized to do this operation
-     */
-    public StatusInfo insertCourseWaitlistEntryAtPosition(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId, @WebParam(name = "position") Integer position,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Remove the {@link CourseWaitlistEntryInfo}, change its state to CANCELLED
-     * 
-     * @param courseWaitlistEntryId The id of the course waitlist entry
-     * @param context  Information Containing the principalId and locale information about the caller of the service operation.
-     * @return The status of the removal of the course waitlist entry from the list.
-     * @throws DoesNotExistException The courseWaitlistEntryId is not found
-     * @throws InvalidParameterException The courseWaitlistEntryId is invalid
-     * @throws MissingParameterException Input courseWaitlistEntryId or position
-     *             is missing
-     * @throws OperationFailedException Unable to complete request
-     * @throws PermissionDeniedException Not authorized to do this operation
-     */
-    public StatusInfo removeCourseWaitlistEntry(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Deletes a course waitlist entry
-     * 
-     * @param courseWaitlistEntryId
-     * @param context  Information Containing the principalId and locale information about the caller of the service operation.
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public StatusInfo deleteCourseWaitlistEntry(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId, @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Validates a course waitlist entry.
-     * 
-     * @param validateTypeKey
-     * @param courseWaitlistEntryInfo
-     * @param context  Information Containing the principalId and locale information about the caller of the service operation.
-     * @return
-     * @throws DataValidationErrorException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public StatusInfo validateCourseWaitlistEntry(@WebParam(name = "validateTypeKey") String validateTypeKey,
-            @WebParam(name = "courseWaitlistEntryInfo") CourseWaitlistEntryInfo courseWaitlistEntryInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Register a student to a reg group from a waitlist.
-     * 
-     * @param courseWaitlistEntryId
-     * @param context  Information Containing the principalId and locale information about the caller of the service operation.
-     * @return
-     * @throws AlreadyExistsException
-     * @throws DataValidationErrorException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public RegResponseInfo registerStudentFromWaitlist(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId, @WebParam(name = "context") ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Gets the course waitlist entries for a course offering. Returns all
-     * students who are on waitlists for that course offering.
-     * 
-     * @param courseOfferingId
-     * @param context   Information Containing the principalId and locale information about the caller of the service operation.
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Gets the course waitlist entries for a reg group.
-     * 
-     * @param regGroupId
-     * @param context   Information Containing the principalId and locale information about the caller of the service operation.
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForRegGroup(@WebParam(name = "regGroupId") String regGroupId, @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Gets the waitlist entries for a course offering by student. A student
-     * might be listed in multiple reg group waitlists in the same course.
-     * 
-     * @param courseOfferingId
-     * @param context  Information Containing the principalId and locale information about the caller of the service operation.
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentInCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId,
-            @WebParam(name = "studentId") String studentId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Gets the waitlist for a reg group and student.
-     * 
-     * @param regGroupId
-     * @param context  Information Containing the principalId and locale information about the caller of the service operation.
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public CourseWaitlistEntryInfo getCourseWaitlistEntryForStudentInRegGroup(@WebParam(name = "regGroupId") String regGroupId, @WebParam(name = "studentId") String studentId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Get all the waitlist the student is in for a term. Returns
-     * CourseWaitlistEntryInfo which is the student-waitlist relation.
-     * 
-     * @param studentId
-     * @param termId
-     * @param context Information Containing the principalId and locale information about the caller of the service operation.
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
      * 	Retrieves a single CourseRegistration by a CourseRegistration Id.
      * 
      * @param courseRegistrationId The identifier for the CourseRegistration to be retrieved.
@@ -890,26 +678,4 @@ public interface CourseRegistrationService  {
      */
     public List<String> searchForActivityRegistrationIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-
-    /**
-     * This method ...
-     * 
-     * @param criteria
-     * @param context  Information Containing the principalId and locale information about the caller of the service operation.
-     * @return
-     */
-    public List<CourseWaitlistEntryInfo> searchForCourseWaitlistEntries(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * This method ...
-     * 
-     * @param criteria
-     * @param context  Information Containing the principalId and locale information about the caller of the service operation.
-     * @return
-     */
-    public List<String> searchForCourseWaitlistEntryIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
-
 }

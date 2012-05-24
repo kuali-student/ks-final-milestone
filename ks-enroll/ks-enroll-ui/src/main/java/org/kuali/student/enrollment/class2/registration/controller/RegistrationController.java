@@ -376,6 +376,8 @@ public class RegistrationController extends UifControllerBase {
             throw new RuntimeException(e);
         } catch (DataValidationErrorException e) {
             throw new RuntimeException(e);
+        } catch (DoesNotExistException e) {
+            throw new RuntimeException(e);
         } catch (PermissionDeniedException e) {
             throw new RuntimeException(e);
         } catch (OperationFailedException e) {
@@ -385,8 +387,8 @@ public class RegistrationController extends UifControllerBase {
         } catch (AlreadyExistsException e) {
             throw new RuntimeException(e);
         } catch (ReadOnlyException e) {
-        	 throw new RuntimeException(e);
-		}
+            throw new RuntimeException(e);
+        }
 
 
         return getUIFModelAndView(registrationForm);
@@ -423,6 +425,8 @@ public class RegistrationController extends UifControllerBase {
         } catch (InvalidParameterException e) {
             throw new RuntimeException(e);
         } catch (DataValidationErrorException e) {
+            throw new RuntimeException(e);
+     } catch (DoesNotExistException e) {
             throw new RuntimeException(e);
         } catch (PermissionDeniedException e) {
             throw new RuntimeException(e);

@@ -9,7 +9,6 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
-import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
@@ -196,94 +195,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 		return getNextDecorator().getRegRequestItemsByCourseOfferingAndStudent(courseOfferingId, studentId, context);
 	}
 
-
-
-    @Override
-    public CourseWaitlistEntryInfo getCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseWaitlistEntry(courseWaitlistEntryId, context);
-    }
-
-    @Override
-    public StatusInfo updateCourseWaitlistEntry(String courseWaitlistEntryId,
-            CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context) throws DoesNotExistException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().updateCourseWaitlistEntry(courseWaitlistEntryId, courseWaitlistEntryInfo, context);
-    }
-
-    @Override
-    public StatusInfo reorderCourseWaitlistEntries(List<String> courseWaitlistEntryIds, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().reorderCourseWaitlistEntries(courseWaitlistEntryIds, context);
-    }
-
-    @Override
-    public StatusInfo insertCourseWaitlistEntryAtPosition(String courseWaitlistEntryId, Integer position,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().insertCourseWaitlistEntryAtPosition(courseWaitlistEntryId, position, context);
-    }
-
-    @Override
-    public StatusInfo removeCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().removeCourseWaitlistEntry(courseWaitlistEntryId, context);
-    }
-
-    @Override
-    public StatusInfo validateCourseWaitlistEntry(String validateTypeKey,
-            CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context) throws DataValidationErrorException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().validateCourseWaitlistEntry(validateTypeKey, courseWaitlistEntryInfo, context);
-    }
-
-    @Override
-    public RegResponseInfo registerStudentFromWaitlist(String courseWaitlistEntryId, ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().registerStudentFromWaitlist(courseWaitlistEntryId, context);
-    }
-
-    @Override
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForCourseOffering(String courseOfferingId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseWaitlistEntriesForCourseOffering(courseOfferingId, context);
-    }
-
-    @Override
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForRegGroup(String regGroupId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseWaitlistEntriesForRegGroup(regGroupId, context);
-    }
-
-    @Override
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentInCourseOffering(String courseOfferingId,
-            String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseWaitlistEntriesForStudentInCourseOffering(courseOfferingId, studentId,
-                context);
-    }
-
-    @Override
-    public CourseWaitlistEntryInfo getCourseWaitlistEntryForStudentInRegGroup(String regGroupId, String studentId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseWaitlistEntryForStudentInRegGroup(regGroupId, studentId, context);
-    }
-
-    @Override
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(String studentId, String termId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseWaitlistEntriesForStudentByTerm(studentId, termId, context);
-    }
-
     @Override
     public CourseRegistrationInfo getCourseRegistration(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -297,10 +208,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getCourseRegistrationsByIds(courseRegistrationIds, context);
     }
-
-    
-   
-
 
     @Override
     public List<CourseRegistrationInfo> searchForCourseRegistrations(QueryByCriteria criteria, ContextInfo context)
@@ -331,30 +238,9 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public List<CourseWaitlistEntryInfo> searchForCourseWaitlistEntries(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return getNextDecorator().searchForCourseWaitlistEntries(criteria, context);
-    }
-
-    @Override
-    public List<String> searchForCourseWaitlistEntryIds(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return getNextDecorator().searchForCourseWaitlistEntryIds(criteria, context);
-    }
-
-    @Override
     public RegRequestInfo getRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getRegRequest(regRequestId, context);
-    }
-
-    @Override
-    public StatusInfo deleteCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return getNextDecorator().deleteCourseWaitlistEntry(courseWaitlistEntryId, context);
     }
 
 	@Override
