@@ -156,8 +156,8 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
-    public List<LprTransactionItemInfo> getLprTransactionsWithItemsByResultingLpr(String lprId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getLprTransactionsWithItemsByResultingLpr(lprId, contextInfo);
+    public List<LprTransactionItemInfo> getLprTransactionItemsByResultingLpr(String lprId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLprTransactionItemsByResultingLpr(lprId, contextInfo);
     }
 
     @Override
@@ -216,7 +216,7 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
-    public String createLpr(String personId, String luiId, String lprTypeKey, LprInfo lprInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public LprInfo createLpr(String personId, String luiId, String lprTypeKey, LprInfo lprInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createLpr(personId, luiId, lprTypeKey, lprInfo, contextInfo);
     }
 }

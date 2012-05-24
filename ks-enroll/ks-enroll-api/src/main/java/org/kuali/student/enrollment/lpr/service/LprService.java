@@ -419,7 +419,7 @@ public interface LprService {
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            attempt to update a read only attribute
      */
-    public String createLpr(@WebParam(name = "personId") String personId,
+    public LprInfo createLpr(@WebParam(name = "personId") String personId,
             @WebParam(name = "luiId") String luiId,
             @WebParam(name = "lprTypeKey") String lprTypeKey,
             @WebParam(name = "lprInfo") LprInfo lprInfo,
@@ -627,9 +627,6 @@ public interface LprService {
      * Note: this matches the person on the item not the person requesting the transaction 
      * which is on the transaction.
      *
-     * what we really want here and if we have to track back to the Transaction 
-     * then put the transaction id on the item so that can be done.
-     *
      * @param personId The person identifier
      * @param luiId    The LUI id
      * @param contextInfo the context information
@@ -662,10 +659,9 @@ public interface LprService {
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves LPR Transactions based on the resulting LPR.
+     * Retrieves LPR Transaction Items based on the resulting LPR.
      * 
-     * Selects all transactions that have at least one item who's resulting lpr matches 
-     * the specified lpr.
+     * Selects all transaction items that have this resulting lpr
      *
      * @param lprId   The resulting lpr
      * @param contextInfo the context info
@@ -674,14 +670,15 @@ public interface LprService {
      * @throws OperationFailedException  Unable to complete request
      * @throws PermissionDeniedException Authorization failure
      */
-    public List<LprTransactionItemInfo> getLprTransactionsWithItemsByResultingLpr(@WebParam(name = "lprId") String lprId,
+    public List<LprTransactionItemInfo> getLprTransactionItemsByResultingLpr(@WebParam(name = "lprId") String lprId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves LPR Transactions based on an item with the specified LUI.
+     * Retrieves LPR Transaction Items based on an item with the specified LUI.
      *
-     * Selects all transactions that have at least one item with the specified LUI.
+     * Selects all transaction items that where the specified LUI matches either
+     * the existing or new lui
      *
      * @param luiId   The LUI identifier
      * @param contextInfo the  ontext info
