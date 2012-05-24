@@ -42,15 +42,12 @@ public class LprInfo extends RelationshipInfo implements Lpr, Serializable {
     private List<String> resultValuesGroupKeys;
 
     @XmlElement
-    private Float commitmentPercent;
+    private String commitmentPercent;
 
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public LprInfo() {
-        luiId = null;
-        personId = null;
-        _futureElements = null;
     }
 
     public LprInfo(Lpr lpr) {
@@ -61,7 +58,6 @@ public class LprInfo extends RelationshipInfo implements Lpr, Serializable {
             if (lpr.getResultValuesGroupKeys() != null) {
                 this.resultValuesGroupKeys = new ArrayList<String>(lpr.getResultValuesGroupKeys());
             }
-            _futureElements = null;
         }
     }
 
@@ -84,16 +80,19 @@ public class LprInfo extends RelationshipInfo implements Lpr, Serializable {
     }
 
     @Override
-    public Float getCommitmentPercent() {
+    public String getCommitmentPercent() {
         return commitmentPercent;
     }
 
-    public void setCommitmentPercent(Float commitmentPercent) {
+    public void setCommitmentPercent(String commitmentPercent) {
         this.commitmentPercent = commitmentPercent;
     }
 
     @Override
     public List<String> getResultValuesGroupKeys() {
+        if (this.resultValuesGroupKeys == null) {
+            this.resultValuesGroupKeys = new ArrayList<String>();
+        }
         return resultValuesGroupKeys;
     }
 

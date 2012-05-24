@@ -42,9 +42,12 @@ public interface Lpr extends Relationship {
     /**
      * Commitment percentage for the person in the LUI
      * 
+     * Valid range should be between 0 and 100.00 inclusive.
+     * 
      * @name Commitment Percent
+     * @impl Although this is a string it is expected to be parsable as a floating point number  because it is stored in the database as a number so it can be easily queried This was done because of the rounding problems with many Floating implementations
      */
-    public Float getCommitmentPercent();
+    public String getCommitmentPercent();
 
     /**
      * The keys of the result values groups to be applied to this LPR
