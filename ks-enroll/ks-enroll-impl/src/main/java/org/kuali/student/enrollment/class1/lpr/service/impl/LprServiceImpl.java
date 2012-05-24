@@ -231,7 +231,7 @@ public class LprServiceImpl implements LprService {
 
     @Override
     @Transactional
-    public String createLpr(String personId, String luiId, String luiPersonRelationType, LprInfo luiPersonRelationInfo, ContextInfo context)
+    public LprInfo createLpr(String personId, String luiId, String luiPersonRelationType, LprInfo luiPersonRelationInfo, ContextInfo context)
             throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -244,7 +244,7 @@ public class LprServiceImpl implements LprService {
 
         LuiPersonRelationEntity lpr = new LuiPersonRelationEntity(luiPersonRelationInfo);
         lprDao.persist(lpr);
-        return lpr.getId();
+        return lpr.toDto();
     }
 
     @Override
@@ -552,7 +552,7 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
-    public List<LprTransactionItemInfo> getLprTransactionsWithItemsByResultingLpr(String lprId, ContextInfo context) throws
+    public List<LprTransactionItemInfo> getLprTransactionItemsByResultingLpr(String lprId, ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<LprTransactionItemEntity> lprTransItems = lprTransItemDao.getLprTransactionItemsByLpr(lprId);

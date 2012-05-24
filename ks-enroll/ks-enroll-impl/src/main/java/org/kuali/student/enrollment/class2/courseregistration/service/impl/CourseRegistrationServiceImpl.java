@@ -713,7 +713,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             PermissionDeniedException {
 
         List<RegRequestItemInfo> regrequests = new ArrayList<RegRequestItemInfo>();
-        List<LprTransactionItemInfo> lprTransactionItems = lprService.getLprTransactionsWithItemsByResultingLpr(
+        List<LprTransactionItemInfo> lprTransactionItems = lprService.getLprTransactionItemsByResultingLpr(
                 courseRegistrationId, context);
         for (LprTransactionItemInfo lprTransactionItem : lprTransactionItems) {
             regrequests.add(regRequestAssembler.assembleItem(
