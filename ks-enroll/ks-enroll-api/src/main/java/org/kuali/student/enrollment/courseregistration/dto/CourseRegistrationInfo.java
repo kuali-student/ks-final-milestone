@@ -18,12 +18,15 @@ import org.w3c.dom.Element;
 @XmlType(name = "CourseRegistrationInfo", propOrder = {"id", "typeKey", "stateKey", "courseOffering", "studentId",
         "regGroupRegistration", "credits", "gradingOptionKey", "effectiveDate", "expirationDate", "meta",
         "attributes", "_futureElements"})
-public class CourseRegistrationInfo extends RelationshipInfo implements CourseRegistration, Serializable {
+
+public class CourseRegistrationInfo 
+    extends RelationshipInfo 
+    implements CourseRegistration, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private CourseOfferingInfo courseOffering;
+    private String courseOfferingId;
 
     @XmlElement
     private RegGroupRegistrationInfo regGroupRegistration;
@@ -41,23 +44,16 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
     private List<Element> _futureElements;
 
     public CourseRegistrationInfo() {
-        super();
-        this.courseOffering = null;
-        this.studentId = null;
-        this.credits = null;
-        this.gradingOptionKey = null;
-        this._futureElements = null;
     }
 
     public CourseRegistrationInfo(CourseRegistration courseRegistration) {
         super(courseRegistration);
         if (null != courseRegistration) {
-            this.courseOffering = new CourseOfferingInfo(courseRegistration.getCourseOffering());
+            this.courseOfferingId = courseRegistration.getCourseOfferingId();
             this.studentId = courseRegistration.getStudentId();
             this.credits = courseRegistration.getCredits();
             this.gradingOptionKey = courseRegistration.getGradingOptionKey();
-            this._futureElements = null;
-        }
+         }
     }
 
     @Override
@@ -65,9 +61,26 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
         return studentId;
     }
 
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    @Override
+    public String getCourseOfferingId() {
+        return courseOfferingId;
+    }
+
+    public void setCourseOfferingId(String courseOfferingId) {
+        this.courseOfferingId = courseOfferingId;
+    }
+
     @Override
     public String getCredits() {
         return credits;
+    }
+
+    public void setCredits(String creditCount) {
+        this.credits = creditCount;
     }
 
     @Override
@@ -78,31 +91,4 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
     public void setGradingOptionKey(String gradingOptionKey) {
         this.gradingOptionKey = gradingOptionKey;
     }
-
-    @Override
-    public CourseOfferingInfo getCourseOffering() {
-        return courseOffering;
-    }
-
-    @Override
-    public RegGroupRegistrationInfo getRegGroupRegistration() {
-        return regGroupRegistration;
-    }
-
-    public void setRegGroupRegistration(RegGroupRegistrationInfo regGroupRegistration) {
-        this.regGroupRegistration = regGroupRegistration;
-    }
-
-    public void setCourseOffering(CourseOfferingInfo courseOffering) {
-        this.courseOffering = courseOffering;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public void setCredits(String creditCount) {
-        this.credits = creditCount;
-    }
-
 }

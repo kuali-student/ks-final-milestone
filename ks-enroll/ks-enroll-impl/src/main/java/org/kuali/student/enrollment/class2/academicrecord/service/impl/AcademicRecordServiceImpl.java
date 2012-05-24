@@ -12,7 +12,6 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -93,8 +92,6 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 			}
 		} catch (PermissionDeniedException e) {
 			throw new OperationFailedException();
-		} catch (DisabledIdentifierException e) {
-			throw new OperationFailedException();
 		} catch (AssemblyException e) {
             throw new OperationFailedException("AssemblyException : " + e.getMessage());
         }
@@ -113,8 +110,6 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 			getCompletedCourseRecords(courseRecords, regs, context);
 		} catch (PermissionDeniedException e) {
 			throw new OperationFailedException();
-		} catch (DisabledIdentifierException e) {
-			throw new OperationFailedException();
 		}
 
 		return courseRecords;
@@ -130,8 +125,6 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
 			getCompletedCourseRecords(courseRecords, regs, context);
 		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException();
-		} catch (DisabledIdentifierException e) {
 			throw new OperationFailedException();
 		}
 

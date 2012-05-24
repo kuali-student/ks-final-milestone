@@ -18,7 +18,6 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -447,7 +446,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 	}
 
 	@Override
-	public List<String> searchForCourseOfferingRegistrationIds(
+	public List<String> searchForCourseRegistrationIds(
 			QueryByCriteria criteria, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -456,7 +455,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseOfferingRegistrationIds", null)) {
-	        return getNextDecorator().searchForCourseOfferingRegistrationIds(criteria, context);
+	        return getNextDecorator().searchForCourseRegistrationIds(criteria, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -570,7 +569,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 			String studentId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, DisabledIdentifierException {
+                               PermissionDeniedException {
 		checkAuthorization (context, ENRLLMENT_NAMESPACE, SERVICE_NAME, "getCourseRegistrationsByStudent");
 		
 		return getNextDecorator().getCourseRegistrationsByStudent(studentId, context);
@@ -580,8 +579,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 	public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndCourseOffering(
 			String studentId, String courseOfferingId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DisabledIdentifierException {
+                               OperationFailedException, PermissionDeniedException {		
 		checkAuthorization (context, ENRLLMENT_NAMESPACE, SERVICE_NAME, "getCourseRegistrationsByStudentAndCourseOffering");
 		
 		return getNextDecorator().getCourseRegistrationsByStudentAndCourseOffering(studentId, courseOfferingId, context);
@@ -592,7 +590,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 			String studentId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, DisabledIdentifierException {
+                               PermissionDeniedException {
 		checkAuthorization (context, ENRLLMENT_NAMESPACE, SERVICE_NAME, "getCourseRegistrationsByStudentAndTerm");
 		
 		return getNextDecorator().getCourseRegistrationsByStudentAndTerm(studentId, termId, context);

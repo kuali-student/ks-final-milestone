@@ -94,7 +94,13 @@ public interface CourseOfferingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CourseOfferingAdminDisplayInfo getCourseOfferingAdminDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId, 
+                                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+                                                                    throws DoesNotExistException, 
+                                                                        InvalidParameterException, 
+                                                                        MissingParameterException, 
+                                                                        OperationFailedException, 
+                                                                        PermissionDeniedException;
 
     /**
      * Retrieve a list of CourseOfferingAdminDisplayInfos

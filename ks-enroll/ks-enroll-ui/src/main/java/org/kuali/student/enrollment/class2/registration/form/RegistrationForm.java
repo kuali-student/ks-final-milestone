@@ -109,9 +109,11 @@ public class RegistrationForm extends UifFormBase {
         this.regRequest = regRequest;
     }
 
+    // need to be redone
     protected List<MeetingScheduleWrapper> getRegisteredCourses() {
         List<MeetingScheduleWrapper> meetingScheduleWrappers = new ArrayList<MeetingScheduleWrapper>();
-        if(getCourseRegistrations() != null){
+        /*
+        if(getCourseRegistrations() != null) {
             // first loop all the items in the course registration list
             for (CourseRegistrationInfo courseRegistrationInfo : getCourseRegistrations()) {
                 // TODO - remove this cast below if CourseRegistrationInfo.getCourseOffering() method is fixed
@@ -137,7 +139,7 @@ public class RegistrationForm extends UifFormBase {
                     }
                 }
             }
-        }
+            }*/
         return meetingScheduleWrappers;
     }
 

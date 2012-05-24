@@ -25,7 +25,7 @@ public class CourseRegistrationAssembler {
         courseRegInfo.setStudentId(baseDTO.getPersonId());
         // courseRegInfo.setCreditCount(creditCount);
         // courseRegInfo.setGradingOptionKey(gradingOptionKey);
-        courseRegInfo.setCourseOffering(courseOfferingInfo);
+        //courseRegInfo.setCourseOffering(courseOfferingInfo);
         return courseRegInfo;
     }
 
@@ -33,7 +33,7 @@ public class CourseRegistrationAssembler {
             LprInfo regGroupRegLPR, RegistrationGroupInfo regGroupInfo, ContextInfo context) {
 
         CourseRegistrationInfo courseRegInfo = assemble(courseRegLPR, courseOfferingInfo, context);
-        courseRegInfo.setRegGroupRegistration(assembleRegGroup(regGroupRegLPR, activityRegLPRs, regGroupInfo, context));
+        //        courseRegInfo.setRegGroupRegistration(assembleRegGroup(regGroupRegLPR, activityRegLPRs, regGroupInfo, context));
         return courseRegInfo;
     }
 

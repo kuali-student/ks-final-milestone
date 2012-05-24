@@ -43,7 +43,6 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -641,7 +640,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndTerm(String studentId, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
+                                                                                                                                             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<CourseRegistrationInfo> courseRegistrationList = new ArrayList<CourseRegistrationInfo>();
 
@@ -655,7 +654,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     private void getCourseRegistration(String studentId, List<CourseRegistrationInfo> courseRegistrationList, List<LprInfo> courseLprList, List<LprInfo> regGroupLprList,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
+                                       ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (courseLprList != null && !courseLprList.isEmpty()) {
             for (LprInfo courseOfferinglprInfo : courseLprList) {
 
@@ -740,7 +739,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
    
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByStudent(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
+                                                                                                                      OperationFailedException, PermissionDeniedException {
         List<CourseRegistrationInfo> courseRegistrationList = new ArrayList<CourseRegistrationInfo>();
 
         List<LprInfo> courseLprList = lprService.getLprsByPersonAndLuiType(studentId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
@@ -804,8 +803,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 	public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndCourseOffering(
 			String studentId, String courseOfferingId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DisabledIdentifierException {
+                               OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -842,7 +840,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 	}
 
 	@Override
-	public List<String> searchForCourseOfferingRegistrationIds(
+	public List<String> searchForCourseRegistrationIds(
 			QueryByCriteria criteria, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {

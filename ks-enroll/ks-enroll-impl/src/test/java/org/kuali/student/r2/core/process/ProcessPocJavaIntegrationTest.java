@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceMockImpl;
+import org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMockImpl;
 import org.kuali.student.kim.permission.mock.IdentityServiceMockImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;

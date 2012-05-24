@@ -21,7 +21,6 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -552,7 +551,7 @@ public interface CourseRegistrationService  {
      * @throws PermissionDeniedException Not authorized to do this operation
      */
     public List<CourseRegistrationInfo> getCourseRegistrationsByStudent(@WebParam(name = "studentId") String studentId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException;
+                                                                        InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Get the list of CourseRegistration objects for the identified student and the identified course offering.
@@ -567,8 +566,7 @@ public interface CourseRegistrationService  {
      * @throws PermissionDeniedException Not authorized to do this operation
      */
     public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndCourseOffering(@WebParam(name = "studentId") String studentId, @WebParam(name = "courseOfferingId") String courseOfferingId,
-            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DisabledIdentifierException;
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Gets the course registrations for a student by term. Note: not clear if
@@ -586,8 +584,7 @@ public interface CourseRegistrationService  {
      * @throws PermissionDeniedException Not authorized to do this operation
      */
     public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DisabledIdentifierException;
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Get course registrations by course offering id.
@@ -656,7 +653,7 @@ public interface CourseRegistrationService  {
      * @param  context  Information Containing the principalId and locale information about the caller of the service operation.
      * @return
      */
-    public List<String> searchForCourseOfferingRegistrationIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context)
+    public List<String> searchForCourseRegistrationIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**

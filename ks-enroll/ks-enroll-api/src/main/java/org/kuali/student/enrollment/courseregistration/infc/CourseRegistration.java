@@ -5,33 +5,40 @@ import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**
- * @author Kuali Student Team (sambit) Course Registration is the consolidated
- *         view of the details of a student's relation with the course, which
- *         includes fields like {@link CourseOffering} , the particular
- *         {@link RegistrationGroupInfo} that the student registered through,
- *         the number of credits opted, and the grading option chosen by the
- *         student. The CourseRegistration is created only upon the successful
- *         registration of the student into the course, and not after waitlist
- *         or any other type of relation with the course.
+ * Course Registration is the consolidated view of the details of a
+ * student's relation with the course, which includes fields like
+ * CourseOffering, the particular RegistrationGroupInfo that the
+ * student registered through, the number of credits opted, and the
+ * grading option chosen by the student.
+ *
+ * The CourseRegistration is created only upon the successful
+ * registration of the student into the course, and not after waitlist
+ * or any other type of relation with the course.
  */
-public interface CourseRegistration extends Relationship {
+
+public interface CourseRegistration 
+    extends Relationship {
 
     /**
      * Returns the Course offering id for this course registration.
      * 
-     * @return
+     * @name Course Offering Id
+     * @readOnly
+     * @required
      */
-    public CourseOffering getCourseOffering();
+    public String getCourseOfferingId();
 
     /**
      * Returns the student id for the course registration.
      * 
-     * @return
+     * @name Student Id
+     * @readOnly
+     * @required
      */
     public String getStudentId();
 
     /**
-     * Returns the credit count for this registration
+     * Returns the credit count for this registration.
      * 
      * @return
      */
@@ -43,12 +50,4 @@ public interface CourseRegistration extends Relationship {
      * @return
      */
     public String getGradingOptionKey();
-
-    /**
-     * Returns the registration group associated with this course offering.
-     * 
-     * @return
-     */
-    public RegGroupRegistration getRegGroupRegistration();
-
 }

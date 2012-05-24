@@ -217,10 +217,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public List<String> searchForCourseOfferingRegistrationIds(QueryByCriteria criteria, ContextInfo context)
+    public List<String> searchForCourseRegistrationIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().searchForCourseOfferingRegistrationIds(criteria, context);
+        return getNextDecorator().searchForCourseRegistrationIds(criteria, context);
     }
 
     @Override
@@ -264,7 +264,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 			String studentId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, DisabledIdentifierException {
+                               PermissionDeniedException {
 		return getNextDecorator().getCourseRegistrationsByStudent(studentId, context);
 	}
 
@@ -272,8 +272,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 	public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndCourseOffering(
 			String studentId, String courseOfferingId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DisabledIdentifierException {
+                               OperationFailedException, PermissionDeniedException {
 		return getNextDecorator().getCourseRegistrationsByStudentAndCourseOffering(studentId, courseOfferingId, context);
 	}
 
@@ -282,8 +281,8 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 			String studentId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, DisabledIdentifierException {
-		return getNextDecorator().getCourseRegistrationsByStudentAndTerm(studentId, termId, context);
+                        PermissionDeniedException {		
+            return getNextDecorator().getCourseRegistrationsByStudentAndTerm(studentId, termId, context);
 	}
 
 	@Override

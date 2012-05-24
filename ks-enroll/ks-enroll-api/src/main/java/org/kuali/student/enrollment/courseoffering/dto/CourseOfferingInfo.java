@@ -94,13 +94,13 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     private List<String> gradingOptionIds;
 
     @XmlElement
-    private String waitlistTypeKey;
-
-    @XmlElement
     private Boolean hasWaitlist;
 
     @XmlElement
     private String waitlistLevelTypeKey;
+
+    @XmlElement
+    private String waitlistTypeKey;
 
     @XmlElement
     private Integer maximumEnrollment;
@@ -287,8 +287,6 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         return this.creditOptionIds;
     }
 
-
-
     @Override
     public Boolean getHasWaitlist() {
         return this.hasWaitlist;
@@ -299,9 +297,6 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
     public String getFundingSource() {
         return this.fundingSource;
     }
-
-
-
 
     @Override
     public Boolean getIsFinancialAidEligible() {
@@ -383,17 +378,13 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         this.gradingOptionIds = gradingOptionIds;
     }
 
-
     public void setHasWaitlist(Boolean hasWaitlist) {
         this.hasWaitlist = hasWaitlist;
     }
 
-
     public void setFundingSource(String fundingSource) {
         this.fundingSource = fundingSource;
     }
-
-
 
     public void setIsFinancialAidEligible(Boolean isFinancialAidEligible) {
         this.isFinancialAidEligible = isFinancialAidEligible;

@@ -36,6 +36,7 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
             if(StringUtils.isNotBlank(id)){
 
                 for (CourseRegistrationInfo reg : regs) {
+                    /*
                     if (reg.getRegGroupRegistration().getRegistrationGroup().getId().equals(id)
                             && reg.getRegGroupRegistration().getStateKey().equals(LprServiceConstants.REGISTERED_STATE_KEY)) {
                         renderDropButton = true;
@@ -43,6 +44,7 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
                         renderRegButtons = false;
                         break;
                     }
+                    */
                 }
 
                 if (form.getRegRequest() != null && form.getRegRequest().getRegRequestItems() != null) {
