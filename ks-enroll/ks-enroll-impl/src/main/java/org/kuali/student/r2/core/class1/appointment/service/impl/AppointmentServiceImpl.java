@@ -52,6 +52,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Kuali Student Team
  */
+@WebService(name = "AppointmentWindowService", serviceName = "AppointmentWindowService", portName = "AppointmentWindowService", targetNamespace = "http://student.kuali.org/wsdl/appointmentwindow")
 public class AppointmentServiceImpl implements AppointmentService {
     // Note: add getters/setters to instance variables otherwise, can't dependency inject!!!!
     @Resource

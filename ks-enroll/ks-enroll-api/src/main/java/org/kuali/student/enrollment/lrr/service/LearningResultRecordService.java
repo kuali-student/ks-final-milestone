@@ -45,7 +45,7 @@ import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
  * @Version: 1.0 (Dev) DRAFT - NOT READY FOR RELEASE.
  * @author Kuali Student Team (Kamal)
  */
-@WebService(endpointInterface = "org.kuali.student.enrollment.lrr.service.LearningResultRecordService", serviceName = "LearningResultRecordService", portName = "LearningResultRecordService", targetNamespace = LrrServiceConstants.NAMESPACE)
+@WebService(name = "LearningResultRecordService", targetNamespace = LrrServiceConstants.NAMESPACE) // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LearningResultRecordService { 
 
