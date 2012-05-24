@@ -27,7 +27,7 @@ public class LprTransactionItemResultTester {
         }
         assertEquals(expected.getStatus(), actual.getStatus());
         assertEquals(expected.getResultingLprId(), actual.getResultingLprId());
-        assertEquals(expected.getMessages(), actual.getMessages());        
+        assertEquals(expected.getMessage(), actual.getMessage());        
     }
 
 }
