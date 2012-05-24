@@ -452,6 +452,10 @@
 			<a>type</a>
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
+		<field>
+			<a>stdDuration</a>
+			<b get-method="getStdDuration" set-method="setStdDuration">stdDuration</b>
+		</field>
 	</mapping>
 
 	<mapping>

@@ -375,11 +375,6 @@
 			</b>
 		</field>
 		<field>
-			<a>stdDuration</a>
-			<b get-method="getStdDuration"
-				set-method="setStdDuration(org.kuali.student.r2.common.dto.TimeAmountInfo)">stdDuration</b>
-		</field>
-		<field>
 			<a>descr</a>
 			<b get-method="getDescr" set-method="setDescr">descr</b>
 		</field>
