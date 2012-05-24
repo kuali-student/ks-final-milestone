@@ -52,4 +52,10 @@ public class CourseOfferingServiceConstants {
 
 
     // The type/states are defined in LuiServiceConstants.java
+
+    //The list of all Student registration-specific grading options
+    public static final String[] ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS = {LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT,
+            LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL};
+
+
 }

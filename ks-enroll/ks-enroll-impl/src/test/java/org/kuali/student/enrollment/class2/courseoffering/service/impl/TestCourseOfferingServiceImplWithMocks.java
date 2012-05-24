@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -38,9 +39,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-with-mocks-context.xml"})
 public class TestCourseOfferingServiceImplWithMocks {
@@ -109,6 +109,11 @@ public class TestCourseOfferingServiceImplWithMocks {
         orig.setFundingSource("funding source");
         orig.setCourseOfferingCode("CODE");
         orig.setCourseOfferingTitle("Title");
+        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+        orig.getStudentRegistrationOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+        orig.getGradingOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
+        orig.getGradingOptionIds().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
+
         CourseOfferingInfo info = courseOfferingService.createCourseOffering(orig.getCourseId(), orig.getTermId(), 
                 orig.getTypeKey(), orig, optionKeys, callContext);
         assertNotNull(info);
@@ -129,6 +134,14 @@ public class TestCourseOfferingServiceImplWithMocks {
             assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getPlain(), info.getDescr().getPlain());
             assertEquals(new R1ToR2CopyHelper().copyRichText(course.getDescr()).getFormatted(), info.getDescr().getFormatted());
         }
+//        assertEquals(2,info.getStudentRegistrationOptionIds().size());
+//        assertTrue(info.getStudentRegistrationOptionIds().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT));
+//        assertTrue(info.getStudentRegistrationOptionIds().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL));
+//
+//        assertEquals(2,info.getGradingOptionIds().size());
+//        assertTrue(info.getGradingOptionIds().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER));
+//        assertTrue(info.getGradingOptionIds().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE));
+
         // TODO: test for these things 
 //        assertEquals(course.getUnitsContentOwnerOrgIds(), info.getUnitsContentOwnerOrgIds());
 //        assertEquals(course.getUnitsDeploymentOrgIds(), info.getUnitsDeploymentOrgIds());

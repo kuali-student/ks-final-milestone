@@ -38,10 +38,10 @@ import org.w3c.dom.Element;
 @XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
         "termId", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle", "isHonorsOffering",
         "instructors", "subjectArea", "unitsDeploymentOrgIds", "unitsContentOwnerOrgIds",  "maximumEnrollment",
-        "minimumEnrollment", "jointOfferingIds", "creditOptionIds", "gradingOptionIds", "waitlistLevelTypeKey",
-        "hasWaitlist", "waitlistTypeKey","campusLocations", "finalExamType", "isEvaluated",
-        "fundingSource", "isFeeAtActivityOffering", "isFinancialAidEligible", "courseOfferingURL",
-        "meta", "attributes", "_futureElements"})
+        "minimumEnrollment", "jointOfferingIds", "creditOptionIds", "gradingOptionIds",
+        "studentRegistrationOptionIds", "waitlistLevelTypeKey", "hasWaitlist", "waitlistTypeKey",
+        "campusLocations", "finalExamType", "isEvaluated", "fundingSource", "isFeeAtActivityOffering",
+        "isFinancialAidEligible", "courseOfferingURL", "meta", "attributes", "_futureElements"})
 
 public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseOffering {
 
@@ -88,6 +88,9 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     @XmlElement
     private List<String> gradingOptionIds;
+
+    @XmlElement
+    private List<String> studentRegistrationOptionIds;
 
     @XmlElement
     private String waitlistTypeKey;
@@ -172,6 +175,10 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         this.creditOptionIds =offering.getCreditOptionIds();
         this.gradingOptionIds = (null != offering.getGradingOptionIds()) ? new ArrayList<String>(
                 offering.getGradingOptionIds()) : null;
+        this.studentRegistrationOptionIds = (null != offering.getGradingOptionIds()) ? new ArrayList<String>(
+                offering.getGradingOptionIds()) : null;
+
+
         this.campusLocations = (null != offering.getCampusLocations()) ? new ArrayList<String>(offering.getCampusLocations()) : null;
 
         this.waitlistTypeKey = offering.getWaitlistTypeKey();
@@ -292,11 +299,11 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     @Override
     public List<String> getJointOfferingIds() {
-        if (null == this.jointOfferingIds) {
-            this.jointOfferingIds = new ArrayList<String>();
+        if (null == jointOfferingIds) {
+            jointOfferingIds = new ArrayList<String>();
         }
 
-        return this.jointOfferingIds;
+        return jointOfferingIds;
     }
 
     public void setJointOfferingIds(List<String> jointOfferingIds) {
@@ -305,6 +312,9 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     @Override
     public List<String> getGradingOptionIds() {
+        if(gradingOptionIds == null){
+            gradingOptionIds = new ArrayList<String>();
+        }
         return this.gradingOptionIds;
     }
 
@@ -312,9 +322,24 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
         this.gradingOptionIds = gradingOptionIds;
     }
 
+
+    public List<String> getStudentRegistrationOptionIds() {
+        if(studentRegistrationOptionIds == null){
+            studentRegistrationOptionIds = new ArrayList<String>();
+        }
+        return studentRegistrationOptionIds;
+    }
+
+    public void setStudentRegistrationOptionIds(List<String> studentRegistrationOptionIds) {
+        this.studentRegistrationOptionIds = studentRegistrationOptionIds;
+    }
+
     @Override
     public List<String> getCreditOptionIds() {
-        return this.creditOptionIds;
+        if(creditOptionIds == null){
+            creditOptionIds = new ArrayList<String>();
+        }
+        return creditOptionIds;
     }
 
     public void setCreditOptionIds(List<String> creditOptionIds) {
@@ -335,11 +360,10 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     @Override
     public List<String> getUnitsDeploymentOrgIds() {
-        if (null == this.unitsDeploymentOrgIds) {
-            this.unitsDeploymentOrgIds = new ArrayList<String>();
+        if (null == unitsDeploymentOrgIds) {
+            unitsDeploymentOrgIds = new ArrayList<String>();
         }
-
-        return this.unitsDeploymentOrgIds;
+        return unitsDeploymentOrgIds;
     }
 
     public void setUnitsDeploymentOrgIds(List<String> unitsDeploymentOrgIds) {
@@ -353,11 +377,11 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     @Override
     public List<String> getUnitsContentOwnerOrgIds() {
-        if (null == this.unitsContentOwnerOrgIds) {
-            this.unitsContentOwnerOrgIds = new ArrayList<String>();
+        if (null == unitsContentOwnerOrgIds) {
+            unitsContentOwnerOrgIds = new ArrayList<String>();
         }
 
-        return this.unitsContentOwnerOrgIds;
+        return unitsContentOwnerOrgIds;
     }
     
     public void setUnitsContentOwnerOrgIds(List<String> unitsContentOwnerOrgIds) {
@@ -425,6 +449,9 @@ public class CourseOfferingInfo extends IdNamelessEntityInfo  implements CourseO
 
     @Override
     public List<String> getCampusLocations() {
+        if (null == campusLocations) {
+            campusLocations = new ArrayList<String>();
+        }
         return campusLocations;
     }
 

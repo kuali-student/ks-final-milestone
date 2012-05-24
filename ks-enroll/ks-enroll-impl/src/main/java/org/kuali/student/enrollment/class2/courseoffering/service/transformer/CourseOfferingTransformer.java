@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
@@ -13,10 +14,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.constants.*;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
 import java.util.ArrayList;
@@ -62,7 +60,17 @@ public class CourseOfferingTransformer {
         co.setUnitsDeployment(lui.getUnitsDeployment());
         co.setUnitsContentOwner(lui.getUnitsContentOwner());
 
-        co.setGradingOptionIds(lui.getResultValuesGroupKeys());
+        //Split up the result keys for student registration options into a separate field.
+        for(String resultValueGroupKey : lui.getResultValuesGroupKeys()){
+            co.getStudentRegistrationOptionIds().clear();
+            co.getGradingOptionIds().clear();
+            if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
+                co.getStudentRegistrationOptionIds().add(resultValueGroupKey);
+            }else{
+                co.getGradingOptionIds().add(resultValueGroupKey);
+            }
+        }
+
 
         LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
         if (identifier == null) {
@@ -188,7 +196,8 @@ public class CourseOfferingTransformer {
         lui.setUnitsDeployment(co.getUnitsDeploymentOrgIds());
         lui.setMaximumEnrollment(co.getMaximumEnrollment());
         lui.setMinimumEnrollment(co.getMinimumEnrollment());
-        lui.setResultValuesGroupKeys(co.getGradingOptionIds());
+        lui.getResultValuesGroupKeys().addAll(co.getGradingOptionIds());
+        lui.getResultValuesGroupKeys().addAll(co.getStudentRegistrationOptionIds());
 
         LuiIdentifierInfo oi = lui.getOfficialIdentifier();
         if (oi == null) {
@@ -230,7 +239,18 @@ public class CourseOfferingTransformer {
         courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
         courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());
         courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
-        courseOfferingInfo.setGradingOptionIds(courseInfo.getGradingOptions());
+
+        //Split up the result keys for student registration options into a separate field.
+        for(String resultValueGroupKey : courseInfo.getGradingOptions()){
+            courseOfferingInfo.getStudentRegistrationOptionIds().clear();
+            courseOfferingInfo.getGradingOptionIds().clear();
+            if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
+                courseOfferingInfo.getStudentRegistrationOptionIds().add(resultValueGroupKey);
+            }else{
+                courseOfferingInfo.getGradingOptionIds().add(resultValueGroupKey);
+            }
+        }
+
         if (courseInfo.getCreditOptions() == null) {
             courseOfferingInfo.setCreditOptionIds(null);
         } else if (courseInfo.getCreditOptions().isEmpty()) {

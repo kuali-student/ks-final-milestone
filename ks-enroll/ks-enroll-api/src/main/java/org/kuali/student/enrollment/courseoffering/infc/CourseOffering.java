@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -176,6 +177,23 @@ public interface CourseOffering extends IdNamelessEntity{
      *       and those should give the resultValueGroupIds
      */
     public List<String> getGradingOptionIds();
+
+    /**
+     * The options/scales that indicate the allowable grades that can be
+     * awarded. Typically the values here are constrained by the values on the
+     * canonical course. If the value is set here then the Clu must have a
+     * grading option set on the canonical activity. For example: an id might
+     * point to Pass/Fail or Letter Graded option.
+     *
+     * This is the same as gradingOptionIds, but the student registration specific
+     * ids are pulled out and placed in this collection.
+     *
+     * @name: Student Registration Option Ids
+     * @impl these are actually Ids to ResultValuesGroup. Lui.resultOptionIds
+     *       returns a list of resultOptions. Filter options with grading type
+     *       and those should give the resultValueGroupIds
+     */
+    public List<String> getStudentRegistrationOptionIds();
 
     /**
      * Type of credit of course offering. This field is initially copied from
