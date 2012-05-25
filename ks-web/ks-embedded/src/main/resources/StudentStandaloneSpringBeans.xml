@@ -48,6 +48,8 @@
                 <value>classpath:ks-OfferingInstructorInfo-dictionary.xml</value>
                 <value>classpath:ks-SocRolloverResultInfo-dictionary.xml</value>
                 <value>classpath:ks-SocRolloverResultItemInfo-dictionary.xml</value>
+                <value>classpath:ks-TermInfo-dictionary.xml</value>
+
 
                 <!--
 				<value>classpath:AcademicCalendarInfoUI.xml</value>
@@ -80,7 +82,7 @@
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarCopyPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarEditPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicTermPage.xml</value>
-                <value>classpath:AcademicTermLookupView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/AcademicTermLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeMaintenanceDocument.xml</value>
 

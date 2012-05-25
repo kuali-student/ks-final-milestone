@@ -20,51 +20,37 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-  <import resource="classpath:ks-TermInfo-dictionary.xml"/>
+
+
+  <bean id="TermInfo" parent="TermInfo-parent">
+       <property name="titleAttribute" value="code"/>
+  </bean>
 
   <bean id="AcademicTerm-LookupView" parent="KSLookupView">
     <property name="id" value="academicTermLookupView"/>
-    <property name="headerText" value="Academic Term Edit" />
+    <property name="headerText" value="Academic Term Lookup" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicTermLookupableImpl" />
     <property name="criteriaFields">
       <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="startDate">
-            <property name="control">
-                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
-            </property>
-        </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="endDate">
-            <property name="control">
-                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
-            </property>
-        </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" p:label="Type">
-            <property name="control">
-                <bean parent="Uif-DropdownControl"/>
-             </property>
-            <property name="optionsFinder">
-                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues"/>
-             </property>
-        </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey" p:label="State">
-            <property name="control">
-                <bean parent="Uif-DropdownControl"/>
-             </property>
-            <property name="optionsFinder">
-                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermStateKeyValues"/>
-             </property>
-        </bean>
+
+
+          <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code"/>
+          <bean parent="Uif-LookupCriteriaInputField" p:propertyName="startDate" p:label="Year"/>
+
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="Uif-InputField" p:propertyName="name" />
+        <bean parent="Uif-InputField" p:propertyName="id"/>
+          <bean parent="Uif-DataField" p:propertyName="code"/>
+
+        <bean parent="Uif-InputField" p:propertyName="descr.plain" />
         <bean parent="Uif-InputField" p:propertyName="typeKey" />
         <bean parent="Uif-InputField" p:propertyName="stateKey" />
         <bean parent="Uif-InputField" p:propertyName="startDate" />
         <bean parent="Uif-InputField" p:propertyName="endDate" />
+
       </list>
     </property>
   </bean>
