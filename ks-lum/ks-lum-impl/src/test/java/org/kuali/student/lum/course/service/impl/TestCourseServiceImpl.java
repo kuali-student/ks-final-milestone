@@ -25,16 +25,18 @@ import java.util.TreeSet;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.common.conversion.util.converter.AttributeInfoConverter;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementOperator;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
@@ -69,6 +71,8 @@ import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -123,7 +127,7 @@ public class TestCourseServiceImpl{
         }
     }
 
-   // @Test
+  @Test
     public void testGetCourse() {
         System.out.println("testGetCourse");
         try {
@@ -146,7 +150,7 @@ public class TestCourseServiceImpl{
             assertEquals("level-36", retrievedCourse.getLevel());
 
             assertEquals("courseTitle-12", retrievedCourse.getCourseTitle());
-            assertEquals("transcriptTitle-50", retrievedCourse.getTranscriptTitle());
+            assertEquals("transcriptTitle-52", retrievedCourse.getTranscriptTitle());
 
             assertEquals("plain-18", retrievedCourse.getDescr().getPlain());
             assertEquals("formatted-17", retrievedCourse.getDescr().getFormatted());
@@ -155,27 +159,29 @@ public class TestCourseServiceImpl{
             FormatInfo info = retrievedCourse.getFormats().get(0);
             assertEquals("kuali.lu.type.CreditCourseFormatShell", info.getTypeKey());
             assertEquals(2, info.getActivities().size());
-            // TODO 
-           // assertTrue(info.getActivities().get(1).getActivityType().startsWith("kuali.lu.type.activity."));
+           assertTrue(info.getActivities().get(1).getTypeKey().startsWith("kuali.lu.type.activity."));
 
             assertEquals(2, retrievedCourse.getTermsOffered().size());
             String termOffered = retrievedCourse.getTermsOffered().get(0);
 
-            assertTrue("termsOffered-48".equals(termOffered) || "termsOffered-49".equals(termOffered));
+            assertTrue("termsOffered-51".equals(termOffered) || "termsOffered-52".equals(termOffered));
 
             assertEquals(2, retrievedCourse.getUnitsContentOwner().size());
             String orgId = retrievedCourse.getUnitsContentOwner().get(0);
-            assertTrue("unitsContentOwner-53".equals(orgId) || "unitsContentOwner-54".equals(orgId));
+            assertTrue("unitsContentOwner-56".equals(orgId) || "unitsContentOwner-57".equals(orgId));
             
-            // TODO 
-//            assertEquals(4, retrievedCourse.getAttributes().size());
-//            String[] attrKeys = {"attributes-3", "attributes-4"};
-//            for (String key : attrKeys) {
-//                String value = retrievedCourse.getAttributes().get(key);
-//                assertNotNull(value);
-//                assertEquals(key, value);
-//            }
-
+           
+            assertEquals(4, retrievedCourse.getAttributes().size());
+            
+            Map<String, String> attrs = new HashMap<String, String>();
+            attrs.put("key-4", "value-5");
+            attrs.put("key-5", "value-6");
+            for (String key : attrs.keySet()) {
+                String value = retrievedCourse.getAttributeInfoValue(retrievedCourse.getAttributes(), key);
+                assertNotNull(value);
+                assertEquals(value, attrs.get(key));
+            }
+            
             assertEquals(2, retrievedCourse.getCampusLocations().size());
             String campus = retrievedCourse.getCampusLocations().get(1);
             assertTrue(CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH.equals(campus) || CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH.equals(campus));
@@ -190,7 +196,7 @@ public class TestCourseServiceImpl{
              * retrievedCourse.getCrossListings().get(0); // TODO - check its contents
              */
 
-            assertEquals("unitsDeployment-57", retrievedCourse.getUnitsDeployment().get(0));
+            assertEquals("unitsDeployment-59", retrievedCourse.getUnitsDeployment().get(0));
 
             TimeAmountInfo timeInfo = retrievedCourse.getDuration();
             assertEquals("kuali.atp.duration.Semester", timeInfo.getAtpDurationTypeKey());
@@ -208,19 +214,19 @@ public class TestCourseServiceImpl{
             String atpType = retrievedCourse.getTermsOffered().get(0);
             CluInstructorInfo instructor = retrievedCourse.getPrimaryInstructor();
 
-            assertTrue("termsOffered-48".equals(atpType) || "termsOffered-49".equals(atpType));
+            assertTrue("termsOffered-51".equals(atpType) || "termsOffered-52".equals(atpType));
 
-            assertEquals("orgId-43", instructor.getOrgId());
-            assertEquals("personId-44", instructor.getPersonId());
+            assertEquals("orgId-46", instructor.getOrgId());
+            assertEquals("personId-47", instructor.getPersonId());
 
             assertEquals(DtoConstants.STATE_DRAFT, retrievedCourse.getStateKey());
             assertTrue(subjectAreaSet.contains(retrievedCourse.getSubjectArea()));
 
             assertEquals("kuali.lu.type.CreditCourse", retrievedCourse.getTypeKey());
-
-            assertEquals(2, retrievedCourse.getCreditOptions().size());
-            assertEquals("kuali.creditType.credit.degree.11.0", retrievedCourse.getCreditOptions().get(0));
-            assertEquals("kuali.creditType.credit.degree.11.0", retrievedCourse.getCreditOptions().get(1));
+//
+//              assertEquals(2, retrievedCourse.getCreditOptions().size());
+//            assertEquals("kuali.creditType.credit.degree.11.0", retrievedCourse.getCreditOptions().get(0));
+//            assertEquals("kuali.creditType.credit.degree.11.0", retrievedCourse.getCreditOptions().get(1));
 
             assertEquals(2, retrievedCourse.getGradingOptions().size());
 
@@ -236,7 +242,7 @@ public class TestCourseServiceImpl{
         }
     }
 
-   // @Test
+   @Test
     public void testUpdateCourse() throws Exception {
         System.out.println("testUpdateCourse");
 
@@ -304,24 +310,21 @@ public class TestCourseServiceImpl{
         termsOfferedList.add("FALL2010");        
         newFormat.setTermsOffered(termsOfferedList);
         
-//        Map<String, String> attrMap = new HashMap<String, String>();
-//        attrMap.put("FRMT", "value");
-//        newFormat.setAttributes(attrMap);
         AttributeInfo rAttributeInfo= new AttributeInfo();
-        rAttributeInfo.setKey("attrKey");
-        rAttributeInfo.setValue("attrValue");   
+        rAttributeInfo.setKey("FRMT");
+        rAttributeInfo.setValue("value");   
         List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
         attributes.add(rAttributeInfo);
         newFormat.setAttributes(attributes);
 
         // Add two new activities to new formats
         ActivityInfo newActivity1 = new ActivityInfo();
-       // newActivity1.setActivityType(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
+        newActivity1.setTypeKey(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
         newActivity1.setStateKey(DtoConstants.STATE_DRAFT);
         newFormat.getActivities().add(newActivity1);
 
         ActivityInfo newActivity2 = new ActivityInfo();
-        //newActivity2.setActivityType(CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE);
+        newActivity2.setTypeKey(CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE);
         newActivity2.setStateKey(DtoConstants.STATE_DRAFT);
         newFormat.getActivities().add(newActivity2);
 
@@ -337,18 +340,19 @@ public class TestCourseServiceImpl{
        // createdCourse.setAttributes(attributes);
         
         AttributeInfo rAttributeInfo2 = new AttributeInfo();
-        rAttributeInfo.setKey("testKey");
-        rAttributeInfo.setValue("testValue");   
+        rAttributeInfo2.setKey("testKey");
+        rAttributeInfo2.setValue("testValue");   
         List<AttributeInfo> attributes2 =  createdCourse.getAttributes();
-        attributes.add(rAttributeInfo2);
-        createdCourse.setAttributes(attributes);
+        attributes2.add(rAttributeInfo2);
+        createdCourse.setAttributes(attributes2);
 
         createdCourse.getCreditOptions().remove(1);
-        ResultComponentInfo rsltComp = new ResultComponentInfo();
-        rsltComp.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE);
-        rsltComp.getResultValues().add("1");
-        rsltComp.getResultValues().add("3");
-       // createdCourse.getCreditOptions().add(rsltComp); 
+        ResultValuesGroupInfo rsltComp = new ResultValuesGroupInfo();
+        rsltComp.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE);
+        rsltComp.getResultValueKeys().add("1");
+        rsltComp.getResultValueKeys().add("3");
+        createdCourse.getCreditOptions().add(rsltComp); 
+        createdCourse.getCreditOptions().add(rsltComp); 
         createdCourse.getGradingOptions().remove(1);
         createdCourse.getGradingOptions().add("NewGradingOption");
 
@@ -359,7 +363,7 @@ public class TestCourseServiceImpl{
         createdCourse.getCourseSpecificLOs().remove(1);
         LoDisplayInfo displayInfo = new LoDisplayInfo();
         displayInfo.setLoInfo(new LoInfo());
-        //displayInfo.getLoInfo().setDescr(new RichTextInfo());
+        displayInfo.getLoInfo().setDescr(new RichTextInfo());
         createdCourse.getCourseSpecificLOs().add(displayInfo);
         createdCourse.getCourseSpecificLOs().get(1).getLoInfo().getDescr().setPlain("BrandNew!!!");
         createdCourse.getCourseSpecificLOs().get(1).getLoCategoryInfoList().add(new LoCategoryInfo());
@@ -399,8 +403,8 @@ public class TestCourseServiceImpl{
             // Check to see if activities are added to a new format
             if (uFrmt.getAttributes().contains("FRMT")) {
                 assertEquals(2, uFrmt.getActivities().size());
-               // String actType = uFrmt.getActivities().get(0).getActivityType();
-               // assertTrue(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE.equals(actType) || CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE.equals(actType));
+                String actType = uFrmt.getActivities().get(0).getTypeKey();
+                assertTrue(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE.equals(actType) || CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE.equals(actType));
 
                 assertEquals(1, uFrmt.getTermsOffered().size());
                 assertEquals("FALL2010", uFrmt.getTermsOffered().get(0));
@@ -460,8 +464,16 @@ public class TestCourseServiceImpl{
         assertEquals("testOrgId", updatedCourse.getUnitsContentOwner().get(0));
 
         assertEquals(5, updatedCourse.getAttributes().size());
-        //assertNotNull(updatedCourse.getAttributes().get("testKey")); 
-        //assertEquals("testValue", updatedCourse.getAttributes().get("testKey"));
+        assertNotNull(updatedCourse.getAttributes().contains("testKey"));
+        Map<String, String> attrs = new HashMap<String, String>();
+        attrs.put("testKey", "testValue");
+        for (AttributeInfo atr : updatedCourse.getAttributes()) {
+            if (attrs.containsKey(atr.getKey())){
+            String value = atr.getValue();
+            assertEquals(value, attrs.get(atr.getKey()));
+            }
+        }            
+  //      assertEquals("testValue", updatedCourse.getAttributes().contains("testKey"));
 
         assertEquals(2, updatedCourse.getCreditOptions().size());
         // assertTrue(updatedCourse.getCreditOptions().contains("creditOptions-18"));
@@ -486,7 +498,7 @@ public class TestCourseServiceImpl{
         assertEquals(Long.valueOf(99), updatedCourse.getRevenues().get(0).getAffiliatedOrgs().get(0).getPercentage());
     }
 
-  //  @Test
+    @Test
     public void testDeleteCourse() {
         System.out.println("testDeleteCourse");
         try {
@@ -516,7 +528,7 @@ public class TestCourseServiceImpl{
      * This method tests setting code, attributes in course cross listing
      *
      */
-  //  @Test
+   @Test
     public void testCourseCrossListing() {
         CourseDataGenerator generator = new CourseDataGenerator();
         try {
@@ -566,8 +578,16 @@ public class TestCourseServiceImpl{
             
             for(CourseCrossListingInfo rcc : rcInfo.getCrossListings()) {
                 
-                if("100".equals(rcc.getCourseNumberSuffix())) {                   
-                  //  assertEquals("VALUE1", rcc.getAttributes().get("KEY1"));
+                if("100".equals(rcc.getCourseNumberSuffix())) {
+                    Map<String, String> attrs = new HashMap<String, String>();
+                    attrs.put("KEY1", "VALUE1");
+                    for (AttributeInfo atr : rcc.getAttributes()) {
+                        if (attrs.containsKey(atr.getKey())){
+                        String value = atr.getValue();
+                        assertEquals(value, attrs.get(atr.getKey()));
+                        }
+                    }            
+                  //assertEquals("VALUE1", rcc.getAttributes().contains("KEY1"));
                 } else {
                     assertEquals("LIFE042", rcc.getCode());
                 }                
@@ -583,7 +603,7 @@ public class TestCourseServiceImpl{
             
     }
     
-   /// @Test
+   @Test
     public void testCreditOptions() {
         CourseDataGenerator generator = new CourseDataGenerator();
         try {
@@ -591,38 +611,38 @@ public class TestCourseServiceImpl{
             assertNotNull(cInfo);
             
             // Check to see if variable credit with float increment works
-            ResultComponentInfo rc1 = new ResultComponentInfo();
-            rc1.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
-            HashMap<String, String> attributes = new HashMap<String,String>();
-            attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, "1.0");
-            attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, "5.0");
-            attributes.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR, "0.5");
+            ResultValuesGroupInfo rc1 = new ResultValuesGroupInfo();
+            rc1.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
+            List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+            attributes.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, "1.0"));
+            attributes.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, "5.0"));
+            attributes.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR, "0.5"));
             rc1.setAttributes(attributes);
             
             // Check to see if variable credit with no increments
-            ResultComponentInfo rc2 = new ResultComponentInfo();
-            rc2.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
-            HashMap<String, String> attributes2 = new HashMap<String,String>();
-            attributes2.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, "1.0");
-            attributes2.put(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, "5.0");
+            ResultValuesGroupInfo rc2 = new ResultValuesGroupInfo();
+            rc2.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
+            List<AttributeInfo> attributes2 = new ArrayList<AttributeInfo>();
+            attributes2.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, "1.0"));
+            attributes2.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, "5.0"));
             rc2.setAttributes(attributes2);
             
             // Check to see floating point multiple is accepted
-            ResultComponentInfo rc3 = new ResultComponentInfo();
-            rc3.setType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE);
+            ResultValuesGroupInfo rc3 = new ResultValuesGroupInfo();
+            rc3.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE);
             List<String> rv = new ArrayList<String>();
             rv.add("1.0");
             rv.add("1.5");
             rv.add("2.0");
-            rc3.setResultValues(rv);
+            rc3.setResultValueKeys(rv);
             
 
-            List<ResultComponentInfo> creditOptions = new ArrayList<ResultComponentInfo>();
+            List<ResultValuesGroupInfo> creditOptions = new ArrayList<ResultValuesGroupInfo>();
             creditOptions.add(rc1);
             creditOptions.add(rc2);
             creditOptions.add(rc3);
                         
-            //cInfo.setCreditOptions(creditOptions);
+            cInfo.setCreditOptions(creditOptions);
                         
             try {
                 cInfo = courseService.createCourse(cInfo, contextInfo);
@@ -636,29 +656,29 @@ public class TestCourseServiceImpl{
             
             CourseInfo rcInfo = courseService.getCourse(cInfo.getId(), contextInfo);
             
-           // List<ResultComponentInfo> co = rcInfo.getCreditOptions(); 
+            List<ResultValuesGroupInfo> co = rcInfo.getCreditOptions(); 
             
-            //assertEquals(3, co.size()); 
+            assertEquals(3, co.size()); 
             
             // Check to see if multiple was set properly
-//            for(ResultComponentInfo rc : co) { 
-//                if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(rc.getType())){
-//                    assertEquals(3, rc.getResultValues().size());
-//                    assertTrue(rc.getResultValues().contains("1.0"));
-//                    assertTrue(rc.getResultValues().contains("1.5"));
-//                    assertTrue(rc.getResultValues().contains("2.0"));                    
-//                }
-//                
-//                if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(rc.getType())){
-//                    if(3 == rc.getAttributes().size()) {
-//                        assertEquals(9, rc.getResultValues().size());
-//                        assertTrue(rc.getResultValues().contains("1.5"));
-//                    } else {                        
-//                        assertEquals(5, rc.getResultValues().size());
-//                        assertTrue(rc.getResultValues().contains("3.0"));
-//                    }
-//                }                
-//            }
+            for(ResultValuesGroupInfo rc : co) { 
+                if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(rc.getTypeKey())){
+                    assertEquals(3, rc.getResultValueKeys().size());
+                    assertTrue(rc.getResultValueKeys().contains("1.0"));
+                    assertTrue(rc.getResultValueKeys().contains("1.5"));
+                    assertTrue(rc.getResultValueKeys().contains("2.0"));                    
+                }
+                
+                if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(rc.getTypeKey())){
+                    if(3 == rc.getAttributes().size()) {
+                        assertEquals(9, rc.getResultValueKeys().size());
+                        assertTrue(rc.getResultValueKeys().contains("1.5"));
+                    } else {                        
+                        assertEquals(5, rc.getResultValueKeys().size());
+                        assertTrue(rc.getResultValueKeys().contains("3.0"));
+                    }
+                }                
+            }
                         
             
         } catch (Exception e) {
@@ -679,33 +699,30 @@ public class TestCourseServiceImpl{
                         
             assertNotNull(cInfo);
 
-//            Map<String, String> attrMap = new HashMap<String, String>();
-//            attrMap.put("finalExamStatus", "GRD");
-//            attrMap.put("altFinalExamStatusDescr", "Some123description");
-//            attrMap.put("proposalTitle", "proposalTitle-1");
-//            attrMap.put("proposalRationale", "proposalRationale");
-            
-            AttributeInfo rAttributeInfo= new AttributeInfo();
-            rAttributeInfo.setKey("KEY1");
-            rAttributeInfo.setValue("VALUE1");   
+            AttributeInfo rAttributeInfo = new AttributeInfo("finalExamStatus", "GRD");
+            AttributeInfo rAttributeInfo2 = new AttributeInfo("altFinalExamStatusDescr", "Some123description");
+            AttributeInfo rAttributeInfo3 = new AttributeInfo("proposalTitle", "proposalTitle-1");
+            AttributeInfo rAttributeInfo4 = new AttributeInfo("proposalRationale", "proposalRationale");
+                        
             List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
             attributes.add(rAttributeInfo);
+            attributes.add(rAttributeInfo2);
+            attributes.add(rAttributeInfo3);
+            attributes.add(rAttributeInfo4);
             cInfo.setAttributes(attributes);
-
-           // cInfo.setAttributes(attrMap);
 
             FormatInfo fInfo = new FormatInfo();
             fInfo.setTypeKey(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
             ActivityInfo aInfo = new ActivityInfo();
-            //aInfo.setActivityType(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
+            aInfo.setTypeKey(CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE);
             
             //Map<String, String> activityAttrs = new HashMap<String, String>();
            // activityAttrs.put("ACTIVITY_KEY", "ACTIVITY_VALUE");
             //aInfo.setAttributes(attrMap);
             
             AttributeInfo activityAttrs= new AttributeInfo();
-            activityAttrs.setKey("KEY1");
-            activityAttrs.setValue("VALUE1");   
+            activityAttrs.setKey("ACTIVITY_KEY");
+            activityAttrs.setValue("ACTIVITY_VALUE");   
             List<AttributeInfo> attrMap = new ArrayList<AttributeInfo>();
             attrMap.add(rAttributeInfo);
             aInfo.setAttributes(attrMap);
@@ -731,12 +748,12 @@ public class TestCourseServiceImpl{
 
             // CourseInfo rInfo = courseService.getCourse(cInfo.getId());
            
-          //  assertEquals("GRD", cInfo.getAttributes().get("finalExamStatus"));
-        //    assertEquals("Some123description", cInfo.getAttributes().get("altFinalExamStatusDescr"));
+            assertEquals("GRD", cInfo.getAttributes().contains("finalExamStatus"));
+            assertEquals("Some123description", cInfo.getAttributes().contains("altFinalExamStatusDescr"));
 
             
             // Check if the attributes are being set in the activity
-           // assertEquals("ACTIVITY_VALUE", cInfo.getFormats().get(0).getActivities().get(0).getAttributes().get("ACTIVITY_KEY"));
+            assertEquals("ACTIVITY_VALUE", cInfo.getFormats().get(0).getActivities().get(0).getAttributes().contains("ACTIVITY_KEY"));
             
         } catch (Exception e) {
             System.out.println("caught exception: " + e.getClass().getName());
@@ -753,17 +770,17 @@ public class TestCourseServiceImpl{
 
     }
 
-   // @Test
+    @Test
     public void testGetMetadata() {
         System.out.println("testGetMetadata");
         MetadataServiceImpl metadataService = new MetadataServiceImpl(courseService);
         metadataService.setUiLookupContext("classpath:lum-ui-test-lookup-context.xml");
-        Metadata metadata = metadataService.getMetadata("org.kuali.student.lum.course.dto.CourseInfo");
+        Metadata metadata = metadataService.getMetadata("org.kuali.student.r2.lum.course.dto.CourseInfo");
 
         Map<String, Metadata> properties = metadata.getProperties();
         assertTrue(properties.size() > 0);
 
-        assertTrue(properties.containsKey("state"));
+        assertTrue(properties.containsKey("stateKey"));
         assertTrue(properties.containsKey("campusLocations"));
 
         assertTrue(properties.containsKey("formats"));
@@ -806,7 +823,7 @@ public class TestCourseServiceImpl{
         
         // test that creating a new course version copies over statements
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
-        StatementTreeViewInfo createdTree = courseService.createCourseStatement(createdCourse.getId(), statementTreeViewInfo, contextInfo);
+        StatementTreeViewInfo createdTree =  R1R2ConverterUtil.convert(courseService.createCourseStatement(createdCourse.getId(), R1R2ConverterUtil.convert(statementTreeViewInfo, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo),StatementTreeViewInfo.class) ;
         assertNotNull(createdTree);
         
         CourseInfo newVersion = null;
@@ -824,11 +841,11 @@ public class TestCourseServiceImpl{
 
     }
 
-  //  @Test
+    @Test
     public void testGetCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         String courseId = "COURSE-STMT-1";
-        List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, null, null, contextInfo);
+        List<StatementTreeViewInfo> courseStatements =  R1R2ConverterUtil.convertLists(courseService.getCourseStatements(courseId, null, null, contextInfo),StatementTreeViewInfo.class);
         assertEquals(2, courseStatements.size());
         for (StatementTreeViewInfo tree : courseStatements) {
             checkTreeView(tree, false);
@@ -855,7 +872,7 @@ public class TestCourseServiceImpl{
         String courseId = "COURSE-STMT-1";
         String nlUsageTypeKey = "KUALI.RULE";
         String language = "en";
-        List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language, contextInfo);
+        List<StatementTreeViewInfo> courseStatements = R1R2ConverterUtil.convertLists(courseService.getCourseStatements(courseId, nlUsageTypeKey, language, contextInfo),StatementTreeViewInfo.class);
         assertEquals(2, courseStatements.size());
         for (StatementTreeViewInfo tree : courseStatements) {
             checkTreeView(tree, true);
@@ -868,45 +885,46 @@ public class TestCourseServiceImpl{
         final String courseId = "COURSE-STMT-1";
 
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
-        StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, statementTreeViewInfo, contextInfo);
+        StatementTreeViewInfo createdTree =  R1R2ConverterUtil.convert(courseService.createCourseStatement(courseId, R1R2ConverterUtil.convert(statementTreeViewInfo, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo),StatementTreeViewInfo.class);
         assertNotNull(createdTree);
         assertEquals(2, createdTree.getStatements().size());
     }
 
-    //@Test(expected = InvalidParameterException.class)
+    @Test(expected = InvalidParameterException.class)
     public void testCreateCourseStatement_duplicateTree() throws Exception {
         String courseId = "COURSE-STMT-1";
         String nlUsageTypeKey = "KUALI.RULE";
         String language = "en";
-        List<StatementTreeViewInfo> courseStatements = courseService.getCourseStatements(courseId, nlUsageTypeKey, language, contextInfo);
-        courseService.createCourseStatement(courseId, courseStatements.get(0), contextInfo);
+        List<StatementTreeViewInfo> courseStatements = R1R2ConverterUtil.convertLists(courseService.getCourseStatements(courseId, nlUsageTypeKey, language, contextInfo), StatementTreeViewInfo.class);
+        R1R2ConverterUtil.convert(courseService.createCourseStatement(courseId, R1R2ConverterUtil.convert(courseStatements.get(0),org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo), StatementTreeViewInfo.class);
+       
     }
 
-    //@Test(expected = MissingParameterException.class)
+    @Test(expected = MissingParameterException.class)
     public void testCreateCourseStatement_nullCourseId() throws Exception {
 
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
         @SuppressWarnings("unused")
-        StatementTreeViewInfo createdTree = courseService.createCourseStatement(null, statementTreeViewInfo, contextInfo);
+        StatementTreeViewInfo createdTree = R1R2ConverterUtil.convert(courseService.createCourseStatement(null, R1R2ConverterUtil.convert(statementTreeViewInfo, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo),StatementTreeViewInfo.class);
     }
 
-   // @Test(expected = MissingParameterException.class)
+   @Test(expected = MissingParameterException.class)
     public void testCreateCourseStatement_nullTree() throws Exception {
         String courseId = "COURSE-STMT-1";
 
         @SuppressWarnings("unused")
-        StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, null, contextInfo);
+        StatementTreeViewInfo createdTree = R1R2ConverterUtil.convert(courseService.createCourseStatement(courseId, null, contextInfo),StatementTreeViewInfo.class);
     }
 
-    //@Test(expected = DoesNotExistException.class)
+    @Test(expected = DoesNotExistException.class)
     public void testDeleteCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
         final String courseId = "COURSE-STMT-1";
 
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
-        StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, statementTreeViewInfo,contextInfo);
-        StatusInfo status = courseService.deleteCourseStatement(courseId, createdTree, contextInfo);
+        StatementTreeViewInfo createdTree = R1R2ConverterUtil.convert(courseService.createCourseStatement(courseId, R1R2ConverterUtil.convert(statementTreeViewInfo, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo),StatementTreeViewInfo.class);
+        StatusInfo status = courseService.deleteCourseStatement(courseId, R1R2ConverterUtil.convert(createdTree, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo);
         assertTrue(status.getIsSuccess());
-        List<StatementTreeViewInfo> statements = courseService.getCourseStatements(courseId, null, null, contextInfo);
+        List<StatementTreeViewInfo> statements = R1R2ConverterUtil.convertLists(courseService.getCourseStatements(courseId, null, null, contextInfo),StatementTreeViewInfo.class);
         for (StatementTreeViewInfo statement : statements) {
             if (statement.getId().equals(createdTree.getId())) {
                 fail("StatementTree not deleted from course");
@@ -915,57 +933,59 @@ public class TestCourseServiceImpl{
         statementService.getStatementTreeView(createdTree.getId());
     }
 
-    //@Test(expected = DoesNotExistException.class)
+    @Test(expected = DoesNotExistException.class)
     public void testDeleteCourseStatement_badTree() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         final String courseId = "COURSE-STMT-1";
 
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
-        courseService.deleteCourseStatement(courseId, statementTreeViewInfo, contextInfo);
+        courseService.deleteCourseStatement(courseId, R1R2ConverterUtil.convert(statementTreeViewInfo, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo);
+        
     }
 
-    //@Test(expected = DoesNotExistException.class)
+    @Test(expected = DoesNotExistException.class)
     public void testDeleteCourseStatement_badCourse() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
-        courseService.deleteCourseStatement("xxx", statementTreeViewInfo, contextInfo);
+        courseService.deleteCourseStatement("xxx", R1R2ConverterUtil.convert(statementTreeViewInfo, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo);
+        
     }
 
-    //@Test(expected = MissingParameterException.class)
+    @Test(expected = MissingParameterException.class)
     public void testDeleteCourseStatement_nullCourseId() throws Exception {
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
-        courseService.deleteCourseStatement(null, statementTreeViewInfo, contextInfo);
+        courseService.deleteCourseStatement(null, R1R2ConverterUtil.convert(statementTreeViewInfo, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo);
     }
 
-    //@Test(expected = MissingParameterException.class)
+    @Test(expected = MissingParameterException.class)
     public void testDeleteCourseStatement_nullTreeId() throws Exception {
         courseService.deleteCourseStatement("xxx", null, contextInfo);
     }
 
-    //@Test
+    @Test
     public void testUpdateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
         final String courseId = "COURSE-STMT-1";
 
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
-        StatementTreeViewInfo createdTree = courseService.createCourseStatement(courseId, statementTreeViewInfo, contextInfo);
+        StatementTreeViewInfo createdTree = R1R2ConverterUtil.convert(courseService.createCourseStatement(courseId, R1R2ConverterUtil.convert(statementTreeViewInfo, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo),StatementTreeViewInfo.class) ;
 
         List<ReqComponentInfo> reqCompList1 = new ArrayList<ReqComponentInfo>(3);
         ReqComponentInfo rc1 = new ReqComponentInfo();
-        //rc1.setDesc(toRichText("REQCOMP-1"));
-        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        rc1.setDescr(toRichText("REQCOMP-1"));
+        rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
         ReqComponentInfo rc2 = new ReqComponentInfo();
-       // rc2.setDesc(toRichText("REQCOMP-2"));
-        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        rc2.setDescr(toRichText("REQCOMP-2"));
+        rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
-        //subTree1.setDesc(toRichText("STMT-5"));
-        subTree1.setOperator(StatementOperatorTypeKey.AND);
-        subTree1.setType("kuali.statement.type.program.entrance");
+        subTree1.setDescr(toRichText("STMT-5"));
+        subTree1.setOperator(StatementOperator.AND);
+        subTree1.setTypeKey("kuali.statement.type.program.entrance");
         reqCompList1.add(rc1);
         reqCompList1.add(rc2);
         subTree1.setReqComponents(reqCompList1);
 
         StatementTreeViewInfo oldSubTree1 = createdTree.getStatements().get(0);
         createdTree.getStatements().set(0, subTree1);
-        StatementTreeViewInfo updatedTree = courseService.updateCourseStatement(courseId, courseId, statementTreeViewInfo, contextInfo);
-        assertEquals(createdTree.getStatements().get(0).getDesc().getPlain(), updatedTree.getStatements().get(0).getDesc().getPlain());
+        StatementTreeViewInfo updatedTree = R1R2ConverterUtil.convert(courseService.updateCourseStatement(courseId, courseId, R1R2ConverterUtil.convert(createdTree, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo),StatementTreeViewInfo.class) ;
+        assertEquals(createdTree.getStatements().get(0).getDescr().getPlain(), updatedTree.getStatements().get(0).getDescr().getPlain());
 
     }
 
@@ -976,8 +996,8 @@ public class TestCourseServiceImpl{
         final String courseId = "COURSE-STMT-1";
 
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
-        courseService.validateCourseStatement(courseId, statementTreeViewInfo, contextInfo);
-        List<ValidationResultInfo> validations = courseService.validateCourseStatement(courseId, statementTreeViewInfo, contextInfo);
+        courseService.validateCourseStatement(courseId, R1R2ConverterUtil.convert(statementTreeViewInfo, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo);
+        List<ValidationResultInfo> validations = courseService.validateCourseStatement(courseId, R1R2ConverterUtil.convert(statementTreeViewInfo, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo);
         assertTrue(isEmpty(validations));
     }
 
@@ -988,10 +1008,10 @@ public class TestCourseServiceImpl{
         final String courseId = "COURSE-STMT-1";
 
         StatementTreeViewInfo statementTreeViewInfo = createStatementTree();
-        statementTreeViewInfo.setType("an.example.of.a.bad.statementType");
-        statementTreeViewInfo.getStatements().get(0).setType("fictional.program");
+        statementTreeViewInfo.setTypeKey("an.example.of.a.bad.statementType");
+        statementTreeViewInfo.getStatements().get(0).setTypeKey("fictional.program");
         statementTreeViewInfo.getStatements().get(0).getReqComponents().set(0, createBadReqComponent());
-        List<ValidationResultInfo> validations = courseService.validateCourseStatement(courseId, statementTreeViewInfo, contextInfo);
+        List<ValidationResultInfo> validations = courseService.validateCourseStatement(courseId, R1R2ConverterUtil.convert(statementTreeViewInfo, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class), contextInfo);
         assertFalse(isEmpty(validations));
     }
 
@@ -999,26 +1019,26 @@ public class TestCourseServiceImpl{
         ReqComponentInfo reqCompInfo = new ReqComponentInfo();
         // reqCompInfo.setId("REQCOMP-NL-X");
         reqCompInfo.setId("1234567890123456789012345678901234567890");
-        reqCompInfo.setType("kuali.reqComponent.type.courseList.nof");
-        reqCompInfo.setState("Active");
+        reqCompInfo.setTypeKey("kuali.reqComponent.type.courseList.nof");
+        reqCompInfo.setStateKey("Active");
 
         List<ReqCompFieldInfo> fieldList = new ArrayList<ReqCompFieldInfo>();
 
         ReqCompFieldInfo field1 = new ReqCompFieldInfo();
         field1.setId("1234567890123456789012345678901234567890");
-        field1.setType("kuali.reqComponent.field.type.operator");
+        field1.setTypeKey("kuali.reqComponent.field.type.operator");
         field1.setValue("-1");
         fieldList.add(field1);
 
         ReqCompFieldInfo field2 = new ReqCompFieldInfo();
         field2.setId("2");
-        field2.setType("kuali.reqComponent.field.type.operator");
+        field2.setTypeKey("kuali.reqComponent.field.type.operator");
         field2.setValue("greater_than_or_equal_to42");
         fieldList.add(field2);
 
         ReqCompFieldInfo field3 = new ReqCompFieldInfo();
         field3.setId("3");
-        field3.setType("kuali.reqComponent.field.type.cluSet.id");
+        field3.setTypeKey("kuali.reqComponent.field.type.cluSet.id");
         field3.setValue("CLUSET-NL-Y");
         fieldList.add(field3);
 
@@ -1040,39 +1060,39 @@ public class TestCourseServiceImpl{
 
         // req components
         ReqComponentInfo rc1 = new ReqComponentInfo();
-       // rc1.setDescr(toRichText("REQCOMP-1"));
-        rc1.setType("kuali.reqComponent.type.course.courseset.completed.all");
+        rc1.setDescr(toRichText("REQCOMP-1"));
+        rc1.setTypeKey("kuali.reqComponent.type.course.courseset.completed.all");
         ReqComponentInfo rc2 = new ReqComponentInfo();
-        //rc2.setDescr(toRichText("REQCOMP-2"));
-        rc2.setType("kuali.reqComponent.type.course.courseset.gpa.min");
+        rc2.setDescr(toRichText("REQCOMP-2"));
+        rc2.setTypeKey("kuali.reqComponent.type.course.courseset.gpa.min");
         ReqComponentInfo rc3 = new ReqComponentInfo();
-        //rc3.setDescr(toRichText("REQCOMP-3"));
-        rc3.setType("kuali.reqComponent.type.course.courseset.completed.nof");
+        rc3.setDescr(toRichText("REQCOMP-3"));
+        rc3.setTypeKey("kuali.reqComponent.type.course.courseset.completed.nof");
         ReqComponentInfo rc4 = new ReqComponentInfo();
-       // rc4.setDescr(toRichText("REQCOMP-4"));
-        rc4.setType("kuali.reqComponent.type.course.permission.instructor.required");
+        rc4.setDescr(toRichText("REQCOMP-4"));
+        rc4.setTypeKey("kuali.reqComponent.type.course.permission.instructor.required");
 
         // statement tree views
       
         
         StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
 
-        //statementTree.setDesc(toRichText("STMT-1"));
-        statementTree.setOperator(StatementOperatorTypeKey.OR);
-        statementTree.setType("kuali.statement.type.program.entrance");
-        statementTree.setType("kuali.statement.type.course.academicReadiness.coreq");
+        statementTree.setDescr(toRichText("STMT-1"));
+        statementTree.setOperator(StatementOperator.OR);
+        //statementTree.setTypeKey("kuali.statement.type.program.entrance");
+        statementTree.setTypeKey("kuali.statement.type.course.academicReadiness.coreq");
 
         StatementTreeViewInfo subTree1 = new StatementTreeViewInfo();
-        //subTree1.setDesc(toRichText("STMT-2"));
-        subTree1.setOperator(StatementOperatorTypeKey.AND);
-        // subTree1.setType("kuali.statement.type.program.entrance");
-        subTree1.setType("kuali.statement.type.course.recommendedPreparation");
+        subTree1.setDescr(toRichText("STMT-2"));
+        subTree1.setOperator(StatementOperator.AND);
+        //ssubTree1.setType("kuali.statement.type.program.entrance");
+        subTree1.setTypeKey("kuali.statement.type.course.recommendedPreparation");
 
         StatementTreeViewInfo subTree2 = new StatementTreeViewInfo();
-       // subTree2.setDesc(toRichText("STMT-3"));
-        subTree2.setOperator(StatementOperatorTypeKey.AND);
-        subTree2.setType("kuali.statement.type.program.entrance");
-        subTree2.setType("kuali.statement.type.course.academicReadiness.antireq");
+        subTree2.setDescr(toRichText("STMT-3"));
+        subTree2.setOperator(StatementOperator.AND);
+        //subTree2.setType("kuali.statement.type.program.entrance");
+        subTree2.setTypeKey("kuali.statement.type.course.academicReadiness.antireq");
 
         // construct tree with statements and req components
         reqCompList1.add(rc1);
@@ -1138,7 +1158,7 @@ public class TestCourseServiceImpl{
      * This method checks for an UnsupportedOperationException to be thrown from the methods in the created list.
      * 
      */
-    //@Test
+    @Test
     public void testExpectedUnsupported() throws Exception {
         String[] unsupportedOperations = {"getCourseActivities", "getCourseFormats", "getCourseLos"};
         
@@ -1188,20 +1208,20 @@ public class TestCourseServiceImpl{
         }
     }
     
-   // @Test
+    @Test
     public void testGetVersionMethodsForInvalidParameters() throws Exception {
         String[] getVersionMethods = {"getVersionBySequenceNumber", "getVersions", "getFirstVersion", "getVersionsInDateRange", "getCurrentVersion", "getCurrentVersionOnDate"};
         
         // build an object array with the appropriate number of arguments for each version method to be called
-        Object[][] getVersionParams = {new Object[3], new Object[2], new Object[2], new Object[4], new Object[2], new Object[3]};
+        Object[][] getVersionParams = {new Object[4], new Object[3], new Object[3], new Object[5], new Object[3], new Object[4]};
         
         // build a class array with the parameter types for each method call
-        Class<?>[][] getVersionParamTypes = {{String.class, String.class, Long.class}, // for getVersionBySequenceNumber
-                {String.class, String.class}, // for getVersions
-                {String.class, String.class}, // for getFirstVersion
-                {String.class, String.class, Date.class, Date.class}, // for getVersionsInDateRange
-                {String.class, String.class}, // for getCurrentVersion
-                {String.class, String.class, Date.class}}; // for getCurrentVersionOnDate
+        Class<?>[][] getVersionParamTypes = {{String.class, String.class, Long.class, ContextInfo.class}, // for getVersionBySequenceNumber
+                {String.class, String.class, ContextInfo.class}, // for getVersions
+                {String.class, String.class, ContextInfo.class}, // for getFirstVersion
+                {String.class, String.class, Date.class, Date.class,  ContextInfo.class}, // for getVersionsInDateRange
+                {String.class, String.class, ContextInfo.class}, // for getCurrentVersion
+                {String.class, String.class, Date.class, ContextInfo.class}}; // for getCurrentVersionOnDate
         
         String badRefObjectTypeURI = "BADBADBAD";
         Collection<ServiceMethodInvocationData> methods = new ArrayList<ServiceMethodInvocationData>(getVersionMethods.length);
@@ -1221,7 +1241,7 @@ public class TestCourseServiceImpl{
         invokeForExpectedException(methods, InvalidParameterException.class);
     }
     
-   // @Test
+   @Test
     public void testGetCurrentVersion() throws Exception {
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
@@ -1240,7 +1260,7 @@ public class TestCourseServiceImpl{
         assertEquals(createdCourse.getVersionInfo().getSequenceNumber(),versionInfo.getSequenceNumber());
     }
     
-    //@Test
+    @Test
     public void testGetCurrentVersionOnDate() throws Exception {
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
@@ -1274,7 +1294,7 @@ public class TestCourseServiceImpl{
         assertEquals(createdCourse.getVersionInfo().getSequenceNumber(), versionInfo.getSequenceNumber());
     }
     
-    //@Test
+    @Test
     public void testGetVersions() throws Exception {
         
         CourseDataGenerator generator = new CourseDataGenerator();
@@ -1297,7 +1317,7 @@ public class TestCourseServiceImpl{
         assertEquals(2, versions.size());
     }
     
-    //@Test
+    @Test
     public void testGetFirstVersion() throws Exception {
         
         CourseDataGenerator generator = new CourseDataGenerator();
@@ -1316,7 +1336,7 @@ public class TestCourseServiceImpl{
         //assertEquals(firstVersion.getSequenceNumber(), createdCourse.getVersionInfo().getSequenceNumber());
     }
     
-   // @Test
+   @Test
     public void testGetVersionBySequenceNumber() throws Exception {
         
         CourseDataGenerator generator = new CourseDataGenerator();
@@ -1336,7 +1356,7 @@ public class TestCourseServiceImpl{
         //assertEquals(secondVersion.getSequenceNumber(), version2.getVersionInfo().getSequenceNumber());
     }
     
-    //@Test
+    @Test
     public void testGetVersionsInDateRange() throws Exception {
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();

@@ -7,6 +7,7 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -48,14 +49,18 @@ public class CourseDataGenerator {
     public CourseInfo getCourseTestData() throws IntrospectionException, InstantiationException, IllegalAccessException, IllegalArgumentException, SecurityException, InvocationTargetException, NoSuchFieldException {
         CourseInfo testData = generateTestData(CourseInfo.class, 0, 0, null);
 
-         testData.getAttributes().add(new AttributeInfo("proposalTitle", "proposalTitle-1"));
-         testData.getAttributes().add(new AttributeInfo("proposalRationale", "proposalRationale"));         
-         List<String> creditOptions = new ArrayList<String>();
-         creditOptions.add("kuali.resultComponentType.degree");
-         creditOptions.add("kuali.resultComponentType.credit.degree.range");
-         creditOptions.add("kuali.resultComponentType.credit.degree.fixed");
-         creditOptions.add("kuali.resultComponentType.grade.finalGrade");
-         testData.setCreditOptions(creditOptions);
+        testData.getAttributes().add(new AttributeInfo("proposalTitle", "proposalTitle-1"));
+        testData.getAttributes().add(new AttributeInfo("proposalRationale", "proposalRationale"));         
+         
+        testData.getCreditOptions().get(0).getResultValueKeys().set(0, "1");
+        testData.getCreditOptions().get(0).getResultValueKeys().set(1, "2");
+        testData.getCreditOptions().get(1).getResultValueKeys().set(0, "3");
+        testData.getCreditOptions().get(1).getResultValueKeys().set(1, "4");
+        for (ResultValuesGroupInfo resultComponent : testData.getCreditOptions()) {
+            resultComponent.getAttributes().add(new AttributeInfo("minCreditValue", "2"));
+            resultComponent.getAttributes().add(new AttributeInfo("maxCreditValue", "5"));
+            resultComponent.getAttributes().add(new AttributeInfo("fixedCreditValue", "11"));
+        }
         return testData;
     }
 
