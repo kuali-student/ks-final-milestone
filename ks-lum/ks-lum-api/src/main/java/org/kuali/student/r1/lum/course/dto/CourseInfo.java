@@ -19,6 +19,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.r1.common.dto.HasAttributes;
 import org.kuali.student.r1.common.dto.HasTypeState;
 import org.kuali.student.r1.common.dto.Idable;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
@@ -126,7 +127,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private List<String> gradingOptions;
 
     @XmlElement
-    private List<String> creditOptions;
+    private List<ResultComponentInfo> creditOptions;
 
     @XmlElement
     private boolean specialTopicsCourse;
@@ -484,14 +485,14 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Credit outcomes from taking the course
      */
-    public List<String> getCreditOptions() {
+    public List<ResultComponentInfo> getCreditOptions() {
         if (creditOptions == null) {
-            creditOptions = new ArrayList<String>(0);
+            creditOptions = new ArrayList<ResultComponentInfo>(0);
         }
         return creditOptions;
     }
 
-    public void setCreditOptions(List<String> creditOptions) {
+    public void setCreditOptions(List<ResultComponentInfo> creditOptions) {
         this.creditOptions = creditOptions;
     }
 
