@@ -42,39 +42,54 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
         <property name="items">
             <list>
-                <bean parent="Uif-MaintenanceGridSection">
-                    <property name="headerText" value="Create a New Activity Offering"/>
+
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="headerText" value="Edit Activity Offering"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.id" p:readOnly="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.stateKey" p:readOnly="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.typeKey" p:readOnly="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.termId" p:defaultValue="2012WINTER">
-                                <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.aoInfo.TermInfo"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="code" value="aoInfo.id"/>
-                                    </map>
-                                </property>-->
-                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityCode"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.activityId" p:defaultValue="CLU-4"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.formatOfferingId" p:label="Format Offering Id" p:defaultValue="Lui-fo-2"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.maximumEnrollment" p:label="Total Maximum Enrollment"/>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isMaxEnrollmentEstimate" p:label="Maximum Enrollment is an estimate">
-                                    <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:label="Edit" p:propertyName="aoInfo.courseOfferingCode" p:readOnly="true" p:defaultValue="ENGL293C"/>
+                                        <bean parent="Uif-DataField" p:label="-" p:propertyName="aoInfo.courseOfferingTitle" p:fieldLabel.renderColon="false" p:readOnly="true" p:defaultValue="Intro to English Literature in the Victorian Era (LEC)"/>
+                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isEvaluated" p:label="This course requires an evaluation">
-                                    <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
+
+                            <bean parent="Uif-DataField" p:label="Status" p:propertyName="aoInfo.stateKey"/>
+                            <bean parent="Uif-DataField" p:label="Term" p:propertyName="aoInfo.termCode" p:readOnly="true" p:defaultValue="Fall 2012"/>
+
+
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="aoInfo.typeKey" p:readOnly="true"/>
+                                        <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true" p:defaultValue="Lecture"/>
+                                    </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="aoInfo.isHonorsOffering" p:required="false">
-                                <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
+
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="performSave"/>
+                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="cancel"/>
+                                    </list>
                                 </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="headerText" value="Activity Offering Information"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment" p:defaultValue="100">
+                            <property name="control">
+                                <bean parent="Uif-TextControl" p:size="3"/>
+                            </property>
                             </bean>
                         </list>
                     </property>
@@ -123,7 +138,6 @@
             <list/>
         </property>
     </bean>
-
 
       <bean id="ActivityOfferingMaintenanceDocument" parent="ActivityOfferingMaintenanceDocument-parentBean"/>
 
