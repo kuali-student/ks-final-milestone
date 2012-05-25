@@ -62,6 +62,9 @@ public class LprTransactionInfo extends IdEntityInfo implements LprTransaction, 
 
     @Override
     public List<LprTransactionItemInfo> getLprTransactionItems() {
+        if (this.lprTransactionItems == null) {
+            this.lprTransactionItems = new ArrayList<LprTransactionItemInfo>();
+        }
         return lprTransactionItems;
     }
 
