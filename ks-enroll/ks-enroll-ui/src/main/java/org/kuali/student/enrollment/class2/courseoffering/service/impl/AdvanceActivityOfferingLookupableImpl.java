@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -17,7 +16,6 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -59,16 +57,23 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
             //get courseOfferingId based on courseOfferingCode
             if (StringUtils.isNotBlank(courseOfferingCode)) {
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                qbcBuilder.setPredicates(PredicateFactory.equal(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_CODE, courseOfferingCode));
                 QueryByCriteria criteria = qbcBuilder.build();
 
                 //Do search.  In ideal case, returns one element, which is the desired CO.
                 List<CourseOfferingInfo> courseOfferingList = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
-                if(courseOfferingList!=null && courseOfferingList.size()>0){
+                //Just a quick fix as PredicateFactory doesnt support search within collections
+                List<CourseOfferingInfo> finalResult = new ArrayList<CourseOfferingInfo>();
+                for (CourseOfferingInfo coInfo : courseOfferingList){
+                    if (StringUtils.equalsIgnoreCase(coInfo.getCourseOfferingCode(),courseOfferingCode)){
+                        finalResult.add(coInfo);
+                    }
+                }
+
+                if(finalResult!=null && finalResult.size()>0){
                     // Always get first CO
-                    courseOfferingId = courseOfferingList.get(0).getId();
+                    courseOfferingId = finalResult.get(0).getId();
                     System.out.println(">>> courseOfferingId = "+courseOfferingId);
-                    if(courseOfferingList.size()>1){
+                    if(finalResult.size()>1){
                         //TODO: need to log --> find more than one CO for specified courseOfferingCode
                         System.out.println(">>Alert: find more than one CO for specified courseOfferingCode: "+courseOfferingCode);
                     }
