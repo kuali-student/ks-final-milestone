@@ -13,7 +13,7 @@ import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.registration.form.RegistrationForm;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
 import java.util.List;
@@ -47,9 +47,9 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
                     */
                 }
 
-                if (form.getRegRequest() != null && form.getRegRequest().getRegRequestItems() != null) {
-                    for (RegRequestItemInfo regRequestItemInfo : form.getRegRequest().getRegRequestItems()) {
-                        String regGroupId = regRequestItemInfo.getNewRegGroupId();
+                if (form.getRegRequest() != null && form.getRegRequest().getRegistrationRequestItems() != null) {
+                    for (RegistrationRequestItemInfo regRequestItemInfo : form.getRegRequest().getRegistrationRequestItems()) {
+                        String regGroupId = regRequestItemInfo.getNewRegistrationGroupId();
                         if (StringUtils.isNotBlank(regGroupId)) {
                             // find the regGroupWrapper that matches the id from the supplemental list
                             //RegistrationGroupWrapper regGroupWrapper = form.getRegistrationGroupWrappersById().get(regGroupId);
@@ -106,8 +106,8 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
 
     public void checkSubmitItemRender(Component component, RegistrationForm form){
         boolean render = false;
-        if(form.getRegRequest() != null && form.getRegRequest().getRegRequestItems() != null
-                && !form.getRegRequest().getRegRequestItems().isEmpty()){
+        if(form.getRegRequest() != null && form.getRegRequest().getRegistrationRequestItems() != null
+                && !form.getRegRequest().getRegistrationRequestItems().isEmpty()){
             render = true;
         }
         component.setRender(render);
@@ -115,8 +115,8 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
 
     public void checkRenderCartEmpty(Component component, RegistrationForm form){
         boolean render = true;
-        if(form.getRegRequest() != null && form.getRegRequest().getRegRequestItems() != null
-                && !form.getRegRequest().getRegRequestItems().isEmpty()){
+        if(form.getRegRequest() != null && form.getRegRequest().getRegistrationRequestItems() != null
+                && !form.getRegRequest().getRegistrationRequestItems().isEmpty()){
             render = false;
         }
         component.setRender(render);

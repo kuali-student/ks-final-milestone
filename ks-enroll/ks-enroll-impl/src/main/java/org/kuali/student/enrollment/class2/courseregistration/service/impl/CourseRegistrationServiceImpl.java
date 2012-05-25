@@ -14,18 +14,16 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.util.PropositionBuilder;
 import org.kuali.student.core.statement.util.RulesEvaluationUtil;
-import org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler;
-import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler;
-import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler;
+
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
@@ -60,20 +58,26 @@ import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
-public class CourseRegistrationServiceImpl implements CourseRegistrationService {
+
+public class CourseRegistrationServiceImpl 
+    extends AbstractCourseRegistrationService
+    implements CourseRegistrationService {
 
     private LprService lprService;
     private LprRosterService lprRosterService;
     private CourseOfferingService courseOfferingService;
-    private RegRequestAssembler regRequestAssembler;
+    /*    private RegRequestAssembler regRequestAssembler;
     private RegResponseAssembler regResponseAssembler;
-    private CourseRegistrationAssembler courseRegistrationAssembler;
+    private CourseRegistrationAssembler courseRegistrationAssembler;*/
     private StatementService statementService;
     private CourseService courseService;
     private PropositionBuilder propositionBuilder;
     private RulesEvaluationUtil rulesEvaluationUtil;
     private ProcessService processService;
     private LRCService lrcService;
+
+    /*************
+     Core-slice code
 
     public ProcessService getProcessService() {
         return processService;
@@ -865,4 +869,5 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 		// TODO Auto-generated method stub
 		return null;
 	}
+    **********/
 }

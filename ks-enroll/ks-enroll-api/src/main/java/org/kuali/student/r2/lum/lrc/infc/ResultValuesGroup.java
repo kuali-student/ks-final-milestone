@@ -47,7 +47,7 @@ public interface ResultValuesGroup extends KeyEntity, HasEffectiveDates {
     public List<String> getResultValueKeys();
 
     /**
-     * The  range contained within this result value group. This is
+     * The range contained within this result value group. This is
      * optional and might not be present for some Result Components
      * 
      * @name Result Value Range

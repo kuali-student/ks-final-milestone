@@ -296,7 +296,7 @@ public interface LprRosterService {
      * Updates an existing LprRoster. The LprRoster Id, Type, and Meta
      * information may not be changed.
      *
-     * @param lprRosterId the identifier for the LpRoster to be
+     * @param lprRosterId the identifier for the LprRoster to be
      *        updated
      * @param lprRosterInfo the new data for the LprRoster
      * @param contextInfo information containing the principalId and
@@ -633,7 +633,7 @@ public interface LprRosterService {
      * Updates an existing LprRosterEntry. The LprRosterEntry Id,
      * Type, and Meta information may not be changed.
      *
-     * @param lprRosterEntryId the identifier for the LpRosterEntry to
+     * @param lprRosterEntryId the identifier for the LprRosterEntry to
      *        be updated
      * @param lprRosterEntryInfo the new data for the LprRosterEntry
      * @param contextInfo information containing the principalId and

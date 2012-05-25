@@ -5,7 +5,7 @@ import java.util.List;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitlistService;
 import org.kuali.student.enrollment.lpr.service.LprService;
@@ -121,7 +121,7 @@ public class CourseWaitlistServiceImpl implements CourseWaitlistService {
     }
 
     @Override
-    public RegResponseInfo registerStudentFromWaitlist(String courseWaitlistEntryId, ContextInfo context) throws
+    public RegistrationResponseInfo registerStudentFromWaitlist(String courseWaitlistEntryId, ContextInfo context) throws
             AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("not implemented");

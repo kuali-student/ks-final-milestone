@@ -71,8 +71,6 @@ public class EnrolledCoursesResolver implements TermResolver<Collection<String>>
                     results.add(courseRegInfo.getCourseOfferingId());
                 }
             }
-        } catch (DoesNotExistException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters, e);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters, e);
         } catch (MissingParameterException e) {

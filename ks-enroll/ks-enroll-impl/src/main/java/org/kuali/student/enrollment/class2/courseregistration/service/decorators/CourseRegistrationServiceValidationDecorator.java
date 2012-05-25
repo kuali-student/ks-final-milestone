@@ -1,8 +1,6 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.decorators;
 
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceDecorator;
+//import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceDecorator;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
@@ -22,6 +20,6 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseRegistrationServiceValidationDecorator extends CourseRegistrationServiceDecorator {
+public class CourseRegistrationServiceValidationDecorator { // extends CourseRegistrationServiceDecorator {
 
 }

@@ -7,7 +7,7 @@ package org.kuali.student.r2.core.class1.process;
 import java.util.ArrayList;
 import java.util.List;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceDecorator;
+import org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceDecorator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -24,14 +24,16 @@ import org.kuali.student.r2.core.class1.process.evaluator.ProcessEvaluator;
  *
  * @author nwright
  */
-public class CourseRegistrationServiceProcessCheckDecorator extends CourseRegistrationServiceDecorator {
+public class CourseRegistrationServiceProcessCheckDecorator 
+    extends CourseRegistrationServiceDecorator {
 
     public CourseRegistrationServiceProcessCheckDecorator() {
     }
 
     public CourseRegistrationServiceProcessCheckDecorator(CourseRegistrationService nextDecorator) {
-        super(nextDecorator);
+         setNextDecorator(nextDecorator);
     }
+
     private ProcessEvaluator<CourseRegistrationProcessContextInfo> processEvaluator;
 
     public ProcessEvaluator<CourseRegistrationProcessContextInfo> getProcessEvaluator() {

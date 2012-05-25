@@ -26,9 +26,9 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -54,152 +54,6 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 public abstract class AbstractCourseRegistrationService
     implements CourseRegistrationService {
 
-    @Override
-    public  List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public List<ValidationResultInfo> checkStudentEligibilityForTerm(String studentId, String termId, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public List<ValidationResultInfo> checkStudentEligibiltyForCourseOffering(String studentId, String courseOfferingId, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public List<ValidationResultInfo> checkStudentEligibiltyForRegGroup(String studentId, String regGroupId, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public List<RegistrationGroupInfo> getEligibleRegGroupsForStudentInCourseOffering(String studentId, String courseOfferingId, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-    
-    @Override
-    public LoadInfo calculateCreditLoadForTerm(String studentId, String termId, ContextInfo contextInfo)
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public LoadInfo calculateCreditLoadForRegRequest(String studentId, RegRequestInfo regRequestInfo, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-    
-    @Override
-    public Integer getAvailableSeatsForCourseOffering(String courseOfferingId, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public Integer getAvailableSeatsForRegGroup(String regGroupId, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public Integer getAvailableSeatsForStudentInRegGroup(String studentId, String regGroupId, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public Integer getAvailableSeatsInSeatPool(String seatPoolId, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-    
-    @Override
-    public RegRequestInfo createRegRequest(String regRequestTypeKey, RegRequestInfo regRequestInfo, ContextInfo contextInfo)
-        throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public RegRequestInfo updateRegRequest(String regRequestId, RegRequestInfo regRequestInfo, ContextInfo contextInfo) 
-        throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-    
-    @Override
-    public StatusInfo deleteRegRequest(String regRequestId, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateRegRequest(String validationTypeKey, String regRequestTypeKey, RegRequestInfo regRequestInfo, ContextInfo contextInfo)
-        throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-    
-    @Override
-    public List<ValidationResultInfo> verifyRegRequestForSubmission(String regRequestId, ContextInfo contextInfo)
-        throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-    
-    @Override
-    public RegRequestInfo createRegRequestFromExisting(String existingRegRequestId, ContextInfo contextInfo)
-        throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public RegRequestInfo getRegRequest(String regRequestId, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public List<RegRequestInfo> getRegRequestsByIds(List<String> regRequestIds, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public List<RegRequestInfo> getUnsubmittedRegRequestsByRequestorAndTerm(String requestorId, String termId, ContextInfo contextInfo) 
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
 
     @Override
     public CourseRegistrationInfo getCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
@@ -207,7 +61,7 @@ public abstract class AbstractCourseRegistrationService
 
         throw new OperationFailedException("unimplemented");
     }
-    
+
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByIds(List<String> courseRegistrationIds, ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -216,78 +70,287 @@ public abstract class AbstractCourseRegistrationService
     }
 
     @Override
-    public List<String> getCourseRegistrationIdsByType(String courseRegistrationTypeKey, ContextInfo contextInfo)
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-    
-    @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsByStudent(String studentId, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
-    }
-
-    @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndCourseOffering(String studentId, String courseOfferingId, ContextInfo contextInfo) 
+    public List<String> getCourseRegistrationIdsByType(String courseRegistrationTypeKey,ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
     }
 
+
     @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndTerm(String studentId, String termId, ContextInfo contextInfo) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<CourseRegistrationInfo> getCourseRegistrationsByStudent(String studentId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
     }
+
 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByCourseOffering(String courseOfferingId, ContextInfo contextInfo)
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
     }
-    
+
+
+    @Override
+    public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndCourseOffering(String studentId, String courseOfferingId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+
+    @Override
+    public List<CourseRegistrationInfo> getCourseRegistrationsByStudentAndTerm(String studentId, String termId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+
+    @Override
+    public List<String> searchForCourseRegistrationIds(QueryByCriteria criteria,ContextInfo contextInfo)
+        throws InvalidParameterException,MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+
     @Override
     public List<CourseRegistrationInfo> searchForCourseRegistrations(QueryByCriteria criteria, ContextInfo contextInfo)
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throws InvalidParameterException,MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
     }
-    
-    @Override
-    public List<RegRequestItemInfo> getRegRequestItemsByCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        throw new OperationFailedException("unimplemented");
-    }
-    
     @Override
-    public List<RegRequestItemInfo> getRegRequestItemsByCourseOfferingAndStudent(String courseOfferingId, String studentId, ContextInfo contextInfo) 
+    public ActivityRegistrationInfo getActivityRegistration(String activityRegistrationId, ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
     }
 
     @Override
-    public List<String> searchForCourseRegistrationIds(QueryByCriteria criteria, ContextInfo contextInfo)
+    public List<ActivityRegistrationInfo> getActivityRegistrationsByIds(List<String> activityRegistrationIds, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<String> getActivityRegistrationIdsByType(String activityRegistrationTypeKey, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
     }
-    
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsByCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsByStudent(String studentId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsByActivityOffering(String courseOfferingId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsByStudentAndActivityOffering(String studentId, String courseOfferingId, ContextInfo contextInfo) 
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsByStudentAndTerm(String studentId, String termId, ContextInfo contextInfo) 
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<String> searchForActivityRegistrationIds(QueryByCriteria criteria, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+
     @Override
     public List<ActivityRegistrationInfo> searchForActivityRegistrations(QueryByCriteria criteria, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
     }
-    
+
     @Override
-    public List<String> searchForActivityRegistrationIds(QueryByCriteria criteria, ContextInfo contextInfo) 
+    public RegistrationRequestInfo getRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<RegistrationRequestInfo> getRegistrationRequestsByIds(List<String> registrationRequestIds, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<String> getRegistrationRequestIdsByType(String registrationRequestTypeKey,  ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<RegistrationRequestInfo> getRegistrationRequestsByPerson(String personId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<RegistrationRequestInfo> getUnsubmittedRegistrationRequestsByRequestorAndTerm(String requestorId, String termId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<String> searchForRegistrationRequestIds(QueryByCriteria criteria, ContextInfo contextInfo)
+        throws InvalidParameterException,MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<RegistrationRequestInfo> searchForRegistrationRequests(QueryByCriteria criteria, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateRegistrationRequest(String validationTypeKey, String registrationRequestTypeKey, RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo) 
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public RegistrationRequestInfo createRegistrationRequest(String registrationRequestTypeKey, RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo)
+        throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public RegistrationRequestInfo createRegistrationRequestFromExisting(String registrationRequestId, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public RegistrationRequestInfo updateRegistrationRequest(String registrationRequestId, RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo)
+        throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public StatusInfo deleteRegistrationRequest(String registrationRequestId, ContextInfo contextInfo) 
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> verifyRegistrationRequestForSubmission(String registrationRequestId, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo) 
+        throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsByCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsByCourseOfferingAndStudent(String courseOfferingId, String studentId, ContextInfo contextInfo) 
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo contextInfo) 
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> checkStudentEligibilityForTerm(String studentId, String termId, ContextInfo contextInfo) 
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> checkStudentEligibiltyForCourseOffering(String studentId, String courseOfferingId, ContextInfo contextInfo) 
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> checkStudentEligibiltyForRegistrationGroup(String studentId, String registrationGroupId,  ContextInfo contextInfo) 
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public List<RegistrationGroupInfo> getEligibleRegistrationGroupsForStudentInCourseOffering(String studentId, String courseOfferingId, ContextInfo contextInfo) 
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+
+    }@Override
+    public LoadInfo calculateCreditLoadForTerm(String studentId, String termId, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public LoadInfo calculateCreditLoadForRegistrationRequest(String studentId, String registrationRequestId, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException,  OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
     }

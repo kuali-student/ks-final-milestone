@@ -7,11 +7,11 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceDecorator;
+//import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceDecorator;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -27,12 +27,13 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
 
-public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegistrationServiceDecorator implements HoldsPermissionService{
+public class CourseRegistrationServiceAuthorizationDecorator { //extends CourseRegistrationServiceDecorator implements HoldsPermissionService{
     public static final String ENRLLMENT_NAMESPACE = "KS-ENROLL";
     public static final String SERVICE_NAME = "CourseRegistrationService.";
     
 	private PermissionService permissionService;
-		
+
+    /**********		
 	@Override
 	public PermissionService getPermissionService() {
 		return permissionService;
@@ -607,7 +608,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 		return getNextDecorator().getCourseRegistrationsByCourseOffering(courseOfferingId, context);
 	}
 
-
+    *******/
 	
 	
 

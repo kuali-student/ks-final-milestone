@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package org.kuali.student.r2.core.process;
 
 import org.junit.After;
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
@@ -42,8 +44,11 @@ import static org.junit.Assert.assertTrue;
  *
  * @author nwright
  */
+
 @Ignore // TODO: re-enable after refactoring
 public class ProcessPocJavaIntegrationTest {
+
+    private CourseRegistrationService service = null;
 
     public ProcessPocJavaIntegrationTest() {
     }
@@ -55,12 +60,10 @@ public class ProcessPocJavaIntegrationTest {
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
-    private CourseRegistrationService service = null;
 
     @Before
     public void setUp() {
-        CourseRegistrationServiceProcessCheckDecorator decorator = new CourseRegistrationServiceProcessCheckDecorator();
-        decorator.setNextDecorator(new CourseRegistrationServiceMockImpl());
+        CourseRegistrationService decorator = new CourseRegistrationServiceProcessCheckDecorator(new CourseRegistrationServiceMockImpl());
 
         IdentityService identityService = new IdentityServiceMockImpl();
         identityService = new ProcessPocIdentityServiceDecorator(identityService);

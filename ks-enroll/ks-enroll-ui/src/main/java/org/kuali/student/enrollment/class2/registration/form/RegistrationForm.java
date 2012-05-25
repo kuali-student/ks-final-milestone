@@ -45,7 +45,7 @@ public class RegistrationForm extends UifFormBase {
     private List<CourseRegistrationInfo> courseRegistrations;
     private Map<String,RegistrationGroupWrapper> registrationGroupWrappersById;
 
-    private RegRequestInfo regRequest;
+    private RegistrationRequestInfo regRequest;
 
     public RegistrationForm(){
         super();
@@ -101,11 +101,11 @@ public class RegistrationForm extends UifFormBase {
         this.registrationGroupWrappersById = registrationGroupWrappersById;
     }
 
-    public RegRequestInfo getRegRequest() {
+    public RegistrationRequestInfo getRegRequest() {
         return regRequest;
     }
 
-    public void setRegRequest(RegRequestInfo regRequest) {
+    public void setRegRequest(RegistrationRequestInfo regRequest) {
         this.regRequest = regRequest;
     }
 
@@ -147,9 +147,9 @@ public class RegistrationForm extends UifFormBase {
         List<MeetingScheduleWrapper> meetingScheduleWrappers = new ArrayList<MeetingScheduleWrapper>();
         if(getRegRequest() != null){
             // first loop all the items in the reg request
-            for (RegRequestItemInfo regRequestItemInfo : getRegRequest().getRegRequestItems()) {
+            for (RegistrationRequestItemInfo regRequestItemInfo : getRegRequest().getRegistrationRequestItems()) {
                 // find the regGroupId of the current item
-                String regGroupId = (StringUtils.isNotBlank(regRequestItemInfo.getNewRegGroupId())) ? regRequestItemInfo.getNewRegGroupId() : regRequestItemInfo.getExistingRegGroupId();
+                String regGroupId = (StringUtils.isNotBlank(regRequestItemInfo.getNewRegistrationGroupId())) ? regRequestItemInfo.getNewRegistrationGroupId() : regRequestItemInfo.getExistingRegistrationGroupId();
                 // find the regGroupWrapper that matches the id from the supplemental list
                 RegistrationGroupWrapper regGroupWrapper = getRegistrationGroupWrappersById().get(regGroupId);
                 // if no valid regGroupWrapper object can be found something is wrong with the RegistrationContoller method that adds courses to the cart
