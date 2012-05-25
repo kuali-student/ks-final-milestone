@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.r2.core.class1.scheduling.impl;
+package org.kuali.student.r2.core.class1.scheduling.service.impl;
 
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
@@ -38,7 +39,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
     private Map<String, ScheduleBatchRespInfo> scheduleBatchResponseMap = new LinkedHashMap<String, ScheduleBatchRespInfo>();
     private Map<String, ScheduleRespInfo> scheduleResponseMap = new LinkedHashMap<String, ScheduleRespInfo>();
 
-    public SchedulingServiceMockImpl () {
+    public boolean loadData() {
         // M W F 8 - 8.50
         TimeSlotInfo ts = new TimeSlotInfo();
         List<Integer> dow = new ArrayList<Integer>();
@@ -49,7 +50,11 @@ public class SchedulingServiceMockImpl implements SchedulingService
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
         tod.setMilliSeconds((long) (8 * 60 * 60 * 1000 + 50 * 60 * 1000));
-        timeSlotsMap.put("1", ts);
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("1");
+        timeSlotsMap.put(ts.getId(), ts);
 
         // M W F 8 - 9.10
         ts = new TimeSlotInfo();
@@ -61,7 +66,11 @@ public class SchedulingServiceMockImpl implements SchedulingService
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
         tod.setMilliSeconds((long) (8 * 60 * 60 * 1000 + 70 * 60 * 1000));
-        timeSlotsMap.put("2", ts);
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("2");
+        timeSlotsMap.put(ts.getId(), ts);
 
         // T TH 8 - 8.50
         ts = new TimeSlotInfo();
@@ -73,7 +82,11 @@ public class SchedulingServiceMockImpl implements SchedulingService
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
         tod.setMilliSeconds((long) (8 * 60 * 60 * 1000 + 50 * 60 * 1000));
-        timeSlotsMap.put("3", ts);
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("3");
+        timeSlotsMap.put(ts.getId(), ts);
 
         // T TH 8 - 9.10
         ts = new TimeSlotInfo();
@@ -85,7 +98,11 @@ public class SchedulingServiceMockImpl implements SchedulingService
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
         tod.setMilliSeconds((long) (8 * 60 * 60 * 1000 + 70 * 60 * 1000));
-        timeSlotsMap.put("4", ts);
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("4");
+        timeSlotsMap.put(ts.getId(), ts);
 
         // M W F 10 - 10.50
         ts = new TimeSlotInfo();
@@ -97,7 +114,11 @@ public class SchedulingServiceMockImpl implements SchedulingService
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
         tod.setMilliSeconds((long) (10 * 60 * 60 * 1000 + 50 * 60 * 1000));
-        timeSlotsMap.put("5", ts);
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("5");
+        timeSlotsMap.put(ts.getId(), ts);
 
         // M W F 10 - 11.10
         ts = new TimeSlotInfo();
@@ -109,8 +130,13 @@ public class SchedulingServiceMockImpl implements SchedulingService
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
         tod.setMilliSeconds((long) (11 * 60 * 60 * 1000 + 70 * 60 * 1000));
-        timeSlotsMap.put("6", ts);
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("6");
+        timeSlotsMap.put(ts.getId(), ts);
 
+        return true;
     }
     /////////////////////////////
     // Implementing Methods
@@ -650,10 +676,10 @@ public class SchedulingServiceMockImpl implements SchedulingService
 		      ,OperationFailedException
 		      ,PermissionDeniedException
 	{
-		if (!this.timeSlotMap.containsKey(timeSlotId)) {
+		if (!this.timeSlotsMap.containsKey(timeSlotId)) {
 		   throw new DoesNotExistException(timeSlotId);
 		}
-		return this.timeSlotMap.get (timeSlotId);
+		return this.timeSlotsMap.get (timeSlotId);
 	}
 	
 	@Override
@@ -679,7 +705,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
 		      ,PermissionDeniedException
 	{
 		List<String> list = new ArrayList<String> ();
-		for (TimeSlotInfo info: timeSlotMap.values ()) {
+		for (TimeSlotInfo info: timeSlotsMap.values ()) {
 			if (timeSlotTypeKey.equals(info.getTypeKey())) {
 			    list.add (info.getId ());
 			}
@@ -695,7 +721,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
 		      ,PermissionDeniedException
 	{
 		List<TimeSlotInfo> list = new ArrayList<TimeSlotInfo> ();
-		for (TimeSlotInfo info: timeSlotMap.values ()) {
+		for (TimeSlotInfo info: timeSlotsMap.values ()) {
 			if (timeSlotTypeKey.equals(info.getTypeKey())) {
 				if (daysOfWeek.equals(info.getWeekdays())) {
 					if (startTime.equals(info.getStartTime())) {
@@ -711,7 +737,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
     public List<TimeSlotInfo> getTimeSlotsByDaysAndStartTimeAndEndTime(String timeSlotTypeKey, List<Integer> daysOfWeek, TimeOfDayInfo startTime, TimeOfDayInfo endTime, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TimeSlotInfo> list = new ArrayList<TimeSlotInfo> ();
-        for (TimeSlotInfo info: timeSlotMap.values ()) {
+        for (TimeSlotInfo info: timeSlotsMap.values ()) {
             if (timeSlotTypeKey.equals(info.getTypeKey())) {
                 if (daysOfWeek.equals(info.getWeekdays())) {
                     if (startTime.equals(info.getStartTime())) {
@@ -756,9 +782,6 @@ public class SchedulingServiceMockImpl implements SchedulingService
 		// validate
 		return new ArrayList<ValidationResultInfo> ();
 	}
-	// cache variable 
-	// The LinkedHashMap is just so the values come back in a predictable order
-	private Map<String, TimeSlotInfo> timeSlotMap = new LinkedHashMap<String, TimeSlotInfo>();
 	
 	@Override
 	public TimeSlotInfo createTimeSlot(String timeSlotTypeKey, TimeSlotInfo timeSlotInfo, ContextInfo contextInfo)
@@ -776,10 +799,10 @@ public class SchedulingServiceMockImpl implements SchedulingService
 		}
 		TimeSlotInfo copy = new TimeSlotInfo(timeSlotInfo);
 		if (copy.getId() == null) {
-		   copy.setId(timeSlotMap.size() + "");
+		   copy.setId(timeSlotsMap.size() + "");
 		}
 		copy.setMeta(newMeta(contextInfo));
-		timeSlotMap.put(copy.getId(), copy);
+		timeSlotsMap.put(copy.getId(), copy);
 		return new TimeSlotInfo(copy);
 	}
 	
@@ -804,7 +827,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
 		    throw new VersionMismatchException(old.getMeta().getVersionInd());
 		}
 		copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
-		this.timeSlotMap .put(timeSlotInfo.getId(), copy);
+		this.timeSlotsMap .put(timeSlotInfo.getId(), copy);
 		return new TimeSlotInfo(copy);
 	}
 	
@@ -816,7 +839,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
 		      ,OperationFailedException
 		      ,PermissionDeniedException
 	{
-		if (this.timeSlotMap.remove(timeSlotId) == null) {
+		if (this.timeSlotsMap.remove(timeSlotId) == null) {
 		   throw new DoesNotExistException(timeSlotId);
 		}
 		return newStatus();
@@ -925,10 +948,9 @@ public class SchedulingServiceMockImpl implements SchedulingService
 		      ,PermissionDeniedException
 	{
         List<String> tsIds = getTimeSlotIdsByType(timeSlotTypeKey, contextInfo);
-        List<TimeSlotInfo> ts = new ArrayList<TimeSlotInfo>();
-        for (String id: tsIds) {
-            try { ts.add (this.getTimeSlot(id, contextInfo)); } catch (DoesNotExistException e) { throw new OperationFailedException(); }
-        }
+        List<TimeSlotInfo> ts = null;
+        try { ts = getTimeSlotsByIds(tsIds, contextInfo); }
+        catch (Exception e) { e.printStackTrace(); throw new OperationFailedException(); }
 		List<Integer> days = new ArrayList<Integer> ();
 		for (TimeSlotInfo tsI: ts) {
 			for (Integer d: tsI.getWeekdays()) {
