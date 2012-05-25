@@ -37,7 +37,7 @@ public interface SocRolloverResult
      */
     public String getSourceSocId();
 
-      /**
+    /**
      * Academic target term of the courses that were rolled over
      * 
      * @name Target Term Id
@@ -70,7 +70,6 @@ public interface SocRolloverResult
      */
     public String getTargetSocId();
 
-  
     /**
      * Number of items processed
      *     
@@ -98,29 +97,47 @@ public interface SocRolloverResult
     public RichText getMessage();
 
     /**
-     * Number of items created 
+     * Number of course offerings created 
      *     
-     * @name Items Expected
+     * @name Course Offerings Created
      * @readOnly 
-     * @impl calculation based on items with status of success
+     * @impl set during the #rolloverSoc operation
      */
-    public Integer getItemsCreated();
+    public Integer getCourseOfferingsCreated();
 
     /**
-     * Number of items skipped (not rolled over)
+     * Number of course offerings skipped (not rolled over)
      *     
-     * @name Items Expected
+     * @name Course Offerings Skipped
      * @readOnly 
-     * @impl calculation based on items with status of success
+     * @impl set during the #rolloverSoc operation
      */
-    public Integer getItemsSkipped();
-    
+    public Integer getCourseOfferingsSkipped();
+
+    /**
+     * Number of activity offerings created 
+     *     
+     * @name Activity Offerings Created
+     * @readOnly 
+     * @impl set during the #rolloverSoc operation
+     */
+    public Integer getActivityOfferingsCreated();
+
+    /**
+     * Number of activity offerings skipped (not rolled over)
+     *     
+     * @name Activity Offerings Skipped
+     * @readOnly 
+     * @impl set during the #rolloverSoc operation
+     */
+    public Integer getActivityOfferingsSkipped();
+
     /**
      * Get the target term Id
      *     
      * @name Source Term Id
      * @readOnly 
-     * @impl calculation based on the source SOC
+     * @impl set during the #rolloverSoc operation
      */
     public String getSourceTermId();
 }
