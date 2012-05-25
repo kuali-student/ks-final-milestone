@@ -277,14 +277,51 @@ public class LprServiceMockImpl implements LprService {
     public List<BulkStatusInfo> createLprsForPerson(String personId, String lprTypeKey, List<LprInfo> lprInfos, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new OperationFailedException("createLprsForPerson has not been implemented");
+        List<BulkStatusInfo> list = new ArrayList<BulkStatusInfo>(lprInfos.size());
+        for (LprInfo info : lprInfos) {
+            BulkStatusInfo bsi = new BulkStatusInfo();
+            try {
+                LprInfo created = this.createLpr(personId, info.getLuiId(), lprTypeKey, info, contextInfo);
+                bsi.setSuccess(Boolean.TRUE);
+                bsi.setId(created.getId());
+            } catch (DataValidationErrorException de) {
+                bsi.setSuccess(Boolean.FALSE);
+                bsi.setMessage(asString(de.getValidationResults()));
+            }
+            list.add(bsi);
+        }
+        return list;
+    }
+
+    private String asString(List<ValidationResultInfo> vris) {
+        StringBuilder sb = new StringBuilder();
+        String newLine = ";";
+        for (ValidationResultInfo vri : vris) {
+            sb.append(newLine);
+            newLine = "/n";
+            sb.append(vri.getMessage());
+        }
+        return sb.toString();
     }
 
     @Override
-    public List<String> createLprsForLui(String luiId, String lprTypeKey, List<LprInfo> lprInfos, ContextInfo contextInfo)
+    public List<BulkStatusInfo> createLprsForLui(String luiId, String lprTypeKey, List<LprInfo> lprInfos, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new OperationFailedException("createLprsForLui has not been implemented");
+        List<BulkStatusInfo> list = new ArrayList<BulkStatusInfo>(lprInfos.size());
+        for (LprInfo info : lprInfos) {
+            BulkStatusInfo bsi = new BulkStatusInfo();
+            try {
+                LprInfo created = this.createLpr(info.getPersonId(), luiId, lprTypeKey, info, contextInfo);
+                bsi.setSuccess(Boolean.TRUE);
+                bsi.setId(created.getId());
+            } catch (DataValidationErrorException de) {
+                bsi.setSuccess(Boolean.FALSE);
+                bsi.setMessage(asString(de.getValidationResults()));
+            }
+            list.add(bsi);
+        }
+        return list;
     }
 
     @Override

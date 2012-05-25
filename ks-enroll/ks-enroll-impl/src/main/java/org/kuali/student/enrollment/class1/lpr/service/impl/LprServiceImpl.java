@@ -806,7 +806,7 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
-    public List<String> createLprsForLui(String luiId,
+    public List<BulkStatusInfo> createLprsForLui(String luiId,
             String lprTypeKey,
             List<LprInfo> lprInfos,
             ContextInfo contextInfo)

@@ -1,5 +1,8 @@
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
+import java.util.ArrayList;
+import java.util.List;
 import org.kuali.student.enrollment.test.util.IdEntityTester;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import static org.junit.Assert.*;
@@ -10,7 +13,14 @@ import org.kuali.student.enrollment.test.util.AttributeTester;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import java.util.Date;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +64,14 @@ public class TestLprServiceMockImpl {
     }
 
     @Test
-    public void testCrudLpr() throws Exception {
+    public void testCrudLpr() throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
         // test create
         LprInfo expected = new LprInfo();
         expected.setPersonId("person1");
@@ -67,7 +84,8 @@ public class TestLprServiceMockImpl {
         expected.getResultValuesGroupKeys().add("rvg1");
         expected.getResultValuesGroupKeys().add("rvg2");
         new AttributeTester().add2ForCreate(expected.getAttributes());
-        LprInfo actual = lprService.createLpr(expected.getPersonId(), expected.getLuiId(), expected.getTypeKey(), expected, callContext);
+        LprInfo actual = lprService.createLpr(expected.getPersonId(), expected.getLuiId(), expected.getTypeKey(), expected,
+                callContext);
         assertNotNull(actual.getId());
         new RelationshipTester().check(expected, actual);
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -130,9 +148,16 @@ public class TestLprServiceMockImpl {
             // expected
         }
     }
-    
+
     @Test
-    public void testCrudLprTransaction() throws Exception {
+    public void testCrudLprTransaction() throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
         // test create
         LprTransactionInfo expected = new LprTransactionInfo();
         expected.setRequestingPersonId("person1");
@@ -140,16 +165,16 @@ public class TestLprServiceMockImpl {
         expected.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
         expected.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
-        new LprTransactionItemTester ().add2ForCreate(expected.getLprTransactionItems());
-        LprTransactionInfo actual = lprService.createLprTransaction (expected.getTypeKey(), expected, callContext);
+        new LprTransactionItemTester().add2ForCreate(expected.getLprTransactionItems());
+        LprTransactionInfo actual = lprService.createLprTransaction(expected.getTypeKey(), expected, callContext);
         assertNotNull(actual.getId());
         new IdEntityTester().check(expected, actual);
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterCreate(actual.getMeta());
         assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
         assertEquals(expected.getAtpId(), actual.getAtpId());
-        new LprTransactionItemTester ().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
-        
+        new LprTransactionItemTester().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
+
 
         // test read
         expected = actual;
@@ -160,7 +185,7 @@ public class TestLprServiceMockImpl {
         new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
         assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
         assertEquals(expected.getAtpId(), actual.getAtpId());
-        new LprTransactionItemTester ().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
+        new LprTransactionItemTester().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
 
         // test update
         expected = actual;
@@ -172,7 +197,7 @@ public class TestLprServiceMockImpl {
         new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
         assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
         assertEquals(expected.getAtpId(), actual.getAtpId());
-        new LprTransactionItemTester ().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
+        new LprTransactionItemTester().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
 
         // test read
         expected = actual;
@@ -183,7 +208,7 @@ public class TestLprServiceMockImpl {
         new MetaTester().checkAfterCreate(actual.getMeta());
         assertEquals(expected.getRequestingPersonId(), actual.getRequestingPersonId());
         assertEquals(expected.getAtpId(), actual.getAtpId());
-        new LprTransactionItemTester ().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
+        new LprTransactionItemTester().check(expected.getLprTransactionItems(), actual.getLprTransactionItems());
 
         // test delete
         StatusInfo status = lprService.deleteLprTransaction(expected.getId(), callContext);
@@ -196,7 +221,148 @@ public class TestLprServiceMockImpl {
             // expected
         }
     }
-    
-   
-    
+
+    @Test
+    public void testBulkCreateLprsForPerson() throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
+        // test create
+        List<LprInfo> expectedList = new ArrayList();
+        LprInfo expected1 = new LprInfo();
+        expected1.setPersonId("person1");
+        expected1.setLuiId("lui1");
+        expected1.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+        expected1.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
+        expected1.setEffectiveDate(new Date());
+        expected1.setExpirationDate(new Date(new Date().getTime() + 1000));
+        expected1.setCommitmentPercent("100.00");
+        expected1.getResultValuesGroupKeys().add("rvg1");
+        expected1.getResultValuesGroupKeys().add("rvg2");
+        new AttributeTester().add2ForCreate(expected1.getAttributes());
+        expectedList.add(expected1);
+
+        LprInfo expected2 = new LprInfo();
+        expected2.setPersonId("person1");
+        expected2.setLuiId("lui2");
+        expected2.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+        expected2.setStateKey(LprServiceConstants.CONFIRMED_STATE_KEY);
+        expected2.setEffectiveDate(new Date(new Date().getTime() + 1000));
+        expected2.setExpirationDate(new Date(new Date().getTime() + 2000));
+        expected2.setCommitmentPercent("75.00");
+        expected2.getResultValuesGroupKeys().add("rvg3");
+        expected2.getResultValuesGroupKeys().add("rvg4");
+        new AttributeTester().add2ForCreate(expected2.getAttributes());
+        expectedList.add(expected2);
+
+        List<BulkStatusInfo> actualBulkList = lprService.createLprsForLui(expected1.getPersonId(), expected1.getTypeKey(),
+                expectedList, callContext);
+        assertNotNull(actualBulkList);
+        assertEquals(2, actualBulkList.size());
+        boolean found1 = false;
+        boolean found2 = false;
+        for (BulkStatusInfo bsi : actualBulkList) {
+            assertEquals(Boolean.TRUE, bsi.getIsSuccess());
+            assertNotNull(bsi.getId());
+            LprInfo actual = this.lprService.getLpr(bsi.getId(), callContext);
+            LprInfo expected = null;
+            if (actual.getLuiId().equals(expected1.getLuiId())) {
+                expected = expected1;
+                found1 = true;
+            } else {
+                expected = expected2;
+                found2 = true;
+            }
+            new RelationshipTester().check(expected, actual);
+            new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+            new MetaTester().checkAfterCreate(actual.getMeta());
+            new ListOfStringTester().check(expected.getResultValuesGroupKeys(), actual.getResultValuesGroupKeys());
+            assertEquals(expected.getPersonId(), actual.getPersonId());
+            assertEquals(expected.getLuiId(), actual.getLuiId());
+            assertEquals(expected.getCommitmentPercent(), actual.getCommitmentPercent());
+        }
+        if (!found1) {
+            fail("first one never found");
+        }
+        if (!found2) {
+            fail("second one never found");
+        }
+
+        // TODO: test that it handles validation failures
+    }
+
+    @Test
+    public void testBulkCreateLprsForLui() throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
+        // test create
+        List<LprInfo> expectedList = new ArrayList();
+        LprInfo expected1 = new LprInfo();
+        expected1.setPersonId("person1");
+        expected1.setLuiId("lui1");
+        expected1.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+        expected1.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
+        expected1.setEffectiveDate(new Date());
+        expected1.setExpirationDate(new Date(new Date().getTime() + 1000));
+        expected1.setCommitmentPercent("100.00");
+        expected1.getResultValuesGroupKeys().add("rvg1");
+        expected1.getResultValuesGroupKeys().add("rvg2");
+        new AttributeTester().add2ForCreate(expected1.getAttributes());
+        expectedList.add(expected1);
+
+        LprInfo expected2 = new LprInfo();
+        expected2.setPersonId("person2");
+        expected2.setLuiId("lui1");
+        expected2.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+        expected2.setStateKey(LprServiceConstants.CONFIRMED_STATE_KEY);
+        expected2.setEffectiveDate(new Date(new Date().getTime() + 1000));
+        expected2.setExpirationDate(new Date(new Date().getTime() + 2000));
+        expected2.setCommitmentPercent("75.00");
+        expected2.getResultValuesGroupKeys().add("rvg3");
+        expected2.getResultValuesGroupKeys().add("rvg4");
+        new AttributeTester().add2ForCreate(expected2.getAttributes());
+        expectedList.add(expected2);
+
+        List<BulkStatusInfo> actualBulkList = lprService.createLprsForLui(expected1.getLuiId(), expected1.getTypeKey(),
+                expectedList, callContext);
+        assertNotNull(actualBulkList);
+        assertEquals(2, actualBulkList.size());
+        boolean found1 = false;
+        boolean found2 = false;
+        for (BulkStatusInfo bsi : actualBulkList) {
+            assertEquals(Boolean.TRUE, bsi.getIsSuccess());
+            assertNotNull(bsi.getId());
+            LprInfo actual = this.lprService.getLpr(bsi.getId(), callContext);
+            LprInfo expected = null;
+            if (actual.getPersonId().equals(expected1.getPersonId())) {
+                expected = expected1;
+                found1 = true;
+            } else {
+                expected = expected2;
+                found2 = true;
+            }
+            new RelationshipTester().check(expected, actual);
+            new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+            new MetaTester().checkAfterCreate(actual.getMeta());
+            new ListOfStringTester().check(expected.getResultValuesGroupKeys(), actual.getResultValuesGroupKeys());
+            assertEquals(expected.getPersonId(), actual.getPersonId());
+            assertEquals(expected.getLuiId(), actual.getLuiId());
+            assertEquals(expected.getCommitmentPercent(), actual.getCommitmentPercent());
+        }
+        if (!found1) {
+            fail("first one never found");
+        }
+        if (!found2) {
+            fail("second one never found");
+        }
+
+        // TODO: test that it handles validation failures
+    }
 }
