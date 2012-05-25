@@ -438,7 +438,7 @@ public interface LprService {
      *                                 Person relation
      * @param contextInfo                  Context information containing the principalId and locale
      *                                 information about the caller of service operation
-     * @return Structure containing LUI Person relation identifiers
+     * @return Structure containing status and LUI Person relation identifiers and message
      * @throws DataValidationErrorException if luiPersonsRelationInfo is not
      *                                      valid
      * @throws DoesNotExistException        personId, lprTypeKey does not exist
@@ -466,7 +466,7 @@ public interface LprService {
      *                                 Person relation
      * @param contextInfo                  Context information containing the principalId and locale
      *                                 information about the caller of service operation
-     * @return Structure containing LUI Person relation identifiers
+     * @return Structure containing status and LUI Person relation identifiers and message
      * @throws DataValidationErrorException if luiPersonsRelationInfo is not
      *                                      valid
      * @throws DoesNotExistException        luiId, lprTypeKey does not exist
@@ -476,7 +476,7 @@ public interface LprService {
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            attempt to update a read only attribute
      */
-    public List<String> createLprsForLui(@WebParam(name = "luiId") String luiId,
+    public List<BulkStatusInfo> createLprsForLui(@WebParam(name = "luiId") String luiId,
             @WebParam(name = "lprTypeKey") String lprTypeKey,
             @WebParam(name = "lprInfos") List<LprInfo> lprInfos,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
