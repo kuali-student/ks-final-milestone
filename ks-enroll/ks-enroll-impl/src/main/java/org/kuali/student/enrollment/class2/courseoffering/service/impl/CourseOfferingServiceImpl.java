@@ -692,7 +692,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } catch (Exception aee) {
             throw new OperationFailedException("Unexpected", aee);
         }
-        // reubild to return it
+        // rebuild to return it
         FormatOfferingInfo formatOffering = new FormatOfferingInfo();
         new FormatOfferingTransformer().lui2Format(lui, formatOffering);
         formatOffering.setCourseOfferingId(luiRel.getLuiId());
@@ -861,6 +861,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
+        // Everything saved to the DB, now return AO sent back by createLui and transformed by transformer back to caller
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
         ActivityOfferingTransformer.lui2Activity(ao, lui);
         ao.setFormatOfferingId(luiRel.getLuiId());

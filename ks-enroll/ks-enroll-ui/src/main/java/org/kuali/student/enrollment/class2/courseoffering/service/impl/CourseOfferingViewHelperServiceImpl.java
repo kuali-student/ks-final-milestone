@@ -25,6 +25,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
@@ -35,6 +36,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -75,19 +77,33 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
 
     private CourseOfferingInfo _createCourseOffering(String termId) {
         CourseOfferingService coService = _getCourseOfferingService();
+        CourseOfferingTransformer coTrans = new CourseOfferingTransformer();
+        CourseService courseService = _getCourseService();
+        CourseInfo courseInfo = null;
+        try {
+            courseInfo = courseService.getCourse("b509ad01-6ef3-44a4-8857-f5df8631f79e"); // Now CHEM 241
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
         CourseOfferingInfo coInfo = new CourseOfferingInfo();
+        List<String> copyOptions = new ArrayList<String>();
+        copyOptions.add(CourseOfferingSetServiceConstants.NOT_GRADING_CREDIT_OPTION_KEY);
+        // At this point
+        coTrans.copyFromCanonical(courseInfo, coInfo, copyOptions);
         coInfo.setCourseOfferingTitle("Intro to Finite Math");
         coInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         coInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
-        // info.setCourseId("REFERENCECOURSEMATH140");
-        coInfo.setCourseId("5aa58103-1644-40d8-8d9c-09f64e437b93"); // In the new DB
-        coInfo.setCourseOfferingCode("MATH106");
-        coInfo.setCourseNumberSuffix("106");
+//        // info.setCourseId("REFERENCECOURSEMATH140");
+//        coInfo.setCourseId("5aa58103-1644-40d8-8d9c-09f64e437b93"); // In the new DB
+        coInfo.setCourseOfferingCode("CHEM241");
+        coInfo.setCourseNumberSuffix("241");
         coInfo.setEvaluated(Boolean.TRUE);
         coInfo.setFinalExamType(FinalExam.STANDARD.toString());
         coInfo.setTermId(termId);
         coInfo.setFeeAtActivityOffering(Boolean.FALSE);
-        coInfo.setSubjectArea("MATH");
+//        coInfo.setSubjectArea("MATH");
         coInfo.setInstructors(new ArrayList<OfferingInstructorInfo>());
         try {
             String courseId = coInfo.getCourseId();
@@ -108,7 +124,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         FormatOfferingInfo foInfo = new FormatOfferingInfo();
         foInfo.setName("DEVTEST");
         foInfo.setCourseOfferingId(coInfo.getId());
-        foInfo.setFormatId("5b264632-0eba-479c-bce8-66d35a05b834");
+        foInfo.setFormatId("10f433ba-50e4-4037-a727-4ea7747c3e6b"); // Format for CHEM241
         foInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
         foInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
         try {
@@ -123,7 +139,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
 
     private ActivityOfferingInfo _createActivityOffering(FormatOfferingInfo foInfo, CourseOfferingInfo coInfo) {
         ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
-        aoInfo.setActivityId("3a8d155d-715a-43ab-b9ca-6575f576b5c4");
+        aoInfo.setActivityId("f0072e90-3aed-4d9b-8a5a-e7efe317a686"); // Lecture for CHEM241
         aoInfo.setName("DEVTEST");
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         aoInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
@@ -245,6 +261,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     @Override
     public SocRolloverResultInfo performReverseRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
         CourseOfferingSetService socService = _getSocService();
+        CourseOfferingService coService = _getCourseOfferingService();
         try {
             List<String> socIds = socService.getSocIdsByTerm(sourceTermId, new ContextInfo());
             if (socIds == null || socIds.isEmpty()) {
