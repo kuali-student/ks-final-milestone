@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprTransactionItemResultInfo", propOrder = {"resultingLprId", "messages", "status", "_futureElements"})
+@XmlType(name = "LprTransactionItemResultInfo", propOrder = {"resultingLprId", "message", "status", "_futureElements"})
 public class LprTransactionItemResultInfo implements LprTransactionItemResult, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -86,6 +86,7 @@ public class LprTransactionItemResultInfo implements LprTransactionItemResult, S
     }
 
 
+    @Override
 	public String getMessage() {
 		return message;
 	}

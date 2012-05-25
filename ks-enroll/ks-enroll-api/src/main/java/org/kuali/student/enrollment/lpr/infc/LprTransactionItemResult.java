@@ -25,12 +25,10 @@ public interface LprTransactionItemResult{
 	public String getResultingLprId();
 	
 	/**
-	 * 
-	 * The messages  for the transaction - success/failure/warning.
+	 * The message  for the transaction
      * In case of success, there may still be warning messages
 	 *
-     * @name Messages
-	 * @return
+     * @name Message
 	 */
 	public String getMessage();
 	
