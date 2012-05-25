@@ -16,45 +16,43 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprTransactionItemInfo", propOrder = {"id","personId", "transactionId", "newLuiId", "existingLuiId", "resultValuesGroupKeys", "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey",
-        "stateKey", "meta", "attributes", "_futureElements"})
+@XmlType(name = "LprTransactionItemInfo", propOrder = {"id",
+    "personId",
+    "transactionId",
+    "newLuiId",
+    "existingLuiId",
+    "resultValuesGroupKeys",
+    "requestOptions",
+    "lprTransactionItemResult",
+    "name",
+    "descr",
+    "typeKey",
+    "stateKey",
+    "meta",
+    "attributes",
+    "_futureElements"})
 public class LprTransactionItemInfo extends IdEntityInfo implements LprTransactionItem, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String personId;
-
     @XmlElement
     private String transactionId;
-
     @XmlElement
     private String newLuiId;
-
     @XmlElement
     private String existingLuiId;
-
     @XmlElement
     private List<String> resultValuesGroupKeys;
-
     @XmlElement
     private List<RequestOptionInfo> requestOptions;
-
     @XmlElement
     private LprTransactionItemResultInfo lprTransactionItemResult;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public LprTransactionItemInfo() {
         super();
-        this.personId = null;
-        this.transactionId = null;
-        this.newLuiId = null;
-        this.existingLuiId = null;
-        this.requestOptions = new ArrayList<RequestOptionInfo>();
-        this.resultValuesGroupKeys = new ArrayList<String>();
-        this._futureElements = null;
     }
 
     public LprTransactionItemInfo(LprTransactionItem lprTransactionItem) {
@@ -78,9 +76,9 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
                 resultValuesGroupKeys.addAll(lprTransactionItem.getResultValuesGroupKeys());
             }
 
-            this.lprTransactionItemResult = new LprTransactionItemResultInfo(lprTransactionItem.getLprTransactionItemResult());
-
-            this._futureElements = null;
+            if (lprTransactionItem.getLprTransactionItemResult() != null) {
+                this.lprTransactionItemResult = new LprTransactionItemResultInfo(lprTransactionItem.getLprTransactionItemResult());
+            }
         }
     }
 
@@ -95,6 +93,9 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
 
     @Override
     public List<RequestOptionInfo> getRequestOptions() {
+        if (requestOptions == null) {
+            requestOptions = new ArrayList<RequestOptionInfo> ();
+        }
         return requestOptions;
     }
 
@@ -129,11 +130,12 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
         this.personId = personId;
     }
 
-    public String getTransactionId () {
+    @Override
+    public String getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId (String transactionId) {
+    public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -149,5 +151,4 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
     public void setLprTransactionItemResult(LprTransactionItemResultInfo lprTransactionItemResult) {
         this.lprTransactionItemResult = lprTransactionItemResult;
     }
-
 }

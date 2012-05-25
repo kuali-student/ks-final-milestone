@@ -25,40 +25,34 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (sambitpatnaik)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RequestOptionInfo", propOrder = {"id","optionKey", "optionValue", "_futureElements"})
+@XmlType(name = "RequestOptionInfo", propOrder = {"id", "optionKey", "optionValue", "_futureElements"})
 public class RequestOptionInfo implements LprRequestOption {
 
     @XmlElement
     private String id;
-
     @XmlElement
     private String optionKey;
-
     @XmlElement
     private String optionValue;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public RequestOptionInfo() {
-        this.optionValue = null;
-        this.optionKey = null;
-        this._futureElements = null;
     }
 
     public RequestOptionInfo(LprRequestOption reqOp) {
-        if (null == reqOp)
+        if (null == reqOp) {
             return;
-
+        }
         this.optionValue = reqOp.getOptionValue();
         this.optionKey = reqOp.getOptionKey();
-        this._futureElements = null;
     }
 
     public void setOptionValue(String optionValue) {
         this.optionValue = optionValue;
     }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -80,5 +74,4 @@ public class RequestOptionInfo implements LprRequestOption {
     public void setOptionKey(String optionKey) {
         this.optionKey = optionKey;
     }
-
 }
