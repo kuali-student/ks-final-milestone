@@ -146,7 +146,7 @@ public abstract class AbstractCourseRegistrationService
     }
 
     @Override
-    public List<ActivityRegistrationInfo> getActivityRegistrationsByCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
+    public List<ActivityRegistrationInfo> getActivityRegistrationsForCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
@@ -210,14 +210,14 @@ public abstract class AbstractCourseRegistrationService
     }
 
     @Override
-    public List<String> getRegistrationRequestIdsByType(String registrationRequestTypeKey,  ContextInfo contextInfo)
+    public List<String> getRegistrationRequestIdsByType(String registrationRequestTypeKey, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
     }
 
     @Override
-    public List<RegistrationRequestInfo> getRegistrationRequestsByPerson(String personId, ContextInfo contextInfo)
+    public List<RegistrationRequestInfo> getRegistrationRequestsByRequestor(String personId, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
@@ -294,7 +294,7 @@ public abstract class AbstractCourseRegistrationService
     }
 
     @Override
-    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsByCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
+    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsForCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
@@ -329,7 +329,7 @@ public abstract class AbstractCourseRegistrationService
     }
 
     @Override
-    public List<ValidationResultInfo> checkStudentEligibiltyForRegistrationGroup(String studentId, String registrationGroupId,  ContextInfo contextInfo) 
+    public List<ValidationResultInfo> checkStudentEligibiltyForRegistrationGroup(String studentId, String registrationGroupId, ContextInfo contextInfo) 
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
@@ -350,7 +350,7 @@ public abstract class AbstractCourseRegistrationService
 
     @Override
     public LoadInfo calculateCreditLoadForRegistrationRequest(String studentId, String registrationRequestId, ContextInfo contextInfo)
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException,  OperationFailedException, PermissionDeniedException {
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
     }

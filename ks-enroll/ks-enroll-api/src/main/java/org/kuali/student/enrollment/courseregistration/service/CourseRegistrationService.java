@@ -370,7 +370,7 @@ public interface CourseRegistrationService  {
                PermissionDeniedException;
 
     /**
-     * Gets a list of ActivityRegistrations bu CourseRegistration.
+     * Gets a list of ActivityRegistrations for a CourseRegistration.
      *
      * @param courseRegistrationId an identifier for a CourseRegistration
      * @param contextInfo information containing the principalId and
@@ -384,8 +384,8 @@ public interface CourseRegistrationService  {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ActivityRegistrationInfo> getActivityRegistrationsByCourseRegistration(@WebParam(name = "courseRegistrationId") String courseRegistrationId,
-                                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<ActivityRegistrationInfo> getActivityRegistrationsForCourseRegistration(@WebParam(name = "courseRegistrationId") String courseRegistrationId,
+                                                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException,
                MissingParameterException, 
                OperationFailedException, 
@@ -630,8 +630,8 @@ public interface CourseRegistrationService  {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<RegistrationRequestInfo> getRegistrationRequestsByPerson(@WebParam(name = "pesonId") String personId,
-                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<RegistrationRequestInfo> getRegistrationRequestsByRequestor(@WebParam(name = "pesonId") String personId,
+                                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException,
                MissingParameterException, 
                OperationFailedException, 
@@ -939,7 +939,7 @@ public interface CourseRegistrationService  {
                PermissionDeniedException;
 
     /**
-     * Gets the RegistrationRequestItems resulint in or impacting the
+     * Gets the RegistrationRequestItems result in or impacting the
      * given CourseRegistration.
      * 
      * @param courseRegistrationId an identifier for a CourseRegistration
@@ -954,8 +954,8 @@ public interface CourseRegistrationService  {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsByCourseRegistration(@WebParam(name = "courseRegistrationId") String courseRegistrationId, 
-                                                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsForCourseRegistration(@WebParam(name = "courseRegistrationId") String courseRegistrationId, 
+                                                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException,
                MissingParameterException, 
                OperationFailedException, 

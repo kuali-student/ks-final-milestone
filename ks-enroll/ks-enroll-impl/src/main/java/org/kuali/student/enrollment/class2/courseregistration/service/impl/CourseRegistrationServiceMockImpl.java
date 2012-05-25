@@ -54,6 +54,10 @@ public class CourseRegistrationServiceMockImpl
 
     private final Map<String, CourseRegistrationInfo> crMap   = new LinkedHashMap<String, CourseRegistrationInfo>();
     private final Map<String, ActivityRegistrationInfo> arMap = new LinkedHashMap<String, ActivityRegistrationInfo>();
+    private final Map<String, RegistrationRequestInfo> rrMap  = new LinkedHashMap<String, RegistrationRequestInfo>();
+    private final Map<String, List<String>> xactionMap        = new LinkedHashMap<String, List<String>>();
+    private final String STATE_UNSUBMITTED = "unsubmitted";
+    private final String STATE_SUBMITTED   = "submitted";
 
     private CourseOfferingService coService;
 
@@ -182,11 +186,242 @@ public class CourseRegistrationServiceMockImpl
     }
 
     @Override
-    public List<CourseRegistrationInfo> searchForCourseRegistrations(QueryByCriteria criteria, ContextInfo contextInfo)
-        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
-        return (getCourseRegistrations(contextInfo));
+    public ActivityRegistrationInfo getActivityRegistration(String activityRegistrationId, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        ActivityRegistrationInfo arInfo = this.arMap.get(activityRegistrationId);
+        if (arInfo == null) {
+            throw new DoesNotExistException(activityRegistrationId + " does not exist");
+        }
+
+        return (arInfo);
     }
+    
+    public List<ActivityRegistrationInfo> getActivityRegistrations(ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        return (new ArrayList<ActivityRegistrationInfo>(this.arMap.values()));
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsByIds(List<String> activityRegistrationIds, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<ActivityRegistrationInfo> ret = new ArrayList<ActivityRegistrationInfo>();
+        for (String id : activityRegistrationIds) {
+            ret.add(getActivityRegistration(id, contextInfo));
+        }
+        
+        return (ret);
+    }
+
+    @Override
+    public List<String> getActivityRegistrationIdsByType(String activityRegistrationTypeKey, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<String> ret = new ArrayList<String>();
+        for (ActivityRegistrationInfo ar : getActivityRegistrations(contextInfo)) {
+            if (ar.getType().equals(activityRegistrationTypeKey)) {
+                ret.add(ar.getId());
+            }
+        }
+
+        return (ret);
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsForCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<ActivityRegistrationInfo> ret = new ArrayList<ActivityRegistrationInfo>();
+        for (String arId : this.xactionMap.get(courseRegistrationId)) {
+            try {
+                ret.add(getActivityRegistration(arId, contextInfo));
+            } catch (DoesNotExistException dne) {
+                throw new OperationFailedException("ActivityRegistrations out of sync", dne);
+            }
+        }
+
+        return (ret);
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsByStudent(String studentId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<ActivityRegistrationInfo> ret = new ArrayList<ActivityRegistrationInfo>();
+        for (ActivityRegistrationInfo ar : getActivityRegistrations(contextInfo)) {
+            if (ar.getStudentId().equals(studentId)) {
+                ret.add(ar);
+            }
+        }
+
+        return (ret);
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsByActivityOffering(String activityOfferingId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<ActivityRegistrationInfo> ret = new ArrayList<ActivityRegistrationInfo>();
+        for (ActivityRegistrationInfo ar : getActivityRegistrations(contextInfo)) {
+            if (ar.getActivityOfferingId().equals(activityOfferingId)) {
+                ret.add(ar);
+            }
+        }
+
+        return (ret);
+    }
+
+   @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsByStudentAndActivityOffering(String studentId, String activityOfferingId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<ActivityRegistrationInfo> ret = new ArrayList<ActivityRegistrationInfo>();
+        for (ActivityRegistrationInfo ar : getActivityRegistrationsByStudent(studentId, contextInfo)) {
+            if (ar.getActivityOfferingId().equals(activityOfferingId)) {
+                ret.add(ar);
+            }
+        }
+
+        return (ret);
+    }
+
+    @Override
+    public List<ActivityRegistrationInfo> getActivityRegistrationsByStudentAndTerm(String studentId, String termId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<ActivityRegistrationInfo> ret = new ArrayList<ActivityRegistrationInfo>();
+        for (ActivityRegistrationInfo ar : getActivityRegistrationsByStudent(studentId, contextInfo)) {
+            try {
+                if (getCourseOfferingService().getActivityOffering(ar.getActivityOfferingId(), contextInfo).getTermId().equals(termId)) {
+                    ret.add(ar);
+                }
+            } catch (DoesNotExistException dne) {
+                throw new OperationFailedException("bad stuff in reg", dne);
+            }
+        }
+
+        return (ret);
+    }
+
+    @Override
+    public List<String> searchForActivityRegistrationIds(QueryByCriteria criteria, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<String> ret = new ArrayList<String>();
+        for (ActivityRegistrationInfo cr : searchForActivityRegistrations(criteria, contextInfo)) {
+            ret.add(cr.getId());
+        }
+
+        return (ret);
+    }
+
+    @Override
+    public RegistrationRequestInfo getRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        RegistrationRequestInfo rrInfo = this.rrMap.get(registrationRequestId);
+        if (rrInfo == null) {
+            throw new DoesNotExistException(registrationRequestId + " does not exist");
+        }
+
+        return (rrInfo);
+    }
+
+    public List<RegistrationRequestInfo> getRegistrationRequests(ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        return (new ArrayList<RegistrationRequestInfo>(this.rrMap.values()));
+    }
+
+    @Override
+    public List<RegistrationRequestInfo> getRegistrationRequestsByIds(List<String> registrationRequestIds, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<RegistrationRequestInfo> ret = new ArrayList<RegistrationRequestInfo>();
+        for (String id : registrationRequestIds) {
+            ret.add(getRegistrationRequest(id, contextInfo));
+        }
+        
+        return (ret);
+    }
+
+    @Override
+    public List<String> getRegistrationRequestIdsByType(String registrationRequestTypeKey, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<String> ret = new ArrayList<String>();
+        for (RegistrationRequestInfo rr : getRegistrationRequests(contextInfo)) {
+            if (rr.getType().equals(registrationRequestTypeKey)) {
+                ret.add(rr.getId());
+            }
+        }
+
+        return (ret);
+    }
+
+    @Override
+    public List<RegistrationRequestInfo> getRegistrationRequestsByRequestor(String personId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<RegistrationRequestInfo> ret = new ArrayList<RegistrationRequestInfo>();
+        for (RegistrationRequestInfo rr : getRegistrationRequests(contextInfo)) {
+            if (rr.getRequestorId().equals(personId)) {
+                ret.add(rr);
+            }
+        }
+
+        return (ret);
+    }
+
+    @Override
+    public List<RegistrationRequestInfo> getUnsubmittedRegistrationRequestsByRequestorAndTerm(String requestorId, String termId, ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<RegistrationRequestInfo> ret = new ArrayList<RegistrationRequestInfo>();
+        for (RegistrationRequestInfo rr : getRegistrationRequestsByRequestor(requestorId, contextInfo)) {
+            if (rr.getStateKey().equals(STATE_UNSUBMITTED) && rr.getTermId().equals(termId)) {
+                ret.add(rr);
+            }
+        }
+
+        return (ret);
+    }
+
+    @Override
+    public List<String> searchForRegistrationRequestIds(QueryByCriteria criteria, ContextInfo contextInfo)
+        throws InvalidParameterException,MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<String> ret = new ArrayList<String>();
+        for (RegistrationRequestInfo rr : searchForRegistrationRequests(criteria, contextInfo)) {
+            ret.add(rr.getId());
+        }
+
+        return (ret);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateRegistrationRequest(String validationTypeKey, String registrationRequestTypeKey, RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public RegistrationRequestInfo createRegistrationRequest(String registrationRequestTypeKey, RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo)
+        throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
+    @Override
+    public RegistrationRequestInfo createRegistrationRequestFromExisting(String registrationRequestId, ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        throw new OperationFailedException("unimplemented");
+    }
+
 
     private MetaInfo newMeta(ContextInfo contextInfo) {
         MetaInfo meta = new MetaInfo();

@@ -151,10 +151,10 @@ public class CourseRegistrationServiceDecorator
     }
 
     @Override
-    public List<ActivityRegistrationInfo> getActivityRegistrationsByCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
+    public List<ActivityRegistrationInfo> getActivityRegistrationsForCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        return getNextDecorator().getActivityRegistrationsByCourseRegistration(courseRegistrationId, contextInfo);
+        return getNextDecorator().getActivityRegistrationsForCourseRegistration(courseRegistrationId, contextInfo);
     }
 
     @Override
@@ -222,10 +222,10 @@ public class CourseRegistrationServiceDecorator
     }
 
     @Override
-    public List<RegistrationRequestInfo> getRegistrationRequestsByPerson(String personId, ContextInfo contextInfo)
+    public List<RegistrationRequestInfo> getRegistrationRequestsByRequestor(String personId, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        return getNextDecorator().getRegistrationRequestsByPerson(personId, contextInfo);
+        return getNextDecorator().getRegistrationRequestsByRequestor(personId, contextInfo);
     }
 
     @Override
@@ -299,10 +299,10 @@ public class CourseRegistrationServiceDecorator
     }
 
     @Override
-    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsByCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
+    public List<RegistrationRequestItemInfo> getRegistrationRequestItemsForCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        return getNextDecorator().getRegistrationRequestItemsByCourseRegistration(courseRegistrationId, contextInfo);
+        return getNextDecorator().getRegistrationRequestItemsForCourseRegistration(courseRegistrationId, contextInfo);
     }
 
     @Override
