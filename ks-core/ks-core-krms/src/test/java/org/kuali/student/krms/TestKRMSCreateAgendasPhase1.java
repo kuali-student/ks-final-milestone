@@ -91,7 +91,7 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		this.setClearTables(false);
 	}
 
-	static final String KSNAMESPACE = "KS-SYS";
+	static final String KSNAMESPACE = "KR-RULE-TEST";
 	protected ContextBoService contextRepository;
 	protected KrmsTypeRepositoryService krmsTypeRepository;
 	private AgendaBoService agendaBoService;
@@ -186,90 +186,143 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 	@Test
 	public void createAllAgendasAndRulesPhase1() {
 		Map<String, PropositionParameterType> propositionsMap = new HashMap<String, PropositionParameterType>();
-		
+
 		// Creating agenda 1 based on CCJS357
-		PropositionParametersBuilder proposition1 = createProposition(KSKRMSConstants.TERM_APPROVED_COURSE,"CCJS100","=");
+		PropositionParametersBuilder proposition1 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSE, "CCJS100", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA1,
 				contextRepository.getContextByNameAndNamespace(
 						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
 				null, KSNAMESPACE, proposition1);
-		
+
 		// Creating agenda 2 based on CCJS300
-		PropositionParametersBuilder proposition2 = createProposition(KSKRMSConstants.TERM_APPROVED_COURSES,"CCJS100, CCJS105","=");
+		PropositionParametersBuilder proposition2_1 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS100", "=");
+		PropositionParametersBuilder proposition2_2 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS105", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA2,
 				contextRepository.getContextByNameAndNamespace(
 						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-				null, KSNAMESPACE, proposition2);
-		
-		//Creating agenda 3 based on CCJS300
-		PropositionParametersBuilder proposition3_1 = createProposition(KSKRMSConstants.TERM_NUMBER_OF_COURSES,"1", ">");
-		PropositionParametersBuilder proposition3_2 = createProposition(KSKRMSConstants.TERM_APPROVED_COURSES,"EMGT230, CCJS200, ECON321, PSYC200, SOCY201", "=");
-		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA3,
-				contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-				null, KSNAMESPACE, proposition3_1, proposition3_2);
+				null, KSNAMESPACE, proposition2_1, proposition2_2);
 
-		//Creating agenda 4 based on Made Up Data
-		PropositionParametersBuilder proposition4_1 = createProposition(KSKRMSConstants.TERM_NUMBER_OF_CREDITS,"13", ">");
-		PropositionParametersBuilder proposition4_2 = createProposition(KSKRMSConstants.TERM_APPROVED_COURSES,"EMGT230, CCJS200, ECON321, PSYC200, SOCY201", "=");
+		// Creating agenda 3 based on CCJS300
+		PropositionParametersBuilder proposition3_1 = createProposition(
+				KSKRMSConstants.TERM_NUMBER_OF_COURSES, "1", ">");
+		PropositionParametersBuilder proposition3_2 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "EMGT230", "=");
+		PropositionParametersBuilder proposition3_3 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS200", "=");
+		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA3,
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				null, KSNAMESPACE, proposition3_1, proposition3_2,
+				proposition3_3);
+
+		// Creating agenda 4 based on Made Up Data
+		PropositionParametersBuilder proposition4_1 = createProposition(
+				KSKRMSConstants.TERM_NUMBER_OF_CREDITS, "13", ">");
+		PropositionParametersBuilder proposition4_2 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "EMGT230", "=");
+		PropositionParametersBuilder proposition4_3 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS200", "=");
+		PropositionParametersBuilder proposition4_4 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "ECON321", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA4,
-				contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-				null, KSNAMESPACE, proposition4_1, proposition4_2);
-		
-		//Creating agenda 5 based on Made Up Data
-		PropositionParametersBuilder proposition5_1 = createProposition(KSKRMSConstants.TERM_GPA,"9.9", ">");
-		PropositionParametersBuilder proposition5_2 = createProposition(KSKRMSConstants.TERM_APPROVED_COURSES,"EMGT230, CCJS200, ECON321, PSYC200, SOCY201", "=");
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				null, KSNAMESPACE, proposition4_1, proposition4_2,
+				proposition4_3, proposition4_4);
+
+		// Creating agenda 5 based on Made Up Data
+		PropositionParametersBuilder proposition5_1 = createProposition(
+				KSKRMSConstants.TERM_GPA, "9", ">");
+		PropositionParametersBuilder proposition5_2 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "EMGT230", "=");
+		PropositionParametersBuilder proposition5_3 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS200", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA5,
-				contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-				null, KSNAMESPACE, proposition5_1, proposition5_2);
-				
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				null, KSNAMESPACE, proposition5_1, proposition5_2,
+				proposition5_3);
+
 		// Creating agenda 6 based on Made Up Data
-		PropositionParametersBuilder proposition6_1 = createProposition(KSKRMSConstants.TERM_GRADE_TYPE,"Letter", "=");
-		PropositionParametersBuilder proposition6_2 = createProposition(KSKRMSConstants.TERM_GRADE,"C", ">");
-		PropositionParametersBuilder proposition6_3= createProposition(KSKRMSConstants.TERM_APPROVED_COURSES,"EMGT230, CCJS200, ECON321, PSYC200, SOCY201", "=");
+		PropositionParametersBuilder proposition6_1 = createProposition(
+				KSKRMSConstants.TERM_GRADE_TYPE, "Letter", "=");
+		PropositionParametersBuilder proposition6_2 = createProposition(
+				KSKRMSConstants.TERM_GRADE, "C", ">");
+		PropositionParametersBuilder proposition6_3 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "EMGT230", "=");
+		PropositionParametersBuilder proposition6_4 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "CCJS200", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA6,
-				contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-				null, KSNAMESPACE, proposition6_1, proposition6_2, proposition6_3);
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				null, KSNAMESPACE, proposition6_1, proposition6_2,
+				proposition6_3, proposition6_4);
 
 		// Creating agenda 7 based on Made Up Data
-		PropositionParametersBuilder proposition7_1= createProposition(KSKRMSConstants.TERM_NUMBER_OF_COURSES,"1", ">");
-		PropositionParametersBuilder proposition7_2= createProposition(KSKRMSConstants.TERM_APPROVED_COURSES,"EMGT230, CCJS200, ECON321, PSYC200, SOCY201", "=");
-		PropositionParametersBuilder proposition7_3 = createProposition(KSKRMSConstants.TERM_GRADE_TYPE,"Letter", "=");
-		PropositionParametersBuilder proposition7_4 = createProposition(KSKRMSConstants.TERM_GRADE,"C", ">");
+		PropositionParametersBuilder proposition7_1 = createProposition(
+				KSKRMSConstants.TERM_NUMBER_OF_COURSES, "1", ">");
+		PropositionParametersBuilder proposition7_2 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "PSYC200", "=");
+		PropositionParametersBuilder proposition7_3 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "SOCY201", "=");
+		PropositionParametersBuilder proposition7_4 = createProposition(
+				KSKRMSConstants.TERM_GRADE_TYPE, "Letter", "=");
+		PropositionParametersBuilder proposition7_5 = createProposition(
+				KSKRMSConstants.TERM_GRADE, "C", ">");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA7,
-				contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-				null, KSNAMESPACE, proposition7_1, proposition7_2, proposition7_3, proposition7_4);
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				null, KSNAMESPACE, proposition7_1, proposition7_2,
+				proposition7_3, proposition7_4, proposition7_5);
 
 		// Creating agenda 8 based on Made Up Data
-		PropositionParametersBuilder proposition8_1 = createProposition(KSKRMSConstants.TERM_GRADE_TYPE,"Letter", "=");
-		PropositionParametersBuilder proposition8_2 = createProposition(KSKRMSConstants.TERM_GRADE,"C", ">");
-		PropositionParametersBuilder proposition8_3= createProposition(KSKRMSConstants.TERM_APPROVED_COURSES,"EMGT230, CCJS200, ECON321, PSYC200, SOCY201", "=");
+		PropositionParametersBuilder proposition8_1 = createProposition(
+				KSKRMSConstants.TERM_GRADE_TYPE, "Letter", "=");
+		PropositionParametersBuilder proposition8_2 = createProposition(
+				KSKRMSConstants.TERM_GRADE, "C", ">");
+		PropositionParametersBuilder proposition8_3 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "SOCY201", "=");
+		PropositionParametersBuilder proposition8_4 = createProposition(
+				KSKRMSConstants.TERM_APPROVED_COURSES, "PSYC200", "=");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA8,
-				contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-				null, KSNAMESPACE, proposition8_1, proposition8_2, proposition8_3);
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				null, KSNAMESPACE, proposition8_1, proposition8_2,
+				proposition8_3, proposition8_4);
 
 		// Creating agenda 9 based on Made Up Data
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA9,
-				contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
-				null, KSNAMESPACE);
-		
-		// Creating agenda 10 based on Made Up Data
-		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA10,
-				contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
 				null, KSNAMESPACE);
 
-		//Creating agenda 5 based on Made Up Data
-		PropositionParametersBuilder proposition11 = createProposition(KSKRMSConstants.TERM_GPA,"9.9", ">");
+		// Creating agenda 10 based on Made Up Data
+		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA10,
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				null, KSNAMESPACE);
+
+		// Creating agenda 5 based on Made Up Data
+		PropositionParametersBuilder proposition11 = createProposition(
+				KSKRMSConstants.TERM_GPA, "9", ">");
 		createAgendaAndRuleAndPropositions(KSKRMSConstants.AGENDA11,
-				contextRepository.getContextByNameAndNamespace(KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
+				contextRepository.getContextByNameAndNamespace(
+						KSKRMSConstants.CONTEXT_STUD_ELIGIBILITY, KSNAMESPACE),
 				null, KSNAMESPACE, proposition11);
 
 	}
 
-	private PropositionParametersBuilder createProposition(String termUsed, String PropositionConstant, String Operator) {
+	private PropositionParametersBuilder createProposition(String termUsed,
+			String PropositionConstant, String Operator) {
 		Map<String, PropositionParameterType> propositionsMap;
-		propositionsMap = new HashMap<String, PropositionParameterType>();		
-		propositionsMap.put(krmsTermLookup(termUsed).getId(), PropositionParameterType.TERM);
-		propositionsMap.put(PropositionConstant, PropositionParameterType.CONSTANT);
+		propositionsMap = new HashMap<String, PropositionParameterType>();
+		propositionsMap.put(krmsTermLookup(termUsed).getId(),
+				PropositionParameterType.TERM);
+		propositionsMap.put(PropositionConstant,
+				PropositionParameterType.CONSTANT);
 		propositionsMap.put(Operator, PropositionParameterType.OPERATOR);
 		PropositionParametersBuilder proposition = buildKRMSProposition(propositionsMap);
 		return proposition;
@@ -327,12 +380,50 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 
 	private PropositionParametersBuilder buildKRMSProposition(
 			Map<String, PropositionParameterType> propositionsMap) {
+		int orderOfEntries = 0;
 		PropositionParametersBuilder params1 = new PropositionParametersBuilder();
 		Set<Entry<String, PropositionParameterType>> allValues = propositionsMap
 				.entrySet();
+
 		for (Entry<String, PropositionParameterType> entry : allValues) {
 			System.out.println(entry.getKey() + " " + entry.getValue());
-			params1.add(entry.getKey(), entry.getValue());
+			if (entry.getValue() == PropositionParameterType.TERM
+					&& orderOfEntries == 0) {
+				params1.add(entry.getKey(), entry.getValue());
+				orderOfEntries = 1;
+			} else if (entry.getValue() == PropositionParameterType.CONSTANT
+					&& orderOfEntries == 1) {
+				params1.add(entry.getKey(), entry.getValue());
+				orderOfEntries = 2;
+			} else if (entry.getValue() == PropositionParameterType.OPERATOR
+					&& orderOfEntries == 2) {
+				params1.add(entry.getKey(), entry.getValue());
+				orderOfEntries = 3;
+			}
+		}
+		if (orderOfEntries == 1) {
+			for (Entry<String, PropositionParameterType> entry : allValues) {
+				System.out.println(entry.getKey() + " " + entry.getValue());
+				if (entry.getValue() == PropositionParameterType.CONSTANT
+						&& orderOfEntries == 1) {
+					params1.add(entry.getKey(), entry.getValue());
+					orderOfEntries = 2;
+				} else if (entry.getValue() == PropositionParameterType.OPERATOR
+						&& orderOfEntries == 2) {
+					params1.add(entry.getKey(), entry.getValue());
+					orderOfEntries = 3;
+				}
+			}
+		}
+		if (orderOfEntries == 2) {
+			for (Entry<String, PropositionParameterType> entry : allValues) {
+				System.out.println(entry.getKey() + " " + entry.getValue());
+				if (entry.getValue() == PropositionParameterType.OPERATOR
+						&& orderOfEntries == 2) {
+					params1.add(entry.getKey(), entry.getValue());
+					orderOfEntries = 3;
+				}
+			}
 		}
 		return params1;
 	}
@@ -396,7 +487,8 @@ public class TestKRMSCreateAgendasPhase1 extends KRMSTestCase {
 		ArrayList<PropositionDefinition.Builder> newComponentList = new ArrayList<PropositionDefinition.Builder>();
 		for (PropositionParametersBuilder params : pbs) {
 
-			StringBuilder propositionNameBuilder = new StringBuilder("Proposition");
+			StringBuilder propositionNameBuilder = new StringBuilder(
+					"Proposition");
 
 			propositionNameBuilder.append("::");
 			for (Object[] param : params.params) {
