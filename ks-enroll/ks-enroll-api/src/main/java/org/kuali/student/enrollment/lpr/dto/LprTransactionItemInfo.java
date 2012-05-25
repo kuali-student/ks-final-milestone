@@ -141,6 +141,9 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
 
     @Override
     public List<String> getResultValuesGroupKeys() {
+        if (this.resultValuesGroupKeys == null) {
+            this.resultValuesGroupKeys = new ArrayList<String> ();
+        }
         return resultValuesGroupKeys;
     }
 
