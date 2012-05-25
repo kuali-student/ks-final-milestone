@@ -141,11 +141,7 @@ public class TimeSetWrapper {
             if (!isAllDay()){
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
                 String formattedDate = formatter.format(startDate);
-                if (StringUtils.endsWithIgnoreCase(formattedDate,"12:00 am")){
-                    return StringUtils.removeEndIgnoreCase(formattedDate,"12:00 am");
-                }else {
-                    return formattedDate;
-                }
+                return StringUtils.removeEndIgnoreCase(formattedDate,"12:00 am");
             }else{
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 return formatter.format(startDate);
@@ -161,12 +157,10 @@ public class TimeSetWrapper {
         if (endDate != null) {
             if (!isAllDay()){
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-                String formattedDate = formatter.format(endDate);
-                if (StringUtils.endsWithIgnoreCase(formattedDate,"11:59 pm")){
-                    return StringUtils.removeEndIgnoreCase(formattedDate,"11:59 pm");
-                }else {
-                    return formattedDate;
-                }
+                String formattedEndDate = formatter.format(endDate);
+                String formattedStartDate = formatter.format(startDate);
+                String strippedDate = StringUtils.removeStart(formattedEndDate,StringUtils.substringBefore(formattedStartDate," "));
+                return StringUtils.removeEndIgnoreCase(strippedDate,"11:59 pm");
             }else{
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 return formatter.format(endDate);
