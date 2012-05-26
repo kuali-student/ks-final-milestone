@@ -40,6 +40,8 @@ import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -68,9 +70,7 @@ public class CourseRegistrationServiceMockImpl
     private final Map<String, List<RegistrationRequestItemInfo>> xactionMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>(); /* cr, ritem */
     private final Map<String, List<RegistrationRequestItemInfo>> studentMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>(); /* stu, ritem */
     
-    private final String STATE_UNSUBMITTED = "unsubmitted"; // TODO: use real States
-    private final String STATE_SUBMITTED   = "submitted";
-    private final static String CREDIT_LIMIT = "15"; // TODO: configure
+    private final static String CREDIT_LIMIT = "15"; 
     private static long id = 0;
 
     private CourseOfferingService coService;
@@ -395,7 +395,7 @@ public class CourseRegistrationServiceMockImpl
 
         List<RegistrationRequestInfo> ret = new ArrayList<RegistrationRequestInfo>();
         for (RegistrationRequestInfo rr : getRegistrationRequestsByRequestor(requestorId, contextInfo)) {
-            if (rr.getStateKey().equals(STATE_UNSUBMITTED) && rr.getTermId().equals(termId)) {
+            if (rr.getStateKey().equals(LprServiceConstants.LPRTRANS_NEW_STATE_KEY) && rr.getTermId().equals(termId)) {
                 ret.add(rr);
             }
         }
@@ -420,6 +420,11 @@ public class CourseRegistrationServiceMockImpl
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
+
+        if (!registrationRequestTypeKey.equals(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY)) {
+            results.add(makeValidationError("RegistrationRequest.type", "unknown type"));
+        }
+
         if (registrationRequestInfo.getRequestorId() == null) {
             results.add(makeValidationError("RegistrationRequest.requestorId", "cannot be null"));
         }
@@ -438,9 +443,67 @@ public class CourseRegistrationServiceMockImpl
             if (item.getStudentId() == null) {
                 results.add(makeValidationError("RegistrationRequestItem.studentId", "cannot be null"));
             }
-        }
 
-        // TODO: check for each Type
+            if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
+                if (item.getNewRegistrationGroupId() == null) {
+                    results.add(makeValidationError("RegistrationRequestItem.newRegistrationGroupId", "cannot be null"));
+                }
+
+                if (item.getExistingRegistrationGroupId() != null) {
+                    results.add(makeValidationError("RegistrationRequestItem.existingRegistrationGroupId", "must be null"));
+                }
+
+                if (item.getCredits() == null) {
+                    results.add(makeValidationError("RegistrationRequestItem.credits", "cannot be null"));
+                }
+
+                if (item.getGradingOptionId() == null) {
+                    results.add(makeValidationError("RegistrationRequestItem.gradingOptionId", "cannot be null"));
+                }
+            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
+                if (item.getNewRegistrationGroupId() != null) {
+                    results.add(makeValidationError("RegistrationRequestItem.newRegistrationGroupId", "must be null"));
+                }
+
+                if (item.getExistingRegistrationGroupId() == null) {
+                    results.add(makeValidationError("RegistrationRequestItem.existingRegistrationGroupId", "cannot be null"));
+                }
+
+                if (item.getCredits() != null) {
+                    results.add(makeValidationError("RegistrationRequestItem.credits", "must be null"));
+                }
+
+                if (item.getGradingOptionId() != null) {
+                    results.add(makeValidationError("RegistrationRequestItem.gradingOptionId", "must be null"));
+                }
+            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
+                if (item.getNewRegistrationGroupId() == null) {
+                    results.add(makeValidationError("RegistrationRequestItem.newRegistrationGroupId", "cannot be null"));
+                }
+
+                if (item.getExistingRegistrationGroupId() == null) {
+                    results.add(makeValidationError("RegistrationRequestItem.existingRegistrationGroupId", "cannot be null"));
+                }
+
+                if (item.getCredits() == null) {
+                    results.add(makeValidationError("RegistrationRequestItem.credits", "cannot be null"));
+                }
+
+                if (item.getGradingOptionId() == null) {
+                    results.add(makeValidationError("RegistrationRequestItem.gradingOptionId", "cannot be null"));
+                }
+            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY)) {
+                if (item.getNewRegistrationGroupId() != null) {
+                    results.add(makeValidationError("RegistrationRequestItem.newRegistrationGroupId", "must be null"));
+                }
+
+                if (item.getExistingRegistrationGroupId() == null) {
+                    results.add(makeValidationError("RegistrationRequestItem.existingRegistrationGroupId", "cannot be null"));
+                }
+            } else {
+                results.add(makeValidationError("RegistrationRequestItem.typeKey", "unknown item type"));
+            }
+        }
 
         return Collections.unmodifiableList(results);
     }
@@ -457,7 +520,7 @@ public class CourseRegistrationServiceMockImpl
         RegistrationRequestInfo rr = new RegistrationRequestInfo(registrationRequestInfo);
         rr.setId(newId());
         rr.setTypeKey(registrationRequestTypeKey);
-        rr.setStateKey(STATE_UNSUBMITTED);
+        rr.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
         rr.setMeta(newMeta(contextInfo));
         
         this.rrMap.put(rr.getId(), rr);
@@ -471,20 +534,36 @@ public class CourseRegistrationServiceMockImpl
         RegistrationRequestInfo rr = new RegistrationRequestInfo(getRegistrationRequest(registrationRequestId, contextInfo));
         rr.setMeta(null);
         rr.setId(newId());
-        rr.setStateKey(STATE_UNSUBMITTED);
+        rr.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+
+        List<ValidationResultInfo> results = validateRegistrationRequest("any", rr.getTypeKey(), rr, contextInfo);
+        if (results.size() > 0) {
+            throw new OperationFailedException("data validation error in copy");
+        }
 
         this.rrMap.put(rr.getId(), rr);
 
         return rr;
     }
 
-
     @Override
     public RegistrationRequestInfo updateRegistrationRequest(String registrationRequestId, RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo)
         throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
-        // TODO
-        return null;
+        if (!registrationRequestId.equals(registrationRequestInfo.getId())) {
+            throw new InvalidParameterException("The id parameter does not match the id on the info object");
+        }
+
+        RegistrationRequestInfo copy = new RegistrationRequestInfo(registrationRequestInfo);
+        RegistrationRequestInfo old = getRegistrationRequest(registrationRequestId, contextInfo);
+        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
+        }
+
+        copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
+        this.rrMap.put(registrationRequestId, copy);
+
+        return new RegistrationRequestInfo(copy);
     }
 
     @Override
@@ -500,7 +579,6 @@ public class CourseRegistrationServiceMockImpl
         return new StatusInfo();
     }
 
-
     @Override
     public List<ValidationResultInfo> verifyRegistrationRequestForSubmission(String registrationRequestId, ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -509,13 +587,12 @@ public class CourseRegistrationServiceMockImpl
         return Collections.EMPTY_LIST;
     }
 
-
     @Override
     public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
         throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         RegistrationRequest rr = getRegistrationRequest(registrationRequestId, contextInfo);
-        if (rr.getStateKey().equals(STATE_SUBMITTED)) {
+        if (!rr.getStateKey().equals(LprServiceConstants.LPRTRANS_NEW_STATE_KEY)) {
             throw new AlreadyExistsException(registrationRequestId + " already submitted");
         }
 
@@ -549,7 +626,7 @@ public class CourseRegistrationServiceMockImpl
                         ret.add(rri);
                     }
                 }
-            } catch (DoesNotExistException dne) {}
+            } catch (DoesNotExistException dne) {} // CO should throw this here
         }
 
         return Collections.unmodifiableList(ret);
@@ -614,8 +691,11 @@ public class CourseRegistrationServiceMockImpl
                 map.put(item.getStudentId(), load);
             }
 
-            // TODO: subtract if a drop
-            load.setAdditionalCredits((new BigDecimal(item.getCredits())).add(new BigDecimal(load.getAdditionalCredits())).toString());
+            if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
+                load.setAdditionalCredits((new BigDecimal(item.getCredits())).add(new BigDecimal(load.getAdditionalCredits())).toString());
+            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
+                // TODO: figure out credits
+            }
         }
 
         return Collections.unmodifiableList(new ArrayList<CreditLoadInfo>(map.values()));
