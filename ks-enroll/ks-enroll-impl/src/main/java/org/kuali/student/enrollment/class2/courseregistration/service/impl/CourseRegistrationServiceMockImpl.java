@@ -68,7 +68,7 @@ public class CourseRegistrationServiceMockImpl
     private final Map<String, CourseRegistrationInfo> crMap   = new LinkedHashMap<String, CourseRegistrationInfo>();
     private final Map<String, ActivityRegistrationInfo> arMap = new LinkedHashMap<String, ActivityRegistrationInfo>();
     private final Map<String, RegistrationRequestInfo> rrMap  = new LinkedHashMap<String, RegistrationRequestInfo>();
-    private final Map<String, List<String>> regMap            = new LinkedHashMap<String, List<String>>(); /* cr, ar */
+    private final Map<String, List<ActivityRegistrationInfo>> regMap        = new LinkedHashMap<String, List<ActivityRegistrationInfo>>(); /* cr, ar */
     private final Map<String, List<RegistrationRequestItemInfo>> xactionMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>(); /* cr, ritem */
     private final Map<String, List<RegistrationRequestItemInfo>> studentMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>(); /* stu, ritem */
     
@@ -250,12 +250,8 @@ public class CourseRegistrationServiceMockImpl
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<ActivityRegistrationInfo> ret = new ArrayList<ActivityRegistrationInfo>();
-        for (String arId : this.regMap.get(courseRegistrationId)) {
-            try {
-                ret.add(getActivityRegistration(arId, contextInfo));
-            } catch (DoesNotExistException dne) {
-                throw new OperationFailedException("ActivityRegistrations out of sync", dne);
-            }
+        for (ActivityRegistrationInfo ar : this.regMap.get(courseRegistrationId)) {
+            ret.add(ar);
         }
 
         return Collections.unmodifiableList(ret);
@@ -598,26 +594,98 @@ public class CourseRegistrationServiceMockImpl
     public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
         throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
+        /* look up the registration request */
         RegistrationRequestInfo rr = getRegistrationRequest(registrationRequestId, contextInfo);
         if (!rr.getStateKey().equals(LprServiceConstants.LPRTRANS_NEW_STATE_KEY)) {
             throw new AlreadyExistsException(registrationRequestId + " already submitted");
         }
 
+        /* verify the registration request */
         List<ValidationResultInfo> results = verifyRegistrationRequestForSubmission(registrationRequestId, contextInfo);
         if (results.size() > 0) {
             rr.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
             throw new OperationFailedException("registration failed, try verifying next time");
         }
 
-        //...... TODO:
-        //   also, check to see if student is already registered in CO
+        /* check to see if the student is already regsistered in the course offering */
+        //...... TODO
 
-        for (RegistrationRequestItem item : rr.getRegistrationRequestItems()) {
+        /* create the response */
+        RegistrationResponseInfo response = new RegistrationResponseInfo();
+        response.setRegistrationRequestId(rr.getId());
+        
+        /* cddr through the list of request items */
+        for (RegistrationRequestItemInfo item : rr.getRegistrationRequestItems()) {
+
+            /* get the registration groups */
             RegistrationGroup newrg = getCourseOfferingService().getRegistrationGroup(item.getNewRegistrationGroupId(), contextInfo);
             RegistrationGroup existingrg = getCourseOfferingService().getRegistrationGroup(item.getExistingRegistrationGroupId(), contextInfo);
 
+            /* an ADD */
             if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
-                // create CR. AR, and responses
+                
+                /* create the course registration */
+                CourseRegistrationInfo cr = new CourseRegistrationInfo();
+                cr.setId(newId());
+                cr.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
+                cr.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
+                cr.setMeta(newMeta(contextInfo));
+                cr.setStudentId(item.getStudentId());
+                cr.setCourseOfferingId(newrg.getCourseOfferingId());
+                cr.setCredits(item.getCredits());
+                cr.setGradingOptionId(item.getGradingOptionId());
+                this.crMap.put(cr.getId(), cr);
+
+                /* update the local db */
+                List<RegistrationRequestItemInfo> items = this.xactionMap.get(cr.getId());
+                if (items == null) {
+                    items = new ArrayList<RegistrationRequestItemInfo>();
+                    this.xactionMap.put(cr.getId(), items);
+                }
+                
+                items.add(item);
+
+                items = this.studentMap.get(item.getStudentId());
+                if (items == null) {
+                    items = new ArrayList<RegistrationRequestItemInfo>();
+                    this.xactionMap.put(item.getStudentId(), items);
+                }
+                
+                items.add(item);
+
+                /* create the activity registrations */
+                for (String activityId : newrg.getActivityOfferingIds()) {
+                    ActivityRegistrationInfo ar = new ActivityRegistrationInfo();
+                    ar.setId(newId());
+                    ar.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
+                    ar.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
+                    ar.setMeta(newMeta(contextInfo));
+                    ar.setStudentId(item.getStudentId());
+                    ar.setActivityOfferingId(activityId);
+                    this.arMap.put(ar.getId(), ar);
+
+                    /* update the local db */
+                    List<ActivityRegistrationInfo> ars = this.regMap.get(cr.getId());
+                    if (ars == null) {
+                        ars = new ArrayList<ActivityRegistrationInfo>();
+                        this.regMap.put(cr.getId(), ars);
+                    }
+                    
+                    ars.add(ar);
+                }
+                
+                /* set the state for the item */
+                item.setStateKey(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY);
+
+                /* add the response item */
+                RegistrationResponseItemInfo responseItem = new RegistrationResponseItemInfo();
+                responseItem.setRegistrationRequestItemId(item.getId());
+                OperationStatusInfo status = new OperationStatusInfo();
+                status.setStatus("ok");
+                responseItem.setOperationStatus(status);
+                responseItem.setCourseRegistrationId(cr.getId());
+                response.getRegistrationResponseItems().add(responseItem);
+
             } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
                 
             } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
@@ -627,23 +695,10 @@ public class CourseRegistrationServiceMockImpl
             } 
         }
 
-        /*
-          Map<String, CourseRegistrationInfo> crMap   = new LinkedHashMap<String, CourseRegistrationInfo>();
-          Map<String, ActivityRegistrationInfo> arMap = new LinkedHashMap<String, ActivityRegistrationInfo>();
-          Map<String, RegistrationRequestInfo> rrMap  = new LinkedHashMap<String, RegistrationRequestInfo>();
-          Map<String, List<String>> regMap            = new LinkedHashMap<String, List<String>>(); 
-          Map<String, List<RegistrationRequestItemInfo>> xactionMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>();
-          Map<String, List<RegistrationRequestItemInfo>> studentMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>();
-        */
-
         rr.setStateKey(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY);
 
         OperationStatusInfo status = new OperationStatusInfo();
         status.setStatus("ok");
-
-        RegistrationResponseInfo response = new RegistrationResponseInfo();
-        response.setRegistrationRequestId(rr.getId());
-        response.setOperationStatus(status);
 
         return response;
     }
