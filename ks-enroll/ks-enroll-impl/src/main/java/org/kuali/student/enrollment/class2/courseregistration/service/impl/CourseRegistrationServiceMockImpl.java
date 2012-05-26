@@ -35,6 +35,7 @@ import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationI
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -45,6 +46,7 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.OperationStatusInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -575,6 +577,11 @@ public class CourseRegistrationServiceMockImpl
             throw new DoesNotExistException(registrationRequestId + " not found");
         }
 
+        if (rr.getStateKey().equals(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY) ||
+            rr.getStateKey().equals(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY)) {
+            throw new OperationFailedException("cannot delete a submitted registration request, sorry");
+        }
+
         this.rrMap.remove(registrationRequestId);
         return new StatusInfo();
     }
@@ -591,13 +598,54 @@ public class CourseRegistrationServiceMockImpl
     public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
         throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        RegistrationRequest rr = getRegistrationRequest(registrationRequestId, contextInfo);
+        RegistrationRequestInfo rr = getRegistrationRequest(registrationRequestId, contextInfo);
         if (!rr.getStateKey().equals(LprServiceConstants.LPRTRANS_NEW_STATE_KEY)) {
             throw new AlreadyExistsException(registrationRequestId + " already submitted");
         }
 
-        // TODO
-        return null;
+        List<ValidationResultInfo> results = verifyRegistrationRequestForSubmission(registrationRequestId, contextInfo);
+        if (results.size() > 0) {
+            rr.setStateKey(LprServiceConstants.LPRTRANS_FAILED_STATE_KEY);
+            throw new OperationFailedException("registration failed, try verifying next time");
+        }
+
+        //...... TODO:
+        //   also, check to see if student is already registered in CO
+
+        for (RegistrationRequestItem item : rr.getRegistrationRequestItems()) {
+            RegistrationGroup newrg = getCourseOfferingService().getRegistrationGroup(item.getNewRegistrationGroupId(), contextInfo);
+            RegistrationGroup existingrg = getCourseOfferingService().getRegistrationGroup(item.getExistingRegistrationGroupId(), contextInfo);
+
+            if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
+                // create CR. AR, and responses
+            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
+                
+            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
+                
+            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY)) {
+                
+            } 
+        }
+
+        /*
+          Map<String, CourseRegistrationInfo> crMap   = new LinkedHashMap<String, CourseRegistrationInfo>();
+          Map<String, ActivityRegistrationInfo> arMap = new LinkedHashMap<String, ActivityRegistrationInfo>();
+          Map<String, RegistrationRequestInfo> rrMap  = new LinkedHashMap<String, RegistrationRequestInfo>();
+          Map<String, List<String>> regMap            = new LinkedHashMap<String, List<String>>(); 
+          Map<String, List<RegistrationRequestItemInfo>> xactionMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>();
+          Map<String, List<RegistrationRequestItemInfo>> studentMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>();
+        */
+
+        rr.setStateKey(LprServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY);
+
+        OperationStatusInfo status = new OperationStatusInfo();
+        status.setStatus("ok");
+
+        RegistrationResponseInfo response = new RegistrationResponseInfo();
+        response.setRegistrationRequestId(rr.getId());
+        response.setOperationStatus(status);
+
+        return response;
     }
 
     @Override
