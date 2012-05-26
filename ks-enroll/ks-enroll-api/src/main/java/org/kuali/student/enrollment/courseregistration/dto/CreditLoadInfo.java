@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 The Kuali Foundation 
+ * Copyright 2012 The Kuali Foundation 
  *
  * Licensed under the Educational Community License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
@@ -26,20 +26,16 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.courseregistration.infc.ActivityRegistration;
-import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.enrollment.courseregistration.infc.CreditLoad;
 import org.w3c.dom.Element;
  
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ActivityRegistrationInfo", propOrder = {
-                "id", "typeKey", "stateKey", 
-                "studentId", "activityOfferingId",
-                "effectiveDate", "expirationDate", "meta", "attributes", 
+@XmlType(name = "CreditLoadInfo", propOrder = {
+                "studentId", "creditLoad", "creditLimit", "additionalCredits",
                 "_futureElements"})
 
-public class ActivityRegistrationInfo 
-    extends RelationshipInfo 
-    implements ActivityRegistration, Serializable {
+public class CreditLoadInfo 
+    implements CreditLoad, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,31 +43,36 @@ public class ActivityRegistrationInfo
     private String studentId;
 
     @XmlElement
-    private String activityOfferingId;
+    private String creditLoad;
+
+    @XmlElement
+    private String creditLimit;
+
+    @XmlElement
+    private String additionalCredits;
 
     @XmlAnyElement
     private List<Element> _futureElements;
 
 
     /**
-     * Constructs a new ActivityRegistrationInfo.
+     * Constructs a new CreditLoadInfo.
      */
-    public ActivityRegistrationInfo() {
+    public CreditLoadInfo() {
     }
 
     /**
-     * Constructs a new ActivityRegistrationInfo from another
-     * ActivityRegistration.
+     * Constructs a new CreditLoadInfo from another CreditLoad.
      *
-     * @param activityRegistration the ActivityRegistration to copy
+     * @param creditLoad the CreditLoad to copy
      */
 
-    public ActivityRegistrationInfo(ActivityRegistration activityRegistration) {
-        super(activityRegistration);
-
-        if (activityRegistration != null) {
-            this.studentId = activityRegistration.getStudentId();
-            this.activityOfferingId = activityRegistration.getActivityOfferingId();
+    public CreditLoadInfo(CreditLoad creditLoad) {
+        if (creditLoad != null) {
+            this.studentId = creditLoad.getStudentId();
+            this.creditLoad = creditLoad.getCreditLoad();
+            this.creditLimit = creditLoad.getCreditLimit();
+            this.additionalCredits = creditLoad.getAdditionalCredits();
         }
     }
   
@@ -85,11 +86,29 @@ public class ActivityRegistrationInfo
     }
 
     @Override
-    public String getActivityOfferingId() {
-        return activityOfferingId;
+    public String getCreditLoad() {
+        return creditLoad;
     }
 
-    public void setActivityOfferingId(String activityOfferingId) {
-        this.activityOfferingId = activityOfferingId;
+    public void setCreditLoad(String creditLoad) {
+        this.creditLoad = creditLoad;
+    }
+
+    @Override
+    public String getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(String creditLimit) {
+        this.creditLimit = creditLimit;
+    }
+
+    @Override
+    public String getAdditionalCredits() {
+        return additionalCredits;
+    }
+
+    public void setAdditionalCredits(String credits) {
+        this.additionalCredits = credits;
     }
 }

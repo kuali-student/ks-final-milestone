@@ -13,6 +13,7 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
@@ -32,23 +33,30 @@ import org.w3c.dom.Element;
  *
  * @author nwright
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValidationResultInfo", propOrder = {
-    "element", "level", "message",
-    "_futureElements"})
+                "element", "level", "message",
+                "_futureElements"})
+
 public class ValidationResultInfo
-        implements ValidationResult, Serializable {
+    implements ValidationResult, Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @XmlElement
     private String element;
+    
     @XmlElement
     private ErrorLevel level;
+    
     @XmlElement
     private String message;
+
 //  used to hold debugging information 
 //  not intended to be sent over the wire          
     private transient Object invalidData;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -161,7 +169,6 @@ public class ValidationResultInfo
     public void setLevel(ErrorLevel level) {
         this.level = level;
     }
-
     
     /**
      * not part of the contract but carried over from r1
@@ -201,5 +208,4 @@ public class ValidationResultInfo
         this.level = ErrorLevel.ERROR;
         this.message = message;
     }
-
 }

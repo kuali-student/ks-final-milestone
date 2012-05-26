@@ -26,11 +26,10 @@ import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationI
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-
-import org.kuali.student.enrollment.grading.dto.LoadInfo;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -346,17 +345,12 @@ public class CourseRegistrationServiceDecorator
         
         return getNextDecorator().getEligibleRegistrationGroupsForStudentInCourseOffering(studentId, courseOfferingId, contextInfo);
 
-    }@Override
-    public LoadInfo calculateCreditLoadForTerm(String studentId, String termId, ContextInfo contextInfo)
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
-        return getNextDecorator().calculateCreditLoadForTerm(studentId, termId, contextInfo);
     }
 
     @Override
-    public LoadInfo calculateCreditLoadForRegistrationRequest(String studentId, String registrationRequestId, ContextInfo contextInfo)
+    public List<CreditLoadInfo> calculateCreditLoadForRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException,  OperationFailedException, PermissionDeniedException {
         
-        return getNextDecorator().calculateCreditLoadForRegistrationRequest(studentId, registrationRequestId, contextInfo);
+        return getNextDecorator().calculateCreditLoadForRegistrationRequest(registrationRequestId, contextInfo);
     }
 }

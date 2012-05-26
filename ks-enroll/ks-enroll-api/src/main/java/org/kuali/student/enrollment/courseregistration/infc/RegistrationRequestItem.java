@@ -52,7 +52,6 @@ public interface RegistrationRequestItem
      * The RegistrationRequest to which this item belongs.
      * 
      * @name Registration Request Id
-     * @required
      * @readOnly
      */
     public String getRegistrationRequestId();

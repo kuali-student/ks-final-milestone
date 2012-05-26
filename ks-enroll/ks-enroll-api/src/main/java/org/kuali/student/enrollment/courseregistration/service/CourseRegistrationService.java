@@ -29,9 +29,8 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-
-import org.kuali.student.enrollment.grading.dto.LoadInfo;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -1118,52 +1117,24 @@ public interface CourseRegistrationService  {
                PermissionDeniedException;
 
     /**
-     * Calculate the credit load for a student in a given term.
-     * 
-     * @param studentId an identifier of a Student
-     * @param termId an identifier of a Term
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of the service
-     *        operation
-     * @return the load
-     * @throws DoesNotExistException studentId or termId is not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException studentId, termId,
-     *         or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public LoadInfo calculateCreditLoadForTerm(@WebParam(name = "studentId") String studentId, 
-                                               @WebParam(name = "termId") String termId, 
-                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
-        throws DoesNotExistException,
-               InvalidParameterException,
-               MissingParameterException, 
-               OperationFailedException, 
-               PermissionDeniedException;
-
-    /**
-     * Calculate the credit load for a student in a given
+     * Calculate the credit load for each student in a given
      * RegistrationRequest.
      * 
-     * @param studentId an identifier of a Student
      * @param registrationRequestId an identifier of a RegistrationRequest
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
      *        operation
-     * @return the load
-     * @throws DoesNotExistException studentId or
-     *         registrationRequestId is not found
+     * @return the credit load
+     * @throws DoesNotExistException registrationRequestId is not
+     *         found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException studentId,
-     *         registrationRequestId, or contextInfo is missing or
-     *         null
+     * @throws MissingParameterException registrationRequestId, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public LoadInfo calculateCreditLoadForRegistrationRequest(@WebParam(name = "studentId") String studentId, 
-                                                              @WebParam(name = "registrationRequestId") String registrationRequestId, 
-                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<CreditLoadInfo> calculateCreditLoadForRegistrationRequest(@WebParam(name = "registrationRequestId") String registrationRequestId, 
+                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DoesNotExistException,
                InvalidParameterException,
                MissingParameterException, 

@@ -29,11 +29,10 @@ import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationI
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-
-import org.kuali.student.enrollment.grading.dto.LoadInfo;
 
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -341,15 +340,10 @@ public abstract class AbstractCourseRegistrationService
 
         throw new OperationFailedException("unimplemented");
 
-    }@Override
-    public LoadInfo calculateCreditLoadForTerm(String studentId, String termId, ContextInfo contextInfo)
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        throw new OperationFailedException("unimplemented");
     }
 
     @Override
-    public LoadInfo calculateCreditLoadForRegistrationRequest(String studentId, String registrationRequestId, ContextInfo contextInfo)
+    public List<CreditLoadInfo> calculateCreditLoadForRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         throw new OperationFailedException("unimplemented");
