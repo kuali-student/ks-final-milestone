@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 The Kuali Foundation
+ * Copyright 2012 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -35,7 +36,9 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIn
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
+
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -61,10 +64,13 @@ public class CourseRegistrationServiceMockImpl
     private final Map<String, CourseRegistrationInfo> crMap   = new LinkedHashMap<String, CourseRegistrationInfo>();
     private final Map<String, ActivityRegistrationInfo> arMap = new LinkedHashMap<String, ActivityRegistrationInfo>();
     private final Map<String, RegistrationRequestInfo> rrMap  = new LinkedHashMap<String, RegistrationRequestInfo>();
-    private final Map<String, List<String>> xactionMap        = new LinkedHashMap<String, List<String>>();
-    private final String STATE_UNSUBMITTED = "unsubmitted";
+    private final Map<String, List<String>> regMap            = new LinkedHashMap<String, List<String>>(); /* cr, ar */
+    private final Map<String, List<RegistrationRequestItemInfo>> xactionMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>(); /* cr, ritem */
+    private final Map<String, List<RegistrationRequestItemInfo>> studentMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>(); /* stu, ritem */
+    
+    private final String STATE_UNSUBMITTED = "unsubmitted"; // TODO: use real States
     private final String STATE_SUBMITTED   = "submitted";
-    private final static String CREDIT_LIMIT = "15";
+    private final static String CREDIT_LIMIT = "15"; // TODO: configure
     private static long id = 0;
 
     private CourseOfferingService coService;
@@ -92,7 +98,7 @@ public class CourseRegistrationServiceMockImpl
     public List<CourseRegistrationInfo> getCourseRegistrations(ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (new ArrayList<CourseRegistrationInfo>(this.crMap.values()));
+        return (Collections.unmodifiableList(new ArrayList<CourseRegistrationInfo>(this.crMap.values())));
     }
 
     @Override
@@ -104,7 +110,7 @@ public class CourseRegistrationServiceMockImpl
             ret.add(getCourseRegistration(id, contextInfo));
         }
         
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -118,7 +124,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
     
     @Override
@@ -132,7 +138,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -146,7 +152,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -160,7 +166,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -178,7 +184,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -190,7 +196,7 @@ public class CourseRegistrationServiceMockImpl
             ret.add(cr.getId());
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -202,13 +208,13 @@ public class CourseRegistrationServiceMockImpl
             throw new DoesNotExistException(activityRegistrationId + " does not exist");
         }
 
-        return (arInfo);
+        return arInfo;
     }
     
     public List<ActivityRegistrationInfo> getActivityRegistrations(ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (new ArrayList<ActivityRegistrationInfo>(this.arMap.values()));
+        return Collections.unmodifiableList(new ArrayList<ActivityRegistrationInfo>(this.arMap.values()));
     }
 
     @Override
@@ -220,7 +226,7 @@ public class CourseRegistrationServiceMockImpl
             ret.add(getActivityRegistration(id, contextInfo));
         }
         
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -234,7 +240,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -242,7 +248,7 @@ public class CourseRegistrationServiceMockImpl
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<ActivityRegistrationInfo> ret = new ArrayList<ActivityRegistrationInfo>();
-        for (String arId : this.xactionMap.get(courseRegistrationId)) {
+        for (String arId : this.regMap.get(courseRegistrationId)) {
             try {
                 ret.add(getActivityRegistration(arId, contextInfo));
             } catch (DoesNotExistException dne) {
@@ -250,7 +256,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -264,7 +270,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -278,10 +284,10 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
-   @Override
+    @Override
     public List<ActivityRegistrationInfo> getActivityRegistrationsByStudentAndActivityOffering(String studentId, String activityOfferingId, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -292,7 +298,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -310,7 +316,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -322,7 +328,7 @@ public class CourseRegistrationServiceMockImpl
             ret.add(cr.getId());
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -334,13 +340,13 @@ public class CourseRegistrationServiceMockImpl
             throw new DoesNotExistException(registrationRequestId + " does not exist");
         }
 
-        return (rrInfo);
+        return rrInfo;
     }
 
     public List<RegistrationRequestInfo> getRegistrationRequests(ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return (new ArrayList<RegistrationRequestInfo>(this.rrMap.values()));
+        return Collections.unmodifiableList(new ArrayList<RegistrationRequestInfo>(this.rrMap.values()));
     }
 
     @Override
@@ -352,7 +358,7 @@ public class CourseRegistrationServiceMockImpl
             ret.add(getRegistrationRequest(id, contextInfo));
         }
         
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -366,7 +372,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -380,7 +386,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -394,7 +400,7 @@ public class CourseRegistrationServiceMockImpl
             }
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -406,7 +412,7 @@ public class CourseRegistrationServiceMockImpl
             ret.add(rr.getId());
         }
 
-        return (ret);
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -436,7 +442,7 @@ public class CourseRegistrationServiceMockImpl
 
         // TODO: check for each Type
 
-        return (results);
+        return Collections.unmodifiableList(results);
     }
 
     @Override
@@ -469,7 +475,7 @@ public class CourseRegistrationServiceMockImpl
 
         this.rrMap.put(rr.getId(), rr);
 
-        return (rr);
+        return rr;
     }
 
 
@@ -500,7 +506,7 @@ public class CourseRegistrationServiceMockImpl
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // it already data validated and we have nothing else to say
-        return new ArrayList<ValidationResultInfo>();
+        return Collections.EMPTY_LIST;
     }
 
 
@@ -517,19 +523,36 @@ public class CourseRegistrationServiceMockImpl
         return null;
     }
 
-
     @Override
     public List<RegistrationRequestItemInfo> getRegistrationRequestItemsForCourseRegistration(String courseRegistrationId, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        throw new OperationFailedException("unimplemented");
+        List <RegistrationRequestItemInfo> items = this.xactionMap.get(courseRegistrationId);
+        if (items == null) {
+            return Collections.EMPTY_LIST;
+        } else {
+            return Collections.unmodifiableList(items);
+        }
     }
 
     @Override
     public List<RegistrationRequestItemInfo> getRegistrationRequestItemsByCourseOfferingAndStudent(String courseOfferingId, String studentId, ContextInfo contextInfo)
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        throw new OperationFailedException("unimplemented");
+        List <RegistrationRequestItemInfo> ret = new ArrayList<RegistrationRequestItemInfo>();
+
+        for (RegistrationRequestItemInfo rri : this.studentMap.get(studentId)) {
+            try {
+                for (RegistrationGroup rg : getCourseOfferingService().getRegistrationGroupsForCourseOffering(courseOfferingId, contextInfo)) {
+                    if (rri.getNewRegistrationGroupId().equals(rg.getId()) ||
+                        rri.getExistingRegistrationGroupId().equals(rg.getId())) {
+                        ret.add(rri);
+                    }
+                }
+            } catch (DoesNotExistException dne) {}
+        }
+
+        return Collections.unmodifiableList(ret);
     }
 
     @Override
@@ -541,7 +564,7 @@ public class CourseRegistrationServiceMockImpl
             results.add(makeValidationError("basic elegibility", "norm can't register"));
         }
 
-        return results;
+        return Collections.unmodifiableList(results);
     }
 
    @Override
@@ -553,7 +576,7 @@ public class CourseRegistrationServiceMockImpl
             results.add(makeValidationError("elegibility for term", "norm can't register this term"));
         }
 
-        return results;
+        return Collections.unmodifiableList(results);
     }
 
     @Override
@@ -565,14 +588,14 @@ public class CourseRegistrationServiceMockImpl
             results.add(makeValidationError("elegibility forcourse offering", "norm can't register in this class"));
         }
 
-        return results;
+        return Collections.unmodifiableList(results);
     }
 
     @Override
     public List<ValidationResultInfo> checkStudentEligibiltyForRegistrationGroup(String studentId, String registrationGroupId, ContextInfo contextInfo)
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return new ArrayList<ValidationResultInfo>();
+        return Collections.EMPTY_LIST;
     }
 
     @Override
@@ -595,7 +618,7 @@ public class CourseRegistrationServiceMockImpl
             load.setAdditionalCredits((new BigDecimal(item.getCredits())).add(new BigDecimal(load.getAdditionalCredits())).toString());
         }
 
-        return new ArrayList<CreditLoadInfo>(map.values());   
+        return Collections.unmodifiableList(new ArrayList<CreditLoadInfo>(map.values()));
     }
 
 
