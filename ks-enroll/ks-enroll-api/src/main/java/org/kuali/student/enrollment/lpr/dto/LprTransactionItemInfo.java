@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
 import org.kuali.student.enrollment.lpr.infc.LprRequestOption;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItemResult;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
@@ -75,10 +76,13 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
             if (null != lprTransactionItem.getResultValuesGroupKeys()) {
                 resultValuesGroupKeys.addAll(lprTransactionItem.getResultValuesGroupKeys());
             }
-
-            if (lprTransactionItem.getLprTransactionItemResult() != null) {
-                this.lprTransactionItemResult = new LprTransactionItemResultInfo(lprTransactionItem.getLprTransactionItemResult());
+            LprTransactionItemResult result = lprTransactionItem.getLprTransactionItemResult();
+            if (result != null) {
+            	// only set the result if there is a result in the item.
+            	this.lprTransactionItemResult = new LprTransactionItemResultInfo(result);	
             }
+
+            this._futureElements = null;
         }
     }
 
