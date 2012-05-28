@@ -339,10 +339,9 @@ public class AtpServiceImpl implements AtpService {
         AtpEntity entity = new AtpEntity(atpInfo);
         entity.setId(atpInfo.getId());
         entity.setAtpType(atpTypeKey);
-        entity.setCreateId(contextInfo.getPrincipalId());
-        entity.setCreateTime(contextInfo.getCurrentDate());
-        entity.setUpdateId(contextInfo.getPrincipalId());
-        entity.setUpdateTime(contextInfo.getCurrentDate());
+       
+        entity.setEntityCreated(contextInfo);
+        
 //        System.out.println ("AtpEntity: before persist ATP " + entity.getId());
         atpDao.persist(entity);
 //        System.out.println ("AtpEntity: after persist ATP " + entity.getId());
@@ -361,8 +360,9 @@ public class AtpServiceImpl implements AtpService {
             throw new DoesNotExistException(atpId);
         }
         entity.fromDTO(atpInfo);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+        
+        entity.setEntityUpdated(context);
+        
         atpDao.merge(entity);
         return entity.toDto();
     }
@@ -447,10 +447,9 @@ public class AtpServiceImpl implements AtpService {
         MilestoneEntity entity = new MilestoneEntity(milestoneInfo);
         entity.setId(milestoneInfo.getId());
         entity.setAtpType(milestoneTypeKey);
-        entity.setCreateId(contextInfo.getPrincipalId());
-        entity.setCreateTime(contextInfo.getCurrentDate());
-        entity.setUpdateId(contextInfo.getPrincipalId());
-        entity.setUpdateTime(contextInfo.getCurrentDate());
+        
+        entity.setEntityCreated(contextInfo);
+        
         milestoneDao.persist(entity);
         MilestoneInfo result = entity.toDto();
         return result;
@@ -466,8 +465,9 @@ public class AtpServiceImpl implements AtpService {
             throw new DoesNotExistException(milestoneId);
         }
         entity.fromDto(milestoneInfo);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+        
+        entity.setEntityUpdated(context);
+        
         milestoneDao.merge(entity);
         return entity.toDto();
     }
@@ -523,10 +523,8 @@ public class AtpServiceImpl implements AtpService {
         AtpMilestoneRelationEntity entity = new AtpMilestoneRelationEntity();
         entity.setAtpId(atpId);
         entity.setMilestoneId(milestoneId);
-        entity.setCreateId(contextInfo.getPrincipalId());
-        entity.setCreateTime(contextInfo.getCurrentDate());
-        entity.setUpdateId(contextInfo.getPrincipalId());
-        entity.setUpdateTime(contextInfo.getCurrentDate());
+      
+        entity.setEntityCreated(contextInfo);
 
         atpMilestoneRelationDao.persist(entity);
         StatusInfo info = new StatusInfo();
@@ -692,10 +690,9 @@ public class AtpServiceImpl implements AtpService {
         if (entity.getRelatedAtp() == null) {
             throw new DoesNotExistException(relatedAtpId);
         }
-        entity.setCreateId(contextInfo.getPrincipalId());
-        entity.setCreateTime(contextInfo.getCurrentDate());
-        entity.setUpdateId(contextInfo.getPrincipalId());
-        entity.setUpdateTime(contextInfo.getCurrentDate());
+        
+        entity.setEntityCreated(contextInfo);
+        
         atpRelDao.persist(entity);
         return entity.toDto();
     }
@@ -713,8 +710,9 @@ public class AtpServiceImpl implements AtpService {
             throw new DoesNotExistException(atpAtpRelationId);
         }
         entity.fromDTO(atpAtpRelationInfo);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+        
+        entity.setEntityUpdated(context);
+        
         atpRelDao.merge(entity);
         return entity.toDto();
     }

@@ -231,10 +231,7 @@ public class LprServiceImpl implements LprService {
         
         LprEntity lpr = new LprEntity(luiPersonRelationInfo);
         
-        lpr.setCreateId(context.getPrincipalId());
-        lpr.setCreateTime(context.getCurrentDate());
-        lpr.setUpdateId(context.getPrincipalId());
-        lpr.setUpdateTime(context.getCurrentDate());
+        lpr.setEntityCreated(context);
         
         lprDao.persist(lpr);
         
@@ -259,8 +256,7 @@ public class LprServiceImpl implements LprService {
                 modifiedLpr.setPersonRelationTypeId(luiPersonRelationInfo.getTypeKey());
             }
 
-            modifiedLpr.setUpdateId(context.getPrincipalId());
-            modifiedLpr.setUpdateTime(context.getCurrentDate());
+            modifiedLpr.setEntityUpdated(context);
             
             lprDao.merge(modifiedLpr);
             
@@ -389,10 +385,7 @@ public class LprServiceImpl implements LprService {
             // TODO Mezba - decide what to do here
         }
         
-        lprTransactionEntity.setCreateId(context.getPrincipalId());
-        lprTransactionEntity.setCreateTime(context.getCurrentDate());
-        lprTransactionEntity.setUpdateId(context.getPrincipalId());
-        lprTransactionEntity.setUpdateTime(context.getCurrentDate());
+        lprTransactionEntity.setEntityCreated(context);
 
         lprTransDao.persist(lprTransactionEntity);
 
@@ -686,10 +679,8 @@ public class LprServiceImpl implements LprService {
         	lprTransItemEntity.setDescrPlain(descr.getPlain());
         }
         
-        lprTransItemEntity.setCreateId(context.getPrincipalId());
-        lprTransItemEntity.setCreateTime(context.getCurrentDate());
-        lprTransItemEntity.setUpdateId(context.getPrincipalId());
-        lprTransItemEntity.setUpdateTime(context.getCurrentDate());
+        lprTransItemEntity.setEntityCreated(context);
+
 
         lprTransItemDao.persist(lprTransItemEntity);
 

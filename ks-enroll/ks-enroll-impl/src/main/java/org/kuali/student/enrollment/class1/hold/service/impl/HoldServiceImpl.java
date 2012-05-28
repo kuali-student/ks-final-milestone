@@ -116,10 +116,9 @@ public class HoldServiceImpl implements HoldService {
         if (entity.getHoldIssue() == null) {
             throw new InvalidParameterException(issueId);
         }
-        entity.setCreateId(context.getPrincipalId());
-        entity.setCreateTime(context.getCurrentDate());
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+        
+        entity.setEntityCreated(context);
+        
         holdDao.persist(entity);
         return entity.toDto();
     }
@@ -137,8 +136,9 @@ public class HoldServiceImpl implements HoldService {
             throw new DoesNotExistException(holdId);
         }
         entity.fromDto(holdInfo);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+      
+        entity.setEntityUpdated(context);
+        
         holdDao.merge(entity);
         return entity.toDto();
     }
@@ -235,10 +235,9 @@ public class HoldServiceImpl implements HoldService {
             throw new InvalidParameterException(issueTypeKey + " does not match type in object " + issueInfo.getTypeKey());
         }
         HoldIssueEntity entity = new HoldIssueEntity(issueInfo);
-        entity.setCreateId(context.getPrincipalId());
-        entity.setCreateTime(context.getCurrentDate());
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+       
+        entity.setEntityCreated(context);
+        
         holdIssueDao.persist(entity);
         return entity.toDto();
     }
@@ -256,8 +255,9 @@ public class HoldServiceImpl implements HoldService {
             throw new DoesNotExistException(issueId);
         }
         entity.fromDto(issueInfo);
-        entity.setUpdateId(context.getPrincipalId());
-        entity.setUpdateTime(context.getCurrentDate());
+        
+        entity.setEntityUpdated(context);
+        
         holdIssueDao.merge(entity);
         return entity.toDto();
     }
