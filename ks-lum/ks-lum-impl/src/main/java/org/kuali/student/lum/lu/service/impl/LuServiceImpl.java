@@ -17,7 +17,6 @@ package org.kuali.student.lum.lu.service.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
-import org.kuali.student.lum.common.client.helpers.SearchParamHelper;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.*;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
@@ -104,8 +103,8 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(luTypeKey, "luTypeKey");
-SearchParamHelper.toSearchParamInfos(null);
-return luDao.getAllowedResultUsageTypesForLuType(luTypeKey);
+
+        return luDao.getAllowedResultUsageTypesForLuType(luTypeKey);
     }
 
     @Override
@@ -701,8 +700,7 @@ return luDao.getAllowedResultUsageTypesForLuType(luTypeKey);
         		CluAttribute.class, R1R2ConverterUtil.convert(cluInfo, org.kuali.student.r1.lum.lu.dto.CluInfo.class).getAttributes(), clu, luDao));
 
         if (cluInfo.getIntensity() != null) {
-            clu.setIntensity(LuServiceAssembler
-                    .toAmount(R1R2ConverterUtil.convert(cluInfo, org.kuali.student.r1.lum.lu.dto.CluInfo.class).getIntensity()));
+            clu.setIntensity(LuServiceAssembler.toAmount(cluInfo.getIntensity()));
         }
 
         if (clu.getCampusLocations() == null) {

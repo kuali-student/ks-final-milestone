@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.service.assembler;
 
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
@@ -37,22 +38,17 @@ public class MajorDisciplineDataGenerator {
 
 		if(String.class.equals(clazz)){
 			propertyIndex++;
-			instance = (T) (getStringValue(parentPropertyName,parentPropertyName,propertyIndex, isMap));
+			instance = (T) (getStringValue(parentPropertyName,parentPropertyName,propertyIndex, isMap, false));
 			return instance;
 		}
 		
 		BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
 		
-		// KSCM-621 Get all the fields including inherited fields...
-        List<Field> fields = new ArrayList<Field>();
+		List<Field> fields = new ArrayList<Field>();
         fields = getAllFields(fields, clazz);
         List<Method> methods= new ArrayList<Method>();
         methods = getAllMethods(methods, clazz);
 		
-		// KSCM-621 Get all the fields including inherited fields...
-       
-        
-        
 		for(PropertyDescriptor pd:beanInfo.getPropertyDescriptors()){
 
 			if(ignoreProperty(pd)){
@@ -62,14 +58,11 @@ public class MajorDisciplineDataGenerator {
 			Object value = null;
 			Class<?> pt = pd.getPropertyType();
 			
-			/////////
 			Field declaredField = findField(pd.getName(), fields);
             // We're not interested in the Interface, List, Map but in the actual class
             if (pt.isInterface() && !List.class.equals(pt) && !Map.class.equals(pt)) {
                 pt = declaredField.getType();
             }
-            /////////
-            
             
 			if(List.class.equals(pt)){
 				//If this is a list then make a new list and make x amount of test data of that list type
@@ -111,7 +104,7 @@ public class MajorDisciplineDataGenerator {
 			}else if(Date.class.equals(pt)){
 				value = new Date();
 			}else if(String.class.equals(pt)){
-				value = getStringValue(pd.getName(),parentPropertyName, propertyIndex, false);
+				value = getStringValue(pd.getName(),parentPropertyName, propertyIndex, false, AttributeInfo.class.equals(clazz));
 			}else{
 //                System.out.println("Property:" + pd.getDisplayName() + " :" + clazz.getName());
 			    value = generateTestData(pt,propertyIndex,sameClassNestLevel,pd.getName(), false);
@@ -144,10 +137,12 @@ public class MajorDisciplineDataGenerator {
 	 * @param name
 	 * @param parentPropertyName
 	 * @param propertyIndex
+	 * @param isMap
+	 * @param isAttribute
 	 * @return String value of the element
 	 */
 	private String getStringValue(String name, String parentPropertyName,
-			Integer propertyIndex, boolean isMap) {
+			Integer propertyIndex, boolean isMap, boolean isAttribute) {
 		if("id".equals(name)){
             if("loCategoryInfoList".equals(parentPropertyName)){
                 return "162979a3-25b9-4921-bc8f-c861b2267a73";
@@ -238,7 +233,7 @@ public class MajorDisciplineDataGenerator {
 			return campusLocations[propertyIndex%2];
 		}
 		//Default
-		if(isMap)
+		if(isMap || isAttribute)
 			return name+"-"+propertyIndex;
 		else
 			return name+"-"+"test";
