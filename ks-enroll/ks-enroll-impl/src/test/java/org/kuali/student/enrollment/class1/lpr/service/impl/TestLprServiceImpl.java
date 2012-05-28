@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNotNull;
 @ContextConfiguration(locations = {"classpath:lpr-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-public class TestLprServiceImpl {
+public class TestLprServiceImpl extends TestLprServiceMockImpl {
     public LprService getLprService() {
         return lprService;
     }

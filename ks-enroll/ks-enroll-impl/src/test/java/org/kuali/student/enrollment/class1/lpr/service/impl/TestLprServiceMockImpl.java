@@ -22,18 +22,33 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.lpr.service.LprService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.Date;
 
 import javax.annotation.Resource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.enrollment.test.util.AttributeTester;
+import org.kuali.student.enrollment.test.util.IdEntityTester;
+import org.kuali.student.enrollment.test.util.ListOfStringTester;
+import org.kuali.student.enrollment.test.util.MetaTester;
+import org.kuali.student.enrollment.test.util.RelationshipTester;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lpr-mock-service-test-context.xml"})
@@ -164,9 +179,12 @@ public class TestLprServiceMockImpl {
         expected.setAtpId("atp1");
         expected.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
         expected.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+        expected.setLprTransactionItems(new java.util.LinkedList<LprTransactionItemInfo>());
         new AttributeTester().add2ForCreate(expected.getAttributes());
         new LprTransactionItemTester().add2ForCreate(expected.getLprTransactionItems());
         LprTransactionInfo actual = lprService.createLprTransaction(expected.getTypeKey(), expected, callContext);
+        new LprTransactionItemTester ().add2ForCreate(expected.getLprTransactionItems());
+        LprTransactionInfo actual = lprService.createLprTransaction (expected.getTypeKey(), expected, callContext);
         assertNotNull(actual.getId());
         new IdEntityTester().check(expected, actual);
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());

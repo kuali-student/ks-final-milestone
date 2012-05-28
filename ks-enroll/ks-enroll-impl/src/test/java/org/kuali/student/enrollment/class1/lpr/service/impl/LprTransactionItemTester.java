@@ -50,9 +50,9 @@ public class LprTransactionItemTester {
             this.dump(expectedList, actualList);
         }
         assertEquals(expectedList.size(), actualList.size());
-        List<LprTransactionItemInfo> expectedSorted = new ArrayList(expectedList);
+        List<LprTransactionItemInfo> expectedSorted = new ArrayList<LprTransactionItemInfo>(expectedList);
         Collections.sort(expectedSorted, new LprTransactionItemInfoComparator());
-        List<LprTransactionItemInfo> actualSorted = new ArrayList(actualList);
+        List<LprTransactionItemInfo> actualSorted = new ArrayList<LprTransactionItemInfo>(actualList);
         Collections.sort(actualSorted, new LprTransactionItemInfoComparator());
         for (int i = 0; i < expectedSorted.size(); i++) {
             LprTransactionItemInfo expected = expectedSorted.get(i);

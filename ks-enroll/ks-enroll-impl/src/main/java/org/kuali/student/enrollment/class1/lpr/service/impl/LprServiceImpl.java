@@ -17,10 +17,10 @@ import org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao;
 import org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao;
 import org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao;
 import org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao;
-import org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity;
 import org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity;
 import org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
+import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
+import org.kuali.student.enrollment.class1.roster.model.LprRichTextEntity;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
@@ -50,10 +50,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class LprServiceImpl implements LprService {
 
     private LprDao lprDao;
-    private LprRosterDao lprRosterDao;
     private LprTransactionDao lprTransDao;
     private LprTransactionItemDao lprTransItemDao;
-    private LprRosterEntryDao lprRosterEntryDao;
 
     public void setLprTransItemDao(LprTransactionItemDao lprTransItemDao) {
         this.lprTransItemDao = lprTransItemDao;
@@ -71,22 +69,10 @@ public class LprServiceImpl implements LprService {
         return lprDao;
     }
 
-    public LprRosterEntryDao getLprRosterEntryDao() {
-        return lprRosterEntryDao;
-    }
-
-    public void setLprRosterEntryDao(LprRosterEntryDao lprRosterEntryDao) {
-        this.lprRosterEntryDao = lprRosterEntryDao;
-    }
-
     public void setLprDao(LprDao lprDao) {
         this.lprDao = lprDao;
     }
-
-    public void setLprRosterDao(LprRosterDao lprRosterDao) {
-        this.lprRosterDao = lprRosterDao;
-    }
-
+  
     private List<LprInfo> getLprsByLuiPersonAndState(String personId, String luiId, String stateKey, ContextInfo context) throws
             DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -132,9 +118,9 @@ public class LprServiceImpl implements LprService {
     @Override
     public List<LprInfo> getLprsByLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelationEntity> luiPersonRelations = lprDao.getByLuiId(luiId);
+        List<LprEntity> luiPersonRelations = lprDao.getByLuiId(luiId);
         List<LprInfo> dtos = new ArrayList<LprInfo>();
-        for (LuiPersonRelationEntity entity : luiPersonRelations) {
+        for (LprEntity entity : luiPersonRelations) {
             dtos.add(entity.toDto());
         }
         return dtos;
@@ -156,7 +142,7 @@ public class LprServiceImpl implements LprService {
     @Override
     public LprInfo getLpr(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LuiPersonRelationEntity lpr = lprDao.find(luiPersonRelationId);
+        LprEntity lpr = lprDao.find(luiPersonRelationId);
         return null != lpr ? lpr.toDto() : null;
     }
 
@@ -164,8 +150,8 @@ public class LprServiceImpl implements LprService {
     public List<LprInfo> getLprsByIds(List<String> luiPersonRelationIds, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LprInfo> lprInfos = new ArrayList<LprInfo>();
-        List<LuiPersonRelationEntity> lprEntities = lprDao.findByIds(luiPersonRelationIds);
-        for (LuiPersonRelationEntity lprEntity : lprEntities) {
+        List<LprEntity> lprEntities = lprDao.findByIds(luiPersonRelationIds);
+        for (LprEntity lprEntity : lprEntities) {
             LprInfo lprInfo = lprEntity.toDto();
             lprInfos.add(lprInfo);
         }
@@ -195,12 +181,12 @@ public class LprServiceImpl implements LprService {
     public List<LprInfo> getLprsByPersonAndLui(String personId, String luiId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<LuiPersonRelationEntity> entityList = lprDao.getLprByLuiAndPerson(personId, luiId);
+        List<LprEntity> entityList = lprDao.getLprByLuiAndPerson(personId, luiId);
 
         List<LprInfo> infoList = new ArrayList<LprInfo>();
 
         if (entityList != null && !entityList.isEmpty()) {
-            for (LuiPersonRelationEntity entity : entityList) {
+            for (LprEntity entity : entityList) {
                 infoList.add(entity.toDto());
             }
 
@@ -212,11 +198,11 @@ public class LprServiceImpl implements LprService {
     @Override
     public List<LprInfo> getLprsByPerson(String personId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPerson(personId);
+        List<LprEntity> entityList = lprDao.getLprsByPerson(personId);
 
         List<LprInfo> infoList = new ArrayList<LprInfo>();
         if (entityList != null && !entityList.isEmpty()) {
-            for (LuiPersonRelationEntity entity : entityList) {
+            for (LprEntity entity : entityList) {
                 infoList.add(entity.toDto());
             }
 
@@ -243,7 +229,7 @@ public class LprServiceImpl implements LprService {
         luiPersonRelationInfo.setLuiId(luiId);
         luiPersonRelationInfo.setTypeKey(luiPersonRelationType);
 
-        LuiPersonRelationEntity lpr = new LuiPersonRelationEntity(luiPersonRelationInfo);
+        LprEntity lpr = new LprEntity(luiPersonRelationInfo);
         lprDao.persist(lpr);
         return lpr.toDto();
     }
@@ -253,10 +239,10 @@ public class LprServiceImpl implements LprService {
     public LprInfo updateLpr(String luiPersonRelationId, LprInfo luiPersonRelationInfo, ContextInfo context) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, ReadOnlyException,
             OperationFailedException, PermissionDeniedException {
-        LuiPersonRelationEntity lprEntity = lprDao.find(luiPersonRelationId);
+        LprEntity lprEntity = lprDao.find(luiPersonRelationId);
 
         if (lprEntity != null) {
-            LuiPersonRelationEntity modifiedLpr = new LuiPersonRelationEntity(luiPersonRelationInfo);
+            LprEntity modifiedLpr = new LprEntity(luiPersonRelationInfo);
 
             if (luiPersonRelationInfo.getStateKey() != null) {
                 modifiedLpr.setPersonRelationStateId(luiPersonRelationInfo.getStateKey());
@@ -278,7 +264,7 @@ public class LprServiceImpl implements LprService {
     public StatusInfo deleteLpr(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         _checkForMissingParameter(luiPersonRelationId, "luiPersonRelationId");
-        LuiPersonRelationEntity lprEntity = lprDao.find(luiPersonRelationId);
+        LprEntity lprEntity = lprDao.find(luiPersonRelationId);
         lprEntity.setPersonRelationStateId(LprServiceConstants.DROPPED_STATE_KEY);
         lprDao.merge(lprEntity);
         StatusInfo status = new StatusInfo();
@@ -702,9 +688,9 @@ public class LprServiceImpl implements LprService {
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPersonAndType(personId, typeKey);
+        List<LprEntity> entityList = lprDao.getLprsByPersonAndType(personId, typeKey);
         List<LprInfo> infoList = new ArrayList<LprInfo>();
-        for (LuiPersonRelationEntity entity : entityList) {
+        for (LprEntity entity : entityList) {
             // TODO: inject this impl with a lui service impl to get the atp to check
 //            LuiEntity lui = luiDao.find(entity.getLuiId());
 //            if (StringUtils.equals(lui.getAtpId(), atpId)) {
@@ -719,10 +705,10 @@ public class LprServiceImpl implements LprService {
     public List<LprInfo> getLprsByPersonForAtpAndLuiType(String personId, String atpId, String luiTypeKey, ContextInfo context) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPerson(personId);
+        List<LprEntity> entityList = lprDao.getLprsByPerson(personId);
 
         List<LprInfo> infoList = new ArrayList<LprInfo>();
-        for (LuiPersonRelationEntity entity : entityList) {
+        for (LprEntity entity : entityList) {
 //            LuiEntity lui = luiDao.find(entity.getLuiId());
 //            if ((lui.getAtpId().equals(atpId)) && (lui.getLuiType().equals(luiTypeKey))) {
             infoList.add(entity.toDto());
@@ -743,10 +729,10 @@ public class LprServiceImpl implements LprService {
     public List<LprInfo> getLprsByPersonAndLuiType(String personId, String luiTypeKey, ContextInfo context) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPerson(personId);
+        List<LprEntity> entityList = lprDao.getLprsByPerson(personId);
 
         List<LprInfo> infoList = new ArrayList<LprInfo>();
-        for (LuiPersonRelationEntity entity : entityList) {
+        for (LprEntity entity : entityList) {
 //            LuiEntity lui = luiDao.find(entity.getLuiId());
 //            if ((lui.getLuiType().equals(luiTypeKey))) {
             infoList.add(entity.toDto());

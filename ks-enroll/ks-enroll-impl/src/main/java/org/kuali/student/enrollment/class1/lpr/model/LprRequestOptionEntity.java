@@ -12,7 +12,7 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 
 @Entity
 @Table(name="KSEN_LPR_TRANS_ITEM_RQST_OPT")
-public class RequestOptionEntity extends MetaEntity {
+public class LprRequestOptionEntity extends MetaEntity {
 
     @Column(name = "OPTION_KEY")
     private String optionKey;

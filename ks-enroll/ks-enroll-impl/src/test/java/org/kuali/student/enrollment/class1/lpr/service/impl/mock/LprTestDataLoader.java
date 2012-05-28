@@ -2,7 +2,7 @@ package org.kuali.student.enrollment.class1.lpr.service.impl.mock;
 
 
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
-import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
+import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
@@ -39,7 +39,7 @@ public class LprTestDataLoader {
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
 
-        LuiPersonRelationEntity lprEntity  = new LuiPersonRelationEntity();
+        LprEntity lprEntity  = new LprEntity();
         lprEntity.setId(lprId);
         lprEntity.setCommitmentPercent(commitmentPercent);
         lprEntity.setLuiId(luiId);

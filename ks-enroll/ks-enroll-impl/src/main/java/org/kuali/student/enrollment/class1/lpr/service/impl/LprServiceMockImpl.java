@@ -368,6 +368,7 @@ public class LprServiceMockImpl implements LprService {
             copy.setId(lprTransactionMap.size() + "");
         }
         copy.setMeta(newMeta(contextInfo));
+        
         lprTransactionMap.put(copy.getId(), copy);
         return new LprTransactionInfo(copy);
     }

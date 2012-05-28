@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.lpr.model;
+package org.kuali.student.enrollment.class1.roster.model;
 
 import java.util.ArrayList;
 import java.util.Date;

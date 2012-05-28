@@ -37,7 +37,7 @@ public class LprResultValueGroupEntity extends AbstractResultValueGroupEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "LPR_ID", nullable=false)
-	private LuiPersonRelationEntity lpr;
+	private LprEntity lpr;
 
 	
 	
@@ -51,13 +51,13 @@ public class LprResultValueGroupEntity extends AbstractResultValueGroupEntity {
 
 
 
-	public LuiPersonRelationEntity getLpr() {
+	public LprEntity getLpr() {
 		return lpr;
 	}
 
 
 
-	public void setLpr(LuiPersonRelationEntity lpr) {
+	public void setLpr(LprEntity lpr) {
 		this.lpr = lpr;
 	}
 	

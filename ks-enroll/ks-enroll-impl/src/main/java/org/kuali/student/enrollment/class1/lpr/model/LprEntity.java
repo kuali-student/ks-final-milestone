@@ -28,7 +28,7 @@ import org.kuali.student.r2.common.infc.Attribute;
  */
 @Entity
 @Table(name = "KSEN_LPR")
-public class LuiPersonRelationEntity extends MetaEntity  {
+public class LprEntity extends MetaEntity  {
 
     @Column(name = "PERS_ID")
     private String personId;
@@ -55,14 +55,13 @@ public class LuiPersonRelationEntity extends MetaEntity  {
 
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy = "owner" )
-    private List<LuiPersonRelationAttributeEntity> attributes;
+    private List<LprAttributeEntity> attributes;
 
-    public LuiPersonRelationEntity() {}
+    public LprEntity() {}
 
-    public LuiPersonRelationEntity(Lpr dto) {
+    public LprEntity(Lpr dto) {
         super(dto);
-        this.setEffectiveDate(dto.getEffectiveDate());
-        this.setExpirationDate(dto.getExpirationDate());
+        // These are the read-only fields
         this.setId(dto.getId());
         this.setLuiId(dto.getLuiId());
         this.setPersonId(dto.getPersonId());
@@ -75,10 +74,10 @@ public class LuiPersonRelationEntity extends MetaEntity  {
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setPersonRelationStateId(dto.getStateKey());
-        this.setAttributes(new ArrayList<LuiPersonRelationAttributeEntity>());
+        this.setAttributes(new ArrayList<LprAttributeEntity>());
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
-                this.getAttributes().add(new LuiPersonRelationAttributeEntity(att));
+                this.getAttributes().add(new LprAttributeEntity(att));
             }
         }
     }
@@ -147,11 +146,11 @@ public class LuiPersonRelationEntity extends MetaEntity  {
 //        this.resultValuesGroups = resultValuesGroups;
 //    }
 
-    public List<LuiPersonRelationAttributeEntity> getAttributes() {
+    public List<LprAttributeEntity> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<LuiPersonRelationAttributeEntity> attributes) {
+    public void setAttributes(List<LprAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
@@ -177,14 +176,13 @@ public class LuiPersonRelationEntity extends MetaEntity  {
 //        lprInfo.setResultValuesGroupKeys(rvGroupIds);
 
         lprInfo.setMeta(super.toDTO());
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+        List<AttributeInfo> atts = lprInfo.getAttributes();
         if (getAttributes() != null) {
-            for (LuiPersonRelationAttributeEntity att : getAttributes()) {
+            for (LprAttributeEntity att : getAttributes()) {
                 AttributeInfo attInfo = att.toDto();
                 atts.add(attInfo);
             }
         }
-        lprInfo.setAttributes(atts);
 
         return lprInfo;
     }

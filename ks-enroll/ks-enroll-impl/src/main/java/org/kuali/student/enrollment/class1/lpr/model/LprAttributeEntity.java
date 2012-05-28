@@ -22,29 +22,29 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_LPR_ATTR")
-public class LuiPersonRelationAttributeEntity extends BaseAttributeEntityNew<LuiPersonRelationEntity> {
+public class LprAttributeEntity extends BaseAttributeEntityNew<LprEntity> {
 
     @ManyToOne
     @JoinColumn(name = "OWNER_ID")
-    private LuiPersonRelationEntity owner;
+    private LprEntity owner;
 
-    public LuiPersonRelationAttributeEntity() {}
+    public LprAttributeEntity() {}
 
-    public LuiPersonRelationAttributeEntity(String key, String value) {
+    public LprAttributeEntity(String key, String value) {
         super(key, value);
     }
 
-    public LuiPersonRelationAttributeEntity(Attribute att) {
+    public LprAttributeEntity(Attribute att) {
         super(att);
     }
 
     @Override
-    public void setOwner(LuiPersonRelationEntity owner) {
+    public void setOwner(LprEntity owner) {
         this.owner = owner;
     }
 
     @Override
-    public LuiPersonRelationEntity getOwner() {
+    public LprEntity getOwner() {
         return owner;
     }
 }
