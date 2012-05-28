@@ -1,10 +1,25 @@
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+
+import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
+import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
+import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
 import org.kuali.student.enrollment.class1.lpr.service.impl.mock.LprTestDataLoader;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
@@ -12,7 +27,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.annotation.Resource;
 
@@ -24,6 +43,9 @@ import static org.junit.Assert.assertNotNull;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestLprServiceImpl extends TestLprServiceMockImpl {
+	
+	private static final Logger log = Logger.getLogger(TestLprServiceImpl.class);
+	
     public LprService getLprService() {
         return lprService;
     }
@@ -38,10 +60,12 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
     @Resource
     private LprDao lprDao;
 
-
-    public static String principalId = "123";
-    public ContextInfo callContext = null;
-
+    @Resource
+    private DataSource dataSource;
+    
+    @Resource (name="JtaTxManager")
+    private PlatformTransactionManager txManager;
+    
     public LprDao getLprDao() {
         return lprDao;
     }
@@ -52,6 +76,7 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 
     @Before
     public void setUp() {
+    	// intentionally does not call super.setUp()
         principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
@@ -67,6 +92,35 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
         assertNotNull(lprService);
     }
 
+    /**
+     * Validate that there are 3 columns in the KSEN_LPR_RESULT_VAL_GRP table.
+     * 
+     * (ID, LPR_ID, RESULT_VAL_GRP_ID)
+     * 
+     * @throws SQLException
+     */
+    @Test
+    public void validateSchema() throws SQLException {
+    	
+    	TransactionStatus tx = txManager.getTransaction(new DefaultTransactionDefinition(TransactionDefinition.ISOLATION_READ_COMMITTED));
+    	
+    	ResultSet rs = dataSource.getConnection().createStatement().executeQuery("select * from KSEN_LPR_RESULT_VAL_GRP");
+    	
+    	ResultSetMetaData meta = rs.getMetaData();
+    	
+    	int cols = meta.getColumnCount();
+    	
+    	for (int i = 0; i < cols; i++) {
+			log.warn ("row [" + i + "] : " + meta.getColumnLabel(i+1)  + " " +  meta.getColumnTypeName(i+1));
+		}
+    	
+    	assertEquals(3, cols);
+    	
+    	txManager.rollback(tx);
+    	
+    }
+    
+    
     @Test
       public void testCreateLPR()throws  Exception{
 
