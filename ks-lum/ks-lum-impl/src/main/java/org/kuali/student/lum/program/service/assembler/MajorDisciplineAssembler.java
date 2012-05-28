@@ -125,9 +125,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         List<ProgramVariationInfo> variations = new ArrayList<ProgramVariationInfo>();
 
         try {
-        	Map<String, CluCluRelationInfo> currentRelations = null;
-        	currentRelations = programAssemblerUtils.getCluCluActiveRelations(cluId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION, contextInfo);
-        	
+        	Map<String, CluCluRelationInfo> currentRelations = programAssemblerUtils.getCluCluActiveRelations(cluId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION, contextInfo);
         	if(currentRelations != null && !currentRelations.isEmpty()){
         		for (String variationId : currentRelations.keySet()) {
                     CluInfo variationClu = cluService.getClu(variationId, contextInfo);

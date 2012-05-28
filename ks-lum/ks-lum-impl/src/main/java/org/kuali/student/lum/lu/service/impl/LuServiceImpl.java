@@ -1076,7 +1076,8 @@ public class LuServiceImpl implements CluService {
                 "offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
                 "meta", "intensity",
                 "campusLocations", "accreditations",
-                "adminOrgs"});
+                "adminOrgs", "stateKey"});
+        clu.setState(cluInfo.getStateKey());
         Clu updated = null;
         try {
             updated = luDao.update(clu);

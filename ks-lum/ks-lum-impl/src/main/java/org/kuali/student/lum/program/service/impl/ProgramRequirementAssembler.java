@@ -234,7 +234,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
             attributes.add(new AttributeInfo(ProgramAssemblerConstants.MIN_CREDITS, null));
 		}
 		if(progReq.getMaxCredits() != null) {
-            attributes.add(new AttributeInfo(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMinCredits())));
+            attributes.add(new AttributeInfo(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMaxCredits())));
 		}else{
             attributes.add(new AttributeInfo(ProgramAssemblerConstants.MAX_CREDITS, null));
 		}
@@ -247,13 +247,13 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
             for (AttributeInfo attribute : clu.getAttributes()) {
                 if (attribute.getKey().equals(ProgramAssemblerConstants.MIN_CREDITS)) {
                     String minCredits = attribute.getValue();
-			progReq.setMinCredits(isEmpty(minCredits)?null:Integer.parseInt(minCredits));
+                    progReq.setMinCredits(isEmpty(minCredits)?null:Integer.parseInt(minCredits));
                 }
                 if (attribute.getKey().equals(ProgramAssemblerConstants.MAX_CREDITS)) {
                     String maxCredits = attribute.getValue();
-			progReq.setMaxCredits(isEmpty(maxCredits)?null:Integer.parseInt(maxCredits));
-		}
-	}
+                    progReq.setMaxCredits(isEmpty(maxCredits)?null:Integer.parseInt(maxCredits));
+                }
+            }
         }
     }
 

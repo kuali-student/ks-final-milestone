@@ -139,7 +139,7 @@ public class TestProgramServiceImpl {
         assertEquals("kuali.lo.type.singleUse", loInfo1.getTypeKey());
     }
 
-    //@Test
+    @Test
     @Ignore // FIXME
     public void testGetProgramRequirementNL() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", contextInfo);
@@ -263,7 +263,7 @@ public class TestProgramServiceImpl {
             assertNotNull(core.getId());
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", core.getId());
     }
-    //@Test
+    @Test
     public void testGetMajorDiscipline() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         MajorDisciplineInfo major = null;
 //        	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
@@ -464,7 +464,7 @@ public class TestProgramServiceImpl {
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", credentialProgramInfo.getCoreProgramIds().get(0));
     }
 
-    //@Test
+    @Test
     public void testCreateMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		MajorDisciplineDataGenerator mdGenerator = new MajorDisciplineDataGenerator();
         MajorDisciplineInfo major;
@@ -621,8 +621,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getAttributes());
             assertTrue(createdMD.getAttributes().size() ==2);
-            assertEquals("attributes-1", createdMD.getAttributeInfoValue(createdMD.getAttributes(),"attributes-1"));
-            assertEquals("attributes-2", createdMD.getAttributeInfoValue(createdMD.getAttributes(),"attributes-2"));
+            assertEquals("value-8", createdMD.getAttributeInfoValue(createdMD.getAttributes(),"key-7"));
+            assertEquals("value-9", createdMD.getAttributeInfoValue(createdMD.getAttributes(),"key-8"));
 
             assertNotNull(createdMD.getMeta());
             assertEquals("0", createdMD.getMeta().getVersionInd());
@@ -705,8 +705,6 @@ public class TestProgramServiceImpl {
 
       	StatementTreeViewInfo statement = createStatementTree();
     	progReq.setStatement(R1R2ConverterUtil.convert(statement, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class) );
-    	Assert.assertEquals(statement.getStatements().get(0).getTypeKey(), progReq.getStatement().getStatements().get(0).getType());
-    	Assert.assertEquals(statement.getStatements().get(0).getReqComponents().get(0).getTypeKey(), progReq.getStatement().getStatements().get(0).getReqComponents().get(0).getType());
     	progReq.setTypeKey(ProgramAssemblerConstants.PROGRAM_REQUIREMENT);
 		return progReq;
 	}
@@ -953,7 +951,7 @@ public class TestProgramServiceImpl {
 		return richTextInfo;
 	}
 
-	//@Test(expected=DoesNotExistException.class)
+	@Test(expected=DoesNotExistException.class)
 	public void testUpdateProgramRequirement() throws Exception {
 		ProgramRequirementInfo progReq = programService.createProgramRequirement(null, createProgramRequirementTestData(), contextInfo);
         StatementTreeViewInfo treeView = R1R2ConverterUtil.convert(progReq.getStatement(), StatementTreeViewInfo.class);
@@ -974,14 +972,16 @@ public class TestProgramServiceImpl {
         subTree1.setReqComponents(reqCompList1);
 
         StatementTreeViewInfo oldSubTree1 = treeView.getStatements().get(0);
-        treeView.getStatements().set(0, subTree1);
+        //treeView.getStatements().set(0, subTree1); Can't set it like this anymore, because Dozer creates a new object. The old reference is gone.
+        progReq.getStatement().getStatements().set(0, R1R2ConverterUtil.convert(subTree1, org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo.class));
         ProgramRequirementInfo updated = programService.updateProgramRequirement(progReq.getId(), progReq.getTypeKey(), progReq, contextInfo);
         checkProgramRequirement(progReq, updated);
         statementService.getStatement(oldSubTree1.getId());
 	}
 
-    //@Test
-    @Ignore public void testDeleteMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
+    @Test
+    @Ignore 
+    public void testDeleteMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();
             assertNotNull(majorDisciplineInfo);
@@ -1077,7 +1077,7 @@ public class TestProgramServiceImpl {
 
     }
 
-    //@Test
+    @Test
     public void testUpdateMajorDisciplineRemoveRule() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException {
             MajorDisciplineInfo major = programService.getMajorDiscipline("d4ea77dd-b492-4554-b104-863e42c5f8b7", contextInfo);
 
@@ -1096,7 +1096,7 @@ public class TestProgramServiceImpl {
             MajorDisciplineInfo updatedMD2 = programService.updateMajorDiscipline(retrievedMD.getId(), retrievedMD, contextInfo);
             assertEquals(0, updatedMD2.getProgramRequirements().size());
             retrievedMD = programService.getMajorDiscipline(major.getId(), contextInfo);
-            assertEquals(0, retrievedMD.getProgramRequirements().size());
+            assertEquals(0, retrievedMD.getProgramRequirements() == null ? 0 : retrievedMD.getProgramRequirements().size());
     }
 
 
@@ -1160,7 +1160,7 @@ public class TestProgramServiceImpl {
             }catch (OperationFailedException e) {}
     }
 
-    //@Test
+    @Test
     public void testUpdateBaccCredentialProgram() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
         	String credentialProgramId = "d02dbbd3-20e2-410d-ab52-1bd6d362748b";
             CredentialProgramInfo credentialProgramInfo = programService.getCredentialProgram(credentialProgramId, contextInfo);
@@ -1357,7 +1357,7 @@ public class TestProgramServiceImpl {
         verifyUpdatedPVinList(pvInfoT, retrievedPVs);
     }
 
-    //@Test
+    @Test
     public void testDeleteVariationsByMajorDiscipline() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException{
         MajorDisciplineInfo majorDisciplineInfo = null;
 
@@ -1396,10 +1396,9 @@ public class TestProgramServiceImpl {
     	programService.getProgramRequirement(createdProgReq.getId(),contextInfo);
     }
 
-    //@Test
+    @Test
     public void testUpdateCoreProgram() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
-    	CoreProgramInfo core = null;
-        	core = programService.getCoreProgram("00f5f8c5-fff1-4c8b-92fc-789b891e0849", contextInfo);
+    	    CoreProgramInfo core = programService.getCoreProgram("00f5f8c5-fff1-4c8b-92fc-789b891e0849", contextInfo);
 
             // minimal sanity check
             assertNotNull(core);
@@ -1469,7 +1468,7 @@ public class TestProgramServiceImpl {
 
     }
 
-    //@Test
+    @Test
     public void testCreditsProgramRequirement() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
     	ProgramRequirementInfo progReq = createProgramRequirementTestData();
     	progReq.setMinCredits(3);
