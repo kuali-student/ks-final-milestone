@@ -42,7 +42,7 @@ public class LprTransactionEntity extends MetaEntity {
     @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
     private String descrPlain;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
     @JoinColumn(name = "LPR_TRANS_ID")
     private List<LprTransactionItemEntity> lprTransactionItems;
 
@@ -73,7 +73,9 @@ public class LprTransactionEntity extends MetaEntity {
             this.setDescrFormatted(null);
             this.setDescrPlain(null);
         }
-        // this.setAttributes(new ArrayList<LprTransAttributeEntity>());
+        
+        this.setAttributes(new ArrayList<LprTransAttributeEntity>());
+        
         if (null != lprTransaction.getAttributes()) {
             for (Attribute att : lprTransaction.getAttributes()) {
                 this.getAttributes().add(new LprTransAttributeEntity(att));
@@ -171,7 +173,7 @@ public class LprTransactionEntity extends MetaEntity {
     }
 
     public void setAttributes(List<LprTransAttributeEntity> attributes) {
-        this.setAttributes(attributes);
+       this.attributes = attributes;
     }
 
     public List<LprTransAttributeEntity> getAttributes() {
