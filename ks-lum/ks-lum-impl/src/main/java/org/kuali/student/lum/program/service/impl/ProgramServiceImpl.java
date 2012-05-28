@@ -120,8 +120,8 @@ public class ProgramServiceImpl implements ProgramService{
     public HonorsProgramInfo createHonorsProgram(String honorsProgramTypeKey,  HonorsProgramInfo honorsProgramInfo,
                                                  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("createHonorsProgram");
+        //return null;
     }
 
     @Override
@@ -236,24 +236,25 @@ public class ProgramServiceImpl implements ProgramService{
          * 
          * TODO: find a place to put a shared StatementUtil 
          */
-         
-        for (String programRequirementId : programRequirementIds) {
-
-            // Get program requirement from the program service
-            ProgramRequirementInfo programRequirementInfo = getProgramRequirement(programRequirementId, contextInfo);
-
-            // Look in the requirement for the statement tree
-            StatementTreeViewInfo statementTree = R1R2ConverterUtil.convert(programRequirementInfo.getStatement(), new StatementTreeViewInfo()) ;
-
-            // And recursively update the entire tree with the new state
-            updateStatementTreeViewInfoState(newState, statementTree);
-
-            // Update the state of the requirement object
-            programRequirementInfo.setStateKey(newState);
-
-            // The write the requirement back to the program service
-            updateProgramRequirement(programRequirementInfo.getId(), programRequirementInfo.getTypeKey(), programRequirementInfo, contextInfo);
-
+        if (programRequirementIds != null) { 
+            for (String programRequirementId : programRequirementIds) {
+    
+                // Get program requirement from the program service
+                ProgramRequirementInfo programRequirementInfo = getProgramRequirement(programRequirementId, contextInfo);
+    
+                // Look in the requirement for the statement tree
+                StatementTreeViewInfo statementTree = R1R2ConverterUtil.convert(programRequirementInfo.getStatement(), new StatementTreeViewInfo()) ;
+    
+                // And recursively update the entire tree with the new state
+                updateStatementTreeViewInfoState(newState, statementTree);
+    
+                // Update the state of the requirement object
+                programRequirementInfo.setStateKey(newState);
+    
+                // The write the requirement back to the program service
+                updateProgramRequirement(programRequirementInfo.getId(), programRequirementInfo.getTypeKey(), programRequirementInfo, contextInfo);
+    
+            }
         }
     }
     
@@ -552,8 +553,8 @@ public class ProgramServiceImpl implements ProgramService{
 	public MinorDisciplineInfo createMinorDiscipline( String minorDisciplineTypeKey,
                                                       MinorDisciplineInfo minorDisciplineInfo,  ContextInfo contextInfo) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("createMinorDiscipline");
+        //return null;
     }
 
     @Override
@@ -579,8 +580,8 @@ public class ProgramServiceImpl implements ProgramService{
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteHonorsProgram( String honorsProgramId, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("deleteHonorsProgram");
+        //return null;
     }
 
     @Override
@@ -609,8 +610,8 @@ public class ProgramServiceImpl implements ProgramService{
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("deleteMinorDiscipline");
+        //return null;
     }
 
     @Override
@@ -692,8 +693,8 @@ public class ProgramServiceImpl implements ProgramService{
     @Override
     public HonorsProgramInfo getHonorsProgram(String honorsProgramId, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getHonorsProgram");
+        //return null;
     }
 
     @Override
@@ -739,16 +740,16 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getMinorDiscipline");
+		//return null;
 	}
 
 	@Override
 	public List<String> getMinorsByCredentialProgramType(String programType,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getMinorsByCredentialProgramType");
+		//return null;
 	}
 
 	@Override
@@ -877,8 +878,8 @@ public class ProgramServiceImpl implements ProgramService{
             InvalidParameterException, MissingParameterException,
             VersionMismatchException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("updateMinorDiscipline");
+        //return null;
     }
 
     @Override
@@ -922,8 +923,8 @@ public class ProgramServiceImpl implements ProgramService{
     @Override
     public List<ValidationResultInfo> validateHonorsProgram(
             String validationType, HonorsProgramInfo honorsProgramInfo,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("validateHonorsProgram");
+        //return null;
     }
 
     @Override
@@ -947,8 +948,8 @@ public class ProgramServiceImpl implements ProgramService{
             String validationType, MinorDisciplineInfo minorDisciplineInfo,ContextInfo contextInfo   )
             throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null ;
+        throw new UnsupportedOperationException("validateMinorDiscipline");
+        //return null ;
     }
 
     @Override
@@ -981,45 +982,45 @@ public class ProgramServiceImpl implements ProgramService{
             String searchCriteriaTypeKey) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchCriteriaType");
+        //return null;
     }
 
     @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
             throws OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchCriteriaTypes");
+        //return null;
     }
 
     @Override
     public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchResultType");
+        //return null;
     }
 
     @Override
     public List<SearchResultTypeInfo> getSearchResultTypes()
             throws OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchResultTypes");
+        //return null;
     }
 
     @Override
     public SearchTypeInfo getSearchType(String searchTypeKey)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchType");
+        //return null;
     }
 
     @Override
     public List<SearchTypeInfo> getSearchTypes()
             throws OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchTypes");
+        //return null;
     }
 
     @Override
@@ -1027,8 +1028,8 @@ public class ProgramServiceImpl implements ProgramService{
             String searchCriteriaTypeKey) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchTypesByCriteria");
+        //return null;
     }
 
     @Override
@@ -1036,8 +1037,8 @@ public class ProgramServiceImpl implements ProgramService{
             String searchResultTypeKeyo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException{
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchTypesByResult");
+        //return null;
     }
 
 //    @Override
