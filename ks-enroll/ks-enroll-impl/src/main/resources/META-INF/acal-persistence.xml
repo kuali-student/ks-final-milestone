@@ -8,8 +8,8 @@
   <!-- JPA test "unit" -->
     <persistence-unit name="Acal" transaction-type="JTA">
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
 
         <class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
