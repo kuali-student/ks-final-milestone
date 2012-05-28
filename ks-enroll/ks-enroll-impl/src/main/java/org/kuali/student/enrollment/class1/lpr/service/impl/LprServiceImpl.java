@@ -46,7 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author sambit
  */
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+//@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class LprServiceImpl implements LprService {
 
     private LprDao lprDao;
@@ -86,7 +86,7 @@ public class LprServiceImpl implements LprService {
         return list;
     }
     /*
-    @Transactional(readOnly = false)
+    @Transactional
     private String createLprFromLprTransactionItem(LprTransactionItemInfo lprTransactionItemInfo, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     LprInfo luiPersonRelation = new LprInfo();
     luiPersonRelation.setCommitmentPercent(100.00F);
@@ -228,9 +228,16 @@ public class LprServiceImpl implements LprService {
         luiPersonRelationInfo.setPersonId(personId);
         luiPersonRelationInfo.setLuiId(luiId);
         luiPersonRelationInfo.setTypeKey(luiPersonRelationType);
-
+        
         LprEntity lpr = new LprEntity(luiPersonRelationInfo);
+        
+        lpr.setCreateId(context.getPrincipalId());
+        lpr.setCreateTime(context.getCurrentDate());
+        lpr.setUpdateId(context.getPrincipalId());
+        lpr.setUpdateTime(context.getCurrentDate());
+        
         lprDao.persist(lpr);
+        
         return lpr.toDto();
     }
 
@@ -252,7 +259,11 @@ public class LprServiceImpl implements LprService {
                 modifiedLpr.setPersonRelationTypeId(luiPersonRelationInfo.getTypeKey());
             }
 
+            modifiedLpr.setUpdateId(context.getPrincipalId());
+            modifiedLpr.setUpdateTime(context.getCurrentDate());
+            
             lprDao.merge(modifiedLpr);
+            
             return lprDao.find(modifiedLpr.getId()).toDto();
         } else {
             throw new DoesNotExistException(luiPersonRelationId);
@@ -260,12 +271,15 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public StatusInfo deleteLpr(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        _checkForMissingParameter(luiPersonRelationId, "luiPersonRelationId");
         LprEntity lprEntity = lprDao.find(luiPersonRelationId);
         lprEntity.setPersonRelationStateId(LprServiceConstants.DROPPED_STATE_KEY);
+        
+        lprEntity.setUpdateId(context.getPrincipalId());
+        lprEntity.setUpdateTime(context.getCurrentDate());
+        
         lprDao.merge(lprEntity);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
@@ -285,6 +299,7 @@ public class LprServiceImpl implements LprService {
      *      org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
+    @Transactional
     public LprTransactionInfo getLprTransaction(String lprTransactionId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -300,7 +315,7 @@ public class LprServiceImpl implements LprService {
      *      org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public StatusInfo deleteLprTransaction(String lprTransactionId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -334,7 +349,7 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public LprTransactionInfo createLprTransaction(String lprTransactionType, LprTransactionInfo lprTransactionInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -373,6 +388,11 @@ public class LprServiceImpl implements LprService {
             // throw new AlreadyExistsException();
             // TODO Mezba - decide what to do here
         }
+        
+        lprTransactionEntity.setCreateId(context.getPrincipalId());
+        lprTransactionEntity.setCreateTime(context.getCurrentDate());
+        lprTransactionEntity.setUpdateId(context.getPrincipalId());
+        lprTransactionEntity.setUpdateTime(context.getCurrentDate());
 
         lprTransDao.persist(lprTransactionEntity);
 
@@ -388,7 +408,7 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public LprTransactionInfo createLprTransactionFromExisting(String lprTransactionId, ContextInfo context) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -433,7 +453,7 @@ public class LprServiceImpl implements LprService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public LprTransactionInfo processLprTransaction(String lprTransactionId, ContextInfo context) throws AlreadyExistsException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -564,7 +584,7 @@ public class LprServiceImpl implements LprService {
         // TODO Mezba - implement method
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     @Override
     public LprTransactionInfo updateLprTransaction(String lprTransactionId, LprTransactionInfo lprTransactionInfo, ContextInfo context) throws
             DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -592,7 +612,7 @@ public class LprServiceImpl implements LprService {
         }
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     private List<LprTransactionItemEntity> processLprTransactionItemsModification(LprTransactionInfo modifiedTransactionInfo, LprTransactionEntity originalLprTransEntity, ContextInfo context) {
         List<LprTransactionItemEntity> modifiedLprTransItemEntities = new ArrayList<LprTransactionItemEntity>();
         LprTransactionInfo originalLprTransInfo = originalLprTransEntity.toDto();
@@ -647,7 +667,7 @@ public class LprServiceImpl implements LprService {
         return modifiedLprItemEntity;
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     private LprTransactionItemEntity createLprTransactionItem(LprTransactionItemInfo lprTransactionItemInfo, ContextInfo context) {
         LprTransactionItemEntity lprTransItemEntity = new LprTransactionItemEntity(lprTransactionItemInfo);
         if (lprTransItemEntity.getId() == null) {
@@ -665,6 +685,11 @@ public class LprServiceImpl implements LprService {
         	lprTransItemEntity.setDescrFormatted(descr.getFormatted());
         	lprTransItemEntity.setDescrPlain(descr.getPlain());
         }
+        
+        lprTransItemEntity.setCreateId(context.getPrincipalId());
+        lprTransItemEntity.setCreateTime(context.getCurrentDate());
+        lprTransItemEntity.setUpdateId(context.getPrincipalId());
+        lprTransItemEntity.setUpdateTime(context.getCurrentDate());
 
         lprTransItemDao.persist(lprTransItemEntity);
 
