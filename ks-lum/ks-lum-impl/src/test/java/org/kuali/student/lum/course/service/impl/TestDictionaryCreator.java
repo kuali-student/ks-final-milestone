@@ -8,8 +8,8 @@ import org.kuali.student.r1.common.dictionary.service.impl.DictionaryCreator;
 import org.kuali.student.r1.lum.lrc.dto.CredentialInfo;
 import org.kuali.student.r1.lum.lrc.dto.CreditInfo;
 import org.kuali.student.r1.lum.lrc.dto.GradeInfo;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 public class TestDictionaryCreator
 {
@@ -21,7 +21,7 @@ public class TestDictionaryCreator
           SecurityException,
           NoSuchFieldException
  {
-  new DictionaryCreator ().execute (ResultComponentInfo.class,
+  new DictionaryCreator ().execute (ResultValuesGroupInfo.class,
                                     "target/ks-ResultComponentInfo-dictinoary-context-generated.xml");
   new DictionaryCreator ().execute (GradeInfo.class,
                                     "target/ks-GradeInfo-dictinoary-context-generated.xml");

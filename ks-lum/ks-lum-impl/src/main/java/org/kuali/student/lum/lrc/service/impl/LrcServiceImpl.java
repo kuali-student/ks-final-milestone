@@ -34,7 +34,6 @@ import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -461,7 +460,7 @@ public class LrcServiceImpl implements LRCService {
 	    checkForMissingParameter(gradeValuesGroupInfo, "gradeValuesGroupInfo");
 
         // Validate Result component
-        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultValuesGroupInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(gradeValuesGroupInfo, objStructure, context);
 
@@ -487,7 +486,7 @@ public class LrcServiceImpl implements LRCService {
         checkForMissingParameter(gradeValuesGroupInfo, "gradeValuesGroupInfo");
         
         // Validate Result component
-        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultValuesGroupInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(gradeValuesGroupInfo, objStructure, context);
 

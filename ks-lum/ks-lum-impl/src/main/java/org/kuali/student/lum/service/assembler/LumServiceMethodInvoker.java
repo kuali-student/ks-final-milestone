@@ -13,7 +13,6 @@ import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -227,7 +226,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				cluService.deleteCluLoRelation(cluLoRelation.getId(), contextInfo);
 				break;
 			}
-		}else if(nodeData instanceof ResultComponentInfo){
+		}else if(nodeData instanceof ResultValuesGroupInfo){
 		    ResultValuesGroupInfo resultComponent = (ResultValuesGroupInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:

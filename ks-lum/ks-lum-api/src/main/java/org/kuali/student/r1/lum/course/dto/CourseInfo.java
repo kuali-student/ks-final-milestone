@@ -19,13 +19,13 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.r1.common.dto.HasAttributes;
 import org.kuali.student.r1.common.dto.HasTypeState;
 import org.kuali.student.r1.common.dto.Idable;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -127,7 +127,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private List<String> gradingOptions;
 
     @XmlElement
-    private List<ResultComponentInfo> creditOptions;
+    private List<ResultValuesGroupInfo> creditOptions;
 
     @XmlElement
     private boolean specialTopicsCourse;
@@ -485,14 +485,14 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Credit outcomes from taking the course
      */
-    public List<ResultComponentInfo> getCreditOptions() {
+    public List<ResultValuesGroupInfo> getCreditOptions() {
         if (creditOptions == null) {
-            creditOptions = new ArrayList<ResultComponentInfo>(0);
+            creditOptions = new ArrayList<ResultValuesGroupInfo>(0);
         }
         return creditOptions;
     }
 
-    public void setCreditOptions(List<ResultComponentInfo> creditOptions) {
+    public void setCreditOptions(List<ResultValuesGroupInfo> creditOptions) {
         this.creditOptions = creditOptions;
     }
 

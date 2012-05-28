@@ -261,9 +261,9 @@
  </bean>
  <bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" />
 
- <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseKualiCodeRepeating">
+ <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="creditOptions"/>
-  <!-- property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultComponentInfo"/-->
+  <property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultValuesGroupInfo"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -1460,52 +1460,49 @@
  </bean>
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.id" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.id-parent" />
 
-<!-- Redefine the ResultComponentInfo to have dynamic attributes
-<bean id="courseInfo.creditOptions.ResultComponentInfo-parent" abstract="true"
-      parent="org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo-parent">
+<!-- Redefine the ResultComponentInfo to have dynamic attributes -->
+<bean id="courseInfo.creditOptions.ResultValuesGroupInfo-parent" abstract="true"
+      parent="org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo-parent">
  <property name="attributes">
   <list>
-   <ref bean="resultComponentInfo.descr" />
-   <ref bean="resultComponentInfo.effectiveDate" />
-   <ref bean="resultComponentInfo.expirationDate" />
-   <ref bean="resultComponentInfo.id" />
-   <ref bean="resultComponentInfo.name" />
-   <ref bean="resultComponentInfo.resultValuesNumeric" />
-   <ref bean="course.resultComponentInfo.stateKey" />
-   <ref bean="resultComponentInfo.typeKey" />
-   <ref bean="resultComponentInfo.minCreditValue"/>
-   <ref bean="resultComponentInfo.maxCreditValue"/>
-   <ref bean="resultComponentInfo.fixedCreditValue"/>
-  </list>
+    <ref bean="resultValuesGroupInfo.key"/>
+    <ref bean="resultValuesGroupInfo.typeKey"/>
+    <ref bean="resultValuesGroupInfo.stateKey"/>
+    <ref bean="resultValuesGroupInfo.name"/>
+    <ref bean="resultValuesGroupInfo.descr"/>
+    <ref bean="resultValuesGroupInfo.resultScaleKey"/>
+    <ref bean="resultValuesGroupInfo.resultValueKeys"/>
+    <ref bean="resultValuesGroupInfo.resultValueRange"/>
+    <ref bean="resultValuesGroupInfo.effectiveDate"/>
+    <ref bean="resultValuesGroupInfo.expirationDate"/>
+   </list>
  </property>
 </bean>
-<bean id="courseInfo.creditOptions.ResultComponentInfo" parent="courseInfo.creditOptions.ResultComponentInfo-parent" />
+<bean id="courseInfo.creditOptions.ResultValuesGroupInfo" parent="courseInfo.creditOptions.ResultValuesGroupInfo-parent" />
 
- <bean id="course.resultComponentInfo.stateKey-parent" abstract="true" parent="baseKualiState">
+ <bean id="resultValuesGroupInfo.stateKey-parent" abstract="true" parent="baseKualiState">
   <property name="name" value="stateKey"/>
  </bean>
- <bean id="course.resultComponentInfo.stateKey" parent="course.resultComponentInfo.stateKey-parent"/>
+ <bean id="resultValuesGroupInfo.stateKey" parent="resultValuesGroupInfo.stateKey-parent"/>
 
- <bean id="resultComponentInfo.resultValuesNumeric-parent" abstract="true" parent="baseNumericString">
+ <bean id="resultValuesGroupInfo.resultValuesNumeric-parent" abstract="true" parent="baseNumericString">
   <property name="name" value="resultValues" />
   <property name="maxOccurs" value="unbounded" />
-      </bean>
- <bean id="resultComponentInfo.resultValuesNumeric" parent="resultComponentInfo.resultValuesNumeric-parent" />
+ </bean>
+ <bean id="resultValuesGroupInfo.resultValuesNumeric" parent="resultValuesGroupInfo.resultValuesNumeric-parent" />
  
- <bean id="resultComponentInfo.minCreditValue" parent="baseNumericString" >
+ <bean id="resultValuesGroupInfo.minCreditValue" parent="baseNumericString" >
   <property name="name" value="minCreditValue"/>
   <property name="dynamic" value="true"/>
  </bean>
- <bean id="resultComponentInfo.maxCreditValue" parent="baseNumericString">
+ <bean id="resultValuesGroupInfo.maxCreditValue" parent="baseNumericString">
   <property name="name" value="maxCreditValue"/>
   <property name="dynamic" value="true"/>
  </bean>
- <bean id="resultComponentInfo.fixedCreditValue" parent="baseNumericString">
+ <bean id="resultValuesGroupInfo.fixedCreditValue" parent="baseNumericString">
   <property name="name" value="fixedCreditValue"/>
   <property name="dynamic" value="true"/>
    </bean>
-   
-    -->
  <!-- VersionInfo-->
  <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
   <property name="name" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>

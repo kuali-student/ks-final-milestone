@@ -21,7 +21,6 @@ import java.util.List   ;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;

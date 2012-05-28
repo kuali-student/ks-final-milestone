@@ -14,6 +14,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
@@ -29,7 +30,6 @@ import org.kuali.student.r1.lum.course.dto.FormatInfo;
 import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r1.lum.lo.dto.LoInfo;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.r1.lum.lu.dto.AffiliatedOrgInfo;
@@ -213,21 +213,21 @@ public class R1TestDataUtil {
         return r1LoInfo;
     }
 
-    public static List<ResultComponentInfo> getResultComponentInfoDataList() {
-        List<ResultComponentInfo> r1ResultComponentList = new ArrayList<ResultComponentInfo>();
-        ResultComponentInfo r1ResultCompInfo = new ResultComponentInfo();
-        r1ResultCompInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        r1ResultCompInfo.setDesc(R1TestDataUtil.getRichTextInfoData());
+    public static List<ResultValuesGroupInfo> getResultComponentInfoDataList() {
+        List<ResultValuesGroupInfo> r1ResultComponentList = new ArrayList<ResultValuesGroupInfo>();
+        ResultValuesGroupInfo r1ResultCompInfo = new ResultValuesGroupInfo();
+        r1ResultCompInfo.setAttributes(R1TestDataUtil.getAttributeListData());
+        r1ResultCompInfo.setDescr(R1TestDataUtil.getRichTextInfoData());
         r1ResultCompInfo.setEffectiveDate(new Date());
         r1ResultCompInfo.setExpirationDate(new Date());
-        r1ResultCompInfo.setId("R1 Id");
-        r1ResultCompInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1ResultCompInfo.setKey("R1 Id");
+        r1ResultCompInfo.setMeta(R1TestDataUtil.getMetadataInfoData());
         r1ResultCompInfo.setName("R1 Name");
         List<String> resultValues = new ArrayList<String>();
         resultValues.add("R1 Result Value");
-        r1ResultCompInfo.setResultValues(resultValues);
-        r1ResultCompInfo.setState("R1 State");
-        r1ResultCompInfo.setType("R1 Type");
+        r1ResultCompInfo.setResultValueKeys(resultValues);
+        r1ResultCompInfo.setStateKey("R1 State");
+        r1ResultCompInfo.setTypeKey("R1 Type");
         r1ResultComponentList.add(r1ResultCompInfo);
         return r1ResultComponentList;
     }
