@@ -46,6 +46,15 @@ public class LprTestDataLoader {
         lprEntity.setPersonId(personId);
         lprEntity.setPersonRelationStateId(lprState);
         lprEntity.setPersonRelationTypeId(lprType);
+        
+        
+        lprEntity.setCreateId(principalId);
+        Date time;
+        lprEntity.setCreateTime(time = new Date());
+        
+        lprEntity.setUpdateId(principalId);
+        lprEntity.setUpdateTime(time);
+        
         lprDao.persist(lprEntity);
     }
 
