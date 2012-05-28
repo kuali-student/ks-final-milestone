@@ -17,6 +17,7 @@ package org.kuali.student.lum.lu.service.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.lum.common.client.helpers.SearchParamHelper;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.*;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
@@ -103,8 +104,8 @@ public class LuServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(luTypeKey, "luTypeKey");
-
-        return luDao.getAllowedResultUsageTypesForLuType(luTypeKey);
+SearchParamHelper.toSearchParamInfos(null);
+return luDao.getAllowedResultUsageTypesForLuType(luTypeKey);
     }
 
     @Override

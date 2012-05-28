@@ -407,6 +407,10 @@
 			<a>type</a>
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
+		<field>
+			<a>intensity</a>
+			<b get-method="getIntensity" set-method="setIntensity">intensity</b>
+		</field>
 	</mapping>
 
 	<mapping>

@@ -677,9 +677,9 @@ public class LuServiceAssembler extends BaseAssembler {
             return null;
         }
         AmountInfo dto = new AmountInfo();
-
-        BeanUtils.copyProperties(entity, dto);
-
+        dto.setUnitQuantity(entity.getUnitQuantity());
+        dto.setUnitTypeKey(entity.getUnitType());
+        
         return dto;
     }
 

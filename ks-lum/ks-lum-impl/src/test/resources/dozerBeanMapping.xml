@@ -402,6 +402,10 @@
 			<a>stdDuration</a>
 			<b get-method="getStdDuration" set-method="setStdDuration">stdDuration</b>
 		</field>
+		<field>
+			<a>intensity</a>
+			<b get-method="getIntensity" set-method="setIntensity">intensity</b>
+		</field>
 	</mapping>
 
 	<mapping>

@@ -393,6 +393,7 @@ public class LumConverterTest {
         Assert.assertEquals(r1.getInstructors().get(0).getPersonId(), r2.getInstructors().get(0).getPersonId());
         Assert.assertEquals("R1-Value", r2.getInstructors().get(0).getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getIntensity().getUnitTypeKey(), r2.getIntensity().getUnitTypeKey());
+        Assert.assertEquals(r1.getIntensity().getUnitQuantity(), r2.getIntensity().getUnitQuantity());
         Assert.assertEquals(r1.getLuCodes().get(0).getId(), r2.getLuCodes().get(0).getId());
         Assert.assertEquals("R1-Value", r2.getLuCodes().get(0).getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
