@@ -38,14 +38,9 @@ public class LprResultValueGroupEntity extends AbstractResultValueGroupEntity {
 	@ManyToOne
 	@JoinColumn(name = "LPR_ID", nullable=false)
 	private LprEntity lpr;
+	
 
-	
-	
-	/**
-	 * 
-	 */
 	public LprResultValueGroupEntity() {
-		
 		super();
 	}
 

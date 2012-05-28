@@ -56,7 +56,10 @@ public class LprEntity extends MetaEntity  {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy = "owner" )
     private List<LprAttributeEntity> attributes;
-
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy="lpr")
+    private List<LprResultValueGroupEntity>resultValueGroups;
+    
     public LprEntity() {}
 
     public LprEntity(Lpr dto) {
@@ -79,6 +82,20 @@ public class LprEntity extends MetaEntity  {
             for (Attribute att : dto.getAttributes()) {
                 this.getAttributes().add(new LprAttributeEntity(att));
             }
+        }
+        
+        this.setResultValueGroups(new ArrayList<LprResultValueGroupEntity>());
+        
+        if (null != dto.getResultValuesGroupKeys()) {
+        	for (String key : dto.getResultValuesGroupKeys()) {
+				LprResultValueGroupEntity rvg = new LprResultValueGroupEntity();
+				
+				rvg.setResultValueGroupId(key);
+				
+				rvg.setLpr(this);
+				
+				this.getResultValueGroups().add(rvg);
+			}
         }
     }
 
@@ -138,14 +155,6 @@ public class LprEntity extends MetaEntity  {
         this.personRelationStateId = personRelationStateId;
     }
 
-//    public List<ResultValuesGroupEntity> getResultValuesGroups() {
-//        return resultValuesGroups;
-//    }
-//
-//    public void setResultValuesGroups(List<ResultValuesGroupEntity> resultValuesGroups) {
-//        this.resultValuesGroups = resultValuesGroups;
-//    }
-
     public List<LprAttributeEntity> getAttributes() {
         return attributes;
     }
@@ -165,15 +174,14 @@ public class LprEntity extends MetaEntity  {
         lprInfo.setTypeKey(personRelationTypeId);
         lprInfo.setStateKey(personRelationStateId);
 
-        // TODO: fix this it was trying to use the entity from LRC directly here!
         // instead need to create a new JPA entity to hold the lpr to rvg mapping
-//        List<String> rvGroupIds = new ArrayList();
-//        if (null != getResultValuesGroups()) {
-//            for (ResultValuesGroupEntity rvGroup : getResultValuesGroups()) {
-//                rvGroupIds.add(rvGroup.getId());
-//            }
-//        }
-//        lprInfo.setResultValuesGroupKeys(rvGroupIds);
+        List<String> rvGroupIds = new ArrayList<String>();
+        if (null != getResultValueGroups()) {
+            for (LprResultValueGroupEntity rvGroup : getResultValueGroups()) {
+                rvGroupIds.add(rvGroup.getResultValueGroupId());
+            }
+        }
+        lprInfo.setResultValuesGroupKeys(rvGroupIds);
 
         lprInfo.setMeta(super.toDTO());
         List<AttributeInfo> atts = lprInfo.getAttributes();
@@ -186,4 +194,15 @@ public class LprEntity extends MetaEntity  {
 
         return lprInfo;
     }
+
+	public List<LprResultValueGroupEntity> getResultValueGroups() {
+		return resultValueGroups;
+	}
+
+	public void setResultValueGroups(
+			List<LprResultValueGroupEntity> resultValueGroups) {
+		this.resultValueGroups = resultValueGroups;
+	}
+    
+    
 }

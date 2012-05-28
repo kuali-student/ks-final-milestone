@@ -24,7 +24,7 @@ import org.kuali.student.common.util.UUIDHelper;
 
 /**
  * 
- * A base class for tiny entities that refer the the ResultValueGroup.
+ * A base class for tiny entities that refer the the ResultValueGroup class from lrc.
  * 
  * Foreign keys are not used because it crosses the service boundaries.
  * 
