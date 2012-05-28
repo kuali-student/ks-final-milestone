@@ -10,6 +10,7 @@ import org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,13 +29,13 @@ public class LprTestDataLoader {
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, VersionMismatchException,
             AlreadyExistsException, CircularRelationshipException {
-        loadLpr("Lpr-1", "lui-1","Person-1",80.00F,  "kuali.lpr.type.courseoffering.instructor.main", "kuali.lpr.state.draft");
-        loadLpr("Lpr-2", "lui-1","Person-2",20.00F,  "kuali.lpr.type.courseoffering.instructor.ta", "kuali.lpr.state.draft");
-        loadLpr("Lpr-3","lui-2", "Person-1",100.00F,  "kuali.lpr.type.courseoffering.instructor.main", "kuali.lpr.state.draft");
+        loadLpr("Lpr-1", "lui-1","Person-1", new BigDecimal (80.00F),  "kuali.lpr.type.courseoffering.instructor.main", "kuali.lpr.state.draft");
+        loadLpr("Lpr-2", "lui-1","Person-2", new BigDecimal (20.00F),  "kuali.lpr.type.courseoffering.instructor.ta", "kuali.lpr.state.draft");
+        loadLpr("Lpr-3","lui-2", "Person-1", new BigDecimal (100.00F),  "kuali.lpr.type.courseoffering.instructor.main", "kuali.lpr.state.draft");
 
     }
 
-    private  void loadLpr(String lprId, String luiId, String personId, Float commitmentPercent, String lprState, String lprType )
+    private  void loadLpr(String lprId, String luiId, String personId, BigDecimal commitmentPercent, String lprState, String lprType )
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, AlreadyExistsException {

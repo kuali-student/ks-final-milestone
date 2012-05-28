@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,19 +8,17 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
@@ -37,7 +36,7 @@ public class LprEntity extends MetaEntity  {
     private String luiId;
 
     @Column(name = "COMMIT_PERCT")
-    private Float commitmentPercent;
+    private BigDecimal commitmentPercent;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="EFF_DT")
@@ -54,7 +53,7 @@ public class LprEntity extends MetaEntity  {
     private String personRelationStateId;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy = "owner" )
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy = "owner")
     private List<LprAttributeEntity> attributes;
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy="lpr")
@@ -73,14 +72,21 @@ public class LprEntity extends MetaEntity  {
     }
 
     public void fromDto(Lpr dto){
-        this.setCommitmentPercent(Float.parseFloat(dto.getCommitmentPercent()));
+    	
+        this.setCommitmentPercent(new BigDecimal(dto.getCommitmentPercent()));
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setPersonRelationStateId(dto.getStateKey());
-        this.setAttributes(new ArrayList<LprAttributeEntity>());
+        
+        if (this.attributes == null)
+        	this.attributes = new ArrayList<LprAttributeEntity>();
+        
         if (null != dto.getAttributes()) {
             for (Attribute att : dto.getAttributes()) {
-                this.getAttributes().add(new LprAttributeEntity(att));
+                LprAttributeEntity entity;
+				this.getAttributes().add(entity = new LprAttributeEntity(att));
+				
+				entity.setOwner(this);
             }
         }
         
@@ -115,15 +121,9 @@ public class LprEntity extends MetaEntity  {
         this.luiId = luiId;
     }
 
-    public Float getCommitmentPercent() {
-        return commitmentPercent;
-    }
 
-    public void setCommitmentPercent(Float commitmentPercent) {
-        this.commitmentPercent = commitmentPercent;
-    }
-
-    public Date getEffectiveDate() {
+   
+	public Date getEffectiveDate() {
         return effectiveDate;
     }
 
@@ -203,6 +203,16 @@ public class LprEntity extends MetaEntity  {
 			List<LprResultValueGroupEntity> resultValueGroups) {
 		this.resultValueGroups = resultValueGroups;
 	}
+
+	public BigDecimal getCommitmentPercent() {
+		return commitmentPercent;
+	}
+
+	public void setCommitmentPercent(BigDecimal commitmentPercent) {
+		this.commitmentPercent = commitmentPercent;
+	}
+	
+	
     
     
 }

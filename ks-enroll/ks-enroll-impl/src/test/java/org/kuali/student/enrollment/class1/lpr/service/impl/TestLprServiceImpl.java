@@ -118,6 +118,27 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
     	
     	txManager.rollback(tx);
     	
+    	
+    	
+    }
+    
+    @Test
+    public void validateCommitmentPercentDatabaseColumn() throws SQLException {
+    	
+    	TransactionStatus tx = txManager.getTransaction(new DefaultTransactionDefinition(TransactionDefinition.ISOLATION_READ_COMMITTED));
+    	
+    	ResultSet rs = dataSource.getConnection().createStatement().executeQuery("select COMMIT_PERCT from KSEN_LPR");
+    	
+    	ResultSetMetaData meta = rs.getMetaData();
+    	
+    	String columnType = meta.getColumnTypeName(1);
+    	
+    	assertEquals("NUMERIC", columnType.toUpperCase());
+    	
+    	txManager.rollback(tx);
+    	
+    	
+    	
     }
     
     

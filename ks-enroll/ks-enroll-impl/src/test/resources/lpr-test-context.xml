@@ -85,6 +85,7 @@
     <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
         <property name="lprDao" ref="lprDao"/>
         <property name="lprTransDao" ref="lprTransDao"/>
+        <property name="lprTransItemDao" ref="lprTransItemDao"/>
     </bean>
 
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
@@ -92,6 +93,10 @@
     </bean>
 
     <bean id="lprTransDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+     <bean id="lprTransItemDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao">
         <property name="em" ref="entityManager"/>
     </bean>
     

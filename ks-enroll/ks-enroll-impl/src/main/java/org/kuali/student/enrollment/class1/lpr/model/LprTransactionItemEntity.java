@@ -52,7 +52,7 @@ public class LprTransactionItemEntity extends MetaEntity {
 	@Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
 	private String descrFormatted;
 
-	@Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
+	@Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
 	private String descrPlain;
 
 	@Column(name = "LPR_TRANS_ITEM_TYPE")
@@ -61,7 +61,7 @@ public class LprTransactionItemEntity extends MetaEntity {
 	@Column(name = "LPR_TRANS_ITEM_STATE")
 	private String lprTransactionItemState;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval=true)
 	private List<LprTransItemAttributeEntity> attributes;
 
 	public LprTransactionItemEntity() {
