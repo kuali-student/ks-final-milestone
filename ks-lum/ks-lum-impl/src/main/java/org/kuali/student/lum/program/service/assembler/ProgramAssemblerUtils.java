@@ -34,7 +34,7 @@ import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
 import org.kuali.student.r2.lum.clu.dto.FieldInfo;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
-import org.kuali.student.r1.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
