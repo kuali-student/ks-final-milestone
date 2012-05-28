@@ -24,9 +24,10 @@ import java.util.Map.Entry;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.core.service.util.AssemblerHelper;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r1.common.service.impl.BaseAssembler;
 import org.kuali.student.lum.lrc.dao.LrcDao;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.lum.lrc.entity.LrcRichText;
@@ -40,27 +41,29 @@ import org.springframework.beans.BeanUtils;
 public class LrcServiceAssembler extends BaseAssembler {
    
 
-    public static ResultComponentInfo toResultComponentInfo(ResultComponent entity) {
-        ResultComponentInfo dto = new ResultComponentInfo();
+    public static ResultValuesGroupInfo toResultValuesGroupInfo(ResultComponent entity) {
+        ResultValuesGroupInfo dto = new ResultValuesGroupInfo();
 
         BeanUtils.copyProperties(entity, dto,
-                new String[] { "resultValues", "desc", "attributes", "type" });
+                new String[] { "resultValues", "descr", "attributes", "typeKey", "stateKey", "meta" });
         List<String> resultValues = new ArrayList<String>(entity.getResultValues().size());
         for (ResultValue rv : entity.getResultValues()) {
         	resultValues.add(rv.getValue());
         }
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setResultValues(resultValues);
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-        dto.setType(entity.getType().getId());
+        dto.setKey(entity.getId());
+        dto.setDescr(toRichTextInfo(entity.getDescr()));
+        dto.setResultValueKeys(resultValues);
+        dto.setAttributes(AssemblerHelper.toAttributeList(entity.getAttributes()));
+		dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setTypeKey(entity.getType().getId());
+        dto.setStateKey(entity.getState());
         return dto;
     }
 
-    public static List<ResultComponentInfo> toReListComonentInfos(List<ResultComponent> entities) {
-        List<ResultComponentInfo> dtos = new ArrayList<ResultComponentInfo>(entities.size());
+    public static List<ResultValuesGroupInfo> toReListComonentInfos(List<ResultComponent> entities) {
+        List<ResultValuesGroupInfo> dtos = new ArrayList<ResultValuesGroupInfo>(entities.size());
         for (ResultComponent entity : entities) {
-            dtos.add(toResultComponentInfo(entity));
+            dtos.add(toResultValuesGroupInfo(entity));
         }
         return dtos;
     }
@@ -92,22 +95,29 @@ public class LrcServiceAssembler extends BaseAssembler {
        return dto;
     }
 
-    public static ResultComponent toResultComponent(String resultComponentTypeKey, ResultComponentInfo dto, LrcDao lrcDao) throws DoesNotExistException, InvalidParameterException, DataValidationErrorException {
+    public static ResultComponent toResultComponent(String resultComponentTypeKey, ResultValuesGroupInfo dto, LrcDao lrcDao) throws InvalidParameterException, DataValidationErrorException {
         ResultComponent entity = new ResultComponent();
         toResultComponent(entity, dto, lrcDao);
         return entity;
     }
 
-    public static void toResultComponent(ResultComponent entity, ResultComponentInfo dto, LrcDao lrcDao) throws DoesNotExistException, InvalidParameterException, DataValidationErrorException {
+    public static void toResultComponent(ResultComponent entity, ResultValuesGroupInfo dto, LrcDao lrcDao) throws InvalidParameterException, DataValidationErrorException {
         BeanUtils.copyProperties(dto, entity,
-                new String[] { "desc", "resultValues", "attributes", "metaInfo", "type" });
-        ResultComponentType type = lrcDao.fetch(ResultComponentType.class, dto.getType());
-        entity.setType(type);
+                new String[] { "descr", "resultValues", "attributes", "meta", "type" });
         
-        entity.setDescr(toRichText(LrcRichText.class, dto.getDesc()));
+        ResultComponentType type;
+        try {
+            type = lrcDao.fetch(ResultComponentType.class, dto.getTypeKey());
+            entity.setType(type);
+        } catch (DoesNotExistException e) {
+            throw new InvalidParameterException(dto.getTypeKey() + " does not exist.");
+        }
+        
+        entity.setDescr(toRichText(LrcRichText.class, dto.getDescr()));
+        entity.setState(dto.getStateKey());
 
         //Create new Result Values, and delete unwanted ones, keep the overlap 
-        List<ResultValue> resultValues = new ArrayList<ResultValue>(dto.getResultValues().size());
+        List<ResultValue> resultValues = new ArrayList<ResultValue>(dto.getResultValueKeys().size());
         Map<String,ResultValue> currentResultValues = new HashMap<String,ResultValue>();
         if(entity.getResultValues()!=null){
         	for(ResultValue resultValue:entity.getResultValues()){
@@ -115,7 +125,7 @@ public class LrcServiceAssembler extends BaseAssembler {
         	}
         }
         
-        for(String value:dto.getResultValues()){
+        for(String value:dto.getResultValueKeys()){
         	if(!currentResultValues.containsKey(value)){
         		ResultValue newResultValue = new ResultValue();
         		newResultValue.setValue(value);
@@ -131,6 +141,6 @@ public class LrcServiceAssembler extends BaseAssembler {
         }
         
         entity.setResultValues(resultValues);
-        entity.setAttributes(toGenericAttributes(ResultComponentAttribute.class, dto.getAttributes(), entity, lrcDao));
+        entity.setAttributes(AssemblerHelper.toGenericAttributes(ResultComponentAttribute.class, dto.getAttributes(), entity, lrcDao));
     }
 }

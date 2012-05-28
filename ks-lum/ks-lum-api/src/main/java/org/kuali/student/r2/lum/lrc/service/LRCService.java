@@ -364,20 +364,7 @@ public interface LRCService extends SearchService, DictionaryService {
      */
     public List<ResultValueInfo> getResultValuesForScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /**
-     *
-     * @param resultComponentId
-     * @param contextInfo
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     */
-    @Deprecated
-    public ResultComponentInfo getResultComponent(@WebParam(name = "resultComponentId") String resultComponentId, @WebParam(name = "contextInfo") ContextInfo contextInfo)	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
+	/**
      *
      * @param scaleKey
      * @param contextInfo
@@ -390,34 +377,7 @@ public interface LRCService extends SearchService, DictionaryService {
     @Deprecated
     public ScaleInfo getScale(@WebParam(name = "scaleKey") String scaleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,	OperationFailedException;
 
-    /**
-     *
-     * @param resultValueId
-     * @param resultComponentTypeKey
-     * @param contextInfo
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     */
-    @Deprecated
-    public List<String> getResultComponentIdsByResult(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "resultComponentTypeKey") String resultComponentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     *
-     * @param resultComponentTypeKey
-     * @param contextInfo
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     */
-    @Deprecated
-    public List<String> getResultComponentIdsByResultComponentType(@WebParam(name = "resultComponentTypeKey") String resultComponentTypeKey, @WebParam(name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
+	/**
      *
      * @param resultComponentTypeKey
      * @param contextInfo
@@ -439,66 +399,4 @@ public interface LRCService extends SearchService, DictionaryService {
     @Deprecated
     public List<ResultComponentTypeInfo> getResultComponentTypes(@WebParam(name = "contextInfo")  ContextInfo contextInfo) throws OperationFailedException;
 
-    /**
-     *
-     * @param resultComponentId
-     * @param resultComponentInfo
-     * @param contextInfo
-     * @return
-     * @throws DataValidationErrorException
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     * @throws VersionMismatchException
-     */
-    @Deprecated
-    public ResultComponentInfo updateResultComponent(@WebParam(name = "resultComponentId") String resultComponentId, @WebParam(name = "resultComponentInfo") ResultComponentInfo resultComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)  throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
-    /**
-     *
-     * @param objectTypeKey
-     * @return
-     */
-//    @Deprecated
-//    public ObjectStructureDefinition getObjectStructure(String objectTypeKey);
-
-    /**
-     *
-     * @return
-     */
-    @Deprecated
-    public List<String> getObjectTypes();
-
-    /**
-     *
-     * @param resultComponentId
-     * @param contextInfo
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    @Deprecated
-    public StatusInfo deleteResultComponent(@WebParam(name = "resultComponentId") String resultComponentId, @WebParam(name = "contextInfo")  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     *
-     * @param resultComponentTypeKey
-     * @param resultComponentInfo
-     * @param contextInfo
-     * @return
-     * @throws AlreadyExistsException
-     * @throws DataValidationErrorException
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    @Deprecated
-    public ResultComponentInfo createResultComponent(@WebParam(name = "resultComponentTypeKey") String resultComponentTypeKey, @WebParam(name = "resultComponentInfo") ResultComponentInfo resultComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

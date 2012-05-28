@@ -36,14 +36,11 @@ public class TestLrcDaoImpl extends AbstractTransactionalDaoTest {
 
 	@Test
     public void testGetResultComponentIdsByResult() {
-        List<String> rcis = dao.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credential");
+        List<String> rcis = dao.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1");
         assertNotNull(rcis);
         assertEquals(1, rcis.size());
 
-        rcis = dao.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1x", "resultComponentType.credential");
-        assertTrue(rcis.isEmpty());
-
-        rcis = dao.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1", "resultComponentType.credentialx");
+        rcis = dao.getResultComponentIdsByResult("LRC-RESULT_VALUE-CREDIT-1x");
         assertTrue(rcis.isEmpty());
     }
 

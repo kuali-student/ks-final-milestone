@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.lrc.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -76,50 +77,6 @@ public class LrcServiceImpl implements LRCService {
 //			OperationFailedException {
 //		throw new UnsupportedOperationException("Method not yet implemented!");
 //	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#createResultComponent(java.lang.String, org.kuali.student.lum.lrc.dto.ResultComponentInfo)
-	 */
-	@Override
-	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public ResultComponentInfo createResultComponent(
-			String resultComponentTypeKey,
-			ResultComponentInfo resultComponentInfo, ContextInfo contextInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
-	    checkForMissingParameter(resultComponentInfo, "resultComponentInfo");
-
-	    // Validate Result component
-        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
-        Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure, contextInfo);
-
-        if (null != validationResults && validationResults.size() > 0) {
-        	throw new DataValidationErrorException("Validation error!", validationResults);
-        }
-                
-	    ResultComponent rc = LrcServiceAssembler.toResultComponent(resultComponentTypeKey, resultComponentInfo, lrcDao);
-	    lrcDao.create(rc);
-	    return LrcServiceAssembler.toResultComponentInfo(rc);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#deleteResultComponent(java.lang.String)
-	 */
-	@Override
-	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteResultComponent(String resultComponentId, ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-	    checkForMissingParameter(resultComponentId, "resultComponentId");
-		lrcDao.delete(ResultComponent.class, resultComponentId);
-		StatusInfo statusInfo = new StatusInfo();
-		return statusInfo;
-	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCredential(java.lang.String)
@@ -277,57 +234,15 @@ public class LrcServiceImpl implements LRCService {
 //			MissingParameterException, OperationFailedException {
 //		throw new UnsupportedOperationException();
 //	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponent(java.lang.String)
-	 */
-	@Override
-    @Transactional(readOnly=true)
-	public ResultComponentInfo getResultComponent(String resultComponentId, ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-	    checkForMissingParameter(resultComponentId, "resultComponentId");
-	    ResultComponent resultComponent = lrcDao.fetch(ResultComponent.class, resultComponentId);
-
-	    return LrcServiceAssembler.toResultComponentInfo(resultComponent);
-	}
 	
 	@Override
+	@Transactional(readOnly=true)
     public ResultValuesGroupInfo getResultValuesGroup(String resultValuesGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-//		ResultComponentInfo temp = this.getResultComponent(resultValuesGroupId);
-//		return LrcServiceAssembler.convertR1toR2(temp);
-		throw new UnsupportedOperationException("R2 Contract Method not yet implemented - replacing getResultComponent!");
+		checkForMissingParameter(resultValuesGroupId, "resultComponentId");
+        ResultComponent resultComponent = lrcDao.fetch(ResultComponent.class, resultValuesGroupId);
+
+        return LrcServiceAssembler.toResultValuesGroupInfo(resultComponent);
     }
-
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentIdsByResult(java.lang.String, java.lang.String)
-	 */
-	@Override
-    @Transactional(readOnly=true)
-	public List<String> getResultComponentIdsByResult(String resultValueId,
-			String resultComponentTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-	    checkForMissingParameter(resultValueId, "resultValueId");
-	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
-	    List<String> ids = lrcDao.getResultComponentIdsByResult(resultValueId, resultComponentTypeKey);
-	    return ids;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentIdsByResultComponentType(java.lang.String)
-	 */
-	@Override
-    @Transactional(readOnly=true)
-	public List<String> getResultComponentIdsByResultComponentType(
-			String resultComponentTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
-        List<String> ids = lrcDao.getResultComponentIdsByResultComponentType(resultComponentTypeKey);
-        return ids;
-	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentType(java.lang.String)
@@ -370,51 +285,6 @@ public class LrcServiceImpl implements LRCService {
 	public ResultScaleInfo getResultScale(String resultScaleKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		throw new UnsupportedOperationException("R2 Contract Method not yet implemented - replacing getScale!");
 	}
-		
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#translateGrade(java.lang.String, java.lang.String, java.lang.String)
-	 */
-//	@Override
-//	public List<GradeInfo> translateGrade(String gradeKey, String scaleKey,
-//			String translateScaleKey) throws InvalidParameterException,
-//			MissingParameterException, OperationFailedException {
-//		throw new UnsupportedOperationException("Method not yet implemented!");
-//	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lrc.service.LrcService#updateResultComponent(java.lang.String, org.kuali.student.lum.lrc.dto.ResultComponentInfo)
-	 */
-	@Override
-	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public ResultComponentInfo updateResultComponent(String resultComponentId,
-			ResultComponentInfo resultComponentInfo, ContextInfo contextInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
-	    checkForMissingParameter(resultComponentId, "resultComponentId");
-        checkForMissingParameter(resultComponentInfo, "resultComponentInfo");
-        
-        // Validate Result component
-        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
-        Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure, contextInfo);
-
-        if (null != validationResults && validationResults.size() > 0) {
-        	throw new DataValidationErrorException("Validation error!", validationResults);
-        }
-        
-        ResultComponent entity = lrcDao.fetch(ResultComponent.class, resultComponentId);
-        
-		if (!String.valueOf(entity.getVersionNumber()).equals(resultComponentInfo.getMetaInfo().getVersionInd())){
-			throw new VersionMismatchException("ResultComponent to be updated is not the current version");
-		}
-        
-        LrcServiceAssembler.toResultComponent(entity, resultComponentInfo, lrcDao);
-        lrcDao.update(entity);
-        return LrcServiceAssembler.toResultComponentInfo(entity);
-    }
 
 	/**
 	 * @return the lrcDao
@@ -560,28 +430,52 @@ public class LrcServiceImpl implements LRCService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	    checkForMissingParameter(resultValueId, "resultValueId");
+        List<ResultValuesGroupInfo> resultValuesGroups = new ArrayList<ResultValuesGroupInfo>();
+	    List<String> ids = lrcDao.getResultComponentIdsByResult(resultValueId);
+        for (String id : ids){
+            resultValuesGroups.add(this.getResultValuesGroup(id, context));
+        }
+        return resultValuesGroups;
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<String> getResultValuesGroupIdsByType(
 			String resultValuesGroupTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	    checkForMissingParameter(resultValuesGroupTypeKey, "resultComponentTypeKey");
+        List<String> ids = lrcDao.getResultComponentIdsByResultComponentType(resultValuesGroupTypeKey);
+        return ids;
 	}
 
 	@Override
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ResultValuesGroupInfo createResultValuesGroup(
 			ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo context)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	    checkForMissingParameter(gradeValuesGroupInfo, "gradeValuesGroupInfo");
+
+        // Validate Result component
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(gradeValuesGroupInfo, objStructure, context);
+
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+                
+        ResultComponent rc = LrcServiceAssembler.toResultComponent(gradeValuesGroupInfo.getTypeKey(), gradeValuesGroupInfo, lrcDao);
+        lrcDao.create(rc);
+        return LrcServiceAssembler.toResultValuesGroupInfo(rc);
 	}
 
 	@Override
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ResultValuesGroupInfo updateResultValuesGroup(
 			String resultValuesGroupId,
 			ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo context)
@@ -589,15 +483,39 @@ public class LrcServiceImpl implements LRCService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	    checkForMissingParameter(resultValuesGroupId, "resultValuesGroupId");
+        checkForMissingParameter(gradeValuesGroupInfo, "gradeValuesGroupInfo");
+        
+        // Validate Result component
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
+        Validator defaultValidator = validatorFactory.getValidator();
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(gradeValuesGroupInfo, objStructure, context);
+
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+        
+        ResultComponent entity = lrcDao.fetch(ResultComponent.class, resultValuesGroupId);
+        
+        if (!String.valueOf(entity.getVersionNumber()).equals(gradeValuesGroupInfo.getMeta().getVersionInd())){
+            throw new VersionMismatchException("ResultComponent to be updated is not the current version");
+        }
+        
+        LrcServiceAssembler.toResultComponent(entity, gradeValuesGroupInfo, lrcDao);
+        lrcDao.update(entity);
+        return LrcServiceAssembler.toResultValuesGroupInfo(entity);
 	}
 
 	@Override
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteResultValuesGroup(String resultValuesGroupId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	    checkForMissingParameter(resultValuesGroupId, "resultComponentId");
+        lrcDao.delete(ResultComponent.class, resultValuesGroupId);
+        StatusInfo statusInfo = new StatusInfo();
+        return statusInfo;
 	}
 
 	@Override

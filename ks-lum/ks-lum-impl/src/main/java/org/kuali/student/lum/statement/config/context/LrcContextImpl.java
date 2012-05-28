@@ -22,6 +22,7 @@ import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -42,24 +43,24 @@ public class LrcContextImpl extends BasicContextImpl {
 		this.lrcService = lrcService;
 	}
 
-	private ResultComponentInfo getResultComponentByResultComponentId(String resultComponentId, ContextInfo contextInfo) throws OperationFailedException {
+	private ResultValuesGroupInfo getResultComponentByResultComponentId(String resultComponentId, ContextInfo contextInfo) throws OperationFailedException {
 		if (resultComponentId == null) {
 			return null;
 		}
 		try {
 
 
-			return  lrcService.getResultComponent(resultComponentId, contextInfo);
+			return  lrcService.getResultValuesGroup(resultComponentId, contextInfo);
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
 	}
 	
-	private String getResultValue(ResultComponentInfo resultComponent, String resultValue) throws OperationFailedException {
+	private String getResultValue(ResultValuesGroupInfo resultComponent, String resultValue) throws OperationFailedException {
 		if(resultComponent == null || resultValue == null) {
 			return null;
 		}
-		for(String rv : resultComponent.getResultValues()) {
+		for(String rv : resultComponent.getResultValueKeys()) {
 			if(rv.equals(resultValue)) {
 				return rv;
 			}
@@ -67,7 +68,7 @@ public class LrcContextImpl extends BasicContextImpl {
 		throw new OperationFailedException("Result value not found: "+resultValue);
 	}
 	
-	private ResultComponentInfo getResultComponentByResultValueId(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
+	private ResultValuesGroupInfo getResultComponentByResultValueId(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
 		if(resultValueId == null) {
 			return null;
 		}
@@ -76,10 +77,10 @@ public class LrcContextImpl extends BasicContextImpl {
 
 			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes(contextInfo);
 			for(ResultComponentTypeInfo type : typeList) {
-				List<String> resultComponentIdList = lrcService.getResultComponentIdsByResultComponentType(type.getId(), contextInfo);
+				List<String> resultComponentIdList = lrcService.getResultValuesGroupIdsByType(type.getId(), contextInfo);
 				for(String resultComponentId : resultComponentIdList) {
-					ResultComponentInfo resultComponent = lrcService.getResultComponent(resultComponentId, contextInfo);
-					if(resultComponent.getResultValues().contains(resultValueId)) {
+				    ResultValuesGroupInfo resultComponent = lrcService.getResultValuesGroup(resultComponentId, contextInfo);
+					if(resultComponent.getResultValueKeys().contains(resultValueId)) {
 						return resultComponent;
 					}
 				}
@@ -112,7 +113,7 @@ public class LrcContextImpl extends BasicContextImpl {
 //        }
 
     	
-        ResultComponentInfo gradeTypeResultComponent = null;
+        ResultValuesGroupInfo gradeTypeResultComponent = null;
         String gradeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getId());
         if (gradeId == null) {
 			String gradeTypeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());

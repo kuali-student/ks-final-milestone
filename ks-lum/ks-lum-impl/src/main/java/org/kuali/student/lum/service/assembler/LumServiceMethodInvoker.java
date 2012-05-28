@@ -39,6 +39,7 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
@@ -227,29 +228,29 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				break;
 			}
 		}else if(nodeData instanceof ResultComponentInfo){
-			ResultComponentInfo resultComponent = (ResultComponentInfo) nodeData;
+		    ResultValuesGroupInfo resultComponent = (ResultValuesGroupInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				ResultComponentInfo createdResultComponent = lrcService.createResultComponent(resultComponent.getType(), resultComponent, contextInfo);
+				ResultValuesGroupInfo createdResultComponent = lrcService.createResultValuesGroup(resultComponent, contextInfo);
 				//Copy the created back to the reference Should there be an assembler for this?
-				if(results.getBusinessDTORef()!=null&& results.getBusinessDTORef() instanceof ResultComponentInfo){
-					ResultComponentInfo resultComponentToUpdate = (ResultComponentInfo) results.getBusinessDTORef();
-					resultComponentToUpdate.setId(createdResultComponent.getId());
-					resultComponentToUpdate.setType(createdResultComponent.getType());
-					resultComponentToUpdate.setDesc(createdResultComponent.getDesc());
+				if(results.getBusinessDTORef()!=null&& results.getBusinessDTORef() instanceof ResultValuesGroupInfo){
+				    ResultValuesGroupInfo resultComponentToUpdate = (ResultValuesGroupInfo) results.getBusinessDTORef();
+					resultComponentToUpdate.setKey(createdResultComponent.getKey());
+					resultComponentToUpdate.setTypeKey(createdResultComponent.getTypeKey());
+					resultComponentToUpdate.setDescr(createdResultComponent.getDescr());
 					resultComponentToUpdate.setEffectiveDate(createdResultComponent.getEffectiveDate());
 					resultComponentToUpdate.setExpirationDate(createdResultComponent.getExpirationDate());
-					resultComponentToUpdate.setMetaInfo(createdResultComponent.getMetaInfo());
+					resultComponentToUpdate.setMeta(createdResultComponent.getMeta());
 					resultComponentToUpdate.setName(createdResultComponent.getName());
-					resultComponentToUpdate.setResultValues(createdResultComponent.getResultValues());
-					resultComponentToUpdate.setState(createdResultComponent.getState());
+					resultComponentToUpdate.setResultValueKeys(createdResultComponent.getResultValueKeys());
+					resultComponentToUpdate.setStateKey(createdResultComponent.getStateKey());
 				}
 				break;
 			case UPDATE:
-				lrcService.updateResultComponent(resultComponent.getId(), resultComponent, contextInfo);
+				lrcService.updateResultValuesGroup(resultComponent.getKey(), resultComponent, contextInfo);
 				break;
 			case DELETE:
-				lrcService.deleteResultComponent(resultComponent.getId(), contextInfo);
+				lrcService.deleteResultValuesGroup(resultComponent.getKey(), contextInfo);
 				break;
 			}
 		} else if(nodeData instanceof RefStatementRelationInfo){

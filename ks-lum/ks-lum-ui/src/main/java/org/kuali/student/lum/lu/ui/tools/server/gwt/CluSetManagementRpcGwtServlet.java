@@ -31,11 +31,13 @@ import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultCell;
 import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
@@ -181,15 +183,15 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                                 }
 
                                 //retrieve credit type and credit values
-                                ResultComponentInfo resultComponentInfo = null;
+                                ResultValuesGroupInfo resultComponentInfo = null;
                                 List<String> resultValues = null;
                                 String creditType = "";
                                 if (cluResultInfo.getResultOptions() != null) {
                                     for (ResultOptionInfo resultOption : cluResultInfo.getResultOptions()) {
                                         if (resultOption.getResultComponentId() != null) {
-                                            resultComponentInfo = lrcService.getResultComponent(resultOption.getResultComponentId(), contextInfo);
-                                            resultValues = resultComponentInfo.getResultValues();
-                                            creditType = resultComponentInfo.getType();
+                                            resultComponentInfo = lrcService.getResultValuesGroup(resultOption.getResultComponentId(), contextInfo);
+                                            resultValues = resultComponentInfo.getResultValueKeys();
+                                            creditType = resultComponentInfo.getTypeKey();
                                             break;
                                         }
                                     }
@@ -211,7 +213,16 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                                         firstValue = false;
                                     }
                                 } else if (creditType.equals("kuali.resultComponentType.credit.degree.range")) {
-                                    credits = credits + resultComponentInfo.getAttributes().get("minCreditValue") + " - " + resultComponentInfo.getAttributes().get("maxCreditValue");
+                                    String minCredits = null;
+                                    String maxCredits = null;
+                                    for (AttributeInfo attr : resultComponentInfo.getAttributes()){
+                                        if (attr.getKey().equals("minCreditValue")){
+                                            minCredits = attr.getValue();
+                                        } else if (attr.getKey().equals("maxCreditValue")){
+                                            maxCredits = attr.getValue();
+                                        }
+                                    }
+                                    credits += minCredits + " - " + maxCredits;
                                 }
                             }
                         }
