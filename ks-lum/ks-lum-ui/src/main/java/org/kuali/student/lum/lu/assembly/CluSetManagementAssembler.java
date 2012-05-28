@@ -45,7 +45,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.lum.common.client.helpers.SearchParamHelper;
+import org.kuali.student.r2.core.search.dto.SearchParamHelper;
 import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
