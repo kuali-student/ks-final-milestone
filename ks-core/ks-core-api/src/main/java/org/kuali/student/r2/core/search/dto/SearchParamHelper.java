@@ -1,9 +1,8 @@
-package org.kuali.student.lum.common.client.helpers;
+package org.kuali.student.r2.core.search.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 
 public class SearchParamHelper {
 

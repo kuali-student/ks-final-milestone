@@ -29,7 +29,6 @@ import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.lum.common.client.helpers.SearchParamHelper;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
@@ -39,6 +38,7 @@ import org.kuali.student.r1.common.assembly.data.Data.DataValue;
 import org.kuali.student.r1.common.assembly.data.Data.Value;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r2.core.search.dto.SearchParamHelper;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import com.google.gwt.core.client.GWT;
