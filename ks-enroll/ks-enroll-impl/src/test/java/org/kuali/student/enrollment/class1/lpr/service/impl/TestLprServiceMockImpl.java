@@ -184,7 +184,7 @@ public class TestLprServiceMockImpl {
         new LprTransactionItemTester().add2ForCreate(expected.getLprTransactionItems());
         LprTransactionInfo actual = lprService.createLprTransaction(expected.getTypeKey(), expected, callContext);
         new LprTransactionItemTester ().add2ForCreate(expected.getLprTransactionItems());
-        LprTransactionInfo actual = lprService.createLprTransaction (expected.getTypeKey(), expected, callContext);
+        actual = lprService.createLprTransaction (expected.getTypeKey(), expected, callContext);
         assertNotNull(actual.getId());
         new IdEntityTester().check(expected, actual);
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
