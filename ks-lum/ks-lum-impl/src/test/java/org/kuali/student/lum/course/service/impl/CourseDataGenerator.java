@@ -254,7 +254,7 @@ public class CourseDataGenerator {
         if ("stateKey".equals(name)) {
             return DtoConstants.STATE_DRAFT;
         }
-        if ("contactHours".equals(parentPropertyName) && "unitType".equals(name)) {
+        if ("contactHours".equals(parentPropertyName) && "unitTypeKey".equals(name)) {
             return "kuali.atp.duration.day";
         }
         if ("contactHours".equals(parentPropertyName) && "unitQuantity".equals(name)) {
@@ -266,7 +266,7 @@ public class CourseDataGenerator {
         if ("duration".equals(parentPropertyName) && "timeQuantity".equals(name)) {
             return propertyIndex.toString();
         }
-        if ("outOfClassHours".equals(parentPropertyName) && "unitType".equals(name)) {
+        if ("outOfClassHours".equals(parentPropertyName) && "unitTypeKey".equals(name)) {
             return "kuali.atp.duration.Week";
         }
         if ("outOfClassHours".equals(parentPropertyName) && "unitQuantity".equals(name)) {

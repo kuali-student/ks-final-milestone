@@ -1235,16 +1235,16 @@
   <property name="name" value="org.kuali.student.r2.common.dto.AmountInfo" />
   <property name="attributes">
    <list>
-    <ref bean="activityInfo.contactHours.unitType" />
+    <ref bean="activityInfo.contactHours.unitTypeKey" />
     <ref bean="activityInfo.contactHours.unitQuantity" />
    </list>
   </property>
  </bean>
  <bean id="activityInfo.contactHours-structure" parent="activityInfo.contactHours-structure-parent" />
 
- <bean id="activityInfo.contactHours.unitType-parent" abstract="true" parent="amountInfo.unitTypeKey-parent">
+ <bean id="activityInfo.contactHours.unitTypeKey-parent" abstract="true" parent="amountInfo.unitTypeKey-parent">
  </bean>
- <bean id="activityInfo.contactHours.unitType" parent="activityInfo.contactHours.unitType-parent" />
+ <bean id="activityInfo.contactHours.unitTypeKey" parent="activityInfo.contactHours.unitTypeKey-parent" />
 
  <bean id="activityInfo.contactHours.unitQuantity-parent" abstract="true" parent="amountInfo.unitQuantity-parent">
   <property name="maxLength" value="9"/>
@@ -1365,17 +1365,17 @@
   <property name="name" value="org.kuali.student.r2.common.dto.AmountInfo" />
   <property name="attributes">
    <list>
-    <ref bean="courseInfo.outOfClassHours.unitType" />
+    <ref bean="courseInfo.outOfClassHours.unitTypeKey" />
     <ref bean="courseInfo.outOfClassHours.unitQuantity" />
    </list>
   </property>
  </bean>
  <bean id="courseInfo.outOfClassHours-structure" parent="courseInfo.outOfClassHours-structure-parent" />
 
- <bean id="courseInfo.outOfClassHours.unitType-parent" abstract="true" parent="amountInfo.unitTypeKey-parent">
+ <bean id="courseInfo.outOfClassHours.unitTypeKey-parent" abstract="true" parent="amountInfo.unitTypeKey-parent">
   <property name="dynamic" value="true"/>
  </bean>
- <bean id="courseInfo.outOfClassHours.unitType" parent="courseInfo.outOfClassHours.unitType-parent" />
+ <bean id="courseInfo.outOfClassHours.unitTypeKey" parent="courseInfo.outOfClassHours.unitTypeKey-parent" />
 
  <bean id="courseInfo.outOfClassHours.unitQuantity-parent" abstract="true" parent="amountInfo.unitQuantity-parent">
   <property name="dynamic" value="true"/>

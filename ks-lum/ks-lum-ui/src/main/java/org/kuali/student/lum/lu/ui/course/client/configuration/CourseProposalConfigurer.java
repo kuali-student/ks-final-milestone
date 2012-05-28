@@ -675,7 +675,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                                 null,
                                 false),
                         new MultiplicityFieldConfig(
-                                CONTACT_HOURS + "/" + "unitType",
+                                CONTACT_HOURS + "/" + "unitTypeKey",
                                 LUUIConstants.CONTACT_HOURS_FREQUENCY_LABEL_KEY,
                                 null,
                                 null,

@@ -295,48 +295,44 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     @Override
     @Deprecated
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        List<EnumeratedValueEntity> enumeratedValues = null;
+        List<EnumeratedValueEntity> returnvalues = new ArrayList<EnumeratedValueEntity>();
         if(searchRequest.getSearchKey().equals("enumeration.management.search")){
-            String enumType = null;
+            List<String> enumTypes = null;
             List<String> enumCodes = null;
             for(SearchParam parm : searchRequest.getParams()){
                 if((parm.getKey().equals("enumeration.queryParam.enumerationType")) && (parm.getValue() != null)){
-                    enumType = (String) parm.getValue();
+                    enumTypes = getParmList(parm);
                 } else if ((parm.getKey().equals("enumeration.queryParam.enumerationCode") && (parm.getValue() != null))){
-                    if (parm.getValue() instanceof String){
-                        enumCodes = new ArrayList<String>();
-                        enumCodes.add((String) parm.getValue());
+                    enumCodes = getParmList(parm);
+                }
+            }
+
+            for (String type : enumTypes){
+                List<EnumeratedValueEntity> enumvalues = enumValueDao.getByEnumerationKey(type);
+                for(EnumeratedValueEntity enumValue : enumvalues){
+                    if ((enumCodes != null) && (enumCodes.size() > 0)){
+                        for(String code : enumCodes){
+                            if (enumValue.getCode().equals(code)){
+                                returnvalues.add(enumValue);
+                                break;
+                            }
+                        }
                     } else {
-                        enumCodes = (List<String>) parm.getValue();
+                        returnvalues.addAll(enumvalues);
                     }
                 }
             }
             
-            if (enumType != null){
-                enumeratedValues = enumValueDao.getByEnumerationKey(enumType);
-                if ((enumCodes != null) && (enumCodes.size() >= 0)){
-                    List<EnumeratedValueEntity> values = new ArrayList<EnumeratedValueEntity>();
-                    for(EnumeratedValueEntity enumValue : enumeratedValues){
-                        for(String code : enumCodes){
-                            if (enumValue.getCode().equals(code)){
-                                values.add(enumValue);
-                                break;
-                            }
-                        }
-                    }
-                    enumeratedValues = values;
-                }
-            }
         }
         
-        if (enumeratedValues == null){
+        if (returnvalues == null){
             return null;
         }
         
         SearchResult searchResult = new SearchResult();
         
         //Use a hashset of the cell values to remove duplicates
-        for(EnumeratedValueEntity enumValue : enumeratedValues){
+        for(EnumeratedValueEntity enumValue : returnvalues){
             SearchResultRow row = new SearchResultRow();
             row.addCell("enumeration.resultColumn.code", enumValue.getCode());
             row.addCell("enumeration.resultColumn.abbrevValue", enumValue.getAbbrevValue());
@@ -348,6 +344,16 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         }
         
         return searchResult;
+    }
+
+    private List<String> getParmList(SearchParam parm) {
+        List<String> parms = new ArrayList<String>();
+        if (parm.getValue() instanceof String){
+            parms.add((String) parm.getValue());
+        } else {
+            parms.addAll((List<String>) parm.getValue());
+        }
+        return parms;
     }
     
     /**

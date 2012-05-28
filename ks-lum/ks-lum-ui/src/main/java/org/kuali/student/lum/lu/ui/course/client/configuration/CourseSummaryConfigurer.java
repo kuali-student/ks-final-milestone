@@ -736,7 +736,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                         LUUIConstants.ACTIVITY_TYPE_LABEL_KEY), Arrays.asList(
                         CONTACT_HOURS + "/" + "unitQuantity",
                         LUUIConstants.CONTACT_HOURS_LABEL_KEY), Arrays.asList(
-                        CONTACT_HOURS + "/" + "unitType",
+                        CONTACT_HOURS + "/" + "unitTypeKey",
                         LUUIConstants.CONTACT_HOURS_FREQUENCY_LABEL_KEY),
                         Arrays.asList(CreditCourseActivityConstants.DURATION
                                 + "/" + "atpDurationTypeKey",
@@ -1155,7 +1155,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                                 LUUIConstants.ACTIVITY_TYPE_LABEL_KEY), Arrays
                         .asList(CONTACT_HOURS + "/" + "unitQuantity",
                                 LUUIConstants.CONTACT_HOURS_LABEL_KEY), Arrays
-                        .asList(CONTACT_HOURS + "/" + "unitType", "per"),
+                        .asList(CONTACT_HOURS + "/" + "unitTypeKey", "per"),
                         Arrays.asList(CreditCourseActivityConstants.DURATION
                                 + "/" + "atpDurationTypeKey",
                                 LUUIConstants.DURATION_TYPE_LABEL_KEY),
