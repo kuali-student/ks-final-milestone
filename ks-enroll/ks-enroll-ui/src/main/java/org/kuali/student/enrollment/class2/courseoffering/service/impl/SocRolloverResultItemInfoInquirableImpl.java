@@ -45,7 +45,6 @@ public class SocRolloverResultItemInfoInquirableImpl extends InquirableImpl {
     @Override
     public SocRolloverResultItemInfo retrieveDataObject(Map<String, String> parameters) {
         String id = parameters.get(ID);
-
         try {
             SocRolloverResultItemInfo socRolloverResultItemInfo = getCourseOfferingSetService().getSocRolloverResultItem(id,getContextInfo());
             return socRolloverResultItemInfo;
