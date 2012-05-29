@@ -139,6 +139,7 @@
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
                             <property name="disabled" value="@{#lp.allDay}"/>
                             <property name="onKeyUpScript" value="setAttributesFromTimeField(jq(this));"/>
+                            <property name="onChangeScript" value="setAttributesFromTimeField(jq(this));"/>
                         </bean>
                     </property>
                     <property name="validCharactersConstraint">
@@ -177,6 +178,7 @@
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
                             <property name="disabled" value="@{#lp.allDay}"/>
                             <property name="onKeyUpScript" value="setAttributesFromTimeField(jq(this));"/>
+                            <property name="onChangeScript" value="setAttributesFromTimeField(jq(this));"/>
                         </bean>
                     </property>
                     <property name="validCharactersConstraint">

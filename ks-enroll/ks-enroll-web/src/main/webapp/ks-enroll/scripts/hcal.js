@@ -12,9 +12,6 @@ function setAttributesFromAllDayCheckbox(checkbox) {
 
     if (row.find('input[id^=allDayCheckbox]:checked').length == 1) {
         // disable hh:mm & am/pm fields
-//        row.find('input[id^=timeFieldStart_]').val("");
-//        row.find('select[id^=timeFieldStartAmPm_]').focus();
-//        row.find('select[id^=timeFieldEndAmPm_]').focus();
         row.find('(input|select)[id^=timeField]').attr('disabled','true');//.attr('title','Enable by un-checking "All Day"');
     }
     else {

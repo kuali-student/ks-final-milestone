@@ -71,6 +71,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     private List<TypeInfo> holidayTypes;
     private Map<String, List<TypeInfo>> typesByGroupTypeMap = new HashMap<String, List<TypeInfo>>();
 
+
     public void saveHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
 
         //Save holiday calendar
@@ -392,29 +393,56 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     }
 
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-
-        boolean isValid = super.performAddLineValidation(view, collectionGroup, model, addLine);
-
         if (model instanceof AcademicCalendarForm){
-            AcademicCalendarForm form = (AcademicCalendarForm)model;
-
             if (addLine instanceof HolidayCalendarWrapper){
+                AcademicCalendarForm form = (AcademicCalendarForm)model;
                 for(HolidayCalendarWrapper holidayCalendarWrapper : form.getHolidayCalendarList()){
                     if (StringUtils.equals(holidayCalendarWrapper.getId(),((HolidayCalendarWrapper) addLine).getId())){
-                        GlobalVariables.getMessageMap().putError("newCollectionLines['holidayCalendarList'].id",CalendarConstants.ERROR_DUPLICATE_HCAL,holidayCalendarWrapper.getHolidayCalendarInfo().getName());
+                        GlobalVariables.getMessageMap().putError("newCollectionLines['holidayCalendarList'].id",
+                                CalendarConstants.MSG_ERROR_DUPLICATE_HCAL,
+                                holidayCalendarWrapper.getHolidayCalendarInfo().getName());
                         return false;
                     }
                 }
-            } else if (addLine instanceof KeyDateWrapper) {
+            }
+            else if (addLine instanceof KeyDateWrapper) {
                 KeyDateWrapper keydate = (KeyDateWrapper)addLine;
                 if(StringUtils.isEmpty(keydate.getKeyDateType())) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId( "acal-term-keydates", CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
+                    GlobalVariables.getMessageMap().putErrorForSectionId( "acal-term-keydates",
+                            CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
+                    return false;
+                }
+                if (!isValidTimeSetWrapper(keydate, keydate.getKeyDateNameUI(), "newCollectionLines['keydates']")) {
+                    return false;
+                }
+            }
+            else if (addLine instanceof AcalEventWrapper) {
+                AcalEventWrapper eventWrapper = (AcalEventWrapper)addLine;
+                if (!isValidTimeSetWrapper(eventWrapper, eventWrapper.getEventTypeName(),
+                        "newCollectionLines['events']")) {
+                    return false;
+                }
+            }
+            else if (addLine instanceof KeyDateWrapper) {
+                KeyDateWrapper keyDateWrapper = (KeyDateWrapper)addLine;
+                if (!isValidTimeSetWrapper(keyDateWrapper, keyDateWrapper.getKeyDateNameUI(),
+                        "newCollectionLines['keydates']")) {
+                    return false;
+                }
+            }
+        }
+        else
+        if (model instanceof HolidayCalendarForm) {
+            if (addLine instanceof HolidayWrapper) {
+                HolidayWrapper holidayWrapper = (HolidayWrapper)addLine;
+                if (!isValidTimeSetWrapper(holidayWrapper, holidayWrapper.getTypeName(),
+                        "newCollectionLines['holidays']")) {
                     return false;
                 }
             }
         }
 
-        return isValid;
+        return super.performAddLineValidation(view, collectionGroup, model, addLine);
     }
 
     public void populateKeyDateTypes(InputField field, AcademicCalendarForm acalForm) {
@@ -489,7 +517,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }
 
         //Validate Events
+        int index = -1;
         for (HolidayWrapper holiday : hcForm.getHolidays()) {
+            ++index;
+
             if (!CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getStartDate()) ||
                 !CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getEndDate())){
                 GlobalVariables.getMessageMap().putWarningForSectionId("KS-HolidayCalendar-HolidaySection",
@@ -497,16 +528,19 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             }
 
             // NOTE: next 2 edits not needed if KRAD validation is working properly
-            // KRAD 2.0 bug where endDate not filled but gets prior value anyway; gets past this edit
-            if (holiday.isDateRange() && (null == holiday.getEndDate())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId( "KS-HolidayCalendar-HolidaySection",
+            /*if (holiday.isDateRange() && (null == holiday.getEndDate())) {
+                // KRAD 2.0 bug where endDate not filled but gets prior value anyway; gets past endDate edit
+                GlobalVariables.getMessageMap().putErrorForSectionId( "holidays["+index+"].endDate",
                         CalendarConstants.MSG_ERROR_DATE_END_REQUIRED, holiday.getTypeName());
-            }
+            }*/
             if (!holiday.isAllDay()) { // time fields are enabled and can be filled in
-                if ( (!StringUtils.isEmpty(holiday.getStartTime()) && StringUtils.isEmpty(holiday.getStartTimeAmPm()))
-                ||   (!StringUtils.isEmpty(holiday.getEndTime()) && StringUtils.isEmpty(holiday.getEndTimeAmPm())) ) {
-                    GlobalVariables.getMessageMap().putError( "holidays",
-                            CalendarConstants.MSG_ERROR_TIME_AMPM_REQUIRED, holiday.getTypeName());
+                if (!StringUtils.isEmpty(holiday.getStartTime()) && StringUtils.isEmpty(holiday.getStartTimeAmPm())) {
+                    GlobalVariables.getMessageMap().putError( "holidays["+index+"].startTimeAmPm",
+                            CalendarConstants.MSG_ERROR_TIME_START_AMPM_REQUIRED, holiday.getTypeName());
+                }
+                if (!StringUtils.isEmpty(holiday.getEndTime()) && StringUtils.isEmpty(holiday.getEndTimeAmPm())) {
+                    GlobalVariables.getMessageMap().putError( "holidays["+index+"].endTimeAmPm",
+                            CalendarConstants.MSG_ERROR_TIME_END_AMPM_REQUIRED, holiday.getTypeName());
                 }
             }
         }
@@ -633,6 +667,33 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // NOTE: edits here should not be needed if KRAD validation is working properly...
+    private boolean isValidTimeSetWrapper(TimeSetWrapper wrapper, String wrapperName, String lineName) {
+        boolean isValid = true;
+
+        // KRAD 2.2.0-M1 can handle endDate, but acal not currently using it because of addLine bug
+        if (wrapper.isDateRange() && (null == wrapper.getEndDate())) {
+            GlobalVariables.getMessageMap().putError(lineName+".endDate",
+                    CalendarConstants.MSG_ERROR_DATE_END_REQUIRED, wrapperName);
+            isValid = false;
+        }
+
+        if (!wrapper.isAllDay()) { // time fields are enabled and can be filled in
+            if (!StringUtils.isEmpty(wrapper.getStartTime()) && StringUtils.isEmpty(wrapper.getStartTimeAmPm())) {
+                GlobalVariables.getMessageMap().putError(lineName+".startTimeAmPm",
+                        CalendarConstants.MSG_ERROR_TIME_START_AMPM_REQUIRED, wrapperName);
+                isValid = false;
+            }
+            if (!StringUtils.isEmpty(wrapper.getEndTime()) && StringUtils.isEmpty(wrapper.getEndTimeAmPm())) {
+                GlobalVariables.getMessageMap().putError(lineName+".endTimeAmPm",
+                        CalendarConstants.MSG_ERROR_TIME_END_AMPM_REQUIRED, wrapperName);
+                isValid = false;
+            }
+        }
+
+        return isValid;
     }
 
     private void validateTerms(List<AcademicTermWrapper> termWrapper,AcademicCalendarInfo acal) {
@@ -788,114 +849,83 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     }
 
-    private void setHolidayEndDate(HolidayWrapper holidayWrapper){
-        if (!holidayWrapper.isAllDay()){
-             String endTime = holidayWrapper.getEndTime();
-             String endTimeApPm = holidayWrapper.getEndTimeAmPm();
-             Date endDate = holidayWrapper.getEndDate();
-
-            //If it's not date range, then set
-             if (!holidayWrapper.isDateRange()){
-                  endDate = holidayWrapper.getStartDate();
-                  holidayWrapper.setEndDate(null);
-             }
-
-             if (StringUtils.isBlank(endTime)){
-                endTime = CalendarConstants.DEFAULT_END_TIME;
-                endTimeApPm = "PM";
-                holidayWrapper.setEndTime(endTime);
-                holidayWrapper.setEndTimeAmPm(endTimeApPm);
-            }
-
-            Date endDateToInfo = updateTime(endDate,endTime,endTimeApPm);
-            holidayWrapper.getHolidayInfo().setEndDate(endDateToInfo);
-        }else{
-            Date endDateToInfo;
-            if (holidayWrapper.isDateRange()) {
-                //just clearing out any time already set in end date
-                endDateToInfo = updateTime(holidayWrapper.getEndDate(),"00:00",StringUtils.EMPTY );
-                holidayWrapper.getHolidayInfo().setIsDateRange(true);
-            }else{
-                endDateToInfo =  null;
-                holidayWrapper.getHolidayInfo().setIsDateRange(false);
-                holidayWrapper.setEndDate(null);
-            }
-            holidayWrapper.getHolidayInfo().setEndDate(endDateToInfo);
+    private void setHolidayEndDate(HolidayWrapper holidayWrapper) {
+        if (holidayWrapper.isAllDay()) {
+            holidayWrapper.getHolidayInfo().setIsDateRange(holidayWrapper.isDateRange());
         }
+        else {
+            // dateRange in db is true if end date OR end time != start date/time
+            holidayWrapper.getHolidayInfo().setIsDateRange(true);
+        }
+        Date endDateToInfo = timeSetWrapperEndDate(holidayWrapper);
+        holidayWrapper.getHolidayInfo().setEndDate(endDateToInfo);
     }
 
-    private void setEventEndDate(AcalEventWrapper eventWrapper){
-        if (!eventWrapper.isAllDay()){
-             String endTime = eventWrapper.getEndTime();
-             String endTimeApPm = eventWrapper.getEndTimeAmPm();
-             Date endDate = eventWrapper.getEndDate();
-
-            //If it's not date range, then set
-             if (!eventWrapper.isDateRange()){
-                  endDate = eventWrapper.getStartDate();
-                  eventWrapper.setEndDate(null);
-             }
-
-             if (StringUtils.isBlank(endTime)){
-                endTime = CalendarConstants.DEFAULT_END_TIME;
-                endTimeApPm = "PM";
-                eventWrapper.setEndTime(endTime);
-                eventWrapper.setEndTimeAmPm(endTimeApPm);
-            }
-
-            Date endDateToInfo = updateTime(endDate,endTime,endTimeApPm);
-            eventWrapper.getAcalEventInfo().setEndDate(endDateToInfo);
+    private void setEventEndDate(AcalEventWrapper eventWrapper) {
+        if (eventWrapper.isAllDay()) {
+            eventWrapper.getAcalEventInfo().setIsDateRange(eventWrapper.isDateRange());
+        }
+        else {
+            // dateRange in db is true if end date OR end time != start date/time
             eventWrapper.getAcalEventInfo().setIsDateRange(true);
-        }else{
-            Date endDateToInfo;
-            if (eventWrapper.isDateRange()) {
-                //just clearing out any time already set in end date
-                endDateToInfo = updateTime(eventWrapper.getEndDate(),"00:00",StringUtils.EMPTY );
-                eventWrapper.getAcalEventInfo().setIsDateRange(true);
-            }else{
-                endDateToInfo =  null;
-                eventWrapper.getAcalEventInfo().setIsDateRange(false);
-                eventWrapper.setEndDate(null);
-            }
-            eventWrapper.getAcalEventInfo().setEndDate(endDateToInfo);
         }
+        Date endDateToInfo = timeSetWrapperEndDate(eventWrapper);
+        eventWrapper.getAcalEventInfo().setEndDate(endDateToInfo);
     }
 
-    private void setKeyDateEndDate(KeyDateWrapper keyDateWrapper){
-        if (!keyDateWrapper.isAllDay()){
-             String endTime = keyDateWrapper.getEndTime();
-             String endTimeApPm = keyDateWrapper.getEndTimeAmPm();
-             Date endDate = keyDateWrapper.getEndDate();
+    private void setKeyDateEndDate(KeyDateWrapper keyDateWrapper) {
+        if (keyDateWrapper.isAllDay()) {
+            keyDateWrapper.getKeyDateInfo().setIsDateRange(keyDateWrapper.isDateRange());
+        }
+        else {
+            // dateRange in db is true if end date OR end time != start date/time
+            keyDateWrapper.getKeyDateInfo().setIsDateRange(true);
+        }
+        Date endDateToInfo = timeSetWrapperEndDate(keyDateWrapper);
+        keyDateWrapper.getKeyDateInfo().setEndDate(endDateToInfo);
+    }
+
+    private Date timeSetWrapperEndDate(TimeSetWrapper timeSetWrapper) {
+        Date endDateToInfo;
+
+        if (timeSetWrapper.isAllDay()) {
+            if (timeSetWrapper.isDateRange()) {
+                //just clearing out any time already set in end date
+                endDateToInfo = updateTime(timeSetWrapper.getEndDate(),"00:00",StringUtils.EMPTY);
+            }
+            else {
+                endDateToInfo = null;
+                timeSetWrapper.setEndDate(null);
+            }
+
+            // set the UI time & am/pm fields to null in case they just had values:
+            timeSetWrapper.setStartTime(null);
+            timeSetWrapper.setStartTimeAmPm(null);
+            timeSetWrapper.setEndTime(null);
+            timeSetWrapper.setEndTimeAmPm(null);
+        }
+        else {
+            String endTime = timeSetWrapper.getEndTime();
+            String endTimeAmPm = timeSetWrapper.getEndTimeAmPm();
+            Date endDate = timeSetWrapper.getEndDate();
 
             //If it's not date range, then set
-             if (!keyDateWrapper.isDateRange()){
-                  endDate = keyDateWrapper.getStartDate();
-                  keyDateWrapper.setEndDate(null);
-             }
+            if (!timeSetWrapper.isDateRange()){
+                endDate = timeSetWrapper.getStartDate();
+                timeSetWrapper.setEndDate(null);
+            }
 
-             if (StringUtils.isBlank(endTime)){
+            if (StringUtils.isBlank(endTime)){
                 endTime = CalendarConstants.DEFAULT_END_TIME;
-                endTimeApPm = "PM";
-                keyDateWrapper.setEndTime(endTime);
-                keyDateWrapper.setEndTimeAmPm(endTimeApPm);
+                endTimeAmPm = "PM";
+                timeSetWrapper.setEndTime(endTime);
+                timeSetWrapper.setEndTimeAmPm(endTimeAmPm);
             }
 
-            Date endDateToInfo = updateTime(endDate,endTime,endTimeApPm);
-            keyDateWrapper.getKeyDateInfo().setEndDate(endDateToInfo);
-            keyDateWrapper.getKeyDateInfo().setIsDateRange(true);
-        }else{
-            Date endDateToInfo;
-            if (keyDateWrapper.isDateRange()) {
-                //just clearing out any time already set in end date
-                endDateToInfo = updateTime(keyDateWrapper.getEndDate(),"00:00",StringUtils.EMPTY );
-                keyDateWrapper.getKeyDateInfo().setIsDateRange(true);
-            }else{
-                endDateToInfo =  null;
-                keyDateWrapper.getKeyDateInfo().setIsDateRange(false);
-                keyDateWrapper.setEndDate(null);
-            }
-            keyDateWrapper.getKeyDateInfo().setEndDate(endDateToInfo);
+            endDateToInfo = updateTime(endDate,endTime,endTimeAmPm);
         }
+
+        return endDateToInfo;
     }
 
     private Date updateTime(Date date,String time,String amPm) {

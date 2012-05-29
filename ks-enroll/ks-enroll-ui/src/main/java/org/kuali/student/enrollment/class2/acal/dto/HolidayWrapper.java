@@ -62,12 +62,6 @@ public class HolidayWrapper extends TimeSetWrapper implements Comparable<Holiday
     }
 
     public void setHolidayInfo(HolidayInfo holidayInfo) {
-
-        // check the flags against the values in the DTO
-        this.setAllDay(holidayInfo.getIsAllDay());
-        this.setDateRange(holidayInfo.getIsDateRange());
-        this.setInstructional(holidayInfo.getIsInstructionalDay());
-
         this.holidayInfo = holidayInfo;
     }
 

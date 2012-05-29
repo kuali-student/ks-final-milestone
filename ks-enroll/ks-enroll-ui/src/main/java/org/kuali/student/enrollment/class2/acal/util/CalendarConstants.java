@@ -85,7 +85,8 @@ public class CalendarConstants {
     public static final String MSG_ERROR_HOLIDAY_CALENDAR_DATE = "error.enroll.holidaycalendar.invalidDates";
     public static final String MSG_ERROR_HOLIDAY_DATE = "error.enroll.holiday.invalidDates";
     public static final String MSG_ERROR_HOLIDAY_DUPLICATE = "error.enroll.holiday.duplicate";
-    public static final String MSG_ERROR_TIME_AMPM_REQUIRED = "error.enroll.time.ampm.required";
-    public static final String ERROR_DUPLICATE_HCAL = "error.enroll.acal.duplicate.hcal";
+    public static final String MSG_ERROR_TIME_START_AMPM_REQUIRED = "error.enroll.time.start.ampm.required";
+    public static final String MSG_ERROR_TIME_END_AMPM_REQUIRED = "error.enroll.time.end.ampm.required";
+    public static final String MSG_ERROR_DUPLICATE_HCAL = "error.enroll.acal.duplicate.hcal";
     public static final String MSG_ERROR_KEY_DATE_TYPE_REQUIRED = "error.enroll.keydate.type.empty";
 }
