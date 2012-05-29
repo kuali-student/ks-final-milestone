@@ -34,6 +34,10 @@
         ID="3681bf43-e200-4582-ae92-13ad148521f7" IS_PR="0"
         OBJ_ID="716a9fb6-34a6-46ae-8330-870ee653293c" ORG_ID="1000ENGL"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="0"/>
+    <KSLU_CLU_ADMIN_ORG CLU_ID="5aa58103-1644-40d8-8d9c-09f64e437b93"
+        ID="48cdee63-8681-4343-a469-9ca087b36518" IS_PR="0"
+        OBJ_ID="40f4f8e8-b0b8-4458-a32c-65f6a8342d24" ORG_ID="1000206"
+        TYPE="kuali.adminOrg.type.Administration" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="bb4631a5-d061-4376-bf11-1900ed44c0a0"
         ID="4d35e629-a897-4ec5-ac49-4fd057f5c0eb" IS_PR="0"
         OBJ_ID="7b4369d4-0a88-46ab-9598-1d819b77ab08" ORG_ID="1000ENGL"

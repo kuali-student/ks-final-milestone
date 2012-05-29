@@ -62,4 +62,8 @@
         ID="d3dc7be3-d896-4990-909b-df740dafd32f"
         OBJ_ID="3753838b-2755-4657-b7d4-b7d5b635b8f5"
         UPDATETIME="20120510023902" VER_NBR="0"/>
+    <KSLU_CLU_FEE CREATETIME="20120510080503"
+        ID="e1dac486-09dc-4ba8-8a29-2b55cfc3dc71"
+        OBJ_ID="e4fc3d2e-b177-4e2a-8bf5-fc90a43b160d"
+        UPDATETIME="20120510080503" VER_NBR="0"/>
 </dataset>

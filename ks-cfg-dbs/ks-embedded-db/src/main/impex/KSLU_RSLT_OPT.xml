@@ -107,11 +107,22 @@
         RES_COMP_ID="kuali.resultComponent.grade.letter"
         RT_DESCR_ID="06427200-f6b9-4bfa-bc36-034d88a87b13" ST="ACTIVE"
         UPDATETIME="20120510070254" VER_NBR="0"/>
+    <KSLU_RSLT_OPT CREATETIME="20120510080503"
+        ID="b6225ea9-1329-4884-9424-918e8a58dae0"
+        OBJ_ID="c4bf19f4-0a53-47fd-95f7-12b0cca5b25c"
+        RES_COMP_ID="kuali.creditType.credit.degree.3.0" ST="ACTIVE"
+        UPDATETIME="20120510080503" VER_NBR="0"/>
     <KSLU_RSLT_OPT CREATETIME="20120510003743"
         ID="b662fd26-b786-4da9-8a95-6ed8fe86dfa7"
         OBJ_ID="9e00c540-e937-494b-96f4-e766f4c546a8"
         RES_COMP_ID="kuali.creditType.credit.degree.1.0" ST="ACTIVE"
         UPDATETIME="20120510003743" VER_NBR="0"/>
+    <KSLU_RSLT_OPT CREATETIME="20120510080503"
+        ID="ccc0bc16-17c7-4fba-a80b-cec267b7fa33"
+        OBJ_ID="723535b1-2d98-493e-9f58-5976a26fae5e"
+        RES_COMP_ID="kuali.resultComponent.grade.letter"
+        RT_DESCR_ID="011b458b-921a-4e4d-a2e8-f43794509d08" ST="ACTIVE"
+        UPDATETIME="20120510080503" VER_NBR="0"/>
     <KSLU_RSLT_OPT CREATETIME="20120509234912"
         ID="d368d66c-9e7f-4b96-9a72-78936597df74"
         OBJ_ID="48bb736a-4f2b-4ff5-9ece-c381e672887a"

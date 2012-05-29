@@ -14,6 +14,12 @@
         OBJ_ID="3f1ea893-d7a7-4653-ba9a-f9696012b5dd"
         SHRT_NAME="ORGANIC CHEM LAB" ST="ACTIVE" SUFX_CD="241"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="MATH   106" DIVISION="MATH  "
+        ID="06bb5e0e-907a-4c54-94c2-a74b047e1e99"
+        LNG_NAME="INTRODUCTION TO FINITE MATHEMATICS" LVL="100"
+        OBJ_ID="b9f5e694-e2a9-4f17-bf15-5e7a4d529c12"
+        SHRT_NAME="INTRO FINITE MATH" ST="ACTIVE" SUFX_CD="106"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="LAW    415" DIVISION="LAW   "
         ID="171655fe-22cd-475e-94a6-3d12e84056ef"
         LNG_NAME="CRIMINAL JUSTICE" LVL="400"
