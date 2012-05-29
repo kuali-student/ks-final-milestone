@@ -537,6 +537,12 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
         TYPE_KEY="kuali.lui.type.course.offering" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="All of these types of activities: Lecture, Lab, Discussion, etc."
+        DESCR_PLAIN="All of these types of activities: Lecture, Lab, Discussion, etc."
+        NAME="All Activity Types"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.lui.type.grouping.activity" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for Registration Key Dates in Registration Appointments"
         DESCR_PLAIN="The list of milestone types that are used for Registration Key Dates in Registration Appointments"
         NAME="Registration Periods for Registration Appointments"
