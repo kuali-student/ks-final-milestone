@@ -42,7 +42,6 @@
                             <bean parent="Uif-ActionLink"
                                   p:methodToCall="toCreate"
                                   p:actionLabel="Start a blank calendar instead?"
-                                  p:style="text-align:center;"
                                   p:id="KS-HolidayCalendar-CopyPage-header-link"/>
                         </list>
                     </property>

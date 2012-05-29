@@ -23,7 +23,7 @@
                         <list>
                             <bean parent="Uif-Message"
                                   p:messageText="When copying an Academic Calendar, all term and milestone names, as well as dates and times from the source calendar are copied."/>
-                            <bean parent="Uif-ActionLink" p:methodToCall="createBlankCalendar" p:actionLabel="Start a blank calendar instead?" p:style="text-align:center;"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="createBlankCalendar" p:actionLabel="Start a blank calendar instead?"/>
                         </list>
                     </property>
                 </bean>
