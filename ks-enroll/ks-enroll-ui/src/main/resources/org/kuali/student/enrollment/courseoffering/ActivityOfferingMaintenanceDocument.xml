@@ -72,7 +72,7 @@
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="performSave"/>
+                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Submit" p:methodToCall="route" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                                         <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="cancel"/>
                                     </list>
                                 </property>
