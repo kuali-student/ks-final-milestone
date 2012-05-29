@@ -47,4 +47,10 @@ public class LprAttributeEntity extends BaseAttributeEntityNew<LprEntity> {
     public LprEntity getOwner() {
         return owner;
     }
+    
+    public void fromDto (Attribute att) {
+    	
+    	setKey(att.getKey());
+    	setValue(att.getValue());
+    }
 }

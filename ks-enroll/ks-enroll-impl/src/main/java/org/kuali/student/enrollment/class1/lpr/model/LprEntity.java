@@ -3,14 +3,13 @@ package org.kuali.student.enrollment.class1.lpr.model;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,6 +19,10 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.helper.EntityMergeHelper;
+import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeOptions;
+import org.kuali.student.r2.common.helper.EntityMergeHelper.EntityMergeResult;
+import org.kuali.student.r2.common.helper.EntityMergeHelper.StringMergeOptions;
 import org.kuali.student.r2.common.infc.Attribute;
 
 /**
@@ -27,173 +30,244 @@ import org.kuali.student.r2.common.infc.Attribute;
  */
 @Entity
 @Table(name = "KSEN_LPR")
-public class LprEntity extends MetaEntity  {
+public class LprEntity extends MetaEntity {
 
-    @Column(name = "PERS_ID")
-    private String personId;
+	@Column(name = "PERS_ID")
+	private String personId;
 
-    @Column(name = "LUI_ID")
-    private String luiId;
+	@Column(name = "LUI_ID")
+	private String luiId;
 
-    @Column(name = "COMMIT_PERCT")
-    private BigDecimal commitmentPercent;
+	@Column(name = "COMMIT_PERCT")
+	private BigDecimal commitmentPercent;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="EFF_DT")
-    private Date effectiveDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EFF_DT")
+	private Date effectiveDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="EXPIR_DT")
-    private Date expirationDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "EXPIR_DT")
+	private Date expirationDate;
 
-    @Column(name = "LPR_TYPE")
-    private String personRelationTypeId;
+	@Column(name = "LPR_TYPE")
+	private String personRelationTypeId;
 
-    @Column(name = "LPR_STATE")
-    private String personRelationStateId;
+	@Column(name = "LPR_STATE")
+	private String personRelationStateId;
 
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "owner")
+	private List<LprAttributeEntity> attributes;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy = "owner")
-    private List<LprAttributeEntity> attributes;
-    
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, mappedBy="lpr")
-    private List<LprResultValueGroupEntity>resultValueGroups;
-    
-    public LprEntity() {}
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "lpr")
+	private List<LprResultValueGroupEntity> resultValueGroups;
 
-    public LprEntity(Lpr dto) {
-        super(dto);
-        // These are the read-only fields
-        this.setId(dto.getId());
-        this.setLuiId(dto.getLuiId());
-        this.setPersonId(dto.getPersonId());
-        this.setPersonRelationTypeId(dto.getTypeKey());
-        fromDto(dto);
-    }
+	public LprEntity() {
+	}
 
-    public void fromDto(Lpr dto){
-    	
-        this.setCommitmentPercent(new BigDecimal(dto.getCommitmentPercent()));
-        this.setExpirationDate(dto.getExpirationDate());
-        this.setEffectiveDate(dto.getEffectiveDate());
-        this.setPersonRelationStateId(dto.getStateKey());
-        
-        if (this.attributes == null)
-        	this.attributes = new ArrayList<LprAttributeEntity>();
-        
-        if (null != dto.getAttributes()) {
-            for (Attribute att : dto.getAttributes()) {
-                LprAttributeEntity entity;
-				this.getAttributes().add(entity = new LprAttributeEntity(att));
-				
-				entity.setOwner(this);
-            }
-        }
-        
-        this.setResultValueGroups(new ArrayList<LprResultValueGroupEntity>());
-        
-        if (null != dto.getResultValuesGroupKeys()) {
-        	for (String key : dto.getResultValuesGroupKeys()) {
-				LprResultValueGroupEntity rvg = new LprResultValueGroupEntity();
-				
-				rvg.setResultValueGroupId(key);
-				
-				rvg.setLpr(this);
-				
-				this.getResultValueGroups().add(rvg);
-			}
-        }
-    }
+	public LprEntity(Lpr dto) {
+		super(dto);
+		// These are the read-only fields
+		this.setId(dto.getId());
+		this.setLuiId(dto.getLuiId());
+		this.setPersonId(dto.getPersonId());
+		this.setPersonRelationTypeId(dto.getTypeKey());
+		fromDto(dto);
+	}
 
-    public String getPersonId() {
-        return personId;
-    }
+	private Map<String, Attribute> createAttributeMap(
+			List<Attribute> attributeList) {
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
+		Map<String, Attribute> attributeMap = new LinkedHashMap<String, Attribute>();
 
-    public String getLuiId() {
-        return luiId;
-    }
+		for (Attribute attribute : attributeList) {
 
-    public void setLuiId(String luiId) {
-        this.luiId = luiId;
-    }
+			attributeMap.put(attribute.getKey(), attribute);
+		}
 
+		return attributeMap;
+	}
 
-   
+	private Map<String, LprAttributeEntity> createAttributeEntityMap(
+			List<LprAttributeEntity> attributeList) {
+
+		Map<String, LprAttributeEntity> attributeMap = new LinkedHashMap<String, LprAttributeEntity>();
+
+		for (LprAttributeEntity attribute : attributeList) {
+
+			attributeMap.put(attribute.getKey(), attribute);
+		}
+
+		return attributeMap;
+	}
+
+	public List<Object> fromDto(Lpr dto) {
+
+		List<Object> orphanData = new ArrayList<Object>();
+
+		this.setCommitmentPercent(new BigDecimal(dto.getCommitmentPercent()));
+		this.setExpirationDate(dto.getExpirationDate());
+		this.setEffectiveDate(dto.getEffectiveDate());
+		this.setPersonRelationStateId(dto.getStateKey());
+
+		EntityMergeHelper<LprAttributeEntity, Attribute> attributeMergeHelper = new EntityMergeHelper<LprAttributeEntity, Attribute>();
+
+		EntityMergeResult<LprAttributeEntity> attributeMergeResult = attributeMergeHelper
+				.merge(this.attributes,
+						(List<Attribute>) dto.getAttributes(),
+						new EntityMergeOptions<LprAttributeEntity, Attribute>() {
+
+							@Override
+							public String getEntityId(LprAttributeEntity entity) {
+								return entity.getId();
+							}
+
+							@Override
+							public String getInfoId(Attribute info) {
+								return info.getId();
+							}
+
+							@Override
+							public List<Object> merge(
+									LprAttributeEntity entity, Attribute info) {
+
+								entity.fromDto(info);
+
+								return new ArrayList<Object>();
+							}
+
+							@Override
+							public LprAttributeEntity create(Attribute info) {
+								return new LprAttributeEntity(info);
+							}
+
+						});
+
+		this.attributes = attributeMergeResult.getMergedList();
+
+		orphanData.addAll(attributeMergeResult.getOrphanList());
+
+		EntityMergeHelper<LprResultValueGroupEntity, String> resultValueGroupMergeHelper = new EntityMergeHelper<LprResultValueGroupEntity, String>();
+
+		EntityMergeResult<LprResultValueGroupEntity> resultValueGroupMergeResult = resultValueGroupMergeHelper
+				.mergeStringList(this.resultValueGroups,
+						dto.getResultValuesGroupKeys(),
+						new StringMergeOptions<LprResultValueGroupEntity>() {
+
+							@Override
+							public String getKey(
+									LprResultValueGroupEntity entity) {
+								return entity.getResultValueGroupId();
+							}
+
+							@Override
+							public LprResultValueGroupEntity create(String value) {
+
+								LprResultValueGroupEntity entity = new LprResultValueGroupEntity();
+
+								entity.setResultValueGroupId(value);
+
+								entity.setLpr(LprEntity.this);
+
+								return entity;
+							}
+
+						});
+
+		this.resultValueGroups = resultValueGroupMergeResult.getMergedList();
+
+		orphanData.addAll(resultValueGroupMergeResult.getOrphanList());
+
+		return orphanData;
+	}
+
+	public String getPersonId() {
+		return personId;
+	}
+
+	public void setPersonId(String personId) {
+		this.personId = personId;
+	}
+
+	public String getLuiId() {
+		return luiId;
+	}
+
+	public void setLuiId(String luiId) {
+		this.luiId = luiId;
+	}
+
 	public Date getEffectiveDate() {
-        return effectiveDate;
-    }
+		return effectiveDate;
+	}
 
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
 
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
 
-    public String getPersonRelationTypeId() {
-        return personRelationTypeId;
-    }
+	public String getPersonRelationTypeId() {
+		return personRelationTypeId;
+	}
 
-    public void setPersonRelationTypeId(String personRelationTypeId) {
-        this.personRelationTypeId = personRelationTypeId;
-    }
+	public void setPersonRelationTypeId(String personRelationTypeId) {
+		this.personRelationTypeId = personRelationTypeId;
+	}
 
-    public String getPersonRelationStateId() {
-        return personRelationStateId;
-    }
+	public String getPersonRelationStateId() {
+		return personRelationStateId;
+	}
 
-    public void setPersonRelationStateId(String personRelationStateId) {
-        this.personRelationStateId = personRelationStateId;
-    }
+	public void setPersonRelationStateId(String personRelationStateId) {
+		this.personRelationStateId = personRelationStateId;
+	}
 
-    public List<LprAttributeEntity> getAttributes() {
-        return attributes;
-    }
+	public List<LprAttributeEntity> getAttributes() {
+		return attributes;
+	}
 
-    public void setAttributes(List<LprAttributeEntity> attributes) {
-        this.attributes = attributes;
-    }
+	public void setAttributes(List<LprAttributeEntity> attributes) {
+		this.attributes = attributes;
+	}
 
-    public LprInfo toDto() {
-        LprInfo lprInfo = new LprInfo();
-        lprInfo.setId(getId());
-        lprInfo.setLuiId(luiId);
-        lprInfo.setCommitmentPercent("" + commitmentPercent);
-        lprInfo.setPersonId(personId);
-        lprInfo.setEffectiveDate(effectiveDate);
-        lprInfo.setExpirationDate(expirationDate);
-        lprInfo.setTypeKey(personRelationTypeId);
-        lprInfo.setStateKey(personRelationStateId);
+	public LprInfo toDto() {
+		LprInfo lprInfo = new LprInfo();
+		lprInfo.setId(getId());
+		lprInfo.setLuiId(luiId);
+		lprInfo.setCommitmentPercent("" + commitmentPercent);
+		lprInfo.setPersonId(personId);
+		lprInfo.setEffectiveDate(effectiveDate);
+		lprInfo.setExpirationDate(expirationDate);
+		lprInfo.setTypeKey(personRelationTypeId);
+		lprInfo.setStateKey(personRelationStateId);
 
-        // instead need to create a new JPA entity to hold the lpr to rvg mapping
-        List<String> rvGroupIds = new ArrayList<String>();
-        if (null != getResultValueGroups()) {
-            for (LprResultValueGroupEntity rvGroup : getResultValueGroups()) {
-                rvGroupIds.add(rvGroup.getResultValueGroupId());
-            }
-        }
-        lprInfo.setResultValuesGroupKeys(rvGroupIds);
+		// instead need to create a new JPA entity to hold the lpr to rvg
+		// mapping
+		List<String> rvGroupIds = new ArrayList<String>();
+		if (null != getResultValueGroups()) {
+			for (LprResultValueGroupEntity rvGroup : getResultValueGroups()) {
+				rvGroupIds.add(rvGroup.getResultValueGroupId());
+			}
+		}
+		lprInfo.setResultValuesGroupKeys(rvGroupIds);
 
-        lprInfo.setMeta(super.toDTO());
-        List<AttributeInfo> atts = lprInfo.getAttributes();
-        if (getAttributes() != null) {
-            for (LprAttributeEntity att : getAttributes()) {
-                AttributeInfo attInfo = att.toDto();
-                atts.add(attInfo);
-            }
-        }
+		lprInfo.setMeta(super.toDTO());
+		List<AttributeInfo> atts = lprInfo.getAttributes();
+		if (getAttributes() != null) {
+			for (LprAttributeEntity att : getAttributes()) {
+				AttributeInfo attInfo = att.toDto();
+				atts.add(attInfo);
+			}
+		}
 
-        return lprInfo;
-    }
+		return lprInfo;
+	}
 
 	public List<LprResultValueGroupEntity> getResultValueGroups() {
 		return resultValueGroups;
@@ -211,8 +285,5 @@ public class LprEntity extends MetaEntity  {
 	public void setCommitmentPercent(BigDecimal commitmentPercent) {
 		this.commitmentPercent = commitmentPercent;
 	}
-	
-	
-    
-    
+
 }

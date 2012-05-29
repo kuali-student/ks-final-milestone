@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
 
 public class LprDao extends GenericEntityDao<LprEntity> {
@@ -49,5 +51,31 @@ public class LprDao extends GenericEntityDao<LprEntity> {
                 .setParameter("luiId", luiId)
                 .setParameter("stateKey", stateKey)
                 .getResultList();
+    }
+    
+    /**
+     * Merge the provided info object into the lpr object loaded from the database.
+     * 
+     * @param lprId
+     * @param info
+     * @return
+     * @throws DoesNotExistException 
+     */
+    public void mergeFromDto(LprInfo info) throws DoesNotExistException {
+    	
+    	String lprId = info.getId();
+    	
+    	LprEntity lprEntity = find(lprId);
+    	
+    	if (lprEntity == null)
+    		throw new DoesNotExistException("No LprEntity for id = " + lprEntity);
+    		
+    	List<Object> orphanedData = lprEntity.fromDto(info);
+    	
+    	for (Object orphan : orphanedData) {
+			
+    		em.remove(orphan);
+		}
+    	
     }
 }
