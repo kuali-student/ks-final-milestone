@@ -19,16 +19,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.core.class1.scheduling.service.impl.SchedulingServiceMockImpl;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.class1.scheduling.service.impl.SchedulingServiceDataLoader;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -43,24 +43,32 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:scheduling-mock-impl-test-context.xml"})
 public class TestSchedulingServiceMockImpl {
 
-    @Resource(name = "schedulingService")
+    @Autowired
     private SchedulingService schedulingService;
+
     public static String principalId = "123";
     public ContextInfo contextInfo = null;
-    boolean loadedData = false;
 
     @Before
     public void setUp() {
-        principalId = "123";
         contextInfo = new ContextInfo();
         contextInfo.setPrincipalId(principalId);
-        loadedData = ((SchedulingServiceMockImpl)(schedulingService)).loadData();
+        try {
+            loadData();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private void loadData() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        SchedulingServiceDataLoader loader = new SchedulingServiceDataLoader (this.schedulingService);
+        loader.loadData();
     }
 
     @Test
     public void testSchedulingServiceSetup() {
         assertNotNull(schedulingService);
-        assertTrue(loadedData);
     }
 
     @Test(expected=DoesNotExistException.class)
@@ -87,7 +95,7 @@ public class TestSchedulingServiceMockImpl {
         // should not contain Tuesday or Thursday
         assertFalse(dow.contains(Calendar.TUESDAY));
         assertFalse(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), new Long (8 * 60 * 60 * 1000));
+        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
         assertEquals(ts.getEndTime().getMilliSeconds(), new Long (8 * 60 * 60 * 1000 + 70 * 60 * 1000));
 
         // test specific records - 3
@@ -100,8 +108,8 @@ public class TestSchedulingServiceMockImpl {
         // should contain Tuesday or Thursday
         assertTrue(dow.contains(Calendar.TUESDAY));
         assertTrue(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), new Long (8 * 60 * 60 * 1000));
-        assertEquals(ts.getEndTime().getMilliSeconds(), new Long (8 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
+        assertEquals(ts.getEndTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000 + 50 * 60 * 1000));
 
         // test specific records - 10
         ts = schedulingService.getTimeSlot("10", contextInfo);
@@ -122,7 +130,7 @@ public class TestSchedulingServiceMockImpl {
         List<String> l_actoff = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, contextInfo);
         assertEquals(16, l_actoff.size());
         for (int i=1; i<=16; i++) {
-            assertEquals("" + i, l_actoff.get(i-1));
+            assertEquals("" + i, l_actoff.get(i - 1));
         }
         List l_final = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_FINAL_EXAM_KEY, contextInfo);
         assertEquals(0, l_final.size());
@@ -133,11 +141,35 @@ public class TestSchedulingServiceMockImpl {
         // test case: all valid ids
         List<String> valid_ids = new ArrayList<String>();
         valid_ids.add("2");
-        valid_ids.add("13");
+        valid_ids.add("15");
         List<TimeSlotInfo> l_valid_ts = schedulingService.getTimeSlotsByIds(valid_ids, contextInfo);
         assertEquals(2, valid_ids.size());
+
         assertEquals("2", l_valid_ts.get(0).getId());
-        assertEquals("13", l_valid_ts.get(1).getId());
+        TimeSlot ts = l_valid_ts.get(0);
+        List<Integer> dow = ts.getWeekdays();
+        // should contain Monday, Wednesday, Friday
+        assertTrue(dow.contains(Calendar.MONDAY));
+        assertTrue(dow.contains(Calendar.WEDNESDAY));
+        assertTrue(dow.contains(Calendar.FRIDAY));
+        // should not contain Tuesday or Thursday
+        assertFalse(dow.contains(Calendar.TUESDAY));
+        assertFalse(dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
+        assertEquals(ts.getEndTime().getMilliSeconds(), new Long (8 * 60 * 60 * 1000 + 70 * 60 * 1000));
+
+        assertEquals("15", l_valid_ts.get(1).getId());
+        ts = l_valid_ts.get(1);
+        dow = ts.getWeekdays();
+        // should not contain Monday, Wednesday, Friday
+        assertFalse(dow.contains(Calendar.MONDAY));
+        assertFalse(dow.contains(Calendar.WEDNESDAY));
+        assertFalse(dow.contains(Calendar.FRIDAY));
+        // should contain Tuesday or Thursday
+        assertTrue(dow.contains(Calendar.TUESDAY));
+        assertTrue(dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(15 * 60 * 60 * 1000));
+        assertEquals(ts.getEndTime().getMilliSeconds(), new Long (15 * 60 * 60 * 1000 + 50 * 60 * 1000));
 
         // test case: all invalid ids
         List<String> invalid_ids = new ArrayList<String>();
@@ -194,8 +226,31 @@ public class TestSchedulingServiceMockImpl {
         startTime.setMilliSeconds(new Long (8 * 60 * 60 * 1000));
         List<TimeSlotInfo> tsi = schedulingService.getTimeSlotsByDaysAndStartTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, dow, startTime, contextInfo);
         assertEquals(2, tsi.size());
+
         assertEquals("3", tsi.get(0).getId());
+        TimeSlot ts = tsi.get(0);
+        List<Integer> ts_dow = ts.getWeekdays();
+        // should not contain Monday, Wednesday, Friday
+        assertFalse(ts_dow.contains(Calendar.MONDAY));
+        assertFalse(ts_dow.contains(Calendar.WEDNESDAY));
+        assertFalse(ts_dow.contains(Calendar.FRIDAY));
+        // should contain Tuesday or Thursday
+        assertTrue(ts_dow.contains(Calendar.TUESDAY));
+        assertTrue(ts_dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
+
         assertEquals("4", tsi.get(1).getId());
+        ts = tsi.get(1);
+        ts_dow = ts.getWeekdays();
+        // should not contain Monday, Wednesday, Friday
+        assertFalse(ts_dow.contains(Calendar.MONDAY));
+        assertFalse(ts_dow.contains(Calendar.WEDNESDAY));
+        assertFalse(ts_dow.contains(Calendar.FRIDAY));
+        // should contain Tuesday or Thursday
+        assertTrue(ts_dow.contains(Calendar.TUESDAY));
+        assertTrue(ts_dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
+
     }
 
     @Test
@@ -211,6 +266,18 @@ public class TestSchedulingServiceMockImpl {
         List<TimeSlotInfo> tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
         assertEquals("3", tsi.get(0).getId());
+        TimeSlot ts = tsi.get(0);
+        List<Integer> ts_dow = ts.getWeekdays();
+        // should not contain Monday, Wednesday, Friday
+        assertFalse(ts_dow.contains(Calendar.MONDAY));
+        assertFalse(ts_dow.contains(Calendar.WEDNESDAY));
+        assertFalse(ts_dow.contains(Calendar.FRIDAY));
+        // should contain Tuesday or Thursday
+        assertTrue(ts_dow.contains(Calendar.TUESDAY));
+        assertTrue(ts_dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
+        assertEquals(ts.getEndTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000 + 50 * 60 * 1000));
+
         // should return record 10
         dow = new ArrayList<Integer>();
         dow.add(Calendar.MONDAY);
@@ -223,5 +290,17 @@ public class TestSchedulingServiceMockImpl {
         tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
         assertEquals("10", tsi.get(0).getId());
+        ts = tsi.get(0);
+        ts_dow = ts.getWeekdays();
+        // should contain Monday, Wednesday, Friday
+        assertTrue(ts_dow.contains(Calendar.MONDAY));
+        assertTrue(ts_dow.contains(Calendar.WEDNESDAY));
+        assertTrue(ts_dow.contains(Calendar.FRIDAY));
+        // should not contain Tuesday or Thursday
+        assertFalse(ts_dow.contains(Calendar.TUESDAY));
+        assertFalse(ts_dow.contains(Calendar.THURSDAY));
+        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(13 * 60 * 60 * 1000));
+        assertEquals(ts.getEndTime().getMilliSeconds(), new Long(13 * 60 * 60 * 1000 + 70 * 60 * 1000));
+
     }
 }

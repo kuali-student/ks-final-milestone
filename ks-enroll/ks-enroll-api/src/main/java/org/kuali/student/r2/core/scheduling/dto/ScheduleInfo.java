@@ -59,6 +59,7 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
     }
     
     public ScheduleInfo(Schedule schedule) {
+        super (schedule);
         if (null != schedule) {
             this.atpId = schedule.getAtpId();
             this.scheduleComponents = new ArrayList<ScheduleComponentInfo>();

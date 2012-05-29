@@ -52,6 +52,7 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
     }
 
     public TimeSlotInfo(TimeSlot timeSlot) {
+        super (timeSlot);
         if (null != timeSlot) {
             this.weekdays = new ArrayList<Integer>(timeSlot.getWeekdays());
             this.startTime = (null != timeSlot.getStartTime()) ? new TimeOfDayInfo(timeSlot.getStartTime()) : null;
