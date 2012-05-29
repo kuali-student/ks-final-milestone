@@ -183,8 +183,8 @@ public class TestLprServiceMockImpl {
         new AttributeTester().add2ForCreate(expected.getAttributes());
         new LprTransactionItemTester().add2ForCreate(expected.getLprTransactionItems());
         LprTransactionInfo actual = lprService.createLprTransaction(expected.getTypeKey(), expected, callContext);
-        new LprTransactionItemTester ().add2ForCreate(expected.getLprTransactionItems());
-        actual = lprService.createLprTransaction (expected.getTypeKey(), expected, callContext);
+        new LprTransactionItemTester().add2ForCreate(expected.getLprTransactionItems());
+        actual = lprService.createLprTransaction(expected.getTypeKey(), expected, callContext);
         assertNotNull(actual.getId());
         new IdEntityTester().check(expected, actual);
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -280,12 +280,16 @@ public class TestLprServiceMockImpl {
                 expectedList, callContext);
         assertNotNull(actualBulkList);
         assertEquals(2, actualBulkList.size());
-        boolean found1 = false;
-        boolean found2 = false;
+        List<String> ids = new ArrayList<String>();
         for (BulkStatusInfo bsi : actualBulkList) {
             assertEquals(Boolean.TRUE, bsi.getIsSuccess());
             assertNotNull(bsi.getId());
-            LprInfo actual = this.lprService.getLpr(bsi.getId(), callContext);
+            ids.add(bsi.getId());
+        }
+        List<LprInfo> lprs = this.lprService.getLprsByIds(ids, callContext);
+        boolean found1 = false;
+        boolean found2 = false;
+        for (LprInfo actual : lprs) {
             LprInfo expected = null;
             if (actual.getLuiId().equals(expected1.getLuiId())) {
                 expected = expected1;
@@ -352,12 +356,16 @@ public class TestLprServiceMockImpl {
                 expectedList, callContext);
         assertNotNull(actualBulkList);
         assertEquals(2, actualBulkList.size());
-        boolean found1 = false;
-        boolean found2 = false;
+        List<String> ids = new ArrayList<String>();
         for (BulkStatusInfo bsi : actualBulkList) {
             assertEquals(Boolean.TRUE, bsi.getIsSuccess());
             assertNotNull(bsi.getId());
-            LprInfo actual = this.lprService.getLpr(bsi.getId(), callContext);
+            ids.add(bsi.getId());
+        }
+        List<LprInfo> lprs = this.lprService.getLprsByIds(ids, callContext);
+        boolean found1 = false;
+        boolean found2 = false;
+        for (LprInfo actual : lprs) {
             LprInfo expected = null;
             if (actual.getPersonId().equals(expected1.getPersonId())) {
                 expected = expected1;
