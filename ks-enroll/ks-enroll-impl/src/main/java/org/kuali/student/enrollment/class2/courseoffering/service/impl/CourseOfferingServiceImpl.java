@@ -34,6 +34,7 @@ import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -709,6 +710,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
         luiRel.setLuiId(courseOfferingId);
         luiRel.setName("co-fo-relation"); // TODO: This fixes a DB required field error--find more meaningful value.
+        RichTextInfo descr = new RichTextInfo();
+        String coCode = co.getCourseOfferingCode();
+        if (coCode == null) {
+            coCode = "NOCODE";
+        }
+        descr.setPlain(coCode + "-CO-FO"); // Useful for debugging
+        descr.setFormatted(coCode + "-CO-FO"); // Useful for debugging
+        luiRel.setDescr(descr);
         luiRel.setRelatedLuiId(lui.getId());
         luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
         luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
@@ -892,6 +901,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         luiRel.setLuiId(formatOfferingId);
         luiRel.setName("fo-ao-relation"); // TODO: This fixes a DB required field error--find more meaningful value.
         luiRel.setRelatedLuiId(lui.getId());
+        RichTextInfo descr = new RichTextInfo();
+        String coCode = aoInfo.getCourseOfferingCode();
+        if (coCode == null) {
+            coCode = "NOCODE";
+        }
+        descr.setPlain(coCode + "-FO-AO"); // Useful for debugging
+        descr.setFormatted(coCode + "-FO-AO"); // Useful for debugging
+        luiRel.setDescr(descr);
         luiRel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
         luiRel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
         luiRel.setEffectiveDate(new Date());

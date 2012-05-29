@@ -95,6 +95,8 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         coInfo.setCourseOfferingTitle("Intro to Finite Math");
         coInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         coInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+        coInfo.setMinimumEnrollment(5);
+        coInfo.setMaximumEnrollment(40);
 //        // info.setCourseId("REFERENCECOURSEMATH140");
 //        coInfo.setCourseId("5aa58103-1644-40d8-8d9c-09f64e437b93"); // In the new DB
         coInfo.setCourseOfferingCode("CHEM241");
@@ -122,7 +124,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
 
     private FormatOfferingInfo _createFormatOffering(CourseOfferingInfo coInfo) {
         FormatOfferingInfo foInfo = new FormatOfferingInfo();
-        foInfo.setName("DEVTEST");
+        foInfo.setName("DEVTEST_format");
         foInfo.setCourseOfferingId(coInfo.getId());
         foInfo.setFormatId("10f433ba-50e4-4037-a727-4ea7747c3e6b"); // Format for CHEM241
         foInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
@@ -140,13 +142,15 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     private ActivityOfferingInfo _createActivityOffering(FormatOfferingInfo foInfo, CourseOfferingInfo coInfo) {
         ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
         aoInfo.setActivityId("f0072e90-3aed-4d9b-8a5a-e7efe317a686"); // Lecture for CHEM241
-        aoInfo.setName("DEVTEST");
+        aoInfo.setName("DEVTEST_activity");
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         aoInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
         aoInfo.setActivityCode("A");
         aoInfo.setCourseOfferingCode(coInfo.getCourseOfferingCode());
         aoInfo.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
         aoInfo.setFormatOfferingId(foInfo.getId());
+        aoInfo.setMinimumEnrollment(5);
+        aoInfo.setMaximumEnrollment(40);
         try {
             ActivityOfferingInfo result =
                     coService.createActivityOffering(foInfo.getId(), aoInfo.getActivityId(), aoInfo.getTypeKey(), aoInfo, new ContextInfo());
