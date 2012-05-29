@@ -88,6 +88,33 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
+         <value>DRAFT</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiOrgIdRepeating">
+         <property name="caseConstraint">
+            <bean parent="caseConstraintStateEquals">
+        		<property name="fieldPath" value="proposal/workflowNode"/>
+		        <property name="whenConstraint">
+					<list>
+						<bean parent="whenConstraint">
+							<property name="values" ref="courseInfo.unitsContentOwner.requiredByNode"/>
+							<property name="constraint">
+						        <bean parent="baseKualiOrgIdRepeatingRequired"/>
+							</property>
+						</bean>
+					</list>
+				</property>
+		    </bean>
+		    </property>
+        </bean>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
          <value>SUBMITTED</value>
          <value>APPROVED</value>
          <value>ACTIVE</value>
@@ -105,6 +132,21 @@
 
  </bean>
  <bean id="courseInfo.unitsContentOwner" parent="courseInfo.unitsContentOwner-parent" />
+
+<bean id="courseInfo.unitsContentOwner.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>PreRoute</value>
+			<value>Document Organization Review</value>
+			<value>Publication Decision Review</value>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
 
  <bean id="courseInfo.campusLocations-parent" abstract="true" parent="cluInfo.campusLocations-parent">
   <property name="name" value="campusLocations" />
@@ -274,6 +316,35 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
+        <value>DRAFT</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseComplexRepeating">
+         <property name="caseConstraint">
+            <bean parent="caseConstraintStateEquals">
+        		<property name="fieldPath" value="proposal/workflowNode"/>
+		        <property name="whenConstraint">
+					<list>
+						<bean parent="whenConstraint">
+							<property name="values" ref="courseInfo.creditOptions.requiredByNode"/>
+							<property name="constraint">
+							    <bean parent="baseComplexRepeating">
+						         <property name="minOccurs" value="1" />
+						        </bean>
+							</property>
+						</bean>
+					</list>
+				</property>
+		    </bean>
+		    </property>
+        </bean>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
          <value>SUBMITTED</value>
          <value>APPROVED</value>
          <value>ACTIVE</value>
@@ -293,6 +364,21 @@
   </property>
  </bean>
  <bean id="courseInfo.creditOptions" parent="courseInfo.creditOptions-parent"/>
+
+<bean id="courseInfo.creditOptions.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>PreRoute</value>
+			<value>Document Organization Review</value>
+			<value>Publication Decision Review</value>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
 
  <bean id="courseInfo.gradingOptions-parent" abstract="true" parent="baseKualiTypeRepeating">
   <property name="name" value="gradingOptions"/>
@@ -357,6 +443,12 @@
  </bean>
  <bean id="courseInfo.unitsDeployment" parent="courseInfo.unitsDeployment-parent" />
 
+<bean id="caseConstraintStateEquals" parent="caseConstraint" abstract="true">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+ </bean>
+ 
  <bean id="courseInfo.descr-parent" abstract="true" parent="cluInfo.descr">
   <property name="name" value="descr" />
   <property name="dataObjectStructure" ref="courseInfo.descr.RichTextInfo" />

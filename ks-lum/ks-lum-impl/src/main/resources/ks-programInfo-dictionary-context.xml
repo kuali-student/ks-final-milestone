@@ -71,7 +71,7 @@
     <ref bean="majorDisciplineInfo.durationNotes"/>
     <ref bean="majorDisciplineInfo.coreFaculties"/>
 
-<!--     <ref bean="majorDisciplineInfo.searchProgramVersions"/> TODO KSCM Why is this a issue-->
+<ref bean="majorDisciplineInfo.searchProgramVersions"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -1604,7 +1604,7 @@
     <ref bean="coreProgramInfo.unitsStudentOversight"/>
     <ref bean="coreProgramInfo.universityClassification"/>
 	<ref bean="coreProgramInfo.versionInfo"/>
-<!--     <ref bean="coreProgramInfo.searchProgramVersions"/> -->
+<ref bean="coreProgramInfo.searchProgramVersions"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -1612,7 +1612,7 @@
  <bean id="org.kuali.student.r2.lum.program.dto.CoreProgramInfo"
        parent="org.kuali.student.r2.lum.program.dto.CoreProgramInfo-parent"/>
 
-<!--  <bean id="coreProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/> -->
+<bean id="coreProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/>
 
  <bean id="coreProgramInfo.catalogDescr-parent" abstract="true" parent="majorDisciplineInfo.catalogDescr-parent">
   <property name="name" value="catalogDescr"/>
@@ -1767,7 +1767,7 @@
     <ref bean="credentialProgramInfo.versionInfo"/>
     <ref bean="credentialProgramInfo.typeKey"/>
 
-<!--     <ref bean="credentialProgramInfo.searchProgramVersions"/> TODO KSCM -->
+<ref bean="credentialProgramInfo.searchProgramVersions"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -1912,8 +1912,7 @@
  <bean id="credentialProgramInfo.universityClassification"
        parent="credentialProgramInfo.universityClassification-parent"/>
 
-<!-- TODO KSCM -why is this removed from class? <bean id="credentialProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/> -->
-
+<bean id="credentialProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions"/> 
  <!-- MinorDisciplineInfo-->
  <bean id="org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo-parent" abstract="true"
        parent="objectStructureDefinition">
