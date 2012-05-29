@@ -61,16 +61,9 @@ public class LprDao extends GenericEntityDao<LprEntity> {
      * @return
      * @throws DoesNotExistException 
      */
-    public void mergeFromDto(LprInfo info) throws DoesNotExistException {
+    public void mergeFromDto(LprEntity entity, LprInfo info) throws DoesNotExistException {
     	
-    	String lprId = info.getId();
-    	
-    	LprEntity lprEntity = find(lprId);
-    	
-    	if (lprEntity == null)
-    		throw new DoesNotExistException("No LprEntity for id = " + lprEntity);
-    		
-    	List<Object> orphanedData = lprEntity.fromDto(info);
+    	List<Object> orphanedData = entity.fromDto(info);
     	
     	for (Object orphan : orphanedData) {
 			
