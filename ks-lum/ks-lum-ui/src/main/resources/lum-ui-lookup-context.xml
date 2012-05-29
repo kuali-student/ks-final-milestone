@@ -207,13 +207,13 @@
   <property name="initialLookup" ref="kuali.lu.lookup.assessmentScale" />
  </bean>
 
- <bean id="creditOptions.type" parent="uilookupconfig-parent">
-  <property name="path" value="courseInfo.creditOptions.type" />
+ <bean id="creditOptions.typeKey" parent="uilookupconfig-parent">
+  <property name="path" value="courseInfo.creditOptions.typeKey" />
   <property name="initialLookup" ref="kuali.lu.lookup.credit.degree.types" />
  </bean>
 
- <bean id="activities.activityType" parent="uilookupconfig-parent">
-  <property name="path" value="courseInfo.formats.activities.activityType" />
+ <bean id="activities.activityTypeKey" parent="uilookupconfig-parent">
+  <property name="path" value="courseInfo.formats.activities.activityTypeKey" />
   <property name="initialLookup" ref="kuali.lookup.lutypes.activity" />
  </bean>
 
@@ -229,9 +229,9 @@
   <property name="initialLookup" ref="kuali.lookup.durations" />
  </bean>
 
- <bean id="activity.unitType" parent="uilookupconfig-parent">
+ <bean id="activity.unitTypeKey" parent="uilookupconfig-parent">
   <property name="path"
-            value="courseInfo.formats.activities.contactHours.unitType" />
+            value="courseInfo.formats.activities.contactHours.unitTypeKey" />
   <property name="initialLookup" ref="kuali.lu.lookup.amountInfo.duration" />
  </bean>
 
