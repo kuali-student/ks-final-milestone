@@ -68,6 +68,8 @@ public class TimeSetWrapper {
                     setDateRange(true);
                 }
             }
+        }else if (!isDateRange()){
+            setEndDate(null);
         }
     }
 
@@ -162,8 +164,12 @@ public class TimeSetWrapper {
                 String strippedDate = StringUtils.removeStart(formattedEndDate,StringUtils.substringBefore(formattedStartDate," "));
                 return StringUtils.removeEndIgnoreCase(strippedDate,"11:59 pm");
             }else{
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-                return formatter.format(endDate);
+                if (isDateRange()){
+                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                    return formatter.format(endDate);
+                }else{
+                    return StringUtils.EMPTY;
+                }
             }
         }else{
             return StringUtils.EMPTY;
