@@ -15,6 +15,8 @@
 
 package org.kuali.rice.student.permission;
 
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;

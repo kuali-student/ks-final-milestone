@@ -59,6 +59,12 @@
       <version>${kuali.rice.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-it-internal-tools</artifactId>
+      <version>${kuali.rice.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
       <version>${ks.service.version}</version>
