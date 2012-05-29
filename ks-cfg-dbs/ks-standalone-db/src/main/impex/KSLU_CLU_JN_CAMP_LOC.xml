@@ -62,4 +62,8 @@
         CLU_ID="64f56471-d067-4c04-8dfc-fc4e8bf6050f"
         ID="f6698160-dd52-47fa-b34b-71a4d9ce131d"
         OBJ_ID="5382f875-4dd7-4f8a-9eb8-0fe97e6e0499" VER_NBR="0"/>
+    <KSLU_CLU_JN_CAMP_LOC CAMP_LOC="SEA"
+        CLU_ID="5aa58103-1644-40d8-8d9c-09f64e437b93"
+        ID="f66ba16c-b847-46e1-a489-4f10d0d906a0"
+        OBJ_ID="304f7a47-b305-417e-8d29-5bdbf8071f69" VER_NBR="0"/>
 </dataset>

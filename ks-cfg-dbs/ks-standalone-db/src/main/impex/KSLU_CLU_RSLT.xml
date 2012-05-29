@@ -9,6 +9,12 @@
         RT_DESCR_ID="4f94c273-4965-40d7-b942-b29af5aa725b" ST="ACTIVE"
         TYPE_KEY_ID="kuali.resultType.gradeCourseResult"
         UPDATETIME="20120510023906" VER_NBR="0"/>
+    <KSLU_CLU_RSLT CLU_ID="5aa58103-1644-40d8-8d9c-09f64e437b93"
+        CREATETIME="20120510080503"
+        ID="22067f2c-f7d3-434b-b611-10584fdf7190"
+        OBJ_ID="e859aa04-2132-48c1-aaba-d7f8c5cb5c43" ST="ACTIVE"
+        TYPE_KEY_ID="kuali.resultType.creditCourseResult"
+        UPDATETIME="20120510080503" VER_NBR="0"/>
     <KSLU_CLU_RSLT CLU_ID="b509ad01-6ef3-44a4-8857-f5df8631f79e"
         CREATETIME="20120509234912"
         ID="251b4ba7-0d2b-400b-bcbd-b84cda80a8ca"
@@ -197,4 +203,11 @@
         RT_DESCR_ID="a0d12479-826e-4959-8c2f-af1b3d366078" ST="ACTIVE"
         TYPE_KEY_ID="kuali.resultType.gradeCourseResult"
         UPDATETIME="20120510003746" VER_NBR="0"/>
+    <KSLU_CLU_RSLT CLU_ID="5aa58103-1644-40d8-8d9c-09f64e437b93"
+        CREATETIME="20120510080503" EFF_DT="20120510080503"
+        ID="fa528d7c-3f94-43d1-9bca-99309c6a6c32"
+        OBJ_ID="393b0448-9050-4f6b-9ce9-743c340e2f07"
+        RT_DESCR_ID="2b5162ce-f874-4ab3-9aeb-f2db98f36d06" ST="ACTIVE"
+        TYPE_KEY_ID="kuali.resultType.gradeCourseResult"
+        UPDATETIME="20120510080503" VER_NBR="0"/>
 </dataset>
