@@ -143,6 +143,12 @@
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-krms-impl</artifactId>
       <version>${kuali.rice.version}</version>
+      <exclusions>
+      	<exclusion>
+        	<groupId>com.lowagie</groupId>
+        	<artifactId>itext</artifactId>
+       	</exclusion>
+   	  </exclusions>
     </dependency>
   </dependencies>
   <profiles>
