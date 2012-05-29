@@ -104,7 +104,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/RolloverResultsPageView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoMaintenanceView.xml</value>
 
 			</list>
 		</property>
