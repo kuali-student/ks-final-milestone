@@ -31,6 +31,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  * This class //TODO ...
@@ -42,30 +43,19 @@ public class SocRolloverResultItemInfoInquirableImpl extends InquirableImpl {
 
     public final static String ID = "id";
 
+    final Logger logger = Logger.getLogger(SocRolloverResultItemInfoInquirableImpl.class);
+
     @Override
     public SocRolloverResultItemInfo retrieveDataObject(Map<String, String> parameters) {
         String id = parameters.get(ID);
         try {
             SocRolloverResultItemInfo socRolloverResultItemInfo = getCourseOfferingSetService().getSocRolloverResultItem(id,getContextInfo());
             return socRolloverResultItemInfo;
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MissingParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (OperationFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (Exception e) {
+            logger.error("socRolloverResultItemInfo inquiry has failed. ", e);
+            throw new RuntimeException("socRolloverResultItemInfo inquiry has failed. ", e);
         }
-
-        return null;
     }
-
-
-
-
 
     public CourseOfferingSetService getCourseOfferingSetService() {
         if (courseOfferingSetService == null) {

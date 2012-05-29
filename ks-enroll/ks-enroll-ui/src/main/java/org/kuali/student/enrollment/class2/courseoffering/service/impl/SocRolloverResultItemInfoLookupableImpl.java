@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
@@ -42,6 +43,8 @@ public class SocRolloverResultItemInfoLookupableImpl extends LookupableImpl {
     public final static String SOC_ROLLOVER_RESULT_ID = "socRolloverResultId";
     //public final static String SOURCE_COURSE_OFFERING_ID = "sourceCourseOfferingId";
 
+    final Logger logger = Logger.getLogger(SocRolloverResultItemInfoLookupableImpl.class);
+
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<SocRolloverResultItemInfo> socRolloverResultItemInfos = new ArrayList<SocRolloverResultItemInfo>();
@@ -50,15 +53,20 @@ public class SocRolloverResultItemInfoLookupableImpl extends LookupableImpl {
         try {
             socRolloverResultItemInfos = getCourseOfferingSetService().getSocRolloverResultItemsByResultId(resultId, getContextInfo());
         } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error("SocRolloverResultItemInfoLookupableImpl does not exist. ", e);
+            throw new RuntimeException("SocRolloverResultItemInfoLookupableImpl does not exist. ", e);
         } catch (InvalidParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error("SocRolloverResultItemInfoLookupableImpl invalid parameter. ", e);
+            throw new RuntimeException("SocRolloverResultItemInfoLookupableImpl invalid parameter. ", e);
         } catch (MissingParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error("SocRolloverResultItemInfoLookupableImpl missing parameter. ", e);
+            throw new RuntimeException("SocRolloverResultItemInfoLookupableImpl missing parameter. ", e);
         } catch (OperationFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error("SocRolloverResultItemInfoLookupableImpl operation failed. ", e);
+            throw new RuntimeException("SocRolloverResultItemInfoLookupableImpl operation failed. ", e);
         } catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error("SocRolloverResultItemInfoLookupableImpl permission denied. ", e);
+            throw new RuntimeException("SocRolloverResultItemInfoLookupableImpl permission denied. ", e);
         }
 
         return socRolloverResultItemInfos;
