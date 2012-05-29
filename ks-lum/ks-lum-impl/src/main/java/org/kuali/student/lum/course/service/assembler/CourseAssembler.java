@@ -316,6 +316,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         }
         clu.setTypeKey(CourseAssemblerConstants.COURSE_TYPE);
         clu.setStateKey(course.getStateKey());
+        clu.setIsEnrollable(false);
 
         CluIdentifierInfo identifier = new CluIdentifierInfo();
         identifier.setTypeKey(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_TYPE);

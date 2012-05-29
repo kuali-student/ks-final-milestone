@@ -84,6 +84,8 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		clu.setId(UUIDHelper.genStringUUID(businessDTO.getId()));
 		clu.setTypeKey(businessDTO.getTypeKey());
 		clu.setStateKey(businessDTO.getStateKey());
+		clu.setIsEnrollable(false);
+		
 		clu.setDefaultEnrollmentEstimate(businessDTO
 				.getDefaultEnrollmentEstimate() != null ? businessDTO
 		                .getDefaultEnrollmentEstimate() : 0);

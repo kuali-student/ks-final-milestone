@@ -127,6 +127,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	
 		clu.setTypeKey(CourseAssemblerConstants.COURSE_FORMAT_TYPE);
 		clu.setStateKey(format.getStateKey());
+		clu.setIsEnrollable(false);
 	
 		clu.setMeta(format.getMeta());
 

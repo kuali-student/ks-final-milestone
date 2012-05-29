@@ -350,6 +350,7 @@
         <property name="inclusiveMax" value="4.0" />
         <property name="validChars" ref="gpa4.0"/>
     </bean>
+    
     <!-- RichTextInfo-->
     <bean id="org.kuali.student.r2.common.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
         <property name="name" value="org.kuali.student.r2.common.dto.RichTextInfo" />
@@ -360,20 +361,17 @@
             </list>
         </property>
     </bean>
+	<bean id="org.kuali.student.r2.common.dto.RichTextInfo" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent" />
+	
+	<bean id="richTextInfo.formatted-parent" abstract="true" parent="baseKualiRichText">
+  		<property name="name" value="formatted" />
+ 	</bean>
+ 	<bean id="richTextInfo.formatted" parent="richTextInfo.formatted-parent" />
 
-    <bean id="org.kuali.student.r1.common.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
-        <property name="name" value="org.kuali.student.r1.common.dto.RichTextInfo" />
-        <property name="attributes">
-            <list>
-                <ref bean="R1richTextInfo.formatted" />
-                <ref bean="R1richTextInfo.plain" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="org.kuali.student.r2.common.dto.RichTextInfo" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent" />
-
-
+ 	<bean id="richTextInfo.plain-parent" abstract="true" parent="baseKualiRichText">
+  		<property name="name" value="plain" />
+ 	</bean>
+ 	<bean id="richTextInfo.plain" parent="richTextInfo.plain-parent" />
 
     <!--  Empty Property to be used to attach search -->
     <bean id="baseKualiEmpty" parent="baseString" abstract="true">
@@ -490,44 +488,7 @@
         <property name="name" value="refObjectUri"/>
     </bean>
     <bean id="VersionDisplayInfo.refObjectUri" parent="VersionDisplayInfo.refObjectUri-parent"/>
-
-
-    <bean id="baseSingleFieldDefinition"
-          class="org.kuali.student.r1.common.dictionary.dto.FieldDefinition"
-          abstract="true">
-        <property name="maxOccurs" value="1" />
-    </bean>
-
-    <bean id="baseSingleString" parent="baseSingleFieldDefinition"
-          abstract="true">
-        <property name="dataType" value="STRING" />
-        <property name="maxLength" value="255" />
-    </bean>
-
-    <bean id="R1richTextInfo.plain-parent" abstract="true" parent="baseSingleString">
-        <property name="name" value="plain" />
-    </bean>
-
-    <bean id="richTextInfo.plain-parent" abstract="true" parent="baseSingleString">
-        <property name="name" value="plain" />
-    </bean>
-
-    <bean id="R1richTextInfo.formatted-parent" abstract="true"
-          parent="baseSingleString">
-        <property name="name" value="formatted" />
-    </bean>
-
-    <bean id="richTextInfo.formatted-parent" abstract="true"
-          parent="baseSingleString">
-        <property name="name" value="formatted" />
-    </bean>
-
-    <bean id="richTextInfo.formatted" parent="richTextInfo.formatted-parent" />
-
-    <bean id="richTextInfo.plain" parent="richTextInfo.plain-parent" />
-
-
-
+    
 </beans>
 
 
