@@ -26,6 +26,7 @@ public class ActivityOfferingTransformer {
         ao.setStateKey(lui.getStateKey());
         ao.setTypeKey(lui.getTypeKey());
         ao.setDescr(lui.getDescr());
+        ao.setName(lui.getName());
         ao.setActivityId(lui.getCluId());
         ao.setTermId(lui.getAtpId());
         ao.setMinimumEnrollment(lui.getMinimumEnrollment());
@@ -69,6 +70,7 @@ public class ActivityOfferingTransformer {
         lui.setId(ao.getId());
         lui.setTypeKey(ao.getTypeKey());
         lui.setStateKey(ao.getStateKey());
+        lui.setName(ao.getName());
         lui.setDescr(ao.getDescr());
         lui.setMeta(ao.getMeta());
         lui.setCluId(ao.getActivityId());
