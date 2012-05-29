@@ -309,17 +309,17 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 
             for (String type : enumTypes){
                 List<EnumeratedValueEntity> enumvalues = enumValueDao.getByEnumerationKey(type);
-                for(EnumeratedValueEntity enumValue : enumvalues){
-                    if ((enumCodes != null) && (enumCodes.size() > 0)){
+                if ((enumCodes != null) && (enumCodes.size() > 0)){
+                    for(EnumeratedValueEntity enumValue : enumvalues){
                         for(String code : enumCodes){
                             if (enumValue.getCode().equals(code)){
                                 returnvalues.add(enumValue);
                                 break;
                             }
                         }
-                    } else {
-                        returnvalues.addAll(enumvalues);
                     }
+                } else {
+                    returnvalues.addAll(enumvalues);
                 }
             }
             
