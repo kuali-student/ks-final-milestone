@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import org.kuali.student.enrollment.test.util.IdEntityTester;
@@ -124,8 +126,8 @@ public class TestLprServiceMockImpl {
 
         // test update
         expected = actual;
-        expected.setEffectiveDate(new Date(expected.getEffectiveDate().getTime() - 2000));
-        expected.setExpirationDate(new Date(expected.getExpirationDate().getTime() + 2000));
+        expected.setEffectiveDate(new Timestamp(expected.getEffectiveDate().getTime() - 2000));
+        expected.setExpirationDate(new Timestamp(expected.getExpirationDate().getTime() + 2000));
         expected.setCommitmentPercent("33.33");
         expected.getResultValuesGroupKeys().remove(0);
         expected.getResultValuesGroupKeys().add("rvg3");

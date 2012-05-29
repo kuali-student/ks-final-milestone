@@ -55,10 +55,10 @@ public class LprEntity extends MetaEntity {
 	@Column(name = "LPR_STATE")
 	private String personRelationStateId;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<LprAttributeEntity> attributes;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "lpr")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lpr")
 	private List<LprResultValueGroupEntity> resultValueGroups;
 
 	public LprEntity() {
@@ -74,32 +74,7 @@ public class LprEntity extends MetaEntity {
 		fromDto(dto);
 	}
 
-	private Map<String, Attribute> createAttributeMap(
-			List<Attribute> attributeList) {
-
-		Map<String, Attribute> attributeMap = new LinkedHashMap<String, Attribute>();
-
-		for (Attribute attribute : attributeList) {
-
-			attributeMap.put(attribute.getKey(), attribute);
-		}
-
-		return attributeMap;
-	}
-
-	private Map<String, LprAttributeEntity> createAttributeEntityMap(
-			List<LprAttributeEntity> attributeList) {
-
-		Map<String, LprAttributeEntity> attributeMap = new LinkedHashMap<String, LprAttributeEntity>();
-
-		for (LprAttributeEntity attribute : attributeList) {
-
-			attributeMap.put(attribute.getKey(), attribute);
-		}
-
-		return attributeMap;
-	}
-
+	
 	public List<Object> fromDto(Lpr dto) {
 
 		List<Object> orphanData = new ArrayList<Object>();
@@ -130,14 +105,20 @@ public class LprEntity extends MetaEntity {
 							public List<Object> merge(
 									LprAttributeEntity entity, Attribute info) {
 
-								entity.fromDto(info);
+								entity.fromDto(info); 
+								
+								entity.setOwner(LprEntity.this);
 
 								return new ArrayList<Object>();
 							}
 
 							@Override
 							public LprAttributeEntity create(Attribute info) {
-								return new LprAttributeEntity(info);
+								LprAttributeEntity entity = new LprAttributeEntity(info);
+							
+								entity.setOwner(LprEntity.this);
+								
+								return entity;
 							}
 
 						});

@@ -29,6 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -122,27 +123,34 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
     	
     }
     
-    @Test
-    public void validateCommitmentPercentDatabaseColumn() throws SQLException {
-    	
+    private void assertTableColumnType (String table, String columnName, String expectedColumnType) throws SQLException {
+
     	TransactionStatus tx = txManager.getTransaction(new DefaultTransactionDefinition(TransactionDefinition.ISOLATION_READ_COMMITTED));
     	
-    	ResultSet rs = dataSource.getConnection().createStatement().executeQuery("select COMMIT_PERCT from KSEN_LPR");
+    	ResultSet rs = dataSource.getConnection().createStatement().executeQuery("select " + columnName + " from " + table);
     	
     	ResultSetMetaData meta = rs.getMetaData();
     	
     	String columnType = meta.getColumnTypeName(1);
     	
-    	assertEquals("NUMERIC", columnType.toUpperCase());
+    	assertEquals(expectedColumnType, columnType.toUpperCase());
     	
     	txManager.rollback(tx);
+    }
+    
+    @Test
+    public void validateCommitmentPercentDatabaseColumn() throws SQLException {
     	
-    	
+    	assertTableColumnType("KSEN_LPR", "COMMIT_PERCT", "NUMERIC");
     	
     }
     
     
-    @Test
+    
+       
+    
+
+	@Test
       public void testCreateLPR()throws  Exception{
 
         LprInfo lpr = new LprInfo();

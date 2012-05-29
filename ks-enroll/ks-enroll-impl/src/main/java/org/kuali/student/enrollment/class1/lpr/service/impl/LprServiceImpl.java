@@ -136,10 +136,16 @@ public class LprServiceImpl implements LprService {
 
     @Override
     @Transactional(readOnly=true)
-    public LprInfo getLpr(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public LprInfo getLpr(String lprId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LprEntity lpr = lprDao.find(luiPersonRelationId);
-        return null != lpr ? lpr.toDto() : null;
+    	
+        LprEntity lpr = lprDao.find(lprId);
+        
+        if (lpr == null)
+        	throw new DoesNotExistException("No LprEntity for id = " + lprId);
+        
+        // else
+        return lpr.toDto();
     }
 
     @Override
@@ -247,17 +253,17 @@ public class LprServiceImpl implements LprService {
 
         if (lprEntity != null) {
         	
-        	lprDao.mergeFromDto(luiPersonRelationInfo);
+            lprDao.mergeFromDto(luiPersonRelationInfo);
         	
             if (luiPersonRelationInfo.getStateKey() != null) {
-            	lprEntity.setPersonRelationStateId(luiPersonRelationInfo.getStateKey());
+            	modifiedLpr.setPersonRelationStateId(luiPersonRelationInfo.getStateKey());
             }
 
             if (luiPersonRelationInfo.getTypeKey() != null) {
-            	lprEntity.setPersonRelationTypeId(luiPersonRelationInfo.getTypeKey());
+            	modifiedLpr.setPersonRelationTypeId(luiPersonRelationInfo.getTypeKey());
             }
 
-            lprEntity.setEntityUpdated(context);
+            modifiedLpr.setEntityUpdated(context);
             
             return lprDao.find(luiPersonRelationId).toDto();
         } else {
@@ -267,15 +273,16 @@ public class LprServiceImpl implements LprService {
 
     @Override
     @Transactional
-    public StatusInfo deleteLpr(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException,
+    public StatusInfo deleteLpr(String lprId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LprEntity lprEntity = lprDao.find(luiPersonRelationId);
-        lprEntity.setPersonRelationStateId(LprServiceConstants.DROPPED_STATE_KEY);
+        LprEntity lprEntity = lprDao.find(lprId);
         
-        lprEntity.setUpdateId(context.getPrincipalId());
-        lprEntity.setUpdateTime(context.getCurrentDate());
+        if (lprEntity == null) {
+        	throw new DoesNotExistException("No LprEntity for id = " + lprId);
+        }
         
-        lprDao.merge(lprEntity);
+        lprDao.remove(lprEntity);
+        
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
