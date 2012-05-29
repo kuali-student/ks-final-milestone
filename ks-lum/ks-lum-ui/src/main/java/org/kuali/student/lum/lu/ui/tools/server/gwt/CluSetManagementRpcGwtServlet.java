@@ -228,6 +228,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                         
                         CluInformation cluInformation = new CluInformation();
                         if (cluInfo.getOfficialIdentifier() != null) {
+                            cluInformation.setCode(cluInfo.getOfficialIdentifier().getCode());
                             cluInformation.setTitle(cluInfo.getOfficialIdentifier().getShortName());
                             cluInformation.setCredits(credits);
                         }
