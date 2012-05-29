@@ -33,8 +33,8 @@ public class SchedulingServiceMockImpl implements SchedulingService
     // Data (Test Cases)
     ////////////////////////////
 
-    private Map<String, TimeSlotInfo> timeSlotsMap = new HashMap<String, TimeSlotInfo>();
-    private Map<String, ScheduleInfo> scheduleMap = new HashMap<String, ScheduleInfo>();
+    private Map<String, TimeSlotInfo> timeSlotsMap = new LinkedHashMap<String, TimeSlotInfo>();
+    private Map<String, ScheduleInfo> scheduleMap = new LinkedHashMap<String, ScheduleInfo>();
     private Map<String, ScheduleBatchInfo> scheduleBatchMap = new LinkedHashMap<String, ScheduleBatchInfo>();
     private Map<String, ScheduleBatchRespInfo> scheduleBatchResponseMap = new LinkedHashMap<String, ScheduleBatchRespInfo>();
     private Map<String, ScheduleRespInfo> scheduleResponseMap = new LinkedHashMap<String, ScheduleRespInfo>();
@@ -46,7 +46,7 @@ public class SchedulingServiceMockImpl implements SchedulingService
         dow.add(Calendar.MONDAY); dow.add(Calendar.WEDNESDAY); dow.add(Calendar.FRIDAY);
         ts.setWeekdays(dow);
         TimeOfDayInfo tod = new TimeOfDayInfo();
-        tod.setMilliSeconds((long) (8 * 60 * 60 * 1000));
+        tod.setMilliSeconds(new Long (8 * 60 * 60 * 1000));
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
         tod.setMilliSeconds((long) (8 * 60 * 60 * 1000 + 50 * 60 * 1000));
@@ -62,10 +62,10 @@ public class SchedulingServiceMockImpl implements SchedulingService
         dow.add(Calendar.MONDAY); dow.add(Calendar.WEDNESDAY); dow.add(Calendar.FRIDAY);
         ts.setWeekdays(dow);
         tod = new TimeOfDayInfo();
-        tod.setMilliSeconds((long) (8 * 60 * 60 * 1000));
+        tod.setMilliSeconds(new Long (8 * 60 * 60 * 1000));
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
-        tod.setMilliSeconds((long) (8 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        tod.setMilliSeconds(new Long (8 * 60 * 60 * 1000 + 70 * 60 * 1000));
         ts.setEndTime(tod);
         ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
         ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
@@ -78,10 +78,10 @@ public class SchedulingServiceMockImpl implements SchedulingService
         dow.add(Calendar.TUESDAY); dow.add(Calendar.THURSDAY);
         ts.setWeekdays(dow);
         tod = new TimeOfDayInfo();
-        tod.setMilliSeconds((long) (8 * 60 * 60 * 1000));
+        tod.setMilliSeconds(new Long (8 * 60 * 60 * 1000));
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
-        tod.setMilliSeconds((long) (8 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        tod.setMilliSeconds(new Long (8 * 60 * 60 * 1000 + 50 * 60 * 1000));
         ts.setEndTime(tod);
         ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
         ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
@@ -94,10 +94,10 @@ public class SchedulingServiceMockImpl implements SchedulingService
         dow.add(Calendar.TUESDAY); dow.add(Calendar.THURSDAY);
         ts.setWeekdays(dow);
         tod = new TimeOfDayInfo();
-        tod.setMilliSeconds((long) (8 * 60 * 60 * 1000));
+        tod.setMilliSeconds(new Long (8 * 60 * 60 * 1000));
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
-        tod.setMilliSeconds((long) (8 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        tod.setMilliSeconds(new Long (8 * 60 * 60 * 1000 + 70 * 60 * 1000));
         ts.setEndTime(tod);
         ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
         ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
@@ -110,10 +110,10 @@ public class SchedulingServiceMockImpl implements SchedulingService
         dow.add(Calendar.MONDAY); dow.add(Calendar.WEDNESDAY); dow.add(Calendar.FRIDAY);
         ts.setWeekdays(dow);
         tod = new TimeOfDayInfo();
-        tod.setMilliSeconds((long) (10 * 60 * 60 * 1000));
+        tod.setMilliSeconds(new Long (10 * 60 * 60 * 1000));
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
-        tod.setMilliSeconds((long) (10 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        tod.setMilliSeconds(new Long (10 * 60 * 60 * 1000 + 50 * 60 * 1000));
         ts.setEndTime(tod);
         ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
         ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
@@ -126,14 +126,174 @@ public class SchedulingServiceMockImpl implements SchedulingService
         dow.add(Calendar.MONDAY); dow.add(Calendar.WEDNESDAY); dow.add(Calendar.FRIDAY);
         ts.setWeekdays(dow);
         tod = new TimeOfDayInfo();
-        tod.setMilliSeconds((long) (11 * 60 * 60 * 1000));
+        tod.setMilliSeconds(new Long (11 * 60 * 60 * 1000));
         ts.setStartTime(tod);
         tod = new TimeOfDayInfo();
-        tod.setMilliSeconds((long) (11 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        tod.setMilliSeconds(new Long (11 * 60 * 60 * 1000 + 70 * 60 * 1000));
         ts.setEndTime(tod);
         ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
         ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
         ts.setId("6");
+        timeSlotsMap.put(ts.getId(), ts);
+
+        // T TH 10 - 10.50
+        ts = new TimeSlotInfo();
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.TUESDAY); dow.add(Calendar.THURSDAY);
+        ts.setWeekdays(dow);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (10 * 60 * 60 * 1000));
+        ts.setStartTime(tod);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (10 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("7");
+        timeSlotsMap.put(ts.getId(), ts);
+
+        // T TH 10 - 11.10
+        ts = new TimeSlotInfo();
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.TUESDAY); dow.add(Calendar.THURSDAY);
+        ts.setWeekdays(dow);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (10 * 60 * 60 * 1000));
+        ts.setStartTime(tod);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (10 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("8");
+        timeSlotsMap.put(ts.getId(), ts);
+
+        // M W F 13 - 13.50
+        ts = new TimeSlotInfo();
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.MONDAY); dow.add(Calendar.WEDNESDAY); dow.add(Calendar.FRIDAY);
+        ts.setWeekdays(dow);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (13 * 60 * 60 * 1000));
+        ts.setStartTime(tod);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (13 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("9");
+        timeSlotsMap.put(ts.getId(), ts);
+
+        // M W F 13 - 14.10
+        ts = new TimeSlotInfo();
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.MONDAY); dow.add(Calendar.WEDNESDAY); dow.add(Calendar.FRIDAY);
+        ts.setWeekdays(dow);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (13 * 60 * 60 * 1000));
+        ts.setStartTime(tod);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (13 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("10");
+        timeSlotsMap.put(ts.getId(), ts);
+
+        // T TH 13 - 13.50
+        ts = new TimeSlotInfo();
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.TUESDAY); dow.add(Calendar.THURSDAY);
+        ts.setWeekdays(dow);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (13 * 60 * 60 * 1000));
+        ts.setStartTime(tod);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (13 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("11");
+        timeSlotsMap.put(ts.getId(), ts);
+
+        // T TH 13 - 14.10
+        ts = new TimeSlotInfo();
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.TUESDAY); dow.add(Calendar.THURSDAY);
+        ts.setWeekdays(dow);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (13 * 60 * 60 * 1000));
+        ts.setStartTime(tod);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (13 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("12");
+        timeSlotsMap.put(ts.getId(), ts);
+
+        // M W F 15 - 15.50
+        ts = new TimeSlotInfo();
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.MONDAY); dow.add(Calendar.WEDNESDAY); dow.add(Calendar.FRIDAY);
+        ts.setWeekdays(dow);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (15 * 60 * 60 * 1000));
+        ts.setStartTime(tod);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (15 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("13");
+        timeSlotsMap.put(ts.getId(), ts);
+
+        // M W F 15 - 16.10
+        ts = new TimeSlotInfo();
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.MONDAY); dow.add(Calendar.WEDNESDAY); dow.add(Calendar.FRIDAY);
+        ts.setWeekdays(dow);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (15 * 60 * 60 * 1000));
+        ts.setStartTime(tod);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (15 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("14");
+        timeSlotsMap.put(ts.getId(), ts);
+
+        // T TH 15 - 15.50
+        ts = new TimeSlotInfo();
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.TUESDAY); dow.add(Calendar.THURSDAY);
+        ts.setWeekdays(dow);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (15 * 60 * 60 * 1000));
+        ts.setStartTime(tod);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (15 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("15");
+        timeSlotsMap.put(ts.getId(), ts);
+
+        // T TH 15 - 16.10
+        ts = new TimeSlotInfo();
+        dow = new ArrayList<Integer>();
+        dow.add(Calendar.TUESDAY); dow.add(Calendar.THURSDAY);
+        ts.setWeekdays(dow);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (15 * 60 * 60 * 1000));
+        ts.setStartTime(tod);
+        tod = new TimeOfDayInfo();
+        tod.setMilliSeconds(new Long (15 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        ts.setEndTime(tod);
+        ts.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        ts.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY);
+        ts.setId("16");
         timeSlotsMap.put(ts.getId(), ts);
 
         return true;
