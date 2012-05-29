@@ -357,7 +357,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         }
         SearchRequest sr = new SearchRequest();
         sr.setSearchKey(query.getSearchTypeKey());
-        sr.setParams(SearchParamHelper.toSearchParamInfos(query.getQueryParamValues()));
+        sr.setParams(SearchParamHelper.toSearchParams(query.getQueryParamValues()));
 
         SearchResult result = cluService.search(sr);
 

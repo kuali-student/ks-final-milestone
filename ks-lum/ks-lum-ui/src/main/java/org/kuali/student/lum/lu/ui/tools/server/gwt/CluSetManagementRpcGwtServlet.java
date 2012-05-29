@@ -275,7 +275,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         if (membershipQueryInfo != null) {
             SearchRequest searchRequest = new SearchRequest();
             searchRequest.setSearchKey(membershipQueryInfo.getSearchTypeKey());
-            searchRequest.setParams(SearchParamHelper.toSearchParamInfos(membershipQueryInfo.getQueryParamValues()));
+            searchRequest.setParams(SearchParamHelper.toSearchParams(membershipQueryInfo.getQueryParamValues()));
             SearchResult searchResult = null;
             try {
                 searchResult = cluService.search(searchRequest);

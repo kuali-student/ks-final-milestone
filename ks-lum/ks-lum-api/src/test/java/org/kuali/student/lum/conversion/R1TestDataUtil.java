@@ -15,6 +15,7 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
@@ -462,6 +463,7 @@ public class R1TestDataUtil {
     	r1CluSetInfo.setIsReusable(false);
     	r1CluSetInfo.setName("Name");
     	r1CluSetInfo.setAdminOrg(null);
+    	r1CluSetInfo.setMembershipQuery(R1TestDataUtil.getMembershipQueryInfoData());
         return r1CluSetInfo;
     }
     
@@ -551,9 +553,8 @@ public class R1TestDataUtil {
     	MembershipQueryInfo r1MembershipQueryInfo = new MembershipQueryInfo();
     	r1MembershipQueryInfo.setSearchTypeKey("searchTypeKey");
     	r1MembershipQueryInfo.setId("Id");
-    	r1MembershipQueryInfo.setQueryParamValueList(null);
-    
-       return r1MembershipQueryInfo;
+    	r1MembershipQueryInfo.setQueryParamValueList(R1TestDataUtil.getSearchParamDataList());
+        return r1MembershipQueryInfo;
     }
     
     public static List<ResultOptionInfo> getResultOptionInfoDataList() {
@@ -899,5 +900,25 @@ public class R1TestDataUtil {
         return r1CluCluRelationInfo;
     }
     
+    public static List<SearchParam> getSearchParamDataList() {
+        List<SearchParam> r1List = new ArrayList<SearchParam>();
+        r1List.add(getSearchParamData());
+        return r1List;
+    }
+    
+    public static SearchParam getSearchParamData() {
+        SearchParam r1 = new SearchParam();
+        r1.setKey("R1 Key");
+        double chance = Math.random();
+        if (chance <= 0.5) {
+            List<String> values = new ArrayList<String>();
+            values.add("R1 Value #1");
+            values.add("R1 Value #2");
+            r1.setValue(values);
+        } else {
+            r1.setValue("R1 Value");
+        }
+        return r1;
+    }   
 
 }

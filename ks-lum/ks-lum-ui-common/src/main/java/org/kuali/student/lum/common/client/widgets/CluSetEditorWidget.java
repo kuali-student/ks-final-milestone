@@ -687,7 +687,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             if (membershipQueryInfo != null) {
                 String selectedSearchTypeKey = membershipQueryInfo.getSearchTypeKey();
                 List<LookupMetadata> lookupMDs = new ArrayList<LookupMetadata>();
-                List<SearchParam> searchParams = SearchParamHelper.toSearchParamInfos(membershipQueryInfo.getQueryParamValues());
+                List<SearchParam> searchParams = SearchParamHelper.toSearchParams(membershipQueryInfo.getQueryParamValues());
                 lookupMDs.add(rangeEditMetaData.getInitialLookup());
                 LookupMetadata lookupMetadata = findLookupMetadataByLookupId(selectedSearchTypeKey, 
                         lookupMDs, searchParams);

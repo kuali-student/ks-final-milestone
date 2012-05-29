@@ -1,10 +1,12 @@
 package org.kuali.student.lum.conversion;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.r2.core.search.dto.SearchParamHelper;
 import org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
@@ -479,6 +481,7 @@ public class LumConverterTest {
     public void testCluSetInfo(){
     	org.kuali.student.r1.lum.lu.dto.CluSetInfo r1 = R1TestDataUtil.getCluSetInfoData();
     	CluSetInfo r2 = R1R2ConverterUtil.convert(r1, CluSetInfo.class);
+    	r2.getMembershipQuery().setQueryParamValues(SearchParamHelper.toSearchParamInfos(r1.getMembershipQuery().getQueryParamValueList()));
     	Assert.assertEquals(r1.getId(), r2.getId());
     	Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
@@ -492,7 +495,7 @@ public class LumConverterTest {
         Assert.assertEquals(r1.getIsReferenceable(), r2.getIsReferenceable());
         Assert.assertEquals(r1.getIsReusable(), r2.getIsReusable());
         Assert.assertEquals(r1.getName(), r2.getName());
-        Assert.assertEquals(r1.getMembershipQuery(), r2.getMembershipQuery());
+        Assert.assertEquals(r1.getMembershipQuery().getQueryParamValueList().get(0).getKey(), r2.getMembershipQuery().getQueryParamValues().get(0).getKey());
     }
     
     @Test
@@ -558,11 +561,16 @@ public class LumConverterTest {
     
     @Test
     public void testMembershipQueryInfo(){
-    	 org.kuali.student.r1.lum.lu.dto.MembershipQueryInfo r1 = R1TestDataUtil.getMembershipQueryInfoData();
-    	 MembershipQueryInfo r2 = R1R2ConverterUtil.convert(r1, MembershipQueryInfo.class);
-    	 Assert.assertEquals(r1.getId(), r2.getId());
-    	 Assert.assertEquals(r1.getSearchTypeKey(), r2.getSearchTypeKey());
-    	 Assert.assertEquals(r1.getQueryParamValueList(), r2.getQueryParamValues());
+        org.kuali.student.r1.lum.lu.dto.MembershipQueryInfo r1 = R1TestDataUtil.getMembershipQueryInfoData();
+        MembershipQueryInfo r2 = R1R2ConverterUtil.convert(r1, MembershipQueryInfo.class);
+        r2.setQueryParamValues(SearchParamHelper.toSearchParamInfos(r1.getQueryParamValueList()));
+        Assert.assertEquals(r1.getId(), r2.getId());
+        Assert.assertEquals(r1.getSearchTypeKey(), r2.getSearchTypeKey());
+        Assert.assertEquals(r1.getQueryParamValueList().get(0).getKey(), r2.getQueryParamValues().get(0).getKey());
+        Object searchParamValue = r1.getQueryParamValueList().get(0).getValue();
+        Assert.assertEquals(searchParamValue instanceof List ? ((List<String>) searchParamValue).get(0)
+                : (String) searchParamValue, r2.getQueryParamValues().get(0).getValues().get(0));
+    	 
     }
     
     @Test
