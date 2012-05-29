@@ -30,9 +30,9 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "registrationRequestItemInfo", propOrder = {
+@XmlType(name = "RegistrationRequestItemInfo", propOrder = {
                 "id", "name", "descr", "typeKey", "stateKey",
-                "registrationRequstId", "studentId", 
+                "registrationRequestId", "studentId", 
                 "newRegistrationGroupId", "existingRegistrationGroupId", 
                 "credits", "gradingOptionId", "okToWaitlist", "okToHoldList", 
                 "meta", "attributes", "_futureElements"})

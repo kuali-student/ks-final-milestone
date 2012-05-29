@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationRequestInfo", propOrder = {
                 "id", "name", "descr", "typeKey", "stateKey", 
-                "requestorId", "termId", "regRequestItems", 
+                "requestorId", "termId", "registrationRequestItems", 
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestInfo 
