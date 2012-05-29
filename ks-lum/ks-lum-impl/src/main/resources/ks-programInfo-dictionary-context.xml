@@ -115,7 +115,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -166,7 +166,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -203,7 +203,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -250,7 +250,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -314,7 +314,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -370,7 +370,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -412,7 +412,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -447,7 +447,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -481,7 +481,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -527,7 +527,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -589,7 +589,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -625,7 +625,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -665,7 +665,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -708,7 +708,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -739,7 +739,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -773,7 +773,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -807,7 +807,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -840,7 +840,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -873,7 +873,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -905,7 +905,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -937,7 +937,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -969,7 +969,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -1001,7 +1001,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -1484,7 +1484,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -1987,7 +1987,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -2033,7 +2033,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
