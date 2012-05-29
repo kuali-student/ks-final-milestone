@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  * This class //TODO ...
@@ -37,6 +38,7 @@ public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
     public final static String COURSE_OFFER_ID = "courseOfferingId";
     private transient CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo = null;
+    final Logger logger = Logger.getLogger(FormatOfferingInfoLookupableImpl.class);
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
@@ -45,15 +47,20 @@ public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
         try {
             formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(fieldValues.get(COURSE_OFFER_ID), getContextInfo());
         } catch (DoesNotExistException e) {
-            throw new RuntimeException(e);
+            logger.error("FormatOfferingInfo does not exist. ", e);
+            throw new RuntimeException("FormatOfferingInfo does not exist. ", e);
         } catch (InvalidParameterException e) {
-            throw new RuntimeException(e);
+            logger.error("FormatOfferingInfo invalid parameter. ", e);
+            throw new RuntimeException("FormatOfferingInfo invalid parameter. ", e);
         } catch (MissingParameterException e) {
-            throw new RuntimeException(e);
+            logger.error("FormatOfferingInfo missing parameter. ", e);
+            throw new RuntimeException("FormatOfferingInfo missing parameter. ", e);
         } catch (OperationFailedException e) {
-            throw new RuntimeException(e);
+            logger.error("FormatOfferingInfo operation failed. ", e);
+            throw new RuntimeException("FormatOfferingInfo operation failed. ", e);
         } catch (PermissionDeniedException e) {
-            throw new RuntimeException(e);
+            logger.error("FormatOfferingInfo permission denied. ", e);
+            throw new RuntimeException("FormatOfferingInfo permission denied. ", e);
         }
 
         return formatOfferingInfos;

@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.apache.log4j.Logger;
 
 import java.util.Map;
 
@@ -32,6 +33,7 @@ import java.util.Map;
  */
 public class FormatOfferingInfoInquirableImpl extends InquirableImpl {
     public final static String FORMAT_OFFERING_ID = "id";
+    final Logger logger = Logger.getLogger(FormatOfferingInfoInquirableImpl.class);
 
     @Override
     public FormatOfferingInfo retrieveDataObject(Map<String, String> parameters) {
@@ -40,7 +42,8 @@ public class FormatOfferingInfoInquirableImpl extends InquirableImpl {
             FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(parameters.get(FORMAT_OFFERING_ID), getContextInfo());
             return formatOfferingInfo;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.error("FormatOfferingInfo inquiry has failed. ", e);
+            throw new RuntimeException("FormatOfferingInfo inquiry has failed. ", e);
         }
     }
 

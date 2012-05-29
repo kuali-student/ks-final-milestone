@@ -35,6 +35,7 @@ import org.kuali.student.r2.core.type.service.TypeService;
 import javax.xml.namespace.QName;
 import java.util.Locale;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  * This class //TODO ...
@@ -54,6 +55,8 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
     private transient CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
 
+    final Logger logger = Logger.getLogger(FormatOfferingInfoMaintainableImpl.class);
+
     @Override
     public void saveDataObject() {
         FormatOfferingInfo formatOfferingInfoMaintenance = (FormatOfferingInfo) getDataObject();
@@ -64,14 +67,16 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
                                                                                             LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, formatOfferingInfoMaintenance, getContextInfo());
                 setDataObject(new FormatOfferingInfo(formatOfferingInfoCreated));
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                logger.error("FormatOfferingInfoMaintenance - create new failed. ", e);
+                throw new RuntimeException("FormatOfferingInfoMaintenance - create new failed. ", e);
             }
         }
         else {   //should be edit action
             try {
                 FormatOfferingInfo formatOfferingInfoUpdated = getCourseOfferingService().updateFormatOffering(formatOfferingInfoMaintenance.getId(), formatOfferingInfoMaintenance, getContextInfo());
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                logger.error("FormatOfferingInfoMaintenance - edit failed. ", e);
+                throw new RuntimeException("FormatOfferingInfoMaintenance - edit failed. ", e);
             }
         }
     }
@@ -96,7 +101,8 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
             FormatOfferingInfo info = getCourseOfferingService().getFormatOffering(dataObjectKeys.get("id"), getContextInfo());
             return info;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.error("FormatOfferingInfoMaintenance - edit/copy failed. ", e);
+            throw new RuntimeException("FormatOfferingInfoMaintenance - edit/copy failed. ", e);
         }
     }
 
