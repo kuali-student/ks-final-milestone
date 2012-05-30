@@ -352,7 +352,6 @@ public class TestCourseServiceImpl{
         rsltComp.getResultValueKeys().add("1");
         rsltComp.getResultValueKeys().add("3");
         createdCourse.getCreditOptions().add(rsltComp); 
-        createdCourse.getCreditOptions().add(rsltComp); 
         createdCourse.getGradingOptions().remove(1);
         createdCourse.getGradingOptions().add("NewGradingOption");
 
@@ -473,7 +472,6 @@ public class TestCourseServiceImpl{
             assertEquals(value, attrs.get(atr.getKey()));
             }
         }            
-  //      assertEquals("testValue", updatedCourse.getAttributes().contains("testKey"));
 
         assertEquals(2, updatedCourse.getCreditOptions().size());
         // assertTrue(updatedCourse.getCreditOptions().contains("creditOptions-18"));
@@ -880,7 +878,6 @@ public class TestCourseServiceImpl{
     }
 
     @Test
-    @Ignore
     public void testCreateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
         final String courseId = "COURSE-STMT-1";
 
@@ -990,8 +987,6 @@ public class TestCourseServiceImpl{
     }
 
     @Test
-    @Ignore
-    // FIXME need a dictionary that defines StatamentTreeViewInfo
     public void testValidataCourseStatement() throws Exception {
         final String courseId = "COURSE-STMT-1";
 
