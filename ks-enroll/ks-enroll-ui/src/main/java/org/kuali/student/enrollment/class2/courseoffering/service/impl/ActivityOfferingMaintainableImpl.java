@@ -37,7 +37,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
                 ActivityOfferingFormObject activityOfferingFormObject = (ActivityOfferingFormObject) getDataObject();
-                activityOfferingFormObject.prepareForSave();
                 ActivityOfferingInfo toSave = activityOfferingFormObject.getAoInfo();
 
                 //temporary Testing only
