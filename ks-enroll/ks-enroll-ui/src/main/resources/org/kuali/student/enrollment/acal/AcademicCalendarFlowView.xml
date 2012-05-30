@@ -33,7 +33,7 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ks-enroll/scripts/common.js</value>
-                <value>ks-enroll/scripts/acal.js</value>
+                <value>ks-enroll/scripts/calendar.js</value>
             </list>
         </property>
     </bean>
