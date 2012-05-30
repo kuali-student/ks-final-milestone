@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -54,20 +55,21 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
 
     private transient CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
-
     final Logger logger = Logger.getLogger(FormatOfferingInfoMaintainableImpl.class);
 
     @Override
     public void saveDataObject() {
+        System.out.println (">>> in save ");
         FormatOfferingInfo formatOfferingInfoMaintenance = (FormatOfferingInfo) getDataObject();
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
+
                 FormatOfferingInfo formatOfferingInfoCreated = getCourseOfferingService().createFormatOffering(formatOfferingInfoMaintenance.getCourseOfferingId(), formatOfferingInfoMaintenance.getFormatId(),
                                                                                             LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, formatOfferingInfoMaintenance, getContextInfo());
-                setDataObject(new FormatOfferingInfo(formatOfferingInfoCreated));
+                //setDataObject(new FormatOfferingInfo(formatOfferingInfoCreated));
             } catch (Exception e) {
-                logger.error("FormatOfferingInfoMaintenance - create new failed. ", e);
+                //logger.error("FormatOfferingInfoMaintenance - create new failed. ", e);
                 throw new RuntimeException("FormatOfferingInfoMaintenance - create new failed. ", e);
             }
         }
@@ -75,7 +77,7 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
             try {
                 FormatOfferingInfo formatOfferingInfoUpdated = getCourseOfferingService().updateFormatOffering(formatOfferingInfoMaintenance.getId(), formatOfferingInfoMaintenance, getContextInfo());
             } catch (Exception e) {
-                logger.error("FormatOfferingInfoMaintenance - edit failed. ", e);
+                //logger.error("FormatOfferingInfoMaintenance - edit failed. ", e);
                 throw new RuntimeException("FormatOfferingInfoMaintenance - edit failed. ", e);
             }
         }
@@ -89,8 +91,8 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
         System.out.println (">>> in prepareForSave ");
         if (getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION)) {
             FormatOfferingInfo formatOfferingInfoMaintenance = (FormatOfferingInfo) getDataObject();
-            formatOfferingInfoMaintenance.setTypeKey("kuali.atp.type.FormatOfferingInfo");
-            formatOfferingInfoMaintenance.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+            formatOfferingInfoMaintenance.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
+            formatOfferingInfoMaintenance.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         }
         super.prepareForSave();
     }
