@@ -95,8 +95,8 @@ public class TestSchedulingServiceMockImpl {
         // should not contain Tuesday or Thursday
         assertFalse(dow.contains(Calendar.TUESDAY));
         assertFalse(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
-        assertEquals(ts.getEndTime().getMilliSeconds(), new Long (8 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_9_10_AM);
 
         // test specific records - 3
         ts = schedulingService.getTimeSlot("3", contextInfo);
@@ -108,8 +108,8 @@ public class TestSchedulingServiceMockImpl {
         // should contain Tuesday or Thursday
         assertTrue(dow.contains(Calendar.TUESDAY));
         assertTrue(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
-        assertEquals(ts.getEndTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_8_50_AM);
 
         // test specific records - 10
         ts = schedulingService.getTimeSlot("10", contextInfo);
@@ -121,8 +121,8 @@ public class TestSchedulingServiceMockImpl {
         // should not contain Tuesday or Thursday
         assertFalse(dow.contains(Calendar.TUESDAY));
         assertFalse(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), new Long (13 * 60 * 60 * 1000));
-        assertEquals(ts.getEndTime().getMilliSeconds(), new Long (13 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_1_00_PM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_2_10_PM);
     }
 
     @Test
@@ -155,8 +155,8 @@ public class TestSchedulingServiceMockImpl {
         // should not contain Tuesday or Thursday
         assertFalse(dow.contains(Calendar.TUESDAY));
         assertFalse(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
-        assertEquals(ts.getEndTime().getMilliSeconds(), new Long (8 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_9_10_AM);
 
         assertEquals("15", l_valid_ts.get(1).getId());
         ts = l_valid_ts.get(1);
@@ -168,8 +168,8 @@ public class TestSchedulingServiceMockImpl {
         // should contain Tuesday or Thursday
         assertTrue(dow.contains(Calendar.TUESDAY));
         assertTrue(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(15 * 60 * 60 * 1000));
-        assertEquals(ts.getEndTime().getMilliSeconds(), new Long (15 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_3_00_PM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_3_50_PM);
 
         // test case: all invalid ids
         List<String> invalid_ids = new ArrayList<String>();
@@ -223,7 +223,7 @@ public class TestSchedulingServiceMockImpl {
         dow.add(Calendar.TUESDAY);
         dow.add(Calendar.THURSDAY);
         TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(new Long (8 * 60 * 60 * 1000));
+        startTime.setMilliSeconds(SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
         List<TimeSlotInfo> tsi = schedulingService.getTimeSlotsByDaysAndStartTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, dow, startTime, contextInfo);
         assertEquals(2, tsi.size());
 
@@ -237,7 +237,7 @@ public class TestSchedulingServiceMockImpl {
         // should contain Tuesday or Thursday
         assertTrue(ts_dow.contains(Calendar.TUESDAY));
         assertTrue(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
+        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
 
         assertEquals("4", tsi.get(1).getId());
         ts = tsi.get(1);
@@ -249,7 +249,7 @@ public class TestSchedulingServiceMockImpl {
         // should contain Tuesday or Thursday
         assertTrue(ts_dow.contains(Calendar.TUESDAY));
         assertTrue(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
+        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
 
     }
 
@@ -260,9 +260,9 @@ public class TestSchedulingServiceMockImpl {
         dow.add(Calendar.TUESDAY);
         dow.add(Calendar.THURSDAY);
         TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(new Long (8 * 60 * 60 * 1000));
+        startTime.setMilliSeconds(SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
         TimeOfDayInfo endTime = new TimeOfDayInfo();
-        endTime.setMilliSeconds(new Long (8 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        endTime.setMilliSeconds(SchedulingServiceDataLoader.END_TIME_MILLIS_8_50_AM);
         List<TimeSlotInfo> tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
         assertEquals("3", tsi.get(0).getId());
@@ -275,8 +275,8 @@ public class TestSchedulingServiceMockImpl {
         // should contain Tuesday or Thursday
         assertTrue(ts_dow.contains(Calendar.TUESDAY));
         assertTrue(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000));
-        assertEquals(ts.getEndTime().getMilliSeconds(), new Long(8 * 60 * 60 * 1000 + 50 * 60 * 1000));
+        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_8_50_AM);
 
         // should return record 10
         dow = new ArrayList<Integer>();
@@ -284,9 +284,9 @@ public class TestSchedulingServiceMockImpl {
         dow.add(Calendar.WEDNESDAY);
         dow.add(Calendar.FRIDAY);
         startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(new Long (13 * 60 * 60 * 1000));
+        startTime.setMilliSeconds(SchedulingServiceDataLoader.START_TIME_MILLIS_1_00_PM);
         endTime = new TimeOfDayInfo();
-        endTime.setMilliSeconds(new Long (13 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        endTime.setMilliSeconds(SchedulingServiceDataLoader.END_TIME_MILLIS_2_10_PM);
         tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_KEY, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
         assertEquals("10", tsi.get(0).getId());
@@ -299,8 +299,8 @@ public class TestSchedulingServiceMockImpl {
         // should not contain Tuesday or Thursday
         assertFalse(ts_dow.contains(Calendar.TUESDAY));
         assertFalse(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), new Long(13 * 60 * 60 * 1000));
-        assertEquals(ts.getEndTime().getMilliSeconds(), new Long(13 * 60 * 60 * 1000 + 70 * 60 * 1000));
+        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_1_00_PM);
+        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_2_10_PM);
 
     }
 }
