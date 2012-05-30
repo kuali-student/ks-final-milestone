@@ -111,7 +111,7 @@
                 <dependency>
                     <groupId>org.kuali.student.security</groupId>
                     <artifactId>ks-standard-sec</artifactId>
-                    <version>${project.version}</version>
+                    <version>2.0.0-cm-SNAPSHOT</version>
                 </dependency>
             </dependencies>
         </profile>
