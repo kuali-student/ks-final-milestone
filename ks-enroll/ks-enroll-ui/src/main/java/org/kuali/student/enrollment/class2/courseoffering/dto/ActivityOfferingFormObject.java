@@ -1,9 +1,13 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
@@ -13,6 +17,8 @@ public class ActivityOfferingFormObject implements Serializable{
     private ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
     private TermInfo term;
+
+    private boolean waitListIndicator;
 
     public ActivityOfferingFormObject(){
         aoInfo = new ActivityOfferingInfo();
@@ -28,6 +34,28 @@ public class ActivityOfferingFormObject implements Serializable{
     public ActivityOfferingFormObject(ActivityOfferingInfo info){
         super();
         aoInfo = info;
+        for(AttributeInfo attribute : aoInfo.getAttributes()){
+            if (StringUtils.equals(attribute.getKey(), CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR)){
+                waitListIndicator = BooleanUtils.toBoolean(attribute.getKey());
+                break;
+            }
+        }
+    }
+
+    public void prepareForSave(){
+        AttributeInfo waitListAttribute = null;
+        for(AttributeInfo attribute : aoInfo.getAttributes()){
+            if (StringUtils.equals(attribute.getKey(), CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR)){
+                waitListAttribute = attribute;
+                break;
+            }
+        }
+        if (waitListAttribute == null){
+            waitListAttribute = new AttributeInfo();
+            waitListAttribute.setKey(CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR);
+        }
+        waitListAttribute.setValue(BooleanUtils.toStringTrueFalse(waitListIndicator));
+
     }
 
     public FormatOfferingInfo getFormatOffering() {
@@ -52,6 +80,14 @@ public class ActivityOfferingFormObject implements Serializable{
 
     public void setAoInfo(ActivityOfferingInfo aoInfo) {
         this.aoInfo = aoInfo;
+    }
+
+    public boolean isWaitListIndicator() {
+        return waitListIndicator;
+    }
+
+    public void setWaitListIndicator(boolean waitListIndicator) {
+        this.waitListIndicator = waitListIndicator;
     }
 
 }
