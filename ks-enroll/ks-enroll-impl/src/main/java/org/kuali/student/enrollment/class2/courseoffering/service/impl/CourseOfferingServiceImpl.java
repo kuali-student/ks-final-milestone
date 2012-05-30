@@ -1315,6 +1315,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
         List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>(results.getResults().size());
         for (LuiEntity lui : results.getResults()) {

@@ -167,6 +167,7 @@
         <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
         <property name="businessLogic" ref="businessLogic" />
         <property name="atpService" ref="atpService"/>
+        <property name="typeService" ref="typeService"/>
     </bean>
 
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">

@@ -163,6 +163,7 @@
     <property name="lprService" ref="lprPersistenceService" />
     <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
     <property name="businessLogic" ref="businessLogic" />
+    <property name="typeService" ref="typeService"/>
   </bean>
 
   <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">

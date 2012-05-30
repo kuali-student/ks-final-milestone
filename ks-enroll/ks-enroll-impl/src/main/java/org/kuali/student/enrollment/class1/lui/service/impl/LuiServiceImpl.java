@@ -304,12 +304,24 @@ public class LuiServiceImpl
 
         if(entity.getIdentifiers() != null){
             for(LuiIdentifierEntity ident:entity.getIdentifiers()){
+                if(ident.getCreateId() == null){
+                    ident.setCreateId(context.getPrincipalId());
+                }
+                if(ident.getCreateTime() == null){
+                    ident.setCreateTime(context.getCurrentDate());
+                }
                 ident.setUpdateId(context.getPrincipalId());
                 ident.setUpdateTime(context.getCurrentDate());
             }
         }
         if(entity.getLuiCodes() != null){
             for(LuCodeEntity code : entity.getLuiCodes()){
+                if(code.getCreateId() == null){
+                    code.setCreateId(context.getPrincipalId());
+                }
+                if(code.getCreateTime() == null){
+                    code.setCreateTime(context.getCurrentDate());
+                }
                 code.setUpdateId(context.getPrincipalId());
                 code.setUpdateTime(context.getCurrentDate());
             }

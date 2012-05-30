@@ -46,6 +46,10 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
         super(luCode);
         this.setId(luCode.getId());
         this.setType(luCode.getTypeKey());
+        fromDto(luCode);
+    }
+
+    public void fromDto(LuCode luCode) {
         this.setValue(luCode.getValue());
         if (luCode.getDescr() != null) {
             RichText rt = luCode.getDescr();
@@ -132,4 +136,6 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
     public List<LuCodeAttributeEntity> getAttributes() {
         return attributes;
     }
+
+
 }
