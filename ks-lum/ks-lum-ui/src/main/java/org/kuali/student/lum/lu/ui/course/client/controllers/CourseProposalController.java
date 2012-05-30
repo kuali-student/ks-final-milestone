@@ -250,7 +250,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
             getCluProposalFromWorkflowId(callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID || getViewContext().getIdType() == IdType.OBJECT_ID){
-            // Admin Retire goes here
+            // Admin Retire and Loading an approved Proposal go here
             getCluProposalFromProposalId(getViewContext().getId(), callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){
         	if(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))||
@@ -260,6 +260,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         		createCopyCourseModel(getViewContext().getId(), callback, workCompleteCallback);
         	}
         } else if (getViewContext().getIdType() == IdType.COPY_OF_KS_KEW_OBJECT_ID){
+            // Copy to New Proposal Button goes here.
         	createCopyCourseProposalModel(getViewContext().getId(), callback, workCompleteCallback);
         } else{
             createNewCluProposalModel(callback, workCompleteCallback);
@@ -305,8 +306,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 		    		}
 
-		    		//FIXME: Something looks odd in determining currentDocType
-		    		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("") && !LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(currentDocType)){
+		    		//  Change to Modify if we're coming in as create (not retire or other future doctypes)
+                    //  and the version_key has a value
+                    if ((currentDocType.equals(LUConstants.PROPOSAL_TYPE_COURSE_CREATE)) && 
+                            (cluProposalModel.get(VERSION_KEY) != null) && (!(cluProposalModel.get(VERSION_KEY).equals(""))))
+                    {
 		    			currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_MODIFY;
 		    		}
 		    		//Check for admin modify type
@@ -430,13 +434,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 cfg.setModelDefinition(modelDefinition);
                 cfg.configure(CourseProposalController.this);
                 
-                //Add fields to workflow utils screens
+                // Add fields to workflow utils screens (such as blanket approve popup)
+                // For e.g. the approval popup is different for modifications than other proposals
                 if(workflowUtil!=null){
                 	requestModel(new ModelRequestCallback<DataModel>(){
 						public void onModelReady(DataModel model) {
 							//Only display if this is a modification
-							String versionedFromId = model.get("versionInfo/versionedFromId");
-							if(versionedFromId!=null && !versionedFromId.isEmpty()){	
+						    String proposalType = model.get("proposal/type");
+                            if ((proposalType!=null) && (proposalType.equals(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY))){	
 							    KSLabel descLabel = new KSLabel();
 							    descLabel.setText(Application.getApplicationContext().getUILabel("course", LUUIConstants.FINAL_APPROVAL_DIALOG));
 							    if (workflowUtil.getApproveDialogue() != null) {
@@ -449,7 +454,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 							    workflowUtil.updateApproveFields();							    
 							    workflowUtil.progressiveEnableFields();							    
 							}else{
-								//Ignore this field (so blanket approve works if this is a new course proposal and not modifiaction)
+							    // All other types of proposals need to go here
+                                // Ignore this field (so blanket approve works if this is a new course proposal 
+                                // and not a modification)
 								workflowUtil.addIgnoreDialogField("proposal/prevEndTerm");
 							}
 						}
@@ -1282,7 +1289,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     public String getCourseState(){
-        return cluProposalModel.<String>get("state");
+        return cluProposalModel.<String>get("stateKey");
     }
 
     public boolean isNew() {

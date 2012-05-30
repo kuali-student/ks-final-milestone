@@ -289,9 +289,10 @@
     <bean id="CourseRpcGwtServlet" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseRpcGwtServlet">
         <property name="courseService" ref="courseClient"/>
         <property name="dataService" ref="CourseDataService"/>
-        <property name="statementService" ref="statementServiceClient"/> 
-        <property name="stateChangeService" ref="stateChangeService"/>  
-        <property name="cluService" ref="cluClient"/>       
+        <property name="statementService" ref="statementServiceClient"/>
+        <property name="stateChangeService" ref="stateChangeService"/>
+        <property name="cluService" ref="cluClient"/>
+        <property name="proposalService" ref="proposalClient"/>
     </bean>
 	
 	<bean id="stateChangeService" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseStateChangeServiceImpl">
@@ -701,7 +702,7 @@
         <property name="proposalReferenceType" value="kuali.proposal.referenceType.clu"/>
         <property name="defaultDocType" value="kuali.proposal.type.course.retire"/>
         <property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.RetireCourseProposalInfo"/>
-        <!-- property name="idTranslator" ref="idTranslator"/ -->
+        <property name="idTranslator" ref="idTranslator"/>
         <property name="docTypeConfigs">
 	        <list>
 				<bean class="org.kuali.student.r1.common.assembly.transform.DocumentTypeConfiguration">
@@ -870,7 +871,7 @@
                 <ref bean="atpClient"/>
                 <ref bean="personSearchClient"/>
                 <ref bean="proposalClient"/>
-                <!-- ref bean="enumServiceClient"/ -->
+                <ref bean="enumServiceClient"/>
                 <ref bean="lrcClient"/>
                 <ref bean="subjectCodeClient"/>
             </list>
@@ -911,7 +912,7 @@
 
     <bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r1.core.organization.service.OrganizationService"/>
+                  value="org.kuali.student.r2.core.organization.service.OrganizationService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService"/>
     </bean>
 
@@ -964,7 +965,7 @@
 
     <bean id="documentService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.r1.core.document.service.DocumentService"/>
-        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/document}DocumentServiceSOAP"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
     </bean>
 
     <bean id="searchService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">

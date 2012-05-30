@@ -249,115 +249,6 @@
 		</field>
 	</mapping>
 	<mapping>
-		<class-a>org.kuali.student.r1.core.organization.dto.OrgInfo</class-a>
-		<class-b>org.kuali.student.r2.core.organization.dto.OrgInfo</class-b>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.DescToRichTextConverter">
-			<a>shortDesc</a>
-			<b get-method="getShortDescr" set-method="setShortDescr">shortDescr</b>
-		</field>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.DescToRichTextConverter">
-			<a>longDesc</a>
-			<b set-method="setLongDescr" get-method="getLongDescr">longDescr</b>
-		</field>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
-		</field>
-		<field>
-			<a>metaInfo</a>
-			<b get-method="getMeta" set-method="setMeta">meta</b>
-		</field>
-		<field>
-			<a>state</a>
-			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
-		</field>
-		<field>
-			<a>type</a>
-			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
-		</field>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo
-		</class-a>
-		<class-b>org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo
-		</class-b>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
-		</field>
-		<field>
-			<a>metaInfo</a>
-			<b get-method="getMeta" set-method="setMeta">meta</b>
-		</field>
-		<field>
-			<a>state</a>
-			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
-		</field>
-		<field>
-			<a>type</a>
-			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
-		</field>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.core.organization.dto.OrgPersonRelationInfo
-		</class-a>
-		<class-b>org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo
-		</class-b>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
-		</field>
-		<field>
-			<a>metaInfo</a>
-			<b get-method="getMeta" set-method="setMeta">meta</b>
-		</field>
-		<field>
-			<a>state</a>
-			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
-		</field>
-		<field>
-			<a>type</a>
-			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
-		</field>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo
-		</class-a>
-		<class-b>org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo
-		</class-b>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
-		</field>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.DescToRichTextConverter">
-			<a>desc</a><!-- This is a String -->
-			<b get-method="getDescr" set-method="setDescr">descr</b><!-- This is a RichTextInfo -->
-		</field>
-		<field>
-			<a>metaInfo</a>
-			<b get-method="getMeta" set-method="setMeta">meta</b>
-		</field>
-		<field>
-			<a>stdDuration</a>
-			<b get-method="getStdDuration" set-method="setStdDuration">stdDuration</b>
-		</field>
-	</mapping>
-	<mapping>
 		<class-a>org.kuali.student.r1.core.organization.dto.OrgTreeInfo
 		</class-a>
 		<class-b>org.kuali.student.r2.core.organization.dto.OrgTreeInfo
@@ -404,12 +295,6 @@
 			<a-hint>java.util.HashMap</a-hint>
 			<b-hint>java.util.ArrayList</b-hint>
 		</field>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.DescToRichTextConverter">
-			<a>detailDesc</a><!-- This is a String -->
-			<b get-method="getDetailDesc" set-method="setDetailDesc">detailDesc</b><!-- This is 
-				a RichTextInfo -->
-		</field>
 		<field>
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
@@ -440,6 +325,14 @@
 		<field>
 			<a>metaInfo</a>
 			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
 	<mapping>
@@ -528,5 +421,5 @@
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
 	</mapping>
-
+	
 </mappings>

@@ -15,6 +15,9 @@
 
 package org.kuali.rice.student.permission;
 
+import static org.junit.Assert.*;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -34,6 +37,7 @@ import java.util.Map;
  *
  * @author delyea
  */
+@Ignore
 public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 	protected static final String PERMISSIONS_NAME_OPEN_DOCUMENT = "Open Document";

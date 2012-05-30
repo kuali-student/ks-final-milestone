@@ -41,7 +41,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public abstract class FieldLayout extends FlowPanel implements FieldLayoutComponent{
 	protected Map<String, FieldElement> fieldMap = new HashMap<String, FieldElement>();
 	protected Map<String, FieldLayout> layoutMap = new HashMap<String, FieldLayout>();

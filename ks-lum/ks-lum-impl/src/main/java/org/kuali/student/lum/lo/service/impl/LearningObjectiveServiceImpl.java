@@ -994,8 +994,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    LoLoRelationType type = loDao.fetch(LoLoRelationType.class, loLoRelationTypeKey);
 	    loLoRelationInfo.setLoId(loLoRelationInfo.getLoId());
 	    loLoRelationInfo.setRelatedLoId(loLoRelationInfo.getRelatedLoId());
-        //TODO KSCM-504 figure out what really needs to be passed here
-	    //loLoRelationInfo.setType(loLoRelationType);
         loLoRelationInfo.setTypeKey(loLoRelationInfo.getTypeKey());
 	    
 	    LoLoRelation relation = null;

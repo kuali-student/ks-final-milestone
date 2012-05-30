@@ -15,19 +15,14 @@
 
 package org.kuali.student.r1.core.organization.dao;
 
-import java.util.List;
-
 import org.kuali.student.r1.common.dao.CrudDao;
 import org.kuali.student.r1.common.dao.SearchableDao;
-import org.kuali.student.r1.core.organization.dto.OrgTreeInfo;
-import org.kuali.student.r1.core.organization.entity.Org;
-import org.kuali.student.r1.core.organization.entity.OrgOrgRelation;
-import org.kuali.student.r1.core.organization.entity.OrgOrgRelationType;
-import org.kuali.student.r1.core.organization.entity.OrgPersonRelation;
-import org.kuali.student.r1.core.organization.entity.OrgPersonRelationType;
-import org.kuali.student.r1.core.organization.entity.OrgPositionRestriction;
+import org.kuali.student.r1.core.organization.entity.*;
+import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 
-public interface OrganizationDao extends CrudDao, SearchableDao{
+import java.util.List;
+
+public interface OrganizationDao extends CrudDao, SearchableDao {
 
     public List<OrgPersonRelation> getAllOrgPersonRelationsByPerson(String personId);
     public List<OrgPersonRelation> getAllOrgPersonRelationsByOrg(String orgId);
@@ -49,6 +44,7 @@ public interface OrganizationDao extends CrudDao, SearchableDao{
 	public boolean hasOrgOrgRelation(String orgId, String comparisonOrgId, String orgOrgRelationTypeKey);
 	public boolean hasOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey);
 	public OrgPositionRestriction getPositionRestrictionByOrgAndPersonRelationTypeKey(String orgId, String orgPersonRelationTypeKey);
-	public Long getOrgMemebershipCount(String orgId);
-    public Org getOrgByRelatedOrgAndType(String relatedOrgId, String relationTypeKey);
+	public Long getOrgMembershipCount(String orgId);
+    @Deprecated
+	public Org getOrgByRelatedOrgAndType(String relatedOrgId, String relationTypeKey);
 }

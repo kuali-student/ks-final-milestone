@@ -16,14 +16,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramPublicationAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
 import org.kuali.student.r2.lum.program.infc.CoreProgram;
 
 @XmlType(name = "CoreProgramInfo", propOrder = {"id",
@@ -54,7 +53,7 @@ import org.kuali.student.r2.lum.program.infc.CoreProgram;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CoreProgramInfo extends CommonWithCoreProgramInfo
         implements CoreProgram,
-        ProgramCommonAssembly,
+        ProgramCodeAssembly,
         ProgramBasicOrgAssembly,
         ProgramAtpAssembly,
         ProgramIdentifierAssembly,
@@ -86,4 +85,43 @@ public class CoreProgramInfo extends CommonWithCoreProgramInfo
         
     }
 
+    @Override
+    public String getCip2000Code() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setCip2000Code(String cip2000Code) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getCip2010Code() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setCip2010Code(String cip2010Code) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getHegisCode() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setHegisCode(String hegisCode) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getSelectiveEnrollmentCode() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setSelectiveEnrollmentCode(String selectiveEnrollmentCode) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

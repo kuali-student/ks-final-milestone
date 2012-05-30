@@ -47,7 +47,6 @@ import com.google.gwt.user.client.ui.WidgetCollection;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-@Deprecated
 public class ExportUtils {
     public static final String PDF = "PDF";
     public static final String DOC = "DOC";

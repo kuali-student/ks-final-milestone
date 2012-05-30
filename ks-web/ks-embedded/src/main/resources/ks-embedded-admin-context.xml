@@ -10,7 +10,7 @@
 	<import resource="classpath:KsAdminModuleBeans.xml" />
 
 	<!-- ks-admin needs a connection to the core tables -->
-	<alias alias="ksAdminDataSource" name="coreDataSource" />
+	<bean id="ksAdminDataSource" parent="coreDataSource" />
 
 	<alias alias="lumDataSource" name="coreDataSource" />
 
@@ -19,15 +19,15 @@
 	<bean id="nullBean" class="java.lang.Object" />
 
 	<!-- turn off the MessageService jpa impl by killing its beans -->
-	<alias alias="messageEntityManagerFactory" name="nullBean" />
-	<alias alias="messageEntityManager" name="nullBean" />
-	<alias alias="messageDao" name="nullBean" />
+	<!-- alias alias="messageEntityManagerFactory" name="nullBean" /-->
+	<!-- alias alias="messageEntityManager" name="nullBean" /-->
+	<!-- alias alias="messageDao" name="nullBean" /-->
 
 	<!-- the ksb exporter for the ks-core message service does not have an id so override the jpa impl with the ks-admin ojb impl -->
-	<alias alias="messageServiceImpl" name="ks.messageService" />
+	<!--alias alias="messageServiceImpl" name="ks.messageService" /-->
 
 	<!-- the gwt application code is defaulting to the mock service impl, so override it as well -->
-	<alias alias="ks.messageServiceMock" name="ks.messageService" />
+	<!-- alias alias="ks.messageServiceMock" name="ks.messageService" /-->
 
 	<!-- override Subject code service with KS-Admin -->
 	<alias alias="subjectCodeServiceImpl" name="ks.subjectCodeService" />
@@ -81,12 +81,12 @@
 			<aop:around pointcut="execution(*  org.kuali.student.core.atp.service.impl.*.remove*(..))" method="invalidateCache" />
 		</aop:aspect>
 		<aop:aspect id="orgCacheAroundSearch" ref="orgMethodCacheAdvisor">
-			<aop:around pointcut="execution(*  org.kuali.student.r1.core.organization.service.impl.*.search*(..))" method="getFromCache" />
-			<aop:around pointcut="execution(*  org.kuali.student.r1.core.organization.service.impl.*.add*(..))" method="invalidateCache" />
-			<aop:around pointcut="execution(*  org.kuali.student.r1.core.organization.service.impl.*.update*(..))" method="invalidateCache" />
-			<aop:around pointcut="execution(*  org.kuali.student.r1.core.organization.service.impl.*.create*(..))" method="invalidateCache" />
-			<aop:around pointcut="execution(*  org.kuali.student.r1.core.organization.service.impl.*.delete*(..))" method="invalidateCache" />
-			<aop:around pointcut="execution(*  org.kuali.student.r1.core.organization.service.impl.*.remove*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.search*(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.add*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.update*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.create*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.delete*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.remove*(..))" method="invalidateCache" />
 		</aop:aspect>
 		<aop:aspect id="lrcCacheAroundSearch" ref="lrcMethodCacheAdvisor">
 			<aop:around pointcut="execution(*  org.kuali.student.lum.lrc.service.impl.*.search*(..))" method="getFromCache" />

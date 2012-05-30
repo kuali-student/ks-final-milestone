@@ -106,8 +106,7 @@ public class TestProgramInfoDictionary {
         assertEquals(5, validationResults.size());
 
         try {
-            info =
-                    R1R2ConverterUtil.convert(new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData(), MajorDisciplineInfo.class);
+            info = new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData();
         }
         catch (Exception ex) {
             throw new RuntimeException(ex);

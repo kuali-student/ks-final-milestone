@@ -19,56 +19,58 @@ import static org.junit.Assert.*;
 public class TestCommentDictionary
 {
 
- @Test
- public void testLoadAtpDictionary ()
- {
-  System.out.println ("testing comment dictionary");
-  Set<String> startingClasses = new LinkedHashSet ();
-  startingClasses.add (CommentInfo.class.getName ());
-  startingClasses.add (TagInfo.class.getName ());
-  String contextFile = "ks-comment-dictionary-context";
-  String outFile = "target/" + contextFile + ".txt";
-  DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,
-                                                              startingClasses,
-                                                              contextFile
-                                                              + ".xml", false);
-  List<String> errors = helper.doTest ();
-  if (errors.size () > 0)
-  {
-   fail ("failed dictionary validation:\n" + formatAsString (errors));
-  }
- }
-
- private String formatAsString (List<String> errors)
- {
-  int i = 0;
-  StringBuilder builder = new StringBuilder ();
-  for (String error : errors)
-  {
-   i ++;
-   builder.append (i + ". " + error + "\n");
-  }
-  return builder.toString ();
- }
-
- @Test
- public void testCommentInfoValidation () throws OperationFailedException
- {
-  ApplicationContext ac = new ClassPathXmlApplicationContext (
-    "classpath:ks-comment-dictionary-context.xml");
-  System.out.println ("h2. Validation Test");
-  DefaultValidatorImpl val = new DefaultValidatorImpl ();
-  val.setDateParser (new ServerDateParser ());
-  val.setSearchDispatcher (new MockSearchDispatcher ());
-  CommentInfo info = new CommentInfo ();
-  ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean (
-    info.getClass ().getName ());
-  List<ValidationResultInfo> validationResults = val.validateObject (info, os, null);
-  System.out.println ("h3. With just a blank");
-  for (ValidationResultInfo vr : validationResults)
-  {
-   System.out.println (vr.getElement () + " " + vr.getMessage ());
-  }
-  assertEquals (4, validationResults.size ());
- }
+// org.kuali.student.r2.core.comment.dto.CommentInfo - Used instead
+	
+// @Test
+// public void testLoadAtpDictionary ()
+// {
+//  System.out.println ("testing comment dictionary");
+//  Set<String> startingClasses = new LinkedHashSet ();
+//  startingClasses.add (CommentInfo.class.getName ());
+//  startingClasses.add (TagInfo.class.getName ());
+//  String contextFile = "ks-comment-dictionary-context";
+//  String outFile = "target/" + contextFile + ".txt";
+//  DictionaryTesterHelper helper = new DictionaryTesterHelper (outFile,
+//                                                              startingClasses,
+//                                                              contextFile
+//                                                              + ".xml", false);
+//  List<String> errors = helper.doTest ();
+//  if (errors.size () > 0)
+//  {
+//   fail ("failed dictionary validation:\n" + formatAsString (errors));
+//  }
+// }
+//
+// private String formatAsString (List<String> errors)
+// {
+//  int i = 0;
+//  StringBuilder builder = new StringBuilder ();
+//  for (String error : errors)
+//  {
+//   i ++;
+//   builder.append (i + ". " + error + "\n");
+//  }
+//  return builder.toString ();
+// }
+//
+// @Test
+// public void testCommentInfoValidation () throws OperationFailedException
+// {
+//  ApplicationContext ac = new ClassPathXmlApplicationContext (
+//    "classpath:ks-comment-dictionary-context.xml");
+//  System.out.println ("h2. Validation Test");
+//  DefaultValidatorImpl val = new DefaultValidatorImpl ();
+//  val.setDateParser (new ServerDateParser ());
+//  val.setSearchDispatcher (new MockSearchDispatcher ());
+//  CommentInfo info = new CommentInfo ();
+//  ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean (
+//    info.getClass ().getName ());
+//  List<ValidationResultInfo> validationResults = val.validateObject (info, os, null);
+//  System.out.println ("h3. With just a blank");
+//  for (ValidationResultInfo vr : validationResults)
+//  {
+//   System.out.println (vr.getElement () + " " + vr.getMessage ());
+//  }
+//  assertEquals (4, validationResults.size ());
+// }
 }

@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.r1.common.dto.HasTypeState;
 import org.kuali.student.r1.common.dto.Idable;
-import org.kuali.student.r1.common.dto.MetaInfo;
-import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 /**
  *Information about a requirement component.

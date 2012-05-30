@@ -15,16 +15,14 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.clu.infc.CluFee;
 import org.kuali.student.r2.lum.clu.infc.CluFeeRecord;
 
-import javax.xml.bind.Element;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -98,13 +96,4 @@ public class CluFeeInfo extends HasAttributesAndMetaInfo implements CluFee, Seri
         this.descr = descr;
     }
 
-	public void setAttributes(Map<String, String> attributeMap) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setMeta(MetaInfo metaInfo) {
-		// TODO Auto-generated method stub
-		
-	}
 }

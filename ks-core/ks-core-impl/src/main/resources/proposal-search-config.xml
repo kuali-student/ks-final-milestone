@@ -69,6 +69,18 @@
             <ref bean="proposal.criteria.proposalAdvancedCriteria"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
+    
+    <search:searchType id="proposal.search.countForProposals" parent="proposal.search.countForProposals-parent"/>
+    <search:searchType id="proposal.search.countForProposals-parent"  abstract="true">
+        <search:name>Proposal search to return count of open proposals for a clu</search:name>
+        <search:desc>Returns count of open proposals</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="proposal.result.countForProposals" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="proposal.criteria.countForProposalsCriteria"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
 
     <search:searchCriteriaTypeInfo id="proposal.criteria.proposalAdvancedCriteria" parent="proposal.criteria.proposalAdvancedCriteria-parent"/>
     <search:searchCriteriaTypeInfo id="proposal.criteria.proposalAdvancedCriteria-parent"  abstract="true">
@@ -81,6 +93,20 @@
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
+	<search:searchCriteriaTypeInfo id="proposal.criteria.countForProposalsCriteria" parent="proposal.criteria.countForProposalsCriteria-parent"/>
+    <search:searchCriteriaTypeInfo id="proposal.criteria.countForProposalsCriteria-parent"  abstract="true">
+        <search:name>CountForProposalsCriteria</search:name>
+        <search:desc>Count for proposals criteria</search:desc>
+        <search:queryParams>
+            <ref bean="proposal.queryParam.cluId"/>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+    
+    <search:queryParam id="proposal.queryParam.cluId" parent="proposal.queryParam.cluId-parent"/>
+    <search:queryParam id="proposal.queryParam.cluId-parent"
+        optional="false" abstract="true">
+        <ref bean="field.proposalInfo.proposalReferenceType.fd" />
+    </search:queryParam>
 
     <search:queryParam id="proposal.queryParam.proposalId" parent="proposal.queryParam.proposalId-parent"/>
     <search:queryParam id="proposal.queryParam.proposalId-parent"
@@ -119,11 +145,27 @@
             <ref bean="proposal.resultColumn.proposalOptionalTypeName" />
         </search:resultColumns>
     </search:searchResultTypeInfo>
+    
+    <search:searchResultTypeInfo id="proposal.result.countForProposals" parent="proposal.result.countForProposals-parent"/>
+	<search:searchResultTypeInfo id="proposal.result.countForProposals-parent"  abstract="true">
+        <search:name>ProposalCount</search:name>
+        <search:desc>Count of open proposals</search:desc>
+        <search:resultColumns>
+            <ref bean="proposal.resultColumn.proposalCount" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
 
     <search:resultColumn id="proposal.resultColumn.proposalId" parent="proposal.resultColumn.proposalId-parent"/>
 	<search:resultColumn id="proposal.resultColumn.proposalId-parent"  abstract="true">
         <search:name>Proposal Identifier</search:name>
         <search:desc>Identifier of a Proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="proposal.resultColumn.proposalCount" parent="proposal.resultColumn.proposalCount-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalCount-parent"  abstract="true">
+        <search:name>Proposal Count</search:name>
+        <search:desc>Number of proposals</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     
@@ -162,11 +204,15 @@
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
-	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+	<bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
                 <entry key="proposal.search.generic">
                     <value>SELECT proposal.id, proposal.name, proposal.type.id, proposal.state,proposal.type.name FROM Proposal proposal</value>
+                </entry>
+                <!-- Returns # of proposals that are being processed  -->
+                <entry key="proposal.search.countForProposals">
+                    <value>SELECT count (proposal.id) FROM Proposal proposal, IN (proposal.proposalReference) pr where pr.objectReferenceId = :proposal_queryParam_cluId and pr.type='kuali.proposal.referenceType.clu' and proposal.state IN ('Saved','Enroute')</value>
                 </entry>
                 <entry key="proposal.queryParam.proposalOptionalName">
                     <value>proposal.name</value>
@@ -177,4 +223,6 @@
             </map>
 		</property>
 	</bean>
+	
+	<bean id="queryMap" parent="queryMap-parent"/>
 </beans>

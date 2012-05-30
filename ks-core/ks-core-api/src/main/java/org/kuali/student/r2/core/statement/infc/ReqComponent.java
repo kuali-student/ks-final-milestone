@@ -25,7 +25,7 @@ import java.util.List;
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface ReqComponent extends IdNamelessEntity, HasEffectiveDates{
+public interface ReqComponent extends IdNamelessEntity, HasEffectiveDates {
     /**
      * Detailed information about a requirement component field value.
      *

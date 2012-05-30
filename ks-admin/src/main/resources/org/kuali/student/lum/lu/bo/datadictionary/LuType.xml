@@ -31,7 +31,7 @@
     </bean>
 
     <alias alias="LuType-id" name="CoreTypeReference-id" />
-    <alias alias="LuType-name" name="CoreTypeReference-name" />
+    <bean id="LuType-name" parent="CoreTypeReference-name" />
     <alias alias="LuType-description" name="CoreTypeReference-description" />
     <alias alias="LuType-activeFromDate" name="CoreTypeReference-activeFromDate" />
     <alias alias="LuType-activeToDate" name="CoreTypeReference-activeToDate" />

@@ -22,7 +22,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class SwapSection extends BaseSection implements HasSectionDeletion{
 	
 	private HashMap<String, Section> swapSectionMap = new HashMap<String, Section>();

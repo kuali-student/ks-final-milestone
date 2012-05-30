@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dao.CrudDao;
-import org.kuali.student.r1.common.dto.MetaInfo;
-import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r1.common.dto.TypeInfo;
 import org.kuali.student.r1.common.entity.Attribute;
 import org.kuali.student.r1.common.entity.AttributeOwner;
@@ -31,9 +31,7 @@ import org.kuali.student.r1.common.entity.Meta;
 import org.kuali.student.r1.common.entity.MetaEntity;
 import org.kuali.student.r1.common.entity.RichText;
 import org.kuali.student.r1.common.entity.Type;
-import org.kuali.student.r1.common.entity.Version;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r1.common.versionmanagement.dto.VersionInfo;
 import org.springframework.beans.BeanUtils;
 
 @Deprecated
@@ -208,19 +206,5 @@ public class BaseAssembler {
         
         return dto;
     }
-	
-	public static VersionInfo toVersionInfo(Version version) {
-		if(version==null){
-			return null;
-		}
-		VersionInfo versionInfo = new VersionInfo();
-		versionInfo.setCurrentVersionStart(version.getCurrentVersionStart());
-		versionInfo.setCurrentVersionEnd(version.getCurrentVersionEnd());
-		versionInfo.setSequenceNumber(version.getSequenceNumber());
-		versionInfo.setVersionComment(version.getVersionComment());
-		versionInfo.setVersionIndId(version.getVersionIndId());
-		versionInfo.setVersionedFromId(version.getVersionedFromId());
-		
-		return versionInfo;
-	}
+
 }

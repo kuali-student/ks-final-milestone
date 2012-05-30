@@ -16,7 +16,6 @@
 package org.kuali.student.r2.core.population.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,10 +33,11 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 //import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PopulationRuleInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "searchCriteria", "statementIds", 
-                "groupIds", "personIds", "populationKeys", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
-
+@XmlType(name = "PopulationRuleInfo", propOrder = {"id", "typeKey",
+                "stateKey", "name", "descr", "searchCriteria", "agendaIds",
+                "groupIds", "personIds", "childPopulationIds",
+                "referencePopulationId", "sortOrderTypeKeys",
+                "variesByTime", "supportsGetMembers", "meta", "attributes"}) //, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class PopulationRuleInfo extends IdEntityInfo 
     implements PopulationRule, Serializable {
 
@@ -47,7 +47,7 @@ public class PopulationRuleInfo extends IdEntityInfo
     private QueryByCriteria searchCriteria;
 
     @XmlElement
-    private List<String> statementIds;
+    private List<String> agendaIds;
 
     @XmlElement
     private List<String> groupIds;
@@ -56,7 +56,19 @@ public class PopulationRuleInfo extends IdEntityInfo
     private List<String> personIds;
 
     @XmlElement
-    private List<String> populationKeys;
+    private List<String> childPopulationIds;
+    
+    @XmlElement
+    private String referencePopulationId;
+    
+    @XmlElement
+    private List<String> sortOrderTypeKeys;
+    
+    @XmlElement
+    private Boolean variesByTime;
+    
+    @XmlElement
+    private Boolean supportsGetMembers;
 
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
@@ -80,26 +92,35 @@ public class PopulationRuleInfo extends IdEntityInfo
 
         if (populationRule != null) {
             this.searchCriteria = populationRule.getSearchCriteria(); /* fix */
-            if (populationRule.getStatementIds() != null) {
-                this.statementIds = new ArrayList<String>(populationRule.getStatementIds());
+            if (populationRule.getAgendaIds() != null) {
+                this.agendaIds = new ArrayList<String>(populationRule.getAgendaIds());
             }
-            
+
             if (populationRule.getGroupIds() != null) {
                 this.groupIds = new ArrayList<String>(populationRule.getGroupIds());
             }
-            
+
             if (populationRule.getPersonIds() != null) {
                 this.personIds = new ArrayList<String>(populationRule.getPersonIds());
             }
-            
-            if (populationRule.getPopulationKeys() != null) {
-                this.populationKeys = new ArrayList<String>(populationRule.getPopulationKeys());
+
+            if (populationRule.getChildPopulationIds() != null) {
+                this.childPopulationIds = new ArrayList<String>(populationRule.getChildPopulationIds());
             }
+
+            this.referencePopulationId = populationRule.getReferencePopulationId();
+
+            if (populationRule.getSortOrderTypeKeys() != null) {
+                this.sortOrderTypeKeys = new ArrayList<String>(populationRule.getSortOrderTypeKeys());
+            }
+
+            this.variesByTime = populationRule.getVariesByTime();
+            this.supportsGetMembers = populationRule.getSupportsGetMembers();
         }
     }
 
     @Override
-    public QueryByCriteria getSearchCriteria() {        
+    public QueryByCriteria getSearchCriteria() {
         return this.searchCriteria;
     }
 
@@ -108,16 +129,16 @@ public class PopulationRuleInfo extends IdEntityInfo
     }
 
     @Override
-    public List<String> getStatementIds() {
-        if (this.statementIds == null) {
-            this.statementIds = new ArrayList<String>();
+    public List<String> getAgendaIds() {
+        if (this.agendaIds == null) {
+            this.agendaIds = new ArrayList<String>();
         }
 
-        return this.statementIds;
+        return this.agendaIds;
     }
 
-    public void setStatementIds(List<String> statementIds) {
-        this.statementIds = statementIds;
+    public void setAgendaIds(List<String> agendaIds) {
+        this.agendaIds = agendaIds;
     }
 
     @Override
@@ -147,15 +168,55 @@ public class PopulationRuleInfo extends IdEntityInfo
     }
 
     @Override
-    public List<String> getPopulationKeys() {
-        if (this.populationKeys == null) {
-            this.populationKeys = new ArrayList<String>();
+    public List<String> getChildPopulationIds() {
+        if (this.childPopulationIds == null) {
+            this.childPopulationIds = new ArrayList<String>();
         }
 
-        return this.populationKeys;
+        return this.childPopulationIds;
     }
 
-    public void setPopulationKeys(List<String> populationKeys) {
-        this.populationKeys = populationKeys;
+    public void setChildPopulationIds(List<String> childPopulationIds) {
+        this.childPopulationIds = childPopulationIds;
+    }
+
+    @Override
+    public String getReferencePopulationId() {
+        return this.referencePopulationId;
+    }
+
+    public void setReferencePopulationId(String referencePopulationId) {
+        this.referencePopulationId = referencePopulationId;
+    }
+
+    @Override
+    public List<String> getSortOrderTypeKeys() {
+        if (this.sortOrderTypeKeys == null) {
+            this.sortOrderTypeKeys = new ArrayList<String>();
+        }
+
+        return this.sortOrderTypeKeys;
+    }
+
+    public void setSortOrderTypeKeys(List<String> sortOrderTypeKeys) {
+        this.sortOrderTypeKeys = sortOrderTypeKeys;
+    }
+
+    @Override
+    public Boolean getVariesByTime() {
+        return this.variesByTime;
+    }
+
+    public void setVariesByTime(Boolean variesByTime) {
+        this.variesByTime = variesByTime;
+    }
+
+    @Override
+    public Boolean getSupportsGetMembers() {
+        return supportsGetMembers;
+    }
+
+    public void setSupportsGetMembers(Boolean supportsGetMembers) {
+        this.supportsGetMembers = supportsGetMembers;
     }
 }

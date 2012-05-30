@@ -3,7 +3,6 @@ package org.kuali.student.common.ui.client.util;
 import java.io.Serializable;
 import java.util.List;
 
-@Deprecated
 public class ExportElement implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -296,7 +296,7 @@
         <!-- RU version>2.1.2</version-->
         <executions>
           <execution>
-            <id>attach-sources</id>
+            <id>sources</id>
             <goals>
               <goal>jar-no-fork</goal>
             </goals>

@@ -6,12 +6,14 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.core.class1.state.dao.LifecycleDao;
 import org.kuali.student.r2.core.class1.state.dao.StateDao;
 import org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao;
 import org.kuali.student.r2.common.class1.state.model.LifecycleEntity;
 import org.kuali.student.r2.common.class1.state.model.StateEntity;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -35,8 +37,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class StateServiceImpl implements StateService{
 
 	private StateDao stateDao;
-	private LifecycleDao spDao;
-	private StateLifecycleRelationDao sprDao;
+	private LifecycleDao lifecycleDao;
+    private CriteriaLookupService criteriaLookupService;
 	
 	public StateDao getStateDao() {
 		return stateDao;
@@ -45,212 +47,273 @@ public class StateServiceImpl implements StateService{
 		this.stateDao = stateDao;
 	}
 
-	public LifecycleDao getSpDao() {
-		return spDao;
-	}
-	public void setSpDao(LifecycleDao spDao) {
-		this.spDao = spDao;
-	}
+	public LifecycleDao getLifecycleDao() {
+        return lifecycleDao;
+    }
 
-	public StateLifecycleRelationDao getSprDao() {
-		return sprDao;
-	}
-	public void setSprDao(StateLifecycleRelationDao sprDao) {
-		this.sprDao = sprDao;
-	}
-	
-
-	@Override
-	public LifecycleInfo getLifecycle(String lifecycleKey, ContextInfo context) 
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	    LifecycleEntity sp = spDao.getProcessByKey(lifecycleKey);
-	    if (null == sp) {
-		    throw new DoesNotExistException("This process does not exist: processKey=" + lifecycleKey);
-		}
-		return sp.toDto();	    
-	}
-
-        
-	
-	@Override
-	public StateInfo getState(String stateKey, ContextInfo context) 
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		StateEntity state = null;
-		try{	
-			state = stateDao.getState(stateKey);
-		}catch(NoResultException ex){
-			throw new DoesNotExistException("This state does not exist: stateKey=" + stateKey);
-		}
-		if (null == state) {
-		    throw new DoesNotExistException("This state does not exist: stateKey=" + stateKey);
-		}
-		return state.toDto();
-	}
-
-	
-
-//	@Override
-//	public List<StateInfo> getInitialValidStates(String lifecycle, ContextInfo context) 
-//			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-//			OperationFailedException {
-//		List<StateInfo> stateInfos = null;
-//		List<StateEntity> states;
-//		
-//		try{
-//			states = sprDao.getInitialValidStates(lifecycle);
-//		}catch(NoResultException ex){
-//			throw new DoesNotExistException("No valid initial state exists for this lifecycle: " + lifecycle);
-//		}
-//		
-//		if(null != states && !states.isEmpty()){
-//			stateInfos = new ArrayList<StateInfo>();
-//			for(StateEntity se : states){
-//				stateInfos.add(se.toDto());
-//			}
-//		}			
-//		else
-//			throw new DoesNotExistException("No valid initial state exists for this lifecycle: " + lifecycle);
-//		
-//		return stateInfos;			
-//	}
-//
-//	@Override
-//	public StateInfo getNextHappyState(String processKey,
-//			String currentStateKey, ContextInfo context)
-//			throws DoesNotExistException, InvalidParameterException,
-//			MissingParameterException, OperationFailedException {
-//		StateEntity state = null;
-//		
-//		try{
-//			state = sprDao.getNextHappyState(processKey, currentStateKey);
-//		}catch(NoResultException ex){
-//			throw new DoesNotExistException("No next state: processKey=" + processKey + ", stateKey=" + currentStateKey);
-//		}
-//
-//		if (null == state) {
-//		    throw new DoesNotExistException("No next state: processKey=" + processKey + ", stateKey=" + currentStateKey);
-//		}
-//		return state.toDto();
-//	}
-        
-    @Override
-    public List<LifecycleInfo> getLifecyclesByKeys(List<String> lifecycleKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public void setLifecycleDao(LifecycleDao lifecycleDao) {
+        this.lifecycleDao = lifecycleDao;
     }
     
-    
-//    @Override
-//    public List<String> getLifecycleKeysByType(String lifecycleTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-//            PermissionDeniedException {
-//        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-//        return null;
-//    }
-    
-    @Override
-    public List<String> getLifecyclesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public CriteriaLookupService getCriteriaLookupService() {
+        return criteriaLookupService;
     }
+
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
+    }	
+
     @Override
-    public List<String> searchForLifecycleKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public LifecycleInfo getLifecycle(String lifecycleKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        try {
+            LifecycleEntity sp = lifecycleDao.getProcessByKey(lifecycleKey);
+            if (null == sp) {
+                throw new DoesNotExistException(lifecycleKey);
+            }
+            return sp.toDto();
+        } catch (NoResultException ex) {
+            throw new DoesNotExistException(lifecycleKey);
+        }
     }
+
     @Override
-    public List<LifecycleInfo> searchForLifecycles(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public StateInfo getState(String stateKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        try {
+            StateEntity state = stateDao.getState(stateKey);
+            if (null == state) {
+                throw new DoesNotExistException(stateKey);
+            }
+            return state.toDto();
+        } catch (NoResultException ex) {
+            throw new DoesNotExistException(stateKey);
+        }
+    }
+
+    @Override
+    public List<LifecycleInfo> getLifecyclesByKeys(List<String> lifecycleKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LifecycleEntity> lifecycles = lifecycleDao.findByIds(lifecycleKeys);
+        List<LifecycleInfo> result = new ArrayList<LifecycleInfo>(lifecycles.size());
+        for (int i = 0; i < lifecycles.size(); i++) {
+            LifecycleEntity entity = lifecycles.get(i);
+            if (entity == null) {
+                // if one of the entities from "findByIds" is returned as null,
+                // then one of the keys in the list was not found
+                throw new DoesNotExistException(lifecycleKeys.get(i));
+            }
+            result.add(entity.toDto());
+        }
+        return result;
+    }
+    
+    @Override
+    public List<String> getLifecycleKeysByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LifecycleEntity> lifecycles = lifecycleDao.getLifecyclesByRefObjectUri(refObjectUri);
+        List<String> result = new ArrayList<String>();
+        for (LifecycleEntity entity : lifecycles) {
+            if (entity != null) {
+                result.add(entity.getId());
+            }
+        }
+        return result;
+    }
+    
+    @Override
+    public List<String> searchForLifecycleKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> lifecycleKeys = new ArrayList<String>();
+        GenericQueryResults<LifecycleEntity> results = criteriaLookupService.lookup(LifecycleEntity.class, criteria);
+        if (null != results && results.getResults().size() > 0) {
+            for (LifecycleEntity lifecycle : results.getResults()) {
+                lifecycleKeys.add(lifecycle.getId());
+            }
+        }
+        return lifecycleKeys;
+    }
+    
+    @Override
+    public List<LifecycleInfo> searchForLifecycles(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LifecycleInfo> lifecycleInfos = new ArrayList<LifecycleInfo>();
+        GenericQueryResults<LifecycleEntity> results = criteriaLookupService.lookup(LifecycleEntity.class, criteria);
+        if (null != results && results.getResults().size() > 0) {
+            for (LifecycleEntity lifecycle : results.getResults()) {
+                lifecycleInfos.add(lifecycle.toDto());
+            }
+        }
+        return lifecycleInfos;
     }
 
     @Override
     public List<ValidationResultInfo> validateLifecycle(String validationTypeKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-               // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
-    public LifecycleInfo createLifecycle(String lifecycleKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-            // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-    @Override
-    public LifecycleInfo updateLifecycle(String lifecycleKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-    @Override
-    public StatusInfo deleteLifecycle(String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-    @Override
-    public List<StateInfo> getStatesByKeys(List<String> stateKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-    @Override
-    public List<StateInfo> getStatesByLifecycle(String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        List<StateEntity> states = null;
-        try{
-            states = stateDao.getStatesByProcess(lifecycleKey);
-        }catch(NoResultException ex){
-            throw new DoesNotExistException("No states found for lifecycle. lifecycleKey=" + lifecycleKey);
+    @Transactional
+    public LifecycleInfo createLifecycle(String lifecycleKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo)
+            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        LifecycleEntity entity = lifecycleDao.find(lifecycleKey);
+        if (entity != null) {
+            throw new AlreadyExistsException(lifecycleKey);
         }
-        if (null == states || 0 == states.size() ) {
-            throw new DoesNotExistException("No states found for lifecycle. lifecycleKey=" + lifecycleKey);
+        if (!lifecycleKey.equals(lifecycleInfo.getKey())) {
+            throw new InvalidParameterException(lifecycleKey + " does not match the key in the info object " + lifecycleInfo.getKey());
         }
 
+        entity = new LifecycleEntity(lifecycleInfo);
+        entity.setId(lifecycleKey);
+        entity.setCreateId(contextInfo.getPrincipalId());
+        entity.setCreateTime(contextInfo.getCurrentDate());
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
+        lifecycleDao.persist(entity);
+        return entity.toDto();
+    }
+
+    @Override
+    @Transactional
+    public LifecycleInfo updateLifecycle(String lifecycleKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        LifecycleEntity entity = lifecycleDao.find(lifecycleKey);
+        if (entity == null) {
+            throw new DoesNotExistException(lifecycleKey);
+        }
+        entity.fromDto(lifecycleInfo);
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
+        lifecycleDao.merge(entity);
+        return entity.toDto();
+    }
+
+    @Override
+    @Transactional
+    public StatusInfo deleteLifecycle(String lifecycleKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        LifecycleEntity lifecycle = lifecycleDao.find(lifecycleKey);
+        if (lifecycle == null) {
+            throw new DoesNotExistException(lifecycleKey);
+        }
+        lifecycleDao.remove(lifecycle);
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        return status;
+    }
+
+    @Override
+    public List<StateInfo> getStatesByKeys(List<String> stateKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<StateEntity> list = stateDao.findByIds(stateKeys);
+        List<StateInfo> result = new ArrayList<StateInfo>(list.size());
+        for (int i = 0; i < list.size(); i++) {
+            StateEntity entity = list.get(i);
+            if (entity == null) {
+                // if one of the entities from "findByIds" is returned as null,
+                // then one of the keys in the list was not found
+                throw new DoesNotExistException(stateKeys.get(i));
+            }
+            result.add(entity.toDto());
+        }
+        return result;
+    }
+
+    @Override
+    public List<StateInfo> getStatesByLifecycle(String lifecycleKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // check that the key is valid
+        this.getLifecycle(lifecycleKey, contextInfo);
+        List<StateEntity> entities = null;
+        entities = stateDao.getStatesByLifecycle(lifecycleKey);
+        List<StateInfo> infos = new ArrayList<StateInfo>();
+        for (StateEntity state : entities) {
+            infos.add(state.toDto());
+        }
+        return infos;
+    }
+
+    @Override
+    public List<String> searchForStateKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> stateKeys = new ArrayList<String>();
+        GenericQueryResults<StateEntity> results = criteriaLookupService.lookup(StateEntity.class, criteria);
+        if (null != results && results.getResults().size() > 0) {
+            for (StateEntity state : results.getResults()) {
+                stateKeys.add(state.getId());
+            }
+        }
+        return stateKeys;
+    }
+
+    @Override
+    public List<StateInfo> searchForStates(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<StateInfo> stateInfos = new ArrayList<StateInfo>();
-        for (StateEntity state : states) {
-            stateInfos.add(state.toDto());
+        GenericQueryResults<StateEntity> results = criteriaLookupService.lookup(StateEntity.class, criteria);
+        if (null != results && results.getResults().size() > 0) {
+            for (StateEntity state : results.getResults()) {
+                stateInfos.add(state.toDto());
+            }
         }
         return stateInfos;
     }
+
     @Override
-    public List<String> searchForStateKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<ValidationResultInfo> validateState(String validationTypeKey, String lifecycleKey, StateInfo stateInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return new ArrayList<ValidationResultInfo>();
     }
+
     @Override
-    public List<StateInfo> searchForStates(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    @Transactional
+    public StateInfo createState(String lifecycleKey, String stateKey, StateInfo stateInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        StateEntity entity = stateDao.find(stateKey);
+        if (entity != null) {
+            throw new AlreadyExistsException(stateKey);
+        }
+        if (!lifecycleKey.equals(stateInfo.getLifecycleKey())) {
+            throw new InvalidParameterException(lifecycleKey + " life cycle key does not match the key in the info object " + stateInfo.getLifecycleKey());
+        }
+        if (!stateKey.equals(stateInfo.getKey())) {
+            throw new InvalidParameterException(stateKey + " state key does not match the key in the info object " + stateInfo.getKey());
+        }
+        entity = new StateEntity(stateInfo);
+        entity.setId(stateKey);
+        entity.setLifecycleKey(lifecycleKey);
+        entity.setCreateId(contextInfo.getPrincipalId());
+        entity.setCreateTime(contextInfo.getCurrentDate());
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
+        stateDao.persist(entity);
+        return entity.toDto();
     }
+
     @Override
-    public List<ValidationResultInfo> validateState(String validationTypeKey, String lifecycleKey, StateInfo stateInfo, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    @Transactional
+    public StateInfo updateState(String stateKey, StateInfo stateInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, 
+            InvalidParameterException, MissingParameterException, OperationFailedException, 
+            PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        StateEntity entity = stateDao.find(stateKey);
+        if (entity == null) {
+            throw new DoesNotExistException(stateKey);
+        }
+        entity.fromDto(stateInfo);
+        entity.setUpdateId(contextInfo.getPrincipalId());
+        entity.setUpdateTime(contextInfo.getCurrentDate());
+        stateDao.merge(entity);
+        return entity.toDto();
     }
+
     @Override
-    public StateInfo createState(String lifecycleKey, String stateKey, StateInfo stateInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-    @Override
-    public StateInfo updateState(String stateKey, StateInfo stateInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-    @Override
-    public StatusInfo deleteState(String stateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    @Transactional
+    public StatusInfo deleteState(String stateKey, ContextInfo contextInfo) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+            OperationFailedException, PermissionDeniedException {
+        StateEntity entity = stateDao.find(stateKey);
+        if (entity == null) {
+            throw new DoesNotExistException(stateKey);
+        }
+        stateDao.remove(entity);
+        StatusInfo deleteStatus = new StatusInfo();
+        deleteStatus.setSuccess(true);
+        return deleteStatus;
     }
 
 }

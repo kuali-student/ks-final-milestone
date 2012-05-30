@@ -6,7 +6,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
-@Deprecated
 public class PrintUtils {
     private static int num = 0;
     /**

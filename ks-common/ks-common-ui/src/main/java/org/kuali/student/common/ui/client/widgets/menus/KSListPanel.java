@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.WidgetCollection;
 /**
  * @author wilj
  */
-@Deprecated
 public class KSListPanel extends ComplexPanel {
     public enum ListType {
         ORDERED, UNORDERED

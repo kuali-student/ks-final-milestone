@@ -6,20 +6,20 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.lum.course.service.impl.CourseServiceUtils;
+import org.kuali.student.lum.program.service.assembler.CoreProgramAssembler;
+import org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler;
+import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
+import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.r2.common.assembler.AssemblyException;
-import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r1.common.dictionary.dto.DataType;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.dto.DtoConstants;
-import org.kuali.student.r2.common.dto.StatusInfo;
-
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
@@ -27,26 +27,43 @@ import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r1.common.validator.ServerDateParser;
-import org.kuali.student.r2.common.validator.Validator;
-import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.common.validator.ValidatorUtils;
-import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r1.core.atp.dto.AtpInfo;
 import org.kuali.student.r1.core.atp.service.AtpService;
 import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r1.core.document.service.DocumentService;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularReferenceException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
@@ -55,34 +72,8 @@ import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
-import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
-import org.kuali.student.lum.program.service.assembler.CoreProgramAssembler;
-import org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler;
-import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
-import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
-
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException ;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException; 
-import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
-import org.kuali.student.r2.common.exceptions.CircularReferenceException;
-
-import javax.jws.WebParam;
-
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 
 public class ProgramServiceImpl implements ProgramService{
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
@@ -129,8 +120,8 @@ public class ProgramServiceImpl implements ProgramService{
     public HonorsProgramInfo createHonorsProgram(String honorsProgramTypeKey,  HonorsProgramInfo honorsProgramInfo,
                                                  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("createHonorsProgram");
+        //return null;
     }
 
     @Override
@@ -207,9 +198,9 @@ public class ProgramServiceImpl implements ProgramService{
 			results =  majorDisciplineAssembler.disassemble(originalMajorDiscipline, NodeOperation.UPDATE,contextInfo);
 			
 			// Use the results to make the appropriate service calls here
-			programServiceMethodInvoker.invokeServiceCalls(results);
+			programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 
-			return R1R2ConverterUtil.convert(results.getBusinessDTORef(), new MajorDisciplineInfo()) ;
+			return results.getBusinessDTORef();
 		} catch(AssemblyException e) {
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		} catch (AlreadyExistsException e) {
@@ -245,24 +236,25 @@ public class ProgramServiceImpl implements ProgramService{
          * 
          * TODO: find a place to put a shared StatementUtil 
          */
-         
-        for (String programRequirementId : programRequirementIds) {
-
-            // Get program requirement from the program service
-            ProgramRequirementInfo programRequirementInfo = getProgramRequirement(programRequirementId, contextInfo);
-
-            // Look in the requirement for the statement tree
-            StatementTreeViewInfo statementTree = R1R2ConverterUtil.convert(programRequirementInfo.getStatement(), new StatementTreeViewInfo()) ;
-
-            // And recursively update the entire tree with the new state
-            updateStatementTreeViewInfoState(newState, statementTree);
-
-            // Update the state of the requirement object
-            programRequirementInfo.setStateKey(newState);
-
-            // The write the requirement back to the program service
-            updateProgramRequirement(programRequirementInfo.getId(), programRequirementInfo.getTypeKey(), programRequirementInfo, contextInfo);
-
+        if (programRequirementIds != null) { 
+            for (String programRequirementId : programRequirementIds) {
+    
+                // Get program requirement from the program service
+                ProgramRequirementInfo programRequirementInfo = getProgramRequirement(programRequirementId, contextInfo);
+    
+                // Look in the requirement for the statement tree
+                StatementTreeViewInfo statementTree = R1R2ConverterUtil.convert(programRequirementInfo.getStatement(), new StatementTreeViewInfo()) ;
+    
+                // And recursively update the entire tree with the new state
+                updateStatementTreeViewInfoState(newState, statementTree);
+    
+                // Update the state of the requirement object
+                programRequirementInfo.setStateKey(newState);
+    
+                // The write the requirement back to the program service
+                updateProgramRequirement(programRequirementInfo.getId(), programRequirementInfo.getTypeKey(), programRequirementInfo, contextInfo);
+    
+            }
         }
     }
     
@@ -494,7 +486,11 @@ public class ProgramServiceImpl implements ProgramService{
      * @throws DoesNotExistException
      */
     private void copyProgramRequirements(List<String> originalProgramRequirementIds,String state,ContextInfo contextInfo) throws OperationFailedException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException{
-		//Pull out the current requirement ids to be replaced by the ids of the new copies 
+		if (originalProgramRequirementIds == null) {
+		    return;
+		}
+        
+        //Pull out the current requirement ids to be replaced by the ids of the new copies 
 		List<String> programRequirementIds = new ArrayList<String>(originalProgramRequirementIds);
 		originalProgramRequirementIds.clear();
 		
@@ -557,8 +553,8 @@ public class ProgramServiceImpl implements ProgramService{
 	public MinorDisciplineInfo createMinorDiscipline( String minorDisciplineTypeKey,
                                                       MinorDisciplineInfo minorDisciplineInfo,  ContextInfo contextInfo) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("createMinorDiscipline");
+        //return null;
     }
 
     @Override
@@ -584,8 +580,8 @@ public class ProgramServiceImpl implements ProgramService{
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteHonorsProgram( String honorsProgramId, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("deleteHonorsProgram");
+        //return null;
     }
 
     @Override
@@ -614,8 +610,8 @@ public class ProgramServiceImpl implements ProgramService{
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("deleteMinorDiscipline");
+        //return null;
     }
 
     @Override
@@ -697,8 +693,8 @@ public class ProgramServiceImpl implements ProgramService{
     @Override
     public HonorsProgramInfo getHonorsProgram(String honorsProgramId, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getHonorsProgram");
+        //return null;
     }
 
     @Override
@@ -744,16 +740,16 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getMinorDiscipline");
+		//return null;
 	}
 
 	@Override
 	public List<String> getMinorsByCredentialProgramType(String programType,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getMinorsByCredentialProgramType");
+		//return null;
 	}
 
 	@Override
@@ -882,8 +878,8 @@ public class ProgramServiceImpl implements ProgramService{
             InvalidParameterException, MissingParameterException,
             VersionMismatchException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("updateMinorDiscipline");
+        //return null;
     }
 
     @Override
@@ -927,8 +923,8 @@ public class ProgramServiceImpl implements ProgramService{
     @Override
     public List<ValidationResultInfo> validateHonorsProgram(
             String validationType, HonorsProgramInfo honorsProgramInfo,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("validateHonorsProgram");
+        //return null;
     }
 
     @Override
@@ -952,8 +948,8 @@ public class ProgramServiceImpl implements ProgramService{
             String validationType, MinorDisciplineInfo minorDisciplineInfo,ContextInfo contextInfo   )
             throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null ;
+        throw new UnsupportedOperationException("validateMinorDiscipline");
+        //return null ;
     }
 
     @Override
@@ -986,45 +982,45 @@ public class ProgramServiceImpl implements ProgramService{
             String searchCriteriaTypeKey) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchCriteriaType");
+        //return null;
     }
 
     @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
             throws OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchCriteriaTypes");
+        //return null;
     }
 
     @Override
     public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchResultType");
+        //return null;
     }
 
     @Override
     public List<SearchResultTypeInfo> getSearchResultTypes()
             throws OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchResultTypes");
+        //return null;
     }
 
     @Override
     public SearchTypeInfo getSearchType(String searchTypeKey)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchType");
+        //return null;
     }
 
     @Override
     public List<SearchTypeInfo> getSearchTypes()
             throws OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchTypes");
+        //return null;
     }
 
     @Override
@@ -1032,8 +1028,8 @@ public class ProgramServiceImpl implements ProgramService{
             String searchCriteriaTypeKey) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchTypesByCriteria");
+        //return null;
     }
 
     @Override
@@ -1041,8 +1037,8 @@ public class ProgramServiceImpl implements ProgramService{
             String searchResultTypeKeyo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException{
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("getSearchTypesByResult");
+        //return null;
     }
 
 //    @Override
@@ -1070,28 +1066,28 @@ public class ProgramServiceImpl implements ProgramService{
     private MajorDisciplineInfo processMajorDisciplineInfo(MajorDisciplineInfo majorDisciplineInfo, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
 
         BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results = majorDisciplineAssembler.disassemble(majorDisciplineInfo, operation, contextInfo);
-        invokeServiceCalls(results);
-        return R1R2ConverterUtil.convert( results.getBusinessDTORef(), new org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo());
+        invokeServiceCalls(results, contextInfo);
+        return results.getBusinessDTORef();
     }
 
     private CredentialProgramInfo processCredentialProgramInfo(CredentialProgramInfo credentialProgramInfo, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
 
         BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> results = credentialProgramAssembler.disassemble(credentialProgramInfo, operation, contextInfo);
-        invokeServiceCalls(results);
-        return R1R2ConverterUtil.convert(results.getBusinessDTORef(), new CredentialProgramInfo());
+        invokeServiceCalls(results, contextInfo);
+        return results.getBusinessDTORef();
     }
 
     private ProgramRequirementInfo processProgramRequirement(ProgramRequirementInfo programRequirementInfo, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
     	BOAssembler<ProgramRequirementInfo, CluInfo> passAlong;
         BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> results = programRequirementAssembler.disassemble(programRequirementInfo, operation, contextInfo);
-        invokeServiceCalls(results);
-        return R1R2ConverterUtil.convert( results.getBusinessDTORef(),new ProgramRequirementInfo());
+        invokeServiceCalls(results, contextInfo);
+        return results.getBusinessDTORef();
     }
 
-	private void invokeServiceCalls(BaseDTOAssemblyNode<?, CluInfo> results) throws AssemblyException{
+	private void invokeServiceCalls(BaseDTOAssemblyNode<?, CluInfo> results, ContextInfo contextInfo) throws AssemblyException{
         // Use the results to make the appropriate service calls here
         try {
-            programServiceMethodInvoker.invokeServiceCalls(results);
+            programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
         } catch (AssemblyException e) {
         	throw e;
         } catch (Exception e) {
@@ -1181,10 +1177,9 @@ public class ProgramServiceImpl implements ProgramService{
 	}
 
     private CoreProgramInfo processCoreProgramInfo(CoreProgramInfo coreProgramInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
-
         BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results = coreProgramAssembler.disassemble(coreProgramInfo, operation, contextInfo);
-        invokeServiceCalls(results);
-        return R1R2ConverterUtil.convert(results.getBusinessDTORef(),new CoreProgramInfo());
+        invokeServiceCalls(results, contextInfo);
+        return results.getBusinessDTORef();
     }
 
     @Override
@@ -1215,7 +1210,7 @@ public class ProgramServiceImpl implements ProgramService{
 			PermissionDeniedException, VersionMismatchException,
 			DataValidationErrorException, ReadOnlyException {
 		//step one, get the original
-		VersionDisplayInfo currentVersion = cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, coreProgramId,contextInfo);
+		VersionDisplayInfo currentVersion = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, coreProgramId,contextInfo);
 		CoreProgramInfo originalCoreProgram = getCoreProgram(currentVersion.getId(),contextInfo);
 
 		//Version the Clu
@@ -1234,9 +1229,9 @@ public class ProgramServiceImpl implements ProgramService{
 			results = coreProgramAssembler.disassemble(originalCoreProgram, NodeOperation.UPDATE, contextInfo);
 
 			// Use the results to make the appropriate service calls here
-			programServiceMethodInvoker.invokeServiceCalls(results);
+			programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 
-			return R1R2ConverterUtil.convert(results.getBusinessDTORef(),new CoreProgramInfo());
+			return results.getBusinessDTORef();
 		} catch(AssemblyException e) {
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		} catch (AlreadyExistsException e) {
@@ -1340,7 +1335,7 @@ public class ProgramServiceImpl implements ProgramService{
                                                                     ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
 		//step one, get the original
-		VersionDisplayInfo currentVersion = cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, credentialProgramId,contextInfo);
+		VersionDisplayInfo currentVersion = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, credentialProgramId,contextInfo);
 		CredentialProgramInfo originaCredentialProgram = getCredentialProgram(currentVersion.getId(),contextInfo);
 
 		//Version the Clu
@@ -1362,7 +1357,7 @@ public class ProgramServiceImpl implements ProgramService{
 			results = credentialProgramAssembler.disassemble(originaCredentialProgram, NodeOperation.UPDATE, contextInfo);
 
 			// Use the results to make the appropriate service calls here
-			programServiceMethodInvoker.invokeServiceCalls(results);
+			programServiceMethodInvoker.invokeServiceCalls(results, contextInfo);
 			
 			//Here we get a R1 object that is then convert to and R2 object and then returned via the return statement below.
 			return results.getBusinessDTORef();
@@ -1409,7 +1404,7 @@ public class ProgramServiceImpl implements ProgramService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1421,7 +1416,7 @@ public class ProgramServiceImpl implements ProgramService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getCurrentVersionOnDate(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, date,contextInfo);
+			return cluService.getCurrentVersionOnDate(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, date,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1433,7 +1428,7 @@ public class ProgramServiceImpl implements ProgramService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getFirstVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getFirstVersion(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 
@@ -1446,7 +1441,7 @@ public class ProgramServiceImpl implements ProgramService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getLatestVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getLatestVersion(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 
@@ -1460,7 +1455,7 @@ public class ProgramServiceImpl implements ProgramService{
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getVersionBySequenceNumber(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence,contextInfo);
+			return cluService.getVersionBySequenceNumber(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1472,7 +1467,7 @@ public class ProgramServiceImpl implements ProgramService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getVersions(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+			return cluService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1485,7 +1480,7 @@ public class ProgramServiceImpl implements ProgramService{
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		if(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI.equals(refObjectTypeURI)){
-			return cluService.getVersionsInDateRange(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to,contextInfo);
+			return cluService.getVersionsInDateRange(CluServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -1581,12 +1576,11 @@ public class ProgramServiceImpl implements ProgramService{
 		return documentService;
 	}
 
-	// TODO KSCM-267
 	@Override
 	public SearchResult search(SearchRequest searchRequest
 			) throws MissingParameterException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("ProgramService.search");//also unimplemented in trunk
+		//return null;
 	}
 
 	@Override
@@ -1595,8 +1589,8 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getCredentialProgramsByIds");
+		//return null;
 	}
 
 	@Override
@@ -1605,8 +1599,8 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getMajorDisciplinesByIds");
+		//return null;
 	}
 
 	@Override
@@ -1614,8 +1608,8 @@ public class ProgramServiceImpl implements ProgramService{
 			String programType, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getMajorDisciplineIdsByCredentialProgramType");
+		//return null;
 	}
 
 	@Override
@@ -1624,8 +1618,8 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getHonorsProgramsByIds");
+		//return null;
 	}
 
 	@Override
@@ -1633,8 +1627,8 @@ public class ProgramServiceImpl implements ProgramService{
 			String programType, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getHonorProgramIdsByCredentialProgramType");
+		//return null;
 	}
 
 	@Override
@@ -1644,8 +1638,8 @@ public class ProgramServiceImpl implements ProgramService{
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, VersionMismatchException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("updateHonorsProgram");
+		//return null;
 	}
 
 	@Override
@@ -1654,8 +1648,8 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getCoreProgramsByIds");
+		//return null;
 	}
 
 	@Override
@@ -1664,8 +1658,8 @@ public class ProgramServiceImpl implements ProgramService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getProgramRequirementsByIds");
+		//return null;
 	}
 
 	@Override
@@ -1673,19 +1667,8 @@ public class ProgramServiceImpl implements ProgramService{
 			String majorDisciplineId, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    throw new UnsupportedOperationException("getProgramVariationsByMajorDiscipline");
+		//return null;
 	}
-
-//	@Override
-//	public MinorDisciplineInfo updateMinorDiscipline(
-//			MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo)
-//			throws DataValidationErrorException, DoesNotExistException,
-//			InvalidParameterException, MissingParameterException,
-//			VersionMismatchException, OperationFailedException,
-//			PermissionDeniedException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 }

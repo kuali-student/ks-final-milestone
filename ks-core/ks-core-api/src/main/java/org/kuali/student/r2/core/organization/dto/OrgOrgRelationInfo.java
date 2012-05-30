@@ -16,18 +16,13 @@
 
 package org.kuali.student.r2.core.organization.dto;
 
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.r2.core.organization.infc.OrgOrgRelation;
+//import org.w3c.dom.Element;
+
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.core.organization.infc.OrgOrgRelation;
-import org.kuali.student.r2.common.dto.RelationshipInfo;
-//import org.w3c.dom.Element;
 
 /**
  * Detailed information about a single organization to organization
@@ -40,7 +35,7 @@ import org.kuali.student.r2.common.dto.RelationshipInfo;
                 "id", "typeKey", "stateKey",
                 "orgId", "relatedOrgId",
                 "effectiveDate", "expirationDate",
-                "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
+                "meta", "attributes"/*, "_futureElements"*/ })
 
 public class OrgOrgRelationInfo 
     extends RelationshipInfo
@@ -53,10 +48,9 @@ public class OrgOrgRelationInfo
 
     @XmlElement
     private String relatedOrgId;
-
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    //    TODO KSCM-372: Non-GWT translatable code
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
 
     /**

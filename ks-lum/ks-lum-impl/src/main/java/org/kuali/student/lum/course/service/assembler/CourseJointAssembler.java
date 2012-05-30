@@ -15,17 +15,16 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r1.lum.course.dto.CourseJointInfo;
-import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.r1.lum.lu.dto.CluInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 /**
  * Assembles/Disassembles CourseJointInfo DTO from/to CluCluRelationInfo 
  * 
@@ -60,11 +59,11 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu = null;
 		try {
-			clu = R1R2ConverterUtil.convert(cluService.getClu(cluRel.getRelatedCluId() , contextInfo), org.kuali.student.r1.lum.lu.dto.CluInfo.class);
+			clu = cluService.getClu(cluRel.getRelatedCluId() , contextInfo);
 
 			joint.setCourseId(clu.getId());
 
-			joint.setType(clu.getType());//FIXME is this ever used?
+			joint.setTypeKey(clu.getTypeKey());//FIXME is this ever used?
 			joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 			joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
 			joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
@@ -87,10 +86,10 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu = null;
 		try {
-			clu = R1R2ConverterUtil.convert(cluService.getClu(cluRel.getRelatedCluId() , contextInfo), org.kuali.student.r1.lum.lu.dto.CluInfo.class);
+			clu = cluService.getClu(cluRel.getRelatedCluId() , contextInfo);
 			
 			joint.setCourseId(clu.getId());
-            joint.setType(clu.getType());
+            joint.setTypeKey(clu.getTypeKey());
             joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
             joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
             joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
@@ -120,7 +119,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 		cluRel.setId(UUIDHelper.genStringUUID(joint.getRelationId()));
 		cluRel.setRelatedCluId(joint.getCourseId());
 				
-		cluRel.setType(CourseAssemblerConstants.JOINT_RELATION_TYPE);
+		cluRel.setTypeKey(CourseAssemblerConstants.JOINT_RELATION_TYPE);
 		result.setNodeData(cluRel);
 		// The caller is required to set the CluId on the cluCluRelation
 		

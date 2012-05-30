@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.student.r1.common.dto.HasAttributes;
 import org.kuali.student.r1.common.dto.Idable;
-import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 

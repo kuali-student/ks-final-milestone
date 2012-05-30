@@ -3,6 +3,7 @@ package org.kuali.student.r2.core.population.service;
 import java.util.ArrayList;
 import java.util.Date;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -63,18 +64,16 @@ public class PopulationServiceMockImpl implements PopulationService {
     }
 
     @Override
-    public PopulationInfo createPopulation(PopulationInfo populationInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        if (populations.containsKey(populationInfo.getKey())) {
-            throw new AlreadyExistsException(populationInfo.getKey());
-        }
+    public PopulationInfo createPopulation(PopulationInfo populationInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         PopulationInfo copy = new PopulationInfo(populationInfo);
         copy.setMeta(newMeta(contextInfo));
-        populations.put(copy.getKey(), copy);
+        copy.setId(UUIDHelper.genStringUUID());
+        populations.put(copy.getId(), copy);
         return new PopulationInfo(copy);
     }
 
     @Override
-    public PopulationRuleInfo createPopulationRule(PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public PopulationRuleInfo createPopulationRule(PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         PopulationRuleInfo copy = new PopulationRuleInfo(populationRuleInfo);
         copy.setId(populationRules.size() + "");
         copy.setMeta(newMeta(contextInfo));
@@ -204,7 +203,7 @@ public class PopulationServiceMockImpl implements PopulationService {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
-        this.populations.put(populationInfo.getKey(), copy);
+        this.populations.put(populationInfo.getId(), copy);
         return new PopulationInfo(copy);
     }
 

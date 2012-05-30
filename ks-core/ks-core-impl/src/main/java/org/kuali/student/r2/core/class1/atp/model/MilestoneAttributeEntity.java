@@ -5,15 +5,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.entity.BaseAttributeEntityNew;
 import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_MSTONE_ATTR")
-public class MilestoneAttributeEntity extends BaseAttributeEntity<MilestoneEntity> {
+public class MilestoneAttributeEntity extends BaseAttributeEntityNew<MilestoneEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER")
+    @JoinColumn(name = "OWNER_ID")
     private MilestoneEntity owner;
 
     public MilestoneAttributeEntity() {}

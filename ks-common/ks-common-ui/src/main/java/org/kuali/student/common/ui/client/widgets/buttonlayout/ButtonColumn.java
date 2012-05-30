@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-@Deprecated
 public class ButtonColumn extends ButtonLayoutTwoGroups{
     private VerticalPanel topPanel = new VerticalPanel();
     private VerticalPanel bottomPanel = new VerticalPanel();

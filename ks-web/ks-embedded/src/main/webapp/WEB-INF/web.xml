@@ -134,8 +134,18 @@
 
     <!-- added by bonnie   -->
     <filter-mapping>
+    <filter-name>BootstrapFilter</filter-name>
+    <servlet-name>ks</servlet-name>
+  </filter-mapping>
+
+  <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
-        <servlet-name>ks</servlet-name>
+    <servlet-name>ks</servlet-name>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>UserPreferencesFilter</filter-name>
+    <servlet-name>ks</servlet-name>
     </filter-mapping>
 
     <!-- for KCB Spring Web MVC pages -->
@@ -169,6 +179,12 @@
         <servlet-name>edoclite</servlet-name>
     </filter-mapping>
 
+  
+
+  <listener>
+    <listener-class>org.kuali.rice.krad.web.session.NonSerializableSessionListener</listener-class>
+  </listener>
+
     <listener>
       <listener-class>org.kuali.rice.core.web.listener.KualiInitializeListener</listener-class>
     </listener>
@@ -189,6 +205,10 @@
 	<listener>
        <listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
     </listener>
+    
+    <listener>
+    	<listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
+  	</listener>
 
 	<servlet>
 		<servlet-name>action</servlet-name>

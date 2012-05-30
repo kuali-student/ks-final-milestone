@@ -140,6 +140,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
 	 * @param metadataProperties
 	 */
     protected void applyPermissionsToMetadata(String dtoName, Metadata metadata, Map<String, Object> metadataProperties){
+        
         boolean editDocumentAllowed;
     
         String idType = (String)metadataProperties.get(METADATA_ID_TYPE);
@@ -198,7 +199,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
     	
     }
     
-    // TODO KSCM-427 COnfirm method work correctly different from CM-1.2
+
     protected Map<String, String> getFieldAccessPermissions(String dtoName, String idType, String id, String docType) {
         try {
             //get permissions and turn into a map of fieldName=>access

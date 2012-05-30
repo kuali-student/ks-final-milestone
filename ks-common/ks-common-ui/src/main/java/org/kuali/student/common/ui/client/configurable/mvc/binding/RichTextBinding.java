@@ -25,7 +25,6 @@ import org.kuali.student.r1.common.assembly.data.QueryPath;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class RichTextBinding extends ModelWidgetBindingSupport<RichTextEditor> {
     public static RichTextBinding INSTANCE = new RichTextBinding();
 

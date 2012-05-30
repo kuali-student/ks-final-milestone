@@ -1,6 +1,5 @@
 package org.kuali.student.r1.common.dto;
 
-@Deprecated
 public class DtoConstants {
  
     public final static String STATE_DRAFT = "Draft"; 

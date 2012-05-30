@@ -10,6 +10,7 @@
 	<classpathentry kind="src" output="ks-common-test/target/test-classes" path="ks-common-test/src/test/resources"/>
 	<classpathentry kind="src" output="ks-common-api/target/classes" path="ks-common-api/src/main/java"/>
 	<classpathentry kind="src" output="ks-common-api/target/classes" path="ks-common-api/src/main/resources"/>
+	<classpathentry kind="src" output="ks-common-api/target/test-classes" path="ks-common-api/src/test/java"/>
 	<classpathentry kind="src" output="ks-common-impl/target/classes" path="ks-common-impl/src/main/java"/>
 	<classpathentry kind="src" output="ks-common-impl/target/classes" path="ks-common-impl/src/main/resources"/>
 	<classpathentry kind="src" output="ks-common-impl/target/test-classes" path="ks-common-impl/src/test/java"/>

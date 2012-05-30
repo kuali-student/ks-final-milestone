@@ -57,27 +57,30 @@ public interface Meta {
      * 
      * @name Create Id
      * @readOnly
-     * @required on updates
+     * @required
      */
     public String getCreateId();
 
     /**
      * The date and time the thing being described with this meta
      * information was last updated.
+     * 
+     * Should be empty if it was never updated, just created.
      *
      * @name Update Time
      * @readOnly
-     * @required on updates
      */
     public Date getUpdateTime();
 
     /**
      * The principal who last updated the thing being described with
      * this meta information.
+     * 
+     * Should be empty if it was never updated, just created.
      *
      * @name Update Id
      * @readOnly
-     * @required on updates
+     * @required
      */
     public String getUpdateId();
 }

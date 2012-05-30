@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.r1.common.dto.DtoConstants.DtoState;
-import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.r1.core.comment.dto.CommentInfo;
 import org.kuali.student.common.ui.client.application.Application;

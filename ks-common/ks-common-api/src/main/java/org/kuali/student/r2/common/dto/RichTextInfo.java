@@ -66,6 +66,17 @@ public class RichTextInfo
         }
     }
     
+    /**
+     * Constructs a new RichTextInfo from a plain and a formatted string
+     *
+     * @param plain     The Plain text representation
+     * @param formatted The Formatted text representation
+     */
+    public RichTextInfo(String plain, String formatted) {
+        this.plain = plain;
+        this.formatted = formatted;
+    }
+    
     @Override
     public String getPlain() {
         return plain;

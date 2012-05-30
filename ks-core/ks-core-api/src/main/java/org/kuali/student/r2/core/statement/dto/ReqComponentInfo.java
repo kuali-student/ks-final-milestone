@@ -60,19 +60,19 @@ public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqCompone
     public ReqComponentInfo() {
     }
 
-    public ReqComponentInfo(ReqComponent reqComponent) {
-        super(reqComponent);
-        if (null != reqComponent) {
+    public ReqComponentInfo(ReqComponent input) {
+        super(input);
+        if (null != input) {
             this.reqCompFields = new ArrayList<ReqCompFieldInfo>();
-            for (ReqCompField reqCompField : reqComponent.getReqCompFields()) {
+            for (ReqCompField reqCompField : input.getReqCompFields()) {
                 this.reqCompFields.add(new ReqCompFieldInfo(reqCompField));
             }
-            if (reqComponent.getDescr() != null) {
-                this.descr = new RichTextInfo(reqComponent.getDescr());
+            if (input.getDescr() != null) {
+                this.descr = new RichTextInfo(input.getDescr());
             }
-            this.effectiveDate = (null != reqComponent.getEffectiveDate()) ? new Date(reqComponent.getEffectiveDate().getTime()) : null;
-            this.expirationDate = (null != reqComponent.getExpirationDate()) ? new Date(reqComponent.getExpirationDate().getTime()) : null;
-            this.naturalLanguageTranslation = reqComponent.getNaturalLanguageTranslation();
+            this.effectiveDate = (null != input.getEffectiveDate()) ? new Date(input.getEffectiveDate().getTime()) : null;
+            this.expirationDate = (null != input.getExpirationDate()) ? new Date(input.getExpirationDate().getTime()) : null;
+            this.naturalLanguageTranslation = input.getNaturalLanguageTranslation();
         }
     }
 

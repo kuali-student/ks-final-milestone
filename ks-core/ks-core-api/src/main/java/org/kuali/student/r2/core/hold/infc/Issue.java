@@ -15,7 +15,7 @@
 
 package org.kuali.student.r2.core.hold.infc;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
@@ -24,8 +24,7 @@ import org.kuali.student.r2.common.infc.KeyEntity;
  * @author tom
  * @since Sun May 1 14:22:34 EDT 2011
  */ 
-
-public interface Issue extends KeyEntity {
+public interface Issue extends IdEntity {
 
     /**
      * The organization related to this hold category.
@@ -33,4 +32,5 @@ public interface Issue extends KeyEntity {
      * @required
      */
     public String getOrganizationId();
+    
 }

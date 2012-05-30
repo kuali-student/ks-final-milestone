@@ -675,7 +675,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                                 null,
                                 false),
                         new MultiplicityFieldConfig(
-                                CONTACT_HOURS + "/" + "unitType",
+                                CONTACT_HOURS + "/" + "unitTypeKey",
                                 LUUIConstants.CONTACT_HOURS_FREQUENCY_LABEL_KEY,
                                 null,
                                 null,
@@ -796,7 +796,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     protected VerticalSection generateLearningObjectivesNestedSection() {
         final VerticalSection los = initSection(null, NO_DIVIDER);
 
-        QueryPath path = QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc");
+        QueryPath path = QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "descr");
         Metadata meta = modelDefinition.getMetadata(path);
 
         LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", COURSE_SPECIFIC_LOS, meta);

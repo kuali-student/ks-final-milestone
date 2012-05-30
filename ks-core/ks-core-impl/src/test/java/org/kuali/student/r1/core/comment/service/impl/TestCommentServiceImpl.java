@@ -27,9 +27,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
-import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -126,7 +126,6 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testValidateComment() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	throw new UnsupportedOperationException("not yet implemented!");
     	//FIXME validation needs to be tested, this code doesn't work and I need to refactor
 //    	CommentInfo commentInfo = new CommentInfo();
 //    	RichTextInfo commentText = new RichTextInfo();

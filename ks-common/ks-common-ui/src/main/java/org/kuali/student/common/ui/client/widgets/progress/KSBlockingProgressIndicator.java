@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Bsmith
  *
  */
-@Deprecated
 public class KSBlockingProgressIndicator{
 
     private static LinkedList<BlockingTask> tasks = new LinkedList<BlockingTask>();

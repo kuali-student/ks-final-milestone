@@ -31,7 +31,7 @@
         <version>1.0-beta-1</version>
         <configuration>
           <path>/ks-rice-dev</path>
-          <port>8081</port>
+          <port>8083</port>
         </configuration>
         <dependencies>
           <dependency>

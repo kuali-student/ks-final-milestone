@@ -1,15 +1,16 @@
 /**
- * Copyright 2011 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2011 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -117,13 +118,13 @@ public interface PopulationService {
 
     /** 
      * Retrieves a list of Populations corresponding to the given list
-     * of Population ids.
+     * of Population Ids.
      *
      * @param populationKeys list of Populationss to be retrieved
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return a list of Population ids of the given type
+     * @return a list of Population Ids of the given type
      * @throws DoesNotExistException an populationKey in list not found
      * @throws InvalidParameterException invalid populationKey or contextInfo
      * @throws MissingParameterException missing populationKey or contextInfo
@@ -133,13 +134,13 @@ public interface PopulationService {
     public List<PopulationInfo> getPopulationsByIds(@WebParam(name = "populationKeys") List<String> populationKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Population ids of the specified type.
+     * Retrieves a list of Population Ids of the specified type.
      *
      * @param populationTypeId a Population type to be retrieved
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return a list of Population ids
+     * @return a list of Population Ids
      * @throws InvalidParameterException invalid populationTypeId or
      *         contextInfo
      * @throws MissingParameterException missing populationTypeId or
@@ -239,8 +240,6 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return the Population just created
-     * @throws AlreadyExistsException the Population being created
-     *         already exists
      * @throws DataValidationErrorException one or more values invalid
      *         for this operation
      * @throws InvalidParameterException invalid populationInfo or
@@ -252,7 +251,7 @@ public interface PopulationService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public PopulationInfo createPopulation(@WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public PopulationInfo createPopulation(@WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing Population.
@@ -440,8 +439,6 @@ public interface PopulationService {
      *        principalId and locale information about the caller of
      *        service operation
      * @return the PopulationRule just created
-     * @throws AlreadyExistsException the PopulationRule being
-     *         created already exists
      * @throws DataValidationErrorException one or more values invalid
      *         for this operation
      * @throws InvalidParameterException invalid populationInfo or
@@ -453,7 +450,7 @@ public interface PopulationService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public PopulationRuleInfo createPopulationRule(@WebParam(name = "populationRuleInfo") PopulationRuleInfo populationRuleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public PopulationRuleInfo createPopulationRule(@WebParam(name = "populationRuleInfo") PopulationRuleInfo populationRuleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing PopulationRule.

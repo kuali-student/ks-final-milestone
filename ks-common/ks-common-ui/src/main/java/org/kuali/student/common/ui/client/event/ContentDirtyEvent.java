@@ -24,7 +24,6 @@ import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class ContentDirtyEvent extends ApplicationEvent<ContentDirtyEventHandler> {
     public static final Type<ContentDirtyEventHandler> TYPE = new Type<ContentDirtyEventHandler>();
           

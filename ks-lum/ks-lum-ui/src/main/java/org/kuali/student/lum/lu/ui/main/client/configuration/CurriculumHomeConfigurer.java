@@ -315,9 +315,11 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	                    String proposalType = value.getResultRow().getValue("proposal.resultColumn.proposalOptionalType");
 	                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, proposalType);
 	                    viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-	                    if("kuali.proposal.type.course.create.admin".equals(proposalType)||"kuali.proposal.type.course.modify.admin".equals(proposalType)){
+	                    if("kuali.proposal.type.course.retire".equals(proposalType)) {
+                            Application.navigate(AppLocations.Locations.COURSE_RETIRE_BY_PROPOSAL.getLocation(), viewContext);
+	                    } else if("kuali.proposal.type.course.create.admin".equals(proposalType)||"kuali.proposal.type.course.modify.admin".equals(proposalType)){
 	                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
-	                    }else if (proposalType.startsWith("kuali.proposal.type.course")){
+	                    } else if (proposalType.startsWith("kuali.proposal.type.course")){
 	                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
 	                    } else {
 	                    	ProgramRegistry.setCreateNew(true);

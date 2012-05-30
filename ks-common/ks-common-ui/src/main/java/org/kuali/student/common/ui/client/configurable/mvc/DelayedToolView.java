@@ -32,7 +32,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public abstract class DelayedToolView extends LazyPanel implements ToolView{
     private Controller controller;    
     private Enum<?> viewEnum;

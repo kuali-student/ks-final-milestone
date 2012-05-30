@@ -23,7 +23,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r1.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
@@ -98,7 +98,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 
 		CluInfo clu;
 		try {
-			clu = (NodeOperation.UPDATE == operation) ? R1R2ConverterUtil.convert(cluService.getClu(businessDTO.getId(), contextInfo),new CluInfo()) : new CluInfo();
+			clu = (NodeOperation.UPDATE == operation) ? cluService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during variation update", e);
         } 
@@ -128,7 +128,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         }
  
 		AmountInfo intensity = new AmountInfo();
-		intensity.setUnitType(businessDTO.getIntensity());
+		intensity.setUnitTypeKey(businessDTO.getIntensity());
 		clu.setIntensity(intensity);
 		clu.setStdDuration(businessDTO.getStdDuration());
         clu.setCampusLocations(businessDTO.getCampusLocations());

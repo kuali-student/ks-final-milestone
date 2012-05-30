@@ -29,7 +29,6 @@ import org.kuali.student.r1.common.assembly.data.Data.StringKey;
  * 
  * @author Kuali Student Team
  */
-@Deprecated
 public abstract class ModelWidgetBindingSupport<WidgetType> implements ModelWidgetBinding<WidgetType> {
     public static final StringKey RUNTIME_ROOT = new StringKey("_runtimeData");
     public static final StringKey DIRTY_PATH = new StringKey("dirty");

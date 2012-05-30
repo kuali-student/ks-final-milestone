@@ -38,7 +38,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class KSLabelListImpl extends KSSelectItemWidgetAbstract {
 
     private static final HandlerRegistration NO_OP_REGISTRATION = new HandlerRegistration() {

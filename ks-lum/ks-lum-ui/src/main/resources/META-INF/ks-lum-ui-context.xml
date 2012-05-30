@@ -47,22 +47,10 @@
 		</property>
 	</bean>
 
-	<bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+	<!-- bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
 		<property name="localServiceName" value="KSLumUIContext"/>	
-	</bean>
+	</bean-->
 	
-	<!-- TODO: Cleanup use of mock message service 
-	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
-		<property name="messageFiles">
-			<list>
-				<value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
-				<value>classpath:org\kuali\student\lum\lu\ui\course\gwt-messages.xml</value>
-				<value>classpath:org\kuali\student\lum\lu\ui\tools\gwt-messages.xml</value>
-			</list>
-		</property>
-	</bean>
-	-->
-		
 	<bean id="ks.messageServiceMock" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.r2.common.messages.service.MessageService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/messages}MessageService" />
@@ -71,20 +59,6 @@
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml" />
 
-	<!--bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
-		<property name="dataSource" ref="riceDataSource" />
-		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
-		<property name="transactionManager" ref="jtaTransactionManager" />
-		<property name="userTransaction" ref="jtaUserTransaction" />
-		<property name="rootConfig" ref="config" />
-		<property name="serviceNamespace" value="KSLumUI" />
-		<property name="ksbConfigurer">
-			<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
-                <property name="serviceServletUrl" value="${serviceServletUrl}" />
-			</bean>
-		</property>
-	</bean-->
-	
 	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
 		<property name="dataSource" ref="riceDataSource" />
 		<!--property name="serverDataSource" ref="krWorkflowDataSource"/-->

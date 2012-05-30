@@ -70,8 +70,4 @@ public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable
         this.isPrimary = isPrimary;
     }
 
-	public void setAttributes(Map<String, String> attributeMap) {
-		// TODO Auto-generated method stub
-		
-	}
 }

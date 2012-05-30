@@ -630,49 +630,18 @@
 	</bean>
 	<bean id="org.kuali.student.r2.common.dto.RichTextInfo" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent" />
 
-    <!-- RichTextInfo-->
-    <bean id="org.kuali.student.r1.common.dto.RichTextInfo-parent"
-          abstract="true" parent="ObjectStructureDefinition">
-        <property name="name" value="org.kuali.student.r1.common.dto.RichTextInfo" />
-        <property name="attributes">
-            <list>
-                <ref bean="R1richTextInfo.formatted" />
-                <ref bean="R1richTextInfo.plain" />
-            </list>
-        </property>
-        <property name="hasMetaData" value="true" />
-    </bean>
-
-    <bean id="org.kuali.student.r1.common.dto.RichTextInfo" parent="org.kuali.student.r1.common.dto.RichTextInfo-parent" />
-
 	<bean id="richTextInfo.formatted-parent" abstract="true"
 		parent="baseSingleString">
 		<property name="name" value="formatted" />
 	</bean>
 
 	<bean id="richTextInfo.formatted" parent="richTextInfo.formatted-parent" />
-
-    <bean id="R1richTextInfo.formatted-parent" abstract="true"
-          parent="baseSingleString">
-        <property name="name" value="formatted" />
-    </bean>
-    <bean id="R1richTextInfo.formatted" parent="R1richTextInfo.formatted-parent" />
-
-
-
+	
 	<bean id="richTextInfo.plain-parent" abstract="true" parent="baseSingleString">
 		<property name="name" value="plain" />
 	</bean>
 
-
 	<bean id="richTextInfo.plain" parent="richTextInfo.plain-parent" />
-
-
-    <bean id="R1richTextInfo.plain-parent" abstract="true" parent="baseSingleString">
-        <property name="name" value="plain" />
-    </bean>
-
-    <bean id="R1richTextInfo.plain" parent="R1richTextInfo.plain-parent" />
 
 	<!-- LoInfo-->
 	<bean id="org.kuali.student.lum.lo.dto.LoInfo-parent" abstract="true"

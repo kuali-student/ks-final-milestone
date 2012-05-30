@@ -30,7 +30,9 @@ import org.kuali.student.r1.common.assembly.old.AssemblerFilter.SaveFilterChain;
 import org.kuali.student.r1.common.assembly.old.AssemblerFilter.TypeStateFilterParamWrapper;
 import org.kuali.student.r1.common.assembly.old.AssemblerFilter.ValidateFilterChain;
 import org.kuali.student.r1.common.assembly.old.data.SaveResult;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 @Deprecated
 public class AssemblerFilterManager<TargetType, SourceType> implements Assembler<TargetType, SourceType> {

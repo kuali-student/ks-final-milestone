@@ -17,6 +17,7 @@ package org.kuali.student.common.ui.server.messages;
 
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,6 @@ import org.kuali.student.r2.common.util.ContextUtils;
 
 import com.google.gwt.user.server.rpc.RPC;
 
-@Deprecated
 public class MessageRPCPreloader {
 	final Logger LOG = Logger.getLogger(MessageRPCPreloader.class);
     private final String MESSAGE_SERVICE_MOCK = "ks.messageService";
@@ -75,10 +75,16 @@ public class MessageRPCPreloader {
             LocaleInfo localeInfo = new LocaleInfo();
             localeInfo.setLocaleLanguage(locale);
             
-            List<MessageInfo> messages = getMessageService().getMessagesByGroups(localeInfo, messageGroupKeyList.getMessageGroupKeys(), ContextUtils.getContextInfo());
+            MessageList messageList = new MessageList();
+            ArrayList<MessageInfo> messages = new ArrayList<MessageInfo>();
+            for (MessageInfo info : getMessageService().getMessagesByGroups(localeInfo, messageGroupKeyList.getMessageGroupKeys(), ContextUtils.getContextInfo())){
+                messages.add(info);
+            }
+            messageList.setMessages(messages);
             
             Map<Class<?>, Boolean> whitelist = new HashMap<Class<?>, Boolean>();
             whitelist.put(MessageService.class, true);
+            whitelist.put(MessageList.class, true);
             whitelist.put(MessageGroupKeyList.class,true);
             whitelist.put(MessageInfo.class,true);
             whitelist.put(LocaleInfo.class,true);
@@ -86,7 +92,7 @@ public class MessageRPCPreloader {
             KSSerializationPolicy myPolicy = new KSSerializationPolicy(whitelist);
             
             //String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messageList,KSSerializationPolicy.getInstance());
-            String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messages, myPolicy);
+            String serializedData = RPC.encodeResponseForSuccess(serviceMethod, messageList, myPolicy);
             
             
             return SerializationUtils.escapeForSingleQuotedJavaScriptString(serializedData);

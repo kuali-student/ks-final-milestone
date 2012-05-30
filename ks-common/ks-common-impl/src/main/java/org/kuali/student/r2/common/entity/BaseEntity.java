@@ -28,10 +28,12 @@ public class BaseEntity {
 
 	@PrePersist
 	public void prePersist(){
-		//Auto generate the object id, and auto generate the ID if it's not set 
-        this.id = UUIDHelper.genStringUUID(this.id);
-		this.objectId = UUIDHelper.genStringUUID();
-		onPrePersist();
+	  //Auto generate the object id, and auto generate the ID if it's not set
+        if (this.id == null) {
+            this.id = UUIDHelper.genStringUUID(this.id);
+        }
+        this.objectId = UUIDHelper.genStringUUID();
+        onPrePersist();
 	}
 	
 	@PreUpdate
@@ -39,20 +41,19 @@ public class BaseEntity {
 		onPreUpdate();
 	}
 	
-
 	//Override this to add additional functionality for the PrePersist Lifecycle
-	protected void onPrePersist() {
-	}
-	
-	//Override this to add additional functionality for the PreUpdate Lifecycle
-	protected void onPreUpdate() {
-	}
-	
-	public String getId() {
-		return id;
-	}
+    protected void onPrePersist() {
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    //Override this to add additional functionality for the PreUpdate Lifecycle
+    protected void onPreUpdate() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

@@ -25,7 +25,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r1.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
@@ -125,9 +125,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         List<ProgramVariationInfo> variations = new ArrayList<ProgramVariationInfo>();
 
         try {
-        	Map<String, CluCluRelationInfo> currentRelations = null;
-        	currentRelations = programAssemblerUtils.getCluCluActiveRelations(cluId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION, contextInfo);
-        	
+        	Map<String, CluCluRelationInfo> currentRelations = programAssemblerUtils.getCluCluActiveRelations(cluId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION, contextInfo);
         	if(currentRelations != null && !currentRelations.isEmpty()){
         		for (String variationId : currentRelations.keySet()) {
                     CluInfo variationClu = cluService.getClu(variationId, contextInfo);
@@ -195,7 +193,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         }
 
         AmountInfo intensity = new AmountInfo();
-        intensity.setUnitType(businessDTO.getIntensity());
+        intensity.setUnitTypeKey(businessDTO.getIntensity());
 		clu.setIntensity(intensity);
         clu.setStdDuration(businessDTO.getStdDuration());
         clu.setInstructors(businessDTO.getPublishedInstructors());

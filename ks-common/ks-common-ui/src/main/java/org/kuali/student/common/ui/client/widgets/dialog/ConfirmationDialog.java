@@ -28,7 +28,6 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-@Deprecated
 public class ConfirmationDialog {
 	private KSLightBox dialog;
 

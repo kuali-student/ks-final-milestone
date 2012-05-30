@@ -3,35 +3,32 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
-import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.dto.DtoConstants;
-import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.ui.client.application.Application;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.event.ActionEvent;
-import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
-import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.r1.lum.lu.LUConstants;
-import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRetireByProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseRetireProposalRpcService;
-import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.lum.lu.LUConstants;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -51,13 +48,35 @@ public class CourseRetireByProposalController extends CourseProposalController {
 		cluProposalRpcServiceAsync = GWT.create(CreditCourseRetireProposalRpcService.class);   		
 		super.cfg = GWT.create(CourseRetireByProposalConfigurer.class);	
 		proposalPath = cfg.getProposalPath();
+		workflowUtil = new WorkflowUtilities(CourseRetireByProposalController.this, proposalPath, "Proposal Actions",
+                CourseProposalConfigurer.CourseSections.WF_APPROVE_DIALOG,"", cfg.getModelId());//TODO make msg
    		cfg.setState(DtoConstants.STATE_DRAFT);   		
    		cfg.setNextState(DtoConstants.STATE_RETIRED);
+        /* - Having navigation problems where the copied proposal does not come up
+         *   MPG pointed out this is backlogged and wouldn't really do what the user wants anyway
+         *   so moving on to other tasks for now. - KSCM-1775
+         *
+         *    
+        
+        //Add an extra menu item to copy the proposal to a new proposal.
+        workflowUtil.getAdditionalItems().add(new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
+            @Override
+            public void onClick(ClickEvent event) {
+                if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
+                    getViewContext().setId((String)cluProposalModel.get(cfg.getProposalPath()+"/id"));
+                    getViewContext().setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
+                    getViewContext().getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
+                    cluProposalModel.resetRoot(); // Reset the root so that the model can be reloaded from the copied proposal.
+                }
+                HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_RETIRE_BY_PROPOSAL", getViewContext());
+            }
+        }));
+        */
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
    		super.addStyleName("ks-course-admin");  
    		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_RETIRE;	 
-   	    // setViewContext(getViewContext());  // do i need to do this here?
+   	    
     }
 	
 	// Overriding this method to make things a little cleaner.
@@ -80,8 +99,6 @@ public class CourseRetireByProposalController extends CourseProposalController {
         Data data = new Data();
         cluProposalModel.setRoot(data);        
         
-     //   this.currentDocType = getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
-       
         Data proposalData = new Data();
         proposalData.set(new Data.StringKey("type"), LUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
         data.set(new Data.StringKey("proposal"), proposalData);
@@ -157,7 +174,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
     @Override
 	public boolean isAuthorizationRequired() {
 		//FIXME: Need to add proper authorization checks for admin modify.
-		return false;
+		return true;
 	}
 
 	@Override
@@ -172,6 +189,26 @@ public class CourseRetireByProposalController extends CourseProposalController {
 	@Override
     protected String getStateforSaveAction(DataModel model){
     	return cfg.getState();
+    }
+	
+	// KSLAB-2585: export Summary to PDF and DOC
+    @Override
+    public String getExportTemplateName() {
+        return "base.template";
+    }
+    
+    @Override
+    public List<ExportElement> getExportElementsFromView() {
+        List<ExportElement> exportElements = new ArrayList<ExportElement>();
+        if (this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {      
+            SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
+            ExportElement heading = new ExportElement();
+            heading.setFieldLabel("");
+            heading.setFieldValue("Retire Proposal");
+            exportElements.add(heading);
+            exportElements.addAll(ExportUtils.getDetailsForWidget(tableSection.getSummaryTable()));
+        }
+        return exportElements;
     }
 	
 }

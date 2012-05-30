@@ -45,7 +45,7 @@ public interface Check
      *
      * @name Issue Key
      */
-    public String getIssueKey();
+    public String getIssueId();
 
     /**
      * The Milestone Type Key if this Check is for a deadline, "not

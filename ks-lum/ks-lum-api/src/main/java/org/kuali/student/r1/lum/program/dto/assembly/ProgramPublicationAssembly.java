@@ -15,7 +15,7 @@
 
 package org.kuali.student.r1.lum.program.dto.assembly;
 
-import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 import java.util.List;
 

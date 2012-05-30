@@ -155,8 +155,4 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
         this.orgId = orgId;
     }
 
-	public void setAttributes(Map<String, String> attributeMap) {
-		// TODO Auto-generated method stub
-		
-	}
 }

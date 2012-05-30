@@ -44,7 +44,7 @@ import org.kuali.student.r1.common.search.service.impl.SearchManagerImpl;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.r1.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r1.core.organization.entity.Org;
 import org.kuali.student.r1.core.organization.entity.OrgAttribute;
 import org.kuali.student.r1.core.organization.entity.OrgHierarchy;
@@ -476,6 +476,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	
 	@Test
     public void getOrgByRelatedOrgAndType() {
+		
 	    Org org = dao.getOrgByRelatedOrgAndType("51", "kuali.org.Part");
         assertNotNull(org);
     }

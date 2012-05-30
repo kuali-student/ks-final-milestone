@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.HasText;
  * 
  * 
  * */
-@Deprecated
 public class CheckBoxTextArea extends Composite implements HasText{
     HasText master;
     KSTextArea slave = new KSTextArea();

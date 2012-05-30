@@ -104,9 +104,7 @@ public class RulesEvaluationUtil {
         List<ReqComponentInfo> failedRequirements = new ArrayList<ReqComponentInfo>();
 
         
-        List<ResultEvent> events = null;
-        // TODO KSCM-504
-        //events = results.getResultsOfType(ResultEvent.PROPOSITION_EVALUATED);
+        List<ResultEvent> events = results.getResultsOfType(ResultEvent.PROPOSITION_EVALUATED);
         for (ResultEvent e : events) {
             if (!e.getResult()) {
                 Proposition prop = (Proposition) e.getSource();

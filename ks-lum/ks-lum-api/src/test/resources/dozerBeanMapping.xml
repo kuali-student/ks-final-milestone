@@ -2,17 +2,60 @@
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-	<!-- Copied from ks-common -->
+	<!-- Copied from ks-core -->
 	<mapping>
-		<class-a>org.kuali.student.r1.common.dto.AmountInfo</class-a>
-		<class-b>org.kuali.student.r2.common.dto.AmountInfo</class-b>
+		<class-a>org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
 		<field>
-			<a>unitType</a>
-			<b>unitTypeKey</b>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a get-method="getDesc" set-method="setDesc">desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.ReqComponentInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.ReqComponentInfo
+		</class-b>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>desc</a>
+			<b>descr</b>
 		</field>
 	</mapping>
 	<!-- End of copy -->
-
+	
 	<!-- org.kuali.student.r*.lum.course.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.course.dto.ActivityInfo</class-a>
@@ -363,11 +406,6 @@
 			<b get-method="getMeta" set-method="setMeta">meta</b>
 		</field>
 		<field>
-			<a>intensity</a>
-			<b get-method="getIntensity"
-				set-method="setIntensity(org.kuali.student.r2.common.dto.AmountInfo)">intensity</b>
-		</field>
-		<field>
 			<a>feeInfo</a>
 			<b get-method="getFeeInfo" set-method="setFeeInfo">feeInfo</b>
 		</field>
@@ -377,18 +415,9 @@
 			</b>
 		</field>
 		<field>
-			<a>stdDuration</a>
-			<b get-method="getStdDuration" set-method="setStdDuration">stdDuration</b>
-		</field>
-		<field>
 			<a>primaryInstructor</a>
 			<b set-method="setPrimaryInstructor" get-method="getPrimaryInstructor">primaryInstructor
 			</b>
-		</field>
-		<field>
-			<a>stdDuration</a>
-			<b get-method="getStdDuration"
-				set-method="setStdDuration(org.kuali.student.r2.common.dto.TimeAmountInfo)">stdDuration</b>
 		</field>
 		<field>
 			<a>descr</a>
@@ -406,13 +435,13 @@
 		<field>
 			<a get-method="isHasEarlyDropDeadline" set-method="setHasEarlyDropDeadline">hasEarlyDropDeadline
 			</a>
-			<b get-method="getHasEarlyDropDeadline" set-method="setIsHasEarlyDropDeadline">hasEarlyDropDeadline
+			<b get-method="getIsHasEarlyDropDeadline" set-method="setIsHasEarlyDropDeadline">hasEarlyDropDeadline
 			</b>
 		</field>
 		<field>
 			<a get-method="isHazardousForDisabledStudents" set-method="setHazardousForDisabledStudents">isHazardousForDisabledStudents
 			</a>
-			<b get-method="GetIsHazardousForDisabledStudents" set-method="setIsHazardousForDisabledStudents">isHazardousForDisabledStudents
+			<b get-method="getIsHazardousForDisabledStudents" set-method="setIsHazardousForDisabledStudents">isHazardousForDisabledStudents
 			</b>
 		</field>
 		<field>
@@ -422,6 +451,14 @@
 		<field>
 			<a>type</a>
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>stdDuration</a>
+			<b get-method="getStdDuration" set-method="setStdDuration">stdDuration</b>
+		</field>
+		<field>
+			<a>intensity</a>
+			<b get-method="getIntensity" set-method="setIntensity">intensity</b>
 		</field>
 	</mapping>
 
@@ -463,18 +500,6 @@
 		<field>
 			<a>type</a>
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
-		</field>
-	</mapping>
-
-	<mapping>
-		<class-a>org.kuali.student.r1.lum.lu.dto.CluInstructorInfo</class-a>
-		<class-b>org.kuali.student.r2.lum.clu.dto.CluInstructorInfo</class-b>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
 		</field>
 	</mapping>
 
@@ -596,6 +621,10 @@
 		<field>
 			<a>descr</a>
 			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+		<field>
+			<a>membershipQuery</a>
+			<b get-method="getMembershipQuery" set-method="setMembershipQuery">membershipQuery</b>
 		</field>
 	</mapping>
 	<mapping>
@@ -967,5 +996,14 @@
 			<b get-method="getStdDuration" set-method="setStdDuration">stdDuration</b>
 		</field>
 	</mapping>
-
+	
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.MembershipQueryInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo</class-b>
+		<field-exclude>
+			<a>queryParamValueList</a>
+			<b>queryParamValues</b>
+		</field-exclude>
+	</mapping>
+	
 </mappings>

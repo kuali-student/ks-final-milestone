@@ -1,6 +1,5 @@
 package org.kuali.student.r2.core.process.model;
 
-import org.kuali.student.r2.common.class1.state.model.StateEntity;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -20,7 +19,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "KSEN_CHECK")
-public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttributeEntity>{
+public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttributeEntity> {
 
     //NAME
     @Column(name = "NAME")
@@ -31,23 +30,21 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     @JoinColumn(name = "RT_DESCR_ID")
     private CheckRichTextEntity descr;
 
-	//STATE_ID
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "STATE_ID")
-	private StateEntity checkState;
+    //STATE_ID
+    @Column(name = "CHECK_STATE")
+    private String checkState;
 
     //TYPE_ID
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "TYPE_ID")
-	private CheckTypeEntity checkType;
+    @Column(name = "CHECK_TYPE")
+    private String checkType;
 
     @Column(name = "ISSUE_ID")
-	private String issueId;
+    private String issueId;
 
     @Column(name = "MILESTONE_TYPE_ID")
     private String milestoneTypeId;
 
-    @ManyToOne(optional=true)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "PROCESS_ID")
     private ProcessEntity process;
 
@@ -63,6 +60,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
 	}
 
     public CheckEntity() {}
+    
 	public CheckEntity(Check check){
 	    super(check);
         this.setId(check.getKey());
@@ -70,7 +68,9 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         if(check.getDescr() != null) {
             this.setDescr(new CheckRichTextEntity(check.getDescr()));
         }
-
+        if (check.getStateKey() != null) {
+            this.setCheckState(check.getStateKey());
+        }
         this.setAttributes(new ArrayList<CheckAttributeEntity>());
         if (null != check.getAttributes()) {
             for (Attribute att : check.getAttributes()) {
@@ -79,7 +79,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
             }
         }
 
-        this.setIssueId(check.getIssueKey());
+        this.setIssueId(check.getIssueId());
         this.setMilestoneTypeId(check.getMilestoneTypeKey());
         this.setAgendaId(check.getAgendaId());
 	}
@@ -93,10 +93,10 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         obj.setKey(getId());
         obj.setName(name);
         if (checkType != null) {
-            obj.setTypeKey(checkType.getId());
+            obj.setTypeKey(checkType);
         }
         if (checkState != null) {
-            obj.setStateKey(checkState.getId());
+            obj.setStateKey(checkState);
         }
         if (descr != null) {
             obj.setDescr(descr.toDto());
@@ -106,7 +106,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
             obj.setProcessKey(process.getId());
         }
 
-        obj.setIssueKey(issueId);
+        obj.setIssueId(issueId);
         obj.setMilestoneTypeKey(milestoneTypeId);
         obj.setAgendaId(agendaId);
 
@@ -120,43 +120,38 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         return obj;
 	}
 
-	// NAME
-	public String getName() { return name; }
-	public void setName(String name) { this.name = name; }
+    // NAME
+    public String getName() {
+        return name;
+    }
 
-	// RT_DESCR_ID
-	public CheckRichTextEntity getDescr() { return descr; }
-	public void setDescr(CheckRichTextEntity descr) { this.descr = descr; }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // RT_DESCR_ID
+    public CheckRichTextEntity getDescr() {
+        return descr;
+    }
+
+    public void setDescr(CheckRichTextEntity descr) {
+        this.descr = descr;
+    }
 
 	//PROCESS_ID
-	public StateEntity getCheckStateID() {
-        return checkState;
-    }
-	public void setCheckStateID(StateEntity checkState) {
-        this.checkState = checkState;
-    }
-
-	//PROCESS_TYPE_ID
-	public CheckTypeEntity getCheckTypeID() {
-        return checkType;
-    }
-	public void setCheckTypeID(CheckTypeEntity checkType) {
-        this.checkType = checkType;
-    }
-
-    public StateEntity getCheckState() {
+    public String getCheckState() {
         return checkState;
     }
 
-    public void setCheckState(StateEntity checkState) {
+    public void setCheckState(String checkState) {
         this.checkState = checkState;
     }
 
-    public CheckTypeEntity getCheckType() {
+    public String getCheckType() {
         return checkType;
     }
 
-    public void setCheckType(CheckTypeEntity checkType) {
+    public void setCheckType(String checkType) {
         this.checkType = checkType;
     }
 

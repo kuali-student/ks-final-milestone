@@ -17,7 +17,6 @@ package org.kuali.student.common.ui.client.event;
 
 import org.kuali.student.common.ui.client.mvc.HasActionState;
 
-@Deprecated
 public class ModifyActionEvent extends ActionEvent<ModifyActionHandler> implements HasActionState{
     public static final Type<ModifyActionHandler> TYPE = new Type<ModifyActionHandler>();
     

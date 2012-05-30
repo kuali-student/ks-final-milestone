@@ -17,6 +17,7 @@
 
 <module>
 	<inherits name="org.kuali.student.r1.core.organization.Organization"/>
+    <inherits name="org.kuali.student.r2.core.organization.Organization"/>
 	<inherits name="org.kuali.student.core.authorization.ui.AuthorizationUI"/>
 	<inherits name="org.kuali.student.common.ui.CommonUI"/>
 	<inherits name='org.kuali.student.core.organization.assembly.data.OrgData' />	

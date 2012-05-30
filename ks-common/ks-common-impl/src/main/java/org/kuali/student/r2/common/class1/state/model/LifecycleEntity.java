@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -21,105 +22,107 @@ import org.kuali.student.r2.common.state.dto.LifecycleInfo;
 import org.kuali.student.r2.common.state.infc.Lifecycle;
 
 @Entity
-@Table(name = "KSEN_STATE_PROCESS")
-public class LifecycleEntity extends MetaEntity implements AttributeOwner<StateAttributeEntity> {
-	@Column(name="NAME")
+@Table(name = "KSEN_STATE_LIFECYCLE")
+// TODO: Uncomment when/if we figure out if we store xxx_KEY as such in the DB instead of as ID
+//@AttributeOverrides({
+//    @AttributeOverride(name = "id", column =
+//    @Column(name = "LIFECYCLE_KEY"))})
+public class LifecycleEntity extends MetaEntity {
+	
+    @Column(name = "NAME")
     private String name;
-
-    @Column(name="DESCR")
-    private String description;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EFF_DT")
-    private Date effectiveDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIR_DT")
-    private Date expirationDate;
+    
+    @Column(name = "DESCR_PLAIN")
+    private String descrPlain;
+    
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrFormatted;
+    
+    @Column(name = "REF_OBJECT_URI", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
+    private String refObjectUri;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<StateAttributeEntity> attributes;
+    private List<LifecycleAttributeEntity> attributes;
     
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public List<LifecycleAttributeEntity> getAttributes() {
+        return attributes;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setAttributes(List<LifecycleAttributeEntity> attributes) {
+        this.attributes = attributes;
+    }
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
+    public String getDescrFormatted() {
+        return descrFormatted;
+    }
 
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
+    public void setDescrFormatted(String descrFormatted) {
+        this.descrFormatted = descrFormatted;
+    }
 
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
+    public String getDescrPlain() {
+        return descrPlain;
+    }
 
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
+    public void setDescrPlain(String descrPlain) {
+        this.descrPlain = descrPlain;
+    }
 
-	public List<StateAttributeEntity> getAttributes() {
-		return attributes;
-	}
+    public String getRefObjectUri() {
+        return refObjectUri;
+    }
 
-	public void setAttributes(List<StateAttributeEntity> attributes) {
-		this.attributes = attributes;
-	}
-	
-	public LifecycleEntity(){}
+    public void setRefObjectUri(String refObjectUri) {
+        this.refObjectUri = refObjectUri;
+    }
 
-	public LifecycleEntity(Lifecycle lifecycle){
-		super();
-		try{
-			this.setId(lifecycle.getKey());
-			this.setName(lifecycle.getName());
-                        // TODO: change this entity to handle a rich text description
-//			this.setDescription(lifecycle.getDescr());
-			this.setVersionNumber((long) 0);
-//			this.setEffectiveDate(lifecycle.getEffectiveDate());
-//	                this.setExpirationDate(lifecycle.getExpirationDate());
-			this.setAttributes(new ArrayList<StateAttributeEntity>());
-			if(null != lifecycle.getAttributes()){
-				for (Attribute att : lifecycle.getAttributes()) {
-					StateAttributeEntity attEntity = new StateAttributeEntity(att);
-		            this.getAttributes().add(attEntity);
-		        }				
-			}
-		} catch (Exception e){
-            e.printStackTrace();
-        }		
-	}
-	
-	public LifecycleInfo toDto(){
-		LifecycleInfo lifecycle = new LifecycleInfo ();
-		lifecycle.setKey(getId());
-		lifecycle.setName(name);
-                // TODO: make this entity handle rich text descriptions
-		lifecycle.setDescr(new RichTextHelper ().fromPlain(description));
-//		lifecycle.setEffectiveDate(effectiveDate);
-//		lifecycle.setExpirationDate(expirationDate);
-		
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (StateAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
+    public LifecycleEntity() {
+    }
+
+    public LifecycleEntity(Lifecycle lifecycle) {
+        super();
+        this.setId(lifecycle.getKey());
+        this.fromDto(lifecycle);
+    }
+
+    public void fromDto(Lifecycle lifecycle) {
+        this.setName(lifecycle.getName());
+        this.refObjectUri = lifecycle.getRefObjectUri();
+        if (lifecycle.getDescr() == null) {
+            this.descrPlain = null;
+            this.descrFormatted = null;
+        } else {
+            this.descrPlain = lifecycle.getDescr().getPlain();
+            this.descrFormatted = lifecycle.getDescr().getFormatted();
         }
-        lifecycle.setAttributes(atts);
-        
-        return lifecycle;
-	}
+        this.setAttributes(new ArrayList<LifecycleAttributeEntity>());
+        for (Attribute att : lifecycle.getAttributes()) {
+            LifecycleAttributeEntity attEntity = new LifecycleAttributeEntity(att);
+            this.getAttributes().add(attEntity);
+        }
+    }
+
+    public LifecycleInfo toDto() {
+        LifecycleInfo info = new LifecycleInfo();
+        info.setKey(getId());
+        info.setName(name);
+        info.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
+        info.setRefObjectUri(this.refObjectUri);
+        info.setMeta(super.toDTO());
+        if (attributes != null) {
+            for (LifecycleAttributeEntity att : attributes) {
+                AttributeInfo attInfo = att.toDto();
+                info.getAttributes().add(attInfo);
+            }
+        }
+        return info;
+    }
 }

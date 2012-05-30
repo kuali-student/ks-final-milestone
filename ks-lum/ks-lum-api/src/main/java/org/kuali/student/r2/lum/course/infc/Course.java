@@ -9,6 +9,7 @@ import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.core.versionmanagement.infc.Version;
 import org.kuali.student.r2.lum.clu.infc.CluInstructor;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 
 /**
@@ -208,7 +209,7 @@ public interface Course extends IdEntity {
      * 
      * @name Credit Options
      */
-    public List<String> getCreditOptions();
+    public List<ResultValuesGroupInfo> getCreditOptions();
 
     /**
      * Flag to indicate the course as a special topics course
@@ -264,6 +265,6 @@ public interface Course extends IdEntity {
      * 
      * @name Version
      */
-    public Version getVersionInfo ();
+    public Version getVersionInfo();
 
 }

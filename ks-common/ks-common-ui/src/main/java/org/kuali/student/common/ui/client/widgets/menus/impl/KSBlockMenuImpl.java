@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
-@Deprecated
 public class KSBlockMenuImpl extends Composite{
 	private FlowPanel layout = new FlowPanel();
 	private FlowPanel container = new FlowPanel();

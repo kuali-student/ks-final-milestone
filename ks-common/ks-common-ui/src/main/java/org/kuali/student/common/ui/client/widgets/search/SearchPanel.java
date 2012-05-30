@@ -67,7 +67,6 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-@Deprecated
 public class SearchPanel extends Composite{
 
     //Layout configuration

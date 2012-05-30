@@ -98,6 +98,11 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
     	throw new UnsupportedOperationException("This method is not implemented.");
 	}
+    
+    @Override
+    public Boolean isAnyOtherRetireProposalsInWorkflow(String courseCluId) {
+        throw new UnsupportedOperationException("This method is not implemented.");
+    }
 
 	public void setCopyCourseService(CopyCourseServiceImpl copyCourseService) {
 		this.copyCourseService = copyCourseService;

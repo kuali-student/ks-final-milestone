@@ -133,21 +133,22 @@
         <property name="em" ref="orgEntityManager"/>
     </bean>
 
+    <bean id="extendedOrgDao"
+          class="org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao">
+        <property name="em" ref="orgEntityManager"/>
+    </bean>
+
     <bean id="organizationSearch"
           class="org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationHierarchySearch">
         <property name="organizationDao" ref="orgDao"/>
     </bean>
 
     <bean id="orgServiceImpl"
-          class="org.kuali.student.r1.core.organization.service.impl.OrganizationServiceImpl">
+          class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao"/>
         <property name="searchManager" ref="orgSearchManager"/>
+        <property name="extendedOrgDao" ref="extendedOrgDao"/>
         <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
-        <property name="searchOperations">
-            <map>
-                <entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" value-ref="organizationSearch"/>
-            </map>
-        </property>
     </bean>
 
     <bean id="orgSearchManager"
@@ -161,7 +162,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="orgServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.r1.core.organization.service.OrganizationService"/>
+                          value="org.kuali.student.r2.core.organization.service.OrganizationService"/>
                 <property name="localServiceName" value="OrganizationService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization"/>
                 <property name="busSecurity" value="${ks.core.bus.security}"/>
@@ -205,7 +206,7 @@
                 <property name="service" ref="atpServiceImpl"/>
                 <property name="serviceInterface" value="org.kuali.student.r1.core.atp.service.AtpService"/>
                 <property name="localServiceName" value="AtpService"/>
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/r1_atp"/>
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/atp"/>
                 <property name="busSecurity" value="${ks.core.bus.security}"/>
             </bean>
         </property>
@@ -260,12 +261,17 @@
     <bean id="enumContextValueDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumContextValueDao">
         <property name="em" ref="emEntityManager"/>
     </bean>
+    
+    <bean id="emSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+		<constructor-arg index="0" value="classpath:em-search-config.xml" />
+	</bean>
 
     <bean id="emServiceImpl"
           class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
         <property name="enumDao" ref="enumerationDao"/>
         <property name="enumValueDao" ref="enumValueDao"/>
         <property name="enumContextValueDao" ref="enumContextValueDao"/>
+        <property name="searchManager" ref="emSearchManager"/>
     </bean>
 
     <bean id="ks.exp.enumerationManagementService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -581,7 +587,7 @@
         <aop:aspect id="dataAccessToBusinessException"
                     ref="mapExceptionAdvisor">
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.r1.core.organization.service.*.*(..))"
+                    pointcut="execution(* org.kuali.student.r2.core.organization.service.*.*(..))"
                     method="afterThrowing" throwing="ex"/>
             <aop:after-throwing
                     pointcut="execution(* org.kuali.student.r1.core.personsearch.service.*.*(..))"

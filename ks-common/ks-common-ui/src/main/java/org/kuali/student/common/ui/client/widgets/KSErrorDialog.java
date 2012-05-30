@@ -29,7 +29,6 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-@Deprecated
 public class KSErrorDialog {
 
     final static ApplicationContext context = Application.getApplicationContext();

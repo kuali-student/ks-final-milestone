@@ -211,7 +211,7 @@ public abstract class AbstractDataService implements DataService{
                         
                         //Check if the route status is in the list of allowed statuses
                         DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(proposalInfo.getWorkflowId());
-                        //TODO KSCM-370 String routeStatusCode = docDetail.getDocRouteStatus(); 
+                        String docStatusCode = getWorkflowDocumentService().getDocumentStatus(proposalInfo.getWorkflowId()).getCode();
 
                         //Populate attributes with additional attributes required for permission check
                         if (proposalInfo != null){
@@ -219,7 +219,7 @@ public abstract class AbstractDataService implements DataService{
                             attributes.put(StudentIdentityConstants.QUALIFICATION_DATA_ID, proposalInfo.getId()); // this is what most of the permissions/roles check
                             attributes.put(IdAttributes.IdType.DOCUMENT_ID.toString(), proposalInfo.getWorkflowId());
                             attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, proposalInfo.getTypeKey());
-                            //TODO KSCM-370 attributes.put(StudentIdentityConstants.ROUTE_STATUS_CODE, routeStatusCode);
+                            attributes.put(StudentIdentityConstants.ROUTE_STATUS_CODE, docStatusCode);
                             
                             //Call t his to add any additional attributes that child classes need
                             addAdditionalAttributes(attributes,proposalInfo,docDetail);

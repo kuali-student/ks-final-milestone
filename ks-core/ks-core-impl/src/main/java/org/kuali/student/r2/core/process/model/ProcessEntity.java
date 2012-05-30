@@ -30,13 +30,11 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
     @JoinColumn(name = "RT_DESCR_ID")
     private ProcessRichTextEntity descr;
 
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "STATE_ID")
-	private StateEntity processState;
+    @Column(name = "PROCESS_STATE")
+    private String processState;
 
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "TYPE_ID")
-	private ProcessTypeEntity processType;
+    @Column(name = "PROCESS_TYPE")
+    private String processType;
 
 	@Column(name = "OWNER_ORG_ID")
 	private String ownerOrgID;
@@ -58,6 +56,8 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
             this.setDescr(new ProcessRichTextEntity(process.getDescr()));
         }
 
+        this.setProcessType (process.getTypeKey());
+        this.setProcessState(process.getStateKey());
         this.setOwnerOrgID(process.getOwnerOrgId());
 
         this.setAttributes(new ArrayList<ProcessAttributeEntity>());
@@ -82,11 +82,11 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
         obj.setOwnerOrgId(getOwnerOrgID());
 
         if (processType != null){
-            obj.setTypeKey(processType.getId());
+            obj.setTypeKey(processType);
         }
 
         if (processState != null){
-            obj.setStateKey(processState.getId());
+            obj.setStateKey(processState);
         }
 
         obj.setMeta(super.toDTO());
@@ -114,18 +114,18 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
 	public void setDescr(ProcessRichTextEntity descr) { this.descr = descr; }
 
 	//PROCESS_STATE_ID
-	public StateEntity getProcessState() {
+	public String getProcessState() {
         return processState;
     }
-	public void setProcessState(StateEntity processState) {
+    public void setProcessState(String processState) {
         this.processState = processState;
     }
 
 	//PROCESS_TYPE_ID
-	public ProcessTypeEntity getProcessType() {
+    public String getProcessType() {
         return processType;
     }
-	public void setProcessType(ProcessTypeEntity processType) {
+    public void setProcessType(String processType) {
         this.processType = processType;
     }
 

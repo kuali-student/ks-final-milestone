@@ -21,9 +21,7 @@ import java.util.Date;
 import org.kuali.student.common.ui.client.widgets.impl.KSDatePickerImpl;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -38,7 +36,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class KSDatePicker extends KSDatePickerAbstract implements HasWatermark { 
     KSDatePickerAbstract datePicker = GWT.create(KSDatePickerImpl.class);
     

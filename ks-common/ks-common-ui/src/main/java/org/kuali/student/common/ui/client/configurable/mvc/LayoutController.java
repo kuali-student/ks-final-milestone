@@ -22,8 +22,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ViewLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -61,7 +59,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public abstract class LayoutController extends Controller implements ViewLayoutController, View {
 
 	protected Map<Enum<?>, View> viewMap = new LinkedHashMap<Enum<?>, View>();

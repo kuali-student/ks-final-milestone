@@ -60,10 +60,10 @@
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="retireCourseProposalInfo.otherComments" />
-				<ref bean="retireCourseProposalInfo.proposedRetirementRationale" />
 				<ref bean="retireCourseProposalInfo.proposedEndTerm" />
 				<ref bean="retireCourseProposalInfo.proposedLastTermOffered" />
-				<ref bean="retireCourseProposalInfo.proposedLastCourseCatalogYear" />	
+				<ref bean="retireCourseProposalInfo.proposedLastCourseCatalogYear" />
+				<ref bean="retireCourseProposalInfo.prevStartTerm" />
 			</list>
 		</property>	
 	</bean>	
@@ -93,6 +93,7 @@
 	<bean id="retireCourseProposalInfo.otherComments-parent" abstract="true"
 		parent="baseKualiDescription">
 		<property name="name" value="otherComments" />
+		<property name="dynamic" value="true"/>
 	</bean>
 	<bean id="retireCourseProposalInfo.otherComments" parent="retireCourseProposalInfo.otherComments-parent" />
 
@@ -149,6 +150,7 @@
 		<property name="lookupDefinition" ref="constraint.lookup.atp"/>
 		<property name="dynamic" value="true"/>
 	</bean>
+	<bean id="retireCourseProposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
 	<bean id="courseProposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
 	<bean id="programProposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
 	
@@ -397,6 +399,7 @@
 	       	        <list>
 	                  <value>ENROUTE</value>
 	                  <value>APPROVED</value>
+	                  <value>RETIRED</value>
 	       		    </list>
 	              </property>
 	      		  <property name="constraint">

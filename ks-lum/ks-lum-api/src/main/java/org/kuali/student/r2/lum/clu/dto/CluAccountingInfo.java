@@ -90,8 +90,4 @@ public class CluAccountingInfo extends HasAttributesInfo implements CluAccountin
         this.affiliatedOrgs = affiliatedOrgs;
     }
 
-	public void setAttributes(Map<String, String> attributeMap) {
-		// TODO Auto-generated method stub
-		
-	}
 }

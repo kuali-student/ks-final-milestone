@@ -37,7 +37,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class AbbrButton extends Composite implements HasClickHandlers, HasMouseOverHandlers, HasMouseOutHandlers{
 	
 	public enum AbbrButtonType{HELP, DELETE, VIEW, EXAMPLES};

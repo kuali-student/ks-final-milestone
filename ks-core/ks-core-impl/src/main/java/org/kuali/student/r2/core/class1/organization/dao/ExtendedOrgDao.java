@@ -15,14 +15,10 @@
 
 package org.kuali.student.r2.core.class1.organization.dao;
 
-import java.util.List;
-
-import org.kuali.student.r1.core.organization.entity.Org;
-import org.kuali.student.r1.core.organization.entity.OrgHierarchy;
-import org.kuali.student.r1.core.organization.entity.OrgOrgRelation;
-import org.kuali.student.r1.core.organization.entity.OrgPersonRelation;
-import org.kuali.student.r1.core.organization.entity.OrgPositionRestriction;
+import org.kuali.student.r1.core.organization.entity.*;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
+
+import java.util.List;
 
 /**
  * Enumeration Dao class.

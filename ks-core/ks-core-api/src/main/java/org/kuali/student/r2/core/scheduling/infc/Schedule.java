@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.DateRange;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 
 
 /**
@@ -39,28 +40,31 @@ public interface Schedule extends IdEntity {
     public String getAtpId();
 
     /**
-     * The Schedule Component Ids. These provide a list of Time Slots
+     * The Schedule Components. These provide a list of Time Slots
      * coupled with Room locations.
      *
-     * @name Schedule Component Ids
+     * @name Schedule Components
      */
-    public List<String> getScheduleComponentIds();
+    public List<ScheduleComponentInfo> getScheduleComponents();
 
     /**
-     * A list of blackout dates where a meeting time implied by the
-     * ScheduleComponent is skipped.
-     *
+     * A list of blackout dates where a meeting time implied by the ScheduleComponent is
+     * skipped.
+     * 
      * @name Blackout Dates
+     * @deprecated Should this point to a shared set (not really deprecated, but ignorable
+     * for now.
      */
-    public List<DateRange> getBlackoutDates();
+    public List<? extends DateRange> getBlackoutDates();
 
     /**
-     * A list of Milestone ids where a meeting time that occurs
+     * A list of Milestone Ids where a meeting time that occurs
      * within a Milestone is considered a blackout date. Milestones of
      * any of the Milestone Types that exist in the related ATP are
      * used to determine the blackout dates.
      *
-     * @name Blackout Milestone ids
+     * @name Blackout Milestone Ids
+     * @deprecated  Should this point to a shared set (think about the common case of lectures usually having the same non-instructional days)?
      */
     public List<String> getBlackoutMilestoneIds();
 
@@ -69,5 +73,5 @@ public interface Schedule extends IdEntity {
      *
      * @name Meeting Times
      */
-    public List<MeetingTime> getMeetingTimes();
+    public List<? extends MeetingTime> getAdditionalMeetingTimes();
 }

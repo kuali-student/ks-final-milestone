@@ -47,10 +47,10 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<AtpInfo> getAtpsByIds(List<String> atpIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        return getNextDecorator().getAtpsByIds(atpIdList, context);
+        return getNextDecorator().getAtpsByIds(atpIds, context);
     }
 
     @Override
@@ -113,10 +113,10 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        return getNextDecorator().getMilestonesByIds(milestoneIdList, context);
+        return getNextDecorator().getMilestonesByIds(milestoneIds, context);
     }
 
     @Override
@@ -172,10 +172,10 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public AtpInfo createAtp(AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public AtpInfo createAtp(String atpTypeKey, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        return getNextDecorator().createAtp(atpInfo, context);
+        return getNextDecorator().createAtp(atpTypeKey, atpInfo, context);
     }
 
     @Override
@@ -219,10 +219,10 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public MilestoneInfo createMilestone(MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public MilestoneInfo createMilestone(String milestoneTypeKey, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        return getNextDecorator().createMilestone(milestoneInfo, context);
+        return getNextDecorator().createMilestone(milestoneTypeKey, milestoneInfo, context);
     }
 
     @Override
@@ -283,10 +283,17 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public AtpAtpRelationInfo createAtpAtpRelation(String atpId, String atpPeerKey, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo contextInfo) throws DoesNotExistException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public AtpAtpRelationInfo createAtpAtpRelation(String atpId,
+            String relatedAtpId,
+            String atpAtpRelationTypeKey,
+            AtpAtpRelationInfo atpAtpRelationInfo,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        return getNextDecorator().createAtpAtpRelation(atpId, atpPeerKey, atpAtpRelationInfo, contextInfo);
+        return getNextDecorator().createAtpAtpRelation(atpId, relatedAtpId, atpAtpRelationTypeKey, atpAtpRelationInfo,
+                contextInfo);
     }
 
     @Override
@@ -330,18 +337,6 @@ public class AtpServiceDecorator implements AtpService {
     public List<String> searchForAtpAtpRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return getNextDecorator().searchForAtpAtpRelationIds(criteria, contextInfo);
-    }
-
-    @Override
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<String> getObjectTypes() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

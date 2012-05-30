@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" output="ks-core-api/target/classes" path="ks-core-api/src/main/resources"/>
 	<classpathentry kind="src" output="ks-core-api/target/classes" path="ks-core-api/src/main/java"/>
+	<classpathentry kind="src" output="ks-core-api/target/classes" path="ks-core-api/src/test/java"/>
 	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/main/java"/>
 	<classpathentry kind="src" output="ks-core-rice/target/classes" path="ks-core-rice/src/main/resources"/>
 	<classpathentry kind="src" output="ks-core-ui/target/classes" path="ks-core-ui/src/test/java"/>

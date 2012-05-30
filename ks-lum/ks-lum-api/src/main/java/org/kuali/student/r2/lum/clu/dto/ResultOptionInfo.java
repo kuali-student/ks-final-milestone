@@ -15,20 +15,17 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.clu.infc.ResultOption;
 
-import javax.xml.bind.Element;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultOptionInfo", propOrder = {"id", "descr", "typeKey", "stateKey", "resultUsageTypeKey", "resultComponentId", "effectiveDate",
@@ -115,8 +112,4 @@ public class ResultOptionInfo extends IdNamelessEntityInfo implements ResultOpti
         this.expirationDate = expirationDate;
     }
 
-	public void setMeta(MetaInfo metaInfo) {
-		// TODO Auto-generated method stub
-		
-	}
 }

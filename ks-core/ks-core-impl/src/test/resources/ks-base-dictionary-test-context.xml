@@ -65,6 +65,15 @@
 		<property name="maxOccurs" value="unbounded" />
 	</bean>
 	
+    <bean id="baseComplex" parent="baseFieldDefinition" abstract="true">
+        <property name="dataType" value="COMPLEX" />
+    </bean>
+        <bean id="baseFieldDefinition"
+          class="org.kuali.student.r1.common.dictionary.dto.FieldDefinition"
+          abstract="true">
+        <property name="maxOccurs" value="1" />
+    </bean>
+	
 	<bean id="baseRequiredRepeatingFieldDefinition"
 		class="org.kuali.student.r1.common.dictionary.dto.FieldDefinition"
 		abstract="true">

@@ -82,7 +82,7 @@ public class CourseSummaryConfigurer extends Configurer implements
         AffiliatedOrgInfoConstants, CreditCourseRevenueInfoConstants,
         CreditCourseExpenditureInfoConstants {
     // Override paths for course and proposal so they are root
-    public static final String PROPOSAL = "";
+    public static final String PROPOSAL = "proposal";
     public static final String COURSE = "";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
 
@@ -722,8 +722,6 @@ public class CourseSummaryConfigurer extends Configurer implements
             }
         });
 
-        block.addSummaryMultiplicity(outcomesConfig);
-
         // Formats
         MultiplicityConfiguration formatsConfig = getMultiplicityConfig(COURSE
                 + QueryPath.getPathSeparator() + FORMATS,
@@ -738,7 +736,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                         LUUIConstants.ACTIVITY_TYPE_LABEL_KEY), Arrays.asList(
                         CONTACT_HOURS + "/" + "unitQuantity",
                         LUUIConstants.CONTACT_HOURS_LABEL_KEY), Arrays.asList(
-                        CONTACT_HOURS + "/" + "unitType",
+                        CONTACT_HOURS + "/" + "unitTypeKey",
                         LUUIConstants.CONTACT_HOURS_FREQUENCY_LABEL_KEY),
                         Arrays.asList(CreditCourseActivityConstants.DURATION
                                 + "/" + "atpDurationTypeKey",
@@ -1130,7 +1128,6 @@ public class CourseSummaryConfigurer extends Configurer implements
                 }
             }
         });
-        block.addSummaryMultiplicity(outcomesConfig);
 
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + TERMS_OFFERED,
                 generateMessageInfo(LUUIConstants.TERMS_OFFERED_LABEL_KEY)));
@@ -1158,7 +1155,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                                 LUUIConstants.ACTIVITY_TYPE_LABEL_KEY), Arrays
                         .asList(CONTACT_HOURS + "/" + "unitQuantity",
                                 LUUIConstants.CONTACT_HOURS_LABEL_KEY), Arrays
-                        .asList(CONTACT_HOURS + "/" + "unitType", "per"),
+                        .asList(CONTACT_HOURS + "/" + "unitTypeKey", "per"),
                         Arrays.asList(CreditCourseActivityConstants.DURATION
                                 + "/" + "atpDurationTypeKey",
                                 LUUIConstants.DURATION_TYPE_LABEL_KEY),

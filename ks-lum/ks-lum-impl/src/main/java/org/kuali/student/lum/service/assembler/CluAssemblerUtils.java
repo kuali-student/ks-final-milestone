@@ -285,7 +285,7 @@ public class CluAssemblerUtils {
             results.add(relationToDeleteNode);
 
             LoInfo loToDelete = loToDelete = loService.getLo(entry.getKey(), contextInfo);
-            LoDisplayInfo loDisplayToDelete = R1R2ConverterUtil.convert(loAssembler.assemble(loToDelete, null, false, contextInfo), org.kuali.student.r2.lum.course.dto.LoDisplayInfo.class);
+            LoDisplayInfo loDisplayToDelete = loAssembler.assemble(loToDelete, null, false, contextInfo);
             BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler.disassemble(loDisplayToDelete, NodeOperation.DELETE, contextInfo);
             results.add(loNode);
         }

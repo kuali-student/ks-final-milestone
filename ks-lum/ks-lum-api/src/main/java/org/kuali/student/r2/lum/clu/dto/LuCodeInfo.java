@@ -14,22 +14,20 @@
  */
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r1.common.dto.MetaInfo;
-import org.kuali.student.r2.lum.clu.infc.LuCode;
+import org.kuali.student.r2.common.dto.MetaInfo;
 //import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.clu.infc.LuCode;
 
 /**
  * Detailed information about learning unit codes.
@@ -116,13 +114,4 @@ public class LuCodeInfo extends HasAttributesAndMetaInfo implements LuCode, Seri
         this.typeKey = typeKey;
     }
 
-	public void setAttributes(Map<String, String> attributeMap) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setMeta(MetaInfo metaInfo) {
-		// TODO Auto-generated method stub
-		
-	}
 }

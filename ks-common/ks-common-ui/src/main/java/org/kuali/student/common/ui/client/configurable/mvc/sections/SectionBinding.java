@@ -38,7 +38,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class SectionBinding extends ModelWidgetBindingSupport<Section> {
 	public static SectionBinding INSTANCE = new SectionBinding();
 

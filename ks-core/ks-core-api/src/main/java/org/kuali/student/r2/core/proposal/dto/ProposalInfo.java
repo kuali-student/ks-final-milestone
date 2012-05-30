@@ -28,13 +28,21 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.proposal.infc.Proposal;
 //import org.w3c.dom.Element;
 
-@XmlType(name = "ProposalInfo", propOrder = {"id", "typeKey", "stateKey", 
-    "name", "descr",
-    "proposerPerson", "proposerOrg", "proposalReferenceType", 
-    "proposalReference", "rationale", "detailDesc", "effectiveDate",
-        "expirationDate", 
+@XmlType(name = "ProposalInfo", propOrder = {"id", 
+        "typeKey", 
+        "stateKey",
+        "name", 
+        "descr",
+        "proposerPerson", 
+        "proposerOrg", 
+        "proposalReferenceType",
+        "proposalReference", 
+        "rationale", 
+        "effectiveDate",
+        "expirationDate",
         "workflowId",
-        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "meta", 
+        "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable {
 
@@ -53,10 +61,7 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
     private List<String> proposalReference;
 
     @XmlElement
-    private String rationale;
-
-    @XmlElement
-    private RichTextInfo detailDesc;
+    private RichTextInfo rationale;
 
     @XmlElement
     private Date effectiveDate;
@@ -75,18 +80,29 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
 
     }
 
-    public ProposalInfo(Proposal proposal) {
-        super(proposal);
-        if (proposal != null) {
-            this.proposerPerson = new ArrayList<String>(proposal.getProposerPerson());
-            this.proposerOrg = new ArrayList<String>(proposal.getProposerOrg());
-            this.proposalReferenceType = proposal.getProposalReferenceType();
-            this.proposalReference = new ArrayList<String>(proposal.getProposalReference());
-            this.rationale = proposal.getRationale();
-            this.detailDesc = new RichTextInfo(proposal.getDetailDesc());
-            this.effectiveDate = new Date(proposal.getEffectiveDate().getTime());
-            this.expirationDate = new Date(proposal.getExpirationDate().getTime());
-            this.workflowId = proposal.getWorkflowId();
+    public ProposalInfo(Proposal input) {
+        super(input);
+        if (input != null) {
+            if (input.getProposerPerson() != null) {
+                this.proposerPerson = new ArrayList<String>(input.getProposerPerson());
+            }
+            if (input.getProposerOrg() != null) {
+                this.proposerOrg = new ArrayList<String>(input.getProposerOrg());
+            }
+            this.proposalReferenceType = input.getProposalReferenceType();
+            if (input.getProposalReference() != null) {
+                this.proposalReference = new ArrayList<String>(input.getProposalReference());
+            }
+            if (input.getRationale() != null) {
+                this.rationale = new RichTextInfo(input.getRationale());
+            }
+            if (input.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(input.getEffectiveDate().getTime());
+            }
+            if (input.getExpirationDate() != null) {
+                this.expirationDate = new Date(input.getExpirationDate().getTime());
+            }
+            this.workflowId = input.getWorkflowId();
         }
 
     }
@@ -137,21 +153,12 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
     }
 
     @Override
-    public String getRationale() {
+    public RichTextInfo getRationale() {
         return rationale;
     }
 
-    public void setRationale(String rationale) {
+    public void setRationale(RichTextInfo rationale) {
         this.rationale = rationale;
-    }
-
-    @Override
-    public RichTextInfo getDetailDesc() {
-        return detailDesc;
-    }
-
-    public void setDetailDesc(RichTextInfo detailDesc) {
-        this.detailDesc = detailDesc;
     }
 
     @Override

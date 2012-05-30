@@ -322,11 +322,12 @@ public class LUUIConstants {
 	public static final String SPECIAL_CIRCUMSTANCES_LABEL_KEY = "courseSpecialCircumstances";
 	    
 	//Retire by Proposal Fields
-    public static final String PROPOSED_PROPOSAL_TITLE_LABEL_KEY = "courseProposedProposalTitle";  // there is no new field for this one, just new labeling.
-    public static final String OTHER_COMMENTS_LABEL_KEY = "courseOtherComments"; 
+	public static final String PROPOSED_PROPOSAL_TITLE_LABEL_KEY = "courseProposedProposalTitle";  // there is no new field for this one, just new labeling.
+    public static final String OTHER_COMMENTS_LABEL_KEY = "courseOtherComments";
     public static final String PROPOSED_END_TERM_LABEL_KEY = "courseProposedEndTerm";
     public static final String PROPOSED_LAST_TERM_OFFERED_LABEL_KEY = "courseProposedLastTermOffered";
     public static final String PROPOSED_LAST_COURSE_CATALOG_YEAR_LABEL_KEY = "courseProposedLastCatalogYear";
-    
+    public static final String PROPOSED_RETIRE_INFORMATION_LABEL_KEY = "courseProposedRetireInformation";
+
 }
 

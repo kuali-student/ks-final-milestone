@@ -45,7 +45,6 @@ import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -53,7 +52,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class ClickablePanel extends FocusPanel implements HasAllMouseHandlers, HasClickHandlers, HasAllKeyHandlers, HasAllFocusHandlers{
 	  
 	public ClickablePanel(Widget child){

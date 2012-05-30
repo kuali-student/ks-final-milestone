@@ -41,7 +41,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-@Deprecated
 public class KSBasicMenuImpl extends KSBasicMenuAbstract{
     private VerticalPanel menuPanel = new VerticalPanel();
     private VerticalPanel menuTitlePanel = new VerticalPanel();

@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Kuali Student Team
  */
-@Deprecated
 public abstract class ViewComposite extends Composite implements View {
     private final Controller controller;
     private final String name;

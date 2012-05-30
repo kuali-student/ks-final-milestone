@@ -1,5 +1,7 @@
 package org.kuali.student.r2.common.dao;
 
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -32,10 +34,18 @@ public class GenericEntityDao<T> implements EntityDao<T> {
     }
 
     @Override
-    public List<T> findByIds(List<? extends Serializable> primaryKeys) {
+    public List<T> findByIds(List<? extends Serializable> primaryKeys) throws DoesNotExistException {
         List<T> resultList = new ArrayList<T>();
         for (Serializable primaryKey : primaryKeys) {
-            resultList.add(find(primaryKey));
+
+            T entity = find(primaryKey);
+
+            if (entity == null) {
+
+                throw new DoesNotExistException("No data was found for :" + primaryKey);
+
+            }
+            resultList.add(entity);
         }
         return resultList;
     }
@@ -58,7 +68,7 @@ public class GenericEntityDao<T> implements EntityDao<T> {
 
     @Override
     public void remove(T entity) {
-       em.remove(entity);
+        em.remove(entity);
     }
 
     @Override
@@ -88,4 +98,10 @@ public class GenericEntityDao<T> implements EntityDao<T> {
     public void setEm(EntityManager em) {
         this.em = em;
     }
+
+    public EntityManager getEm() {
+        return em;
+    }
+
+
 }

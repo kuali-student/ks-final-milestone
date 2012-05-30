@@ -17,6 +17,8 @@
 package org.kuali.student.r2.core.search.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -31,7 +33,7 @@ import org.kuali.student.r2.core.search.infc.SearchParam;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchParamInfo", propOrder = {
-                 "key", "value"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
+                 "key", "values"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 
 public class SearchParamInfo 
     implements SearchParam, Serializable {
@@ -42,7 +44,7 @@ public class SearchParamInfo
     private String key;
     
     @XmlElement
-    private Object value;
+    private List<String> values;
 
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
@@ -64,20 +66,24 @@ public class SearchParamInfo
     public SearchParamInfo(SearchParam param) {
         if (param != null) {
             this.key = param.getKey();
-            this.value = param.getValue();
+            if (param.getValues() != null) {
+                this.values = new ArrayList(param.getValues());
+            }
         }
     }
     
     /**
      * Constructs a new SearchParamInfo from
      * a pair of key/value strings.
+     * 
+     * Convenience method to construct a param with a single value
      *
      * @param key the key for the parameter
      * @param value the value for the parameter
      */
     public SearchParamInfo(String key, String value) {
         this.key = key;
-        this.value = value;
+        this.values = Arrays.asList(value);
     }
     
     /**
@@ -89,7 +95,7 @@ public class SearchParamInfo
      */
     public SearchParamInfo(String key, List<String> values) {
         this.key = key;
-        this.value = values;
+        this.values = values;
     }
     
     @Override
@@ -102,35 +108,44 @@ public class SearchParamInfo
     }
     
     @Override
-    public Object getValue() {
-        return value;
+    public List<String> getValues() {
+        return values;
     }
     
-    public void setValue(Object value) {
-        this.value = value;
+    public void setValues(List<String> values) {
+        this.values = values;
     }
 
     @Override
     public String toString() {
-        return "SearchParam[key=" + key + ", value=" + value + "]";
+        return "SearchParam[key=" + key + ", value=" + values + "]";
     }
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         
         SearchParamInfo that = (SearchParamInfo) o;
 
-        if (key != null ? !key.equals(that.key) : that.key != null) return false;
-        if (value != null ? !value.equals(that.value) : that.value != null) return false;
+        if (key != null ? !key.equals(that.key) : that.key != null) {
+            return false;
+        }
+        if (values != null ? !values.equals(that.values) : that.values != null) {
+            return false;
+        }
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = value != null ? value.hashCode() : 0;
+        int result = values != null ? values.hashCode() : 0;
         result = 31 * result + (key != null ? key.hashCode() : 0);
         return result;
     }

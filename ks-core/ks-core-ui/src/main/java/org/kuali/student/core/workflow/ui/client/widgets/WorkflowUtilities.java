@@ -23,7 +23,7 @@ import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.r1.common.assembly.data.ModelDefinition;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.dto.DtoConstants.DtoState;
-import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r1.core.comment.dto.CommentInfo;
@@ -256,19 +256,21 @@ public class WorkflowUtilities{
         }
         
         //Add a new field to the workflow widget
-        if(approveDialogView != null){
-            if(forceAdd || 
-                    (meta.isCanEdit() && 
-                            (MetadataInterrogator.isRequiredForNextState(meta) || 
-                                    (meta.getConstraints() != null && meta.getConstraints().get(0)!=null && meta.getConstraints().get(0).getMinOccurs()!= null && meta.getConstraints().get(0).getMinOccurs()>0)))){
-                if(!readOnly){
-                    approveFd = new FieldDescriptor(path.toString(), messageKey, meta);
-                } else {
-                    approveFd = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
+        if (meta != null){
+            if(approveDialogView != null){
+                if(forceAdd || 
+                        (meta.isCanEdit() && 
+                                (MetadataInterrogator.isRequiredForNextState(meta) || 
+                                        (meta.getConstraints() != null && meta.getConstraints().get(0)!=null && meta.getConstraints().get(0).getMinOccurs()!= null && meta.getConstraints().get(0).getMinOccurs()>0)))){
+                    if(!readOnly){
+                        approveFd = new FieldDescriptor(path.toString(), messageKey, meta);
+                    } else {
+                        approveFd = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
+                    }
+                    approveFd.setHasHadFocus(true);
+                    approveDialogView.addField(approveFd);
+                    return approveFd;
                 }
-                approveFd.setHasHadFocus(true);
-                approveDialogView.addField(approveFd);
-                return approveFd;
             }
         }
         return null;
@@ -424,7 +426,7 @@ public class WorkflowUtilities{
     public Widget getWorkflowActionsWidget(){
         //InfoMessage infoContainer = new InfoMessage();
         StylishDropDown workflowActionsDropDown = GWT.create(StylishDropDown.class);
-        //workflowActionsDropDown.initialise(dropDownLabel );
+        workflowActionsDropDown.initialise(dropDownLabel );
         workflowActionsDropDown.makeAButtonWhenOneItem(true);
         workflowActionsDropDown.addStyleName("KS-Workflow-DropDown");
         workflowWidgets.add(workflowActionsDropDown);

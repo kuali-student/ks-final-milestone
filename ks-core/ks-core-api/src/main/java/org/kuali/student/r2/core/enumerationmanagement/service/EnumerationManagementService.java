@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.core.enumerationmanagement.service;
 
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -48,7 +49,7 @@ import java.util.List;
 
 @WebService(name = "EnumerationManagementService", targetNamespace = EnumerationManagementServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface EnumerationManagementService {
+public interface EnumerationManagementService extends SearchService {
 
     /**
      * Retrieves the list of meta information for the enumerations supported by

@@ -17,7 +17,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -36,6 +35,7 @@ import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.clu.infc.CluInstructor;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 //import org.w3c.dom.Element;
 
 /**
@@ -136,7 +136,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     @XmlElement
     private List<String> gradingOptions;
     @XmlElement
-    private List<String> creditOptions;
+    private List<ResultValuesGroupInfo> creditOptions;
     @XmlElement
     private boolean specialTopicsCourse;
     @XmlElement
@@ -255,7 +255,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
             this.gradingOptions = new ArrayList<String>(courseInfo.getGradingOptions());
 
-            this.creditOptions = new ArrayList<String>(courseInfo.getCreditOptions());
+            this.creditOptions = new ArrayList<ResultValuesGroupInfo>(courseInfo.getCreditOptions());
 
             this.specialTopicsCourse = courseInfo.isSpecialTopicsCourse();
 
@@ -545,14 +545,14 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     }
 
     @Override
-    public List<String> getCreditOptions() {
+    public List<ResultValuesGroupInfo> getCreditOptions() {
         if (creditOptions == null) {
-            creditOptions = new ArrayList<String>(0);
+            creditOptions = new ArrayList<ResultValuesGroupInfo>(0);
         }
         return creditOptions;
     }
 
-    public void setCreditOptions(List<String> creditOptions) {
+    public void setCreditOptions(List<ResultValuesGroupInfo> creditOptions) {
         this.creditOptions = creditOptions;
     }
 

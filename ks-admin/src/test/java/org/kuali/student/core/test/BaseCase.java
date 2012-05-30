@@ -12,8 +12,6 @@ import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
-import org.kuali.rice.core.web.jetty.JettyServer;
-import org.kuali.rice.test.TransactionalLifecycle;
 import org.mortbay.jetty.webapp.WebAppClassLoader;
      //  import org.kuali.rice.core.web
 /**
@@ -33,37 +31,37 @@ public class BaseCase extends Assert {
 	private static final String CONTEXT_NAME = "/ks-test-dev";
 	private static final String WEBAPP_ROOT = "/src/main/webapp";
 	
-	private static JettyServer server;
+	//private static JettyServer server;
 	
-	private TransactionalLifecycle transactionalLifecycle;
+	//private TransactionalLifecycle transactionalLifecycle;
 	
 	@Before
 	public void setUp() throws Exception {
-		transactionalLifecycle = new TransactionalLifecycle();
-		transactionalLifecycle.start();
+		//transactionalLifecycle = new TransactionalLifecycle();
+		//transactionalLifecycle.start();
 	}
 	
 	@After
 	public void tearDown() throws Exception {
-		try {
-			if (transactionalLifecycle != null) {
-				transactionalLifecycle.stop();
-			}
-		} finally {
-			transactionalLifecycle = null;
-		}
+		//try {
+		//	if (transactionalLifecycle != null) {
+		//		transactionalLifecycle.stop();
+		//	}
+		//} finally {
+		//	transactionalLifecycle = null;
+		//}
 	}
 	
 	@BeforeClass
 	public static void startJettyServer() throws Exception {
 	    System.setProperty("kew.bootstrap.spring.file", "SpringBeans.xml");
 	    
-		BaseCase.server = new JettyServer(DEFAULT_PORT, CONTEXT_NAME, WEBAPP_ROOT);
-		server.setFailOnContextFailure(true);
-		server.setTestMode(true);
-		server.start();
+	//	BaseCase.server = new JettyServer(DEFAULT_PORT, CONTEXT_NAME, WEBAPP_ROOT);
+	//	server.setFailOnContextFailure(true);
+	//	server.setTestMode(true);
+	//	server.start();
 		// establish the GlobalResourceLoader and ConfigContext for the classloader of the test harness
-		addWebappsToContext();
+	//	addWebappsToContext();
 	}
 	
     /**
@@ -85,13 +83,13 @@ public class BaseCase extends Assert {
 	
 	@AfterClass
 	public static void stopJettyServer() throws Exception {
-		try {
-			if (server != null) {
-				server.stop();
-			}
-		} finally {
-			server = null;
-		}
+	//	try {
+	//		if (server != null) {
+	//			server.stop();
+	//		}
+	//	} finally {
+	//		server = null;
+	//	}
 	}
 	
 }

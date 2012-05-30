@@ -18,11 +18,6 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
-import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -42,9 +37,9 @@ import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
@@ -60,6 +55,11 @@ import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -76,7 +76,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ViewCourseController extends TabMenuController implements DocumentLayoutController, HasRequirements, RequiresAuthorization {
-    private final DataModel cluModel = new DataModel(); 
+    protected final DataModel cluModel = new DataModel(); 
    
     private WorkQueue modelRequestQueue;
 
@@ -96,19 +96,14 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	
 	private final List<CourseWorkflowActionList> actionDropDownWidgets = new ArrayList<CourseWorkflowActionList>();
 
-    private final CourseRequirementsDataModel reqDataModel;
+    private CourseRequirementsDataModel reqDataModel;
     
     final ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
-	            
-    public ViewCourseController(Enum<?> viewType){
-    	super(CourseProposalController.class.getName());
-        initialize();
-        addStyleName("courseView");
-        reqDataModel = new CourseRequirementsDataModel(this);
-        this.tabPanel.addStyleName("standard-content-padding");
-        this.setViewEnum(viewType);
-    }
     
+    public ViewCourseController(){
+        super(CourseProposalController.class.getName());
+    }
+	            
     @Override
     public void setViewContext(ViewContext viewContext) {
     	super.setViewContext(viewContext);
@@ -118,7 +113,11 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     	}
     }
     
-    private void initialize() {
+    public void initialize(Enum<?> viewType) {
+        addStyleName("courseView");
+        reqDataModel = new CourseRequirementsDataModel(this);
+        this.tabPanel.addStyleName("standard-content-padding");
+        this.setViewEnum(viewType);
         super.setDefaultModelId(CourseProposalConfigurer.COURSE_PROPOSAL_MODEL);
         super.registerModel(CourseProposalConfigurer.COURSE_PROPOSAL_MODEL, new ModelProvider<DataModel>() {
 
@@ -406,9 +405,9 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     	WindowTitleUtils.setContextTitle(title);
     }
     
-    private void updateStatus() {
-    	if(cluModel.get("state") != null){
-            statusLabel.setText(getMessage("courseStatusLabel") + ": " + cluModel.get("state"));
+    protected void updateStatus() {
+    	if(cluModel.get("stateKey") != null){
+            statusLabel.setText(getMessage("courseStatusLabel") + ": " + cluModel.get("stateKey"));
     	}
     }
     

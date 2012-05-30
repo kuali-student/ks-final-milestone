@@ -15,40 +15,12 @@
 
 	<!-- ks-common-api: org.kuali.student.r*.common.dto mappings -->
 	<mapping>
-		<class-a>org.kuali.student.r1.common.dto.AmountInfo</class-a>
-		<class-b>org.kuali.student.r2.common.dto.AmountInfo</class-b>
-		<field>
-			<a>unitType</a>
-			<b>unitTypeKey</b>
-		</field>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.dto.CurrencyAmountInfo</class-a>
-		<class-b>org.kuali.student.r2.common.dto.CurrencyAmountInfo</class-b>
-		<field>
-			<a>metaInfo</a>
-			<b get-method="getMeta" set-method="setMeta">meta</b>
-		</field>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.dto.MetaInfo</class-a>
-		<class-b>org.kuali.student.r2.common.dto.MetaInfo</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.dto.RichTextInfo</class-a>
-		<class-b>org.kuali.student.r2.common.dto.RichTextInfo</class-b>
-	</mapping>
-	<mapping>
 		<class-a>org.kuali.student.r1.common.dto.StatusInfo</class-a>
 		<class-b>org.kuali.student.r2.common.dto.StatusInfo</class-b>
 		<field>
 			<a>success</a>
 			<b>isSuccess</b>
 		</field>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.dto.TimeAmountInfo</class-a>
-		<class-b>org.kuali.student.r2.common.dto.TimeAmountInfo</class-b>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.common.dto.TypeInfo</class-a>
@@ -85,41 +57,6 @@
 			<a>locale</a>
 			<b>locale</b>
 		</field>
-	</mapping>
-
-	<!-- ks-common-api: org.kuali.student.r*.common.search.dto mappings -->
-	<mapping>
-		<class-a>org.kuali.student.r1.common.search.dto.SearchParam</class-a>
-		<class-b>org.kuali.student.r2.common.search.dto.SearchParamInfo
-		</class-b>
-		<field>
-			<a get-method="getValue" set-method="setValue">listValue</a>
-			<b>value</b>
-			<b-hint>java.util.ArrayList</b-hint>
-		</field>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.search.dto.SearchRequest
-		</class-a>
-		<class-b>org.kuali.student.r2.common.search.dto.SearchRequestInfo
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.search.dto.SearchResultCell
-		</class-a>
-		<class-b>org.kuali.student.r2.common.search.dto.SearchResultCellInfo
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.search.dto.SearchResult</class-a>
-		<class-b>org.kuali.student.r2.common.search.dto.SearchResultInfo
-		</class-b>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.common.search.dto.SearchResultRow
-		</class-a>
-		<class-b>org.kuali.student.r2.common.search.dto.SearchResultRowInfo
-		</class-b>
 	</mapping>
 
 </mappings>

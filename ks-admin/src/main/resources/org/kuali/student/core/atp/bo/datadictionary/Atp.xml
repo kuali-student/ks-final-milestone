@@ -46,7 +46,7 @@
         </property>
     </bean>
 
-    <alias alias="Atp-id" name="CoreAttributeReference-id" />
+    <bean id="Atp-id" parent="CoreAttributeReference-id" />
 
     <bean id="Atp-name" parent="Atp-name-parentBean" />
     <bean id="Atp-name-parentBean" abstract="true" parent="CoreAttributeReference-name">

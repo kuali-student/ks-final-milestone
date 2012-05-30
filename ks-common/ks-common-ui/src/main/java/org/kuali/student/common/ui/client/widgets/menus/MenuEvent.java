@@ -17,6 +17,5 @@ package org.kuali.student.common.ui.client.widgets.menus;
 
 import com.google.gwt.event.shared.GwtEvent;
 
-@Deprecated
 public abstract class MenuEvent<H extends MenuEventHandler> extends GwtEvent<H>{
 }

@@ -100,7 +100,7 @@ public class ProposalServiceImpl implements ProposalService {
             throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
         }
        try {
-           Proposal proposal = ProposalAssembler.toProposal(proposalTypeKey, R1R2ConverterUtil.convert(proposalInfo, org.kuali.student.r1.core.proposal.dto.ProposalInfo.class), proposalDao);
+           Proposal proposal = ProposalAssembler.toProposal(proposalTypeKey, proposalInfo, proposalDao);
            proposalDao.create(proposal);
 
            return ProposalAssembler.toProposalInfo(proposal);
@@ -277,7 +277,7 @@ public class ProposalServiceImpl implements ProposalService {
             throw new InvalidParameterException("Not allowed to have both Person and Organization propsers");
         }
 
-        Proposal proposal = ProposalAssembler.toProposal(proposalInfo.getType(), R1R2ConverterUtil.convert(proposalInfo, org.kuali.student.r1.core.proposal.dto.ProposalInfo.class), proposalDao);
+        Proposal proposal = ProposalAssembler.toProposal(proposalInfo.getType(), proposalInfo, proposalDao);
         Proposal updated = proposalDao.update(proposal);
 
         return ProposalAssembler.toProposalInfo(updated);

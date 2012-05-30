@@ -43,7 +43,9 @@ import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.search.dto.SearchParamHelper;
 import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
@@ -355,7 +357,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         }
         SearchRequest sr = new SearchRequest();
         sr.setSearchKey(query.getSearchTypeKey());
-        sr.setParams(query.getQueryParamValueList());
+        sr.setParams(SearchParamHelper.toSearchParams(query.getQueryParamValues()));
 
         SearchResult result = cluService.search(sr);
 
@@ -565,5 +567,5 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 		qualification.put(idType, id);
 		return qualification;
 	}
-
+	
 }

@@ -41,7 +41,7 @@ import org.kuali.student.r2.common.infc.SearchParam;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchParamInfo", propOrder = {
                 "key", "values" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
-
+@Deprecated
 public class SearchParamInfo 
     implements SearchParam, Serializable {
 

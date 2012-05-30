@@ -16,6 +16,7 @@
 package org.kuali.rice.student;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 
@@ -108,6 +109,18 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
 
     protected String getKIMSqlFileBaseLocation() {
         return "file:" + getBaseDir() + "/src/test/config/data";
+    }
+    
+    /**
+     * maven will set this property and find resources from the config based on it. This makes eclipse testing work because
+     * we have to put the basedir in our config files in order to find things when testing from maven
+     */
+    protected void setBaseDirSystemProperty(String moduleBaseDir) {
+        if (System.getProperty("basedir") == null) {
+            final String userDir = System.getProperty("user.dir");
+            
+            System.setProperty("basedir", userDir + File.separator + "ks-lum-rice");
+        }
     }
 
 	protected void loadXmlFile(String fileName) {

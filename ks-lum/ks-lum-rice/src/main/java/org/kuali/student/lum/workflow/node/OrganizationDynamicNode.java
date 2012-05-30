@@ -35,6 +35,7 @@ import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
@@ -191,15 +192,13 @@ public class OrganizationDynamicNode implements DynamicNode {
     }
 
     @Override
-    //TODO KSCM-541
     public DynamicResult transitioningInto(RouteContext routeContext, RouteNodeInstance routeNodeInstance, RouteHelper routeHelper) throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return transitioningInto(routeContext, routeNodeInstance, routeHelper, ContextUtils.getContextInfo());
     }
 
     @Override
-    //TODO KSCM-541
     public DynamicResult transitioningOutOf(RouteContext routeContext, RouteHelper routeHelper) throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return transitioningOutOf( routeContext,  routeHelper, ContextUtils.getContextInfo());
     }
 
   
@@ -252,7 +251,7 @@ public class OrganizationDynamicNode implements DynamicNode {
         Set<String> relatedOrgIds = new HashSet<String>();
         try {
             List<OrgOrgRelationInfo> relatedOrgRelationInfos = null;
-         // TODO KSCM-541 relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(currentNodeOrgId, contextInfo);
+            relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(currentNodeOrgId, contextInfo);
             for (OrgOrgRelationInfo orgOrgRelationInfo : relatedOrgRelationInfos) {
                 if (StringUtils.equals("Active", orgOrgRelationInfo.getStateKey())) {
                     if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getTypeKey())) {

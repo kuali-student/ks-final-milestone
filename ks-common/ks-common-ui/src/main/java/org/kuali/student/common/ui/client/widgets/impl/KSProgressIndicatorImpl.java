@@ -22,7 +22,6 @@ import org.kuali.student.common.ui.client.widgets.KSProgressIndicatorAbstract;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 
-@Deprecated
 public class KSProgressIndicatorImpl extends KSProgressIndicatorAbstract {
 
     HorizontalPanel main = new HorizontalPanel();

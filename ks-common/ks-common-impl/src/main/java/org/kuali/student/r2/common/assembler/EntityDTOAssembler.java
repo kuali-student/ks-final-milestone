@@ -11,6 +11,7 @@ public class EntityDTOAssembler<E extends EntityInfo, F extends EntityInfo> {
         toDTO.setMeta(fromDTO.getMeta());
         toDTO.setStateKey(fromDTO.getStateKey());
         toDTO.setTypeKey(fromDTO.getTypeKey());
+        toDTO.setName(fromDTO.getName());
         toDTO.setDescr(fromDTO.getDescr());
 
         return toDTO;

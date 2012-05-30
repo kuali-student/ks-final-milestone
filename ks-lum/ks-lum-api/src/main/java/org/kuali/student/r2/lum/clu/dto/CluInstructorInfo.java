@@ -17,11 +17,9 @@ import org.kuali.student.r2.lum.clu.infc.CluInstructor;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -94,8 +92,4 @@ public class CluInstructorInfo extends HasAttributesInfo implements CluInstructo
         this.personInfoOverride = personInfoOverride;
     }
 
-	public void setAttributes(Map<String, String> attributeMap) {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -57,8 +57,8 @@ public interface CreditCourseConstants
 	public static final String FEES = "fees";
 	public static final String EXPENDITURE_INFO = "expenditureInfo";
 	public static final String REVENUE_INFO = "revenueInfo";
-	public static final String STATE = "state";
-	public static final String TYPE = "type";
+	public static final String STATE = "stateKey";
+	public static final String TYPE = "typeKey";
 	public static final String EFFECTIVE_DATE = "effectiveDate";
 	public static final String EXPIRATION_DATE = "expirationDate";
 	public static final String CURRICULUM_OVERSIGHT_ORGS_ = "unitsContentOwner";
@@ -81,7 +81,7 @@ public interface CreditCourseConstants
 	// Course Retire by Proposal KSLAB-2583
     public static final String OTHER_COMMENTS = "otherComments";
     public static final String PROPOSED_END_TERM = "proposedEndTerm";
-    public static final String PROPOSED_RETIREMENT_RATIONALE = "proposedRetirementRationale";
+    public static final String PROPOSED_RATIONALE = "rationale";
     public static final String PROPOSED_LAST_TERM_OFFERED = "proposedLastTermOffered";
     public static final String PROPOSED_LAST_COURSE_CATALOG_YEAR = "proposedLastCourseCatalogYear";
 }

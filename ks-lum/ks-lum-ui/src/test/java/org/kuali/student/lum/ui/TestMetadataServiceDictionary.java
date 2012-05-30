@@ -167,8 +167,8 @@ public class TestMetadataServiceDictionary {
 			//error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.statement.statements.*.statements.*.statements.* is of type DATA but it has no properties
 			//error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
 			
-			// 37 errors found when validating metadata
-			if (errors.size() != 37) {
+			// 33 errors found when validating metadata
+			if (errors.size() != 33) {
 				fail(errors.size() + " errors found when validating metadata");
 			}
 		}

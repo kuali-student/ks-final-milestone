@@ -195,10 +195,12 @@ public class FieldDescriptor {
 					else if(nextState.equalsIgnoreCase("ACTIVE")){
 						fieldElement.setRequiredString("reqActivate", "ks-form-required-for-submit");
     				}
-					else if(nextState.equalsIgnoreCase("SUSPENDED") ||
-							nextState.equalsIgnoreCase("RETIRED")){
+					else if(nextState.equalsIgnoreCase("SUSPENDED")){
 						fieldElement.setRequiredString("reqDeactivate", "ks-form-required-for-submit");
 					}
+					else if(nextState.equalsIgnoreCase("RETIRED")){
+                        fieldElement.setRequiredString("requiredOnSubmit", "ks-form-required-for-submit");
+                    }
 					else {
 						fieldElement.setRequiredString("requiredOnSubmit", "ks-form-required-for-submit");
 					}

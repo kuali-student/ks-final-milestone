@@ -6,12 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.r1.common.versionmanagement.dto.VersionInfo;
-import org.kuali.student.r1.common.dto.AmountInfo;
-import org.kuali.student.r1.common.dto.CurrencyAmountInfo;
-import org.kuali.student.r1.common.dto.MetaInfo;
-import org.kuali.student.r1.common.dto.RichTextInfo;
-import org.kuali.student.r1.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
@@ -27,7 +31,6 @@ import org.kuali.student.r1.lum.course.dto.FormatInfo;
 import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r1.lum.lo.dto.LoInfo;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.r1.lum.lu.dto.AffiliatedOrgInfo;
@@ -37,7 +40,6 @@ import org.kuali.student.r1.lum.lu.dto.CluFeeInfo;
 import org.kuali.student.r1.lum.lu.dto.CluFeeRecordInfo;
 import org.kuali.student.r1.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInfo;
-import org.kuali.student.r1.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r1.lum.lu.dto.CluLoRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluResultInfo;
@@ -64,6 +66,15 @@ public class R1TestDataUtil {
         Map<String, String> r1Attributes = new HashMap<String, String>();
         r1Attributes.put("R1-Key", "R1-Value");
         return r1Attributes;
+    }
+    
+    public static List<AttributeInfo> getAttributeListData() {
+        List<AttributeInfo> r2Attributes = new ArrayList<AttributeInfo>();
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("R1-Key");
+        attr.setValue("R1-Value");
+        r2Attributes.add(attr);
+        return r2Attributes;
     }
 
     public static MetaInfo getMetadataInfoData() {
@@ -203,21 +214,21 @@ public class R1TestDataUtil {
         return r1LoInfo;
     }
 
-    public static List<ResultComponentInfo> getResultComponentInfoDataList() {
-        List<ResultComponentInfo> r1ResultComponentList = new ArrayList<ResultComponentInfo>();
-        ResultComponentInfo r1ResultCompInfo = new ResultComponentInfo();
-        r1ResultCompInfo.setAttributes(R1TestDataUtil.getAttributeData());
-        r1ResultCompInfo.setDesc(R1TestDataUtil.getRichTextInfoData());
+    public static List<ResultValuesGroupInfo> getResultComponentInfoDataList() {
+        List<ResultValuesGroupInfo> r1ResultComponentList = new ArrayList<ResultValuesGroupInfo>();
+        ResultValuesGroupInfo r1ResultCompInfo = new ResultValuesGroupInfo();
+        r1ResultCompInfo.setAttributes(R1TestDataUtil.getAttributeListData());
+        r1ResultCompInfo.setDescr(R1TestDataUtil.getRichTextInfoData());
         r1ResultCompInfo.setEffectiveDate(new Date());
         r1ResultCompInfo.setExpirationDate(new Date());
-        r1ResultCompInfo.setId("R1 Id");
-        r1ResultCompInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1ResultCompInfo.setKey("R1 Id");
+        r1ResultCompInfo.setMeta(R1TestDataUtil.getMetadataInfoData());
         r1ResultCompInfo.setName("R1 Name");
         List<String> resultValues = new ArrayList<String>();
         resultValues.add("R1 Result Value");
-        r1ResultCompInfo.setResultValues(resultValues);
-        r1ResultCompInfo.setState("R1 State");
-        r1ResultCompInfo.setType("R1 Type");
+        r1ResultCompInfo.setResultValueKeys(resultValues);
+        r1ResultCompInfo.setStateKey("R1 State");
+        r1ResultCompInfo.setTypeKey("R1 Type");
         r1ResultComponentList.add(r1ResultCompInfo);
         return r1ResultComponentList;
     }
@@ -296,7 +307,7 @@ public class R1TestDataUtil {
         r1CurAmountInfo.setCurrencyQuantity(1);
         r1CurAmountInfo.setCurrencyTypeKey("R1 Currency Type Key");
         r1CurAmountInfo.setId("R1 Id");
-        r1CurAmountInfo.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1CurAmountInfo.setMeta(R1TestDataUtil.getMetadataInfoData());
         r1List.add(r1CurAmountInfo);
         return r1List;
     }
@@ -347,7 +358,7 @@ public class R1TestDataUtil {
     public static AmountInfo getAmountInfoData() {
         AmountInfo r1AmountInfo = new AmountInfo();
         r1AmountInfo.setUnitQuantity("R1 Unit Quantity");
-        r1AmountInfo.setUnitType("R1 Unit Type");
+        r1AmountInfo.setUnitTypeKey("R1 Unit Type");
         return r1AmountInfo;
     }
     
@@ -359,7 +370,7 @@ public class R1TestDataUtil {
     
     public static CluInstructorInfo getCluInstructorInfoData() {
         CluInstructorInfo r1CluInstrInfo = new CluInstructorInfo();
-        r1CluInstrInfo.setAttributes(R1TestDataUtil.getAttributeData());
+        r1CluInstrInfo.setAttributes(R1TestDataUtil.getAttributeListData());
         r1CluInstrInfo.setOrgId("R1 Org Id");
         r1CluInstrInfo.setPersonId("R1 Person Id");
         r1CluInstrInfo.setPersonInfoOverride("R1 Person Info Overide");
@@ -452,6 +463,7 @@ public class R1TestDataUtil {
     	r1CluSetInfo.setIsReusable(false);
     	r1CluSetInfo.setName("Name");
     	r1CluSetInfo.setAdminOrg(null);
+    	r1CluSetInfo.setMembershipQuery(R1TestDataUtil.getMembershipQueryInfoData());
         return r1CluSetInfo;
     }
     
@@ -541,9 +553,8 @@ public class R1TestDataUtil {
     	MembershipQueryInfo r1MembershipQueryInfo = new MembershipQueryInfo();
     	r1MembershipQueryInfo.setSearchTypeKey("searchTypeKey");
     	r1MembershipQueryInfo.setId("Id");
-    	r1MembershipQueryInfo.setQueryParamValueList(null);
-    
-       return r1MembershipQueryInfo;
+    	r1MembershipQueryInfo.setQueryParamValueList(R1TestDataUtil.getSearchParamDataList());
+        return r1MembershipQueryInfo;
     }
     
     public static List<ResultOptionInfo> getResultOptionInfoDataList() {
@@ -889,14 +900,25 @@ public class R1TestDataUtil {
         return r1CluCluRelationInfo;
     }
     
-    public static List<String> getCreditOptions() {
-        List<String> creditOptions = new ArrayList<String>();
-        creditOptions.add("kuali.resultComponentType.degree");
-        creditOptions.add("kuali.resultComponentType.credit.degree.range");
-        creditOptions.add("kuali.resultComponentType.credit.degree.fixed");
-        creditOptions.add("kuali.resultComponentType.grade.finalGrade");
-        return creditOptions;
+    public static List<SearchParam> getSearchParamDataList() {
+        List<SearchParam> r1List = new ArrayList<SearchParam>();
+        r1List.add(getSearchParamData());
+        return r1List;
     }
     
+    public static SearchParam getSearchParamData() {
+        SearchParam r1 = new SearchParam();
+        r1.setKey("R1 Key");
+        double chance = Math.random();
+        if (chance <= 0.5) {
+            List<String> values = new ArrayList<String>();
+            values.add("R1 Value #1");
+            values.add("R1 Value #2");
+            r1.setValue(values);
+        } else {
+            r1.setValue("R1 Value");
+        }
+        return r1;
+    }   
 
 }

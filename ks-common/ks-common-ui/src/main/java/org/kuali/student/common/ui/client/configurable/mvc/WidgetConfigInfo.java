@@ -30,7 +30,6 @@ import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class WidgetConfigInfo {
 	public DataType type = null;
 	public Integer maxLength = null;

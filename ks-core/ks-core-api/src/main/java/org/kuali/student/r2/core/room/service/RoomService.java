@@ -72,7 +72,7 @@ public interface RoomService {
 
     /**
      * Retrieves a list of Rooms corresponding to the given list
-     * of Room ids.
+     * of Room Ids.
      *
      * @param roomIds     list of Rooms to be retrieved
      * @param contextInfo Context information containing the
@@ -336,7 +336,7 @@ public interface RoomService {
 
     /**
      * Retrieves a list of Buildings corresponding to the given list
-     * of Building ids.
+     * of Building Ids.
      *
      * @param buildingIds list of Buildings to be retrieved
      * @param contextInfo Context information containing the
@@ -368,7 +368,7 @@ public interface RoomService {
     public List<String> getBuildingIdsByCampus(@WebParam(name = "campusKey") String campusKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     /**
      * Searches for Buildings based on the criteria and
-     * returns a list of Building ids which match the search
+     * returns a list of Building Ids which match the search
      * criteria.
      *
      * @param criteria    the search criteria
@@ -512,7 +512,7 @@ public interface RoomService {
 
     /**
      * Retrieves a list of Room Responsible Orgs corresponding to the given list
-     * of Room ids.
+     * of Room Ids.
      *
      * @param roomResponsibleOrgIds     list of Room Responsible Ids
      * @param contextInfo Context information containing the

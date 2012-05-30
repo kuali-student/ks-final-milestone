@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;

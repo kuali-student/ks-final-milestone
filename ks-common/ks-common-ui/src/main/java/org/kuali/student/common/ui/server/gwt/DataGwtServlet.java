@@ -31,7 +31,6 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -39,7 +38,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * Generic implementation of data gwt data operations calls.
  *
  */
-@Deprecated
 public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrchestrationRpcService {
 
 	private static final long serialVersionUID = 1L;
@@ -87,7 +85,6 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 		} 
 	}
 
-	@Override
 	public List<ValidationResultInfo> validate(Data data)throws OperationFailedException {
 		try{
 		    List<ValidationResultInfo> result= dataService.validateData(data, ContextUtils.getContextInfo());    //result info loaded with info about conflicts 

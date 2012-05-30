@@ -124,8 +124,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		//Get current relations
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
-				List<LoCategoryInfo> categories = null;
-				loService.getLoCategoriesForLo(loDisplay.getLoInfo().getId(), contextInfo);
+				List<LoCategoryInfo> categories = loService.getLoCategoriesForLo(loDisplay.getLoInfo().getId(), contextInfo);
 				for (LoCategoryInfo category : categories) {
 					currentCategoryIds.add(category.getId());
 				}
@@ -179,9 +178,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		//Make lu lu relations
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
-				List<LoLoRelationInfo> loRelations = null;
-				 
-				loService.getLoLoRelationsByLoId(loDisplay.getLoInfo().getId(), contextInfo);
+				List<LoLoRelationInfo> loRelations = loService.getLoLoRelationsByLoId(loDisplay.getLoInfo().getId(), contextInfo);
 				for (LoLoRelationInfo loRelation : loRelations) {
 					//getLoLoRelationsByLoId returns if the lo is related or if it is the owner(this seems wrong)
 					

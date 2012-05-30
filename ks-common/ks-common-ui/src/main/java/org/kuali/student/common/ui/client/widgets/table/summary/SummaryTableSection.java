@@ -27,7 +27,6 @@ import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
-@Deprecated
 public class SummaryTableSection extends VerticalSection {
     SummaryTable summaryTable = new SummaryTable();
     SummaryTableModel summaryTableModel = new SummaryTableModel();

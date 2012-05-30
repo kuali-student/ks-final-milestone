@@ -24,8 +24,16 @@
           p:businessObjectService-ref="rice.kim.import.businessObjectService"
           p:criteriaLookupService-ref="rice.kim.import.criteriaLookupService" />
 
+	<bean id="defaultPermissionTypeService" class="org.kuali.rice.kns.kim.permission.PermissionTypeServiceBase"/>
+	
+	<bean id="kimPermissionService" class="org.kuali.rice.kim.impl.permission.PermissionServiceImpl"
+        p:businessObjectService-ref="rice.kim.import.businessObjectService"
+        p:criteriaLookupService-ref="rice.kim.import.criteriaLookupService"
+        p:kimTypeInfoService-ref="kimTypeInfoService"
+        p:defaultPermissionTypeService-ref="defaultPermissionTypeService"
+        p:roleService-ref="kimRoleService"/>
 
-    <bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+    <!--bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceBus" ref="rice.ksb.serviceBus"/>
         <property name="serviceDefinition">
             <bean parent="kimService" p:service-ref="kimPermissionService"
@@ -34,6 +42,6 @@
                 <property name="jaxWsService" value="true"/>
             </bean>
         </property>
-    </bean>
+    </bean-->
 
 </beans>

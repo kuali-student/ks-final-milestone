@@ -107,9 +107,14 @@
 
     <!-- additional context files -->
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.additionalSpringFiles">${ks.projects},${ks.embedded.context},${ks.authentication.context},classpath:StudentStandaloneSpringBeans.xml,${ks.institutional.context}</param>
-
-    <param name="rice.KIM.additionalSpringFiles">classpath:ks-kim-context.xml</param>
+    
+    <!-- This property is removed in Rice 2.0, don't know where to add this parameter. -->
+    <!--param name="rice.additionalSpringFiles">${ks.institutional.context}</param-->
+    
+    <param name="rice.kr.additionalSpringFiles">classpath:ks-spring-security-saml.xml,classpath:ks-spring-security-sts.xml</param>
+    <!-- param name="rice.kew.additionalSpringFiles"></param-->
+    <!-- param name="rice.ksb.additionalSpringFiles"></param-->
+    <param name="rice.kim.additionalSpringFiles">${ks.authentication.context},classpath:ks-kim-context.xml</param>
 
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">${application.url}</param>

@@ -39,11 +39,11 @@ public class EnumContextValueInfo implements EnumContextValue, Serializable {
     private String key;
     @XmlElement
     private String value;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
     @XmlElement
     private MetaInfo meta;
-//    private List<Element> _futureElements;
+    //  TODO KSCM-372: Non-GWT translatable code
+    //  @XmlAnyElement
+    //    private List<Element> _futureElements;
 
     public EnumContextValueInfo() {
     }

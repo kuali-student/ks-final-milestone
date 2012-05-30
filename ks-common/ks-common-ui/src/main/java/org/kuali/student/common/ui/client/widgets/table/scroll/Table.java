@@ -42,7 +42,6 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 /**
  * A table with UiBinder.
  */
-@Deprecated
 public class Table extends Composite implements HasRetrieveAdditionalDataHandlers, HasSelectionChangeHandlers {
 
     private int headerSelectedCellIndex = -1;

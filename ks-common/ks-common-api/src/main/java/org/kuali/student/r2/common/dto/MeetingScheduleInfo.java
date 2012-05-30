@@ -37,7 +37,7 @@ import org.kuali.student.r2.common.infc.MeetingSchedule;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeetingScheduleInfo", propOrder = {
-                "id", "spaceId", "timePeriods" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+                "id", "spaceId", "scheduleId" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class MeetingScheduleInfo 
     implements MeetingSchedule, Serializable {
@@ -51,7 +51,7 @@ public class MeetingScheduleInfo
     private String spaceId;
 
     @XmlElement
-    private String timePeriods;
+    private String scheduleId;
 
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
@@ -74,7 +74,7 @@ public class MeetingScheduleInfo
         if (null != meetingSchedule) {
             this.id = meetingSchedule.getId();
             this.spaceId = meetingSchedule.getSpaceId();
-            this.timePeriods = meetingSchedule.getTimePeriods();
+            this.scheduleId = meetingSchedule.getScheduleId();
         }
     }
 
@@ -97,11 +97,11 @@ public class MeetingScheduleInfo
     }
 
     @Override
-    public String getTimePeriods() {
-        return timePeriods;
+    public String getScheduleId() {
+        return scheduleId;
     }
 
-    public void setTimePeriods(String timePeriods) {
-        this.timePeriods = timePeriods;
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
     }
 }

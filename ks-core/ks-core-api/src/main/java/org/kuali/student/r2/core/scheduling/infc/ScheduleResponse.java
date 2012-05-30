@@ -15,9 +15,7 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
-import java.util.List;
-
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 
 /**
@@ -27,7 +25,14 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @since Thu Nov 3 14:22:34 EDT 2011
  */ 
 
-public interface ScheduleResponse extends IdEntity {
+public interface ScheduleResponse extends IdNamelessEntity {
+
+    /**
+     *  Batch response identifier
+     *
+     *  @name Batch Response Id
+     */
+    public String getBatchResponseId();
 
     /**
      * The Schedule Request Id.
@@ -37,4 +42,21 @@ public interface ScheduleResponse extends IdEntity {
      * @readonly
      */
     public String getScheduleRequestId();
+
+    /**
+     * The Schedule Request Id.
+     *
+     * @name Schedule Id
+     * @required
+     * @readonly
+     */
+    public String getScheduleId();
+
+    /**
+     * Status of the schedule request
+     *
+     * @name Status Message
+     *
+     */
+    public String getStatusMessage();
 }

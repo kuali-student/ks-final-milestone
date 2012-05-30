@@ -43,8 +43,8 @@ public interface SearchService {
      * @return list of search type information
      * @throws OperationFailedException unable to complete request
 	 */
-    @RequestWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchTypes", targetNamespace="http://student.kuali.org/wsdl/search")    
-    @ResponseWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchTypesResponse", targetNamespace="http://student.kuali.org/wsdl/search")
+    @RequestWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchTypes", targetNamespace="http://student.kuali.org/wsdl/search")    
+    @ResponseWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchTypesResponse", targetNamespace="http://student.kuali.org/wsdl/search")
     public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException;
 
     /** 
@@ -56,8 +56,8 @@ public interface SearchService {
      * @throws MissingParameterException searchTypeKey not specified
      * @throws OperationFailedException unable to complete request
 	 */
-    @RequestWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchType", targetNamespace="http://student.kuali.org/wsdl/search")    
-    @ResponseWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchTypeResponse", targetNamespace="http://student.kuali.org/wsdl/search")
+    @RequestWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchType", targetNamespace="http://student.kuali.org/wsdl/search")    
+    @ResponseWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchTypeResponse", targetNamespace="http://student.kuali.org/wsdl/search")
     public SearchTypeInfo getSearchType(@WebParam(name="searchTypeKey")String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
@@ -69,8 +69,8 @@ public interface SearchService {
      * @throws MissingParameterException searchResultTypeKey not specified
      * @throws OperationFailedException unable to complete request
 	 */
-    @RequestWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchTypesByResult", targetNamespace="http://student.kuali.org/wsdl/search")    
-    @ResponseWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchTypesByResultResponse", targetNamespace="http://student.kuali.org/wsdl/search")
+    @RequestWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchTypesByResult", targetNamespace="http://student.kuali.org/wsdl/search")    
+    @ResponseWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchTypesByResultResponse", targetNamespace="http://student.kuali.org/wsdl/search")
     public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name="searchResultTypeKey")String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
@@ -82,8 +82,8 @@ public interface SearchService {
      * @throws MissingParameterException searchCriteriaTypeKey not specified
      * @throws OperationFailedException unable to complete request
 	 */
-    @RequestWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchTypesByCriteria", targetNamespace="http://student.kuali.org/wsdl/search")    
-    @ResponseWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchTypesByCriteriaResponse", targetNamespace="http://student.kuali.org/wsdl/search")
+    @RequestWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchTypesByCriteria", targetNamespace="http://student.kuali.org/wsdl/search")    
+    @ResponseWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchTypesByCriteriaResponse", targetNamespace="http://student.kuali.org/wsdl/search")
     public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name="searchCriteriaTypeKey")String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
@@ -92,8 +92,8 @@ public interface SearchService {
      * @return list of search result type information
      * @throws OperationFailedException unable to complete request
 	 */
-    @RequestWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchResultTypes", targetNamespace="http://student.kuali.org/wsdl/search")    
-    @ResponseWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchResultTypesResponse", targetNamespace="http://student.kuali.org/wsdl/search")
+    @RequestWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchResultTypes", targetNamespace="http://student.kuali.org/wsdl/search")    
+    @ResponseWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchResultTypesResponse", targetNamespace="http://student.kuali.org/wsdl/search")
     public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException;
 
     /** 
@@ -105,8 +105,8 @@ public interface SearchService {
      * @throws MissingParameterException searchResultTypeKey not specified
      * @throws OperationFailedException unable to complete request
 	 */
-    @RequestWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchResultType", targetNamespace="http://student.kuali.org/wsdl/search")    
-    @ResponseWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchResultTypeResponse", targetNamespace="http://student.kuali.org/wsdl/search")
+    @RequestWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchResultType", targetNamespace="http://student.kuali.org/wsdl/search")    
+    @ResponseWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchResultTypeResponse", targetNamespace="http://student.kuali.org/wsdl/search")
     public SearchResultTypeInfo getSearchResultType(@WebParam(name="searchResultTypeKey")String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
@@ -115,8 +115,8 @@ public interface SearchService {
      * @return list of search criteria type information
      * @throws OperationFailedException unable to complete request
 	 */
-    @RequestWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchCriteriaTypes", targetNamespace="http://student.kuali.org/wsdl/search")    
-    @ResponseWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchCriteriaTypesResponse", targetNamespace="http://student.kuali.org/wsdl/search")
+    @RequestWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchCriteriaTypes", targetNamespace="http://student.kuali.org/wsdl/search")    
+    @ResponseWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchCriteriaTypesResponse", targetNamespace="http://student.kuali.org/wsdl/search")
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException;
 
     /** 
@@ -128,12 +128,12 @@ public interface SearchService {
      * @throws MissingParameterException searchCriteriaTypeKey not specified
      * @throws OperationFailedException unable to complete request
 	 */
-    @RequestWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchCriteriaType", targetNamespace="http://student.kuali.org/wsdl/search")    
-    @ResponseWrapper(className="org.kuali.student.common.search.service.jaxws.GetSearchCriteriaTypeResponse", targetNamespace="http://student.kuali.org/wsdl/search")
+    @RequestWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchCriteriaType", targetNamespace="http://student.kuali.org/wsdl/search")    
+    @ResponseWrapper(className="org.kuali.student.r1.common.search.service.jaxws.GetSearchCriteriaTypeResponse", targetNamespace="http://student.kuali.org/wsdl/search")
     public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name="searchCriteriaTypeKey")String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    @RequestWrapper(className="org.kuali.student.common.search.service.jaxws.Search", targetNamespace="http://student.kuali.org/wsdl/search")    
-    @ResponseWrapper(className="org.kuali.student.common.search.service.jaxws.SearchResponse", targetNamespace="http://student.kuali.org/wsdl/search")
+    @RequestWrapper(className="org.kuali.student.r1.common.search.service.jaxws.Search", targetNamespace="http://student.kuali.org/wsdl/search")    
+    @ResponseWrapper(className="org.kuali.student.r1.common.search.service.jaxws.SearchResponse", targetNamespace="http://student.kuali.org/wsdl/search")
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException;
 
 }

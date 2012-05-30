@@ -35,12 +35,12 @@ public interface OrgCode
      * 
      * @name Value 
      */
-    public String getValue ();
+    public String getValue();
     
      /**
      * The description of the code.
      * 
      * @name Description
      */
-    public RichText getDescr ();
+    public RichText getDescr();
 }

@@ -24,7 +24,6 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Window;
 
-@Deprecated
 public abstract class NavigationHandler implements ClickHandler, KeyDownHandler {
 	private final String url;
 	 private final Controller controller;

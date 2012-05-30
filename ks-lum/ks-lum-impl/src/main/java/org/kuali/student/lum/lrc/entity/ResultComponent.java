@@ -36,7 +36,7 @@ import org.kuali.student.r1.common.entity.MetaEntity;
 @Entity
 @Table(name = "KSLR_RESCOMP")
 @NamedQueries( {
-    @NamedQuery(name = "ResultComponent.getResultComponentIdsByResult", query = "SELECT rc.id FROM ResultComponent rc JOIN rc.resultValues rv WHERE rv.id = :resultValueId AND rc.type.id = :resultComponentTypeKey"),
+    @NamedQuery(name = "ResultComponent.getResultComponentIdsByResult", query = "SELECT rc.id FROM ResultComponent rc JOIN rc.resultValues rv WHERE rv.id = :resultValueId"),
     @NamedQuery(name = "ResultComponent.getResultComponentIdsByResultComponentType", query = "SELECT rc.id FROM ResultComponent rc WHERE rc.type.id = :resultComponentTypeKey"),
     @NamedQuery(name = "ResultComponent.getResultComponentType", query = "SELECT rc.type FROM ResultComponent rc WHERE rc.type.id = :resultComponentTypeKey")
 })

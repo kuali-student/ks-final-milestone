@@ -31,12 +31,12 @@ public interface DateRange {
      *
      * @name Start Date
      */
-    public Date getStart();
+    public Date getStartDate();
 
     /**
      * Gets the end date of the range.
      *
      * @name End Date
      */
-    public Date getEnd();
+    public Date getEndDate();
 }

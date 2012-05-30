@@ -22,10 +22,10 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -38,7 +38,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import org.kuali.student.r2.common.constants.TypeServiceConstants;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 
 /**
  * Provide lookups of Types and TypeTypRelations as well as operations
@@ -73,7 +73,7 @@ public interface TypeService {
 
     /**
      * Retrieves a list of Types from a list of keys. The returned
-     * list may be in any order and if duplicate ids are supplied, a
+     * list may be in any order and if duplicate Ids are supplied, a
      * unique set may or may not be returned.
      * 
      * @param typeKeys a list of Type keys
@@ -88,6 +88,27 @@ public interface TypeService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<TypeInfo> getTypesByKeys(@WebParam(name = "typeKeys") List<String> typeKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Get a list of refObjectURI's that are known to this implementation of the service. 
+     * 
+     * A RefObjectURI is how objects are uniquely identified in Kuali STudent.
+     * A RefObjectURI is composed of two parts the name space of the service
+     * in which the object is defined and then the simple java name (no class path)
+     * of the object itself.
+     * 
+     * For example: http://student.kuali.org/wsdl/luService/CluInfo
+     * 
+     * @param contextInfo Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a list of string refObjectURIs
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getRefObjectUris(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * This method returns a list of TypeInfo that belong to a
@@ -107,29 +128,72 @@ public interface TypeService {
      */
     public List<TypeInfo> getTypesByRefObjectUri(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
     /**
-     * This method returns a list of TypeInfo objects that are allowed
-     * for another typeKey. This is a convenience method to retrieve
-     * TypeTypeRelation with allowed relation type. This will retrieve
-     * all the type keys associated with the ObjectUri of the related
-     * type. The relationship is captured unidirectionally from
-     * ownerType to relatedType.
+     * Get the list of types that are in the group defined by this group type.
+     *
+     * This is a convenience method to retrieve TypeTypeRelations with a grouping 
+     * relation filtering them to see if they are active and then fetching those 
+     * types. 
      * 
-     * @param ownerTypeKey Type key of the owner in the relation
-     * @param relatedRefObjectUri RefObjectUri of the related type.
+     * Active is defined two ways: the state must be ACTIVE and today must be
+     * between the effective and expiration dates of the relationship.
+     * 
+     * Note: The type itself may or may not be active but since that is returned 
+     * consuming program is free to filter on that object.
+     * 
+     * Should be functionally equivalent to calling the following:
+     *  relations = getTypeTypeRelationsForOwnerAndType (type, GROUP)
+     *  filterRelations (type=ACTIVE and today between effective and expiration
+     *  return getTypes (filteredRelations)
+     * 
+     * The relationship is captured unidirectionally from ownerType to relatedType.
+     * 
+     * @param groupTypeKey typeKey used to do the grouping
      * @param contextInfo Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
-     * @return list of types
-     * @throws DoesNotExistException ownerTypeKey or
-     *         relatedRefObjectUri not found
+     * @return a list of TypeInfo objects associated with the object
+     * @throws DoesNotExistException refObjectURI not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException ownerTypeKey, relatedRefObjectUri, or 
-     *         contextInfo is missing or null
+     * @throws MissingParameterException refObjectURI or contextInfo
+     *         is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getAllowedTypesForType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relatedRefObjectUri") String relatedRefObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getTypesForGroupType(@WebParam(name = "groupTypeKey") String groupTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Get the list of Types that are allowed for another typeKey.
+     * 
+     * This is a convenience method to retrieve TypeTypeRelations with allowed 
+     * relation filtering them to see if they are active and then fetching those 
+     * types. 
+     * 
+     * Active is defined two ways: the state must be ACTIVE and today must be
+     * between the effective and expiration dates of the relationship.
+     * 
+     * Note: The type itself may or may not be active but since that is returned 
+     * consuming program is free to filter on that object.
+     * 
+     * Should be functionally equivalent to calling the following:
+     *  relations = getTypeTypeRelationsForOwnerAndType (type, ALLOWED)
+     *  filterRelations (type=ACTIVE and today between effective and expiration
+     *  return getTypes (filteredRelations)
+     * 
+     * The relationship is captured unidirectionally from ownerType to relatedType.
+     * 
+     * @param ownerTypeKey Type key of the owner in the relation
+     * @param contextInfo Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @throws DoesNotExistException ownerTypeKey 
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException ownerTypeKey, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TypeInfo> getAllowedTypesForType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a Type. Depending on the value of validationType,
@@ -235,8 +299,8 @@ public interface TypeService {
     public TypeTypeRelationInfo getTypeTypeRelation(@WebParam(name = "typeTypeRelationId") String typeTypeRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of TypeTypeRelations from a list of idss. The
-     * returned list may be in any order and if duplicate ids are
+     * Retrieves a list of TypeTypeRelations from a list of Idss. The
+     * returned list may be in any order and if duplicate Ids are
      * supplied, a unique set may or may not be returned.
      * 
      * @param typeTypeRelationIds a list of TypeTypeRelation Ids
@@ -258,6 +322,8 @@ public interface TypeService {
      * This method retrieves all the TypeTypeRelation objects for a
      * given ownerType and the TypeTypeRelationType.
      * 
+     * This is the reverse of getTypeTypeRelationsByRelatedTypeAndType.
+     * 
      * @param ownerTypeKey Type key of the owner in the relation
      * @param typeTypeRelationTypeKey the identifier for the Type of
      *        the TypeTypeRelation
@@ -275,8 +341,34 @@ public interface TypeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "typeTypeRelationTypeKey") String typeTypeRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerAndType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "typeTypeRelationTypeKey") String typeTypeRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+     /**
+     * This method retrieves all the TypeTypeRelation objects for a
+     * given relatedType and the TypeTypeRelationType.
+     * 
+     * This is the reverse of getTypeTypeRelationsByOwnerAndType.
+     * 
+     * @param relatedTypeKey Type key of the related type in the relation
+     * @param typeTypeRelationTypeKey the identifier for the Type of
+     *        the TypeTypeRelation
+     * @param contextInfo Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return List of TypeTypeRelations for a given ownerType
+     * @throws DoesNotExistException ownerTypeKey or
+     *         typeTypeRelationTypeKey not found
+     * @throws InvalidParameterException invalid ownerTypeKey or
+     *         typeTypeRelationTypeKey
+     * @throws MissingParameterException missing ownerTypeKey,
+     *         typeTypeRelationTypeKey, or contextInfo is missing or
+     *         null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByRelatedTypeAndType(@WebParam(name = "relatedTypeKey") String relatedTypeKey, @WebParam(name = "typeTypeRelationTypeKey") String typeTypeRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
     /**
      * Validates a TypeTypeRelation. Depending on the value of
      * validationType, this validation could be limited to tests on
@@ -315,15 +407,14 @@ public interface TypeService {
      * Creates a new TypeTypeRelation. The TypeTypeRelation Type
      * indicates the type of relation between the two peer Types.
      * 
-     * @param typeTypeRelationId the identifier for the new TypeTypeRelation
-     * @param typeKey a peer of the relationship
-     * @param typePeerKey a peer of the relationship
+     * @param typeTypeRelationTypeKey the identifier for the new TypeTypeRelation
+     * @param ownerTypeKey the owner of the relationship
+     * @param relatedTypeKey the related type in the relationship
      * @param typeTypeRelationTypeKey the identifier for the Type of
      *        TypeTypeRelation to be created
      * @param typeTypeRelationInfo the relationship to be created
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
-     * @return the new TypeTypeRelation
      * @throws DataValidationErrorException supplied data is invalid
      * @throws DoesNotExistException typeKey, typePeerKey, or
      *         typeTypeRelationTypeKey is not found
@@ -337,7 +428,13 @@ public interface TypeService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */ 
-    public TypeTypeRelationInfo createTypeTypeRelation(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "typePeerKey") String typePeerKey, @WebParam(name = "typeTypeRelationTypeKey") String typeTypeRelationTypeKey, @WebParam(name = "typeTypeRelationInfo") TypeTypeRelationInfo typeTypeRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public TypeTypeRelationInfo createTypeTypeRelation(
+            @WebParam(name = "typeTypeRelationTypeKey") String typeTypeRelationTypeKey, 
+            @WebParam(name = "ownerTypeKey") String ownerTypeKey, 
+            @WebParam(name = "relatedTypeKey") String relatedTypeKey, 
+            @WebParam(name = "typeTypeRelationInfo") TypeTypeRelationInfo typeTypeRelationInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates a type Milestone Relationship. The TypeTypeRelation Id,

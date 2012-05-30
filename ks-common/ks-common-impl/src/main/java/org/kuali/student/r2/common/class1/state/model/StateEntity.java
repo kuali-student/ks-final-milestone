@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -21,16 +22,25 @@ import org.kuali.student.r2.common.state.dto.StateInfo;
 import org.kuali.student.r2.common.state.infc.State;
 
 @Entity
-@Table(name = "KSEN_COMM_STATE")
-public class StateEntity extends MetaEntity implements AttributeOwner<StateAttributeEntity> {
-	@Column(name="NAME")
+@Table(name = "KSEN_STATE")
+//TODO: Uncomment when/if we figure out if we store xxx_KEY as such in the DB instead of as ID
+//@AttributeOverrides({
+// @AttributeOverride(name = "id", column =
+// @Column(name = "STATE_KEY"))})
+public class StateEntity extends MetaEntity {
+	
+    @Column(name="NAME")
     private String name;
 
-    @Column(name="DESCR")
-    private String description;
+	@Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable=false)
+    private String descrPlain;
+	
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String descrFormatted;
     
-    @Column(name="PROCESS_KEY")
-    private String processKey;
+    // TODO: consider storing this as a related JPA entity instead of as a string
+    @Column(name = "LIFECYCLE_KEY")
+    private String lifecycleKey;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -51,21 +61,29 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescrFormatted() {
+        return descrFormatted;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescrFormatted(String descrFormatted) {
+        this.descrFormatted = descrFormatted;
     }
 
-	public String getProcessKey() {
-		return processKey;
-	}
+    public String getDescrPlain() {
+        return descrPlain;
+    }
 
-	public void setProcessKey(String processKey) {
-		this.processKey = processKey;
-	}
+    public void setDescrPlain(String descrPlain) {
+        this.descrPlain = descrPlain;
+    }
+
+    public String getLifecycleKey() {
+        return lifecycleKey;
+    }
+
+    public void setLifecycleKey(String lifecycleKey) {
+        this.lifecycleKey = lifecycleKey;
+    }
 	
 	public Date getEffectiveDate() {
 		return effectiveDate;
@@ -93,44 +111,44 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
 
 	public StateEntity(){}
 
-	public StateEntity(State state){
-		super();
-		try{
-			this.setId(state.getKey());
-			this.setName(state.getName());
-                        if (state.getDescr() != null) {
-			 this.setDescription(state.getDescr().getPlain());
-                        }
-			this.setVersionNumber((long) 0);
-			this.setEffectiveDate(state.getEffectiveDate());
-	        this.setExpirationDate(state.getExpirationDate());
-			this.setAttributes(new ArrayList<StateAttributeEntity>());
-			if(null != state.getAttributes()){
-				for (Attribute att : state.getAttributes()) {
-					StateAttributeEntity attEntity = new StateAttributeEntity(att);
-		            this.getAttributes().add(attEntity);
-		        }				
-			}
-		} catch (Exception e){
-            e.printStackTrace();
-        }		
-	}
+	public StateEntity(State state) {
+        super();
+        this.setId(state.getKey());
+        this.lifecycleKey = state.getLifecycleKey();
+        this.fromDto(state);
+    }
 	
-	public StateInfo toDto(){
-		StateInfo state = new StateInfo ();
-		state.setKey(getId());
-		state.setName(name);
-		state.setDescr(new RichTextHelper ().fromPlain(description));
-		state.setEffectiveDate(effectiveDate);
-		state.setExpirationDate(expirationDate);
-		
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+	public void fromDto(State state) {
+        this.setName(state.getName());
+        if (state.getDescr() == null) {
+            this.descrPlain = null;
+            this.descrFormatted = null;
+        } else {
+            this.descrPlain = state.getDescr().getPlain();
+            this.descrFormatted = state.getDescr().getFormatted();
+        }
+        this.effectiveDate = state.getEffectiveDate();
+        this.expirationDate = state.getExpirationDate();
+        this.setAttributes(new ArrayList<StateAttributeEntity>());
+        for (Attribute att : state.getAttributes()) {
+            StateAttributeEntity attEntity = new StateAttributeEntity(att, this);
+            this.getAttributes().add(attEntity);
+        }
+    }
+	
+	public StateInfo toDto() {
+        StateInfo info = new StateInfo();
+        info.setKey(getId());
+        info.setLifecycleKey(lifecycleKey);
+        info.setName(name);
+        info.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
+        info.setEffectiveDate(effectiveDate);
+        info.setExpirationDate(expirationDate);
+        info.setMeta(super.toDTO());
         for (StateAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
-        }
-        state.setAttributes(atts);
-        
-        return state;
-	}
+            info.getAttributes().add(attInfo);
+        };
+        return info;
+    }
 }

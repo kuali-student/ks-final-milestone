@@ -210,7 +210,7 @@ public class NLCluSet {
 		if (cluSet.getMembershipQuery() != null && !cluSet.getMembershipQuery().getQueryParamValues().isEmpty()) 
 			for (SearchParamInfo searchParam : cluSet.getMembershipQuery().getQueryParamValues()) 
 				if (searchParam.getKey().equals(param)) 
-					return (String)searchParam.getValue();
+					return searchParam.getValues().get(0);
 		return value;
 	}	
 }

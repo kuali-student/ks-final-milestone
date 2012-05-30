@@ -39,7 +39,7 @@
 	</bean>
 
 	<bean id="orgService"
-		class="org.kuali.student.r1.core.organization.service.impl.OrganizationServiceImpl">
+		class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
 	</bean>
 
 	<bean id="atpService"

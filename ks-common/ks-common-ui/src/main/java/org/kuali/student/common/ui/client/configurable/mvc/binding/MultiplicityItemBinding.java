@@ -34,7 +34,6 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @deprecated
  */
-@Deprecated
 public class MultiplicityItemBinding extends ModelWidgetBindingSupport<MultiplicityItem> {
     public static MultiplicityItemBinding INSTANCE = new MultiplicityItemBinding();
 

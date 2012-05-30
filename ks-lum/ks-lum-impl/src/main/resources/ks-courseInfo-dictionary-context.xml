@@ -65,10 +65,10 @@
          their model structure
     see https://jira.kuali.org/browse/KSLUM-375
     -->
-<!-- TODO KSCM-      <ref bean="courseInfo.searchCourseVersions"/> 
+	<ref bean="courseInfo.searchCourseVersions"/> 
 
     <ref bean="freestanding.search.cluset" />
-    <ref bean="freestanding.search.findCourse" />-->
+    <ref bean="freestanding.search.findCourse" />
 
    </list>
   </property>
@@ -81,10 +81,37 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>DRAFT</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiOrgIdRepeating">
+         <property name="caseConstraint">
+            <bean parent="caseConstraintStateEquals">
+        		<property name="fieldPath" value="proposal/workflowNode"/>
+		        <property name="whenConstraint">
+					<list>
+						<bean parent="whenConstraint">
+							<property name="values" ref="courseInfo.unitsContentOwner.requiredByNode"/>
+							<property name="constraint">
+						        <bean parent="baseKualiOrgIdRepeatingRequired"/>
+							</property>
+						</bean>
+					</list>
+				</property>
+		    </bean>
+		    </property>
+        </bean>
+       </property>
+      </bean>
       <bean parent="whenConstraint">
        <property name="values">
         <list>
@@ -106,12 +133,27 @@
  </bean>
  <bean id="courseInfo.unitsContentOwner" parent="courseInfo.unitsContentOwner-parent" />
 
+<bean id="courseInfo.unitsContentOwner.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>PreRoute</value>
+			<value>Document Organization Review</value>
+			<value>Publication Decision Review</value>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
+
  <bean id="courseInfo.campusLocations-parent" abstract="true" parent="cluInfo.campusLocations-parent">
   <property name="name" value="campusLocations" />
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -145,7 +187,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -183,7 +225,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -219,7 +261,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -261,16 +303,45 @@
  </bean>
  <bean id="courseInfo.courseTitle" parent="courseInfo.courseTitle-parent" />
 
- <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseKualiTypeRepeating">
+ <bean id="courseInfo.creditOptions-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="creditOptions"/>
-<!--  <property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultComponentInfo"/>-->
+  <property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultValuesGroupInfo"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+        <value>DRAFT</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseComplexRepeating">
+         <property name="caseConstraint">
+            <bean parent="caseConstraintStateEquals">
+        		<property name="fieldPath" value="proposal/workflowNode"/>
+		        <property name="whenConstraint">
+					<list>
+						<bean parent="whenConstraint">
+							<property name="values" ref="courseInfo.creditOptions.requiredByNode"/>
+							<property name="constraint">
+							    <bean parent="baseComplexRepeating">
+						         <property name="minOccurs" value="1" />
+						        </bean>
+							</property>
+						</bean>
+					</list>
+				</property>
+		    </bean>
+		    </property>
+        </bean>
+       </property>
+      </bean>
       <bean parent="whenConstraint">
        <property name="values">
         <list>
@@ -294,12 +365,27 @@
  </bean>
  <bean id="courseInfo.creditOptions" parent="courseInfo.creditOptions-parent"/>
 
+<bean id="courseInfo.creditOptions.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>PreRoute</value>
+			<value>Document Organization Review</value>
+			<value>Publication Decision Review</value>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
+
  <bean id="courseInfo.gradingOptions-parent" abstract="true" parent="baseKualiTypeRepeating">
   <property name="name" value="gradingOptions"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -357,13 +443,19 @@
  </bean>
  <bean id="courseInfo.unitsDeployment" parent="courseInfo.unitsDeployment-parent" />
 
+<bean id="caseConstraintStateEquals" parent="caseConstraint" abstract="true">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+ </bean>
+ 
  <bean id="courseInfo.descr-parent" abstract="true" parent="cluInfo.descr">
   <property name="name" value="descr" />
   <property name="dataObjectStructure" ref="courseInfo.descr.RichTextInfo" />
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>      
@@ -411,7 +503,7 @@
 	<property name="caseConstraint">
 		<bean parent="caseConstraint">
 			<property name="operator" value="EQUALS" />
-			<property name="fieldPath" value="stateKey" />
+			<property name="fieldPath" value="state" />
 			<property name="caseSensitive" value="false" />
 			<property name="whenConstraint">
 				<list>
@@ -445,7 +537,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -595,7 +687,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -651,7 +743,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -728,7 +820,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
 		        <property name="whenConstraint">
 					<list>
@@ -769,7 +861,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -1235,16 +1327,16 @@
   <property name="name" value="org.kuali.student.r2.common.dto.AmountInfo" />
   <property name="attributes">
    <list>
-    <ref bean="activityInfo.contactHours.unitType" />
+    <ref bean="activityInfo.contactHours.unitTypeKey" />
     <ref bean="activityInfo.contactHours.unitQuantity" />
    </list>
   </property>
  </bean>
  <bean id="activityInfo.contactHours-structure" parent="activityInfo.contactHours-structure-parent" />
 
- <bean id="activityInfo.contactHours.unitType-parent" abstract="true" parent="amountInfo.unitTypeKey-parent">
+ <bean id="activityInfo.contactHours.unitTypeKey-parent" abstract="true" parent="amountInfo.unitTypeKey-parent">
  </bean>
- <bean id="activityInfo.contactHours.unitType" parent="activityInfo.contactHours.unitType-parent" />
+ <bean id="activityInfo.contactHours.unitTypeKey" parent="activityInfo.contactHours.unitTypeKey-parent" />
 
  <bean id="activityInfo.contactHours.unitQuantity-parent" abstract="true" parent="amountInfo.unitQuantity-parent">
   <property name="maxLength" value="9"/>
@@ -1312,7 +1404,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="stateKey"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -1365,17 +1457,17 @@
   <property name="name" value="org.kuali.student.r2.common.dto.AmountInfo" />
   <property name="attributes">
    <list>
-    <ref bean="courseInfo.outOfClassHours.unitType" />
+    <ref bean="courseInfo.outOfClassHours.unitTypeKey" />
     <ref bean="courseInfo.outOfClassHours.unitQuantity" />
    </list>
   </property>
  </bean>
  <bean id="courseInfo.outOfClassHours-structure" parent="courseInfo.outOfClassHours-structure-parent" />
 
- <bean id="courseInfo.outOfClassHours.unitType-parent" abstract="true" parent="amountInfo.unitTypeKey-parent">
+ <bean id="courseInfo.outOfClassHours.unitTypeKey-parent" abstract="true" parent="amountInfo.unitTypeKey-parent">
   <property name="dynamic" value="true"/>
  </bean>
- <bean id="courseInfo.outOfClassHours.unitType" parent="courseInfo.outOfClassHours.unitType-parent" />
+ <bean id="courseInfo.outOfClassHours.unitTypeKey" parent="courseInfo.outOfClassHours.unitTypeKey-parent" />
 
  <bean id="courseInfo.outOfClassHours.unitQuantity-parent" abstract="true" parent="amountInfo.unitQuantity-parent">
   <property name="dynamic" value="true"/>
@@ -1460,52 +1552,49 @@
  </bean>
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.id" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.id-parent" />
 
-<!-- Redefine the ResultComponentInfo to have dynamic attributes
-<bean id="courseInfo.creditOptions.ResultComponentInfo-parent" abstract="true"
-      parent="org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo-parent">
+<!-- Redefine the ResultComponentInfo to have dynamic attributes -->
+<bean id="courseInfo.creditOptions.ResultValuesGroupInfo-parent" abstract="true"
+      parent="org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo-parent">
  <property name="attributes">
   <list>
-   <ref bean="resultComponentInfo.descr" />
-   <ref bean="resultComponentInfo.effectiveDate" />
-   <ref bean="resultComponentInfo.expirationDate" />
-   <ref bean="resultComponentInfo.id" />
-   <ref bean="resultComponentInfo.name" />
-   <ref bean="resultComponentInfo.resultValuesNumeric" />
-   <ref bean="course.resultComponentInfo.stateKey" />
-   <ref bean="resultComponentInfo.typeKey" />
-   <ref bean="resultComponentInfo.minCreditValue"/>
-   <ref bean="resultComponentInfo.maxCreditValue"/>
-   <ref bean="resultComponentInfo.fixedCreditValue"/>
-  </list>
+    <ref bean="resultValuesGroupInfo.key"/>
+    <ref bean="resultValuesGroupInfo.typeKey"/>
+    <ref bean="resultValuesGroupInfo.stateKey"/>
+    <ref bean="resultValuesGroupInfo.name"/>
+    <ref bean="resultValuesGroupInfo.descr"/>
+    <ref bean="resultValuesGroupInfo.resultScaleKey"/>
+    <ref bean="resultValuesGroupInfo.resultValueKeys"/>
+    <ref bean="resultValuesGroupInfo.resultValueRange"/>
+    <ref bean="resultValuesGroupInfo.effectiveDate"/>
+    <ref bean="resultValuesGroupInfo.expirationDate"/>
+   </list>
  </property>
 </bean>
-<bean id="courseInfo.creditOptions.ResultComponentInfo" parent="courseInfo.creditOptions.ResultComponentInfo-parent" />
+<bean id="courseInfo.creditOptions.ResultValuesGroupInfo" parent="courseInfo.creditOptions.ResultValuesGroupInfo-parent" />
 
- <bean id="course.resultComponentInfo.stateKey-parent" abstract="true" parent="baseKualiState">
+ <bean id="resultValuesGroupInfo.stateKey-parent" abstract="true" parent="baseKualiState">
   <property name="name" value="stateKey"/>
  </bean>
- <bean id="course.resultComponentInfo.stateKey" parent="course.resultComponentInfo.stateKey-parent"/>
+ <bean id="resultValuesGroupInfo.stateKey" parent="resultValuesGroupInfo.stateKey-parent"/>
 
- <bean id="resultComponentInfo.resultValuesNumeric-parent" abstract="true" parent="baseNumericString">
+ <bean id="resultValuesGroupInfo.resultValuesNumeric-parent" abstract="true" parent="baseNumericString">
   <property name="name" value="resultValues" />
   <property name="maxOccurs" value="unbounded" />
-      </bean>
- <bean id="resultComponentInfo.resultValuesNumeric" parent="resultComponentInfo.resultValuesNumeric-parent" />
+ </bean>
+ <bean id="resultValuesGroupInfo.resultValuesNumeric" parent="resultValuesGroupInfo.resultValuesNumeric-parent" />
  
- <bean id="resultComponentInfo.minCreditValue" parent="baseNumericString" >
+ <bean id="resultValuesGroupInfo.minCreditValue" parent="baseNumericString" >
   <property name="name" value="minCreditValue"/>
   <property name="dynamic" value="true"/>
  </bean>
- <bean id="resultComponentInfo.maxCreditValue" parent="baseNumericString">
+ <bean id="resultValuesGroupInfo.maxCreditValue" parent="baseNumericString">
   <property name="name" value="maxCreditValue"/>
   <property name="dynamic" value="true"/>
  </bean>
- <bean id="resultComponentInfo.fixedCreditValue" parent="baseNumericString">
+ <bean id="resultValuesGroupInfo.fixedCreditValue" parent="baseNumericString">
   <property name="name" value="fixedCreditValue"/>
   <property name="dynamic" value="true"/>
    </bean>
-   
-    -->
  <!-- VersionInfo-->
  <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
   <property name="name" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>

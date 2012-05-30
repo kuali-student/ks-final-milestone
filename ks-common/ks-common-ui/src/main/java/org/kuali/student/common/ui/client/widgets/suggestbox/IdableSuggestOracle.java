@@ -20,7 +20,6 @@ import java.util.Map;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
 
-@Deprecated
 public abstract class IdableSuggestOracle extends SuggestOracle{
     public static class IdableSuggestion implements Suggestion{
         private String id;

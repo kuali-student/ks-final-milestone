@@ -29,7 +29,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Brian Smith
  *
  */
-@Deprecated
 public class VerticalSectionView extends SectionView {
 
     public VerticalSectionView() {

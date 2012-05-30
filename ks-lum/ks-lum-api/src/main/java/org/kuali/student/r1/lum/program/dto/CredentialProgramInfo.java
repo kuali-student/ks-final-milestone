@@ -29,9 +29,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.r1.common.dto.HasAttributes;
 import org.kuali.student.r1.common.dto.Idable;
-import org.kuali.student.r1.common.dto.MetaInfo;
-import org.kuali.student.r1.common.dto.RichTextInfo;
-import org.kuali.student.r1.common.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;

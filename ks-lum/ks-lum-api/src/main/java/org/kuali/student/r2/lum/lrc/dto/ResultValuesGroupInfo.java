@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
-//import org.w3c.dom.Element;
 
 /**
  * Detailed information about a group of result values.
@@ -84,14 +83,18 @@ public class ResultValuesGroupInfo
         expirationDate = null;
     }
 
-    public ResultValuesGroupInfo(ResultValuesGroup resultValuesGroup) {
-        super(resultValuesGroup);
-        if (null != resultValuesGroup) {
-            this.resultScaleKey = resultValuesGroup.getResultScaleKey();
-            this.resultValueKeys = new ArrayList<String>(resultValuesGroup.getResultValueKeys());
-            this.resultValueRange = new ResultValueRangeInfo(resultValuesGroup.getResultValueRange());
-            this.effectiveDate = new Date(resultValuesGroup.getEffectiveDate().getTime());
-            this.expirationDate = new Date(resultValuesGroup.getExpirationDate().getTime());
+    public ResultValuesGroupInfo(ResultValuesGroup orig) {
+        super(orig);
+        if (null != orig) {
+            this.resultScaleKey = orig.getResultScaleKey();
+            this.resultValueKeys = new ArrayList<String>(orig.getResultValueKeys());
+            this.resultValueRange = new ResultValueRangeInfo(orig.getResultValueRange());
+            if (orig.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(orig.getEffectiveDate().getTime());
+            }
+            if (orig.getExpirationDate() != null) {
+                this.expirationDate = new Date(orig.getExpirationDate().getTime());
+            }
         }
     }
 
@@ -106,6 +109,9 @@ public class ResultValuesGroupInfo
 
     @Override
     public List<String> getResultValueKeys() {
+        if (this.resultValueKeys == null) {
+            this.resultValueKeys = new ArrayList<String>();
+        }
         return resultValueKeys;
     }
 

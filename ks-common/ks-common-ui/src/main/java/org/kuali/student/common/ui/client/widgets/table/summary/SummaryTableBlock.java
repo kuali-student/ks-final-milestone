@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 
-@Deprecated
 public class SummaryTableBlock {
     private String title = "";
     private List<SummaryTableRow> sectionRowList = new ArrayList<SummaryTableRow>();

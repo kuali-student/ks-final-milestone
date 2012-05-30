@@ -25,9 +25,8 @@ import org.kuali.student.r2.common.infc.IdEntity;
  *
  * There can only be one override structure per exemption request. The
  * override structure available in this ExmeptionRequest is
- * constrained by the ExemptionRequest Type.
- * What about populations such as all athletes, or some other group of
- * people? 
+ * constrained by the ExemptionRequest Type.  What about populations
+ * such as all athletes, or some other group of people?
  *
  * @author tom
  * @since Tue Jun 14 14:22:34 EDT 2011

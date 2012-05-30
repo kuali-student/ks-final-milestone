@@ -36,10 +36,9 @@ public class LrcDaoImpl extends AbstractSearchableCrudDaoImpl implements LrcDao 
 	}
 
 	@Override
-    public List<String> getResultComponentIdsByResult(String resultValueId, String resultComponentTypeKey) {
+    public List<String> getResultComponentIdsByResult(String resultValueId) {
         Query query = em.createNamedQuery("ResultComponent.getResultComponentIdsByResult");
         query.setParameter("resultValueId", resultValueId);
-        query.setParameter("resultComponentTypeKey", resultComponentTypeKey);
         @SuppressWarnings("unchecked")
         List<String> resultList = query.getResultList();
         return resultList;

@@ -80,7 +80,13 @@ h7.ks-layout-header{
 .header-underline{
 	border-bottom: solid 2px #ccc;
 }
-	
+
+h4.text-underline{
+    font-size: 1.1538em;
+    font-weight: bold;
+    font-family: Georgia;
+    text-decoration: underline;
+}
 
 .ks-section-widget{
 	padding-bottom: 3px;
@@ -390,7 +396,7 @@ position:relative;
 	.ks-form-module {
 		color: #444;
 		height: 1%;
-		margin-bottom: 1em;
+		margin-bottom: .6em;
 		clear: both;
 	}
 }
@@ -614,6 +620,7 @@ margin-left:4px;
 .ks-form-module-triple-line-margin{margin-top: 3.6em;}
 .ks-form-module-double-line-margin{margin-top: 2.4em;}
 .ks-form-module-single-line-margin{margin-top: 1.2em;}
+.ks-form-module-single-line-margin-narrow{margin-top: .4em;}
 .ks-form-module-no-line-margin{margin-top: 0em;}
 
 label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin  {

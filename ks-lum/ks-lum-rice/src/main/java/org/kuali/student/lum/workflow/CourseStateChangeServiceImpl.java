@@ -30,7 +30,9 @@ public class CourseStateChangeServiceImpl {
 	private CourseService courseService;
 
 	/**
-	 * Change the state of a course to a new state
+	 * Change the state of a course to a new state.
+     * This method exists to help handle some extra logic that was required
+     * to implement Pilot courses, Administrative Retire and Retire by Proposal.
 	 * 
 	 * @param courseId id of course
 	 * @param newState the new state for the course
@@ -40,21 +42,67 @@ public class CourseStateChangeServiceImpl {
 	 */
 	public StatusInfo changeState(String courseId, String newState,	String prevEndTermAtpId,ContextInfo contextInfo) throws Exception {
 
+	    // Get the newest version of the course.  This is the one with the latest
+        // sequence number - the very latest course.  Confusing, huh?
 		CourseInfo courseInfo = courseService.getCourse(courseId,contextInfo);
+		
+		// This naming is a bit confusing since current version means
+        // different things.  Just find the cluId in the debugger and
+        // compare against what is in the KSLU_CLU table.  It is older
+        // than the courseInfo variable above
+        CourseInfo currVerCourse = getCurrentVersionOfCourse(courseInfo, contextInfo);
+        
+        // If the versions are equal, this is the only version.  
+        // There are no versions before it
+        boolean isOnlyVersion = (courseInfo.getId().equals(currVerCourse.getId()));
 
+        // This variable is used to return if this method was successful
 		StatusInfo ret = new StatusInfo();
-		if (newState.equals(DtoConstants.STATE_ACTIVE)) {
-            if(courseInfo.isPilotCourse()){
-                //Pilot courses get Retired
-                //Add required fields for Retired State
+		
+		// If we are trying to activate the course (new state coming in is active)
+		if ((newState!=null) && (newState.equals(DtoConstants.STATE_ACTIVE))) {
+            
+            // Processing for pilot courses.  These are handled a bit differently.
+            // Instead of activating, we are going to retire it.  Also, if there
+            // is a previous version, we'll supersede it.
+            if ((courseInfo!=null) && courseInfo.isPilotCourse()){
+                
+                // If this is the only version, it means there are no previous version of the pilot course
+                // in this case, we don't need to supersede anything.  
+                if (!isOnlyVersion){
+                    currVerCourse.setStateKey(DtoConstants.STATE_SUPERSEDED);
+                    courseService.updateCourse(currVerCourse.getId(), currVerCourse, contextInfo);
+                    updateStatementTreeViewInfoState(currVerCourse, contextInfo);
+
+                }
+                
+                // Pilot Course Creates come through here the 2nd time and
+                // gets Retired but first, add fields which are required only for Retired State
                 courseInfo.getAttributes().add(new AttributeInfo("retirementRationale", "Pilot Course"));
                 courseInfo.getAttributes().add(new AttributeInfo("lastTermOffered", courseInfo.getEndTerm()));
                 courseInfo.setStateKey(DtoConstants.STATE_ACTIVE);
                 retireCourse(courseInfo, contextInfo);
+                
+                // We MUST run this after the call to retireCourse or else we
+                // will get a version mismatch exception
+                if (!isOnlyVersion){
+                    
+                    // For some reason we need to read the course back in to avoid the
+                    // version mismatch exception
+                    courseInfo = courseService.getCourse(courseId, contextInfo);
+                    
+                    // Now update the CURR_VER_START and CURR_VER_END
+                    courseService.setCurrentCourseVersion(courseInfo.getId(),
+                           null, contextInfo);
+                     
+                }
+                
             }else{
+                // If NOT a pilot, just activate the course
                 activateCourse(courseInfo, prevEndTermAtpId, contextInfo);
             }
         } else if (newState.equals(DtoConstants.STATE_RETIRED)) {
+            // The new state coming in is retired, so just retire the course
             retireCourse(courseInfo, contextInfo);
         }
 
@@ -81,7 +129,8 @@ public class CourseStateChangeServiceImpl {
 				// setstate for thisVerCourse and setCurrentVersion(courseId)
 				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, null, true, prevEndTermAtpId,contextInfo);
 			} else if (currVerState.equals(DtoConstants.STATE_ACTIVE) ||
-					currVerState.equals(DtoConstants.STATE_SUSPENDED)) {
+                    currVerState.equals(DtoConstants.STATE_SUSPENDED) ||
+                    currVerState.equals(DtoConstants.STATE_RETIRED)) {
 				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, DtoConstants.STATE_SUPERSEDED, true, prevEndTermAtpId,contextInfo);
 			}
 		}

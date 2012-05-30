@@ -26,7 +26,6 @@ import com.google.gwt.user.client.ui.Composite;
  * @author Kuali Student Team
  * @see VerticalFieldLayout
  */
-@Deprecated
 public class VerticalSection extends BaseSection {
 
     private Composite showAllLink = null;

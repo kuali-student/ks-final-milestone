@@ -100,12 +100,18 @@ public abstract class MetaEntity extends BaseVersionEntity {
     @Override
     protected void onPrePersist() {
         super.onPrePersist();
-        setCreateTime(new Date());
-        setUpdateTime(new Date());
-
-        String user = SecurityUtils.getCurrentUserId();
-        setCreateId(user);
-        setUpdateId(user);
+        if (createTime == null) {
+            setCreateTime(new Date());
+        }
+        if (updateTime == null) {
+            setUpdateTime(new Date());
+        }
+        if (createId == null) {
+            setCreateId(SecurityUtils.getCurrentUserId());
+        }
+        if (updateId == null) {
+            setUpdateId(SecurityUtils.getCurrentUserId());
+        }
 
     }
 
@@ -113,17 +119,23 @@ public abstract class MetaEntity extends BaseVersionEntity {
     protected void onPreUpdate() {
         super.onPreUpdate();
         // This code should not be here, but hibernate is calling update
-        // callback instead of prepersit if the id is not null.
-        if (getCreateTime() == null) {
+        // callback instead of prepersit if the id is not null.        
+        if (createTime == null) {
             setCreateTime(new Date());
         }
-
-        String user = SecurityUtils.getCurrentUserId();
-        setUpdateId(user);
+        if (updateTime == null) {
+            setUpdateTime(new Date());
+        }
+        if (createId == null) {
+            setCreateId(SecurityUtils.getCurrentUserId());
+        }
+        if (updateId == null) {
+            setUpdateId(SecurityUtils.getCurrentUserId());
+        }
     }
 
     public MetaInfo toDTO() {
-        MetaInfo miInfo = MetaInfo.newInstance();
+        MetaInfo miInfo = new MetaInfo();
         miInfo.setCreateId(getCreateId());
         miInfo.setCreateTime(getCreateTime());
         miInfo.setUpdateId(getUpdateId());

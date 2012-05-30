@@ -35,7 +35,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team 
  *
  */
-@Deprecated
 public class KSCheckBoxList extends KSSelectItemWidgetAbstract implements HasBlurHandlers, HasFocusHandlers {
     private KSCheckBoxListImpl selectItemWidget = GWT.create(KSCheckBoxListImpl.class);
 

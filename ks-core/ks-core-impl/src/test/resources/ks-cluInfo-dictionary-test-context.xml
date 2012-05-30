@@ -294,7 +294,6 @@
 		<property name="name" value="formatted" />
 	</bean>
 	<bean id="richTextInfo.formatted" parent="richTextInfo.formatted-parent" />
-    <bean id="R1richTextInfo.formatted" parent="R1richTextInfo.formatted-parent" />
 
 	<bean id="richTextInfo.plain-parent" abstract="true" parent="baseSingleString">
 		<property name="name" value="plain" />

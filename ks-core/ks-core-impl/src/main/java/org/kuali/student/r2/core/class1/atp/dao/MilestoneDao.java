@@ -9,61 +9,51 @@ import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 
 public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {
+    
+    private static final String OVERLAP_LOGIC = "m.startDate between :startRange and :endRange or :startRange between m.startDate and m.endDate";
 
     @SuppressWarnings("unchecked")
     public List<MilestoneEntity> getByMilestoneTypeId(String milestoneType) {
-        return em.createQuery("from MilestoneEntity m where m.atpType=:mstoneType")
-                .setParameter("mstoneType", milestoneType).getResultList();
+        return em.createQuery("from MilestoneEntity m where m.atpType=:mstoneType").setParameter("mstoneType", milestoneType).getResultList();
     }
 
     @SuppressWarnings("unchecked")
     public List<MilestoneEntity> getByDateRange(Date startRange, Date endRange) {
-        return em
-                .createQuery(
-                        "from MilestoneEntity m where m.startDate between :startRange and :endRange or m.endDate between :startRange and :endRange")
-                .setParameter("startRange", startRange).setParameter("endRange", endRange).getResultList();
+        // For the logic to this query see https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates
+        return em.createQuery(
+                "from MilestoneEntity m where " + OVERLAP_LOGIC).setParameter("startRange", startRange).setParameter("endRange", endRange).getResultList();
     }
 
     @SuppressWarnings("unchecked")
     public List<MilestoneEntity> getByDateRangeAndType(Date startRange, Date endRange, String milestoneType) {
-        Query query = em
-                .createQuery("from MilestoneEntity m where (m.startDate between :startRange and :endRange or m.endDate between :startRange and :endRange) and (m.milestoneType=:mstoneType)");
+        Query query = em.createQuery("from MilestoneEntity m where m.milestoneType=:mstoneType and (" + OVERLAP_LOGIC + ")");
         query.setParameter("startRange", startRange);
         query.setParameter("endRange", endRange);
         query.setParameter("mstoneType", milestoneType);
-
         return query.getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public List<MilestoneEntity> getByAtp(String atpId) {
-        return em.createQuery("select m.milestone from AtpMilestoneRelationEntity m where m.atp.id = :atpId")
-                .setParameter("atpId", atpId).getResultList();
+    public List<String> getIdsByAtp(String atpId) {
+        Query query = em.createQuery("select m.milestoneId from AtpMilestoneRelationEntity m where m.atpId = :atpId");
+        query.setParameter("atpId", atpId);
+        return query.getResultList();
     }
-
+    
     @SuppressWarnings("unchecked")
-    public List<MilestoneEntity> getByTypeForAtp(String atpId, String milestoneType) {
-        return em
-                .createQuery(
-                        "select m.milestone from AtpMilestoneRelationEntity m where m.atp.id = :atpId and m.milestone.atpType = :milestoneType")
-                .setParameter("atpId", atpId).setParameter("milestoneType", milestoneType).getResultList();
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<MilestoneEntity> getByDatesForAtp(String atpId, Date startDate, Date endDate) {
-        return em
-                .createQuery(
-                        "select m.milestone from AtpMilestoneRelationEntity m where m.atp.id = :atpId and m.milestone.startDate = :startDate and m.milestone.endDate = :endDate")
-                .
+    public List<MilestoneEntity> getByDatesForAtp(String atpId, Date startRange, Date endRange) {
+        return em.createQuery(
+                "select m.milestoneId from AtpMilestoneRelationEntity m where m.atpId = :atpId and (" + OVERLAP_LOGIC + ")").
                 setParameter("atpId", atpId).
-                setParameter("startDate", startDate).
-                setParameter("endDate", endDate).
+                setParameter("startRange", startRange).
+                setParameter("startRange", endRange).
                 getResultList();
     }
 
     @SuppressWarnings("unchecked")
     public List<MilestoneEntity> getImpactedMilestones(String milestoneId) {
-        return em.createQuery("from MilestoneEntity m where m.relativeAnchorMilestone.id=:milestoneId")
-                .setParameter("milestoneId", milestoneId).getResultList();
+        return em.createQuery("from MilestoneEntity m where m.relativeAnchorMilestoneId=:milestoneId").
+                setParameter("milestoneId", milestoneId).
+                getResultList();
     }
 }

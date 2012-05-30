@@ -48,28 +48,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProcessServiceImpl implements ProcessService {
 
     private CheckDao checkDao;
-    private CheckTypeDao checkTypeDao;
     private InstructionDao instructionDao;
-    private InstructionTypeDao instructionTypeDao;
     private ProcessDao processDao;
-    private ProcessTypeDao processTypeDao;
     private StateService stateService;
-    private TypeService typeService;
-
+    
     public CheckDao getCheckDao() {
         return checkDao;
     }
 
     public void setCheckDao(CheckDao checkDao) {
         this.checkDao = checkDao;
-    }
-
-    public CheckTypeDao getCheckTypeDao() {
-        return checkTypeDao;
-    }
-
-    public void setCheckTypeDao(CheckTypeDao checkTypeDao) {
-        this.checkTypeDao = checkTypeDao;
     }
 
     public InstructionDao getInstructionDao() {
@@ -80,14 +68,6 @@ public class ProcessServiceImpl implements ProcessService {
         this.instructionDao = instructionDao;
     }
 
-    public InstructionTypeDao getInstructionTypeDao() {
-        return instructionTypeDao;
-    }
-
-    public void setInstructionTypeDao(InstructionTypeDao instructionTypeDao) {
-        this.instructionTypeDao = instructionTypeDao;
-    }
-
     public ProcessDao getProcessDao() {
         return processDao;
     }
@@ -96,28 +76,12 @@ public class ProcessServiceImpl implements ProcessService {
         this.processDao = processDao;
     }
 
-    public ProcessTypeDao getProcessTypeDao() {
-        return processTypeDao;
-    }
-
-    public void setProcessTypeDao(ProcessTypeDao processTypeDao) {
-        this.processTypeDao = processTypeDao;
-    }
-
     public StateService getStateService() {
         return stateService;
     }
 
     public void setStateService(StateService stateService) {
         this.stateService = stateService;
-    }
-
-    public TypeService getTypeService() {
-        return typeService;
-    }
-
-    public void setTypeService(TypeService typeService) {
-        this.typeService = typeService;
     }
 
     @Override
@@ -305,19 +269,6 @@ public class ProcessServiceImpl implements ProcessService {
 
         process.setId(processKey);
 
-        if (processInfo.getDescr() != null) {
-            process.setDescr(new ProcessRichTextEntity(processInfo.getDescr()));
-        }
-
-        if (StringUtils.isNotBlank(processInfo.getStateKey())) {
-            process.setProcessState(findState(ProcessServiceConstants.PROCESS_LIFECYCLE_KEY, processInfo.getStateKey(),
-                    contextInfo));
-        }
-
-        if (StringUtils.isNotBlank(processInfo.getTypeKey())) {
-            process.setProcessType(processTypeDao.find(processInfo.getTypeKey()));
-        }
-
         processDao.persist(process);
 
         ProcessEntity retrieved = processDao.find(processKey);
@@ -341,14 +292,9 @@ public class ProcessServiceImpl implements ProcessService {
 
         ProcessEntity toUpdate = new ProcessEntity(processInfo);
 
-        if (StringUtils.isNotBlank(processInfo.getStateKey())) {
-            toUpdate.setProcessState(findState(ProcessServiceConstants.PROCESS_LIFECYCLE_KEY,
-                    processInfo.getStateKey(), contextInfo));
-        }
+        toUpdate.setProcessState(ProcessServiceConstants.PROCESS_LIFECYCLE_KEY);
 
-        if (StringUtils.isNotBlank(processInfo.getTypeKey())) {
-            toUpdate.setProcessType(processTypeDao.find(processInfo.getTypeKey()));
-        }
+        toUpdate.setProcessType(processInfo.getTypeKey());
 
         processDao.merge(toUpdate);
         return processDao.find(toUpdate.getId()).toDto();
@@ -460,9 +406,8 @@ public class ProcessServiceImpl implements ProcessService {
         CheckEntity checkEntity = new CheckEntity(checkInfo);
         checkEntity.setId(checkKey);
 
-        checkEntity.setCheckType(checkTypeDao.find(checkInfo.getTypeKey()));
-        checkEntity.setCheckState(findState(ProcessServiceConstants.CHECK_LIFECYCLE_KEY, checkInfo.getStateKey(),
-                contextInfo));
+        checkEntity.setCheckType(checkInfo.getTypeKey());
+        checkEntity.setCheckState(ProcessServiceConstants.CHECK_LIFECYCLE_KEY);
 
         if (StringUtils.isNotBlank(checkInfo.getProcessKey())) {
             ProcessEntity process = processDao.find(checkInfo.getProcessKey());
@@ -498,9 +443,8 @@ public class ProcessServiceImpl implements ProcessService {
 
         CheckEntity toUpdate = new CheckEntity(checkInfo);
 
-        toUpdate.setCheckType(checkTypeDao.find(checkInfo.getTypeKey()));
-        toUpdate.setCheckState(findState(ProcessServiceConstants.CHECK_LIFECYCLE_KEY, checkInfo.getStateKey(),
-                contextInfo));
+        toUpdate.setCheckType(checkInfo.getTypeKey());
+        toUpdate.setCheckState(ProcessServiceConstants.CHECK_LIFECYCLE_KEY);
 
         if (StringUtils.isNotBlank(checkInfo.getProcessKey())) {
             ProcessEntity process = processDao.find(checkInfo.getProcessKey());
@@ -664,9 +608,8 @@ public class ProcessServiceImpl implements ProcessService {
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             ReadOnlyException {
         InstructionEntity instruction = new InstructionEntity(instructionInfo);
-        instruction.setInstructionState(findState(ProcessServiceConstants.INSTRUCTION_LIFECYCLE_KEY,
-                instructionInfo.getStateKey(), contextInfo));
-        instruction.setInstructionType(instructionTypeDao.find(instructionInfo.getTypeKey()));
+        instruction.setInstructionState(instructionInfo.getStateKey());
+        instruction.setInstructionType(instructionInfo.getTypeKey());
 
         List<String> appliedAtpTypes = instructionInfo.getAppliedAtpTypeKeys();
         if (appliedAtpTypes.contains(null)) {
@@ -705,9 +648,9 @@ public class ProcessServiceImpl implements ProcessService {
         }
 
         InstructionEntity toUpdate = new InstructionEntity(instructionInfo);
-        toUpdate.setInstructionState(findState(ProcessServiceConstants.INSTRUCTION_LIFECYCLE_KEY,
-                instructionInfo.getStateKey(), contextInfo));
-        toUpdate.setInstructionType(instructionTypeDao.find(instructionInfo.getTypeKey()));
+        toUpdate.setInstructionState(
+                instructionInfo.getStateKey());
+        toUpdate.setInstructionType(instructionInfo.getTypeKey());
 
         List<String> appliedAtpTypes = instructionInfo.getAppliedAtpTypeKeys();
         if (appliedAtpTypes.contains(null)) {
@@ -780,21 +723,21 @@ public class ProcessServiceImpl implements ProcessService {
         return instructions;
     }
 
-    private StateEntity findState(String processKey, String stateKey, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        try {
-            StateInfo state = stateService.getState(stateKey, context);
-            if (null == state) {
-                throw new OperationFailedException("The state does not exist. processKey " + processKey
-                        + " and stateKey: " + stateKey);
-            }
-            return new StateEntity(state);
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: "
-                    + stateKey);
-        }
-    }
+//    private StateEntity findState(String processKey, String stateKey, ContextInfo context)
+//            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+//            PermissionDeniedException {
+//        try {
+//            StateInfo state = stateService.getState(stateKey, context);
+//            if (null == state) {
+//                throw new OperationFailedException("The state does not exist. processKey " + processKey
+//                        + " and stateKey: " + stateKey);
+//            }
+//            return new StateEntity(state);
+//        } catch (DoesNotExistException e) {
+//            throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: "
+//                    + stateKey);
+//        }
+//    }
 
     private boolean isInstructionCurrent(InstructionInfo instruction, ContextInfo contextInfo)
             throws InvalidParameterException {

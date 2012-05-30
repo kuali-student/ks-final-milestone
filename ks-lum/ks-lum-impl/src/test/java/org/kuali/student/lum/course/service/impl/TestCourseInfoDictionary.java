@@ -3,6 +3,7 @@ package org.kuali.student.lum.course.service.impl;
 import org.junit.Test;
 import org.kuali.student.common.test.mock.MockProxyFactoryBean;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.course.service.utils.*;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
@@ -10,13 +11,14 @@ import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r1.core.atp.service.AtpService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r1.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -209,11 +211,12 @@ public class TestCourseInfoDictionary {
         List<ValidationResultInfo> validationResults1 = val.validateObject(info, os, contextInfo);
         System.out.println("h3. With just a custom validations");
 
-        assertEquals(2, validationResults1.size());
+        assertEquals(6, validationResults1.size());
         
         for(ValidationResultInfo vr : validationResults1) {
             System.out.println(vr.getElement());
-            assertTrue("/revenues".equals(vr.getElement()) || "/expenditure/affiliatedOrgs".equals(vr.getElement()));
+           assertTrue("/revenues".equals(vr.getElement()) || "/expenditure/affiliatedOrgs".equals(vr.getElement())
+                    ||"revenues/0/stateKey".equals(vr.getElement()) ||"revenues/0/typeKey".equals(vr.getElement())||"revenues/1/stateKey".equals(vr.getElement()) ||"revenues/1/typeKey".equals(vr.getElement()) ||"/stateKey".equals(vr.getElement()) ||"/typeKey".equals(vr.getElement()));
         }
 
 	}

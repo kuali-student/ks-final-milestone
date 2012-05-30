@@ -50,7 +50,7 @@ import org.kuali.student.r1.core.atp.dto.MilestoneTypeInfo;
  *
  */
 @Deprecated
-@WebService(name = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/r1_atp")
+@WebService(name = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface AtpService extends SearchService, DictionaryService {
     /** 

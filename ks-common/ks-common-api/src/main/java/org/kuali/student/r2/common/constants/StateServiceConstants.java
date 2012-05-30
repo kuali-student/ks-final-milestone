@@ -29,6 +29,7 @@ public class StateServiceConstants {
     /**
      * Reference Object URIs
      */
+    public static final String SERVICE_NAME_LOCAL_PART = "StateService";
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "state";
     public static final String REF_OBJECT_URI_STATE = NAMESPACE + "/" + StateInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_LIFECYCLE = NAMESPACE + "/" + LifecycleInfo.class.getSimpleName();   

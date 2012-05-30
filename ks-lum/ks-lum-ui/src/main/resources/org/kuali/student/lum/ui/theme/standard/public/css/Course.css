@@ -101,3 +101,16 @@ border-bottom:1px dotted #D8D8D8;
 .KS-Course-Requisites-Save-Button {
     margin-top: 40px;
 }
+
+.KS-Add-Data-Box{
+  	background-color: #F1F1F1;
+    border-color: #999999;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.KS-Data-Box-ReadOnlyNeedsToBeOnTheRight {
+    margin-left: 20px;
+}

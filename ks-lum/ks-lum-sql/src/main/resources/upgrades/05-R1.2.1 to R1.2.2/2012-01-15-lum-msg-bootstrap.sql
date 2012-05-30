@@ -4,5 +4,5 @@ VALUES ('D9E0819F1C514D03B80772D22E6E2D2C', 'collaboratorNameSuggest', 'en', 'co
 /
 -- Add message for reference data
 INSERT INTO KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE, OBJ_ID, VER_NBR) 
-VALUES ('d073bc38-8c4d-48b8-b240-35ecea572c79', 'crossListedAndJoints', 'en', 'course', 'Crosslisted/Jointly Offered Courses', '64fcbc4a-fe76-4ed7-b334-ff31ade5a87f', 1)
+VALUES ('d073bc38-8c4d-48b8-b240-35ecea572c79', 'crossListedAndJoints', 'en', 'course', 'Cross Listed and Jointly Offered Courses', '64fcbc4a-fe76-4ed7-b334-ff31ade5a87f', 1)
 /

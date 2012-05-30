@@ -17,7 +17,7 @@ import java.util.Set;
 
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dto.Idable;
-import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 
 @Deprecated
 public class DictionaryCreator

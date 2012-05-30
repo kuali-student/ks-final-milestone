@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 
-@Deprecated
 public class SummaryTable  extends FlexTable{
     private SummaryTableModel model = new SummaryTableModel();
     private int rowIndex = 0;

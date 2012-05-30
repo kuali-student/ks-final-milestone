@@ -30,4 +30,14 @@ public class CluServiceConstants {
     
     public static final String CLU_NAMESPACE = "http://student.kuali.org/wsdl/clu";
     public static final String CLU_NAMESPACE_URI = "{" + CLU_NAMESPACE + "}cluInfo";
+    
+    public static final String CREDIT_COURSE_LU_TYPE_KEY = "kuali.lu.type.CreditCourse";
+    public static final String COURSE_FORMAT_TYPE_KEY = "kuali.lu.type.CreditCourseFormatShell";
+    public static final String COURSE_ACTIVITY_LAB_TYPE_KEY = "kuali.lu.type.activity.Lab";
+    public static final String COURSE_ACTIVITY_DISCUSSION_TYPE_KEY = "kuali.lu.type.activity.Discussion";
+    public static final String COURSE_ACTIVITY_TUTORIAL_TYPE_KEY = "kuali.lu.type.activity.Tutorial";
+    public static final String COURSE_ACTIVITY_LECTURE_TYPE_KEY = "kuali.lu.type.activity.Lecture";
+    public static final String COURSE_ACTIVITY_WEBLECTURE_TYPE_KEY = "kuali.lu.type.activity.WebLecture";
+    public static final String COURSE_ACTIVITY_WEBDISCUSS_TYPE_KEY = "kuali.lu.type.activity.WebDiscussion";
+    public static final String COURSE_ACTIVITY_DIRECTED_TYPE_KEY = "kuali.lu.type.activity.Directed";
 }

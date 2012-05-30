@@ -45,7 +45,7 @@ public interface MessagesRpcServiceAsync {
     public void getMessagesByGroups(
             String localeKey, 
             MessageGroupKeyList messageGroupKeyList, 
-            AsyncCallback<List<MessageInfo>> callback);
+            AsyncCallback<MessageList> callback);
     
     public void updateMessage(
             String localeKey, 

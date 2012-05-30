@@ -15,8 +15,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -54,7 +52,7 @@ import javax.jws.soap.SOAPBinding;
 
 @WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface AtpService extends DictionaryService {
+public interface AtpService {
 
     //
     // Lookup Methods for ATP Id Entity Pattern.
@@ -78,10 +76,10 @@ public interface AtpService extends DictionaryService {
 
     /**
      * Retrieves a list of Academic Time Periods from a list of ATP
-     * ids. The returned list may be in any order and if duplicate ids
+     * Ids. The returned list may be in any order and if duplicate Ids
      * are supplied, a unique set may or may not be returned.
      * 
-     * @param atpIds a list of ATP ids
+     * @param atpIds a list of ATP Ids
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of ATPs
@@ -100,7 +98,7 @@ public interface AtpService extends DictionaryService {
      * @param atpTypeKey an identifier for the ATP type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of Academic Time Period ids matching atpTypeKey or an
+     * @return a list of Academic Time Period Ids matching atpTypeKey or an
      *         empty list if none found
      * @throws InvalidParameterException contextInfo is invalid
      * @throws MissingParameterException atpTypeKey or contextInfo is
@@ -253,7 +251,7 @@ public interface AtpService extends DictionaryService {
     //
 
     /**
-     * Searches for Academic Time Period ids that meet the given
+     * Searches for Academic Time Period Ids that meet the given
      * search criteria.
      * 
      * @param criteria the search criteria
@@ -321,6 +319,7 @@ public interface AtpService extends DictionaryService {
      * Creates a new Academic Time Period. The ATP Type and Meta
      * information may not be set in the supplied data object.
      * 
+     * @param atpTypeKey the type of the atp 
      * @param atpInfo the data with which to create the ATP
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -334,7 +333,11 @@ public interface AtpService extends DictionaryService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public AtpInfo createAtp(@WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public AtpInfo createAtp(@WebParam (name = "atpTypeKey") String atpTypeKey,
+            @WebParam(name = "atpInfo") AtpInfo atpInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, 
+            OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Academic Time Period. The ATP id, Type, and
@@ -408,7 +411,7 @@ public interface AtpService extends DictionaryService {
      * @return a list of AtpAtpRelations
      * @throws DoesNotExistException an atpAtpRelationId in the list not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException atpAtpRelationids, an
+     * @throws MissingParameterException atpAtpRelationIds, an
      *         atpAtpRelationId in the atpAtpRelationIds, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
@@ -559,10 +562,11 @@ public interface AtpService extends DictionaryService {
 
     /**
      * Creates a new AtpAtpRelation. The AtpAtpRelation Id, Type, ATP
-     * ids, and Meta information may not be set in the supplied data.
+     * Ids, and Meta information may not be set in the supplied data.
      * 
      * @param atpId a peer of the relationship
-     * @param atpPeerId a peer of the relationship
+     * @param relatedAtpId a peer of the relationship
+     * @param atpAtpRelationTypeKey type of relationship between the two
      * @param atpAtpRelationInfo the relationship to be created
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
@@ -580,11 +584,17 @@ public interface AtpService extends DictionaryService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpPeerId") String atpPeerId, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpId") String atpId, 
+            @WebParam(name = "relatedAtpId") String relatedAtpId, 
+            @WebParam(name = "atpAtpRelationTypeKey") String atpAtpRelationTypeKey,
+            @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, 
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an ATP Milestone Relationship. The AtpAtpRelation Id,
-     * Type, ATP ids, and Meta information may not be changed.
+     * Type, ATP Ids, and Meta information may not be changed.
      * 
      * @param atpAtpRelationId the identifier for the AtpAtpRelation updated
      * @param atpAtpRelationInfo the new data for the AtpAtpRelation
@@ -681,6 +691,12 @@ public interface AtpService extends DictionaryService {
      * Retrieves a list of Milestones that fall within a specified set
      * of dates inclusive of the dates.
      * 
+     * If the milestone is a date range then it should be selected if it overlaps 
+     * any part of the specified start and end dates.
+     * 
+     * Should follow these rules for storing and querying
+     * https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates
+     * 
      * @param startDate start of date range
      * @param endDate end of date range
      * @param contextInfo information containing the principalId and locale
@@ -715,6 +731,12 @@ public interface AtpService extends DictionaryService {
      * Retrieves a list of Milestones for a specified Academic Time
      * Period that fall within a specified set of dates inclusive of
      * the dates.
+     * 
+     * If the milestone is a date range then it should be selected if it overlaps 
+     * any part of the specified start and end dates.
+     * 
+     * Should follow these rules for storing and querying
+     * https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates
      * 
      * @param atpId an identifier for an ATP
      * @param startDate start of date range
@@ -845,6 +867,7 @@ public interface AtpService extends DictionaryService {
      * Create a new Milestone. The Milestone Id, Type, and Meta
      * information may not be set in the supplied data object.
      * 
+     * @param milestoneTypeKey identifies the type of this milestone
      * @param milestoneInfo the data with which to create the Milestone
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -859,7 +882,9 @@ public interface AtpService extends DictionaryService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public MilestoneInfo createMilestone(@WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public MilestoneInfo createMilestone(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey,
+            @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Milestone. The Milestone Id, Type, and Meta
@@ -957,9 +982,4 @@ public interface AtpService extends DictionaryService {
      */
     public StatusInfo removeMilestoneFromAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    @Deprecated
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey);
-
-    @Deprecated
-    public List<String> getObjectTypes();
 }

@@ -42,7 +42,7 @@
         <artifactId>tomcat-maven-plugin</artifactId>
         <configuration>
           <path>/ks-standalone-dev</path>
-          <port>8080</port>
+          <port>8084</port>
         </configuration>
         <dependencies>
           <dependency>

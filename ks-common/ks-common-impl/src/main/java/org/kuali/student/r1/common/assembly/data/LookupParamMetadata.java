@@ -22,7 +22,6 @@ import org.kuali.student.r1.common.assembly.data.LookupMetadata.Usage;
 import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
 
 
-@Deprecated
 public class LookupParamMetadata implements Serializable {
 
     private static final long serialVersionUID = 1L;

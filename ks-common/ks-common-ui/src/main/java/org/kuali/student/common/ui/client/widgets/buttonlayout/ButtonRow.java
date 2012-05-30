@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-@Deprecated
 public class ButtonRow extends ButtonLayoutTwoGroups{
     private HorizontalPanel leftPanel = new HorizontalPanel();
     private HorizontalPanel rightPanel = new HorizontalPanel();

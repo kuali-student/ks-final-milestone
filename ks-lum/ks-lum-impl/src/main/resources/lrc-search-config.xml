@@ -58,7 +58,7 @@
 		<search:resultColumns>
 			<ref bean="lrc.resultColumn.resultComponent.id" /> 
 			<ref bean="lrc.resultColumn.resultComponent.name"/>
-			<ref bean="lrc.resultColumn.resultComponent.typeKey"/>		
+			<ref bean="lrc.resultColumn.resultComponent.type"/>		
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 	
@@ -78,7 +78,7 @@
 		<search:desc>Advanced criteria</search:desc>
 		<search:queryParams>
 			<ref bean="lrc.queryParam.resultComponent.id" />
-			<ref bean="lrc.queryParam.resultComponent.typeKey" />
+			<ref bean="lrc.queryParam.resultComponent.type" />
 			<ref bean="lrc.queryParam.resultComponent.idRestrictionList" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
@@ -106,13 +106,13 @@
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
 
-	<search:queryParam id="lrc.queryParam.resultComponent.typeKey" parent="lrc.queryParam.resultComponent.typeKey-parent"/>
-	<search:queryParam id="lrc.queryParam.resultComponent.typeKey-parent" optional="true" abstract="true">
-		<ref bean="lrc.queryParam.resultComponent.typeKey.fd"/>	
+	<search:queryParam id="lrc.queryParam.resultComponent.type" parent="lrc.queryParam.resultComponent.type-parent"/>
+	<search:queryParam id="lrc.queryParam.resultComponent.type-parent" optional="true" abstract="true">
+		<ref bean="lrc.queryParam.resultComponent.type.fd"/>	
 	</search:queryParam>			
 	
-	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.typeKey.fd" parent="lrc.queryParam.resultComponent.typeKey.fd-abstract"/>
-	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.typeKey.fd-abstract" abstract="true">
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.type.fd" parent="lrc.queryParam.resultComponent.type.fd-abstract"/>
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.type.fd-abstract" abstract="true">
 		<dict:name>ResultComponent Type Key</dict:name>
 		<dict:desc>Result Component Type Key</dict:desc>
 		<dict:dataType>string</dict:dataType>
@@ -146,8 +146,8 @@
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
-    <search:resultColumn id="lrc.resultColumn.resultComponent.typeKey" parent="lrc.resultColumn.resultComponent.typeKey-parent"/>
-	<search:resultColumn id="lrc.resultColumn.resultComponent.typeKey-parent"  abstract="true">
+    <search:resultColumn id="lrc.resultColumn.resultComponent.type" parent="lrc.resultColumn.resultComponent.type-parent"/>
+	<search:resultColumn id="lrc.resultColumn.resultComponent.type-parent"  abstract="true">
         <search:name>ResultComponent Type</search:name>
         <search:desc>Result Component Type</search:desc>
         <search:dataType>string</search:dataType>
@@ -244,7 +244,7 @@
 		<property name="sourceMap">
 			<map>
 		        <entry key="lrc.search.resultComponent">
-		            <value>SELECT rc.id, rc.name, rc.typeKey.id FROM ResultComponent rc </value>
+		            <value>SELECT rc.id, rc.name, rc.type.id FROM ResultComponent rc </value>
 		        </entry>
 		        <entry key="lrc.search.resultComponentType">
 		            <value>SELECT rc.id, rc.name FROM ResultComponentType rc </value>
@@ -255,8 +255,8 @@
 				<entry key="lrc.queryParam.resultComponent.id">
 					<value>rc.id = :lrc_queryParam_resultComponent_id</value>
 				</entry>
-				<entry key="lrc.queryParam.resultComponent.typeKey">
-					<value>rc.typeKey.id IN (:lrc_queryParam_resultComponent_type)</value>
+				<entry key="lrc.queryParam.resultComponent.type">
+					<value>rc.type.id IN (:lrc_queryParam_resultComponent_type)</value>
 				</entry>
 				<entry key="lrc.queryParam.resultComponent.idRestrictionList">
 					<value>rc.id IN (:lrc_queryParam_resultComponent_idRestrictionList)</value>

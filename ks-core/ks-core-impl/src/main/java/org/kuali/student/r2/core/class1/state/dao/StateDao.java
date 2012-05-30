@@ -12,9 +12,9 @@ public class StateDao extends GenericEntityDao<StateEntity>{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<StateEntity> getStatesByProcess(String processKey){
-		return  (List<StateEntity>)em.createQuery("from StateEntity se where se.processKey=:processKey")
-		.setParameter("processKey", processKey)
-		.getResultList();		
-	}	
+	public List<StateEntity> getStatesByLifecycle(String processKey){
+        return  (List<StateEntity>)em.createQuery("from StateEntity se where se.lifecycleKey=:lifecycleKey")
+        .setParameter("lifecycleKey", processKey)
+        .getResultList();       
+    }   
 }

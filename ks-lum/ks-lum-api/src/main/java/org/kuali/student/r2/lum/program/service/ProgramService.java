@@ -55,7 +55,7 @@ import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 @WebService(name = "ProgramService", targetNamespace = ProgramServiceConstants.PROGRAM_NAMESPACE)
 // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface ProgramService extends  SearchService ,  VersionManagementService, DictionaryService
+public interface ProgramService extends  SearchService,  VersionManagementService, DictionaryService
 {
 
     /**

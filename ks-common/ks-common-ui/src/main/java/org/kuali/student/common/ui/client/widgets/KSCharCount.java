@@ -30,7 +30,6 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-@Deprecated
 public class KSCharCount extends Composite implements HasText, HasInputWidget, HasBlurHandlers {
     VerticalPanel countingPanel;
     Widget inputWidget;

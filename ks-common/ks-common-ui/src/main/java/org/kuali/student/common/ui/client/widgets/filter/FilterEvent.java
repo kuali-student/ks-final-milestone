@@ -20,7 +20,6 @@ import java.util.Map;
 
 import com.google.gwt.event.shared.GwtEvent;
 
-@Deprecated
 public class FilterEvent extends GwtEvent<FilterEventHandler>{
 	public static final Type<FilterEventHandler> TYPE = new Type<FilterEventHandler>();
 	

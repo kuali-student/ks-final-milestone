@@ -17,8 +17,9 @@ package org.kuali.student.lum.statement.config.context;
 
 import java.util.Map;
 
-import org.kuali.student.r1.core.organization.dto.OrgInfo;
-import org.kuali.student.r1.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -37,13 +38,13 @@ public class OrganizationContextImpl extends BasicContextImpl {
 		this.organizationService = organizationService;
 	}
 
-	private OrgInfo getOrganization(String orgId) throws OperationFailedException {
+	private OrgInfo getOrganization(String orgId, ContextInfo context) throws OperationFailedException {
 		if (orgId == null) {
 			return null;
 		}
 		try {
 
-			return organizationService.getOrganization(orgId);
+			return organizationService.getOrg(orgId, context);
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
@@ -55,9 +56,9 @@ public class OrganizationContextImpl extends BasicContextImpl {
      * @param reqComponent Requirement component
      * @throws OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
+    public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo context) throws OperationFailedException {
         String orgId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.ORGANIZATION_KEY.getId());
-        OrgInfo org = getOrganization(orgId);
+        OrgInfo org = getOrganization(orgId, context);
         
         Map<String, Object> contextMap = super.createContextMap(reqComponent);
         contextMap.put(ORG_TOKEN, org);

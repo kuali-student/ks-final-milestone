@@ -102,8 +102,4 @@ public class AccreditationInfo extends HasAttributesAndMetaInfo implements Accre
         this.expirationDate = expirationDate;
     }
 
-	public void setAttributes(Map<String, String> attributeMap) {
-		// TODO Auto-generated method stub
-		
-	}
 }

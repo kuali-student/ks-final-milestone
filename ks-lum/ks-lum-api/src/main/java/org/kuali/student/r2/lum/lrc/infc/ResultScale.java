@@ -15,9 +15,8 @@
  */
 package org.kuali.student.r2.lum.lrc.infc;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
-import java.util.List;
+import org.kuali.student.r2.common.infc.KeyEntity;
 
 /**
  * The Result Scale defines a set of valid ResultValues. A ResultScale

@@ -23,7 +23,6 @@ package org.kuali.student.common.ui.client.service.exceptions;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class VersionMismatchClientException extends Exception {
 	/**
 	 *

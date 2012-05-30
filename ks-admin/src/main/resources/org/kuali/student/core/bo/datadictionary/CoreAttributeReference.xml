@@ -25,8 +25,8 @@
   	These aliases are to provide an abstraction point from Rice definitions in case of
   	a need in the future
   -->
-  <alias alias="CoreAttributeReference-genericDate" name="AttributeReferenceDummy-genericDate" />
-  <alias alias="CoreAttributeReference-genericBoolean" name="AttributeReferenceDummy-genericBoolean" />
+  <bean id="CoreAttributeReference-genericDate" parent="AttributeReferenceDummy-genericDate" />
+  <bean id="CoreAttributeReference-genericBoolean" parent="AttributeReferenceDummy-genericBoolean" />
   
   
   <!-- 

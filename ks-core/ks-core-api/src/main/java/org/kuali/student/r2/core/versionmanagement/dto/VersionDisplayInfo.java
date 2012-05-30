@@ -12,17 +12,12 @@
 package org.kuali.student.r2.core.versionmanagement.dto;
 
 import org.kuali.student.r2.core.versionmanagement.infc.VersionDisplay;
-//import org.w3c.dom.Element;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "VersionDisplayInfo", propOrder = {"id", "versionIndId", "refObjectUri", "sequenceNumber", "currentVersionEnd", "currentVersionStart", "versionComment", "versionedFromId"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
@@ -61,6 +56,21 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
     public VersionDisplayInfo() {
 
     }
+
+    public VersionDisplayInfo(String id, String versionIndId,
+                              Long sequenceNumber,
+                              Date currentVersionStart, Date currentVersionEnd,
+                              String versionComment, String versionedFromId) {
+        super();
+        this.id = id;
+        this.versionIndId = versionIndId;
+        this.sequenceNumber = sequenceNumber;
+        this.currentVersionStart = currentVersionStart;
+        this.currentVersionEnd = currentVersionEnd;
+        this.versionComment = versionComment;
+        this.versionedFromId = versionedFromId;
+    }
+
 
     public VersionDisplayInfo(VersionDisplay versionDisplay) {
         super();

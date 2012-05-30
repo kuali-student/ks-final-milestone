@@ -13,7 +13,7 @@ projects - this file is for dev mode
 	} 
 </script>
 
-<form method="get" onSubmit="return setSubmitUrl(this);">
+<form method="post" onSubmit="return setSubmitUrl(this);">
 	<label for="j_username">Username</label>
 	<input type="text" name="j_username" id="j_username"/>
 	<br/>
