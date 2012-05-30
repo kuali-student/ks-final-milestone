@@ -103,7 +103,7 @@ public class LrcServiceAssembler extends BaseAssembler {
 
     public static void toResultComponent(ResultComponent entity, ResultValuesGroupInfo dto, LrcDao lrcDao) throws InvalidParameterException, DataValidationErrorException {
         BeanUtils.copyProperties(dto, entity,
-                new String[] { "descr", "resultValues", "attributes", "meta", "type" });
+                new String[] { "descr", "resultValues", "attributes", "meta", "type" , "id"});
         
         ResultComponentType type;
         try {
@@ -112,7 +112,7 @@ public class LrcServiceAssembler extends BaseAssembler {
         } catch (DoesNotExistException e) {
             throw new InvalidParameterException(dto.getTypeKey() + " does not exist.");
         }
-        
+        entity.setId(dto.getKey());
         entity.setDescr(toRichText(LrcRichText.class, dto.getDescr()));
         entity.setState(dto.getStateKey());
 
