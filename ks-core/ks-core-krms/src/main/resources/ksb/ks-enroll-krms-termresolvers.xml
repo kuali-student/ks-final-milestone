@@ -343,16 +343,93 @@
     <property name="propositionBuilder" ref="propositionBuilder" />
   </bean>
 
-  <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
-    <property name="lprService" ref="lprServiceValidation" />
-    <property name="lrrService" ref="lrrPersistenceService" />
-    <property name="luiService" ref="luiService" />
+<!-- Term Resolvers -->
+  <bean id="ApprovedCoursesTermResolver" class="org.kuali.student.krms.termresolver.ApprovedCoursesTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="ApprovedCourseTermResolver" class="org.kuali.student.krms.termresolver.ApprovedCourseTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="CourseNumberRangeTermResolver" class="org.kuali.student.krms.termresolver.CourseNumberRangeTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="CourseSetTermResolver" class="org.kuali.student.krms.termresolver.CourseSetTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="EffectiveDateFromTermResolver" class="org.kuali.student.krms.termresolver.EffectiveDateFromTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="EffectiveDateToTermResolver" class="org.kuali.student.krms.termresolver.EffectiveDateToTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="FreeTextTermResolver" class="org.kuali.student.krms.termresolver.FreeTextTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="GPATermResolver" class="org.kuali.student.krms.termresolver.GPATermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="GradeTermResolver" class="org.kuali.student.krms.termresolver.GradeTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="GradeTypeTermResolver" class="org.kuali.student.krms.termresolver.GradeTypeTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="LearningObjectivesTermResolver" class="org.kuali.student.krms.termresolver.LearningObjectivesTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="NumberOfCoursesTermResolver" class="org.kuali.student.krms.termresolver.NumberOfCoursesTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="NumberOfCreditsTermResolver" class="org.kuali.student.krms.termresolver.NumberOfCreditsTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="PrposedCoursesTermResolver" class="org.kuali.student.krms.termresolver.PrposedCoursesTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="PrposedCourseTermResolver" class="org.kuali.student.krms.termresolver.PrposedCourseTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="ScoreTermResolver" class="org.kuali.student.krms.termresolver.ScoreTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
+  </bean>
+  
+  <bean id="TestTermResolver" class="org.kuali.student.krms.termresolver.TestTermResolver">
+    <property name="AcademicRecordService" ref="ks.exp.academicRecordService" />
   </bean>
 
   <bean id="rulesEvaluationUtil" class="org.kuali.student.core.statement.util.RulesEvaluationUtil">
     <property name="termResolvers">
       <list>
-        <ref bean="completedCoursesResolver" />
+        <ref bean="ApprovedCoursesTermResolver" />
+        <ref bean="ApprovedCourseTermResolver" />
+        <ref bean="CourseNumberRangeTermResolver" />
+        <ref bean="CourseSetTermResolver" />
+        <ref bean="EffectiveDateFromTermResolver" />
+        <ref bean="EffectiveDateToTermResolver" />
+        <ref bean="FreeTextTermResolver" />
+        <ref bean="GPATermResolver" />
+        <ref bean="GradeTermResolver" />
+        <ref bean="GradeTypeTermResolver" />
+        <ref bean="LearningObjectivesTermResolver" />
+        <ref bean="PrposedCoursesTermResolver" />
+        <ref bean="PrposedCourseTermResolver" />
+        <ref bean="ScoreTermResolver" />
+        <ref bean="TestTermResolver" />
       </list>
     </property>
   </bean>
