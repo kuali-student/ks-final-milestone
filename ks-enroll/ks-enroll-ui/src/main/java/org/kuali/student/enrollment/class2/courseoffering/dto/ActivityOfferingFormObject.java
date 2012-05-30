@@ -19,6 +19,7 @@ public class ActivityOfferingFormObject implements Serializable{
     private TermInfo term;
 
     private boolean waitListIndicator;
+    private AttributeInfo waitListAttribute;
 
     public ActivityOfferingFormObject(){
         aoInfo = new ActivityOfferingInfo();
@@ -37,22 +38,17 @@ public class ActivityOfferingFormObject implements Serializable{
         for(AttributeInfo attribute : aoInfo.getAttributes()){
             if (StringUtils.equals(attribute.getKey(), CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR)){
                 waitListIndicator = BooleanUtils.toBoolean(attribute.getKey());
+                waitListAttribute = attribute;
                 break;
             }
         }
     }
 
     public void prepareForSave(){
-        AttributeInfo waitListAttribute = null;
-        for(AttributeInfo attribute : aoInfo.getAttributes()){
-            if (StringUtils.equals(attribute.getKey(), CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR)){
-                waitListAttribute = attribute;
-                break;
-            }
-        }
         if (waitListAttribute == null){
             waitListAttribute = new AttributeInfo();
             waitListAttribute.setKey(CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR);
+            aoInfo.getAttributes().add(waitListAttribute);
         }
         waitListAttribute.setValue(BooleanUtils.toStringTrueFalse(waitListIndicator));
 
