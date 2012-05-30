@@ -55,7 +55,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class CourseRetireByProposalController extends CourseProposalController {
 
 	/**
-	 * Override the intitailzeController method to use CourseAdminConfigurer 
+	 * Override the intitailzeController method to use CourseRetireByProposalConfigurer
 	 */
 	@Override
 	protected void initializeController() {
@@ -90,7 +90,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
    		
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
-   		super.addStyleName("ks-course-admin");  
+   		super.addStyleName("courseProposal");  
    		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_RETIRE;	 
 
     }
