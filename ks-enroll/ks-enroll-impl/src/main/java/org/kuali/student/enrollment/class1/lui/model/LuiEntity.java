@@ -11,6 +11,7 @@ import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.r2.common.entity.BaseEntity;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -214,11 +215,34 @@ public class LuiEntity extends MetaEntity {
         orphansToDelete.addAll(existinguLuiUnitsDeploymentEntities.values());
 
         // Lui Attributes
-        //TODO map the attributes (merge and delete orphans, don't do delete all and add all)
-        this.setAttributes(new ArrayList<LuiAttributeEntity>());
-        for (Attribute att : lui.getAttributes()) {
-            this.getAttributes().add(new LuiAttributeEntity(att));
+        Map<String, LuiAttributeEntity> existingAttributes = new HashMap<String, LuiAttributeEntity>();
+
+        // Find all the old attributes
+        if(attributes != null){
+            for (LuiAttributeEntity attribute : attributes) {
+                existingAttributes.put(attribute.getKey(), attribute);
+            }
         }
+
+        //Clear out the attributes
+        attributes = new ArrayList<LuiAttributeEntity>();
+
+        //Update anything that exists, or create a new attribute if it doesn't
+        for (Attribute attributeInfo: lui.getAttributes()) {
+            LuiAttributeEntity attribute;
+            if (existingAttributes.containsKey(attributeInfo.getKey())) {
+                attribute = existingAttributes.remove(attributeInfo.getKey());
+            }else{
+                attribute = new LuiAttributeEntity();
+                attribute.setOwner(this);
+                attribute.setKey(attributeInfo.getKey());
+            }
+            attribute.setValue(attributeInfo.getValue());
+            attributes.add(attribute);
+        }
+
+        //Remove the orphaned attributes
+        orphansToDelete.addAll(existingAttributes.values());
 
         return orphansToDelete;
     }
