@@ -191,12 +191,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="ActivityOfferingInfo.courseOfferingTitle" parent="ActivityOfferingInfo.courseOfferingTitle-parent"/>
 	<bean id="ActivityOfferingInfo.courseOfferingTitle-parent" abstract="true" parent="ActivityOfferingInfo.courseOfferingTitle-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+	    <property name="required" value="false"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.courseOfferingCode" parent="ActivityOfferingInfo.courseOfferingCode-parent"/>
 	<bean id="ActivityOfferingInfo.courseOfferingCode-parent" abstract="true" parent="ActivityOfferingInfo.courseOfferingCode-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+	    <property name="required" value="false"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.meta" parent="ActivityOfferingInfo.meta-parent"/>

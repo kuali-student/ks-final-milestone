@@ -112,10 +112,11 @@
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="quickfinder.fieldConversions">
                                     <map>
-                                        <entry key="principalName" value="personName"/>
-                                        <entry key="principalId" value="personId"/>
+                                        <entry key="name" value="personName"/>
+                                        <entry key="entityId" value="personId"/>
                                     </map>
                                 </property>
+                                <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="personName" p:label="Name" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION">

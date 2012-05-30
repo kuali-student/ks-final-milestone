@@ -40,11 +40,16 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 activityOfferingFormObject.prepareForSave();
                 ActivityOfferingInfo toSave = activityOfferingFormObject.getAoInfo();
 
+                //temporary Testing only
+                toSave.setFormatOfferingId("LuiFO-1-1");
+
                 FormatOfferingInfo foInfo = getCourseOfferingService().getFormatOffering(toSave.getFormatOfferingId(), getContextInfo());
 
                 toSave.setFormatOfferingName(foInfo.getName());
+                toSave.setTermId(foInfo.getTermId());
                 toSave.setTermCode(foInfo.getTermId());
 
+                toSave.setActivityId(foInfo.getFormatId());  //TODO: is this right?
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(foInfo.getCourseOfferingId(), getContextInfo());
 
                 toSave.setCourseOfferingId(coInfo.getId());

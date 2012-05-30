@@ -108,7 +108,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
-
+                <value>classpath:org/kuali/student/enrollment/courseoffering/PersonnelLookupView.xml</value>
 
 
 			</list>
