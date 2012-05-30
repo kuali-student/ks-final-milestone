@@ -14,20 +14,6 @@
  */
 package org.kuali.student.enrollment.class1.lu.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-
-import javax.persistence.NoResultException;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
@@ -36,7 +22,6 @@ import org.kuali.student.common.entity.Amount;
 import org.kuali.student.common.entity.TimeAmount;
 import org.kuali.student.common.entity.Version;
 import org.kuali.student.common.entity.VersionEntity;
-
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.service.SearchDispatcher;
@@ -45,75 +30,11 @@ import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuServiceAssembler;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.lum.lu.dao.LuDao;
-import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
-import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
-import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
-import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
-import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
-import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
-import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
-import org.kuali.student.lum.lu.entity.Clu;
-import org.kuali.student.lum.lu.entity.CluAccounting;
-import org.kuali.student.lum.lu.entity.CluAccountingAttribute;
-import org.kuali.student.lum.lu.entity.CluAccreditation;
-import org.kuali.student.lum.lu.entity.CluAccreditationAttribute;
-import org.kuali.student.lum.lu.entity.CluAdminOrg;
-import org.kuali.student.lum.lu.entity.CluAdminOrgAttribute;
-import org.kuali.student.lum.lu.entity.CluAtpTypeKey;
-import org.kuali.student.lum.lu.entity.CluAttribute;
-import org.kuali.student.lum.lu.entity.CluCampusLocation;
-import org.kuali.student.lum.lu.entity.CluCluRelation;
-import org.kuali.student.lum.lu.entity.CluCluRelationAttribute;
-import org.kuali.student.lum.lu.entity.CluFee;
-import org.kuali.student.lum.lu.entity.CluIdentifier;
-import org.kuali.student.lum.lu.entity.CluInstructor;
-import org.kuali.student.lum.lu.entity.CluInstructorAttribute;
-import org.kuali.student.lum.lu.entity.CluLoRelation;
-import org.kuali.student.lum.lu.entity.CluLoRelationAttribute;
-import org.kuali.student.lum.lu.entity.CluLoRelationType;
-import org.kuali.student.lum.lu.entity.CluPublication;
-import org.kuali.student.lum.lu.entity.CluPublicationAttribute;
-import org.kuali.student.lum.lu.entity.CluPublicationType;
-import org.kuali.student.lum.lu.entity.CluPublicationVariant;
-import org.kuali.student.lum.lu.entity.CluResult;
-import org.kuali.student.lum.lu.entity.CluResultType;
-import org.kuali.student.lum.lu.entity.CluSet;
-import org.kuali.student.lum.lu.entity.CluSetAttribute;
-import org.kuali.student.lum.lu.entity.CluSetJoinVersionIndClu;
-import org.kuali.student.lum.lu.entity.CluSetType;
-import org.kuali.student.lum.lu.entity.DeliveryMethodType;
-import org.kuali.student.lum.lu.entity.InstructionalFormatType;
-import org.kuali.student.lum.lu.entity.LuCode;
-import org.kuali.student.lum.lu.entity.LuCodeAttribute;
-import org.kuali.student.lum.lu.entity.LuCodeType;
-import org.kuali.student.lum.lu.entity.LuLuRelationType;
-import org.kuali.student.lum.lu.entity.LuPublicationType;
-import org.kuali.student.lum.lu.entity.LuRichText;
-import org.kuali.student.lum.lu.entity.LuType;
-import org.kuali.student.lum.lu.entity.MembershipQuery;
-import org.kuali.student.lum.lu.entity.ResultOption;
-import org.kuali.student.lum.lu.entity.ResultUsageType;
+import org.kuali.student.lum.lu.entity.*;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -121,14 +42,14 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
-import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
-import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
-import org.kuali.student.r2.lum.clu.dto.FieldInfo;
+import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.NoResultException;
+import java.util.*;
+import java.util.Map.Entry;
 
 //@WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 //@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -173,7 +94,7 @@ public class CluServiceImpl implements CluService {
             return LuServiceAssembler.toDeliveryMethodTypeInfo(luDao.fetch(
                     DeliveryMethodType.class, deliveryMethodTypeKey));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(deliveryMethodTypeKey);
+            throw new DoesNotExistException(deliveryMethodTypeKey, ex);
         }
     }
 
@@ -194,7 +115,7 @@ public class CluServiceImpl implements CluService {
             return LuServiceAssembler.toInstructionalFormatTypeInfo(luDao.fetch(
                     InstructionalFormatType.class, instructionalFormatTypeKey));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(instructionalFormatTypeKey);
+            throw new DoesNotExistException(instructionalFormatTypeKey, ex);
         }
     }
 
@@ -212,7 +133,7 @@ public class CluServiceImpl implements CluService {
             return LuServiceAssembler.toLuTypeInfo(luDao.fetch(LuType.class,
                     luTypeKey));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(luTypeKey);
+            throw new DoesNotExistException(luTypeKey,ex);
         }
     }
 
@@ -225,7 +146,7 @@ public class CluServiceImpl implements CluService {
             return LuServiceAssembler.toLuCodeTypeInfo(luDao.fetch(
                     LuCodeType.class, luCodeTypeKey));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(luCodeTypeKey);
+            throw new DoesNotExistException(luCodeTypeKey, ex);
         }
     }
 
@@ -252,7 +173,7 @@ public class CluServiceImpl implements CluService {
             luLuRelationType = luDao.fetch(LuLuRelationType.class,
                     luLuRelationTypeKey);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(luLuRelationTypeKey);
+            throw new DoesNotExistException(luLuRelationTypeKey, ex);
         }
         return LuServiceAssembler.toLuLuRelationTypeInfo(luLuRelationType);
     }
@@ -285,7 +206,7 @@ public class CluServiceImpl implements CluService {
             return LuServiceAssembler.toLuPublicationTypeInfo(luDao.fetch(
                     LuPublicationType.class, luPublicationTypeKey));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(luPublicationTypeKey);
+            throw new DoesNotExistException(luPublicationTypeKey, ex);
         }
     }
 
@@ -310,7 +231,7 @@ public class CluServiceImpl implements CluService {
             return LuServiceAssembler.toCluResultTypeInfo(luDao.fetch(
                     CluResultType.class, cluResultTypeKey));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluResultTypeKey);
+            throw new DoesNotExistException(cluResultTypeKey, ex);
         }
     }
 
@@ -337,7 +258,7 @@ public class CluServiceImpl implements CluService {
             return LuServiceAssembler.toResultUsageTypeInfo(luDao.fetch(
                     ResultUsageType.class, resultUsageTypeKey));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(resultUsageTypeKey);
+            throw new DoesNotExistException(resultUsageTypeKey, ex);
         }
     }
 
@@ -373,7 +294,7 @@ public class CluServiceImpl implements CluService {
             cluLoRelationType = luDao.fetch(
                     CluLoRelationType.class, cluLoRelationTypeKey);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluLoRelationTypeKey);
+            throw new DoesNotExistException(cluLoRelationTypeKey, ex);
         }
         return LuServiceAssembler.toCluLoRelationTypeInfo(cluLoRelationType);
     }
@@ -409,7 +330,7 @@ public class CluServiceImpl implements CluService {
             return LuServiceAssembler.toCluSetTypeInfo(luDao.fetch(
                     CluSetType.class, cluSetTypeKey));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetTypeKey);
+            throw new DoesNotExistException(cluSetTypeKey, ex);
         }
     }
 
@@ -428,7 +349,7 @@ public class CluServiceImpl implements CluService {
         try {
             clu = luDao.fetch(Clu.class, cluId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluId);
+            throw new DoesNotExistException(cluId, ex);
         }
         return LuServiceAssembler.toCluInfo(clu);
     }
@@ -548,7 +469,7 @@ public class CluServiceImpl implements CluService {
             return LuServiceAssembler.toCluCluRelationInfo(luDao.fetch(
                     CluCluRelation.class, cluCluRelationId));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluCluRelationId);
+            throw new DoesNotExistException(cluCluRelationId, ex);
         }
     }
 
@@ -590,7 +511,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluPublication = luDao.fetch(CluPublication.class, cluPublicationId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluPublicationId);
+            throw new DoesNotExistException(cluPublicationId, ex);
         }
         return LuServiceAssembler.toCluPublicationInfo(cluPublication);
     }
@@ -607,7 +528,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluResult = luDao.fetch(CluResult.class, cluResultId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluResultId);
+            throw new DoesNotExistException(cluResultId, ex);
         }
         return LuServiceAssembler.toCluResultInfo(cluResult);
     }
@@ -649,7 +570,7 @@ public class CluServiceImpl implements CluService {
         try {
             reltn = luDao.fetch(CluLoRelation.class, cluLoRelationId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluLoRelationId);
+            throw new DoesNotExistException(cluLoRelationId, ex);
         }
         return LuServiceAssembler.toCluLoRelationInfo(reltn);
 
@@ -694,7 +615,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
         CluSetInfo cluSetInfo = LuServiceAssembler.toCluSetInfo(cluSet);
         setMembershipQuerySearchResult(cluSetInfo);
@@ -796,7 +717,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
         List<String> Ids = new ArrayList<String>(cluSet.getCluVerIndIds().size());
         if (cluSet.getCluSets() != null) {
@@ -825,7 +746,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
         List<CluInfo> clus = new ArrayList<CluInfo>(cluSet.getCluVerIndIds().size());
         for (CluSetJoinVersionIndClu cluSetJnClu : cluSet.getCluVerIndIds()) {
@@ -844,7 +765,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
         List<String> Ids = new ArrayList<String>(cluSet.getCluVerIndIds().size());
         for (CluSetJoinVersionIndClu cluSetJnClu : cluSet.getCluVerIndIds()) {
@@ -864,7 +785,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
         findClusInCluSet(cluIndIds, cluSet);
         List<CluInfo> infos = new ArrayList<CluInfo>(cluIndIds.size());
@@ -909,7 +830,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
         findClusInCluSet(Ids, cluSet);
         return Ids;
@@ -985,7 +906,7 @@ public class CluServiceImpl implements CluService {
         try {
             luType = luDao.fetch(LuType.class, luTypeKey);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(luTypeKey);
+            throw new DoesNotExistException(luTypeKey, ex);
         }
         clu.setLuType(luType);
 
@@ -1156,7 +1077,7 @@ public class CluServiceImpl implements CluService {
         try {
             clu = luDao.fetch(Clu.class, cluId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluId);
+            throw new DoesNotExistException(cluId, ex);
         }
 
         if (!String.valueOf(clu.getVersionNumber()).equals(
@@ -1169,7 +1090,7 @@ public class CluServiceImpl implements CluService {
         try {
             luType = luDao.fetch(LuType.class, cluInfo.getTypeKey());
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluInfo.getTypeKey());
+            throw new DoesNotExistException(cluInfo.getTypeKey(), ex);
         }
         clu.setLuType(luType);
 
@@ -1490,7 +1411,7 @@ public class CluServiceImpl implements CluService {
         try {
             luDao.delete(Clu.class, cluId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluId);
+            throw new DoesNotExistException(cluId, ex);
         }
 
         StatusInfo statusInfo = new StatusInfo();
@@ -1512,7 +1433,7 @@ public class CluServiceImpl implements CluService {
         try {
             clu = luDao.fetch(Clu.class, cluId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluId);
+            throw new DoesNotExistException(cluId, ex);
         }
         clu.setState(luState);
         Clu updated = luDao.update(clu);
@@ -1567,13 +1488,13 @@ public class CluServiceImpl implements CluService {
         try {
             clu = luDao.fetch(Clu.class, cluId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluId);
+            throw new DoesNotExistException(cluId, ex);
         }
         Clu relatedClu;
         try {
             relatedClu = luDao.fetch(Clu.class, relatedCluId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(relatedCluId);
+            throw new DoesNotExistException(relatedCluId, ex);
         }
 
         CluCluRelation cluCluRelation = new CluCluRelation();
@@ -1593,7 +1514,7 @@ public class CluServiceImpl implements CluService {
             luLuRelationType = luDao.fetch(LuLuRelationType.class,
                     luLuRelationTypeKey);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(luLuRelationTypeKey);
+            throw new DoesNotExistException(luLuRelationTypeKey, ex);
         }
 
         cluCluRelation.setLuLuRelationType(luLuRelationType);
@@ -1632,7 +1553,7 @@ public class CluServiceImpl implements CluService {
             cluCluRelation = luDao.fetch(CluCluRelation.class,
                     cluCluRelationId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluCluRelationId);
+            throw new DoesNotExistException(cluCluRelationId, ex);
         }
         BeanUtils.copyProperties(cluCluRelationInfo, cluCluRelation,
                 new String[]{"cluId", "relatedCluId",
@@ -1640,12 +1561,12 @@ public class CluServiceImpl implements CluService {
         try {
             cluCluRelation.setClu(luDao.fetch(Clu.class, cluCluRelationInfo.getCluId()));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluCluRelationInfo.getCluId());
+            throw new DoesNotExistException(cluCluRelationInfo.getCluId(), ex);
         }
         try {
             cluCluRelation.setRelatedClu(luDao.fetch(Clu.class, cluCluRelationInfo.getRelatedCluId()));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluCluRelationInfo.getRelatedCluId());
+            throw new DoesNotExistException(cluCluRelationInfo.getRelatedCluId(), ex);
         }
         cluCluRelation.setCluRelationRequired(cluCluRelationInfo.getIsCluRelationRequired() == null ? true : cluCluRelationInfo.getIsCluRelationRequired()); // TODO maybe this is unnecessary,
         // contract specifies not null
@@ -1655,7 +1576,7 @@ public class CluServiceImpl implements CluService {
             cluCluRelation.setLuLuRelationType(luDao.fetch(LuLuRelationType.class,
                     cluCluRelationInfo.getTypeKey()));
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluCluRelationInfo.getTypeKey());
+            throw new DoesNotExistException(cluCluRelationInfo.getTypeKey(), ex);
         }
 
         final CluCluRelation update = luDao.update(cluCluRelation);
@@ -1673,7 +1594,7 @@ public class CluServiceImpl implements CluService {
         try {
             luDao.delete(CluCluRelation.class, cluCluRelationId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluCluRelationId);
+            throw new DoesNotExistException(cluCluRelationId, ex);
         }
 
         StatusInfo statusInfo = new StatusInfo();
@@ -1860,7 +1781,7 @@ public class CluServiceImpl implements CluService {
         try {
             luDao.delete(CluPublication.class, cluPublicationId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluPublicationId);
+            throw new DoesNotExistException(cluPublicationId, ex);
         }
 
         StatusInfo statusInfo = new StatusInfo();
@@ -1922,7 +1843,7 @@ public class CluServiceImpl implements CluService {
                     resUsageType = luDao.fetch(ResultUsageType.class,
                             resOptInfo.getResultUsageTypeKey());
                 } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-                    throw new DoesNotExistException(resOptInfo.getResultUsageTypeKey());
+                    throw new DoesNotExistException(resOptInfo.getResultUsageTypeKey(), ex);
                 }
                 resOpt.setResultUsageType(resUsageType);
             }
@@ -1942,7 +1863,7 @@ public class CluServiceImpl implements CluService {
         try {
             clu = luDao.fetch(Clu.class, cluId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluId);
+            throw new DoesNotExistException(cluId, ex);
         }
         cluResult.setClu(clu);
 
@@ -1950,7 +1871,7 @@ public class CluServiceImpl implements CluService {
         try {
             type = luDao.fetch(CluResultType.class, cluResultTypeKey);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluResultTypeKey);
+            throw new DoesNotExistException(cluResultTypeKey, ex);
         }
         cluResult.setCluResultType(type);
 
@@ -1984,7 +1905,7 @@ public class CluServiceImpl implements CluService {
         try {
             result = luDao.fetch(CluResult.class, cluResultId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluResultId);
+            throw new DoesNotExistException(cluResultId,ex);
         }
         if (!String.valueOf(result.getVersionNumber()).equals(
                 cluResultInfo.getMeta().getVersionInd())) {
@@ -2016,7 +1937,7 @@ public class CluServiceImpl implements CluService {
                     // Get existing result option
                     opt = luDao.fetch(ResultOption.class, resOptInfo.getId());
                 } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-                    throw new DoesNotExistException(resOptInfo.getId());
+                    throw new DoesNotExistException(resOptInfo.getId(), ex);
                 }
                 // Copy properties
                 BeanUtils.copyProperties(resOptInfo, opt, new String[]{
@@ -2028,7 +1949,7 @@ public class CluServiceImpl implements CluService {
                     resUsageType = luDao.fetch(ResultUsageType.class,
                             resOptInfo.getResultUsageTypeKey());
                 } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-                    throw new DoesNotExistException(resOptInfo.getResultUsageTypeKey());
+                    throw new DoesNotExistException(resOptInfo.getResultUsageTypeKey(), ex);
                 }
                 opt.setResultUsageType(resUsageType);
             }
@@ -2049,7 +1970,7 @@ public class CluServiceImpl implements CluService {
         try {
             type = luDao.fetch(CluResultType.class, cluResultInfo.getTypeKey());
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluResultInfo.getTypeKey());
+            throw new DoesNotExistException(cluResultInfo.getTypeKey(), ex);
         }
         result.setCluResultType(type);
 
@@ -2069,7 +1990,7 @@ public class CluServiceImpl implements CluService {
         try {
             luDao.delete(CluResult.class, cluResultId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluResultId);
+            throw new DoesNotExistException(cluResultId, ex);
         }
 
         StatusInfo statusInfo = new StatusInfo();
@@ -2120,7 +2041,7 @@ public class CluServiceImpl implements CluService {
         try {
             clu = luDao.fetch(Clu.class, cluId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluId);
+            throw new DoesNotExistException(cluId, ex);
         }
         if (clu == null) {
             throw new DoesNotExistException("Clu does not exist for id: "
@@ -2131,7 +2052,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluLoRelationTypeEntity = luDao.fetch(CluLoRelationType.class, cluLoRelationType);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluLoRelationType);
+            throw new DoesNotExistException(cluLoRelationType, ex);
         }
         if (cluLoRelationTypeEntity == null) {
             throw new DoesNotExistException("CluLoRelationType does not exist for id: "
@@ -2191,7 +2112,7 @@ public class CluServiceImpl implements CluService {
         try {
             reltn = luDao.fetch(CluLoRelation.class, cluLoRelationId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluLoRelationId);
+            throw new DoesNotExistException(cluLoRelationId, ex);
         }
 
         if (!String.valueOf(reltn.getVersionNumber()).equals(
@@ -2204,7 +2125,7 @@ public class CluServiceImpl implements CluService {
         try {
             clu = luDao.fetch(Clu.class, cluLoRelationInfo.getCluId());
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluLoRelationInfo.getCluId());
+            throw new DoesNotExistException(cluLoRelationInfo.getCluId(), ex);
         }
         if (clu == null) {
             throw new DoesNotExistException("Clu does not exist for id: "
@@ -2215,7 +2136,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluLoRelationTypeEntity = luDao.fetch(CluLoRelationType.class, cluLoRelationInfo.getTypeKey());
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluLoRelationInfo.getTypeKey());
+            throw new DoesNotExistException(cluLoRelationInfo.getTypeKey(), ex);
         }
         if (cluLoRelationTypeEntity == null) {
             throw new DoesNotExistException("CluLoRelationType does not exist for id: "
@@ -2256,7 +2177,7 @@ public class CluServiceImpl implements CluService {
         try {
             luDao.delete(CluLoRelation.class, cluLoRelationId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluLoRelationId);
+            throw new DoesNotExistException(cluLoRelationId, ex);
         }
 
         StatusInfo statusInfo = new StatusInfo();
@@ -2323,7 +2244,7 @@ public class CluServiceImpl implements CluService {
                     cluSetInfo.getTypeKey(),
                     cluSetInfo, context);
         } catch (DoesNotExistException e) {
-            throw new DataValidationErrorException("Validation error! " + e.getMessage());
+            throw new DataValidationErrorException("Validation error! " + e.getMessage(), e);
         }
         if (null != val && val.size() > 0) {
             throw new DataValidationErrorException("Validation error!", val);
@@ -2335,7 +2256,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = LuServiceAssembler.toCluSetEntity(cluSetInfo, this.luDao);
         } catch (DoesNotExistException e) {
-            throw new DataValidationErrorException("Creating CluSet entity failed. Clu or CluSet does not exist: " + e.getMessage());
+            throw new DataValidationErrorException("Creating CluSet entity failed. Clu or CluSet does not exist: " + e.getMessage(), e);
         }
 
         cluSet = luDao.create(cluSet);
@@ -2429,7 +2350,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
 
         if (!cluSetInfo.getType().equals(cluSet.getType())) {
@@ -2534,7 +2455,7 @@ public class CluServiceImpl implements CluService {
         try {
             luDao.delete(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
 
         StatusInfo statusInfo = new StatusInfo();
@@ -2557,7 +2478,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
 
         checkCluSetAlreadyAdded(cluSet, addedCluSetId);
@@ -2566,7 +2487,7 @@ public class CluServiceImpl implements CluService {
         try {
             addedCluSet = luDao.fetch(CluSet.class, addedCluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(addedCluSetId);
+            throw new DoesNotExistException(addedCluSetId, ex);
         }
 
         checkCluSetCircularReference(addedCluSet, cluSetId);
@@ -2630,7 +2551,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
         if (cluSet.getCluSets() != null) {
             for (Iterator<CluSet> i = cluSet.getCluSets().iterator(); i.hasNext();) {
@@ -2668,7 +2589,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
 
         checkCluAlreadyAdded(cluSet, cluId);
@@ -2676,7 +2597,7 @@ public class CluServiceImpl implements CluService {
         try {
             luDao.getCurrentCluVersionInfo(cluId, LuServiceConstants.CLU_NAMESPACE_URI);
         } catch (NoResultException e) {
-            throw new DoesNotExistException();
+            throw new DoesNotExistException("Could not get current clu version info by cluId", e);
         }
 
         CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
@@ -2716,7 +2637,7 @@ public class CluServiceImpl implements CluService {
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
 
         for (Iterator<CluSetJoinVersionIndClu> i = cluSet.getCluVerIndIds().iterator(); i.hasNext();) {
@@ -2751,8 +2672,7 @@ public class CluServiceImpl implements CluService {
      * Check for missing parameter and throw localized exception if missing
      *
      * @param param
-     * @param parameter
-     *            name
+     * @param paramName
      * @throws MissingParameterException
      */
     private void checkForMissingParameter(Object param, String paramName)
@@ -2790,7 +2710,7 @@ public class CluServiceImpl implements CluService {
             // Check that CluSet exists
             luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluSetId);
+            throw new DoesNotExistException(cluSetId, ex);
         }
 
         for (String cluSetIdToAdd : cluSetIds) {
@@ -2948,7 +2868,7 @@ public class CluServiceImpl implements CluService {
         try {
             clu = luDao.fetch(Clu.class, cluVersionId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-            throw new DoesNotExistException(cluVersionId);
+            throw new DoesNotExistException(cluVersionId, ex);
         }
         String versionIndId = clu.getVersion().getVersionIndId();
 
@@ -2977,7 +2897,7 @@ public class CluServiceImpl implements CluService {
                 try {
                     futureClu = luDao.fetch(Clu.class, versionInFuture.getId());
                 } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
-                    throw new DoesNotExistException(versionInFuture.getId());
+                    throw new DoesNotExistException(versionInFuture.getId(), ex);
                 }
                 futureClu.getVersion().setCurrentVersionStart(null);
                 futureClu.getVersion().setCurrentVersionEnd(null);
@@ -3010,7 +2930,7 @@ public class CluServiceImpl implements CluService {
             try {
                 versionInfo = this.getLatestVersion(refObjectId, refObjectTypeURI, context);
             } catch (NoResultException e) {
-                throw new DoesNotExistException();
+                throw new DoesNotExistException("getLatestVersion returned no result", e);
             }
         } else {
             throw new UnsupportedOperationException("This method does not know how to handle object type:" + refObjectTypeURI);
@@ -3026,7 +2946,7 @@ public class CluServiceImpl implements CluService {
             try {
                 versionInfo = new R1ToR2CopyHelper().copyVersionDisplay(luDao.getCurrentCluVersionInfo(refObjectId, refObjectTypeURI));
             } catch (NoResultException e) {
-                throw new DoesNotExistException();
+                throw new DoesNotExistException("getCurrentCluVersionInfo could not get current CLU version info", e);
             }
         } else {
             throw new UnsupportedOperationException("This method does not know how to handle object type:" + refObjectTypeURI);
@@ -3041,7 +2961,7 @@ public class CluServiceImpl implements CluService {
             try {
                 versionInfo = new R1ToR2CopyHelper().copyVersionDisplay(luDao.getCurrentVersionOnDate(refObjectId, refObjectTypeURI, date));
             } catch (NoResultException e) {
-                throw new DoesNotExistException();
+                throw new DoesNotExistException("getCurrentCluVersionInfo could not get current CLU version info", e);
             }
         } else {
             throw new UnsupportedOperationException("This method does not know how to handle object type:" + refObjectTypeURI);
@@ -3057,7 +2977,7 @@ public class CluServiceImpl implements CluService {
             try {
                 versionInfo = new R1ToR2CopyHelper().copyVersionDisplay(luDao.getFirstVersion(refObjectId, refObjectTypeURI));
             } catch (NoResultException e) {
-                throw new DoesNotExistException();
+                throw new DoesNotExistException("getFirstVersion could not get first version", e);
             }
         } else {
             throw new UnsupportedOperationException("This method does not know how to handle object type:" + refObjectTypeURI);
@@ -3074,7 +2994,7 @@ public class CluServiceImpl implements CluService {
             try {
                 versionInfo = new R1ToR2CopyHelper().copyVersionDisplay(luDao.getVersionBySequenceNumber(refObjectId, refObjectTypeURI, sequence));
             } catch (NoResultException e) {
-                throw new DoesNotExistException();
+                throw new DoesNotExistException("getVersionBySequenceNumber", e);
             }
         } else {
             throw new UnsupportedOperationException("This method does not know how to handle object type:" + refObjectTypeURI);
