@@ -35,28 +35,6 @@ import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 public class CoreConverterTest {
     
     @Test
-    public void testVersionDisplayInfo() {
-        org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo r1 = new org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo();
-        r1.setCurrentVersionEnd(new Date());
-        r1.setCurrentVersionStart(new Date());
-        r1.setId("R1 Id");
-        r1.setObjectTypeURI("R1 Object Type URI");
-        r1.setSequenceNumber(1L);
-        r1.setVersionComment("R1 Version Comment");
-        r1.setVersionedFromId("R1 Versioned From Id");
-        r1.setVersionIndId("R1 Version Ind Id");
-        VersionDisplayInfo r2 = R1R2ConverterUtil.convert(r1, VersionDisplayInfo.class);
-        Assert.assertEquals(r1.getId(), r2.getId());
-        Assert.assertEquals(r1.getObjectTypeURI(), r2.getRefObjectUri());
-        Assert.assertEquals(r1.getVersionComment(), r2.getVersionComment());
-        Assert.assertEquals(r1.getVersionedFromId(), r2.getVersionedFromId());
-        Assert.assertEquals(r1.getVersionIndId(), r2.getVersionIndId());
-        Assert.assertEquals(r1.getCurrentVersionEnd(), r2.getCurrentVersionEnd());
-        Assert.assertEquals(r1.getCurrentVersionStart(), r2.getCurrentVersionStart());
-        Assert.assertEquals(r1.getSequenceNumber(), r2.getSequenceNumber());
-    }
-    
-    @Test
     public void testAtpInfo() {
         org.kuali.student.r1.core.atp.dto.AtpInfo r1 = new org.kuali.student.r1.core.atp.dto.AtpInfo();
         r1.setId("R1 Atp Id");
