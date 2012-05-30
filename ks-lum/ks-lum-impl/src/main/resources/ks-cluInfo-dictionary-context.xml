@@ -847,7 +847,7 @@
         <property name="name" value="typeKey"></property>
     </bean>
 
-    <bean id="adminOrgInfo.stateKey-parent" abstract="true" parent="baseKualiTypeRequired"/>
+    <bean id="adminOrgInfo.stateKey-parent" abstract="true" parent="baseKualiState"/>
     <bean id="adminOrgInfo.stateKey" parent="adminOrgInfo.stateKey-parent">
         <property name="name" value="stateKey"></property>
     </bean>

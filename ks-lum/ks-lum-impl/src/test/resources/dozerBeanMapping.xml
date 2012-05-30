@@ -568,6 +568,10 @@
 			<a>descr</a>
 			<b get-method="getDescr" set-method="setDescr">descr</b>
 		</field>
+		<field>
+			<a>membershipQuery</a>
+			<b get-method="getMembershipQuery" set-method="setMembershipQuery">membershipQuery</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.lu.dto.CluSetTreeViewInfo</class-a>
@@ -1049,6 +1053,15 @@
 			<a>type</a>
 			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
 		</field>
+	</mapping>
+	
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lu.dto.MembershipQueryInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo</class-b>
+		<field-exclude>
+			<a>queryParamValueList</a>
+			<b>queryParamValues</b>
+		</field-exclude>
 	</mapping>
 
 </mappings>
