@@ -771,8 +771,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ao.setFormatOfferingId(foLui.getId());
         ao.setCourseOfferingId(coLui.getId());
         ao.setFormatOfferingName(foLui.getName());
-        ao.setCourseOfferingCode(coLui.getOfficialIdentifier().getCode());
-        ao.setCourseOfferingTitle(coLui.getOfficialIdentifier().getLongName());
+        if(coLui.getOfficialIdentifier() != null) {
+            ao.setCourseOfferingCode(coLui.getOfficialIdentifier().getCode());
+            ao.setCourseOfferingTitle(coLui.getOfficialIdentifier().getLongName());
+        }
         AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(),context);
         ao.setTermCode(termAtp.getCode());
         return ao;
