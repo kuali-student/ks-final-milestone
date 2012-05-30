@@ -33,7 +33,13 @@ public class CourseOfferingSetServiceConstants {
     public static final String SUBJECT_AREA_SOC_TYPE_KEY = "kuali.soc.type.subject.area";
     public static final String UNITS_CONTENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.content.owner";
     public static final String UNITS_DEPLOYMENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.deployment.owner";
-    public static final String ACTIVE_SOC_STATE_KEY = "kuali.soc.state.active";
+    // SOC states (see https://wiki.kuali.org/display/STUDENT/Course+Offering+Set+Types+and+States)
+    public static final String DRAFT_SOC_STATE_KEY = "kuali.soc.state.draft";
+    public static final String OPEN_SOC_STATE_KEY = "kuali.soc.state.open";
+    public static final String LOCKED_SOC_STATE_KEY = "kuali.soc.state.locked ";
+    public static final String FINALEDITS_SOC_STATE_KEY = "kuali.soc.state.finaledits";
+    public static final String PUBLISHED_SOC_STATE_KEY = "kuali.soc.state.published";
+    public static final String CLOSED_SOC_STATE_KEY = "kuali.soc.state.closed ";
     // rollover  types
     public static final String ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.result.rollover";
     public static final String REVERSE_ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.result.reverse";

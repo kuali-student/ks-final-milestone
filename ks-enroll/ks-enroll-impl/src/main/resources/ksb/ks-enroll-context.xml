@@ -210,6 +210,7 @@
     </bean>
 
     <bean id="socBusinessLogic" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceBusinessLogicImpl">
+        <property name="socDao" ref="socDao" />
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />

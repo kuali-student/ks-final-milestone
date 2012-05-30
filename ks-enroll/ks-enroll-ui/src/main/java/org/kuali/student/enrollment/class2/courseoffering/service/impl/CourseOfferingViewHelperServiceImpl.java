@@ -218,7 +218,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         // Create the SOC
         SocInfo socInfo = new SocInfo();
         socInfo.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
-        socInfo.setStateKey(CourseOfferingSetServiceConstants.ACTIVE_SOC_STATE_KEY);
+        socInfo.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
         socInfo.setTermId(termId);
         try {
             String socTermId = socInfo.getTermId();
@@ -317,7 +317,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
             System.err.println("--------- rollover exception in performRollover [START]");
             e.printStackTrace();
             System.err.println("--------- rollover exception in performRollover [END]");
-            form.setStatusField("performRollover: Exception thrown");
+            form.setStatusField("performRollover: Exception thrown: " + e.getMessage());
         }
         return null;
     }

@@ -65,7 +65,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         orig.setName("test name");
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1", "description formatted 1"));
         orig.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
-        orig.setStateKey(CourseOfferingSetServiceConstants.ACTIVE_SOC_STATE_KEY);
+        orig.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
         orig.setTermId("myTermId");
         orig.setSubjectArea("ENG");
         orig.setUnitsContentOwnerId("myUnitId");
@@ -111,7 +111,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         orig.setName("test name updated");
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1 updated",
                 "description formatted 1 updated"));
-        orig.setStateKey(CourseOfferingSetServiceConstants.ACTIVE_SOC_STATE_KEY);
+        orig.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
         new AttributeHelper().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
                 "value1Updated");
         info = this.socService.updateSoc(orig.getId(), orig,
@@ -173,7 +173,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         sourceSoc.setName("source name");
         sourceSoc.setDescr(new RichTextHelper().toRichTextInfo("description plain 1", "description formatted 1"));
         sourceSoc.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
-        sourceSoc.setStateKey(CourseOfferingSetServiceConstants.ACTIVE_SOC_STATE_KEY);
+        sourceSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
         sourceSoc.setTermId("myTermId1");
         sourceSoc = socService.createSoc(sourceSoc.getTermId(), sourceSoc.getTypeKey(), sourceSoc, callContext);
 
@@ -181,7 +181,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         targetSoc.setName("target name");
         targetSoc.setDescr(new RichTextHelper().toRichTextInfo("description plain 1", "description formatted 1"));
         targetSoc.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
-        targetSoc.setStateKey(CourseOfferingSetServiceConstants.ACTIVE_SOC_STATE_KEY);
+        targetSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
         targetSoc.setTermId("myTermId2");
         targetSoc = socService.createSoc(targetSoc.getTermId(), targetSoc.getTypeKey(), targetSoc, callContext);
 
@@ -319,7 +319,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         sourceSoc.setName("source name");
         sourceSoc.setDescr(new RichTextHelper().toRichTextInfo("description plain 1", "description formatted 1"));
         sourceSoc.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
-        sourceSoc.setStateKey(CourseOfferingSetServiceConstants.ACTIVE_SOC_STATE_KEY);
+        sourceSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
         sourceSoc.setTermId("myTermId1");
         sourceSoc = socService.createSoc(sourceSoc.getTermId(), sourceSoc.getTypeKey(), sourceSoc, callContext);
 
@@ -327,7 +327,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         targetSoc.setName("target name");
         targetSoc.setDescr(new RichTextHelper().toRichTextInfo("description plain 1", "description formatted 1"));
         targetSoc.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
-        targetSoc.setStateKey(CourseOfferingSetServiceConstants.ACTIVE_SOC_STATE_KEY);
+        targetSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
         targetSoc.setTermId("myTermId2");
         targetSoc = socService.createSoc(targetSoc.getTermId(), targetSoc.getTypeKey(), targetSoc, callContext);
 

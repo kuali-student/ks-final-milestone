@@ -227,7 +227,7 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         // create the soc
         SocInfo sourceSoc = new SocInfo();
         sourceSoc.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
-        sourceSoc.setStateKey(CourseOfferingSetServiceConstants.ACTIVE_SOC_STATE_KEY);
+        sourceSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
         sourceSoc.setTermId(sourceTerm.getId());
         sourceSoc = socService.createSoc(sourceSoc.getTermId(), sourceSoc.getTypeKey(), sourceSoc, callContext);
 

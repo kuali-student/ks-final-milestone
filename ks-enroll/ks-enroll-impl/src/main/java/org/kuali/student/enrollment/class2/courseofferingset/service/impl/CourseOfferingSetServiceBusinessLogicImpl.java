@@ -10,6 +10,7 @@ import java.util.List;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -22,6 +23,7 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
 
@@ -31,6 +33,15 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     private CourseService courseService;
     private AcademicCalendarService acalService;
     private CourseOfferingSetService socService;
+    private SocDao socDao;
+
+    public SocDao getSocDao() {
+        return socDao;
+    }
+
+    public void setSocDao(SocDao socDao) {
+        this.socDao = socDao;
+    }
 
     public CourseOfferingSetService getSocService() {
         return socService;
@@ -93,32 +104,53 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         }
     }
 
+    private boolean _hasOfferingsInTargetTerm(TermInfo targetTerm) {
+        if (socDao == null) {
+            return false; // Mostly to satisfy Norm's mock impls
+        }
+        Long count = socDao.countLuisByTypeForTermId(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, targetTerm.getId());
+        return count > 0;
+    }
+
     @Override
     public SocInfo rolloverSoc(String sourceSocId, String targetTermId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // validate the target term
         TermInfo targetTerm = this.acalService.getTerm(targetTermId, context);
+        if (targetTerm == null) {
+            throw new DoesNotExistException("target term id (" + targetTermId + ") does not exist");
+        }
         // first create the new soc
         SocInfo sourceSoc = this._getSocService().getSoc(sourceSocId, context);
         if (sourceSoc.getTermId().equals(targetTermId)) {
             throw new InvalidParameterException("The term of the source soc and the target term must be different");
         }
-        // TODO: try to find the soc in the target term and use it instead of just creating a new one
+        // DanS says if there are any offerings in the target term, we shouldn't perform rollover.  The implication
+        // is that any courses that were copied from canonical prior to a rollover would prevent a rollover from
+        // happening. DanS has said this is fine (as of 5/20/2012)
+        if (_hasOfferingsInTargetTerm(targetTerm)) {
+            throw new OperationFailedException("Can't rollover if course offerings exist in target term");
+        }
+        // Reuse SOC in target term
         SocInfo targetSoc = _findTargetSoc(targetTermId);
+        boolean foundTargetSoc = true;
         if (targetSoc == null) {
+            // Did not find target SOC, make a new one
             targetSoc = new SocInfo(sourceSoc);
+            foundTargetSoc = false;
+            targetSoc.setId(null);
+            targetSoc.setTermId(targetTermId);
+            try {
+                targetSoc = this._getSocService().createSoc(targetSoc.getTermId(), targetSoc.getTypeKey(), targetSoc, context);
+            } catch (DataValidationErrorException ex) {
+                throw new OperationFailedException("Unexpected", ex);
+            } catch (ReadOnlyException ex) {
+                throw new OperationFailedException("Unexpected", ex);
+            }
         }
+        // TODO: if foundTargetSoc is true, should we do more cleanup?
 
-        targetSoc.setId(null);
-        targetSoc.setTermId(targetTermId);
-        try {
-            targetSoc = this._getSocService().createSoc(targetSoc.getTermId(), targetSoc.getTypeKey(), targetSoc, context);
-        } catch (DataValidationErrorException ex) {
-            throw new OperationFailedException("Unexpected", ex);
-        } catch (ReadOnlyException ex) {
-            throw new OperationFailedException("Unexpected", ex);
-        }
         // then build the result so we can track stuff
         SocRolloverResultInfo result = new SocRolloverResultInfo();
         result.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
