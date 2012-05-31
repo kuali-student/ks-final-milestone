@@ -124,19 +124,64 @@ public class CourseOfferingManagementController extends UifControllerBase {
         Properties urlParameters;
         String controllerPath;
         if(selectedObject instanceof CourseOfferingInfo){
-            urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"start",true,getContextInfo());
+            //urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"start",true,getContextInfo());
             //controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
+            urlParameters = new Properties();
             controllerPath ="";
         } else if(selectedObject instanceof ActivityOfferingInfo) {
             urlParameters = new Properties();
+//            urlParameters = _buildAOURLParameters((ActivityOfferingInfo)selectedObject,"start",true,getContextInfo());
             controllerPath ="";
         } else {
-            throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
+            throw new RuntimeException("Invalid type. Does not support for now");
         }
 
         return super.performRedirect(theForm,controllerPath, urlParameters);
     }
+    */
 
+    /**
+     * Method used to edit the atp
+     */
+    @RequestMapping(params = "methodToCall=edit")
+    public ModelAndView edit(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Properties urlParameters;
+        String controllerPath;
+        Object selectedObject = _getSelectedObject(theForm, "edit");
+
+        if(selectedObject instanceof CourseOfferingInfo){
+            //urlParameters = _buildCOURLParameters((CourseOfferingInfo)selectedObject,"start",true,getContextInfo());
+            //controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
+            urlParameters = new Properties();
+            controllerPath ="maintenance";
+        }
+        else if(selectedObject instanceof ActivityOfferingInfo) {
+            urlParameters = _buildAOURLParameters((ActivityOfferingInfo)selectedObject,"maintenanceEdit",false,getContextInfo());
+            controllerPath ="maintenance";
+        } else {
+            throw new RuntimeException("Invalid type. Does not support for now");
+        }
+
+        return super.performRedirect(theForm,controllerPath, urlParameters);
+
+    }
+
+    private Properties _buildAOURLParameters(ActivityOfferingInfo activityOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
+
+        Properties props = new Properties();
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        props.put("aoInfo.id", activityOfferingInfo.getId());
+        props.put("dataObjectClassName", "org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingFormObject");
+
+        return props;
+
+    }
+
+
+
+    /*
     private Properties _buildCOURLParameters(CourseOfferingInfo courseOfferingInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
 
         Properties props = new Properties();
@@ -155,7 +200,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
         return props;
 
     }
-     */
+    */
 
     private Object _getSelectedObject(CourseOfferingManagementForm theForm, String actionLink){
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
