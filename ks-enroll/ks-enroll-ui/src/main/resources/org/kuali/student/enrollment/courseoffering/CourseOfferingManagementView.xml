@@ -36,7 +36,7 @@
             <list>
                 <ref bean="KS-CourseOfferingManagement-SearchInputPage"/>
                 <ref bean="KS-CourseOfferingManagement-ManageCourseOfferingsPage"/>
-                <!--<ref bean="KS-CourseOfferingManagement-ManageActivityOfferingsPage"/>-->
+                <ref bean="KS-CourseOfferingManagement-ManageActivityOfferingsPage"/>
             </list>
         </property>
     </bean>

@@ -18,6 +18,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String inputCode;
     private boolean haveValidTerm;
     private List<CourseOfferingInfo> courseOfferingList;
+    private CourseOfferingInfo theCourseOffering;    
     private List<ActivityOfferingInfo> activityOfferingList;
     
     public CourseOfferingManagementForm (){
@@ -88,6 +89,14 @@ public class CourseOfferingManagementForm extends UifFormBase {
     
     public void setCourseOfferingList(List<CourseOfferingInfo> courseOfferingList) {
         this.courseOfferingList = courseOfferingList;
+    }
+    
+    public CourseOfferingInfo getTheCourseOffering(){
+        return theCourseOffering;
+    }
+
+    public void setTheCourseOffering(CourseOfferingInfo theCourseOffering)  {
+        this.theCourseOffering = theCourseOffering;
     }
     
     public List<ActivityOfferingInfo> getActivityOfferingList(){
