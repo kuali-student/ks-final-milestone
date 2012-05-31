@@ -2142,6 +2142,9 @@
     <ref bean="resultValuesGroupInfo.resultValueRange"/>
     <ref bean="resultValuesGroupInfo.effectiveDate"/>
     <ref bean="resultValuesGroupInfo.expirationDate"/>
+    <ref bean="resultValuesGroupInfo.minCreditValue"/>
+    <ref bean="resultValuesGroupInfo.maxCreditValue"/>
+    <ref bean="resultValuesGroupInfo.fixedCreditValue"/>
    </list>
  </property>
 </bean>

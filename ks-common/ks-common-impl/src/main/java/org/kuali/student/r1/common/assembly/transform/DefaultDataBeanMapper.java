@@ -4,6 +4,7 @@ import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.Time;
@@ -28,6 +29,7 @@ import org.kuali.student.r1.common.assembly.data.Data.Property;
 import org.kuali.student.r1.common.assembly.data.Data.StringKey;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.infc.HasAttributes;
 
 public class DefaultDataBeanMapper implements DataBeanMapper {
     public static DataBeanMapper INSTANCE = new DefaultDataBeanMapper();
@@ -69,12 +71,19 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 
         result = clazz.newInstance();
         BeanInfo info = Introspector.getBeanInfo(result.getClass());
-        PropertyDescriptor[] properties = info.getPropertyDescriptors();
-
+        
+        List<Field> fields = new ArrayList<Field>();
+        fields = getAllFields(fields, clazz);
+        List<Method> methods= new ArrayList<Method>();
+        methods = getAllMethods(methods, clazz);
+                
         PropertyDescriptor attrProperty = null;
 
         Set<Key> staticProperties = new HashSet<Key>();
-        for (PropertyDescriptor pd : properties) {
+        for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
+            
+            Field declaredField = findField(pd.getName(), fields);
+            
             if ("attributes".equals(pd.getName())) {
                 // Dynamic attributes will be handled later
                 attrProperty = pd;
@@ -84,15 +93,14 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 
                 // Process a nested object structure or list
                 if (propValue instanceof Data) {
-                    clazz.getFields();
                     if (metadata != null) {
                         if (DataType.LIST.equals(metadata.getDataType())) {
-                            propValue = convertNestedData((Data) propValue, clazz.getDeclaredField(propKey.toString()), metadata.getProperties().get("*"));
+                            propValue = convertNestedData((Data) propValue, pd, declaredField/*clazz.getDeclaredField(propKey.toString())*/, metadata.getProperties().get("*"));
                         } else {
-                            propValue = convertNestedData((Data) propValue, clazz.getDeclaredField(propKey.toString()), metadata.getProperties().get(propKey.toString()));
+                            propValue = convertNestedData((Data) propValue, pd, declaredField/*clazz.getDeclaredField(propKey.toString())*/, metadata.getProperties().get(propKey.toString()));
                         }
                     } else {
-                        propValue = convertNestedData((Data) propValue, clazz.getDeclaredField(propKey.toString()), null);
+                        propValue = convertNestedData((Data) propValue, pd, declaredField/*clazz.getDeclaredField(propKey.toString())*/, null);
                     }
                 } else if (metadata != null && propValue == null) {
                     Metadata fieldMetadata = metadata.getProperties().get(propKey.toString());
@@ -102,13 +110,17 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
                 }
 
                 // Set the bean property
-                if (pd.getWriteMethod() != null & propValue != null) {
+                Method writeMethod = pd.getWriteMethod();
+                if (writeMethod == null) {
+                    writeMethod = findSetMethod(pd.getName(), methods);
+                }
+                if (writeMethod != null & propValue != null) {
                     if (!(propValue instanceof List) && pd.getPropertyType().isAssignableFrom(List.class)) {
                         ArrayList<Object> list = new ArrayList<Object>(1);
                         list.add(propValue);
-                        pd.getWriteMethod().invoke(result, list);
+                        writeMethod.invoke(result, list);
                     } else {
-                        pd.getWriteMethod().invoke(result, new Object[]{propValue});
+                        writeMethod.invoke(result, new Object[]{propValue});
                     }
                 }
 
@@ -121,29 +133,61 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
         // will be set as dynamic attributes.
         Set<Key> keySet = data.keySet();
         if (keySet != null && attrProperty != null) {
-            Map<String, String> attributes = new HashMap<String, String>();
-            for (Key k : keySet) {
-                String keyString = k.toString();
-                // Obtain the dynamic flag from the dictionary
-                if (metadata == null) {
-                    if (!staticProperties.contains(k) && data.get(k) != null && !keyString.startsWith("_run")) {
-                        attributes.put((String) k.get(), data.get(k).toString());
+            Object attributes = null;
+            if (result instanceof HasAttributes) {
+                List<AttributeInfo> attributesList = new ArrayList<AttributeInfo>();
+                for (Key k : keySet) {
+                    String keyString = k.toString();
+                    // Obtain the dynamic flag from the dictionary
+                    if (metadata == null) {
+                        if (!staticProperties.contains(k) && data.get(k) != null && !keyString.startsWith("_run")) {
+                            attributesList.add(new AttributeInfo((String) k.get(), data.get(k).toString()));
+                        }
+                    } else {
+                        if ((!staticProperties.contains(k)) && (null != data.get(k)) && (!keyString.startsWith("_run"))
+                                && (null != metadata.getProperties().get(keyString))
+                                && (metadata.getProperties().get(keyString).isDynamic())) {
+                            if (data.get(k) instanceof Data) {
+                                attributesList.add(new AttributeInfo((String) k.get(),
+                                        convertDataValueToStringValue((Data) data.get(k))));
+                            } else {
+                                attributesList.add(new AttributeInfo((String) k.get(), data.get(k).toString()));
+                            }
+                        }
                     }
-                } else {
-                    if ((!staticProperties.contains(k)) && (null != data.get(k)) && (!keyString.startsWith("_run")) && (null != metadata.getProperties().get(keyString)) && (metadata.getProperties().get(keyString).isDynamic())) {
-                        if (data.get(k) instanceof Data) {
-                            attributes.put((String) k.get(), convertDataValueToStringValue((Data) data.get(k)));
-                        } else {
-                            attributes.put((String) k.get(), data.get(k).toString());
+                    attributes = attributesList;
+                }
+            } else {
+                Map<String, String> attributesMap = new HashMap<String, String>();
+                for (Key k : keySet) {
+                    String keyString = k.toString();
+                    // Obtain the dynamic flag from the dictionary
+                    if (metadata == null) {
+                        if (!staticProperties.contains(k) && data.get(k) != null && !keyString.startsWith("_run")) {
+                            attributesMap.put((String) k.get(), data.get(k).toString());
+                        }
+                    } else {
+                        if ((!staticProperties.contains(k)) && (null != data.get(k)) && (!keyString.startsWith("_run"))
+                                && (null != metadata.getProperties().get(keyString))
+                                && (metadata.getProperties().get(keyString).isDynamic())) {
+                            if (data.get(k) instanceof Data) {
+                                attributesMap.put((String) k.get(), convertDataValueToStringValue((Data) data.get(k)));
+                            } else {
+                                attributesMap.put((String) k.get(), data.get(k).toString());
+                            }
                         }
                     }
                 }
+                attributes = attributesMap;
             }
-            if (attrProperty.getWriteMethod() != null) {
-                attrProperty.getWriteMethod().invoke(result, new Object[]{attributes});
+            Method writeMethod = attrProperty.getWriteMethod();
+            if (writeMethod == null) {
+                writeMethod = findSetMethod(attrProperty.getName(), methods);
+            }
+            if (writeMethod != null) {
+                writeMethod.invoke(result, new Object[]{attributes});
             }
         }
-
         return result;
     }
 
@@ -151,14 +195,21 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
      * Processes a nested data map, it checks to see if the data should be converted to a list structure or simply be processed as a nested complex object structure.
      * 
      * @param data
+     * @param propDescriptor
      * @param propField
      * @return
      * @throws Exception
      */
-    protected Object convertNestedData(Data data, Field propField, Metadata metadata) throws Exception {
+    protected Object convertNestedData(Data data, PropertyDescriptor propDescriptor, Field propField, Metadata metadata) throws Exception {
         Object result = null;
-
-        Class<?> propClass = propField.getType();
+        
+        Class<?> propClass = propDescriptor.getPropertyType();
+        // We're not interested in the Interface, List, Map but in the actual class
+        if (propClass.isInterface() && !List.class.equals(propClass) && !Map.class.equals(propClass)) {
+            propClass = propField.getType();
+        }
+        
+        //Class<?> propClass = propField.getType();
         if ("java.util.List".equals(propClass.getName())) {
             // Get the generic type for the list
             ParameterizedType propType = (ParameterizedType) propField.getGenericType();
@@ -408,5 +459,48 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
         }
 
         return isValid;
+    }
+    
+    private List<Field> getAllFields(List<Field> fields, Class<?> type) {
+        for (Field field: type.getDeclaredFields()) {
+            fields.add(field);
+        }
+
+        if (type.getSuperclass() != null) {
+            fields = getAllFields(fields, type.getSuperclass());
+        }
+
+        return fields;
+    }
+    
+    private List<Method> getAllMethods(List<Method> methods, Class<?> type) {
+        for (Method method: type.getMethods()) {
+            methods.add(method);
+        }
+
+        if (type.getSuperclass() != null) {
+            methods = getAllMethods(methods, type.getSuperclass());
+        }
+
+        return methods;
+    }
+    
+    private Field findField(String fieldName, List<Field> fields) {
+        for (Field field : fields) {
+            if (field.getName().equals(fieldName)) {
+                return field;
+            }
+        }
+        return null;
+    }
+    
+    private Method findSetMethod(String fieldName, List<Method> methods) {
+        fieldName = ("set" + fieldName);
+        for (Method method : methods) {
+            if (method.getName().compareToIgnoreCase(fieldName) == 0) {
+                return method;
+            }
+        }
+        return null;
     }
 }
