@@ -19,6 +19,73 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
+    <bean id="KS-CourseOfferingManagement-ManageActivityOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
+          p:id="manageActivityOfferingsPage"
+          p:headerText="">
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
+                <ref bean="KS-CourseOfferingManagement-ActivityOfferingResultSection"/>
+            </list>
+        </property>
+    </bean>
 
 
+    <bean id="KS-CourseOfferingManagement-ActivityOfferingResultSection" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="@{courseOfferingCode}" />
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOfferingManagement-ActivityOfferingListSection"/>
+            </list>
+        </property>
+    </bean>
+<!--
+    <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="3"  p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" />
+        <property name="propertyName" value="activityOfferingList" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField"
+                      p:label="STATUS"
+                      p:propertyName="stateKey" />
+                <bean parent="Uif-DataField"
+                      p:label="ID"
+                      p:propertyName="id"/>
+                <bean parent="Uif-DataField"
+                      p:label="TYPE"
+                      p:propertyName="typeKey"/>
+                <bean parent="Uif-DataField"
+                      p:label="FORMAT"
+                      p:propertyName="formatOfferingName"/>
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions" p:style="display:inline;"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-SubmitActionLink" p:methodToCall="copyToCreateANewAO" p:actionLabel="Copy  " />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="view" p:actionLabel="View  " />
+                <bean parent="KS-SubmitActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
+                <bean parent="KS-SubmitActionLink" p:clientSideJs="confirmDeletion('Are you sure you want to delete the holiday calendar?')" p:methodToCall="delete" p:actionLabel="Delete" />
+            </list>
+        </property>
+    </bean>
+
+-->
 </beans>
