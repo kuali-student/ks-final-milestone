@@ -43,7 +43,7 @@
             </list>
         </property>
     </bean>
-<!--
+
     <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="3"  p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo" />
@@ -87,5 +87,4 @@
         </property>
     </bean>
 
--->
 </beans>
