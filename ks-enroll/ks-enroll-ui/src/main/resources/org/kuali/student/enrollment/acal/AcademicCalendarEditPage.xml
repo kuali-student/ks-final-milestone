@@ -160,7 +160,7 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
                             <property name="disabled" value="@{#lp.allDay}"/>
-                            <property name="onKeyUpScript" value="setAttributesFromTimeField(jq(this));"/>
+                            <!--<property name="onKeyUpScript" value="setAttributesFromTimeField(jq(this));"/>-->
                         </bean>
                     </property>
                     <property name="validCharactersConstraint">
@@ -171,7 +171,7 @@
                       p:required="@{!#empty(#lp.startTime)}" p:id="timeFieldStartAmPm">
                      <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options">
-                            <property name="disabled" value="@{#lp.allDay or #empty(#lp.startTime)}"/>
+                            <property name="disabled" value="@{#lp.allDay}"/>
                         </bean>
                     </property>
                  </bean>
@@ -195,13 +195,13 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}"
-                      p:label="End Date"/>
+                      p:label="End1 Date"/>
                 <bean parent="Uif-InputField" p:propertyName="endTime" p:render="@{!#view.readOnly}"
-                      p:label="End Time" p:refreshWhenChangedPropertyNames="#lp.allDay" p:id="timeFieldEnd">
+                      p:label="End Time" p:id="timeFieldEnd">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="hh:mm">
                             <property name="disabled" value="@{#lp.allDay}"/>
-                            <property name="onKeyUpScript" value="setAttributesFromTimeField(jq(this));"/>
+                            <!--<property name="onKeyUpScript" value="setAttributesFromTimeField(jq(this));"/>-->
                         </bean>
                     </property>
                     <property name="validCharactersConstraint">
@@ -209,11 +209,11 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}"
-                      p:required="@{!#empty(#lp.endTime)}" p:refreshWhenChangedPropertyNames="#lp.endTime"
+                      p:required="@{!#empty(#lp.endTime)}"
                       p:id="timeFieldEndAmPm">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options">
-                            <property name="disabled" value="@{#lp.allDay or #empty(#lp.endTime)}"/>
+                            <property name="disabled" value="@{#lp.allDay}"/>
                         </bean>
                     </property>
                  </bean>

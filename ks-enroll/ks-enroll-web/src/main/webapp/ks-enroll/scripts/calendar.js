@@ -19,14 +19,14 @@ function setAttributesFromAllDayCheckbox(checkbox) {
         var timeFieldEnd = row.find('input[id^=timeFieldEnd_]');
         timeFieldStart.removeAttr('disabled');//.removeAttr('title');
         timeFieldEnd.removeAttr('disabled');//.removeAttr('title');
-
+        row.find('select[id^=timeField]').removeAttr('disabled');//.removeAttr('title');
         // only enable am/pm fields if corresponding time field is not blank
-        if (timeFieldStart.val()) {
-            row.find('select[id^=timeFieldStartAmPm_]').removeAttr('disabled');//.removeAttr('title');
-        }
-        if (timeFieldEnd.val()) {
-            row.find('select[id^=timeFieldEndAmPm_]').removeAttr('disabled');//.removeAttr('title');
-        }
+        //if (timeFieldStart.val()) {
+            //row.find('select[id^=timeFieldStartAmPm_]').removeAttr('disabled');//.removeAttr('title');
+        //}
+        //if (timeFieldEnd.val()) {
+            //row.find('select[id^=timeFieldEndAmPm_]').removeAttr('disabled');//.removeAttr('title');
+        //}
     }
 }
 //function setAttributesFromDateRangeCheckbox(checkbox) {
